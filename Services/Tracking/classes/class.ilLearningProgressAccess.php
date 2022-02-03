@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,9 +25,6 @@
  * Learning progress access checks
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
- *
  * @ingroup ServicesTracking
  */
 class ilLearningProgressAccess
@@ -35,33 +32,30 @@ class ilLearningProgressAccess
     /**
      * wrapper for rbac access checks
      */
-    public static function checkPermission($a_permission, $a_ref_id, $a_user_id = null)
+    public static function checkPermission(string $a_permission, int $a_ref_id, ?int $a_user_id = null) : bool
     {
-        if (is_null($a_user_id)) {
-            $a_user_id = $GLOBALS['DIC']['ilUser']->getId();
+        global $DIC;
+
+        if ($a_user_id === null) {
+            $a_user_id = $DIC->user()->getId();
         }
         
         // position access
-        if ($a_permission == 'read_learning_progress') {
-            return $GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
-                'read_learning_progress',
-                'read_learning_progress',
+        if ($a_permission === 'read_learning_progress') {
+            return $DIC->access()->checkRbacOrPositionPermissionAccess(
+                ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+                ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
                 $a_ref_id
             );
         }
-        return $GLOBALS['DIC']['ilAccess']->checkAccessOfUser($a_user_id, $a_permission, '', $a_ref_id);
+        return $DIC->access()->checkAccessOfUser($a_user_id, $a_permission, '', $a_ref_id);
     }
 
 
     /**
      * check access to learning progress
-     *
-     * @param int  $a_ref_id          reference id of object
-     * @param bool $a_allow_only_read read access is sufficient (see courses/groups)
-     *
-     * @return bool
      */
-    public static function checkAccess($a_ref_id, $a_allow_only_read = true)
+    public static function checkAccess(int $a_ref_id, bool $a_allow_only_read = true) : bool
     {
         global $DIC;
 
@@ -74,11 +68,10 @@ class ilLearningProgressAccess
         }
         
         $olp = ilObjectLP::getInstance(ilObject::_lookupObjId($a_ref_id));
-        if (
-            $DIC->access()->checkAccess('read_learning_progress', '', $a_ref_id) ||
+        if ($DIC->access()->checkAccess('read_learning_progress', '', $a_ref_id) ||
             (
                 $DIC->access()->checkRbacOrPositionPermissionAccess(
-                    'read_learning_progress',
+                    ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
                     ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
                     $a_ref_id
                 ) && $olp->isActive()

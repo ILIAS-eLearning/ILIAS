@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -14,9 +14,10 @@
  */
 class ilLPStatus
 {
-    protected $obj_id = null;
+    protected int $obj_id;
 
-    protected $db = null;
+    protected ilDBInterface $db;
+    protected ilObjectDataCache $ilObjDataCache;
     
     public static $list_gui_cache;
     
@@ -35,62 +36,75 @@ class ilLPStatus
     const LP_STATUS_PARTICIPATED = 'trac_participated';
     const LP_STATUS_NOT_PARTICIPATED = 'trac_not_participated';
 
-    public function __construct($a_obj_id)
+    public function __construct(int $a_obj_id)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
         $this->obj_id = $a_obj_id;
-        $this->db = $ilDB;
+        $this->db = $DIC->database();
+        $this->ilObjDataCache = $DIC['ilObjDataCache'];
     }
 
-    public static function _getCountNotAttempted($a_obj_id)
+    public static function _getCountNotAttempted(int $a_obj_id) : int
     {
         return 0;
     }
 
-    public static function _getNotAttempted($a_obj_id)
-    {
-        return array();
-    }
-    
-    public static function _getCountInProgress($a_obj_id)
-    {
-        return 0;
-    }
-    
-    public static function _getInProgress($a_obj_id)
+    /**
+     * @param int $a_obj_id
+     * @return int[]
+     */
+    public static function _getNotAttempted(int $a_obj_id) : array
     {
         return array();
     }
 
-    public static function _getCountCompleted($a_obj_id)
+
+    public static function _getCountInProgress(int $a_obj_id) : int
+    {
+        return 0;
+    }
+
+
+    public static function _getInProgress(int $a_obj_id) : array
+    {
+        return array();
+    }
+
+    public static function _getCountCompleted(int $a_obj_id) : int
+    {
+        return 0;
+    }
+
+    /**
+     * @param int $a_obj_id
+     * @return int[]
+     */
+    public static function _getCompleted(int $a_obj_id) : array
+    {
+        return array();
+    }
+
+    /**
+     * @param int $a_obj_id
+     * @return int[]
+     */
+    public static function _getFailed(int $a_obj_id) : array
+    {
+        return array();
+    }
+    
+    public static function _getCountFailed(int $a_obj_id) : int
     {
         return 0;
     }
     
-    public static function _getCompleted($a_obj_id)
+    public static function _getStatusInfo(int $a_obj_id) : array
     {
         return array();
     }
     
-    public static function _getFailed($a_obj_id)
-    {
-        return array();
-    }
-    
-    public static function _getCountFailed()
-    {
-        return 0;
-    }
-    
-    public static function _getStatusInfo($a_obj_id)
-    {
-        return array();
-    }
-    
-    public static function _getTypicalLearningTime($a_obj_id)
+    public static function _getTypicalLearningTime(int $a_obj_id) : int
     {
         include_once 'Services/MetaData/classes/class.ilMDEducational.php';
         return ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
@@ -194,13 +208,12 @@ class ilLPStatus
      * -- ilSCORM2004Tracking->_syncReadEvent in ilSCORM13Player->setCMIData()
      */
 
-    /**
-     * Write status
-     *
-     * @param
-     * @return
-     */
-    public function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false, $a_force_raise = false)
+    public function _updateStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        ?object $a_obj = null,
+        bool $a_percentage = false,
+        bool $a_force_raise = false) : void
     {
         $log = ilLoggerFactory::getLogger('trac');
         $log->debug(sprintf(
@@ -212,48 +225,35 @@ class ilLPStatus
 
         $status = $this->determineStatus($a_obj_id, $a_usr_id, $a_obj);
         $percentage = $this->determinePercentage($a_obj_id, $a_usr_id, $a_obj);
-        $old_status = null;
+        $old_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
         $changed = self::writeStatus($a_obj_id, $a_usr_id, $status, $percentage, false, $old_status);
 
         // ak: I don't think that this is a good way to fix 15529, we should not
         // raise the event, if the status does not change imo.
         // for now the changes in the next line just prevent the event being raised twice
-        if (!$changed && (bool) $a_force_raise) { // #15529
+        if (!$changed && $a_force_raise) { // #15529
             self::raiseEvent($a_obj_id, $a_usr_id, $status, $old_status, $percentage);
         }
     }
     
-    /**
-     * Determine percentage
-     *
-     * @param
-     * @return
-     */
-    public function determinePercentage($a_obj_id, $a_usr_id, $a_obj = null)
+    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
     {
-        return false;
+        return 0;
     }
 
-    /**
-     * Determine status
-     *
-     * @param
-     * @return
-     */
-    public function determineStatus($a_obj_id, $a_usr_id, $a_obj = null)
+    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
-        return false;
+        return 0;
     }
     
         
     /**
      * This function checks whether the status for a given number of users is dirty and must be
      * recalculated. "Missing" records are not inserted!
-     *
-     * @param
-     * @return
+     * @param int    $a_obj_id
+     * @param ?int[] $a_users
      */
-    public static function checkStatusForObject($a_obj_id, $a_users = false)
+    public static function checkStatusForObject(int $a_obj_id, ?array $a_users = null) : void
     {
         global $DIC;
 
@@ -296,7 +296,13 @@ class ilLPStatus
         }
     }
     
-    protected static function raiseEvent($a_obj_id, $a_usr_id, $a_status, $a_old_status, $a_percentage)
+    protected static function raiseEvent(
+        int $a_obj_id,
+        int $a_usr_id,
+        int $a_status,
+        int $a_old_status,
+        int $a_percentage
+    ) : void
     {
         global $DIC;
 
@@ -317,11 +323,8 @@ class ilLPStatus
     
     /**
      * Refresh status
-     *
-     * @param
-     * @return
      */
-    public function refreshStatus($a_obj_id, $a_users = null)
+    public function refreshStatus(int $a_obj_id, ?array $a_users = null) : void
     {
         include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         $not_attempted = ilLPStatusWrapper::_getNotAttempted($a_obj_id);
@@ -364,11 +367,15 @@ class ilLPStatus
 
     /**
      * Write status for user and object
-     *
-     * @param
-     * @return bool
      */
-    public static function writeStatus($a_obj_id, $a_user_id, $a_status, $a_percentage = false, $a_force_per = false, &$a_old_status = self::LP_STATUS_NOT_ATTEMPTED_NUM)
+    public static function writeStatus(
+        int $a_obj_id,
+        int $a_user_id,
+        int $a_status,
+        int $a_percentage = 0,
+        bool $a_force_per = false,
+        ?int &$a_old_status = self::LP_STATUS_NOT_ATTEMPTED_NUM
+    ) : bool
     {
         global $DIC;
 
@@ -436,8 +443,8 @@ class ilLPStatus
         }
 
         // update percentage
-        if ($a_percentage !== false || $a_force_per) {
-            $a_percentage = max(0, (int) $a_percentage);
+        if ($a_percentage || $a_force_per) {
+            $a_percentage = max(0, $a_percentage);
             $a_percentage = min(100, $a_percentage);
             $ret = $ilDB->manipulate(
                 "UPDATE ut_lp_marks SET " .
@@ -465,8 +472,8 @@ class ilLPStatus
                 if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold"))) {
                     $log->debug('Calling update status for collection obj_id: ' . $rec['obj_id']);
                     // just to make sure - remove existing cache entry
-                    ilLPStatusWrapper::_removeStatusCache($rec["obj_id"], $a_user_id);
-                    ilLPStatusWrapper::_updateStatus($rec["obj_id"], $a_user_id);
+                    ilLPStatusWrapper::_removeStatusCache((int) $rec["obj_id"], $a_user_id);
+                    ilLPStatusWrapper::_updateStatus((int) $rec["obj_id"], $a_user_id);
                 }
             }
             
@@ -479,8 +486,8 @@ class ilLPStatus
                 $res = $ilDB->query($query);
                 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                     $log->debug('Calling update status for reference obj_id: ' . $row->obj_id);
-                    \ilLPStatusWrapper::_removeStatusCache($row->obj_id, $a_user_id);
-                    \ilLPStatusWrapper::_updateStatus($row->obj_id, $a_user_id);
+                    \ilLPStatusWrapper::_removeStatusCache((int) $row->obj_id, $a_user_id);
+                    \ilLPStatusWrapper::_updateStatus((int) $row->obj_id, $a_user_id);
                 }
             }
 
@@ -495,7 +502,7 @@ class ilLPStatus
      * The "in progress" status is only written,
      * if current status is "NOT ATTEMPTED"
      */
-    public static function setInProgressIfNotAttempted($a_obj_id, $a_user_id)
+    public static function setInProgressIfNotAttempted(int $a_obj_id, int $a_user_id) : void
     {
         global $DIC;
 
@@ -528,11 +535,8 @@ class ilLPStatus
     
     /**
      * Sets all status to dirty. For testing puproses.
-     *
-     * @param
-     * @return
      */
-    public static function setAllDirty()
+    public static function setAllDirty():void
     {
         global $DIC;
 
@@ -546,11 +550,8 @@ class ilLPStatus
 
     /**
      * Sets status of an object to dirty.
-     *
-     * @param	integer		object id
-     * @return
      */
-    public static function setDirty($a_obj_id)
+    public static function setDirty(int $a_obj_id) : void
     {
         global $DIC;
 
@@ -565,12 +566,8 @@ class ilLPStatus
     
     /**
      * Lookup status
-     *
-     * @param int $a_obj_id object id
-     * @param int $a_user_id user id
-     * @param bool $a_create
      */
-    public static function _lookupStatus($a_obj_id, $a_user_id, $a_create = true)
+    public static function _lookupStatus(int $a_obj_id, int $a_user_id, bool $a_create = true) : ?int
     {
         global $DIC;
 
@@ -583,8 +580,8 @@ class ilLPStatus
             " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
         );
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["status"];
-        } elseif ((bool) $a_create) {
+            return (int) $rec["status"];
+        } elseif ($a_create) {
             include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
             $set = $ilDB->query(
@@ -594,7 +591,7 @@ class ilLPStatus
                 " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
             );
             if ($rec = $ilDB->fetchAssoc($set)) {
-                return $rec["status"];
+                return (int) $rec["status"];
             }
         }
         return null;
@@ -602,11 +599,8 @@ class ilLPStatus
     
     /**
      * Lookup percentage
-     *
-     * @param int $a_obj_id object id
-     * @param int $a_user_id user id
      */
-    public static function _lookupPercentage($a_obj_id, $a_user_id)
+    public static function _lookupPercentage(int $a_obj_id, int $a_user_id) : ?int
     {
         global $DIC;
 
@@ -621,27 +615,21 @@ class ilLPStatus
         if ($rec = $ilDB->fetchAssoc($set)) {
             return $rec["percentage"];
         }
+        return null;
     }
     
     /**
      * Lookup user object completion
-     *
-     * @param int $a_obj_id
-     * @param int $a_user_id
-     * @return bool
      */
-    public static function _hasUserCompleted($a_obj_id, $a_user_id)
+    public static function _hasUserCompleted(int $a_obj_id, int $a_user_id) : bool
     {
-        return (self::_lookupStatus($a_obj_id, $a_user_id) == self::LP_STATUS_COMPLETED_NUM);
+        return self::_lookupStatus($a_obj_id, $a_user_id) == self::LP_STATUS_COMPLETED_NUM;
     }
         
     /**
      * Lookup status changed
-     *
-     * @param int $a_obj_id object id
-     * @param int $a_user_id user id
      */
-    public static function _lookupStatusChanged($a_obj_id, $a_user_id)
+    public static function _lookupStatusChanged(int $a_obj_id, int $a_user_id) : ?string
     {
         global $DIC;
 
@@ -654,7 +642,7 @@ class ilLPStatus
             " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
         );
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["status_changed"];
+            return (string) $rec["status_changed"];
         } else {
             include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
@@ -665,20 +653,16 @@ class ilLPStatus
                 " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
             );
             if ($rec = $ilDB->fetchAssoc($set)) {
-                return $rec["status_changed"];
+                return (string) $rec["status_changed"];
             }
         }
+        return null;
     }
     
     /**
      * Get users with given status for object
-     *
-     * @param int $a_obj_id
-     * @param int $a_status
-     * @param array $a_user_ids
-     * @return array
      */
-    protected static function _lookupStatusForObject($a_obj_id, $a_status, $a_user_ids = null)
+    protected static function _lookupStatusForObject(int $a_obj_id, int $a_status, ?array $a_user_ids = null) : array
     {
         global $DIC;
 
@@ -700,7 +684,7 @@ class ilLPStatus
                     continue;
                 }
             }
-            $res[] = $rec["usr_id"];
+            $res[] = (int) $rec["usr_id"];
         }
         
         return $res;
@@ -708,54 +692,33 @@ class ilLPStatus
     
     /**
      * Get completed users for object
-     *
-     * @param int $a_obj_id
-     * @param array $a_user_ids
-     * @return array
      */
-    public static function _lookupCompletedForObject($a_obj_id, $a_user_ids = null)
+    public static function _lookupCompletedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
     {
         return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
     }
     
     /**
      * Get failed users for object
-     *
-     * @param int $a_obj_id
-     * @param array $a_user_ids
-     * @return array
      */
-    public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
+    public static function _lookupFailedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
     {
         return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids);
     }
     
     /**
      * Get in progress users for object
-     *
-     * @param int $a_obj_id
-     * @param array $a_user_ids
-     * @return array
      */
-    public static function _lookupInProgressForObject($a_obj_id, $a_user_ids = null)
+    public static function _lookupInProgressForObject(int $a_obj_id, ?array $a_user_ids = null) : array
     {
         return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
     }
     
     
-    //
-    // LIST GUI
-    //
-    
     /**
      * Process given objects for lp-relevance
-     *
-     * @param int $a_user_id
-     * @param array $a_obj_ids
-     * @param int $a_parent_ref_id
-     * @return arraye
      */
-    protected static function validateLPForObjects($a_user_id, $a_obj_ids, $a_parent_ref_id)
+    protected static function validateLPForObjects(int $a_user_id, array $a_obj_ids, int $a_parent_ref_id) : array
     {
         $lp_invalid = array();
         
@@ -773,10 +736,8 @@ class ilLPStatus
     /**
      * Process lp modes for given objects
      *
-     * @param array $a_obj_ids
-     * @return array
      */
-    protected static function checkLPModesForObjects($a_obj_ids, array &$a_coll_obj_ids)
+    protected static function checkLPModesForObjects(array $a_obj_ids, array &$a_coll_obj_ids) : array
     {
         $valid = array();
         
@@ -817,18 +778,13 @@ class ilLPStatus
             }
             unset($existing);
         }
-        
         return array_values($valid);
     }
     
     /**
      * Get LP status for given objects (and user)
-     *
-     * @param int $a_user_id
-     * @param array $a_obj_ids
-     * @return array
      */
-    protected static function getLPStatusForObjects($a_user_id, $a_obj_ids)
+    protected static function getLPStatusForObjects(int $a_user_id, array $a_obj_ids) : array
     {
         global $DIC;
 
@@ -862,19 +818,23 @@ class ilLPStatus
         return $res;
     }
     
-    public static function preloadListGUIData($a_obj_ids)
+    public static function preloadListGUIData(array $a_obj_ids) : void
     {
         global $DIC;
 
-        $requested_ref_id = (int) ($_GET["ref_id"] ?? 0);
+        $requested_ref_id = 0;
+        if ($DIC->http()->wrapper()->query()->has('ref_id')) {
+            $requested_ref_id = $DIC->http()->wrapper()->query()->retrieve(
+                'ref_id',
+                $DIC->refinery()->kindlyTo()->int()
+            );
+        }
 
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         
         $user_id = $ilUser->getId();
-        
         $res = array();
-
         include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
         if ($ilUser->getId() != ANONYMOUS_USER_ID &&
             ilObjUserTracking::_enabledLearningProgress() &&
@@ -914,7 +874,7 @@ class ilLPStatus
         self::$list_gui_cache = $res;
     }
     
-    public static function getListGUIStatus($a_obj_id, $a_image_only = true)
+    public static function getListGUIStatus(int $a_obj_id, bool $a_image_only = true) : string
     {
         if ($a_image_only) {
             $image = '';

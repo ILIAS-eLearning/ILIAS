@@ -1,19 +1,32 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
-
 /**
  * Cron for lp object statistics
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesTracking
  */
 class ilLPCronObjectStatistics extends ilCronJob
 {
-    protected $date; // [string]
-    
+    protected int $date = 0;
+
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+    protected ilTree $tree;
+    protected ilLogger $logger;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        $this->logger = $DIC->logger()->trac();
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("trac");
+        $this->db = $DIC->database();
+        $this->tree = $DIC->repositoryTree();
+    }
+
     public function getId() : string
     {
         return "lp_object_statistics";
@@ -21,22 +34,12 @@ class ilLPCronObjectStatistics extends ilCronJob
     
     public function getTitle() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        $lng->loadLanguageModule("trac");
-        return $lng->txt("trac_object_statistics");
+        return $this->lng->txt("trac_object_statistics");
     }
     
     public function getDescription() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        $lng->loadLanguageModule("trac");
-        return $lng->txt("trac_object_statistics_info");
+        return $this->lng->txt("trac_object_statistics_info");
     }
     
     public function getDefaultScheduleType() : int
@@ -85,26 +88,16 @@ class ilLPCronObjectStatistics extends ilCronJob
     
     /**
      * gather course data
-     * @global type $tree
-     * @global type $ilDB
-     * @return int
      */
     protected function gatherCourseLPData()
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-        $ilDB = $DIC['ilDB'];
-        
-        $logger = $GLOBALS['DIC']->logger()->trac();
-        
         $count = 0;
                 
         // process all courses
         $all_courses = array_keys(ilObject::_getObjectsByType("crs"));
         if ($all_courses) {
             // gather objects in trash
-            $trashed_objects = $tree->getSavedNodeObjIds($all_courses);
+            $trashed_objects = $this->tree->getSavedNodeObjIds($all_courses);
             
             include_once 'Services/Object/classes/class.ilObjectLP.php';
             include_once "Modules/Course/classes/class.ilCourseParticipants.php";
@@ -114,7 +107,7 @@ class ilLPCronObjectStatistics extends ilCronJob
                 if (!in_array($crs_id, $trashed_objects)) {
                     $refs = ilObject::_getAllReferences($crs_id);
                     if (!count($refs)) {
-                        $logger->warning('Found course without reference: obj_id = ' . $crs_id);
+                        $this->logger->warning('Found course without reference: obj_id = ' . $crs_id);
                         continue;
                     }
                     
@@ -125,9 +118,9 @@ class ilLPCronObjectStatistics extends ilCronJob
                     }
                                     
                     // only save once per day
-                    $ilDB->manipulate("DELETE FROM obj_lp_stat WHERE" .
-                        " obj_id = " . $ilDB->quote($crs_id, "integer") .
-                        " AND fulldate = " . $ilDB->quote(date("Ymd", $this->date), "integer"));
+                    $this->db->manipulate("DELETE FROM obj_lp_stat WHERE" .
+                        " obj_id = " . $this->db->quote($crs_id, "integer") .
+                        " AND fulldate = " . $this->db->quote(date("Ymd", $this->date), "integer"));
                     
                     $members = new ilCourseParticipants($crs_id);
                     $members = $members->getMembers();
@@ -153,34 +146,24 @@ class ilLPCronObjectStatistics extends ilCronJob
                         "not_attempted" => array("integer", $not_attempted)
                         );
                     
-                    $ilDB->insert("obj_lp_stat", $set);
-                    
+                    $this->db->insert("obj_lp_stat", $set);
                     $count++;
-                    
-                    // #17928
                     ilCronManager::ping($this->getId());
                 }
             }
         }
-        
         return $count;
     }
     
     protected function gatherTypesData()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $count = 0;
-        
-        include_once "Services/Tracking/classes/class.ilTrQuery.php";
         $data = ilTrQuery::getObjectTypeStatistics();
         foreach ($data as $type => $item) {
             // only save once per day
-            $ilDB->manipulate("DELETE FROM obj_type_stat WHERE" .
-                " type = " . $ilDB->quote($type, "text") .
-                " AND fulldate = " . $ilDB->quote(date("Ymd", $this->date), "integer"));
+            $this->db->manipulate("DELETE FROM obj_type_stat WHERE" .
+                " type = " . $this->db->quote($type, "text") .
+                " AND fulldate = " . $this->db->quote(date("Ymd", $this->date), "integer"));
             
             $set = array(
                 "type" => array("text", $type),
@@ -193,37 +176,29 @@ class ilLPCronObjectStatistics extends ilCronJob
                 "cnt_deleted" => array("integer", (int) $item["deleted"])
                 );
 
-            $ilDB->insert("obj_type_stat", $set);
+            $this->db->insert("obj_type_stat", $set);
             
             $count++;
-            
-            // #17928
             ilCronManager::ping($this->getId());
         }
-        
         return $count;
     }
     
     protected function gatherUserData()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $count = 0;
-        
         $to = mktime(23, 59, 59, date("m", $this->date), date("d", $this->date), date("Y", $this->date));
                     
         $sql = "SELECT COUNT(DISTINCT(usr_id)) counter,obj_id FROM read_event" .
-            " WHERE last_access >= " . $ilDB->quote($this->date, "integer") .
-            " AND last_access <= " . $ilDB->quote($to, "integer") .
+            " WHERE last_access >= " . $this->db->quote($this->date, "integer") .
+            " AND last_access <= " . $this->db->quote($to, "integer") .
             " GROUP BY obj_id";
-        $set = $ilDB->query($sql);
-        while ($row = $ilDB->fetchAssoc($set)) {
+        $set = $this->db->query($sql);
+        while ($row = $this->db->fetchAssoc($set)) {
             // only save once per day
-            $ilDB->manipulate("DELETE FROM obj_user_stat" .
-                " WHERE fulldate = " . $ilDB->quote(date("Ymd", $this->date), "integer") .
-                " AND obj_id = " . $ilDB->quote($row["obj_id"], "integer"));
+            $this->db->manipulate("DELETE FROM obj_user_stat" .
+                " WHERE fulldate = " . $this->db->quote(date("Ymd", $this->date), "integer") .
+                " AND obj_id = " . $this->db->quote($row["obj_id"], "integer"));
 
             $iset = array(
                 "obj_id" => array("integer", $row["obj_id"]),
@@ -234,14 +209,11 @@ class ilLPCronObjectStatistics extends ilCronJob
                 "counter" => array("integer", $row["counter"])
                 );
 
-            $ilDB->insert("obj_user_stat", $iset);
+            $this->db->insert("obj_user_stat", $iset);
             
             $count++;
-            
-            // #17928
             ilCronManager::ping($this->getId());
         }
-        
         return $count;
     }
 }

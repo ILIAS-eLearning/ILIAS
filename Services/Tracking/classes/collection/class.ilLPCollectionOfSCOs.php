@@ -1,24 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "Services/Tracking/classes/collection/class.ilLPCollection.php";
 
 /**
 * LP collection of SCOs
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @version $Id: class.ilLPCollections.php 40326 2013-03-05 11:39:24Z jluetzen $
-*
 * @ingroup ServicesTracking
 */
 class ilLPCollectionOfSCOs extends ilLPCollection
 {
-    protected static $possible_items = array();
+    protected static array $possible_items = array();
     
-    // see ilSCORMCertificateAdapter
-    public function getPossibleItems()
+    public function getPossibleItems() : array
     {
         if (!isset(self::$possible_items[$this->obj_id])) {
             include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
@@ -57,11 +51,7 @@ class ilLPCollectionOfSCOs extends ilLPCollection
     }
 
     
-    //
-    // TABLE GUI
-    //
-    
-    public function getTableGUIData($a_parent_ref_id)
+    public function getTableGUIData(int $a_parent_ref_id) : array
     {
         $data = array();
         
@@ -85,7 +75,7 @@ class ilLPCollectionOfSCOs extends ilLPCollection
     //
         
     // see ilSCORMCertificateAdapter
-    public function getScoresForUserAndCP_Node_Id($item_id, $user_id)
+    public function getScoresForUserAndCP_Node_Id(int $item_id, int $user_id) : array
     {
         include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
         switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
@@ -110,14 +100,11 @@ class ilLPCollectionOfSCOs extends ilLPCollection
     /**
      * Scorm items are not copied, they are newly created by reading the manifest.
      * Therefore, they do not have a mapping. So we need to map them via the import_id/identifierref
-     *
-     * @param $a_target_id
-     * @param $a_copy_id
+     * @param int $a_target_id
+     * @param int $a_copy_id
      */
-    public function cloneCollection($a_target_id, $a_copy_id)
+    public function cloneCollection(int $a_target_id, int $a_copy_id) : void
     {
-        global $DIC;
-
         $target_obj_id = ilObject::_lookupObjId($a_target_id);
         $new_collection = new static($target_obj_id, $this->mode);
         $possible_items = $new_collection->getPossibleItems();
@@ -128,18 +115,9 @@ class ilLPCollectionOfSCOs extends ilLPCollection
                 }
             }
         }
-
-        $DIC->logger()->root()->write(__METHOD__ . ': cloned learning progress collection.');
     }
 
-
-    /**
-     * @param $item_a_id
-     * @param $item_b_id
-     *
-     * @return bool
-     */
-    protected function itemsAreEqual($item_a_id, $item_b_id)
+    protected function itemsAreEqual(int $item_a_id, int $item_b_id):bool
     {
         global $DIC;
         switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {

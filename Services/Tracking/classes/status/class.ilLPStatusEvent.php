@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -23,29 +23,12 @@
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
 * @package ilias-tracking
 *
 */
-
-include_once './Services/Tracking/classes/class.ilLPStatus.php';
-include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-
 class ilLPStatusEvent extends ilLPStatus
 {
-    public function __construct($a_obj_id)
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        parent::__construct($a_obj_id);
-        $this->db = $ilDB;
-    }
-
-    public static function _getNotAttempted($a_obj_id)
+    public static function _getNotAttempted(int $a_obj_id) : array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         
@@ -54,14 +37,14 @@ class ilLPStatusEvent extends ilLPStatus
         $members = self::getMembers($status_info['crs_id'], true);
         if ($members) {
             // diff in progress and completed (use stored result in LPStatusWrapper)
-            $users = array_diff((array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id));
-            $users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+            $users = array_diff($members, ilLPStatusWrapper::_getInProgress($a_obj_id));
+            $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
         }
 
         return $users;
     }
 
-    public static function _getInProgress($a_obj_id)
+    public static function _getInProgress(int $a_obj_id) : array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -75,16 +58,16 @@ class ilLPStatusEvent extends ilLPStatus
         }
 
         // Otherwise all users who registered will get the status in progress
-        return $status_info['registered_users'] ? $status_info['registered_users'] : array();
+        return $status_info['registered_users'] ?: array();
     }
 
-    public static function _getCompleted($a_obj_id)
+    public static function _getCompleted(int $a_obj_id) : array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-        return $status_info['participated_users'] ? $status_info['participated_users'] : array();
+        return $status_info['participated_users'] ?: array();
     }
 
-    public static function _getStatusInfo($a_obj_id)
+    public static function _getStatusInfo(int $a_obj_id) : array
     {
         $tree = $GLOBALS['DIC']->repositoryTree();
 
@@ -115,22 +98,14 @@ class ilLPStatusEvent extends ilLPStatus
         return $status_info;
     }
     
-    /**
-     * Determine status
-     *
-     * @param	integer		object id
-     * @param	integer		user id
-     * @param	object		object (optional depends on object type)
-     * @return	integer		status
-     */
-    public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
         
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-        switch ($ilObjDataCache->lookupType($a_obj_id)) {
+        switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case 'sess':
                 include_once './Modules/Session/classes/class.ilEventParticipants.php';
                 include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
@@ -143,11 +118,11 @@ class ilLPStatusEvent extends ilLPStatus
                 // If event has occured in_progress is impossible
                 if ($registration && $time_info['start'] >= time()) {
                     // is user registered -> in progress
-                    if (ilEventParticipants::_isRegistered($a_user_id, $a_obj_id)) {
+                    if (ilEventParticipants::_isRegistered($a_usr_id, $a_obj_id)) {
                         $status = self::LP_STATUS_IN_PROGRESS_NUM;
                     }
                 }
-                if (ilEventParticipants::_hasParticipated($a_user_id, $a_obj_id)) {
+                if (ilEventParticipants::_hasParticipated($a_usr_id, $a_obj_id)) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 }
                 break;
@@ -157,11 +132,8 @@ class ilLPStatusEvent extends ilLPStatus
     
     /**
      * Get members for object
-     * @param int $a_obj_id
-     * @param bool $a_is_crs_id
-     * @return array
      */
-    protected static function getMembers($a_obj_id, $a_is_crs_id = false)
+    protected static function getMembers(int $a_obj_id, bool $a_is_crs_id = false) : array
     {
         if (!$a_is_crs_id) {
             $tree = $GLOBALS['DIC']->repositoryTree();
@@ -187,12 +159,8 @@ class ilLPStatusEvent extends ilLPStatus
     
     /**
      * Get completed users for object
-     *
-     * @param int $a_obj_id
-     * @param array $a_user_ids
-     * @return array
      */
-    public static function _lookupCompletedForObject($a_obj_id, $a_user_ids = null)
+    public static function _lookupCompletedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
     {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
@@ -205,24 +173,16 @@ class ilLPStatusEvent extends ilLPStatus
     
     /**
      * Get failed users for object
-     *
-     * @param int $a_obj_id
-     * @param array $a_user_ids
-     * @return array
      */
-    public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
+    public static function _lookupFailedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
     {
         return array();
     }
     
     /**
      * Get in progress users for object
-     *
-     * @param int $a_obj_id
-     * @param array $a_user_ids
-     * @return array
      */
-    public static function _lookupInProgressForObject($a_obj_id, $a_user_ids = null)
+    public static function _lookupInProgressForObject(int $a_obj_id, ?array $a_user_ids = null) : array
     {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);

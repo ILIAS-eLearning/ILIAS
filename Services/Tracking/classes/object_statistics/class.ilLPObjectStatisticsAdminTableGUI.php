@@ -17,27 +17,22 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
     /**
     * Constructor
     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
         $this->setId("lpobjstattbl");
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->addColumn("", "", "1", true);
-        $this->addColumn($lng->txt("month"), "month");
-        $this->addColumn($lng->txt("count"), "count");
+        $this->addColumn($this->lng->txt("month"), "month");
+        $this->addColumn($this->lng->txt("count"), "count");
 
         $this->setTitle($this->lng->txt("trac_object_stat_admin"));
 
         // $this->setSelectAllCheckbox("item_id");
-        $this->addMultiCommand("confirmDeleteData", $lng->txt("trac_delete_data"));
+        $this->addMultiCommand("confirmDeleteData", $this->lng->txt("trac_delete_data"));
         
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.lp_object_statistics_admin_row.html", "Services/Tracking");
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(true);
@@ -48,7 +43,7 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
         $this->getItems();
     }
 
-    public function getItems()
+    public function getItems() : void
     {
         include_once "Services/Tracking/classes/class.ilTrQuery.php";
         $data = ilTrQuery::getObjectStatisticsMonthlySummary();
@@ -73,7 +68,7 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
 
         $lng = $DIC['lng'];
 
-        $caption = $lng->txt("month_" . substr($a_set["month"], 5, 2) . "_long") .
+        $caption = $this->lng->txt("month_" . substr($a_set["month"], 5, 2) . "_long") .
             " " . substr($a_set["month"], 0, 4);
 
         $this->tpl->setVariable("ID", $a_set["id"]);

@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Tracking/classes/class.ilLearningProgressBaseGUI.php";
 
 /**
 * Class ilObjectStatisticsGUI
@@ -21,16 +19,8 @@ include_once "Services/Tracking/classes/class.ilLearningProgressBaseGUI.php";
 class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 {
 
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
-
-    public function __construct($a_mode, $a_ref_id = 0)
+    public function __construct(int $a_mode, int $a_ref_id = 0)
     {
-        global $DIC;
-
-        $this->dic = $DIC;
         parent::__construct($a_mode, $a_ref_id);
     
         if (!$this->ref_id) {
@@ -38,12 +28,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         }
     }
 
-    protected function setTabs()
+    protected function setTabs() : void
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        
         $this->tabs_gui->addSubTab(
             'trac_object_stat_access',
             $this->lng->txt('trac_object_stat_access'),
@@ -65,7 +51,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             $this->ctrl->getLinkTarget($this, 'typesFilter')
         );
 
-        if ($this->dic->rbac()->system()->checkAccess("visible,read", $this->ref_id)) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->ref_id)) {
             $this->tabs_gui->addSubTab(
                 'trac_object_stat_admin',
                 $this->lng->txt('trac_object_stat_admin'),
@@ -74,10 +60,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         }
     }
     
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $this->ctrl->setReturn($this, "");
         
@@ -88,11 +71,9 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
                 $cmd = $this->__getDefaultCommand();
                 $this->$cmd();
         }
-
-        return true;
     }
 
-    public function applyAccessFilter()
+    public function applyAccessFilter() : void
     {
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", null, false);
@@ -101,7 +82,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->access();
     }
 
-    public function resetAccessFilter()
+    public function resetAccessFilter() : void
     {
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", null, false);
@@ -110,21 +91,15 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->access();
     }
 
-    public function accessFilter()
+    public function accessFilter() : void
     {
         $this->access(false);
     }
 
-    public function access($a_load_data = true)
+    public function access(bool $a_load_data = true) : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        
         $this->tabs_gui->activateSubTab('trac_object_stat_access');
-        
         $this->showAggregationInfo();
-
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", null, $a_load_data);
         
@@ -132,31 +107,24 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             $lp_table->disable("content");
             $lp_table->disable("header");
         }
-        
-        $tpl->setContent($lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getHTML());
     }
 
-    public function showAccessGraph()
+    public function showAccessGraph() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        
         if (!$_POST["item_id"]) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"));
-            return $this->access();
+            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->access();
         }
         
         $this->tabs_gui->activateSubTab('trac_object_stat_access');
-
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", $_POST["item_id"]);
 
-        $tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
     }
 
-    public function applyTypesFilter()
+    public function applyTypesFilter() : void
     {
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", null, false);
@@ -165,7 +133,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->types();
     }
 
-    public function resetTypesFilter()
+    public function resetTypesFilter() : void
     {
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", null, false);
@@ -174,19 +142,14 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->types();
     }
 
-    public function typesFilter()
+    public function typesFilter() : void
     {
         $this->types(false);
     }
 
-    public function types($a_load_data = true)
+    public function types(bool $a_load_data = true) : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        
         $this->tabs_gui->activateSubTab('trac_object_stat_types');
-        
         $this->showCronJobInfo();
 
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php");
@@ -197,19 +160,15 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             $lp_table->disable("header");
         }
         
-        $tpl->setContent($lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getHTML());
     }
 
-    public function showTypesGraph()
+    public function showTypesGraph() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-
         if (!$_POST["item_id"]) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"));
-            return $this->types();
+            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->types();
+            return;
         }
         
         $this->tabs_gui->activateSubTab('trac_object_stat_types');
@@ -217,10 +176,10 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", $_POST["item_id"]);
 
-        $tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
     }
 
-    public function applyDailyFilter()
+    public function applyDailyFilter() : void
     {
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php");
         $lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", null, false);
@@ -229,7 +188,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->daily();
     }
 
-    public function resetDailyFilter()
+    public function resetDailyFilter() : void
     {
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php");
         $lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", null, false);
@@ -238,17 +197,13 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->daily();
     }
 
-    public function dailyFilter()
+    public function dailyFilter() : void
     {
         $this->daily(false);
     }
 
-    public function daily($a_load_data = true)
+    public function daily(bool $a_load_data = true) : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        
         $this->tabs_gui->activateSubTab('trac_object_stat_daily');
         
         $this->showAggregationInfo();
@@ -261,19 +216,15 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             $lp_table->disable("header");
         }
         
-        $tpl->setContent($lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getHTML());
     }
 
-    public function showDailyGraph()
+    public function showDailyGraph() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-
         if (!$_POST["item_id"]) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"));
-            return $this->daily();
+            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->daily();
+            return;
         }
         
         $this->tabs_gui->activateSubTab('trac_object_stat_daily');
@@ -281,108 +232,85 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php");
         $lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", $_POST["item_id"]);
 
-        $tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
     }
 
-    public function admin()
+    public function admin() : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-        
         $this->tabs_gui->activateSubTab('trac_object_stat_admin');
         
         $this->showAggregationInfo(false);
 
-        if ($this->dic->rbac()->system()->checkAccess('write', $this->ref_id)) {
-            $ilToolbar->addButton(
-                $lng->txt("trac_sync_obj_stats"),
-                $ilCtrl->getLinkTarget($this, "adminSync")
+        if ($this->rbacsystem->checkAccess('write', $this->ref_id)) {
+            $this->toolbar->addButton(
+                $this->lng->txt("trac_sync_obj_stats"),
+                $this->ctrl->getLinkTarget($this, "adminSync")
             );
         }
 
-        if ($ilAccess->checkAccess("delete", "", $this->ref_id)) {
+        if ($this->access->checkAccess("delete", "", $this->ref_id)) {
             include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsAdminTableGUI.php");
             $lp_table = new ilLPObjectStatisticsAdminTableGUI($this, "admin");
-
-            $tpl->setContent($lp_table->getHTML());
+            $this->tpl->setContent($lp_table->getHTML());
         }
     }
 
-    public function adminSync()
+    public function adminSync() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
         include_once "Services/Tracking/classes/class.ilChangeEvent.php";
         ilChangeEvent::_syncObjectStats(time(), 1);
 
-        ilUtil::sendSuccess($lng->txt("trac_sync_obj_stats_success"), true);
-        $ilCtrl->redirect($this, "admin");
+        ilUtil::sendSuccess($this->lng->txt("trac_sync_obj_stats_success"), true);
+        $this->ctrl->redirect($this, "admin");
     }
 
-    public function confirmDeleteData()
+    public function confirmDeleteData() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $ilTabs = $DIC['ilTabs'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         if (!$_POST["item_id"]) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"));
-            return $this->admin();
+            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->admin();
+            return;
         }
 
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget(
-            $lng->txt("back"),
-            $ilCtrl->getLinkTarget($this, "admin")
+        $this->tabs_gui->clearTargets();
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "admin")
         );
 
         // display confirmation message
         $cgui = new ilConfirmationGUI();
-        $cgui->setFormAction($ilCtrl->getFormAction($this));
-        $cgui->setHeaderText($lng->txt("trac_sure_delete_data"));
-        $cgui->setCancel($lng->txt("cancel"), "admin");
-        $cgui->setConfirm($lng->txt("delete"), "deleteData");
+        $cgui->setFormAction($this->ctrl->getFormAction($this));
+        $cgui->setHeaderText($this->lng->txt("trac_sure_delete_data"));
+        $cgui->setCancel($this->lng->txt("cancel"), "admin");
+        $cgui->setConfirm($this->lng->txt("delete"), "deleteData");
 
         // list objects that should be deleted
         foreach ($_POST["item_id"] as $i) {
-            $caption = $lng->txt("month_" . str_pad(substr($i, 5), 2, "0", STR_PAD_LEFT) . "_long") .
+            $caption = $this->lng->txt("month_" . str_pad(substr($i, 5), 2, "0", STR_PAD_LEFT) . "_long") .
             " " . substr($i, 0, 4);
             
             $cgui->addItem("item_id[]", $i, $caption);
         }
 
-        $tpl->setContent($cgui->getHTML());
+        $this->tpl->setContent($cgui->getHTML());
     }
 
-    public function deleteData()
+    public function deleteData() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
         if (!$_POST["item_id"]) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"));
-            return $this->admin();
+            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->admin();
+            return;
         }
 
         include_once "Services/Tracking/classes/class.ilTrQuery.php";
         ilTrQuery::deleteObjectStatistics($_POST["item_id"]);
-        ilUtil::sendSuccess($lng->txt("trac_data_deleted"));
+        ilUtil::sendSuccess($this->lng->txt("trac_data_deleted"));
         $this->admin();
     }
     
-    public function applyLearningProgressFilter()
+    public function applyLearningProgressFilter() : void
     {
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php");
         $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", null, false);
@@ -391,7 +319,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->learningProgress();
     }
 
-    public function resetLearningProgressFilter()
+    public function resetLearningProgressFilter() : void
     {
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php");
         $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", null, false);
@@ -400,17 +328,13 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->learningProgress();
     }
     
-    public function learningProgressFilter()
+    public function learningProgressFilter() : void
     {
         $this->learningProgress(false);
     }
 
-    public function learningProgress($a_load_data = true)
+    public function learningProgress(bool $a_load_data = true) : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        
         $this->tabs_gui->activateSubTab('trac_object_stat_lp');
         
         $this->showCronJobInfo();
@@ -423,19 +347,15 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             $lp_table->disable("header");
         }
         
-        $tpl->setContent($lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getHTML());
     }
 
     public function showLearningProgressGraph()
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        
         if (!$_POST["item_id"]) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"));
-            return $this->learningProgress();
+            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->learningProgress();
+            return;
         }
         
         $this->tabs_gui->activateSubTab('trac_object_stat_lp');
@@ -443,10 +363,10 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php");
         $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", $_POST["item_id"], true, true);
                 
-        $tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
     }
 
-    public function showLearningProgressDetails()
+    public function showLearningProgressDetails() : void
     {
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php");
         $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "showLearningProgressDetails", array($_GET["item_id"]), true, false, true);
@@ -458,36 +378,26 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         exit();
     }
     
-    protected function showAggregationInfo($a_show_link = true)
+    protected function showAggregationInfo(bool $a_show_link = true) : void
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
         include_once "Services/Tracking/classes/class.ilTrQuery.php";
         $info = ilTrQuery::getObjectStatisticsLogInfo();
         $info_date = ilDatePresentation::formatDate(new ilDateTime($info["tstamp"], IL_CAL_UNIX));
                     
         $link = "";
-        if ($a_show_link && $ilAccess->checkAccess("write", "", $this->ref_id)) {
-            $link = " <a href=\"" . $ilCtrl->getLinkTarget($this, "admin") . "\">&raquo;" .
-                $lng->txt("trac_log_info_link") . "</a>";
+        if ($a_show_link && $this->access->checkAccess("write", "", $this->ref_id)) {
+            $link = " <a href=\"" . $this->ctrl->getLinkTarget($this, "admin") . "\">&raquo;" .
+                $this->lng->txt("trac_log_info_link") . "</a>";
         }
         
-        ilUtil::sendInfo(sprintf($lng->txt("trac_log_info"), $info_date, $info["counter"]) . $link);
+        ilUtil::sendInfo(sprintf($this->lng->txt("trac_log_info"), $info_date, $info["counter"]) . $link);
     }
     
-    protected function showCronJobInfo()
+    protected function showCronJobInfo() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
         include_once "Services/Cron/classes/class.ilCronManager.php";
         if (!ilCronManager::isJobActive("lp_object_statistics")) {
-            ilUtil::sendInfo($lng->txt("trac_cron_info"));
+            ilUtil::sendInfo($this->lng->txt("trac_cron_info"));
         }
     }
 }

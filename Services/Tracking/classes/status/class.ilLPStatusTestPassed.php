@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -23,9 +23,6 @@
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
 * @package ilias-tracking
 *
 */
@@ -34,48 +31,24 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 
 class ilLPStatusTestPassed extends ilLPStatus
 {
-    public function __construct($a_obj_id)
+    public static function _getInProgress(int $a_obj_id) : array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        parent::__construct($a_obj_id);
-        $this->db = $ilDB;
-    }
-
-    public static function _getInProgress($a_obj_id)
-    {
-        global $DIC;
-
-        $ilBench = $DIC['ilBench'];
-        
-        $ilBench->start('LearningProgress', '9182_LPStatusTestPassed_inProgress');
         $userIds = self::getUserIdsByResultArrayStatus($a_obj_id, 'in_progress');
-        $ilBench->stop('LearningProgress', '9182_LPStatusTestPassed_inProgress');
-        
         return $userIds;
     }
 
-    public static function _getCompleted($a_obj_id)
+    public static function _getCompleted(int $a_obj_id) : array
     {
-        global $DIC;
-
-        $ilBench = $DIC['ilBench'];
-
-        $ilBench->start('LearningProgress', '9183_LPStatusTestPassed_completed');
         $userIds = self::getUserIdsByResultArrayStatus($a_obj_id, 'passed');
-        $ilBench->stop('LearningProgress', '9183_LPStatusTestPassed_completed');
-
         return $userIds;
     }
 
-    public static function _getNotAttempted($a_obj_id)
+    public static function _getNotAttempted(int $a_obj_id) : array
     {
         return self::getUserIdsByResultArrayStatus($a_obj_id, 'not_attempted');
     }
 
-    public static function _getFailed($a_obj_id)
+    public static function _getFailed(int $a_obj_id) : array
     {
         return self::getUserIdsByResultArrayStatus($a_obj_id, 'failed');
     }
@@ -88,14 +61,14 @@ class ilLPStatusTestPassed extends ilLPStatus
         
         foreach ($status_info['results'] as $user_data) {
             if ($user_data[$resultArrayStatus]) {
-                $user_ids[] = $user_data['user_id'];
+                $user_ids[] = (int) $user_data['user_id'];
             }
         }
         
         return $user_ids;
     }
 
-    public static function _getStatusInfo($a_obj_id)
+    public static function _getStatusInfo(int $a_obj_id) : array
     {
         include_once './Modules/Test/classes/class.ilObjTestAccess.php';
         $status_info['results'] = ilObjTestAccess::_getPassedUsers($a_obj_id);
@@ -104,9 +77,7 @@ class ilLPStatusTestPassed extends ilLPStatus
     
     /**
      * Determine status.
-     *
      * Behaviour of "old" 4.0 learning progress:
-     *
      * Setting "Multiple Pass Scoring": Score the last pass
      * - Test not started: No entry
      * - First question opened: Icon/Text: Failed, Score 0%
@@ -116,7 +87,6 @@ class ilLPStatusTestPassed extends ilLPStatus
      * - First question answered (incorrect, success possible): Icon/Text Failed, Score 33%
      * - Second question answered (correct): Icon/Text completed
      * - 3rd pass, like 2nd, but two times wrong answer: Icon/Text: Failed
-     *
      * Setting "Multiple Pass Scoring": Score the best pass
      * - Test not started: No entry
      * - First question opened: Icon/Text: Failed, Score 0%
@@ -124,17 +94,11 @@ class ilLPStatusTestPassed extends ilLPStatus
      * - No change after successfully finishing the pass. (100%)
      * - 2nd Pass, first question opened: Still Completed/Completed
      * - First question answered (incorrect, success possible): Still Completed/Completed
-     *
      * Due to this behaviour in 4.0 we do not have a "in progress" status. During the test
      * the status is "failed" unless the score is enough to pass the test, which makes the
      * learning progress status "completed".
-     *
-     * @param	integer		object id
-     * @param	integer		user id
-     * @param	object		object (optional depends on object type)
-     * @return	integer		status
      */
-    public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         global $DIC;
 
@@ -142,8 +106,8 @@ class ilLPStatusTestPassed extends ilLPStatus
 
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
-        $res = $ilDB->query("
-			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) " . $ilDB->quoteIdentifier("sequences") . ", tst_active.last_finished_pass,
+        $res = $this->db->query("
+			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) " . $this->db->quoteIdentifier("sequences") . ", tst_active.last_finished_pass,
 				CASE WHEN
 					(tst_tests.nr_of_tries - 1) = tst_active.last_finished_pass
 				THEN '1'
@@ -154,17 +118,17 @@ class ilLPStatusTestPassed extends ilLPStatus
 			ON tst_sequence.active_fi = tst_active.active_id
 			LEFT JOIN tst_tests
 			ON tst_tests.test_id = tst_active.test_fi
-			WHERE tst_active.user_fi = {$ilDB->quote($a_user_id, "integer")}
-			AND tst_active.test_fi = {$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id))}
+			WHERE tst_active.user_fi = {$this->db->quote($a_usr_id, "integer")}
+			AND tst_active.test_fi = {$this->db->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id), ilDBConstants::T_INTEGER)}
 			GROUP BY tst_active.active_id, tst_active.tries, is_last_pass
 		");
 
-        if ($rec = $ilDB->fetchAssoc($res)) {
+        if ($rec = $this->db->fetchAssoc($res)) {
             if ($rec['sequences'] > 0) {
                 require_once 'Modules/Test/classes/class.ilObjTest.php';
 
                 $test_obj = new ilObjTest($a_obj_id, false);
-                $is_passed = ilObjTestAccess::_isPassed($a_user_id, $a_obj_id);
+                $is_passed = ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);
 
                 if ($test_obj->getPassScoring() == SCORE_LAST_PASS) {
                     $is_finished = false;
@@ -189,12 +153,7 @@ class ilLPStatusTestPassed extends ilLPStatus
         return $status;
     }
 
-    /**
-     * @param $is_finished
-     * @param $passed
-     * @return int
-     */
-    protected function determineStatusForScoreLastPassTests($is_finished, $passed)
+    protected function determineStatusForScoreLastPassTests(bool $is_finished, bool $passed) : int
     {
         $status = self::LP_STATUS_IN_PROGRESS_NUM;
 
@@ -205,11 +164,7 @@ class ilLPStatusTestPassed extends ilLPStatus
         return $status;
     }
 
-    /**
-     * @param $passed
-     * @return int
-     */
-    protected function determineLpStatus($passed)
+    protected function determineLpStatus(bool $passed) : int
     {
         $status = self::LP_STATUS_FAILED_NUM;
 
@@ -220,27 +175,19 @@ class ilLPStatusTestPassed extends ilLPStatus
         return $status;
     }
 
-    /**
-     * Determine percentage
-     *
-     * @param	integer		object id
-     * @param	integer		user id
-     * @param	object		object (optional depends on object type)
-     * @return	integer		percentage
-     */
-    public function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
+    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         
-        $set = $ilDB->query("SELECT tst_result_cache.*, tst_active.user_fi FROM " .
+        $set = $this->db->query("SELECT tst_result_cache.*, tst_active.user_fi FROM " .
                      "tst_result_cache JOIN tst_active ON (tst_active.active_id = tst_result_cache.active_fi)" .
                      " JOIN tst_tests ON (tst_tests.test_id = tst_active.test_fi) " .
-                     " WHERE tst_tests.obj_fi = " . $ilDB->quote($a_obj_id, "integer") .
-                     " AND tst_active.user_fi = " . $ilDB->quote($a_user_id, "integer"));
+                     " WHERE tst_tests.obj_fi = " . $this->db->quote($a_obj_id, "integer") .
+                     " AND tst_active.user_fi = " . $this->db->quote($a_usr_id, "integer"));
         $per = 0;
-        if ($rec = $ilDB->fetchAssoc($set)) {
+        if ($rec = $this->db->fetchAssoc($set)) {
             if ($rec["max_points"] > 0) {
                 $per = min(100, 100 / $rec["max_points"] * $rec["reached_points"]);
             } else {

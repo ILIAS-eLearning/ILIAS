@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,16 +6,15 @@
  * tracking class small.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  * @ingroup ServicesTracking
  */
 class ilTrQuery
 {
-    public static function getObjectsStatusForUser($a_user_id, array $obj_refs)
+    public static function getObjectsStatusForUser(int $a_user_id, array $obj_refs) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         if (sizeof($obj_refs)) {
             $obj_ids = array_keys($obj_refs);
@@ -60,7 +59,7 @@ class ilTrQuery
                 $rec["u_mode"] = (int) $rec["u_mode"];
 
                 if ($rec["type"] == "sess") {
-                    $session = $sessions[$rec["obj_id"]];
+                    $session = $sessions[(int) $rec["obj_id"]];
                     $rec["title"] = $session["title"];
                     // $rec["status"] = (int)$session["status"];
                 }
@@ -80,13 +79,14 @@ class ilTrQuery
             }
             return $result;
         }
+        return [];
     }
 
-    public static function getObjectivesStatusForUser($a_user_id, $a_obj_id, array $a_objective_ids)
+    public static function getObjectivesStatusForUser(int $a_user_id, int $a_obj_id, array $a_objective_ids) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
                         
         include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
         $lo_lp_status = ilLOUserResults::getObjectiveStatusForLP($a_user_id, $a_obj_id, $a_objective_ids);
@@ -99,6 +99,8 @@ class ilTrQuery
         $set = $ilDB->query($query);
         $result = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec['crs_id']  = (int) $rec['crs_id'];
+            $rec['obj_id']  = (int) $rec['obj_id'];
             if (array_key_exists($rec["obj_id"], $lo_lp_status)) {
                 $rec["status"] = $lo_lp_status[$rec["obj_id"]];
             } else {
@@ -110,7 +112,7 @@ class ilTrQuery
         return $result;
     }
     
-    public static function getSCOsStatusForUser($a_user_id, $a_parent_obj_id, array $a_sco_ids)
+    public static function getSCOsStatusForUser(int $a_user_id, int $a_parent_obj_id, array $a_sco_ids) : array
     {
         self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));
         
@@ -159,23 +161,18 @@ class ilTrQuery
             
             $items[$sco_id] = array(
                 "title" => $status_info["scos_title"][$sco_id],
-                "status" => $status,
+                "status" => (int) $status,
                 "type" => "sahs",
                 "score" => (int) $scores[$sco_id]
                 );
         }
-        
         return $items;
     }
     
     /**
      * Get subitems status
-     * @param type $a_user_id
-     * @param type $a_parent_obj_id
-     * @param array $a_item_ids
-     * @return type
      */
-    public static function getSubItemsStatusForUser($a_user_id, $a_parent_obj_id, array $a_item_ids)
+    public static function getSubItemsStatusForUser(int $a_user_id, int $a_parent_obj_id, array $a_item_ids) : array
     {
         self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));
         
@@ -215,7 +212,7 @@ class ilTrQuery
             
             $items[$item_id] = array(
                 "title" => $item_data[$item_id]["title"],
-                "status" => $status,
+                "status" => (int) $status,
                 "type" => self::getSubItemType($a_parent_obj_id)
                 );
         }
@@ -223,34 +220,20 @@ class ilTrQuery
         return $items;
     }
 
-    /**
-     * Get all user-based tracking data for object
-     *
-     * @param	int		$a_ref_id
-     * @param	string	$a_order_field
-     * @param	string	$a_order_dir
-     * @param	int		$a_offset
-     * @param	int		$a_limit
-     * @param	array	$a_filters
-     * @param	array	$a_additional_fields
-     * @param	int  	$check_agreement (obj id of parent course)
-     * @param	arry	$privacy_fields
-     * @return	array	cnt, set
-     */
     public static function getUserDataForObject(
-        $a_ref_id,
-        $a_order_field = "",
-        $a_order_dir = "",
-        $a_offset = 0,
-        $a_limit = 9999,
-        array $a_filters = null,
-        array $a_additional_fields = null,
-        $check_agreement = false,
-        $privacy_fields = null
-    ) {
+        int $a_ref_id,
+        string $a_order_field = "",
+        string $a_order_dir = "",
+        int $a_offset = 0,
+        int $a_limit = 9999,
+        ?array $a_filters = null,
+        ?array $a_additional_fields = null,
+        ?int $check_agreement = null,
+        ?array $privacy_fields = null
+    ) : array {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $fields = array("usr_data.usr_id", "login", "active");
         $udf = self::buildColumns($fields, $a_additional_fields);
@@ -313,26 +296,20 @@ class ilTrQuery
     
     /**
      * Handle privacy and add udf data to (user) result data
-     *
-     * @param array $a_result
-     * @param array $a_udf
-     * @param int $a_check_agreement
-     * @param array $a_privacy_fields
-     * @param array $a_filters
      */
     protected static function getUDFAndHandlePrivacy(
         array &$a_result,
-        array $a_udf = null,
-        $a_check_agreement = null,
-        array $a_privacy_fields = null,
-        array $a_filters = null
-    ) {
+        ?array $a_udf = null,
+        ?int $a_check_agreement = null,
+        ?array $a_privacy_fields = null,
+        ?array $a_filters = null
+    ):array {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         if (!$a_result["cnt"]) {
-            return;
+            return [];
         }
         
         if (is_array($a_udf) && count($a_udf) > 0) {
@@ -340,7 +317,7 @@ class ilTrQuery
             $set = $ilDB->query($query);
             $udf = array();
             while ($row = $ilDB->fetchAssoc($set)) {
-                $udf[$row["usr_id"]]["udf_" . $row["field_id"]] = $row["value"];
+                $udf[(int) $row["usr_id"]]["udf_" . $row["field_id"]] = $row["value"];
             }
         }
 
@@ -359,7 +336,7 @@ class ilTrQuery
                 $all_public[] = $row["usr_id"];
             }
             $query = "SELECT usr_id,keyword FROM usr_pref WHERE " . $ilDB->like("keyword", "text", "public_%", false) .
-                " AND value = " . $ilDB->quote("y", "text") . " AND " . $ilDB->in("usr_id", $all_public, "", "integer");
+                " AND value = " . $ilDB->quote("y", "text") . " AND " . $ilDB->in("usr_id", $all_public, false, "integer");
             $set = $ilDB->query($query);
             $public = array();
             while ($row = $ilDB->fetchAssoc($set)) {
@@ -398,40 +375,27 @@ class ilTrQuery
                 }
             }
         }
-        
-        // $a_result["cnt"] = sizeof($a_result["set"]);
+        return [];
     }
 
     /**
      * Get all object-based tracking data for user and parent object
-     *
-     * @param	int		$a_user_id
-     * @param	int		$a_parent_obj_id
-     * @param	int		$a_parent_ref_id
-     * @param	string	$a_order_field
-     * @param	string	$a_order_dir
-     * @param	int		$a_offset
-     * @param	int		$a_limit
-     * @param	array	$a_filters
-     * @param	array	$a_additional_fields
-     * @param	bool	$use_collection
-     * @return	array	cnt, set
      */
     public static function getObjectsDataForUser(
-        $a_user_id,
-        $a_parent_obj_id,
-        $a_parent_ref_id,
-        $a_order_field = "",
-        $a_order_dir = "",
-        $a_offset = 0,
-        $a_limit = 9999,
-        array $a_filters = null,
-        array $a_additional_fields = null,
-        $use_collection = true
-    ) {
+        int $a_user_id,
+        int $a_parent_obj_id,
+        int $a_parent_ref_id,
+        string $a_order_field = "",
+        string $a_order_dir = "",
+        int $a_offset = 0,
+        int $a_limit = 9999,
+        ?array $a_filters = null,
+        ?array $a_additional_fields = null,
+        bool $use_collection = true
+    ) : array {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $fields = array("object_data.obj_id", "title", "type");
         self::buildColumns($fields, $a_additional_fields);
@@ -459,13 +423,13 @@ class ilTrQuery
 
             foreach ($result["set"] as $idx => $item) {
                 if ($item["type"] == "sess") {
-                    $session = $sessions[$item["obj_id"]];
+                    $session = $sessions[(int) $item["obj_id"]];
                     $result["set"][$idx]["title"] = $session["title"];
                     $result["set"][$idx]["sort_title"] = $session["e_start"];
                     // $result["set"][$idx]["status"] = (int)$session["status"];
                 }
 
-                $result["set"][$idx]["ref_id"] = $objects["ref_ids"][$item["obj_id"]];
+                $result["set"][$idx]["ref_id"] = $objects["ref_ids"][(int) $item["obj_id"]];
             }
 
             // scos data (:TODO: will not be part of offset/limit)
@@ -486,7 +450,7 @@ class ilTrQuery
                             $time = explode(":", $item["time"]);
                             $item["time"] = $time[0] * 60 * 60 + $time[1] * 60 + $time[2];
                         }
-                        $scos_tracking[$item["sco_id"]] = array("session_time" => $item["time"]);
+                        $scos_tracking[(int) $item["sco_id"]] = array("session_time" => $item["time"]);
                     }
                 }
             
@@ -537,7 +501,7 @@ class ilTrQuery
                         "type" => $sub_type);
                     
                     $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-                    if (in_array($a_user_id, $objects["subitems"]["completed"][$item_id])) {
+                    if (in_array($a_user_id, $objects["subitems"]["completed"][(int) $item_id])) {
                         $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
                     }
                     $row["status"] = $status;
@@ -552,10 +516,8 @@ class ilTrQuery
     
     /**
      * Get sub-item object type for parent
-     * @param int $a_parent_obj_id
-     * @return string
      */
-    public static function getSubItemType($a_parent_obj_id)
+    public static function getSubItemType(int $a_parent_obj_id) : string
     {
         switch (ilObject::_lookupType($a_parent_obj_id)) {
             case "lm":
@@ -564,21 +526,17 @@ class ilTrQuery
             case "mcst":
                 return "mob";
         }
+        return '';
     }
 
     /**
      * Get session data for given objects and user
-     *
-     * @param	int		$a_user_id
-     * @param	array	$obj_ids
-     * @return	array
      */
-    protected static function getSessionData($a_user_id, array $obj_ids)
+    protected static function getSessionData(int $a_user_id, array $obj_ids) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = "SELECT obj_id, title, e_start, e_end, CASE WHEN participated = 1 THEN 2 WHEN registered = 1 THEN 1 ELSE NULL END AS status," .
             " mark, e_comment" .
             " FROM event" .
@@ -601,41 +559,29 @@ class ilTrQuery
             } else {
                 $rec["title"] = $date;
             }
-            $sessions[$rec["obj_id"]] = $rec;
+            $sessions[(int) $rec["obj_id"]] = $rec;
         }
         return $sessions;
     }
 
     /**
      * Get all aggregated tracking data for parent object
-     *
      * :TODO: sorting, offset, limit, objectives, collection/all
-     *
-     * @param	int		$a_parent_obj_id
-     * @param	int		$a_parent_ref_id
-     * @param	string	$a_order_field
-     * @param	string	$a_order_dir
-     * @param	int		$a_offset
-     * @param	int		$a_limit
-     * @param	array	$a_filter
-     * @param	array	$a_additional_fields
-     * @param	array	$a_preselected_obj_ids
-     * @return	array	cnt, set
      */
     public static function getObjectsSummaryForObject(
-        $a_parent_obj_id,
-        $a_parent_ref_id,
-        $a_order_field = "",
-        $a_order_dir = "",
-        $a_offset = 0,
-        $a_limit = 9999,
-        array $a_filters = null,
-        array $a_additional_fields = null,
-        $a_preselected_obj_ids = null
-    ) {
+        int $a_parent_obj_id,
+        int $a_parent_ref_id,
+        string $a_order_field = "",
+        string $a_order_dir = "",
+        int $a_offset = 0,
+        int $a_limit = 9999,
+        ?array $a_filters = null,
+        ?array $a_additional_fields = null,
+        ?array $a_preselected_obj_ids = null
+    ):array {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $fields = array();
         self::buildColumns($fields, $a_additional_fields, true);
@@ -651,16 +597,17 @@ class ilTrQuery
         }
 
         $result = array();
+        $object_data = [];
         if ($objects) {
             // object data
             $set = $ilDB->query("SELECT obj_id,title,type FROM object_data" .
                 " WHERE " . $ilDB->in("obj_id", $objects["object_ids"], false, "integer"));
             while ($rec = $ilDB->fetchAssoc($set)) {
-                $object_data[$rec["obj_id"]] = $rec;
+                $object_data[(int) $rec["obj_id"]] = $rec;
                 if ($a_preselected_obj_ids) {
-                    $object_data[$rec["obj_id"]]["ref_ids"] = $a_preselected_obj_ids[$rec["obj_id"]];
+                    $object_data[(int) $rec["obj_id"]]["ref_ids"] = $a_preselected_obj_ids[(int) $rec["obj_id"]];
                 } else {
-                    $object_data[$rec["obj_id"]]["ref_ids"] = array($objects["ref_ids"][$rec["obj_id"]]);
+                    $object_data[(int) $rec["obj_id"]]["ref_ids"] = array($objects["ref_ids"][(int) $rec["obj_id"]]);
                 }
             }
 
@@ -681,15 +628,7 @@ class ilTrQuery
         return array("cnt" => sizeof($result), "set" => $result);
     }
 
-    /**
-     * Get all aggregated tracking data for object
-     *
-     * @param	int		$a_ref_id
-     * @param	array	$fields
-     * @param	array	$a_filters
-     * @return	array
-     */
-    protected static function getSummaryDataForObject($a_ref_id, array $fields, array $a_filters = null)
+    protected static function getSummaryDataForObject(int $a_ref_id, array $fields, ?array $a_filters = null) : array
     {
         global $DIC;
 
@@ -758,13 +697,8 @@ class ilTrQuery
 
     /**
      * Get aggregated data for field
-     *
-     * @param	string	$field
-     * @param	string	$base_query
-     * @param	string	$alias
-     * @return	array
      */
-    protected static function getSummaryPercentages($field, $base_query, $alias = null)
+    protected static function getSummaryPercentages(string $field, string $base_query, ?string $alias = null) : array
     {
         global $DIC;
 
@@ -795,11 +729,10 @@ class ilTrQuery
 
     /**
      * Get participant ids for given object
-     *
      * @param	int		$a_ref_id
-     * @return	mixed array or null if no users can bedetermined for object.
+     * @return	array|null array or null if no users can bedetermined for object.
      */
-    public static function getParticipantsForObject($a_ref_id)
+    public static function getParticipantsForObject(int $a_ref_id) : ?array
     {
         global $DIC;
 
@@ -927,19 +860,11 @@ class ilTrQuery
         );
     }
 
-    /**
-     * Build sql from filter definition
-     *
-     * @param	array	$where
-     * @param	array	$a_filters
-     * @param	bool	$a_aggregate
-     * @return	string
-     */
-    protected static function buildFilters(array $where, array $a_filters = null, $a_aggregate = false)
+    protected static function buildFilters(array $where, array $a_filters = null, bool $a_aggregate = false):string
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $having = array();
 
@@ -1105,15 +1030,7 @@ class ilTrQuery
         return $sql;
     }
 
-    /**
-     * Build sql from field definition
-     *
-     * @param	array	&$a_fields
-     * @param	array	$a_additional_fields
-     * @param	bool	$a_aggregate
-     * @return array
-     */
-    protected static function buildColumns(array &$a_fields, array $a_additional_fields = null, $a_aggregate = false)
+    protected static function buildColumns(array &$a_fields, array $a_additional_fields = null, bool $a_aggregate = false):array
     {
         if (sizeof($a_additional_fields)) {
             $udf = null;
@@ -1188,19 +1105,25 @@ class ilTrQuery
             
             return $udf;
         }
+        return [];
     }
 
     /**
      * Get (sub)objects for given object, also handles learning objectives (course only)
-     *
-     * @param	int		$a_parent_obj_id
-     * @param	int		$a_parent_ref_id
-     * @param	int		$use_collection
-     * @param	bool	$a_refresh_status
-     * @param	array	$a_user_ids
+     * @param	int        $a_parent_obj_id
+     * @param	int        $a_parent_ref_id
+     * @param	bool       $use_collection
+     * @param	bool       $a_refresh_status
+     * @param	array|null $a_user_ids
      * @return	array	object_ids, objectives_parent_id
      */
-    public static function getObjectIds($a_parent_obj_id, $a_parent_ref_id = false, $use_collection = true, $a_refresh_status = true, $a_user_ids = null)
+    public static function getObjectIds(
+        int $a_parent_obj_id,
+        int $a_parent_ref_id,
+        bool $use_collection = true,
+        bool $a_refresh_status = true,
+        ?array $a_user_ids = null
+    ) : array
     {
         include_once "Services/Object/classes/class.ilObjectLP.php";
         
@@ -1271,12 +1194,8 @@ class ilTrQuery
 
     /**
      * Get complete branch of tree (recursively)
-     *
-     * @param int $a_parent_ref_id
-     * @param array $a_object_ids
-     * @param array $a_ref_ids
      */
-    protected static function getSubTree($a_parent_ref_id, array &$a_object_ids, array &$a_ref_ids)
+    protected static function getSubTree(int $a_parent_ref_id, array &$a_object_ids, array &$a_ref_ids) : void
     {
         global $DIC;
 
@@ -1294,21 +1213,8 @@ class ilTrQuery
                 
                 $olp = ilObjectLP::getInstance($child["obj_id"]);
                 $cmode = $olp->getCurrentMode();
-                
-                /* see ilPluginLP
-                if($cmode == ilLPObjSettings::LP_MODE_PLUGIN)
-                {
-                    // #11368
-                    include_once "Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php";
-                    if(ilRepositoryObjectPluginSlot::isTypePluginWithLP($child["type"], false))
-                    {
-                        $a_object_ids[] = $child["obj_id"];
-                        $a_ref_ids[$child["obj_id"]] = $child["ref_id"];
-                    }
-                }
-                */
-                
-                if (/* $cmode != ilLPObjSettings::LP_MODE_DEACTIVATED && */ $cmode != ilLPObjSettings::LP_MODE_UNDEFINED) {
+
+                if ($cmode != ilLPObjSettings::LP_MODE_UNDEFINED) {
                     $a_object_ids[] = $child["obj_id"];
                     $a_ref_ids[$child["obj_id"]] = $child["ref_id"];
                 }
@@ -1320,19 +1226,24 @@ class ilTrQuery
 
     /**
      * Execute given queries, including count query
-     *
-     * @param	array	$queries	fields, query, count
-     * @param	string	$a_order_field
-     * @param	string	$a_order_dir
-     * @param	int		$a_offset
-     * @param	int		$a_limit
+     * @param	array  $queries fields, query, count
+     * @param	string $a_order_field
+     * @param	string $a_order_dir
+     * @param	int    $a_offset
+     * @param	int    $a_limit
      * @return	array	cnt, set
      */
-    public static function executeQueries(array $queries, $a_order_field = "", $a_order_dir = "", $a_offset = 0, $a_limit = 9999)
+    public static function executeQueries(
+        array $queries,
+        string $a_order_field = "",
+        string $a_order_dir = "",
+        int $a_offset = 0,
+        int $a_limit = 9999
+    ) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $cnt = 0;
         $subqueries = array();
@@ -1373,8 +1284,8 @@ class ilTrQuery
                 $query .= " ORDER BY " . $a_order_field . " " . strtoupper($a_order_dir);
             }
 
-            $offset = (int) $a_offset;
-            $limit = (int) $a_limit;
+            $offset = $a_offset;
+            $limit = $a_limit;
             $ilDB->setLimit($limit, $offset);
 
             $set = $ilDB->query($query);
@@ -1388,26 +1299,25 @@ class ilTrQuery
 
     /**
      * Get status matrix for users on objects
-     *
-     * @param	int		$a_parent_ref_id
-     * @param	array	$a_obj_ids
-     * @param	string	$a_user_filter
-     * @param	array	$a_additional_fields
-     * @param	array	$a_privacy_fields
-     * @param	int		$a_check_agreement
+     * @param	int         $a_parent_ref_id
+     * @param	array       $a_obj_ids
+     * @param	string|null $a_user_filter
+     * @param	array|null  $a_additional_fields
+     * @param	array|null  $a_privacy_fields
+     * @param int|null       $a_check_agreement
      * @return	array	cnt, set
      */
     public static function getUserObjectMatrix(
-        $a_parent_ref_id,
-        $a_obj_ids,
-        $a_user_filter = null,
-        array $a_additional_fields = null,
-        array $a_privacy_fields = null,
-        $a_check_agreement = null
-    ) {
+        int $a_parent_ref_id,
+        array $a_obj_ids,
+        string $a_user_filter = null,
+        ?array $a_additional_fields = null,
+        ?array $a_privacy_fields = null,
+        ?int $a_check_agreement = null
+    ):array {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $result = array("cnt" => 0, "set" => null);
         if (sizeof($a_obj_ids)) {
@@ -1450,19 +1360,20 @@ class ilTrQuery
                 if ($raw["cnt"]) {
                     // convert to final structure
                     foreach ($raw["set"] as $row) {
-                        $result["set"][$row["usr_id"]]["login"] = $row["login"];
-                        $result["set"][$row["usr_id"]]["usr_id"] = $row["usr_id"];
+                        $result["set"][(int) $row["usr_id"]]["login"] = $row["login"];
+                        $result["set"][(int) $row["usr_id"]]["usr_id"] = (int) $row["usr_id"];
                         
                         // #14953
-                        $result["set"][$row["usr_id"]]["obj_" . $obj_id] = $row["status"];
-                        $result["set"][$row["usr_id"]]["obj_" . $obj_id . "_perc"] = $row["percentage"];
+                        $result["set"][(int) $row["usr_id"]]["obj_" . $obj_id] = (int) $row["status"];
+                        $result["set"][(int) $row["usr_id"]]["obj_" . $obj_id . "_perc"] = (int) $row["percentage"];
                         if ($obj_id == $parent_obj_id) {
-                            $result["set"][$row["usr_id"]]["status_changed"] = $row["status_changed"];
-                            $result["set"][$row["usr_id"]]["last_access"] = $row["last_access"];
-                            $result["set"][$row["usr_id"]]["spent_seconds"] = $row["spent_seconds"];
-                            $result["set"][$row["usr_id"]]["read_count"] = $row["read_count"];
+                            $result["set"][(int) $row["usr_id"]]["status_changed"] = (int) $row["status_changed"];
+                            $result["set"][(int) $row["usr_id"]]["last_access"] = (int) $row["last_access"];
+                            $result["set"][(int) $row["usr_id"]]["spent_seconds"] = (int) $row["spent_seconds"];
+                            $result["set"][(int) $row["usr_id"]]["read_count"] = (int) $row["read_count"];
                         }
-                        
+
+                        // @todo int cast?
                         foreach ($fields as $field) {
                             // #14957 - value [as] language
                             if (stristr($field, "language")) {
@@ -1473,7 +1384,7 @@ class ilTrQuery
                                 // #14955
                                 if ($obj_id == $parent_obj_id ||
                                     !in_array($field, array("mark", "u_comment"))) {
-                                    $result["set"][$row["usr_id"]][$field] = $row[$field];
+                                    $result["set"][(int) $row["usr_id"]][$field] = $row[$field];
                                 }
                             }
                         }
@@ -1492,11 +1403,11 @@ class ilTrQuery
         return $result;
     }
 
-    public static function getUserObjectiveMatrix($a_parent_obj_id, $a_users)
+    public static function getUserObjectiveMatrix(int $a_parent_obj_id, array $a_users) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         if ($a_parent_obj_id && $a_users) {
             $res = array();
@@ -1519,16 +1430,16 @@ class ilTrQuery
             }
             
             $query = "SELECT * FROM loc_user_results" .
-                " WHERE " . $ilDB->in("objective_id", $objective_ids, "", "integer") .
-                " AND " . $ilDB->in("user_id", $a_users, "", "integer");
-            if (!(bool) $initial_qualifying) {
+                " WHERE " . $ilDB->in("objective_id", $objective_ids, false, "integer") .
+                " AND " . $ilDB->in("user_id", $a_users, false, "integer");
+            if (!$initial_qualifying) {
                 $query .= " AND type = " . $ilDB->quote(ilLOUserResults::TYPE_QUALIFIED, "integer");
             }
             $query .= " ORDER BY type"; // qualified must come last!
             $set = $ilDB->query($query);
             while ($row = $ilDB->fetchAssoc($set)) {
-                $objective_id = $row["objective_id"];
-                $user_id = $row["user_id"];
+                $objective_id = (int) $row["objective_id"];
+                $user_id = (int) $row["user_id"];
                 
                 // if both initial and qualified, qualified will overwrite initial
                 
@@ -1536,7 +1447,7 @@ class ilTrQuery
                 if ($row["status"] == ilLOUserResults::STATUS_COMPLETED) {
                     $res[$user_id][$objective_id] = ilLPStatus::LP_STATUS_COMPLETED_NUM;
                 } elseif ($row["status"] == ilLOUserResults::STATUS_FAILED) {
-                    $res[$user_id][$objective_id] = $row["is_final"]
+                    $res[$user_id][$objective_id] = (int) $row["is_final"]
                         ? ilLPStatus::LP_STATUS_FAILED_NUM
                         : ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
                 }
@@ -1544,9 +1455,10 @@ class ilTrQuery
             
             return $res;
         }
+        return [];
     }
 
-    public static function getObjectAccessStatistics(array $a_ref_ids, $a_year, $a_month = null)
+    public static function getObjectAccessStatistics(array $a_ref_ids, string $a_year, ?string $a_month = null) : array
     {
         global $DIC;
 
@@ -1572,8 +1484,8 @@ class ilTrQuery
         $sql .= " GROUP BY obj_id," . $column;
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
-            $row["read_count"] += $row["childs_read_count"];
-            $row["spent_seconds"] += $row["childs_spent_seconds"];
+            $row["read_count"] += (int) $row["childs_read_count"];
+            $row["spent_seconds"] += (int) $row["childs_spent_seconds"];
             $res[$row["obj_id"]][$row[$column]]["read_count"] += $row["read_count"];
             $res[$row["obj_id"]][$row[$column]]["spent_seconds"] += $row["spent_seconds"];
         }
@@ -1591,13 +1503,13 @@ class ilTrQuery
         $sql .= " GROUP BY obj_id," . $column;
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
-            $res[$row["obj_id"]][$row[$column]]["users"] += $row["counter"];
+            $res[(int) $row["obj_id"]][$row[$column]]["users"] += (int) $row["counter"];
         }
         
         return $res;
     }
 
-    public static function getObjectTypeStatistics()
+    public static function getObjectTypeStatistics() : array
     {
         global $DIC;
 
@@ -1620,7 +1532,7 @@ class ilTrQuery
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[$row["type"]]["type"] = $row["type"];
             $res[$row["type"]]["references"]++;
-            $res[$row["type"]]["objects"][] = $row["obj_id"];
+            $res[$row["type"]]["objects"][] = (int) $row["obj_id"];
             if ($row[$tree->getTreePk()] < 0) {
                 $res[$row["type"]]["deleted"]++;
             }
@@ -1646,11 +1558,11 @@ class ilTrQuery
         return $res;
     }
     
-    public static function getWorkspaceBlogs($a_title = null)
+    public static function getWorkspaceBlogs(?string $a_title = null) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $res = array();
         
@@ -1667,13 +1579,12 @@ class ilTrQuery
         
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
-            $res[] = $row["obj_id"];
+            $res[] = (int) $row["obj_id"];
         }
-                
         return $res;
     }
     
-    public static function getPortfolios($a_title = null)
+    public static function getPortfolios(?string $a_title = null) : array
     {
         global $DIC;
 
@@ -1691,25 +1602,24 @@ class ilTrQuery
         
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
-            $res[] = $row["obj_id"];
+            $res[] = (int) $row["obj_id"];
         }
                 
         return $res;
     }
 
-    public static function getObjectDailyStatistics(array $a_ref_ids, $a_year, $a_month = null)
+    public static function getObjectDailyStatistics(array $a_ref_ids, string $a_year, ?string $a_month = null) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $obj_ids = array_keys($a_ref_ids);
 
         $res = array();
         $sql = "SELECT obj_id,hh,SUM(read_count) read_count,SUM(childs_read_count) childs_read_count," .
             "SUM(spent_seconds) spent_seconds,SUM(childs_spent_seconds) childs_spent_seconds" .
             " FROM obj_stat" .
-            " WHERE " . $ilDB->in("obj_id", $obj_ids, "", "integer") .
+            " WHERE " . $ilDB->in("obj_id", $obj_ids, false, "integer") .
             " AND yyyy = " . $ilDB->quote($a_year, "integer");
         if ($a_month) {
             $sql .= " AND mm = " . $ilDB->quote($a_month, "integer");
@@ -1717,15 +1627,15 @@ class ilTrQuery
         $sql .= " GROUP BY obj_id,hh";
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
-            $row["read_count"] += $row["childs_read_count"];
-            $row["spent_seconds"] += $row["childs_spent_seconds"];
+            $row["read_count"] += (int) $row["childs_read_count"];
+            $row["spent_seconds"] += (int) $row["childs_spent_seconds"];
             $res[$row["obj_id"]][(int) $row["hh"]]["read_count"] += $row["read_count"];
             $res[$row["obj_id"]][(int) $row["hh"]]["spent_seconds"] += $row["spent_seconds"];
         }
         return $res;
     }
 
-    public static function getObjectStatisticsMonthlySummary()
+    public static function getObjectStatisticsMonthlySummary() : array
     {
         global $DIC;
 
@@ -1738,21 +1648,21 @@ class ilTrQuery
         $res = array();
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = array("month" => $row["yyyy"] . "-" . $row["mm"],
-                "count" => $row["counter"]);
+                "count" => (int) $row["counter"]);
         }
         return $res;
     }
 
-    public static function deleteObjectStatistics(array $a_months)
+    public static function deleteObjectStatistics(array $a_months) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         // no combined column, have to concat
         $date_compare = $ilDB->in($ilDB->concat(array(array("yyyy", ""),
                         array($ilDB->quote("-", "text"), ""),
-                        array("mm", ""))), $a_months, "", "text");
+                        array("mm", ""))), $a_months, false, "text");
         $sql = "DELETE FROM obj_stat" .
             " WHERE " . $date_compare;
         $ilDB->manipulate($sql);
@@ -1774,12 +1684,18 @@ class ilTrQuery
         }
     }
     
-    public static function searchObjects($a_type, $a_title = null, $a_root = null, $a_hidden = null, $a_preset_obj_ids = null)
+    public static function searchObjects(
+        string $a_type,
+        ?string $a_title = null,
+        ?int $a_root = null,
+        ?array $a_hidden = null,
+        ?array $a_preset_obj_ids = null
+    ) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        $tree = $DIC['tree'];
+        $ilDB = $DIC->database();
+        $tree = $DIC->repositoryTree();
         
         if ($a_type == "lres") {
             $a_type = array('lm','sahs','htlm');
@@ -1794,7 +1710,7 @@ class ilTrQuery
         if (!is_array($a_type)) {
             $sql .= " AND o.type = " . $ilDB->quote($a_type, "text");
         } else {
-            $sql .= " AND " . $ilDB->in("o.type", $a_type, "", "text");
+            $sql .= " AND " . $ilDB->in("o.type", $a_type, false, "text");
         }
         
         if ($a_title) {
@@ -1816,12 +1732,11 @@ class ilTrQuery
             if ($a_root && $a_root != ROOT_FOLDER_ID) {
                 foreach (ilObject::_getAllReferences($row['obj_id']) as $ref_id) {
                     if ($tree->isGrandChild($a_root, $ref_id)) {
-                        $res[$row["obj_id"]][] = $row["ref_id"];
-                        continue;
+                        $res[$row["obj_id"]][] = (int) $row["ref_id"];
                     }
                 }
             } else {
-                $res[$row["obj_id"]][] = $row["ref_id"];
+                $res[$row["obj_id"]][] = (int) $row["ref_id"];
             }
         }
         return $res;
@@ -1829,11 +1744,8 @@ class ilTrQuery
     
     /**
      * check whether status (for all relevant users) exists
-     *
-     * @param array $a_obj_ids
-     * @param array $a_users
      */
-    protected static function refreshObjectsStatus(array $a_obj_ids, $a_users = null)
+    protected static function refreshObjectsStatus(array $a_obj_ids, ?array $a_users = null) : void
     {
         include_once("./Services/Tracking/classes/class.ilLPStatus.php");
         foreach ($a_obj_ids as $obj_id) {
@@ -1843,26 +1755,27 @@ class ilTrQuery
     
     /**
      * Get last update info for object statistics
-     *
-     * @return array
      */
-    public static function getObjectStatisticsLogInfo()
+    public static function getObjectStatisticsLogInfo() : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
         $set = $ilDB->query("SELECT COUNT(*) counter, MIN(tstamp) tstamp" .
             " FROM obj_stat_log");
         return $ilDB->fetchAssoc($set);
     }
     
-    public static function getObjectLPStatistics(array $a_obj_ids, $a_year, $a_month = null, $a_group_by_day = false)
+    public static function getObjectLPStatistics(
+        array $a_obj_ids,
+        int $a_year,
+        int $a_month = null,
+        bool $a_group_by_day = false
+    ) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
         if ($a_group_by_day) {
             $column = "dd";
         } else {
@@ -1877,7 +1790,7 @@ class ilTrQuery
             "MIN(failed) failed_min,AVG(failed) failed_avg,MAX(failed) failed_max," .
             "MIN(not_attempted) not_attempted_min,AVG(not_attempted) not_attempted_avg,MAX(not_attempted) not_attempted_max" .
             " FROM obj_lp_stat" .
-            " WHERE " . $ilDB->in("obj_id", $a_obj_ids, "", "integer") .
+            " WHERE " . $ilDB->in("obj_id", $a_obj_ids, false, "integer") .
             " AND yyyy = " . $ilDB->quote($a_year, "integer");
         if ($a_month) {
             $sql .= " AND mm = " . $ilDB->quote($a_month, "integer");
@@ -1885,13 +1798,14 @@ class ilTrQuery
         $sql .= " GROUP BY obj_id," . $column;
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
+            $row['obj_id'] = (int) $row['obj_id'];
             $res[] = $row;
         }
         
         return $res;
     }
     
-    public static function getObjectTypeStatisticsPerMonth($a_aggregation, $a_year = null)
+    public static function getObjectTypeStatisticsPerMonth(string $a_aggregation, ?string $a_year = null) : array
     {
         global $DIC;
 

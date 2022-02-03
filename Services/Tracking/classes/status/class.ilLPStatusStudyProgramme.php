@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * @author Richard Klees <richard.klees@concepts-and-training.de>
-*
-* @version $Id: class.ilLPStatusCollectionManual.php 40252 2013-03-01 12:21:49Z jluetzen $
 *
 * @package ilias-tracking
 *
@@ -12,38 +10,38 @@
 
 class ilLPStatusStudyProgramme extends ilLPStatus
 {
-    public static function _getCountInProgress($a_obj_id)
+    public static function _getCountInProgress(int $a_obj_id) : int
     {
         return count(self::_getInProgress($a_obj_id));
     }
     
-    public static function _getInProgress($a_obj_id)
+    public static function _getInProgress(int $a_obj_id) : array
     {
         $prg = new ilObjStudyProgramme($a_obj_id, false);
         return $prg->getIdsOfUsersWithNotCompletedAndRelevantProgress();
     }
     
-    public static function _getCountCompleted($a_obj_id)
+    public static function _getCountCompleted(int $a_obj_id) : int
     {
         return count(self::_getCompleted($a_obj_id));
     }
     
-    public static function _getCompleted($a_obj_id)
+    public static function _getCompleted(int $a_obj_id) : array
     {
         $prg = new ilObjStudyProgramme($a_obj_id, false);
         return $prg->getIdsOfUsersWithCompletedProgress();
     }
 
-    public static function _getFailed($a_obj_id)
+    public static function _getFailed(int $a_obj_id) : array
     {
         $prg = new ilObjStudyProgramme($a_obj_id, false);
         return $prg->getIdsOfUsersWithFailedProgress();
     }
 
-    public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         $prg = new ilObjStudyProgramme($a_obj_id, false);
-        $progresses = $prg->getProgressesOf($a_user_id);
+        $progresses = $prg->getProgressesOf($a_usr_id);
 
         $relevant = false;
         $failed = false;
@@ -69,7 +67,6 @@ class ilLPStatusStudyProgramme extends ilLPStatus
         if ($relevant) {
             return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
         }
-
         return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
 }

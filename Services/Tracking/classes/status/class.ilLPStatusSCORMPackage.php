@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,43 +21,23 @@
     +-----------------------------------------------------------------------------+
 */
 
-/**
-* @author Stefan Meyer <meyer@leifos.com>
-* @author Stefan Meyer <alex.killing@gmx.de>
-*
-* @version $Id$
-*
-*/
-
-include_once './Services/Tracking/classes/class.ilLPStatus.php';
-
 class ilLPStatusSCORMPackage extends ilLPStatus
 {
-    public function __construct($a_obj_id)
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        parent::__construct($a_obj_id);
-        $this->db = $ilDB;
-    }
-
-    public static function _getInProgress($a_obj_id)
+    public static function _getInProgress(int $a_obj_id) : array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $users = $status_info['in_progress'];
         return array_unique($users);
     }
 
-    public static function _getCompleted($a_obj_id)
+    public static function _getCompleted(int $a_obj_id) : array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $users = $status_info['completed'];
         return array_unique($users);
     }
 
-    public static function _getFailed($a_obj_id)
+    public static function _getFailed(int $a_obj_id) : array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $users = $status_info['failed'];
@@ -65,7 +45,7 @@ class ilLPStatusSCORMPackage extends ilLPStatus
     }
 
     
-    public static function _getStatusInfo($a_obj_id)
+    public static function _getStatusInfo(int $a_obj_id) : array
     {
         include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
         $status_info['subtype'] = "scorm2004";
@@ -80,13 +60,12 @@ class ilLPStatusSCORMPackage extends ilLPStatus
     
     /**
      * Determine status
-     *
      * @param	integer		object id
      * @param	integer		user id
      * @param	object		object (optional depends on object type)
      * @return	integer		status
      */
-    public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null):int
     {
         global $DIC;
 
@@ -95,7 +74,7 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         $ilLog = $DIC['ilLog'];
         
         include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-        $scorm_status = ilSCORM2004Tracking::_getProgressInfoOfUser($a_obj_id, $a_user_id);
+        $scorm_status = ilSCORM2004Tracking::_getProgressInfoOfUser($a_obj_id, $a_usr_id);
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($scorm_status) {
             case "in_progress":
@@ -112,7 +91,7 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         return $status;
     }
 
-    public function refreshStatus($a_obj_id, $a_users = null)
+    public function refreshStatus(int $a_obj_id, ?array $a_users = null) : void
     {
         parent::refreshStatus($a_obj_id, $a_users);
         
@@ -138,16 +117,8 @@ class ilLPStatusSCORMPackage extends ilLPStatus
             }
         }
     }
-    /**
-     * Determine percentage
-     *
-     * @param	integer		object id
-     * @param	integer		user id
-     * @param	object		object (optional depends on object type)
-     * @return	integer		percentage
-     */
-    public function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
+    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
     {
-        return null;//todo!
+        return 0;//todo!
     }
 }

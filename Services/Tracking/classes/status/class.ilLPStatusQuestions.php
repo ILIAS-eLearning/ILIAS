@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Tracking/classes/class.ilLPStatus.php';
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -12,18 +10,18 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
  */
 class ilLPStatusQuestions extends ilLPStatus
 {
-    public static function _getInProgress($a_obj_id)
+    public static function _getInProgress(int $a_obj_id) : array
     {
         include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         
         // Exclude all users with status completed.
-        $users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+        $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
 
         return $users;
     }
 
-    public static function _getCompleted($a_obj_id)
+    public static function _getCompleted(int $a_obj_id) : array
     {
         $usr_ids = array();
         
@@ -42,24 +40,16 @@ class ilLPStatusQuestions extends ilLPStatus
         return $usr_ids;
     }
 
-    /**
-     * Determine status
-     *
-     * @param	integer		object id
-     * @param	integer		user id
-     * @param	object		object (optional depends on object type)
-     * @return	integer		status
-     */
-    public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         
         include_once "Services/Tracking/classes/class.ilChangeEvent.php";
-        if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id)) {
+        if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
             $status = self::LP_STATUS_IN_PROGRESS_NUM;
             
             include_once "Modules/LearningModule/classes/class.ilLMTracker.php";
-            $tracker = ilLMTracker::getInstanceByObjId($a_obj_id, $a_user_id);
+            $tracker = ilLMTracker::getInstanceByObjId($a_obj_id, $a_usr_id);
             if ($tracker->getAllQuestionsCorrect()) {
                 $status = self::LP_STATUS_COMPLETED_NUM;
             }

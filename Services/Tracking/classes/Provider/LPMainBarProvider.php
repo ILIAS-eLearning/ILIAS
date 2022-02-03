@@ -1,5 +1,6 @@
-<?php namespace ILIAS\LearningProgress;
+<?php declare(strict_types=1);
 
+namespace ILIAS\LearningProgress;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ilObjUserTracking;
@@ -42,9 +43,9 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () {
-                        return (bool) (ilObjUserTracking::_enabledLearningProgress()
+                        return ilObjUserTracking::_enabledLearningProgress()
                             && (ilObjUserTracking::_hasLearningProgressOtherUsers()
-                                || ilObjUserTracking::_hasLearningProgressLearner()));
+                                || ilObjUserTracking::_hasLearningProgressLearner());
                     }
                 ),
         ];

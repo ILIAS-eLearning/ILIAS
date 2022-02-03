@@ -1,51 +1,52 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "Services/Tracking/classes/collection/class.ilLPCollection.php";
-
 /**
 * LP collection of repository objects
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @version $Id: class.ilLPCollections.php 40326 2013-03-05 11:39:24Z jluetzen $
-*
 * @ingroup ServicesTracking
 */
 class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 {
-    protected static $possible_items = array();
-    
-    public function getPossibleItems($a_ref_id, $a_full_data = false)
+    protected static array $possible_items = array();
+
+    protected ilTree $tree;
+    protected ilObjectDefinition $objDefinition;
+
+    public function __construct(int $a_obj_id, int $a_mode)
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-        $objDefinition = $DIC['objDefinition'];
-        
+        parent::__construct($a_obj_id, $a_mode);
+        $this->tree = $DIC->repositoryTree();
+        $this->objDefinition = $DIC['objDefinition'];
+    }
+
+    public function getPossibleItems(int $a_ref_id, bool $a_full_data = false) : array
+    {
+        global $DIC;
+
         $cache_idx = $a_ref_id . "__" . $a_full_data;
-        
         if (!isset(self::$possible_items[$cache_idx])) {
             $all_possible = array();
 
-            if (!$tree->isDeleted($a_ref_id)) {
+            if (!$this->tree->isDeleted($a_ref_id)) {
                 if (!$a_full_data) {
-                    $data = $tree->getRbacSubTreeInfo($a_ref_id);
+                    $data = $this->tree->getRbacSubtreeInfo($a_ref_id);
                 } else {
-                    $node = $tree->getNodeData($a_ref_id);
-                    $data = $tree->getSubTree($node);
+                    $node = $this->tree->getNodeData($a_ref_id);
+                    $data = $this->tree->getSubTree($node);
                 }
                 foreach ($data as $node) {
                     if (!$a_full_data) {
-                        $item_ref_id = $node['child'];
+                        $item_ref_id = (int) $node['child'];
                     } else {
-                        $item_ref_id = $node['ref_id'];
+                        $item_ref_id = (int) $node['ref_id'];
                     }
                     
                     // avoid recursion
-                    if ($item_ref_id == $a_ref_id ||
-                        !$this->validateEntry($item_ref_id, $node['type'])) {
+                    if ($item_ref_id == $a_ref_id || !$this->validateEntry($item_ref_id)) {
                         continue;
                     }
                     
@@ -83,7 +84,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                             break;
 
                         // repository plugin object?
-                        case $objDefinition->isPluginTypeName($node['type']):
+                        case $this->objDefinition->isPluginTypeName($node['type']):
                             $only_active = false;
                             if (!$this->isAssignedEntry($item_ref_id)) {
                                 $only_active = true;
@@ -112,16 +113,13 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return self::$possible_items[$cache_idx];
     }
     
-    protected function validateEntry($a_item_ref_id, $a_item_type = null)
+    protected function validateEntry(int $a_item_id) : bool
     {
-        if (!$a_item_type) {
-            $a_item_type = ilObject::_lookupType($a_item_ref_id, true);
-        }
-        
+        $a_item_type = ilObject::_lookupType($a_item_id, true);
         // this is hardcoded so we do not need to call all ObjectLP types
         if ($a_item_type == 'tst') {
             // Check anonymized
-            $item_obj_id = ilObject::_lookupObjId($a_item_ref_id);
+            $item_obj_id = ilObject::_lookupObjId($a_item_id);
             $olp = ilObjectLP::getInstance($item_obj_id);
             if ($olp->isAnonymized()) {
                 return false;
@@ -130,7 +128,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return true;
     }
     
-    public function cloneCollection($a_target_id, $a_copy_id)
+    public function cloneCollection(int $a_target_id, int $a_copy_id) : void
     {
         parent::cloneCollection($a_target_id, $a_copy_id);
         
@@ -168,47 +166,35 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
     }
     
     
-    //
-    // CRUD
-    //
-    
-    protected function read($a_obj_id)
+    protected function read(int $a_obj_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $items = array();
         
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
         $ref_id = end($ref_ids);
         $possible = $this->getPossibleItems($ref_id);
         
-        $res = $ilDB->query("SELECT utc.item_id, obd.type" .
+        $res = $this->db->query("SELECT utc.item_id, obd.type" .
             " FROM ut_lp_collections utc" .
             " JOIN object_reference obr ON item_id = ref_id" .
             " JOIN object_data obd ON obr.obj_id = obd.obj_id" .
-            " WHERE utc.obj_id = " . $ilDB->quote($a_obj_id, "integer") .
-            " AND active = " . $ilDB->quote(1, "integer") .
+            " WHERE utc.obj_id = " . $this->db->quote($a_obj_id, "integer") .
+            " AND active = " . $this->db->quote(1, "integer") .
             " ORDER BY title");
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (in_array($row->item_id, $possible) &&
-                $this->validateEntry($row->item_id, $row->type)) {
+                $this->validateEntry((int) $row->item_id)) {
                 $items[] = $row->item_id;
             } else {
-                $this->deleteEntry($row->item_id);
+                $this->deleteEntry((int) $row->item_id);
             }
         }
         
         $this->items = $items;
     }
     
-    protected function addEntry($a_item_id)
+    protected function addEntry(int $a_item_id) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         // only active entries are assigned!
         if (!$this->isAssignedEntry($a_item_id)) {
             // #13278 - because of grouping inactive items may exist
@@ -216,44 +202,35 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             
             $query = "INSERT INTO ut_lp_collections" .
                 " (obj_id, lpmode, item_id, grouping_id, num_obligatory, active)" .
-                " VALUES (" . $ilDB->quote($this->obj_id, "integer") .
-                ", " . $ilDB->quote($this->mode, "integer") .
-                ", " . $ilDB->quote($a_item_id, "integer") .
-                ", " . $ilDB->quote(0, "integer") .
-                ", " . $ilDB->quote(0, "integer") .
-                ", " . $ilDB->quote(1, "integer") .
+                " VALUES (" . $this->db->quote($this->obj_id, "integer") .
+                ", " . $this->db->quote($this->mode, "integer") .
+                ", " . $this->db->quote($a_item_id, "integer") .
+                ", " . $this->db->quote(0, "integer") .
+                ", " . $this->db->quote(0, "integer") .
+                ", " . $this->db->quote(1, "integer") .
                 ")";
-            $ilDB->manipulate($query);
+            $this->db->manipulate($query);
             $this->items[] = $a_item_id;
         }
         return true;
     }
     
-    protected function deleteEntry($a_item_id)
+    protected function deleteEntry(int $a_item_id) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM ut_lp_collections " .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-            " AND item_id = " . $ilDB->quote($a_item_id, "integer") .
-            " AND grouping_id = " . $ilDB->quote(0, "integer");
-        $ilDB->manipulate($query);
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
+            " AND item_id = " . $this->db->quote($a_item_id, "integer") .
+            " AND grouping_id = " . $this->db->quote(0, "integer");
+        $this->db->manipulate($query);
         return true;
     }
     
     
-    //
-    // GROUPING
-    //
-
-    public static function hasGroupedItems($a_obj_id)
+    public static function hasGroupedItems(int $a_obj_id) : bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
         $query = "SELECT item_id FROM ut_lp_collections" .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND grouping_id > " . $ilDB->quote(0, "integer");
@@ -261,7 +238,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return $res->numRows() ? true : false;
     }
     
-    protected function getGroupingIds(array $a_item_ids)
+    protected function getGroupingIds(array $a_item_ids) : array
     {
         global $DIC;
 
@@ -270,10 +247,10 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $grouping_ids = array();
         
         $query = "SELECT grouping_id FROM ut_lp_collections" .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-            " AND " . $ilDB->in("item_id", $a_item_ids, false, "integer") .
-            " AND grouping_id > " . $ilDB->quote(0, "integer");
-        $res = $ilDB->query($query);
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
+            " AND " . $this->db->in("item_id", $a_item_ids, false, "integer") .
+            " AND grouping_id > " . $this->db->quote(0, "integer");
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $grouping_ids[] = $row->grouping_id;
         }
@@ -281,58 +258,44 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return $grouping_ids;
     }
 
-    public function deactivateEntries(array $a_item_ids)
+    public function deactivateEntries(array $a_item_ids) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         parent::deactivateEntries($a_item_ids);
     
         $grouping_ids = $this->getGroupingIds($a_item_ids);
         if ($grouping_ids) {
             $query = "UPDATE ut_lp_collections" .
-                " SET active = " . $ilDB->quote(0, "integer") .
-                " WHERE " . $ilDB->in("grouping_id", $grouping_ids, false, "integer") .
-                " AND obj_id = " . $ilDB->quote($this->obj_id, "integer");
-            $ilDB->manipulate($query);
+                " SET active = " . $this->db->quote(0, "integer") .
+                " WHERE " . $this->db->in("grouping_id", $grouping_ids, false, "integer") .
+                " AND obj_id = " . $this->db->quote($this->obj_id, "integer");
+            $this->db->manipulate($query);
         }
     }
 
-    public function activateEntries(array $a_item_ids)
+    public function activateEntries(array $a_item_ids) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         parent::activateEntries($a_item_ids);
         
         $grouping_ids = $this->getGroupingIds($a_item_ids);
         if ($grouping_ids) {
             $query = "UPDATE ut_lp_collections" .
-                " SET active = " . $ilDB->quote(1, "integer") .
-                " WHERE " . $ilDB->in("grouping_id", $grouping_ids, false, "integer") .
-                " AND obj_id = " . $ilDB->quote($this->obj_id, "integer");
-            $ilDB->manipulate($query);
+                " SET active = " . $this->db->quote(1, "integer") .
+                " WHERE " . $this->db->in("grouping_id", $grouping_ids, false, "integer") .
+                " AND obj_id = " . $this->db->quote($this->obj_id, "integer");
+            $this->db->manipulate($query);
         }
     }
 
-    public function createNewGrouping(array $a_item_ids, $a_num_obligatory = 1)
+    public function createNewGrouping(array $a_item_ids, int $a_num_obligatory = 1) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $this->activateEntries($a_item_ids);
         
         $all_item_ids = array();
-        
         $grouping_ids = $this->getGroupingIds($a_item_ids);
-
         $query = "SELECT item_id FROM ut_lp_collections" .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-            " AND " . $ilDB->in("grouping_id", $grouping_ids, false, "integer");
-        $res = $ilDB->query($query);
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
+            " AND " . $this->db->in("grouping_id", $grouping_ids, false, "integer");
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $all_item_ids[] = $row->item_id;
         }
@@ -343,52 +306,43 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
         // Create new grouping
         $query = "SELECT MAX(grouping_id) grp FROM ut_lp_collections" .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
             " GROUP BY obj_id";
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         $grp_id = $row->grp;
         ++$grp_id;
 
         $query = "UPDATE ut_lp_collections SET" .
-            " grouping_id = " . $ilDB->quote($grp_id, "integer") .
-            ", num_obligatory = " . $ilDB->quote($a_num_obligatory, "integer") .
-            ", active = " . $ilDB->quote(1, "integer") .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-            " AND " . $ilDB->in("item_id", $all_item_ids, false, "integer");
-        $ilDB->manipulate($query);
+            " grouping_id = " . $this->db->quote($grp_id, "integer") .
+            ", num_obligatory = " . $this->db->quote($a_num_obligatory, "integer") .
+            ", active = " . $this->db->quote(1, "integer") .
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
+            " AND " . $this->db->in("item_id", $all_item_ids, false, "integer");
+        $this->db->manipulate($query);
 
-        return;
     }
     
-    public function releaseGrouping(array $a_item_ids)
+    public function releaseGrouping(array $a_item_ids) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $grouping_ids = $this->getGroupingIds($a_item_ids);
 
         $query = "UPDATE ut_lp_collections" .
-            " SET grouping_id = " . $ilDB->quote(0, "integer") .
-            ", num_obligatory = " . $ilDB->quote(0, "integer") .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-            " AND " . $ilDB->in("grouping_id", $grouping_ids, false, "integer");
-        $ilDB->manipulate($query);
+            " SET grouping_id = " . $this->db->quote(0, "integer") .
+            ", num_obligatory = " . $this->db->quote(0, "integer") .
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
+            " AND " . $this->db->in("grouping_id", $grouping_ids, false, "integer");
+        $this->db->manipulate($query);
     }
 
-    public function saveObligatoryMaterials(array $a_obl)
+    public function saveObligatoryMaterials(array $a_obl) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         foreach ($a_obl as $grouping_id => $num) {
             $query = "SELECT count(obj_id) num FROM ut_lp_collections" .
-                " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-                " AND grouping_id = " . $ilDB->quote($grouping_id, 'integer') .
+                " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
+                " AND grouping_id = " . $this->db->quote($grouping_id, 'integer') .
                 " GROUP BY obj_id";
-            $res = $ilDB->query($query);
+            $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 if ($num <= 0 || $num >= $row->num) {
                     throw new UnexpectedValueException();
@@ -397,19 +351,15 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         }
         foreach ($a_obl as $grouping_id => $num) {
             $query = "UPDATE ut_lp_collections" .
-                " SET num_obligatory = " . $ilDB->quote($num, "integer") .
-                " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-                " AND grouping_id = " . $ilDB->quote($grouping_id, "integer");
-            $ilDB->manipulate($query);
+                " SET num_obligatory = " . $this->db->quote($num, "integer") .
+                " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
+                " AND grouping_id = " . $this->db->quote($grouping_id, "integer");
+            $this->db->manipulate($query);
         }
     }
 
     
-    //
-    // TABLE GUI
-    //
-    
-    public function getTableGUIData($a_parent_ref_id)
+    public function getTableGUIData(int $a_parent_ref_id) : array
     {
         $items = $this->getPossibleItems($a_parent_ref_id, true);
     
@@ -439,14 +389,12 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                     $done[] = $grouped_item_id;
                 }
             }
-            
             $data[] = $table_item;
         }
-        
         return $data;
     }
     
-    protected function parseTableGUIItem($a_id, array $a_item)
+    protected function parseTableGUIItem(int $a_id, array $a_item) : array
     {
         $table_item = $a_item;
         $table_item['id'] = $a_id;
@@ -460,56 +408,44 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return $table_item;
     }
     
-    protected function getTableGUItemGroup($item_id)
+    protected function getTableGUItemGroup(int $item_id) : array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $items = array();
-
         $query = "SELECT grouping_id FROM ut_lp_collections" .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-            " AND item_id = " . $ilDB->quote($item_id, "integer");
-        $res = $ilDB->query($query);
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
+            " AND item_id = " . $this->db->quote($item_id, "integer");
+        $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         $grouping_id = $row->grouping_id;
         if ($grouping_id > 0) {
             $query = "SELECT item_id, num_obligatory FROM ut_lp_collections" .
-                " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-                " AND grouping_id = " . $ilDB->quote($grouping_id, "integer");
-            $res = $ilDB->query($query);
+                " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
+                " AND grouping_id = " . $this->db->quote($grouping_id, "integer");
+            $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $items['items'][] = $row->item_id;
-                $items['num_obligatory'] = $row->num_obligatory;
-                $items['grouping_id'] = $grouping_id;
+                $items['items'][] = (int) $row->item_id;
+                $items['num_obligatory'] = (int) $row->num_obligatory;
+                $items['grouping_id'] = (int) $grouping_id;
             }
         }
-        
         return $items;
     }
     
-    public function getGroupedItemsForLPStatus()
+    public function getGroupedItemsForLPStatus() : array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $items = $this->getItems();
-
         $query = " SELECT * FROM ut_lp_collections" .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-            " AND active = " . $ilDB->quote(1, "integer");
-        $res = $ilDB->query($query);
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
+            " AND active = " . $this->db->quote(1, "integer");
+        $res = $this->db->query($query);
 
         $grouped = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (in_array($row->item_id, $items)) {
-                $grouped[$row->grouping_id]['items'][] = $row->item_id;
-                $grouped[$row->grouping_id]['num_obligatory'] = $row->num_obligatory;
+                $grouped[$row->grouping_id]['items'][] = (int) $row->item_id;
+                $grouped[$row->grouping_id]['num_obligatory'] = (int) $row->num_obligatory;
             }
         }
-        
         return $grouped;
     }
 }

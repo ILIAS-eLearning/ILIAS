@@ -233,7 +233,7 @@ class ilObjectLP
         return ilLPObjSettings::_mode2InfoText($a_mode);
     }
     
-    public function getSettingsInfo()
+    public function getSettingsInfo() : string
     {
         // type-specific
     }

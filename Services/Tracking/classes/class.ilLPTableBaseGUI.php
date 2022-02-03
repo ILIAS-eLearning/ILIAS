@@ -12,21 +12,33 @@
 */
 class ilLPTableBaseGUI extends ilTable2GUI
 {
-    const HIT_LIMIT = 5000;
+    public const HIT_LIMIT = 5000;
 
-    protected $filter; // array
-    protected $anonymized; // [bool]
+    protected array $filter = [];
+    protected bool $anonymized;
 
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
+    private ilObjUser $user;
+    protected ilSetting $setting;
+    protected ilObjectDataCache $ilObjDataCache;
+    protected ilObjectDefinition $objDefinition;
+    protected ilTree $tree;
+
+
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd = "", string $a_template_context = "")
     {
+        global $DIC;
+
+        $this->objDefinition = $DIC['objDefinition'];
+        $this->ilObjDataCache = $DIC['ilObjDataCache'];
+        $this->tree = $DIC->repositoryTree();
+        $this->user = $DIC->user();
+        $this->setting = $DIC->settings();
+
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
         // country names
         $this->lng->loadLanguageModule("meta");
-        
-        include_once("./Services/Object/classes/class.ilObjectLP.php");
-        
-        $this->anonymized = (bool) !ilObjUserTracking::_enabledUserRelatedData();
+        $this->anonymized = !ilObjUserTracking::_enabledUserRelatedData();
         if (!$this->anonymized && $this->obj_id) {
             include_once "Services/Object/classes/class.ilObjectLP.php";
             $olp = ilObjectLP::getInstance($this->obj_id);
@@ -36,17 +48,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
     public function executeCommand() : bool
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
         $this->determineSelectedFilters();
-
-        if (!$ilCtrl->getNextClass($this)) {
+        if (!$this->ctrl->getNextClass($this)) {
             $to_hide = false;
 
-            switch ($ilCtrl->getCmd()) {
+            switch ($this->ctrl->getCmd()) {
                 case "applyFilter":
                     $this->resetOffset();
                     $this->writeFilterToSession();
@@ -67,7 +73,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 
                 case "mailselectedusers":
                     if (!sizeof($_POST["uid"])) {
-                        ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+                        ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
                     } else {
                         $this->sendMail($_POST["uid"], $this->parent_obj, $this->parent_cmd);
                     }
@@ -75,7 +81,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     
                 case 'addToClipboard':
                     if (!sizeof($_POST['uid'])) {
-                        ilUtil::sendFailure($lng->txt('no_checkbox'), true);
+                        ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
                     } else {
                         $this->addToClipboard();
                     }
@@ -96,20 +102,21 @@ class ilLPTableBaseGUI extends ilTable2GUI
             }
 
             if (isset($_REQUEST["tbltplcrt"])) {
-                $ilCtrl->setParameter($this->parent_obj, "tbltplcrt", $_REQUEST["tbltplcrt"]);
+                $this->ctrl->setParameter($this->parent_obj, "tbltplcrt", $_REQUEST["tbltplcrt"]);
             }
             if (isset($_REQUEST["tbltpldel"])) {
-                $ilCtrl->setParameter($this->parent_obj, "tbltpldel", $_REQUEST["tbltpldel"]);
+                $this->ctrl->setParameter($this->parent_obj, "tbltpldel", $_REQUEST["tbltpldel"]);
             }
 
-            $ilCtrl->redirect($this->parent_obj, $this->parent_cmd);
+            $this->ctrl->redirect($this->parent_obj, $this->parent_cmd);
         } else {
             // e.g. repository selector
             return parent::executeCommand();
         }
+        return true;
     }
     
-    protected function sendMail(array $a_user_ids, $a_parent_obj, $a_parent_cmd)
+    protected function sendMail(array $a_user_ids, $a_parent_obj, string $a_parent_cmd) : void
     {
         // see ilObjCourseGUI::sendMailToSelectedUsersObject()
         
@@ -159,19 +166,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
     /**
      * Search objects that match current filters
-     *
-     * @param array	$filter
-     * @param string	$permission
-     * @param array preset obj_ids
-     * @param bool check lp activation
-     * @return	array
      */
-    protected function searchObjects(array $filter, $permission, array $preset_obj_ids = null, $a_check_lp_activation = true)
+    protected function searchObjects(array $filter, string $permission, ?array $preset_obj_ids = null, bool $a_check_lp_activation = true) : array
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-                
         include_once './Services/Search/classes/class.ilQueryParser.php';
 
         $query_parser = new ilQueryParser($filter["query"]);
@@ -181,7 +178,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         if (!$query_parser->validate()) {
             ilLoggerFactory::getLogger('trac')->notice($query_parser->getMessage());
             // echo $query_parser->getMessage();
-            return false;
+            return [];
         }
 
         if ($filter["type"] == "lres") {
@@ -218,7 +215,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         foreach ($res->getResults() as $obj_data) {
             $objects[$obj_data['obj_id']][] = $obj_data['ref_id'];
         }
-        return $objects ? $objects : array();
+        return $objects ?: array();
     }
 
     /**
@@ -226,7 +223,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
      * Checks wheather the object is hidden and mode is not LP_MODE_DEACTIVATED
      * @access public
      */
-    public function searchFilterListener($a_ref_id, $a_data)
+    public function searchFilterListener(int $a_ref_id, array $a_data) : bool
     {
         if (is_array($this->filter["hide"]) && in_array($a_data["obj_id"], $this->filter["hide"])) {
             return false;
@@ -241,16 +238,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
     
     /**
      * Init filter
-     *
-     * @param bool $a_split_learning_resources
      */
-    public function initBaseFilter($a_split_learning_resources = false, $a_include_no_status_filter = true)
+    public function initBaseFilter(bool $a_split_learning_resources = false, bool $a_include_no_status_filter = true)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
         $this->setDisableFilterHiding(true);
         
         // object type selection
@@ -266,7 +256,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
         // hidden items
         include_once("./Services/Form/classes/class.ilMultiSelectInputGUI.php");
-        $msi = new ilMultiSelectInputGUI($lng->txt("trac_filter_hidden"), "hide");
+        $msi = new ilMultiSelectInputGUI($this->lng->txt("trac_filter_hidden"), "hide");
         $this->addFilterItem($msi);
         $msi->readFromSession();
         $this->filter["hide"] = $msi->getValue();
@@ -281,8 +271,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $type = array($type);
             }
             foreach ($this->filter["hide"] as $obj_id) {
-                if (in_array($ilObjDataCache->lookupType($obj_id), $type)) {
-                    $options[$obj_id] = $ilObjDataCache->lookupTitle($obj_id);
+                if (in_array($this->ilObjDataCache->lookupType($obj_id), $type)) {
+                    $options[$obj_id] = $this->ilObjDataCache->lookupTitle($obj_id);
                 }
             }
             $msi->setOptions($options);
@@ -290,7 +280,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
         // title/description
         include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-        $ti = new ilTextInputGUI($lng->txt("trac_title_description"), "query");
+        $ti = new ilTextInputGUI($this->lng->txt("trac_title_description"), "query");
         $ti->setMaxLength(64);
         $ti->setSize(20);
         $this->addFilterItem($ti);
@@ -299,8 +289,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
         
         // repository area selection
         include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
-        $rs = new ilRepositorySelectorInputGUI($lng->txt("trac_filter_area"), "area");
-        $rs->setSelectText($lng->txt("trac_select_area"));
+        $rs = new ilRepositorySelectorInputGUI($this->lng->txt("trac_filter_area"), "area");
+        $rs->setSelectText($this->lng->txt("trac_select_area"));
         $this->addFilterItem($rs);
         $rs->readFromSession();
         $this->filter["area"] = $rs->getValue();
@@ -308,7 +298,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         // hide "not started yet"
         if ($a_include_no_status_filter) {
             include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
-            $cb = new ilCheckboxInputGUI($lng->txt("trac_filter_has_status"), "status");
+            $cb = new ilCheckboxInputGUI($this->lng->txt("trac_filter_has_status"), "status");
             $this->addFilterItem($cb);
             $cb->readFromSession();
             $this->filter["status"] = $cb->getChecked();
@@ -316,27 +306,17 @@ class ilLPTableBaseGUI extends ilTable2GUI
     }
 
     /**
-     * Build path with deep-link
-     *
-     * @param	array	$ref_ids
-     * @return	array
      */
-    protected function buildPath($ref_ids)
+    protected function buildPath(array $ref_ids) : array
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        include_once './Services/Link/classes/class.ilLink.php';
-        
         if (!count($ref_ids)) {
-            return false;
+            return [];
         }
+        $result = [];
         foreach ($ref_ids as $ref_id) {
             $path = "...";
             $counter = 0;
-            $path_full = $tree->getPathFull($ref_id);
+            $path_full = $this->tree->getPathFull($ref_id);
             foreach ($path_full as $data) {
                 if (++$counter < (count($path_full) - 1)) {
                     continue;
@@ -356,53 +336,45 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return $result;
     }
 
-    /**
-     * Get possible subtypes
-     *
-     * @param bool $a_split_learning_resources
-     * @param bool $a_include_digilib
-     * @param bool $a_allow_undefined_lp
-     */
-    protected function getPossibleTypes($a_split_learning_resources = false, $a_include_digilib = false, $a_allow_undefined_lp = false)
+    protected function getPossibleTypes(bool $a_split_learning_resources = false, bool $a_include_digilib = false, bool $a_allow_undefined_lp = false) : array
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
         $component_repository = $DIC['component.repository'];
 
         $options = array();
 
         if ($a_split_learning_resources) {
-            $options['lm'] = $lng->txt('objs_lm');
-            $options['sahs'] = $lng->txt('objs_sahs');
-            $options['htlm'] = $lng->txt('objs_htlm');
+            $options['lm'] = $this->lng->txt('objs_lm');
+            $options['sahs'] = $this->lng->txt('objs_sahs');
+            $options['htlm'] = $this->lng->txt('objs_htlm');
         } else {
-            $options['lres'] = $lng->txt('obj_lrss');
+            $options['lres'] = $this->lng->txt('obj_lrss');
         }
 
-        $options['crs'] = $lng->txt('objs_crs');
-        $options['grp'] = $lng->txt('objs_grp');
-        $options['exc'] = $lng->txt('objs_exc');
-        $options['file'] = $lng->txt('objs_file');
-        $options['mcst'] = $lng->txt('objs_mcst');
-        $options['svy'] = $lng->txt('objs_svy');
-        $options['tst'] = $lng->txt('objs_tst');
-        $options['prg'] = $lng->txt('objs_prg');
-        $options['iass'] = $lng->txt('objs_iass');
-        $options['copa'] = $lng->txt('objs_copa');
-        $options['frm'] = $lng->txt('objs_frm');
-        $options['cmix'] = $lng->txt('objs_cmix');
-        $options['lti'] = $lng->txt('objs_lti');
-        $options['lso'] = $lng->txt('objs_lso');
+        $options['crs'] = $this->lng->txt('objs_crs');
+        $options['grp'] = $this->lng->txt('objs_grp');
+        $options['exc'] = $this->lng->txt('objs_exc');
+        $options['file'] = $this->lng->txt('objs_file');
+        $options['mcst'] = $this->lng->txt('objs_mcst');
+        $options['svy'] = $this->lng->txt('objs_svy');
+        $options['tst'] = $this->lng->txt('objs_tst');
+        $options['prg'] = $this->lng->txt('objs_prg');
+        $options['iass'] = $this->lng->txt('objs_iass');
+        $options['copa'] = $this->lng->txt('objs_copa');
+        $options['frm'] = $this->lng->txt('objs_frm');
+        $options['cmix'] = $this->lng->txt('objs_cmix');
+        $options['lti'] = $this->lng->txt('objs_lti');
+        $options['lso'] = $this->lng->txt('objs_lso');
 
         if ($a_allow_undefined_lp) {
-            $options['root'] = $lng->txt('obj_reps');
-            $options['cat'] = $lng->txt('objs_cat');
-            $options["webr"] = $lng->txt("objs_webr");
-            $options["wiki"] = $lng->txt("objs_wiki");
-            $options["blog"] = $lng->txt("objs_blog");
-            $options["prtf"] = $lng->txt("objs_prtf");
-            $options["prtt"] = $lng->txt("objs_prtt");
+            $options['root'] = $this->lng->txt('obj_reps');
+            $options['cat'] = $this->lng->txt('objs_cat');
+            $options["webr"] = $this->lng->txt("objs_webr");
+            $options["wiki"] = $this->lng->txt("objs_wiki");
+            $options["blog"] = $this->lng->txt("objs_blog");
+            $options["prtf"] = $this->lng->txt("objs_prtf");
+            $options["prtt"] = $this->lng->txt("objs_prtt");
         }
         
         // repository plugins (currently only active)
@@ -419,12 +391,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return $options;
     }
 
-    protected function parseValue($id, $value, $type)
+    protected function parseValue(string $id, string $value, string $type) : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         // get rid of aggregation
         $pos = strrpos($id, "_");
         if ($pos !== false) {
@@ -438,7 +406,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
             if ($id == "title" &&
                 get_class($this) != "ilTrObjectUsersPropsTableGUI" &&
                 get_class($this) != "ilTrMatrixTableGUI") {
-                return "--" . $lng->txt("none") . "--";
+                return "--" . $this->lng->txt("none") . "--";
             }
             return " ";
         }
@@ -481,7 +449,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 break;
 
             case "gender":
-                $value = $lng->txt("gender_" . $value);
+                $value = $this->lng->txt("gender_" . $value);
                 break;
 
             case "status":
@@ -492,22 +460,22 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 break;
 
             case "language":
-                $lng->loadLanguageModule("meta");
-                $value = $lng->txt("meta_l_" . $value);
+                $this->lng->loadLanguageModule("meta");
+                $value = $this->lng->txt("meta_l_" . $value);
                 break;
 
             case "sel_country":
-                $value = $lng->txt("meta_c_" . $value);
+                $value = $this->lng->txt("meta_c_" . $value);
                 break;
         }
 
         return $value;
     }
 
-    public function getCurrentFilter($as_query = false)
+    public function getCurrentFilter(bool $as_query = false) : array
     {
         $result = array();
-        foreach ((array) $this->filter as $id => $value) {
+        foreach ($this->filter as $id => $value) {
             $item = $this->getFilterItemByPostVar($id);
             switch ($id) {
                 case "title":
@@ -522,7 +490,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 case "u_comment":
                 case "institution":
                 case "department":
-                case "title":
                 case "street":
                 case "zipcode":
                 case "email":
@@ -585,9 +552,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return $result;
     }
 
-    protected function isPercentageAvailable($a_obj_id)
+    protected function isPercentageAvailable(int $a_obj_id) : bool
     {
-        // :TODO:
         $olp = ilObjectLP::getInstance($a_obj_id);
         $mode = $olp->getCurrentMode();
         if (in_array($mode, array(ilLPObjSettings::LP_MODE_TLT,
@@ -607,46 +573,37 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return false;
     }
 
-    protected function parseTitle($a_obj_id, $action, $a_user_id = false)
+    protected function parseTitle(int $a_obj_id, string $action, int $a_user_id = 0)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilUser = $DIC['ilUser'];
-
         $user = "";
         if ($a_user_id) {
-            if ($a_user_id != $ilUser->getId()) {
+            if ($a_user_id != $this->user->getId()) {
                 $a_user = ilObjectFactory::getInstanceByObjId($a_user_id);
             } else {
-                $a_user = $ilUser;
+                $a_user = $this->user;
             }
             $user .= ", " . $a_user->getFullName(); // " [".$a_user->getLogin()."]";
         }
 
         if ($a_obj_id != ROOT_FOLDER_ID) {
-            $this->setTitle($lng->txt($action) . ": " . $ilObjDataCache->lookupTitle($a_obj_id) . $user);
+            $this->setTitle($this->lng->txt($action) . ": " . $this->ilObjDataCache->lookupTitle($a_obj_id) . $user);
             
             $olp = ilObjectLP::getInstance($a_obj_id);
             $this->setDescription($this->lng->txt('trac_mode') . ": " . $olp->getModeText($olp->getCurrentMode()));
         } else {
-            $this->setTitle($lng->txt($action));
+            $this->setTitle($this->lng->txt($action));
         }
     }
 
     /**
      * Build export meta data
-     *
-     * @return array
      */
-    protected function getExportMeta()
+    protected function getExportMeta() : array
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilUser = $DIC['ilUser'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
 
         /* see spec
@@ -663,18 +620,18 @@ class ilLPTableBaseGUI extends ilTable2GUI
         include_once './Services/Link/classes/class.ilLink.php';
         
         $data = array();
-        $data[$lng->txt("trac_name_of_installation")] = $ilClientIniFile->readVariable('client', 'name');
+        $data[$this->lng->txt("trac_name_of_installation")] = $ilClientIniFile->readVariable('client', 'name');
         
         if ($this->obj_id) {
-            $data[$lng->txt("trac_object_name")] = $ilObjDataCache->lookupTitle($this->obj_id);
+            $data[$this->lng->txt("trac_object_name")] = $this->ilObjDataCache->lookupTitle($this->obj_id);
             if ($this->ref_id) {
-                $data[$lng->txt("trac_object_link")] = ilLink::_getLink($this->ref_id, ilObject::_lookupType($this->obj_id));
+                $data[$this->lng->txt("trac_object_link")] = ilLink::_getLink($this->ref_id, ilObject::_lookupType($this->obj_id));
             }
-            $data[$lng->txt("trac_object_owner")] = ilObjUser::_lookupFullname(ilObject::_lookupOwner($this->obj_id));
+            $data[$this->lng->txt("trac_object_owner")] = ilObjUser::_lookupFullname(ilObject::_lookupOwner($this->obj_id));
         }
         
-        $data[$lng->txt("trac_report_date")] = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
-        $data[$lng->txt("trac_report_owner")] = $ilUser->getFullName();
+        $data[$this->lng->txt("trac_report_date")] = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
+        $data[$this->lng->txt("trac_report_owner")] = $this->user->getFullName();
         
         return $data;
     }
@@ -688,7 +645,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
         }
         $a_row++;
     }
-    
+
+
     protected function fillMetaCSV(ilCSVWriter $a_csv) : void
     {
         foreach ($this->getExportMeta() as $caption => $value) {
@@ -699,7 +657,12 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    protected function showTimingsWarning($a_ref_id, $a_user_id)
+    /**
+     * @param int $a_ref_id
+     * @param int $a_user_id
+     * @return bool|mixed
+     */
+    protected function showTimingsWarning(int $a_ref_id, int $a_user_id)
     {
         $timing_cache = ilTimingCache::getInstanceByRefId($a_ref_id);
         if ($timing_cache->isWarningRequired($a_user_id)) {
@@ -713,11 +676,12 @@ class ilLPTableBaseGUI extends ilTable2GUI
             }
             return $end;
         }
+        return false;
     }
     
-    protected function formatSeconds($seconds, $a_shorten_zero = false)
+    protected function formatSeconds(int $seconds, bool $a_shorten_zero = false) : string
     {
-        $seconds = ((int) $seconds > 0) ? $seconds : 0;
+        $seconds = ($seconds > 0) ? $seconds : 0;
         if ($a_shorten_zero && !$seconds) {
             return "-";
         }
@@ -734,27 +698,23 @@ class ilLPTableBaseGUI extends ilTable2GUI
         
         return sprintf("%dh%02dm", $hours, $minutes);
     }
-    
-    protected function anonymizeValue($a_value, $a_force_number = false)
+
+    /**
+     * @param mixed      $a_value
+     * @param false $a_force_number
+     * @return mixed
+     */
+    protected function anonymizeValue($a_value, bool $a_force_number = false)
     {
         // currently inactive
         return $a_value;
-        
-        if (is_numeric($a_value)) {
-            $threshold = 3;
-            $a_value = (int) $a_value;
-            if ($a_value <= $threshold) {
-                if (!$a_force_number) {
-                    return "0-" . $threshold;
-                } else {
-                    return $threshold;
-                }
-            }
-        }
-        return $a_value;
     }
     
-    protected function buildValueScale($a_max_value, $a_anonymize = false, $a_format_seconds = false)
+    protected function buildValueScale(
+        int $a_max_value,
+        bool $a_anonymize = false,
+        bool $a_format_seconds = false
+    ) : array
     {
         $step = 0;
         if ($a_max_value) {
@@ -784,12 +744,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return $value_ticks;
     }
     
-    protected function getMonthsFilter($a_short = false)
+    protected function getMonthsFilter($a_short = false) : array
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
         $options = array();
         for ($loop = 0; $loop < 10; $loop++) {
             $year = date("Y") - $loop;
@@ -798,7 +754,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $month = str_pad($loop2, 2, "0", STR_PAD_LEFT);
                 if ($year . $month <= date("Ym")) {
                     if (!$a_short) {
-                        $caption = $year . " / " . $lng->txt("month_" . $month . "_long");
+                        $caption = $year . " / " . $this->lng->txt("month_" . $month . "_long");
                     } else {
                         $caption = $year . "/" . $month;
                     }
@@ -809,12 +765,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return $options;
     }
     
-    protected function getMonthsYear($a_year = null, $a_short = false)
+    protected function getMonthsYear($a_year = null, $a_short = false) : array
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
         if (!$a_year) {
             $a_year = date("Y");
         }
@@ -824,9 +776,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
             $month = str_pad($loop, 2, "0", STR_PAD_LEFT);
             if ($a_year . "-" . $month <= date("Y-m")) {
                 if (!$a_short) {
-                    $caption = $lng->txt("month_" . $month . "_long");
+                    $caption = $this->lng->txt("month_" . $month . "_long");
                 } else {
-                    $caption = $lng->txt("month_" . $month . "_short");
+                    $caption = $this->lng->txt("month_" . $month . "_short");
                 }
                 $all[$a_year . "-" . $month] = $caption;
             }
@@ -834,13 +786,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return $all;
     }
         
-    protected function getSelectableUserColumns($a_in_course = false, $a_in_group = false)
+    protected function getSelectableUserColumns(int $a_in_course = 0, int $a_in_group = 0) : array
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilSetting = $DIC['ilSetting'];
-        
         $cols = $privacy_fields = array();
         
         include_once("./Services/User/classes/class.ilUserProfile.php");
@@ -852,15 +799,15 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
         // default fields
         $cols["login"] = array(
-            "txt" => $lng->txt("login"),
+            "txt" => $this->lng->txt("login"),
             "default" => true);
 
         if (!$this->anonymized) {
             $cols["firstname"] = array(
-                "txt" => $lng->txt("firstname"),
+                "txt" => $this->lng->txt("firstname"),
                 "default" => true);
             $cols["lastname"] = array(
-                "txt" => $lng->txt("lastname"),
+                "txt" => $this->lng->txt("lastname"),
                 "default" => true);
         }
 
@@ -869,27 +816,27 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $tracking = new ilObjUserTracking();
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
             $cols["first_access"] = array(
-                "txt" => $lng->txt("trac_first_access"),
+                "txt" => $this->lng->txt("trac_first_access"),
                 "default" => true);
             $cols["last_access"] = array(
-                "txt" => $lng->txt("trac_last_access"),
+                "txt" => $this->lng->txt("trac_last_access"),
                 "default" => true);
         }
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT)) {
             $cols["read_count"] = array(
-                "txt" => $lng->txt("trac_read_count"),
+                "txt" => $this->lng->txt("trac_read_count"),
                 "default" => true);
         }
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS) &&
             ilObjectLP::supportsSpentSeconds($this->type)) {
             $cols["spent_seconds"] = array(
-                "txt" => $lng->txt("trac_spent_seconds"),
+                "txt" => $this->lng->txt("trac_spent_seconds"),
                 "default" => true);
         }
 
         if ($this->isPercentageAvailable($this->obj_id)) {
             $cols["percentage"] = array(
-                "txt" => $lng->txt("trac_percentage"),
+                "txt" => $this->lng->txt("trac_percentage"),
                 "default" => true);
         }
 
@@ -897,29 +844,29 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $olp = ilObjectLP::getInstance($this->obj_id);
         if ($olp->isActive()) {
             $cols["status"] = array(
-                "txt" => $lng->txt("trac_status"),
+                "txt" => $this->lng->txt("trac_status"),
                 "default" => true);
 
             $cols['status_changed'] = array(
-                'txt' => $lng->txt('trac_status_changed'),
+                'txt' => $this->lng->txt('trac_status_changed'),
                 'default' => false);
         }
 
         if (ilObjectLP::supportsMark($this->type)) {
             $cols["mark"] = array(
-                "txt" => $lng->txt("trac_mark"),
+                "txt" => $this->lng->txt("trac_mark"),
                 "default" => true);
         }
 
         $cols["u_comment"] = array(
-            "txt" => $lng->txt("trac_comment"),
+            "txt" => $this->lng->txt("trac_comment"),
             "default" => false);
 
         $cols["create_date"] = array(
-            "txt" => $lng->txt("create_date"),
+            "txt" => $this->lng->txt("create_date"),
             "default" => false);
         $cols["language"] = array(
-            "txt" => $lng->txt("language"),
+            "txt" => $this->lng->txt("language"),
             "default" => false);
 
         // add user data only if object is [part of] course
@@ -932,16 +879,16 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 foreach ($ufs as $f => $fd) {
                     if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"]) {
                         if ($a_in_course &&
-                            !($fd["course_export_fix_value"] || $ilSetting->get("usr_settings_course_export_" . $f))) {
+                            !($fd["course_export_fix_value"] || $this->setting->get("usr_settings_course_export_" . $f))) {
                             continue;
                         }
                         if ($a_in_group &&
-                            !($fd["group_export_fix_value"] || $ilSetting->get("usr_settings_group_export_" . $f))) {
+                            !($fd["group_export_fix_value"] || $this->setting->get("usr_settings_group_export_" . $f))) {
                             continue;
                         }
 
                         $cols[$f] = array(
-                            "txt" => $lng->txt($f),
+                            "txt" => $this->lng->txt($f),
                             "default" => false);
 
                         $privacy_fields[] = $f;
@@ -975,15 +922,14 @@ class ilLPTableBaseGUI extends ilTable2GUI
     /**
      * Add selected users to clipboard
      */
-    protected function addToClipboard()
+    protected function addToClipboard() : void
     {
         $users = (array) $_POST['uid'];
         include_once './Services/User/classes/class.ilUserClipboard.php';
-        $clip = ilUserClipboard::getInstance($GLOBALS['DIC']['ilUser']->getId());
+        $clip = ilUserClipboard::getInstance($this->user->getId());
         $clip->add($users);
         $clip->save();
-        
-        $GLOBALS['DIC']['lng']->loadLanguageModule('user');
+        $this->lng->loadLanguageModule('user');
         ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'), true);
     }
 }

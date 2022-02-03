@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Tracking/classes/class.ilLPStatus.php';
@@ -6,15 +6,13 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 /**
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 *
-* @version $Id: class.ilLPStatusCollectionTLT.php 40252 2013-03-01 12:21:49Z jluetzen $
-*
 * @package ilias-tracking
 *
 */
 
 class ilLPStatusCollectionTLT extends ilLPStatus
 {
-    public static function _getInProgress($a_obj_id)
+    public static function _getInProgress(int $a_obj_id) : array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         
@@ -31,7 +29,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
         return $users;
     }
 
-    public static function _getCompleted($a_obj_id)
+    public static function _getCompleted(int $a_obj_id) : array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -51,18 +49,17 @@ class ilLPStatusCollectionTLT extends ilLPStatus
         return $users;
     }
     
-    public static function _getStatusInfo($a_obj_id, $a_include_tlt_data = false)
+    public static function _getStatusInfo(int $a_obj_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         $status_info = array();
-                                
         include_once "Services/Object/classes/class.ilObjectLP.php";
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
+            // @todo check if obj_id can be removed
             $status_info["items"] = $collection->getItems($a_obj_id);
                             
             include_once './Services/MetaData/classes/class.ilMDEducational.php';
@@ -98,22 +95,13 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                     } else {
                         $status_info["completed"][$row["obj_id"]][] = $row["usr_id"];
                     }
-
-                    if ($a_include_tlt_data) {
-                        $status_info["tlt_users"][$row["obj_id"]][$row["usr_id"]] = $row["spent_seconds"];
-                    }
                 }
             }
         }
-        
-        if (!$a_include_tlt_data) {
-            unset($status_info["tlt"]);
-        }
-        
         return $status_info;
     }
     
-    public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         $info = self::_getStatusInfo($a_obj_id);
                 
@@ -123,7 +111,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
             $completed = true;
             foreach ($info["completed"] as $user_ids) {
                 // must have completed all items to complete collection
-                if (!in_array($a_user_id, $user_ids)) {
+                if (!in_array($a_usr_id, $user_ids)) {
                     $completed = false;
                     break;
                 } else {
@@ -142,7 +130,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
         
         if (is_array($info["in_progress"])) {
             foreach ($info["in_progress"] as $user_ids) {
-                if (in_array($a_user_id, $user_ids)) {
+                if (in_array($a_usr_id, $user_ids)) {
                     return self::LP_STATUS_IN_PROGRESS_NUM;
                 }
             }

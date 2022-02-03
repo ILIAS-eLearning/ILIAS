@@ -13,41 +13,32 @@ interface ilLPStatusPluginInterface
 {
     /**
      * Get all user ids with LP status completed
-     *
-     * @return array
+     * @return int[]
      */
-    public function getLPCompleted();
-    
+    public function getLPCompleted():array;
+
     /**
      * Get all user ids with LP status not attempted
-     *
-     * @return array
+     * @return int[]
      */
-    public function getLPNotAttempted();
-    
+    public function getLPNotAttempted():array;
+
     /**
      * Get all user ids with LP status failed
-     *
      * @return array
      */
-    public function getLPFailed();
-    
+    public function getLPFailed():array;
+
     /**
      * Get all user ids with LP status in progress
-     *
      * @return array
      */
-    public function getLPInProgress();
-    
+    public function getLPInProgress():array;
+
     /**
      * Get current status for given user
-     *
      * @param int $a_user_id
      * @return int
      */
-    public function getLPStatusForUser($a_user_id);
-    
-    /*
-    public static function isLPMember(array &$a_res, $a_usr_id,  $a_obj_ids);
-    */
+    public function getLPStatusForUser(int $a_user_id):int;
 }

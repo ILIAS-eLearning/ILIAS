@@ -1,31 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Tracking/classes/class.ilLPStatus.php';
-
 /**
  * @author Stefan Meyer <meyer@leifos.com>
- *
- * @version $Id$
  *
  * @package ilias-tracking
  *
  */
 class ilLPStatusSCORM extends ilLPStatus
 {
-    public function __construct($a_obj_id)
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        parent::__construct($a_obj_id);
-        $this->db = $ilDB;
-    }
-
-
-    public static function _getInProgress($a_obj_id)
+    public static function _getInProgress(int $a_obj_id) : array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $users = array();
@@ -39,18 +24,14 @@ class ilLPStatusSCORM extends ilLPStatus
         return $users;
     }
 
-    public static function _getCompleted($a_obj_id)
+    public static function _getCompleted(int $a_obj_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
-
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-
         $items = $status_info['scos'];
-
         $counter = 0;
         $users = array();
         foreach ($items as $sco_id) {
@@ -67,7 +48,7 @@ class ilLPStatusSCORM extends ilLPStatus
         return $users;
     }
 
-    public static function _getFailed($a_obj_id)
+    public static function _getFailed(int $a_obj_id) : array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -76,44 +57,12 @@ class ilLPStatusSCORM extends ilLPStatus
         }
         $users = array();
         foreach ($status_info['scos'] as $sco_id) {
-            /* #17913 - max attempts were removed in 5.1
-            // max attempts vs. failed
-            if(sizeof($status_info['in_progress'][$sco_id]))
-            {
-                foreach($status_info['in_progress'][$sco_id] as $user_id)
-                {
-                    if(!in_array($user_id, $status_info['failed'][$sco_id]))
-                    {
-                        switch($status_info["subtype"])
-                        {
-                            case 'hacp':
-                            case 'aicc':
-                            case 'scorm':
-                                include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
-                                $has_max_attempts = ilObjSCORMTracking::_hasMaxAttempts($a_obj_id, $user_id);
-                                break;
-
-                            case 'scorm2004':
-                                include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-                                $has_max_attempts = ilSCORM2004Tracking::_hasMaxAttempts($a_obj_id, $user_id);
-                                break;
-                        }
-
-                        if($has_max_attempts)
-                        {
-                            $status_info['failed'][$sco_id][] = $user_id;
-                        }
-                    }
-                }
-            }
-            */
-            
             $users = array_merge($users, (array) $status_info['failed'][$sco_id]);
         }
         return array_unique($users);
     }
 
-    public static function _getNotAttempted($a_obj_id)
+    public static function _getNotAttempted(int $a_obj_id) : array
     {
         $users = array();
 
@@ -121,15 +70,15 @@ class ilLPStatusSCORM extends ilLPStatus
         if ($members) {
             // diff in progress and completed (use stored result in LPStatusWrapper)
             $users = array_diff((array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id));
-            $users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
-            $users = array_diff((array) $users, ilLPStatusWrapper::_getFailed($a_obj_id));
+            $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+            $users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
         }
 
         return $users;
     }
 
     
-    public static function _getStatusInfo($a_obj_id)
+    public static function _getStatusInfo(int $a_obj_id) : array
     {
         // Which sco's determine the status
         include_once './Services/Object/classes/class.ilObjectLP.php';
@@ -145,7 +94,7 @@ class ilLPStatusSCORM extends ilLPStatus
         // Get subtype
         include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
         $status_info['subtype'] = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
-        
+        $info = [];
         switch ($status_info['subtype']) {
             case 'hacp':
             case 'aicc':
@@ -188,40 +137,26 @@ class ilLPStatusSCORM extends ilLPStatus
         $status_info['failed'] = array();
         $status_info['in_progress'] = array();
         foreach ($status_info['scos'] as $sco_id) {
-            $status_info['completed'][$sco_id] = $info['completed'][$sco_id] ? $info['completed'][$sco_id] : array();
-            $status_info['failed'][$sco_id] = $info['failed'][$sco_id] ? $info['failed'][$sco_id] : array();
-            $status_info['in_progress'][$sco_id] = $info['in_progress'][$sco_id] ? $info['in_progress'][$sco_id] : array();
+            $status_info['completed'][$sco_id] = $info['completed'][$sco_id] ?: array();
+            $status_info['failed'][$sco_id] = $info['failed'][$sco_id] ?: array();
+            $status_info['in_progress'][$sco_id] = $info['in_progress'][$sco_id] ?: array();
         }
         //var_dump($status_info["completed"]);
         return $status_info;
     }
     
-    /**
-     * Determine status
-     *
-     * @param	integer		object id
-     * @param	integer		user id
-     * @param	object		object (optional depends on object type)
-     * @return	integer		status
-     */
-    public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         global $DIC;
 
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-        
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 
         // if the user has accessed the scorm object
         // the status is at least "in progress"
         include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
-        if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id)) {
+        if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
             $status = self::LP_STATUS_IN_PROGRESS_NUM;
         }
-        //$ilLog->write("-".$status."-");
-        
         // Which sco's determine the status
         include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_obj_id);
@@ -231,17 +166,18 @@ class ilLPStatusSCORM extends ilLPStatus
             if (sizeof($scos)) { // #15462 (#11513 - empty collections cannot be completed)
                 include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
                 $subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
+                $scorm_status = '';
                 switch ($subtype) {
                     case 'hacp':
                     case 'aicc':
                     case 'scorm':
                         include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
-                        $scorm_status = ilObjSCORMTracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
-                        break;
+                        $scorm_status = ilObjSCORMTracking::_getCollectionStatus($scos, $a_obj_id, $a_usr_id);
+                    break;
 
                     case 'scorm2004':
                         include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-                        $scorm_status = ilSCORM2004Tracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
+                        $scorm_status = ilSCORM2004Tracking::_getCollectionStatus($scos, $a_obj_id, $a_usr_id);
                         break;
                 }
                 
@@ -263,20 +199,14 @@ class ilLPStatusSCORM extends ilLPStatus
         return $status;
     }
 
-    /**
-     * Determine percentage
-     *
-     * @param	integer		object id
-     * @param	integer		user id
-     * @param	object		object (optional depends on object type)
-     * @return	integer		percentage
-     */
-    public function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
+    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
     {
         // Which sco's determine the status
         include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
+        $reqscos = 0;
+        $compl = 0;
         if ($collection) {
             $scos = $collection->getItems();
             $reqscos = count($scos);
@@ -285,10 +215,10 @@ class ilLPStatusSCORM extends ilLPStatus
             $subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
             if ($subtype != "scorm2004") {
                 include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
-                $compl = ilObjSCORMTracking::_countCompleted($scos, $a_obj_id, $a_user_id);
+                $compl = ilObjSCORMTracking::_countCompleted($scos, $a_obj_id, $a_usr_id);
             } else {
                 include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-                $compl = ilSCORM2004Tracking::_countCompleted($scos, $a_obj_id, $a_user_id, true);
+                $compl = ilSCORM2004Tracking::_countCompleted($scos, $a_obj_id, $a_usr_id, true);
             }
         }
 
@@ -301,7 +231,7 @@ class ilLPStatusSCORM extends ilLPStatus
         return $per;
     }
 
-    public function refreshStatus($a_obj_id, $a_users = null)
+    public function refreshStatus(int $a_obj_id, ?array $a_users = null) : void
     {
         parent::refreshStatus($a_obj_id, $a_users);
         
@@ -331,7 +261,7 @@ class ilLPStatusSCORM extends ilLPStatus
         if ($not_attempted_users) {
             foreach ($not_attempted_users as $usr_id) {
                 // this will update any (parent) collections if necessary
-                ilLPStatus::writeStatus($a_obj_id, $usr_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, 0);
+                ilLPStatus::writeStatus($a_obj_id, $usr_id, self::LP_STATUS_NOT_ATTEMPTED_NUM);
             }
         }
     }

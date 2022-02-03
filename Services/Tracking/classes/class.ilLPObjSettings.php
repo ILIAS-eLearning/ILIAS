@@ -1,67 +1,59 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilLPObjSettings
 *
 * @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
 * @package ilias-tracking
 *
 */
 class ilLPObjSettings
 {
-    public $db = null;
+    protected int $obj_id;
+    protected string $obj_type;
+    protected int $obj_mode;
+    protected int $visits = self::LP_DEFAULT_VISITS;
 
-    public $obj_id = null;
-    public $obj_type = null;
-    public $obj_mode = null;
-    public $visits = null;
-
-    public $is_stored = false;
+    protected bool $is_stored = false;
             
-    const LP_MODE_DEACTIVATED = 0;
-    const LP_MODE_TLT = 1;
-    const LP_MODE_VISITS = 2;
-    const LP_MODE_MANUAL = 3;
-    const LP_MODE_OBJECTIVES = 4;
-    const LP_MODE_COLLECTION = 5;
-    const LP_MODE_SCORM = 6;
-    const LP_MODE_TEST_FINISHED = 7;
-    const LP_MODE_TEST_PASSED = 8;
-    const LP_MODE_EXERCISE_RETURNED = 9;
-    const LP_MODE_EVENT = 10;
-    const LP_MODE_MANUAL_BY_TUTOR = 11;
-    const LP_MODE_SCORM_PACKAGE = 12;
-    const LP_MODE_UNDEFINED = 13;
-    const LP_MODE_PLUGIN = 14;
-    const LP_MODE_COLLECTION_TLT = 15;
-    const LP_MODE_COLLECTION_MANUAL = 16;
-    const LP_MODE_QUESTIONS = 17;
-    const LP_MODE_SURVEY_FINISHED = 18;
-    const LP_MODE_VISITED_PAGES = 19;
-    const LP_MODE_CONTENT_VISITED = 20;
-    const LP_MODE_COLLECTION_MOBS = 21;
-    const LP_MODE_STUDY_PROGRAMME = 22;
-    const LP_MODE_INDIVIDUAL_ASSESSMENT = 23;
-    const LP_MODE_CMIX_COMPLETED = 24;
-    const LP_MODE_CMIX_COMPL_WITH_FAILED = 25;
-    const LP_MODE_CMIX_PASSED = 26;
-    const LP_MODE_CMIX_PASSED_WITH_FAILED = 27;
-    const LP_MODE_CMIX_COMPLETED_OR_PASSED = 28;
-    const LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED = 29;
-
-    const LP_DEFAULT_VISITS = 30; // ???
-
-    const LP_MODE_LTI_OUTCOME = 31;
-    
-    const LP_MODE_COURSE_REFERENCE = 32;
-
+    public const LP_MODE_DEACTIVATED = 0;
+    public const LP_MODE_TLT = 1;
+    public const LP_MODE_VISITS = 2;
+    public const LP_MODE_MANUAL = 3;
+    public const LP_MODE_OBJECTIVES = 4;
+    public const LP_MODE_COLLECTION = 5;
+    public const LP_MODE_SCORM = 6;
+    public const LP_MODE_TEST_FINISHED = 7;
+    public const LP_MODE_TEST_PASSED = 8;
+    public const LP_MODE_EXERCISE_RETURNED = 9;
+    public const LP_MODE_EVENT = 10;
+    public const LP_MODE_MANUAL_BY_TUTOR = 11;
+    public const LP_MODE_SCORM_PACKAGE = 12;
+    public const LP_MODE_UNDEFINED = 13;
+    public const LP_MODE_PLUGIN = 14;
+    public const LP_MODE_COLLECTION_TLT = 15;
+    public const LP_MODE_COLLECTION_MANUAL = 16;
+    public const LP_MODE_QUESTIONS = 17;
+    public const LP_MODE_SURVEY_FINISHED = 18;
+    public const LP_MODE_VISITED_PAGES = 19;
+    public const LP_MODE_CONTENT_VISITED = 20;
+    public const LP_MODE_COLLECTION_MOBS = 21;
+    public const LP_MODE_STUDY_PROGRAMME = 22;
+    public const LP_MODE_INDIVIDUAL_ASSESSMENT = 23;
+    public const LP_MODE_CMIX_COMPLETED = 24;
+    public const LP_MODE_CMIX_COMPL_WITH_FAILED = 25;
+    public const LP_MODE_CMIX_PASSED = 26;
+    public const LP_MODE_CMIX_PASSED_WITH_FAILED = 27;
+    public const LP_MODE_CMIX_COMPLETED_OR_PASSED = 28;
+    public const LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED = 29;
+    public const LP_MODE_LTI_OUTCOME = 31;
+    public const LP_MODE_COURSE_REFERENCE = 32;
     public const LP_MODE_CONTRIBUTION_TO_DISCUSSION = 33;
 
-    protected static $map = array(
+    public const LP_DEFAULT_VISITS = 30;
+
+    protected static array $map = array(
         
         self::LP_MODE_DEACTIVATED => array('ilLPStatus',
             'trac_mode_deactivated', 'trac_mode_deactivated_info_new')
@@ -168,22 +160,22 @@ class ilLPObjSettings
         ],
     );
 
-    /**
-     * ilLPObjSettings constructor.
-     * @param int $a_obj_id
-     */
-    public function __construct($a_obj_id)
+
+    protected ilDBInterface $db;
+    protected ilObjectDataCache $objectDataCache;
+
+
+    public function __construct(int $a_obj_id)
     {
         global $DIC;
 
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilDB = $DIC['ilDB'];
+        $this->db = $DIC->database();
+        $this->objectDataCache = $DIC['ilObjDataCache'];
 
-        $this->db = $ilDB;
         $this->obj_id = $a_obj_id;
 
-        if (!$this->__read()) {
-            $this->obj_type = $ilObjDataCache->lookupType($this->obj_id);
+        if (!$this->read()) {
+            $this->obj_type = $this->objectDataCache->lookupType($this->obj_id);
             
             include_once "Services/Object/classes/class.ilObjectLP.php";
             $olp = ilObjectLP::getInstance($this->obj_id);
@@ -211,127 +203,109 @@ class ilLPObjSettings
             $this->db->quote($this->getMode(), 'integer') . ", " .
             $this->db->quote($this->getVisits(), 'integer') .
             ")";
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
         return true;
     }
 
-    public function getVisits()
+    public function getVisits() : int
     {
-        return (int) $this->visits ? $this->visits : self::LP_DEFAULT_VISITS;
+        return $this->visits;
     }
 
-    public function setVisits($a_visits)
+    public function setVisits(int $a_visits) : void
     {
         $this->visits = $a_visits;
     }
 
-    public function setMode($a_mode)
+    public function setMode(int $a_mode) : void
     {
         $this->obj_mode = $a_mode;
     }
     
-    public function getMode()
+    public function getMode() : int
     {
         return $this->obj_mode;
     }
 
-    public function getObjId()
+    public function getObjId() : int
     {
-        return (int) $this->obj_id;
+        return $this->obj_id;
     }
     
-    public function getObjType()
+    public function getObjType() : string
     {
         return $this->obj_type;
     }
     
-    public function __read()
+    public function read() : bool
     {
         $res = $this->db->query("SELECT * FROM ut_lp_settings WHERE obj_id = " .
             $this->db->quote($this->obj_id, 'integer'));
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->is_stored = true;
-            $this->obj_type = $row->obj_type;
-            $this->obj_mode = $row->u_mode;
-            $this->visits = $row->visits;
-
+            $this->obj_type = (string) $row->obj_type;
+            $this->obj_mode = (int) $row->u_mode;
+            $this->visits = (int) $row->visits;
             return true;
         }
-
         return false;
     }
 
-    public function update($a_refresh_lp = true)
+    public function update(bool $a_refresh_lp = true) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if (!$this->is_stored) {
             return $this->insert();
         }
-        $query = "UPDATE ut_lp_settings SET u_mode = " . $ilDB->quote($this->getMode(), 'integer') . ", " .
-            "visits = " . $ilDB->quote($this->getVisits(), 'integer') . " " .
-            "WHERE obj_id = " . $ilDB->quote($this->getObjId(), 'integer');
-        $res = $ilDB->manipulate($query);
-        $this->__read();
+        $query = "UPDATE ut_lp_settings SET u_mode = " . $this->db->quote($this->getMode(), 'integer') . ", " .
+            "visits = " . $this->db->quote($this->getVisits(), 'integer') . " " .
+            "WHERE obj_id = " . $this->db->quote($this->getObjId(), 'integer');
+        $res = $this->db->manipulate($query);
+        $this->read();
         
         if ($a_refresh_lp) {
             $this->doLPRefresh();
         }
-        
         return true;
     }
     
-    public function insert()
+    public function insert() : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "INSERT INTO ut_lp_settings (obj_id,obj_type,u_mode,visits) " .
             "VALUES(" .
-            $ilDB->quote($this->getObjId(), 'integer') . ", " .
-            $ilDB->quote($this->getObjType(), 'text') . ", " .
-            $ilDB->quote($this->getMode(), 'integer') . ", " .
-            $ilDB->quote($this->getVisits(), 'integer') .  // #12482
+            $this->db->quote($this->getObjId(), 'integer') . ", " .
+            $this->db->quote($this->getObjType(), 'text') . ", " .
+            $this->db->quote($this->getMode(), 'integer') . ", " .
+            $this->db->quote($this->getVisits(), 'integer') .  // #12482
             ")";
-        $res = $ilDB->manipulate($query);
-        $this->__read();
-    
+        $res = $this->db->manipulate($query);
+        $this->read();
         $this->doLPRefresh();
-
         return true;
     }
 
-    protected function doLPRefresh()
+    protected function doLPRefresh() : void
     {
         // refresh learning progress
         include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_refreshStatus($this->getObjId());
     }
 
-    public static function _delete($a_obj_id)
+    public static function _delete(int $a_obj_id) : bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
         $query = "DELETE FROM ut_lp_settings WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->manipulate($query);
-
         return true;
     }
 
 
-    // Static
-    
-    public static function _lookupVisits($a_obj_id)
+    public static function _lookupVisits(int $a_obj_id) : int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
         $query = "SELECT visits FROM ut_lp_settings " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer');
 
@@ -342,76 +316,69 @@ class ilLPObjSettings
         return self::LP_DEFAULT_VISITS;
     }
     
-    public static function _lookupDBModeForObjects(array $a_obj_ids)
+    public static function _lookupDBModeForObjects(array $a_obj_ids) : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         // this does NOT handle default mode!
-        
         $res = array();
-        
         $query = "SELECT obj_id, u_mode FROM ut_lp_settings" .
             " WHERE " . $ilDB->in("obj_id", $a_obj_ids, "", "integer");
         $set = $ilDB->query($query);
         while ($row = $set->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $res[$row->obj_id] = $row->u_mode;
+            $res[(int) $row->obj_id] = (int) $row->u_mode;
         }
-        
         return $res;
     }
 
-    public static function _lookupDBMode($a_obj_id)
+    public static function _lookupDBMode(int $a_obj_id) : int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         // this does NOT handle default mode!
-
         $query = "SELECT u_mode FROM ut_lp_settings" .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer");
         $set = $ilDB->query($query);
         $row = $ilDB->fetchAssoc($set);
         if (is_array($row)) {
-            return $row['u_mode'];
+            return (int) $row['u_mode'];
         }
+        return 0;
     }
         
-    public static function _mode2Text($a_mode)
+    public static function _mode2Text(int $a_mode) : string
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-
+        $lng = $DIC->language();
         if (array_key_exists($a_mode, self::$map) &&
             is_array(self::$map[$a_mode])) {
             return $lng->txt(self::$map[$a_mode][1]);
         }
+        return '';
     }
     
-    public static function _mode2InfoText($a_mode)
+    public static function _mode2InfoText(int $a_mode) : string
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        
+        $lng = $DIC->language();
         if (array_key_exists($a_mode, self::$map) &&
             is_array(self::$map[$a_mode])) {
             $info = $lng->txt(self::$map[$a_mode][2]);
-                        
             if ($a_mode == self::LP_MODE_TLT) {
                 // dynamic content
                 include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
                 $info = sprintf($info, ilObjUserTracking::_getValidTimeSpan());
             }
-            
             return $info;
         }
+        return '';
     }
     
-    public static function getClassMap()
+    public static function getClassMap() : array
     {
         $res = array();
         foreach (self::$map as $mode => $item) {
@@ -422,12 +389,11 @@ class ilLPObjSettings
         return $res;
     }
     
-    public static function _deleteByObjId($a_obj_id)
+    public static function _deleteByObjId(int $a_obj_id) : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         // we are only removing settings for now
         // invalid ut_lp_collections-entries are filtered
         // ut_lp_marks is deemed private user data

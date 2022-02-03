@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,18 +6,24 @@
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 *
-* @version $Id: class.ilLPCollections.php 40326 2013-03-05 11:39:24Z jluetzen $
-*
-* @ingroup ServicesTracking
+ * @ingroup ServicesTracking
 */
 abstract class ilLPCollection
 {
-    protected $obj_id; // [int]
-    protected $mode; // [int]
-    protected $items; // [array]
+    protected int $obj_id;
+    protected int $mode;
+    protected array $items;
 
-    public function __construct($a_obj_id, $a_mode)
+    protected ilDBInterface $db;
+    protected ilLogger $logger;
+
+    public function __construct(int $a_obj_id, int $a_mode)
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
+        $this->logger = $DIC->logger()->trac();
+
         $this->obj_id = $a_obj_id;
         $this->mode = $a_mode;
         
@@ -27,7 +32,7 @@ abstract class ilLPCollection
         }
     }
     
-    public static function getInstanceByMode($a_obj_id, $a_mode)
+    public static function getInstanceByMode(int $a_obj_id, int $a_mode) : ilLPCollection
     {
         $path = "Services/Tracking/classes/collection/";
         
@@ -54,9 +59,10 @@ abstract class ilLPCollection
                 include_once $path . "class.ilLPCollectionOfMediaObjects.php";
                 return new ilLPCollectionOfMediaObjects($a_obj_id, $a_mode);
         }
+        throw new DomainException('Invalid mode given: ' . $a_mode);
     }
     
-    public static function getCollectionModes()
+    public static function getCollectionModes() : array
     {
         return array(
             ilLPObjSettings::LP_MODE_COLLECTION
@@ -68,19 +74,14 @@ abstract class ilLPCollection
         );
     }
     
-    public function hasSelectableItems()
+    public function hasSelectableItems() : bool
     {
         return true;
     }
     
-    public function cloneCollection($a_target_id, $a_copy_id)
+    public function cloneCollection(int $a_target_id, int $a_copy_id) : void
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
         $target_obj_id = ilObject::_lookupObjId($a_target_id);
-        
         include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
@@ -94,118 +95,98 @@ abstract class ilLPCollection
             
             $new_collection->addEntry($mappings[$item]);
         }
-        
-        $ilLog->write(__METHOD__ . ': cloned learning progress collection.');
+        $this->logger->debug('cloned learning progress collection.');
     }
     
     
-    //
-    // CRUD
-    //
-    
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }
     
-    protected function read($a_obj_id)
+    protected function read(int $a_obj_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $items = array();
-        
-        $res = $ilDB->query("SELECT * FROM ut_lp_collections" .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer"));
+        $res = $this->db->query("SELECT * FROM ut_lp_collections" .
+            " WHERE obj_id = " . $this->db->quote($a_obj_id, "integer"));
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($this->validateEntry($row->item_id)) {
+            if ($this->validateEntry((int) $row->item_id)) {
                 $items[] = $row->item_id;
             } else {
                 $this->deleteEntry($row->item_id);
             }
         }
-        
         $this->items = $items;
     }
     
-    public function delete()
+    public function delete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "DELETE FROM ut_lp_collections" .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer");
-        $ilDB->manipulate($query);
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer");
+        $this->db->manipulate($query);
         
         $query = "DELETE FROM ut_lp_coll_manual" .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer");
-        $ilDB->manipulate($query);
-        
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer");
+        $this->db->manipulate($query);
         // #15462 - reset internal data
         $this->items = array();
-
-        return true;
     }
 
     //
     // ENTRIES
     //
             
-    protected function validateEntry($a_item_id)
+    protected function validateEntry(int $a_item_id) : bool
     {
         return true;
     }
         
-    public function isAssignedEntry($a_item_id)
+    public function isAssignedEntry(int $a_item_id) : bool
     {
         if (is_array($this->items)) {
-            return (bool) in_array($a_item_id, $this->items);
+            return in_array($a_item_id, $this->items);
         }
         return false;
     }
 
-    protected function addEntry($a_item_id)
+    protected function addEntry(int $a_item_id) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if (!$this->isAssignedEntry($a_item_id)) {
             $query = "INSERT INTO ut_lp_collections" .
                 " (obj_id, lpmode, item_id)" .
-                " VALUES (" . $ilDB->quote($this->obj_id, "integer") .
-                ", " . $ilDB->quote($this->mode, "integer") .
-                ", " . $ilDB->quote($a_item_id, "integer") .
+                " VALUES (" . $this->db->quote($this->obj_id, "integer") .
+                ", " . $this->db->quote($this->mode, "integer") .
+                ", " . $this->db->quote($a_item_id, "integer") .
                 ")";
-            $ilDB->manipulate($query);
+            $this->db->manipulate($query);
             $this->items[] = $a_item_id;
         }
         return true;
     }
     
-    protected function deleteEntry($a_item_id)
+    protected function deleteEntry(int $a_item_id) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM ut_lp_collections" .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-            " AND item_id = " . $ilDB->quote($a_item_id, "integer");
-        $ilDB->manipulate($query);
+            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
+            " AND item_id = " . $this->db->quote($a_item_id, "integer");
+        $this->db->manipulate($query);
         return true;
     }
-    
-    public function deactivateEntries(array $a_item_ids)
+
+    /**
+     * @param int[] $a_item_ids
+     */
+    public function deactivateEntries(array $a_item_ids) : void
     {
         foreach ($a_item_ids as $item_id) {
             $this->deleteEntry($item_id);
         }
     }
 
-    public function activateEntries(array $a_item_ids)
+    /**
+     * @param int[] $a_item_ids
+     */
+    public function activateEntries(array $a_item_ids) : void
     {
         foreach ($a_item_ids as $item_id) {
             $this->addEntry($item_id);

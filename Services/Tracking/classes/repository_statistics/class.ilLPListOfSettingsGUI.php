@@ -1,16 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
-include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
 
 /**
  * Class ilLPListOfSettingsGUI
  *
  * @author Stefan Meyer <meyer@leifos.com>
- *
- * @version $Id$
  *
  * @ilCtrl_Calls ilLPListOfSettingsGUI:
  *
@@ -19,23 +14,21 @@ include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
  */
 class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 {
-    protected $obj_settings;
-    protected $obj_lp;
+    protected ilLPObjSettings $obj_settings;
+    protected ilObjectLP $obj_lp;
     
-    public function __construct($a_mode, $a_ref_id)
+    public function __construct(int $a_mode, int $a_ref_id)
     {
         parent::__construct($a_mode, $a_ref_id);
         
         $this->obj_settings = new ilLPObjSettings($this->getObjId());
-        
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $this->obj_lp = ilObjectLP::getInstance($this->getObjId());
     }
 
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         switch ($this->ctrl->getNextClass()) {
             default:
@@ -43,20 +36,14 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 $this->$cmd();
 
         }
-        return true;
     }
 
     /**
      * Show settings tables
      */
-    protected function show()
+    protected function show() : void
     {
-        global $DIC;
-
-        $ilHelp = $DIC['ilHelp'];
-
-        $ilHelp->setSubScreenId("trac_settings");
-        
+        $this->help->setSubScreenId("trac_settings");
         $info = $this->obj_lp->getSettingsInfo();
         if ($info) {
             ilUtil::sendInfo($info);
@@ -71,12 +58,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     }
 
 
-    /**
-     * Init property form
-     *
-     * @return ilPropertyFormGUI $form
-     */
-    protected function initFormSettings()
+    protected function initFormSettings() : ilPropertyFormGUI
     {
         include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -86,7 +68,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         // Mode
         $mod = new ilRadioGroupInputGUI($this->lng->txt('trac_mode'), 'modus');
         $mod->setRequired(true);
-        $mod->setValue($this->obj_lp->getCurrentMode());
+        $mod->setValue((string) $this->obj_lp->getCurrentMode());
         $form->addItem($mod);
 
         if ($this->obj_lp->hasIndividualModeOptions()) {
@@ -111,23 +93,17 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                         ilObjUserTracking::_getValidTimeSpan()
                     ));
                     $vis->setRequired(true);
-                    $vis->setValue($this->obj_settings->getVisits());
+                    $vis->setValue((string) $this->obj_settings->getVisits());
                     $opt->addSubItem($vis);
                 }
                 $this->obj_lp->appendModeConfiguration((int) $mode_key, $opt);
             }
         }
-        
         $form->addCommandButton('saveSettings', $this->lng->txt('save'));
-
         return $form;
     }
 
-    /**
-     * Save learning progress settings
-     * @return void
-     */
-    protected function saveSettings()
+    protected function saveSettings() : void
     {
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
@@ -191,7 +167,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * Get tables by mode
      */
-    protected function getTableByMode()
+    protected function getTableByMode() : string
     {
         $collection = $this->obj_lp->getCollectionInstance();
         if ($collection && $collection->hasSelectableItems()) {
@@ -200,13 +176,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             $table->parse($collection);
             return $table->getHTML();
         }
+        return '';
     }
 
-    /**
-     * Save material assignment
-     * @return void
-     */
-    protected function assign()
+    protected function assign() : void
     {
         if (!$_POST['item_ids']) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
@@ -229,16 +202,12 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-    /**
-     * save mterial assignment
-     * @return void
-     */
-    protected function deassign()
+    protected function deassign() : void
     {
         if (!$_POST['item_ids']) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'show');
-            return false;
+            return;
         }
         if (count($_POST['item_ids'])) {
             $collection = $this->obj_lp->getCollectionInstance();
@@ -260,7 +229,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * Group materials
      */
-    protected function groupMaterials()
+    protected function groupMaterials() : void
     {
         if (!count((array) $_POST['item_ids'])) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
@@ -284,7 +253,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      *
      */
-    protected function releaseMaterials()
+    protected function releaseMaterials() : void
     {
         if (!count((array) $_POST['item_ids'])) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
@@ -307,7 +276,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * Save obligatory state per grouped materials
      */
-    protected function saveObligatoryMaterials()
+    protected function saveObligatoryMaterials() : void
     {
         if (!is_array((array) $_POST['grp'])) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
@@ -333,7 +302,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         }
     }
     
-    protected function updateTLT()
+    protected function updateTLT() : void
     {
         include_once "Services/MetaData/classes/class.ilMD.php";
         foreach ($_POST['tlt'] as $item_id => $item) {
@@ -361,35 +330,19 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     }
     
     
-    //
-    // USAGE INFO
-    //
-    
-    /**
-     * Gather LP data about parent objects
-     *
-     * @param int $a_ref_id
-     * @param array $a_res
-     * @return bool
-     */
-    protected function getLPPathInfo($a_ref_id, array &$a_res)
+    protected function getLPPathInfo(int $a_ref_id, array &$a_res) : bool
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-        
         $has_lp_parents = false;
                 
-        $path = $tree->getNodePath($a_ref_id);
+        $path = $this->tree->getNodePath($a_ref_id);
         array_shift($path);	 // root
         foreach ($path as $node) {
             $supports_lp = ilObjectLP::isSupportedObjectType($node["type"]);
-            
             if ($supports_lp || $has_lp_parents) {
-                $a_res[$node["child"]]["node"] = array(
-                    "type" => $node["type"]
-                    ,"title" => $node["title"]
-                    ,"obj_id" => $node["obj_id"]
+                $a_res[(int) $node["child"]]["node"] = array(
+                    "type" => (string) $node["type"]
+                    ,"title" => (string) $node["title"]
+                    ,"obj_id" => (int) $node["obj_id"]
                     ,"lp" => false
                     ,"active" => false
                 );
@@ -398,10 +351,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             if (
                 $supports_lp &&
                 $node["child"] != $a_ref_id) {
-                $a_res[$node["child"]]["node"]["lp"] = true;
+                $a_res[(int) $node["child"]]["node"]["lp"] = true;
                 $has_lp_parents = true;
 
-                $parent_obj_id = $node['obj_id'];
+                $parent_obj_id = (int) $node['obj_id'];
                 $parent_obj_lp = \ilObjectLP::getInstance($parent_obj_id);
                 $parent_collection = $parent_obj_lp->getCollectionInstance();
                 if (
@@ -416,13 +369,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         return $has_lp_parents;
     }
     
-    protected function handleLPUsageInfo()
+    protected function handleLPUsageInfo() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        
         $ref_id = $_GET["ref_id"];
         if (!$ref_id) {
             $ref_id = $_REQUEST["ref_id"];
@@ -449,7 +397,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                     $params["gotolp"] = 1;
                 }
                 
-                if ($ilAccess->checkAccess("read", "", $parent_ref_id) &&
+                if ($this->access->checkAccess("read", "", $parent_ref_id) &&
                     $parent_ref_id != $ref_id) { // #17170
                     $tpl->setCurrentBlock("parent_link_bl");
                     $tpl->setVariable("PARENT_LINK_TITLE", $node["title"]);
@@ -463,7 +411,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 
                 $tpl->setCurrentBlock("parent_usage_bl");
                 $tpl->setVariable("PARENT_TYPE_URL", ilUtil::getTypeIconPath($node["type"], $node["obj_id"]));
-                $tpl->setVariable("PARENT_TYPE_ALT", $lng->txt("obj_" . $node["type"]));
+                $tpl->setVariable("PARENT_TYPE_ALT", $this->lng->txt("obj_" . $node["type"]));
                 
                 $tpl->setVariable("PARENT_STYLE", $node["lp"]
                     ? ''
@@ -476,7 +424,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             
             if ($has_active) {
                 $tpl->setVariable("LEGEND", sprintf(
-                    $lng->txt("trac_lp_settings_info_parent_legend"),
+                    $this->lng->txt("trac_lp_settings_info_parent_legend"),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
                 ));
             }
@@ -484,10 +432,11 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
             $panel = ilPanelGUI::getInstance();
             $panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
-            $panel->setHeading($lng->txt("trac_lp_settings_info_parent_container"));
+            $panel->setHeading($this->lng->txt("trac_lp_settings_info_parent_container"));
             $panel->setBody($tpl->get());
             
             return $panel->getHTML();
         }
+        return '';
     }
 }

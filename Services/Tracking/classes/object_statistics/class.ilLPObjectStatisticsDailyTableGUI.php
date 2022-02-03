@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
@@ -14,20 +14,15 @@ include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 */
 class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 {
+    protected ?array $preselected;
     /**
     * Constructor
     */
-    public function __construct($a_parent_obj, $a_parent_cmd, array $a_preselect = null, $a_load_items = true)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd, array $a_preselect = null, bool $a_load_items = true)
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
         $this->preselected = $a_preselect;
 
         $this->setId("lpobjstatdlytbl");
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setShowRowsSelector(true);
@@ -35,22 +30,22 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->initFilter();
 
         $this->addColumn("", "", "1", true);
-        $this->addColumn($lng->txt("trac_title"), "title");
-        $this->addColumn($lng->txt("object_id"), "obj_id");
+        $this->addColumn($this->lng->txt("trac_title"), "title");
+        $this->addColumn($this->lng->txt("object_id"), "obj_id");
         for ($loop = 0; $loop < 24; $loop += 2) {
             $this->addColumn(str_pad($loop, 2, "0", STR_PAD_LEFT) . ":00-<br />" .
-                str_pad($loop + 2, 2, "0", STR_PAD_LEFT) . ":00 ", "hour" . $loop);
+                str_pad((string) $loop, 2, "0", STR_PAD_LEFT) . ":00 ", "hour" . $loop);
         }
-        $this->addColumn($lng->txt("total"), "sum");
+        $this->addColumn($this->lng->txt("total"), "sum");
 
         $this->setTitle($this->lng->txt("trac_object_stat_daily"));
 
         // $this->setSelectAllCheckbox("item_id");
-        $this->addMultiCommand("showDailyGraph", $lng->txt("trac_show_graph"));
+        $this->addMultiCommand("showDailyGraph", $this->lng->txt("trac_show_graph"));
         $this->setResetCommand("resetDailyFilter");
         $this->setFilterCommand("applyDailyFilter");
         
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.lp_object_statistics_daily_row.html", "Services/Tracking");
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(true);
@@ -78,15 +73,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
     */
     public function initFilter() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         $this->setDisableFilterHiding(true);
 
         // object type selection
         include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-        $si = new ilSelectInputGUI($lng->txt("obj_type"), "type");
+        $si = new ilSelectInputGUI($this->lng->txt("obj_type"), "type");
         $si->setOptions($this->getPossibleTypes(true, false, true));
         $this->addFilterItem($si);
         $si->readFromSession();
@@ -97,7 +88,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
         // title/description
         include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-        $ti = new ilTextInputGUI($lng->txt("trac_title_description"), "query");
+        $ti = new ilTextInputGUI($this->lng->txt("trac_title_description"), "query");
         $ti->setMaxLength(64);
         $ti->setSize(20);
         $this->addFilterItem($ti);
@@ -105,9 +96,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->filter["query"] = $ti->getValue();
 
         // read_count/spent_seconds
-        $si = new ilSelectInputGUI($lng->txt("trac_figure"), "figure");
-        $si->setOptions(array("read_count" => $lng->txt("trac_read_count"),
-            "spent_seconds" => $lng->txt("trac_spent_seconds")));
+        $si = new ilSelectInputGUI($this->lng->txt("trac_figure"), "figure");
+        $si->setOptions(array("read_count" => $this->lng->txt("trac_read_count"),
+            "spent_seconds" => $this->lng->txt("trac_spent_seconds")));
         $this->addFilterItem($si);
         $si->readFromSession();
         if (!$si->getValue()) {
@@ -116,7 +107,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->filter["measure"] = $si->getValue();
 
         // year/month
-        $si = new ilSelectInputGUI($lng->txt("year") . " / " . $lng->txt("month"), "yearmonth");
+        $si = new ilSelectInputGUI($this->lng->txt("year") . " / " . $this->lng->txt("month"), "yearmonth");
         $si->setOptions($this->getMonthsFilter());
         $this->addFilterItem($si);
         $si->readFromSession();
@@ -126,10 +117,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->filter["yearmonth"] = $si->getValue();
     }
 
-    public function getItems()
+    public function getItems() : void
     {
         $data = array();
-        
+
+        $objects = [];
         if ($this->filter["type"] != "prtf") {
             // JF, 2016-06-06
             $objects = $this->searchObjects($this->getCurrentFilter(true), "", null, false);
@@ -153,7 +145,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
             if (sizeof($yearmonth) == 1) {
                 $stat_objects = ilTrQuery::getObjectDailyStatistics($objects, $yearmonth[0]);
             } else {
-                $stat_objects = ilTrQuery::getObjectDailyStatistics($objects, $yearmonth[0], (int) $yearmonth[1]);
+                $stat_objects = ilTrQuery::getObjectDailyStatistics($objects, (string) $yearmonth[0], (string) $yearmonth[1]);
             }
 
             foreach ($stat_objects as $obj_id => $hours) {
@@ -187,12 +179,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
     */
     protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $type = ilObject::_lookupType($a_set["obj_id"]);
-
         $this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
         $this->tpl->setVariable("ICON_SRC", ilObject::_getIcon("", "tiny", $type));
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($type));
@@ -222,7 +209,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->tpl->setVariable("TOTAL", $sum);
     }
 
-    public function getGraph(array $a_graph_items)
+    public function getGraph(array $a_graph_items) : string
     {
         global $DIC;
 
@@ -230,7 +217,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         
         include_once "Services/Chart/classes/class.ilChart.php";
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstdly");
-        $chart->setsize(700, 500);
+        $chart->setSize(700, 500);
         
         $legend = new ilChartLegend();
         $chart->setLegend($legend);
@@ -262,7 +249,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
         $labels = array();
         for ($loop = 0; $loop < 24; $loop++) {
-            $labels[$loop] = str_pad($loop, 2, "0", STR_PAD_LEFT);
+            $labels[$loop] = str_pad((string) $loop, 2, "0", STR_PAD_LEFT);
         }
         $chart->setTicks($labels, $value_ticks, true);
 

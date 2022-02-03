@@ -1,15 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjUserTrackingGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
-*
-* @version $Id$
-*
 * @extends ilObjectGUI
 * @package ilias-core
 *
@@ -18,42 +13,19 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilObjUserTrackingGUI extends ilObjectGUI
 {
-
-    /**
-     * @var ilTemplate|mixed|null
-     */
-    public $tpl = null;
-    /**
-     * @var ilLanguage|null
-     */
-    public $lng = null;
-    /**
-     * @var ilCtrl|null
-     */
-    public $ctrl = null;
-    /**
-     * @var ILIAS\DI\Container
-     */
-    protected $dic;
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected ilErrorHandling $error;
+    protected ilObjectDefinition $objectDefinition;
 
     public function __construct($a_data, $a_id, $a_call_by_reference)
     {
         global $DIC;
 
+        $this->error = $DIC['ilErr'];
+        $this->objectDefinition = $DIC['objDefinition'];
+
         $this->type = "trac";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-
-        $this->dic = $DIC;
-        $this->tpl = $this->dic['tpl'];
-        $this->lng = $this->dic->language();
         $this->lng->loadLanguageModule('trac');
-        $this->rbacsystem = $this->dic->rbac()->system();
-
-        $this->ctrl = $this->dic->ctrl();
     }
 
     public function executeCommand()
@@ -66,28 +38,28 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'illearningprogressgui':
                 $this->tabs_gui->setTabActive('learning_progress');
                 include_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
                 $lp_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ADMINISTRATION);
-                $ret = &$this->ctrl->forwardCommand($lp_gui);
+                $ret = $this->ctrl->forwardCommand($lp_gui);
                 break;
             
             case 'illpobjectstatisticsgui':
                 $this->tabs_gui->setTabActive('statistics');
                 include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php");
                 $os_gui = new ilLPObjectStatisticsGUI(ilLPObjectStatisticsGUI::LP_CONTEXT_ADMINISTRATION);
-                $ret = &$this->ctrl->forwardCommand($os_gui);
+                $ret = $this->ctrl->forwardCommand($os_gui);
                 break;
             
             case 'ilsessionstatisticsgui':
                 $this->tabs_gui->setTabActive('session_statistics');
                 include_once("./Services/Authentication/classes/class.ilSessionStatisticsGUI.php");
                 $sess_gui = new ilSessionStatisticsGUI();
-                $ret = &$this->ctrl->forwardCommand($sess_gui);
+                $ret = $this->ctrl->forwardCommand($sess_gui);
                 break;
                 
             default:
@@ -99,8 +71,6 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        
-        return true;
     }
     
     public function getAdminTabs()
@@ -108,7 +78,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $this->getTabs();
     }
 
-    public function getTabs()
+    protected function getTabs()
     {
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
         
@@ -169,15 +139,10 @@ class ilObjUserTrackingGUI extends ilObjectGUI
     }
 
 
-    /**
-    * display tracking settings form
-    */
-    public function settingsObject($a_form = null)
+    public function settingsObject(?ilPropertyFormGUI $a_form = null) : void
     {
-        global $ilErr;
-
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt("no_permission"), $ilErr->WARNING);
+            $this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
         }
 
         $this->tabs_gui->addSubTab(
@@ -204,9 +169,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    protected function initSettingsForm()
+    protected function initSettingsForm() : ilPropertyFormGUI
     {
-        include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('tracking_settings'));
@@ -255,16 +219,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $listgui->setChecked($this->object->hasLearningProgressListGUI());
         $lp->addSubItem($listgui);
         
-        /* => REPOSITORY
-        // change event
-        $event = new ilCheckboxInputGUI($this->lng->txt('trac_repository_changes'), 'change_event_tracking');
-        if($this->object->enabledChangeEventTracking())
-        {
-            $event->setChecked(true);
-        }
-        $activate->addSubItem($event);
-        */
-        
+
         // object statistics
         $objstat = new ilCheckboxInputGUI($this->lng->txt('trac_object_statistics'), 'object_statistics');
         if ($this->object->enabledObjectStatistics()) {
@@ -320,10 +275,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         return $form;
     }
 
-    /**
-    * save user tracking settings
-    */
-    public function saveSettingsObject()
+    public function saveSettingsObject() : void
     {
         $this->checkPermission('write');
         
@@ -361,18 +313,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "settings");
         }
-    
         $form->setValuesByPost();
         $this->settingsObject($form);
-        return false;
     }
     
     
-    //
-    // LP DEFAULTS
-    //
-    
-    protected function editLPDefaultsObject($a_form = null)
+    protected function editLPDefaultsObject(?ilPropertyFormGUI $a_form = null) : void
     {
         $this->checkPermission('read');
 
@@ -398,12 +344,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    protected function initLPDefaultsForm()
+    protected function initLPDefaultsForm() : ilPropertyFormGUI
     {
-        global $DIC;
-
-        $objDefinition = $DIC['objDefinition'];
-        
         include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -414,7 +356,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
         
         $types = array();
-        foreach ($objDefinition->getAllRepositoryTypes() as $type) {
+        foreach ($this->objectDefinition->getAllRepositoryTypes() as $type) {
             if (ilObjectLP::isSupportedObjectType($type)) {
                 $types[$type] = array(
                     "type" => $type,
@@ -451,16 +393,11 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                 $form->getItemByPostVar("def_" . $item["type"])->setDisabled(true);
             }
         }
-                
         return $form;
     }
     
-    protected function saveLPDefaultsObject()
+    protected function saveLPDefaultsObject() : void
     {
-        global $DIC;
-
-        $objDefinition = $DIC['objDefinition'];
-        
         $this->checkPermission('write');
         
         $form = $this->initLPDefaultsForm();
@@ -469,12 +406,11 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
             
             $res = array();
-            foreach ($objDefinition->getAllRepositoryTypes() as $type) {
+            foreach ($this->objectDefinition->getAllRepositoryTypes() as $type) {
                 if (ilObjectLP::isSupportedObjectType($type)) {
                     $mode = $form->getInput("def_" . $type);
                     $res[$type] = $mode
-                        ? $mode
-                        : ilLPObjSettings::LP_MODE_DEACTIVATED;
+                        ?: ilLPObjSettings::LP_MODE_DEACTIVATED;
                 }
             }
             
@@ -486,20 +422,15 @@ class ilObjUserTrackingGUI extends ilObjectGUI
     
         $form->setValuesByPost();
         $this->editLPDefaultsObject($form);
-        return false;
     }
 
-    /**
-     * @param string $a_form_id
-     * @return array
-     */
-    public function addToExternalSettingsForm($a_form_id)
+    public function addToExternalSettingsForm(string $a_form_id) : array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_CERTIFICATE:
                 $fields = array();
-
                 return array('obj_trac' => array('editLPDefaults', $fields));
         }
+        return [];
     }
 }

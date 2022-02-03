@@ -64,7 +64,7 @@ class ilCourseLP extends ilObjectLP
         return false;
     }
     
-    public function getSettingsInfo()
+    public function getSettingsInfo() : string
     {
         global $DIC;
 
@@ -75,6 +75,7 @@ class ilCourseLP extends ilObjectLP
         if ($crs->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP) {
             return $lng->txt("crs_status_determination_lp_info");
         }
+        return '';
     }
     
     public function getMembers($a_search = true)

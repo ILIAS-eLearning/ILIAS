@@ -20,7 +20,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
      * @param ilObject $a_parent_obj
      * @param string   $a_parent_cmd
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_node_id, $a_mode)
+    public function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, $a_mode)
     {
         global $DIC;
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -107,7 +107,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
             $this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_TLT) {
             if ($a_set['ref_id']) {
                 $this->tpl->setVariable('COLL_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
-                $this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent', $a_set['type']));
+                $this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent'));
 
                 include_once './Services/Tree/classes/class.ilPathGUI.php';
                 $path = new ilPathGUI();
@@ -274,7 +274,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
         $ilCtrl = $DIC['ilCtrl'];
 
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         switch ($this->getMode()) {
             case ilLPObjSettings::LP_MODE_COLLECTION:
             case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:

@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 
 /**
 * TableGUI class for learning progress
@@ -14,20 +12,20 @@ include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 */
 class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 {
+    protected ?array $preselected;
+
     /**
     * Constructor
     */
-    public function __construct($a_parent_obj, $a_parent_cmd, array $a_preselect = null, $a_load_items = true)
+    public function __construct(
+        ?object $a_parent_obj,
+        string $a_parent_cmd,
+        ?array $a_preselect = null,
+        bool $a_load_items = true)
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
         $this->preselected = $a_preselect;
 
         $this->setId("lpobjstattbl");
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->setShowRowsSelector(true);
@@ -35,23 +33,23 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $this->initFilter();
         
         $this->addColumn("", "", "1", true);
-        $this->addColumn($lng->txt("trac_title"), "title");
-        $this->addColumn($lng->txt("object_id"), "obj_id");
+        $this->addColumn($this->lng->txt("trac_title"), "title");
+        $this->addColumn($this->lng->txt("object_id"), "obj_id");
         if (strpos($this->filter["yearmonth"], "-") === false) {
             foreach ($this->getMonthsYear($this->filter["yearmonth"]) as $num => $caption) {
                 $this->addColumn($caption, "month_" . $num);
             }
         }
-        $this->addColumn($lng->txt("total"), "total");
+        $this->addColumn($this->lng->txt("total"), "total");
 
         $this->setTitle($this->lng->txt("trac_object_stat_access"));
 
         // $this->setSelectAllCheckbox("item_id");
-        $this->addMultiCommand("showAccessGraph", $lng->txt("trac_show_graph"));
+        $this->addMultiCommand("showAccessGraph", $this->lng->txt("trac_show_graph"));
         $this->setResetCommand("resetAccessFilter");
         $this->setFilterCommand("applyAccessFilter");
         
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.lp_object_statistics_row.html", "Services/Tracking");
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(true);
@@ -79,15 +77,10 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
     */
     public function initFilter() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         $this->setDisableFilterHiding(true);
-
         // object type selection
         include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-        $si = new ilSelectInputGUI($lng->txt("obj_type"), "type");
+        $si = new ilSelectInputGUI($this->lng->txt("obj_type"), "type");
         $si->setOptions($this->getPossibleTypes(true, false, true));
         $this->addFilterItem($si);
         $si->readFromSession();
@@ -98,7 +91,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 
         // title/description
         include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-        $ti = new ilTextInputGUI($lng->txt("trac_title_description"), "query");
+        $ti = new ilTextInputGUI($this->lng->txt("trac_title_description"), "query");
         $ti->setMaxLength(64);
         $ti->setSize(20);
         $this->addFilterItem($ti);
@@ -106,10 +99,10 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $this->filter["query"] = $ti->getValue();
 
         // read_count/spent_seconds
-        $si = new ilSelectInputGUI($lng->txt("trac_figure"), "figure");
-        $si->setOptions(array("read_count" => $lng->txt("trac_read_count"),
-            "spent_seconds" => $lng->txt("trac_spent_seconds"),
-            "users" => $lng->txt("users")));
+        $si = new ilSelectInputGUI($this->lng->txt("trac_figure"), "figure");
+        $si->setOptions(array("read_count" => $this->lng->txt("trac_read_count"),
+            "spent_seconds" => $this->lng->txt("trac_spent_seconds"),
+            "users" => $this->lng->txt("users")));
         $this->addFilterItem($si);
         $si->readFromSession();
         if (!$si->getValue()) {
@@ -118,7 +111,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $this->filter["measure"] = $si->getValue();
 
         // year/month
-        $si = new ilSelectInputGUI($lng->txt("year") . " / " . $lng->txt("month"), "yearmonth");
+        $si = new ilSelectInputGUI($this->lng->txt("year") . " / " . $this->lng->txt("month"), "yearmonth");
         $si->setOptions($this->getMonthsFilter());
         $this->addFilterItem($si);
         $si->readFromSession();
@@ -128,10 +121,10 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $this->filter["yearmonth"] = $si->getValue();
     }
 
-    public function getItems()
+    public function getItems() : void
     {
         $data = array();
-        
+        $objects = [];
         if ($this->filter["type"] != "prtf") {
             // JF, 2016-06-06
             $objects = $this->searchObjects($this->getCurrentFilter(true), "", null, false);
@@ -166,7 +159,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
                 }
             } else {
                 include_once './Services/Tracking/classes/class.ilTrQuery.php';
-                foreach (ilTrQuery::getObjectAccessStatistics($objects, $yearmonth[0], (int) $yearmonth[1]) as $obj_id => $days) {
+                foreach (ilTrQuery::getObjectAccessStatistics($objects, (string) $yearmonth[0], (string) $yearmonth[1]) as $obj_id => $days) {
                     $data[$obj_id]["obj_id"] = $obj_id;
                     $data[$obj_id]["title"] = ilObject::_lookupTitle($obj_id);
                     
@@ -185,7 +178,6 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
                 }
             }
         }
-        
         $this->setData($data);
     }
     
@@ -194,10 +186,6 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
     */
     protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $type = ilObject::_lookupType($a_set["obj_id"]);
 
         $this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
@@ -232,12 +220,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $this->tpl->setVariable("TOTAL", $sum);
     }
 
-    public function getGraph(array $a_graph_items)
+    public function getGraph(array $a_graph_items) : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
         include_once "Services/Chart/classes/class.ilChart.php";
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstacc");
         $chart->setSize(700, 500);
