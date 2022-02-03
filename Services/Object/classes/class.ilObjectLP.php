@@ -28,7 +28,6 @@ class ilObjectLP
         $this->objectDefinition = $DIC['objDefinition'];
 
         $this->obj_id = (int) $a_obj_id;
-
     }
 
     public static function getInstance(int $a_obj_id) : ilObjectLP
@@ -54,7 +53,7 @@ class ilObjectLP
         global $DIC;
 
         $objDefinition = $DIC["objDefinition"];
-        
+
         if (self::isSupportedObjectType($a_type)) {
             switch ($a_type) {
                 // container
@@ -130,7 +129,9 @@ class ilObjectLP
                     return "ilPluginLP";
             }
         }
+        return "";
     }
+
     public static function isSupportedObjectType($a_type)
     {
         global $DIC;
@@ -435,8 +436,7 @@ class ilObjectLP
         int $a_parent_ref_id,
         array $a_obj_ids,
         bool $a_mapped_ref_ids = false
-    ) : array
-    {
+    ) : array {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
@@ -495,8 +495,7 @@ class ilObjectLP
         array $a_obj_ids,
         ?int $a_parent_ref_id = null,
         bool $a_mapped_ref_ids = false
-    ) : array
-    {
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();

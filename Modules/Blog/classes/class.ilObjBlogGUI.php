@@ -1227,7 +1227,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
         
         // repository blogs are multi-author
-        $name = null;
+        $name = "";
         if ($this->id_type != self::REPOSITORY_NODE_ID) {
             $name = ilObjUser::_lookupName($a_user_id);
             $name = $name["lastname"] . ", " . $name["firstname"];
@@ -1247,7 +1247,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
         }
         
-        $ppic = null;
+        $ppic = "";
         if ($this->object->hasProfilePicture()) {
             // repository (multi-user)
             if ($this->id_type == self::REPOSITORY_NODE_ID) {
@@ -1622,7 +1622,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         array $a_items,
         string $a_list_cmd = "render",
         string $a_posting_cmd = "preview",
-        string $a_link_template = "",
+        ?string $a_link_template = null,
         bool $a_show_inactive = false,
         int $a_blpg = 0
     ) : string {
