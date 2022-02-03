@@ -12,7 +12,7 @@ abstract class ilLPCollection
 {
     protected int $obj_id;
     protected int $mode;
-    protected array $items;
+    protected array $items = [];
 
     protected ilDBInterface $db;
     protected ilLogger $logger;
