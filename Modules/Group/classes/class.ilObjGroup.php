@@ -477,10 +477,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
     * @inheritDoc
     */
-    public function create()
+    public function create() : int
     {
         if (!parent::create()) {
-            return false;
+            return 0;
         }
         $this->createMetaData();
 
@@ -534,7 +534,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
     */
-    public function update()
+    public function update() : bool
     {
         if (!parent::update()) {
             return false;
@@ -588,7 +588,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
     */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -615,7 +615,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
     * @inheritDoc
     */
-    public function read()
+    public function read() : void
     {
         parent::read();
 
@@ -672,7 +672,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
      */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         /**
          * @var ilObjGroup $new_obj
@@ -736,7 +736,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
      */
-    public function cloneDependencies($a_target_id, $a_copy_id)
+    public function cloneDependencies(int $a_target_id, int $a_copy_id) : bool
     {
         parent::cloneDependencies($a_target_id, $a_copy_id);
 
@@ -1054,7 +1054,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
     */
-    public function initDefaultRoles()
+    public function initDefaultRoles() : void
     {
         $role = ilObjRole::createDefaultRole(
             'il_grp_admin_' . $this->getRefId(),
@@ -1071,8 +1071,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             $this->getRefId()
         );
         $this->m_roleMemberId = $role->getId();
-
-        return [];
     }
 
     /**
@@ -1083,7 +1081,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      * Each permission is granted by computing the intersection of the
      * template il_grp_status and the permission template of the parent role.
      */
-    public function setParentRolePermissions($a_parent_ref)
+    public function setParentRolePermissions(int $a_parent_ref) : bool
     {
         $parent_roles = $this->rbacreview->getParentRoleIds($a_parent_ref);
         foreach ($parent_roles as $parent_role) {
@@ -1112,13 +1110,14 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                 ROLE_FOLDER_ID
             );
         }
+        return true;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function applyDidacticTemplate($a_tpl_id)
+    public function applyDidacticTemplate(int $a_tpl_id) : void
     {
         parent::applyDidacticTemplate($a_tpl_id);
 

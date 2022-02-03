@@ -34,7 +34,7 @@ class ilObjRoleFolder extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function read()
+    public function read() : void
     {
         parent::read();
 
@@ -44,7 +44,7 @@ class ilObjRoleFolder extends ilObject
         }
     }
 
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {

@@ -301,7 +301,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         $tree = $this->tree;
 
         // custom icons
-        $path = ilObject::_getIcon($a_obj_id, "tiny", "root");
+        $path = ilObject::_getIcon((int) $a_obj_id, "tiny", "root");
         
 
         $tpl->setCurrentBlock("icon");

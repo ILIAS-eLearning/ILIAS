@@ -130,7 +130,7 @@ class ilTestServiceGUI
         $this->ilias = &$ilias;
         $this->object = &$a_object;
         $this->tree = &$tree;
-        $this->ref_id = $a_object->ref_id;
+        $this->ref_id = $a_object->getRefId();
 
         $this->service = new ilTestService($a_object);
         

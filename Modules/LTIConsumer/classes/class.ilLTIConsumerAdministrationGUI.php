@@ -798,7 +798,7 @@ class ilLTIConsumerAdministrationGUI
             if ($provider->getProviderIcon()->exists()) {
                 $providerIcon = $provider->getProviderIcon()->getAbsoluteFilePath();
             } else {
-                $providerIcon = ilObject::_getIcon("", "small", "lti");
+                $providerIcon = ilObject::_getIcon(0, "small", "lti");
             }
             
             $confirmationGUI->addItem(

@@ -132,7 +132,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
             // to enable sorting by title
             if ($this->objDefinition->isPluginTypeName($type)) {
                 $data[$type]["title"] = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
-                $data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
+                $data[$type]["icon"] = ilObject::_getIcon(0, "tiny", $type);
             } else {
                 $data[$type]["title"] = $this->lng->txt("objs_" . $type);
                 $data[$type]["icon"] = ilObject::_getIcon(null, "tiny", $type);
@@ -158,7 +158,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                 // to enable sorting by title
                 if ($this->objDefinition->isPluginTypeName($type)) {
                     $data[$type]["title"] = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
-                    $data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
+                    $data[$type]["icon"] = ilObject::_getIcon(0, "tiny", $type);
                 } else {
                     $data[$type]["title"] = $this->lng->txt("objs_" . $type);
                     $data[$type]["icon"] = ilObject::_getIcon(null, "tiny", $type);

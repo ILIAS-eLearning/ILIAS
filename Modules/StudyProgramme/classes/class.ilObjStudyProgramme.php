@@ -196,12 +196,14 @@ class ilObjStudyProgramme extends ilContainer
         return $this->getSettingsRepository()->get($this->getId());
     }
 
-    public function updateSettings(ilStudyProgrammeSettings $settings) : void
+    public function updateSettings(ilStudyProgrammeSettings $settings) : bool
     {
         if ($settings->getObjId() !== $this->getId()) {
             throw new Exception("The given settings-object does not belong to this programme", 1);
         }
         $this->getSettingsRepository()->update($settings);
+
+        return true;
     }
 
     protected function deleteSettings() : void
@@ -239,7 +241,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * @throws ilException
      */
-    public function update() : void
+    public function update() : bool
     {
         parent::update();
 
@@ -255,6 +257,7 @@ class ilObjStudyProgramme extends ilContainer
             // If no type is assigned, delete relations by passing an empty array
             ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'prg_type', array());
         }
+        return true;
     }
 
     /**

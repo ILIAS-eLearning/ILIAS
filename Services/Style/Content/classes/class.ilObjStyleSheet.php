@@ -844,12 +844,12 @@ class ilObjStyleSheet extends ilObject
     public function create(
         int $a_from_style = 0,
         bool $a_import_mode = false
-    ) : void {
+    ) : int {
         global $DIC;
 
         $ilDB = $this->db;
 
-        parent::create();
+        $id = parent::create();
 
         $service = $DIC->contentStyle()
             ->internal();
@@ -972,6 +972,8 @@ class ilObjStyleSheet extends ilObject
         if (!$a_import_mode) {
             $this->writeCSSFile();
         }
+
+        return $id;
     }
     
     /**
@@ -1286,7 +1288,7 @@ class ilObjStyleSheet extends ilObject
     }
 
 
-    public function delete()
+    public function delete() : bool
     {
         $ilDB = $this->db;
         
@@ -1329,6 +1331,8 @@ class ilObjStyleSheet extends ilObject
         $q = "DELETE FROM style_data WHERE id = " .
             $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($q);
+
+        return true;
     }
 
 
@@ -1671,7 +1675,7 @@ class ilObjStyleSheet extends ilObject
         return "./Services/COPage/css/placeholder.css";
     }
 
-    public function update()
+    public function update() : bool
     {
         $ilDB = $this->db;
         
@@ -1683,6 +1687,8 @@ class ilObjStyleSheet extends ilObject
             "SET category = " . $ilDB->quote($this->getScope(), "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($q);
+
+        return true;
     }
 
     /**

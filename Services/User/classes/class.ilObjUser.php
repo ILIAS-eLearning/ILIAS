@@ -283,7 +283,7 @@ class ilObjUser extends ilObject
         $this->setFirstLogin((string) $a_data["first_login"]);
         $this->setLastProfilePrompt((string) $a_data["last_profile_prompt"]);
         $this->setLastUpdate((string) $a_data["last_update"]);
-        $this->create_date = $a_data["create_date"];
+        $this->create_date = $a_data["create_date"] ?? "";
         $this->setComment((string) $a_data["referral_comment"]);
         $this->approve_date = $a_data["approve_date"];
         $this->active = $a_data["active"];
@@ -419,7 +419,7 @@ class ilObjUser extends ilObject
         );
     }
 
-    public function update()
+    public function update() : bool
     {
         global $DIC;
 
@@ -1048,7 +1048,7 @@ class ilObjUser extends ilObject
         $this->prefs = ilObjUser::_getPreferences($this->id);
     }
 
-    public function delete()
+    public function delete() : bool
     {
         global $DIC;
 

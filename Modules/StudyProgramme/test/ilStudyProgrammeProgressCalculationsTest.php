@@ -527,7 +527,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
     {
         $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
         $prg = $this->getRootPrg();
-        $prg->tree = $this->mock_tree;
+        $prg->mock_tree = $this->mock_tree;
 
         $prg->changeProgressDeadline(12, 6, $this->messages, $future);
         $this->assertTrue($this->progress_repo->get(12)->hasIndividualModifications());
@@ -568,7 +568,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
             $this->assertEquals(69, $progress->getAmountOfPoints());
 
             $prg = $this->getRootPrg();
-            $prg->tree = &$this->mock_tree;
+            $prg->mock_tree = &$this->mock_tree;
         }
 
         $this->getRootPrg()->updatePlanFromRepository(11, 6);

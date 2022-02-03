@@ -184,7 +184,7 @@ class SettingsMock extends ilStudyProgrammeSettings
 
 class PrgMock extends ilObjStudyProgramme
 {
-    public $tree;
+    public array $mock_tree;
 
     public function __construct(
         int $id,
@@ -206,9 +206,9 @@ class PrgMock extends ilObjStudyProgramme
     {
     }
 
-    public function update() : void
+    public function update() : bool
     {
-        $this->updateSettings();
+        return $this->updateSettings();
     }
     protected function getLoggedInUserId() : int
     {
@@ -267,7 +267,7 @@ class PrgMock extends ilObjStudyProgramme
 
     protected function getPrgInstanceByObjId(int $obj_id) : ilObjStudyProgramme
     {
-        return $this->tree[$obj_id]['prg'];
+        return $this->mock_tree[$obj_id]['prg'];
     }
     
     public function hasChildren(bool $include_references = false) : bool

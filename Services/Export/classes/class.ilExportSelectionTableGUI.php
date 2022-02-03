@@ -93,7 +93,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $this->tpl->touchBlock('end_padding');
         }
         $this->tpl->setVariable('TREE_IMG',
-            ilObject::_getIcon(ilObject::_lookupObjId($a_set['ref_id']), "tiny", $a_set['type']));
+            ilObject::_getIcon(ilObject::_lookupObjId((int) $a_set['ref_id']), "tiny", $a_set['type']));
         $this->tpl->setVariable('TREE_ALT_IMG', $this->lng->txt('obj_' . $a_set['type']));
         $this->tpl->setVariable('TREE_TITLE', $a_set['title']);
 

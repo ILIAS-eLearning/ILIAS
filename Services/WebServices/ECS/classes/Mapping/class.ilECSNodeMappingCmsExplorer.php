@@ -270,7 +270,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         // custom icons
-        $path = ilObject::_getIcon($a_obj_id, "tiny", "root");
+        $path = ilObject::_getIcon((int) $a_obj_id, "tiny", "root");
 
 
         $tpl->setCurrentBlock("icon");

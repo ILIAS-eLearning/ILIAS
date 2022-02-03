@@ -77,7 +77,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'TYPE_IMG',
             ilObject::_getIcon(
-                $a_set['obj_id'],
+                (int) $a_set['obj_id'],
                 'tiny',
                 $a_set['type']
             )

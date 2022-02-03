@@ -593,16 +593,21 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         return ilObjCourseAccess::_registrationEnabled($a_obj_id);
     }
 
-    public function read()
+    public function read() : void
     {
         parent::read();
         $this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
         $this->__readSettings();
     }
 
-    public function create($a_upload = false)
+    public function create($a_upload = false) : int
     {
-        parent::create();
+        global $DIC;
+
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+        
+        $id = parent::create($a_upload);
+
         if (!$a_upload) {
             $this->createMetaData();
         }
@@ -615,6 +620,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                   'appointments' => $this->prepareAppointments('create')
             )
         );
+
+        return $id;
     }
 
     public function setLatitude(string $a_latitude) : void
@@ -742,8 +749,16 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     {
         return $this->auto_fill_from_waiting;
     }
-
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    
+    /**
+     * Clone course (no member data)
+     *
+     * @access public
+     * @param int target ref_id
+     * @param int copy id
+     *
+     */
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         global $DIC;
 
@@ -787,7 +802,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
      */
-    public function cloneDependencies($a_target_id, $a_copy_id)
+    public function cloneDependencies(int $a_target_id, int $a_copy_id) : bool
     {
         parent::cloneDependencies($a_target_id, $a_copy_id);
 
@@ -906,9 +921,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     }
 
     /**
-     * @inheritDoc
-     */
-    public function delete()
+    * delete course and all related data
+    *
+    * @access	public
+    * @return	boolean	true if all object data were removed; false if only a references were removed
+    */
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -946,7 +964,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
      */
-    public function update()
+    public function update() : bool
     {
 
         $sorting = new ilContainerSortingSettings($this->getId());
@@ -965,6 +983,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                   'appointments' => $this->prepareAppointments('update')
             )
         );
+        return true;
     }
 
     /**
@@ -1265,24 +1284,23 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         return $this->members_obj;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function initDefaultRoles()
+
+    // RBAC METHODS
+    public function initDefaultRoles() : void
     {
-        $role = ilObjRole::createDefaultRole(
+        ilObjRole::createDefaultRole(
             'il_crs_admin_' . $this->getRefId(),
             "Admin of crs obj_no." . $this->getId(),
             'il_crs_admin',
             $this->getRefId()
         );
-        $role = ilObjRole::createDefaultRole(
+        ilObjRole::createDefaultRole(
             'il_crs_tutor_' . $this->getRefId(),
             "Tutor of crs obj_no." . $this->getId(),
             'il_crs_tutor',
             $this->getRefId()
         );
-        $role = ilObjRole::createDefaultRole(
+        ilObjRole::createDefaultRole(
             'il_crs_member_' . $this->getRefId(),
             "Member of crs obj_no." . $this->getId(),
             'il_crs_member',
@@ -1297,7 +1315,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
      * Each permission is granted by computing the intersection of the
      * template il_crs_non_member and the permission template of the parent role.
      */
-    public function setParentRolePermissions($a_parent_ref)
+    public function setParentRolePermissions(int $a_parent_ref) : bool
     {
         $parent_roles = $this->rbacreview->getParentRoleIds($a_parent_ref);
         foreach ($parent_roles as $parent_role) {
@@ -1309,6 +1327,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                 ROLE_FOLDER_ID
             );
         }
+        return true;
     }
 
     public function __getCrsNonMemberTemplateId() : int

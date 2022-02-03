@@ -584,7 +584,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
      */
     protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("ICON", ilObject::_getIcon($a_set["obj_id"], "tiny", $a_set["type"]));
+        $this->tpl->setVariable("ICON", ilObject::_getIcon((int) $a_set["obj_id"], "tiny", $a_set["type"]));
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
         $this->tpl->setVariable("TITLE", $a_set["title"]);
 

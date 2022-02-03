@@ -77,7 +77,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 
             $this->tpl->setVariable('CHAPTER_TITLE', ilLMObject::_lookupTitle($sub_data['id']));
             $this->tpl->setVariable('CHAP_ID', $a_set['id'] . '_' . $sub_data['id']);
-            $this->tpl->setVariable('CHAP_TYPE_IMG', ilObject::_getIcon($sub_data['id'], "tiny", $sub_data['type']));
+            $this->tpl->setVariable('CHAP_TYPE_IMG', ilObject::_getIcon((int) $sub_data['id'], "tiny", $sub_data['type']));
             $this->tpl->setVariable('CHAP_TYPE_ALT', $this->lng->txt('obj_' . $sub_data['type']));
             $this->tpl->parseCurrentBlock();
         }
@@ -90,8 +90,8 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         if ($this->objective_lm->isAssigned($a_set['id'])) {
             $this->tpl->setVariable('VAL_CHECKED', 'checked="checked"');
         }
-
-        $this->tpl->setVariable('ROW_TYPE_IMG', ilObject::_getIcon($a_set['obj_id'], "tiny", $a_set['type']));
+        
+        $this->tpl->setVariable('ROW_TYPE_IMG', ilObject::_getIcon((int) $a_set['obj_id'], "tiny", $a_set['type']));
         $this->tpl->setVariable('ROW_TYPE_ALT', $this->lng->txt('obj_' . $a_set['type']));
 
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);

@@ -55,7 +55,7 @@ class ilObjLearningSequence extends ilContainer
         return ilObjectFactory::getInstanceByRefId($ref_id, false);
     }
 
-    public function read()
+    public function read() : void
     {
         $this->getLSSettings();
         if ($this->getRefId()) {
@@ -113,7 +113,7 @@ class ilObjLearningSequence extends ilContainer
         );
     }
 
-    public function cloneObject($target_id, $copy_id = 0, $omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         /** @var ilObjLearningSequence $new_obj */
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);

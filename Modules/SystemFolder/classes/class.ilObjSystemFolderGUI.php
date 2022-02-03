@@ -745,7 +745,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         // Activate DB Benchmark
         $cb = new ilCheckboxInputGUI($lng->txt("adm_activate_db_benchmark"), "enable_db_bench");
-        $cb->setChecked($ilSetting->get("enable_db_bench"));
+        $cb->setChecked((bool) $ilSetting->get("enable_db_bench"));
         $cb->setInfo($lng->txt("adm_activate_db_benchmark_desc"));
         $this->form->addItem($cb);
 
@@ -1256,7 +1256,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         // Enable Global Profiles
         $cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_user_publish'), 'enable_global_profiles');
         $cb_prop->setInfo($lng->txt('pd_enable_user_publish_info'));
-        $cb_prop->setChecked($ilSetting->get('enable_global_profiles'));
+        $cb_prop->setChecked((bool) $ilSetting->get('enable_global_profiles'));
         $cb->addSubItem($cb_prop);
 
         // search engine

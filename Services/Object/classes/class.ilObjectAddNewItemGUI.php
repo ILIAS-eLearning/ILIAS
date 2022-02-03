@@ -321,7 +321,7 @@ class ilObjectAddNewItemGUI
                 case "object":
                     $type = $item["value"];
 
-                    $path = ilObject::_getIcon('', 'tiny', $type);
+                    $path = ilObject::_getIcon(0, 'tiny', $type);
                     $icon = ($path != "")
                         ? ilUtil::img($path, "") . " "
                         : "";

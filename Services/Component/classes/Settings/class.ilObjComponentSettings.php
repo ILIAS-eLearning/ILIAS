@@ -51,7 +51,7 @@ class ilObjComponentSettings extends ilObject
     * @access	public
     * @return	boolean
     */
-    public function update()
+    public function update() : bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -66,7 +66,7 @@ class ilObjComponentSettings extends ilObject
     /**
     * read style folder data
     */
-    public function read()
+    public function read() : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -80,7 +80,7 @@ class ilObjComponentSettings extends ilObject
     * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
