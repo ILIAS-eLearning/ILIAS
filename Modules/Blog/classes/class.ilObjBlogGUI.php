@@ -743,7 +743,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $ilTabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
-                $exp_gui->addFormat("html", null, $this, "buildExportFile"); // #13419
+                $exp_gui->addFormat("html", "", $this, "buildExportFile"); // #13419
                 if (ilObjBlogAccess::isCommentsExportPossible($this->object->getId())) {
                     $exp_gui->addFormat("html_comments", "HTML (" . $this->lng->txt("blog_incl_comments") . ")", $this, "buildExportFile");
                 }

@@ -20,13 +20,13 @@
  */
 class ilBlogPosting extends ilPageObject
 {
-    protected string $title;
-    protected ilDateTime $created;
-    protected int $blog_node_id;
-    protected bool $blog_node_is_wsp;
-    protected int $author;
-    protected bool $approved;
-    protected ilDateTime$withdrawn;
+    protected string $title = "";
+    protected ?ilDateTime $created = null;
+    protected int $blog_node_id = 0;
+    protected bool $blog_node_is_wsp = false;
+    protected int $author = 0;
+    protected bool $approved = false;
+    protected ?ilDateTime $withdrawn = null;
 
     public function getParentType() : string
     {
@@ -95,7 +95,7 @@ class ilBlogPosting extends ilPageObject
     /**
      * Get last withdrawal date
      */
-    public function getWithdrawn() : ilDateTime
+    public function getWithdrawn() : ?ilDateTime
     {
         return $this->withdrawn;
     }
@@ -418,7 +418,7 @@ class ilBlogPosting extends ilPageObject
             $md_section->save();
             return $md_section;
         }
-        return null;
+        return $md_section;
     }
         
     public function updateKeywords(
