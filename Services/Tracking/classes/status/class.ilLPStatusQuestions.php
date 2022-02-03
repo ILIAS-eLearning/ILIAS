@@ -12,7 +12,6 @@ class ilLPStatusQuestions extends ilLPStatus
 {
     public static function _getInProgress(int $a_obj_id) : array
     {
-        include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         
         // Exclude all users with status completed.
@@ -25,10 +24,8 @@ class ilLPStatusQuestions extends ilLPStatus
     {
         $usr_ids = array();
         
-        include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         
-        include_once "Modules/LearningModule/classes/class.ilLMTracker.php";
         foreach ($users as $user_id) {
             // :TODO: this ought to be optimized
             $tracker = ilLMTracker::getInstanceByObjId($a_obj_id, $user_id);
@@ -44,11 +41,9 @@ class ilLPStatusQuestions extends ilLPStatus
     {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         
-        include_once "Services/Tracking/classes/class.ilChangeEvent.php";
         if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
             $status = self::LP_STATUS_IN_PROGRESS_NUM;
             
-            include_once "Modules/LearningModule/classes/class.ilLMTracker.php";
             $tracker = ilLMTracker::getInstanceByObjId($a_obj_id, $a_usr_id);
             if ($tracker->getAllQuestionsCorrect()) {
                 $status = self::LP_STATUS_COMPLETED_NUM;

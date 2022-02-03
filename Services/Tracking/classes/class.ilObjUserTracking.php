@@ -180,7 +180,6 @@ class ilObjUserTracking extends ilObject
         $this->setLearningProgressListGUI((bool) $this->settings->get("lp_list_gui", '0'));
 
         // BEGIN ChangeEvent
-        require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
         $this->enableChangeEventTracking(ilChangeEvent::_isActive());
         // END ChangeEvent
         

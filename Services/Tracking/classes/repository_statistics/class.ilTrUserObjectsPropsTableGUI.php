@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 
 /**
  * Build table list for objects of given user
@@ -86,7 +85,6 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         // default fields
         $cols = array();
         
-        include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
         $tracking = new ilObjUserTracking();
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
             $cols["first_access"] = array(
@@ -161,7 +159,6 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         
         // #13807
         foreach ($tr_data["set"] as $idx => $row) {
-            include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
             if ($row["ref_id"] &&
                 !ilLearningProgressAccess::checkPermission('read_learning_progress', $row['ref_id'])) {
                 foreach (array_keys($row) as $col_id) {
@@ -208,16 +205,11 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
     public function initFilter() : void
     {
         // for scorm and objectives this filter does not make sense / is not implemented
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($this->obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection instanceof ilLPCollectionOfRepositoryObjects) {
-            include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-            include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
 
             // show collection only/all
-            include_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
-            include_once("./Services/Form/classes/class.ilRadioOption.php");
             $ti = new ilRadioGroupInputGUI($this->lng->txt("trac_view_mode"), "view_mode");
             $ti->addOption(new ilRadioOption($this->lng->txt("trac_view_mode_all"), ""));
             $ti->addOption(new ilRadioOption($this->lng->txt("trac_view_mode_collection"), "coll"));
@@ -253,7 +245,6 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                             break;
 
                         case "status":
-                            include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
                             $path = ilLearningProgressBaseGUI::_getImagePathForStatus($a_set[$c]);
                             $text = ilLearningProgressBaseGUI::_getStatusText($a_set[$c]);
                             $val = ilUtil::img($path, $text);
@@ -365,7 +356,6 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         
         // #16453 / #17163
         if ($a_set['ref_id']) {
-            include_once './Services/Tree/classes/class.ilPathGUI.php';
             $path = new ilPathGUI();
             $path = $path->getPath($this->ref_id, $a_set['ref_id']);
             if ($path) {
@@ -374,7 +364,6 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
 
         // #13807 / #17069
-        include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
         if ($a_set["ref_id"] &&
             ilLearningProgressAccess::checkPermission('edit_learning_progress', $a_set['ref_id'])) {
             if (!in_array($a_set["type"], array("sco", "lobj")) && !$this->getPrintMode()) {

@@ -76,7 +76,6 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         $this->setDisableFilterHiding(true);
 
         // figure
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($this->lng->txt("trac_figure"), "figure");
         $options = array("objects" => $this->lng->txt("objects"),
             "references" => $this->lng->txt("trac_reference"),
@@ -121,7 +120,6 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
     public function getItems() : void
     {
-        include_once "Services/Tracking/classes/class.ilTrQuery.php";
         $res = ilTrQuery::getObjectTypeStatisticsPerMonth($this->filter["aggregation"], $this->filter["year"]);
         
         $data = array();
@@ -135,7 +133,6 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                                                 
             // to enable sorting by title
             if ($this->objDefinition->isPluginTypeName($type)) {
-                include_once("./Services/Component/classes/class.ilPlugin.php");
                 $data[$type]["title"] = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
                 $data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
             } else {
@@ -163,7 +160,6 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
                 // to enable sorting by title
                 if ($this->objDefinition->isPluginTypeName($type)) {
-                    include_once("./Services/Component/classes/class.ilPlugin.php");
                     $data[$type]["title"] = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
                     $data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
                 } else {
@@ -207,7 +203,6 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
     public function getGraph(array $a_graph_items) : string
     {
-        include_once "Services/Chart/classes/class.ilChart.php";
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objsttp");
         $chart->setSize(700, 500);
     

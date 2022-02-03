@@ -1,8 +1,6 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Tracking/classes/class.ilLPStatus.php';
-require_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -78,7 +76,6 @@ class ilLPStatusCollectionMobs extends ilLPStatus
             }
         }
 
-        include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         foreach ($users as $user_id) {
             if ((!is_array($res["user_status"]["in_progress"]) || !in_array($user_id, $res["user_status"]["in_progress"])) &&
@@ -94,7 +91,6 @@ class ilLPStatusCollectionMobs extends ilLPStatus
     {
         $res = array();
         
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {

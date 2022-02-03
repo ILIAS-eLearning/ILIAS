@@ -1,7 +1,6 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
@@ -13,7 +12,6 @@ class ilLPStatusManual extends ilLPStatus
 
     public static function _getInProgress(int $a_obj_id) : array
     {
-        include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         
         // Exclude all users with status completed.
@@ -54,7 +52,6 @@ class ilLPStatusManual extends ilLPStatus
             case 'lm':
             case 'copa':
             case 'htlm':
-                include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
                 if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
                     

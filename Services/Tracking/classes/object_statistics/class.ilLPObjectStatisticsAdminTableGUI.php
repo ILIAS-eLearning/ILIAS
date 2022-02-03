@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 
 /**
 * TableGUI class for learning progress
@@ -45,7 +44,6 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
 
     public function getItems() : void
     {
-        include_once "Services/Tracking/classes/class.ilTrQuery.php";
         $data = ilTrQuery::getObjectStatisticsMonthlySummary();
         
         // #11855

@@ -19,7 +19,6 @@ class ilLPStatusVisits extends ilLPStatus
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $required_visits = $status_info['visits'];
             
-        include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $all = ilChangeEvent::_lookupReadEvents($a_obj_id);
         $user_ids = [];
         foreach ($all as $event) {
@@ -39,7 +38,6 @@ class ilLPStatusVisits extends ilLPStatus
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $required_visits = $status_info['visits'];
 
-        include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $all = ilChangeEvent::_lookupReadEvents($a_obj_id);
         $user_ids = [];
         foreach ($all as $event) {
@@ -52,7 +50,6 @@ class ilLPStatusVisits extends ilLPStatus
 
     public static function _getStatusInfo(int $a_obj_id) : array
     {
-        include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
         $status_info['visits'] = ilLPObjSettings::_lookupVisits($a_obj_id);
         return $status_info;
     }
@@ -67,7 +64,6 @@ class ilLPStatusVisits extends ilLPStatus
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case 'lm':
-                include_once './Services/Tracking/classes/class.ilChangeEvent.php';
                 if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
                     
@@ -75,7 +71,6 @@ class ilLPStatusVisits extends ilLPStatus
                     $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
                     $required_visits = $status_info['visits'];
 
-                    include_once './Services/Tracking/classes/class.ilChangeEvent.php';
                     $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
                     if ($re[0]['read_count'] >= $required_visits) {
                         $status = self::LP_STATUS_COMPLETED_NUM;
@@ -88,7 +83,6 @@ class ilLPStatusVisits extends ilLPStatus
         
     public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
     {
-        include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
         $reqv = ilLPObjSettings::_lookupVisits($a_obj_id);
 
         $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);

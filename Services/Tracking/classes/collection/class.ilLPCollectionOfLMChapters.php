@@ -21,7 +21,6 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
             $items = array();
 
             // only top-level chapters
-            include_once "Services/MetaData/classes/class.ilMDEducational.php";
             $tree = new ilTree($obj_id);
             $tree->setTableNames('lm_tree', 'lm_data');
             $tree->setTreeTablePK("lm_id");
@@ -44,7 +43,6 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
         $data = array();
         
         $parent_type = ilObject::_lookupType($a_parent_ref_id, true);
-        include_once './Services/Link/classes/class.ilLink.php';
         
         foreach ($this->getPossibleItems($a_parent_ref_id) as $item) {
             $tmp = array();

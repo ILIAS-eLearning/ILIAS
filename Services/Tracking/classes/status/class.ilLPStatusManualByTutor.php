@@ -27,7 +27,6 @@
 * @ingroup ServicesTracking
 */
 
-include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 
 class ilLPStatusManualByTutor extends ilLPStatus
 {
@@ -115,7 +114,6 @@ class ilLPStatusManualByTutor extends ilLPStatus
                 if ($rec = $this->db->fetchAssoc($set)) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 } else {
-                    include_once './Services/Tracking/classes/class.ilChangeEvent.php';
                     if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
                         $status = self::LP_STATUS_IN_PROGRESS_NUM;
                     }
@@ -137,7 +135,6 @@ class ilLPStatusManualByTutor extends ilLPStatus
         switch ($ilObjDataCache->lookupType($a_obj_id)) {
             case 'crs':
             case 'grp':
-                include_once './Services/Membership/classes/class.ilParticipants.php';
                 return ilParticipants::getInstanceByObjId($a_obj_id)->getMembers();
         }
         

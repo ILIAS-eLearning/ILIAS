@@ -70,7 +70,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         $this->setShowTemplates(true);
 
         // see ilObjCourseGUI::addMailToMemberButton()
-        include_once "Services/Mail/classes/class.ilMail.php";
         $mail = new ilMail($DIC->user()->getId());
         if ($this->rbacsystem->checkAccess("internal_mail", $mail->getMailObjectReferenceId())) {
             $this->addMultiCommand("mailselectedusers", $this->lng->txt("send_mail"));
@@ -154,7 +153,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     $no_perm = false;
                     
                     $ref_id = $this->ref_ids[$obj_id];
-                    include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
                     if ($ref_id &&
                         !ilLearningProgressAccess::checkPermission('read_learning_progress', $ref_id)) {
                         $no_perm = true;
@@ -165,14 +163,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     $type = $this->ilObjDataCache->lookupType($obj_id);
                     $icon = ilObject::_getIcon($obj_id, "tiny", $type);
                     if ($type == "sess") {
-                        include_once "Modules/Session/classes/class.ilObjSession.php";
                         $sess = new ilObjSession($obj_id, false);
                         $title = $sess->getPresentationTitle();
                     }
                     
                     // #16453
                     $relpath = null;
-                    include_once './Services/Tree/classes/class.ilPathGUI.php';
                     $path = new ilPathGUI();
                     $path = $path->getPath($this->ref_id, $ref_id);
                     if ($path) {
@@ -201,7 +197,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             }
             if (sizeof($this->subitem_ids)) {
                 foreach ($this->subitem_ids as $obj_id => $title) {
-                    include_once("./Services/Tracking/classes/class.ilTrQuery.php");
                     $icon = ilUtil::getTypeIconPath(ilTrQuery::getSubItemType($this->obj_id), $obj_id, "tiny");
                     $tmp_cols[strtolower($title) . "#~#objsub_" . $obj_id] = array("txt" => $title, "icon" => $icon, "default" => true);
                 }
@@ -244,7 +239,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             $this->filter["name"] = $name;
         }
                 
-        include_once("./Services/Tracking/classes/class.ilTrQuery.php");
         $collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
         if ($collection["object_ids"]) {
             // we need these for the timing warnings
@@ -254,14 +248,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             $check_agreement = false;
             if ($this->in_course) {
                 // privacy (if course agreement is activated)
-                include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
                 $privacy = ilPrivacySettings::getInstance();
                 if ($privacy->courseConfirmationRequired()) {
                     $check_agreement = $this->in_course;
                 }
             } elseif ($this->in_group) {
                 // privacy (if group agreement is activated)
-                include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
                 $privacy = ilPrivacySettings::getInstance();
                 if ($privacy->groupConfirmationRequired()) {
                     $check_agreement = $this->in_group;

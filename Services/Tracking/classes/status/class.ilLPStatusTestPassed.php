@@ -27,7 +27,6 @@
 *
 */
 
-include_once './Services/Tracking/classes/class.ilLPStatus.php';
 
 class ilLPStatusTestPassed extends ilLPStatus
 {
@@ -70,7 +69,6 @@ class ilLPStatusTestPassed extends ilLPStatus
 
     public static function _getStatusInfo(int $a_obj_id) : array
     {
-        include_once './Modules/Test/classes/class.ilObjTestAccess.php';
         $status_info['results'] = ilObjTestAccess::_getPassedUsers($a_obj_id);
         return $status_info;
     }
@@ -105,7 +103,6 @@ class ilLPStatusTestPassed extends ilLPStatus
         $ilDB = $DIC['ilDB'];
 
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-        require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
         $res = $this->db->query("
 			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) " . $this->db->quoteIdentifier("sequences") . ", tst_active.last_finished_pass,
 				CASE WHEN
@@ -125,7 +122,6 @@ class ilLPStatusTestPassed extends ilLPStatus
 
         if ($rec = $this->db->fetchAssoc($res)) {
             if ($rec['sequences'] > 0) {
-                require_once 'Modules/Test/classes/class.ilObjTest.php';
 
                 $test_obj = new ilObjTest($a_obj_id, false);
                 $is_passed = ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);

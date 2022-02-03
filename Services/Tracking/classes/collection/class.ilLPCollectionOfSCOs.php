@@ -15,29 +15,24 @@ class ilLPCollectionOfSCOs extends ilLPCollection
     public function getPossibleItems() : array
     {
         if (!isset(self::$possible_items[$this->obj_id])) {
-            include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
 
             $items = array();
 
             switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
                 case 'hacp':
                 case 'aicc':
-                    include_once './Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php';
                     foreach (ilObjAICCLearningModule::_getTrackingItems($this->obj_id) as $item) {
                         $items[$item['obj_id']]['title'] = $item['title'];
                     }
                     break;
 
                 case 'scorm':
-                    include_once './Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php';
-                    include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
                     foreach (ilObjSCORMLearningModule::_getTrackingItems($this->obj_id) as $item) {
                         $items[$item->getId()]['title'] = $item->getTitle();
                     }
                     break;
 
                 case 'scorm2004':
-                    include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
                     foreach (ilObjSCORM2004LearningModule::_getTrackingItems($this->obj_id) as $item) {
                         $items[$item['id']]['title'] = $item['title'];
                     }
@@ -77,20 +72,15 @@ class ilLPCollectionOfSCOs extends ilLPCollection
     // see ilSCORMCertificateAdapter
     public function getScoresForUserAndCP_Node_Id(int $item_id, int $user_id) : array
     {
-        include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
         switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
             case 'hacp':
             case 'aicc':
-                include_once './Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php';
                 return ilObjAICCLearningModule::_getScoresForUser($item_id, $user_id);
 
             case 'scorm':
-                include_once './Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php';
-                //include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
                 return ilObjSCORMLearningModule::_getScoresForUser($item_id, $user_id);
 
             case 'scorm2004':
-                include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
                 return ilObjSCORM2004LearningModule::_getScores2004ForUser($item_id, $user_id);
         }
         

@@ -133,7 +133,6 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
     {
         parent::cloneCollection($a_target_id, $a_copy_id);
         
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
         

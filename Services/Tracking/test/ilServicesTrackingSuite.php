@@ -9,7 +9,6 @@ class ilServicesTrackingSuite extends TestSuite
     {
         $suite = new ilServicesTrackingSuite();
         
-        include_once("./Services/Tracking/test/ilTrackingTest.php");
         $suite->addTestSuite("ilTrackingTest");
 
         return $suite;

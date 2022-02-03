@@ -47,7 +47,6 @@ class ilLPStatusSCORMPackage extends ilLPStatus
     
     public static function _getStatusInfo(int $a_obj_id) : array
     {
-        include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
         $status_info['subtype'] = "scorm2004";
         $info = ilSCORM2004Tracking::_getProgressInfo($a_obj_id);
 
@@ -73,7 +72,6 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
         
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
         $scorm_status = ilSCORM2004Tracking::_getProgressInfoOfUser($a_obj_id, $a_usr_id);
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($scorm_status) {
@@ -95,14 +93,12 @@ class ilLPStatusSCORMPackage extends ilLPStatus
     {
         parent::refreshStatus($a_obj_id, $a_users);
         
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         $in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);
         $completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
         $failed = ilLPStatusWrapper::_getFailed($a_obj_id);
         $all_active_users = array_unique(array_merge($in_progress, $completed, $failed));
         
         // get all tracked users regardless of SCOs
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
         $all_tracked_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
         
         $not_attempted_users = array_diff($all_tracked_users, $all_active_users);

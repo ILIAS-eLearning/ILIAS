@@ -42,7 +42,6 @@ class ilLPStatusTestFinished extends ilLPStatus
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        include_once './Modules/Test/classes/class.ilObjTestAccess.php';
         $query = "
 			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
 			FROM tst_active
@@ -70,7 +69,6 @@ class ilLPStatusTestFinished extends ilLPStatus
 
         $ilDB = $DIC['ilDB'];
 
-        include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
         $query = "
 			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
@@ -99,7 +97,6 @@ class ilLPStatusTestFinished extends ilLPStatus
 
         $ilDB = $DIC['ilDB'];
 
-        include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
         $res = $ilDB->query("SELECT DISTINCT user_fi FROM tst_active" .
             " WHERE test_fi = " . $ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)));
@@ -118,7 +115,6 @@ class ilLPStatusTestFinished extends ilLPStatus
 
         $ilDB = $DIC['ilDB'];
         
-        include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
         $res = $this->db->query("
 			SELECT active_id, user_fi, tries, COUNT(tst_sequence.active_fi) sequences

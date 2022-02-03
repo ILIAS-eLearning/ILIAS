@@ -41,12 +41,10 @@ class ilLPStatusFactory
     public static function _getClassById(int $a_obj_id, ?int $a_mode = null) : string
     {
         if ($a_mode === null) {
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();
             
             // please keep the cache in this if-block, otherwise default values
-            // will not trigger the include_once calls
             if (isset(self::$class_by_obj_id[$a_obj_id])) {
                 return self::$class_by_obj_id[$a_obj_id];
             }
@@ -59,7 +57,6 @@ class ilLPStatusFactory
                         
             // undefined? try object lp directly
             if ($class === null) {
-                include_once 'Services/Object/classes/class.ilObjectLP.php';
                 $olp = ilObjectLP::getInstance($a_obj_id);
                 $mode = $olp->getCurrentMode();
                 if ($mode != ilLPObjSettings::LP_MODE_UNDEFINED) {
@@ -83,7 +80,6 @@ class ilLPStatusFactory
         $path = ($a_class == 'ilLPStatus')
             ? 'Services/Tracking/classes/'
             : 'Services/Tracking/classes/status/';
-        include_once $path . 'class.' . $a_class . '.php';
     }
 
     public static function _getClassByIdAndType(int $a_obj_id, string $a_type) : string
@@ -105,7 +101,6 @@ class ilLPStatusFactory
     public static function _getInstance(int $a_obj_id, ?int $a_mode = null) : ilLPStatus
     {
         if ($a_mode === null) {
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();
         }
@@ -117,7 +112,6 @@ class ilLPStatusFactory
                         
             // undefined? try object lp directly
             if ($class === null) {
-                include_once 'Services/Object/classes/class.ilObjectLP.php';
                 $olp = ilObjectLP::getInstance($a_obj_id);
                 $mode = $olp->getCurrentMode();
                 if ($mode != ilLPObjSettings::LP_MODE_UNDEFINED) {

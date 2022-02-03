@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 
 
 /**
@@ -86,13 +85,11 @@ class ilLPStatusObjectives extends ilLPStatus
         if ($status_info['num_objectives']) {
             $in = $ilDB->in('objective_id', $status_info['objectives'], false, 'integer');
                         
-            include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
             foreach (ilLOUserResults::getSummarizedObjectiveStatusForLP($a_obj_id, $status_info['objectives']) as $user_id => $user_status) {
                 $status_info['user_status'][$user_status][] = $user_id;
             }
             
             // change event should lead to "in progress" - see determineStatus()
-            include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
             foreach (ilChangeEvent::lookupUsersInProgress($a_obj_id) as $user_id) {
                 if (!is_array($status_info['user_status'][ilLPStatus::LP_STATUS_IN_PROGRESS_NUM]) ||
                     !in_array($user_id, $status_info['user_status'][ilLPStatus::LP_STATUS_IN_PROGRESS_NUM])) {
@@ -126,16 +123,13 @@ class ilLPStatusObjectives extends ilLPStatus
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case "crs":
-                include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
                 if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
                     // an initial test (only) should also lead to "in progress"
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
 
-                    include_once 'Modules/Course/classes/class.ilCourseObjective.php';
                     $objectives = ilCourseObjective::_getObjectiveIds($a_obj_id, true);
                     if ($objectives) {
                         // #14051 - getSummarizedObjectiveStatusForLP() might return null
-                        include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
                         $objtv_status = ilLOUserResults::getSummarizedObjectiveStatusForLP($a_obj_id, $objectives, $a_usr_id);
                         if ($objtv_status !== null) {
                             $status = $objtv_status;
@@ -153,7 +147,6 @@ class ilLPStatusObjectives extends ilLPStatus
      */
     protected static function getMembers(int $a_obj_id) : array
     {
-        include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
         $member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
         return $member_obj->getMembers();
     }

@@ -36,28 +36,24 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
         switch ($next_class) {
             case 'ilpermissiongui':
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'illearningprogressgui':
                 $this->tabs_gui->setTabActive('learning_progress');
-                include_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
                 $lp_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ADMINISTRATION);
                 $ret = $this->ctrl->forwardCommand($lp_gui);
                 break;
             
             case 'illpobjectstatisticsgui':
                 $this->tabs_gui->setTabActive('statistics');
-                include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php");
                 $os_gui = new ilLPObjectStatisticsGUI(ilLPObjectStatisticsGUI::LP_CONTEXT_ADMINISTRATION);
                 $ret = $this->ctrl->forwardCommand($os_gui);
                 break;
             
             case 'ilsessionstatisticsgui':
                 $this->tabs_gui->setTabActive('session_statistics');
-                include_once("./Services/Authentication/classes/class.ilSessionStatisticsGUI.php");
                 $sess_gui = new ilSessionStatisticsGUI();
                 $ret = $this->ctrl->forwardCommand($sess_gui);
                 break;
@@ -252,7 +248,6 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $valid->setRequired(true);
         $form->addItem($valid);
         
-        include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             ilAdministrationSettingsFormHandler::FORM_LP,
             $form,
@@ -346,14 +341,11 @@ class ilObjUserTrackingGUI extends ilObjectGUI
     
     protected function initLPDefaultsForm() : ilPropertyFormGUI
     {
-        include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('trac_defaults'));
         $form->setDescription($this->lng->txt('trac_defaults_info'));
         
-        include_once "Services/Object/classes/class.ilObjectLP.php";
-        include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
         
         $types = array();
         foreach ($this->objectDefinition->getAllRepositoryTypes() as $type) {
@@ -402,8 +394,6 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         
         $form = $this->initLPDefaultsForm();
         if ($form->checkInput()) {
-            include_once "Services/Object/classes/class.ilObjectLP.php";
-            include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
             
             $res = array();
             foreach ($this->objectDefinition->getAllRepositoryTypes() as $type) {

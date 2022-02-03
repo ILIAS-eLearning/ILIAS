@@ -46,7 +46,6 @@ class ilLPStatusCollectionManual extends ilLPStatus
     {
         $status_info = array();
                                         
-        include_once "Services/Object/classes/class.ilObjectLP.php";
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
@@ -152,7 +151,6 @@ class ilLPStatusCollectionManual extends ilLPStatus
             $a_completed = array();
         }
         
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
@@ -182,7 +180,6 @@ class ilLPStatusCollectionManual extends ilLPStatus
             }
         }
         
-        include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";
         ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
     }
 }

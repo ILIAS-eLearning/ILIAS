@@ -14,7 +14,6 @@ class ilLPStatusVisitedPages extends ilLPStatus
 {
     public static function _getInProgress(int $a_obj_id) : array
     {
-        include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
         return $users;
@@ -81,7 +80,6 @@ class ilLPStatusVisitedPages extends ilLPStatus
         
         $res = array();
         
-        include_once "Services/COPage/classes/class.ilPageObject.php";
         
         $set = $ilDB->query("SELECT lm_data.obj_id" .
             " FROM lm_data" .

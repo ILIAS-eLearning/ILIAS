@@ -1,7 +1,6 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -42,7 +41,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             $type = ilObject::_lookupType($this->obj_id);
             if (!$this->objDefinition->isContainer($type)) {
                 $this->type = $type;
-                include_once './Services/Object/classes/class.ilObjectLP.php';
                 $this->olp = ilObjectLP::getInstance($this->obj_id);
             }
         }
@@ -96,7 +94,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $default = array();
         
         // show only if extended data was activated in lp settings
-        include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
         $tracking = new ilObjUserTracking();
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT)) {
             $all[] = "read_count_sum";
@@ -189,7 +186,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         }
         
         // show only if extended data was activated in lp settings
-        include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
         $tracking = new ilObjUserTracking();
 
         $item = $this->addFilterItemByMetaType(
@@ -234,7 +230,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         }
     
         if ($this->is_root || !$this->olp || $this->olp->isActive()) {
-            include_once "Services/Tracking/classes/class.ilLPStatus.php";
             $item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true);
             $item->setOptions(array("" => $this->lng->txt("trac_all"),
                 ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
@@ -359,8 +354,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         );
         
         // build status to image map
-        include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-        include_once("./Services/Tracking/classes/class.ilLPStatus.php");
         $valid_status = array(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatus::LP_STATUS_COMPLETED_NUM,
@@ -383,7 +376,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         foreach ($data["set"] as $idx => $result) {
             // sessions have no title
             if ($result["title"] == "" && $result["type"] == "sess") {
-                include_once "Modules/Session/classes/class.ilObjSession.php";
                 $sess = new ilObjSession($result["obj_id"], false);
                 $data["set"][$idx]["title"] = $sess->getFirstAppointment()->appointmentToString();
             }
@@ -395,7 +387,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             if ($result["ref_ids"]) {
                 $valid = false;
                 foreach ($result["ref_ids"] as $check_ref_id) {
-                    include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
                     if (ilLearningProgressAccess::checkPermission('read_learning_progress', $check_ref_id)) {
                         $valid = true;
                         break;
@@ -667,7 +658,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             $this->tpl->touchBlock("path_action");
         } elseif ($a_set["ref_ids"]) { // #18446
             // #16453
-            include_once './Services/Tree/classes/class.ilPathGUI.php';
             $path = new ilPathGUI();
             $path = $path->getPath($this->ref_id, (int) array_pop($a_set["ref_ids"]));
             if ($path) {
@@ -742,8 +732,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                     $a_excel->setCell($a_row, ++$cnt, $label . " " . $this->lng->txt("trac_others") . " %");
                 } else {
                     // build status to image map
-                    include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-                    include_once("./Services/Tracking/classes/class.ilLPStatus.php");
                     $valid_status = array(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,
                         ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
                         ilLPStatus::LP_STATUS_COMPLETED_NUM,
@@ -824,8 +812,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                     $a_csv->addColumn($label . " " . $this->lng->txt("trac_others") . " %");
                 } else {
                     // build status to image map
-                    include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-                    include_once("./Services/Tracking/classes/class.ilLPStatus.php");
                     $valid_status = array(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,
                         ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
                         ilLPStatus::LP_STATUS_COMPLETED_NUM,

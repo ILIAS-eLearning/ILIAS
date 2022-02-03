@@ -64,7 +64,6 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set) : void
     {
-        include_once './Services/Link/classes/class.ilLink.php';
 
         $this->tpl->setCurrentBlock('item_row');
         $this->tpl->setVariable('ITEM_ID', $a_set['id']);
@@ -93,7 +92,6 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('COLL_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
                 $this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent'));
 
-                include_once './Services/Tree/classes/class.ilPathGUI.php';
                 $path = new ilPathGUI();
                 $this->tpl->setVariable('COLL_PATH', $this->lng->txt('path') . ': ' . $path->getPath($this->getNode(), $a_set['ref_id']));
 
@@ -108,7 +106,6 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                         $this->tpl->setVariable("COLL_MODE", "");
                     }
                 }
-                include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
                 if (ilLearningProgressAccess::checkPermission('edit_learning_progress', $a_set['ref_id'])) {
                     $gui_class = "ilObj" . $this->obj_definition->getClassName($a_set['type']) . "GUI";
                     $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'ref_id', $a_set['ref_id']);

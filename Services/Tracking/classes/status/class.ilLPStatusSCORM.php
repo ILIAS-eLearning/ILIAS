@@ -81,7 +81,6 @@ class ilLPStatusSCORM extends ilLPStatus
     public static function _getStatusInfo(int $a_obj_id) : array
     {
         // Which sco's determine the status
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
@@ -92,16 +91,13 @@ class ilLPStatusSCORM extends ilLPStatus
         $status_info['num_scos'] = count($status_info['scos']);
 
         // Get subtype
-        include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
         $status_info['subtype'] = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
         $info = [];
         switch ($status_info['subtype']) {
             case 'hacp':
             case 'aicc':
-                include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
                 $status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser($status_info['scos'], $a_obj_id);
 
-                include_once './Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php';
                 foreach (ilObjAICCLearningModule::_getTrackingItems($a_obj_id) as $item) {
                     if (in_array($item['obj_id'], $status_info['scos'])) {
                         $status_info['scos_title']["$item[obj_id]"] = $item['title'];
@@ -111,10 +107,8 @@ class ilLPStatusSCORM extends ilLPStatus
                 break;
 
             case 'scorm':
-                include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
                 $status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser($status_info['scos'], $a_obj_id);
 
-                include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
                 foreach ($status_info['scos'] as $sco_id) {
                     $status_info['scos_title'][$sco_id] = ilSCORMItem::_lookupTitle($sco_id);
                 }
@@ -122,9 +116,7 @@ class ilLPStatusSCORM extends ilLPStatus
                 break;
                 
             case "scorm2004":
-                include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
                 $status_info['num_completed'] = ilSCORM2004Tracking::_getCountCompletedPerUser($status_info['scos'], $a_obj_id, true);
-                include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
                 foreach ($status_info['scos'] as $sco_id) {
                     $status_info['scos_title'][$sco_id] = ilObjSCORM2004LearningModule::_lookupItemTitle($sco_id);
                 }
@@ -153,30 +145,25 @@ class ilLPStatusSCORM extends ilLPStatus
 
         // if the user has accessed the scorm object
         // the status is at least "in progress"
-        include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
         if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
             $status = self::LP_STATUS_IN_PROGRESS_NUM;
         }
         // Which sco's determine the status
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
             $scos = $collection->getItems();
             if (sizeof($scos)) { // #15462 (#11513 - empty collections cannot be completed)
-                include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
                 $subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
                 $scorm_status = '';
                 switch ($subtype) {
                     case 'hacp':
                     case 'aicc':
                     case 'scorm':
-                        include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
                         $scorm_status = ilObjSCORMTracking::_getCollectionStatus($scos, $a_obj_id, $a_usr_id);
                     break;
 
                     case 'scorm2004':
-                        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
                         $scorm_status = ilSCORM2004Tracking::_getCollectionStatus($scos, $a_obj_id, $a_usr_id);
                         break;
                 }
@@ -202,7 +189,6 @@ class ilLPStatusSCORM extends ilLPStatus
     public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
     {
         // Which sco's determine the status
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         $reqscos = 0;
@@ -211,13 +197,10 @@ class ilLPStatusSCORM extends ilLPStatus
             $scos = $collection->getItems();
             $reqscos = count($scos);
         
-            include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
             $subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
             if ($subtype != "scorm2004") {
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
                 $compl = ilObjSCORMTracking::_countCompleted($scos, $a_obj_id, $a_usr_id);
             } else {
-                include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
                 $compl = ilSCORM2004Tracking::_countCompleted($scos, $a_obj_id, $a_usr_id, true);
             }
         }
@@ -236,20 +219,16 @@ class ilLPStatusSCORM extends ilLPStatus
         parent::refreshStatus($a_obj_id, $a_users);
         
         // this is restricted to SCOs in the current collection
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         $in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);
         $completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
         $failed = ilLPStatusWrapper::_getFailed($a_obj_id);
         $all_active_users = array_unique(array_merge($in_progress, $completed, $failed));
         
         // get all tracked users regardless of SCOs
-        include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
         $subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
         if ($subtype != "scorm2004") {
-            include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
             $all_tracked_users = ilObjSCORMTracking::_getTrackedUsers($a_obj_id);
         } else {
-            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
             $all_tracked_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
         }
         

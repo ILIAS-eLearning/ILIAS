@@ -17,7 +17,6 @@ class ilLPCollectionOfMediaObjects extends ilLPCollection
         if (!isset(self::$possible_items[$this->obj_id])) {
             $items = array();
                         
-            include_once "Modules/MediaCast/classes/class.ilObjMediaCast.php";
             $cast = new ilObjMediaCast($this->obj_id, false);
             
             foreach ($cast->getSortedItemsArray() as $item) {

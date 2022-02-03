@@ -177,7 +177,6 @@ class ilLPObjSettings
         if (!$this->read()) {
             $this->obj_type = $this->objectDataCache->lookupType($this->obj_id);
             
-            include_once "Services/Object/classes/class.ilObjectLP.php";
             $olp = ilObjectLP::getInstance($this->obj_id);
             $this->obj_mode = $olp->getDefaultMode();
         }
@@ -286,7 +285,6 @@ class ilLPObjSettings
     protected function doLPRefresh() : void
     {
         // refresh learning progress
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_refreshStatus($this->getObjId());
     }
 
@@ -370,7 +368,6 @@ class ilLPObjSettings
             $info = $lng->txt(self::$map[$a_mode][2]);
             if ($a_mode == self::LP_MODE_TLT) {
                 // dynamic content
-                include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
                 $info = sprintf($info, ilObjUserTracking::_getValidTimeSpan());
             }
             return $info;

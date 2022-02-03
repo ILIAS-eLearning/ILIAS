@@ -83,7 +83,6 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             
             $this->setShowTemplates(true);
         } else {
-            include_once './Services/Object/classes/class.ilObjectLP.php';
             $olp = ilObjectLP::getInstance($this->parent_obj_id);
             $collection = $olp->getCollectionInstance();
             $this->has_object_subitems = ($collection instanceof ilLPCollectionOfRepositoryObjects);
@@ -144,7 +143,6 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                     $obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read");
                                                             
                     // check for LP relevance
-                    include_once "Services/Object/classes/class.ilObjectLP.php";
                     foreach (ilObjectLP::getLPMemberships($this->tracked_user->getId(), $obj_ids, null, true) as $obj_id => $status) {
                         if (!$status) {
                             unset($obj_ids[$obj_id]);
@@ -154,7 +152,6 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             }
         }
         if ($obj_ids) {
-            include_once("./Services/Tracking/classes/class.ilTrQuery.php");
             switch ($this->mode) {
                 case ilLPObjSettings::LP_MODE_SCORM:
                     $data = ilTrQuery::getSCOsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id, $obj_ids);

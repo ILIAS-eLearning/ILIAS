@@ -107,9 +107,6 @@ class ilLPStatusEvent extends ilLPStatus
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case 'sess':
-                include_once './Modules/Session/classes/class.ilEventParticipants.php';
-                include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
-                include_once('./Modules/Session/classes/class.ilObjSession.php');
                 
                 $time_info = ilSessionAppointment::_lookupAppointment($a_obj_id);
                 $registration = ilObjSession::_lookupRegistrationEnabled($a_obj_id);

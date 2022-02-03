@@ -86,7 +86,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function applyAccessFilter() : void
     {
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", null, false);
         $lp_table->resetOffset();
         $lp_table->writeFilterToSession();
@@ -95,7 +94,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function resetAccessFilter() : void
     {
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", null, false);
         $lp_table->resetOffset();
         $lp_table->resetFilter();
@@ -111,7 +109,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     {
         $this->tabs_gui->activateSubTab('trac_object_stat_access');
         $this->showAggregationInfo();
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", null, $a_load_data);
         
         if (!$a_load_data) {
@@ -129,7 +126,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         }
         
         $this->tabs_gui->activateSubTab('trac_object_stat_access');
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", $this->initItemIdFromPost());
 
         $this->tpl->setContent($lp_table->getGraph($this->initItemIdFromPost()) . $lp_table->getHTML());
@@ -137,7 +133,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function applyTypesFilter() : void
     {
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", null, false);
         $lp_table->resetOffset();
         $lp_table->writeFilterToSession();
@@ -146,7 +141,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function resetTypesFilter() : void
     {
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", null, false);
         $lp_table->resetOffset();
         $lp_table->resetFilter();
@@ -163,7 +157,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->tabs_gui->activateSubTab('trac_object_stat_types');
         $this->showCronJobInfo();
 
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", null, $a_load_data);
 
         if (!$a_load_data) {
@@ -184,7 +177,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         
         $this->tabs_gui->activateSubTab('trac_object_stat_types');
 
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php");
         $lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", $this->initItemIdFromPost());
 
         $this->tpl->setContent($lp_table->getGraph($this->initItemIdFromPost()) . $lp_table->getHTML());
@@ -192,7 +184,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function applyDailyFilter() : void
     {
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php");
         $lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", null, false);
         $lp_table->resetOffset();
         $lp_table->writeFilterToSession();
@@ -201,7 +192,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function resetDailyFilter() : void
     {
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php");
         $lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", null, false);
         $lp_table->resetOffset();
         $lp_table->resetFilter();
@@ -219,7 +209,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         
         $this->showAggregationInfo();
 
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php");
         $lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", null, $a_load_data);
 
         if (!$a_load_data) {
@@ -240,7 +229,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         
         $this->tabs_gui->activateSubTab('trac_object_stat_daily');
 
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php");
         $lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", $this->initItemIdFromPost());
 
         $this->tpl->setContent($lp_table->getGraph($this->initItemIdFromPost()) . $lp_table->getHTML());
@@ -260,7 +248,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         }
 
         if ($this->access->checkAccess("delete", "", $this->ref_id)) {
-            include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsAdminTableGUI.php");
             $lp_table = new ilLPObjectStatisticsAdminTableGUI($this, "admin");
             $this->tpl->setContent($lp_table->getHTML());
         }
@@ -268,7 +255,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function adminSync() : void
     {
-        include_once "Services/Tracking/classes/class.ilChangeEvent.php";
         ilChangeEvent::_syncObjectStats(time(), 1);
 
         ilUtil::sendSuccess($this->lng->txt("trac_sync_obj_stats_success"), true);
@@ -315,7 +301,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             return;
         }
 
-        include_once "Services/Tracking/classes/class.ilTrQuery.php";
         ilTrQuery::deleteObjectStatistics($this->initItemIdFromPost());
         ilUtil::sendSuccess($this->lng->txt("trac_data_deleted"));
         $this->admin();
@@ -323,7 +308,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     
     public function applyLearningProgressFilter() : void
     {
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php");
         $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", null, false);
         $lp_table->resetOffset();
         $lp_table->writeFilterToSession();
@@ -332,7 +316,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function resetLearningProgressFilter() : void
     {
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php");
         $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", null, false);
         $lp_table->resetOffset();
         $lp_table->resetFilter();
@@ -350,7 +333,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         
         $this->showCronJobInfo();
 
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php");
         $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", null, $a_load_data);
         
         if (!$a_load_data) {
@@ -371,7 +353,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         
         $this->tabs_gui->activateSubTab('trac_object_stat_lp');
 
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php");
         $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", $this->initItemIdFromPost(), true, true);
                 
         $this->tpl->setContent($lp_table->getGraph($this->initItemIdFromPost()) . $lp_table->getHTML());
@@ -397,7 +378,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     
     protected function showAggregationInfo(bool $a_show_link = true) : void
     {
-        include_once "Services/Tracking/classes/class.ilTrQuery.php";
         $info = ilTrQuery::getObjectStatisticsLogInfo();
         $info_date = ilDatePresentation::formatDate(new ilDateTime($info["tstamp"], IL_CAL_UNIX));
                     
@@ -412,7 +392,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     
     protected function showCronJobInfo() : void
     {
-        include_once "Services/Cron/classes/class.ilCronManager.php";
         if (!$this->cronManager->isJobActive("lp_object_statistics")) {
             ilUtil::sendInfo($this->lng->txt("trac_cron_info"));
         }

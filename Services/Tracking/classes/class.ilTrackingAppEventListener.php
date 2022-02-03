@@ -25,7 +25,6 @@ class ilTrackingAppEventListener implements ilAppEventListener
             case 'Services/Object':
                 switch ($a_event) {
                     case 'toTrash':
-                        include_once './Services/Object/classes/class.ilObjectLP.php';
                         $olp = ilObjectLP::getInstance($obj_id);
                         $olp->handleToTrash();
                         break;
@@ -34,7 +33,6 @@ class ilTrackingAppEventListener implements ilAppEventListener
                         // ilRepUtil will raise "delete" even if only reference was deleted!
                         $all_ref = ilObject::_getAllReferences($obj_id);
                         if (!sizeof($all_ref)) {
-                            include_once './Services/Object/classes/class.ilObjectLP.php';
                             $olp = ilObjectLP::getInstance($obj_id);
                             $olp->handleDelete();
                         }
@@ -46,7 +44,6 @@ class ilTrackingAppEventListener implements ilAppEventListener
                 switch ($a_event) {
                     case 'moveTree':
                         if ($a_parameter['tree'] == 'tree') {
-                            include_once './Services/Object/classes/class.ilObjectLP.php';
                             ilObjectLP::handleMove($a_parameter['source_id']);
                         }
                         break;

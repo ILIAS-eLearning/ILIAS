@@ -101,9 +101,6 @@ class ilLPCronObjectStatistics extends ilCronJob
             // gather objects in trash
             $trashed_objects = $this->tree->getSavedNodeObjIds($all_courses);
             
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
-            include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-            include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";
             foreach ($all_courses as $crs_id) {
                 // trashed objects will not change
                 if (!in_array($crs_id, $trashed_objects)) {

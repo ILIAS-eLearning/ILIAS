@@ -35,10 +35,8 @@ class ilLearningProgress
     // Static
     public static function _tracProgress(int $a_user_id, int $a_obj_id, int $a_ref_id, string $a_obj_type = '') : bool
     {
-        require_once('Services/Tracking/classes/class.ilChangeEvent.php');
         ilChangeEvent::_recordReadEvent($a_obj_type, $a_ref_id, $a_obj_id, $a_user_id);
         
-        require_once 'Services/Tracking/classes/class.ilLPStatus.php';
         ilLPStatus::setInProgressIfNotAttempted($a_obj_id, $a_user_id);
 
         return true;
@@ -46,10 +44,8 @@ class ilLearningProgress
 
     public static function _getProgress(int $a_user_id, int $a_obj_id) : array
     {
-        require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
         $events = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
         
-        include_once './Services/Calendar/classes/class.ilDateTime.php';
 
         $progress = [];
         foreach ($events as $row) {
@@ -80,7 +76,6 @@ class ilLearningProgress
      */
     public static function _lookupProgressByObjId(int $a_obj_id) : array
     {
-        include_once('./Services/Tracking/classes/class.ilChangeEvent.php');
         $progress = [];
         foreach (ilChangeEvent::_lookupReadEvents($a_obj_id) as $row) {
             if (isset($progress[$row['usr_id']])) {

@@ -48,10 +48,8 @@ class ilLPStatusCollection extends ilLPStatus
 
     public static function _getInProgress(int $a_obj_id) : array
     {
-        include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
@@ -87,7 +85,6 @@ class ilLPStatusCollection extends ilLPStatus
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
         
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         $grouped_items = [];
@@ -156,7 +153,6 @@ class ilLPStatusCollection extends ilLPStatus
                 
         $users = array();
 
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
@@ -205,7 +201,6 @@ class ilLPStatusCollection extends ilLPStatus
     {
         $status_info = array();
         
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
@@ -249,12 +244,10 @@ class ilLPStatusCollection extends ilLPStatus
             case "fold":
             case "grp":
             case "lso":
-                include_once "./Services/Tracking/classes/class.ilChangeEvent.php";
                 if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
                     $status['in_progress'] = true;
                 }
                 
-                include_once './Services/Object/classes/class.ilObjectLP.php';
                 $olp = ilObjectLP::getInstance($a_obj_id);
                 $collection = $olp->getCollectionInstance();
                 $grouped_items = [];
@@ -348,12 +341,10 @@ class ilLPStatusCollection extends ilLPStatus
     
         switch ($ilObjDataCache->lookupType($a_obj_id)) {
             case 'crs':
-                include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
                 $member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
                 return $member_obj->getMembers();
                 
             case 'grp':
-                include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
                 $member_obj = ilGroupParticipants::_getInstanceByObjId($a_obj_id);
                 return $member_obj->getMembers();
                 
@@ -361,7 +352,6 @@ class ilLPStatusCollection extends ilLPStatus
                 $folder_ref_ids = ilObject::_getAllReferences($a_obj_id);
                 $folder_ref_id = current($folder_ref_ids);
                 if ($crs_id = $tree->checkForParentType($folder_ref_id, 'crs')) {
-                    include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
                     $member_obj = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_id));
                     return $member_obj->getMembers();
                 }

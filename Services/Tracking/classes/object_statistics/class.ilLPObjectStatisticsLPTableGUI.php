@@ -67,7 +67,6 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                 $this->addColumn($this->lng->txt("trac_members_short") . $caption, "mem_cnt_" . $type);
             }
             
-            include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
             foreach ($this->status as $status) {
                 $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
                 $text = ilLearningProgressBaseGUI::_getStatusText($status);
@@ -132,12 +131,10 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $this->setDisableFilterHiding(true);
 
         // object type selection
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $this->filter["type"] = "crs";
         
         
         // title/description
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ti = new ilTextInputGUI($this->lng->txt("trac_title_description"), "query");
         $ti->setMaxLength(64);
         $ti->setSize(20);
@@ -191,7 +188,6 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         if ($objects) {
             $objects = array_keys($objects);
             
-            include_once "Services/Tracking/classes/class.ilTrQuery.php";
                                                         
             $yearmonth = explode("-", $this->filter["yearmonth"]);
             if (sizeof($yearmonth) == 1) {
@@ -267,7 +263,6 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         
         $this->setData($data);
         
-        include_once "./Services/Link/classes/class.ilLink.php";
     }
     
     protected function getDetailItems(int $a_obj_id) : void
@@ -275,7 +270,6 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $data = array();
         $all_status = array_merge(array("mem_cnt"), $this->status);
     
-        include_once "Services/Tracking/classes/class.ilTrQuery.php";
         foreach (ilTrQuery::getObjectLPStatistics(array($a_obj_id), $this->filter["yearmonth"]) as $item) {
             $month = "month_" . $item["yyyy"] . "-" . str_pad($item["mm"], 2, "0", STR_PAD_LEFT);
             
@@ -392,7 +386,6 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
     {
         $a_graph_items = array(array_pop($a_graph_items));
         
-        include_once "Services/Chart/classes/class.ilChart.php";
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstlp");
         $chart->setSize(700, 500);
         
@@ -489,9 +482,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 
         $tpl = $DIC['tpl'];
         
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initOverlay();
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery();
         
         $tpl->addJavascript("./Services/Tracking/js/ilObjStat.js");

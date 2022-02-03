@@ -1,7 +1,6 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 
 /**
 * TableGUI class for learning progress
@@ -76,7 +75,6 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->setDisableFilterHiding(true);
 
         // object type selection
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($this->lng->txt("obj_type"), "type");
         $si->setOptions($this->getPossibleTypes(true, false, true));
         $this->addFilterItem($si);
@@ -87,7 +85,6 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->filter["type"] = $si->getValue();
 
         // title/description
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ti = new ilTextInputGUI($this->lng->txt("trac_title_description"), "query");
         $ti->setMaxLength(64);
         $ti->setSize(20);
@@ -139,7 +136,6 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         }
         
         if ($objects) {
-            include_once "Services/Tracking/classes/class.ilTrQuery.php";
             
             $yearmonth = explode("-", $this->filter["yearmonth"]);
             if (sizeof($yearmonth) == 1) {
@@ -215,7 +211,6 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
         $lng = $DIC['lng'];
         
-        include_once "Services/Chart/classes/class.ilChart.php";
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstdly");
         $chart->setSize(700, 500);
         

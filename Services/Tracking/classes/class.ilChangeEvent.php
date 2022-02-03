@@ -116,7 +116,6 @@ class ilChangeEvent
         $ilDB = $DIC['ilDB'];
         $tree = $DIC['tree'];
         
-        include_once('Services/Tracking/classes/class.ilObjUserTracking.php');
         $validTimeSpan = ilObjUserTracking::_getValidTimeSpan();
         
         $query = sprintf(

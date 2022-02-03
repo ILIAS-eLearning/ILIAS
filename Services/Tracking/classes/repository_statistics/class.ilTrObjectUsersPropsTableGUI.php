@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 
 /**
  * Learning progress table: One object, rows: users, columns: properties
@@ -79,7 +78,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         
         if (!$this->getPrintMode()) {
             // see ilObjCourseGUI::addMailToMemberButton()
-            include_once "Services/Mail/classes/class.ilMail.php";
             $mail = new ilMail($DIC->user()->getId());
             if ($this->rbacsystem->checkAccess("internal_mail", $mail->getMailObjectReferenceId())) {
                 $this->addMultiCommand("mailselectedusers", $this->lng->txt("send_mail"));
@@ -128,7 +126,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         $this->getItems();
         
         // #13807
-        include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
         $this->has_edit = ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->ref_id);
     }
     
@@ -151,21 +148,18 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
     public function getItems() : void
     {
         $this->determineOffsetAndOrder();
-        include_once("./Services/Tracking/classes/class.ilTrQuery.php");
         $additional_fields = $this->getSelectedColumns();
 
         // only if object is [part of] course/group
         $check_agreement = null;
         if ($this->in_course) {
             // privacy (if course agreement is activated)
-            include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
             $privacy = ilPrivacySettings::getInstance();
             if ($privacy->courseConfirmationRequired()) {
                 $check_agreement = $this->in_course;
             }
         } elseif ($this->in_group) {
             // privacy (if group agreement is activated)
-            include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
             $privacy = ilPrivacySettings::getInstance();
             if ($privacy->groupConfirmationRequired()) {
                 $check_agreement = $this->in_group;
@@ -274,7 +268,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                     break;
 
                 case "status":
-                    include_once "Services/Tracking/classes/class.ilLPStatus.php";
                     $item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
                     $item->setOptions(array("" => $this->lng->txt("trac_all"),
                         ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),

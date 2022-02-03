@@ -45,7 +45,6 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 
     public static function _getInProgress(int $a_obj_id) : array
     {
-        include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $users = ilExerciseMembers::_getReturned($a_obj_id);
         $all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         $users = $users + $all;
@@ -83,7 +82,6 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case 'exc':
-                include_once './Services/Tracking/classes/class.ilChangeEvent.php';
                 if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id) ||
                     ilExerciseMembers::_hasReturned($a_obj_id, $a_usr_id)) {
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;

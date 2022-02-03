@@ -79,7 +79,6 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
     {
         $this->setDisableFilterHiding(true);
         // object type selection
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($this->lng->txt("obj_type"), "type");
         $si->setOptions($this->getPossibleTypes(true, false, true));
         $this->addFilterItem($si);
@@ -90,7 +89,6 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $this->filter["type"] = $si->getValue();
 
         // title/description
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ti = new ilTextInputGUI($this->lng->txt("trac_title_description"), "query");
         $ti->setMaxLength(64);
         $ti->setSize(20);
@@ -130,14 +128,12 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
             $objects = $this->searchObjects($this->getCurrentFilter(true), "", null, false);
             
             if ($this->filter["type"] == "blog") {
-                include_once './Services/Tracking/classes/class.ilTrQuery.php';
                 foreach (ilTrQuery::getWorkspaceBlogs($this->filter["query"]) as $obj_id) {
                     $objects[$obj_id] = array($obj_id);
                 }
             }
         } else {
             // portfolios are not part of repository
-            include_once './Services/Tracking/classes/class.ilTrQuery.php';
             foreach (ilTrQuery::getPortfolios($this->filter["query"]) as $obj_id) {
                 $objects[$obj_id] = array($obj_id);
             }
@@ -146,7 +142,6 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         if ($objects) {
             $yearmonth = explode("-", $this->filter["yearmonth"]);
             if (sizeof($yearmonth) == 1) {
-                include_once './Services/Tracking/classes/class.ilTrQuery.php';
                 foreach (ilTrQuery::getObjectAccessStatistics($objects, $yearmonth[0]) as $obj_id => $months) {
                     $data[$obj_id]["obj_id"] = $obj_id;
                     $data[$obj_id]["title"] = ilObject::_lookupTitle($obj_id);
@@ -158,7 +153,6 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
                     }
                 }
             } else {
-                include_once './Services/Tracking/classes/class.ilTrQuery.php';
                 foreach (ilTrQuery::getObjectAccessStatistics($objects, (string) $yearmonth[0], (string) $yearmonth[1]) as $obj_id => $days) {
                     $data[$obj_id]["obj_id"] = $obj_id;
                     $data[$obj_id]["title"] = ilObject::_lookupTitle($obj_id);
@@ -222,7 +216,6 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 
     public function getGraph(array $a_graph_items) : string
     {
-        include_once "Services/Chart/classes/class.ilChart.php";
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstacc");
         $chart->setSize(700, 500);
 

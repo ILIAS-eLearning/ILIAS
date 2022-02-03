@@ -16,7 +16,6 @@ class ilTrackingLearningHistoryProvider extends ilAbstractLearningHistoryProvide
      */
     public function isActive() : bool
     {
-        include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
         if (ilObjUserTracking::_enabledLearningProgress() &&
             ilObjUserTracking::_hasLearningProgressLearner()) {
             return true;

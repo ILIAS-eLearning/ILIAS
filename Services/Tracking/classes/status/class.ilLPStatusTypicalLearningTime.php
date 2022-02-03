@@ -20,7 +20,6 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $tlt = $status_info['tlt'];
 
-        include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $all = ilChangeEvent::_lookupReadEvents($a_obj_id);
 
         $user_ids = [];
@@ -41,7 +40,6 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $tlt = $status_info['tlt'];
         // TODO: move to status info
-        include_once './Services/Tracking/classes/class.ilChangeEvent.php';
         $all = ilChangeEvent::_lookupReadEvents($a_obj_id);
 
         $user_ids = [];
@@ -71,7 +69,6 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
                     $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
                     $tlt = $status_info['tlt'];
 
-                    include_once './Services/Tracking/classes/class.ilChangeEvent.php';
                     $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
                     if ($re[0]['spent_seconds'] >= $tlt) {
                         $status = self::LP_STATUS_COMPLETED_NUM;

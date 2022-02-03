@@ -106,7 +106,6 @@ class ilLPStatus
     
     public static function _getTypicalLearningTime(int $a_obj_id) : int
     {
-        include_once 'Services/MetaData/classes/class.ilMDEducational.php';
         return ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
     }
 
@@ -290,7 +289,6 @@ class ilLPStatus
 
         // refresh status, if records are dirty or missing
         if ($dirty || $missing) {
-            require_once "Services/Tracking/classes/class.ilLPStatusFactory.php"; // #13330
             $trac_obj = ilLPStatusFactory::_getInstance($a_obj_id);
             $trac_obj->refreshStatus($a_obj_id, $a_users);
         }
@@ -326,7 +324,6 @@ class ilLPStatus
      */
     public function refreshStatus(int $a_obj_id, ?array $a_users = null) : void
     {
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         $not_attempted = ilLPStatusWrapper::_getNotAttempted($a_obj_id);
         foreach ($not_attempted as $user_id) {
             $percentage = $this->determinePercentage($a_obj_id, $user_id);
@@ -461,7 +458,6 @@ class ilLPStatus
             $log->debug('update dependencies');
 
             // a change occured - remove existing cache entry
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_removeStatusCache($a_obj_id, $a_user_id);
             
             $set = $ilDB->query("SELECT ut_lp_collections.obj_id obj_id FROM " .
@@ -528,7 +524,6 @@ class ilLPStatus
         }
             
         if ($needs_update) {
-            require_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";
             ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
         }
     }
@@ -582,7 +577,6 @@ class ilLPStatus
         if ($rec = $ilDB->fetchAssoc($set)) {
             return (int) $rec["status"];
         } elseif ($a_create) {
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
             $set = $ilDB->query(
                 "SELECT status FROM ut_lp_marks WHERE " .
@@ -644,7 +638,6 @@ class ilLPStatus
         if ($rec = $ilDB->fetchAssoc($set)) {
             return (string) $rec["status_changed"];
         } else {
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
             $set = $ilDB->query(
                 "SELECT status_changed FROM ut_lp_marks WHERE " .
@@ -722,7 +715,6 @@ class ilLPStatus
     {
         $lp_invalid = array();
         
-        include_once "Services/Object/classes/class.ilObjectLP.php";
         $memberships = ilObjectLP::getLPMemberships($a_user_id, $a_obj_ids, $a_parent_ref_id);
         foreach ($memberships as $obj_id => $status) {
             if (!$status) {
@@ -742,10 +734,8 @@ class ilLPStatus
         $valid = array();
         
         // all lp modes with collections (gathered separately)
-        include_once "Services/Tracking/classes/collection/class.ilLPCollection.php";
         $coll_modes = ilLPCollection::getCollectionModes();
         
-        include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
         
         // check if objects have LP activated at all (DB entries)
         $existing = ilLPObjSettings::_lookupDBModeForObjects($a_obj_ids);
@@ -760,7 +750,6 @@ class ilLPStatus
         }
                                 
         // missing objects in DB (default mode)
-        include_once "Services/Object/classes/class.ilObjectLP.php";
         if (sizeof($existing) != sizeof($a_obj_ids)) {
             foreach (array_diff($a_obj_ids, $existing) as $obj_id) {
                 $olp = ilObjectLP::getInstance($obj_id);
@@ -835,7 +824,6 @@ class ilLPStatus
         
         $user_id = $ilUser->getId();
         $res = array();
-        include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
         if ($ilUser->getId() != ANONYMOUS_USER_ID &&
             ilObjUserTracking::_enabledLearningProgress() &&
             ilObjUserTracking::_hasLearningProgressLearner() && // #12042
@@ -860,7 +848,6 @@ class ilLPStatus
 
             // value to icon
             $lng->loadLanguageModule("trac");
-            include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
             foreach ($res as $obj_id => $status) {
                 $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
                 $text = ilLearningProgressBaseGUI::_getStatusText((int) $status);

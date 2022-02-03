@@ -20,11 +20,8 @@ class ilTrQuery
             $obj_ids = array_keys($obj_refs);
             self::refreshObjectsStatus($obj_ids, array($a_user_id));
             
-            include_once "Services/Object/classes/class.ilObjectLP.php";
-            include_once "Services/Tracking/classes/class.ilLPStatus.php";
         
             // prepare object view modes
-            include_once 'Modules/Course/classes/class.ilObjCourse.php';
             $view_modes = array();
             $query = "SELECT obj_id, view_mode FROM crs_settings" .
                 " WHERE " . $ilDB->in("obj_id", $obj_ids, false, "integer");
@@ -88,7 +85,6 @@ class ilTrQuery
 
         $ilDB = $DIC->database();
                         
-        include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
         $lo_lp_status = ilLOUserResults::getObjectiveStatusForLP($a_user_id, $a_obj_id, $a_objective_ids);
         
         $query = "SELECT crs_id, crs_objectives.objective_id AS obj_id, title," . $ilDB->quote("lobj", "text") . " AS type" .
@@ -118,19 +114,16 @@ class ilTrQuery
         
         // import score from tracking data
         $scores_raw = $scores = array();
-        include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
         $subtype = ilObjSAHSLearningModule::_lookupSubType($a_parent_obj_id);
         switch ($subtype) {
             case 'hacp':
             case 'aicc':
             case 'scorm':
-                include_once './Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php';
                 $module = new ilObjSCORMLearningModule($a_parent_obj_id, false);
                 $scores_raw = $module->getTrackingDataAgg($a_user_id);
                 break;
                 
             case 'scorm2004':
-                include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
                 $module = new ilObjSCORM2004LearningModule($a_parent_obj_id, false);
                 $scores_raw = $module->getTrackingDataAgg($a_user_id);
                 break;
@@ -143,7 +136,6 @@ class ilTrQuery
             unset($scores_raw);
         }
         
-        include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_parent_obj_id);
         
         $items = array();
@@ -179,7 +171,6 @@ class ilTrQuery
         switch (ilObject::_lookupType($a_parent_obj_id)) {
             case "lm":
             case "mcst":
-                include_once './Services/Object/classes/class.ilObjectLP.php';
                 $olp = ilObjectLP::getInstance($a_parent_obj_id);
                 $collection = $olp->getCollectionInstance();
                 if ($collection) {
@@ -193,7 +184,6 @@ class ilTrQuery
                 return array();
         }
     
-        include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_parent_obj_id);
         
         $items = array();
@@ -283,7 +273,6 @@ class ilTrQuery
         // as we cannot do this in the query, sort by custom field here
         // this will not work with pagination!
         if ($udf_order) {
-            include_once "Services/Utilities/classes/class.ilStr.php";
             $result["set"] = ilUtil::stableSortArray(
                 $result["set"],
                 $udf_order,
@@ -324,7 +313,6 @@ class ilTrQuery
         // (course/group) user agreement
         if ($a_check_agreement) {
             // admins/tutors (write-access) will never have agreement ?!
-            include_once "Services/Membership/classes/class.ilMemberAgreement.php";
             $agreements = ilMemberAgreement::lookupAcceptedAgreements($a_check_agreement);
 
             // public information for users
@@ -434,14 +422,11 @@ class ilTrQuery
 
             // scos data (:TODO: will not be part of offset/limit)
             if ($objects["scorm"]) {
-                include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
                 $subtype = ilObjSAHSLearningModule::_lookupSubType($a_parent_obj_id);
                 if ($subtype == "scorm2004") {
-                    include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
                     $sobj = new ilObjSCORM2004LearningModule($a_parent_ref_id, true);
                     $scos_tracking = $sobj->getTrackingDataAgg($a_user_id, true);
                 } else {
-                    include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
                     $sobj = new ilObjSCORMLearningModule($a_parent_ref_id, true);
                     $scos_tracking = array();
                     foreach ($sobj->getTrackingDataAgg($a_user_id) as $item) {
@@ -484,8 +469,6 @@ class ilTrQuery
             
             // #15379 - objectives data
             if ($objects["objectives_parent_id"]) {
-                include_once "Modules/Course/classes/class.ilCourseObjective.php";
-                include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
                 $objtv_ids = ilCourseObjective::_getObjectiveIds($objects["objectives_parent_id"], true);
                 foreach (self::getObjectivesStatusForUser($a_user_id, $objects["objectives_parent_id"], $objtv_ids) as $item) {
                     $result["set"][] = $item;
@@ -765,7 +748,6 @@ class ilTrQuery
               * We need to return the members without checking the parent path. */
             case "iass":
                 $members_read = true;
-                include_once("Modules/IndividualAssessment/classes/class.ilObjIndividualAssessment.php");
                 $iass = new ilObjIndividualAssessment($obj_id, false);
                 $members = $iass->loadMembers()->membersIds();
                 break;
@@ -799,11 +781,9 @@ class ilTrQuery
         // no participants possible: use tracking/object data where possible
         switch ($obj_type) {
             case "sahs":
-                include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
                 $subtype = ilObjSAHSLearningModule::_lookupSubType($obj_id);
                 if ($subtype == "scorm2004") {
                     // based on cmi_node/cp_node, used for scorm tracking data views
-                    include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
                     $mod = new ilObjSCORM2004LearningModule($obj_id, false);
                     $all = $mod->getTrackedUsers("");
                     if ($all) {
@@ -813,32 +793,27 @@ class ilTrQuery
                         }
                     }
                 } else {
-                    include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
                     $a_users = ilObjSCORMTracking::_getTrackedUsers($obj_id);
                 }
                 break;
 
             case "exc":
-                include_once("./Modules/Exercise/classes/class.ilObjExercise.php");
                 $exc = new ilObjExercise($obj_id, false);
                 $members = new ilExerciseMembers($exc);
                 $a_users = $members->getMembers();
                 break;
 
             case "tst":
-                include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
                 $class = ilLPStatusFactory::_getClassById($obj_id, ilLPObjSettings::LP_MODE_TEST_FINISHED);
                 $a_users = $class::getParticipants($obj_id);
                 break;
             
             case "svy":
-                include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
                 $class = ilLPStatusFactory::_getClassById($obj_id, ilLPObjSettings::LP_MODE_SURVEY_FINISHED);
                 $a_users = $class::getParticipants($obj_id);
                 break;
                 
             case "prg":
-                include_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
                 $prg = new ilObjStudyProgramme($obj_id, false);
                 $a_users = $prg->getIdsOfUsersWithRelevantProgress();
                 break;
@@ -1124,7 +1099,6 @@ class ilTrQuery
         ?array $a_user_ids = null
     ) : array
     {
-        include_once "Services/Object/classes/class.ilObjectLP.php";
         
         $object_ids = array($a_parent_obj_id);
         $ref_ids = array($a_parent_obj_id => $a_parent_ref_id);
@@ -1135,7 +1109,6 @@ class ilTrQuery
         switch ($mode) {
             // what about LP_MODE_SCORM_PACKAGE ?
             case ilLPObjSettings::LP_MODE_SCORM:
-                include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
                 $status_scorm = get_class(ilLPStatusFactory::_getInstance($a_parent_obj_id, ilLPObjSettings::LP_MODE_SCORM));
                 $scorm = $status_scorm::_getStatusInfo($a_parent_obj_id);
                 break;
@@ -1149,7 +1122,6 @@ class ilTrQuery
             case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
             case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
             case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
-                include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
                 $status_coll_tlt = get_class(ilLPStatusFactory::_getInstance($a_parent_obj_id, $mode));
                 $subitems = $status_coll_tlt::_getStatusInfo($a_parent_obj_id);
                 break;
@@ -1340,7 +1312,6 @@ class ilTrQuery
             $fields = array("usr_data.usr_id", "login", "active");
             $udf = self::buildColumns($fields, $a_additional_fields);
                 
-            include_once("./Services/Tracking/classes/class.ilLPStatus.php");
                     
             // #18673 - if parent supports percentage does not matter for "sub-items"
             $fields[] = "percentage";
@@ -1411,13 +1382,9 @@ class ilTrQuery
         if ($a_parent_obj_id && $a_users) {
             $res = array();
                                 
-            include_once "Services/Tracking/classes/class.ilLPStatus.php";
-            include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
-            include_once "Modules/Course/classes/class.ilCourseObjective.php";
             $objective_ids = ilCourseObjective::_getObjectiveIds($a_parent_obj_id, true);
             
             // #17402 - are initital test(s) qualifying?
-            include_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
             $lo_set = ilLOSettings::getInstanceByObjId($a_parent_obj_id);
             $initial_qualifying = $lo_set->isInitialTestQualifying();
         
@@ -1519,7 +1486,6 @@ class ilTrQuery
         $types = array_keys($objDefinition->getCreatableSubObjects("root", ilObjectDefinition::MODE_REPOSITORY));
         
         // repository
-        include_once "Services/Tree/classes/class.ilTree.php";
         $tree = new ilTree(1);
         $sql = "SELECT " . $tree->getObjectDataTable() . ".obj_id," . $tree->getObjectDataTable() . ".type," .
             $tree->getTreeTable() . "." . $tree->getTreePk() . "," . $tree->getTableReference() . ".ref_id" .
@@ -1746,7 +1712,6 @@ class ilTrQuery
      */
     protected static function refreshObjectsStatus(array $a_obj_ids, ?array $a_users = null) : void
     {
-        include_once("./Services/Tracking/classes/class.ilLPStatus.php");
         foreach ($a_obj_ids as $obj_id) {
             ilLPStatus::checkStatusForObject($obj_id, $a_users);
         }

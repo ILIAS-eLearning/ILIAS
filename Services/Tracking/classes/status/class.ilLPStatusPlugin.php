@@ -17,7 +17,6 @@ class ilLPStatusPlugin extends ilLPStatus
      */
     protected static function initPluginObj(int $a_obj_id)
     {
-        include_once "Services/Object/classes/class.ilObjectLP.php";
         $olp = ilObjectLP::getInstance($a_obj_id);
         return $olp->getPluginInstance();
     }

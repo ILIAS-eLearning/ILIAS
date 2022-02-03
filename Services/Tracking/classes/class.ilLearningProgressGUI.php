@@ -22,7 +22,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         $this->__buildHeader();
         switch ($this->__getNextClass()) {
             case 'illplistofprogressgui':
-                include_once 'Services/Tracking/classes/repository_statistics/class.ilLPListOfProgressGUI.php';
                 
                 $this->help->setScreenIdComponent("lp_" . ilObject::_lookupType($this->getRefId(), true));
 
@@ -33,13 +32,11 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 break;
 
             case 'illplistofobjectsgui':
-                include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
                 if ($this->getRefId() &&
                     !ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId())) {
                     return;
                 }
                 
-                include_once 'Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php';
                 if (stristr($this->ctrl->getCmd(), "matrix")) {
                     $this->__setSubTabs(self::LP_ACTIVE_MATRIX);
                 } elseif (stristr($this->ctrl->getCmd(), "summary")) {
@@ -53,13 +50,11 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 break;
 
             case 'illplistofsettingsgui':
-                include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
                 if ($this->getRefId() &&
                     !ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->getRefId())) {
                     return;
                 }
                 
-                include_once 'Services/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php';
 
                 $this->__setSubTabs(self::LP_ACTIVE_SETTINGS);
                 $los_gui = new ilLPListOfSettingsGUI($this->getMode(), $this->getRefId());
@@ -68,7 +63,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 break;
             
             case 'illpobjectstatisticsgui':
-                include_once 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php';
                 if (stristr($this->ctrl->getCmd(), "access")) {
                     $this->__setSubTabs(self::LP_ACTIVE_OBJSTATACCESS);
                 } elseif (stristr($this->ctrl->getCmd(), "types")) {
@@ -130,10 +124,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 }
 
                 // #12771
-                include_once './Services/Object/classes/class.ilObjectLP.php';
                 $olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));
                 if (!$olp->isActive()) {
-                    include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
                     if (!($olp instanceof ilPluginLP) &&
                         ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->getRefId())) {
                         return 'illplistofsettingsgui';
@@ -142,7 +134,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     }
                 }
 
-                include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
                 if (!$this->anonymized &&
                     ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId())) {
                     return 'illplistofobjectsgui';
@@ -155,7 +146,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
             case self::LP_CONTEXT_PERSONAL_DESKTOP:
 
-                include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
                 $has_edit = ilObjUserTracking::_hasLearningProgressOtherUsers();
                 $has_personal = ilObjUserTracking::_hasLearningProgressLearner();
 
@@ -221,7 +211,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
     
     protected function initCollectionManualForm() : ilPropertyFormGUI
     {
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "updatemanual"));
         $form->setTitle($this->lng->txt("learning_progress"));
@@ -229,7 +218,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         
         $coll_items = array();
         
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($this->getObjId());
         $collection = $olp->getCollectionInstance();
         $subitem_info = '';
@@ -247,7 +235,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
             }
         }
         
-        include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
         $class = ilLPStatusFactory::_getClassById($this->getObjId(), ilLPObjSettings::LP_MODE_COLLECTION_MANUAL);
         $lp_data = $class::_getObjectStatus($this->getObjId(), $this->usr_id);
                 
@@ -299,14 +286,11 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
     
     protected function updateManual() : void
     {
-        include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
         if (ilLearningProgressAccess::checkAccess($this->getRefId())) {
-            include_once './Services/Object/classes/class.ilObjectLP.php';
             $olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));
             if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
                 $form = $this->initCollectionManualForm();
                 if ($form->checkInput()) {
-                    include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
                     $class = ilLPStatusFactory::_getClassById($this->getObjId(), ilLPObjSettings::LP_MODE_COLLECTION_MANUAL);
                     $class::_setObjectStatus($this->getObjId(), $this->usr_id, $form->getInput("sids"));
                     
@@ -320,7 +304,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
     
     protected function showtlt()
     {
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "showtlt"));
         $form->setTitle($this->lng->txt("learning_progress"));
@@ -328,7 +311,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         
         $coll_items = array();
         
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($this->getObjId());
         $collection = $olp->getCollectionInstance();
         $possible_items = [];
@@ -337,7 +319,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
             $possible_items = $collection->getPossibleItems($this->getRefId()); // for titles
         }
             
-        include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
         $class = ilLPStatusFactory::_getClassById($this->getObjId(), ilLPObjSettings::LP_MODE_COLLECTION_TLT);
         $info = $class::_getStatusInfo($this->getObjId(), true);
         

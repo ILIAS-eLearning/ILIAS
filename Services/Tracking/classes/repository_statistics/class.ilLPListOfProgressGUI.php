@@ -38,7 +38,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $this->ctrl->setParameter($this, 'user_id', $this->getUserId());
         switch ($this->ctrl->getNextClass()) {
             case 'illpprogresstablegui':
-                include_once './Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php';
                 $table_gui = new ilLPProgressTableGUI($this, "", $this->tracked_user);
                 $this->ctrl->setReturn($this, 'show');
                 $this->ctrl->forwardCommand($table_gui);
@@ -109,7 +108,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lp_progress_container.html', 'Services/Tracking');
 
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $info = new ilInfoScreenGUI($this);
         $info->setContextRefId($this->details_id);
         $info->setContextObjId($this->details_obj_id);
@@ -122,7 +120,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         // Finally set template variable
         $this->tpl->setVariable("LM_INFO", $info->getHTML());
         
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($this->details_obj_id);
         $collection = $olp->getCollectionInstance();
         $obj_ids = array();
@@ -156,10 +153,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lp_list_progress.html', 'Services/Tracking');
         
         // User info
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
-        include_once("./Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php");
         $lp_table = new ilLPProgressTableGUI($this, "", $this->tracked_user, null, false, null, false, null, null,
             $this->getMode());
         $this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
@@ -220,7 +215,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
             $this->details_obj_id = $this->ilObjectDataCache->lookupObjId($this->details_id);
             $this->details_type = $this->ilObjectDataCache->lookupType($this->details_obj_id);
                         
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
             $olp = ilObjectLP::getInstance($this->details_obj_id);
             $this->details_mode = $olp->getCurrentMode();
         }

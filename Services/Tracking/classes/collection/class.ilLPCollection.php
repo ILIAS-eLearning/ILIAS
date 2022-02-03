@@ -39,24 +39,19 @@ abstract class ilLPCollection
         switch ($a_mode) {
             case ilLPObjSettings::LP_MODE_COLLECTION:
             case ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR:
-                include_once $path . "class.ilLPCollectionOfRepositoryObjects.php";
-                return new ilLPCollectionOfRepositoryObjects($a_obj_id, $a_mode);
+               return new ilLPCollectionOfRepositoryObjects($a_obj_id, $a_mode);
 
             case ilLPObjSettings::LP_MODE_OBJECTIVES:
-                include_once $path . "class.ilLPCollectionOfObjectives.php";
-                return new ilLPCollectionOfObjectives($a_obj_id, $a_mode);
+              return new ilLPCollectionOfObjectives($a_obj_id, $a_mode);
 
             case ilLPObjSettings::LP_MODE_SCORM:
-                include_once $path . "class.ilLPCollectionOfSCOs.php";
                 return new ilLPCollectionOfSCOs($a_obj_id, $a_mode);
 
             case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
             case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
-                include_once $path . "class.ilLPCollectionOfLMChapters.php";
                 return new ilLPCollectionOfLMChapters($a_obj_id, $a_mode);
                 
             case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
-                include_once $path . "class.ilLPCollectionOfMediaObjects.php";
                 return new ilLPCollectionOfMediaObjects($a_obj_id, $a_mode);
         }
         return null;
@@ -82,7 +77,6 @@ abstract class ilLPCollection
     public function cloneCollection(int $a_target_id, int $a_copy_id) : void
     {
         $target_obj_id = ilObject::_lookupObjId($a_target_id);
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
         

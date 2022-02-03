@@ -46,7 +46,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $this->lng->loadLanguageModule("meta");
         $this->anonymized = !ilObjUserTracking::_enabledUserRelatedData();
         if (!$this->anonymized && $this->obj_id) {
-            include_once "Services/Object/classes/class.ilObjectLP.php";
             $olp = ilObjectLP::getInstance($this->obj_id);
             $this->anonymized = $olp->isAnonymized();
         }
@@ -159,7 +158,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
     {
         // see ilObjCourseGUI::sendMailToSelectedUsersObject()
         
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
         
         $rcps = array();
         foreach ($a_user_ids as $usr_id) {
@@ -182,7 +180,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     'ts' => time()
                 );
             } else {
-                include_once './Services/Link/classes/class.ilLink.php';
                 $sig = ilLink::_getLink($ref_id);
                 $sig = rawurlencode(base64_encode($sig));
             }
@@ -208,7 +205,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
      */
     protected function searchObjects(array $filter, string $permission, ?array $preset_obj_ids = null, bool $a_check_lp_activation = true) : array
     {
-        include_once './Services/Search/classes/class.ilQueryParser.php';
 
         $query_parser = new ilQueryParser($filter["query"]);
         $query_parser->setMinWordLength(0);
@@ -226,7 +222,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
             $filter["type"] = array($filter["type"]);
         }
 
-        include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
         $object_search = new ilLikeObjectSearch($query_parser);
         $object_search->setFilter($filter["type"]);
         if ($preset_obj_ids) {
@@ -283,7 +278,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $this->setDisableFilterHiding(true);
         
         // object type selection
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($this->lng->txt("obj_type"), "type");
         $si->setOptions($this->getPossibleTypes($a_split_learning_resources));
         $this->addFilterItem($si);
@@ -294,7 +288,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $this->filter["type"] = $si->getValue();
 
         // hidden items
-        include_once("./Services/Form/classes/class.ilMultiSelectInputGUI.php");
         $msi = new ilMultiSelectInputGUI($this->lng->txt("trac_filter_hidden"), "hide");
         $this->addFilterItem($msi);
         $msi->readFromSession();
@@ -318,7 +311,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         }
 
         // title/description
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ti = new ilTextInputGUI($this->lng->txt("trac_title_description"), "query");
         $ti->setMaxLength(64);
         $ti->setSize(20);
@@ -327,7 +319,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $this->filter["query"] = $ti->getValue();
         
         // repository area selection
-        include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
         $rs = new ilRepositorySelectorInputGUI($this->lng->txt("trac_filter_area"), "area");
         $rs->setSelectText($this->lng->txt("trac_select_area"));
         $this->addFilterItem($rs);
@@ -336,7 +327,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         
         // hide "not started yet"
         if ($a_include_no_status_filter) {
-            include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
             $cb = new ilCheckboxInputGUI($this->lng->txt("trac_filter_has_status"), "status");
             $this->addFilterItem($cb);
             $cb->readFromSession();
@@ -417,7 +407,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         }
         
         // repository plugins (currently only active)
-        include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';
         $plugins = $component_repository->getPluginSlotById("robj")->getActivePlugins();
         foreach ($plugins as $pl) {
             $pl_id = $pl->getId();
@@ -492,7 +481,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 break;
 
             case "status":
-                include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
                 $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
                 $text = ilLearningProgressBaseGUI::_getStatusText($value);
                 $value = ilUtil::img($path, $text);
@@ -656,7 +644,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         */
 
         ilDatePresentation::setUseRelativeDates(false);
-        include_once './Services/Link/classes/class.ilLink.php';
         
         $data = array();
         $data[$this->lng->txt("trac_name_of_installation")] = $ilClientIniFile->readVariable('client', 'name');
@@ -829,7 +816,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
     {
         $cols = $privacy_fields = array();
         
-        include_once("./Services/User/classes/class.ilUserProfile.php");
         $up = new ilUserProfile();
         $up->skipGroup("preferences");
         $up->skipGroup("settings");
@@ -851,7 +837,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         }
 
         // show only if extended data was activated in lp settings
-        include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
         $tracking = new ilObjUserTracking();
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
             $cols["first_access"] = array(
@@ -912,7 +897,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         if (!$this->anonymized &&
             ($a_in_course || $a_in_group)) {
             // only show if export permission is granted
-            include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
             if (ilPrivacySettings::getInstance()->checkExportAccess($this->ref_id)) {
                 // other user profile fields
                 foreach ($ufs as $f => $fd) {
@@ -935,7 +919,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 }
 
                 // additional defined user data fields
-                include_once './Services/User/classes/class.ilUserDefinedFields.php';
                 $user_defined_fields = ilUserDefinedFields::_getInstance();
                 if ($a_in_course) {
                     $user_defined_fields = $user_defined_fields->getCourseExportableFields();
@@ -964,7 +947,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
     protected function addToClipboard() : void
     {
         $users = $this->initUidFromPost();
-        include_once './Services/User/classes/class.ilUserClipboard.php';
         $clip = ilUserClipboard::getInstance($this->user->getId());
         $clip->add($users);
         $clip->save();

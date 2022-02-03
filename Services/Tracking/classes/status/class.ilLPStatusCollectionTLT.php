@@ -1,7 +1,6 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Tracking/classes/class.ilLPStatus.php';
 
 /**
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -55,14 +54,12 @@ class ilLPStatusCollectionTLT extends ilLPStatus
 
         $ilDB = $DIC['ilDB'];
         $status_info = array();
-        include_once "Services/Object/classes/class.ilObjectLP.php";
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
             // @todo check if obj_id can be removed
             $status_info["items"] = $collection->getItems($a_obj_id);
                             
-            include_once './Services/MetaData/classes/class.ilMDEducational.php';
             foreach ($status_info["items"] as $item_id) {
                 $status_info["in_progress"][$item_id] = array();
                 $status_info["completed"][$item_id] = array();

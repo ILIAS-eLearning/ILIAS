@@ -74,7 +74,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
     protected function initFormSettings() : ilPropertyFormGUI
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('tracking_settings'));
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -185,7 +184,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     {
         $collection = $this->obj_lp->getCollectionInstance();
         if ($collection && $collection->hasSelectableItems()) {
-            include_once "Services/Tracking/classes/repository_statistics/class.ilLPCollectionSettingsTableGUI.php";
             $table = new ilLPCollectionSettingsTableGUI($this, 'show', $this->getRefId(), $this->obj_lp->getCurrentMode());
             $table->parse($collection);
             return $table->getHTML();
@@ -209,7 +207,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             $this->obj_lp->resetCaches();
             
             // refresh learning progress
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
         }
         ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'), true);
@@ -233,7 +230,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             $this->obj_lp->resetCaches();
             
             // refresh learning progress
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
         }
         ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'), true);
@@ -256,7 +252,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             $collection->createNewGrouping($this->initItemIdsFromPost());
 
             // refresh learning progress
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
         }
 
@@ -279,7 +274,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             $collection->releaseGrouping($this->initItemIdsFromPost());
             
             // refresh learning progress
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
         }
         
@@ -312,7 +306,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 $collection->saveObligatoryMaterials($groups);
 
                 // refresh learning progress
-                include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
                 ilLPStatusWrapper::_refreshStatus($this->getObjId());
             }
 
@@ -331,7 +324,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
      */
     protected function updateTLT() : void
     {
-        include_once "Services/MetaData/classes/class.ilMD.php";
         foreach ($_POST['tlt'] as $item_id => $item) {
             $md_obj = new ilMD($this->getObjId(), $item_id, 'st');
             if (!is_object($md_section = $md_obj->getEducational())) {
@@ -349,7 +341,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         }
         
         // refresh learning progress
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_refreshStatus($this->getObjId());
         
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
@@ -413,7 +404,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         $coll = array();
         if ($ref_id &&
             $this->getLPPathInfo((int) $ref_id, $coll)) {
-            include_once "Services/Link/classes/class.ilLink.php";
             
             $tpl = new ilTemplate("tpl.lp_obj_settings_tree_info.html", true, true, "Services/Tracking");
             
@@ -463,7 +453,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 ));
             }
             
-            include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
             $panel = ilPanelGUI::getInstance();
             $panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
             $panel->setHeading($this->lng->txt("trac_lp_settings_info_parent_container"));
