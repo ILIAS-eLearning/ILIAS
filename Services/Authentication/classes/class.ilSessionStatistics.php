@@ -219,7 +219,7 @@ class ilSessionStatistics
      *
      * @return array begin, end
      */
-    protected static function createNewAggregationSlot(int $a_now) : array
+    protected static function createNewAggregationSlot(int $a_now) : ?array
     {
         global $DIC;
 
@@ -233,7 +233,7 @@ class ilSessionStatistics
             // if we had to wait for the lock, no current slot should be returned here
             $slot = self::getCurrentSlot($a_now);
             if (!is_array($slot)) {
-                $slot = false;
+                $slot = null;
                 return;
             }
 
