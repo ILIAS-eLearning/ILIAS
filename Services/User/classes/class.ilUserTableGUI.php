@@ -256,6 +256,11 @@ class ilUserTableGUI extends ilTable2GUI
 
         // fields that are always shown
         unset($cols["username"]);
+
+        $cols["client_ip"] = array(
+            "txt" => $lng->txt("client_ip"),
+            "default" => false
+        );
         
         return $cols;
     }
