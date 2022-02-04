@@ -20,6 +20,10 @@ namespace ILIAS\Table;
 
 use ILIAS\Repository;
 
+/**
+ *
+ * @deprecated 10
+ */
 class TableGUIRequest
 {
     use Repository\BaseGUIRequest;
