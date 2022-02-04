@@ -834,11 +834,8 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $html = $ilLocator->getHTML();
         }
         $html = $uip->getHTML($html);
-    }
-
         $this->setVariable("LOCATOR", $html);
     }
-
 
     //***********************************
     //
