@@ -39,9 +39,19 @@ class ilBuddySystemRelationRepository
 
         $res = $this->db->queryF(
             "
-			SELECT usr_id, buddy_usr_id, ts, %s rel_type FROM buddylist WHERE usr_id = %s
+			SELECT
+			       buddylist.usr_id, buddylist.buddy_usr_id, buddylist.ts, %s rel_type
+            FROM buddylist
+			INNER JOIN usr_data ud
+                ON ud.usr_id = buddylist.usr_id
+			WHERE buddylist.usr_id = %s
 			UNION
-			SELECT usr_id, buddy_usr_id, ts, (CASE WHEN ignored = 1 THEN %s ELSE %s END) rel_type FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s
+			SELECT
+			       buddylist_requests.usr_id, buddylist_requests.buddy_usr_id, buddylist_requests.ts, (CASE WHEN ignored = 1 THEN %s ELSE %s END) rel_type
+			FROM buddylist_requests
+			INNER JOIN usr_data ud ON ud.usr_id = buddylist_requests.usr_id
+			INNER JOIN usr_data udbuddy ON udbuddy.usr_id = buddylist_requests.buddy_usr_id
+			WHERE buddylist_requests.usr_id = %s OR buddylist_requests.buddy_usr_id = %s
 			",
             [
                 'text',
