@@ -90,7 +90,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
     /**
      * Constructor
-     * @param string $a_title Title
+     * @param string $a_title   Title
      * @param string $a_postvar Post Variable
      */
     public function __construct($a_title = "", $a_postvar = "")

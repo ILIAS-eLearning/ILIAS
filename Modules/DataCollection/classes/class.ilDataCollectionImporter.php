@@ -23,9 +23,9 @@ class ilDataCollectionImporter extends ilXmlImporter
 
     /**
      * Executes the Import
-     * @param string $a_entity
-     * @param string $a_id
-     * @param string $a_xml
+     * @param string          $a_entity
+     * @param string          $a_id
+     * @param string          $a_xml
      * @param ilImportMapping $a_mapping
      * @return void
      */

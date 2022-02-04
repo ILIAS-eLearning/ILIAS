@@ -377,7 +377,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
     /**
      * Exports the table
-     * @param int $format
+     * @param int        $format
      * @param bool|false $send
      * @return null|string
      */
