@@ -454,7 +454,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
         $mmc = $DIC->globalScreen()->collector()->mainmenu();
         if ($this->raw_menu_items == null) {
-            $mmc->collectStructure();
+            $mmc->collectOnce();
             $this->raw_menu_items = iterator_to_array($mmc->getRawItems());
         }
 
