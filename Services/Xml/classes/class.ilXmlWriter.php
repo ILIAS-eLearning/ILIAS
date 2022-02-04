@@ -115,7 +115,7 @@ class ilXmlWriter
                 
                 default:
                     if ($code < 32) {
-                        $character = ("&#" . strval($code) . ";");
+                        $character = ("&#" . $code . ";");
                     }
                     break;
             }
@@ -364,8 +364,8 @@ class ilXmlWriter
     public function xmlDumpFile(string $file, bool $format = true) : void
     {
         // open file
-        if (!($fp = @fopen($file, "w+"))) {
-            die(
+        if (!($fp = fopen($file, "w+"))) {
+            throw new RuntimeException(
                 "<b>Error</b>: Could not open \"" . $file . "\" for writing" .
                 " in <b>" . __FILE__ . "</b> on line <b>" . __LINE__ . "</b><br />"
             );
