@@ -26,7 +26,7 @@ class ilForumCronNotification extends ilCronJob
     private ilDBInterface $ilDB;
     private ilForumNotificationCache $notificationCache;
     private \ILIAS\Refinery\Factory $refinery;
-    private ilCronManagerInterface $cronManager;
+    private ilCronManager $cronManager;
 
     public function __construct(
         ilDBInterface $database = null,
@@ -34,7 +34,7 @@ class ilForumCronNotification extends ilCronJob
         ilLanguage $lng = null,
         ilSetting $settings = null,
         \ILIAS\Refinery\Factory $refinery = null,
-        ilCronManagerInterface $cronManager = null
+        ilCronManager $cronManager = null
     ) {
         global $DIC;
 

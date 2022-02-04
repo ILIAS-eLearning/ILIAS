@@ -20,7 +20,7 @@ class ilCertificateCron extends ilCronJob
     private ?ilCertificateObjectHelper $objectHelper;
     private Container $dic;
     private ?ilSetting $settings;
-    private ?ilCronManagerInterface $cronManager;
+    private ?ilCronManager $cronManager;
 
     public function __construct(
         ?ilCertificateQueueRepository $queueRepository = null,
@@ -32,7 +32,7 @@ class ilCertificateCron extends ilCronJob
         ?ilLanguage $language = null,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilSetting $setting = null,
-        ?ilCronManagerInterface $cronManager = null
+        ?ilCronManager $cronManager = null
     ) {
         if (null === $dic) {
             global $DIC;

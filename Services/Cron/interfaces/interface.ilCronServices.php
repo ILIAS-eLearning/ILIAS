@@ -16,7 +16,7 @@
 
 interface ilCronServices
 {
-    public function manager() : ilCronManagerInterface;
+    public function manager() : ilCronManager;
 
     public function repository() : ilCronJobRepository;
 }

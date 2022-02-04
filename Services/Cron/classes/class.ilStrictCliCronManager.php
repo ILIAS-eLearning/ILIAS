@@ -14,11 +14,11 @@
  *
  *****************************************************************************/
 
-class ilStrictCliCronManager implements ilCronManagerInterface
+class ilStrictCliCronManager implements ilCronManager
 {
-    protected ilCronManagerInterface $cronManager;
+    protected ilCronManager $cronManager;
 
-    public function __construct(ilCronManagerInterface $cronManager)
+    public function __construct(ilCronManager $cronManager)
     {
         $this->cronManager = $cronManager;
     }

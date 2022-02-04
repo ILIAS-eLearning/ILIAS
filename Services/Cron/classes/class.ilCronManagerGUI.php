@@ -39,7 +39,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
     private ilErrorHandling $error;
     private WrapperFactory $httpRequest;
     private \ILIAS\Refinery\Factory $refinery;
-    private ilCronManagerInterface $cronManager;
+    private ilCronManager $cronManager;
     private ilObjUser $actor;
 
     public function __construct()

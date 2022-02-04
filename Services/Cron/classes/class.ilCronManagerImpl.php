@@ -19,7 +19,7 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesCron
  */
-class ilCronManager implements ilCronManagerInterface
+class ilCronManagerImpl implements ilCronManager
 {
     private ilCronJobRepository $cronRepository;
     private ilDBInterface $db;

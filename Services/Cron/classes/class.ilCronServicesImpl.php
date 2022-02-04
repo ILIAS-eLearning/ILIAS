@@ -23,7 +23,7 @@ class ilCronServicesImpl implements ilCronServices
         $this->dic = $dic;
     }
 
-    public function manager() : ilCronManagerInterface
+    public function manager() : ilCronManager
     {
         return $this->dic['cron.manager'];
     }

@@ -15,7 +15,7 @@ class ilLPCronObjectStatistics extends ilCronJob
     protected ilDBInterface $db;
     protected ilTree $tree;
     protected ilLogger $logger;
-    protected ilCronManagerInterface $cron_manager;
+    protected ilCronManager $cron_manager;
 
     public function __construct()
     {

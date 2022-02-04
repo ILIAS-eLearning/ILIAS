@@ -11,7 +11,7 @@
  */
 class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 {
-    protected ilCronManagerInterface $cronManager;
+    protected ilCronManager $cronManager;
 
     public function __construct(int $a_mode, int $a_ref_id = 0)
     {
@@ -345,8 +345,13 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
         $this->tabs_gui->activateSubTab('trac_object_stat_lp');
 
-        $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", $this->initItemIdFromPost(), true,
-            true);
+        $lp_table = new ilLPObjectStatisticsLPTableGUI(
+            $this,
+            "learningProgress",
+            $this->initItemIdFromPost(),
+            true,
+            true
+        );
 
         $this->tpl->setContent($lp_table->getGraph($this->initItemIdFromPost()) . $lp_table->getHTML());
     }
@@ -360,8 +365,14 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "showLearningProgressDetails", array($item_id), true,
-            false, true);
+        $lp_table = new ilLPObjectStatisticsLPTableGUI(
+            $this,
+            "showLearningProgressDetails",
+            array($item_id),
+            true,
+            false,
+            true
+        );
 
         $a_tpl = new ilTemplate("tpl.lp_object_statistics_lp_details.html", true, true, "Services/Tracking");
         $a_tpl->setVariable("CONTENT", $lp_table->getHTML());

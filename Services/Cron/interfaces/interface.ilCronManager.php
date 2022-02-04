@@ -14,7 +14,7 @@
  *
  *****************************************************************************/
 
-interface ilCronManagerInterface
+interface ilCronManager
 {
     public function runActiveJobs(ilObjUser $actor) : void;
 
