@@ -47,7 +47,10 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     {
         return [
             new \ilDatabaseUpdatedObjective(),
-            new \ilDatabaseUpdateStepsExecutedObjective(new ilCOPageDBUpdateSteps())
+            new \ilDatabaseUpdateStepsExecutedObjective(new ilCOPageDBUpdateSteps()),
+            new \ilSettingsFactoryExistsObjective(),
+            new \ilComponentRepositoryExistsObjective(),
+            new \ilComponentFactoryExistsObjective(),
         ];
     }
 
@@ -61,6 +64,12 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        /** @var ilComponentRepository $component_repository  */
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
+        /** @var ilComponentFactory $component_factory  */
+        $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
+        /** @var ilSettingsFactory $settings_factory */
+        $settings_factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
 
         // ATTENTION: This is a total abomination. It only exists to allow various
         // sub components of the various readers to run. This is a memento to the
@@ -115,9 +124,14 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             new \ilBadgeDefinitionProcessor($db),
             new \ilCOPageDefinitionProcessor($db),
             new \ilComponentInfoDefinitionProcessor($db),
-            new \ilCronDefinitionProcessor($db),
             new \ilEventDefinitionProcessor($db),
             new \ilLoggingDefinitionProcessor($db),
+            new \ilCronDefinitionProcessor(
+                $db,
+                $settings_factory->settingsFor('common'),
+                $component_repository,
+                $component_factory
+            ),
             new \ilMailTemplateContextDefinitionProcessor($db),
             new \ilObjectDefinitionProcessor($db),
             new \ilPDFGenerationDefinitionProcessor($db),

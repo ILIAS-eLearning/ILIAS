@@ -29,22 +29,35 @@ define("IL_USER_MAPPING_LOGIN", 1);
 define("IL_USER_MAPPING_ID", 2);
 
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * User Import Parser
  * @author Alex Killing <alex.killing@gmx.de>
  */
 class ilUserImportParser extends ilSaxParser
 {
-    protected ?string $tmp_udf_name;
-    protected ?string $tmp_udf_id;
+    protected ?string $tmp_udf_name = null;
+    protected ?string $tmp_udf_id = null;
     protected array $multi_values;
     protected array $udf_data;
     protected bool $auth_mode_set;
-    protected ?string $currentPrefKey;
+    protected ?string $currentPrefKey = null;
     protected array $prefs;
     protected string $current_role_action;
     protected string $current_role_type;
-    protected ?int $current_role_id;
+    protected ?int $current_role_id = null;
     protected string $cdata;
     protected array $role_assign;
     protected string $req_send_mail;
@@ -157,7 +170,7 @@ class ilUserImportParser extends ilSaxParser
 
     public string $currPasswordType;
     public string $currPassword;
-    public ?int $currActive;
+    public ?int $currActive = null;
     public int $userCount;
     public array $user_mapping = [];
     public int $mapping_mode;
@@ -175,7 +188,7 @@ class ilUserImportParser extends ilSaxParser
      * Cached personal picture of the actual user
      * This is used because the ilObjUser object has no field for the personal picture
      */
-    public ?array $personalPicture;
+    public ?array $personalPicture = null;
 
     /**
      * Cached parent roles.
@@ -239,7 +252,7 @@ class ilUserImportParser extends ilSaxParser
         $this->mapping_mode = IL_USER_MAPPING_LOGIN;
 
         $this->user_settings_config = new ilUserSettingsConfig();
-        
+
         // get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
         $this->userStyles = array();
         $skins = ilStyleDefinition::getAllSkins();
@@ -287,7 +300,12 @@ class ilUserImportParser extends ilSaxParser
         return $this->folder_id;
     }
 
-    public function setHandlers($a_xml_parser)
+    /**
+    * set event handler
+    * should be overwritten by inherited class
+    * @access	private
+    */
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -295,9 +313,18 @@ class ilUserImportParser extends ilSaxParser
     }
 
     /**
-     * set import to local role assignemt
-     * @param array $a_assign role assignment (key: import id; value: local role id)
-     */
+    * start the parser
+    */
+    public function startParsing() : void
+    {
+        parent::startParsing();
+    }
+
+    /**
+    * set import to local role assignemt
+    *
+    * @param	array		role assignment (key: import id; value: local role id)
+    */
     public function setRoleAssignment(array $a_assign) : void
     {
         $this->role_assign = $a_assign;
@@ -433,7 +460,7 @@ class ilUserImportParser extends ilSaxParser
                     "style",
                     $ilias->ini->readVariable("layout", "style")
                 );
-                
+
                 $this->userObj->setLanguage($a_attribs["Language"]);
                 $this->userObj->setImportId($a_attribs["Id"]);
                 $this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
@@ -725,10 +752,10 @@ class ilUserImportParser extends ilSaxParser
         if ($rbacreview->isAssigned($a_user_obj->getId(), $a_role_id)) {
             return;
         }
-                
+
         // If it is a course role, use the ilCourseMember object to assign
         // the user to the role
-        
+
         $rbacadmin->assignUser($a_role_id, $a_user_obj->getId(), true);
         $obj_id = $rbacreview->getObjectOfRole($a_role_id);
         switch ($type = ilObject::_lookupType($obj_id)) {
@@ -750,16 +777,17 @@ class ilUserImportParser extends ilSaxParser
     /**
      * Get array of parent role ids from cache.
      * If necessary, create a new cache entry.
+     * @return mixed[]
      */
     public function getParentRoleIds(int $a_role_id) : array
     {
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
-    
+
         if (!array_key_exists($a_role_id, $this->parentRolesCache)) {
             $parent_role_ids = array();
-            
+
             $role_obj = $this->getRoleObject($a_role_id);
             $short_role_title = substr($role_obj->getTitle(), 0, 12);
             $folders = $rbacreview->getFoldersAssignedToRole($a_role_id, true);
@@ -805,7 +833,7 @@ class ilUserImportParser extends ilSaxParser
         int $a_role_id
     ) : void {
         $this->assignToRole($a_user_obj, $a_role_id);
-        
+
         $parent_role_ids = $this->getParentRoleIds($a_role_id);
         foreach ($parent_role_ids as $parent_role_id) {
             $this->assignToRole($a_user_obj, $parent_role_id);
@@ -825,7 +853,7 @@ class ilUserImportParser extends ilSaxParser
         $rbacadmin = $DIC['rbacadmin'];
 
         $rbacadmin->deassignUser($a_role_id, $a_user_obj->getId());
-        
+
         if (substr(ilObject::_lookupTitle($a_role_id), 0, 6) == 'il_crs' or
             substr(ilObject::_lookupTitle($a_role_id), 0, 6) == 'il_grp') {
             $obj = $rbacreview->getObjectOfRole($a_role_id);
@@ -946,7 +974,7 @@ class ilUserImportParser extends ilSaxParser
                             $this->action = "Ignore";
                         }
                         break;
-                        
+
                     case "Update":
                         // this variable describes the ILIAS login which belongs to the given external account!!!
                         // it is NOT nescessarily the ILIAS login of the current user record !!
@@ -963,7 +991,7 @@ class ilUserImportParser extends ilSaxParser
                         }
                         break;
                 }
-                
+
                 if (sizeof($this->multi_values)) {
                     if (isset($this->multi_values["GeneralInterest"])) {
                         $this->userObj->setGeneralInterests($this->multi_values["GeneralInterest"]);
@@ -1010,7 +1038,7 @@ class ilUserImportParser extends ilSaxParser
 
                             $this->userObj->setTitle($this->userObj->getFullname());
                             $this->userObj->setDescription($this->userObj->getEmail());
-                            
+
                             if (!$this->time_limit_owner_set) {
                                 $this->userObj->setTimeLimitOwner($this->getFolderId());
                             }
@@ -1030,7 +1058,7 @@ class ilUserImportParser extends ilSaxParser
 
                             // Finally before saving new user.
                             // Check if profile is incomplete
-                            
+
                             // #8759
                             if (count($this->udf_data)) {
                                 $this->userObj->setUserDefinedData($this->udf_data);
@@ -1039,7 +1067,7 @@ class ilUserImportParser extends ilSaxParser
                             if (!$this->userObj->getLanguage()) {
                                 $this->userObj->setLanguage($this->lng->getDefaultLanguage());
                             }
-                            
+
                             $this->userObj->setProfileIncomplete($this->checkProfileIncomplete($this->userObj));
                             $this->userObj->create();
 
@@ -1075,7 +1103,7 @@ class ilUserImportParser extends ilSaxParser
 
                             // update mail preferences, to be extended
                             $this->updateMailPreferences($this->userObj->getId());
-                            
+
                             if (is_array($this->personalPicture)) {
                                 if (strlen($this->personalPicture["content"])) {
                                     $extension = "jpg";
@@ -1239,19 +1267,19 @@ class ilUserImportParser extends ilSaxParser
                             if (!is_null($this->userObj->getExternalAccount())) {
                                 $updateUser->setExternalAccount($this->userObj->getExternalAccount());
                             }
-                            
+
                             // Fixed: if auth_mode is not set, it was always overwritten with auth_default
                             #if (! is_null($this->userObj->getAuthMode())) $updateUser->setAuthMode($this->userObj->getAuthMode());
                             if ($this->auth_mode_set) {
                                 $updateUser->setAuthMode($this->userObj->getAuthMode());
                             }
-                            
+
                             // Special handlin since it defaults to 7 (USER_FOLDER_ID)
                             if ($this->time_limit_owner_set) {
                                 $updateUser->setTimeLimitOwner($this->userObj->getTimeLimitOwner());
                             }
 
-                            
+
                             if (count($this->prefs)) {
                                 foreach ($this->prefs as $key => $value) {
                                     if ($key != "mail_incoming_type" &&
@@ -1262,24 +1290,24 @@ class ilUserImportParser extends ilSaxParser
                                     }
                                 }
                             }
-                            
+
                             // save user preferences (skin and style)
                             if ($this->updateLookAndSkin) {
                                 $updateUser->setPref("skin", $this->userObj->getPref("skin"));
                                 $updateUser->setPref("style", $this->userObj->getPref("style"));
                             }
-                            
-                                                                                    
+
+
                             $updateUser->writePrefs();
-                            
+
                             // update mail preferences, to be extended
                             $this->updateMailPreferences($updateUser->getId());
-                            
+
                             // #8759
                             if (count($this->udf_data)) {
                                 $updateUser->setUserDefinedData($this->udf_data);
                             }
-                            
+
                             $updateUser->setProfileIncomplete($this->checkProfileIncomplete($updateUser));
                             $updateUser->setFullname();
                             $updateUser->setTitle($updateUser->getFullname());
@@ -1301,7 +1329,7 @@ class ilUserImportParser extends ilSaxParser
                                 } catch (ilUserException $e) {
                                 }
                             }
-                                
+
 
                             // if language has changed
 
@@ -1435,7 +1463,7 @@ class ilUserImportParser extends ilSaxParser
             case "Hobby":
                 $this->userObj->setHobby($this->cdata);
                 break;
-            
+
             case "GeneralInterest":
             case "OfferingHelp":
             case "LookingForHelp":
@@ -1560,7 +1588,7 @@ class ilUserImportParser extends ilSaxParser
                     }
                 }
                 break;
-                
+
             case 'UserDefinedField':
                 $udf = ilUserDefinedFields::_getInstance();
                 if ($field_id = $udf->fetchFieldIdFromImportId($this->tmp_udf_id)) {
@@ -1788,7 +1816,7 @@ class ilUserImportParser extends ilSaxParser
             case "Hobby":
                 $this->userObj->setHobby($this->cdata);
                 break;
-            
+
             case "GeneralInterest":
             case "OfferingHelp":
             case "LookingForHelp":
@@ -1821,7 +1849,7 @@ class ilUserImportParser extends ilSaxParser
                             $this->logWarning($this->userObj->getLogin(), $lng->txt("usrimport_no_insert_ext_account_exists") . " (" . $this->cdata . ")");
                         }
                         break;
-                        
+
                     case "Update":
                         if ($loginForExternalAccount != "") {
                             $externalAccountHasChanged = trim($this->cdata) != ilObjUser::_lookupExternalAccount($this->user_id);
@@ -1833,13 +1861,13 @@ class ilUserImportParser extends ilSaxParser
                             }
                         }
                         break;
-                        
+
                 }
                 if ($externalAccountHasChanged) {
                     $this->userObj->setExternalAccount(trim($this->cdata));
                 }
                 break;
-                
+
             case "Active":
                 if ($this->cdata != "true"
                 && $this->cdata != "false") {
@@ -1946,6 +1974,9 @@ class ilUserImportParser extends ilSaxParser
         }
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getCollectedRoles() : array
     {
         return $this->roles;
@@ -2007,6 +2038,7 @@ class ilUserImportParser extends ilSaxParser
      * Keys are login names.
      * Values are non-associative arrays. Each array element contains an error
      * message.
+     * @return mixed[]
      */
     public function getProtocol() : array
     {
@@ -2114,6 +2146,9 @@ class ilUserImportParser extends ilSaxParser
         return $this->mapping_mode;
     }
 
+    /**
+     * @return mixed[]
+     */
     private function readRequiredFields() : array
     {
         global $DIC;
@@ -2140,7 +2175,7 @@ class ilUserImportParser extends ilSaxParser
     {
         return ilUserProfile::isProfileIncomplete($user_obj);
     }
-    
+
     /**
      * determine if a field $fieldname is to a required field (global setting)
      *
@@ -2225,7 +2260,7 @@ class ilUserImportParser extends ilSaxParser
                     $this->logFailure("---", "Wrong value '$value': Value \"0\" (Sunday) or \"1\" (Monday) expected for preference $key.");
                 }
                 break;
-                
+
             case 'mail_signature':
                 break;
             case 'user_tz':

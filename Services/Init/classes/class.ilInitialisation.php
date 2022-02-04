@@ -154,8 +154,10 @@ class ilInitialisation
             }
 
             if ($ilIliasIniFile->variableExists('error', 'editor_path_translations')) {
-                define("ERROR_EDITOR_PATH_TRANSLATIONS",
-                    $ilIliasIniFile->readVariable('error', 'editor_path_translations'));
+                define(
+                    "ERROR_EDITOR_PATH_TRANSLATIONS",
+                    $ilIliasIniFile->readVariable('error', 'editor_path_translations')
+                );
             }
         }
 
@@ -342,17 +344,22 @@ class ilInitialisation
         };
 
         $dic['upload'] = function (\ILIAS\DI\Container $c) {
-            $fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl($c['upload.processor-manager'], $c['filesystem'],
-                $c['http']);
+            $fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl(
+                $c['upload.processor-manager'],
+                $c['filesystem'],
+                $c['http']
+            );
             if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER != "None") || (defined('IL_SCANNER_TYPE') && IL_SCANNER_TYPE == "1")) {
                 $fileUploadImpl->register(new ilVirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
             }
 
             $fileUploadImpl->register(new FilenameSanitizerPreProcessor());
-            $fileUploadImpl->register(new ilFileServicesPreProcessor(
+            $fileUploadImpl->register(
+                new ilFileServicesPreProcessor(
                     $c->rbac()->system(),
                     $c->fileServiceSettings(),
-                    $c->language()->txt("msg_info_blacklisted"))
+                    $c->language()->txt("msg_info_blacklisted")
+                )
             );
 
             return $fileUploadImpl;
@@ -646,19 +653,38 @@ class ilInitialisation
         }
     }
 
-    /**
-     * @param \ILIAS\DI\Container $c
-     */
     protected static function initMail(\ILIAS\DI\Container $c) : void
     {
-        $c["mail.mime.transport.factory"] = function (\ILIAS\DI\Container $c) {
+        $c["mail.mime.transport.factory"] = static function (\ILIAS\DI\Container $c) {
             return new \ilMailMimeTransportFactory($c->settings(), $c->event());
         };
-        $c["mail.mime.sender.factory"] = function (\ILIAS\DI\Container $c) {
+        $c["mail.mime.sender.factory"] = static function (\ILIAS\DI\Container $c) {
             return new \ilMailMimeSenderFactory($c->settings());
         };
-        $c["mail.texttemplates.service"] = function (\ILIAS\DI\Container $c) {
+        $c["mail.texttemplates.service"] = static function (\ILIAS\DI\Container $c) {
             return new \ilMailTemplateService(new \ilMailTemplateRepository($c->database()));
+        };
+    }
+
+    protected static function initCron(\ILIAS\DI\Container $c) : void
+    {
+        $c['cron.repository'] = static function (\ILIAS\DI\Container $c) : ilCronJobRepository {
+            return new ilCronJobRepositoryImpl(
+                $c->database(),
+                $c->settings(),
+                $c->logger()->cron(),
+                $c['component.repository'],
+                $c['component.factory']
+            );
+        };
+
+        $c['cron.manager'] = static function (\ILIAS\DI\Container $c) : ilCronManager {
+            return new ilCronManagerImpl(
+                $c['cron.repository'],
+                $c->database(),
+                $c->settings(),
+                $c->logger()->cron()
+            );
         };
     }
 
@@ -1143,7 +1169,7 @@ class ilInitialisation
     public static function handleErrorReporting() : void
     {
         // push the error level as high as possible / sane
-        error_reporting(E_ALL&~E_NOTICE);
+        error_reporting(E_ALL & ~E_NOTICE);
 
         // see handleDevMode() - error reporting might be overwritten again
         // but we need the client ini first
@@ -1242,6 +1268,7 @@ class ilInitialisation
         self::initSettings();
         self::setSessionHandler();
         self::initMail($GLOBALS['DIC']);
+        self::initCron($GLOBALS['DIC']);
         self::initAvatar($GLOBALS['DIC']);
         self::initCustomObjectIcons($GLOBALS['DIC']);
         self::initTermsOfService($GLOBALS['DIC']);
@@ -1692,11 +1719,13 @@ class ilInitialisation
         }
 
         foreach (['ext_uid', 'soap_pw'] as $param) {
-            if (false === strpos($a_target,
-                    $param . '=') && isset($GLOBALS['DIC']->http()->request()->getQueryParams()[$param])) {
+            if (false === strpos(
+                $a_target,
+                $param . '='
+            ) && isset($GLOBALS['DIC']->http()->request()->getQueryParams()[$param])) {
                 $a_target = \ilUtil::appendUrlParameterString($a_target, $param . '=' . \ilUtil::stripSlashes(
-                        $GLOBALS['DIC']->http()->request()->getQueryParams()[$param]
-                    ));
+                    $GLOBALS['DIC']->http()->request()->getQueryParams()[$param]
+                ));
             }
         }
 
@@ -1722,11 +1751,11 @@ class ilInitialisation
 
                 if (!trim($mess)) {
                     $mess = self::translateMessage(
-                            "init_error_redirect_info",
-                            array("en" => 'Redirect not supported by context.',
+                        "init_error_redirect_info",
+                        array("en" => 'Redirect not supported by context.',
                                   "de" => 'Weiterleitungen werden durch Kontext nicht unterstützt.'
                             )
-                        ) .
+                    ) .
                         ' (' . $a_target . ')';
                 }
             }

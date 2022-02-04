@@ -65,6 +65,7 @@
 		"guzzlehttp/guzzle": "^6.3",
 		"simplesamlphp/simplesamlphp": "^1.19.4",
 		"seld/jsonlint": "^1.8",
+		"ext-xml": "*",
 		"jasig/phpcas": "^1.4"
 	},
 	"require-dev": {

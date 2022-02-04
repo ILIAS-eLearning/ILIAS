@@ -1,30 +1,17 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-
-
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Course XML Parser
 *
@@ -35,21 +22,18 @@
 */
 class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 {
-    public $lng;
     public $md_obj = null;			// current meta data object
-    
+
     private $current_container_setting;
-
-    /**
-     * @var ilObjCourse
-     */
-    private $course_obj;
-
-    /**
-     * @var |null | \ilLogger
-     */
-    private $log = null;
-
+    
+    private ?ilObjCourse $course_obj;
+    
+    private ?\ilLogger $log = null;
+    protected ilSaxController $sax_controller;
+    protected ilCourseParticipants $course_members;
+    protected ilCourseWaitingList $course_waiting_list;
+    protected array $course_members_array = [];
+    
     /**
     * Constructor
     *
@@ -89,7 +73,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     * @param	resource	reference to the xml parser
     * @access	public
     */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         $this->sax_controller->setHandlers($a_xml_parser);
         $this->sax_controller->setDefaultElementHandler($this);
@@ -178,7 +162,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                     }
                 }
                 break;
-                
+
 
             case 'Settings':
                 $this->in_settings = true;
@@ -274,16 +258,16 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 $this->in_meta_data = true;
                 parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
                 break;
-            
+
             case 'ContainerSetting':
                 $this->current_container_setting = $a_attribs['id'];
                 break;
-            
+
             case 'Period':
                 $this->in_period = true;
                 $this->in_period_with_time = $a_attribs['withTime'];
                 break;
-            
+
             case 'WaitingListAutoFill':
             case 'CancellationEnd':
             case 'MinMembers':
@@ -310,14 +294,13 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     }
 
     /**
-     * attach or detach user/member/admin from course member
-     *
-     * @param array $a_attribs	attributes of nod
-     * @param array $id_data
-     * @param int $roletype		type of role, which is courseMember->
-     */
-
-    private function handleMember($a_attribs, $id_data)
+                 * attach or detach user/member/admin from course member
+                 *
+                 * @param array $a_attribs	attributes of nod
+                 * @param int $roletype		type of role, which is courseMember->
+                 * @param mixed[] $id_data
+                 */
+    private function handleMember(array $a_attribs, array $id_data) : void
     {
         if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach') {
             // if action not set, or set and attach
@@ -348,18 +331,17 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
 
     /**
-     * attach or detach admin from course member
-     *
-     * @param string $a_attribs	attribute of a node
-     * @param array $id_data
-     */
-
-    private function handleAdmin($a_attribs, $id_data)
+                 * attach or detach admin from course member
+                 *
+                 * @param string $a_attribs	attribute of a node
+                 * @param mixed[] $id_data
+                 */
+    private function handleAdmin(string $a_attribs, array $id_data) : void
     {
         global $DIC;
 
         $rbacadmin = $DIC['rbacadmin'];
-    
+
         if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach') {
             // if action not set, or attach
             if (!array_key_exists($id_data['usr_id'], $this->course_members_array)) {
@@ -399,13 +381,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
 
     /**
-     * attach or detach admin from course member
-     *
-    * @param string $a_attribs	attribute of a node
-     * @param array $id_data
-     */
-
-    private function handleTutor($a_attribs, $id_data)
+                 * attach or detach admin from course member
+                 *
+                 * @param string $a_attribs	attribute of a node
+                 * @param mixed[] $id_data
+                 */
+    private function handleTutor(string $a_attribs, array $id_data) : void
     {
         if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach') {
             // if action not set, or attach
@@ -446,12 +427,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
 
     /**
-     * attach or detach members from subscribers
-     *
-     * @param string $a_attribs	attribute of a node
-     * @param array $id_data
-     */
-    private function handleSubscriber($a_attribs, $id_data)
+                 * attach or detach members from subscribers
+                 *
+                 * @param string $a_attribs	attribute of a node
+                 * @param mixed[] $id_data
+                 */
+    private function handleSubscriber(string $a_attribs, array $id_data) : void
     {
         if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach') {
             // if action not set, or attach
@@ -467,12 +448,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     }
 
     /**
-     * attach or detach members from waitinglist
-     *
-     * @param string $a_attribs	attribute of a node
-     * @param array $id_data
-     */
-    private function handleWaitingList($a_attribs, $id_data)
+                 * attach or detach members from waitinglist
+                 *
+                 * @param string $a_attribs	attribute of a node
+                 * @param mixed[] $id_data
+                 */
+    private function handleWaitingList(string $a_attribs, array $id_data) : void
     {
         if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach') {
             // if action not set, or attach
@@ -568,7 +549,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'ImportantInformation':
                 $this->course_obj->setImportantInformation(trim($this->cdata));
                 break;
-            
+
             case 'ViewMode':
                 $this->course_obj->setViewMode(trim($this->cdata));
                 break;
@@ -601,7 +582,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 $this->in_meta_data = false;
                 parent::handlerEndTag($a_xml_parser, $a_name);
                 break;
-            
+
             case 'ContainerSetting':
                 if ($this->current_container_setting) {
                     ilContainer::_writeContainerSetting(
@@ -611,7 +592,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                     );
                 }
                 break;
-                
+
             case 'Period':
                 $this->in_period = false;
                 try {
@@ -620,17 +601,17 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                     $this->log->warning('invalid course period given');
                 }
                 break;
-            
+
             case 'WaitingListAutoFill':
                 $this->course_obj->setWaitingListAutoFill($this->cdata);
                 break;
-            
+
             case 'CancellationEnd':
                 if ((int) $this->cdata) {
                     $this->course_obj->setCancellationEnd(new ilDate((int) $this->cdata, IL_CAL_UNIX));
                 }
                 break;
-                
+
             case 'MinMembers':
                 if ((int) $this->cdata) {
                     $this->course_obj->setSubscriptionMinMembers((int) $this->cdata);

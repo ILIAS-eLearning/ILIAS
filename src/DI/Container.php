@@ -378,6 +378,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\Style\Content\Service($this);
     }
 
+    public function cron() : \ilCronServices
+    {
+        return new \ilCronServicesImpl($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

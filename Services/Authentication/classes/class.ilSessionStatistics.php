@@ -129,7 +129,7 @@ class ilSessionStatistics
      *
      * @return array begin, end
      */
-    protected static function getCurrentSlot(int $a_now) : array
+    protected static function getCurrentSlot(int $a_now) : ?array
     {
         global $DIC;
 
@@ -164,6 +164,7 @@ class ilSessionStatistics
         if ($current_slot_end < $a_now) {
             return array($current_slot_begin, $current_slot_end);
         }
+        return null;
     }
     
     /**
@@ -218,7 +219,7 @@ class ilSessionStatistics
      *
      * @return array begin, end
      */
-    protected static function createNewAggregationSlot(int $a_now) : array
+    protected static function createNewAggregationSlot(int $a_now) : ?array
     {
         global $DIC;
 
@@ -232,7 +233,7 @@ class ilSessionStatistics
             // if we had to wait for the lock, no current slot should be returned here
             $slot = self::getCurrentSlot($a_now);
             if (!is_array($slot)) {
-                $slot = false;
+                $slot = null;
                 return;
             }
 
@@ -555,7 +556,7 @@ class ilSessionStatistics
         if (isset($val["maxval"]) && $val["maxval"]) {
             return (int) $val["maxval"];
         } else {
-            return (int) $ilSetting->get("session_max_count", ilSessionControl::DEFAULT_MAX_COUNT);
+            return (int) $ilSetting->get("session_max_count", (string) ilSessionControl::DEFAULT_MAX_COUNT);
         }
     }
     

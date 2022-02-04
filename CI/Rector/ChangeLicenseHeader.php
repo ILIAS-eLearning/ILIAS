@@ -12,7 +12,7 @@ final class ChangeLicenseHeader extends AbstractRector
 {
     const EXISTING_LICENSE_PATTERN = '(copyright|Copyright|GPL-3\.0|GPLv3|LICENSE)';
     const IGNORE_SUBPATHS = '(lib|vendor|CI|data|Customizing)';
-    private $license_header_default = "/******************************************************************************
+    private string $license_header_default = "/******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
  *
@@ -21,8 +21,8 @@ final class ChangeLicenseHeader extends AbstractRector
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/";
 
@@ -33,6 +33,9 @@ final class ChangeLicenseHeader extends AbstractRector
         $this->standard_comment = new Comment($this->license_header_default);
     }
 
+    /**
+     * @return class-string[]
+     */
     public function getNodeTypes() : array
     {
         return [
@@ -66,7 +69,6 @@ final class ChangeLicenseHeader extends AbstractRector
             default:
                 return $node;
         }
-
     }
 
     /**
@@ -87,7 +89,8 @@ final class ChangeLicenseHeader extends AbstractRector
     public function getRuleDefinition() : RuleDefinition
     {
         return new RuleDefinition(
-            'Adds or replaces a license-header in each class-file', [
+            'Adds or replaces a license-header in each class-file',
+            [
                 new CodeSample(
                     // code before
                     '',

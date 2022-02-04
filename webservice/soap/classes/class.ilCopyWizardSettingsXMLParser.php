@@ -1,15 +1,17 @@
 <?php
-/*
- * Created on 26.02.2008
+/******************************************************************************
  *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
- */
-
-include_once "./Services/Xml/classes/class.ilSaxParser.php";
-include_once "./Services/Xml/exceptions/class.ilSaxParserException.php";
-include_once "./Services/CopyWizard/classes/class.ilCopyWizardOptions.php";
-
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilCopyWizardSettingsXMLParser extends ilSaxParser
 {
     private $options;
@@ -36,7 +38,7 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
     * @param	resource	reference to the xml parser
     * @access	private
     */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -50,14 +52,14 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
     * @param	string		$a_name				element name
     * @param	array		$a_attribs			element attributes array
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
         $ilAccess = $DIC['ilAccess'];
         $tree = $DIC['tree'];
-    
+
         switch ($a_name) {
       case 'Settings':
         $this->options = array();
@@ -69,7 +71,7 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
         if (ilObject::_isInTrash($this->target_id)) {
             throw new ilSaxParserException("target id" . $this->target_id . " is in trash");
         }
-        
+
         $this->default_action = ilCopyWizardSettingsXMLParser::getActionForString($a_attribs["default_action"]);
         break;
       case 'Option':
@@ -80,16 +82,16 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
           if (!$tree->isInTree($id)) {
               throw new ilSaxParserException("Id $id does not exist");
           }
-                
+
                 $action = ilCopyWizardSettingsXMLParser::getActionForString($a_attribs["action"]);
                 $type = ilObjectFactory::getTypeByRefId($id);
-                
-                
+
+
                 switch ($action) {
                     case ilCopyWizardOptions::COPY_WIZARD_COPY:
                             $perm_copy = $ilAccess->checkAccess('copy', '', $id);
                             $copy = $objDefinition->allowCopy($type);
-                        
+
                             if ($perm_copy && $copy) {
                                 $this->options [$id] = array("type" => $action);
                             } elseif ($copy && !$perm_copy) {
@@ -101,7 +103,7 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
                     case ilCopyWizardOptions::COPY_WIZARD_LINK:
                             $perm_link = $ilAccess->checkAccess('write', '', $id);
                             $link = $objDefinition->allowLink($type);
-                        
+
                             if ($perm_link && $link) {
                                 $this->options [$id] = array("type" => $action);
                             } elseif ($copy && !$perm_link) {
@@ -120,32 +122,28 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
      *
      * @return array key is reference id, value is assoc. array with type and action
      */
-    public function getOptions()
+    public function getOptions() : array
     {
         return is_array($this->options) ? $this->options : array();
     }
-  
+
     /**
      * read access to source id
-     *
-     * @return int
      */
-    public function getSourceId()
+    public function getSourceId() : ?int
     {
         return $this->source_id;
     }
-  
+
     /**
      * read access to target id
-     *
-     * @return int
      */
-    public function getTargetId()
+    public function getTargetId() : ?int
     {
         return $this->target_id;
     }
 
-    private static function getActionForString($s)
+    private static function getActionForString($s) : int
     {
         if ($s == "COPY") {
             return ilCopyWizardOptions::COPY_WIZARD_COPY;
@@ -156,7 +154,7 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
         return ilCopyWizardOptions::COPY_WIZARD_OMIT;
     }
 
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, $a_name) : void
     {
     }
 
@@ -166,7 +164,7 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_data				character data
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
     }
 }

@@ -56,8 +56,12 @@ class ilPreviewConfigStoredObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-
-        $ini->setVariable("tools", "ghostscript", $this->config->getPathToGhostscript());
+    
+        $ini->setVariable(
+            "tools",
+            "ghostscript",
+            $this->config->getPathToGhostscript() ?? ''
+        );
 
         if (!$ini->write()) {
             throw new Setup\UnachievableException("Could not write ilias.ini.php");

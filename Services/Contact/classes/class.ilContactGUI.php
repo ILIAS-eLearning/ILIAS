@@ -149,7 +149,7 @@ class ilContactGUI
                     $this->toolbar->addInputItem($view_selection);
 
                     $contact_view_btn = ilSubmitButton::getInstance();
-                    $contact_view_btn->setCaption('submit');
+                    $contact_view_btn->setCaption('show');
                     $contact_view_btn->setCommand('changeContactsView');
                     $this->toolbar->addButtonInstance($contact_view_btn);
                     $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'changeContactsView'));

@@ -369,7 +369,7 @@ class ilSessionAppointment implements ilDatePeriod
         $res = $ilDB->query($query);
         $appointments = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $appointments[] = new ilSessionAppointment($row->appointment_id);
+            $appointments[] = new ilSessionAppointment((int) $row->appointment_id);
         }
         return $appointments;
     }

@@ -23,7 +23,7 @@ class ilLSLPTest extends TestCase
     public function testGetDefaultModes() : void
     {
         $obj = new ilLSLPStub();
-        $result = $obj->getDefaultModes('foo');
+        $result = $obj->getDefaultModes(true);
 
         $this->assertIsArray($result);
         $this->assertNotEmpty($result);

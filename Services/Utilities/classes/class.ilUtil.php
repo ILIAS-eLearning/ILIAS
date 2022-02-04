@@ -470,14 +470,10 @@ class ilUtil
     * @param	boolean	$detectGotoLinks	if true, internal goto-links will be retargeted to _self and text is replaced by title
     * @return	string	clickable link
     * @static
-    *
+    * @depracated Use the respective `Refinery` transformation `$refinery->string()->makeClickable("foo bar")` to convert URL-like string parts to an HTML anchor (`<a>`) element (the boolean flag is removed)
     */
     public static function makeClickable($a_text, $detectGotoLinks = false)
     {
-        trigger_error(
-            'Use the respective `Refinery` transformation `$refinery->string()->makeClickable("foo bar")` to convert URL-like string parts to an HTML anchor (`<a>`) element (the boolean flag is removed)',
-            E_USER_DEPRECATED
-        );
         // New code, uses MediaWiki Sanitizer
         $ret = $a_text;
 

@@ -355,7 +355,7 @@ class ilNewsItem
         $this->setUserId($rec["user_id"]);
         $this->setUpdateUserId($rec["update_user_id"]);
         $this->setVisibility($rec["visibility"]);
-        $this->setContentLong($rec["content_long"]);
+        $this->setContentLong((string) $rec["content_long"]);
         $this->setPriority($rec["priority"]);
         $this->setContentIsLangVar($rec["content_is_lang_var"]);
         $this->setContentTextIsLangVar((int) $rec["content_text_is_lang_var"]);
@@ -519,7 +519,7 @@ class ilNewsItem
             }
             
             // get all memberships
-            $crs_mbs = ilParticipants::_getMembershipByType($a_user_id,['crs']);
+            $crs_mbs = ilParticipants::_getMembershipByType($a_user_id, ['crs']);
             $grp_mbs = ilParticipants::_getMembershipByType($a_user_id, ['grp']);
             $items = array_merge($crs_mbs, $grp_mbs);
             foreach ($items as $i) {

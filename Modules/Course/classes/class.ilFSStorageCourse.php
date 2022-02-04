@@ -1,27 +1,17 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
@@ -43,14 +33,14 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @access public
      *
      */
-    public function __construct($a_container_id = 0)
+    public function __construct(int $a_container_id = 0)
     {
         global $DIC;
 
         $log = $DIC['log'];
 
         $this->log = $log;
-        parent::__construct(ilFileSystemStorage::STORAGE_DATA, true, $a_container_id);
+        parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $a_container_id);
     }
 
     /**
@@ -62,13 +52,13 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @param string obj_id source
      * @param string obj_id target
      */
-    public static function _clone($a_source_id, $a_target_id)
+    public static function _clone($a_source_id, $a_target_id) : bool
     {
         $source = new ilFSStorageCourse($a_source_id);
         $target = new ilFSStorageCourse($a_target_id);
 
         $target->create();
-        ilFileSystemStorage::_copyDirectory($source->getAbsolutePath(), $target->getAbsolutePath());
+        ilFileSystemAbstractionStorage::_copyDirectory($source->getAbsolutePath(), $target->getAbsolutePath());
 
         // Delete member export files
         $target->deleteDirectory($target->getMemberExportDirectory());
@@ -85,7 +75,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @access public
      *
      */
-    public function initInfoDirectory()
+    public function initInfoDirectory() : void
     {
         ilFileUtils::makeDirParents($this->getInfoDirectory());
     }
@@ -96,7 +86,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @access public
      *
      */
-    public function getInfoDirectory()
+    public function getInfoDirectory() : string
     {
         return $this->getAbsolutePath() . '/' . self::INFO_DIR;
     }
@@ -108,7 +98,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @access public
      *
      */
-    public function initMemberExportDirectory()
+    public function initMemberExportDirectory() : void
     {
         ilFileUtils::makeDirParents($this->getMemberExportDirectory());
     }
@@ -119,7 +109,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @access public
      *
      */
-    public function getMemberExportDirectory()
+    public function getMemberExportDirectory() : string
     {
         return $this->getAbsolutePath() . '/' . self::MEMBER_EXPORT_DIR;
     }
@@ -132,7 +122,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @param string filename
      *
      */
-    public function addMemberExportFile($a_data, $a_rel_name)
+    public function addMemberExportFile($a_data, $a_rel_name) : bool
     {
         $this->initMemberExportDirectory();
         if (!$this->writeToFile($a_data, $this->getMemberExportDirectory() . '/' . $a_rel_name)) {
@@ -207,7 +197,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @param
      *
      */
-    public function initArchiveDirectory()
+    public function initArchiveDirectory() : void
     {
         ilFileUtils::makeDirParents($this->getArchiveDirectory());
     }
@@ -218,7 +208,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @access public
      *
      */
-    public function getArchiveDirectory()
+    public function getArchiveDirectory() : string
     {
         return $this->getAbsolutePath() . '/' . self::ARCHIVE_DIR;
     }
@@ -230,7 +220,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @param string archive subdirectory name
      *
      */
-    public function addArchiveSubDirectory($a_name)
+    public function addArchiveSubDirectory($a_name) : void
     {
         ilFileUtils::makeDirParents($this->getArchiveDirectory() . '/' . $a_name);
     }
@@ -242,7 +232,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @param string relative filename
      *
      */
-    public function writeArchiveFile($a_data, $a_rel_name)
+    public function writeArchiveFile($a_data, $a_rel_name) : bool
     {
         if (!$this->writeToFile($a_data, $this->getArchiveDirectory() . '/' . $a_rel_name)) {
             $this->log->write('Cannot write to file: ' . $this->getArchiveDirectory() . '/' . $a_rel_name);
@@ -262,8 +252,10 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      */
     public function zipArchive($a_rel_name, $a_zip_name)
     {
-        if (ilFileUtils::zip($this->getArchiveDirectory() . '/' . $a_rel_name,
-            $this->getArchiveDirectory() . '/' . $a_zip_name)) {
+        if (ilFileUtils::zip(
+            $this->getArchiveDirectory() . '/' . $a_rel_name,
+            $this->getArchiveDirectory() . '/' . $a_zip_name
+        )) {
             return filesize($this->getArchiveDirectory() . '/' . $a_zip_name);
         }
         return 0;
@@ -276,22 +268,24 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @param
      *
      */
-    public function deleteArchive($a_rel_name)
+    public function deleteArchive($a_rel_name) : void
     {
         $this->deleteFile($this->getArchiveDirectory() . '/' . $a_rel_name . '.zip');
         $this->deleteDirectory($this->getArchiveDirectory() . '/' . $a_rel_name);
     }
 
-    public function createArchiveOnlineVersion($a_rel_name)
+    public function createArchiveOnlineVersion($a_rel_name) : bool
     {
         ilFileUtils::makeDirParents(CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
-        ilFileUtils::rCopy($this->getArchiveDirectory() . '/' . $a_rel_name,
-            CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
+        ilFileUtils::rCopy(
+            $this->getArchiveDirectory() . '/' . $a_rel_name,
+            CLIENT_WEB_DIR . '/courses/' . $a_rel_name
+        );
 
         return true;
     }
 
-    public function getOnlineLink($a_rel_name)
+    public function getOnlineLink($a_rel_name) : string
     {
         return ilFileUtils::getWebspaceDir('filesystem') . '/courses/' . $a_rel_name . '/index.html';
     }
@@ -303,7 +297,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @access protected
      *
      */
-    protected function getPathPostfix():string
+    protected function getPathPostfix() : string
     {
         return 'crs';
     }
@@ -314,7 +308,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      * @access protected
      *
      */
-    protected function getPathPrefix():string
+    protected function getPathPrefix() : string
     {
         return 'ilCourse';
     }

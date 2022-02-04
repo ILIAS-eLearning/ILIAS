@@ -1103,9 +1103,6 @@ class ilObjectListGUI
     public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
     {
         $this->offline_mode = false;
-        if ($this->type == "sahs") {
-            $this->offline_mode = ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($a_obj_id);
-        }
         $this->access_cache = array();
         $this->ref_id = (int) $a_ref_id;
         $this->obj_id = (int) $a_obj_id;
@@ -1298,9 +1295,8 @@ class ilObjectListGUI
             // BEGIN WebDAV Display locking information
             if (ilDAVActivationChecker::_isActive()) {
                 // Show lock info
-                global $DIC;
                 $webdav_dic = new ilWebDAVDIC();
-                $webdav_dic->init($DIC);
+                $webdav_dic->initWithoutDIC();
                 $webdav_lock_backend = $webdav_dic->locksbackend();
                 if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                     if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->obj_id)) {

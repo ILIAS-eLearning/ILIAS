@@ -572,9 +572,8 @@ class ilInfoScreenGUI
         // WebDAV: Display locking information
         if (ilDAVActivationChecker::_isActive()) {
             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                global $DIC;
                 $webdav_dic = new ilWebDAVDIC();
-                $webdav_dic->init($DIC);
+                $webdav_dic->initWithoutDIC();
                 $webdav_lock_backend = $webdav_dic->locksbackend();
                 // Show lock info
                 if ($ilUser->getId() != ANONYMOUS_USER_ID) {

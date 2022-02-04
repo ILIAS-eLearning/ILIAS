@@ -67,7 +67,9 @@ class ilMembershipGUI
         if ($this->http->wrapper()->post()->has('participants')) {
             return $this->http->wrapper()->post()->retrieve(
                 'participants',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         return [];
@@ -89,7 +91,9 @@ class ilMembershipGUI
         if ($this->http->wrapper()->post()->has('subscribers')) {
             return $this->http->wrapper()->post()->retrieve(
                 'subscribers',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         return [];
@@ -100,7 +104,9 @@ class ilMembershipGUI
         if ($this->http->wrapper()->post()->has('waiting')) {
             return $this->http->wrapper()->post()->retrieve(
                 'waiting',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         return [];
@@ -466,25 +472,33 @@ class ilMembershipGUI
         if ($this->http->wrapper()->post()->has('notification')) {
             $notifications = $this->http->wrapper()->post()->retrieve(
                 'notification',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         if ($this->http->wrapper()->post()->has('passed')) {
             $passed = $this->http->wrapper()->post()->retrieve(
                 'passed',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         if ($this->http->wrapper()->post()->has('blocked')) {
             $blocked = $this->http->wrapper()->post()->retrieve(
                 'blocked',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         if ($this->http->wrapper()->post()->has('contact')) {
             $contact = $this->http->wrapper()->post()->retrieve(
                 'contact',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
 

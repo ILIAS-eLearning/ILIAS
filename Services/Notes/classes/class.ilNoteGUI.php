@@ -894,7 +894,7 @@ class ilNoteGUI
         $lng = $this->lng;
 
         $this->form_tpl = new ilTemplate("tpl.notes_edit.html", true, true, "Services/Notes");
-        $this->form_tpl->setVariable("LABEL", ($a_type == IL_NOTE_PUBLIC)
+        $this->form_tpl->setVariable("LABEL", ($a_type == ilNote::PUBLIC)
             ? $lng->txt("comment")
             : $lng->txt("note"));
         

@@ -13,8 +13,8 @@ use ILIAS\Filesystem\Filesystem;
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
 /**
@@ -87,7 +87,7 @@ abstract class ilFileSystemAbstractionStorage
         return $this->container_id;
     }
 
-    protected static function createPathFromId(int $a_container_id, string $a_name) : string
+    public static function createPathFromId(int $a_container_id, string $a_name) : string
     {
         $path = [];
         $found = false;
@@ -194,6 +194,13 @@ abstract class ilFileSystemAbstractionStorage
         }
 
         return true;
+    }
+
+    public function deleteDirectory(string $a_abs_name) : bool
+    {
+        $path = $this->createRelativePathForFileSystem($a_abs_name);
+        $this->getFileSystemService()->deleteDir($path);
+        return !$this->getFileSystemService()->has($path);
     }
 
     public static function _copyDirectory(string $a_sdir, string $a_tdir) : bool

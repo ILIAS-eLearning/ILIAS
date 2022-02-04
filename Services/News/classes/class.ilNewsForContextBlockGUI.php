@@ -1067,7 +1067,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             0,
             $block_id
         );
-
         $default_visibility = ilBlockSetting::_lookup(self::$block_type, "default_visibility", 0, $block_id);
         if ($default_visibility == "") {
             $default_visibility =
@@ -1090,7 +1089,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "notifications_public_feed"
             );
             $radio_rss->setInfo($lng->txt("news_public_feed_info"));
-            $radio_rss->setChecked($public_feed);
+            $radio_rss->setChecked((bool) $public_feed);
             $a_input->addSubItem($radio_rss);
         }
     }

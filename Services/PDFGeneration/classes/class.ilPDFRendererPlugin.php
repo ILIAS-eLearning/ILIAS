@@ -1,18 +1,17 @@
 <?php
-require_once './Services/Component/classes/class.ilPlugin.php';
-require_once './Services/PDFGeneration/interfaces/interface.ilRendererConfig.php';
-require_once './Services/PDFGeneration/interfaces/interface.ilPDFRenderer.php';
-
-/**
- * Abstract parent class for all pdf renderer plugin classes.
+/******************************************************************************
  *
- * @author Alex Killing      <alex.killing@gmx.de>
- * @author Maximilian Becker <mbecker@databay.de>
+ * This file is part of ILIAS, a powerful learning management system.
  *
- * @version $Id$
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
  *
- * @ingroup ServicesPDFGeneration
- */
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 abstract class ilPDFRendererPlugin extends ilPlugin implements ilRendererConfig, ilPDFRenderer
 {
     /** --- ilPDFRendererPlugin -- */

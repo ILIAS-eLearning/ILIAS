@@ -1755,22 +1755,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $tpl->setContent($this->form->getHtml());
         }
     }
-
-    public function addToExternalSettingsForm($a_form_id)
-    {
-        switch ($a_form_id) {
-            case ilAdministrationSettingsFormHandler::FORM_SECURITY:
-
-                $security = ilSecuritySettings::_getInstance();
-
-                $subitems = null;
-
-                $fields['activate_https'] =
-                    array($security->isHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
-
-                return array("general_settings" => array("showHTTPS", $fields));
-        }
-    }
     
     /**
      * goto target group

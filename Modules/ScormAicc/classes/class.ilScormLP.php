@@ -24,10 +24,10 @@ class ilScormLP extends ilObjectLP
     protected ?bool $precondition_cache = null;
 
     /**
-     * @param $a_lp_active
+     * @param bool $a_lp_active
      * @return int[]
      */
-    public static function getDefaultModes($a_lp_active) : array
+    public static function getDefaultModes(bool $a_lp_active) : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -118,11 +118,11 @@ class ilScormLP extends ilObjectLP
 
     /**
      * @param array $a_res
-     * @param       $a_usr_id
-     * @param       $a_obj_ids
-     * @return void
+     * @param int   $a_usr_id
+     * @param array $a_obj_ids
+     * @return bool
      */
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids) : void
+    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids) : bool
     {
         global $DIC;
 

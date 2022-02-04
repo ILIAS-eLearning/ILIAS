@@ -444,7 +444,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $def_tpl = new ilTemplate("tpl.glossary_definition_list.html", true, true, "Modules/Glossary");
 
         $defs = ilGlossaryDefinition::getDefinitionList($term_id);
-        $tpl->setVariable("TXT_TERM", $term->getTerm());
+        $def_tpl->setVariable("TXT_TERM", $term->getTerm());
         $this->mobs = array();
 
         // toc

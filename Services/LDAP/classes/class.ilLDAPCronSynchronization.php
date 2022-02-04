@@ -106,7 +106,7 @@ class ilLDAPCronSynchronization extends ilCronJob
                         
                         $offset += $limit;
 
-                        ilCronManager::ping($this->getId());
+                        $DIC->cron()->manager()->ping($this->getId());
                     }
                     $this->counter++;
                 } else {
