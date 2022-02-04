@@ -225,7 +225,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      */
     public function setValueByArray($a_values)
     {
-        $data = $a_values[$this->getPostVar()];
+        $data = $a_values[$this->getPostVar() ?? null];
         if ($this->getMulti()) {
             $this->line_values = $data;
         } else {

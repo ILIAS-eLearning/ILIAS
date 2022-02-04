@@ -176,7 +176,7 @@ class ilDclRecordListGUI
                     $this->table_id) ? $this->lng->txt("dcl_create_fields") : ""));
         }
 
-        $tpl->setPermanentLink("dcl", $this->parent_obj->ref_id . "_" . $this->tableview_id);
+        $tpl->setPermanentLink("dcl", $this->parent_obj->ref_id, "_" . $this->tableview_id);
 
         if ($desc = $this->table_obj->getDescription()) {
             $ilSetting = new ilSetting('advanced_editing');

@@ -365,14 +365,14 @@ class ilDclBaseFieldModel
      * Builds model from db record
      * @param $rec
      */
-    public function buildFromDBRecord($rec)
+    public function buildFromDBRecord($rec): void
     {
         $this->setId($rec["id"]);
         $this->setTableId($rec["table_id"]);
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
         $this->setDatatypeId($rec["datatype_id"]);
-        $this->setUnique($rec["is_unique"]);
+        $this->setUnique($rec["is_unique"] ?? null);
     }
 
     /**

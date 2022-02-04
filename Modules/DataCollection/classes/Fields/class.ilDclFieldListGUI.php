@@ -60,7 +60,7 @@ class ilDclFieldListGUI
         $this->tabs = $ilTabs;
         $this->toolbar = $ilToolbar;
 
-        $this->ctrl->saveParameter('ilDclTableEditGUI', 'table_id');
+        $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
         $locator->addItem(ilDclCache::getTableCache($this->table_id)->getTitle(),
             $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
         $this->tpl->setLocator();
@@ -134,7 +134,7 @@ class ilDclFieldListGUI
         }
 
         foreach ($fields as $field) {
-            $field->setExportable($_POST['exportable'][$field->getId()] == "on");
+            $field->setExportable($_POST['exportable'] && $_POST['exportable'][$field->getId()] === "on");
             $field->setOrder($order[$field->getId()]);
             $field->doUpdate();
         }

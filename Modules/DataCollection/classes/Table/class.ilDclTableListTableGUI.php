@@ -24,12 +24,12 @@ class ilDclTableListTableGUI extends ilTable2GUI
 
         $this->setId('dcl_table_list');
         $this->addColumn('', '', '1', true);
-        $this->addColumn($lng->txt('dcl_order'), null, '30px');
-        $this->addColumn($lng->txt('title'), null, 'auto');
-        $this->addColumn($lng->txt('dcl_visible'), null, '250px', false, '', $this->lng->txt('dcl_visible_desc'));
-        $this->addColumn($lng->txt('dcl_comments'), null, '200px', false, '',
+        $this->addColumn($lng->txt('dcl_order'), "", '30px');
+        $this->addColumn($lng->txt('title'), "", 'auto');
+        $this->addColumn($lng->txt('dcl_visible'), "", '250px', false, '', $this->lng->txt('dcl_visible_desc'));
+        $this->addColumn($lng->txt('dcl_comments'), "", '200px', false, '',
             $this->lng->txt('dcl_public_comments_desc'));
-        $this->addColumn($lng->txt('actions'), null, '30px');
+        $this->addColumn($lng->txt('actions'), "", '30px');
 
         $this->setSelectAllCheckbox('dcl_table_ids[]');
         $this->addMultiCommand('confirmDeleteTables', $lng->txt('dcl_delete_tables'));
@@ -61,9 +61,9 @@ class ilDclTableListTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $a_set
+     * @param ilDclTable $a_set // WRONG: dirty protected function override
      */
-    public function fillRow(array $a_set): void
+    public function fillRow($a_set): void
     {
         $this->tpl->setVariable("ID", $a_set->getId());
         $this->tpl->setVariable("ORDER_NAME", "order[{$a_set->getId()}]");

@@ -15,6 +15,8 @@
 class ilDclFieldListTableGUI extends ilTable2GUI
 {
 
+    private $order = null;
+
     /**
      * @var ilDclTable
      */
@@ -38,13 +40,13 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
         $this->setId('dcl_field_list');
         $this->addColumn('', '', '1', true);
-        $this->addColumn($lng->txt('dcl_order'), null, '30px');
-        $this->addColumn($lng->txt('dcl_fieldtitle'), null, 'auto');
-        $this->addColumn($lng->txt('dcl_in_export'), null, '30px');
-        $this->addColumn($lng->txt('dcl_description'), null, 'auto');
-        $this->addColumn($lng->txt('dcl_field_datatype'), null, 'auto');
-        $this->addColumn($lng->txt('dcl_unique'), null, 'auto');
-        $this->addColumn($lng->txt('actions'), null, '30px');
+        $this->addColumn($lng->txt('dcl_order'), '', '30px');
+        $this->addColumn($lng->txt('dcl_fieldtitle'), '', 'auto');
+        $this->addColumn($lng->txt('dcl_in_export'), '', '30px');
+        $this->addColumn($lng->txt('dcl_description'), '', 'auto');
+        $this->addColumn($lng->txt('dcl_field_datatype'), '', 'auto');
+        $this->addColumn($lng->txt('dcl_unique'), '', 'auto');
+        $this->addColumn($lng->txt('actions'), '', '30px');
         // Only add mutli command for custom fields
         if (count($this->table->getRecordFields())) {
             $this->setSelectAllCheckbox('dcl_field_ids[]');
@@ -80,9 +82,9 @@ class ilDclFieldListTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $a_set
+     * @param ilDclStandardField $a_set
      */
-    public function fillRow(array $a_set): void
+    public function fillRow($a_set): void
     {
         global $DIC;
         $lng = $DIC['lng'];

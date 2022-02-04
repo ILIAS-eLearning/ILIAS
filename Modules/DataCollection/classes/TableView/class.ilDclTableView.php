@@ -496,7 +496,7 @@ class ilDclTableView extends ActiveRecord
         foreach ($orig->getFieldSettings() as $orig_fieldsetting) {
             $new_fieldsetting = new ilDclTableViewFieldSetting();
             $new_fieldsetting->setTableviewId($this->getId());
-            if ($new_fields[$orig_fieldsetting->getField()]) {
+            if ($new_fields[$orig_fieldsetting->getField()] ?? null) {
                 //normal fields
                 $new_fieldsetting->setField($new_fields[$orig_fieldsetting->getField()]->getId());
             } else {

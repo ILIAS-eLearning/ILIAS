@@ -579,13 +579,12 @@ class ilDclTable
 
     /**
      * get id of first (for current user) available view
-     * @param     $ref_id
-     * @param int $user_id
-     * @return bool
      */
-    public function getFirstTableViewId($ref_id, $user_id = 0)
+    public function getFirstTableViewId(int $ref_id, int $user_id = 0): bool
     {
-        $tableview = array_shift($this->getVisibleTableViews($ref_id, false, $user_id));
+        $uid = $user_id;
+        $array = $this->getVisibleTableViews($ref_id, false, $uid);
+        $tableview = array_shift($array);
 
         return $tableview ? $tableview->getId() : false;
     }

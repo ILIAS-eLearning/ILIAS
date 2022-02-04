@@ -11,6 +11,13 @@
  */
 class ilObjDataCollection extends ilObject2
 {
+
+    private bool $is_online = false;
+    private string $rating = "";
+    private string $approval = "";
+    private string $public_notes = "";
+    private string $notification = "";
+
     public function initType()
     {
         $this->type = "dcl";
@@ -24,11 +31,13 @@ class ilObjDataCollection extends ilObject2
         $result = $ilDB->query("SELECT * FROM il_dcl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 
         $data = $ilDB->fetchObject($result);
-        $this->setOnline($data->is_online);
-        $this->setRating($data->rating);
-        $this->setApproval($data->approval);
-        $this->setPublicNotes($data->public_notes);
-        $this->setNotification($data->notification);
+        if ($data) {
+            $this->setOnline($data->is_online);
+            $this->setRating($data->rating);
+            $this->setApproval($data->approval);
+            $this->setPublicNotes($data->public_notes);
+            $this->setNotification($data->notification);
+        }
     }
 
     protected function doCreate($clone_mode = false)
@@ -351,7 +360,7 @@ class ilObjDataCollection extends ilObject2
     /**
      * setOnline
      */
-    public function setOnline($a_val)
+    public function setOnline($a_val): void
     {
         $this->is_online = $a_val;
     }
