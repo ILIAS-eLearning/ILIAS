@@ -1,22 +1,24 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/**
-* Test results to XML class
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id$
-* @ingroup ModulesTest
-*/
-include_once './Services/Xml/classes/class.ilXmlWriter.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilTestResultsToXML extends ilXmlWriter
 {
-    private $test_id = 0;
-    private $anonymized = false;
+    private int $test_id = 0;
+    private bool $anonymized = false;
     private $active_ids;
     
-    protected $includeRandomTestQuestionsEnabled = false;
+    protected bool $includeRandomTestQuestionsEnabled = false;
 
     public function __construct($test_id, $anonymized = false)
     {
@@ -25,29 +27,21 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->anonymized = $anonymized;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isIncludeRandomTestQuestionsEnabled()
+    public function isIncludeRandomTestQuestionsEnabled() : bool
     {
         return $this->includeRandomTestQuestionsEnabled;
     }
 
-    /**
-     * @param boolean $includeRandomTestQuestionsEnabled
-     */
-    public function setIncludeRandomTestQuestionsEnabled($includeRandomTestQuestionsEnabled)
+    public function setIncludeRandomTestQuestionsEnabled(bool $includeRandomTestQuestionsEnabled) : void
     {
         $this->includeRandomTestQuestionsEnabled = $includeRandomTestQuestionsEnabled;
     }
     
-    protected function exportActiveIDs()
+    protected function exportActiveIDs() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilSetting = $DIC['ilSetting'];
-
-        include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
         $assessmentSetting = new ilSetting("assessment");
         $user_criteria = $assessmentSetting->get("user_criteria");
         if (strlen($user_criteria) == 0) {
@@ -93,7 +87,7 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->xmlEndTag("tst_active");
     }
 
-    protected function exportPassResult()
+    protected function exportPassResult() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -117,7 +111,7 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->xmlEndTag("tst_pass_result");
     }
 
-    protected function exportResultCache()
+    protected function exportResultCache() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -142,7 +136,7 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->xmlEndTag("tst_result_cache");
     }
 
-    protected function exportTestSequence()
+    protected function exportTestSequence() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -164,7 +158,7 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->xmlEndTag("tst_sequence");
     }
 
-    protected function exportTestSolutions()
+    protected function exportTestSolutions() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -188,7 +182,7 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->xmlEndTag("tst_solutions");
     }
 
-    protected function exportRandomTestQuestions()
+    protected function exportRandomTestQuestions() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -213,7 +207,7 @@ class ilTestResultsToXML extends ilXmlWriter
     }
     
 
-    protected function exportTestResults()
+    protected function exportTestResults() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -236,7 +230,7 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->xmlEndTag("tst_test_result");
     }
     
-    protected function exportTestTimes()
+    protected function exportTestTimes() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -258,7 +252,7 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->xmlEndTag("tst_times");
     }
     
-    public function getXML()
+    public function getXML() : void
     {
         $this->active_ids = array();
         $this->xmlHeader();
@@ -279,15 +273,15 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->xmlEndTag("results");
     }
 
-    public function xmlDumpMem($format = true)
+    public function xmlDumpMem(bool $format = true) : string
     {
         $this->getXML();
         return parent::xmlDumpMem($format);
     }
 
-    public function xmlDumpFile($file, $format = true)
+    public function xmlDumpFile(string $file, bool $format = true) : void
     {
         $this->getXML();
-        return parent::xmlDumpFile($file, $format);
+        parent::xmlDumpFile($file, $format);
     }
 }

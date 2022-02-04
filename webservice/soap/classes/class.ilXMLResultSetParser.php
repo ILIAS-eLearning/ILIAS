@@ -2,41 +2,19 @@
 
 
 
-  /*
-   +-----------------------------------------------------------------------------+
-   | ILIAS open source                                                           |
-   +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-   |                                                                             |
-   | This program is free software; you can redistribute it and/or               |
-   | modify it under the terms of the GNU General Public License                 |
-   | as published by the Free Software Foundation; either version 2              |
-   | of the License, or (at your option) any later version.                      |
-   |                                                                             |
-   | This program is distributed in the hope that it will be useful,             |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-   | GNU General Public License for more details.                                |
-   |                                                                             |
-   | You should have received a copy of the GNU General Public License           |
-   | along with this program; if not, write to the Free Software                 |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-   +-----------------------------------------------------------------------------+
-  */
-
-
- /**
-   * Parser for XMLResultSet
-   *
-   * @author Roland Kuestermann (rku@aifb.uni-karlsruhe.de)
-   * @version $Id: class.ilXMLResultSet.php,v 1.5 2006/05/23 23:09:06 hschottm Exp $
-   *
-   * @package ilias
-   */
-
-include_once './Services/Xml/classes/class.ilSaxParser.php';
-include_once './webservice/soap/classes/class.ilXMLResultSet.php';
-
+  /******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilXMLResultSetParser extends ilSaxParser
 {
     public $xmlResultSet;
@@ -57,7 +35,7 @@ class ilXMLResultSetParser extends ilSaxParser
      *
      * @return ilXMLResultSet xmlResultSet
      */
-    public function getXMLResultSet()
+    public function getXMLResultSet() : ?\ilXMLResultSet
     {
         return $this->xmlResultSet;
     }
@@ -68,7 +46,7 @@ class ilXMLResultSetParser extends ilSaxParser
     * @param	resource	reference to the xml parser
     * @access	private
     */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -83,7 +61,7 @@ class ilXMLResultSetParser extends ilSaxParser
     * @param	string		$a_name				element name
     * @param	array		$a_attribs			element attributes array
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
             case 'result':
@@ -112,7 +90,7 @@ class ilXMLResultSetParser extends ilSaxParser
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_name				element name
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
             case 'column':
@@ -129,7 +107,7 @@ class ilXMLResultSetParser extends ilSaxParser
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_data				character data
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {
             // Replace multiple tabs with one space

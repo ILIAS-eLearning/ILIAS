@@ -1,18 +1,18 @@
 <?php
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *****************************************************************************/
 /**
  * XML  parser for folder xml
  *
@@ -37,13 +37,13 @@ class ilFolderXmlParser extends ilSaxParser
         $this->setFolder($folder);
         $this->setThrowException(true);
     }
-    
-    public function setFolder(ilObject $folder)
+
+    public function setFolder(ilObject $folder) : void
     {
         $this->folder = $folder;
     }
-    
-    public function getFolder() : ilObject
+
+    public function getFolder() : ?\ilObject
     {
         return $this->folder;
     }
@@ -55,14 +55,14 @@ class ilFolderXmlParser extends ilSaxParser
     {
         $this->startParsing();
     }
-    
-    public function setHandlers($a_xml_parser)
+
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
-    
+
     /**
      * handler for begin of element
      * @param	resource	$a_xml_parser		xml parser
@@ -82,7 +82,7 @@ class ilFolderXmlParser extends ilSaxParser
                 break;
         }
     }
-    
+
     /**
      * @param	resource	$a_xml_parser		xml parser
      */
@@ -91,27 +91,27 @@ class ilFolderXmlParser extends ilSaxParser
         $GLOBALS['ilLog']->write(__METHOD__ . ': Called ' . $a_name);
 
         switch ($a_name) {
-                
+
             case 'Folder':
                 $this->getFolder()->update();
                 break;
-                
+
             case 'Title':
                 $this->getFolder()->setTitle(trim($this->cdata));
                 break;
-                
+
             case 'Description':
                 $this->getFolder()->setDescription(trim($this->cdata));
                 break;
-                
+
         }
-        
+
         // Reset cdata
         $this->cdata = '';
     }
-    
 
-    
+
+
     /**
      * @param	resource	$a_xml_parser		xml parser
      */

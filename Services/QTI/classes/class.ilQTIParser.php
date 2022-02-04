@@ -1,32 +1,20 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-include_once("./Services/Xml/classes/class.ilSaxParser.php");
-include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/class.ilAssQuestionTypeList.php';
-
 define("IL_MO_PARSE_QTI", 1);
 define("IL_MO_VERIFY_QTI", 2);
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * QTI Parser
 *
@@ -38,7 +26,6 @@ define("IL_MO_VERIFY_QTI", 2);
 */
 class ilQTIParser extends ilSaxParser
 {
-    public $lng;
     public $hasRootElement;
     public $path;
     public $items;
@@ -50,12 +37,12 @@ class ilQTIParser extends ilSaxParser
     public $render_type;
     public $response_label;
     public $material;
-    
+
     /**
      * @var ilQTIMatimage
      */
     public $matimage;
-    
+
     public $response;
     public $resprocessing;
     public $outcomes;
@@ -82,21 +69,21 @@ class ilQTIParser extends ilSaxParser
     public $assessment;
     public $assessmentcontrol;
     public $objectives;
-    public $in_assessment = false;
+    public bool $in_assessment = false;
     public $section;
     public $import_mapping;
-    public $question_counter = 1;
+    public int $question_counter = 1;
     public $in_itemmetadata;
-    public $in_objectives = false;
+    public bool $in_objectives = false;
 
-    public $founditems = array();
-    public $verifyroot = false;
-    public $verifyqticomment = 0;
-    public $verifymetadatafield = 0;
-    public $verifyfieldlabel = 0;
-    public $verifyfieldlabeltext = "";
-    public $verifyfieldentry = 0;
-    public $verifyfieldentrytext = "";
+    public array $founditems = array();
+    public bool $verifyroot = false;
+    public int $verifyqticomment = 0;
+    public int $verifymetadatafield = 0;
+    public int $verifyfieldlabel = 0;
+    public string $verifyfieldlabeltext = "";
+    public int $verifyfieldentry = 0;
+    public string $verifyfieldentrytext = "";
 
     /**
      * @var int
@@ -117,24 +104,18 @@ class ilQTIParser extends ilSaxParser
      */
     protected $ignoreItemsEnabled = false;
 
-    /**
-     * @return boolean
-     */
-    public function isIgnoreItemsEnabled()
+    public function isIgnoreItemsEnabled() : bool
     {
         return $this->ignoreItemsEnabled;
     }
 
-    /**
-     * @param boolean $ignoreItemsEnabled
-     */
-    public function setIgnoreItemsEnabled($ignoreItemsEnabled)
+    public function setIgnoreItemsEnabled(bool $ignoreItemsEnabled) : void
     {
         $this->ignoreItemsEnabled = $ignoreItemsEnabled;
     }
-    
+
     protected $questionSetType = null;
-    
+
     /**
     * Constructor
     *
@@ -143,7 +124,7 @@ class ilQTIParser extends ilSaxParser
     * @access	public
     */
     //  TODO: The following line gets me an parse error in PHP 4, but I found no hint that pass-by-reference is forbidden in PHP 4 ????
-    public function __construct($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "")
+    public function __construct(?string $a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "")
     {
         global $lng;
 
@@ -156,7 +137,7 @@ class ilQTIParser extends ilSaxParser
         if (is_array($a_import_idents)) {
             $this->import_idents = &$a_import_idents;
         }
-        
+
         $this->lng = &$lng;
         $this->hasRootElement = false;
         $this->import_mapping = array();
@@ -211,12 +192,12 @@ class ilQTIParser extends ilSaxParser
     /**
      * @param null $questionSetType
      */
-    public function setQuestionSetType($questionSetType)
+    public function setQuestionSetType($questionSetType) : void
     {
         $this->questionSetType = $questionSetType;
     }
-    
-    public function setTestObject(&$a_tst_object)
+
+    public function setTestObject(&$a_tst_object) : void
     {
         $this->tst_object = &$a_tst_object;
         if (is_object($a_tst_object)) {
@@ -224,7 +205,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    public function setParserMode($a_mode = IL_MO_PARSE_QTI)
+    public function setParserMode($a_mode = IL_MO_PARSE_QTI) : void
     {
         $this->parser_mode = $a_mode;
         $this->founditems = array();
@@ -237,24 +218,23 @@ class ilQTIParser extends ilSaxParser
         $this->verifyfieldentrytext = "";
         $this->question_counter = 1;
     }
-    
+
     /**
     * set event handler
     * should be overwritten by inherited class
     * @access	private
     */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function startParsing()
+    public function startParsing() : void
     {
         $this->question_counter = 1;
         parent::startParsing();
-        return false;
     }
 
     public function getParent($a_xml_parser)
@@ -265,11 +245,11 @@ class ilQTIParser extends ilSaxParser
             return "";
         }
     }
-    
+
     /**
     * handler for begin of element
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
     {
         switch ($this->parser_mode) {
             case IL_MO_PARSE_QTI:
@@ -284,7 +264,7 @@ class ilQTIParser extends ilSaxParser
     /**
     * handler for begin of element parser
     */
-    public function handlerParseBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerParseBeginTag($a_xml_parser, $a_name, $a_attribs) : void
     {
         if ($this->do_nothing) {
             return;
@@ -294,10 +274,9 @@ class ilQTIParser extends ilSaxParser
         $this->depth[$a_xml_parser]++;
         $this->path[$this->depth[$a_xml_parser]] = strtolower($a_name);
         $this->qti_element = $a_name;
-        
+
         switch (strtolower($a_name)) {
             case "assessment":
-                include_once("./Services/QTI/classes/class.ilQTIAssessment.php");
                 $this->assessment = &$this->assessments[array_push($this->assessments, new ilQTIAssessment()) - 1];
                 $this->in_assessment = true;
                 if (is_array($a_attribs)) {
@@ -314,7 +293,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "assessmentcontrol":
-                include_once("./Services/QTI/classes/class.ilQTIAssessmentcontrol.php");
                 $this->assessmentcontrol = new ilQTIAssessmentcontrol();
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -333,17 +311,14 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "objectives":
-                include_once("./Services/QTI/classes/class.ilQTIObjectives.php");
                 $this->objectives = new ilQTIObjectives();
                 $this->in_objectives = true;
                 break;
             case 'presentation_material':
-                require_once 'Services/QTI/classes/class.ilQTIPresentationMaterial.php';
                 $this->prensentation_material = new ilQTIPresentationMaterial();
                 $this->in_prensentation_material = true;
                 break;
             case "section":
-                include_once("./Services/QTI/classes/class.ilQTISection.php");
                 $this->section = new ilQTISection();
                 break;
             case "itemmetadata":
@@ -353,15 +328,12 @@ class ilQTIParser extends ilSaxParser
                 $this->metadata = array("label" => "", "entry" => "");
                 break;
             case "flow":
-                include_once("./Services/QTI/classes/class.ilQTIFlow.php");
                 $this->flow++;
                 break;
             case "flow_mat":
-                include_once("./Services/QTI/classes/class.ilQTIFlowMat.php");
                 array_push($this->flow_mat, new ilQTIFlowMat());
                 break;
             case "itemfeedback":
-                include_once("./Services/QTI/classes/class.ilQTIItemfeedback.php");
                 $this->itemfeedback = new ilQTIItemfeedback();
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -377,7 +349,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "displayfeedback":
-                include_once("./Services/QTI/classes/class.ilQTIDisplayfeedback.php");
                 $this->displayfeedback = new ilQTIDisplayfeedback();
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -393,7 +364,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "setvar":
-                include_once("./Services/QTI/classes/class.ilQTISetvar.php");
                 $this->setvar = new ilQTISetvar();
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -409,7 +379,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "conditionvar":
-                include_once("./Services/QTI/classes/class.ilQTIConditionvar.php");
                 $this->conditionvar = new ilQTIConditionvar();
                 break;
             case "not":
@@ -428,7 +397,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "varequal":
-                include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_EQUAL);
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -447,7 +415,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "varlt":
-                include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_LT);
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -463,7 +430,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "varlte":
-                include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_LTE);
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -479,7 +445,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "vargt":
-                include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_GT);
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -495,7 +460,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "vargte":
-                include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_GTE);
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -511,7 +475,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "varsubset":
-                include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_SUBSET);
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -530,7 +493,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "varinside":
-                include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_INSIDE);
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -549,7 +511,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "varsubstring":
-                include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_SUBSTRING);
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -568,7 +529,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "respcondition":
-                include_once("./Services/QTI/classes/class.ilQTIRespcondition.php");
                 $this->respcondition = new ilQTIRespcondition();
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -584,11 +544,9 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "outcomes":
-                include_once("./Services/QTI/classes/class.ilQTIOutcomes.php");
                 $this->outcomes = new ilQTIOutcomes();
                 break;
             case "decvar":
-                include_once("./Services/QTI/classes/class.ilQTIDecvar.php");
                 $this->decvar = new ilQTIDecvar();
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -619,7 +577,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "matimage":
-                include_once("./Services/QTI/classes/class.ilQTIMatimage.php");
                 $this->matimage = new ilQTIMatimage();
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -659,7 +616,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "material":
-                include_once("./Services/QTI/classes/class.ilQTIMaterial.php");
                 $this->material = new ilQTIMaterial();
                 $this->material->setFlow($this->flow);
                 if (is_array($a_attribs)) {
@@ -673,7 +629,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "mattext":
-                include_once("./Services/QTI/classes/class.ilQTIMattext.php");
                 $this->mattext = new ilQTIMattext();
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -716,7 +671,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "matapplet":
-                include_once("./Services/QTI/classes/class.ilQTIMatapplet.php");
                 $this->matapplet = new ilQTIMatapplet();
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -765,12 +719,10 @@ class ilQTIParser extends ilSaxParser
                 break;
             case "presentation":
                 $this->in_presentation = true;
-                include_once("./Services/QTI/classes/class.ilQTIPresentation.php");
                 $this->presentation = new ilQTIPresentation();
                 break;
             case "response_label":
                 if ($this->render_type != null) {
-                    include_once("./Services/QTI/classes/class.ilQTIResponseLabel.php");
                     $this->response_label = new ilQTIResponseLabel();
                     foreach ($a_attribs as $attribute => $value) {
                         switch (strtolower($attribute)) {
@@ -801,7 +753,6 @@ class ilQTIParser extends ilSaxParser
                 break;
             case "render_choice":
                 if ($this->in_response) {
-                    include_once("./Services/QTI/classes/class.ilQTIRenderChoice.php");
                     $this->render_type = new ilQTIRenderChoice();
                     foreach ($a_attribs as $attribute => $value) {
                         switch (strtolower($attribute)) {
@@ -820,7 +771,6 @@ class ilQTIParser extends ilSaxParser
                 break;
             case "render_hotspot":
                 if ($this->in_response) {
-                    include_once("./Services/QTI/classes/class.ilQTIRenderHotspot.php");
                     $this->render_type = new ilQTIRenderHotspot();
                     foreach ($a_attribs as $attribute => $value) {
                         switch (strtolower($attribute)) {
@@ -839,7 +789,6 @@ class ilQTIParser extends ilSaxParser
                 break;
             case "render_fib":
                 if ($this->in_response) {
-                    include_once("./Services/QTI/classes/class.ilQTIRenderFib.php");
                     $this->render_type = new ilQTIRenderFib();
                     foreach ($a_attribs as $attribute => $value) {
                         switch (strtolower($attribute)) {
@@ -885,9 +834,6 @@ class ilQTIParser extends ilSaxParser
                 // Close question
             case "response_num":
             case "response_grp":
-                // Matching terms and definitions
-                // Matching terms and images
-                include_once "./Services/QTI/classes/class.ilQTIResponse.php";
                 switch (strtolower($a_name)) {
                     case "response_lid":
                         $response_type = RT_RESPONSE_LID;
@@ -928,7 +874,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "item":
-                include_once("./Services/QTI/classes/class.ilQTIItem.php");
                 $this->gap_index = 0;
                 $this->item = &$this->items[array_push($this->items, new ilQTIItem()) - 1];
                 if (is_array($a_attribs)) {
@@ -958,7 +903,6 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "resprocessing":
-                include_once("./Services/QTI/classes/class.ilQTIResprocessing.php");
                 $this->resprocessing = new ilQTIResprocessing();
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -976,7 +920,7 @@ class ilQTIParser extends ilSaxParser
     /**
     * handler for end of element
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, $a_name) : void
     {
         switch ($this->parser_mode) {
             case IL_MO_PARSE_QTI:
@@ -987,11 +931,11 @@ class ilQTIParser extends ilSaxParser
                 break;
         }
     }
-    
+
     /**
     * handler for end of element parser
     */
-    public function handlerParseEndTag($a_xml_parser, $a_name)
+    public function handlerParseEndTag($a_xml_parser, $a_name) : void
     {
         if (($this->do_nothing) && (strcmp(strtolower($a_name), "item") != 0)) {
             return;
@@ -1190,17 +1134,15 @@ class ilQTIParser extends ilSaxParser
                 // save the item directly to save memory
                 // the database id's of the created items are exported. if the import fails
                 // ILIAS can delete the already imported items
-                
+
                 // problems: the object id of the parent questionpool is not yet known. must be set later
                 //           the complete flag must be calculated?
                 $qt = $this->item->determineQuestionType();
                 $presentation = $this->item->getPresentation();
-                
+
                 if (!ilAssQuestionTypeList::isImportable($qt)) {
                     return;
                 }
-                
-                include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                 assQuestion::_includeClass($qt);
                 $question = new $qt();
                 $fbt = str_replace('ass', 'ilAss', $qt) . 'Feedback';
@@ -1254,12 +1196,10 @@ class ilQTIParser extends ilSaxParser
                 if (!$this->isMatImageAvailable()) {
                     break;
                 }
-                
+
                 if ($this->virusDetected($this->matimage->getRawContent())) {
                     break;
                 }
-                
-                require_once 'Services/QTI/classes/class.ilQtiMatImageSecurity.php';
                 try {
                     $matImageSecurity = new ilQtiMatImageSecurity($this->matimage);
                     $matImageSecurity->sanitizeLabel();
@@ -1269,11 +1209,11 @@ class ilQTIParser extends ilSaxParser
                 if (!$matImageSecurity->validate()) {
                     break;
                 }
-                
+
                 $this->material->addMatimage($this->matimage);
                 $this->matimage = null;
                 break;
-            
+
             // add support for matbreak element
             case "matbreak":
                 $this->mattext = new ilQTIMattext();
@@ -1306,7 +1246,7 @@ class ilQTIParser extends ilSaxParser
     /**
     * handler for character data
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, $a_data) : void
     {
         switch ($this->parser_mode) {
             case IL_MO_PARSE_QTI:
@@ -1321,7 +1261,7 @@ class ilQTIParser extends ilSaxParser
     /**
       * handler for character data
       */
-    public function handlerParseCharacterData($a_xml_parser, $a_data)
+    public function handlerParseCharacterData($a_xml_parser, $a_data) : void
     {
         if ($this->do_nothing) {
             return;
@@ -1416,13 +1356,12 @@ class ilQTIParser extends ilSaxParser
     /**
     * handler for begin of element verification
     */
-    public function handlerVerifyBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerVerifyBeginTag($a_xml_parser, $a_name, $a_attribs) : void
     {
         $this->qti_element = $a_name;
-        
+
         switch (strtolower($a_name)) {
             case "assessment":
-                include_once("./Services/QTI/classes/class.ilQTIAssessment.php");
                 $this->assessment = &$this->assessments[array_push($this->assessments, new ilQTIAssessment()) - 1];
                 $this->in_assessment = true;
                 if (is_array($a_attribs)) {
@@ -1477,7 +1416,6 @@ class ilQTIParser extends ilSaxParser
                         foreach ($a_attribs as $attribute => $value) {
                             switch (strtolower($attribute)) {
                                 case "rcardinality":
-                                    include_once "./Services/QTI/classes/class.ilQTIItem.php";
                                     switch (strtolower($value)) {
                                         case "single":
                                             $this->founditems[count($this->founditems) - 1]["type"] = QT_MULTIPLE_CHOICE_SR;
@@ -1502,7 +1440,6 @@ class ilQTIParser extends ilSaxParser
                         foreach ($a_attribs as $attribute => $value) {
                             switch (strtolower($attribute)) {
                                 case "rcardinality":
-                                    include_once "./Services/QTI/classes/class.ilQTIItem.php";
                                     switch (strtolower($value)) {
                                         case "single":
                                             $this->founditems[count($this->founditems) - 1]["type"] = QT_CLOZE;
@@ -1553,7 +1490,7 @@ class ilQTIParser extends ilSaxParser
     /**
     * handler for end of element verification
     */
-    public function handlerVerifyEndTag($a_xml_parser, $a_name)
+    public function handlerVerifyEndTag($a_xml_parser, $a_name) : void
     {
         switch (strtolower($a_name)) {
             case "assessment":
@@ -1598,7 +1535,7 @@ class ilQTIParser extends ilSaxParser
     /**
     * handler for character data verification
     */
-    public function handlerVerifyCharacterData($a_xml_parser, $a_data)
+    public function handlerVerifyCharacterData($a_xml_parser, $a_data) : void
     {
         if ($this->verifyqticomment == 1) {
             if (preg_match("/Questiontype\=(.*)/", $a_data, $matches)) {
@@ -1611,7 +1548,7 @@ class ilQTIParser extends ilSaxParser
         } elseif ($this->verifyfieldentry == 1) {
             $this->verifyfieldentrytext = $a_data;
         }
-        
+
         switch ($this->qti_element) {
             case "fieldlabel":
                 $this->metadata["label"] = $a_data;
@@ -1621,8 +1558,11 @@ class ilQTIParser extends ilSaxParser
                 break;
         }
     }
-    
-    public function &getFoundItems()
+
+    /**
+     * @return mixed[]
+     */
+    public function &getFoundItems() : array
     {
         return $this->founditems;
     }
@@ -1641,9 +1581,9 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getQuestionIdMapping()
+    public function getQuestionIdMapping() : array
     {
         $questionIdMapping = array();
 
@@ -1657,33 +1597,33 @@ class ilQTIParser extends ilSaxParser
         return $questionIdMapping;
     }
 
-    public function setXMLContent($a_xml_content)
+    public function setXMLContent(string $a_xml_content) : void
     {
         $a_xml_content = $this->cleanInvalidXmlChars($a_xml_content);
-        
-        return parent::setXMLContent($a_xml_content);
+
+        parent::setXMLContent($a_xml_content);
     }
-    
-    public function openXMLFile()
+
+    protected function openXMLFile()
     {
         $xmlContent = file_get_contents($this->xml_file);
         $xmlContent = $this->cleanInvalidXmlChars($xmlContent);
         file_put_contents($this->xml_file, $xmlContent);
-        
+
         return parent::openXMLFile();
     }
-    
+
     protected function fetchNumericVersionFromVersionDateString($versionDateString)
     {
         $matches = null;
-        
+
         if (preg_match('/^(\d+\.\d+\.\d+) .*$/', $versionDateString, $matches)) {
             return $matches[1];
         }
-        
+
         return null;
     }
-    
+
     protected function fetchSourceNicFromItemIdent($itemIdent)
     {
         $matches = null;
@@ -1694,15 +1634,15 @@ class ilQTIParser extends ilSaxParser
 
         return null;
     }
-    
+
     protected function cleanInvalidXmlChars($xmlContent)
     {
         // http://www.w3.org/TR/xml/#charsets
-        
+
         // DOES ACTUALLY KILL CONTENT, SHOULD CLEAN NON ESCAPED ILLEGAL CHARS, DON'T KNOW
         //$reg = '/[^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]/';
         //$xmlContent = preg_replace($reg, '', $xmlContent);
-        
+
         // remove illegal chars escaped to html entities
         $needles = array();
         for ($i = 0x00, $max = 0x08; $i <= $max; $i += 0x01) {
@@ -1722,40 +1662,36 @@ class ilQTIParser extends ilSaxParser
         }
         $reg = '/(' . implode('|', $needles) . ')/';
         $xmlContent = preg_replace($reg, '', $xmlContent);
-        
+
         return $xmlContent;
     }
 
-    /**
-     * @return int
-     */
-    public function getNumImportedItems()
+    public function getNumImportedItems() : int
     {
         return $this->numImportedItems;
     }
-    
-    protected function isMatImageAvailable()
+
+    protected function isMatImageAvailable() : bool
     {
         if (!$this->material) {
             return false;
         }
-        
+
         if (!$this->matimage) {
             return false;
         }
-        
+
         return true;
     }
-    
-    protected function virusDetected($buffer)
+
+    protected function virusDetected($buffer) : bool
     {
-        require_once 'Services/VirusScanner/classes/class.ilVirusScannerFactory.php';
         $vs = ilVirusScannerFactory::_getInstance();
-        
+
         if ($vs === null) {
             return false; // no virus scan, no virus detected
         }
-        
+
         return (bool) $vs->scanBuffer($buffer);
     }
 }

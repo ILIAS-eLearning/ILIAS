@@ -23,8 +23,8 @@ use ILIAS\FileUpload\MimeType;
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
 class ilFileXMLParser extends ilSaxParser
@@ -57,7 +57,7 @@ class ilFileXMLParser extends ilSaxParser
      *    file of temporary file where we store the file content instead of in memory
      */
     public ?string $tmpFilename = null;
-    
+
     protected ?int $version = null;
     protected ?string $action = null;
     protected ?int $max_version = null;
@@ -66,7 +66,7 @@ class ilFileXMLParser extends ilSaxParser
     protected array $versions = [];
     protected ?string $import_directory = null;
     protected ?string $cdata = null;
-    
+
     /**
      * Constructor
      *
@@ -91,7 +91,7 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @param string    import directory
      */
-    public function setImportDirectory($a_val) : void
+    public function setImportDirectory(?string $a_val) : void
     {
         $this->import_directory = $a_val;
     }
@@ -101,7 +101,7 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @return mixed|null import directory
      */
-    public function getImportDirectory()
+    public function getImportDirectory() : ?string
     {
         return $this->import_directory;
     }
@@ -149,7 +149,7 @@ class ilFileXMLParser extends ilSaxParser
                         );
                     }
                 }
-                
+
                 break;
             case 'Content': // Old import files
             case 'Version':
@@ -176,7 +176,7 @@ class ilFileXMLParser extends ilSaxParser
                                 ilFileException::$ID_DEFLATE_METHOD_MISMATCH
                             );
                         }
-                        
+
                         $this->mode = ilFileXMLParser::$CONTENT_GZ_COMPRESSED;
                     } elseif ($a_attribs["mode"] == "ZLIB") {
                         if (!function_exists("gzuncompress")) {
@@ -185,7 +185,7 @@ class ilFileXMLParser extends ilSaxParser
                                 ilFileException::$ID_DEFLATE_METHOD_MISMATCH
                             );
                         }
-                        
+
                         $this->mode = ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED;
                     } elseif ($a_attribs["mode"] == "COPY") {
                         $this->mode = ilFileXMLParser::$CONTENT_COPY;

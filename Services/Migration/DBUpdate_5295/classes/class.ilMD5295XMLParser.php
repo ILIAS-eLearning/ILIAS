@@ -1,6 +1,17 @@
 <?php
-include_once 'Services/Migration/DBUpdate_5295/classes/classes/class.ilMD5295SaxParser.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilMD5295XMLParser extends ilMD5295SaxParser
 {
     // So k�nnte bspw eine ContentObjectParser Klasse aussehen.
@@ -20,49 +31,47 @@ class ilMD5295XMLParser extends ilMD5295SaxParser
         parent::__construct();
         $this->setXMLContent($content);
     }
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         if ($this->in_meta_data) {
             parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
             return true;
         }
-            
+
 
         switch ($a_name) {
             case 'MetaData':
                 $this->in_meta_data = true;
                 parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
-                return true;
-                
+
             default:
                 // hier die Tags aller nicht-MetaData Attribute
         }
     }
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         if ($this->in_meta_data) {
             parent::handlerEndTag($a_xml_parser, $a_name);
-            return true;
+            return;
         }
         switch ($a_name) {
             case 'MetaData':
                 $this->in_meta_data = false;
                 parent::handlerEndTag($a_xml_parser, $a_name);
-                return true;
 
             default:
                 // hier die Tags aller nicht-MetaData Attribute
         }
     }
 
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($this->in_meta_data) {
             parent::handlerCharacterData($a_xml_parser, $a_data);
