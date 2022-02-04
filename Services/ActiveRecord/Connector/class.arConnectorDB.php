@@ -249,15 +249,7 @@ class arConnectorDB extends arConnector
         $q .= $arl->getArOrderCollection()->{$method}();
         // LIMIT
         $q .= $arl->getArLimitCollection()->{$method}();
-
-        //TODO: using template in the model.
-        if ($arl->getDebug()) {
-            global $DIC;
-            $tpl = $DIC['tpl'];
-            if ($tpl instanceof ilTemplate) {
-                ilUtil::sendInfo($q);
-            }
-        }
+        
         $arl->setLastQuery($q);
 
         return $q;
