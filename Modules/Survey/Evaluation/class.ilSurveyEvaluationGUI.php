@@ -1450,64 +1450,6 @@ class ilSurveyEvaluationGUI
         $pdf_factory->deliverPDFFromHTMLString($html, $filename, ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Survey", "Results");
     }
 
-    /**
-     * @deprecated
-     */
-    public function callPdfGeneration(
-        string $a_url,
-        string $a_suffix,
-        string $a_filename,
-        bool $a_return = false
-    ) : string {
-        $script = ILIAS_ABSOLUTE_PATH . "/Modules/Survey/js/phantom.js";
-
-        $bin = ilUtil::isWindows()
-            ? ILIAS_ABSOLUTE_PATH . "/libs/composer/vendor/jakoch/phantomjs/bin/phantomjs.exe"
-            : ILIAS_ABSOLUTE_PATH . "/libs/composer/vendor/jakoch/phantomjs/bin/phantomjs";
-
-        $parts = parse_url(ILIAS_HTTP_PATH);
-
-        $target = ilFileUtils::ilTempnam() . "." . $a_suffix;
-        $path = $parts["path"];
-        if (empty($path)) {
-            $path = "''";
-        }
-
-        $args = array(
-            session_id(),
-            $parts["host"],
-            $parts["path"] ?: '/',
-            CLIENT_ID,
-            "\"" . ILIAS_HTTP_PATH . "/" . $a_url . "\"",
-            $target
-        );
-
-        ilSession::_writeData(session_id(), session_encode());
-
-        $output = $return = "";
-
-        exec($executable_string = $bin . " " . $script . " " . implode(" ", $args), $output, $return);
-
-        $log = ilLoggerFactory::getLogger("svy");
-        $log->debug($executable_string);
-        $log->dump($output, ilLogLevel::DEBUG);
-        $log->dump($return, ilLogLevel::DEBUG);
-        
-        $mime_type = '';
-        if (substr($a_filename, -3) == 'pdf') {
-            $mime_type = 'application/pdf';
-        } elseif (substr($a_filename, -3) == 'png') {
-            $mime_type = 'image/png';
-        }
-
-        if (!$a_return) {
-            ilFileDelivery::deliverFileLegacy($target, $a_filename, $mime_type);
-        } else {
-            ilLoggerFactory::getRootLogger()->debug("**** Return a target = " . $target);
-            return $target;
-        }
-        return "";
-    }
 
     /**
      * Show sum score table
