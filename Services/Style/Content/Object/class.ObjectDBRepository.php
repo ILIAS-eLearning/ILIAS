@@ -29,7 +29,7 @@ class ObjectDBRepository
     /**
      * @var \ilDBInterface
      */
-    protected $db;
+    protected \ilDBInterface $db;
 
     public function __construct(\ilDBInterface $db)
     {
