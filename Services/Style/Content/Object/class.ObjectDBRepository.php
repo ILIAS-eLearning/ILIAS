@@ -40,7 +40,7 @@ class ObjectDBRepository
      * For an array of object IDs (objects using styles) get back
      * their owned styles (if any), object IDs without ownerships are removed
      * @param int[] $owner_obj_ids
-     * @return int[]
+     * @return array<int, int>
      */
     public function getOwnedStyles(array $owner_obj_ids) : array
     {
