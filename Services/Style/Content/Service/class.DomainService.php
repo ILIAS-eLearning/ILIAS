@@ -28,7 +28,7 @@ class DomainService
     /**
      * @var InternalService
      */
-    private $internal;
+    private InternalService $internal;
 
     public function __construct(
         InternalService $internal_service
