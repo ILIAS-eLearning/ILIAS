@@ -56,7 +56,7 @@ class ObjectDBRepository
 
         $owned = [];
         while ($rec = $db->fetchAssoc($set)) {
-            $owned[$rec["owner_obj"]] = $rec["style_id"];
+            $owned[(int) $rec["owner_obj"]] = (int) $rec["style_id"];
         }
         return $owned;
     }
