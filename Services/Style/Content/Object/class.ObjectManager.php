@@ -158,7 +158,7 @@ class ObjectManager
     /**
      * Inherits a non local style from the parent container
      */
-    public function inheritFromParent()
+    public function inheritFromParent() : void
     {
         if ($this->ref_id > 0) {
             $tree = $this->domain_service->repositoryTree();
