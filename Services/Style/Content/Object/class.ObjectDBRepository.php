@@ -23,7 +23,7 @@ namespace ILIAS\Style\Content\Object;
  */
 class ObjectDBRepository
 {
-    const USAGE_TABLE_NAME = 'style_usage';
+    private const USAGE_TABLE_NAME = 'style_usage';
     const DATA_TABLE_NAME = 'style_data';
 
     /**
