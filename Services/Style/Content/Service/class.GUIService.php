@@ -75,7 +75,7 @@ class GUIService
     }
 
     // add effective style sheet path to global template
-    public function addCss(\ilGlobalTemplateInterface $tpl, int $ref_id, int $obj_id = 0)
+    public function addCss(\ilGlobalTemplateInterface $tpl, int $ref_id, int $obj_id = 0) : void
     {
         $eff_style_id = $this->internal->domain()->object($ref_id, $obj_id)->getEffectiveStyleId();
         $tpl->addCss(\ilObjStyleSheet::getContentStylePath($eff_style_id));
