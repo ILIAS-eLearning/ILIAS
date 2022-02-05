@@ -13,6 +13,7 @@ use ILIAS\UI\Renderer;
  * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilRepositoryObjectSearchGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectCopyGUI, ilExportGUI, ilCommonActionDispatcherGUI, ilRatingGUI
  * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI, ilContainerNewsSettingsGUI, ilLearningProgressGUI, ilForumPageGUI
+ * @ilCtrl_Calls ilObjForumGUI: ilObjectContentStyleSettingsGUI
  * @ingroup      ModulesForum
  */
 class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForumObjectConstants
@@ -66,6 +67,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private int $selectedSorting;
     private ilForumThreadSettingsSessionStorage $selected_post_storage;
     private \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
 
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
@@ -131,6 +133,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $this->requestAction = (string) ($this->httpRequest->getQueryParams()['action'] ?? '');
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
+        if (is_object($this->object)) {
+            $this->content_style_domain = $cs->domain()->styleForRefId((int) $this->object->getRefId());
+        }
     }
 
     protected function initSessionStorage() : void
@@ -354,10 +361,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                 }
 
-                $this->tpl->setVariable(
-                    'LOCATION_CONTENT_STYLESHEET',
-                    ilObjStyleSheet::getContentStylePath($this->objProperties->getStyleSheetId())
-                );
+                $this->content_style_gui->addCss($this->tpl, $this->ref_id);
                 $this->tpl->setCurrentBlock('SyntaxStyle');
                 $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
                 $this->tpl->parseCurrentBlock();
@@ -369,7 +373,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $this->lng,
                     $this->object,
                     $this->objProperties,
-                    $this->user
+                    $this->user,
+                    $this->content_style_domain
                 );
 
                 $pageContent = $forwarder->forward();
@@ -398,6 +403,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $this->object->getRefId(),
                     $usrId
                 ));
+                break;
+
+            case strtolower(ilObjectContentStyleSettingsGUI::class):
+                $forum_settings_gui = new ilForumSettingsGUI($this, $this->objProperties);
+                $forum_settings_gui->settingsTabs();
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->ref_id
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
 
             case strtolower(ilForumSettingsGUI::class):
@@ -826,7 +842,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->lng,
             $this->object,
             $this->objProperties,
-            $this->user
+            $this->user,
+            $this->content_style_domain
         );
         $forwarder->setPresentationMode(ilForumPageCommandForwarder::PRESENTATION_MODE_PRESENTATION);
 
@@ -835,12 +852,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     protected function initStyleSheets() : void
     {
-        $this->tpl->setVariable(
-            'LOCATION_CONTENT_STYLESHEET',
-            ilObjStyleSheet::getContentStylePath(
-                $this->objProperties->getStyleSheetId()
-            )
-        );
+        $this->content_style_gui->addCss($this->tpl, $this->ref_id);
         $this->tpl->setCurrentBlock('SyntaxStyle');
         $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
         $this->tpl->parseCurrentBlock();

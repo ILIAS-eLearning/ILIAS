@@ -697,7 +697,7 @@ class ilObjStyleSheet extends ilObject
         $res = $ilDB->query($q);
         $sty = $ilDB->fetchAssoc($res);
         
-        return (bool) $sty["standard"];
+        return (bool) ($sty["standard"] ?? false);
     }
 
     public static function _writeActive(int $a_id, bool $a_active) : void
@@ -1415,8 +1415,8 @@ class ilObjStyleSheet extends ilObject
     ) : void {
         $style = $this->getStyle();
 
-        if (!is_dir(ilUtil::getWebspaceDir() . "/css")) {
-            ilUtil::makeDirParents(ilUtil::getWebspaceDir() . "/css");
+        if (!is_dir(ilFileUtils::getWebspaceDir() . "/css")) {
+            ilFileUtils::makeDirParents(ilFileUtils::getWebspaceDir() . "/css");
         }
 
         if ($a_target_file == "") {

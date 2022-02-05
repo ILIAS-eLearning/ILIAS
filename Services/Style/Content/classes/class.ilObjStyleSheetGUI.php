@@ -155,7 +155,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 break;
         }
     }
-    
+
+    protected function getStyleSheet() : ilObjStyleSheet
+    {
+        /** @var ilObjStyleSheet $obj */
+        $obj = $this->object;
+        return $obj;
+    }
+
     public function viewObject()
     {
         $this->editObject();
