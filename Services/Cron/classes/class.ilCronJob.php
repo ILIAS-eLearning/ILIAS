@@ -27,76 +27,72 @@ abstract class ilCronJob
 
     protected ?int $schedule_type = null;
     protected ?int $schedule_value = null;
-    protected ?Closure $dateTimeProviver = null;
+    protected ?Closure $date_time_proviver = null;
 
-    private function checkSchedule(?int $a_ts_last_run, ?int $a_schedule_type, ?int $a_schedule_value) : bool
+    private function checkSchedule(?DateTimeImmutable $last_run, ?int $schedule_type, ?int $schedule_value) : bool
     {
-        if (null === $a_schedule_type) {
+        if (null === $schedule_type) {
             return false;
         }
 
-        if (null === $a_ts_last_run) {
+        if (null === $last_run) {
             return true;
         }
 
-        $now = time();
-        if ($this->dateTimeProviver !== null) {
-            $get_datetime = $this->dateTimeProviver;
-            $now = $get_datetime()->getTimestamp();
+        $now = new DateTimeImmutable('@' . time());
+        if ($this->date_time_proviver !== null) {
+            $now = ($this->date_time_proviver)();
         }
 
-        switch ($a_schedule_type) {
+        switch ($schedule_type) {
             case self::SCHEDULE_TYPE_DAILY:
-                $last = date('Y-m-d', $a_ts_last_run);
-                $ref = date('Y-m-d', $now);
+                $last = $last_run->format('Y-m-d');
+                $ref = $now->format('Y-m-d');
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_WEEKLY:
-                $d = date('Y-m-d H:i:s', $a_ts_last_run);
-                $last = date('Y-W', $a_ts_last_run);
-                $ref = date('Y-W', $now);
+                $last = $last_run->format('Y-W');
+                $ref = $now->format('Y-W');
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_MONTHLY:
-                $d = date('Y-m-d H:i:s', $a_ts_last_run);
-                $last = date('Y-n', $a_ts_last_run);
-                $ref = date('Y-n', $now);
+                $last = $last_run->format('Y-n');
+                $ref = $now->format('Y-n');
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_QUARTERLY:
-                $last = date('Y', $a_ts_last_run) . '-' . ceil(((int) date('n', $a_ts_last_run)) / 3);
-                $ref = date('Y', $now) . '-' . ceil(((int) date('n', $now)) / 3);
+                $last = $last_run->format('Y') . '-' . ceil(((int) $last_run->format('n')) / 3);
+                $ref = $now->format('Y') . '-' . ceil(((int) $now->format('n')) / 3);
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_YEARLY:
-                $d = date('Y-m-d H:i:s', $a_ts_last_run);
-                $last = date('Y', $a_ts_last_run);
-                $ref = date('Y', $now);
+                $last = $last_run->format('Y');
+                $ref = $now->format('Y');
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_IN_MINUTES:
-                $diff = floor(($now - $a_ts_last_run) / 60);
-                return ($diff >= $a_schedule_value);
+                $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / 60);
+                return ($diff >= $schedule_value);
 
             case self::SCHEDULE_TYPE_IN_HOURS:
-                $diff = floor(($now - $a_ts_last_run) / (60 * 60));
-                return ($diff >= $a_schedule_value);
+                $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / (60 * 60));
+                return ($diff >= $schedule_value);
 
             case self::SCHEDULE_TYPE_IN_DAYS:
-                $diff = floor(($now - $a_ts_last_run) / (60 * 60 * 24));
-                return ($diff >= $a_schedule_value);
+                $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / (60 * 60 * 24));
+                return ($diff >= $schedule_value);
         }
 
         return false;
     }
 
     /**
-     * @param Closure|null $dateTimeProviver
+     * @param Closure|null $date_time_provider
      */
-    public function setDateTimeProviver(?Closure $dateTimeProviver) : void
+    public function setDateTimeproviver(?Closure $date_time_provider) : void
     {
-        if ($dateTimeProviver !== null) {
-            $r = new ReflectionFunction($dateTimeProviver);
+        if ($date_time_provider !== null) {
+            $r = new ReflectionFunction($date_time_provider);
             $return_type = $r->getReturnType();
             if ($return_type !== null) {
                 $return_type = $return_type->getName();
@@ -109,7 +105,7 @@ abstract class ilCronJob
                 ));
             }
 
-            $r = new ReflectionFunction($dateTimeProviver);
+            $r = new ReflectionFunction($date_time_provider);
             $parameters = $r->getParameters();
             if ($parameters !== []) {
                 throw new InvalidArgumentException(
@@ -118,25 +114,25 @@ abstract class ilCronJob
             }
         }
 
-        $this->dateTimeProviver = $dateTimeProviver;
+        $this->date_time_proviver = $date_time_provider;
     }
 
     public function isDue(
-        ?int $a_ts_last_run,
-        ?int $a_schedule_type,
-        ?int $a_schedule_value,
-        bool $a_manual = false
+        ?DateTimeImmutable $last_run,
+        ?int $schedule_type,
+        ?int $schedule_value,
+        bool $is_manually_executed = false
     ) : bool {
-        if ($a_manual) {
+        if ($is_manually_executed) {
             return true;
         }
 
         if (!$this->hasFlexibleSchedule()) {
-            $a_schedule_type = $this->getDefaultScheduleType();
-            $a_schedule_value = $this->getDefaultScheduleValue();
+            $schedule_type = $this->getDefaultScheduleType();
+            $schedule_value = $this->getDefaultScheduleValue();
         }
 
-        return $this->checkSchedule($a_ts_last_run, $a_schedule_type, $a_schedule_value);
+        return $this->checkSchedule($last_run, $schedule_type, $schedule_value);
     }
 
     /**

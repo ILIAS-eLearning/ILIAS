@@ -151,7 +151,7 @@ class ilCronManagerImpl implements ilCronManager
             }
         } // initiate run?
         elseif ($job->isDue(
-            $jobData['job_result_ts'] ? (int) $jobData['job_result_ts'] : null,
+            $jobData['job_result_ts'] ? new DateTimeImmutable('@' . $jobData['job_result_ts']) : null,
             $jobData['schedule_type'] ? (int) $jobData['schedule_type'] : null,
             $jobData['schedule_value'] ? (int) $jobData['schedule_value'] : null,
             $isManualExecution
