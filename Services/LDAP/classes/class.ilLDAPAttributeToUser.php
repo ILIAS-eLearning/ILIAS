@@ -1,101 +1,71 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 *
 * Update/create ILIAS user account by given LDAP attributes according to user attribute mapping settings.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesLDAP
 */
 class ilLDAPAttributeToUser
 {
     const MODE_INITIALIZE_ROLES = 1;
 
-    private $modes = [];
+    private array $modes = [];
 
 
-    private $server_settings = null;
-    private $role_assignment = null;
-    private $db = null;
+    private ilLDAPServer $server_settings;
     
-    private $user_data = array();
-    private $setting = null;
-    private $mapping = null;
+    private array $user_data = [];
+    private ilLDAPAttributeMapping $mapping;
 
-    private $new_user_auth_mode = 'ldap';
+    private string $new_user_auth_mode = 'ldap';
+    
+    private ilLogger $logger;
     
     /**
      * Construct of ilLDAPAttribute2XML
      * Defines between LDAP and ILIAS user attributes
-     *
-     * @param object il
      */
     public function __construct(ilLDAPServer $a_server)
     {
         global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $ilSetting = $DIC['ilSetting'];
-        $lng = $DIC['lng'];
-        $ilLog = $DIC['ilLog'];
-        
-        // Initialise language object
-        if (!is_object($lng)) {
-            include_once './Services/Language/classes/class.ilLanguage.php';
-            $lng = new ilLanguage('en');
-        }
-        
-        $this->log = $ilLog;
+       
+        $this->logger = $DIC->logger()->auth();
 
         $this->server_settings = $a_server;
-        $this->setting = $ilSetting;
         
         $this->initLDAPAttributeMapping();
     }
     
-    // begin-patch ldap_multiple
     /**
      * Get server settings
      * @return ilLDAPServer
      */
-    public function getServer()
+    public function getServer() : ilLDAPServer
     {
         return $this->server_settings;
     }
-    // end-patch ldap_multiple
     
     /**
      * Set user data received from pear auth or by ldap_search
      *
-     * @access public
      * @param array array of auth data. array('ilias_account1' => array(firstname => 'Stefan',...),...)
      *
      */
-    public function setUserData($a_data)
+    public function setUserData(array $a_data) : void
     {
         $this->user_data = $a_data;
     }
@@ -105,7 +75,7 @@ class ilLDAPAttributeToUser
      * E.g. radius for radius authenticated user with ldap data source
      * @param string $a_authmode
      */
-    public function setNewUserAuthMode($a_authmode)
+    public function setNewUserAuthMode(string $a_authmode) : void
     {
         $this->new_user_auth_mode = $a_authmode;
     }
@@ -113,18 +83,18 @@ class ilLDAPAttributeToUser
     /**
      * Get auth mode for new users
      */
-    public function getNewUserAuthMode()
+    public function getNewUserAuthMode() : string
     {
         return $this->new_user_auth_mode;
     }
 
     /**
      * Add import mode
-     * @param $a_mode
      */
-    public function addMode($a_mode)
+    public function addMode(int $a_mode) : void
     {
-        if (is_array($this->modes) && !in_array($a_mode, $this->modes)) {
+        //TODO check for proper value
+        if (!in_array($a_mode, $this->modes)) {
             $this->modes[] = $a_mode;
         }
     }
@@ -134,37 +104,25 @@ class ilLDAPAttributeToUser
      * @param int $a_mode
      * @return bool
      */
-    public function isModeActive($a_mode)
+    public function isModeActive(int $a_mode) : bool
     {
-        return is_array($this->modes) && in_array($a_mode, $this->modes);
+        return in_array($a_mode, $this->modes);
     }
     
     
     /**
      * Create/Update non existing users
-     *
-     * @access public
-     *
      */
-    public function refresh()
+    public function refresh() : bool
     {
-        global $DIC;
-
-        $rbacadmin = $DIC['rbacadmin'];
-        
         $this->usersToXML();
-        
-        include_once './Services/User/classes/class.ilUserImportParser.php';
-        include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
         
         $importParser = new ilUserImportParser();
         $importParser->setXMLContent($this->writer->xmlDumpMem(false));
         $importParser->setRoleAssignment(ilLDAPRoleAssignmentRules::getAllPossibleRoles($this->getServer()->getServerId()));
         $importParser->setFolderId(7);
         $importParser->startParsing();
-        $debug = $importParser->getProtocol();
-        #var_dump("<pre>",$this->writer->xmlDumpMem(),"</pre>");
-        #print_r($this->writer->xmlDumpMem($format));
+        $importParser->getProtocol();
         
         return true;
     }
@@ -175,11 +133,8 @@ class ilLDAPAttributeToUser
      * @param string $a_external_account
      * @param array $user
      */
-    protected function parseRoleAssignmentsForUpdate($a_usr_id, $a_external_account, $user)
+    protected function parseRoleAssignmentsForUpdate(int $a_usr_id, string $a_external_account, array $user) : void
     {
-        $rules = $this->mapping->getRulesForUpdate();
-
-        include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
         foreach (ilLDAPRoleAssignmentRules::getAssignmentsForUpdate(
             $this->getServer()->getServerId(),
             $a_usr_id,
@@ -201,9 +156,8 @@ class ilLDAPAttributeToUser
      * @param string $a_external_account
      * @param array $a_user
      */
-    protected function parseRoleAssignmentsForCreation($a_external_account, $a_user)
+    protected function parseRoleAssignmentsForCreation(string $a_external_account, array $a_user) : void
     {
-        include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
         foreach (ilLDAPRoleAssignmentRules::getAssignmentsForCreation(
             $this->getServer()->getServerId(),
             $a_external_account,
@@ -221,13 +175,9 @@ class ilLDAPAttributeToUser
     
     /**
      * Create xml string of user according to mapping rules
-     *
-     * @access private
-     *
      */
-    private function usersToXML()
+    private function usersToXML() : void
     {
-        include_once('./Services/Xml/classes/class.ilXmlWriter.php');
         $this->writer = new ilXmlWriter();
         $this->writer->xmlStartTag('Users');
         
@@ -409,10 +359,10 @@ class ilLDAPAttributeToUser
         }
         
         if ($cnt_create) {
-            $this->log->write('LDAP: Started creation of ' . $cnt_create . ' users.');
+            $this->logger->info('LDAP: Started creation of ' . $cnt_create . ' users.');
         }
         if ($cnt_update) {
-            $this->log->write('LDAP: Started update of ' . $cnt_update . ' users.');
+            $this->logger->info('LDAP: Started update of ' . $cnt_update . ' users.');
         }
         $this->writer->xmlEndTag('Users');
     }
@@ -421,11 +371,10 @@ class ilLDAPAttributeToUser
      * A value can be an array or a string
      * This function converts arrays to strings
      *
-     * @access private
-     * @param array or string value
+     * @param array|string value
      * @return string
      */
-    private function convertInput($a_value)
+    private function convertInput($a_value) : string
     {
         if (is_array($a_value)) {
             return $a_value[0];
@@ -436,11 +385,8 @@ class ilLDAPAttributeToUser
     
     /**
      * doMapping
-     *
-     * @access private
-     *
      */
-    private function doMapping($user, $rule)
+    private function doMapping(array $user, array $rule) : string
     {
         $mapping = trim(strtolower($rule['value']));
         
@@ -462,15 +408,13 @@ class ilLDAPAttributeToUser
     
     
     
-    private function initLDAPAttributeMapping()
+    private function initLDAPAttributeMapping() : void
     {
-        include_once('Services/LDAP/classes/class.ilLDAPAttributeMapping.php');
         $this->mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->server_settings->getServerId());
     }
     
-    private function initUserDefinedFields()
+    private function initUserDefinedFields() : void
     {
-        include_once('Services/User/classes/class.ilUserDefinedFields.php');
         $this->udf = ilUserDefinedFields::_getInstance();
     }
 }

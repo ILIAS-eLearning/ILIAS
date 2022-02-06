@@ -1,28 +1,30 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Authentication/classes/Provider/class.ilAuthProvider.php';
-include_once './Services/Authentication/interfaces/interface.ilAuthProviderInterface.php';
-include_once './Services/Authentication/interfaces/interface.ilAuthProviderAccountMigrationInterface.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
- * Description of class class
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
 class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterface, ilAuthProviderAccountMigrationInterface
 {
-    private $server = null;
-    private $migration_account = '';
-    private $force_new_account = false;
-    
-    /**
-     * Constructor
-     * @param \ilAuthCredentials $credentials
-     */
-    public function __construct(\ilAuthCredentials $credentials, $a_server_id = 0)
+    private ilLDAPServer $server;
+    private string $migration_account = '';
+    private bool $force_new_account = false;
+
+    public function __construct(\ilAuthCredentials $credentials, int $a_server_id = 0)
     {
         parent::__construct($credentials);
         $this->initServer($a_server_id);
@@ -30,9 +32,8 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
     
     /**
      * Get server
-     * @return \ilLDAPServer
      */
-    public function getServer()
+    public function getServer() : ilLDAPServer
     {
         return $this->server;
     }
@@ -47,7 +48,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
         try {
             // bind
             $query = new ilLDAPQuery($this->getServer());
-            $query->bind(IL_LDAP_BIND_DEFAULT);
+            $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
         } catch (ilLDAPQueryException $e) {
             $this->getLogger()->error('Cannot bind to LDAP server... ' . $e->getMessage());
             $this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
@@ -88,7 +89,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
         }
         try {
             // now bind with login credentials
-            $query->bind(IL_LDAP_BIND_AUTH, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]['dn'], $this->getCredentials()->getPassword());
+            $query->bind(ilLDAPQuery::LDAP_BIND_AUTH, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]['dn'], $this->getCredentials()->getPassword());
         } catch (ilLDAPQueryException $e) {
             $this->handleAuthenticationFail($status, 'err_wrong_login');
             return false;
@@ -145,7 +146,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * Init Server
      */
-    protected function initServer($a_server_id) : void
+    protected function initServer(int $a_server_id) : void
     {
         $this->server = new ilLDAPServer($a_server_id);
     }
@@ -161,7 +162,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
         
         try {
             $query = new ilLDAPQuery($this->getServer());
-            $query->bind(IL_LDAP_BIND_DEFAULT);
+            $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
         } catch (ilLDAPQueryException $e) {
             $this->getLogger()->error('Cannot bind to LDAP server... ' . $e->getMessage());
             $this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
@@ -201,7 +202,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
         
         try {
             $query = new ilLDAPQuery($this->getServer());
-            $query->bind(IL_LDAP_BIND_DEFAULT);
+            $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
         } catch (ilLDAPQueryException $e) {
             $this->getLogger()->error('Cannot bind to LDAP server... ' . $e->getMessage());
             $this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
@@ -218,7 +219,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
      */
     public function getTriggerAuthMode() : string
     {
-        return AUTH_LDAP . '_' . $this->getServer()->getServerId();
+        return ilAuthUtils::AUTH_LDAP . '_' . $this->getServer()->getServerId();
     }
 
     /**
@@ -240,7 +241,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * Set external account name
      */
-    public function setExternalAccountName(string $a_name)
+    public function setExternalAccountName(string $a_name) : void
     {
         $this->migration_account = $a_name;
     }
@@ -250,11 +251,8 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
      * @param string $a_string
      * @return string
      */
-    protected function changeKeyCase($a_string)
+    protected function changeKeyCase(string $a_string) : string
     {
-        $as_array = array_change_key_case(array($a_string => $a_string));
-        foreach ($as_array as $key => $string) {
-            return $key;
-        }
+        return array_key_first(array_change_key_case(array($a_string => $a_string)));
     }
 }
