@@ -16,6 +16,8 @@
 
 class ilCronJobRepositoryImpl implements ilCronJobRepository
 {
+    private const TYPE_PLUGINS = 'Plugins';
+
     private ilDBInterface $db;
     private ilSetting $setting;
     private ilLogger $logger;
@@ -61,7 +63,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
                     $jobs_data = $this->getCronJobData($job_id);
                     if ($jobs_data === []) {
                         // as job is not 'imported' from xml
-                        $this->createDefaultEntry($job, $pl_name, IL_COMP_PLUGIN, '');
+                        $this->createDefaultEntry($job, $pl_name, self::TYPE_PLUGINS, '');
                     }
 
                     return $job;
@@ -127,7 +129,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         if ($id) {
             $where[] = $this->db->in('job_id', $id, false, 'text');
         } else {
-            $where[] = 'class != ' . $this->db->quote(IL_COMP_PLUGIN, 'text');
+            $where[] = 'class != ' . $this->db->quote(self::TYPE_PLUGINS, 'text');
         }
         if (!$withInactiveJobsIncluded) {
             $where[] = 'job_status = ' . $this->db->quote(1, 'integer');
@@ -281,7 +283,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
                 $job_data = $jobs_data[0] ?? null;
                 if (!is_array($job_data) || $job_data === []) {
                     // as job is not "imported" from xml
-                    $this->createDefaultEntry($job, $plugin->getPluginName(), IL_COMP_PLUGIN, '');
+                    $this->createDefaultEntry($job, $plugin->getPluginName(), self::TYPE_PLUGINS, '');
                 }
 
                 $jobs_data = $this->getCronJobData($job->getId());
