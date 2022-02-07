@@ -185,7 +185,8 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
         if ($this->getMulti() && substr($postvar, -2) != "[]") {
             $postvar .= "[]";
         }
-        
+
+        $tpl->setVariable("POST_VAR", $postvar);
         if ($this->getDisabled()) {
             if ($this->getMulti()) {
                 $value = $this->getMultiValues();
@@ -202,8 +203,6 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
                 $tpl->setVariable("DISABLED", " disabled=\"disabled\"");
                 $tpl->setVariable("HIDDEN_INPUT", $hidden);
             }
-        } else {
-            $tpl->setVariable("POST_VAR", $postvar);
         }
         
         // multi icons

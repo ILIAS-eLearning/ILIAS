@@ -561,12 +561,8 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                 $ttpl->setCurrentBlock("prop_textarea");
                 $ttpl->setVariable("ROWS", $this->getRows());
             }
-            if (!$this->getDisabled()) {
-                $ttpl->setVariable(
-                    "POST_VAR",
-                    $this->getPostVar()
-                );
-            }
+
+            $ttpl->setVariable("POST_VAR", $this->getPostVar());
             $ttpl->setVariable("ID", $this->getFieldId());
             if ($this->getDisabled()) {
                 $ttpl->setVariable('DISABLED', 'disabled="disabled" ');
