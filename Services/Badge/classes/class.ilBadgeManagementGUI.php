@@ -177,7 +177,7 @@ class ilBadgeManagementGUI
                 $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addBadge"));
                 $ilToolbar->addFormButton($lng->txt("create"), "addBadge");
             } else {
-                ilUtil::sendInfo($lng->txt("badge_no_valid_types_for_obj"));
+                $this->tpl->setOnScreenMessage('info', $lng->txt("badge_no_valid_types_for_obj"));
             }
 
             $clip_ids = $this->session_repo->getBadgeIds();
@@ -405,7 +405,7 @@ class ilBadgeManagementGUI
                 $badge->importImage($tmpl->getImage(), $tmpl->getImagePath());
             }
                     
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "listBadges");
         }
         
@@ -431,7 +431,7 @@ class ilBadgeManagementGUI
         
         $static_cnt = ilBadgeHandler::getInstance()->countStaticBadgeInstances($badge);
         if ($static_cnt) {
-            ilUtil::sendInfo(sprintf($lng->txt("badge_edit_with_published"), $static_cnt));
+            $this->tpl->setOnScreenMessage('info', sprintf($lng->txt("badge_edit_with_published"), $static_cnt));
         }
         
         if (!$a_form) {
@@ -499,11 +499,11 @@ class ilBadgeManagementGUI
             
             $badge->uploadImage($_FILES["img"]);
             
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "listBadges");
         }
         
-        ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+        $this->tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
         $form->setValuesByPost();
         $this->editBadge($form);
     }
@@ -550,7 +550,7 @@ class ilBadgeManagementGUI
             $badge->delete();
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listBadges");
     }
 
@@ -640,7 +640,7 @@ class ilBadgeManagementGUI
             $badge->update();
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listBadges");
     }
     
@@ -781,7 +781,7 @@ class ilBadgeManagementGUI
         
         ilBadgeHandler::getInstance()->sendNotification($new_badges, $this->parent_ref_id);
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listUsers");
     }
     
@@ -849,7 +849,7 @@ class ilBadgeManagementGUI
             $ass->delete();
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listUsers");
     }
 }

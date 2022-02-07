@@ -18,10 +18,12 @@ class ilTermsOfServiceWithdrawalGUIHelper
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
     protected ilTermsOfServiceHelper $tosHelper;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(ilObjUser $subjectUser)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->user = $subjectUser;
 
@@ -191,11 +193,11 @@ class ilTermsOfServiceWithdrawalGUIHelper
         if (isset($httpRequest->getQueryParams()['tos_withdrawal_type'])) {
             $withdrawalType = (int) $httpRequest->getQueryParams()['tos_withdrawal_type'];
             if (1 === $withdrawalType) {
-                ilUtil::sendInfo($this->lng->txt('withdrawal_complete_deleted'));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('withdrawal_complete_deleted'));
             } elseif (2 === $withdrawalType) {
-                ilUtil::sendInfo($this->lng->txt('withdrawal_complete_redirect'));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('withdrawal_complete_redirect'));
             } else {
-                ilUtil::sendInfo($this->lng->txt('withdrawal_complete'));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('withdrawal_complete'));
             }
         }
     }

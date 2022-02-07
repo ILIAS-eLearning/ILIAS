@@ -117,7 +117,7 @@ class ilObjMediaObject extends ilObject
                 if (is_object($md_gen)) {
                     ilObject::_writeTitle($this->getId(), $md_gen->getTitle());
                     $this->setTitle($md_gen->getTitle());
-    
+
                     foreach ($md_gen->getDescriptionIds() as $id) {
                         $md_des = $md_gen->getDescription($id);
                         ilObject::_writeDescription($this->getId(), $md_des->getDescription());
@@ -369,7 +369,7 @@ class ilObjMediaObject extends ilObject
                 $parent_obj_ids[] = $parent_obj_id;
             }
         }
-        
+
         // we could suppress this if object is present in a (repository) media pool
         // but this would lead to "quota-breaches" when the pool item is deleted
         // and "suddenly" all workspace owners get filesize added to their

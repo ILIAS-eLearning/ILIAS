@@ -189,7 +189,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $this->layout_object->setModules($form->getInput('module'));
         $this->layout_object->update();
         
-        ilUtil::sendInfo($lng->txt("saved_successfully"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("saved_successfully"));
         $this->properties();
     }
     

@@ -574,7 +574,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                         $this->object->gotItems()
                     );
                 } else {
-                    ilUtil::sendInfo($this->lng->txt('msg_no_downloadable_objects'), true);
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_no_downloadable_objects'), true);
                 }
             }
         }
@@ -1010,7 +1010,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->clipboard->setCmd($ilCtrl->getCmd());
         $this->clipboard->setRefIds($this->std_request->getSelectedIds());
 
-        ilUtil::sendInfo($this->lng->txt("msg_cut_clipboard"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cut_clipboard"), true);
 
         $this->initAndDisplayMoveIntoObjectObject();
     }
@@ -1091,7 +1091,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->clipboard->setCmd($ilCtrl->getCmd());
         $this->clipboard->setRefIds($ids);
 
-        ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_copy_clipboard"), true);
 
         $this->initAndDisplayCopyIntoMultipleObjectsObject();
     }
@@ -1124,7 +1124,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $download_job->setBucketTitle($this->getBucketTitle());
         if ($download_job->run()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_bt_download_started'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_bt_download_started'), true);
         }
         $GLOBALS['DIC']->ctrl()->redirect($this);
     }
@@ -1188,7 +1188,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (count($this->clipboard->getRefIds()) == 1) {
             $suffix = 's';
         }
-        ilUtil::sendInfo($this->lng->txt("msg_link_clipboard_" . $suffix), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_link_clipboard_" . $suffix), true);
 
         $this->initAndDisplayLinkIntoMultipleObjectsObject();
     }
@@ -1204,7 +1204,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // only redirect if clipboard was cleared
         if ($this->ctrl->getCmd() == "clear") {
-            ilUtil::sendSuccess($this->lng->txt("msg_clear_clipboard"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_clear_clipboard"), true);
             // fixed mantis 0018474: Clear Clipboard redirects to Subtab View, instead of Subtab "Edit Multiple"
             $this->ctrl->redirect($this, 'render');
         }
@@ -1237,7 +1237,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $nodes = $this->std_request->getNodes();
 
         if (count($nodes) == 0) {
-            ilUtil::sendFailure($this->lng->txt('select_at_least_one_object'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_at_least_one_object'));
             switch ($command) {
                 case 'link':
                 case 'copy':
@@ -1326,7 +1326,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         if ($error != '') {
-            ilUtil::sendFailure($error);
+            $this->tpl->setOnScreenMessage('failure', $error);
             switch ($command) {
                 case 'link':
                 case 'copy':
@@ -1382,7 +1382,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('msg_cloned'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_cloned'), true);
         } // END COPY
 
         // process CUT command
@@ -1419,7 +1419,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 break;
             }
 
-            ilUtil::sendSuccess($this->lng->txt('msg_cut_copied'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_cut_copied'), true);
         } // END CUT
 
         // process LINK command
@@ -1489,7 +1489,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             )
                        ->withLinks($links);
 
-            ilUtil::sendSuccess($ui->renderer()->render($mbox), true);
+            $this->tpl->setOnScreenMessage('success', $ui->renderer()->render($mbox), true);
         } // END LINK
 
         // clear clipboard
@@ -1570,7 +1570,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $ilCtrl = $this->ctrl;
 
-        ilUtil::sendSuccess($this->lng->txt("obj_inserted_clipboard"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("obj_inserted_clipboard"), true);
         $ilCtrl->returnToParent($this);
     }
 
@@ -1774,13 +1774,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->clearObject();
 
         if ($last_cmd == "cut") {
-            ilUtil::sendSuccess($this->lng->txt("msg_cut_copied"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_cut_copied"), true);
         } // BEGIN WebDAV: Support a copy command in repository
         elseif ($last_cmd == "copy") {
-            ilUtil::sendSuccess($this->lng->txt("msg_cloned"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_cloned"), true);
         } elseif ($last_cmd == 'link') {
             // END WebDAV: Support copy command in repository
-            ilUtil::sendSuccess($this->lng->txt("msg_linked"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_linked"), true);
         }
 
         $this->ctrl->returnToParent($this);
@@ -1921,7 +1921,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $ilErr->raiseError($this->lng->txt('permission_denied'));
         }
         if (!$clone_source) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->createObject();
             return;
         }
@@ -1941,10 +1941,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         );
 
         if (ilCopyWizardOptions::_isFinished($result['copy_id'])) {
-            ilUtil::sendSuccess($this->lng->txt("object_duplicated"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_duplicated"), true);
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $result['ref_id']);
         } else {
-            ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("object_copy_in_progress"), true);
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
         }
         $ilCtrl->redirectByClass("ilrepositorygui", "");
@@ -1958,7 +1958,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $positions = $this->std_request->getPositions();
 
         $sorting->savePost($positions);
-        ilUtil::sendSuccess($this->lng->txt('cntr_saved_sorting'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cntr_saved_sorting'), true);
         $this->ctrl->redirect($this, "editOrder");
     }
 
@@ -2130,7 +2130,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilToolbar = $this->toolbar;
 
         if ($a_init) {
-            ilUtil::sendInfo($this->lng->txt('webdav_pwd_instruction'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('webdav_pwd_instruction'));
             $this->initFormPasswordInstruction();
         }
 
@@ -2174,7 +2174,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $form = $this->initFormPasswordInstruction();
         if ($form->checkInput()) {
             $ilUser->resetPassword($this->form->getInput('new_password'), $this->form->getInput('new_password'));
-            ilUtil::sendSuccess($this->lng->txt('webdav_pwd_instruction_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('webdav_pwd_instruction_success'), true);
             $this->showPasswordInstructionObject(false);
             return;
         }
@@ -2618,7 +2618,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $lng = $this->lng;
         if (count($this->std_request->getTrashIds()) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "trash");
         }
 
@@ -2705,7 +2705,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 "filter_show_empty",
                 false
             )) {
-                ilUtil::sendInfo($this->lng->txt("cont_filter_empty"));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_filter_empty"));
             }
         }
     }

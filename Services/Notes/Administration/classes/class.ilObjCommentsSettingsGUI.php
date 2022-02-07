@@ -195,7 +195,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
                 $privacy->enableCommentsExport((bool) $data['enable_comments_export']);
                 $privacy->save();
 
-                ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             }
         }
         $ctrl->redirect($this, "editSettings");

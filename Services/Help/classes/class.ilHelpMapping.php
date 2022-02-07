@@ -262,7 +262,7 @@ class ilHelpMapping
             );
             while ($rec = $ilDB->fetchAssoc($set)) {
                 return true;
-                
+
                 // no permission check, since it takes to much performance
                 // getHelpSectionsForId() does the permission checks.
                 /*if ($rec["perm"] != "" && $rec["perm"] != "-")

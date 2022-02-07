@@ -101,11 +101,11 @@ class ilLoggingActivityTest extends TestCase
         // Arrange
         $activity = new ilLoggingActivity($this->node);
         $expected = '/dev/ilias_unit_test_log_file_can_be_deleted_safely.txt';
-                
+
         // Act
         $activity->setLogFile($expected);
         $actual = $activity->getLogFile();
-        
+
         // Assertion via phpdoc. (Exception)
     }
 
@@ -120,11 +120,11 @@ class ilLoggingActivityTest extends TestCase
         $activity = new ilLoggingActivity($this->node);
         $expected = './Services/WorkflowEngine/test/malicious.php';
         // Is either one of: .log or .txt
-        
+
         // Act
         $activity->setLogFile($expected);
         $actual = $activity->getLogFile();
-        
+
         // Assertion via phpdoc. (Exception)
     }
     
@@ -159,7 +159,7 @@ class ilLoggingActivityTest extends TestCase
         // Act
         $activity->setLogMessage(null);
         $actual = $activity->getLogMessage();
-        
+
         // Assertion via phpdoc. (Exception)
     }
 
@@ -176,7 +176,7 @@ class ilLoggingActivityTest extends TestCase
         // Act
         $activity->setLogMessage('');
         $actual = $activity->getLogMessage();
-        
+
         // Assertion via phpdoc. (Exception)
     }
 

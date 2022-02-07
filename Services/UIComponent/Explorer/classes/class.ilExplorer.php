@@ -477,7 +477,7 @@ class ilExplorer
                             or $this->forceExpanded($object["child"])) {
                             $highlighted_subtree = $a_highlighted_subtree ||
                                 ($object["child"] == $this->highlighted);
-                            
+
                             // recursive
                             $this->setOutput($object["child"], $a_depth, $object['obj_id'], $highlighted_subtree);
                         }

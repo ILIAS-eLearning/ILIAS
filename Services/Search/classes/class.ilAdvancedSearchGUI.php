@@ -60,7 +60,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         global $DIC;
 
         $this->tabs_gui = $DIC->tabs();
-        $this->help_gui     = $DIC->help();
+        $this->help_gui = $DIC->help();
         
         
         parent::__construct();
@@ -79,8 +79,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function executeCommand() : bool
     {
-
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
@@ -228,7 +226,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->searchAdvancedMD($res);
                     
         if ($this->search_mode == 'in_results') {
-
             $old_result_obj = new ilSearchResult($this->user->getId());
             $old_result_obj->read(ilUserSearchCache::ADVANCED_MD_SEARCH);
 
@@ -240,7 +237,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->showSearch();
         
         if (!count($res->getResults())) {
-            ilUtil::sendInfo($this->lng->txt('search_no_match'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
 
         if ($res->isLimitReached()) {
@@ -320,7 +317,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         $this->searchAdvancedMD($res);
         if ($this->search_mode == 'in_results') {
-
             $old_result_obj = new ilSearchResult($this->user->getId());
             $old_result_obj->read(ilUserSearchCache::ADVANCED_MD_SEARCH);
 
@@ -331,7 +327,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->showAdvMDSearch();
         
         if (!count($res->getResults())) {
-            ilUtil::sendInfo($this->lng->txt('search_no_match'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
 
         if ($res->isLimitReached()) {
@@ -370,8 +366,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     protected function initFormSearch() : bool
     {
-        
-        
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'performSearch'));
         $this->form->setTitle($this->lng->txt('search_advanced'));
@@ -398,8 +392,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function showSearch() : bool
     {
-
-
         $this->setSubTabs();
         $this->tabs_gui->setSubTabActive('search_lom');
 
@@ -432,9 +424,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     private function showSavedAdvMDResults() : bool
     {
-
-
-    
         $this->initSearchType(self::TYPE_ADV_MD);
         $result_obj = new ilSearchResult($this->user->getId());
         $result_obj->read(ilUserSearchCache::ADVANCED_MD_SEARCH);
@@ -460,8 +449,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     
     public function showSavedResults() : bool
     {
-
-
         $this->initSearchType(self::TYPE_LOM);
         $result_obj = new ilSearchResult($this->user->getId());
         $result_obj->read(ilUserSearchCache::ADVANCED_SEARCH);
@@ -486,7 +473,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function __performContentSearch() : ?ilSearchResult
     {
-
         if (!$this->options['lom_content']) {
             return null;
         }
@@ -661,8 +647,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function __performRequirementSearch() : ?ilSearchResult
     {
-
-
         $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('requirement');
@@ -673,8 +657,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     }
     public function __performFormatSearch() : ?ilSearchResult
     {
-
-
         $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('format');
@@ -685,8 +667,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     }
     public function __performEducationalSearch() : ?ilSearchResult
     {
-
-
         $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('educational');
@@ -697,8 +677,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     }
     public function __performTypicalAgeRangeSearch() : ?ilSearchResult
     {
-
-
         $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('typical_age_range');
@@ -953,8 +931,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     
     public function setSubTabs() : bool
     {
-
-        
         if (!count(ilAdvancedMDFieldDefinition::getSearchableDefinitionIds())) {
             return true;
         }

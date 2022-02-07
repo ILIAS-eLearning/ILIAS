@@ -415,7 +415,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 ilChangeEvent::_deactivate();
             }
                         
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "view");
         }
         
@@ -467,7 +467,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $form = $this->initCustomIconsForm();
         if ($form->checkInput()) {
             $ilSetting->set("custom_icons", (int) $form->getInput("custom_icons"));
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "customIcons");
         }
         
@@ -554,7 +554,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             }
         }
 
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "listModules");
     }
     
@@ -652,7 +652,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             }
             
             if (ilObjRepositorySettings::addNewItemGroup($titles)) {
-                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "listNewItemGroups");
             }
         }
@@ -693,7 +693,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             }
             
             if (ilObjRepositorySettings::updateNewItemGroup($grp_id, $titles)) {
-                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "listNewItemGroups");
             }
         }
@@ -705,7 +705,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     protected function addNewItemGroupSeparator() : void
     {
         if (ilObjRepositorySettings::addNewItemGroupSeparator()) {
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
@@ -737,7 +737,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 }
             }
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
@@ -746,7 +746,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     {
         $group_ids = $this->request->getNewItemGroupIds();
         if (count($group_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("select_one"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
             $this->listNewItemGroups();
             return;
         }
@@ -781,7 +781,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             ilObjRepositorySettings::deleteNewItemGroup($grp_id);
         }
         
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
     

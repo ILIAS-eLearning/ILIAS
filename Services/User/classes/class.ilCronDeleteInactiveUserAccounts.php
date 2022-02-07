@@ -35,10 +35,12 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
     private ilCronJobRepository $cronRepository;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         if ($DIC) {
             if (isset($DIC['http'])) {
@@ -454,7 +456,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         $this->settings->set('cron_inactive_user_reminder_period', (string) $reminder_period);
 
         if (!$valid) {
-            ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
             return false;
         }
 

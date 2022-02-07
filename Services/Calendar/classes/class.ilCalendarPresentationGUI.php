@@ -179,7 +179,7 @@ class ilCalendarPresentationGUI
         $next_class = $this->getNextClass();
 
         if (!ilCalendarSettings::_getInstance()->isEnabled()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
         }
 
@@ -532,11 +532,11 @@ class ilCalendarPresentationGUI
                 $ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, 'manage')
             );
         } else {
-                $ctrl->clearParameterByClass(ilCalendarPresentationGUI::class, 'category_id');
-                $this->tabs_gui->setBackTarget(
-                    $this->lng->txt("back"),
-                    $ctrl->getLinkTargetByClass('ilcalendarpresentationgui', '')
-                );
+            $ctrl->clearParameterByClass(ilCalendarPresentationGUI::class, 'category_id');
+            $this->tabs_gui->setBackTarget(
+                $this->lng->txt("back"),
+                $ctrl->getLinkTargetByClass('ilcalendarpresentationgui', '')
+            );
             $ctrl->setParameterByClass(ilCalendarPresentationGUI::class, "category_id", $this->initCategoryIdFromQuery());
         }
 
@@ -626,8 +626,10 @@ class ilCalendarPresentationGUI
                     $this->ctrl->getLinkTargetByClass(ilConsultationHoursGUI::class, '')
                 );
             }
-            $this->tabs_gui->addTarget('cal_manage',
-                $this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI', 'manage'));
+            $this->tabs_gui->addTarget(
+                'cal_manage',
+                $this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI', 'manage')
+            );
             $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI', ''));
         }
     }
@@ -665,8 +667,11 @@ class ilCalendarPresentationGUI
                     break;
 
                 case ilCalendarCategory::TYPE_CH:
-                    $header = str_replace("%1", ilObjUser::_lookupFullname($category->getObjId()),
-                        $this->lng->txt("cal_consultation_hours_for_user"));
+                    $header = str_replace(
+                        "%1",
+                        ilObjUser::_lookupFullname($category->getObjId()),
+                        $this->lng->txt("cal_consultation_hours_for_user")
+                    );
                     break;
 
                 case ilCalendarCategory::TYPE_BOOK:
@@ -689,14 +694,20 @@ class ilCalendarPresentationGUI
 
             // iCal-Url
             $ctrl->setParameterByClass("ilcalendarsubscriptiongui", "category_id", $this->category_id);
-            $action_menu->addItem($this->lng->txt("cal_ical_url"), "",
-                $ctrl->getLinkTargetByClass("ilcalendarsubscriptiongui", ""));
+            $action_menu->addItem(
+                $this->lng->txt("cal_ical_url"),
+                "",
+                $ctrl->getLinkTargetByClass("ilcalendarsubscriptiongui", "")
+            );
 
             // delete action
             if ($this->actions->checkDeleteCal($this->category_id)) {
                 $ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
-                $action_menu->addItem($this->lng->txt("cal_delete_cal"), "",
-                    $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete"));
+                $action_menu->addItem(
+                    $this->lng->txt("cal_delete_cal"),
+                    "",
+                    $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete")
+                );
             }
             $tpl->setHeaderActionMenu($action_menu->getHTML());
         }

@@ -166,7 +166,7 @@ class ilPersonalProfileGUI
                         "upload_" . $ilUser->getId() . "." . $pi["extension"]
                     );
                     if (!$uploaded_file) {
-                        ilUtil::sendFailure($this->lng->txt("upload_error", true));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
                         $this->ctrl->redirect($this, "showProfile");
                     }
                 } else {        // cam capture png
@@ -177,7 +177,7 @@ class ilPersonalProfileGUI
                     $data = base64_decode($img);
                     $success = file_put_contents($uploaded_file, $data);
                     if (!$success) {
-                        ilUtil::sendFailure($this->lng->txt("upload_error", true));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
                         $this->ctrl->redirect($this, "showProfile");
                     }
                 }
@@ -797,7 +797,7 @@ class ilPersonalProfileGUI
             $this->initPersonalDataForm();
             // catch feedback message
             if ($ilUser->getProfileIncomplete()) {
-                ilUtil::sendInfo($lng->txt("profile_incomplete"));
+                $this->tpl->setOnScreenMessage('info', $lng->txt("profile_incomplete"));
             }
         }
 
@@ -937,11 +937,11 @@ class ilPersonalProfileGUI
             if ((int) $ilSetting->get('allow_change_loginname') &&
                $un != $ilUser->getLogin()) {
                 if (!strlen($un) || !ilUtil::isLogin($un)) {
-                    ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+                    $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
                     $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('login_invalid'));
                     $form_valid = false;
                 } elseif (ilObjUser::_loginExists($un, $ilUser->getId())) {
-                    ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+                    $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
                     $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('loginname_already_exists'));
                     $form_valid = false;
                 } else {
@@ -950,7 +950,7 @@ class ilPersonalProfileGUI
                     try {
                         $ilUser->updateLogin($ilUser->getLogin());
                     } catch (ilUserException $e) {
-                        ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+                        $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
                         $this->form->getItemByPostVar('username')->setAlert($e->getMessage());
                         $form_valid = false;
                     }
@@ -971,7 +971,7 @@ class ilPersonalProfileGUI
                 $ilUser->update();
 
                 $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PROFILE_DATA);
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
                 $ilCtrl->redirect($this, "showPublicProfile");
             }
@@ -1313,7 +1313,7 @@ class ilPersonalProfileGUI
             // update lucene index
             ilLuceneIndexer::updateLuceneIndex(array((int) $GLOBALS['DIC']['ilUser']->getId()));
             
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
             $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PUBLISH_OPTIONS);
 
@@ -1476,7 +1476,7 @@ class ilPersonalProfileGUI
                 (int) $this->form->getInput("notes"),
                 (int) $this->form->getInput("calendar")
             );
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "");
         } else {
             $ilTabs->activateTab("export");

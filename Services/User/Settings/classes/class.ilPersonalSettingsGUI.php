@@ -174,13 +174,11 @@ class ilPersonalSettingsGUI
         // check whether password of user have to be changed
         // due to first login or password of user is expired
         if ($ilUser->isPasswordChangeDemanded()) {
-            ilUtil::sendInfo(
-                $this->lng->txt('password_change_on_first_login_demand')
-            );
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('password_change_on_first_login_demand'));
         } elseif ($ilUser->isPasswordExpired()) {
             $msg = $this->lng->txt('password_expired');
             $password_age = $ilUser->getPasswordAge();
-            ilUtil::sendInfo(sprintf($msg, $password_age));
+            $this->tpl->setOnScreenMessage('info', sprintf($msg, $password_age));
         }
 
         if (!$a_no_init && !$hide_form) {
@@ -315,7 +313,7 @@ class ilPersonalSettingsGUI
             }
             $error_lng_var = '';
             if (!ilUtil::isPasswordValidForUserContext($this->entered_new_password, $ilUser, $error_lng_var)) {
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
                 $np->setAlert($this->lng->txt($error_lng_var));
                 $error = true;
             }
@@ -335,12 +333,12 @@ class ilPersonalSettingsGUI
                 }
 
                 if (ilSession::get('orig_request_target')) {
-                    ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
                     $target = ilSession::get('orig_request_target');
                     ilSession::set('orig_request_target', '');
                     ilUtil::redirect($target);
                 } else {
-                    ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
                     $this->showPassword(true, true);
                     return;
                 }
@@ -709,7 +707,7 @@ class ilPersonalSettingsGUI
             $user_settings->setTimeFormat((int) $this->form->getInput("time_format"));
             $user_settings->save();
                         
-            ilUtil::sendSuccess($lng->txtlng("common", "msg_obj_modified", $ilUser->getLanguage()), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txtlng("common", "msg_obj_modified", $ilUser->getLanguage()), true);
 
             $ilCtrl->redirect($this, "showGeneralSettings");
         }
@@ -742,7 +740,7 @@ class ilPersonalSettingsGUI
         $this->__initSubTabs("deleteOwnAccount");
         $ilTabs->activateTab("delacc");
         
-        ilUtil::sendInfo($this->lng->txt('user_delete_own_account_info'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('user_delete_own_account_info'));
         $ilToolbar->addButton(
             $this->lng->txt('btn_next'),
             $this->ctrl->getLinkTarget($this, 'deleteOwnAccount2')
@@ -789,7 +787,7 @@ class ilPersonalSettingsGUI
         
         $ilUser->removeDeletionFlag();
         
-        ilUtil::sendInfo($this->lng->txt("user_delete_own_account_aborted"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("user_delete_own_account_aborted"), true);
         $ilCtrl->redirect($this, "showGeneralSettings");
     }
     

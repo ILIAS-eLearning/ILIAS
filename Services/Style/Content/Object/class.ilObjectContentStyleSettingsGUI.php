@@ -54,6 +54,7 @@ class ilObjectContentStyleSettingsGUI
      * @var int
      */
     protected $obj_id;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         \ILIAS\Style\Content\InternalDomainService $domain_service,
@@ -62,6 +63,8 @@ class ilObjectContentStyleSettingsGUI
         int $ref_id,
         int $obj_id
     ) {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->domain = $domain_service;
         $this->gui = $gui_service;
         $this->ref_id = $ref_id;
@@ -289,7 +292,7 @@ class ilObjectContentStyleSettingsGUI
                 || $this->current_style_id == 0)) {
             $style_id = (int) $form->getInput("style_id");
             $this->updateStyleId($style_id);
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ctrl->redirect($this, "settings");
     }
@@ -304,7 +307,7 @@ class ilObjectContentStyleSettingsGUI
         $form->checkInput();
         if ($this->isContainer()) {
             $this->container_manager->saveReuse($form->getInput("support_reuse"));
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ctrl->redirect($this, "settings");
     }

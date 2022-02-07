@@ -274,7 +274,7 @@ class ilObjMailGUI extends ilObjectGUI
             $this->settings->set('mail_maxsize_attach', (string) $form->getInput('mail_maxsize_attach'));
             $this->settings->set('mail_notification', (string) ((int) $form->getInput('mail_notification')));
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this);
         }
 
@@ -354,7 +354,7 @@ class ilObjMailGUI extends ilObjectGUI
             []
         );
 
-        ilUtil::sendSuccess($this->lng->txt('mail_external_test_sent'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_external_test_sent'));
         $this->showExternalSettingsFormObject();
     }
 
@@ -630,7 +630,7 @@ class ilObjMailGUI extends ilObjectGUI
         $this->settings->set('global_reply_to_addr', (string) $form->getInput('global_reply_to_addr'));
         $this->settings->set('mail_system_sys_signature', (string) $form->getInput('mail_system_sys_signature'));
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this, 'showExternalSettingsForm');
     }
 

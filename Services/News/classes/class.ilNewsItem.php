@@ -67,10 +67,12 @@ class ilNewsItem
     private static bool $privFeedId = false;
     private bool $limitation = false;
     protected bool $content_text_is_lang_var = false;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $a_id = 0)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
@@ -1883,7 +1885,7 @@ class ilNewsItem
                 ilFileDelivery::deliverFileLegacy($file, $m_item->getLocation(), "", false, false, false);
                 return true;
             } else {
-                ilUtil::sendFailure("File not found!", true);
+                $this->main_tpl->setOnScreenMessage('failure', "File not found!", true);
                 return false;
             }
         } else {

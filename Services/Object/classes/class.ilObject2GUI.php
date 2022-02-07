@@ -382,9 +382,9 @@ abstract class ilObject2GUI extends ilObjectGUI
                 }
             }
 
-            ilUtil::sendSuccess($lng->txt("msg_removed"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_removed"), true);
         } else {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
         }
 
         $this->ctrl->redirect($this, "");

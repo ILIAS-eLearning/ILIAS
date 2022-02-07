@@ -81,14 +81,14 @@ class ilAdministrationCommandGUI
         $confirm->setConfirm($this->lng->txt('delete'), 'performDelete');
 
         foreach ($to_delete as $delete) {
-            $obj_id = ilObject :: _lookupObjId($delete);
-            $type = ilObject :: _lookupType($obj_id);
+            $obj_id = ilObject::_lookupObjId($delete);
+            $type = ilObject::_lookupType($obj_id);
             
             $confirm->addItem(
                 'id[]',
                 $delete,
                 call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'), $obj_id),
-                ilUtil :: getTypeIconPath($type, $obj_id)
+                ilUtil::getTypeIconPath($type, $obj_id)
             );
         }
 
@@ -97,7 +97,7 @@ class ilAdministrationCommandGUI
         if (!$ilSetting->get('enable_trash')) {
             $msg .= "<br/>" . $this->lng->txt("info_delete_warning_no_trash");
         }
-        ilUtil::sendQuestion($msg);
+        $this->tpl->setOnScreenMessage('question', $msg);
 
         $tpl->setContent($confirm->getHTML());
     }
@@ -131,8 +131,8 @@ class ilAdministrationCommandGUI
 
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
-        $obj_id = ilObject :: _lookupObjId($this->request->getRefId());
-        $type = ilObject :: _lookupType($obj_id);
+        $obj_id = ilObject::_lookupObjId($this->request->getRefId());
+        $type = ilObject::_lookupType($obj_id);
 
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
@@ -148,8 +148,8 @@ class ilAdministrationCommandGUI
 
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
-        $obj_id = ilObject :: _lookupObjId($this->request->getRefId());
-        $type = ilObject :: _lookupType($obj_id);
+        $obj_id = ilObject::_lookupObjId($this->request->getRefId());
+        $type = ilObject::_lookupType($obj_id);
 
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
@@ -179,8 +179,8 @@ class ilAdministrationCommandGUI
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 //        $_GET['ref_id'] = (int) $_GET['item_ref_id'];
 
-        $obj_id = ilObject :: _lookupObjId($this->request->getItemRefId());
-        $type = ilObject :: _lookupType($obj_id);
+        $obj_id = ilObject::_lookupObjId($this->request->getItemRefId());
+        $type = ilObject::_lookupType($obj_id);
 
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
@@ -195,8 +195,8 @@ class ilAdministrationCommandGUI
 
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
-        $obj_id = ilObject :: _lookupObjId($this->request->getRefId());
-        $type = ilObject :: _lookupType($obj_id);
+        $obj_id = ilObject::_lookupObjId($this->request->getRefId());
+        $type = ilObject::_lookupType($obj_id);
 
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 

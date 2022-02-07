@@ -47,7 +47,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
     public function saveObject()
     {
         parent::saveObject();
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         exit();
     }
 

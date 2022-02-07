@@ -101,7 +101,6 @@ class ilCalendarAppointmentGUI
             );
         }
         return 0;
-
     }
 
     public function executeCommand() : void
@@ -172,8 +171,10 @@ class ilCalendarAppointmentGUI
                 if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
                     && ($type == "grp" || $type == "crs")) {
                     $resp_info = true;
-                    $this->form->addCommandButton('editResponsibleUsers',
-                        $this->lng->txt('cal_change_responsible_users'));
+                    $this->form->addCommandButton(
+                        'editResponsibleUsers',
+                        $this->lng->txt('cal_change_responsible_users')
+                    );
                 }
                 $this->form->addCommandButton('update', $this->lng->txt('save'));
                 // $this->form->addCommandButton('askDelete',$this->lng->txt('delete'));
@@ -420,19 +421,19 @@ class ilCalendarAppointmentGUI
 
             if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
                 && ($type == "grp" || $type == "crs")) {
-                ilUtil::sendSuccess($this->lng->txt('cal_created_milestone_resp_q'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_created_milestone_resp_q'), true);
                 $this->showResponsibleUsersList($cat_info['obj_id']);
                 return;
             } elseif ($a_as_milestone) {
-                ilUtil::sendSuccess($this->lng->txt('cal_created_milestone'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_created_milestone'), true);
                 $this->ctrl->returnToParent($this);
             } else {
-                ilUtil::sendSuccess($this->lng->txt('cal_created_appointment'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_created_appointment'), true);
                 $this->ctrl->returnToParent($this);
             }
         } else {
             $this->form->setValuesByPost();
-            ilUtil::sendFailure($this->error->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
             $this->add($this->form);
             return;
         }
@@ -604,8 +605,10 @@ class ilCalendarAppointmentGUI
             foreach ($calc->calculateDateList($current_date, $tomorrow, 1) as $date_entry) {
                 if (ilDateTime::_equals($current_date, $date_entry, IL_CAL_DAY)) {
                     $this->getAppointment()->setStart(new ilDateTime($date_entry->get(IL_CAL_UNIX), IL_CAL_UNIX));
-                    $this->getAppointment()->setEnd(new ilDateTime($date_entry->get(IL_CAL_UNIX) + $duration,
-                        IL_CAL_UNIX));
+                    $this->getAppointment()->setEnd(new ilDateTime(
+                        $date_entry->get(IL_CAL_UNIX) + $duration,
+                        IL_CAL_UNIX
+                    ));
                     break;
                 }
             }
@@ -699,8 +702,10 @@ class ilCalendarAppointmentGUI
             $refs = ilObject::_getAllReferences($cat_info['obj_id']);
 
             $href = ilLink::_getStaticLink(current($refs), ilObject::_lookupType($cat_info['obj_id']), true);
-            $info->addProperty($this->lng->txt('perma_link'),
-                '<a class="small" href="' . $href . '" target="_top">' . $href . '</a>');
+            $info->addProperty(
+                $this->lng->txt('perma_link'),
+                '<a class="small" href="' . $href . '" target="_top">' . $href . '</a>'
+            );
         }
         $this->tpl->setContent($info->getHTML());
     }
@@ -749,11 +754,11 @@ class ilCalendarAppointmentGUI
                 $this->distributeUserNotifications();
             }
 
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->returnToParent($this);
         } else {
             $this->form->setValuesByPost();
-            ilUtil::sendFailure($this->error->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
         }
         $this->edit(false, $this->form);
     }
@@ -772,7 +777,7 @@ class ilCalendarAppointmentGUI
 
         $app_id = (int) ($this->request->getQueryParams()['app_id'] ?? 0);
         if (!$app_id) {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $this->ctrl->returnToParent($this);
         }
 
@@ -798,8 +803,8 @@ class ilCalendarAppointmentGUI
             $table->init();
             $table->parse();
             $this->tpl->setContent($table->getHTML());
-            ilUtil::sendQuestion($this->lng->txt('cal_delete_app_sure'));
-            ilUtil::sendInfo($this->lng->txt('cal_recurrence_confirm_deletion'));
+            $this->tpl->setOnScreenMessage('question', $this->lng->txt('cal_delete_app_sure'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cal_recurrence_confirm_deletion'));
         }
     }
 
@@ -821,7 +826,7 @@ class ilCalendarAppointmentGUI
 
             ilCalendarUserNotification::deleteCalendarEntry($app_id);
         }
-        ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_deleted_app'), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -830,7 +835,7 @@ class ilCalendarAppointmentGUI
         $recurrence_ids = (array) ($this->request->getParsedBody()['recurrence_ids'] ?? []);
         $app_id = (int) ($this->request->getQueryParams()['app_id'] ?? 0);
         if (!count($recurrence_ids)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'askDelete');
         }
         if (!$app_id) {
@@ -843,7 +848,7 @@ class ilCalendarAppointmentGUI
             $exclusion->save();
         }
         if ($a_return) {
-            ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_deleted_app'), true);
             $this->ctrl->returnToParent($this);
         }
     }
@@ -872,8 +877,11 @@ class ilCalendarAppointmentGUI
             } else {
                 $time = (int) $hour . ':00:00';
             }
-            $this->initialDate = new ilDateTime($initialDate->get(IL_CAL_DATE) . ' ' . $time, IL_CAL_DATETIME,
-                $this->timezone);
+            $this->initialDate = new ilDateTime(
+                $initialDate->get(IL_CAL_DATE) . ' ' . $time,
+                IL_CAL_DATETIME,
+                $this->timezone
+            );
             $this->default_fulltime = false;
         }
     }
@@ -1168,7 +1176,7 @@ class ilCalendarAppointmentGUI
             new ilDateTime((int) $dend, IL_CAL_UNIX)
         );
 
-        ilUtil::sendSuccess($this->lng->txt('cal_reg_registered'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_reg_registered'), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -1237,7 +1245,7 @@ class ilCalendarAppointmentGUI
             new ilDateTime((int) $dend, IL_CAL_UNIX)
         );
 
-        ilUtil::sendSuccess($this->lng->txt('cal_reg_unregistered'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_reg_unregistered'), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -1246,7 +1254,6 @@ class ilCalendarAppointmentGUI
      */
     public function book() : void
     {
-
         $entry_id = $this->getAppointmentIdFromQuery();
         $this->ctrl->saveParameter($this, 'app_id');
 
@@ -1255,8 +1262,10 @@ class ilCalendarAppointmentGUI
         $user = $booking->getObjId();
 
         $form = $this->initFormConfirmBooking();
-        $form->getItemByPostVar('date')->setValue(ilDatePresentation::formatPeriod($entry->getStart(),
-            $entry->getEnd()));
+        $form->getItemByPostVar('date')->setValue(ilDatePresentation::formatPeriod(
+            $entry->getStart(),
+            $entry->getEnd()
+        ));
         $form->getItemByPostVar('title')->setValue($entry->getTitle() . " (" . ilObjUser::_lookupFullname($user) . ')');
 
         $this->tpl->setContent($form->getHTML());
@@ -1296,14 +1305,14 @@ class ilCalendarAppointmentGUI
             $booking = new ilBookingEntry($cal_entry->getContextId());
 
             if (!$booking->isAppointmentBookableForUser($entry, $GLOBALS['DIC']['ilUser']->getId())) {
-                ilUtil::sendFailure($this->lng->txt('cal_booking_failed_info'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cal_booking_failed_info'), true);
                 $this->ctrl->returnToParent($this);
             }
 
             ilConsultationHourUtils::bookAppointment($this->user->getId(), $entry);
             ilBookingEntry::writeBookingMessage($entry, $this->user->getId(), $form->getInput('comment'));
         }
-        ilUtil::sendSuccess($this->lng->txt('cal_booking_confirmed'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_booking_confirmed'), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -1374,7 +1383,7 @@ class ilCalendarAppointmentGUI
             $booking = new ilBookingEntry($entry->getContextId());
             $booking->cancelBooking($entry->getEntryId());
 
-            // do NOT delete original entry
+        // do NOT delete original entry
         } elseif ($category->getType() == ilCalendarCategory::TYPE_BOOK) {
             $booking = new ilBookingReservation($entry->getContextId());
             $booking->setStatus(ilBookingReservation::STATUS_CANCELLED);
@@ -1383,7 +1392,7 @@ class ilCalendarAppointmentGUI
             $entry->delete();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('cal_cancel_booking_confirmed'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_cancel_booking_confirmed'), true);
         $this->ctrl->returnToParent($this);
     }
 

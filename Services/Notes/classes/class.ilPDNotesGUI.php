@@ -157,7 +157,7 @@ class ilPDNotesGUI
         // #9410
         if (!$rel_objs && $this->getMode() == ilPDNotesGUI::PUBLIC_COMMENTS) {
             $lng->loadLanguageModule("notes");
-            ilUtil::sendInfo($lng->txt("msg_no_search_result"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("msg_no_search_result"));
             return;
         }
         $first = true;

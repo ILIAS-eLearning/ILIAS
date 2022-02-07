@@ -1338,7 +1338,7 @@ class ilObjStyleSheet extends ilObject
     public function read() : void
     {
         $ilDB = $this->db;
-        
+
         parent::read();
 
         $q = "SELECT * FROM style_parameter WHERE style_id = " .
@@ -1990,20 +1990,20 @@ class ilObjStyleSheet extends ilObject
         bool $a_skip_parent_create = false
     ) : void {
         $ilDB = $this->db;
-        
+
         $this->is_3_10_skin = false;
-        
+
         if (!$a_skip_parent_create) {
             parent::create();
         }
         $importParser = new ilStyleImportParser($a_file, $this);
         $importParser->startParsing();
-        
+
         // store style parameter
         foreach ($this->style as $style) {
             foreach ($style as $tag) {
                 $id = $ilDB->nextId("style_parameter");
-                
+
                 // migrate old table PageFrame/PageContainer to div
                 if (in_array($tag["class"], array("PageFrame", "PageContainer")) &&
                     $tag["tag"] == "table") {
@@ -2012,7 +2012,7 @@ class ilObjStyleSheet extends ilObject
                         continue;
                     }
                 }
-                
+
                 $q = "INSERT INTO style_parameter (id,style_id, tag, class, parameter, type, value, custom) VALUES " .
                     "(" .
                     $ilDB->quote($id, "integer") . "," .
@@ -2027,7 +2027,7 @@ class ilObjStyleSheet extends ilObject
                 $ilDB->manipulate($q);
             }
         }
-        
+
         // store characteristics
         $this->is_3_10_skin = true;
         foreach ($this->chars as $char) {

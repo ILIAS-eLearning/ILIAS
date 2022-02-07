@@ -128,7 +128,7 @@ class ilContainerStartObjectsGUI
         
         $ref_id = $this->object->getRefId();
         if (!$ilAccess->checkAccess($a_cmd, "", $ref_id)) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             ilUtil::redirect("goto.php?target=" . $this->object->getType() . "_" . $ref_id);
         }
     }
@@ -182,7 +182,7 @@ class ilContainerStartObjectsGUI
                 $this->start_object->setObjectPos($start_id, $counter);
             }
             
-            ilUtil::sendSuccess($this->lng->txt('cntr_saved_sorting'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('cntr_saved_sorting'), true);
         }
         
         $this->ctrl->redirect($this, "listStructure");
@@ -191,7 +191,7 @@ class ilContainerStartObjectsGUI
     protected function askDeleteStarterObject() : void
     {
         if (count($this->request->getStartObjIds()) == 0) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, "listStructure");
         }
         
@@ -223,13 +223,13 @@ class ilContainerStartObjectsGUI
         $this->checkPermission('write');
         
         if (count($this->request->getStartObjIds()) == 0) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
         } else {
             foreach ($this->request->getStartObjIds() as $starter_id) {
                 $this->start_object->delete((int) $starter_id);
             }
 
-            ilUtil::sendSuccess($this->lng->txt('crs_starter_deleted'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_starter_deleted'), true);
         }
         
         $this->ctrl->redirect($this, "listStructure");
@@ -249,7 +249,7 @@ class ilContainerStartObjectsGUI
         $this->checkPermission('write');
 
         if (count($this->request->getStartObjIds()) == 0) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, "selectStarter");
         }
             
@@ -261,10 +261,10 @@ class ilContainerStartObjectsGUI
             }
         }
         if ($added) {
-            ilUtil::sendSuccess($this->lng->txt('crs_added_starters'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_added_starters'), true);
             $this->ctrl->redirect($this, "listStructure");
         } else {
-            ilUtil::sendFailure($this->lng->txt('crs_starters_already_assigned'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_starters_already_assigned'), true);
             $this->ctrl->redirect($this, "selectStarter");
         }
     }

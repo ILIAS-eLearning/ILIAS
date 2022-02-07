@@ -1200,7 +1200,7 @@ class ilUtil
 
         return true;
     }
-    
+
     /**
     * get convert command
     *
@@ -1402,7 +1402,7 @@ class ilUtil
 
 
     // convert utf8 to ascii filename
-    
+
     /**
     * append URL parameter string ("par1=value1&par2=value2...")
     * to given URL string
@@ -1422,7 +1422,7 @@ class ilUtil
 
         return $url;
     }
-    
+
     /**
     * Strip slashes from array
     *
@@ -2590,7 +2590,7 @@ class ilUtil
             ilUtil::rRenameSuffix($a_dir, trim($def), "sec");
         }
     }
-    
+
     /**
     * Renames all files with certain suffix and gives them a new suffix.
     * This words recursively through a directory.
@@ -2827,7 +2827,7 @@ class ilUtil
 
         return [true, ''];
     }
-    
+
     /**
      *	 make time object from mysql_date_time
      *
@@ -3043,7 +3043,7 @@ class ilUtil
         }
         return $ref_ids ?: [];
     }
-    
+
 
     /**
     * Prepares a string for a text area output where latex code may be in it

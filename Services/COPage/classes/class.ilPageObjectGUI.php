@@ -798,7 +798,7 @@ class ilPageObjectGUI
                 $this->setEditorToolContext();
 
                 if (!$this->getEnableEditing()) {
-                    ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirect($this, "preview");
                 }
                 $page_editor = new ilPageEditorGUI($this->getPageObject(), $this);
@@ -2264,7 +2264,7 @@ class ilPageObjectGUI
     {
         // editing allowed?
         if (!$this->getEnableEditing()) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "preview");
         }
 
@@ -2286,7 +2286,7 @@ class ilPageObjectGUI
             $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
                 ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
             if (!$this->ctrl->isAsynch()) {
-                ilUtil::sendInfo($info);
+                $this->tpl->setOnScreenMessage('info', $info);
                 return;
             } else {
                 echo ilUtil::getSystemMessageHTML($info);
@@ -2751,7 +2751,7 @@ class ilPageObjectGUI
                 );
             }
             $this->getPageObject()->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editActivation");
         }
         $this->form->setValuesByPost();
@@ -2877,7 +2877,7 @@ class ilPageObjectGUI
             $this->request->getString("opened_content_ajax_target")
         );
         
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"));
         $this->ctrl->redirect($this, "edit");
     }
     
@@ -2952,7 +2952,7 @@ class ilPageObjectGUI
     public function releasePageLock() : void
     {
         $this->getPageObject()->releasePageLock();
-        ilUtil::sendSuccess($this->lng->txt("cont_page_lock_released"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_page_lock_released"), true);
         $this->finishEditing();
     }
 

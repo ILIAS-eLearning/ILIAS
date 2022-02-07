@@ -140,7 +140,7 @@ class ilSamlSettingsGUI
         try {
             $this->idp = ilSamlIdp::getInstanceByIdpId($this->getIdpIdOrZero());
         } catch (Exception $e) {
-            ilUtil::sendFailure($this->lng->txt('auth_saml_unknow_idp'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('auth_saml_unknow_idp'), true);
             $this->ctrl->setParameter($this, 'saml_idp_id', null);
             $this->ctrl->redirect($this, self::DEFAULT_CMD);
         }
@@ -155,9 +155,9 @@ class ilSamlSettingsGUI
             $this->samlAuth = $factory->auth();
         } catch (Throwable $e) {
             if ('Database error: could not find driver' === $e->getMessage()) {
-                ilUtil::sendFailure($this->lng->txt('auth_saml_err_sqlite_driver'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('auth_saml_err_sqlite_driver'));
             } else {
-                ilUtil::sendFailure($e->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
             }
         }
 
@@ -222,7 +222,7 @@ class ilSamlSettingsGUI
         $this->idp->setActive(false);
         $this->idp->persist();
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         $this->listIdps();
     }
 
@@ -233,7 +233,7 @@ class ilSamlSettingsGUI
         $this->idp->setActive(true);
         $this->idp->persist();
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         $this->listIdps();
     }
 
@@ -360,7 +360,7 @@ class ilSamlSettingsGUI
 
             $this->mapping->save();
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $form->setValuesByPost();
@@ -431,7 +431,7 @@ class ilSamlSettingsGUI
         $form = $this->getSettingsForm();
         if ($form->checkInput()) {
             ilSamlSettings::getInstance()->setLoginFormStatus((bool) $form->getInput('login_form'));
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $form->setValuesByPost();
@@ -531,7 +531,7 @@ class ilSamlSettingsGUI
         if ($form->checkInput()) {
             $this->idp->bindForm($form);
             $this->idp->persist();
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
 
             $this->storeMetadata($this->idp, $form->getInput('metadata'));
         }
@@ -565,7 +565,7 @@ class ilSamlSettingsGUI
 
             $this->storeMetadata($idp, $form->getInput('metadata'));
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->setParameter($this, 'saml_idp_id', $idp->getIdpId());
             $this->ctrl->redirect($this, 'showIdpSettings');
         }
@@ -646,7 +646,7 @@ class ilSamlSettingsGUI
 
         $this->idp->delete();
 
-        ilUtil::sendSuccess($this->lng->txt('auth_saml_deleted_idp'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('auth_saml_deleted_idp'), true);
 
         $this->ctrl->setParameter($this, 'saml_idp_id', null);
         $this->ctrl->redirect($this, self::DEFAULT_CMD);

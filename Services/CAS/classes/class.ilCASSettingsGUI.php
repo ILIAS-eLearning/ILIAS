@@ -36,6 +36,7 @@ class ilCASSettingsGUI
      * @var ILIAS\DI\Container
      */
     private $dic;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * Constructor
@@ -47,6 +48,7 @@ class ilCASSettingsGUI
     public function __construct($a_auth_ref_id)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         
         $this->dic = $DIC;
         $this->ctrl = $this->dic->ctrl();
@@ -281,7 +283,7 @@ class ilCASSettingsGUI
 
                 case ilCASSettings::SYNC_LDAP:
                     if (!(int) $_REQUEST['ldap_sid']) {
-                        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+                        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
                         $this->settings();
                         return false;
                     }
@@ -290,12 +292,12 @@ class ilCASSettingsGUI
                     break;
             }
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
         }
         
         $form->setValuesByPost();
-        ilUtil::sendFailure($this->lng->txt('err_ceck_input'));
+        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_ceck_input'));
         $this->tpl->setContent($form->getHTML());
     }
     

@@ -257,7 +257,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
             $this->settings->set("suffix_custom_white_list", $trafo("suffix_custom_white_list"));
             $this->settings->set("suffix_custom_expl_black", $trafo("suffix_custom_expl_black"));
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, self::CMD_EDIT_SETTINGS);
         } else {
             $form->setValuesByPost();

@@ -235,7 +235,7 @@ class ilContentStyleSettingsGUI
 
         $ids = $this->request->getIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "edit");
         }
 
@@ -296,7 +296,7 @@ class ilContentStyleSettingsGUI
             } else {
                 $ilSetting->delete("default_content_style_id");
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", "", false, false));
     }
@@ -319,7 +319,7 @@ class ilContentStyleSettingsGUI
             } else {
                 $ilSetting->set("fixed_content_style_id", $this->request->getId());
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", "", false, false));
     }
@@ -379,7 +379,7 @@ class ilContentStyleSettingsGUI
 
     public function cancelDelete() : void
     {
-        ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "edit");
     }
 
@@ -417,7 +417,7 @@ class ilContentStyleSettingsGUI
 
         ilObjStyleSheet::_writeScope($this->request->getId(), $cat_id);
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
         ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", "", false, false));
     }

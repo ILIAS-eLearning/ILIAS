@@ -22,10 +22,12 @@ class ilBuddySystemGUI
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected Services $http;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->http = $DIC->http();
         $this->ctrl = $DIC['ilCtrl'];
@@ -140,7 +142,7 @@ class ilBuddySystemGUI
         callable $onBeforeExecute = null
     ) : void {
         if (!$this->isRequestParameterGiven('user_id', self::BS_REQUEST_HTTP_GET)) {
-            ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -153,14 +155,14 @@ class ilBuddySystemGUI
             }
 
             ilBuddyList::getInstanceByGlobalUser()->{$cmd}($relation);
-            ilUtil::sendSuccess($this->lng->txt($positiveFeedbackLanguageId), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt($positiveFeedbackLanguageId), true);
         } catch (ilBuddySystemRelationStateAlreadyGivenException | ilBuddySystemRelationStateTransitionException $e) {
-            ilUtil::sendInfo(sprintf(
+            $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $this->lng->txt($e->getMessage()),
                 (string) ilObjUser::_lookupLogin($usrId)
             ), true);
         } catch (ilException $e) {
-            ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);
         }
 
         $this->redirectToReferer();

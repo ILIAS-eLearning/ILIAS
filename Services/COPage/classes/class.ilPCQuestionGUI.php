@@ -445,7 +445,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
-        ilUtil::sendInfo($lng->txt("cont_cp_question_diff_formats_info"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("cont_cp_question_diff_formats_info"));
         
         $ilCtrl->setParameter($this, "subCmd", "poolSelection");
         $ilToolbar->addButton(

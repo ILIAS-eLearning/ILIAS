@@ -121,7 +121,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
     public function saveSettings() : void
     {
         if (!$this->rbacsystem->checkAccess("write", $this->object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $this->ctrl->redirect($this, self::CMD_EDIT_SETTINGS);
         }
 
@@ -130,7 +130,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
             $this->object->setWebdavEnabled($_POST['enable_webdav'] == '1');
             $this->object->setWebdavVersioningEnabled($_POST['enable_versioning_webdav'] == '1');
             $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, self::CMD_EDIT_SETTINGS);
         } else {
             $form->setValuesByPost();

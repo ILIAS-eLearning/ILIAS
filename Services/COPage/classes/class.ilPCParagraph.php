@@ -1683,8 +1683,8 @@ class ilPCParagraph extends ilPageContent
         } else {
             $parnodes = $xpath->query(".//Paragraph[@Characteristic != 'Code']", $par_node->parentNode);
         }
-    
-        $strrPos = function(string $a_haystack, string $a_needle, ?int $a_offset = null) : int {
+
+        $strrPos = function (string $a_haystack, string $a_needle, ?int $a_offset = null) : int {
             if (function_exists("mb_strpos")) {
                 return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
             } else {

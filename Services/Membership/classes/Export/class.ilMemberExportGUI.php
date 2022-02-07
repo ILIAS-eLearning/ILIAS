@@ -67,7 +67,7 @@ class ilMemberExportGUI
     public function executeCommand() : void
     {
         if (!ilPrivacySettings::getInstance()->checkExportAccess($this->ref_id)) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -359,7 +359,7 @@ class ilMemberExportGUI
     {
         $file_ids = $this->initFileIdsFromPost();
         if (!count($file_ids)) {
-            ilUtil::sendFailure($this->lng->txt('ps_select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ps_select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
         $confirmation_gui = new ilConfirmationGUI();
@@ -408,7 +408,7 @@ class ilMemberExportGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('ps_files_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('ps_files_deleted'), true);
         $this->ctrl->redirect($this, 'show');
     }
 

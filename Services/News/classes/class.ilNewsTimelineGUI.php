@@ -200,7 +200,7 @@ class ilNewsTimelineGUI
             $ttpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
             $this->tpl->setContent($ttpl->get());
         } else {
-            ilUtil::sendInfo($this->lng->txt("news_timline_add_entries_info"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("news_timline_add_entries_info"));
             $this->tpl->setContent($this->getEditModal());
         }
 

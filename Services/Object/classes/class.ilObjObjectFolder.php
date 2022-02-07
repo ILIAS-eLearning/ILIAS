@@ -37,9 +37,9 @@ class ilObjObjectFolder extends ilObject
         if (!parent::delete()) {
             return false;
         }
-        
+
         // put here objectfolder specific stuff
-        
+
         // always call parent delete function at the end!!
         return true;
     }

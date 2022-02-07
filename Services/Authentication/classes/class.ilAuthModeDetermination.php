@@ -168,7 +168,7 @@ class ilAuthModeDetermination
     private function read()
     {
         $this->kind = (int) $this->settings->get('kind', (string) self::TYPE_MANUAL);
-        
+
         $rad_settings = ilRadiusSettings::_getInstance();
         $rad_active = $rad_settings->isActive();
 
@@ -192,22 +192,20 @@ class ilAuthModeDetermination
                     case ilAuthUtils::AUTH_LOCAL:
                         $this->position[] = $auth_mode;
                         break;
-                    
                     case ilAuthUtils::AUTH_LDAP:
                         $auth_id = ilLDAPServer::getServerIdByAuthMode($auth_mode);
                         $server = ilLDAPServer::getInstanceByServerId($auth_id);
-                        
+
                         if ($server->isActive()) {
                             $this->position[] = $auth_mode;
                         }
                         break;
-                        
+
                     case ilAuthUtils::AUTH_RADIUS:
                         if ($rad_active) {
                             $this->position[] = $auth_mode;
                         }
                         break;
-                    
                     case ilAuthUtils::AUTH_SOAP:
                         if ($soap_active) {
                             $this->position[] = $auth_mode;
@@ -219,7 +217,7 @@ class ilAuthModeDetermination
                             $this->position[] = $auth_mode;
                         }
                         break;
-                        
+
                     // begin-patch auth_plugin
                     default:
                         foreach (ilAuthUtils::getAuthPlugins() as $pl) {
@@ -229,7 +227,7 @@ class ilAuthModeDetermination
                         }
                         break;
                     // end-patch auth_plugin
-                        
+
                 }
             }
         }

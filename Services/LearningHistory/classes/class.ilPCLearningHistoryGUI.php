@@ -184,7 +184,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
             $this->setAttributesFromInput($form);
             $this->updated = $this->pg_obj->update();
             if ($this->updated === true) {
-                ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
             }
         }

@@ -281,7 +281,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         // check expired session and send message
         if ($this->authSession->isExpired()) {
-            ilUtil::sendFailure($this->lng->txt('auth_err_expired'));
+            $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('auth_err_expired'));
         }
         if ($page_editor_html !== '') {
             $tpl->setVariable('LPE', $page_editor_html);
@@ -307,7 +307,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         global $tpl;
 
         self::initStartUpTemplate("tpl.login_reactivate_code.html");
-        ilUtil::sendFailure($this->lng->txt("time_limit_reached"));
+        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt("time_limit_reached"));
         if (!$a_form) {
             $a_form = $this->initCodeForm($a_username);
         }
@@ -392,7 +392,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
                     $this->ctrl->setParameter($this, "cu", 1);
                     $this->lng->loadLanguageModule('auth');
-                    ilUtil::sendSuccess($GLOBALS['DIC']->language()->txt('auth_activation_code_success'), true);
+                    $this->mainTemplate->setOnScreenMessage('success', $GLOBALS['DIC']->language()->txt('auth_activation_code_success'), true);
                     $this->ctrl->redirect($this, "showLoginPage");
                 }
             }
@@ -503,11 +503,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 return;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                ilUtil::sendFailure($status->getTranslatedReason(), true);
+                $this->mainTemplate->setOnScreenMessage('failure', $status->getTranslatedReason(), true);
                 $this->ctrl->redirect($this, 'showLoginPage');
                 return;
         }
-        ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_wrong_login'));
         $this->showLoginPage();
     }
 
@@ -539,7 +539,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
             default:
-                ilUtil::sendFailure($this->lng->txt($status->getReason()));
+                $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt($status->getReason()));
                 $this->showLoginPage();
         }
     }
@@ -581,12 +581,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 return;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                ilUtil::sendFailure($this->lng->txt($status->getReason()), true);
+                $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt($status->getReason()), true);
                 $this->ctrl->redirect($this, 'showLoginPage');
                 return;
         }
 
-        ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_wrong_login'));
         $this->showLoginPage();
     }
 
@@ -637,7 +637,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 break;
 
             case \ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                \ilUtil::sendFailure($status->getTranslatedReason(), true);
+                $this->mainTemplate->setOnScreenMessage('failure', $status->getTranslatedReason(), true);
                 $this->ctrl->redirectToURL(\ilUtil::appendUrlParameterString(
                     $this->ctrl->getLinkTarget($this, 'showLoginPage', '', false, false),
                     'passed_sso=1'
@@ -645,7 +645,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 break;
         }
 
-        \ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_wrong_login'));
         $this->showLoginPage();
     }
 
@@ -704,12 +704,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     $this->ctrl->redirect($this, 'showAccountMigration');
                     // no break
                 case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                    ilUtil::sendFailure($status->getTranslatedReason());
+                    $this->mainTemplate->setOnScreenMessage('failure', $status->getTranslatedReason());
                     $this->showLoginPage($form);
                     return;
             }
         }
-        ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_wrong_login'));
         $this->showLoginPage($form);
     }
 
@@ -1099,7 +1099,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $tpl->setVariable('MIG_FORM', $form->getHTML());
 
         if (strlen($message)) {
-            ilUtil::sendFailure($message);
+            $this->mainTemplate->setOnScreenMessage('failure', $message);
         }
 
         self::printToGlobalTemplate($tpl);
@@ -1169,7 +1169,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             ilInitialisation::redirectToStartingPage();
         }
 
-        ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_wrong_login'));
         $this->ctrl->redirect($this, 'showAccountMigration');
 
         return true;
@@ -1237,7 +1237,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 ) {
                     ilInitialisation::redirectToStartingPage();
                 } else {
-                    ilUtil::sendFailure($this->lng->txt('err_wrong_login'), true);
+                    $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_wrong_login'), true);
                     $this->ctrl->redirect($this, 'showAccountMigration');
                 }
                 break;
@@ -1926,11 +1926,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 return;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                ilUtil::sendFailure($status->getTranslatedReason(), true);
+                $this->mainTemplate->setOnScreenMessage('failure', $status->getTranslatedReason(), true);
                 $this->ctrl->redirect($this, 'showLoginPage');
                 return;
         }
-        ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_wrong_login'));
         $this->showLoginPage();
     }
 
@@ -2058,12 +2058,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 return;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                ilUtil::sendFailure($status->getTranslatedReason(), true);
+                $this->mainTemplate->setOnScreenMessage('failure', $status->getTranslatedReason(), true);
                 $this->ctrl->redirect($this, 'showLoginPage');
                 return;
         }
 
-        ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_wrong_login'));
         $this->showLoginPage();
     }
 

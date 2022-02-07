@@ -40,6 +40,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         bool $a_load_data = false
     ) {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -116,7 +117,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
             $this->importData();
             return;
         } else {
-            ilUtil::sendInfo($lng->txt("wsp_shared_mandatory_filter_info"));
+            $main_tpl->setOnScreenMessage('info', $lng->txt("wsp_shared_mandatory_filter_info"));
         }
 
         // initial state: show filters only

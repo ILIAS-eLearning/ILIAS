@@ -230,7 +230,7 @@ class ilMathJaxSettingsGUI
             }
             $this->repository->updateConfig($config);
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this);
         }
 
@@ -244,7 +244,7 @@ class ilMathJaxSettingsGUI
     protected function clearCache() : void
     {
         ilMathJax::getInstance()->clearCache();
-        ilUtil::sendSuccess($this->lng->txt('mathjax_server_cache_cleared'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('mathjax_server_cache_cleared'), true);
         $this->ctrl->redirect($this);
     }
 

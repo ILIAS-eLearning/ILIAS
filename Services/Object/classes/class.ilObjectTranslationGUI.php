@@ -142,7 +142,7 @@ class ilObjectTranslationGUI
 
         if ($this->getTitleDescrOnlyMode()) {
             if (!$this->obj_trans->getContentActivated()) {
-                ilUtil::sendInfo($this->lng->txt("obj_multilang_title_descr_only"));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("obj_multilang_title_descr_only"));
                 $ilToolbar->addButton(
                     $this->lng->txt("obj_activate_content_lang"),
                     $this->ctrl->getLinkTarget($this, "activateContentMultilinguality")
@@ -209,21 +209,21 @@ class ilObjectTranslationGUI
     {
         // default language set?
         if (!isset($_POST["default"]) && $this->obj_trans->getMasterLanguage() == "") {
-            ilUtil::sendFailure($this->lng->txt("msg_no_default_language"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
             $this->listTranslations(true);
             return;
         }
 
         // all languages set?
         if (array_key_exists("", $_POST["lang"])) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_language_selected"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_language_selected"));
             $this->listTranslations(true);
             return;
         }
 
         // no single language is selected more than once?
         if (count(array_unique($_POST["lang"])) < count($_POST["lang"])) {
-            ilUtil::sendFailure($this->lng->txt("msg_multi_language_selected"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_multi_language_selected"));
             $this->listTranslations(true);
             return;
         }
@@ -257,7 +257,7 @@ class ilObjectTranslationGUI
         }
         $this->obj->update();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "listTranslations");
     }
 
@@ -274,7 +274,7 @@ class ilObjectTranslationGUI
                     unset($_POST["desc"][$k]);
                     unset($_POST["lang"][$k]);
                 } else {
-                    ilUtil::sendFailure($this->lng->txt("msg_no_default_language"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
                     $this->listTranslations();
                     return;
                 }
@@ -295,7 +295,7 @@ class ilObjectTranslationGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        ilUtil::sendInfo($lng->txt("obj_select_master_lang"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("obj_select_master_lang"));
 
         $form = $this->getMultiLangForm();
         $tpl->setContent($form->getHTML());
@@ -411,9 +411,9 @@ class ilObjectTranslationGUI
         }
         $this->obj_trans->deactivateContentTranslation();
         if ($this->getTitleDescrOnlyMode()) {
-            ilUtil::sendSuccess($lng->txt("obj_cont_transl_deactivated"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("obj_cont_transl_deactivated"), true);
         } else {
-            ilUtil::sendSuccess($lng->txt("obj_multilang_deactivated"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("obj_multilang_deactivated"), true);
         }
 
 
@@ -452,11 +452,11 @@ class ilObjectTranslationGUI
                 }
             }
             $this->obj_trans->save();
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "listTranslations");
         }
         
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $tpl->setContent($form->getHTML());
     }
@@ -473,7 +473,7 @@ class ilObjectTranslationGUI
         $lng->loadLanguageModule("meta");
 
         if (!is_array($_POST["lang"]) || count($_POST["lang"]) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listTranslations");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -506,7 +506,7 @@ class ilObjectTranslationGUI
                 }
             }
             $this->obj_trans->save();
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "listTranslations");
     }
@@ -520,7 +520,7 @@ class ilObjectTranslationGUI
         $ilCtrl = $this->ctrl;
         // default language set?
         if (!isset($_POST["check"]) || count($_POST["check"]) !== 1) {
-            ilUtil::sendFailure($this->lng->txt("obj_select_one_language"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("obj_select_one_language"));
             $this->listTranslations(true);
             return;
         }
@@ -532,7 +532,7 @@ class ilObjectTranslationGUI
             $this->obj_trans->setFallbackLanguage("");
         }
         $this->obj_trans->save();
-        ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "listTranslations");
     }
 }

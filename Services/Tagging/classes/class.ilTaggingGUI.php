@@ -26,6 +26,7 @@ class ilTaggingGUI
     protected RequestInterface $request;
     protected string $mess = "";
     protected string $requested_mess = "";
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
@@ -33,6 +34,7 @@ class ilTaggingGUI
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
@@ -185,7 +187,7 @@ class ilTaggingGUI
             $this->getUserId(),
             $tags
         );
-        ilUtil::sendSuccess($lng->txt('msg_obj_modified'));
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('msg_obj_modified'));
     }
     
     // Check whether a tag is forbiddens

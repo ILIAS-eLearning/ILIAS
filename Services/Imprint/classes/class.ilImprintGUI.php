@@ -102,7 +102,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         
         if ($this->getOutputMode() == ilPageObjectGUI::PREVIEW) {
             if (!$this->getPageObject()->getActive()) {
-                ilUtil::sendInfo($lng->txt("adm_imprint_inactive"));
+                $this->tpl->setOnScreenMessage('info', $lng->txt("adm_imprint_inactive"));
             }
         }
         

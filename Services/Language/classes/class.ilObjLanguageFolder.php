@@ -84,7 +84,7 @@ class ilObjLanguageFolder extends ilObject
     {
         global $DIC;
         $lng = $DIC->language();
-        
+
         $lng->loadLanguageModule("meta");
 
         // set path to directory where lang-files reside
@@ -146,7 +146,7 @@ class ilObjLanguageFolder extends ilObject
         }
 
         chdir($tmpPath);
-        
+
         // Insert languages with files new found into table language
         $languages = $this->addNewLanguages($languages);
 

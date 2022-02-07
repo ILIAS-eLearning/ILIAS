@@ -496,7 +496,7 @@ class ilPageEditorGUI
     {
         $ilUser = $this->user;
         
-        ilUtil::sendSuccess($this->lng->txt("copied_to_clipboard"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("copied_to_clipboard"), true);
         $ilUser->addObjectToClipboard(
             $this->requested_mob_id,
             "mob",
@@ -527,7 +527,7 @@ class ilPageEditorGUI
             $this->request->getString("change_comment"),
             true
         );
-        ilUtil::sendSuccess($this->lng->txt("cont_added_comment"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_added_comment"), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -543,7 +543,7 @@ class ilPageEditorGUI
         $targets = $this->request->getIds();
 
         if (count($targets) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $this->ctrl->returnToParent($this);
         } else {
             $cgui = new ilConfirmationGUI();
@@ -592,7 +592,7 @@ class ilPageEditorGUI
         $ids = $this->request->getIds();
         if (count($ids) > 0) {
             $this->page->copyContents($ids);
-            ilUtil::sendSuccess($lng->txt("cont_sel_el_copied_use_paste"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_sel_el_copied_use_paste"), true);
         }
         $this->ctrl->returnToParent($this);
     }
@@ -612,7 +612,7 @@ class ilPageEditorGUI
             } else {
                 $this->edit_repo->clearPageError();
             }
-            ilUtil::sendSuccess($lng->txt("cont_sel_el_cut_use_paste"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_sel_el_cut_use_paste"), true);
         }
         $this->ctrl->returnToParent($this);
     }
@@ -673,7 +673,7 @@ class ilPageEditorGUI
             }
         
             if (count($types) == 0) {
-                ilUtil::sendFailure($lng->txt("cont_select_par_or_section"), true);
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_select_par_or_section"), true);
                 $this->ctrl->returnToParent($this);
             } else {
                 $this->initCharacteristicForm($ids, $types);

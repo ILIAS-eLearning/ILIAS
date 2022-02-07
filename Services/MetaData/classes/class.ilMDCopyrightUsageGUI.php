@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+
 /**
  * @author       Jesús López <lopez@leifos.com>
  * @ilCtrl_Calls ilMDCopyrightUsageGUI: ilPublicUserProfileGUI
@@ -27,7 +28,7 @@ class ilMDCopyrightUsageGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->http = $DIC->http();
         $this->ctrl = $DIC->ctrl();
-        $this->lng  = $DIC->language();
+        $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
         $this->refinery = $DIC->refinery();
 
@@ -40,7 +41,7 @@ class ilMDCopyrightUsageGUI
         $this->ctrl->saveParameter($this, 'entry_id');
 
         $user = '';
-        if($this->http->wrapper()->query()->has('user')) {
+        if ($this->http->wrapper()->query()->has('user')) {
             $user = $this->http->wrapper()->query()->retrieve(
                 'user',
                 $this->refinery->kindlyTo()->string()
@@ -68,8 +69,7 @@ class ilMDCopyrightUsageGUI
 
     public function showUsageTable() : void
     {
-
-        ilUtil::sendInfo($this->lng->txt("meta_info_only_repository_objects"));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("meta_info_only_repository_objects"));
 
         $table_gui = new ilMDCopyrightUsageTableGUI(
             $this,

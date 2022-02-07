@@ -81,7 +81,6 @@ class ilCalendarUserSettingsGUI
 
     public function save()
     {
-
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $this->user_settings->setTimeZone($form->getInput('timezone'));
@@ -95,11 +94,11 @@ class ilCalendarUserSettingsGUI
                 $this->user_settings->setShowWeeks((bool) $form->getInput('show_weeks'));
             }
             $this->user_settings->save();
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, "show");
         } else {
             $form->setValuesByPost();
-            ilUtil::sendFailure($this->lng->txt('err_check_input'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'), true);
             $this->show();
         }
     }
@@ -121,11 +120,15 @@ class ilCalendarUserSettingsGUI
         $export_type = new ilRadioGroupInputGUI($this->lng->txt('cal_export_timezone'), 'export_tz');
         $export_type->setValue((string) $this->user_settings->getExportTimeZoneType());
 
-        $export_tz = new ilRadioOption($this->lng->txt('cal_export_timezone_tz'),
-            (string) ilCalendarUserSettings::CAL_EXPORT_TZ_TZ);
+        $export_tz = new ilRadioOption(
+            $this->lng->txt('cal_export_timezone_tz'),
+            (string) ilCalendarUserSettings::CAL_EXPORT_TZ_TZ
+        );
         $export_type->addOption($export_tz);
-        $export_utc = new ilRadioOption($this->lng->txt('cal_export_timezone_utc'),
-            (string) ilCalendarUserSettings::CAL_EXPORT_TZ_UTC);
+        $export_utc = new ilRadioOption(
+            $this->lng->txt('cal_export_timezone_utc'),
+            (string) ilCalendarUserSettings::CAL_EXPORT_TZ_UTC
+        );
         $export_type->addOption($export_utc);
         $form->addItem($export_type);
 

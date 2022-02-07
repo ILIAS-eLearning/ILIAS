@@ -390,7 +390,7 @@ class ilPasswordAssistanceGUI
             count($pwassist_session) == 0 ||
             $pwassist_session['expires'] < time()
         ) {
-            ilUtil::sendFailure($this->lng->txt('pwassist_session_expired'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('pwassist_session_expired'));
             $this->showAssistanceForm(null);
         } else {
             $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assignpassword.html', true);
@@ -453,7 +453,7 @@ class ilPasswordAssistanceGUI
             count($pwassist_session) == 0 ||
             $pwassist_session['expires'] < time()
         ) {
-            ilUtil::sendFailure(str_replace("\\n", '', $this->lng->txt('pwassist_session_expired')));
+            $this->tpl->setOnScreenMessage('failure', str_replace("\\n", '', $this->lng->txt('pwassist_session_expired')));
             $form->setValuesByPost();
             $this->showAssistanceForm($form);
             return;
@@ -505,7 +505,7 @@ class ilPasswordAssistanceGUI
                 db_pwassist_session_destroy($pwassist_id);
                 $this->showMessageForm(sprintf($this->lng->txt('pwassist_password_assigned'), $username));
             } else {
-                ilUtil::sendFailure(str_replace("\\n", '', $message));
+                $this->tpl->setOnScreenMessage('failure', str_replace("\\n", '', $message));
                 $form->setValuesByPost();
                 $this->showAssignPasswordForm($form, $pwassist_id);
             }
