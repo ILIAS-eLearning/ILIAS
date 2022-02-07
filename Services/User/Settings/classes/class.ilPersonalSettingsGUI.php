@@ -299,7 +299,7 @@ class ilPersonalSettingsGUI
             // local authentication for WebDAV.
             #if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
             if ($ilUser->getAuthMode(true) == AUTH_LOCAL) {
-                if (!ilUserPasswordManager::getInstance()->verifyPassword($ilUser, $this->entered_new_password)) {
+                if (!ilUserPasswordManager::getInstance()->verifyPassword($ilUser, $this->entered_current_password)) {
                     $error = true;
                     $cp->setAlert($this->lng->txt('passwd_wrong'));
                 }
