@@ -140,7 +140,6 @@ abstract class ilPlugin
     /**
      * Only very little classes seem to care about this:
      *    - Services/Component/classes/class.ilObjComponentSettingsGUI.php
-     *    - Services/Component/classes/class.ilPluginsOverviewTableGUI.php
      *    - Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php
      */
     public function isActive()
