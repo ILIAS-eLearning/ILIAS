@@ -384,4 +384,14 @@ abstract class ILIAS_UI_TestBase extends TestCase
         $html = str_replace(" <", "<", $html);
         return trim($html);
     }
+
+    /**
+     * A naive replacement of all il_signal-ids with dots
+     * to ease comparisons of rendered output.
+     */
+    protected function brutallyTrimSignals(string $html) : string
+    {
+        $html = preg_replace('/il_signal_(\w+)/', "il_signal...", $html);
+        return $html;
+    }
 }

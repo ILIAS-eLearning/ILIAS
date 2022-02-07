@@ -124,19 +124,6 @@ class PresentationTest extends ILIAS_UI_TestBase
         ]];
     }
 
-    protected function brutallyTrimSignals(string $haystack) : string
-    {
-        $offset = 0;
-        while ($cur = strpos($haystack, 'il_signal_', $offset)) {
-            $right_pos = strpos($haystack, "');", $cur + 1);
-            $left = substr($haystack, 0, $cur);
-            $right = substr($haystack, $right_pos);
-            $haystack = $left . "il_signal_..." . $right;
-            $offset = $right_pos;
-        }
-        return $haystack;
-    }
-
     public function testFullRendering() : void
     {
         $mapping = function ($row, $record, $ui_factory, $environment) {
@@ -175,7 +162,7 @@ class PresentationTest extends ILIAS_UI_TestBase
                     <br />
                 </div>
                 <div class="il-table-presentation-row-header">
-                    <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal_...');">some title<br /><small>some type</small>
+                    <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
                     </h4>
                     <div class="il-table-presentation-row-header-fields">important-1|important-2|<button class="btn btn-link" id="id_4">presentation_table_more</button></div>
                 </div>
@@ -250,7 +237,7 @@ EXP;
             <div class="il-table-presentation-row-contents">
                 <div class="il-table-presentation-actions"></div>
                 <div class="il-table-presentation-row-header">
-                    <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal_...');">some title</h4>
+                    <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
                     <div class="il-table-presentation-row-header-fields">
                         <button class="btn btn-link" id="id_4">presentation_table_more</button>
                     </div>
