@@ -33,6 +33,7 @@ class ilWebDAVDIC extends Container
             $c['repository.helper'],
             $DIC->user(),
             $DIC->resourceStorage(),
+            $DIC->http()->request(),
             $DIC->language(),
             $DIC['ilias']->getClientId(),
             (bool) $c['dav_settings']->get('webdav_versioning_enabled', 'true')

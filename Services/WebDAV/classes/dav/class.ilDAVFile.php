@@ -7,6 +7,7 @@ use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Consumer\Consumers;
 use Sabre\DAV\IFile;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * @author Raphael Heer <raphael.heer@hslu.ch>
@@ -19,6 +20,7 @@ class ilDAVFile implements IFile
     protected ilWebDAVRepositoryHelper $repo_helper;
     protected Manager $resource_manager;
     protected Consumers $resource_consumer;
+    protected RequestInterface $request;
     protected ilWebDAVObjFactory $dav_factory;
 
     protected bool $versioning_enabled;
@@ -27,6 +29,7 @@ class ilDAVFile implements IFile
         ilObjFile $obj,
         ilWebDAVRepositoryHelper $repo_helper,
         Services $resource_storage,
+        RequestInterface $request,
         ilWebDAVObjFactory $dav_factory,
         bool $versioning_enabled
     ) {
@@ -34,6 +37,7 @@ class ilDAVFile implements IFile
         $this->repo_helper = $repo_helper;
         $this->resource_manager = $resource_storage->manage();
         $this->resource_consumer = $resource_storage->consume();
+        $this->request = $request;
         $this->dav_factory = $dav_factory;
         $this->versioning_enabled = $versioning_enabled;
     }
@@ -45,6 +49,11 @@ class ilDAVFile implements IFile
     {
         if (!$this->repo_helper->checkAccess('write', $this->obj->getRefId())) {
             throw new Forbidden("Permission denied. No write access for this file");
+        }
+        
+        $size = $this->request->getHeader("Content-Length")[0];
+        if ($size > ilFileUploadUtil::getMaxFileSize()) {
+            throw new Forbidden('File is too big');
         }
         
         if ($this->getSize() === 0) {
