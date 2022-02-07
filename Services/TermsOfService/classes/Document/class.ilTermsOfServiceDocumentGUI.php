@@ -4,6 +4,7 @@
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -30,6 +31,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     protected Filesystems $fileSystems;
     protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
     protected ilHtmlPurifierInterface $documentPurifier;
+    protected Refinery $refinery;
 
     public function __construct(
         ilObjTermsOfService $tos,
@@ -48,7 +50,8 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         Filesystems $fileSystems,
         FileUpload $fileUpload,
         ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory,
-        ilHtmlPurifierInterface $documentPurifier
+        ilHtmlPurifierInterface $documentPurifier,
+        Refinery $refinery
     ) {
         $this->tos = $tos;
         $this->criterionTypeFactory = $criterionTypeFactory;
@@ -67,6 +70,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->fileUpload = $fileUpload;
         $this->tableDataProviderFactory = $tableDataProviderFactory;
         $this->documentPurifier = $documentPurifier;
+        $this->refinery = $refinery;
     }
 
     public function executeCommand() : void
@@ -270,15 +274,24 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
      */
     protected function getDocumentsByServerRequest() : array
     {
-        $documents = [];
+        $documentIds = [];
 
-        $documentIds = $this->httpState->request()->getParsedBody()['tos_id'] ?? [];
-        if (!is_array($documentIds) || 0 === count($documentIds)) {
-            $documentIds = $this->httpState->request()->getQueryParams()['tos_id'] ? [$this->httpState->request()->getQueryParams()['tos_id']] : [];
+        if ($this->httpState->wrapper()->post()->has('tos_id')) {
+            $documentIds = $this->httpState->wrapper()->post()->retrieve(
+                'tos_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
         }
 
-        if (0 === count($documentIds)) {
-            return $documents;
+        if ($documentIds === [] && $this->httpState->wrapper()->query()->has('tos_id')) {
+            $documentIds = [$this->httpState->wrapper()->query()->retrieve(
+                'tos_id',
+                $this->refinery->kindlyTo()->int()
+            )];
+        }
+
+        if ($documentIds === []) {
+            return $documentIds;
         }
 
         $documents = ilTermsOfServiceDocument::where(

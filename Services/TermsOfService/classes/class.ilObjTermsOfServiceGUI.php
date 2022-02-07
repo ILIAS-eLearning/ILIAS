@@ -65,7 +65,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                     $this->dic->filesystem(),
                     $this->dic->upload(),
                     $tableDataProviderFactory,
-                    new ilTermsOfServiceTrimmedDocumentPurifier(new ilTermsOfServiceDocumentHtmlPurifier())
+                    new ilTermsOfServiceTrimmedDocumentPurifier(new ilTermsOfServiceDocumentHtmlPurifier()),
+                    $this->dic->refinery()
                 );
                 $this->ctrl->forwardCommand($documentGui);
                 break;
@@ -83,7 +84,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                     $this->dic->refinery(),
                     $this->dic->ui()->factory(),
                     $this->dic->ui()->renderer(),
-                    $tableDataProviderFactory
+                    $tableDataProviderFactory,
                 );
                 $this->ctrl->forwardCommand($documentGui);
                 break;
