@@ -27,7 +27,7 @@ abstract class ilCronJob
 
     protected ?int $schedule_type = null;
     protected ?int $schedule_value = null;
-    protected ?Closure $date_time_proviver = null;
+    protected ?Closure $date_time_provider = null;
 
     private function checkSchedule(?DateTimeImmutable $last_run, ?int $schedule_type, ?int $schedule_value) : bool
     {
@@ -40,8 +40,8 @@ abstract class ilCronJob
         }
 
         $now = new DateTimeImmutable('@' . time());
-        if ($this->date_time_proviver !== null) {
-            $now = ($this->date_time_proviver)();
+        if ($this->date_time_provider !== null) {
+            $now = ($this->date_time_provider)();
         }
 
         switch ($schedule_type) {
@@ -89,7 +89,7 @@ abstract class ilCronJob
     /**
      * @param Closure|null $date_time_provider
      */
-    public function setDateTimeproviver(?Closure $date_time_provider) : void
+    public function setDateTimeProvider(?Closure $date_time_provider) : void
     {
         if ($date_time_provider !== null) {
             $r = new ReflectionFunction($date_time_provider);
@@ -114,7 +114,7 @@ abstract class ilCronJob
             }
         }
 
-        $this->date_time_proviver = $date_time_provider;
+        $this->date_time_provider = $date_time_provider;
     }
 
     public function isDue(

@@ -54,6 +54,80 @@ class CronJobManagerTest extends TestCase
             true
         );
 
+        $job->expects($this->once())->method('activationWasToggled')->with(
+            $db,
+            $setting,
+            true
+        );
+
         $cronManager->resetJob($job, $user);
+    }
+
+    public function testCronManagerNotifiesJobWhenJobGetsActivated() : void
+    {
+        $db = $this->createMock(ilDBInterface::class);
+        $setting = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
+        $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
+        $repository = $this->createMock(ilCronJobRepository::class);
+        $job = $this->createMock(ilCronJob::class);
+        $user = $this->getMockBuilder(ilObjUser::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getId'])
+            ->getMock();
+
+        $cronManager = new ilCronManagerImpl(
+            $repository,
+            $db,
+            $setting,
+            $logger
+        );
+
+        $repository->expects($this->exactly(2))->method('activateJob')->withConsecutive(
+            [$job, $user, true],
+            [$job, $user, false]
+        );
+
+        $job->expects($this->exactly(2))->method('activationWasToggled')->with(
+            $db,
+            $setting,
+            true
+        );
+
+        $cronManager->activateJob($job, $user, true);
+        $cronManager->activateJob($job, $user, false);
+    }
+
+    public function testCronManagerNotifiesJobWhenJobGetsDeactivated() : void
+    {
+        $db = $this->createMock(ilDBInterface::class);
+        $setting = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
+        $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
+        $repository = $this->createMock(ilCronJobRepository::class);
+        $job = $this->createMock(ilCronJob::class);
+        $user = $this->getMockBuilder(ilObjUser::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getId'])
+            ->getMock();
+
+        $cronManager = new ilCronManagerImpl(
+            $repository,
+            $db,
+            $setting,
+            $logger
+        );
+
+        $repository->expects($this->exactly(2))->method('deactivateJob')->withConsecutive(
+            [$job, $user, true],
+            [$job, $user, false]
+        );
+
+        $job->expects($this->exactly(2))->method('activationWasToggled')->with(
+            $db,
+            $setting,
+            false
+        );
+
+        $cronManager->deactivateJob($job, $user, true);
+        $cronManager->deactivateJob($job, $user, false);
     }
 }
