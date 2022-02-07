@@ -28,7 +28,4 @@
 		<pagecontent pc_type="amdpl" name="AMDPageList" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="240"/>
 	</copage>
 	<logging />
-	<pdfpurposes>
-		<pdfpurpose name="ContentExport" preferred="WkhtmlToPdf" />
-	</pdfpurposes>
 </module>

@@ -703,13 +703,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->printViewOrderList();
     }
     
-    public function pdfExportOrder() : void
-    {
-        $this->printViewOrderList(true);
-    }
-    
     protected function printViewOrderList(
-        bool $a_pdf_export = false
     ) : void {
         $ilTabs = $this->tabs_gui;
         
@@ -741,11 +735,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
                         "wpg_id",
                         $wiki_page_id
                     );
-                    if ($a_pdf_export) {
-                        $this->ctrl->redirectByClass("ilObjWikiGUI", "pdfExport");
-                    } else {
-                        $this->ctrl->redirectByClass("ilObjWikiGUI", "printView");
-                    }
+                    $this->ctrl->redirectByClass("ilObjWikiGUI", "printView");
                     break;
 
                 default:
@@ -754,22 +744,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
                         "wpg_id",
                         $this->wiki_request->getWikiPageId()
                     );
-                    if ($a_pdf_export) {
-                        $this->ctrl->redirectByClass("ilObjWikiGUI", "pdfExport");
-                    } else {
-                        $this->ctrl->redirectByClass("ilObjWikiGUI", "printView");
-                    }
+                    $this->ctrl->redirectByClass("ilObjWikiGUI", "printView");
                     break;
-            }
-            
-            if ($a_pdf_export) {
-                $this->ctrl->setParameter($this, "pexp", 1);
             }
         }
         // refresh sorting
         else {
-            $a_pdf_export = false;
-        
             asort($ordering);
             $pg_ids = array_keys($ordering);
         }
@@ -784,7 +764,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $all_pages = ilWikiPage::getAllWikiPages($this->getPageObject()->getWikiId());
         }
         
-        $tbl = new ilWikiExportOrderTableGUI($this, "printViewOrderList", $a_pdf_export, $all_pages, $pg_ids);
+        $tbl = new ilWikiExportOrderTableGUI(
+            $this,
+            "printViewOrderList",
+            $all_pages,
+            $pg_ids
+        );
         $this->tpl->setContent($tbl->getHTML());
     }
     

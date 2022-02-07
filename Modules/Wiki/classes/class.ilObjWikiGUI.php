@@ -108,8 +108,8 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->prepareOutput();
         
         // see ilWikiPageGUI::printViewOrderList()
-        // printView() and pdfExport() cannot be in ilWikiPageGUI because of stylesheet confusion
-        if ($cmd == "printView" || $cmd == "pdfExport") {
+        // printView() cannot be in ilWikiPageGUI because of stylesheet confusion
+        if ($cmd == "printView") {
             $next_class = null;
         }
     
@@ -1422,7 +1422,7 @@ class ilObjWikiGUI extends ilObjectGUI
         );
     }
 
-    public function printViewObject($a_pdf_export = false)
+    public function printViewObject()
     {
         $print_view = $this->getPrintView();
         $print_view->sendPrintView();
