@@ -119,7 +119,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 
             $this->settings->save();
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         
         $ilCtrl->redirect($this, "view");

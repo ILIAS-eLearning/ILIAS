@@ -77,7 +77,7 @@ class ilCourseStart
     {
         return $this->start_objs ? $this->start_objs : array();
     }
-    
+
     /**
      * Clone dependencies
      *
@@ -92,12 +92,12 @@ class ilCourseStart
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $ilLog = $DIC['ilLog'];
-        
+
         $ilLog->write(__METHOD__ . ': Begin course start objects...');
-        
+
         $new_obj_id = $ilObjDataCache->lookupObjId($a_target_id);
         $start = new ilCourseStart($a_target_id, $new_obj_id);
-        
+
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
         foreach ($this->getStartObjects() as $start_id => $data) {
@@ -118,7 +118,7 @@ class ilCourseStart
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "DELETE FROM crs_start " .
             "WHERE crs_start_id = " . $ilDB->quote($a_crs_start_id, 'integer') . " " .
             "AND crs_id = " . $ilDB->quote($this->getId(), 'integer') . " ";
@@ -131,7 +131,7 @@ class ilCourseStart
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT * FROM crs_start " .
             "WHERE crs_id = " . $ilDB->quote($this->getId(), 'integer') . " " .
             "AND item_ref_id = " . $ilDB->quote($a_item_ref_id, 'integer') . " ";
@@ -145,7 +145,7 @@ class ilCourseStart
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if ($a_item_ref_id) {
             $next_id = $ilDB->nextId('crs_start');
             $query = "INSERT INTO crs_start (crs_start_id,crs_id,item_ref_id) " .
@@ -165,7 +165,7 @@ class ilCourseStart
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "DELETE FROM crs_start " .
             "WHERE crs_id = " . $ilDB->quote($this->getId(), 'integer') . " ";
         $res = $ilDB->manipulate($query);
@@ -210,10 +210,10 @@ class ilCourseStart
 
         $obj_id = $ilObjDataCache->lookupObjId($item_id);
         $type = $ilObjDataCache->lookupType($obj_id);
-        
+
         switch ($type) {
             case 'tst':
-                
+
                 if (!ilObjTestAccess::checkCondition($obj_id, ilConditionHandler::OPERATOR_FINISHED, '', $user_id)) {
                     return false;
                 }

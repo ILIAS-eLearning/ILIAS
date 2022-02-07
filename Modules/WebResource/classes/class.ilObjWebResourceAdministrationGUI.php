@@ -99,7 +99,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $ilSetting->set("links_dynamic", $form->getInput("links_dynamic"));
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "editSettings");
         }
         

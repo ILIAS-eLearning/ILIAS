@@ -241,7 +241,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $a_new_object->update();
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("book_pool_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("book_pool_added"), true);
         $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
         $this->ctrl->redirect($this, "edit");
     }
@@ -257,7 +257,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         // if we have no schedules yet - show info
         if ($this->object->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE &&
             !sizeof(ilBookingSchedule::getList($this->object->getId()))) {
-            ilUtil::sendInfo($this->lng->txt("book_schedule_warning_edit"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("book_schedule_warning_edit"));
         }
     }
 

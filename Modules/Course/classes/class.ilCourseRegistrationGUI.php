@@ -66,7 +66,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
      * @access protected
      * @return string title
      */
-    protected function getFormTitle():string
+    protected function getFormTitle() : string
     {
         global $DIC;
 
@@ -84,7 +84,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
      * @param
      * @return void
      */
-    protected function fillInformations():void
+    protected function fillInformations() : void
     {
         if ($this->container->getImportantInformation()) {
             $imp = new ilNonEditableValueGUI($this->lng->txt('crs_important_info'), "", true);
@@ -152,7 +152,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         if (strlen($warning)) {
             // Disable registration
             $this->enableRegistration(false);
-            ilUtil::sendFailure($warning);
+            $this->tpl->setOnScreenMessage('failure', $warning);
             #$reg->setAlert($warning);
         }
         $this->form->addItem($reg);
@@ -165,7 +165,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
      * @param
      * @return void
      */
-    protected function fillMaxMembers():void
+    protected function fillMaxMembers() : void
     {
         global $DIC;
 
@@ -219,7 +219,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                     !$this->container->enabledWaitingList()) {
                 // Disable registration
                 $this->enableRegistration(false);
-                ilUtil::sendFailure($this->lng->txt('mem_alert_no_places'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mem_alert_no_places'));
             #$alert = $this->lng->txt('mem_alert_no_places');
             } elseif (
                     $this->container->enabledWaitingList() and
@@ -232,14 +232,14 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                     !$free and
                     $this->container->enabledWaitingList() and
                     $this->container->isSubscriptionMembershipLimited()) {
-                ilUtil::sendFailure($this->lng->txt('crs_warn_no_max_set_on_waiting_list'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_warn_no_max_set_on_waiting_list'));
             #$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
             } elseif (
                     $free and
                     $this->container->enabledWaitingList() and
                     $this->container->isSubscriptionMembershipLimited() and
                     $this->getWaitingList()->getCountUsers()) {
-                ilUtil::sendFailure($this->lng->txt('crs_warn_wl_set_on_waiting_list'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_warn_wl_set_on_waiting_list'));
                 #$alert = $this->lng->txt('crs_warn_wl_set_on_waiting_list');
             }
         }
@@ -257,7 +257,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
      * @access protected
      * @return void
      */
-    protected function fillRegistrationType():void
+    protected function fillRegistrationType() : void
     {
         global $DIC;
 
@@ -327,7 +327,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                     $sub_data = $this->participants->getSubscriberData($ilUser->getId());
                     $sub->setValue($sub_data['subject']);
                     $sub->setInfo('');
-                    ilUtil::sendFailure($this->lng->txt('crs_reg_user_already_subscribed'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_reg_user_already_subscribed'));
                     $this->enableRegistration(false);
                 }
                 $txt->addSubItem($sub);
@@ -338,7 +338,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             default:
                 return;
         }
-
     }
     
     /**
@@ -370,7 +369,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         if (!$this->isRegistrationPossible()) {
             return;
         }
-
     }
 
     /**
@@ -379,7 +377,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
      * @param
      * @return bool
      */
-    protected function validate():bool
+    protected function validate() : bool
     {
         global $DIC;
 
@@ -447,7 +445,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 $this->lng->txt('crs_added_to_list'),
                 $waiting_list->getPosition($ilUser->getId())
             );
-            ilUtil::sendSuccess($info, true);
+            $this->tpl->setOnScreenMessage('success', $info, true);
             
             $this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST, $ilUser->getId());
             $this->participants->sendNotification($this->participants->NOTIFY_WAITING_LIST, $ilUser->getId());
@@ -466,7 +464,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 $this->participants->updateSubject($ilUser->getId(), ilUtil::stripSlashes($_POST['subject']));
                 $this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST, $ilUser->getId());
                 
-                ilUtil::sendSuccess($this->lng->txt("application_completed"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("application_completed"), true);
                 $ilCtrl->setParameterByClass(
                     "ilrepositorygui",
                     "ref_id",
@@ -485,7 +483,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                         array(ilParticipants::getDefaultMemberRole($this->container->getRefId()))
                     );
                     if (!$success) {
-                        ilUtil::sendFailure($this->lng->txt('crs_subscription_failed_limit'));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_subscription_failed_limit'));
                         $this->show();
                         return false;
                     }
@@ -502,7 +500,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 }
 
                 if (!$_SESSION["pending_goto"]) {
-                    ilUtil::sendSuccess($this->lng->txt("crs_subscription_successful"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("crs_subscription_successful"), true);
                     $this->ctrl->returnToParent($this);
                 } else {
                     $tgt = $_SESSION["pending_goto"];

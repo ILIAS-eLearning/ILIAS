@@ -27,6 +27,7 @@ class ilCourseContentGUI
      * @var ilFavouritesManager
      */
     protected $fav_manager;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
@@ -36,6 +37,7 @@ class ilCourseContentGUI
     public function __construct($container_gui_obj)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -68,7 +70,7 @@ class ilCourseContentGUI
         if (!$ilAccess->checkAccess('read', '', $this->container_obj->getRefId())) {
             $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->WARNING);
         }
-        
+
 
         $this->__setSubTabs();
         $this->tabs_gui->setTabActive('view_content');
@@ -141,7 +143,6 @@ class ilCourseContentGUI
 
     public function __checkStartObjects()
     {
-
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];
@@ -291,9 +292,9 @@ class ilCourseContentGUI
             $ilUser->getId()
         );
         // END ChangeEvent: record read event.
-        
+
         $this->getCenterColumnHTML();
-        
+
         if (!$this->no_right_column) {
             $this->tpl->setRightContent($this->getRightColumnHTML());
         }
@@ -323,7 +324,7 @@ class ilCourseContentGUI
         }
 
         $this->setColumnSettings($column_gui);
-        
+
         if ($ilCtrl->getNextClass() == "ilcolumngui" &&
             $column_gui->getCmdSide() == IL_COL_RIGHT &&
             $column_gui->getScreenMode() == IL_SCREEN_SIDE) {
@@ -343,7 +344,7 @@ class ilCourseContentGUI
 
         $ilAccess = $DIC['ilAccess'];
         $lng = $DIC['lng'];
-        
+
         $column_gui->setRepositoryMode(true);
         $column_gui->setEnableEdit(false);
         $column_gui->setBlockProperty(
@@ -351,23 +352,23 @@ class ilCourseContentGUI
             "title",
             $lng->txt("crs_news")
         );
-        
+
         $grouped_items = array();
         foreach (ilObjectActivation::getItems($this->container_obj->getRefId()) as $item) {
             $grouped_items[$item["type"]][] = $item;
         }
-        
+
         $column_gui->setRepositoryItems($grouped_items);
         if ($ilAccess->checkAccess("write", "", $this->container_obj->getRefId())) {
             $column_gui->setEnableEdit(true);
         }
-        
+
         // Allow movement of blocks for tutors
         if ($this->is_tutor &&
             $this->container_gui->isActiveAdministrationPanel()) {
             $column_gui->setEnableMovement(true);
         }
-        
+
         // Configure Settings, if administration panel is on
         if ($this->is_tutor) {
             $column_gui->setBlockProperty("news", "settings", true);
@@ -375,13 +376,13 @@ class ilCourseContentGUI
             $column_gui->setBlockProperty("news", "default_visibility_option", true);
             $column_gui->setBlockProperty("news", "hide_news_block_option", true);
         }
-        
+
         if ($this->container_gui->isActiveAdministrationPanel()) {
             $column_gui->setAdminCommands(true);
         }
     }
 
-    
+
     /**
     * Get columngui output
     */
@@ -391,7 +392,7 @@ class ilCourseContentGUI
 
         $ilCtrl = $DIC['ilCtrl'];
         $ilAccess = $DIC['ilAccess'];
-        
+
 
         $obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
         $obj_type = ilObject::_lookupType($obj_id);
@@ -417,7 +418,7 @@ class ilCourseContentGUI
                 }
             }
         }
-        
+
         return $html;
     }
 
@@ -435,13 +436,13 @@ class ilCourseContentGUI
         $ilAccess = $DIC->access();
         $ilErr = $DIC['ilErr'];
         $mainTemplate = $DIC->ui()->mainTemplate();
-        
+
         if (!$ilAccess->checkAccess('write', '', $this->container_obj->getRefId())) {
             $ilErr->raiseError($this->lng->txt('msg_no_perm_write'), $ilErr->WARNING);
         }
         $GLOBALS['DIC']['ilTabs']->setTabActive('timings_timings');
         $GLOBALS['DIC']['ilTabs']->clearSubTabs();
-        
+
         $table = new ilTimingsManageTableGUI(
             $this,
             'manageTimings',
@@ -453,8 +454,8 @@ class ilCourseContentGUI
         }
         $table->init();
         $table->parse(ilObjectActivation::getTimingsAdministrationItems($this->getContainerObject()->getRefId()), $failed_items);
-        
-        
+
+
         $mainTemplate->setContent($table->getHTML());
     }
 
@@ -464,13 +465,13 @@ class ilCourseContentGUI
     protected function managePersonalTimings($failed = array())
     {
         global $ilErr, $ilAccess;
-        
+
         if (!$ilAccess->checkAccess('read', '', $this->container_obj->getRefId())) {
             $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->WARNING);
         }
         $GLOBALS['ilTabs']->setTabActive('timings_timings');
         $GLOBALS['ilTabs']->clearSubTabs();
-        
+
         $table = new ilTimingsPersonalTableGUI(
             $this,
             'managePersonalTimings',
@@ -489,8 +490,8 @@ class ilCourseContentGUI
         );
         $GLOBALS['tpl']->setContent($table->getHTML());
     }
-    
-    
+
+
     /**
      * Update personal timings
      * @global type $ilAccess
@@ -503,14 +504,14 @@ class ilCourseContentGUI
         if (!$ilAccess->checkAccess('read', '', $this->container_obj->getRefId())) {
             $ilErr->raiseError($this->lng->txt('msg_no_perm_write'), $ilErr->WARNING);
         }
-        
+
         $this->tabs_gui->clearSubTabs();
-        
+
         $failed = array();
         foreach ((array) $_POST['item'] as $ref_id => $data) {
             $sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start']);
             $sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end']);
-            
+
             if (($sug_start_dt instanceof ilDate) and ($sug_end_dt instanceof ilDate)) {
                 if (ilDateTime::_after($sug_start_dt, $sug_end_dt)) {
                     $failed[$ref_id] = 'crs_timing_err_start_end';
@@ -528,21 +529,21 @@ class ilCourseContentGUI
         }
         // cognos-blu-patch: begin
         if (!$failed) {
-            ilUtil::sendSuccess($GLOBALS['lng']->txt('settings_saved'));
+            $this->main_tpl->setOnScreenMessage('success', $GLOBALS['lng']->txt('settings_saved'));
             $this->managePersonalTimings();
             return true;
         } else {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $this->managePersonalTimings($failed);
             return true;
         }
         // cognos-blu-patch: end
     }
-    
-    
-    
 
-    
+
+
+
+
 
 
     public function editTimings()
@@ -604,7 +605,7 @@ class ilCourseContentGUI
                     $app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item["ref_id"]));
                     $item['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
                 }
-                
+
                 $this->tpl->setVariable("TITLE", $item['title']);
             }
 
@@ -729,7 +730,7 @@ class ilCourseContentGUI
         $this->tabs_gui->setTabActive('members');
 
         if (!$_GET['member_id']) {
-            ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -766,7 +767,6 @@ class ilCourseContentGUI
 
     public function __renderUserItem($item, $level)
     {
-
         $this->lng->loadLanguageModule('meta');
 
         $usr_planed = new ilTimingUser($item['ref_id'], (int) $_GET['member_id']);
@@ -786,7 +786,7 @@ class ilCourseContentGUI
             $this->tpl->setVariable("TLT_VAL", ilDatePresentation::secondsToString($tlt));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         if (!$item['title'] &&
             $item['type'] == 'sess') {
             $app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item["ref_id"]));
@@ -811,7 +811,7 @@ class ilCourseContentGUI
             }
         }
 
-        
+
         if (0 and $item['changeable'] and $item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) {
             if ($usr_planed->getPlanedStartingTime()) {
                 $start = $usr_planed->getPlanedStartingTime();
@@ -883,13 +883,13 @@ class ilCourseContentGUI
         $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt('cancel'));
 
         $sorted_items = ilObjectActivation::getTimingsItems($this->course_obj->getRefId());
-        
+
         $this->counter = 0;
         foreach ($sorted_items as $item) {
             switch ($item['type']) {
                 case 'itgr':
                     break;
-                    
+
                 default:
                     $this->__renderItem($item, 0);
                     break;
@@ -922,7 +922,7 @@ class ilCourseContentGUI
         $this->tpl->setVariable("TXT_TITLE", $this->lng->txt('title'));
         $this->tpl->setVariable("TXT_START", $this->lng->txt('crs_timings_sug_begin'));
         $this->tpl->setVariable("TXT_END", $this->lng->txt('crs_timings_sug_end'));
-    
+
         $sorted_items = ilObjectActivation::getTimingsItems($this->course_obj->getRefId());
 
         $this->counter = 0;
@@ -930,7 +930,7 @@ class ilCourseContentGUI
             switch ($item['type']) {
                 case 'itgr':
                     break;
-                    
+
                 default:
                     $this->__renderItem($item, 0);
                     break;
@@ -945,7 +945,7 @@ class ilCourseContentGUI
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
 
-        
+
         if (!$ilAccess->checkAccess('visible', '', $item['ref_id'])) {
             return false;
         }
@@ -969,7 +969,7 @@ class ilCourseContentGUI
             $this->tpl->setVariable("TLT_VAL", ilDatePresentation::secondsToString($tlt));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         if (!$item['title'] &&
             $item['type'] == 'sess') {
             $app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item["ref_id"]));
@@ -1051,7 +1051,7 @@ class ilCourseContentGUI
         if (!$_SESSION['crs_timings_user_hidden']) {
             return true;
         }
-        
+
         foreach (ilObjectActivation::getTimingsItems($item['ref_id']) as $item_data) {
             $this->__renderItem($item_data, $level + 1);
         }
@@ -1088,14 +1088,14 @@ class ilCourseContentGUI
             $message = $this->lng->txt('crs_timings_update_error');
             $message .= ("<br />" . $this->lng->txt('crs_materials') . ': ');
             $message .= (implode(',', $this->invalid));
-            ilUtil::sendFailure($message);
+            $this->main_tpl->setOnScreenMessage('failure', $message);
             $this->editUserTimings();
             return false;
         }
         foreach ($all_items as $new_item_obj) {
             $new_item_obj->update();
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->editUserTimings();
         return true;
     }
@@ -1137,7 +1137,7 @@ class ilCourseContentGUI
         }
 
         $this->tabs_gui->clearSubTabs();
-        
+
         $failed = array();
         $all_items = array();
         foreach ((array) $_POST['item'] as $ref_id => $data) {
@@ -1181,23 +1181,23 @@ class ilCourseContentGUI
                 $start = new ilDate(time(), IL_CAL_UNIX);
                 $start->increment(IL_CAL_DAY, $data['sug_start_rel']);
                 $item_obj->setSuggestionStart($start->get(IL_CAL_UNIX));
-                
+
                 $start->increment(IL_CAL_DAY, $data['duration_a']);
                 $item_obj->setSuggestionEnd($start->get(IL_CAL_UNIX));
             }
-            
+
             $item_obj->update($ref_id);
         }
         if (!$failed) {
             // update course => create calendar entries
             $this->course_obj->update();
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
             $this->manageTimings();
 
             return true;
         } else {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $this->manageTimings($failed);
             return true;
         }
@@ -1247,7 +1247,7 @@ class ilCourseContentGUI
             $message = $this->lng->txt('crs_timings_update_error');
             $message .= ("<br />" . $this->lng->txt('crs_materials') . ': ');
             $message .= (implode(',', $this->failed));
-            ilUtil::sendFailure($message);
+            $this->main_tpl->setOnScreenMessage('failure', $message);
             $this->editTimings();
             return false;
         }
@@ -1256,7 +1256,7 @@ class ilCourseContentGUI
         foreach ($all_items as $ref_id => $item_obj_new) {
             $item_obj_new->update($ref_id);
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->editTimings();
         return false;
     }
@@ -1267,7 +1267,7 @@ class ilCourseContentGUI
             $this->container_gui->setContentSubTabs();
         }
     }
-    
+
     public function __initCourseObject()
     {
         global $DIC;

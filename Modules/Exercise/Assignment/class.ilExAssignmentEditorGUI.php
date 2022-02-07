@@ -786,7 +786,7 @@ class ilExAssignmentEditorGUI
                 
                 return $res;
             } else {
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
         }
 
@@ -937,12 +937,12 @@ class ilExAssignmentEditorGUI
             $this->importFormToAssignment($ass, $input);
 
             $this->generateTeams($ass, $input);
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
             $ass_type_gui->importFormToAssignment($ass, $form);
             $ass->update();
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
             // because of sub-tabs we stay on settings screen
             $ilCtrl->setParameter($this, "ass_id", $ass->getId());
@@ -1145,7 +1145,7 @@ class ilExAssignmentEditorGUI
                 $this->assignment->recalculateLateSubmissions();
             }
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editAssignment");
         } else {
             $this->setAssignmentHeader();
@@ -1164,7 +1164,7 @@ class ilExAssignmentEditorGUI
         $lng = $this->lng;
         
         if (count($this->requested_ass_ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listAssignments");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -1198,7 +1198,7 @@ class ilExAssignmentEditorGUI
         }
 
         if ($delete) {
-            ilUtil::sendSuccess($lng->txt("exc_assignments_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("exc_assignments_deleted"), true);
         }
         $ilCtrl->setParameter($this, "ass_id", "");
         $ilCtrl->redirect($this, "listAssignments");
@@ -1214,7 +1214,7 @@ class ilExAssignmentEditorGUI
             $this->requested_order
         );
         
-        ilUtil::sendSuccess($lng->txt("exc_saved_order"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("exc_saved_order"), true);
         $ilCtrl->redirect($this, "listAssignments");
     }
     
@@ -1225,7 +1225,7 @@ class ilExAssignmentEditorGUI
                 
         ilExAssignment::orderAssByDeadline($this->exercise_id);
         
-        ilUtil::sendSuccess($lng->txt("exc_saved_order"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("exc_saved_order"), true);
         $ilCtrl->redirect($this, "listAssignments");
     }
 
@@ -1615,7 +1615,7 @@ class ilExAssignmentEditorGUI
 
                 return $res;
             } else {
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
         }
         return null;
@@ -1664,7 +1664,7 @@ class ilExAssignmentEditorGUI
         $input = $this->processPeerReviewForm($form);
         if (is_array($input)) {
             $this->importPeerReviewFormToAssignment($this->assignment, $input);
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editPeerReview");
         } else {
             $this->setAssignmentHeader();
@@ -1746,7 +1746,7 @@ class ilExAssignmentEditorGUI
                 }
             } elseif ($a_input['team_creation'] == ilExAssignment::TEAMS_FORMED_BY_ASSIGNMENT) {
                 ilExAssignmentTeam::adoptTeams($a_input["ass_adpt"], $a_assignment->getId());
-                ilUtil::sendInfo($this->lng->txt("exc_teams_assignment_adopted"), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("exc_teams_assignment_adopted"), true);
             }
         }
     }

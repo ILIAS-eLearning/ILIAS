@@ -47,6 +47,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @var bool
      */
     protected $editingEnabled = false;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * Constructor
@@ -56,6 +57,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      */
     public function __construct(assQuestionGUI $questionGUI)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         parent::__construct($questionGUI);
         
         $this->hintOrderingClipboard = new ilAssQuestionHintsOrderingClipboard($questionGUI->object);
@@ -208,7 +211,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $hintIds = self::fetchHintIdsParameter();
 
         if (!count($hintIds)) {
-            ilUtil::sendFailure($lng->txt('tst_question_hints_delete_hints_missing_selection_msg'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt('tst_question_hints_delete_hints_missing_selection_msg'), true);
             $ilCtrl->redirect($this);
         }
         
@@ -257,7 +260,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $hintIds = self::fetchHintIdsParameter();
         
         if (!count($hintIds)) {
-            ilUtil::sendFailure($lng->txt('tst_question_hints_delete_hints_missing_selection_msg'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt('tst_question_hints_delete_hints_missing_selection_msg'), true);
             $ilCtrl->redirect($this);
         }
         
@@ -277,7 +280,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         
         $questionRemainingHintList->reIndex();
         
-        ilUtil::sendSuccess($lng->txt('tst_question_hints_delete_success_msg'), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_delete_success_msg'), true);
 
         $originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -313,7 +316,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         );
         
         if (!count($hintIndexes)) {
-            ilUtil::sendFailure($lng->txt('tst_question_hints_save_order_unkown_failure_msg'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt('tst_question_hints_save_order_unkown_failure_msg'), true);
             $ilCtrl->redirect($this);
         }
         
@@ -323,7 +326,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         
         foreach ($hintIndexes as $hintId => $hintIndex) {
             if (!$curQuestionHintList->hintExists($hintId)) {
-                ilUtil::sendFailure($lng->txt('tst_question_hints_save_order_unkown_failure_msg'), true);
+                $this->main_tpl->setOnScreenMessage('failure', $lng->txt('tst_question_hints_save_order_unkown_failure_msg'), true);
                 $ilCtrl->redirect($this);
             }
             
@@ -334,7 +337,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         
         $newQuestionHintList->reIndex();
         
-        ilUtil::sendSuccess($lng->txt('tst_question_hints_save_order_success_msg'), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_save_order_success_msg'), true);
 
         $originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -429,7 +432,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         
         $this->hintOrderingClipboard->resetStored();
         
-        ilUtil::sendSuccess($successMsg, true);
+        $this->main_tpl->setOnScreenMessage('success', $successMsg, true);
 
         $ilCtrl->redirect($this, self::CMD_SHOW_LIST);
     }
@@ -489,7 +492,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $this->hintOrderingClipboard->resetStored();
 
-        ilUtil::sendSuccess($successMsg, true);
+        $this->main_tpl->setOnScreenMessage('success', $successMsg, true);
         
         $ilCtrl->redirect($this, self::CMD_SHOW_LIST);
     }
@@ -509,7 +512,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         
         $this->hintOrderingClipboard->resetStored();
         
-        ilUtil::sendInfo($lng->txt('tst_question_hints_ordering_clipboard_resetted'), true);
+        $this->main_tpl->setOnScreenMessage('info', $lng->txt('tst_question_hints_ordering_clipboard_resetted'), true);
         $ilCtrl->redirect($this, self::CMD_SHOW_LIST);
     }
     
@@ -531,7 +534,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $questionHint = ilAssQuestionHint::getInstanceById($this->hintOrderingClipboard->getStored());
 
-        ilUtil::sendInfo(sprintf(
+        $this->main_tpl->setOnScreenMessage('info', sprintf(
             $lng->txt('tst_question_hints_item_stored_in_ordering_clipboard'),
             $questionHint->getIndex()
         ));
@@ -549,7 +552,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $questionHintList = ilAssQuestionHintList::getListByQuestionId($this->questionOBJ->getId());
         
         if (!$questionHintList->hintExists($hintId)) {
-            ilUtil::sendFailure($lng->txt('tst_question_hints_invalid_hint_id'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt('tst_question_hints_invalid_hint_id'), true);
             $ilCtrl->redirect($this, self::CMD_SHOW_LIST);
         }
     }
@@ -593,10 +596,10 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $lng = $DIC['lng'];
         
         if (!count($hintIds)) {
-            ilUtil::sendFailure($lng->txt('tst_question_hints_cut_hints_missing_selection_msg'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt('tst_question_hints_cut_hints_missing_selection_msg'), true);
             $ilCtrl->redirect($this, self::CMD_SHOW_LIST);
         } elseif (count($hintIds) > 1) {
-            ilUtil::sendFailure($lng->txt('tst_question_hints_cut_hints_single_selection_msg'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt('tst_question_hints_cut_hints_single_selection_msg'), true);
             $ilCtrl->redirect($this, self::CMD_SHOW_LIST);
         }
     }

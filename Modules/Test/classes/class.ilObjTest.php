@@ -4255,10 +4255,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $found['test']['result_tstamp'] = $results['tstamp'];
         $found['test']['obligations_answered'] = $results['obligations_answered'];
 
-        if ((!$found['pass']['total_reached_points']) or (! $found['pass']['total_max_points'])) {
+        if ((!$found['pass']['total_reached_points']) or (!$found['pass']['total_max_points'])) {
             $percentage = 0.0;
         } else {
-            $percentage = ($found['pass']['total_reached_points'] /  $found['pass']['total_max_points']) * 100.0;
+            $percentage = ($found['pass']['total_reached_points'] / $found['pass']['total_max_points']) * 100.0;
 
             if ($percentage < 0) {
                 $percentage = 0.0;
@@ -10210,7 +10210,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getJavaScriptOutput()
     {
         return true;
-        
+
         //		global $DIC;
 //		$ilUser = $DIC['ilUser'];
 //		if (strcmp($_GET["tst_javascript"], "0") == 0) return FALSE;

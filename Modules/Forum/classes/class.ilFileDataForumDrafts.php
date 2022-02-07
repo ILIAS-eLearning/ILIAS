@@ -13,10 +13,12 @@ class ilFileDataForumDrafts extends ilFileData
     private string $drafts_path;
     private ilLanguage $lng;
     private ilErrorHandling $error;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $obj_id, int $draft_id)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->lng = $DIC->language();
         $this->error = $DIC['ilErr'];
@@ -262,7 +264,7 @@ class ilFileDataForumDrafts extends ilFileData
         if (($path = $this->getFileDataByMD5Filename($file)) !== null) {
             ilFileDelivery::deliverFileLegacy($path['path'], $path['clean_filename']);
         } else {
-            ilUtil::sendFailure($this->lng->txt('error_reading_file'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('error_reading_file'), true);
         }
     }
 
@@ -272,7 +274,7 @@ class ilFileDataForumDrafts extends ilFileData
 
         $zip_file = $this->createZipFile();
         if (!$zip_file) {
-            ilUtil::sendFailure($this->lng->txt('error_reading_file'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('error_reading_file'), true);
             return false;
         }
 

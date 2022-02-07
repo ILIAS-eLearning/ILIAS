@@ -263,7 +263,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             $privacy->enableExportSCORM((int) $form->getInput('export_scorm'));
             $privacy->save();
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "view");
         } else {
             $form->setValuesByPost();

@@ -82,17 +82,17 @@ class ilCourseObjectiveMaterials
             $new_ref_id = $mappings[$material_ref_id];
             $new_rbac_obj_id = $ilObjDataCache->lookupObjId($new_ref_id);
             #$ilLog->write(__METHOD__.': 4');
-            
+
             // Link
             if ($new_rbac_obj_id == $material_rbac_obj_id) {
                 #$ilLog->write(__METHOD__.': 5');
                 $ilLog->write(__METHOD__ . ': Material has been linked. Keeping object id.');
                 $new_obj_id = $material_obj_id;
             } elseif ($material['type'] == 'st' or $material['type'] == 'pg') {
-                
+
                 #$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($material,TRUE));
                 #$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($mappings,TRUE));
-                
+
                 #$ilLog->write(__METHOD__.': 6');
                 // Chapter assignment
                 $new_material_info = isset($mappings[$material_ref_id . '_' . $material_obj_id]) ?
@@ -110,7 +110,7 @@ class ilCourseObjectiveMaterials
                 // Any type
                 $new_obj_id = $ilObjDataCache->lookupObjId($mappings[$material_ref_id]);
             }
-    
+
             #$ilLog->write(__METHOD__.': 8');
             $new_material = new ilCourseObjectiveMaterials($a_new_objective);
             #$ilLog->write(__METHOD__.': 8.1');
@@ -292,13 +292,13 @@ class ilCourseObjectiveMaterials
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT * FROM crs_objective_lm " .
             "WHERE ref_id = " . $this->db->quote($a_ref_id, 'integer') . " " .
             "AND objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
             "AND type != 'st' AND type != 'pg' ";
         $res = $this->db->query($query);
-        
+
         // begin-patch lok
         if (!$a_get_id) {
             return $res->numRows() ? true : false;

@@ -35,6 +35,7 @@ class ilOrgUnitGlobalSettingsGUI
     public function __construct()
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -42,7 +43,7 @@ class ilOrgUnitGlobalSettingsGUI
         $this->tpl = $DIC->ui()->mainTemplate();
 
         if (!ilObjOrgUnitAccess::_checkAccessSettings((int) $_GET['ref_id'])) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilObjOrgUnitGUI::class);
         }
     }
@@ -179,11 +180,11 @@ class ilOrgUnitGlobalSettingsGUI
             // MyStaff
             $DIC->settings()->set("enable_my_staff", (int) ($_POST["enable_my_staff"] ? 1 : 0));
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
         } else {
             $form->setValuesByPost();
-            ilUtil::sendFailure($this->lng->txt('err_check_input'), false);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'), false);
             $this->settings($form);
         }
     }

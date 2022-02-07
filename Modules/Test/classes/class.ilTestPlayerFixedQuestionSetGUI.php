@@ -40,6 +40,6 @@ class ilTestPlayerFixedQuestionSetGUI extends ilTestOutputGUI
     {
         $info = $this->lng->txt('tst_wf_info_optional_question');
         $info .= ' ' . $this->lng->txt('tst_wf_info_answer_adopted_from_prev_pass');
-        ilUtil::sendInfo($info);
+        $this->tpl->setOnScreenMessage('info', $info);
     }
 }

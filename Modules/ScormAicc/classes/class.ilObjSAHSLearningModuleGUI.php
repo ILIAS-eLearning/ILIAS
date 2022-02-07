@@ -490,7 +490,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $importer->writeData("sahs", "5.1.0", $newObj->getId());
         }
 
-        ilUtil::sendInfo($this->lng->txt($newObj->getType() . "_added"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt($newObj->getType() . "_added"), true);
         ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=" . $newObj->getRefId());
     }
 

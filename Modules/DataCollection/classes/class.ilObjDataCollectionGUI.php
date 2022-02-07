@@ -405,7 +405,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
      */
     protected function afterSave(ilObject $a_new_object)
     {
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
     }
 
@@ -608,7 +608,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         if (count($tables) == 1 and count($this->table->getRecordFields()) == 0 and count($this->table->getRecords()) == 0
             and $this->object->getOnline()
         ) {
-            ilUtil::sendInfo($lng->txt("dcl_no_content_warning"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("dcl_no_content_warning"), true);
         }
     }
 

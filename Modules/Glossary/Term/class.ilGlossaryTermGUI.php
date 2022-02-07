@@ -234,7 +234,7 @@ class ilGlossaryTermGUI
             }
 
             $this->record_gui->writeEditForm();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editTerm");
         }
             
@@ -485,7 +485,7 @@ class ilGlossaryTermGUI
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 
         $dtpl = new ilTemplate("tpl.glossary_definition_delete.html", true, true, "Modules/Glossary");
-        ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
+        $this->tpl->setOnScreenMessage('question', $this->lng->txt("info_delete_sure"));
 
         $this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
 

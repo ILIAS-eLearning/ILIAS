@@ -38,11 +38,13 @@ class ilDclContentExporter
      * @var ilDclTable
      */
     protected $table;
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     public function __construct($ref_id, $table_id = null, $filter = array())
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $lng = $DIC['lng'];
 
         $this->ref_id = $ref_id;
@@ -208,19 +210,17 @@ class ilDclContentExporter
         }
 
         if (!$data_available) {
-            ilUtil::sendInfo($this->lng->txt('dcl_no_export_content_available'));
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('dcl_no_export_content_available'));
 
             return false;
         }
 
         if (!$fields_available) {
             global $ilCtrl;
-            ilUtil::sendInfo(
-                sprintf(
-                    $this->lng->txt('dcl_no_export_fields_available'),
-                    $ilCtrl->getLinkTargetByClass(array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'), 'listFields')
-                )
-            );
+            $this->main_tpl->setOnScreenMessage('info', sprintf(
+                $this->lng->txt('dcl_no_export_fields_available'),
+                $ilCtrl->getLinkTargetByClass(array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'), 'listFields')
+            ));
 
             return false;
         }

@@ -33,6 +33,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         ilSurveyParticipantsGUI $guiclass
     ) {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         parent::__construct();
 
@@ -117,7 +118,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         if ((int) $ilSetting->get('mail_allow_external')) {
             $this->addCommandButton("sendCodesMail", $this->lng->txt("send"));
         } else {
-            ilUtil::sendInfo($lng->txt("cant_send_email_smtp_disabled"));
+            $main_tpl->setOnScreenMessage('info', $lng->txt("cant_send_email_smtp_disabled"));
         }
     }
     

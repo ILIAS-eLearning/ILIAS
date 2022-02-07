@@ -86,10 +86,12 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
      * @var array
      */
     private $failureMessages = array();
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(ilDBInterface $db, ilAccessHandler $access, ilCtrl $ctrl, ilLanguage $lng, ilPluginAdmin $pluginAdmin)
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate(); /* @var ILIAS\DI\Container $DIC */
         $this->DIC = $DIC;
         $this->db = $db;
         $this->access = $access;
@@ -647,7 +649,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     
     public function sendMessages()
     {
-        ilUtil::sendInfo(array_pop($this->getInfoMessages()));
-        ilUtil::sendFailure(array_pop($this->getFailureMessages()));
+        $this->main_tpl->setOnScreenMessage('info', array_pop($this->getInfoMessages()));
+        $this->main_tpl->setOnScreenMessage('failure', array_pop($this->getFailureMessages()));
     }
 }

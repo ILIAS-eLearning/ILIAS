@@ -56,7 +56,7 @@ class ilMediaPoolImportGUI
         $lng = $this->lng;
         $tpl = $this->tpl;
 
-        ilUtil::sendInfo($lng->txt("mep_trans_import_info"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("mep_trans_import_info"));
         $form = $this->initTranslationImportForm();
         $tpl->setContent($form->getHTML());
     }
@@ -108,7 +108,7 @@ class ilMediaPoolImportGUI
         $target_lang = $this->request->getImportLang();
         $ot = ilObjectTranslation::getInstance($this->mep->getId());
         if ($target_lang == $ot->getMasterLanguage()) {
-            ilUtil::sendFailure($lng->txt("mep_transl_master_language_not_allowed"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("mep_transl_master_language_not_allowed"), true);
             $ilCtrl->redirect($this, "showTranslationImportForm");
         }
 
@@ -121,7 +121,7 @@ class ilMediaPoolImportGUI
             "Modules/MediaPool"
         );
         //echo "h"; exit;
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showTranslationImportForm");
     }
 }

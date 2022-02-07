@@ -167,7 +167,7 @@ class ilSurveyExecutionGUI
             $anonymous_code = $this->run_manager->getCode();
             $anonymous_id = $this->object->getAnonymousIdByCode($anonymous_code);
             if (!$anonymous_id) {
-                ilUtil::sendFailure(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $anonymous_code, true));
+                $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $anonymous_code, true));
                 $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
             }
         }
@@ -188,7 +188,7 @@ class ilSurveyExecutionGUI
                 $appraisees = $this->object->getAppraiseesToRate($user_id);
             }
             if (!in_array($appr_id, $appraisees)) {
-                ilUtil::sendFailure($this->lng->txt("survey_360_execution_invalid_appraisee"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("survey_360_execution_invalid_appraisee"), true);
                 $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
             }
         }
@@ -203,7 +203,7 @@ class ilSurveyExecutionGUI
         if (!$a_ignore_status) {
             // completed
             if ($this->run_manager->hasFinished($appr_id)) {
-                ilUtil::sendFailure($this->lng->txt("already_completed_survey"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("already_completed_survey"), true);
                 $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
             }
             // starting
@@ -213,7 +213,7 @@ class ilSurveyExecutionGUI
                     //    $this->object->startSurvey($user_id, $anonymous_code, $appr_id);
                     $this->run_manager->start($appr_id);
                 } else {
-                    ilUtil::sendFailure($this->lng->txt("survey_use_start_button"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("survey_use_start_button"), true);
                     $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
                 }
             }
@@ -510,9 +510,9 @@ class ilSurveyExecutionGUI
         }
         if ($page_error && (strcmp($navigationDirection, "previous") != 0)) {
             if ($page_error == 1) {
-                ilUtil::sendFailure($this->lng->txt("svy_page_error"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_page_error"), true);
             } else {
-                ilUtil::sendFailure($this->lng->txt("svy_page_errors"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_page_errors"), true);
             }
         } else {
             $page_error = 0;
@@ -730,7 +730,7 @@ class ilSurveyExecutionGUI
             $recipient
         );
         
-        ilUtil::sendSuccess($this->lng->txt("mail_sent"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("mail_sent"), true);
         $this->ctrl->redirect($this, "runShowFinishedPage");
     }
     

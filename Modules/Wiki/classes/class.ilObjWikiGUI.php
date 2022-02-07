@@ -365,7 +365,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $a_new_object->update();
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         ilUtil::redirect(ilObjWikiGUI::getGotoLink($a_new_object->getRefId()));
     }
 
@@ -879,7 +879,7 @@ class ilObjWikiGUI extends ilObjectGUI
             $values["intro"] = $this->object->getIntroduction();
             $values["page_toc"] = $this->object->getPageToc();
             $values["link_md_values"] = $this->object->getLinkMetadataValues();
-                        
+
             // only set given values (because of adv. metadata)
         }
         $this->form_gui->setValuesByArray($values, true);
@@ -936,7 +936,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 // Update ecs export settings
                 $ecs = new ilECSWikiSettings($this->object);
                 if ($ecs->handleSettingsUpdate()) {
-                    ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                     $ilCtrl->redirect($this, "editSettings");
                 }
             }
@@ -997,7 +997,7 @@ class ilObjWikiGUI extends ilObjectGUI
             }
         }
         if ($saved) {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         
         $ilCtrl->redirect($this, "listContributors");
@@ -1115,7 +1115,7 @@ class ilObjWikiGUI extends ilObjectGUI
         }
         
         if (!ilWikiPage::exists($this->object->getId(), $page)) {
-            ilUtil::sendInfo($lng->txt("wiki_no_start_page"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("wiki_no_start_page"), true);
             $ilCtrl->redirect($this, "infoScreen");
             return;
         }
@@ -1239,7 +1239,7 @@ class ilObjWikiGUI extends ilObjectGUI
             if (!$this->object->getTemplateSelectionOnCreation()) {
                 // check length
                 if (ilStr::strLen(ilWikiUtil::makeDbTitle($a_page)) > 200) {
-                    ilUtil::sendFailure($this->lng->txt("wiki_page_title_too_long") . " (" . $a_page . ")", true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("wiki_page_title_too_long") . " (" . $a_page . ")", true);
                     $ilCtrl->setParameterByClass(
                         "ilwikipagegui",
                         "page",
@@ -1440,7 +1440,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilTabs->setTabActive("wiki_search_results");
         
         if ($this->edit_request->getSearchTerm() == "") {
-            ilUtil::sendFailure($lng->txt("wiki_please_enter_search_term"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("wiki_please_enter_search_term"), true);
             $ilCtrl->redirectByClass("ilwikipagegui", "preview");
         }
         
@@ -1487,7 +1487,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->checkPermission("edit_wiki_navigation");
 
-        ilUtil::sendInfo($lng->txt("wiki_navigation_info"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("wiki_navigation_info"));
         
         $ipages = ilObjWiki::_lookupImportantPagesList($this->object->getId());
         $ipages_ids = array();
@@ -1531,7 +1531,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $imp_page_id = $this->edit_request->getImportantPageId();
         if ($imp_page_id > 0) {
             $this->object->addImportantPage($imp_page_id);
-            ilUtil::sendSuccess($lng->txt("wiki_imp_page_added"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("wiki_imp_page_added"), true);
         }
         $ilCtrl->redirect($this, "editImportantPages");
     }
@@ -1544,7 +1544,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $imp_page_ids = $this->edit_request->getImportantPageIds();
         if (count($imp_page_ids) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editImportantPages");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -1572,7 +1572,7 @@ class ilObjWikiGUI extends ilObjectGUI
         foreach ($imp_page_ids as $i) {
             $this->object->removeImportantPage((int) $i);
         }
-        ilUtil::sendSuccess($lng->txt("wiki_removed_imp_pages"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("wiki_removed_imp_pages"), true);
         $ilCtrl->redirect($this, "editImportantPages");
     }
 
@@ -1586,7 +1586,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $ordering = $this->edit_request->getImportantPageOrdering();
         $indentation = $this->edit_request->getImportantPageIndentation();
         $this->object->saveOrderingAndIndentation($ordering, $indentation);
-        ilUtil::sendSuccess($lng->txt("wiki_ordering_and_indent_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("wiki_ordering_and_indent_saved"), true);
         $ilCtrl->redirect($this, "editImportantPages");
     }
 
@@ -1599,12 +1599,12 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $imp_page_ids = $this->edit_request->getImportantPageIds();
         if (count($imp_page_ids) != 1) {
-            ilUtil::sendInfo($lng->txt("wiki_select_one_item"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("wiki_select_one_item"), true);
         } else {
             $this->object->removeImportantPage($imp_page_ids[0]);
             $this->object->setStartPage(ilWikiPage::lookupTitle($imp_page_ids[0]));
             $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "editImportantPages");
     }
@@ -1666,7 +1666,7 @@ class ilObjWikiGUI extends ilObjectGUI
             ilWikiUtil::makeUrlTitle($this->edit_request->getFromPage())
         );
         $ilTabs->clearTargets();
-        ilUtil::sendInfo($lng->txt("wiki_page_not_exist_select_templ"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("wiki_page_not_exist_select_templ"));
 
         $form = $this->initTemplateSelectionForm();
         $tpl->setContent($form->getHTML());
@@ -1730,7 +1730,7 @@ class ilObjWikiGUI extends ilObjectGUI
             $ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($a_page)));
             $ilCtrl->redirectByClass("ilwikipagegui", "edit");
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "");
         } else {
             $form->setValuesByPost();

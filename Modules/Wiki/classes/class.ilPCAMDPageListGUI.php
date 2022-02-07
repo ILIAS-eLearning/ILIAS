@@ -113,7 +113,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 
         $no_fields = (count($form->getItems()) == 1);
         if ($no_fields) {
-            ilUtil::sendFailure($this->lng->txt("wiki_pg_list_no_search_fields"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("wiki_pg_list_no_search_fields"));
         }
 
         if ($a_insert) {

@@ -203,7 +203,7 @@ class ilSurveyEditorGUI
             if (!in_array($this->request->getNewId(), $existing)) {
                 $inserted = $this->object->insertQuestion($this->request->getNewId());
                 if (!$inserted) {
-                    ilUtil::sendFailure($this->lng->txt("survey_error_insert_incomplete_question"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("survey_error_insert_incomplete_question"));
                 }
             }
         }
@@ -338,7 +338,7 @@ class ilSurveyEditorGUI
 
         $obligatory = $this->request->getObligatory();
         $this->object->setObligatoryStates($obligatory);
-        ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, "questions");
     }
 
@@ -346,10 +346,10 @@ class ilSurveyEditorGUI
     {
         $items = $this->gatherSelectedTableItems(true, false, false, false);
         if (count($items["blocks"])) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->object->unfoldQuestionblocks($items["blocks"]);
         } else {
-            ilUtil::sendInfo($this->lng->txt("qpl_unfold_select_none"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_unfold_select_none"), true);
         }
         $this->ctrl->redirect($this, "questions");
     }
@@ -365,11 +365,11 @@ class ilSurveyEditorGUI
             }
         }
         if (count($move_questions) == 0) {
-            ilUtil::sendInfo($this->lng->txt("no_question_selected_for_move"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_question_selected_for_move"), true);
             $this->ctrl->redirect($this, "questions");
         } else {
             $this->edit_manager->setMoveSurveyQuestions($this->object->getId(), $move_questions);
-            ilUtil::sendInfo($this->lng->txt("select_target_position_for_move_question"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("select_target_position_for_move_question"));
             $this->questionsObject();
         }
     }
@@ -415,9 +415,9 @@ class ilSurveyEditorGUI
         }
 
         if (!$insert_id) {
-            ilUtil::sendInfo($this->lng->txt("no_target_selected_for_move"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_target_selected_for_move"), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             if ($this->edit_manager->getMoveSurveyId() != $this->object->getId()) {
                 $this->object->moveQuestions(
                     $this->edit_manager->getMoveSurveyQuestions(),
@@ -435,10 +435,10 @@ class ilSurveyEditorGUI
     {
         $items = $this->gatherSelectedTableItems(true, true, true, true);
         if (count($items["blocks"]) + count($items["questions"]) + count($items["headings"]) > 0) {
-            ilUtil::sendQuestion($this->lng->txt("remove_questions"));
+            $this->tpl->setOnScreenMessage('question', $this->lng->txt("remove_questions"));
             $this->removeQuestionsForm($items["blocks"], $items["questions"], $items["headings"]);
         } else {
-            ilUtil::sendInfo($this->lng->txt("no_question_selected_for_removal"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_question_selected_for_removal"), true);
             $this->ctrl->redirect($this, "questions");
         }
     }
@@ -501,7 +501,7 @@ class ilSurveyEditorGUI
             }
         }
         $this->object->saveCompletionStatus();
-        ilUtil::sendSuccess($this->lng->txt("questions_removed"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("questions_removed"), true);
         $this->ctrl->redirect($this, "questions");
     }
     
@@ -528,7 +528,7 @@ class ilSurveyEditorGUI
             }
         }
         if (count($copy_questions) == 0) {
-            ilUtil::sendInfo($this->lng->txt("no_question_selected_for_copy_to_pool"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_question_selected_for_copy_to_pool"), true);
             $this->ctrl->redirect($this, "questions");
         } else {
             $this->questionsSubtabs("questions");
@@ -569,7 +569,7 @@ class ilSurveyEditorGUI
             SurveyQuestion::_changeOriginalId($qid, $new_question->getId(), $pool_id);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("survey_copy_to_questionpool_success"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("survey_copy_to_questionpool_success"), true);
         $this->ctrl->redirect($this, "questions");
     }
         
@@ -672,9 +672,9 @@ class ilSurveyEditorGUI
             $obj_id = $this->createQuestionPool($this->request->getPoolName());
         } else {
             if (!$pool_usage) {
-                ilUtil::sendFailure($this->lng->txt("select_one"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             } else {
-                ilUtil::sendFailure($this->lng->txt("err_no_pool_name"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_no_pool_name"), true);
             }
             $this->ctrl->setParameter($this, "sel_question_types", $q_type);
             $this->ctrl->redirect($this, "createQuestion");
@@ -816,7 +816,7 @@ class ilSurveyEditorGUI
         }
         if ($inserted_objects) {
             $this->object->saveCompletionStatus();
-            ilUtil::sendSuccess($this->lng->txt("questions_inserted"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("questions_inserted"), true);
             if ($this->requested_pgov == "") {
                 $this->ctrl->redirect($this, "questions");
             } else {
@@ -833,7 +833,7 @@ class ilSurveyEditorGUI
                 $this->ctrl->redirectByClass("ilSurveyPageEditGUI", "renderpage");
             }
         } else {
-            ilUtil::sendInfo($this->lng->txt("insert_missing_question"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("insert_missing_question"), true);
             $this->ctrl->redirect($this, 'browseForQuestions');
         }
     }
@@ -885,7 +885,7 @@ class ilSurveyEditorGUI
         }
         if ($inserted_objects) {
             $this->object->saveCompletionStatus();
-            ilUtil::sendSuccess(($inserted_objects == 1) ? $this->lng->txt("questionblock_inserted") : $this->lng->txt("questionblocks_inserted"), true);
+            $this->tpl->setOnScreenMessage('success', ($inserted_objects == 1) ? $this->lng->txt("questionblock_inserted") : $this->lng->txt("questionblocks_inserted"), true);
             if ($this->requested_pgov == "") {
                 $this->ctrl->redirect($this, "questions");
             } else {
@@ -897,7 +897,7 @@ class ilSurveyEditorGUI
                 $this->ctrl->redirectByClass("ilSurveyPageEditGUI", "renderpage");
             }
         } else {
-            ilUtil::sendInfo($this->lng->txt("insert_missing_questionblock"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("insert_missing_questionblock"), true);
             $this->ctrl->redirect($this, 'browseForQuestionblocks');
         }
     }
@@ -933,7 +933,7 @@ class ilSurveyEditorGUI
                 $items["questions"] = $qids;
             }
             if (count($items["questions"]) < 2) {
-                ilUtil::sendInfo($this->lng->txt("qpl_define_questionblock_select_missing"), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_define_questionblock_select_missing"), true);
                 $this->ctrl->redirect($this, "questions");
             }
             
@@ -1035,7 +1035,7 @@ class ilSurveyEditorGUI
                 );
             }
             
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this, "questions");
         }
         
@@ -1310,7 +1310,7 @@ class ilSurveyEditorGUI
 
             // #11436
             if (!$fo || !$this->object->deliverPDFfromFO($fo)) {
-                ilUtil::sendFailure($this->lng->txt("msg_failed"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_failed"), true);
                 $this->ctrl->redirect($this, "printView");
             }
         } else {

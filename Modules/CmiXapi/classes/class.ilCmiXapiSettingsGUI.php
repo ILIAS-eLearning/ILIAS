@@ -40,12 +40,15 @@ class ilCmiXapiSettingsGUI
      * @var ilObjCmiXapi
      */
     protected ilObjCmiXapi $object;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * @param ilObjCmiXapi $object
      */
     public function __construct(ilObjCmiXapi $object)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
     }
     
@@ -109,7 +112,7 @@ class ilCmiXapiSettingsGUI
         if ($form->checkInput()) {
             $this->saveSettings($form);
             
-            ilUtil::sendSuccess($DIC->language()->txt('msg_obj_modified'), true);
+            $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('msg_obj_modified'), true);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW);
         }
         
@@ -636,7 +639,7 @@ class ilCmiXapiSettingsGUI
         $validator = new ilCertificateDownloadValidator();
 
         if (!$validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->object->getId())) {
-            ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
             $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
         }
 

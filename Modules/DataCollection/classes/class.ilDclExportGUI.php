@@ -52,7 +52,7 @@ class ilDclExportGUI extends ilExportGUI
             }
         }
 
-        ilUtil::sendFailure($lng->txt('dcl_no_export_data_available'), true);
+        $this->tpl->setOnScreenMessage('failure', $lng->txt('dcl_no_export_data_available'), true);
         $ilCtrl->redirect($this, "listExportFiles");
     }
 }

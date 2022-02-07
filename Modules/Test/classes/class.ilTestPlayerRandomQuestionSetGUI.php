@@ -42,6 +42,6 @@ class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
     {
         $info = $this->lng->txt('tst_wf_info_optional_question');
         $info .= ' ' . $this->lng->txt('tst_wf_info_answer_not_adopted');
-        ilUtil::sendInfo($info);
+        $this->tpl->setOnScreenMessage('info', $info);
     }
 }

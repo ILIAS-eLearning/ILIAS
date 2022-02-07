@@ -30,10 +30,12 @@ class ilBlogExerciseGUI
     protected int $ass_id;
     protected string $file;
     protected \ILIAS\DI\UIServices $ui;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(int $a_node_id)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
@@ -240,7 +242,7 @@ class ilBlogExerciseGUI
         $exc_gui = ilExSubmissionObjectGUI::initGUIForSubmit($this->ass_id);
         $exc_gui->submitBlog($this->node_id);
 
-        ilUtil::sendSuccess($lng->txt("blog_finalized"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("blog_finalized"), true);
         $ilCtrl->returnToParent($this);
     }
 

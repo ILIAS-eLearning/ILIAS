@@ -119,9 +119,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             default:
                 if ($posting) {
                     if ($ilCtrl->getCmd() == "deactivatePageToList") {
-                        ilUtil::sendSuccess($this->lng->txt("blog_draft_info"), true);
+                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_draft_info"), true);
                     } elseif ($ilCtrl->getCmd() == "activatePageToList") {
-                        ilUtil::sendSuccess($this->lng->txt("blog_new_posting_info"), true);
+                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_new_posting_info"), true);
                     }
                     $this->setPresentationTitle($posting->getTitle());
                     
@@ -384,7 +384,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             }
             
             $this->getBlogPosting()->delete();
-            ilUtil::sendSuccess($lng->txt("blog_posting_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("blog_posting_deleted"), true);
         }
         
         $ilCtrl->setParameterByClass("ilobjbloggui", "blpg", ""); // #14363
@@ -421,7 +421,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
                 $page->handleNews(true);
 
-                ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
                 //$ilCtrl->redirect($this, "preview");
                 $this->ctrl->redirectByClass("ilObjBlogGUI", "");
             }
@@ -483,7 +483,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $page->setCreated($dt);
                 $page->update();
 
-                ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
                 //$ilCtrl->redirect($this, "preview");
                 $this->ctrl->redirectByClass("ilObjBlogGUI", "");
             }

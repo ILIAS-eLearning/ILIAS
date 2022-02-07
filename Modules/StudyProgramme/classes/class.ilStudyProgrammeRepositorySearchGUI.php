@@ -14,7 +14,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
     {
         $class = $this->callback['class'];
         $method = $this->callback['method'];
-        
+
         // call callback if that function does give a return value => show error message
         // listener redirects if everything is ok.
         $post = $_POST['user'] ?: [];
@@ -126,9 +126,9 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
                     $button->setCaption("search_add_members_from_container_" . $parent_container_type);
                     $button->setUrl(
                         $ilCtrl->getLinkTargetByClass(
-                        array(get_class($parent_object),'ilStudyProgrammeRepositorySearchGUI'),
-                        'listUsers'
-                    )
+                            array(get_class($parent_object),'ilStudyProgrammeRepositorySearchGUI'),
+                            'listUsers'
+                        )
                     );
                     $toolbar->addButtonInstance($button);
                 }

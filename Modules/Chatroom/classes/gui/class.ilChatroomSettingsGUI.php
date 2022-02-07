@@ -43,7 +43,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
             }
             $room->saveSettings($settings);
 
-            ilUtil::sendSuccess($this->ilLng->txt('saved_successfully'), true);
+            $this->mainTpl->setOnScreenMessage('success', $this->ilLng->txt('saved_successfully'), true);
             $this->ilCtrl->redirect($this->gui, 'settings-general');
         }
     }
@@ -57,7 +57,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 
         $chatSettings = new ilSetting('chatroom');
         if (!$chatSettings->get('chat_enabled', '0')) {
-            ilUtil::sendInfo($this->ilLng->txt('server_disabled'), true);
+            $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('server_disabled'), true);
         }
 
         $this->gui->switchToVisibleMode();

@@ -490,7 +490,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             // check if file was uploaded
             $source = $_FILES["scormfile"]["tmp_name"];
             if (($source == 'none') || (!$source)) {
-                ilUtil::sendInfo($this->lng->txt("upload_error_file_not_found"), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("upload_error_file_not_found"), true);
                 $this->newModuleVersion();
                 return;
             }
@@ -505,7 +505,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             ilUploadFiles::_copyUploadFile($_POST["uploaded_file"], $source);
             $source_is_copy = true;
         } else {
-            ilUtil::sendInfo($this->lng->txt("upload_error_file_not_found"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("upload_error_file_not_found"), true);
             $this->newModuleVersion();
             return;
         }
@@ -550,8 +550,11 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 $file_path = $this->object->getDataDirectory() . "/" . $_FILES["scormfile"]["name"] . "." . $module_version;
                 $file_path = str_replace(".zip." . $module_version, "." . $module_version . ".zip", $file_path);
                 //move to data directory and add subfix for versioning
-                ilFileUtils::moveUploadedFile($_FILES["scormfile"]["tmp_name"], $_FILES["scormfile"]["name"],
-                    $file_path);
+                ilFileUtils::moveUploadedFile(
+                    $_FILES["scormfile"]["tmp_name"],
+                    $_FILES["scormfile"]["name"],
+                    $file_path
+                );
             } else {
                 //build targetdir in lm_data
                 $file_path = $this->object->getDataDirectory() . "/" . $_POST["uploaded_file"] . "." . $module_version;
@@ -569,7 +572,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $this->object->update();
 
             //redirect to properties and display success
-            ilUtil::sendInfo($this->lng->txt("cont_new_module_added"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_new_module_added"), true);
             ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=" . $this->refId);
             exit;
         } else {
@@ -577,7 +580,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 unlink($source);
             }
 
-            ilUtil::sendInfo($this->lng->txt("cont_invalid_new_module"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_invalid_new_module"), true);
             $this->newModuleVersion();
         }
     }
@@ -646,7 +649,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             // tile image
             $obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
         }
-        ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "properties");
     }
 
@@ -873,7 +876,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     public function cancelDeleteTracking() : void
     {
-        ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "modifyTrackingItems");
     }
 
@@ -894,7 +897,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     public function cancel() : void
     {
-        ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "properties");
     }
 
@@ -911,16 +914,16 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $success = $this->object->importTrackingData($source['tmp_name']);
             switch ($success) {
                 case true:
-                    ilUtil::sendInfo('Tracking data imported', true);
+                    $this->tpl->setOnScreenMessage('info', 'Tracking data imported', true);
                     $this->ctrl->redirect($this, "showTrackingItems");
                     break;
                 case false:
-                    ilUtil::sendInfo($this->lng->txt('err_check_input'));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('err_check_input'));
                     $this->importForm();
                     break;
             }
         }
-        ilUtil::sendInfo($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->importForm();
     }
@@ -982,7 +985,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     {
         if (!count((array) $_POST['user'])) {
             //ilUtil::sendFailure($this->lng->txt('select_one'),true);
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'modifyTrackingItems');
         } else {
             $this->object->exportSelected(false, $_POST["user"]);

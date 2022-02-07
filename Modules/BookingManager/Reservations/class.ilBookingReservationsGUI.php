@@ -180,7 +180,7 @@ class ilBookingReservationsGUI
     {
         $rsv_ids = $this->book_request->getReservationIds();
         if (count($rsv_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->log();
         }
 
@@ -191,7 +191,7 @@ class ilBookingReservationsGUI
             );
         }
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'log');
     }
 
@@ -273,14 +273,14 @@ class ilBookingReservationsGUI
         $id = current($ids);
         $obj = new ilBookingReservation($id);
         if ($obj->getUserId() != $user_id) {
-            ilUtil::sendFailure($lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt('permission_denied'), true);
             $this->back();
         }
 
         $obj->setStatus(ilBookingReservation::STATUS_CANCELLED);
         $obj->update();
 
-        ilUtil::sendSuccess($lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
         $this->back();
     }
 
@@ -399,7 +399,7 @@ class ilBookingReservationsGUI
         $this->setHelpId("cancel_booking");
 
         // #13511
-        ilUtil::sendQuestion($lng->txt("book_confirm_cancel"));
+        $this->tpl->setOnScreenMessage('question', $lng->txt("book_confirm_cancel"));
 
         $form = $this->rsvConfirmCancelAggregationForm($a_ids);
 
@@ -521,7 +521,7 @@ class ilBookingReservationsGUI
                 $cancel_allowed_per_read = ($this->checkPermissionBool("read") && ($res->getUserId() == $ilUser->getId()));
                 $cancel_allowed_per_write = ($this->checkPermissionBool("write"));
                 if (!$cancel_allowed_per_read && !$cancel_allowed_per_write) {
-                    ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                     $this->ctrl->redirect($this, 'log');
                 }
 
@@ -539,7 +539,7 @@ class ilBookingReservationsGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->log();
     }
 
@@ -547,7 +547,7 @@ class ilBookingReservationsGUI
     {
         global $DIC;
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirect($this, 'log');
         }
 
@@ -589,7 +589,7 @@ class ilBookingReservationsGUI
                 $res = new ilBookingReservation($id);
                 $obj = new ilBookingObject($res->getObjectId());
                 if ($obj->getPoolId() != $this->pool->getId() || !$this->checkPermissionBool("write")) {
-                    ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                     $this->ctrl->redirect($this, 'log');
                 }
                 if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
@@ -602,7 +602,7 @@ class ilBookingReservationsGUI
                 $res->delete();
             }
         }
-        ilUtil::sendSuccess($this->lng->txt('reservation_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('reservation_deleted'), true);
         $this->ctrl->redirect($this, 'log');
     }
 }

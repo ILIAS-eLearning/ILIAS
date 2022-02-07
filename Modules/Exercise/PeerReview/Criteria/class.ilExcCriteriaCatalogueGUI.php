@@ -101,7 +101,7 @@ class ilExcCriteriaCatalogueGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "view");
     }
     
@@ -113,7 +113,7 @@ class ilExcCriteriaCatalogueGUI
         
         $ids = $this->request->getCatalogueIds();
         if (count($ids) == 0) {
-            ilUtil::sendInfo($lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("select_one"), true);
             $ilCtrl->redirect($this, "view");
         }
         
@@ -148,7 +148,7 @@ class ilExcCriteriaCatalogueGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "view");
     }
     
@@ -226,7 +226,7 @@ class ilExcCriteriaCatalogueGUI
                 $a_cat_obj->update();
             }
             
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "view");
         }
         

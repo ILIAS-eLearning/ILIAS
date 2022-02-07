@@ -871,7 +871,7 @@ class ilLMObject
         $item = null;
         $ilUser = $DIC->user();
         $ilLog = $DIC["ilLog"];
-        
+
         $item_lm_id = ilLMObject::_lookupContObjID($a_item_id);
         $item_type = ilLMObject::_lookupType($a_item_id);
         /** @var ilObjLearningModule $lm_obj */
@@ -887,19 +887,19 @@ class ilLMObject
 
         if ($item_lm_id != $a_target_lm->getId() && !$a_as_copy) {
             // @todo: check whether st is NOT in tree
-            
+
             // "move" metadata to new lm
             $md = new ilMD($item_lm_id, $item->getId(), $item->getType());
             $new_md = $md->cloneMD($a_target_lm->getId(), $item->getId(), $item->getType());
-            
+
             // update lm object
             $item->setLMId($a_target_lm->getId());
             $item->setContentObject($a_target_lm);
             $item->update();
-            
+
             // delete old meta data set
             $md->deleteAll();
-            
+
             if ($item_type == "pg") {
                 $page = $item->getPageObject();
                 $page->buildDom();
@@ -914,13 +914,13 @@ class ilLMObject
         } else {
             $target_item = $item;
         }
-        
+
         $ilLog->write("Putting into tree type " . $target_item->getType() .
             "Item ID: " . $target_item->getId() . ", Parent: " . $a_parent_id . ", " .
             "Target: " . $a_target . ", Item LM:" . $target_item->getContentObject()->getId());
-        
+
         ilLMObject::putInTree($target_item, $a_parent_id, $a_target);
-        
+
         if ($a_source_lm == null) {
             $childs = $ilUser->getClipboardChilds($item->getId(), $a_insert_time);
         } else {
@@ -942,7 +942,7 @@ class ilLMObject
                 $a_source_lm
             );
         }
-        
+
         return $target_item->getId();
         // @todo: write history (see pastePage)
     }

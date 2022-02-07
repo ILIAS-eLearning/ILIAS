@@ -489,7 +489,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         }
         $page->create(false);
 
-        ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_created"), true);
         $this->ctrl->setParameter($this, "prt_id", $a_new_object->getId());
         $this->ctrl->redirect($this, "view");
     }
@@ -725,7 +725,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             }
             $page->create(false);
 
-            ilUtil::sendSuccess($this->lng->txt("prtf_blog_page_created"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_blog_page_created"), true);
             $this->ctrl->redirect($this, "view");
         }
 
@@ -952,7 +952,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         // link portfolio to exercise assignment
         $this->linkPortfolioToAssignment($target_id);
         
-        ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_created_from_template"), true);
         $this->ctrl->setParameter($this, "prt_id", $target_id);
         $this->ctrl->redirect($this, "preview");
     }
@@ -991,7 +991,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         // link portfolio to exercise assignment
         //$this->linkPortfolioToAssignment($target_id);
 
-        ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_created_from_template"), true);
         $this->ctrl->setParameter($this, "prt_id", $target_id);
         $this->ctrl->redirect($this, "preview");
     }
@@ -1079,10 +1079,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
         $this->ctrl->setParameter($this, "prt_id", $target_id);
         if ($prtt_id) {
-            ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_created_from_template"), true);
             $this->ctrl->redirect($this, "preview");
         } else {
-            ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_created"), true);
             $this->ctrl->redirect($this, "view");
         }
     }
@@ -1187,7 +1187,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         if (ilObjPortfolio::_lookupOwner($this->object->getId()) == $this->user_id) {
             $this->object->setOnline(true);
             $this->object->update();
-            ilUtil::sendSuccess($lng->txt("prtf_has_been_set_online"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("prtf_has_been_set_online"), true);
         }
         $ilCtrl->redirectByClass("ilworkspaceaccessgui", "");
     }

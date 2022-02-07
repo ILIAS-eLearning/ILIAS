@@ -388,7 +388,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         if (!$atLeastOneKeywordGiven || !$isFormValid) {
             $errorShown = !$isFormValid;
             if (!$atLeastOneKeywordGiven && !$errorShown) {
-                ilUtil::sendFailure($this->ilLng->txt('form_input_not_valid'));
+                $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('form_input_not_valid'));
             }
 
             $this->form_gui->setValuesByPost();
@@ -421,7 +421,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
         ilChatroomSmilies::_updateSmiley($data);
 
-        ilUtil::sendSuccess($this->ilLng->txt('saved_successfully'), true);
+        $this->mainTpl->setOnScreenMessage('success', $this->ilLng->txt('saved_successfully'), true);
         $this->ilCtrl->redirect($this->gui, 'smiley');
     }
 
@@ -448,13 +448,13 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             []
         );
         if ($ids === []) {
-            ilUtil::sendInfo($this->ilLng->txt('select_one'), true);
+            $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('select_one'), true);
             $this->ilCtrl->redirect($this->gui, 'smiley');
         }
 
         $smilies = ilChatroomSmilies::_getSmiliesById($ids);
         if ($smilies === []) {
-            ilUtil::sendInfo($this->ilLng->txt('select_one'), true);
+            $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('select_one'), true);
             $this->ilCtrl->redirect($this->gui, 'smiley');
         }
 
@@ -526,7 +526,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         if (!$atLeastOneKeywordGiven || !$isFormValid) {
             $errorShown = !$isFormValid;
             if (!$atLeastOneKeywordGiven && !$errorShown) {
-                ilUtil::sendFailure($this->ilLng->txt('form_input_not_valid'));
+                $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('form_input_not_valid'));
             }
 
             $this->form_gui->setValuesByPost();
@@ -556,7 +556,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             }
         }
 
-        ilUtil::sendSuccess($this->ilLng->txt('saved_successfully'), true);
+        $this->mainTpl->setOnScreenMessage('success', $this->ilLng->txt('saved_successfully'), true);
         $this->ilCtrl->redirect($this->gui, 'smiley');
     }
 }

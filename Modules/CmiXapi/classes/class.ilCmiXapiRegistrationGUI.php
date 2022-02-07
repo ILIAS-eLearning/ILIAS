@@ -39,6 +39,7 @@ class ilCmiXapiRegistrationGUI
      * @var ilCmiXapiUser
      */
     protected ilCmiXapiUser $cmixUser;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilCmiXapiRegistrationGUI constructor.
@@ -46,7 +47,8 @@ class ilCmiXapiRegistrationGUI
      */
     public function __construct(ilObjCmiXapi $object)
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate(); /* @var \ILIAS\DI\Container $DIC */
         
         $this->object = $object;
         
@@ -112,7 +114,7 @@ class ilCmiXapiRegistrationGUI
         
         $this->saveRegistration($form);
         
-        ilUtil::sendSuccess($DIC->language()->txt('registration_saved_successfully'), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('registration_saved_successfully'), true);
         $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
 

@@ -75,7 +75,7 @@ class ilObjCloudGUI extends ilObject2GUI
         try {
             ilCloudConnector::getActiveServices();
         } catch (Exception $e) {
-            ilUtil::sendFailure($lng->txt("cld_no_service_active"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("cld_no_service_active"), true);
             ilObjectGUI::redirectToRefId($this->parent_id);
         }
 
@@ -85,7 +85,7 @@ class ilObjCloudGUI extends ilObject2GUI
             try {
                 ilCloudConnector::checkServiceActive($this->object->getServiceName());
             } catch (Exception $e) {
-                ilUtil::sendFailure($lng->txt("cld_plugin_not_active"), true);
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("cld_plugin_not_active"), true);
                 ilObjectGUI::redirectToRefId($this->parent_id);
             }
 
@@ -93,7 +93,7 @@ class ilObjCloudGUI extends ilObject2GUI
                 if ($this->checkPermissionBool("write")) {
                     $this->serviceAuth($this->object);
                 } else {
-                    ilUtil::sendFailure($lng->txt("cld_auth_failed"), true);
+                    $this->tpl->setOnScreenMessage('failure', $lng->txt("cld_auth_failed"), true);
                     ilObjectGUI::redirectToRefId($this->parent_id);
                 }
             }
@@ -409,7 +409,7 @@ class ilObjCloudGUI extends ilObject2GUI
                 $this->serviceAuth($a_new_object);
             }
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             $form->setValuesByPost();
             $this->tpl->setContent($form->getHTML());
         }
@@ -427,7 +427,7 @@ class ilObjCloudGUI extends ilObject2GUI
             $service = ilCloudConnector::getServiceClass($object->getServiceName(), $object->getId());
             $service->authService($ilCtrl->getLinkTarget($this, "afterServiceAuth") . "&authMode=true");
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             ilObjectGUI::redirectToRefId($this->parent_id);
         }
     }
@@ -444,16 +444,16 @@ class ilObjCloudGUI extends ilObject2GUI
                 $this->object->setRootId("root", true);
                 $this->object->setAuthComplete(true);
                 $this->object->update();
-                ilUtil::sendSuccess($lng->txt("cld_object_added"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("cld_object_added"), true);
                 $ilCtrl->redirectByClass("ilCloudPluginSettingsGUI", "editSettings");
             } else {
                 ilRepUtil::deleteObjects($this->object->getRefId(), $this->object->getRefId());
 
-                ilUtil::sendFailure($lng->txt("cld_auth_failed_no_object_created"), true);
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("cld_auth_failed_no_object_created"), true);
                 ilObjectGUI::redirectToRefId($this->parent_id);
             }
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             ilObjectGUI::redirectToRefId($this->parent_id);
         }
     }
@@ -551,7 +551,7 @@ class ilObjCloudGUI extends ilObject2GUI
                 $file_tree->downloadFromService($_GET['id']);
             } catch (Exception $e) {
                 $ilTabs->activateTab("content");
-                ilUtil::sendFailure($e->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
             }
         }
     }

@@ -183,7 +183,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
     protected function afterSave(ilObject $a_new_object)
     {
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=" . $a_new_object->getRefId() . "&cmd=editSettings");
     }
 
@@ -530,7 +530,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
         if (!$this->form_gui->checkInput() ||
             ($this->form_gui->getInput("url_Standard") == "" && !$_FILES['file_Standard']['tmp_name'])) {
-            ilUtil::sendFailure($lng->txt("mcst_input_either_file_or_url"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("mcst_input_either_file_or_url"));
             $this->populateFormFromPost();
         } else {
             // create dummy object in db (we need an id)
@@ -889,9 +889,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
         if ($duration != "00:00:00") {
             $mc_item->setPlaytime($duration);
             $mc_item->update();
-            ilUtil::sendSuccess($lng->txt("mcst_set_playtime"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("mcst_set_playtime"), true);
         } else {
-            ilUtil::sendFailure($lng->txt("mcst_unable_to_determin_playtime"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("mcst_unable_to_determin_playtime"), true);
         }
 
         $ilCtrl->redirect($this, "listItems");
@@ -1242,7 +1242,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 );
             }
             
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editSettings");
         } else {
             $this->form_gui->setValuesByPost();
@@ -1374,7 +1374,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
         $this->object->saveOrder($items);
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $this->ctrl->redirect($this, "editOrder");
     }
     
@@ -1523,9 +1523,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
             );
             
             if ($new_file != "") {
-                ilUtil::sendInfo($this->lng->txt("mcst_image_extracted"), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("mcst_image_extracted"), true);
             } else {
-                ilUtil::sendFailure($this->lng->txt("mcst_no_extraction_possible"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("mcst_no_extraction_possible"), true);
             }
         } catch (ilException $e) {
             if (DEVMODE == 1) {
@@ -1534,7 +1534,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                     ? "<br />" . implode("<br />", $ret)
                     : "";
             }
-            ilUtil::sendFailure($e->getMessage() . $add, true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage() . $add, true);
         }
         
         $ilCtrl->redirect($this, "editCastItem");

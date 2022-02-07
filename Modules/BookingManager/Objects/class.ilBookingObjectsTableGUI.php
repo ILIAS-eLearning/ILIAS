@@ -35,6 +35,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
     protected array $filter;
     protected ilAdvancedMDRecordGUI $record_gui;
     protected bool $active_management;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
@@ -55,6 +56,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         bool $active_management = true
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -218,7 +220,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             }
             
             if ($this->current_bookings >= $this->overall_limit) {
-                ilUtil::sendInfo($this->lng->txt("book_overall_limit_warning"));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("book_overall_limit_warning"));
             }
         }
         

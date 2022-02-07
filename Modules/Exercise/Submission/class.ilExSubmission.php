@@ -29,6 +29,7 @@ class ilExSubmission
     protected ilExAssignmentTypeInterface $ass_type;
     protected ilExAssignmentTypes $ass_types;
     protected ilExcAssMemberState $state;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
         ilExAssignment $a_ass,
@@ -38,6 +39,7 @@ class ilExSubmission
         bool $a_public_submissions = false
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->user = $DIC->user();
         $this->db = $DIC->database();
@@ -337,7 +339,7 @@ class ilExSubmission
                 $zip_num = sizeof($filearray["file"]);
                 if ($current_num + $zip_num > $max_num) {
                     $success = false;
-                    ilUtil::sendFailure($lng->txt("exc_upload_error") . " [Zip1]", true);
+                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("exc_upload_error") . " [Zip1]", true);
                 }
             }
             
@@ -351,13 +353,13 @@ class ilExSubmission
 
                     if (!$this->uploadFile($a_http_post_files, true)) {
                         $success = false;
-                        ilUtil::sendFailure($lng->txt("exc_upload_error") . " [Zip2]", true);
+                        $this->main_tpl->setOnScreenMessage('failure', $lng->txt("exc_upload_error") . " [Zip2]", true);
                     }
                 }
             }
         } catch (ilFileUtilsException $e) {
             $success = false;
-            ilUtil::sendFailure($e->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
         }
         
         ilFileUtils::delDir($newDir);
@@ -1036,8 +1038,8 @@ class ilExSubmission
 
             if ($a_ass->getAssignmentType()->isSubmissionAssignedToTeam()) {
                 $targetdir = $team_dir . ilFileUtils::getASCIIFilename(
-                        $item["name"]
-                    );
+                    $item["name"]
+                );
                 if ($targetdir == "") {
                     continue;
                 }

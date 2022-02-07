@@ -22,6 +22,7 @@ class ilImagemapPreview
     public $linewidth_outer;
     public $linewidth_inner;
     public $lng;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
     * ilImagemapPreview constructor
@@ -34,6 +35,7 @@ class ilImagemapPreview
     public function __construct($imagemap_filename = "")
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $lng = $DIC['lng'];
         $this->lng = &$lng;
         $this->imagemap_filename = $imagemap_filename;
@@ -213,12 +215,12 @@ class ilImagemapPreview
                 }
                 @unlink($pfile);
                 if (strlen($pfile) == 0) {
-                    ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+                    $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("qpl_imagemap_preview_missing"));
                 } else {
                     $filename = basename($previewfile);
                 }
             } else {
-                ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("qpl_imagemap_preview_missing"));
             }
         }
         return $filename;

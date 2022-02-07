@@ -526,7 +526,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $this->setUseEmptySolutionInputChecked(true);
                     continue;
                 }
-                
+
                 $user_solution[] = $solution_value["value1"];
                 // fau.
             }
@@ -762,7 +762,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $this->object->setMultilineAnswerSetting($_POST["types"]);
         if (is_array($_POST['choice']['imagename']) && $_POST["types"] == 1) {
             $this->object->isSingleline = true;
-            ilUtil::sendInfo($this->lng->txt('info_answer_type_change'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('info_answer_type_change'), true);
         } else {
             $this->object->isSingleline = ($_POST["types"] == 0) ? true : false;
         }

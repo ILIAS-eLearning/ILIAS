@@ -15,7 +15,8 @@ class ilObjCourseGroupingGUI
     public $tpl;
     public $ctrl;
     public $lng;
-    
+    private \ilGlobalTemplateInterface $main_tpl;
+
     /**
      * Constructor
      * @access public
@@ -23,6 +24,7 @@ class ilObjCourseGroupingGUI
     public function __construct($content_obj, $a_obj_id = 0)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -42,7 +44,7 @@ class ilObjCourseGroupingGUI
 
         $this->__initGroupingObject();
     }
-    
+
     public function executeCommand()
     {
         global $DIC;
@@ -61,7 +63,6 @@ class ilObjCourseGroupingGUI
     // PRIVATE
     public function __initGroupingObject()
     {
-
         $this->grp_obj = new ilObjCourseGrouping($this->id);
     }
 
@@ -82,14 +83,14 @@ class ilObjCourseGroupingGUI
         if (!$ilAccess->checkAccess('write', '', $this->content_obj->getRefId())) {
             $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
         }
-        
+
         $ilToolbar->addButton(
             $this->lng->txt('crs_add_grouping'),
             $this->ctrl->getLinkTarget($this, 'create')
         );
 
         $table = new ilCourseGroupingTableGUI($this, 'listGroupings', $this->content_obj);
-        
+
         $tpl->setContent($table->getHTML());
     }
 
@@ -106,9 +107,9 @@ class ilObjCourseGroupingGUI
         }
 
         if (empty($_POST['grouping'])) {
-            ilUtil::sendFailure($this->lng->txt('crs_grouping_select_one'));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_grouping_select_one'));
             $this->listGroupings();
-            
+
             return false;
         }
 
@@ -143,8 +144,8 @@ class ilObjCourseGroupingGUI
             $tmp_obj = new ilObjCourseGrouping((int) $grouping_id);
             $tmp_obj->delete();
         }
-        
-        ilUtil::sendSuccess($this->lng->txt('crs_grouping_deleted'), true);
+
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_grouping_deleted'), true);
         $this->ctrl->redirect($this, 'listGroupings');
     }
 
@@ -155,30 +156,30 @@ class ilObjCourseGroupingGUI
         $ilErr = $DIC['ilErr'];
         $ilAccess = $DIC['ilAccess'];
         $tpl = $DIC['tpl'];
-        
+
         if (!$ilAccess->checkAccess('write', '', $this->content_obj->getRefId())) {
             $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
         }
-        
+
         if (!$a_form) {
             $a_form = $this->initForm(true);
         }
-        
+
         $tpl->setContent($a_form->getHTML());
     }
-    
+
     public function initForm($a_create)
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
-        
+
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         $title->setRequired(true);
         $form->addItem($title);
-        
+
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
         $form->addItem($desc);
-        
+
         $options = array('login' => 'login',
                          'email' => 'email',
                          'matriculation' => 'matriculation');
@@ -190,7 +191,7 @@ class ilObjCourseGroupingGUI
         $uniq->setRequired(true);
         $uniq->setOptions($options);
         $form->addItem($uniq);
-                
+
         if ($a_create) {
             $form->setTitle($this->lng->txt('crs_add_grouping'));
             $form->addCommandButton('add', $this->lng->txt('btn_add'));
@@ -199,10 +200,10 @@ class ilObjCourseGroupingGUI
             $title->setValue($grouping->getTitle());
             $desc->setValue($grouping->getDescription());
             $uniq->setValue($grouping->getUniqueField());
-                    
+
             $ass = new ilCustomInputGUI($this->lng->txt('groupings_assigned_obj_' . $this->getContentType()));
             $form->addItem($ass);
-            
+
             // assignments
             $items = array();
             foreach ($grouping->getAssignedItems() as $cond_data) {
@@ -213,14 +214,14 @@ class ilObjCourseGroupingGUI
             } else {
                 $ass->setHtml($this->lng->txt('crs_grp_no_courses_assigned'));
             }
-            
+
             $form->setTitle($this->lng->txt('edit_grouping'));
             $form->addCommandButton('update', $this->lng->txt('save'));
             $form->addCommandButton('selectCourse', $this->lng->txt('grouping_change_assignment'));
         }
-        
+
         $form->addCommandButton('listGroupings', $this->lng->txt('cancel'));
-        
+
         return $form;
     }
 
@@ -231,20 +232,20 @@ class ilObjCourseGroupingGUI
             $this->grp_obj->setTitle($form->getInput('title'));
             $this->grp_obj->setDescription($form->getInput('description'));
             $this->grp_obj->setUniqueField($form->getInput('unique'));
-            
+
             if ($this->grp_obj->create($this->content_obj->getRefId(), $this->content_obj->getId())) {
-                ilUtil::sendSuccess($this->lng->txt('crs_grp_added_grouping'), true);
+                $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_grp_added_grouping'), true);
             } else {
-                ilUtil::sendFailure($this->lng->txt('crs_grp_err_adding_grouping'), true);
+                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_grp_err_adding_grouping'), true);
             }
-            
+
             $this->ctrl->redirect($this, 'listGroupings');
         }
 
         $form->setValuesByPost();
         $this->create($form);
     }
-    
+
     public function edit($a_form = null)
     {
         global $DIC;
@@ -256,11 +257,11 @@ class ilObjCourseGroupingGUI
         if (!$ilAccess->checkAccess('write', '', $this->content_obj->getRefId())) {
             $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
         }
-        
+
         if (!$a_form) {
             $a_form = $this->initForm(false);
         }
-        
+
         $tpl->setContent($a_form->getHTML());
     }
 
@@ -271,7 +272,7 @@ class ilObjCourseGroupingGUI
         $ilErr = $DIC['ilErr'];
         $ilAccess = $DIC['ilAccess'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        
+
         if (!$ilAccess->checkAccess('write', '', $this->content_obj->getRefId())) {
             $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
         }
@@ -284,10 +285,10 @@ class ilObjCourseGroupingGUI
             $tmp_grouping->setUniqueField($form->getInput('unique'));
             $tmp_grouping->update();
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'listGroupings');
         }
-        
+
         $form->setValuesByPost();
         $this->edit($form);
     }
@@ -306,11 +307,11 @@ class ilObjCourseGroupingGUI
         }
 
         if (!$_GET['obj_id']) {
-            ilUtil::sendFailure($this->lng->txt('crs_grp_no_grouping_id_given'));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_grp_no_grouping_id_given'));
             $this->listGroupings();
             return false;
         }
-        
+
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $this->lng->txt('back'),
@@ -318,11 +319,11 @@ class ilObjCourseGroupingGUI
         );
 
         $tmp_grouping = new ilObjCourseGrouping((int) $_GET['obj_id']);
-        
+
         $table = new ilCourseGroupingAssignmentTableGUI($this, 'selectCourse', $this->content_obj, $tmp_grouping);
-        
+
         $tpl->setContent($table->getHTML());
-        
+
         return true;
     }
 
@@ -344,7 +345,7 @@ class ilObjCourseGroupingGUI
             $this->listGroupings();
             return false;
         }
-    
+
         // delete all existing conditions
         $condh = new ilConditionHandler();
         $condh->deleteByObjId((int) $_GET['obj_id']);
@@ -370,8 +371,8 @@ class ilObjCourseGroupingGUI
                 ++$added;
             }
         }
-        
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'edit');
     }
 } // END class.ilObjCourseGrouping

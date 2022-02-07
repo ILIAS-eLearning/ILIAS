@@ -28,6 +28,7 @@ class ilExportIDTableGUI extends ilTable2GUI
     protected ilAccessHandler $access;
     public bool $online_help_mode = false;
     protected EditingGUIRequest $request;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
         object $a_parent_obj,
@@ -36,6 +37,7 @@ class ilExportIDTableGUI extends ilTable2GUI
         bool $a_oh_mode = false
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -151,7 +153,7 @@ class ilExportIDTableGUI extends ilTable2GUI
                 )
             );
             if (!$this->dup_info_given) {
-                ilUtil::sendInfo($lng->txt("content_some_export_ids_multiple_times"));
+                $this->main_tpl->setOnScreenMessage('info', $lng->txt("content_some_export_ids_multiple_times"));
                 $this->dup_info_given = true;
             }
         }

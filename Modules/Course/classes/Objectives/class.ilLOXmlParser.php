@@ -139,10 +139,10 @@ class ilLOXmlParser
             $new_obj->setDescription((string) $obj->Description);
             $new_obj->setPosition((int) (string) $obj->attributes()->position);
             $new_objective_id = $new_obj->add();
-            
+
             $this->getMapping()->addMapping('Modules/Course', 'objectives', (string) $obj->attributes()->id, $new_objective_id);
             $this->getMapping()->addMapping('Services/COPage', 'pg', 'lobj:' . (string) $obj->attributes()->id, 'lobj:' . $new_objective_id);
-            
+
             // done after container import complete
             //$this->parseMaterials($obj,$new_objective_id);
             //$this->parseTests($obj, $new_objective_id);

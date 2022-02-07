@@ -48,7 +48,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         
         $users = $this->getRequestValue('banned_user_id', $userTrafo, []);
         if ($users === []) {
-            ilUtil::sendInfo($this->ilLng->txt('no_checkbox'), true);
+            $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('no_checkbox'), true);
             $this->ilCtrl->redirect($this->gui, 'ban-show');
         }
 

@@ -1114,7 +1114,7 @@ class ilTestServiceGUI
     protected function outCorrectSolution()
     {
         if (!$this->object->getShowSolutionDetails()) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"), true);
             $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
         }
 
