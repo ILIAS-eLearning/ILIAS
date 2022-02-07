@@ -20,6 +20,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
 {
     protected $resource_manager;
     protected $resource_consumer;
+    protected $request;
 
     /**
      * We need to keep track of versioning.
@@ -44,6 +45,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         $settings = new ilSetting('webdav');
         $this->resource_manager = $DIC->resourceStorage()->manage();
         $this->resource_consumer = $DIC->resourceStorage()->consume();
+        $this->request = $DIC->http()->request();
         $this->versioning_enabled = (bool) $settings->get('webdav_versioning_enabled', true);
         parent::__construct($a_obj, $repo_helper, $dav_helper);
     }
@@ -234,6 +236,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         file_put_contents($path_with_file, $a_data);
 
         $upload = fopen($path_with_file, 'read');
+        $size = $this->request->getHeader("Content-Length")[0];
         
         if ($size > ilUtil::getUploadSizeLimitBytes()) {
             $this->deleteObjOrVersion();
