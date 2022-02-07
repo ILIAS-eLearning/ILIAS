@@ -1155,14 +1155,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $data = new Factory();
         $lng = new ilSetupLanguage('en');
         $interface_finder = new ImplementationOfInterfaceFinder();
-        $plugin_raw_reader = new ilPluginRawReader();
 
         $agent_finder = new ImplementationOfAgentFinder(
             $refinery,
             $data,
             $lng,
-            $interface_finder,
-            $plugin_raw_reader,
+            $interface_finder
             []
         );
 
