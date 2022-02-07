@@ -20,7 +20,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
- * @ilCtrl_Calls ilObjPortfolioGUI: ilObjStyleSheetGUI, ilPortfolioExerciseGUI
+ * @ilCtrl_Calls ilObjPortfolioGUI: ilObjectContentStyleSettingsGUI, ilPortfolioExerciseGUI
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 {
@@ -113,7 +113,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             case "ilnotegui":
                 $this->preview();
                 break;
-            
+
+                /*
             case "ilobjstylesheetgui":
                 $this->ctrl->setReturn($this, "editStyleProperties");
                 $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
@@ -136,8 +137,22 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                     $this->object->update();
                     $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
                 }
+                break;*/
+
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->addLocator();
+                $this->setTabs();
+                $this->tabs_gui->activateTab("settings");
+                $this->setSettingsSubTabs("style");
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForObjId(
+                        null,
+                        $this->object->getId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
-                
+
             case "ilportfolioexercisegui":
                 $this->ctrl->setReturn($this, "view");
                 $gui = new ilPortfolioExerciseGUI($this->user_id, $this->object->getId());

@@ -207,6 +207,11 @@ abstract class ilObject2GUI extends ilObjectGUI
         return true;
     }
 
+    public function getIdType() : int
+    {
+        return $this->id_type;
+    }
+
     /**
      * create object instance as internal property (repository/workspace switch)
      */

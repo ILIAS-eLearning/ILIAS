@@ -9,6 +9,16 @@
  */
 class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
 {
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
+
+    public function init() : void
+    {
+        global $DIC;
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain();
+    }
+
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
@@ -47,7 +57,9 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
                 if (!$frm || !($frm instanceof ilObjForum)) {
                     continue;
                 }
-                ilForumProperties::getInstance($frm->getId())->writeStyleSheetId($newStyleId);
+                $this->content_style_domain
+                    ->styleForObjId($newForumId)
+                    ->updateStyleId($newStyleId);
             }
         }
     }

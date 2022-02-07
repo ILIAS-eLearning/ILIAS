@@ -20,11 +20,17 @@
 class ilBlogExporter extends ilXmlExporter
 {
     protected ilBlogDataSet $ds;
-    
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
+
     public function init() : void
     {
+        global $DIC;
+
         $this->ds = new ilBlogDataSet();
         $this->ds->setDSPrefix("ds");
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain();
     }
     
     public function getXmlExportTailDependencies(
@@ -53,7 +59,7 @@ class ilBlogExporter extends ilXmlExporter
         // style
         $style_ids = array();
         foreach ($a_ids as $id) {
-            $style_id = ilObjStyleSheet::lookupObjectStyle($id);
+            $style_id = $this->content_style_domain->styleForObjId((int) $id)->getStyleId();
             if ($style_id > 0) {
                 $style_ids[] = $style_id;
             }

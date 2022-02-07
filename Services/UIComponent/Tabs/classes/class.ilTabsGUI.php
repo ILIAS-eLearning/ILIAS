@@ -428,7 +428,7 @@ class ilTabsGUI
                     $tabtype = $pre . "tabinactive";
                 }
                 
-                if (($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) && $target["activate"]) {
+                if (($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) && ($target["activate"] ?? false)) {
                     $tabtype = $pre . "tabactive";
                 }
 

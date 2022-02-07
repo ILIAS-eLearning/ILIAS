@@ -26,6 +26,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     protected ilPropertyFormGUI $form;
     protected ilTabsGUI $tabs;
     protected ilSetting $settings;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
     public function __construct(
         ilObjLearningModule $a_content_obj
@@ -38,6 +39,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         $this->settings = $DIC->settings();
         $this->lng = $DIC->language();
         parent::__construct($a_content_obj);
+        $cs = $DIC->contentStyle();
+        $this->content_style_domain = $cs->domain();
     }
 
     /**
@@ -106,10 +109,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                     $view_frame
                 );
 
-                $page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-                    $this->content_object->getStyleSheetId(),
-                    "lm"
-                ));
+                $page_gui->setStyleId($this->content_style_domain
+                    ->styleForRefId($this->content_object->getRefId())
+                    ->getEffectiveStyleId());
                 $page_gui->setTemplateTargetVar("ADM_CONTENT");
                 $page_gui->getPageObject()->buildDom();
                 $int_links = $page_gui->getPageObject()->getInternalLinks();

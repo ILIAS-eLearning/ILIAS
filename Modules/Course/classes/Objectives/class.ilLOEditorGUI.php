@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
+use ILIAS\Style\Content\Object\ObjectFacade;
 
 /**
 * Class ilLOEditorGUI
@@ -38,20 +38,24 @@ class ilLOEditorGUI
     private $ctrl = null;
 
     private $test_type = 0;
-    
-    
+    protected ObjectFacade $content_style_domain;
+
     /**
      * Constructor
      * @param type $a_parent_obj
      */
     public function __construct($a_parent_obj)
     {
+        global $DIC;
+
         $this->parent_obj = $a_parent_obj;
         $this->settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
 
         $this->lng = $GLOBALS['DIC']['lng'];
         $this->ctrl = $GLOBALS['DIC']['ilCtrl'];
         $this->logger = $GLOBALS['DIC']->logger()->crs();
+        $cs = $DIC->contentStyle();
+        $this->content_style_domain = $cs->domain()->styleForRefId($this->parent_obj->getRefId());
     }
     
     /**
@@ -140,19 +144,13 @@ class ilLOEditorGUI
                 $pgui = new ilLOPageGUI($objtv_id);
                 $pgui->setPresentationTitle(ilCourseObjective::lookupObjectiveTitle($objtv_id));
 
-                $pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-                    $this->parent_obj->getStyleSheetId(),
-                    $this->parent_obj->getType()
-                ));
+                $pgui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
                 // #14895
                 $GLOBALS['DIC']['tpl']->setCurrentBlock("ContentStyle");
                 $GLOBALS['DIC']['tpl']->setVariable(
                     "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath(ilObjStyleSheet::getEffectiveContentStyleId(
-                        $this->parent_obj->getStyleSheetId(),
-                        $this->parent_obj->getType()
-                    ))
+                    ilObjStyleSheet::getContentStylePath($this->content_style_domain->getEffectiveStyleId())
                 );
                 $GLOBALS['DIC']['tpl']->parseCurrentBlock();
                 
@@ -806,7 +804,6 @@ class ilLOEditorGUI
      */
     protected function applySettingsTemplate(ilObjTest $tst)
     {
-        
         $tpl_id = 0;
         foreach (ilSettingsTemplate::getAllSettingsTemplates('tst', true) as $nr => $template) {
             switch ($this->getTestType()) {

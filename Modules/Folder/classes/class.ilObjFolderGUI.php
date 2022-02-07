@@ -18,12 +18,12 @@ use ILIAS\Folder\StandardGUIRequest;
 /**
  * Class ilObjFolderGUI
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjFolderGUI: ilPermissionGUI
  * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
  * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
- * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
  * @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectTranslationGUI, ilRepositoryTrashGUI
  */
@@ -39,7 +39,6 @@ class ilObjFolderGUI extends ilContainerGUI
         bool $a_call_by_reference = true,
         bool $a_prepare_output = false
     ) {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
@@ -111,7 +110,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
 
@@ -155,8 +154,16 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($cp);
                 break;
 
-            case "ilobjstylesheetgui":
-                $this->forwardToStyleSheet();
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->setTitleAndDescription();
+                $this->showContainerPageTabs();
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
                 
             case 'ilexportgui':
