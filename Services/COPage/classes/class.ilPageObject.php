@@ -60,7 +60,7 @@ abstract class ilPageObject
     protected ilLanguage $lng;
     protected ilTree $tree;
     protected int $id;
-    public php4DOMDocument $dom;
+    public ?php4DOMDocument $dom = null;
     public string $xml = "";
     public string $encoding = "";
     public php4DOMElement $node;
@@ -363,7 +363,7 @@ abstract class ilPageObject
     /**
      * @depracated
      */
-    public function getDom() : php4DOMDocument
+    public function getDom() : ?php4DOMDocument
     {
         return $this->dom;
     }

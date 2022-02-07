@@ -907,8 +907,8 @@ class ilObjectDefinition // extends ilSaxParser
             }
         }
         // now get objects from repository plugin
-        $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, IL_COMP_SERVICE, "Repository", "robj");
-        $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, IL_COMP_MODULE, "OrgUnit", "orguext");
+        $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, ilComponentInfo::TYPE_SERVICES, "Repository", "robj");
+        $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, ilComponentInfo::TYPE_MODULES, "OrgUnit", "orguext");
 
         $ret = ilUtil::sortArray($grouped_obj, "pos", "asc", true, true);
         return $ret;
