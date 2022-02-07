@@ -21,17 +21,17 @@ class PresentationRow implements T\PresentationRow
     /**
      * @var	Button|Dropdown|null
      */
-    private $action;
+    private $action = null;
 
     protected Signal $show_signal;
     protected Signal $close_signal;
     protected Signal $toggle_signal;
     private ?string $headline;
-    private ?string $subheadline;
-    private array $important_fields;
+    private ?string $subheadline = null;
+    private array $important_fields = [];
     private Descriptive $content;
-    private string $further_fields_headline;
-    private array $further_fields;
+    private ?string $further_fields_headline = null;
+    private array $further_fields = [];
     private array $data;
     protected SignalGeneratorInterface $signal_generator;
 
@@ -177,7 +177,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function getFurtherFieldsHeadline() : string
+    public function getFurtherFieldsHeadline() : ?string
     {
         return $this->further_fields_headline;
     }
