@@ -235,6 +235,11 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
 
         $upload = fopen($path_with_file, 'read');
         
+        if ($size > ilUtil::getUploadSizeLimitBytes()) {
+            $this->deleteObjOrVersion();
+            throw new Exception\Forbidden('File is too big');
+        }
+        
         /**
          * Sadly we need this to avoid creating multiple versions on a single
          * upload, because of the behaviour of some clients.
