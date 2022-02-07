@@ -2636,7 +2636,7 @@ class ilObjectListGUI
                 if ($this->timings_enabled) {
                     $this->insertTimingsCommand();
                 }
-                
+
                 // delete
                 if ($this->delete_enabled) {
                     $this->insertDeleteCommand();
@@ -3238,7 +3238,7 @@ class ilObjectListGUI
     {
         $lng = $this->lng;
         $objDefinition = $this->obj_definition;
-        
+
         $cnt = 0;
         if ($this->getCheckboxStatus()) {
             $this->tpl->setCurrentBlock("check");
@@ -3256,7 +3256,7 @@ class ilObjectListGUI
             $cnt += 1;
         } elseif ($this->getExpandStatus()) {
             $this->tpl->setCurrentBlock('expand');
-            
+
             if ($this->isExpanded()) {
                 $this->ctrl->setParameter($this->container_obj, 'expand', -1 * $this->obj_id);
                 // "view" added, see #19922
@@ -3272,16 +3272,16 @@ class ilObjectListGUI
                 $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('tree_col.svg'));
                 $this->tpl->setVariable('EXP_ALT', $this->lng->txt('expand'));
             }
-            
+
             $this->tpl->parseCurrentBlock();
             $cnt += 1;
         }
-        
+
         if ($this->getIconStatus()) {
             if ($cnt == 1) {
                 $this->tpl->touchBlock("i_1");	// indent
             }
-            
+
             // icon link
             if ($this->title_link_disabled || !$this->default_command || (!$this->getCommandsStatus() && !$this->restrict_to_goto)) {
             } else {
@@ -3318,7 +3318,7 @@ class ilObjectListGUI
             $this->tpl->parseCurrentBlock();
             $cnt += 1;
         }
-        
+
         $this->tpl->touchBlock("d_" . $cnt);	// indent main div
     }
 

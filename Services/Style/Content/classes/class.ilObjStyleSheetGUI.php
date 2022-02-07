@@ -347,7 +347,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $this->form->getInput("disable_auto_margins")
             );
             $this->object->update();
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             $ctrl->redirect($this, "properties");
         } else {
             $this->form->setValuesByPost();
@@ -549,7 +549,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     {
         $lng = $this->lng;
 
-        ilUtil::sendInfo($lng->txt("msg_cancel"), true);
+        $this->tpl->setOnScreenMessage('info', $lng->txt("msg_cancel"), true);
         $this->ctrl->returnToParent($this);
     }
     
@@ -894,7 +894,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
         $colors = $this->style_request->getColors();
         if (count($colors) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listColors");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -1069,7 +1069,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
         $mq_ids = $this->style_request->getMediaQueryIds();
         if (count($mq_ids) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listMediaQueries");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -1506,7 +1506,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
         $tids = $this->style_request->getTemplateIds();
         if (count($tids) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listTemplates");
         } else {
             $cgui = new ilConfirmationGUI();

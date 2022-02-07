@@ -128,12 +128,12 @@ class ilECSParticipantSettingsGUI
             $this->getParticipant()->setImportTypes($form->getInput('import_types'));
             $this->getParticipant()->update();
             
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
             return true;
         }
         $form->setValuesByPost();
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->settings($form);
     }
     

@@ -31,6 +31,7 @@ class ilMStShowUserCompetencesGUI
      * @var Container
      */
     private $dic;
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     /**
@@ -38,6 +39,8 @@ class ilMStShowUserCompetencesGUI
      */
     public function __construct(Container $dic)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->dic = $dic;
         $this->access = ilMyStaffAccess::getInstance();
 
@@ -52,7 +55,7 @@ class ilMStShowUserCompetencesGUI
     protected function checkAccessOrFail()
     {
         if (!$this->usr_id) {
-            ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
             $this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
 
@@ -61,7 +64,7 @@ class ilMStShowUserCompetencesGUI
         ) {
             return;
         } else {
-            ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
             $this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }

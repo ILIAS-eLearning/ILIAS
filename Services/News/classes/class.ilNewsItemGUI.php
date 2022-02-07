@@ -44,10 +44,12 @@ class ilNewsItemGUI
     protected int $requested_news_item_id;
     protected string $add_mode;
     protected StandardGUIRequest $std_request;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
@@ -457,7 +459,7 @@ class ilNewsItemGUI
 
         // check whether at least one item is selected
         if (count($this->std_request->getNewsIds()) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"));
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"));
             return $this->editNews();
         }
 

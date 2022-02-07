@@ -117,7 +117,7 @@ CONTROL;
             //wfProfileOut( $fname );
             return;
         }
-        
+
         wfRunHooks('DiffViewHeader', array( $this, $this->mOldRev, $this->mNewRev ));
 
         if ($this->mNewRev->isCurrent()) {

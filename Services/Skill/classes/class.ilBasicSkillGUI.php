@@ -163,7 +163,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->setTabs("levels");
 
         if ($this->isInUse()) {
-            ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_skill_in_use"));
         } elseif ($this->tree_access_manager->hasManageCompetencesPermission()) {
             $ilToolbar->addButton(
                 $lng->txt("skmg_add_level"),
@@ -261,7 +261,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         }
 
         if ($this->isInUse()) {
-            ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_skill_in_use"));
         }
 
         $form = $this->initLevelForm();
@@ -295,7 +295,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
                 $result["section_level"]["input_desc"]
             );
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "edit");
         }
 
@@ -334,7 +334,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
                 $result["section_level"]["input_desc"]
             );
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "edit");
         }
 
@@ -402,7 +402,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
         $order = ilUtil::stripSlashesArray($this->requested_level_order);
         $this->node_object->updateLevelOrder($order);
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "edit");
     }
 
@@ -420,7 +420,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->setTabs("levels");
 
         if (empty($this->requested_level_ids)) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "edit");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -453,7 +453,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             }
             $this->node_object->fixLevelNumbering();
         }
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "edit");
     }
 
@@ -657,7 +657,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $sres->setResourceAsImparting($this->requested_level_id, $ref_id);
             $sres->save();
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
 
         $ilCtrl->redirect($this, "showLevelResources");
@@ -679,7 +679,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilTabs->activateTab("level_resources");
 
         if (empty($this->requested_resource_ids)) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showLevelResources");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -714,7 +714,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
                 $sres->setResourceAsTrigger($this->requested_level_id, $i, false);
             }
             $sres->save();
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         
         $ilCtrl->redirect($this, "showLevelResources");

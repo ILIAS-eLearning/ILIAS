@@ -492,7 +492,7 @@ class ilMediaCreationGUI
     {
         $ids = $this->request->getIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("select_one"));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
             $this->listPoolItems();
             return;
         }
@@ -501,7 +501,7 @@ class ilMediaCreationGUI
             $id = ilMediaPoolItem::lookupForeignId($pool_entry_id);
             $mob = new ilObjMediaObject((int) $id);
             if (!in_array($mob->getMediaItem("Standard")->getFormat(), $this->getMimeTypes())) {
-                ilUtil::sendFailure($this->lng->txt("mob_mime_type_not_allowed") . ": " .
+                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("mob_mime_type_not_allowed") . ": " .
                     $mob->getMediaItem("Standard")->getFormat());
                 $this->listPoolItems();
                 return;

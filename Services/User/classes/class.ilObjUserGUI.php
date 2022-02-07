@@ -513,13 +513,13 @@ class ilObjUserGUI extends ilObjectGUI
 
                 if ($acc_mail->send()) {
                     $msg = $msg . '<br />' . $this->lng->txt('mail_sent');
-                    ilUtil::sendSuccess($msg, true);
+                    $this->tpl->setOnScreenMessage('success', $msg, true);
                 } else {
                     $msg = $msg . '<br />' . $this->lng->txt('mail_not_sent');
-                    ilUtil::sendInfo($msg, true);
+                    $this->tpl->setOnScreenMessage('info', $msg, true);
                 }
             } else {
-                ilUtil::sendSuccess($msg, true);
+                $this->tpl->setOnScreenMessage('success', $msg, true);
             }
 
             if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
@@ -827,7 +827,7 @@ class ilObjUserGUI extends ilObjectGUI
             try {
                 $this->object->updateLogin($this->form_gui->getInput("login"));
             } catch (ilUserException $e) {
-                ilUtil::sendFailure($e->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
                 $this->form_gui->setValuesByPost();
                 $tpl->setContent($this->form_gui->getHTML());
                 return;
@@ -926,7 +926,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
 
             // feedback
-            ilUtil::sendSuccess($msg, true);
+            $this->tpl->setOnScreenMessage('success', $msg, true);
 
             if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
                 $this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
@@ -1626,7 +1626,7 @@ class ilObjUserGUI extends ilObjectGUI
             return;
         }
         if ($_FILES["userfile"]["size"] == 0) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_file"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_file"));
         } else {
             $webspace_dir = ilFileUtils::getWebspaceDir();
             $image_dir = $webspace_dir . "/usr_images";
@@ -1645,7 +1645,7 @@ class ilObjUserGUI extends ilObjectGUI
                 $uploaded_file,
                 false
             )) {
-                ilUtil::sendFailure($this->lng->txt("upload_error", true));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
                 $this->ctrl->redirect($this, "showProfile");
             }
             chmod($uploaded_file, 0770);
@@ -1692,7 +1692,7 @@ class ilObjUserGUI extends ilObjectGUI
         // remove user pref file name
         $this->object->setPref("profile_image", "");
         $this->object->update();
-        ilUtil::sendSuccess($this->lng->txt("user_image_removed"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_image_removed"));
 
         if (is_file($file)) {
             unlink($file);
@@ -1750,10 +1750,7 @@ class ilObjUserGUI extends ilObjectGUI
             or (empty($posted_global_roles) and count($assigned_global_roles_all) == count($assigned_global_roles))) {
             //$this->ilias->raiseError($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
             // workaround. sometimes jumps back to wrong page
-            ilUtil::sendFailure(
-                $this->lng->txt("msg_min_one_role") . "<br/>" . $this->lng->txt("action_aborted"),
-                true
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_min_one_role") . "<br/>" . $this->lng->txt("action_aborted"), true);
             $this->ctrl->redirect($this, 'roleassignment');
         }
 
@@ -1768,7 +1765,7 @@ class ilObjUserGUI extends ilObjectGUI
         // update object data entry (to update last modification date)
         $this->object->update();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_roleassignment_changed"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_roleassignment_changed"), true);
 
         if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
             $this->ctrl->redirect($this, 'roleassignment');

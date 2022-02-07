@@ -145,7 +145,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
             $tags_set->set("enable", $form->getInput("enable_tagging"));
             $tags_set->set("enable_all_users", $form->getInput("enable_all_users"));
             $ilSetting->set("block_activated_pdtag", $form->getInput("enable_tagging"));
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         $ilCtrl->redirect($this, "view");
     }
@@ -286,7 +286,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 
             $tags_set->set("forbidden_tags", serialize($tags_array));
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "editForbiddenTags");
     }

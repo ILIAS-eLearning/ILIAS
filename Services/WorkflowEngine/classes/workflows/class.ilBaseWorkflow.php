@@ -439,7 +439,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
             case strtolower(substr($class_name, strlen($class_name) - 4, 4)) == 'node':
                 $componentDirectory = 'node';
                 break;
-                
+
             default:
                 return;
         }

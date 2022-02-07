@@ -25,6 +25,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
     private ilSetting $settings;
     
     private ilAuthSession $authSession;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilAuthFrontendCredentialsApache constructor.
@@ -35,6 +36,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
     public function __construct(ServerRequestInterface $httpRequest, ilCtrl $ctrl, ilSetting $settings)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->authSession = $DIC['ilAuthSession'];
         $this->httpRequest = $httpRequest;
         $this->ctrl = $ctrl;
@@ -100,7 +102,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
                 break;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                ilUtil::sendFailure($status->getTranslatedReason(), true);
+                $this->main_tpl->setOnScreenMessage('failure', $status->getTranslatedReason(), true);
                 $this->ctrl->redirectToURL(ilUtil::appendUrlParameterString(
                     $this->ctrl->getLinkTargetByClass('ilStartupGUI', 'showLoginPage', '', false, false),
                     'passed_sso=1'

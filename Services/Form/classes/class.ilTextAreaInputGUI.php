@@ -344,7 +344,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                     // disable all plugins for mini-tagset
                     if (!array_diff($this->getRteTags(), $this->getRteTagSet("mini"))) {
                         $rte->removeAllPlugins();
-                        
+
                         // #13603 - "paste from word" is essential
                         $rte->addPlugin("paste");
                         //Add plugins 'lists', 'code' and 'link': in tinymce 3 it wasnt necessary to configure these plugins
@@ -355,7 +355,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                         if (method_exists($rte, 'removeAllContextMenuItems')) {
                             $rte->removeAllContextMenuItems(); //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
                         }
-                        
+
                         // #11980 - p-tag is mandatory but we do not want the icons it comes with
                         $rte->disableButtons(array("anchor", "alignleft", "aligncenter",
                             "alignright", "alignjustify", "formatselect", "removeformat",

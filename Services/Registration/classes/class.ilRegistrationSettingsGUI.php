@@ -330,12 +330,12 @@ class ilRegistrationSettingsGUI
         if ($error_code = $this->registration_settings->validate()) {
             switch ($error_code) {
                 case ilRegistrationSettings::ERR_UNKNOWN_RCP:
-                    ilUtil::sendFailure($this->lng->txt('reg_unknown_recipients') . ' ' . $this->registration_settings->getUnknown());
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('reg_unknown_recipients') . ' ' . $this->registration_settings->getUnknown());
                     $this->view();
                     return false;
 
                 case ilRegistrationSettings::ERR_MISSING_RCP:
-                    ilUtil::sendFailure($this->lng->txt('reg_approve_needs_recipient') . ' ' . $this->registration_settings->getUnknown());
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('reg_approve_needs_recipient') . ' ' . $this->registration_settings->getUnknown());
                     $this->view();
                     return false;
 
@@ -343,7 +343,7 @@ class ilRegistrationSettingsGUI
         }
 
         $this->registration_settings->save();
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         $this->view();
         return true;
     }
@@ -398,7 +398,7 @@ class ilRegistrationSettingsGUI
         if ($form->checkInput()) {
             $roles = (array) $form->getInput('roles');
             if (count($roles) < 1) {
-                ilUtil::sendFailure($this->lng->txt('msg_last_role_for_registration'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_last_role_for_registration'));
                 $this->editRoles();
                 return false;
             }
@@ -411,7 +411,7 @@ class ilRegistrationSettingsGUI
                 }
             }
         }
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         $this->view();
         return true;
     }
@@ -562,7 +562,7 @@ class ilRegistrationSettingsGUI
         $default_role = $form->getInput("default_role");
         $this->assignments_obj->setDefaultRole((int) $default_role);
         $this->assignments_obj->save();
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->view();
         return true;
     }
@@ -589,11 +589,11 @@ class ilRegistrationSettingsGUI
         if ($err = $this->access_limitations_obj->validate()) {
             switch ($err) {
                 case ilRegistrationRoleAccessLimitations::IL_REG_ACCESS_LIMITATION_MISSING_MODE:
-                    ilUtil::sendFailure($this->lng->txt('reg_access_limitation_missing_mode'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('reg_access_limitation_missing_mode'));
                     break;
 
                 case ilRegistrationRoleAccessLimitations::IL_REG_ACCESS_LIMITATION_OUT_OF_DATE:
-                    ilUtil::sendFailure($this->lng->txt('reg_access_limitation_out_of_date'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('reg_access_limitation_out_of_date'));
                     break;
             }
             $this->editRoleAccessLimitations();
@@ -601,7 +601,7 @@ class ilRegistrationSettingsGUI
         }
 
         $this->access_limitations_obj->save();
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->view();
         return true;
     }
@@ -919,7 +919,7 @@ class ilRegistrationSettingsGUI
                 );
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this, "listCodes");
         } else {
             $this->form_gui->setValuesByPost();
@@ -941,7 +941,7 @@ class ilRegistrationSettingsGUI
             );
         }
         ilRegistrationCode::deleteCodes($ids);
-        ilUtil::sendSuccess($this->lng->txt('info_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('info_deleted'), true);
         $this->ctrl->redirect($this, "listCodes");
     }
 
@@ -962,7 +962,7 @@ class ilRegistrationSettingsGUI
             );
         }
         if (!count($ids)) {
-            ilUtil::sendFailure($this->lng->txt('err_select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_select_one'), true);
             $this->ctrl->redirect($this, 'listCodes');
         }
         $this->setSubTabs('registration_codes');
@@ -1017,7 +1017,7 @@ class ilRegistrationSettingsGUI
                 "text/plain"
             );
         } else {
-            ilUtil::sendFailure($this->lng->txt("registration_export_codes_no_data"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("registration_export_codes_no_data"));
             $this->listCodes();
         }
     }

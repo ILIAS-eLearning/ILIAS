@@ -184,9 +184,9 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
                     // check db update
                     $dbupdate = new ilDBUpdate($ilDB);
                     if (!$dbupdate->getDBVersionStatus()) {
-                        ilUtil::sendFailure($this->lng->txt("db_need_update"));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("db_need_update"));
                     } elseif ($dbupdate->hotfixAvailable()) {
-                        ilUtil::sendFailure($this->lng->txt("db_need_hotfix"));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("db_need_hotfix"));
                     }
                     
                     $class_path = $this->ctrl->lookupClassPath($next_class);

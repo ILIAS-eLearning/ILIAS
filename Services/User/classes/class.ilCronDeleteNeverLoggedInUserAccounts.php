@@ -27,10 +27,12 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         if ($DIC) {
             if (isset($DIC['ilSetting'])) {
@@ -239,7 +241,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
             return true;
         }
 
-        ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         return false;
     }
 }

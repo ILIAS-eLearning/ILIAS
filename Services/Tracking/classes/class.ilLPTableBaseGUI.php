@@ -24,10 +24,12 @@ class ilLPTableBaseGUI extends ilTable2GUI
     protected ilObjectDataCache $ilObjDataCache;
     protected ilObjectDefinition $objDefinition;
     protected ilTree $tree;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(?object $a_parent_obj, string $a_parent_cmd = "", string $a_template_context = "")
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->objDefinition = $DIC['objDefinition'];
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
@@ -108,7 +110,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
                 case "mailselectedusers":
                     if (!$this->initUidFromPost()) {
-                        ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+                        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
                     } else {
                         $this->sendMail($this->initUidFromPost(), $this->parent_obj, $this->parent_cmd);
                     }
@@ -116,7 +118,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
                 case 'addToClipboard':
                     if (!$this->initUidFromPost()) {
-                        ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+                        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
                     } else {
                         $this->addToClipboard();
                     }
@@ -205,7 +207,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         ?array $preset_obj_ids = null,
         bool $a_check_lp_activation = true
     ) : array {
-
         $query_parser = new ilQueryParser($filter["query"]);
         $query_parser->setMinWordLength(0);
         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
@@ -655,14 +656,18 @@ class ilLPTableBaseGUI extends ilTable2GUI
         if ($this->obj_id) {
             $data[$this->lng->txt("trac_object_name")] = $this->ilObjDataCache->lookupTitle($this->obj_id);
             if ($this->ref_id) {
-                $data[$this->lng->txt("trac_object_link")] = ilLink::_getLink($this->ref_id,
-                    ilObject::_lookupType($this->obj_id));
+                $data[$this->lng->txt("trac_object_link")] = ilLink::_getLink(
+                    $this->ref_id,
+                    ilObject::_lookupType($this->obj_id)
+                );
             }
             $data[$this->lng->txt("trac_object_owner")] = ilObjUser::_lookupFullname(ilObject::_lookupOwner($this->obj_id));
         }
 
-        $data[$this->lng->txt("trac_report_date")] = ilDatePresentation::formatDate(new ilDateTime(time(),
-            IL_CAL_UNIX));
+        $data[$this->lng->txt("trac_report_date")] = ilDatePresentation::formatDate(new ilDateTime(
+            time(),
+            IL_CAL_UNIX
+        ));
         $data[$this->lng->txt("trac_report_owner")] = $this->user->getFullName();
 
         return $data;
@@ -971,6 +976,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $clip->add($users);
         $clip->save();
         $this->lng->loadLanguageModule('user');
-        ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('clipboard_user_added'), true);
     }
 }

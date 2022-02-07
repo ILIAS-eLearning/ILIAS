@@ -112,6 +112,7 @@ class ilTable2GUI extends ilTableGUI
     protected string $custom_prev = "";
     protected string $custom_next = "";
     protected ?array $raw_post_data = null;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         ?object $a_parent_obj,
@@ -119,6 +120,7 @@ class ilTable2GUI extends ilTableGUI
         string $a_template_context = ""
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
@@ -1827,11 +1829,11 @@ class ilTable2GUI extends ilTableGUI
             // template handling
             if ($this->requested_tmpl_create != "") {
                 if ($this->saveTemplate($this->requested_tmpl_create)) {
-                    ilUtil::sendSuccess($lng->txt("tbl_template_created"));
+                    $this->main_tpl->setOnScreenMessage('success', $lng->txt("tbl_template_created"));
                 }
             } elseif ($this->requested_tmpl_delete != "") {
                 if ($this->deleteTemplate($this->requested_tmpl_delete)) {
-                    ilUtil::sendSuccess($lng->txt("tbl_template_deleted"));
+                    $this->main_tpl->setOnScreenMessage('success', $lng->txt("tbl_template_deleted"));
                 }
             }
 

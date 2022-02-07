@@ -172,7 +172,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $overall_html = "";
         if (sizeof($html)) {
             $btpl = new ilTemplate("tpl.classification_block.html", true, true, "Services/Classification");
-            
+
             foreach ($html as $item) {
                 $btpl->setCurrentBlock("provider_chunk_bl");
                 $btpl->setVariable("TITLE", $item["title"]);

@@ -134,7 +134,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
-        ilUtil::sendInfo($lng->txt("cont_iim_create_info"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("cont_iim_create_info"));
 
         $form = $this->initForm("create");
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -234,7 +234,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                 $file
             );
         } catch (ilException $e) {
-            ilUtil::sendFailure($this->lng->txt("file_is_infected"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_is_infected"), true);
             return;
         }
         // get mime type
@@ -259,7 +259,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
             $this->content_obj->setHierId($this->content_obj->readHierId());
             $this->setHierId($this->content_obj->readHierId());
             $this->content_obj->setPcId($this->content_obj->readPCId());
-            ilUtil::sendSuccess($lng->txt("cont_saved_interactive_image"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_saved_interactive_image"), true);
             $this->ctrl->redirectByClass("ilpcinteractiveimagegui", "edit");
 
         //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -313,7 +313,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                 $form->getInput("caption")
             );
             $this->edit_repo->setPageError($this->pg_obj->update());
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
 
         $ilCtrl->redirectByClass("ilpcinteractiveimagegui", "editBaseImage");
@@ -412,7 +412,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         
-        ilUtil::sendInfo($lng->txt("cont_iim_overlay_info"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("cont_iim_overlay_info"));
         
         $ilTabs->setTabActive("list_overlays");
         
@@ -491,7 +491,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                     );
                 }
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"));
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"));
             $ilCtrl->redirect($this, "listOverlayImages");
         } else {
             $form->setValuesByPost();
@@ -510,7 +510,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 
         $files = $this->request->getStringArray("file");
         if (count($files) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listOverlayImages");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -540,7 +540,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                     ->removeAdditionalFile("overlays/" . $f);
             }
             
-            ilUtil::sendSuccess($lng->txt("cont_overlays_have_been_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_overlays_have_been_deleted"), true);
         }
         $ilCtrl->redirect($this, "listOverlayImages");
     }
@@ -558,7 +558,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         
-        ilUtil::sendInfo($lng->txt("cont_iim_content_popups_info"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("cont_iim_content_popups_info"));
         
         $ilTabs->setTabActive("content_popups");
         
@@ -584,7 +584,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         
         $this->content_obj->addContentPopup();
         $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "listContentPopups");
     }
     
@@ -597,7 +597,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         if (count($titles) > 0) {
             $this->content_obj->savePopups($titles);
             $this->pg_obj->update();
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "listContentPopups");
     }
@@ -615,7 +615,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $titles = $this->request->getStringArray("title");
 
         if (count($tids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listContentPopups");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -645,7 +645,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                 $this->content_obj->deletePopup($id[0], $id[1]);
             }
             $this->pg_obj->update();
-            ilUtil::sendSuccess($lng->txt("cont_popups_have_been_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_popups_have_been_deleted"), true);
         }
         $ilCtrl->redirect($this, "listContentPopups");
     }

@@ -7,7 +7,6 @@
  */
 class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
 {
-
     protected function translations() : void
     {
         $this->setTabs(self::CMD_DEFAULT);
@@ -32,8 +31,8 @@ class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
         $default = (string) $this->request->getParsedBody()['default'];
 
         if (!in_array($default, $languages)) {
-            ilUtil::sendFailure($this->language->txt('err_check_input'), true);
-            ilUtil::sendInfo($this->language->txt('md_adn_int_error_no_default'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->language->txt('err_check_input'), true);
+            $this->tpl->setOnScreenMessage('info', $this->language->txt('md_adn_int_error_no_default'), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
 
@@ -52,7 +51,7 @@ class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
         $this->record->setDefaultLanguage($default);
         $this->record->update();
 
-        ilUtil::sendSuccess($this->language->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->language->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 }

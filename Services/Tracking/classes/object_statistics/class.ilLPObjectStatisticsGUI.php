@@ -113,7 +113,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function showAccessGraph() : void
     {
         if (!$this->initItemIdFromPost()) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->access();
         }
 
@@ -162,7 +162,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function showTypesGraph() : void
     {
         if (!$this->initItemIdFromPost()) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->types();
             return;
         }
@@ -214,7 +214,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function showDailyGraph() : void
     {
         if (!$this->initItemIdFromPost()) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->daily();
             return;
         }
@@ -249,14 +249,14 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     {
         ilChangeEvent::_syncObjectStats(time(), 1);
 
-        ilUtil::sendSuccess($this->lng->txt("trac_sync_obj_stats_success"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("trac_sync_obj_stats_success"), true);
         $this->ctrl->redirect($this, "admin");
     }
 
     public function confirmDeleteData() : void
     {
         if (!$this->initItemIdFromPost()) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->admin();
             return;
         }
@@ -288,13 +288,13 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function deleteData() : void
     {
         if (!$this->initItemIdFromPost()) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->admin();
             return;
         }
 
         ilTrQuery::deleteObjectStatistics($this->initItemIdFromPost());
-        ilUtil::sendSuccess($this->lng->txt("trac_data_deleted"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("trac_data_deleted"));
         $this->admin();
     }
 
@@ -338,7 +338,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function showLearningProgressGraph()
     {
         if (!$this->initItemIdFromPost()) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->learningProgress();
             return;
         }
@@ -392,13 +392,13 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
                 $this->lng->txt("trac_log_info_link") . "</a>";
         }
 
-        ilUtil::sendInfo(sprintf($this->lng->txt("trac_log_info"), $info_date, $info["counter"]) . $link);
+        $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("trac_log_info"), $info_date, $info["counter"]) . $link);
     }
 
     protected function showCronJobInfo() : void
     {
         if (!$this->cronManager->isJobActive("lp_object_statistics")) {
-            ilUtil::sendInfo($this->lng->txt("trac_cron_info"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("trac_cron_info"));
         }
     }
 }

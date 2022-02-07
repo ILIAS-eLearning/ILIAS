@@ -53,7 +53,7 @@ class ilMobMultiSrtUploadGUI
 
     public function uploadMultipleSubtitleFileForm() : void
     {
-        ilUtil::sendInfo($this->lng->txt("cont_upload_multi_srt_howto"));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_upload_multi_srt_howto"));
 
         // upload file
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this), true);
@@ -73,7 +73,7 @@ class ilMobMultiSrtUploadGUI
             $this->multi_srt->uploadMultipleSubtitleFile(ilUtil::stripSlashesArray($_FILES["subtitle_file"]));
             $this->ctrl->redirect($this, "showMultiSubtitleConfirmationTable");
         } catch (ilLMException $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             $this->ctrl->redirect($this, "uploadMultipleSubtitleFileForm");
         }
     }
@@ -101,7 +101,7 @@ class ilMobMultiSrtUploadGUI
         $cnt = $this->multi_srt->moveMultiSrtFiles();
         $this->multi_srt->clearMultiSrtDirectory();
 
-        ilUtil::sendSuccess($this->lng->txt("cont_moved_srt_files") . " (" . $cnt . ")", true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_moved_srt_files") . " (" . $cnt . ")", true);
         $this->ctrl->redirect($this, "uploadMultipleSubtitleFileForm");
     }
 }

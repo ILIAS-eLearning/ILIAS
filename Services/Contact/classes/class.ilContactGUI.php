@@ -313,7 +313,7 @@ class ilContactGUI
             !is_array($this->httpRequest->getParsedBody()['usr_id']) ||
             0 === count($this->httpRequest->getParsedBody()['usr_id'])
         ) {
-            ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
             $this->showContacts();
             return true;
         }
@@ -361,12 +361,12 @@ class ilContactGUI
             !isset($this->httpRequest->getParsedBody()['usr_id']) ||
             $this->httpRequest->getParsedBody()['usr_id'] === ''
         ) {
-            ilUtil::sendInfo($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this);
         }
 
         if (!$this->httpRequest->getParsedBody()['room_id']) {
-            ilUtil::sendInfo($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'));
             $this->postUsrId = explode(',', $this->httpRequest->getParsedBody()['usr_id']);
             $this->inviteToChat();
             return;
@@ -443,7 +443,7 @@ class ilContactGUI
                 $message .= '</ul>';
             }
 
-            ilUtil::sendFailure($message);
+            $this->tpl->setOnScreenMessage('failure', $message);
             $this->postUsrId = $usr_ids;
             $this->inviteToChat();
             return;
@@ -472,7 +472,7 @@ class ilContactGUI
         }
 
         if ($userlist) {
-            ilUtil::sendSuccess($this->lng->txt('chat_users_have_been_invited') . '<ul>' . implode('', $userlist) . '</ul>' . $link, true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('chat_users_have_been_invited') . '<ul>' . implode('', $userlist) . '</ul>' . $link, true);
         }
 
         $this->ctrl->redirect($this);
@@ -500,7 +500,7 @@ class ilContactGUI
         }
 
         if (!is_array($usr_ids) || [] === $usr_ids) {
-            ilUtil::sendInfo($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this);
         }
 

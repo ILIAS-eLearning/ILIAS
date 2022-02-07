@@ -20,7 +20,7 @@ class ilLog
     private string $filename = '';
     private string $tag = '';
     private string $log_format = '';
- 
+
     /**
     * Log level 10: Log only fatal errors that could lead to serious problems
     */
@@ -50,14 +50,15 @@ class ilLog
         string $a_log_file,
         string $a_tag = "",
         bool $a_enabled = true,
-        ?int $a_log_level = null)
+        ?int $a_log_level = null
+    )
     {
         // init vars
-        
+
         $this->FATAL = ilLogLevel::CRITICAL;
         $this->WARNING = ilLogLevel::WARNING;
         $this->MESSAGE = ilLogLevel::INFO;
-  
+
         $this->default_log_level = $this->WARNING;
         $this->current_log_level = $this->setLogLevel($a_log_level);
 
@@ -68,7 +69,7 @@ class ilLog
         $this->setLogFormat(date("[y-m-d H:i:s] ") . "[" . $this->tag . "] ");
         $this->open();
     }
- 
+
     public function setLogLevel(int $a_log_level) : int
     {
         switch (strtolower($a_log_level)) {
@@ -99,7 +100,7 @@ class ilLog
     {
         $this->log_format = $a_format;
     }
-    
+
     public function getLogFormat() : string
     {
         return $this->log_format;
@@ -119,7 +120,7 @@ class ilLog
     public function setFilename(string $a_str) : void
     {
         $this->filename = $a_str;
-        
+
         // on filename change reload close current file
         if ($this->fp) {
             fclose($this->fp);
@@ -131,7 +132,7 @@ class ilLog
     {
         $this->tag = $a_str;
     }
-    
+
     /**
     * special language checking routine
     *
@@ -152,7 +153,7 @@ class ilLog
     {
         $this->write("WARNING: " . $a_message);
     }
-    
+
     /**
     * this function is automatically called by class.ilErrorHandler in case of an error
     * To log manually please use $this::write
@@ -170,7 +171,7 @@ class ilLog
             case "1":
                 $error_level = "fatal";
                 break;
-                
+
             default:
                 $error_level = "unknown";
                 break;
@@ -194,7 +195,7 @@ class ilLog
         $a_log_level = (int) $a_log_level;
         if ($this->enabled and $this->current_log_level >= $this->checkLogLevel($a_log_level)) {
             $this->open();
-            
+
             if ($this->fp == false) {
                 //die("Logfile: cannot open file. Please give Logfile Writepermissions.");
             }
@@ -202,7 +203,7 @@ class ilLog
             if (fwrite($this->fp, $this->getLogFormat() . $a_msg . "\n") == -1) {
                 //die("Logfile: cannot write to file. Please give Logfile Writepermissions.");
             }
-            
+
             // note: logStack() calls write() again, so do not make this call
             // if no log level is given
             if ($a_log_level == $this->FATAL) {
@@ -210,7 +211,7 @@ class ilLog
             }
         }
     }
-    
+
     public function logStack(string $a_message = '') : void
     {
         try {
@@ -224,7 +225,7 @@ class ilLog
     {
         $this->write(print_r($a_var, true), $a_log_level);
     }
-    
+
     /**
      * Open log file
      */
@@ -238,7 +239,7 @@ class ilLog
             throw new ilLogException('Unable to open log file for writing. Please check setup path to log file and possible write access.');
         }
     }
-    
+
     /**
     * delete logfile
     */

@@ -252,7 +252,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         );
         $form_settings->set('persistent_certificate_mode', $mode);
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->settings();
     }
 }

@@ -190,7 +190,7 @@ class ilContainerSorting
                             $sorted[$type] = $data;
                             continue;
                         }
-                    
+
                         // this line used until #4389 has been fixed (3.10.6)
                         // reanimated with 4.4.0
                         $sorted[$type] = ilUtil::sortArray(

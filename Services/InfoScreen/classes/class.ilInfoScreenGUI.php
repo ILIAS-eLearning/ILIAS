@@ -934,7 +934,7 @@ class ilInfoScreenGUI
         ilLPStatusWrapper::_updateStatus($this->getContextObjId(), $ilUser->getId());
 
         $this->lng->loadLanguageModule('trac');
-        ilUtil::sendSuccess($this->lng->txt('trac_updated_status'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('trac_updated_status'), true);
 
         if ($redirect) {
             $this->ctrl->redirect($this, ""); // #14993
@@ -1072,8 +1072,8 @@ class ilInfoScreenGUI
             $this->gui_object->object->getType()
         );
         $tagging_gui->saveInput();
-        
-        ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, ""); // #14993
     }
 

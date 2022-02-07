@@ -414,13 +414,13 @@ class ilECSMappingSettingsGUI
                 }
             }
             
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->setParameter($this, 'lnodes', $current_node);
             $this->ctrl->redirect($this, 'cInitOverview');
         }
         
         $form->setValuesByPost();
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->cInitOverview($form, $current_att);
     }
     
@@ -438,7 +438,7 @@ class ilECSMappingSettingsGUI
             $rule = new ilECSCourseMappingRule($rid);
             $rule->delete();
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'cInitOverview');
     }
 
@@ -639,10 +639,10 @@ class ilECSMappingSettingsGUI
             //$att = new ilECSCourseAttribute();
             //$att->setName($a_name)
             
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'cSettings');
         }
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->cSettings($form);
     }
@@ -686,9 +686,9 @@ class ilECSMappingSettingsGUI
             $settings->enableDirectoryMapping((bool) $form->getInput('active'));
             $settings->enableEmptyContainerCreation(!$form->getInput('empty'));
             $settings->update();
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         } else {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'), true);
             $form->setValuesByPost();
         }
         $this->ctrl->redirect($this, 'dSettings');
@@ -808,7 +808,7 @@ class ilECSMappingSettingsGUI
             (int) $_REQUEST['tid']
         );
 
-        ilUtil::sendSuccess($this->lng->txt('ecs_cms_tree_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('ecs_cms_tree_deleted'), true);
         $this->ctrl->redirect($this, 'dTrees');
     }
 
@@ -939,12 +939,12 @@ class ilECSMappingSettingsGUI
             $assignment->enablePositionUpdate($form->getInput('position'));
             $assignment->update();
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved', true));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved', true));
             $this->ctrl->redirect($this, 'dEditTree');
         }
 
         $form->setValuesByPost();
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->dEditTree($form);
         return true;
     }
@@ -960,7 +960,7 @@ class ilECSMappingSettingsGUI
             (int) $_REQUEST['tid']
         );
         $sync->sync();
-        ilUtil::sendSuccess($this->lng->txt('ecs_cms_tree_synchronized'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('ecs_cms_tree_synchronized'), true);
         $this->ctrl->redirect($this, 'dTrees');
     }
     
@@ -984,7 +984,7 @@ class ilECSMappingSettingsGUI
             }
             $this->ctrl->redirect($this, 'dTrees');
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             $this->ctrl->redirect($this, 'dTrees');
         }
     }
@@ -1100,7 +1100,7 @@ class ilECSMappingSettingsGUI
     protected function dMap()
     {
         if (!$_POST['lnodes']) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'dEditTree');
         }
 
@@ -1156,7 +1156,7 @@ class ilECSMappingSettingsGUI
         // Save parameter cid
         $this->ctrl->setParameter($this, 'lid', (int) $ref_id);
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'dEditTree');
     }
 

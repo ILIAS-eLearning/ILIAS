@@ -19,7 +19,6 @@
 */
 class ilSearchGUI extends ilSearchBaseGUI
 {
-
     private array $details;
     public int $root_node;
     public string $combination;
@@ -328,14 +327,14 @@ class ilSearchGUI extends ilSearchBaseGUI
         }
 
         if ($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS and !$this->getDetails()) {
-            ilUtil::sendInfo($this->lng->txt('search_choose_object_type'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_choose_object_type'));
             $this->showSearch();
             return false;
         }
 
         // Step 1: parse query string
         if (!is_object($query_parser = $this->__parseQueryString())) {
-            ilUtil::sendInfo($query_parser);
+            $this->tpl->setOnScreenMessage('info', $query_parser);
             $this->showSearch();
             
             return false;
@@ -362,7 +361,6 @@ class ilSearchGUI extends ilSearchBaseGUI
         }
         // Step 5: Search in results
         if ($this->search_mode == 'in_results') {
-
             $old_result_obj = new ilSearchResult($this->user->getId());
             $old_result_obj->read();
 
@@ -379,7 +377,7 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->showSearch();
 
         if (!count($result->getResults())) {
-            ilUtil::sendInfo($this->lng->txt('search_no_match'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
 
         if ($result->isLimitReached()) {
@@ -576,7 +574,6 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function __searchMeta(ilQueryParser $query_parser, string $a_type) : ilSearchResult
     {
-
         $meta_search = ilObjectSearchFactory::_getMetaDataSearchInstance($query_parser);
         if ($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS) {
             $meta_search->setFilter($this->__getFilter());
@@ -668,5 +665,4 @@ class ilSearchGUI extends ilSearchBaseGUI
         }
         return $filter;
     }
-
 }

@@ -79,7 +79,7 @@ class ilUserStartingPointGUI
                 $this->ctrl->getLinkTarget($this, "roleStartingPointform")
             );
         } else {
-            ilUtil::sendInfo($this->lng->txt("all_roles_has_starting_point"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("all_roles_has_starting_point"));
         }
 
 
@@ -315,10 +315,10 @@ class ilUserStartingPointGUI
 
         if ($form->checkInput()) {
             ilUserUtil::togglePersonalStartingPoint($form->getInput('usr_start_pers'));
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "startingPoints");
         }
-        ilUtil::sendFailure($this->lng->txt("msg_error"), true);
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_error"), true);
         $ilCtrl->redirect($this, "startingPoints");
     }
 
@@ -401,9 +401,9 @@ class ilUserStartingPointGUI
                 if ($obj_id && ($starting_point->getStartingPoint() == ilUserUtil::START_REPOSITORY_OBJ)) {
                     if (ilObject::_lookupObjId($obj_id) && !$tree->isDeleted($obj_id)) {
                         $starting_point->setStartingObject($obj_id);
-                        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                     } else {
-                        ilUtil::sendFailure($this->lng->txt("obj_ref_id_not_exist"), true);
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("obj_ref_id_not_exist"), true);
                     }
                 } else {
                     $starting_point->setStartingObject(0);
@@ -428,10 +428,10 @@ class ilUserStartingPointGUI
                     "user_cal_period" => $form->getInput("user_cal_period")
                 ];
                 ilUserUtil::setStartingPoint($form->getInput('start_point'), $form->getInput('start_object'), $calendar_info);
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             } else {  //default
                 ilUserUtil::setStartingPoint($form->getInput('start_point'), $form->getInput('start_object'));
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             }
 
             $ilCtrl->redirect($this, "startingPoints");
@@ -489,7 +489,7 @@ class ilUserStartingPointGUI
             $sp->saveOrder($positions);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "startingPoints");
     }
 
@@ -553,9 +553,9 @@ class ilUserStartingPointGUI
         if ($rolid = $req_role_id && $spid = $spoint_id) {
             $sp = new ilStartingPoint($spid);
             $sp->delete();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         } else {
-            ilUtil::sendFailure($this->lng->txt("msg_spoint_not_modified"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_spoint_not_modified"), true);
         }
         $ilCtrl->redirect($this, "startingPoints");
     }

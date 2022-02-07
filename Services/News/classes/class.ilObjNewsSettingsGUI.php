@@ -295,7 +295,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
                 $news_set->set("enable_private_feed", 0);
             }
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         
         $ilCtrl->redirect($this, "view");

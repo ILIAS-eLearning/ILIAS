@@ -216,7 +216,7 @@ class ilContainerNewsSettingsGUI
             }
 
             $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "");
         } else {
             $form->setValuesByPost();

@@ -414,7 +414,7 @@ class ilPropertyFormGUI extends ilFormGUI
             default:
 
                 if (!$ok && !$this->getDisableStandardMessage()) {
-                    ilUtil::sendFailure($txt);
+                    $this->global_tpl->setOnScreenMessage('failure', $txt);
                 }
 
                 return $ok;
@@ -643,14 +643,14 @@ class ilPropertyFormGUI extends ilFormGUI
         //if(method_exists($item, "getMulti") && $item->getMulti())
         if ($item instanceof ilMultiValuesItem && $item->getMulti()) {
             $tpl->addJavascript("./Services/Form/js/ServiceFormMulti.js");
-            
+
             $this->tpl->setCurrentBlock("multi_in");
             $this->tpl->setVariable("ID", $item->getFieldId());
             $this->tpl->parseCurrentBlock();
 
             $this->tpl->touchBlock("multi_out");
 
-            
+
             // add hidden item to enable preset multi items
             // not used yet, should replace hidden field stuff
             $multi_values = $item->getMultiValues();

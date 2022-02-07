@@ -222,7 +222,7 @@ class ilContentStyleImageGUI
                 (bool) $wh["const_prop"]
             );
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ctrl->redirect($this, "listImages");
         } else {
             $form->setValuesByPost();

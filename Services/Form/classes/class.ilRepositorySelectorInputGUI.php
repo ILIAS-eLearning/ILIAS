@@ -124,7 +124,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 
         $ilCtrl->setParameter($this, "postvar", $this->getPostVar());
 
-        ilUtil::sendInfo($this->getHeaderMessage());
+        $this->tpl->setOnScreenMessage('info', $this->getHeaderMessage());
 
         $exp = new ilRepositorySelectorExplorerGUI(
             $this,

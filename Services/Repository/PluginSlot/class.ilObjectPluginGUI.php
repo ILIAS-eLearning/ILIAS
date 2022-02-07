@@ -96,9 +96,9 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                     $this->slot_request->getRefId()
                 ), "big"),
                 $lng->txt("obj_" . ilObject::_lookupType(
-                        $this->slot_request->getRefId(),
-                        true
-                    ))
+                    $this->slot_request->getRefId(),
+                    true
+                ))
             );
             $this->setLocator();
         }
@@ -135,10 +135,10 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             case 'illearningprogressgui':
                 $user_id = $this->user->getId();
                 if ($this->access->checkAccess(
-                        'write',
-                        "",
-                        $this->object->getRefId()
-                    ) &&
+                    'write',
+                    "",
+                    $this->object->getRefId()
+                ) &&
                     $this->slot_request->getUserId() > 0) {
                     $user_id = $this->slot_request->getUserId();
                 }
@@ -344,7 +344,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     {
         $ilCtrl = $this->ctrl;
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
 
         $ilCtrl->setTargetScript('ilias.php');
         $ilCtrl->setParameterByClass(get_class($this), "ref_id", $a_new_object->getRefId());

@@ -81,7 +81,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $skmg_set = new ilSetting("skmg");
         $enable_skmg = $skmg_set->get("enable_skmg");
         if (!$enable_skmg) {
-            ilUtil::sendInfo($lng->txt("skmg_skill_management_deactivated"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_skill_management_deactivated"));
         }
 
         $this->getParentGUI()->showTree(true, $this, "listTemplates");
@@ -112,7 +112,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $skmg_set = new ilSetting("skmg");
         $enable_skmg = $skmg_set->get("enable_skmg");
         if (!$enable_skmg) {
-            ilUtil::sendInfo($lng->txt("skmg_skill_management_deactivated"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_skill_management_deactivated"));
         }
 
         $this->getParentGUI()->showTree(false, $this, "listSkills");
@@ -195,7 +195,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
             $conf->setSkillTreeId($this->skill_tree_id);
             $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "Services/Skill");
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "listSkills");
         } else {
             $ilTabs->activateTab("skills");

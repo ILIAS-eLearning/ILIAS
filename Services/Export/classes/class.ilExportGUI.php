@@ -178,7 +178,7 @@ class ilExportGUI
             $exp_limit = new ilExportLimitation();
             if ($this->objDefinition->isContainer(ilObject::_lookupType($this->obj->getRefId(), true)) &&
                 $exp_limit->getLimitationMode() == ilExportLimitation::SET_EXPORT_DISABLED) {
-                ilUtil::sendFailure($this->lng->txt("exp_error_disabled"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exp_error_disabled"));
                 return;
             }
         }
@@ -262,7 +262,7 @@ class ilExportGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt("exp_file_created"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("exp_file_created"), true);
         $this->ctrl->redirect($this, "listExportFiles");
     }
 
@@ -273,7 +273,7 @@ class ilExportGUI
     {
         $files = $this->initFileIdentifiersFromPost();
         if (!count($files)) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listExportFiles");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -388,7 +388,7 @@ class ilExportGUI
                 $cp_options
             );
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
             $this->showItemSelection();
             return;
         }
@@ -408,8 +408,11 @@ class ilExportGUI
                 continue;
             }
             // no export available or no access
-            if (!$this->objDefinition->allowExport($node['type']) or !$this->access->checkAccess('write', '',
-                    $node['ref_id'])) {
+            if (!$this->objDefinition->allowExport($node['type']) or !$this->access->checkAccess(
+                'write',
+                '',
+                $node['ref_id']
+            )) {
                 $eo->addOption(
                     ilExportOptions::KEY_ITEM_MODE,
                     $node['ref_id'],
@@ -453,7 +456,7 @@ class ilExportGUI
         // Delete export options
         $eo->delete();
 
-        ilUtil::sendSuccess($this->lng->txt('export_created'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('export_created'), true);
         $this->ctrl->redirect($this, "listExportFiles");
     }
 }

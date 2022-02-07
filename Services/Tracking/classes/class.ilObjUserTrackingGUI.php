@@ -299,7 +299,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             $this->object->setLearningProgressListGUI((bool) $form->getInput('lp_list'));
             $this->object->updateSettings();
 
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "settings");
         }
         $form->setValuesByPost();
@@ -386,7 +386,6 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
         $form = $this->initLPDefaultsForm();
         if ($form->checkInput()) {
-
             $res = array();
             foreach ($this->objectDefinition->getAllRepositoryTypes() as $type) {
                 if (ilObjectLP::isSupportedObjectType($type)) {
@@ -398,7 +397,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
             ilObjectLP::saveTypeDefaults($res);
 
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editLPDefaults");
         }
 

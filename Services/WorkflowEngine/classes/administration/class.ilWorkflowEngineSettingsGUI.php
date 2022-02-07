@@ -14,6 +14,7 @@ class ilWorkflowEngineSettingsGUI
 {
     /** @var  ilObjWorkflowEngineGUI */
     protected $parent_gui;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilWorkflowEngineSettingsGUI constructor.
@@ -22,6 +23,8 @@ class ilWorkflowEngineSettingsGUI
      */
     public function __construct(ilObjWorkflowEngineGUI $parent_gui)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->parent_gui = $parent_gui;
     }
 
@@ -56,7 +59,7 @@ class ilWorkflowEngineSettingsGUI
                 $form_instance->setValuesByPost();
                 $ilSetting->set('wfe_activation', (int) $cb_input->getChecked());
 
-                ilUtil::sendSuccess($this->parent_gui->lng->txt('settings_saved'), true);
+                $this->main_tpl->setOnScreenMessage('success', $this->parent_gui->lng->txt('settings_saved'), true);
                 ilUtil::redirect(
                     html_entity_decode($this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'settings.view'))
                 );

@@ -150,10 +150,10 @@ class ilMailSearchGUI
         ilSession::set('mail_search_search', trim($search));
 
         if (ilSession::get('mail_search_search') === '') {
-            ilUtil::sendInfo($this->lng->txt('mail_insert_query'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_insert_query'));
         } elseif (strlen(ilSession::get('mail_search_search')) < 3) {
             $this->lng->loadLanguageModule('search');
-            ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_minimum_three'));
         }
 
         $this->showResults();
@@ -552,7 +552,7 @@ class ilMailSearchGUI
             }
         } else {
             $this->lng->loadLanguageModule('search');
-            ilUtil::sendInfo($this->lng->txt('search_no_match'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
 
         if ($this->isDefaultRequestContext()) {
@@ -578,7 +578,7 @@ class ilMailSearchGUI
         }
 
         if ($added) {
-            ilUtil::sendSuccess($this->lng->txt('wsp_share_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('wsp_share_success'), true);
         }
     }
 }

@@ -212,7 +212,7 @@ class ilAuthLoginPageEditorGUI
         $this->getSettings()->setMode(ilAuthLoginPageEditorSettings::MODE_IPE);
         $this->getSettings()->update();
 
-        ilUtil::sendSuccess($this->lng->txt('login_page_editor_switched'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('login_page_editor_switched'), true);
         $this->ctrl->redirect($this, 'show');
     }
 
@@ -224,7 +224,7 @@ class ilAuthLoginPageEditorGUI
         $this->getSettings()->setMode(ilAuthLoginPageEditorSettings::MODE_RTE);
         $this->getSettings()->update();
 
-        ilUtil::sendSuccess($this->lng->txt('login_page_editor_switched'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('login_page_editor_switched'), true);
         $this->ctrl->redirect($this, 'show');
     }
 
@@ -239,7 +239,7 @@ class ilAuthLoginPageEditorGUI
         }
         $settings->update();
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'show');
     }
 
@@ -308,7 +308,7 @@ class ilAuthLoginPageEditorGUI
                 $this->setting->set('default_auth_mode', (int) $this->form->getInput('default_auth_mode'));
             }
 
-            ilUtil::sendSuccess($this->lng->txt("login_information_settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("login_information_settings_saved"), true);
         }
 
         $this->ctrl->redirect($this, 'show');

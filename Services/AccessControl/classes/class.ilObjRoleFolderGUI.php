@@ -189,7 +189,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         }
 
         $this->ctrl->setParameter($this, 'csource', $this->initCopySourceFromGET());
-        ilUtil::sendInfo($this->lng->txt('rbac_choose_copy_targets'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('rbac_choose_copy_targets'));
 
         $form = $this->initRoleSearchForm();
         $this->tpl->setContent($form->getHTML());
@@ -229,7 +229,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             return;
         }
 
-        ilUtil::sendFailure($this->lng->txt('msg_no_search_string'), true);
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'), true);
         $form->setValuesByPost();
         $this->ctrl->redirect($this, 'roleSearch');
     }
@@ -248,7 +248,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $this->ctrl->setParameter($this, 'csource', $this->initCopySourceFromGET());
 
         if (strlen(ilSession::get('rolf_search_query'))) {
-            ilUtil::sendInfo($this->lng->txt('rbac_select_copy_targets'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('rbac_select_copy_targets'));
             $table = new ilRoleTableGUI($this, 'roleSearchList');
             $table->setType(ilRoleTableGUI::TYPE_SEARCH);
             $table->setRoleTitleFilter(ilSession::get('rolf_search_query'));
@@ -258,7 +258,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             return;
         }
 
-        ilUtil::sendFailure($this->lng->txt('msg_no_search_string'), true);
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'), true);
         $this->ctrl->redirect($this, 'roleSearch');
     }
 
@@ -458,7 +458,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
                     }
                 }
             }
-            ilUtil::sendSuccess($this->lng->txt('rbac_copy_finished'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('rbac_copy_finished'), true);
             $this->ctrl->redirect($this, 'view');
         }
     }
@@ -495,7 +495,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
                     $this->doRemoveRolePermissions($source, $role_id);
                 }
             }
-            ilUtil::sendSuccess($this->lng->txt('rbac_copy_finished'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('rbac_copy_finished'), true);
             $this->ctrl->redirect($this, 'view');
         }
     }
@@ -606,7 +606,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     {
         $roles = $this->initRolesFromPOST();
         if (!count($roles)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'view');
         }
 
@@ -654,7 +654,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         }
 
         // set correct return location if rolefolder is removed
-        ilUtil::sendSuccess($this->lng->txt("msg_deleted_roles_rolts"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_deleted_roles_rolts"), true);
         $this->ctrl->redirect($this, 'view');
     }
 
@@ -726,7 +726,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
                 $security->protectedAdminRole((bool) $form->getInput('admin_role'));
                 $security->save();
             }
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "editSettings");
         }
 

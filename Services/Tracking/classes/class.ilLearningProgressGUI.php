@@ -196,7 +196,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
      */
     protected function editManual() : void
     {
-
         if (ilLearningProgressAccess::checkAccess($this->getRefId())) {
             $olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));
             if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
@@ -288,11 +287,13 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
             if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
                 $form = $this->initCollectionManualForm();
                 if ($form->checkInput()) {
-                    $class = ilLPStatusFactory::_getClassById($this->getObjId(),
-                        ilLPObjSettings::LP_MODE_COLLECTION_MANUAL);
+                    $class = ilLPStatusFactory::_getClassById(
+                        $this->getObjId(),
+                        ilLPObjSettings::LP_MODE_COLLECTION_MANUAL
+                    );
                     $class::_setObjectStatus($this->getObjId(), $this->usr_id, $form->getInput("sids"));
 
-                    ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 }
 
                 $this->ctrl->redirect($this, "editManual");

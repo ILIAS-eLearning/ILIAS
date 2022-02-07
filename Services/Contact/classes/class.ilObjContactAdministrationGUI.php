@@ -162,7 +162,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 
         ilNotificationDatabaseHandler::setUserConfig(-1, $new_cfg);
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this);
     }
 }

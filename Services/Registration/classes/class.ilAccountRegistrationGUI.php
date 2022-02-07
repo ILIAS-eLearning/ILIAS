@@ -320,7 +320,7 @@ class ilAccountRegistrationGUI
 
         // no valid role could be determined
         if (!$valid_role) {
-            ilUtil::sendInfo($this->lng->txt("registration_no_valid_role"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("registration_no_valid_role"));
             $form_valid = false;
         }
 
@@ -341,10 +341,10 @@ class ilAccountRegistrationGUI
         }
 
         if (!$form_valid) {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         } elseif ($showGlobalTermsOfServieFailure) {
             $this->lng->loadLanguageModule('tos');
-            \ilUtil::sendFailure(sprintf(
+            $this->tpl->setOnScreenMessage('failure', sprintf(
                 $this->lng->txt('tos_account_reg_not_possible'),
                 'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
             ));

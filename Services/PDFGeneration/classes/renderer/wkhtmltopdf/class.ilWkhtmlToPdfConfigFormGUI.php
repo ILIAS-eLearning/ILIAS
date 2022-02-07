@@ -16,10 +16,12 @@
 class ilWkhtmlToPdfConfigFormGUI
 {
     protected ilLanguage $lng;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->setLanguage($DIC['lng']);
     }
 
@@ -304,7 +306,7 @@ class ilWkhtmlToPdfConfigFormGUI
         $config = new ilWkhtmlToPdfConfig();
         $config->setPath(ilUtil::stripSlashes($_POST['path']));
         if (mb_stripos($config->getPath(), 'wkhtmlto') === false) {
-            ilUtil::sendFailure($this->lng->txt("file_not_found"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("file_not_found"), true);
             $everything_ok = false;
         } else {
             $config->setZoom((float) $_POST['zoom']);

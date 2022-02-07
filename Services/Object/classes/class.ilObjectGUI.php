@@ -1134,7 +1134,7 @@ class ilObjectGUI
      */
     protected function afterSave(ilObject $a_new_object)
     {
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -1294,7 +1294,7 @@ class ilObjectGUI
      */
     protected function afterUpdate()
     {
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "edit");
     }
 
@@ -1431,7 +1431,7 @@ class ilObjectGUI
                     throw $e;
                 }
                 // display message and form again
-                ilUtil::sendFailure($this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage());
                 $form->setValuesByPost();
                 $tpl->setContent($form->getHTML());
                 return;
@@ -1452,7 +1452,7 @@ class ilObjectGUI
             // import failed
             else {
                 if ($objDefinition->isContainer($new_type)) {
-                    ilUtil::sendFailure($this->lng->txt("container_import_zip_file_invalid"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("container_import_zip_file_invalid"));
                 } else {
                     // not enough information here...
                     return;
@@ -1472,7 +1472,7 @@ class ilObjectGUI
      */
     protected function afterImport(ilObject $a_new_object)
     {
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -1833,7 +1833,7 @@ class ilObjectGUI
             $ilErr->raiseError($this->lng->txt('permission_denied'));
         }
         if (!(int) $_REQUEST['clone_source']) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->createObject();
             return false;
         }
@@ -1859,7 +1859,7 @@ class ilObjectGUI
         // Delete wizard options
         $wizard_options->deleteAll();
 
-        ilUtil::sendSuccess($this->lng->txt("object_duplicated"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_duplicated"), true);
         ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
     }
     
@@ -2138,7 +2138,7 @@ class ilObjectGUI
         $user = $this->user;
         $this->favourites->add($user->getId(), (int) $_GET["item_ref_id"]);
         $lng->loadLanguageModule("rep");
-        ilUtil::sendSuccess($lng->txt("rep_added_to_favourites"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("rep_added_to_favourites"), true);
         $ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 
@@ -2152,7 +2152,7 @@ class ilObjectGUI
         $user = $this->user;
         $lng->loadLanguageModule("rep");
         $this->favourites->remove($user->getId(), (int) $_GET["item_ref_id"]);
-        ilUtil::sendSuccess($lng->txt("rep_removed_from_favourites"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("rep_removed_from_favourites"), true);
         $ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 }
