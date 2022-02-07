@@ -495,7 +495,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         $this->initEditLayoutForm();
         if ($this->form->checkInput()) {
             ilLMObject::writeLayout($this->obj->getId(), $this->form->getInput("layout"));
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editLayout");
         }
         $this->form->setValuesByPost();
@@ -602,7 +602,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
             } else {
                 $this->obj->create();
             }
-            ilUtil::sendSuccess($lng->txt("cont_page_created"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_page_created"), true);
         }
         $this->cancel();
     }

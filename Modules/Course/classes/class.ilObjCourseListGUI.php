@@ -32,7 +32,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = "crs";
         $this->gui_class_name = "ilobjcoursegui";
-        
+
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
@@ -41,7 +41,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
         // general commands array
         $this->commands = ilObjCourseAccess::_getCommands();
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -61,7 +61,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
             $repository = new ilUserCertificateRepository();
             $this->certificatePreloader = new ilCertificateObjectsForUserPreloader($repository);
         }
-        
+
         return $this->certificatePreloader;
     }
 
@@ -81,7 +81,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
         $ilUser = $DIC['ilUser'];
 
         $props = parent::getProperties();
-        
+
         // check activation
         if (
             !ilObjCourseAccess::_isActivated($this->obj_id) &&
@@ -107,7 +107,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
             $props[] = array("alert" => true, "property" => $lng->txt("member_status"),
                 "value" => $lng->txt("crs_status_pending"));
         }
-        
+
         $info = ilObjCourseAccess::lookupRegistrationInfo($this->obj_id);
         if (isset($info['reg_info_list_prop'])) {
             $props[] = array(
@@ -126,7 +126,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
                 'value' => $info['reg_info_list_prop_limit']['value']
             );
         }
-        
+
         // waiting list
         if (ilCourseWaitingList::_isOnList($ilUser->getId(), $this->obj_id)) {
             $props[] = array(
@@ -135,7 +135,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
                 "value" => $lng->txt('on_waiting_list')
             );
         }
-        
+
         // course period
         $info = ilObjCourseAccess::lookupPeriodInfo($this->obj_id);
         if (is_array($info)) {
@@ -146,7 +146,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
                 'value' => $info['value']
             );
         }
-        
+
         // check for certificates
         $hasCertificate = $this->getCertificatePreloader()->isPreloaded($ilUser->getId(), $this->obj_id);
         if (true === $hasCertificate) {
@@ -171,8 +171,8 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
         return $props;
     }
-    
-    
+
+
     /**
      * Workaround for course titles (linked if join or read permission is granted)
      * @param type $a_permission

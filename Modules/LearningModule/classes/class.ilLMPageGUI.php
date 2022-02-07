@@ -60,9 +60,9 @@ class ilLMPageGUI extends ilPageObjectGUI
 
         if (strtolower($this->ctrl->getCmdClass()) == "ilassquestionfeedbackeditinggui") {
             if (ilObjContentObject::_lookupDisableDefaultFeedback($this->getPageObject()->getParentId())) {
-                ilUtil::sendInfo($lng->txt("cont_def_feedb_deactivated"));
+                $this->tpl->setOnScreenMessage('info', $lng->txt("cont_def_feedb_deactivated"));
             } else {
-                ilUtil::sendInfo($lng->txt("cont_def_feedb_activated"));
+                $this->tpl->setOnScreenMessage('info', $lng->txt("cont_def_feedb_activated"));
             }
         }
     }

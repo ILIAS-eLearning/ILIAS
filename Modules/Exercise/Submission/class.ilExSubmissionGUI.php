@@ -237,7 +237,7 @@ class ilExSubmissionGUI
         $file = $this->request->getFile();
 
         if (!isset($file)) {
-            ilUtil::sendFailure($this->lng->txt("exc_select_one_file"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_select_one_file"), true);
             $this->ctrl->redirect($this, "view");
         }
         
@@ -291,7 +291,7 @@ class ilExSubmissionGUI
         $file = $this->request->getFile();
 
         if (!isset($file)) {
-            ilUtil::sendFailure($this->lng->txt("exc_select_one_file"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_select_one_file"), true);
             $this->ctrl->redirect($this, "view");
         }
         

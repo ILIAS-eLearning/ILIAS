@@ -54,6 +54,7 @@ class ilDclTableEditGUI
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
@@ -76,7 +77,7 @@ class ilDclTableEditGUI
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
@@ -379,11 +380,11 @@ class ilDclTableEditGUI
             $this->table->setLimitEnd($limit_end);
             if ($a_mode == "update") {
                 $this->table->doUpdate();
-                ilUtil::sendSuccess($this->lng->txt("dcl_msg_table_edited"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_msg_table_edited"), true);
                 $this->ctrl->redirectByClass("ildcltableeditgui", "edit");
             } else {
                 $this->table->doCreate();
-                ilUtil::sendSuccess($this->lng->txt("dcl_msg_table_created"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_msg_table_created"), true);
                 $this->ctrl->setParameterByClass("ildclfieldlistgui", "table_id", $this->table->getId());
                 $this->ctrl->redirectByClass("ildclfieldlistgui", "listFields");
             }
@@ -417,7 +418,7 @@ class ilDclTableEditGUI
         }
 
         if (!$return) {
-            ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
         }
 
         return $return;
@@ -466,7 +467,7 @@ class ilDclTableEditGUI
     public function delete()
     {
         if (count($this->table->getCollectionObject()->getTables()) < 2) {
-            ilUtil::sendFailure($this->lng->txt("dcl_cant_delete_last_table"), true); //TODO change lng var
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("dcl_cant_delete_last_table"), true); //TODO change lng var
             $this->table->doDelete(true);
         } else {
             $this->table->doDelete(false);

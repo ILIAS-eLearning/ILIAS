@@ -179,7 +179,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
     {
         $ilCtrl = $this->ctrl;
         
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $ilCtrl->redirect($this, "listMaterials");
     }
 
@@ -221,7 +221,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $item_group_items->setItems($items);
         $item_group_items->update();
 
-        ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $ilCtrl->redirect($this, "listMaterials");
     }
 

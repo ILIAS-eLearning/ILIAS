@@ -49,19 +49,19 @@
 */
 
     require_once("SeqActivity.php");
-    
+
     require_once("SeqRule.php");
     require_once("SeqRuleset.php");
-    
+
     require_once("SeqCondition.php");
     require_once("SeqConditionSet.php");
-    
+
     require_once("SeqObjective.php");
     require_once("SeqObjectiveMap.php");
-    
+
     require_once("SeqRollupRule.php");
     require_once("SeqRollupRuleset.php");
-    
+
     require_once("ADLAuxiliaryResource.php");
 
     class SeqTreeBuilder
@@ -71,88 +71,88 @@
             $doc = new DomDocument();
             $doc->load($file);
             $organizations = $doc->getElementsByTagName("organizations");
-        
+
             //lookup default organization id
             $default = preg_replace('/(%20)+/', ' ', trim($organizations->item(0)->getAttribute("default")));
-        
+
             //get all organization nodes
             $organization = $doc->getElementsByTagName("organization");
-        
+
             //lookup the default organization
             foreach ($organization as $element) {
                 if (preg_replace('/(%20)+/', ' ', trim($element->getAttribute("identifier"))) == $default) {
                     $default_organization = $element;
                 }
             }
-        
+
             //read seqCollection
             $seqCollection = $doc->getElementsByTagName("sequencingCollection")->item(0);
-        
+
             $root = $this->buildNode($default_organization, $seqCollection, $doc);
-        
+
             //return no data please check
             $objectivesGlobalToSystem = $default_organization->getAttributeNS("http://www.adlnet.org/xsd/adlseq_v1p3", "objectivesGlobalToSystem");
-    
+
             $org = preg_replace('/(%20)+/', ' ', trim($default_organization->getAttribute("identifier")));
-        
+
             //default true
             $globaltosystem = 1;
-        
+
             if ($objectivesGlobalToSystem == "false") {
                 $globaltosystem = 0;
             }
-        
+
             //return no data please check
             $dataGlobalToSystem = $default_organization->getAttributeNS("http://www.adlnet.org/xsd/adlcp_v1p3", "sharedDataGlobalToSystem");
-    
+
             //default true
             $dataglobaltosystem = 1;
-        
+
             if ($dataGlobalToSystem == "false") {
                 $dataglobaltosystem = 0;
             }
-                
+
             //assign SeqActivity to top node
             $c_root['_SeqActivity'] = $root;
-                
+
             $ret['global'] = $globaltosystem;
             $ret['dataglobal'] = $dataglobaltosystem;
             $ret['tree'] = $c_root;
-        
+
             return $ret;
         }
-      
-      
-      
+
+
+
         private function buildNode($node, $seq, $doc)
         {
 
         //create a new activity object
             $act = new SeqActivity();
-                
+
             //set various attributes, if existent
             $act->setID(preg_replace('/(%20)+/', ' ', trim($node->getAttribute("identifier"))));
-        
+
             $tempVal = preg_replace('/(%20)+/', ' ', trim($node->getAttribute("identifierref")));
             if ($tempVal) {
                 $act->setResourceID($tempVal);
             }
-        
+
             $tempVal = $node->getAttribute("isvisible");
-      
+
             if ($tempVal) {
                 $act->setIsVisible(self::convert_to_bool($tempVal));
             }
-         
-        
-        
+
+
+
             //Proceed nested items
             $children = $node->childNodes;
-        
+
             for ($i = 0; $i < $children->length; $i++) {
                 $curNode = $children->item($i);
                 //elements only
-            
+
                 if ($curNode->nodeType == XML_ELEMENT_NODE) {
                     //only items are nested
                     if ($curNode->localName == "item") {
@@ -167,20 +167,20 @@
                         $act->setTitle($this->lookupElement($curNode, null));
                     } elseif ($curNode->localName == "completionThreshold") {
                         $tempVal = $curNode->getAttribute("minProgressMeasure");
-                     
+
                         if ($tempVal) {
                             $act->setCompletionThreshold($tempVal);
                         } elseif ($curNode->nodeValue != null && $curNode->nodeValue != '') {
                             $act->setCompletionThreshold($curNode->nodeValue);
                         }
-        
+
                         $tempVal = $curNode->getAttribute("progressWeight");
-                     
+
                         if ($tempVal) {
                             $act->setProgressWeight($tempVal);
                         }
                         $tempVal = $curNode->getAttribute("completedByMeasure");
-                 
+
                         if ($tempVal) {
                             $act->setCompletedByMeasure(self::convert_to_bool($tempVal));
                         }
@@ -192,20 +192,20 @@
                         if ($tempVal) {
                             //init seqGlobal
                             $seqGlobal = null;
-                        
+
                             //get all sequencing nodes in collections
                             $sequencing = $seq->getElementsByTagName("sequencing");
-      
+
                             //lookup the matching sequencing element
                             foreach ($sequencing as $element) {
                                 if (preg_replace('/(%20)+/', ' ', trim($element->getAttribute("ID"))) == $tempVal) {
                                     $seqGlobal = $element;
                                 }
                             }
-                        
+
                             //clone the global node
                             $seqInfo = $seqGlobal->cloneNode(true);
-                        
+
                             //back to the local node
                             $seqChildren = $curNode->childNodes;
                             for ($j = 0; $j < $seqChildren->length; $j++) {
@@ -223,17 +223,17 @@
                         $act = $this->extractSeqInfo($seqInfo, $act);
                     }
                 }
-            
-        
-         
+
+
+
                 $item = $children->item($i)->nodeValue;
             }
             //add class
             //$c_act['_SeqActivity']=$act;
             return $act;
         }
-      
-      
+
+
         private function extractSeqInfo($iNode, $ioAct)
         {
             //set sequencing information
@@ -252,25 +252,25 @@
                         if ($tempVal) {
                             $ioAct->setControlModeChoiceExit(self::convert_to_bool($tempVal));
                         }
-                    
+
                         //look for flow
                         $tempVal = $curNode->getAttribute("flow");
                         if ($tempVal) {
                             $ioAct->setControlModeFlow(self::convert_to_bool($tempVal));
                         }
-                    
+
                         // Look for 'forwardOnly'
                         $tempVal = $curNode->getAttribute("forwardOnly");
                         if ($tempVal) {
                             $ioAct->setControlForwardOnly(self::convert_to_bool($tempVal));
                         }
-                    
+
                         // Look for 'useCurrentAttemptObjectiveInfo'
                         $tempVal = $curNode->getAttribute("useCurrentAttemptObjectiveInfo");
                         if ($tempVal) {
                             $ioAct->setUseCurObjective(self::convert_to_bool($tempVal));
                         }
-                    
+
                         // Look for 'useCurrentAttemptProgressInfo'
                         $tempVal = $curNode->getAttribute("useCurrentAttemptProgressInfo");
                         if ($tempVal) {
@@ -284,37 +284,37 @@
                         if ($tempVal) {
                             $ioAct->setAttemptLimit($tempVal);
                         }
-                
+
                         // Look for 'attemptAbsoluteDurationLimit'
                         $tempVal = $curNode->getAttribute("attemptAbsoluteDurationLimit");
                         if ($tempVal) {
                             $ioAct->setAttemptAbDur($tempVal);
                         }
-            
+
                         // Look for 'attemptExperiencedDurationLimit'
                         $tempVal = $curNode->getAttribute("attemptExperiencedDurationLimit");
                         if ($tempVal) {
                             $ioAct->setAttemptExDur($tempVal);
                         }
-    
+
                         // Look for 'activityAbsoluteDurationLimit'
                         $tempVal = $curNode->getAttribute("activityAbsoluteDurationLimit");
                         if ($tempVal) {
                             $ioAct->setActivityAbDur($tempVal);
                         }
-                   
+
                         // Look for 'activityExperiencedDurationLimit'
                         $tempVal = $curNode->getAttribute("activityExperiencedDurationLimit");
                         if ($tempVal) {
                             $ioAct->setActivityExDur($tempVal);
                         }
-            
+
                         // Look for 'beginTimeLimit'
                         $tempVal = $curNode->getAttribute("beginTimeLimit");
                         if ($tempVal) {
                             $ioAct->setBeginTimeLimit($tempVal);
                         }
-                    
+
                         // Look for 'endTimeLimit'
                         $tempVal = $curNode->getAttribute("endTimeLimit");
                         if ($tempVal) {
@@ -329,88 +329,88 @@
                     } elseif ($curNode->localName == "objectives" && $curNode->namespaceURI == "http://www.adlnet.org/xsd/adlseq_v1p3") {
                         $ioAct = self::getADLSEQObjectives($curNode, $ioAct);
                     } elseif ($curNode->localName == "randomizationControls") {
-                    
+
                     // Look for 'randomizationTiming'
                         $tempVal = $curNode->getAttribute("randomizationTiming");
                         if ($tempVal) {
                             $ioAct->setRandomTiming($tempVal);
                         }
-                    
+
                         // Look for 'selectCount'
                         $tempVal = $curNode->getAttribute("selectCount");
                         if ($tempVal) {
                             $ioAct->setSelectCount($tempVal);
                         }
-                    
+
                         // Look for 'reorderChildren'
                         $tempVal = $curNode->getAttribute("reorderChildren");
                         if ($tempVal) {
                             $ioAct->setReorderChildren(self::convert_to_bool($tempVal));
                         }
-                    
+
                         // Look for 'selectionTiming'
                         $tempVal = $curNode->getAttribute("selectionTiming");
                         if ($tempVal) {
                             $ioAct->setSelectionTiming($tempVal);
                         }
                     } elseif ($curNode->localName == "deliveryControls") {
-                    
+
                     // Look for 'tracked'
                         $tempVal = $curNode->getAttribute("tracked");
                         if ($tempVal) {
                             $ioAct->setIsTracked(self::convert_to_bool($tempVal));
                         }
-                      
+
                         // Look for 'completionSetByContent'
                         $tempVal = $curNode->getAttribute("completionSetByContent");
                         if ($tempVal) {
                             $ioAct->setSetCompletion(self::convert_to_bool($tempVal));
                         }
-                  
+
                         // Look for 'objectiveSetByContent'
                         $tempVal = $curNode->getAttribute("objectiveSetByContent");
                         if ($tempVal) {
                             $ioAct->setSetObjective(self::convert_to_bool($tempVal));
                         }
                     } elseif ($curNode->localName == "constrainedChoiceConsiderations") {
-                    
+
                     // Look for 'preventActivation'
                         $tempVal = $curNode->getAttribute("preventActivation");
                         if ($tempVal) {
                             $ioAct->setPreventActivation(self::convert_to_bool($tempVal));
                         }
-                    
+
                         // Look for 'constrainChoice'
                         $tempVal = $curNode->getAttribute("constrainChoice");
                         if ($tempVal) {
                             $ioAct->setConstrainChoice(self::convert_to_bool($tempVal));
                         }
                     } elseif ($curNode->localName == "rollupConsiderations") {
-                
+
                     // Look for 'requiredForSatisfied'
                         $tempVal = $curNode->getAttribute("requiredForSatisfied");
                         if ($tempVal) {
                             $ioAct->setRequiredForSatisfied($tempVal);
                         }
-                    
+
                         // Look for 'requiredForNotSatisfied'
                         $tempVal = $curNode->getAttribute("requiredForNotSatisfied");
                         if ($tempVal) {
                             $ioAct->setRequiredForNotSatisfied($tempVal);
                         }
-                    
+
                         // Look for 'requiredForCompleted'
                         $tempVal = $curNode->getAttribute("requiredForCompleted");
                         if ($tempVal) {
                             $ioAct->setRequiredForCompleted($tempVal);
                         }
-                    
+
                         // Look for 'requiredForIncomplete'
                         $tempVal = $curNode->getAttribute("requiredForIncomplete");
                         if ($tempVal) {
                             $ioAct->setRequiredForIncomplete($tempVal);
                         }
-                
+
                         // Look for 'measureSatisfactionIfActive'
                         $tempVal = $curNode->getAttribute("measureSatisfactionIfActive");
                         if ($tempVal) {
@@ -419,17 +419,17 @@
                     }
                 }  //end note-type check
             } //end for-loop
-         
+
             return $ioAct;
         }
-    
-    
+
+
         public static function getObjectives($iNode, $ioAct)
         {
             global $DIC;
             $ilLog = ilLoggerFactory::getLogger('sc13');
-        
-        
+
+
             $ok = true;
             $tempVal = null;
             $objectives = array();
@@ -442,7 +442,7 @@
                         if ($curNode->localName == "primaryObjective") {
                             $obj->mContributesToRollup = true;
                         }
-                    
+
                         // Look for 'objectiveID'
                         $tempVal = preg_replace('/(%20)+/', ' ', trim($curNode->getAttribute("objectiveID")));
                         if ($tempVal) {
@@ -459,7 +459,7 @@
                         if ($tempVal) {
                             $obj->mMinMeasure = (float) $tempVal;
                         }
-                
+
                         //get ObjectiveMaps
                         $maps = self::getObjectiveMaps($curNode);
                         if ($maps != null) {
@@ -475,7 +475,7 @@
             $ioAct->setObjectives($objectives);
             return $ioAct;
         }
-    
+
         public static function getADLSEQObjectives($iNode, $ioAct)
         {
             global $DIC;
@@ -488,7 +488,7 @@
                     if ($curNode->localName == "objective") {
                         // get the objectiveID
                         $adlseqobjid = preg_replace('/(%20)+/', ' ', trim($curNode->getAttribute("objectiveID")));
-                    
+
                         // find the imsss objective with the same objectiveID
                         $curseqobj = null;
                         for ($j = 0; $j < count($objectives); $j++) {
@@ -499,7 +499,7 @@
                                 break;
                             }
                         }
-                    
+
                         // if there's a current seq then let's add the maps
                         if ($curseqobj != null) {
                             //  for each adlseq map info populate that mMaps with map info in the adlseq objective
@@ -515,7 +515,7 @@
             $ioAct->setObjectives($objectives);
             return $ioAct;
         }
-    
+
         public static function getADLSeqMaps($iNode, $curseqobj)
         {
             if (count($curseqobj->mMaps) == null) {
@@ -540,7 +540,7 @@
                         }
                         // tom: if default access is dependent on map existence then this will need to know if an imsss:mapInfo existed
                         $map = self::fillinADLSeqMaps($curNode, $map);
-                    
+
                         if ($matchingmapindex > -1) {
                             $c_map['_SeqObjectiveMap'] = $map;
                             $maps[$matchingmapindex] = $c_map;
@@ -554,7 +554,7 @@
             $curseqobj->mMaps = $maps;
             return $curseqobj;
         }
-    
+
         public static function fillinADLSeqMaps($iNode, $map)
         {
             if ($map->mGlobalObjID == null) {
@@ -570,22 +570,22 @@
             if ($tempVal) {
                 $map->mReadMinScore = self::convert_to_bool($tempVal);
             }
-        
+
             $tempVal = $iNode->getAttribute("readMaxScore");
             if ($tempVal) {
                 $map->mReadMaxScore = self::convert_to_bool($tempVal);
             }
-        
+
             $tempVal = $iNode->getAttribute("readCompletionStatus");
             if ($tempVal) {
                 $map->mReadCompletionStatus = self::convert_to_bool($tempVal);
             }
-        
+
             $tempVal = $iNode->getAttribute("readProgressMeasure");
             if ($tempVal) {
                 $map->mReadProgressMeasure = self::convert_to_bool($tempVal);
             }
-        
+
             $tempVal = $iNode->getAttribute("writeRawScore");
             if ($tempVal) {
                 $map->mWriteRawScore = self::convert_to_bool($tempVal);
@@ -595,25 +595,25 @@
             if ($tempVal) {
                 $map->mWriteMinScore = self::convert_to_bool($tempVal);
             }
-        
+
             $tempVal = $iNode->getAttribute("writeMaxScore");
             if ($tempVal) {
                 $map->mWriteMaxScore = self::convert_to_bool($tempVal);
             }
-        
+
             $tempVal = $iNode->getAttribute("writeCompletionStatus");
             if ($tempVal) {
                 $map->mWriteCompletionStatus = self::convert_to_bool($tempVal);
             }
-        
+
             $tempVal = $iNode->getAttribute("writeProgressMeasure");
             if ($tempVal) {
                 $map->mWriteProgressMeasure = self::convert_to_bool($tempVal);
             }
-        
+
             return $map;
         }
-    
+
         public static function getObjectiveMaps($iNode)
         {
             $tempVal = null;
@@ -624,31 +624,31 @@
                 if ($curNode->nodeType == XML_ELEMENT_NODE) {
                     if ($curNode->localName == "mapInfo") {
                         $map = new SeqObjectiveMap();
-                    
+
                         // Look for 'targetObjectiveID'
                         $tempVal = preg_replace('/(%20)+/', ' ', trim($curNode->getAttribute("targetObjectiveID")));
                         if ($tempVal) {
                             $map->mGlobalObjID = $tempVal;
                         }
-        
+
                         // Look for 'readSatisfiedStatus'
                         $tempVal = $curNode->getAttribute("readSatisfiedStatus");
                         if ($tempVal) {
                             $map->mReadStatus = self::convert_to_bool($tempVal);
                         }
-        
+
                         // Look for 'readNormalizedMeasure'
                         $tempVal = $curNode->getAttribute("readNormalizedMeasure");
                         if ($tempVal) {
                             $map->mReadMeasure = self::convert_to_bool($tempVal);
                         }
-            
+
                         // Look for 'writeSatisfiedStatus'
                         $tempVal = $curNode->getAttribute("writeSatisfiedStatus");
                         if ($tempVal) {
                             $map->mWriteStatus = self::convert_to_bool($tempVal);
                         }
-            
+
                         // Look for 'writeNormalizedMeasure'
                         $tempVal = $curNode->getAttribute("writeNormalizedMeasure");
                         if ($tempVal) {
@@ -665,19 +665,19 @@
             }
             return $maps;
         }
-    
+
         public static function getRollupRules($iNode, $ioAct)
         {
             $ok = true;
             $tempVal = null;
             $rollupRules = array();
-        
+
             // Look for 'rollupObjectiveSatisfied'
             $tempVal = $iNode->getAttribute("rollupObjectiveSatisfied");
             if ($tempVal) {
                 $ioAct->setIsObjRolledUp(self::convert_to_bool($tempVal));
             }
-        
+
             // Look for 'objectiveMeasureWeight'
             $tempVal = $iNode->getAttribute("objectiveMeasureWeight");
             if ($tempVal) {
@@ -694,7 +694,7 @@
                 if ($curNode->nodeType == XML_ELEMENT_NODE) {
                     if ($curNode->localName == "rollupRule") {
                         $rule = new SeqRollupRule();
-            
+
                         // Look for 'childActivitySet'
                         $tempVal = $curNode->getAttribute("childActivitySet");
                         if ($tempVal) {
@@ -705,7 +705,7 @@
                         if ($tempVal) {
                             $rule->mMinCount = $tempVal;
                         }
-                
+
                         // Look for 'minimumPercent'
                         $tempVal = $curNode->getAttribute("minimumPercent");
                         if ($tempVal) {
@@ -769,7 +769,7 @@
                     }
                 }
             }
-         
+
             if ($rollupRules != null) {
                 $rules = new SeqRollupRuleset($rollupRules);
                 // Set the Activity's rollup rules
@@ -780,8 +780,8 @@
 
             return $ioAct;
         }
-   
-   
+
+
         public static function getSequencingRules($iNode, $ioAct)
         {
             //local variables
@@ -794,7 +794,7 @@
 
             //get children
             $children = $iNode->childNodes;
-        
+
             //find sequencing rules
             for ($i = 0; $i < $children->length; $i++) {
                 $curNode = $children->item($i);
@@ -840,14 +840,14 @@
                     } //end if preCondition
                 }  //end if ELEMENT
             }
-        
+
             if (count($preRules) > 0) {
                 $rules = new SeqRuleset($preRules);
                 //add class
                 $c_rules['_SeqRuleset'] = $rules;
                 $ioAct->setPreSeqRules($c_rules);
             }
-    
+
             if (count($exitRules) > 0) {
                 $rules = new SeqRuleset($exitRules);
                 //add class
@@ -861,10 +861,10 @@
                 $ioAct->setPostSeqRules($c_rules);
             }
             //echo json_encode($ioAct);
-        
+
             return $ioAct;
         }
-    
+
         public static function extractSeqRuleConditions($iNode)
         {
             $tempVal = null;
@@ -883,7 +883,7 @@
                 if ($curCond->nodeType == XML_ELEMENT_NODE) {
                     if ($curCond->localName == "ruleCondition") {
                         $cond = new SeqCondition();
-                    
+
                         //look for condition
                         $tempVal = $curCond->getAttribute("condition");
                         if ($tempVal) {
@@ -895,13 +895,13 @@
                         if ($tempVal) {
                             $cond->mObjID = $tempVal;
                         }
-    
+
                         // Look for 'measureThreshold'
                         $tempVal = $curCond->getAttribute("measureThreshold");
                         if ($tempVal) {
                             $cond->mThreshold = $tempVal;
                         }
-        
+
                         // Look for 'operator'
                         $tempVal = $curCond->getAttribute("operator");
                         if ($tempVal) {
@@ -911,14 +911,14 @@
                                 $cond->mNot = false;
                             }
                         }
-                    
+
                         //add class
                         $c_cond['_SeqCondition'] = $cond;
                         array_push($conditions, $c_cond);
                     }
                 }
             }
-        
+
             if (count($conditions) > 0) {
                 $condSet->mConditions = $conditions;
             } else {
@@ -928,7 +928,7 @@
             $c_condSet['_SeqConditionSet'] = $condSet;
             return $c_condSet;
         }
-   
+
         public static function getAuxResources($iNode, $ioAct)
         {
             $ok = true;
@@ -944,7 +944,7 @@
                     if ($curNode->localName == "auxiliaryResource") {
                         //found it
                         $res = new ADLAuxiliaryResource();
-                    
+
                         // Get the resource's purpose
                         $tempVal = $curNode->getAttribute("purpose");
                         if ($tempVal) {
@@ -964,9 +964,9 @@
             $ioAct->setAuxResources($c_auxRes);
             return $ioAct;
         }
-    
+
         //helper functions
-    
+
         private static function convert_to_bool($string)
         {
             if (strtoupper($string) == "FALSE") {
@@ -975,14 +975,14 @@
                 return true;
             }
         }
-    
-    
+
+
         private static function lookupElement($iNode, $iElement)
         {
             $value = null;
             $curNode = null;
             $children = null;
-        
+
             if ($iNode != null && $iElement != null) {
                 $children = $iNode->childNodes;
                 for ($i = 0; $i < $children->length; $i++) {
@@ -1007,7 +1007,7 @@
                 //$iElement is null
                 $curNode = $iNode;
             }
-      
+
             if ($curNode != null) {
                 $children = $curNode->childNodes;
                 if ($children != null) {

@@ -32,6 +32,7 @@ class SettingsFormGUI
     protected InternalDomainService $domain_service;
     protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
     protected \ilRbacSystem $rbacsystem;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         InternalGUIService $ui_service,
@@ -41,6 +42,7 @@ class SettingsFormGUI
         UIModifier $modifier
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->rbacsystem = $DIC->rbac()->system();
 
@@ -835,7 +837,7 @@ class SettingsFormGUI
 
         // #10055
         if ($form->getInput('online') && count($survey->questions) == 0) {
-            \ilUtil::sendFailure($lng->txt("cannot_switch_to_online_no_questions"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("cannot_switch_to_online_no_questions"), true);
         } else {
             $survey->setOfflineStatus(!$form->getInput('online'));
         }

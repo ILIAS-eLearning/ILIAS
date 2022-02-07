@@ -1734,7 +1734,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 }
             }
         } else {
-            ilUtil::sendFailure($lng->txt("cont_print_no_page_selected"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_print_no_page_selected"), true);
             $ilCtrl->redirect($this, "showPrintViewSelection");
         }
 

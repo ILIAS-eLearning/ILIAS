@@ -125,10 +125,10 @@ class ilSurveyPageEditGUI
                             } else {
                                 // #9525
                                 if ($subcmd == "multiDelete") {
-                                    ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+                                    $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
                                     $ilCtrl->redirect($this, "renderPage");
                                 } else {
-                                    ilUtil::sendFailure($lng->txt("no_checkbox"));
+                                    $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"));
                                 }
                             }
                         }
@@ -230,7 +230,7 @@ class ilSurveyPageEditGUI
         $lng = $this->lng;
 
         if (!SurveyQuestion::_isComplete($a_new_id)) {
-            ilUtil::sendFailure($lng->txt("survey_error_insert_incomplete_question"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("survey_error_insert_incomplete_question"));
         } else {
             $a_new_id = $this->appendNewQuestionToSurvey($a_new_id);
             $this->object->loadQuestionsFromDb();
@@ -446,7 +446,7 @@ class ilSurveyPageEditGUI
     {
         $lng = $this->lng;
         
-        ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_cut"));
+        $this->tpl->setOnScreenMessage('success', $lng->txt("survey_questions_to_clipboard_cut"));
         $this->suppress_clipboard_msg = true;
 
         $this->edit_manager->setQuestionClipboard(
@@ -464,7 +464,7 @@ class ilSurveyPageEditGUI
     {
         $lng = $this->lng;
         
-        ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_copy"));
+        $this->tpl->setOnScreenMessage('success', $lng->txt("survey_questions_to_clipboard_copy"));
         $this->suppress_clipboard_msg = true;
         
         $this->edit_manager->setQuestionClipboard(
@@ -485,7 +485,7 @@ class ilSurveyPageEditGUI
         $lng = $this->lng;
 
         if (count($a_id) > 0) {
-            ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_cut"));
+            $this->tpl->setOnScreenMessage('success', $lng->txt("survey_questions_to_clipboard_cut"));
             $this->suppress_clipboard_msg = true;
 
             $this->edit_manager->setQuestionClipboard(
@@ -506,7 +506,7 @@ class ilSurveyPageEditGUI
         $lng = $this->lng;
 
         if (count($a_id) > 0) {
-            ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_copy"));
+            $this->tpl->setOnScreenMessage('success', $lng->txt("survey_questions_to_clipboard_copy"));
             $this->suppress_clipboard_msg = true;
 
             $this->edit_manager->setQuestionClipboard(
@@ -704,7 +704,7 @@ class ilSurveyPageEditGUI
         $ilCtrl = $this->ctrl;
         
         $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
-        ilUtil::sendQuestion($lng->txt("remove_questions"));
+        $this->tpl->setOnScreenMessage('question', $lng->txt("remove_questions"));
         
         $page = $this->object->getSurveyPages();
         $page = $page[$this->current_page - 1];
@@ -829,7 +829,7 @@ class ilSurveyPageEditGUI
         string $a_value
     ) : void {
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->clearSubTabs();
         $ctrl = $this->ctrl;
 
@@ -1073,7 +1073,7 @@ class ilSurveyPageEditGUI
         $pool_active = $this->object->getPoolUsage();
 
         if ($this->svy_request->getPoolUsage() == 0 && $pool_active) {
-            ilUtil::sendFailure($lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("select_one"), true);
             $this->addQuestionToolbarForm();
             return;
         }
@@ -1172,7 +1172,7 @@ class ilSurveyPageEditGUI
             $this->current_page++;
         }
 
-        ilUtil::sendSuccess($lng->txt("survey_page_moved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("survey_page_moved"), true);
         $ilCtrl->setParameter($this, "pgov", $this->current_page);
         $ilCtrl->redirect($this, "renderPage");
     }
@@ -1364,7 +1364,7 @@ class ilSurveyPageEditGUI
                     $multi_commands[] = array("cmd" => "selectAll", "text" => $lng->txt("select_all"));
                 } else {
                     if (!$this->suppress_clipboard_msg) {
-                        ilUtil::sendInfo($lng->txt("survey_clipboard_notice"));
+                        $this->tpl->setOnScreenMessage('info', $lng->txt("survey_clipboard_notice"));
                     }
                     $multi_commands[] = array("cmd" => "clearClipboard", "text" => $lng->txt("survey_dnd_clear_clipboard"));
                 }

@@ -107,7 +107,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         // put here object specific stuff
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
 
         $this->ctrl->redirect($this);
     }
@@ -315,7 +315,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         }
         $assessmentSetting->set('user_criteria', ilUtil::stripSlashes($_POST['user_criteria']));
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
         $this->ctrl->redirect($this, 'settings');
     }
@@ -532,9 +532,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     {
         if (is_array($_POST["chb_test"]) && (count($_POST["chb_test"]))) {
             $this->object->deleteLogEntries($_POST["chb_test"]);
-            ilUtil::sendSuccess($this->lng->txt("ass_log_deleted"));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("ass_log_deleted"));
         } else {
-            ilUtil::sendInfo($this->lng->txt("ass_log_delete_no_selection"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("ass_log_delete_no_selection"));
         }
         $this->logAdminObject();
     }
@@ -705,7 +705,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             $this->object->_enableAssessmentLogging((int) $form->getInput('chb_assessment_logging'));
             $this->object->_setLogLanguage($form->getInput('reporting_language'));
             $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $form->setValuesByPost();

@@ -104,7 +104,7 @@ class ilSurveyConstraintsGUI
     public function constraintsAddObject() : void
     {
         if (strlen($this->request->getConstraintPar("v")) == 0) {
-            ilUtil::sendFailure($this->lng->txt("msg_enter_value_for_valid_constraint"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_enter_value_for_valid_constraint"));
             $this->constraintStep3Object();
             return;
         }
@@ -171,7 +171,7 @@ class ilSurveyConstraintsGUI
         if (count($option_questions) == 0) {
             $this->edit_manager->clearConstraintElements();
             $this->edit_manager->clearConstraintStructure();
-            ilUtil::sendInfo($this->lng->txt("constraints_no_nonessay_available"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("constraints_no_nonessay_available"), true);
             $this->ctrl->redirect($this, "constraints");
         }
         $this->constraintForm(1, $this->getConstraintParsFromPost(), $survey_questions, $option_questions);
@@ -403,7 +403,7 @@ class ilSurveyConstraintsGUI
     {
         $id = (int) $this->request->getPrecondition();
         if ($this->validateConstraintForEdit($id)) {
-            ilUtil::sendSuccess($this->lng->txt("survey_constraint_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("survey_constraint_deleted"), true);
             $this->object->deleteConstraint($id);
         }
 
@@ -414,7 +414,7 @@ class ilSurveyConstraintsGUI
     {
         $include_elements = $this->request->getIncludeElements();
         if (count($include_elements) == 0) {
-            ilUtil::sendInfo($this->lng->txt("constraints_no_questions_or_questionblocks_selected"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("constraints_no_questions_or_questionblocks_selected"), true);
             $this->ctrl->redirect($this, "constraints");
         } elseif (count($include_elements) >= 1) {
             $this->edit_manager->setConstraintElements($include_elements);

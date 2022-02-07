@@ -166,7 +166,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     {
         $ilCtrl = $this->ctrl;
         
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $ilCtrl->redirect($this, "");
     }
     
@@ -551,7 +551,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $ilCtrl->redirectByClass("ilblogpostinggui", "previewFullscreen");
                 }
             } else {
-                ilUtil::sendFailure($lng->txt("blog_posting_not_found"));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("blog_posting_not_found"));
             }
         }
         
@@ -575,7 +575,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
 
                 if (!$this->checkPermissionBool("read") && !$this->prtf_embed) {
-                    ilUtil::sendInfo($lng->txt("no_permission"));
+                    $this->tpl->setOnScreenMessage('info', $lng->txt("no_permission"));
                     return;
                 }
 
@@ -697,9 +697,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                                 $info[] = $lng->txt("blog_posting_edit_approval_info");
                             }
                             if ($public_action) {
-                                ilUtil::sendSuccess(implode("<br />", $info));
+                                $this->tpl->setOnScreenMessage('success', implode("<br />", $info));
                             } else {
-                                ilUtil::sendInfo(implode("<br />", $info));
+                                $this->tpl->setOnScreenMessage('info', implode("<br />", $info));
                             }
 
                             // revert to edit cmd to avoid confusion
@@ -922,7 +922,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $posting->getId());
             $ilCtrl->redirectByClass("ilblogpostinggui", "edit");
         } else {
-            ilUtil::sendFailure($this->lng->txt("msg_no_title"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_title"), true);
             $ilCtrl->redirect($this, "render");
         }
     }
@@ -939,7 +939,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ilToolbar = new ilToolbarGUI();
 
         if (!$this->checkPermissionBool("read")) {
-            ilUtil::sendInfo($lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_permission"));
             return;
         }
 
@@ -1102,7 +1102,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $toolbar = $DIC->toolbar();
         
         if (!$this->checkPermissionBool("read")) {
-            ilUtil::sendInfo($lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_permission"));
             return;
         }
 
@@ -2596,7 +2596,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $post->setBlogNodeId($this->node_id, ($this->id_type == self::WORKSPACE_NODE_ID));
             $post->update(true, false, true, "new"); // #13434
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
                 
         $this->ctrl->redirect($this, "render");
@@ -2639,7 +2639,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         $other_roles = $this->object->getRolesWithContributeOrRedact($this->node_id);
         if ($other_roles) {
-            ilUtil::sendInfo(sprintf($lng->txt("blog_contribute_other_roles"), implode(", ", $other_roles)));
+            $this->tpl->setOnScreenMessage('info', sprintf($lng->txt("blog_contribute_other_roles"), implode(", ", $other_roles)));
         }
         
         $tbl = new ilContributorTableGUI($this, "contributors", $this->object->getAllLocalRoles($this->node_id));
@@ -2658,7 +2658,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $user_type = $this->blog_request->getUserType();
 
         if (!strlen(trim($user_login))) {
-            ilUtil::sendFailure($lng->txt('msg_no_search_string'));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt('msg_no_search_string'));
             $this->contributors();
             return;
         }
@@ -2669,7 +2669,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $user_id = ilObjUser::_lookupId($user);
 
             if (!$user_id) {
-                ilUtil::sendFailure($lng->txt('user_not_known'));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt('user_not_known'));
                 $this->contributors();
                 return;
             }
@@ -2697,7 +2697,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
         
         if (!count($a_user_ids) || !$a_user_type) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"));
             $this->contributors();
             return null;
         }
@@ -2705,7 +2705,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         // get contributor role
         $local_roles = array_keys($this->object->getAllLocalRoles($this->node_id));
         if (!in_array($a_user_type, $local_roles)) {
-            ilUtil::sendFailure($lng->txt("missing_perm"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("missing_perm"));
             $this->contributors();
             return null;
         }
@@ -2716,7 +2716,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
         }
 
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "contributors");
     }
     
@@ -2728,7 +2728,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ids = $this->blog_request->getIds();
         
         if (count($ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "contributors");
         }
         
@@ -2758,14 +2758,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ids = $this->blog_request->getIds();
         
         if (count($ids) == 0) {
-            ilUtil::sendFailure($lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("select_one"), true);
             $ilCtrl->redirect($this, "contributors");
         }
         
         // get contributor role
         $local_roles = array_keys($this->object->getAllLocalRoles($this->node_id));
         if (!$local_roles) {
-            ilUtil::sendFailure($lng->txt("missing_perm"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("missing_perm"));
             $this->contributors();
             return;
         }
@@ -2776,7 +2776,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
         }
                 
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $this->ctrl->redirect($this, "contributors");
     }
 
@@ -2789,7 +2789,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $post->setActive(false);
             $post->update(true, false, false);
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
                 
         $this->ctrl->redirect($this, "render");

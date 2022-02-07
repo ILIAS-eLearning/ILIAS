@@ -165,7 +165,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
         $ids = $this->request->getIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
         
@@ -180,13 +180,13 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         }
         
         if (!ilLMObject::uniqueTypesCheck($items)) {
-            ilUtil::sendFailure($lng->txt("cont_choose_pages_or_chapters_only"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_choose_pages_or_chapters_only"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
 
         ilLMObject::clipboardCut($this->content_object->getId(), $items);
         ilEditClipboard::setAction("cut");
-        ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_cut"), true);
+        $this->tpl->setOnScreenMessage('info', $lng->txt("cont_selected_items_have_been_cut"), true);
 
         $ilCtrl->redirect($this, $a_return);
     }
@@ -202,7 +202,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
         $ids = $this->request->getIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
         
@@ -217,14 +217,14 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         }
         
         if (!ilLMObject::uniqueTypesCheck($items)) {
-            ilUtil::sendFailure($lng->txt("cont_choose_pages_or_chapters_only"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_choose_pages_or_chapters_only"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
 
         ilLMObject::clipboardCopy($this->content_object->getId(), $items);
         ilEditClipboard::setAction("copy");
         
-        ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_copied"), true);
+        $this->tpl->setOnScreenMessage('info', $lng->txt("cont_selected_items_have_been_copied"), true);
         $ilCtrl->redirect($this, $a_return);
     }
     
@@ -238,7 +238,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $titles = $this->request->getTitles();
         ilLMObject::saveTitles($this->content_object, $titles, $this->requested_transl);
 
-        ilUtil::sendSuccess($this->lng->txt("lm_save_titles"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("lm_save_titles"), true);
         $ilCtrl->redirect($this, "showHierarchy");
     }
     
@@ -469,7 +469,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 }
             }
         } else {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
         }
         
         $this->ctrl->redirect($this, "view");
@@ -817,7 +817,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
         $ids = $this->request->getIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
         
@@ -874,7 +874,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 $this->content_object
             );
         }
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showHierarchy");
     }
 

@@ -202,7 +202,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                         $newObject->setSourceType(ilObjCmiXapi::SRC_TYPE_LOCAL);
                     } catch (ilCmiXapiInvalidUploadContentException $e) {
                         $form->getItemByPostVar('uploadfile')->setAlert($e->getMessage());
-                        ilUtil::sendFailure('something went wrong!', true);
+                        $this->tpl->setOnScreenMessage('failure', 'something went wrong!', true);
                         $DIC->ctrl()->redirectByClass(self::class, 'create');
                     }
 
@@ -579,10 +579,10 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 $report->getResponseDebug()
             );
             //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
-            ilUtil::sendInfo($linkBuilder->getPipelineDebug());
-            ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), true) . '</pre>');
+            $this->tpl->setOnScreenMessage('info', $linkBuilder->getPipelineDebug());
+            $this->tpl->setOnScreenMessage('question', '<pre>' . print_r($report->getTableData(), true) . '</pre>');
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
         }
     }
 
@@ -806,7 +806,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         /* @var \ILIAS\DI\Container $DIC */
 
         if ($this->object->getLrsType()->getAvailability() == ilCmiXapiLrsType::AVAILABILITY_NONE) {
-            ilUtil::sendFailure($DIC->language()->txt('cmix_lrstype_not_avail_msg'));
+            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('cmix_lrstype_not_avail_msg'));
         }
     }
 
@@ -841,7 +841,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             );
         }
 
-        ilUtil::sendInfo($info);
+        $this->tpl->setOnScreenMessage('info', $info);
     }
 
     protected function fetchXapiStatements() : void
@@ -872,7 +872,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $cmixUser->setFetchUntil($now);
         $cmixUser->save();
 
-        ilUtil::sendSuccess($DIC->language()->txt('xapi_statements_fetched_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $DIC->language()->txt('xapi_statements_fetched_successfully'), true);
         $DIC->ctrl()->redirect($this, self::CMD_INFO_SCREEN);
     }
 

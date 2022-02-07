@@ -360,7 +360,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $a_new_object->saveToDB();
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" .
             $a_new_object->getRefId() . "&cmd=properties");
     }
@@ -415,7 +415,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->lng->txt("survey_360_edit_raters"),
                     $this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'editRaters')
                 );
-                
+
                 // :TODO: mail to raters
             }
         }
@@ -524,11 +524,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             // this is adopted from ILIAS 7, unsure if or when this is necessary
             $this->run_manager->clearCode();
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "properties");
         }
 
-        ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
         $form->setValuesByPost();
         $this->propertiesObject($form);
     }
@@ -661,11 +661,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $error = $newObj->importObject($_FILES["importfile"], $form->getInput("spl"));
             if (strlen($error)) {
                 $newObj->delete();
-                ilUtil::sendFailure($error);
+                $this->tpl->setOnScreenMessage('failure', $error);
                 return;
             }
 
-            ilUtil::sendSuccess($this->lng->txt("object_imported"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
             ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
                 "&baseClass=ilObjSurveyGUI");
 
@@ -1058,7 +1058,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         
         $this->sendUserResultsMail($active_id, $recipient);
         
-        ilUtil::sendSuccess($this->lng->txt("mail_sent"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("mail_sent"), true);
         $this->ctrl->redirect($this, "infoScreen");
     }
     

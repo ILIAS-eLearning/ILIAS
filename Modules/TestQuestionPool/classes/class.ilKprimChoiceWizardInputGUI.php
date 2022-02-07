@@ -68,7 +68,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     public function setValue($a_value) : void
     {
         $this->values = array();
-        
+
         if (is_array($a_value) && is_array($a_value['answer'])) {
             foreach ($a_value['answer'] as $index => $value) {
                 $answer = new ilAssKprimChoiceAnswer();
@@ -76,7 +76,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $answer->setPosition($index);
                 $answer->setAnswertext($value);
                 $answer->setImageFile($a_value['imagename'][$index]);
-                
+
                 if (strlen($a_value['correctness'][$index])) {
                     $answer->setCorrectness((bool) $a_value['correctness'][$index]);
                 }
@@ -84,11 +84,11 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $answer->setThumbPrefix($this->qstObject->getThumbPrefix());
                 $answer->setImageFsDir($this->qstObject->getImagePath());
                 $answer->setImageWebDir($this->qstObject->getImagePathWeb());
-                
+
                 $this->values[] = $answer;
             }
         }
-        
+
         #vd($this->values);
     }
 

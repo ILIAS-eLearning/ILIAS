@@ -31,7 +31,7 @@
 class ilObjCourseGrouping
 {
     public $db;
-    
+
     protected static $assignedObjects = array();
 
     /**
@@ -156,7 +156,7 @@ class ilObjCourseGrouping
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
 
         if ($this->getId() and $this->getType() === 'crsg') {
             $query = "DELETE FROM object_data WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " ";
@@ -196,7 +196,7 @@ class ilObjCourseGrouping
             $ilDB->now() . "," .
             $ilDB->now() .
             ')';
-            
+
         $ilDB->manipulate($query);
 
         // INSERT in crs_groupings
@@ -208,7 +208,7 @@ class ilObjCourseGrouping
             $ilDB->quote($this->getUniqueField(), 'text') . " " .
             ")";
         $res = $ilDB->manipulate($query);
-        
+
         return $this->getId();
     }
 
@@ -217,7 +217,7 @@ class ilObjCourseGrouping
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if ($this->getId() and $this->getType() === 'crsg') {
             // UPDATe object_data
             $query = "UPDATE object_data " .
@@ -368,8 +368,6 @@ class ilObjCourseGrouping
 
     public function deassign($a_crs_ref_id, $a_course_id)
     {
-
-
         $condh = new ilConditionHandler();
 
         // DELETE also original course if its the last
@@ -378,7 +376,7 @@ class ilObjCourseGrouping
 
             return true;
         }
-        
+
         foreach (ilConditionHandler::_getPersistedConditionsOfTrigger('crsg', $this->getId()) as $cond_data) {
             if ($cond_data['target_ref_id'] == $a_crs_ref_id and
                $cond_data['target_obj_id'] == $a_course_id) {
@@ -449,7 +447,6 @@ class ilObjCourseGrouping
     // PRIVATE
     public function __addCondition($a_target_ref_id, $a_target_obj_id)
     {
-
         $tmp_condh = new ilConditionHandler();
         $tmp_condh->enableAutomaticValidation(false);
 
@@ -469,7 +466,7 @@ class ilObjCourseGrouping
         }
         return false;
     }
-    
+
     // STATIC
     public static function _deleteAll($a_course_id)
     {
@@ -479,7 +476,6 @@ class ilObjCourseGrouping
 
         // DELETE CONDITIONS
         foreach ($groupings = ilObjCourseGrouping::_getGroupings($a_course_id) as $grouping_id) {
-
             $condh = new ilConditionHandler();
             $condh->deleteByObjId($grouping_id);
         }
@@ -546,8 +542,8 @@ class ilObjCourseGrouping
         }
         return $course_ids ? $course_ids : array();
     }
-    
-    
+
+
     /**
      * Alway call checkGroupingDependencies before
      * @return array Assigned objects
@@ -565,9 +561,9 @@ class ilObjCourseGrouping
         $lng = $DIC['lng'];
         $tree = $DIC['tree'];
 
-        
+
         $user_id = is_null($a_user_id) ? $ilUser->getId() : $a_user_id;
-        
+
 
         $trigger_ids = array();
         foreach (ilConditionHandler::_getPersistedConditionsOfTarget(
@@ -637,7 +633,7 @@ class ilObjCourseGrouping
         return true;
     }
 
-    
+
     /**
      * Get courses/groups that are assigned to the same membership limitation
      *

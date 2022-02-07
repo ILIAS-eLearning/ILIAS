@@ -227,7 +227,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     protected function initEditCustomForm(ilPropertyFormGUI $a_form) : void
     {
         $this->setSettingsSubTabs("properties");
-        
+
 
         // profile picture
         $ppic = new ilCheckboxInputGUI($this->lng->txt("prtf_profile_picture"), "ppic");
@@ -490,7 +490,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             
             $page->create();
 
-            ilUtil::sendSuccess($this->lng->txt("prtf_page_created"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_page_created"), true);
             $this->ctrl->redirect($this, "view");
         }
 
@@ -559,7 +559,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         $this->object->fixLinksOnTitleChange($title_changes);
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "view");
     }
 
@@ -568,7 +568,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $prtf_pages = $this->port_request->getPortfolioPageIds();
 
         if (count($prtf_pages) == 0) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "view");
         } else {
             $this->tabs_gui->activateTab("pages");
@@ -607,7 +607,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $page = $this->getPageInstance($id);
             $page->delete();
         }
-        ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_page_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_page_deleted"), true);
         $this->ctrl->redirect($this, "view");
     }
     
@@ -846,7 +846,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         global $DIC;
 
         $ilUser = $DIC->user();
-        
+
         if (!$a_export) {
             ilChangeEvent::_recordReadEvent(
                 $a_portfolio->getType(),
@@ -857,10 +857,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $ilUser->getId()
             );
         }
-        
+
         $name = ilObjUser::_lookupName($a_user_id);
         $name = $name["lastname"] . ", " . (($t = $name["title"]) ? $t . " " : "") . $name["firstname"];
-        
+
         // show banner?
         $banner = $banner_width = $banner_height = false;
         $prfa_set = new ilSetting("prfa");
@@ -872,7 +872,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $banner = basename($banner);
             }
         }
-        
+
         // profile picture
         $ppic = null;
         if ($a_portfolio->hasProfilePicture()) {
@@ -881,7 +881,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $ppic = basename($ppic);
             }
         }
-        
+
         $a_tpl->resetHeaderBlock(false);
         // $a_tpl->setBackgroundColor($a_portfolio->getBackgroundColor());
         // @todo fix this
@@ -890,10 +890,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $a_tpl->setTitle($a_portfolio->getTitle());
         // $a_tpl->setTitleColor($a_portfolio->getFontColor());
         $a_tpl->setDescription($name);
-        
+
         // to get rid of locator in portfolio template preview
         $a_tpl->setVariable("LOCATOR", "");
-        
+
         // :TODO: obsolete?
         // $a_tpl->setBodyClass("std ilExternal ilPortfolio");
     }
@@ -922,7 +922,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $prtf_pages = $this->port_request->getPortfolioPageIds();
 
         if (count($prtf_pages) == 0) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "view");
         } else {
             $this->tabs_gui->activateTab("pages");
@@ -968,7 +968,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $target->create();
             }
                 
-            ilUtil::sendSuccess($this->lng->txt("prtf_pages_copied"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_pages_copied"), true);
             $this->ctrl->redirect($this, "view");
         }
         

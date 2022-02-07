@@ -1086,13 +1086,13 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         foreach ($submittedMatchings as $definition => $terms) {
             if (count($terms) > 1) {
-                ilUtil::sendFailure($this->lng->txt("multiple_matching_values_selected"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("multiple_matching_values_selected"), true);
                 return false;
             }
 
             foreach ($terms as $i => $term) {
                 if (isset($handledTerms[$term])) {
-                    ilUtil::sendFailure($this->lng->txt("duplicate_matching_values_selected"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("duplicate_matching_values_selected"), true);
                     return false;
                 }
 

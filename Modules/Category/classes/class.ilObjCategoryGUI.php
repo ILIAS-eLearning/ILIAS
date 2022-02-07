@@ -541,7 +541,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             ->inheritFromParent();
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("cat_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cat_added"), true);
         $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
         $this->redirectToRefId($a_new_object->getRefId(), "");
     }
@@ -640,7 +640,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         if ($this->record_gui->importEditFormPostValues()) {
             $this->record_gui->writeEditForm();
                         
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "editInfo");
         }
 
@@ -942,7 +942,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $this->ctrl->getLinkTargetByClass('ilobjuserfoldergui', 'importUserForm')
             );
         } else {
-            ilUtil::sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_roles_user_can_be_assigned_to'));
         }
 
         if ($show_delete) {
@@ -991,7 +991,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             }
             $tmp_obj->delete();
         }
-        ilUtil::sendSuccess($this->lng->txt('deleted_users'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('deleted_users'));
         $this->listUsersObject();
     }
             
@@ -999,7 +999,7 @@ class ilObjCategoryGUI extends ilContainerGUI
     {
         $this->checkPermission("cat_administrate_users");
         if ($this->cat_request->getIds() == 0) {
-            ilUtil::sendFailure($this->lng->txt('no_users_selected'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_users_selected'));
             $this->listUsersObject();
             return;
         }
@@ -1030,7 +1030,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         $this->checkPermission("cat_administrate_users");
 
         if ($this->cat_request->getObjId() == 0) {
-            ilUtil::sendFailure('no_user_selected');
+            $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->listUsersObject();
             return;
         }
@@ -1094,7 +1094,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         // check hack
         if ($this->cat_request->getObjId() == 0 or
             !in_array($this->cat_request->getObjId(), ilLocalUser::_getAllUserIds())) {
-            ilUtil::sendFailure('no_user_selected');
+            $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->listUsersObject();
             return;
         }
@@ -1102,7 +1102,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
         // check minimum one global role
         if (!$this->__checkGlobalRoles($this->cat_request->getRoleIds())) {
-            ilUtil::sendFailure($this->lng->txt('no_global_role_left'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_global_role_left'));
             $this->assignRolesObject();
             return;
         }
@@ -1117,7 +1117,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $rbacadmin->deassignUser((int) $role['obj_id'], $this->cat_request->getObjId());
             }
         }
-        ilUtil::sendSuccess($this->lng->txt('role_assignment_updated'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('role_assignment_updated'));
         $this->assignRolesObject();
     }
 

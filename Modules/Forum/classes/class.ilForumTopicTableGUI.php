@@ -133,7 +133,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'confirmMergeThreads'));
         $this->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');
 
-        ilUtil::sendInfo($this->lng->txt('please_choose_target'));
+        $this->mainTemplate->setOnScreenMessage('info', $this->lng->txt('please_choose_target'));
 
         $this->setTitle(sprintf($this->lng->txt('frm_selected_merge_src'), $this->getSelectedThread()->getSubject()));
 

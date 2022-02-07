@@ -38,14 +38,14 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         $lng = $DIC->language();
-        
+
         parent::__construct($a_title, $a_postvar);
-        
+
         $this->show_wizard = false;
         $this->show_save_phrase = false;
         $this->categorytext = $lng->txt('row_text');
         $this->use_other_answer = false;
-        
+
         $this->setMaxLength(1000); // #6803
     }
     

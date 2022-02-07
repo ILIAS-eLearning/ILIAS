@@ -563,12 +563,12 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $_SESSION["subquestion_index"] = 0;
         if ($_POST["cmd"]["addSuggestedSolution"]) {
             if ($this->writePostData()) {
-                ilUtil::sendInfo($this->getErrorMessage());
+                $this->tpl->setOnScreenMessage('info', $this->getErrorMessage());
                 $this->editQuestion();
                 return;
             }
             if (!$this->checkInput()) {
-                ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("fill_out_all_required_fields_add_answer"));
                 $this->editQuestion();
                 return;
             }

@@ -24,6 +24,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     protected StorableResource $resource;
     protected Services $storage;
     protected bool $download_with_uploaded_filename;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilObjFileImplementationStorage constructor.
@@ -32,11 +33,12 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     public function __construct(StorableResource $resource)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         /**
          * @var $DIC Container
          */
-        $this->resource                        = $resource;
-        $this->storage                         = $DIC->resourceStorage();
+        $this->resource = $resource;
+        $this->storage = $DIC->resourceStorage();
         $this->download_with_uploaded_filename = (bool) $DIC->clientIni()->readVariable(
             'file_access',
             'download_with_uploaded_filename'
@@ -46,7 +48,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     private function debug() : void
     {
         // debug
-        $stream    = $this->storage->consume()->stream($this->resource->getIdentification())->getStream();
+        $stream = $this->storage->consume()->stream($this->resource->getIdentification())->getStream();
         $container = dirname($stream->getMetadata('uri'), 2);
         
         $dir_reader = function (string $path) : array {
@@ -62,7 +64,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
             return $files;
         };
         
-        ilUtil::sendInfo('<pre>' . print_r($dir_reader($container), true) . '</pre>');
+        $this->main_tpl->setOnScreenMessage('info', '<pre>' . print_r($dir_reader($container), true) . '</pre>');
     }
     
     /**
@@ -157,7 +159,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
                 continue;
             }
             $information = $revision->getInformation();
-            $v           = new ilObjFileVersion();
+            $v = new ilObjFileVersion();
             $v->setVersion($revision->getVersionNumber());
             $v->setHistEntryId($revision->getVersionNumber());
             $v->setFilename($information->getTitle());
@@ -187,5 +189,4 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     {
         return $this->resource->getMaxRevision();
     }
-    
 }

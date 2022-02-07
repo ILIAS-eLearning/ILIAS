@@ -39,6 +39,7 @@ class ilLOEditorGUI
 
     private $test_type = 0;
     protected ObjectFacade $content_style_domain;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
@@ -47,6 +48,7 @@ class ilLOEditorGUI
     public function __construct($a_parent_obj)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->parent_obj = $a_parent_obj;
         $this->settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
@@ -326,7 +328,7 @@ class ilLOEditorGUI
                 ($settings->isQualifyingTestStart())
             ) {
                 $settings->setQualifyingTestAsStart(false);
-                ilUtil::sendInfo($this->lng->txt('crs_loc_settings_err_qstart'), true);
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('crs_loc_settings_err_qstart'), true);
             }
             
             $settings->update();
@@ -335,12 +337,12 @@ class ilLOEditorGUI
             
             ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
             
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
         }
         
         // Error
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->settings($form);
     }
@@ -581,7 +583,7 @@ class ilLOEditorGUI
         }
         
         if (!(int) $_REQUEST['tst']) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'testsOverview');
         }
         
@@ -628,7 +630,7 @@ class ilLOEditorGUI
         }
         
         if (!(int) $_REQUEST['tst']) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'testOverview');
         }
         
@@ -687,7 +689,7 @@ class ilLOEditorGUI
         }
         
         
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'testsOverview');
     }
     
@@ -734,7 +736,7 @@ class ilLOEditorGUI
         }
         
         
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'testOverview');
     }
     
@@ -903,12 +905,12 @@ class ilLOEditorGUI
             }
             $this->updateStartObjects();
             
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
             $this->ctrl->redirect($this, 'testsOverview');
         }
 
         // Error
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->testAssignment($form);
     }
@@ -986,12 +988,12 @@ class ilLOEditorGUI
             }
             $this->updateStartObjects();
             
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
             $this->ctrl->redirect($this, 'testOverview');
         }
 
         // Error
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->testSettings($form);
     }
@@ -1078,7 +1080,7 @@ class ilLOEditorGUI
                 $obj->setTitle($title);
                 $obj->add();
             }
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, '');
         }
         
@@ -1109,7 +1111,7 @@ class ilLOEditorGUI
             $objective = new ilCourseObjective($this->getParentObject(), $objective_id);
             $objective->writePosition($counter++);
         }
-        ilUtil::sendSuccess($this->lng->txt('crs_objective_saved_sorting'));
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_objective_saved_sorting'));
         $this->listObjectives();
     }
     
@@ -1158,7 +1160,7 @@ class ilLOEditorGUI
 
         ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'listObjectives');
     }
     
@@ -1180,7 +1182,7 @@ class ilLOEditorGUI
         
         ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'listObjectives');
     }
 
@@ -1202,7 +1204,7 @@ class ilLOEditorGUI
         
         ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
 
-        ilUtil::sendSuccess($this->lng->txt('crs_objectives_deleted'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_deleted'), true);
         $this->ctrl->redirect($this, 'listObjectives');
 
         return true;
@@ -1269,7 +1271,7 @@ class ilLOEditorGUI
                 );
             }
         }
-        
+
         if ($settings->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_ALL) {
             $this->ctrl->setParameter($this, 'tt', ilLOSettings::TYPE_TEST_QUALIFIED);
             $GLOBALS['DIC']['ilTabs']->addSubTab(
@@ -1285,7 +1287,7 @@ class ilLOEditorGUI
                 $this->ctrl->getLinkTarget($this, 'testsOverview')
             );
         }
-        
+
         if ($settings->worksWithStartObjects()) {
             $GLOBALS['DIC']['ilTabs']->addSubTab(
                 'start',
@@ -1293,7 +1295,7 @@ class ilLOEditorGUI
                 $this->ctrl->getLinkTargetByClass('ilcontainerstartobjectsgui', '')
             );
         }
-        
+
         // Member view
         #ilMemberViewGUI::showMemberViewSwitch($this->getParentObject()->getRefId());
     }

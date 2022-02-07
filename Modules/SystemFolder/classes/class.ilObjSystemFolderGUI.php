@@ -614,7 +614,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $this->object->addHeaderTitleTranslation(ilUtil::stripSlashes($val["title"]), ilUtil::stripSlashes($val["desc"]), $val["lang"], $default);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
         $this->ctrl->redirect($this);
     }
@@ -876,7 +876,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $this->bench->disableDbBenchmark();
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
         $this->ctrl->redirect($this, "benchmark");
     }
@@ -1331,7 +1331,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $ilSetting->set("open_google", $this->form->getInput("open_google"));
             $ilSetting->set("locale", $this->form->getInput("locale"));
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showBasicSettings");
         }
         $this->setGeneralSettingsSubTabs("basic_settings");
@@ -1400,19 +1400,19 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         
         // default language set?
         if (!isset($_POST["default"]) && count($_POST["lang"]) > 0) {
-            ilUtil::sendFailure($lng->txt("msg_no_default_language"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_no_default_language"));
             return $this->showHeaderTitleObject(true);
         }
 
         // all languages set?
         if (array_key_exists("", $_POST["lang"])) {
-            ilUtil::sendFailure($lng->txt("msg_no_language_selected"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_no_language_selected"));
             return $this->showHeaderTitleObject(true);
         }
 
         // no single language is selected more than once?
         if (count(array_unique($_POST["lang"])) < count($_POST["lang"])) {
-            ilUtil::sendFailure($lng->txt("msg_multi_language_selected"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_multi_language_selected"));
             return $this->showHeaderTitleObject(true);
         }
 
@@ -1428,7 +1428,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             );
         }
         
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showHeaderTitle");
     }
     
@@ -1663,7 +1663,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             // Accessibility support contacts
             ilAccessibilitySupportContacts::setList($_POST["accessibility_support_contacts"]);
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showContactInformation");
         } else {
             $this->setGeneralSettingsSubTabs("contact_data");
@@ -1753,9 +1753,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->initJavaServerForm();
         if ($this->form->checkInput()) {
             $ilSetting->set('rpc_pdf_font', ilUtil::stripSlashes($_POST['rpc_pdf_font']));
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showJavaServer");
-            
+
         // TODO check settings, ping server
         } else {
             $this->setGeneralSettingsSubTabs("java_server");
@@ -1807,9 +1807,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         }
 
         if ($vcInfo) {
-            ilUtil::sendInfo(implode("<br />", $vcInfo));
+            $this->tpl->setOnScreenMessage('info', implode("<br />", $vcInfo));
         } else {
-            ilUtil::sendInfo($this->lng->txt('vc_information_not_determined'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('vc_information_not_determined'));
         }
 
         $this->showServerInfoObject();

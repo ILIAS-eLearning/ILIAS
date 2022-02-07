@@ -107,7 +107,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $answersInput->setIgnoreMissingUploadsEnabled(true);
             
             if (!$answersInput->checkUploads($_POST[$answersInput->getPostVar()])) {
-                ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
                 $this->editQuestion($form);
                 return 1;
             }

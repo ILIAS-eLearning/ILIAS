@@ -64,7 +64,7 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
     public function __construct($a_treeid = null, $a_rootlevel = false)
     {
         parent::__construct($a_treeid, $a_rootlevel);
-        
+
         if ($a_treeid != null) {
             $xpath_obj = new DOMXPath($this->dom);
             $obj_node_list = $xpath_obj->query('//controlMode');
@@ -450,7 +450,7 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
         case 'false':
             return false;
             break;
-        
+
         default:
             # code...
             return null;

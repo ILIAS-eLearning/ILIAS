@@ -1364,7 +1364,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         foreach ($this->getSolutionSubmit() as $key => $value) {
             if (preg_match("/^result_(\\\$r\\d+)$/", $key)) {
                 if (strlen($value) && !$this->isValidSolutionResultValue($value)) {
-                    ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_no_numeric_value"), true);
                     return false;
                 }
             } elseif (preg_match("/^result_(\\\$r\\d+)_unit$/", $key)) {

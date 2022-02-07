@@ -264,7 +264,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $errors = true;
                 $terms = $form->getItemByPostVar('terms');
                 $terms->setAlert($this->lng->txt("msg_number_of_terms_too_low"));
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
             if ($errors) {
                 $checkonly = false;

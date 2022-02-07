@@ -118,7 +118,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->settings->set('autosave_drafts', (string) $form->getInput('autosave_drafts'));
         $this->settings->set('autosave_drafts_ival', (string) $form->getInput('autosave_drafts_ival'));
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $form->setValuesByPost();
         $this->editSettings($form);
     }

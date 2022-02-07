@@ -239,7 +239,7 @@ class ilSurveyEvaluationGUI
             $this->evaluation_manager->setAnonEvaluationAccess($this->request->getRefId());
             $this->evaluation();
         } else {
-            ilUtil::sendFailure($this->lng->txt("svy_check_evaluation_wrong_key", true));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_check_evaluation_wrong_key", true));
             $this->cancelEvaluationAccess();
         }
     }
@@ -620,7 +620,7 @@ class ilSurveyEvaluationGUI
     
     public function printEvaluation() : void
     {
-        ilUtil::sendInfo($this->lng->txt('use_browser_print_function'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('use_browser_print_function'), true);
         $this->ctrl->redirect($this, 'evaluation');
     }
 
@@ -699,14 +699,14 @@ class ilSurveyEvaluationGUI
         // auth
         if (!$this->hasResultsAccess()) {
             if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
-                ilUtil::sendFailure($this->lng->txt("permission_denied"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"));
                 return;
             }
                 
             switch ($this->object->getEvaluationAccess()) {
                 case ilObjSurvey::EVALUATION_ACCESS_OFF:
                     if ($this->object->getMode() != ilObjSurvey::MODE_IND_FEEDB) {
-                        ilUtil::sendFailure($this->lng->txt("permission_denied"));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"));
                         return;
                     }
                     break;
@@ -714,7 +714,7 @@ class ilSurveyEvaluationGUI
                 case ilObjSurvey::EVALUATION_ACCESS_ALL:
                 case ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS:
                     if (!$this->checkAnonymizedEvaluationAccess()) {
-                        ilUtil::sendFailure($this->lng->txt("permission_denied"));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"));
                         return;
                     }
                     break;
@@ -1069,7 +1069,7 @@ class ilSurveyEvaluationGUI
 
         if (!$this->hasResultsAccess() &&
             $this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL) {
-            ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
             $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
         
@@ -1216,7 +1216,7 @@ class ilSurveyEvaluationGUI
         $appr_id = $this->getAppraiseeId();
 
         if ($appr_id == 0) {
-            ilUtil::sendInfo($this->lng->txt("svy_no_appraisees_found"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("svy_no_appraisees_found"));
             return;
         }
 
@@ -1460,11 +1460,11 @@ class ilSurveyEvaluationGUI
 
         if (!$this->hasResultsAccess() &&
             $this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL) {
-            ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
             $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
 
-        ilUtil::sendInfo($this->lng->txt("svy_max_sum_score") . ": " . $this->object->getMaxSumScore());
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("svy_max_sum_score") . ": " . $this->object->getMaxSumScore());
 
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
 

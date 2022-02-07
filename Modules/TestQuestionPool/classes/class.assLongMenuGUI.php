@@ -77,7 +77,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $custom_check = $this->object->checkQuestionCustomPart($form);
         if (!$form->checkInput() || !$custom_check) {
             if (!$custom_check) {
-                ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
             }
             $this->editQuestion($form);
             return 1;

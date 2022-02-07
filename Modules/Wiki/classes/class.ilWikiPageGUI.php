@@ -160,7 +160,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             case 'ilobjectmetadatagui':
                 
                 if (!$ilAccess->checkAccess("write", "", $this->wiki_ref_id)) {
-                    ilUtil::sendFailure($lng->txt("permission_denied"), true);
+                    $this->tpl->setOnScreenMessage('failure', $lng->txt("permission_denied"), true);
                     $ilCtrl->redirect($this, "preview");
                 }
                 return parent::executeCommand();
@@ -350,7 +350,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         // block/unblock
         if ($this->getPageObject()->getBlocked()) {
-            ilUtil::sendInfo($lng->txt("wiki_page_status_blocked"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("wiki_page_status_blocked"));
         }
 
 
@@ -447,7 +447,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         
         if (!$this->getAbstractOnly()) {
             $this->setPresentationTitle($this->getWikiPage()->getTitle());
-            
+
             // wiki stats clean up
             // $this->increaseViewCount();
         }
@@ -682,7 +682,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         if (ilWikiPerm::check("delete_wiki_pages", $this->requested_ref_id)) {
             $this->getPageObject()->delete();
             
-            ilUtil::sendSuccess($lng->txt("wiki_page_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("wiki_page_deleted"), true);
         }
         
         $ilCtrl->redirectByClass("ilobjwikigui", "allPages");
@@ -787,7 +787,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $this->getPageObject()->setBlocked(true);
             $this->getPageObject()->update();
 
-            ilUtil::sendSuccess($lng->txt("wiki_page_blocked"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("wiki_page_blocked"), true);
         }
 
         $ilCtrl->redirect($this, "preview");
@@ -802,7 +802,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $this->getPageObject()->setBlocked(false);
             $this->getPageObject()->update();
 
-            ilUtil::sendSuccess($lng->txt("wiki_page_unblocked"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("wiki_page_unblocked"), true);
         }
 
         $ilCtrl->redirect($this, "preview");
@@ -871,11 +871,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
                 // name only differs in diacritics
                 // see bug http://www.ilias.de/mantis/view.php?id=11226
                 if ($pg_id > 0 && $pg_id != $this->getPageObject()->getId()) {
-                    ilUtil::sendFailure($lng->txt("wiki_page_already_exists"));
+                    $this->tpl->setOnScreenMessage('failure', $lng->txt("wiki_page_already_exists"));
                 } else {
                     $new_name = $this->getPageObject()->rename($new_name);
                     $ilCtrl->setParameterByClass("ilobjwikigui", "page", ilWikiUtil::makeUrlTitle($new_name));
-                    ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+                    $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
                     $ilCtrl->redirect($this, "preview");
                 }
             }
@@ -897,7 +897,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->getPageObject()->setRating(true);
         $this->getPageObject()->update();
         
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "preview");
     }
     
@@ -909,7 +909,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->getPageObject()->setRating(false);
         $this->getPageObject()->update();
         
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "preview");
     }
     
@@ -1020,7 +1020,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         }
                 
         if ($this->record_gui->writeEditForm()) {
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
         $ilCtrl->redirect($this, "preview");
     }
@@ -1039,7 +1039,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->getPageObject()->hideAdvancedMetadata(true);
         $this->getPageObject()->update();
             
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "preview");
     }
     
@@ -1057,7 +1057,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->getPageObject()->hideAdvancedMetadata(false);
         $this->getPageObject()->update();
             
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "preview");
     }
 
@@ -1211,7 +1211,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $ass_id = $this->wiki_request->getAssignmentId();
         $wiki_ass->submitWiki($ass_id, $this->user->getId(), $this->getWikiRefId());
 
-        ilUtil::sendSuccess($lng->txt("wiki_finalized"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("wiki_finalized"), true);
         $ilCtrl->redirectByClass("ilObjWikiGUI", "gotoStartPage");
     }
 

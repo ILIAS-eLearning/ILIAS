@@ -64,7 +64,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      */
     protected function showDeleteParticipantsConfirmationWithLinkedCourses($participants)
     {
-        ilUtil::sendQuestion($this->lng->txt('crs_ref_delete_confirmation_info'));
+        $this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_ref_delete_confirmation_info'));
 
         $table = new ilCourseReferenceDeleteConfirmationTableGUI($this, $this->getParentObject(), 'confirmDeleteParticipants');
         $table->init();
@@ -87,7 +87,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         $participants = (array) $_POST['participants'];
 
         if (!is_array($participants) or !count($participants)) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
@@ -99,14 +99,14 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         ) {
             foreach ($participants as $part) {
                 if ($this->getMembersObject()->isAdmin($part)) {
-                    ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_perm'), true);
                     $this->ctrl->redirect($this, 'participants');
                 }
             }
         }
 
         if (!$this->getMembersObject()->deleteParticipants($participants)) {
-            ilUtil::sendFailure('Error deleting participants.', true);
+            $this->tpl->setOnScreenMessage('failure', 'Error deleting participants.', true);
             $this->ctrl->redirect($this, 'participants');
         } else {
             foreach ((array) $_POST["participants"] as $usr_id) {
@@ -130,7 +130,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
         $this->ctrl->redirect($this, "participants");
 
         return true;
@@ -156,7 +156,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         }
 
         if (!count($a_usr_ids)) {
-            ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_users_selected"), true);
             return false;
         }
         
@@ -186,7 +186,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                         $this->getMembersObject()->updateRoleAssignments($user_id, (array) $a_type);
                     } else {
                         ilLoggerFactory::getLogger('crs')->notice('Can\'t find role with id .' . $a_type . ' to assign users.');
-                        ilUtil::sendFailure($this->lng->txt("crs_cannot_find_role"), true);
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_cannot_find_role"), true);
                         return false;
                     }
                     break;
@@ -198,10 +198,10 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             ++$added_users;
         }
         if ($added_users) {
-            ilUtil::sendSuccess($this->lng->txt("crs_users_added"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("crs_users_added"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        ilUtil::sendFailure($this->lng->txt("crs_users_already_assigned"), true);
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_users_already_assigned"), true);
         return false;
     }
     
@@ -252,7 +252,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         }
             
         
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'participants');
     }
     

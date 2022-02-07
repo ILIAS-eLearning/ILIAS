@@ -289,7 +289,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         if (!(int) $questionId && $this->testSession->isObjectiveOriented()) {
             $this->handleTearsAndAngerNoObjectiveOrientedQuestion();
         }
-        
+
         if (!$this->testSequence->isQuestionPresented($questionId)) {
             $this->testSequence->setQuestionPresented($questionId);
             $this->testSequence->saveToDb();
@@ -300,7 +300,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $questionId,
             $this->testSession->getPass()
         );
-        
+
         // fau: testNav - always use edit mode, except for fixed answer
         if ($this->isParticipantsAnswerFixed($questionId)) {
             $presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
@@ -316,7 +316,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         if (!($questionGui instanceof assQuestionGUI)) {
             $this->handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement);
         }
-        
+
         $questionGui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequenceElement));
         $questionGui->setQuestionCount($this->testSequence->getUserQuestionCount());
 
@@ -346,9 +346,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
         $navigationToolbarGUI->setFinishTestButtonEnabled(true);
-        
+
         $isNextPrimary = $this->handlePrimaryButton($navigationToolbarGUI, $questionId);
-        
+
         $this->ctrl->setParameter($this, 'sequence', $sequenceElement);
         $this->ctrl->setParameter($this, 'pmode', $presentationMode);
         $formAction = $this->ctrl->getFormAction($this, ilTestPlayerCommands::SUBMIT_INTERMEDIATE_SOLUTION);
@@ -360,21 +360,21 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 $navigationToolbarGUI->setDisabledStateEnabled(false);
 // fau.
                 $this->showQuestionEditable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
-                
+
                 break;
-            
+
             case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
-                
+
                 if ($this->testSequence->isQuestionOptional($questionGui->object->getId())) {
                     $this->populateQuestionOptionalMessage();
                 }
-                
+
                 $this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
-                
+
                 break;
-            
+
             default:
-                
+
                 require_once 'Modules/Test/exceptions/class.ilTestException.php';
                 throw new ilTestException('no presentation mode given');
         }
@@ -385,7 +385,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         // fau: testNav - enable the question navigation in edit mode
         $this->populateQuestionNavigation($sequenceElement, false, $isNextPrimary);
         // fau.
-        
+
         if ($instantResponse) {
             // fau: testNav - always use authorized solution for instant feedback
             $this->populateInstantResponseBlocks(
@@ -879,7 +879,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
     protected function handleTearsAndAngerNoObjectiveOrientedQuestion()
     {
-        ilUtil::sendFailure(sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true);
+        $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true);
 
         $this->backToInfoScreenCmd();
     }

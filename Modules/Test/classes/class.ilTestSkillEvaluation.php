@@ -356,9 +356,9 @@ class ilTestSkillEvaluation
             0,
             $this->getPass()
         );
-        
+
         /* @var ILIAS\DI\Container $DIC */ global $DIC;
-        
+
         $DIC->logger()->root()->info(
             "refId={$this->refId} / usrId={$this->getUserId()} / levelId={$skillLevelId} / trefId={$skillTrefId}"
         );

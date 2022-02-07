@@ -140,7 +140,7 @@ class ilOrgUnitTypeGUI
     protected function checkAccess()
     {
         if (!$this->access->checkAccess("write", "", $this->parent_gui->object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui);
         }
     }
@@ -179,7 +179,7 @@ class ilOrgUnitTypeGUI
     {
         $form = new ilOrgUnitTypeCustomIconsFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
@@ -198,7 +198,7 @@ class ilOrgUnitTypeGUI
     {
         $form = new ilOrgUnitTypeAdvancedMetaDataFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
@@ -249,7 +249,7 @@ class ilOrgUnitTypeGUI
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_created'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_created'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
@@ -264,7 +264,7 @@ class ilOrgUnitTypeGUI
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
@@ -280,10 +280,10 @@ class ilOrgUnitTypeGUI
         $type = new ilOrgUnitType((int) $_GET['type_id']);
         try {
             $type->delete();
-            ilUtil::sendSuccess($this->lng->txt('orgu_type_msg_deleted'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('orgu_type_msg_deleted'), true);
             $this->ctrl->redirect($this);
         } catch (ilException $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             $this->ctrl->redirect($this);
         }
     }

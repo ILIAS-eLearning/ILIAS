@@ -221,7 +221,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             // tile image
             $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
-            ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
             $this->ctrl->redirect($this, "properties");
         }
         
@@ -240,9 +240,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             foreach ($qids as $key => $value) {
                 $this->object->copyToClipboard($value);
             }
-            ilUtil::sendInfo($this->lng->txt("spl_copy_insert_clipboard"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("spl_copy_insert_clipboard"), true);
         } else {
-            ilUtil::sendInfo($this->lng->txt("spl_copy_select_none"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("spl_copy_select_none"), true);
         }
         $this->ctrl->redirect($this, "questions");
     }
@@ -257,9 +257,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             foreach ($qids as $key => $value) {
                 $this->object->moveToClipboard($value);
             }
-            ilUtil::sendInfo($this->lng->txt("spl_move_insert_clipboard"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("spl_move_insert_clipboard"), true);
         } else {
-            ilUtil::sendInfo($this->lng->txt("spl_move_select_none"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("spl_move_select_none"), true);
         }
         $this->ctrl->redirect($this, "questions");
     }
@@ -273,7 +273,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         if (count($qids) > 0) {
             $this->createExportFileObject($qids);
         } else {
-            ilUtil::sendInfo($this->lng->txt("qpl_export_select_none"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_export_select_none"));
             $this->questionsObject();
         }
     }
@@ -288,7 +288,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         // create an array of all checked checkboxes
         $checked_questions = $this->edit_request->getQuestionIds();
         if (count($checked_questions) == 0) {
-            ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_delete_select_none"));
             $this->questionsObject();
             return;
         }
@@ -317,7 +317,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     public function confirmDeleteQuestionsObject() : void
     {
         // delete questions after confirmation
-        ilUtil::sendSuccess($this->lng->txt("qpl_questions_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("qpl_questions_deleted"), true);
         $qids = $this->edit_request->getQuestionIds();
         foreach ($qids as $q_id) {
             $this->object->removeQuestion($q_id);
@@ -339,7 +339,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         if (array_key_exists("spl_clipboard", $_SESSION)) {
             $this->object->pasteFromClipboard();
         } else {
-            ilUtil::sendInfo($this->lng->txt("spl_paste_no_objects"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("spl_paste_no_objects"), true);
         }
         $this->ctrl->redirect($this, "questions");
     }
@@ -466,13 +466,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     public function updateObject() : void
     {
         $this->update = $this->object->update();
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
     }
     
     protected function afterSave(ilObject $a_new_object) : void
     {
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         
         ilUtil::redirect("ilias.php?ref_id=" . $a_new_object->getRefId() .
             "&baseClass=ilObjSurveyQuestionPoolGUI");
@@ -526,12 +526,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     {
         $files = $this->edit_request->getFiles();
         if (count($files) == 0) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "export");
         }
 
         if (count($files) > 1) {
-            ilUtil::sendInfo($this->lng->txt("select_max_one_item"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("select_max_one_item"), true);
             $this->ctrl->redirect($this, "export");
         }
 
@@ -550,11 +550,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     {
         $files = $this->edit_request->getFiles();
         if (count($files) == 0) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "export");
         }
 
-        ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
+        $this->tpl->setOnScreenMessage('question', $this->lng->txt("info_delete_sure"));
         $table_gui = new ilSurveyQuestionPoolExportTableGUI($this, 'export', true);
         $export_dir = $this->object->getExportDirectory();
         $data = array();
@@ -652,7 +652,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             // import qti data
             $newObj->importObject($full_path);
 
-            ilUtil::sendSuccess($this->lng->txt("object_imported"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
             ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
                 "&baseClass=ilObjSurveyQuestionPoolGUI");
         }
@@ -874,7 +874,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $obligatory = $this->edit_request->getObligatory();
         $this->object->setObligatoryStates($obligatory);
         
-        ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, "questions");
     }
 

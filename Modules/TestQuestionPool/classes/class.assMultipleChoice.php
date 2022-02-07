@@ -594,7 +594,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                     $this->getAnswerCount()
                 );
                 
-                ilUtil::sendFailure($failureMsg, true);
+                $this->tpl->setOnScreenMessage('failure', $failureMsg, true);
                 return false;
             }
         }

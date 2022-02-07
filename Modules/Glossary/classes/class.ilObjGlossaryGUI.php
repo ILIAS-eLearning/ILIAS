@@ -369,7 +369,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $this->putObjectInTree($newObj);
 
             // always send a message
-            ilUtil::sendSuccess($this->lng->txt("glo_added"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("glo_added"), true);
             ilUtil::redirect("ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=" . $newObj->getRefId());
         }
 
@@ -645,7 +645,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             // Update ecs export settings
             $ecs = new ilECSGlossarySettings($this->object);
             if ($ecs->handleSettingsUpdate()) {
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirect($this, "properties");
             }
         }
@@ -726,7 +726,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $new_term = $this->edit_request->getNewTerm();
         if ($new_term == "") {
-            ilUtil::sendFailure($this->lng->txt("cont_please_enter_a_term"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_please_enter_a_term"), true);
             $this->ctrl->redirect($this, "listTerms");
         }
         
@@ -874,11 +874,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $files = $this->edit_request->getFiles();
         if (count($files) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->ctrl->redirectByClass("ilexportgui", "");
         }
         if (count($files) > 1) {
-            ilUtil::sendFailure($this->lng->txt("cont_select_max_one_item"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"));
             $this->ctrl->redirectByClass("ilexportgui", "");
         }
         
@@ -899,7 +899,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $ids = $this->edit_request->getIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listTerms");
         }
         
@@ -907,7 +907,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         foreach ($ids as $term_id) {
             $term_glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
             if ($term_glo_id != $this->object->getId() && !ilGlossaryTermReferences::isReferenced([$this->object->getId()], $term_id)) {
-                ilUtil::sendFailure($this->lng->txt("glo_term_must_belong_to_glo"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("glo_term_must_belong_to_glo"), true);
                 $this->ctrl->redirect($this, "listTerms");
             }
         }
@@ -996,7 +996,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
         $term_glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
         if ($term_glo_id != $this->object->getId()) {
-            ilUtil::sendFailure($this->lng->txt("glo_term_must_belong_to_glo"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("glo_term_must_belong_to_glo"), true);
             $this->ctrl->redirect($this, "listTerms");
         }
 
@@ -1370,7 +1370,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->object->setAutoGlossaries($glos);
         $this->object->update();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editGlossaries");
     }
 
@@ -1379,7 +1379,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->object->removeAutoGlossary($this->edit_request->getGlossaryId());
         $this->object->update();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editGlossaries");
     }
     
@@ -1390,7 +1390,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $items = $this->edit_request->getIds();
         if (count($items) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listTerms");
         }
 
@@ -1411,7 +1411,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         }
 
         ilEditClipboard::setAction("copy");
-        ilUtil::sendInfo($this->lng->txt("glo_selected_terms_have_been_copied"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("glo_selected_terms_have_been_copied"), true);
         $this->ctrl->redirect($this, "listTerms");
     }
     
@@ -1422,7 +1422,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $items = $this->edit_request->getIds();
         if (count($items) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listTerms");
         }
 
@@ -1443,7 +1443,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         }
 
         ilEditClipboard::setAction("link");
-        ilUtil::sendInfo($this->lng->txt("glo_selected_terms_have_been_copied"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("glo_selected_terms_have_been_copied"), true);
         $this->ctrl->redirect($this, "listTerms");
     }
 
@@ -1468,7 +1468,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             }
             $refs->update();
         }
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "listTerms");
     }
 }

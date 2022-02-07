@@ -47,6 +47,7 @@ class ilDclFieldListGUI
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $ilToolbar = $DIC['ilToolbar'];
@@ -70,7 +71,7 @@ class ilDclFieldListGUI
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
@@ -100,7 +101,7 @@ class ilDclFieldListGUI
         foreach ($field_ids as $field_id) {
             $table->deleteField($field_id);
         }
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_fields_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_fields_deleted'), true);
         $this->ctrl->redirect($this, 'listFields');
     }
 
@@ -148,7 +149,7 @@ class ilDclFieldListGUI
         }
 
         $table->reloadFields();
-        ilUtil::sendSuccess($this->lng->txt("dcl_table_settings_saved"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_table_settings_saved"));
         $this->listFields();
     }
 

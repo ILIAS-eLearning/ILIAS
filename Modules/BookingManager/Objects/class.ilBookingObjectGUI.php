@@ -431,7 +431,7 @@ class ilBookingObjectGUI
                     $this->record_gui->writeEditForm(null, $obj->getId());
                 }
 
-                ilUtil::sendSuccess($lng->txt("book_object_added"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("book_object_added"), true);
                 $ilCtrl->redirect($this, "render");
             }
         }
@@ -488,7 +488,7 @@ class ilBookingObjectGUI
                     $this->record_gui->writeEditForm();
                 }
 
-                ilUtil::sendSuccess($lng->txt("book_object_updated"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("book_object_updated"), true);
                 $ilCtrl->redirect($this, "render");
             }
         }
@@ -535,7 +535,7 @@ class ilBookingObjectGUI
         $obj = new ilBookingObject($this->object_id);
         $obj->delete();
 
-        ilUtil::sendSuccess($lng->txt('book_object_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt('book_object_deleted'), true);
         $ilCtrl->setParameter($this, 'object_id', "");
         $ilCtrl->redirect($this, 'render');
     }

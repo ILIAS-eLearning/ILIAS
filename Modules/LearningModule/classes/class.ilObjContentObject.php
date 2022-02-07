@@ -57,12 +57,14 @@ class ilObjContentObject extends ilObject
     private string $import_dir = '';
     protected ilObjLearningModule $lm;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         int $a_id = 0,
         bool $a_call_by_reference = true
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->user = $DIC->user();
         $this->db = $DIC->database();
@@ -973,13 +975,13 @@ class ilObjContentObject extends ilObject
     public function createProperties() : void
     {
         $ilDB = $this->db;
-        
+
         $q = "INSERT INTO content_object (id) VALUES (" . $ilDB->quote($this->getId(), "integer") . ")";
         $ilDB->manipulate($q);
-        
+
         // #14661
         ilNote::activateComments($this->getId(), 0, $this->getType(), true);
-        
+
         $this->readProperties();		// to get db default values
     }
 
@@ -1991,7 +1993,7 @@ class ilObjContentObject extends ilObject
                 
                 if ($error != "") {
                     $this->lng->loadLanguageModule("content");
-                    ilUtil::sendInfo($this->lng->txt("cont_import_validation_errors"));
+                    $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("cont_import_validation_errors"));
                     $title = ilLMObject::_lookupTitle($page["obj_id"]);
                     $page_obj = new ilLMPageObject($this->lm, $page["obj_id"]);
                     $mess .= $this->lng->txt("obj_pg") . ": " . $title;

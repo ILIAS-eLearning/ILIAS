@@ -35,7 +35,7 @@ class ilCourseObjectiveQuestion
 {
     const TYPE_SELF_ASSESSMENT = 0;
     const TYPE_FINAL_TEST = 1;
-    
+
     public $db = null;
 
     public $objective_id = null;
@@ -54,13 +54,13 @@ class ilCourseObjectiveQuestion
         $ilDB = $DIC['ilDB'];
 
         $this->db = $ilDB;
-    
+
         $this->objective_id = $a_objective_id;
 
         $this->__read();
     }
-    
-    
+
+
     /**
      * Lookup objective for test question
      * @global type $ilDB
@@ -73,7 +73,7 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'SELECT objective_id FROM crs_objective_qst ' .
                 'WHERE question_id = ' . $ilDB->quote($a_qid, 'integer');
         $res = $ilDB->query($query);
@@ -83,7 +83,7 @@ class ilCourseObjectiveQuestion
         }
         return $objectiveIds;
     }
-    
+
     /**
      * Check if test is assigned to objective
      *
@@ -99,14 +99,14 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT qst_ass_id FROM crs_objective_qst " .
             "WHERE ref_id = " . $ilDB->quote($a_test_id, 'integer') . " " .
             "AND objective_id = " . $ilDB->quote($a_objective_id, 'integer');
         $res = $ilDB->query($query);
         return $res->numRows() ? true : false;
     }
-    
+
     /**
      * clone objective questions
      *
@@ -123,7 +123,7 @@ class ilCourseObjectiveQuestion
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $ilLog = $DIC['ilLog'];
         $ilDB = $DIC['ilDB'];
-        
+
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
         foreach ($this->getQuestions() as $question) {
@@ -136,7 +136,7 @@ class ilCourseObjectiveQuestion
             $question_qst_id = $question['question_id'];
             $new_ref_id = $mappings[$question_ref_id];
             $new_obj_id = $ilObjDataCache->lookupObjId($new_ref_id);
-            
+
             if ($new_obj_id == $question_obj_id) {
                 ilLoggerFactory::getLogger('crs')->info('Test has been linked. Keeping question id');
                 // Object has been linked
@@ -151,7 +151,7 @@ class ilCourseObjectiveQuestion
                 $new_question_id = $new_question_arr[2];
                 ilLoggerFactory::getLogger('crs')->info('New question id is: ' . $new_question_id);
             }
-    
+
             ilLoggerFactory::getLogger('crs')->debug('Copying question assignments');
             $new_question = new ilCourseObjectiveQuestion($a_new_objective);
             $new_question->setTestRefId($new_ref_id);
@@ -159,11 +159,11 @@ class ilCourseObjectiveQuestion
             $new_question->setQuestionId($new_question_id);
             $new_question->add();
         }
-        
+
         // Copy tests
         foreach ($this->getTests() as $test) {
             $new_test_id = $mappings["$test[ref_id]"];
-            
+
             $query = "UPDATE crs_objective_tst " .
                 "SET tst_status = " . $this->db->quote($test['tst_status'], 'integer') . ", " .
                 "tst_limit_p = " . $this->db->quote($test['tst_limit'], 'integer') . " " .
@@ -172,7 +172,7 @@ class ilCourseObjectiveQuestion
             $res = $ilDB->manipulate($query);
         }
     }
-    
+
     /**
      * Get assignable tests
      *
@@ -186,7 +186,7 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $tree = $DIC['tree'];
-        
+
         return $tree->getSubTree($tree->getNodeData($a_container_ref_id), true, 'tst');
     }
 
@@ -212,13 +212,13 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "UPDATE crs_objective_tst " .
             "SET tst_status = " . $this->db->quote($this->getTestStatus(), 'integer') . " " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
             "AND ref_id = " . $this->db->quote($this->getTestRefId(), 'integer') . " ";
         $res = $ilDB->manipulate($query);
-        
+
 
         // CHECK if entry already exists
         $query = "SELECT * FROM crs_objective_tst " .
@@ -229,19 +229,19 @@ class ilCourseObjectiveQuestion
         if ($res->numRows()) {
             return false;
         }
-        
+
         // Check for existing limit
         $query = "SELECT tst_limit_p FROM crs_objective_tst " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
             "AND tst_status = " . $this->db->quote($this->getTestStatus(), 'integer') . " ";
-            
+
         $res = $this->db->query($query);
-        
+
         $limit = 100;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $limit = $row->tst_limit_p;
         }
-        
+
         $next_id = $ilDB->nextId('crs_objective_tst');
         $query = "INSERT INTO crs_objective_tst (test_objective_id,objective_id,ref_id,obj_id,tst_status,tst_limit_p) " .
             "VALUES( " .
@@ -262,7 +262,7 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         // Delete questions
         $query = "DELETE FROM crs_objective_qst " .
             "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " " .
@@ -295,7 +295,7 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "UPDATE crs_objective_tst " .
             "SET tst_limit_p = " . $ilDB->quote($a_limit, 'integer') . " " .
             "WHERE tst_status = " . $ilDB->quote($a_status, 'integer') . " " .
@@ -309,7 +309,7 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "UPDATE crs_objective_tst " .
             "SET tst_status = " . $ilDB->quote($this->getTestStatus(), 'integer') . ", " .
             "tst_limit_p = " . $ilDB->quote($this->getTestSuggestedLimit(), 'integer') . " " .
@@ -324,7 +324,7 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT * FROM crs_objective_tst cot " .
             "JOIN object_data obd ON cot.obj_id = obd.obj_id " .
             "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " " .
@@ -345,7 +345,7 @@ class ilCourseObjectiveQuestion
 
         return $tests ? $tests : array();
     }
-    
+
     /**
      * get self assessment tests
      *
@@ -362,7 +362,7 @@ class ilCourseObjectiveQuestion
         }
         return $self ? $self : array();
     }
-    
+
     /**
      * get final tests
      *
@@ -378,7 +378,7 @@ class ilCourseObjectiveQuestion
         }
         return $final ? $final : array();
     }
-    
+
     public static function _getTest($a_test_objective_id)
     {
         global $DIC;
@@ -406,7 +406,7 @@ class ilCourseObjectiveQuestion
     {
         return $this->questions ? $this->questions : array();
     }
-    
+
     /**
      * get self assessment questions
      *
@@ -436,7 +436,7 @@ class ilCourseObjectiveQuestion
         }
         return $points ? $points : 0;
     }
-    
+
     /**
      * get final test points
      *
@@ -450,7 +450,7 @@ class ilCourseObjectiveQuestion
         }
         return $points ? $points : 0;
     }
-    
+
     /**
      * check if question is self assessment question
      * @param int question id
@@ -466,7 +466,7 @@ class ilCourseObjectiveQuestion
         }
         return false;
     }
-    
+
     /**
      * is final test question
      *
@@ -483,7 +483,7 @@ class ilCourseObjectiveQuestion
         }
         return false;
     }
-    
+
     /**
      * get final test questions
      *
@@ -499,9 +499,9 @@ class ilCourseObjectiveQuestion
         }
         return $final ? $final : array();
     }
-    
-    
-    
+
+
+
     /**
      * Get questions of test
      *
@@ -518,7 +518,7 @@ class ilCourseObjectiveQuestion
         }
         return $questions ? $questions : array();
     }
-    
+
     public function getQuestion($question_id)
     {
         return $this->questions[$question_id] ? $this->questions[$question_id] : array();
@@ -557,7 +557,6 @@ class ilCourseObjectiveQuestion
 
     public function getMaxPointsByObjective()
     {
-
         $points = 0;
         foreach ($this->getQuestions() as $question) {
             $tmp_test = ilObjectFactory::getInstanceByRefId($question['ref_id']);
@@ -571,7 +570,7 @@ class ilCourseObjectiveQuestion
         }
         return $points;
     }
-    
+
     public function getMaxPointsByTest($a_test_ref_id)
     {
         $points = 0;
@@ -591,7 +590,7 @@ class ilCourseObjectiveQuestion
 
         return $points;
     }
-    
+
     /**
      * lookup maximimum point
      *
@@ -604,7 +603,7 @@ class ilCourseObjectiveQuestion
     {
         return assQuestion::_getMaximumPoints($a_question_id);
     }
-    
+
 
     public function getNumberOfQuestionsByTest($a_test_ref_id)
     {
@@ -640,13 +639,13 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         foreach ($this->tests as $ref_id => $test_data) {
             switch ($test_data['status']) {
                 case self::TYPE_SELF_ASSESSMENT:
                     $points = $this->getSelfAssessmentPoints();
                     break;
-                
+
                 case self::TYPE_FINAL_TEST:
                     $points = $this->getFinalTestPoints();
                     break;
@@ -656,7 +655,7 @@ class ilCourseObjectiveQuestion
                     case self::TYPE_SELF_ASSESSMENT:
                         $points = $this->getSelfAssessmentPoints();
                         break;
-                    
+
                     case self::TYPE_FINAL_TEST:
                         $points = $this->getFinalTestPoints();
                         break;
@@ -675,12 +674,12 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "DELETE FROM crs_objective_qst " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
             "AND question_id = " . $this->db->quote($this->getQuestionId(), 'integer') . " ";
         $res = $ilDB->manipulate($query);
-        
+
         $next_id = $ilDB->nextId('crs_objective_qst');
         $query = "INSERT INTO crs_objective_qst (qst_ass_id, objective_id,ref_id,obj_id,question_id) " .
             "VALUES( " .
@@ -693,7 +692,7 @@ class ilCourseObjectiveQuestion
         $res = $ilDB->manipulate($query);
 
         $this->__addTest();
-        
+
         $this->__read();
 
         return true;
@@ -703,11 +702,11 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!$qst_id) {
             return false;
         }
-        
+
         $query = "SELECT * FROM crs_objective_qst " .
             "WHERE qst_ass_id = " . $ilDB->quote($qst_id, 'integer') . " ";
 
@@ -734,14 +733,14 @@ class ilCourseObjectiveQuestion
 
         return true;
     }
-    
+
     // begin-patch lok
     public static function deleteTest($a_tst_ref_id)
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'DELETE FROM crs_objective_tst ' .
                 'WHERE ref_id = ' . $ilDB->quote($a_tst_ref_id, 'integer');
         $ilDB->manipulate($query);
@@ -750,15 +749,15 @@ class ilCourseObjectiveQuestion
                 'WHERE ref_id = ' . $ilDB->quote($a_tst_ref_id, 'integer');
         $ilDB->manipulate($query);
     }
-    
-    
+
+
     public function deleteByTestType($a_type)
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
-        
+
+
         // Read tests by type
         $deletable_refs = array();
         foreach ((array) $this->tests as $tst_data) {
@@ -766,29 +765,29 @@ class ilCourseObjectiveQuestion
                 $deletable_refs[] = $tst_data['ref_id'];
             }
         }
-        
+
         $query = 'DELETE from crs_objective_tst ' .
                 'WHERE objective_id = ' . $ilDB->quote($this->getObjectiveId(), 'integer') . ' ' .
                 'AND tst_status = ' . $ilDB->quote($a_type, 'integer');
         $ilDB->manipulate($query);
-        
-        
+
+
         $query = 'DELETE from crs_objective_tst ' .
                 'WHERE objective_id = ' . $ilDB->quote($this->getObjectiveId(), 'integer') . ' ' .
                 'AND ' . $ilDB->in('ref_id', $deletable_refs, false, 'integer');
         $ilDB->manipulate($query);
-        
+
         return true;
     }
     // end-patch lok
-    
+
 
     public function deleteAll()
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "DELETE FROM crs_objective_qst " .
             "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " ";
         $res = $ilDB->manipulate($query);
@@ -808,11 +807,11 @@ class ilCourseObjectiveQuestion
 
         $ilDB = $DIC['ilDB'];
         $tree = $DIC['tree'];
-        
+
 
         $container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
         $container_ref_id = current($container_ref_ids);
-        
+
         // Read test data
         $query = "SELECT * FROM crs_objective_tst " .
             "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " ";
@@ -841,7 +840,7 @@ class ilCourseObjectiveQuestion
                 $this->delete($row->question_id);
                 continue;
             }
-    
+
             $qst['ref_id'] = $row->ref_id;
             $qst['obj_id'] = $row->obj_id;
             $qst['question_id'] = $row->question_id;
@@ -870,15 +869,15 @@ class ilCourseObjectiveQuestion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT co.objective_id FROM crs_objectives co JOIN " .
             "crs_objective_tst cot ON co.objective_id = cot.objective_id " .
             "WHERE crs_id = " . $ilDB->quote($a_course_id, 'integer') . " ";
         $res = $ilDB->query($query);
         return $res->numRows() ? true : false;
     }
-    
-    
+
+
     public static function _isAssigned($a_objective_id, $a_tst_ref_id, $a_question_id)
     {
         global $DIC;
@@ -895,35 +894,35 @@ class ilCourseObjectiveQuestion
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $objective_id = $row->objective_id;
         }
-        
+
         return $objective_id ? $objective_id : 0;
     }
-    
+
     // begin-patch lok
     public static function lookupQuestionsByObjective($a_test_id, $a_objective)
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'SELECT question_id FROM crs_objective_qst ' .
                 'WHERE objective_id = ' . $ilDB->quote($a_objective, 'integer') . ' ' .
                 'AND obj_id = ' . $ilDB->quote($a_test_id, 'integer');
         $res = $ilDB->query($query);
-        
+
         $questions = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $questions[] = $row->question_id;
         }
         return (array) $questions;
     }
-    
+
     public static function loookupTestLimit($a_test_id, $a_objective_id)
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'SELECT tst_limit_p FROM crs_objective_tst ' .
                 'WHERE objective_id = ' . $ilDB->quote($a_objective_id, 'integer') . ' ' .
                 'AND obj_id = ' . $ilDB->quote($a_test_id, 'integer');
@@ -933,7 +932,7 @@ class ilCourseObjectiveQuestion
         }
         return 0;
     }
-    
+
     /**
      * To xml
      * @param ilXmlWriter $writer
@@ -950,7 +949,7 @@ class ilCourseObjectiveQuestion
                     'limit' => $test['tst_limit']
                 )
             );
-            
+
             // questions
             foreach ($this->getQuestionsByTest($test['ref_id']) as $question_id) {
                 $writer->xmlElement('Question', array('id' => $question_id));
@@ -958,6 +957,6 @@ class ilCourseObjectiveQuestion
             $writer->xmlEndTag('Test');
         }
     }
-    
+
     // end-patch lok
 }

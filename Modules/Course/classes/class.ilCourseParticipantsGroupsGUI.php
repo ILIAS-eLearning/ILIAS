@@ -18,9 +18,12 @@ class ilCourseParticipantsGroupsGUI
      * @var int
      */
     private $ref_id = 0;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct($a_ref_id)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->ref_id = $a_ref_id;
     }
 
@@ -112,7 +115,7 @@ class ilCourseParticipantsGroupsGUI
         $ilCtrl = $DIC['ilCtrl'];
         
         if (!$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', (int) $_POST['grp_id'])) {
-            ilUtil::sendFailure($lng->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("permission_denied"), true);
             $this->show();
             return;
         }
@@ -126,7 +129,7 @@ class ilCourseParticipantsGroupsGUI
             (int) $_POST["usr_id"]
         );
         
-        ilUtil::sendSuccess($lng->txt("grp_msg_membership_annulled"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("grp_msg_membership_annulled"), true);
         $ilCtrl->redirect($this, "show");
     }
 
@@ -149,7 +152,7 @@ class ilCourseParticipantsGroupsGUI
 
         if (sizeof($_POST["usrs"])) {
             if (!$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', (int) $_POST['grp_id'])) {
-                ilUtil::sendFailure($lng->txt("permission_denied"), true);
+                $this->main_tpl->setOnScreenMessage('failure', $lng->txt("permission_denied"), true);
                 $this->show();
                 return;
             }
@@ -165,7 +168,7 @@ class ilCourseParticipantsGroupsGUI
                     $new_member
                 );
             }
-            ilUtil::sendSuccess($lng->txt("grp_msg_member_assigned"));
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("grp_msg_member_assigned"));
         }
 
         $this->show();

@@ -124,7 +124,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
             }
         }
         
-        ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         return !$errors;
     }
     

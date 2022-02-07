@@ -150,7 +150,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                     }
                     
                     if ($do_update) {
-                        ilUtil::sendInfo(sprintf($this->lng->txt("cont_start_file_set_to"), $do_update), true);
+                        $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("cont_start_file_set_to"), $do_update), true);
                         
                         $this->object->update();
                         $this->ctrl->redirectByClass("ilfilesystemgui", "listFiles");
@@ -350,7 +350,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 )
             );
 
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "properties");
         }
 
@@ -415,7 +415,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         }
         
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->object = $a_new_object;
         $this->redirectAfterCreation();
     }
@@ -654,7 +654,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
     protected function afterImport(ilObject $a_new_object)
     {
         $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirect($this, "properties");
     }
 

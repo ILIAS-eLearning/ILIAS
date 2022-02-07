@@ -261,7 +261,7 @@ class ilTestService
                 $this->object->isFollowupQuestionAnswerFixationEnabled()
                 && !$value['presented'] && !$firstQuestion
             );
-            
+
             $description = "";
             if ($this->object->getListOfQuestionsDescription()) {
                 $description = $value["description"];
@@ -296,7 +296,7 @@ class ilTestService
                 'obligatory' => $value['obligatory'],
                 'isAnswered' => $value['isAnswered']
             );
-            
+
             $firstQuestion = false;
             // fau.
         }

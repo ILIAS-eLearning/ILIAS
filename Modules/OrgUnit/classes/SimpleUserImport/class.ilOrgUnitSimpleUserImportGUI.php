@@ -47,6 +47,7 @@ class ilOrgUnitSimpleUserImportGUI
     public function __construct($parent_gui)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilToolbar = $DIC['ilToolbar'];
@@ -64,7 +65,7 @@ class ilOrgUnitSimpleUserImportGUI
         $this->ilAccess = $ilAccess;
         $this->lng->loadLanguageModule('user');
         if (!$this->ilAccess->checkaccess('write', '', $this->parent_gui->object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
         }
     }
 
@@ -114,7 +115,7 @@ class ilOrgUnitSimpleUserImportGUI
 
         $xml = new SimpleXMLElement($string);
         $importer->simpleUserImportElement($xml);
-        ilUtil::sendInfo('<pre>' . print_r($importer->getErrors(), 1) . '</pre>');
+        $this->tpl->setOnScreenMessage('info', '<pre>' . print_r($importer->getErrors(), 1) . '</pre>');
     }
 
 
@@ -143,7 +144,7 @@ class ilOrgUnitSimpleUserImportGUI
                 $importer->simpleUserImport($file['tmp_name']);
             } catch (Exception $e) {
                 $this->ilLog->write($e->getMessage() . ' - ' . $e->getTraceAsString());
-                ilUtil::sendFailure($this->lng->txt('import_failed'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_failed'), true);
                 $this->ctrl->redirect($this, 'render');
             }
             $this->displayImportResults($importer);
@@ -158,21 +159,21 @@ class ilOrgUnitSimpleUserImportGUI
     {
         if (!$importer->hasErrors() and !$importer->hasWarnings()) {
             $stats = $importer->getStats();
-            ilUtil::sendSuccess(sprintf($this->lng->txt('user_import_successful'), $stats['created'], $stats['removed']), true);
+            $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt('user_import_successful'), $stats['created'], $stats['removed']), true);
         }
         if ($importer->hasWarnings()) {
             $msg = $this->lng->txt('import_terminated_with_warnings') . '<br>';
             foreach ($importer->getWarnings() as $warning) {
                 $msg .= '-' . $this->lng->txt($warning['lang_var']) . ' (Import ID: ' . $warning['import_id'] . ')<br>';
             }
-            ilUtil::sendInfo($msg, true);
+            $this->tpl->setOnScreenMessage('info', $msg, true);
         }
         if ($importer->hasErrors()) {
             $msg = $this->lng->txt('import_terminated_with_errors') . '<br>';
             foreach ($importer->getErrors() as $warning) {
                 $msg .= '- ' . $this->lng->txt($warning['lang_var']) . ' (Import ID: ' . $warning['import_id'] . ')<br>';
             }
-            ilUtil::sendFailure($msg, true);
+            $this->tpl->setOnScreenMessage('failure', $msg, true);
         }
     }
 }

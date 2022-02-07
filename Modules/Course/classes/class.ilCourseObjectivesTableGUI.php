@@ -53,17 +53,17 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         $this->course_obj = $a_course_obj;
-        
+
         // begin-patch lok
         $this->settings = ilLOSettings::getInstanceByObjId($this->course_obj->getId());
         // end-patch lok
-        
+
         $this->lng = $lng;
         $this->lng->loadLanguageModule('crs');
         $this->ctrl = $ilCtrl;
-        
+
         parent::__construct($a_parent_obj, 'listObjectives');
         $this->setFormName('objectives');
         $this->addColumn('', 'f', "1px");
@@ -81,7 +81,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt('crs_objective_final_test'), 'final');
         }
         $this->addColumn($this->lng->txt('actions'), '5em');
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.crs_objectives_table_row.html", "Modules/Course");
         $this->disable('sort');
@@ -92,7 +92,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('objective');
         // end-patch lok
         $this->setLimit(200);
-        
+
         // begin-patch lo
         $this->addMultiCommand('activateObjectives', $this->lng->txt('set_online'));
         $this->addMultiCommand('deactivateObjectives', $this->lng->txt('set_offline'));
@@ -124,7 +124,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_POSITION', $a_set['position']);
-        
+
         // begin-patch lok
         if ($a_set['online']) {
             $this->tpl->setVariable('VAL_ONOFFLINE', $this->lng->txt('online'));
@@ -133,13 +133,13 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_ONOFFLINE', $this->lng->txt('offline'));
             $this->tpl->setVariable('ONOFFLINE_CLASS', 'smallred');
         }
-        
+
         if ($a_set['passes']) {
             $this->tpl->setVariable('PASSES_TXT', $this->lng->txt('crs_loc_passes_info'));
             $this->tpl->setVariable('PASSES_VAL', $a_set['passes']);
         }
-        
-        
+
+
         // begin-patch lok
         $this->ctrl->setParameterByClass('ilcourseobjectivesgui', 'objective_id', $a_set['id']);
         $this->tpl->setVariable('VAL_TITLE_LINKED', $this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'edit'));
@@ -149,7 +149,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         if (strlen($a_set['description'])) {
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
-        
+
         // materials
         foreach ($a_set['materials'] as $ref_id => $data) {
             if ($data['items']) {
@@ -169,7 +169,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('mat_row');
             $this->tpl->setVariable('LM_IMG', ilObject::_getIcon($data['obj_id'], "tiny", $data['type']));
             $this->tpl->setVariable('LM_ALT', $this->lng->txt('obj_' . $data['type']));
-            
+
             if ($data['type'] == 'catr' or $data['type'] == 'crsr' or $data['type'] == 'grpr') {
                 $this->tpl->setVariable(
                     'LM_TITLE',
@@ -180,7 +180,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             }
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // self assessment
         // begin-patch lok
         if ($this->getSettings()->worksWithInitialTest()) {
@@ -192,14 +192,14 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     $this->tpl->setVariable('IT_ALT', $this->lng->txt('obj_tst'));
                     $this->tpl->setVariable('IT_TITLE', ilObject::_lookupTitle($obj_id));
                     $this->tpl->setVariable('IT_TITLE_LINK', ilLink::_getLink($a_set['initial']));
-                    
+
                     $this->ctrl->setParameterByClass('ilobjtestgui', 'ref_id', $a_set['initial']);
                     $this->ctrl->setParameterByClass('ilobjtestgui', 'cmd', 'questionsTabGateway');
                     $this->tpl->setVariable(
                         'IT_TITLE_LINK',
                         $this->ctrl->getLinkTargetByClass('ilobjtestgui')
                     );
-                                        
+
                     $this->tpl->parseCurrentBlock();
                 } else {
                     $this->tpl->touchBlock('initial_test_per_objective');
@@ -219,7 +219,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     $this->tpl->touchBlock('self_qst_row');
                 }
             }
-            
+
             // end-patch lok
         }
         // end-patch lok
@@ -232,15 +232,15 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('FT_IMG', ilObject::_getIcon($obj_id, 'tiny'));
                 $this->tpl->setVariable('FT_ALT', $this->lng->txt('obj_tst'));
                 $this->tpl->setVariable('FT_TITLE', ilObject::_lookupTitle($obj_id));
-                
+
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'ref_id', $a_set['final']);
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'cmd', 'questionsTabGateway');
                 $this->tpl->setVariable(
                     'FT_TITLE_LINK',
                     $this->ctrl->getLinkTargetByClass('ilobjtestgui')
                 );
-                
-                
+
+
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->touchBlock('final_test_per_objective');
@@ -261,7 +261,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                 // end-patch lok
             }
         }
-        
+
         // begin-patch lok
         // Edit Link
         #$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'objective_id',$a_set['id']);
@@ -270,11 +270,11 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         $this->tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'edit'));
         // end-patch lok
         $this->tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
-        
+
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId($a_set['id']);
         //$alist->setListTitle($this->lng->txt("actions"));
-        
+
         $alist->addItem(
             $this->lng->txt('edit'),
             '',
@@ -308,17 +308,17 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                 $this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'finalTestAssignment')
             );
         }
-        
+
         $this->ctrl->setParameterByClass('illopagegui', 'objective_id', $a_set['id']);
         $alist->addItem(
             $this->lng->txt('crs_edit_lo_introduction'),
             '',
             $this->ctrl->getLinkTargetByClass('illopagegui', 'edit')
         );
-        
-        
+
+
         $this->tpl->setVariable('VAL_ACTIONS', $alist->getHTML());
-        
+
         // end-patch lok
     }
         

@@ -229,7 +229,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
             $event_part->updateUser();
         }
         
-        ilUtil::sendSuccess($this->getLanguage()->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->getLanguage()->txt('settings_saved'), true);
         $this->getCtrl()->redirect($this, 'participants');
     }
 
@@ -238,7 +238,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         $participants = $this->requested_participants;
         
         if (!count($participants)) {
-            ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
@@ -269,7 +269,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         $participants = $this->requested_participants;
         
         if (!is_array($participants) || !count($participants)) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
         
@@ -286,7 +286,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
             $event_part->updateUser();
         }
         
-        ilUtil::sendSuccess($this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
         $this->ctrl->redirect($this, "participants");
     }
 

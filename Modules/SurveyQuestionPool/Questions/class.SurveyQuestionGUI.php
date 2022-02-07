@@ -357,7 +357,7 @@ abstract class SurveyQuestionGUI
             // #13784
             if ($a_return &&
                 !SurveyQuestion::_isComplete($this->object->getId())) {
-                ilUtil::sendFailure($this->lng->txt("survey_error_insert_incomplete_question"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("survey_error_insert_incomplete_question"));
                 $this->editQuestion();
                 return;
             }
@@ -370,7 +370,7 @@ abstract class SurveyQuestionGUI
 
             // pool question?
             if ($a_sync) {
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirect($this, 'copySyncForm');
             } else {
                 // form: update original pool question, too?
@@ -383,7 +383,7 @@ abstract class SurveyQuestionGUI
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->redirectAfterSaving($a_return);
         }
     }
@@ -406,7 +406,7 @@ abstract class SurveyQuestionGUI
 
         $qids = $this->request->getQuestionIds();
         if (count($qids) == 0) {
-            ilUtil::sendFailure($lng->txt("select_one"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("select_one"));
             $this->copySyncForm();
             return;
         }
@@ -426,14 +426,14 @@ abstract class SurveyQuestionGUI
                 foreach ($questions as $qid) {
                     if (in_array($qid, $qids)) {
                         $id = $this->object->getId();
-                        
+
                         $this->object->setId($qid);
                         $this->object->setOriginalId($id);
                         $this->object->saveToDb();
-                        
+
                         $this->object->setId($id);
                         $this->object->setOriginalId(null);
-                        
+
                         // see: SurveyQuestion::syncWithOriginal()
                         // what about material?
                     }
@@ -441,7 +441,7 @@ abstract class SurveyQuestionGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("survey_sync_success"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("survey_sync_success"), true);
         $this->redirectAfterSaving($this->request->getReturn());
     }
     
@@ -470,13 +470,13 @@ abstract class SurveyQuestionGUI
             $this->object->syncWithOriginal();
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->redirectAfterSaving($this->request->getReturn());
     }
 
     protected function cancelSync() : void
     {
-        ilUtil::sendInfo($this->lng->txt("question_changed_in_survey_only"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("question_changed_in_survey_only"), true);
         $this->redirectAfterSaving($this->request->getReturn());
     }
             
@@ -715,9 +715,9 @@ abstract class SurveyQuestionGUI
         $mids = $this->request->getMaterialIndexes();
         if (count($mids) > 0) {
             $this->object->deleteMaterials($mids);
-            ilUtil::sendSuccess($this->lng->txt('materials_deleted'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('materials_deleted'), true);
         } else {
-            ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
         }
         $this->ctrl->redirect($this, 'material');
     }
@@ -783,7 +783,7 @@ abstract class SurveyQuestionGUI
     public function cancelExplorer() : void
     {
         $this->edit_manager->clearNewLinkType();
-        ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, 'material');
     }
         
@@ -792,7 +792,7 @@ abstract class SurveyQuestionGUI
         $this->object->addInternalLink("il__pg_" . $this->request->getLinkItemId("pg"));
         $this->edit_manager->clearNewLinkType();
         $this->edit_manager->clearSearchLinkType();
-        ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("material_added_successfully"), true);
         $this->ctrl->redirect($this, "material");
     }
     
@@ -801,7 +801,7 @@ abstract class SurveyQuestionGUI
         $this->object->addInternalLink("il__st_" . $this->request->getLinkItemId("st"));
         $this->edit_manager->clearNewLinkType();
         $this->edit_manager->clearSearchLinkType();
-        ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("material_added_successfully"), true);
         $this->ctrl->redirect($this, "material");
     }
 
@@ -810,7 +810,7 @@ abstract class SurveyQuestionGUI
         $this->object->addInternalLink("il__git_" . $this->request->getLinkItemId("git"));
         $this->edit_manager->clearNewLinkType();
         $this->edit_manager->clearSearchLinkType();
-        ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("material_added_successfully"), true);
         $this->ctrl->redirect($this, "material");
     }
     
@@ -883,13 +883,13 @@ abstract class SurveyQuestionGUI
             $this->tpl->setContent($tbl->getHTML());
         } else {
             if ($this->edit_manager->getSearchLinkType() == "lm") {
-                ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("material_added_successfully"), true);
 
                 $this->edit_manager->clearSearchLinkType();
                 $this->edit_manager->clearNewLinkType();
                 $this->ctrl->redirect($this, "material");
             } else {
-                ilUtil::sendFailure($this->lng->txt("material_added_empty"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("material_added_empty"), true);
                 $this->ctrl->redirect($this, "addMaterial");
             }
         }
@@ -983,7 +983,7 @@ abstract class SurveyQuestionGUI
             if ($valid) {
                 $this->object->saveToDb();
                 
-                ilUtil::sendSuccess($this->lng->txt('phrase_added'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('phrase_added'), true);
                 $this->ctrl->redirect($this, 'editQuestion');
             }
         }
@@ -1051,17 +1051,17 @@ abstract class SurveyQuestionGUI
         
         $valid = true;
         if (!trim($title)) {
-            ilUtil::sendFailure($this->lng->txt("qpl_savephrase_empty"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("qpl_savephrase_empty"));
             $valid = false;
         } elseif ($this->object->phraseExists($title)) {
-            ilUtil::sendFailure($this->lng->txt("qpl_savephrase_exists"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("qpl_savephrase_exists"));
             $valid = false;
         }
         
         if ($valid) {
             $this->object->savePhrase($title);
 
-            ilUtil::sendSuccess($this->lng->txt("phrase_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("phrase_saved"), true);
             $this->ctrl->redirect($this, "editQuestion");
         }
         

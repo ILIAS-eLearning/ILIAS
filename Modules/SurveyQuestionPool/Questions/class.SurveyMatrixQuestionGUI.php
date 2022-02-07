@@ -493,9 +493,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                 $percent_values['percent_bipolar_adjective2'],
                 $percent_values["percent_neutral"]
             );
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         } else {
-            ilUtil::sendFailure($this->lng->txt("svy_matrix_layout_percentages_sum_invalid"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_matrix_layout_percentages_sum_invalid"));
         }
         $this->layout();
     }

@@ -534,7 +534,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         );
         $a_new_object->getObjectTranslation()->save();
 
-        ilUtil::sendSuccess($this->lng->txt('object_added'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
         $this->ctrl->redirect($this, 'edit');
     }
 

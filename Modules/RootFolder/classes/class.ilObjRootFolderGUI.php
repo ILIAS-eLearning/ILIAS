@@ -338,7 +338,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
                 // END ChangeEvent: Record update
 
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirect($this, "edit");
             }
 

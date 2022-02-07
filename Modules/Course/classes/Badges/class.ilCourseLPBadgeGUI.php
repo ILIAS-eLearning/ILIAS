@@ -85,7 +85,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         if (is_array($a_config["subitems"])) {
             $items = $a_form->getItemByPostVar("subitems");
             $items->setValue($a_config["subitems"]);
-                        
+
             /*
             if(!ilObjUserTracking::_enabledLearningProgress())
             {

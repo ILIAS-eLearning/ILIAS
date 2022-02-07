@@ -24,12 +24,14 @@ class ilObjSurveyQuestionPool extends ilObject
     protected ilObjUser $user;
     public bool $online = false;
     protected ilComponentRepository $component_repository;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
         int $a_id = 0,
         bool $a_call_by_reference = true
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->log = $DIC["ilLog"];
         $this->db = $DIC->database();
@@ -926,7 +928,7 @@ class ilObjSurveyQuestionPool extends ilObject
                                 rename($source_path, $target_path . $question_object["question_id"]);
                             }
                         } else {
-                            ilUtil::sendFailure($this->lng->txt("spl_move_same_pool"), true);
+                            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("spl_move_same_pool"), true);
                             return;
                         }
                     }
@@ -935,7 +937,7 @@ class ilObjSurveyQuestionPool extends ilObject
                 }
             }
         }
-        ilUtil::sendSuccess($this->lng->txt("spl_paste_success"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("spl_paste_success"), true);
         $this->edit_manager->clearClipboardQuestions();
     }
     
