@@ -62,11 +62,9 @@ class CronJobEntityTest extends TestCase
 
     public function testEntityCollectionCanBeCreatedWithItems() : ilCronJobEntities
     {
-        $entities = new ilCronJobEntities([
-            $this->getEntity()
-        ]);
+        $entities = new ilCronJobEntities($this->getEntity(), $this->getEntity());
 
-        $this->assertCount(1, $entities->toArray());
+        $this->assertCount(2, $entities->toArray());
 
         return $entities;
     }
@@ -80,7 +78,7 @@ class CronJobEntityTest extends TestCase
     {
         $entities->add($this->getEntity());
 
-        $this->assertCount(2, $entities->toArray());
+        $this->assertCount(3, $entities->toArray());
 
         return $entities;
     }
