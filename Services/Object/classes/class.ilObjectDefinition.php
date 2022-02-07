@@ -1146,18 +1146,16 @@ class ilObjectDefinition // extends ilSaxParser
      */
     protected function readPluginData()
     {
-        $this->parsePluginData(IL_COMP_SERVICE, "Repository", "robj", false);
-        $this->parsePluginData(IL_COMP_MODULE, "OrgUnit", "orguext", true);
+        $this->parsePluginData("robj", false);
+        $this->parsePluginData("orguext", true);
     }
 
     /**
      * loads a single plugin definition into the object definition
-     * @param $component The component e.g. IL_COMP_SERVICE
-     * @param $slotName The Slot name, e.g. Repository
      * @param $slotId the slot id, e.g. robj
      * @param $isInAdministration, can the object be created in the administration?
      */
-    protected function parsePluginData($component, $slotName, $slotId, $isInAdministration)
+    protected function parsePluginData($slotId, $isInAdministration)
     {
         $plugins = $this->component_repository->getPluginSlotById($slotId)->getActivePlugins();
         foreach ($plugins as $plugin) {
