@@ -12820,6 +12820,9 @@ div.ilSideBarContent {
   /* prevent horizontal scrollbar */
   overflow-x: hidden;
 }
+.ui-autocomplete li.ui-menu-item {
+  cursor: pointer;
+}
 /* Icon Default */
 img.ilIcon {
   width: 32px;
