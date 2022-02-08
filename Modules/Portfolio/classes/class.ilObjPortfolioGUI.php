@@ -1146,8 +1146,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
      * @param bool $a_dev_mode
      * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
      */
-    public function exportPDF(
-        bool $a_dev_mode = false
+    public function showPrintView(
     ) : void {
         $printview = $this->getPrintView();
         $printview->sendPrintView();
