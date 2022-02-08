@@ -171,20 +171,20 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->addHeaderAction();
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type),
-                self::CFORM_IMPORT => $this->initImportForm($a_new_type),
-                self::CFORM_CLONE => $this->fillCloneTemplate(null, $a_new_type));
+        $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type),
+                self::CFORM_IMPORT => $this->initImportForm($new_type),
+                self::CFORM_CLONE => $this->fillCloneTemplate(null, $new_type));
 
         return $forms;
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
-        ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=" . $a_new_object->getRefId() . "&cmd=editSettings");
+        ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=" . $new_object->getRefId() . "&cmd=editSettings");
     }
 
     public function listItemsObject(bool $a_presentation_mode = false) : void

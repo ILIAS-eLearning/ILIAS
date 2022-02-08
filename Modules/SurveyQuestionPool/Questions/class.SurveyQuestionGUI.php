@@ -831,7 +831,7 @@ abstract class SurveyQuestionGUI
         switch ($this->edit_manager->getSearchLinkType()) {
             case "pg":
                 $cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
-                $cont_obj = $cont_obj_gui->object;
+                $cont_obj = $cont_obj_gui->getObject();
                 $pages = ilLMPageObject::getPageList($cont_obj->getId());
                 foreach ($pages as $page) {
                     if ($page["type"] == $this->edit_manager->getSearchLinkType()) {
@@ -846,7 +846,7 @@ abstract class SurveyQuestionGUI
                 
             case "st":
                 $cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
-                $cont_obj = $cont_obj_gui->object;
+                $cont_obj = $cont_obj_gui->getObject();
                 // get all chapters
                 $ctree = $cont_obj->getLMTree();
                 $nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));

@@ -67,7 +67,7 @@ abstract class ilContainerContentGUI
 
         $this->container_gui = $container_gui_obj;
         /** @var $obj ilContainer */
-        $obj = $this->container_gui->object;
+        $obj = $this->container_gui->getObject();
         $this->container_obj = $obj;
 
         $tpl->addJavaScript("./Services/Container/js/Container.js");

@@ -8,7 +8,7 @@
  */
 class ilExportSelectionTableGUI extends ilTable2GUI
 {
-    protected array $post_data;
+    protected ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement $post_data;
 
     protected ilAccessHandler $access;
     protected ilObjectDefinition $objDefinition;
@@ -171,7 +171,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             }
             $r = array();
 
-            if ($last = ilExportFileInfo::lookupLastExport($node['obj_id'], 'xml')) {
+            if ($last = ilExportFileInfo::lookupLastExport((int) $node['obj_id'], 'xml')) {
                 $r['last_export'] = $last->getCreationDate()->get(IL_CAL_UNIX);
             } else {
                 $r['last_export'] = 0;
@@ -184,7 +184,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $r['type'] = $node['type'];
             $r['title'] = $node['title'];
             $r['export'] = $this->objDefinition->allowExport($node['type']);
-            $r['perm_export'] = $this->access->checkAccess('write', '', $node['child']);
+            $r['perm_export'] = $this->access->checkAccess('write', '', (int) $node['child']);
 
             $rows[] = $r;
 

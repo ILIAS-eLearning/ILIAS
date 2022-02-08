@@ -80,7 +80,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     /**
      * @throws ilCtrlException
      */
-    protected function afterConstructor()
+    protected function afterConstructor() : void
     {
         $lng = $this->lng;
         
@@ -96,7 +96,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $lng->loadLanguageModule("content");
     }
 
-    final public function getType()
+    final public function getType() : ?string
     {
         return "mep";
     }
@@ -425,24 +425,24 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->ctrl->redirectByClass("ilobjmediaobjectgui", "create");
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type),
-            self::CFORM_IMPORT => $this->initImportForm($a_new_type));
+        $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type),
+            self::CFORM_IMPORT => $this->initImportForm($new_type));
 
         return $forms;
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         // always send a message
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
 
         //ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
-        ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=" . $a_new_object->getRefId() . "&cmd=listMedia");
+        ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=" . $new_object->getRefId() . "&cmd=listMedia");
     }
 
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form)
+    protected function initEditCustomForm(ilPropertyFormGUI $form) : void
     {
         $obj_service = $this->object_service;
 
@@ -452,7 +452,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $ni->setSuffix("px");
         $ni->setMaxLength(5);
         $ni->setSize(5);
-        $a_form->addItem($ni);
+        $form->addItem($ni);
 
         // default height
         $ni = new ilNumberInputGUI($this->lng->txt("mep_default_height"), "default_height");
@@ -461,24 +461,24 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $ni->setMaxLength(5);
         $ni->setSize(5);
         $ni->setInfo($this->lng->txt("mep_default_width_height_info"));
-        $a_form->addItem($ni);
+        $form->addItem($ni);
 
         // presentation
         $pres = new ilFormSectionHeaderGUI();
         $pres->setTitle($this->lng->txt('obj_presentation'));
-        $a_form->addItem($pres);
+        $form->addItem($pres);
 
         // tile image
-        $obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
+        $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
 
         // additional features
         $feat = new ilFormSectionHeaderGUI();
         $feat->setTitle($this->lng->txt('obj_features'));
-        $a_form->addItem($feat);
+        $form->addItem($feat);
 
         ilObjectServiceSettingsGUI::initServiceSettingsForm(
             $this->object->getId(),
-            $a_form,
+            $form,
             array(
                 ilObjectServiceSettingsGUI::CUSTOM_METADATA
             )
@@ -488,7 +488,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     /**
      * @throws ilPermissionException
      */
-    public function edit()
+    public function edit() : void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs_gui;
@@ -513,34 +513,34 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     }
 
 
-    protected function getEditFormCustomValues(array &$a_values)
+    protected function getEditFormCustomValues(array &$values) : void
     {
         if ($this->getMediaPool()->getDefaultWidth() > 0) {
-            $a_values["default_width"] = $this->object->getDefaultWidth();
+            $values["default_width"] = $this->object->getDefaultWidth();
         }
         if ($this->getMediaPool()->getDefaultHeight() > 0) {
-            $a_values["default_height"] = $this->object->getDefaultHeight();
+            $values["default_height"] = $this->object->getDefaultHeight();
         }
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form)
+    protected function updateCustom(ilPropertyFormGUI $form) : void
     {
         $obj_service = $this->object_service;
 
-        $this->getMediaPool()->setDefaultWidth($a_form->getInput("default_width"));
-        $this->object->setDefaultHeight($a_form->getInput("default_height"));
+        $this->getMediaPool()->setDefaultWidth($form->getInput("default_width"));
+        $this->object->setDefaultHeight($form->getInput("default_height"));
 
         // additional features
         ilObjectServiceSettingsGUI::updateServiceSettingsForm(
             $this->object->getId(),
-            $a_form,
+            $form,
             array(
                 ilObjectServiceSettingsGUI::CUSTOM_METADATA
             )
         );
 
         // tile image
-        $obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
     }
 
     /**

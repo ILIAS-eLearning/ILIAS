@@ -42,7 +42,7 @@ class ilGlossaryForeignTermCollectorGUI
 
         $this->glossary_gui = $a_glossary_gui;
         /** @var ilObjGlossary $glossary */
-        $glossary = $a_glossary_gui->object;
+        $glossary = $a_glossary_gui->getObject();
         $this->glossary = $glossary;
 
         $this->term_manager = $DIC->glossary()

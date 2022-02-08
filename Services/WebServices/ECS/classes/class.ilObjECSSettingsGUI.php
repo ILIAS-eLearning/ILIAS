@@ -45,13 +45,13 @@ class ilObjECSSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -59,7 +59,7 @@ class ilObjECSSettingsGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
             
             case 'ilecssettingsgui':
@@ -75,7 +75,6 @@ class ilObjECSSettingsGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($settings);
                 break;
         }
-        return true;
     }
     
 
@@ -85,7 +84,7 @@ class ilObjECSSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->access->checkAccess("read", '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(

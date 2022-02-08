@@ -12,33 +12,12 @@
 class ilObjTypeDefinitionGUI extends ilObjectGUI
 {
     /**
-     * @var ilRbacAdmin
-     */
-    protected $rbacadmin;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
     * Constructor
     *
     * @access	public
     */
     public function __construct($a_data, $a_id, $a_call_by_reference)
     {
-        global $DIC;
-
-        $this->rbacadmin = $DIC->rbac()->admin();
-        $this->rbacreview = $DIC->rbac()->review();
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->error = $DIC["ilErr"];
         $this->type = "typ";
         parent::__construct($a_data, $a_id, $a_call_by_reference);
     }
@@ -47,10 +26,10 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     * list operations of object type
     * @access	public
     */
-    public function viewObject()
+    public function viewObject() : void
     {
-        $rbacadmin = $this->rbacadmin;
-        $rbacreview = $this->rbacreview;
+        $rbacadmin = $this->rbac_admin;
+        $rbacreview = $this->rbac_review;
 
         //prepare objectlist
         $this->data = array();
@@ -190,11 +169,11 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     *
     * @access	public
     */
-    public function saveObject()
+    public function saveObject() : void
     {
-        $rbacsystem = $this->rbacsystem;
-        $rbacadmin = $this->rbacadmin;
-        $rbacreview = $this->rbacreview;
+        $rbacsystem = $this->rbac_system;
+        $rbacadmin = $this->rbac_admin;
+        $rbacreview = $this->rbac_review;
         $ilErr = $this->error;
 
         if (!$rbacsystem->checkAccess('edit_permission', $_GET["ref_id"])) {
@@ -231,10 +210,10 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     *
     * @access	public
     */
-    public function editObject()
+    public function editObject() : void
     {
-        $rbacsystem = $this->rbacsystem;
-        $rbacreview = $this->rbacreview;
+        $rbacsystem = $this->rbac_system;
+        $rbacreview = $this->rbac_review;
         $ilErr = $this->error;
 
         if (!$rbacsystem->checkAccess("edit_permission", $_GET["ref_id"])) {
@@ -371,8 +350,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
             } //for
         } //if is_array
     }
-
-    public function executeCommand()
+    
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -387,7 +366,6 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
 
     /**
@@ -395,9 +373,9 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     * @access	public
     * @param	object	tabs gui object
     */
-    protected function getTabs()
+    protected function getTabs() : void
     {
-        $rbacsystem = $this->rbacsystem;
+        $rbacsystem = $this->rbac_system;
 
         if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(

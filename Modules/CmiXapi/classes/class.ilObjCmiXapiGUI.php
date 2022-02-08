@@ -50,10 +50,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
     const NEW_OBJ_TITLE = "";
 
-    /**
-     * @var ilObjCmiXapi
-     */
-    public $object;
+    public ?ilObject $object;
 
     /**
      * @var ilCmiXapiAccess
@@ -267,18 +264,12 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $id->save();
     }
 
-    /**
-     * @param string|null $a_sub_type
-     * @param int|null    $a_sub_id
-     * @return null|ilObjectListGUI
-     * @throws ilCtrlException
-     */
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null) : ?ilObjectListGUI
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        $return = parent::initHeaderAction($a_sub_type, $a_sub_id);
+        $return = parent::initHeaderAction($sub_type, $sub_id);
 
         if ($this->creation_mode) {
             return $return;

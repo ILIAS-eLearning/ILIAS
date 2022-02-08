@@ -131,7 +131,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
 
         if (self::hasAccess(self::ACCESS_VISIBLE, $id)) {
-            ilObjectGUI::_gotoRepositoryNode($target, 'infoScreen');
+            ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
         }
 
         if (self::hasAccess(self::ACCESS_READ, ROOT_FOLDER_ID)) {
@@ -222,7 +222,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         );
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -805,7 +805,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         return $res_data;
     }
 
-    public function showPossibleSubObjects()
+    public function showPossibleSubObjects() : void
     {
         parent::showPossibleSubObjects();
     }
