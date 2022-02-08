@@ -117,7 +117,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
+            public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
             {
             }
             public function info(string $a_message) : void
@@ -140,11 +140,11 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public static function getRootLogger()
+            public static function getRootLogger() : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLog"];
             }
-            public static function getLogger($a)
+            public static function getLogger($a) : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLog"];
             }
@@ -164,7 +164,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
         $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
-            public $prefs = [];
+            public array $prefs = [];
 
             public function __construct()
             {

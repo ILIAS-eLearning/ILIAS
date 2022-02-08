@@ -45,7 +45,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected Factory $ui;
     protected Renderer $renderer;
 
-    public function __construct(?array $data = null, int $id, bool $call_by_reference = true, bool $prepare_output = true)
+    public function __construct($data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
     {
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
 
@@ -153,7 +153,10 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected function refreshLanguages() : void
     {
         try {
-            $this->getPlugin()->updateLanguages();
+            $plugin_name = $this->request_wrapper->retrieve(self::P_PLUGIN_NAME, $this->refinery->kindlyTo()->string());
+            $plugin = $this->component_repository->getPluginByName($plugin_name);
+            $language_handler = new ilPluginLanguage($plugin);
+            $language_handler->updateLanguages();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("cmps_refresh_lng"), true);
         } catch (Exception $e) {
             $this->tpl->setOnScreenMessage("failure", $e->getMessage(), true);
