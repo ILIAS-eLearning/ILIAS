@@ -19,6 +19,11 @@ use ILIAS\Setup\CLI\StatusCommand;
 class ilObjSystemFolderGUI extends ilObjectGUI
 {
     /**
+     * @var \ILIAS\Style\Content\Object\ObjectFacade
+     */
+    protected $content_style_domain;
+
+    /**
      * @var ilTabsGUI
      */
     protected $tabs;
@@ -103,6 +108,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         $this->lng->loadLanguageModule("administration");
         $this->lng->loadLanguageModule("adm");
+        $this->content_style_domain = $DIC->contentStyle()
+                  ->domain()
+                  ->styleForRefId($this->object->getRefId());
     }
 
     public function executeCommand()
@@ -129,7 +137,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 $igui = new ilImprintGUI();
                                 
                 // needed for editor
-                $igui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "impr"));
+                $igui->setStyleId(
+                    $this->content_style_domain->getEffectiveStyleId()
+                );
                 
                 if (!$this->checkPermissionBool("write")) {
                     $igui->setEnableEditing(false);
@@ -1145,14 +1155,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $data = new Factory();
         $lng = new ilSetupLanguage('en');
         $interface_finder = new ImplementationOfInterfaceFinder();
-        $plugin_raw_reader = new ilPluginRawReader();
 
         $agent_finder = new ImplementationOfAgentFinder(
             $refinery,
             $data,
             $lng,
-            $interface_finder,
-            $plugin_raw_reader,
+            $interface_finder
             []
         );
 

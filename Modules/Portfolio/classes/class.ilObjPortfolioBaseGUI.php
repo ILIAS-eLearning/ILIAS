@@ -35,6 +35,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     protected string $requested_back_url = "";
     protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         int $a_id = 0,
@@ -81,6 +83,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->requested_back_url = str_replace(":::", "&amp;", $back);
 
         $this->ctrl->setParameterByClass("ilobjportfoliogui", "back_url", rawurlencode($this->requested_back_url));
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
+        $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
     }
     
     protected function addLocatorItems() : void
@@ -145,10 +150,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $page_gui = $this->getPageGUIInstance($this->page_id);
         
         // needed for editor
-        $page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-            $this->object->getStyleSheetId(),
-            $this->getType()
-        ));
+        $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
         
         $ret = $this->ctrl->forwardCommand($page_gui);
 
@@ -216,7 +218,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->tabs_gui->addSubTab(
             "style",
             $this->lng->txt("obj_sty"),
-            $this->ctrl->getLinkTarget($this, 'editStyleProperties')
+            $this->ctrl->getLinkTargetByClass("ilobjectcontentstylesettingsgui", "")
         );
         
         $this->tabs_gui->activateSubTab($a_active);
@@ -1006,113 +1008,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $ctpl = $tpl;
         }
 
-        $ctpl->setCurrentBlock("ContentStyle");
-        $ctpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+        $this->content_style_gui->addCss(
+            $ctpl,
+            $this->object->getRefId(),
+            $this->object->getId()
         );
-        $ctpl->parseCurrentBlock();
-    }
-    
-    public function editStyleProperties() : void
-    {
-        $this->checkPermission("write");
-        
-        $this->tabs_gui->activateTab("settings");
-        $this->setSettingsSubTabs("style");
-        
-        $form = $this->initStylePropertiesForm();
-        $this->tpl->setContent($form->getHTML());
-    }
-    
-    public function initStylePropertiesForm() : ilPropertyFormGUI
-    {
-        $ilSetting = $this->settings;
-                        
-        $this->lng->loadLanguageModule("style");
-
-        $form = new ilPropertyFormGUI();
-        
-        $fixed_style = $ilSetting->get("fixed_content_style_id");
-        $style_id = $this->object->getStyleSheetId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($this->lng->txt("style_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")");
-            $form->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $this->port_request->getRefId()
-            );
-
-            $st_styles[0] = $this->lng->txt("default");
-            ksort($st_styles);
-
-            if ($style_id > 0) {
-                // individual style
-                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $st = new ilNonEditableValueGUI($this->lng->txt("style_current_style"));
-                    $st->setValue(ilObject::_lookupTitle($style_id));
-                    $form->addItem($st);
-
-                    // delete command
-                    $form->addCommandButton("editStyle", $this->lng->txt("style_edit_style"));
-                    $form->addCommandButton("deleteStyle", $this->lng->txt("style_delete_style"));
-                }
-            }
-
-            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_sel = new ilSelectInputGUI(
-                    $this->lng->txt("style_current_style"),
-                    "style_id"
-                );
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($style_id);
-                $form->addItem($style_sel);
-
-                $form->addCommandButton("saveStyleSettings", $this->lng->txt("save"));
-                $form->addCommandButton("createStyle", $this->lng->txt("sty_create_ind_style"));
-            }
-        }
-        
-        $form->setTitle($this->lng->txt($this->getType() . "_style"));
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        
-        return $form;
-    }
-
-    public function createStyle() : void
-    {
-        $this->ctrl->redirectByClass("ilobjstylesheetgui", "create");
-    }
-        
-    public function editStyle() : void
-    {
-        $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-    }
-
-    public function deleteStyle() : void
-    {
-        $this->ctrl->redirectByClass("ilobjstylesheetgui", "delete");
-    }
-
-    public function saveStyleSettings() : void
-    {
-        $ilSetting = $this->settings;
-    
-        if ($ilSetting->get("fixed_content_style_id") <= 0 &&
-            (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-            || $this->object->getStyleSheetId() == 0)) {
-            $this->object->setStyleSheetId(
-                $this->port_request->getStyleId()
-            );
-            $this->object->update();
-            
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        }
-        $this->ctrl->redirect($this, "editStyleProperties");
     }
 }

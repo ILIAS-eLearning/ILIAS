@@ -151,7 +151,7 @@ class ilCronManagerImpl implements ilCronManager
             }
         } // initiate run?
         elseif ($job->isDue(
-            $jobData['job_result_ts'] ? (int) $jobData['job_result_ts'] : null,
+            $jobData['job_result_ts'] ? new DateTimeImmutable('@' . $jobData['job_result_ts']) : null,
             $jobData['schedule_type'] ? (int) $jobData['schedule_type'] : null,
             $jobData['schedule_value'] ? (int) $jobData['schedule_value'] : null,
             $isManualExecution
@@ -236,11 +236,7 @@ class ilCronManagerImpl implements ilCronManager
 
     public function ping(string $jobId) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $ilDB->manipulate('UPDATE cron_job SET alive_ts = ' . $ilDB->quote(time(), 'integer') .
-            ' WHERE job_id = ' . $ilDB->quote($jobId, 'text'));
+        $this->db->manipulate('UPDATE cron_job SET alive_ts = ' . $this->quote(time(), 'integer') .
+            ' WHERE job_id = ' . $this->db->quote($jobId, 'text'));
     }
 }

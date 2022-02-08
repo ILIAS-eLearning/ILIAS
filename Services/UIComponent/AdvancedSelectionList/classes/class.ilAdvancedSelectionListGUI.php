@@ -321,19 +321,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         return $this->useimages;
     }
 
-    /**
-     * @param int $a_val access function id
-     */
-    public function setAccessKey(int $a_val) : void
-    {
-        $this->access_key = $a_val;
-    }
-    
-    public function getAccessKey() : int
-    {
-        return $this->access_key;
-    }
-
     public function setTriggerEvent(string $a_val) : void
     {
         $this->trigger_event = $a_val;

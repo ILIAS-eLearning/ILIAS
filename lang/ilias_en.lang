@@ -29,6 +29,8 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+style#:#style_support_reuse#:#Re-Use
+style#:#style_support_reuse_info#:#Allow sub-objects of the current container to re-use this content style.
 style#:#sty_resize_image#:#Resize Image
 style#:#sty_resize#:#Resize
 style#:#sty_outdated#:#Outdated
@@ -6990,13 +6992,13 @@ pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the 
 pwassist#:#pwassist_enter_username_and_email#:#Enter a username and the associated e-mail address in the fields shown below. ILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account. In case you are unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the username and the new password in the fields below.
 pwassist#:#pwassist_login_not_match#:#Please enter another username. The username you have entered does not match the username for which you had asked for password assistance.
-pwassist#:#pwassist_mail_body#:#Register a new password for your user account: \t%1$s  This message has been generated automatically by the ILIAS server \t%2$s  You (or someone at %3$s) has asked for password assistance for the user account "%4$s".  Please check carefully the conditions listed below, and proceed accordingly:  - If you have used the password assistance form on the ILIAS server by accident: Delete this mail.  - If you are certain, that you never asked for password assistance at this ILIAS server: Please contact %5$s.  - If you asked for password assistance, please proceed as follows:  1. Open your browser.  2. Enter the following address in your browser: \t%6$s  Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.  3. On the web page shown by your browser, enter a new password for your user account.  Please note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
+pwassist#:#pwassist_mail_body#:#Register a new password for your user account: %1$s<br><br>This message has been generated automatically by the ILIAS server %2$s<br><br>You (or someone at %3$s) has asked for password assistance for the user account "%4$s". Please check carefully the conditions listed below and proceed accordingly:<br><br>• If you have used the password assistance form on the ILIAS server by accident: Delete this mail.<br><br>• If you are certain, that you never asked for password assistance at this ILIAS server: Please contact %5$s.<br><br>• If you asked for password assistance, please proceed as follows:<br>1. Open your browser.<br>2. Enter the following address in your browser: %6$s<br>Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.<br>3. On the web page shown by your browser, enter a new password for your user account.<br><br>Please note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
 pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s. Please check your mail box.
 pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance
 pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".
 pwassist#:#pwassist_session_expired#:#Please fill in this form again. Your password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address: %s  This message has been created automatically by the following ILIAS Server: \t%s  You (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'.  Please check the following and act as suggested::  -You have requested this e-mail by accident: Delete this e-mail.  -You are sure, that you never requested this e-mail: Please contact %s.  - If you requested this e-mail, please proceed as follows::  1. Start your internet browser.  2. Enter the following url: \t%s  Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.  3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address: %s <br><br>This message has been created automatically by the following ILIAS Server: %s  <br><br>You (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'. Please check the following and act as suggested:<br><br>• You have requested this e-mail by accident: Delete this e-mail.<br><br>• You are sure, that you never requested this e-mail: Please contact %s.<br><br>• If you requested this e-mail, please proceed as follows:<br>1. Start your internet browser.<br>2. Enter the following url: %s <br>Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.<br>3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
 pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s
 pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s
 rating#:#rating_your_rating#:#Your Rating
@@ -16723,3 +16725,15 @@ itgr#:#itgr_list_default_info#:#Inherits value from upper container.
 user#:#user_local_role#:#Local Role
 form#:#form_use_camera#:#Use Camera
 form#:#form_take_snapshot#:#Take Snapshot
+cmps#:#cmps_responsible_mail#:#Mail (Responsible)
+cmps#:#cmps_supports_learning_progress#:#Supports learning progress
+cmps#:#cmps_supports_export#:#Supports export
+cmps#:#cmps_supports_cli_setup#:#Supports CLI-Setup
+cmps#:#cmps_is_installed#:#Installed
+cmps#:#cmps_is_active#:#Activated
+cmps#:#cmps_current_db_version#:#Current DB-Version
+cmps#:#cmps_detailed_information#:#Detailed Informationen
+cmps#:#cmps_available_version#:#Available Version
+cmps#:#cmps_refresh_lng#:#Refresh language
+cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled
+cmps#:#cmps_plugin_updated#:#The plugin has been updated

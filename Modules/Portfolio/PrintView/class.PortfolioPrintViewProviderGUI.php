@@ -135,13 +135,13 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
         $form->addItem($radg);
 
-        $form->addCommandButton("exportPDF", $lng->txt("exp_show_print_view"));
+        $form->addCommandButton("showPrintView", $lng->txt("exp_show_print_view"));
 
         $form->setTitle($lng->txt("prtf_print_options"));
         $form->setFormAction(
             $ilCtrl->getFormActionByClass(
                 "ilObjPortfolioGUI",
-                "exportPDF"
+                "showPrintView"
             )
         );
 

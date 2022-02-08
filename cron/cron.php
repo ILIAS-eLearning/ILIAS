@@ -10,9 +10,7 @@ if ($_SERVER['argc'] < 4) {
     exit(1);
 }
 
-$client = $_SERVER['argv'][3];
-$login = $_SERVER['argv'][1];
-$password = $_SERVER['argv'][2];
+[$script, $login, $password, $client] = $_SERVER['argv'];
 
 $cron = new ilCronStartUp(
     $client,

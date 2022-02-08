@@ -37,6 +37,7 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
     protected int $requested_active_node = 0;
     protected bool $to_page = false;
     protected EditingGUIRequest $request;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
 
     public function __construct()
     {
@@ -94,6 +95,8 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
         $this->to_page = $this->request->getToPage();
 
         $this->checkRequestParameters();
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
     }
     
     /**
@@ -198,12 +201,10 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
         $this->tpl->loadStandardTemplate();
 
         // content style
-        $this->tpl->setCurrentBlock("ContentStyle");
-        $this->tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->lm_obj->getStyleSheetId())
+        $this->content_style_gui->addCss(
+            $this->tpl,
+            $this->lm_obj->getRefId()
         );
-        $this->tpl->parseCurrentBlock();
 
         // syntax style
         $this->tpl->setCurrentBlock("SyntaxStyle");

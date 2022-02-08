@@ -13,6 +13,10 @@
  */
 class ilDclDetailedViewGUI
 {
+    /**
+     * @var \ILIAS\Style\Content\Object\ObjectFacade
+     */
+    protected $content_style_domain;
 
     /**
      * @var ilObjDataCollectionGUI
@@ -107,6 +111,11 @@ class ilDclDetailedViewGUI
         if ($this->is_enabled_paging) {
             $this->determineNextPrevRecords();
         }
+        $this->content_style_domain = $DIC->contentStyle()
+            ->domain()
+            ->styleForRefId(
+                $this->dcl_gui_object->getDataCollectionObject()->getRefId()
+            );
     }
 
 
@@ -189,7 +198,9 @@ class ilDclDetailedViewGUI
 
         // see ilObjDataCollectionGUI->executeCommand about instantiation
         $pageObj = new ilDclDetailedViewDefinitionGUI($this->tableview_id);
-        $pageObj->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
+        $pageObj->setStyleId(
+            $this->content_style_domain->getEffectiveStyleId()
+        );
 
         $html = $pageObj->getHTML();
         $rctpl->addCss("./Services/COPage/css/content.css");

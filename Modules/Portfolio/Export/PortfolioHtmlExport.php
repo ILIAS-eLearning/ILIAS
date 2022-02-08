@@ -39,6 +39,7 @@ class PortfolioHtmlExport
     protected string $active_tab;
     protected bool $include_comments = false;
     protected bool $print_version = false;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         \ilObjPortfolioBaseGUI $portfolio_gui
@@ -58,6 +59,10 @@ class PortfolioHtmlExport
             \ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
             true
         );
+
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain()->styleForObjId($this->portfolio->getId());
     }
 
     protected function init() : void
@@ -135,7 +140,7 @@ class PortfolioHtmlExport
 
         $this->export_util->exportSystemStyle();
         $this->export_util->exportCOPageFiles(
-            $this->portfolio->getStyleSheetId(),
+            $this->content_style_domain->getEffectiveStyleId(),
             $this->portfolio->getType()
         );
 
@@ -293,7 +298,9 @@ class PortfolioHtmlExport
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
         $this->global_screen->layout()->meta()->addCss($location_stylesheet);
         $this->global_screen->layout()->meta()->addCss(
-            \ilObjStyleSheet::getContentStylePath($this->portfolio->getStyleSheetId())
+            \ilObjStyleSheet::getContentStylePath(
+                $this->content_style_domain->getEffectiveStyleId()
+            )
         );
         \ilPCQuestion::resetInitialState();
 

@@ -95,13 +95,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         );
     }
 
-    protected function getStyleSheet() : ilObjStyleSheet
-    {
-        /** @var ilObjStyleSheet $style */
-        $style = $this->object;
-        return $style;
-    }
-
     /**
      * Enable writing
      */
@@ -119,11 +112,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $cmd = $ctrl->getCmd("edit");
         
         // #9440/#9489: prepareOutput will fail if not set properly
-        if (!$this->object) {
+        if (!$this->object || $cmd == "create") {
             $this->setCreationMode(true);
         }
 
-        $this->prepareOutput();
         switch ($next_class) {
 
             case "ilexportgui":
@@ -157,12 +149,20 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 break;
 
             default:
+                $this->prepareOutput();
                 $cmd .= "Object";
                 $ret = $this->$cmd();
                 break;
         }
     }
-    
+
+    protected function getStyleSheet() : ilObjStyleSheet
+    {
+        /** @var ilObjStyleSheet $obj */
+        $obj = $this->object;
+        return $obj;
+    }
+
     public function viewObject()
     {
         $this->editObject();

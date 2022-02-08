@@ -140,7 +140,6 @@ abstract class ilPlugin
     /**
      * Only very little classes seem to care about this:
      *    - Services/Component/classes/class.ilObjComponentSettingsGUI.php
-     *    - Services/Component/classes/class.ilPluginsOverviewTableGUI.php
      *    - Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php
      */
     public function isActive()
@@ -236,7 +235,6 @@ abstract class ilPlugin
         if(!$this->beforeActivation()) {
             return false;
         }
-
 
         $this->component_repository->setActivation($this->getId(), true);
         $this->afterActivation();
@@ -462,23 +460,8 @@ abstract class ilPlugin
     // Global Screen
     // ------------------------------------------
 
-    /**
-     * @deprecate
-     * @see getGlobalScreenProviderCollection instead
-     */
-    public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
-    {
-        global $DIC;
-
-        return new ilPluginGlobalScreenNullProvider($DIC, $this);
-    }
-
     final public function getGlobalScreenProviderCollection() : PluginProviderCollection
     {
-        if (!$this->promoteGlobalScreenProvider() instanceof ilPluginGlobalScreenNullProvider) {
-            $this->provider_collection->setMainBarProvider($this->promoteGlobalScreenProvider());
-        }
-
         return $this->provider_collection;
     }
 

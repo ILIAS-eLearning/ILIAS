@@ -19,12 +19,12 @@
  */
 abstract class ilChartData
 {
-    protected string $type;
-    protected string $label;
-    protected array $data;
-    protected float $fill;
-    protected string $fill_color;
-    protected bool $hidden;
+    protected string $type = "";
+    protected string $label = "";
+    protected array $data = [];
+    protected float $fill = 0;
+    protected string $fill_color = "";
+    protected bool $hidden = false;
 
     abstract protected function getTypeString() : string;
 
@@ -80,7 +80,7 @@ abstract class ilChartData
         string $a_color = null
     ) : void {
         $this->fill = $a_value;
-        if (ilChart::isValidColor($a_color)) {
+        if (ilChart::isValidColor((string) $a_color)) {
             $this->fill_color = $a_color;
         }
     }

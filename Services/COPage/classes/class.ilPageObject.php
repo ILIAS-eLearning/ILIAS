@@ -60,7 +60,7 @@ abstract class ilPageObject
     protected ilLanguage $lng;
     protected ilTree $tree;
     protected int $id;
-    public php4DOMDocument $dom;
+    public ?php4DOMDocument $dom = null;
     public string $xml = "";
     public string $encoding = "";
     public php4DOMElement $node;
@@ -270,7 +270,7 @@ abstract class ilPageObject
         }
 
         $this->xml = $this->page_record["content"];
-        $this->setParentId($this->page_record["parent_id"]);
+        $this->setParentId((int) $this->page_record["parent_id"]);
         $this->last_change_user = $this->page_record["last_change_user"];
         $this->create_user = $this->page_record["create_user"];
         $this->setRenderedContent((string) $this->page_record["rendered_content"]);
@@ -363,7 +363,7 @@ abstract class ilPageObject
     /**
      * @depracated
      */
-    public function getDom() : php4DOMDocument
+    public function getDom() : ?php4DOMDocument
     {
         return $this->dom;
     }

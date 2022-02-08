@@ -15,6 +15,10 @@
 /**
 * Class ilPluginReader
 *
+* This is only used in ilPlugin.
+*
+* @deprecate as of ILIAS 9
+*
 * Reads plugin information of plugin.xml files into db
 *
 * @author Alex Killing <alex.killing@gmx.de>

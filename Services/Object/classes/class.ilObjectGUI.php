@@ -66,7 +66,7 @@ class ilObjectGUI
 
     /**
     * object Definition Object
-    * @var		object ilias
+    * @var		ilObjectDefinition ilias
     * @access	private
     */
     public $objDefinition;
@@ -443,10 +443,11 @@ class ilObjectGUI
                 $this->lng->txt("obj_" . $this->object->getType())
             );
         }
-
-        $lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
-        $lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
-        $this->tpl->setAlertProperties($lgui->getAlertProperties());
+        if (!$this->objDefinition->isAdministrationObject($this->object->getType())) {
+            $lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
+            $lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
+            $this->tpl->setAlertProperties($lgui->getAlertProperties());
+        }
     }
     
     /**

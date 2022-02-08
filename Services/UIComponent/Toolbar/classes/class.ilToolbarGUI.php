@@ -139,9 +139,6 @@ class ilToolbarGUI
             $button->setPrimary(true);
             $button->setCaption($a_txt, false);
             $button->setCommand($a_cmd);
-            if ($a_acc_key !== null) {
-                $button->setAccessKey($a_acc_key);
-            }
             $this->addStickyItem($button);
         } else {
             $this->items[] = array("type" => "fbutton", "txt" => $a_txt, "cmd" => $a_cmd,
@@ -520,9 +517,6 @@ class ilToolbarGUI
                     $button->setPrimary($item['primary']);
                     $button->setCaption($item['txt'], false);
                     $button->setCommand($item['cmd']);
-                    if ($item['acc_key'] !== null) {
-                        $button->setAccessKey($item['acc_key']);
-                    }
                     break;
                 case 'button':
                     $button = ilLinkButton::getInstance();
@@ -530,9 +524,6 @@ class ilToolbarGUI
                     $button->setUrl($item['cmd']);
                     $button->setTarget($item['target']);
                     $button->setId($item['id']);
-                    if ($item['acc_key'] !== null) {
-                        $button->setAccessKey($item['acc_key']);
-                    }
                     break;
             }
             $this->addStickyItem($button);

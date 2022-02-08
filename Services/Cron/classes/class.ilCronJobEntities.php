@@ -18,10 +18,7 @@ class ilCronJobEntities implements ilCronJobCollection
 {
     private ArrayIterator $jobs;
 
-    /**
-     * @param ilCronJobEntity[] $jobs
-     */
-    public function __construct(array $jobs = [])
+    public function __construct(ilCronJobEntity ...$jobs)
     {
         $this->jobs = new ArrayIterator($jobs);
     }
@@ -46,12 +43,12 @@ class ilCronJobEntities implements ilCronJobCollection
 
     public function filter(callable $callable) : ilCronJobCollection
     {
-        return new static(array_filter(iterator_to_array($this), $callable));
+        return new static(...array_filter(iterator_to_array($this), $callable));
     }
 
     public function slice(int $offset, ?int $length = null) : ilCronJobCollection
     {
-        return new static(array_slice(iterator_to_array($this), $offset, $length, true));
+        return new static(...array_slice(iterator_to_array($this), $offset, $length, true));
     }
 
     /**

@@ -1367,6 +1367,9 @@ class SurveyQuestion
         array $a_finished_ids = null
     ) : ?SurveyQuestionEvaluation {
         $question = self::_instanciateQuestion($question_id);
+        if (is_null($a_finished_ids)) {
+            $a_finished_ids = [];
+        }
         if ($question) {
             $question_type = self::_getQuestionType($question_id);
             self::_includeClass($question_type, 2);

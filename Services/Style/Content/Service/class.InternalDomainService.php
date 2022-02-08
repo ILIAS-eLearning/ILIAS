@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,9 +18,10 @@ namespace ILIAS\Style\Content;
 use ILIAS\Style\Content\Access\StyleAccessManager;
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\Style\Content\Container\ContainerManager;
+use ILIAS\Style\Content\Object\ObjectManager;
 
-/**
- * Content style internal manager service
+ /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class InternalDomainService
@@ -89,6 +90,28 @@ class InternalDomainService
             $style_id,
             $access_manager,
             $this->repo_service->image()
+        );
+    }
+
+    public function repositoryContainer(int $ref_id) : ContainerManager
+    {
+        return new ContainerManager(
+            $this->repo_service,
+            $ref_id
+        );
+    }
+
+    /**
+     * Objects without ref id (e.g. portfolios) can use
+     * the manager with a ref_id of 0, e.g. to get selectable styles
+     */
+    public function object(int $ref_id, int $obj_id = 0) : ObjectManager
+    {
+        return new ObjectManager(
+            $this->repo_service,
+            $this,
+            $ref_id,
+            $obj_id
         );
     }
 }
