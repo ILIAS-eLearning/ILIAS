@@ -72,7 +72,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         global $DIC;
         $component_repository = $DIC["component.repository"];
         return self::_getImagePath(
-            IL_COMP_SERVICE,
+            ilComponentInfo::TYPE_SERVICES,
             "Repository",
             "robj",
             $component_repository->getPluginById($a_type)->getName(),
