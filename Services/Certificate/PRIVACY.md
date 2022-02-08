@@ -6,8 +6,10 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 
 ## General Information
 
-- The `Certificate Service` can be enabled in the global administration. If enabled, certificate templates can be
-  configured and activated for different object types (see list below).
+- An account with `Edit Settings` permissions for `Administration > Achievements > Certificates > Settings`
+  can enable the `Certificate Service` globally. If enabled, certificate templates can be
+  configured and activated for different object types (see list below) depending on the `Edit Settings` permission
+  for the particular object in the repository.
 
 ## Data being stored
 
