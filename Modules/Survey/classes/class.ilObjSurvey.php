@@ -4120,7 +4120,7 @@ class ilObjSurvey extends ilObject
     public function isPluginActive(string $a_pname) : bool
     {
         $ilPluginAdmin = $this->plugin_admin;
-        if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $a_pname)) {
+        if ($ilPluginAdmin->isActive(ilComponentInfo::TYPE_MODULES, "SurveyQuestionPool", "svyq", $a_pname)) {
             return true;
         } else {
             return false;
