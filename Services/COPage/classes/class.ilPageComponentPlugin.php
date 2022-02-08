@@ -27,26 +27,6 @@ abstract class ilPageComponentPlugin extends ilPlugin
     private ?ilPageObject $page_obj = null;
     protected string $mode;
 
-    final public function getComponentType() : string
-    {
-        return IL_COMP_SERVICE;
-    }
-    
-    final public function getComponentName() : string
-    {
-        return "COPage";
-    }
-
-    final public function getSlot() : string
-    {
-        return "PageComponent";
-    }
-
-    final public function getSlotId() : string
-    {
-        return "pgcp";
-    }
-    
     /**
      * Determines the resources that allow to include the
      * new content component.
