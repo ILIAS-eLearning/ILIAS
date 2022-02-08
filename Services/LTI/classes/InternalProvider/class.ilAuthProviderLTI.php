@@ -406,9 +406,9 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         $auth_arr = explode('_', $a_auth_mode);
         if (count((array) $auth_arr) > 1) {
-            return AUTH_PROVIDER_LTI . '_' . $auth_arr[1];
+            return ilAuthUtils::AUTH_PROVIDER_LTI . '_' . $auth_arr[1];
         }
-        return AUTH_PROVIDER_LTI;
+        return ilAuthUtils::AUTH_PROVIDER_LTI;
     }
 
 
@@ -488,6 +488,6 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         }
         $auth_arr = explode('_', $a_auth_mode);
 //        todo ?
-        return ($auth_arr[0] == AUTH_PROVIDER_LTI) and $auth_arr[1];
+        return ($auth_arr[0] == ilAuthUtils::AUTH_PROVIDER_LTI) and $auth_arr[1];
     }
 }

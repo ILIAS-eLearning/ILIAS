@@ -233,7 +233,7 @@ class ilECSMappingUtils
         }
 
         if ($ilSetting->get('shib_active', "0")) {
-            $options[ilAuthUtils::_getAuthModeName(AUTH_SHIBBOLETH)] =
+            $options[ilAuthUtils::_getAuthModeName(ilAuthUtils::AUTH_SHIBBOLETH)] =
                 $lng->txt('auth_shibboleth');
         }
 

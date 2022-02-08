@@ -15,22 +15,23 @@
  *****************************************************************************/
 
 /**
- * Class ilObjAuthSettingsGUI
- *
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  *
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI, ilRadiusSettingsGUI
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilCASSettingsGUI
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilSamlSettingsGUI, ilOpenIdConnectSettingsGUI
- *
- * @extends ilObjectGUI
  */
 class ilObjAuthSettingsGUI extends ilObjectGUI
 {
+    private ilLogger $logger;
+
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
         $this->type = "auth";
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+
+        global $DIC;
+        $this->logger = $DIC->logger()->auth();
 
         $this->lng->loadLanguageModule('registration');
         $this->lng->loadLanguageModule('auth');
@@ -77,20 +78,20 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         $auth_cnt = ilObjUser::_getNumberOfUsersPerAuthMode();
         $auth_modes = ilAuthUtils::_getAllAuthModes();
-        $valid_modes = array(AUTH_LOCAL,AUTH_LDAP,AUTH_SHIBBOLETH,AUTH_SAML,AUTH_CAS,ilAuthUtils::AUTH_RADIUS,AUTH_APACHE,AUTH_OPENID_CONNECT);
+        $valid_modes = array(ilAuthUtils::AUTH_LOCAL,ilAuthUtils::AUTH_LDAP,ilAuthUtils::AUTH_SHIBBOLETH,ilAuthUtils::AUTH_SAML,ilAuthUtils::AUTH_CAS,ilAuthUtils::AUTH_RADIUS,ilAuthUtils::AUTH_APACHE,ilAuthUtils::AUTH_OPENID_CONNECT);
         // icon handlers
         $icon_ok = "<img src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("enabled") . "\" title=\"" . $this->lng->txt("enabled") . "\" border=\"0\" vspace=\"0\"/>";
         $icon_not_ok = "<img src=\"" . ilUtil::getImagePath("icon_not_ok.svg") . "\" alt=\"" . $this->lng->txt("disabled") . "\" title=\"" . $this->lng->txt("disabled") . "\" border=\"0\" vspace=\"0\"/>";
 
-
+        $this->logger->debug(print_r($auth_modes, true));
         foreach ($auth_modes as $mode => $mode_name) {
-            if (!in_array($mode, $valid_modes) && !ilLDAPServer::isAuthModeLDAP($mode) && !ilSamlIdp::isAuthModeSaml((string) $mode)) {
+            if (!in_array($mode, $valid_modes) && !ilLDAPServer::isAuthModeLDAP((string) $mode) && !ilSamlIdp::isAuthModeSaml((string) $mode)) {
                 continue;
             }
 
             $generalSettingsTpl->setCurrentBlock('auth_mode');
 
-            if (ilLDAPServer::isAuthModeLDAP($mode)) {
+            if (ilLDAPServer::isAuthModeLDAP((string) $mode)) {
                 $server = ilLDAPServer::getInstanceByServerId(ilLDAPServer::getServerIdByAuthMode($mode));
                 $generalSettingsTpl->setVariable("AUTH_NAME", $server->getName());
                 $generalSettingsTpl->setVariable('AUTH_ACTIVE', $server->isActive() ? $icon_ok : $icon_not_ok);
@@ -100,7 +101,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $generalSettingsTpl->setVariable('AUTH_ACTIVE', $idp->isActive() ? $icon_ok : $icon_not_ok);
             } else {
                 $generalSettingsTpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
-                $generalSettingsTpl->setVariable('AUTH_ACTIVE', $this->ilias->getSetting($mode_name . '_active') || $mode == AUTH_LOCAL ? $icon_ok : $icon_not_ok);
+                $generalSettingsTpl->setVariable('AUTH_ACTIVE', $this->ilias->getSetting($mode_name . '_active') || $mode == ilAuthUtils::AUTH_LOCAL ? $icon_ok : $icon_not_ok);
             }
 
             $auth_cnt_mode = isset($auth_cnt[$mode_name]) ? $auth_cnt[$mode_name] : 0;
@@ -173,7 +174,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
                 if ($auth_name == 'default') {
                     $name = $this->lng->txt('auth_' . $auth_name) . " (" . $this->lng->txt('auth_' . ilAuthUtils::_getAuthModeName($auth_key)) . ")";
-                } elseif ($id = ilLDAPServer::getServerIdByAuthMode($auth_key)) {
+                } elseif ($id = ilLDAPServer::getServerIdByAuthMode((string) $auth_key)) {
                     $server = ilLDAPServer::getInstanceByServerId($id);
                     $name = $server->getName();
                 } elseif ($id = ilSamlIdp::getIdpIdByAuthMode((string) $auth_key)) {
@@ -259,10 +260,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         }
 
         switch ($_POST["auth_mode"]) {
-            case AUTH_SAML:
+            case ilAuthUtils::AUTH_SAML:
                 break;
 
-            case AUTH_LDAP:
+            case ilAuthUtils::AUTH_LDAP:
         
                 /*
                 if ($this->object->checkAuthLDAP() !== true)
@@ -274,7 +275,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 break;
                 
                 // @fix changed from AUTH_SHIB > is not defined
-                case AUTH_SHIBBOLETH:
+            case ilAuthUtils::AUTH_SHIBBOLETH:
                 if ($this->object->checkAuthSHIB() !== true) {
                     ilUtil::sendFailure($this->lng->txt("auth_shib_not_configured"), true);
                     ilUtil::redirect(
@@ -299,7 +300,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 }
                 break;
 
-            case AUTH_SCRIPT:
+            case ilAuthUtils::AUTH_SCRIPT:
                 if ($this->object->checkAuthScript() !== true) {
                     ilUtil::sendFailure($this->lng->txt("auth_script_not_configured"), true);
                     ilUtil::redirect($this->getReturnLocation("authSettings", $this->ctrl->getLinkTarget($this, "editScript", "", false, false)));
@@ -593,7 +594,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         
         // all ok. save settings and activate auth by external script
         $this->ilias->setSetting("auth_script_name", $_POST["auth_script"]["name"]);
-        $this->ilias->setSetting("auth_mode", AUTH_SCRIPT);
+        $this->ilias->setSetting("auth_mode", ilAuthUtils::AUTH_SCRIPT);
 
         ilUtil::sendSuccess($this->lng->txt("auth_mode_changed_to") . " " . $this->getAuthModeTitle(), true);
         $this->ctrl->redirect($this, 'editScript');
@@ -608,19 +609,19 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     public function getAuthModeTitle() : string
     {
         switch ($this->ilias->getSetting("auth_mode")) {
-            case AUTH_LOCAL:
+            case ilAuthUtils::AUTH_LOCAL:
                 return $this->lng->txt("auth_local");
                 break;
             
-            case AUTH_LDAP:
+            case ilAuthUtils::AUTH_LDAP:
                 return $this->lng->txt("auth_ldap");
                 break;
             
-            case AUTH_SHIBBOLETH:
+            case ilAuthUtils::AUTH_SHIBBOLETH:
                 return $this->lng->txt("auth_shib");
                 break;
 
-            case AUTH_SAML:
+            case ilAuthUtils::AUTH_SAML:
                 return $this->lng->txt("auth_saml");
                 break;
 
@@ -628,11 +629,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 return $this->lng->txt("auth_radius");
                 break;
         
-            case AUTH_SCRIPT:
+            case ilAuthUtils::AUTH_SCRIPT:
                 return $this->lng->txt("auth_script");
                 break;
 
-                        case AUTH_APACHE:
+            case ilAuthUtils::AUTH_APACHE:
                 return $this->lng->txt("auth_apache");
                 break;
 
@@ -696,7 +697,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         foreach ($auth_sequenced as $auth_mode) {
             switch ($auth_mode) {
                 // begin-patch ldap_multiple
-                case ilLDAPServer::isAuthModeLDAP($auth_mode):
+                case ilLDAPServer::isAuthModeLDAP((string) $auth_mode):
                     $auth_id = ilLDAPServer::getServerIdByAuthMode($auth_mode);
                     $server = ilLDAPServer::getInstanceByServerId($auth_id);
                     $text = $server->getName();
@@ -705,13 +706,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 case ilAuthUtils::AUTH_RADIUS:
                     $text = $this->lng->txt('auth_radius');
                     break;
-                case AUTH_LOCAL:
+                case ilAuthUtils::AUTH_LOCAL:
                     $text = $this->lng->txt('auth_local');
                     break;
-                case AUTH_SOAP:
+                case ilAuthUtils::AUTH_SOAP:
                     $text = $this->lng->txt('auth_soap');
                     break;
-                case AUTH_APACHE:
+                case ilAuthUtils::AUTH_APACHE:
                     $text = $this->lng->txt('auth_apache');
                     break;
                 // begin-patch auth_plugin
@@ -1027,8 +1028,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 global $DIC;
 
                 $ilSetting = $DIC['ilSetting'];
-                if ((int) $ilSetting->get("auth_mode", '0') === AUTH_APACHE) {
-                    $ilSetting->set("auth_mode", (string) AUTH_LOCAL);
+                if ((int) $ilSetting->get("auth_mode", '0') === ilAuthUtils::AUTH_APACHE) {
+                    $ilSetting->set("auth_mode", (string) ilAuthUtils::AUTH_LOCAL);
                 }
             }
 
@@ -1089,7 +1090,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $ldap_server_select->setOptions($options);
             $ldap_server_select->setRequired(true);
 
-            $ds = ilLDAPServer::getDataSource(AUTH_APACHE);
+            $ds = ilLDAPServer::getDataSource(ilAuthUtils::AUTH_APACHE);
             $ldap_server_select->setValue($ds);
 
             $chb_ldap->addSubItem($ldap_server_select);

@@ -2752,7 +2752,7 @@ class ilObjUser extends ilObject
             "WHERE auth_mode = %s";
         $types[] = "text";
         $values[] = $a_auth_mode;
-        if ($a_read_auth_default and ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode', AUTH_LOCAL)) == $a_auth_mode) {
+        if ($a_read_auth_default and ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode', ilAuthUtils::AUTH_LOCAL)) == $a_auth_mode) {
             $q .= " OR auth_mode = %s ";
             $types[] = "text";
             $values[] = 'default';

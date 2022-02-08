@@ -206,10 +206,10 @@ class ilPersonalSettingsGUI
             // unless the user uses Shibboleth authentication with additional
             // local authentication for WebDAV.
             //if (
-            //	($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local"))
+            //	($ilUser->getAuthMode(true) != ilAuthUtils::AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local"))
             //)
             $pw_info_set = false;
-            if ($ilUser->getAuthMode(true) == AUTH_LOCAL) {
+            if ($ilUser->getAuthMode(true) == ilAuthUtils::AUTH_LOCAL) {
                 // current password
                 $cpass = new ilPasswordInputGUI($lng->txt("current_password"), "current_password");
                 $cpass->setInfo(ilUtil::getPasswordRequirementsInfo());
@@ -234,12 +234,12 @@ class ilPersonalSettingsGUI
             $this->form->addCommandButton("savePassword", $lng->txt("save"));
             
             switch ($ilUser->getAuthMode(true)) {
-                case AUTH_LOCAL:
+                case ilAuthUtils::AUTH_LOCAL:
                     $this->form->setTitle($lng->txt("chg_password"));
                     break;
                     
-                case AUTH_SHIBBOLETH:
-                case AUTH_CAS:
+                case ilAuthUtils::AUTH_SHIBBOLETH:
+                case ilAuthUtils::AUTH_CAS:
                     if (ilDAVActivationChecker::_isActive()) {
                         $this->form->setTitle($lng->txt("chg_ilias_and_webfolder_password"));
                     } else {
@@ -297,8 +297,8 @@ class ilPersonalSettingsGUI
             // The old password needs to be checked for verification
             // unless the user uses Shibboleth authentication with additional
             // local authentication for WebDAV.
-            #if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
-            if ($ilUser->getAuthMode(true) == AUTH_LOCAL) {
+            #if ($ilUser->getAuthMode(true) != ilAuthUtils::AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
+            if ($ilUser->getAuthMode(true) == ilAuthUtils::AUTH_LOCAL) {
                 if (!ilUserPasswordManager::getInstance()->verifyPassword($ilUser, $this->entered_current_password)) {
                     $error = true;
                     $cp->setAlert($this->lng->txt('passwd_wrong'));

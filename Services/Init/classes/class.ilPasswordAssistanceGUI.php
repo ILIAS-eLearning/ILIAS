@@ -206,7 +206,7 @@ class ilPasswordAssistanceGUI
             return;
         }
 
-        $defaultAuth = AUTH_LOCAL;
+        $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($GLOBALS['DIC']['ilSetting']->get('auth_mode')) {
             $defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
         }
@@ -230,10 +230,10 @@ class ilPasswordAssistanceGUI
             }
         } elseif (
             (
-                $user->getAuthMode(true) != AUTH_LOCAL ||
-                ($user->getAuthMode(true) == $defaultAuth && $defaultAuth != AUTH_LOCAL)
+                $user->getAuthMode(true) != ilAuthUtils::AUTH_LOCAL ||
+                ($user->getAuthMode(true) == $defaultAuth && $defaultAuth != ilAuthUtils::AUTH_LOCAL)
             ) && !(
-                $user->getAuthMode(true) == AUTH_SAML
+                $user->getAuthMode(true) == ilAuthUtils::AUTH_SAML
             )
         ) {
             \ilLoggerFactory::getLogger('usr')->info(sprintf(
@@ -397,8 +397,10 @@ class ilPasswordAssistanceGUI
             $tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
             $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
-            $tpl->setVariable('TXT_ENTER_USERNAME_AND_NEW_PASSWORD',
-                $this->lng->txt('pwassist_enter_username_and_new_password'));
+            $tpl->setVariable(
+                'TXT_ENTER_USERNAME_AND_NEW_PASSWORD',
+                $this->lng->txt('pwassist_enter_username_and_new_password')
+            );
 
             if (!$form) {
                 $form = $this->getAssignPasswordForm($pwassist_id);

@@ -71,7 +71,7 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
         $this->getCredentials()->setUsername(phpCAS::getUser());
 
         // check and handle ldap data sources
-        if (ilLDAPServer::isDataSourceActive(AUTH_CAS)) {
+        if (ilLDAPServer::isDataSourceActive(ilAuthUtils::AUTH_CAS)) {
             return $this->handleLDAPDataSource($status);
         }
 
@@ -111,7 +111,7 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
     protected function handleLDAPDataSource(\ilAuthStatus $status) : bool
     {
         $server = ilLDAPServer::getInstanceByServerId(
-            ilLDAPServer::getDataSource(AUTH_CAS)
+            ilLDAPServer::getDataSource(ilAuthUtils::AUTH_CAS)
         );
 
         $this->getLogger()->debug('Using ldap data source for user: ' . $this->getCredentials()->getUsername());

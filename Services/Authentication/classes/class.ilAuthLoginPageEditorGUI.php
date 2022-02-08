@@ -329,11 +329,11 @@ class ilAuthLoginPageEditorGUI
         $rad_settings = ilRadiusSettings::_getInstance();
         if ($ldap_id = ilLDAPServer::_getFirstActiveServer() or $rad_settings->isActive()) {
             $select = new ilSelectInputGUI($this->lng->txt('default_auth_mode'), 'default_auth_mode');
-            $select->setValue($this->setting->get('default_auth_mode', AUTH_LOCAL));
+            $select->setValue($this->setting->get('default_auth_mode', ilAuthUtils::AUTH_LOCAL));
             $select->setInfo($this->lng->txt('default_auth_mode_info'));
-            $options[AUTH_LOCAL] = $this->lng->txt('auth_local');
+            $options[ilAuthUtils::AUTH_LOCAL] = $this->lng->txt('auth_local');
             if ($ldap_id) {
-                $options[AUTH_LDAP] = $this->lng->txt('auth_ldap');
+                $options[ilAuthUtils::AUTH_LDAP] = $this->lng->txt('auth_ldap');
             }
             if ($rad_settings->isActive()) {
                 $options [ilAuthUtils::AUTH_RADIUS] = $this->lng->txt('auth_radius');

@@ -177,7 +177,7 @@ class ilUserPasswordManager
     {
         $defaultAuthMode = $this->settings->get('auth_mode');
         $defaultAuthModeCondition = '';
-        if ((int) $defaultAuthMode === AUTH_LOCAL) {
+        if ((int) $defaultAuthMode === ilAuthUtils::AUTH_LOCAL) {
             $defaultAuthModeCondition = ' OR auth_mode = ' . $this->db->quote('default', 'text');
         }
 

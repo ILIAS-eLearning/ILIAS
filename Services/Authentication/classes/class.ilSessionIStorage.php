@@ -33,8 +33,6 @@
  * requests by (i)frames.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
  */
 class ilSessionIStorage
 {
@@ -125,8 +123,9 @@ class ilSessionIStorage
     
     /**
      * Destroy session(s). This is called by ilSession->destroy
+     * @param $a_session_id string|array ids of sessions to be deleted
      */
-    public static function destroySession(string $a_session_id) : void
+    public static function destroySession($a_session_id) : void
     {
         global $DIC;
 

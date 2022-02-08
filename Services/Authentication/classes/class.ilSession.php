@@ -18,7 +18,6 @@
 * @author Alex Killing <alex.killing@gmx.de>
 *
 * @externalTableAccess ilObjUser on usr_session
-* @ingroup ServicesAuthentication
 */
 class ilSession
 {

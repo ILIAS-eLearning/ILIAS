@@ -15,13 +15,8 @@
  *****************************************************************************/
 
 /**
-* Class ilSessionStatisticsGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilLPListOfObjectsGUI.php 27489 2011-01-19 16:58:09Z jluetzen $
-*
-* @ingroup ServicesAuthentication
-*/
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilSessionStatisticsGUI
 {
     const MODE_TODAY = 1;

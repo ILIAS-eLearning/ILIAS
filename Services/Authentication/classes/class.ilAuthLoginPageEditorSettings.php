@@ -18,7 +18,6 @@
  * Storage of editor settings
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesAuthentication
  */
 class ilAuthLoginPageEditorSettings
 {

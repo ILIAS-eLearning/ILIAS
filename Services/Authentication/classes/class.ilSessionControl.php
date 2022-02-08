@@ -15,10 +15,8 @@
  *****************************************************************************/
 
 /**
-* @author Bjoern Heyser <bheyser@databay.de>
-*
-* @ingroup ServicesAuthentication
-*/
+ * @author Bjoern Heyser <bheyser@databay.de>
+ */
 class ilSessionControl
 {
     /**

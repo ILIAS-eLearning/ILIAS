@@ -252,8 +252,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $this->refinery->kindlyTo()->string()
             );
         }
-        $credentials = new ilAuthFrontendCredentialsSoap($GLOBALS['DIC']->http()->request(), $this->ctrl,
-            $this->setting);
+        $credentials = new ilAuthFrontendCredentialsSoap(
+            $GLOBALS['DIC']->http()->request(),
+            $this->ctrl,
+            $this->setting
+        );
         $credentials->setUsername($extUid);
         $credentials->setPassword($soapPw);
         $credentials->tryAuthenticationOnLoginPage();
@@ -474,7 +477,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $credentials->initFromRequest();
 
         $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_SHIBBOLETH);
+        $provider = $provider_factory->getProviderByAuthMode($credentials, ilAuthUtils::AUTH_SHIBBOLETH);
 
         $status = ilAuthStatus::getInstance();
 
@@ -514,7 +517,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $credentials = new ilAuthFrontendCredentialsCAS();
 
         $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_CAS);
+        $provider = $provider_factory->getProviderByAuthMode($credentials, ilAuthUtils::AUTH_CAS);
 
         $status = ilAuthStatus::getInstance();
 
@@ -552,7 +555,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $credentials->initFromRequest();
 
         $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_PROVIDER_LTI);
+        $provider = $provider_factory->getProviderByAuthMode($credentials, ilAuthUtils::AUTH_PROVIDER_LTI);
 
         $status = ilAuthStatus::getInstance();
 
@@ -598,7 +601,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $credentials->initFromRequest();
 
         $provider_factory = new \ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_APACHE);
+        $provider = $provider_factory->getProviderByAuthMode($credentials, ilAuthUtils::AUTH_APACHE);
 
         $status = \ilAuthStatus::getInstance();
 
@@ -699,7 +702,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
                 case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
                     $this->ctrl->redirect($this, 'showAccountMigration');
-
+                    // no break
                 case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                     ilUtil::sendFailure($status->getTranslatedReason());
                     $this->showLoginPage($form);
@@ -721,9 +724,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         // login via ILIAS (this also includes radius and ldap)
         // If local authentication is enabled for shibboleth users, we
         // display the login form for ILIAS here.
-        if (($this->setting->get("auth_mode") != AUTH_SHIBBOLETH ||
+        if (($this->setting->get("auth_mode") != ilAuthUtils::AUTH_SHIBBOLETH ||
                 $this->setting->get("shib_auth_allow_local")) &&
-            $this->setting->get("auth_mode") != AUTH_CAS) {
+            $this->setting->get("auth_mode") != ilAuthUtils::AUTH_CAS) {
             if (!$form instanceof ilPropertyFormGUI) {
                 $form = $this->initStandardLoginForm();
             }
@@ -795,8 +798,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if ($this->setting->get("shib_active")) {
             $tpl = new ilTemplate('tpl.login_form_shibboleth.html', true, true, 'Services/Init');
 
-            $tpl->setVariable('SHIB_FORMACTION',
-                './shib_login.php'); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
+            $tpl->setVariable(
+                'SHIB_FORMACTION',
+                './shib_login.php'
+            ); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
 
             if ($this->setting->get("shib_hos_type") == 'external_wayf') {
                 $tpl->setCurrentBlock("shibboleth_login");
@@ -804,9 +809,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $tpl->setVariable("IL_TARGET", $target);
                 $tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $this->setting->get("shib_federation_name"));
                 $tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $this->setting->get("shib_login_button"));
-                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS",
-                    sprintf($this->lng->txt("shib_general_login_instructions"),
-                        $this->setting->get("shib_federation_name")) . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.');
+                $tpl->setVariable(
+                    "TXT_SHIB_LOGIN_INSTRUCTIONS",
+                    sprintf(
+                        $this->lng->txt("shib_general_login_instructions"),
+                        $this->setting->get("shib_federation_name")
+                    ) . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.'
+                );
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $this->setting->get("shib_login_instructions"));
                 $tpl->parseCurrentBlock();
             } elseif ($this->setting->get("shib_hos_type") == 'embedded_wayf') {
@@ -818,13 +827,19 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $tpl->setCurrentBlock("shibboleth_wayf_login");
                 $tpl->setVariable("TXT_SHIB_LOGIN", $this->lng->txt("login_to_ilias_via_shibboleth"));
                 $tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $this->setting->get("shib_federation_name"));
-                $tpl->setVariable("TXT_SELECT_HOME_ORGANIZATION",
-                    sprintf($this->lng->txt("shib_select_home_organization"),
-                        $this->setting->get("shib_federation_name")));
+                $tpl->setVariable(
+                    "TXT_SELECT_HOME_ORGANIZATION",
+                    sprintf(
+                        $this->lng->txt("shib_select_home_organization"),
+                        $this->setting->get("shib_federation_name")
+                    )
+                );
                 $tpl->setVariable("TXT_CONTINUE", $this->lng->txt("btn_next"));
                 $tpl->setVariable("TXT_SHIB_HOME_ORGANIZATION", $this->lng->txt("shib_home_organization"));
-                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS",
-                    $this->lng->txt("shib_general_wayf_login_instructions") . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.');
+                $tpl->setVariable(
+                    "TXT_SHIB_LOGIN_INSTRUCTIONS",
+                    $this->lng->txt("shib_general_wayf_login_instructions") . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.'
+                );
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $this->setting->get("shib_login_instructions"));
 
                 $ilShibbolethWAYF = new ilShibbolethWAYF();
@@ -835,8 +850,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $tpl->parseCurrentBlock();
             }
 
-            return $this->substituteLoginPageElements($GLOBALS['tpl'], $page_editor_html, $tpl->get(),
-                '[list-shibboleth-login-form]', 'SHIB_LOGIN_FORM');
+            return $this->substituteLoginPageElements(
+                $GLOBALS['tpl'],
+                $page_editor_html,
+                $tpl->get(),
+                '[list-shibboleth-login-form]',
+                'SHIB_LOGIN_FORM'
+            );
         }
 
         return $page_editor_html;
@@ -946,8 +966,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
             $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID)) {
             $rtpl->setCurrentBlock("homelink");
-            $rtpl->setVariable("CLIENT_ID",
-                "?client_id=" . $_COOKIE["ilClientId"] . "&lang=" . $this->lng->getLangKey());
+            $rtpl->setVariable(
+                "CLIENT_ID",
+                "?client_id=" . $_COOKIE["ilClientId"] . "&lang=" . $this->lng->getLangKey()
+            );
             $rtpl->setVariable("TXT_HOME", $this->lng->txt("home"));
             $rtpl->parseCurrentBlock();
         }
@@ -1125,8 +1147,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $credentials->setUsername(ilSession::get(ilAuthFrontend::MIG_EXTERNAL_ACCOUNT));
 
         $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials,
-            ilSession::get(ilAuthFrontend::MIG_TRIGGER_AUTHMODE));
+        $provider = $provider_factory->getProviderByAuthMode(
+            $credentials,
+            ilSession::get(ilAuthFrontend::MIG_TRIGGER_AUTHMODE)
+        );
 
         $this->logger->debug('Using provider: ' . get_class($provider) . ' for further processing.');
 
@@ -1178,7 +1202,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $credentials->setPassword($password);
 
         $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_LOCAL);
+        $provider = $provider_factory->getProviderByAuthMode($credentials, ilAuthUtils::AUTH_LOCAL);
 
         $status = ilAuthStatus::getInstance();
 
@@ -1269,8 +1293,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $this->lng->txt("logout_text") . $tosWithdrawalGui->getWithdrawalTextForLogoutScreen($this->httpRequest)
         );
         $tpl->setVariable("TXT_LOGIN", $this->lng->txt("login_to_ilias"));
-        $tpl->setVariable("CLIENT_ID",
-            "?client_id=" . $client_id . "&cmd=force_login&lang=" . $this->lng->getLangKey());
+        $tpl->setVariable(
+            "CLIENT_ID",
+            "?client_id=" . $client_id . "&cmd=force_login&lang=" . $this->lng->getLangKey()
+        );
 
         self::printToGlobalTemplate($tpl);
     }
@@ -1306,7 +1332,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 'username' => $this->user->getLogin()
             )
         );
-        if ((int) $this->user->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth')) {
+        if ((int) $this->user->getAuthMode(true) == ilAuthUtils::AUTH_SAML && ilSession::get('used_external_auth')) {
             $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
         }
 
@@ -1522,7 +1548,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $type = "glo";
         }
 
-        if ($type == "pg"|$type == "st") {
+        if ($type == "pg" | $type == "st") {
             $type = "lm";
         }
 
@@ -1878,7 +1904,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $credentials->initFromRequest();
 
         $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_OPENID_CONNECT);
+        $provider = $provider_factory->getProviderByAuthMode($credentials, ilAuthUtils::AUTH_OPENID_CONNECT);
 
         $status = ilAuthStatus::getInstance();
 
@@ -2005,7 +2031,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $provider_factory = new ilAuthProviderFactory();
         $provider = $provider_factory->getProviderByAuthMode($credentials, ilUtil::stripSlashes(
-            AUTH_SAML . '_' . $idpId
+            ilAuthUtils::AUTH_SAML . '_' . $idpId
         ));
 
         $status = ilAuthStatus::getInstance();

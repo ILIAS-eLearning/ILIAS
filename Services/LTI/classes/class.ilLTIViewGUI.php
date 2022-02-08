@@ -300,7 +300,7 @@ class ilLTIViewGUI
             }
         }
         $this->dic->logger()->lti()->info("logout");
-        $GLOBALS['DIC']->user()->setAuthMode(AUTH_LOCAL);
+        $GLOBALS['DIC']->user()->setAuthMode(ilAuthUtils::AUTH_LOCAL);
         //ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER); // needed?
         $auth = $GLOBALS['DIC']['ilAuthSession'];
         //$auth->logout(); // needed?

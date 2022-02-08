@@ -18,7 +18,6 @@
  * Login page configuration
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup ServicesAuthentication
  */
 class ilLoginPageConfig extends ilPageConfig
 {

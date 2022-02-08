@@ -16,7 +16,6 @@
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup Services/authentication
  */
 class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 {
@@ -32,13 +31,13 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
     /**
      * Parse input data
      */
-    public function parse()
+    public function parse() : void
     {
         $installed = $this->lng->getInstalledLanguages();
 
         $tbl_data = array();
         $counter = 0;
-        foreach ($installed as $key => $langkey) {
+        foreach (array_values($installed) as $langkey) {
             $tbl_data[$counter]['key'] = $langkey;
             $tbl_data[$counter]['id'] = ilLanguage::lookupId($langkey);
             $tbl_data[$counter]['status'] = ilAuthLoginPageEditorSettings::getInstance()->isIliasEditorEnabled($langkey);
@@ -81,7 +80,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    protected function initTable()
+    protected function initTable() : void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate('tpl.auth_login_page_editor_table_row.html', 'Services/Authentication');

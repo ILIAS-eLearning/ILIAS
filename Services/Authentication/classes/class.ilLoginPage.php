@@ -18,9 +18,6 @@
  * Login page object
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesAuthentication
  */
 class ilLoginPage extends ilPageObject
 {

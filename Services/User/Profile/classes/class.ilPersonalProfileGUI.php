@@ -540,15 +540,15 @@ class ilPersonalProfileGUI
         }
         $this->termsOfServiceHelper->resetAcceptance($this->user);
 
-        $defaultAuth = AUTH_LOCAL;
+        $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
             $defaultAuth = $this->setting->get('auth_mode');
         }
 
         $withdrawalType = 0;
         if (
-            $this->user->getAuthMode() == AUTH_LDAP ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
+            $this->user->getAuthMode() == ilAuthUtils::AUTH_LDAP ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_LDAP)
         ) {
             $withdrawalType = 2;
         } elseif ($this->setting->get('tos_withdrawal_usr_deletion', false)) {

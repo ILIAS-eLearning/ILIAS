@@ -66,24 +66,24 @@ class ilAuthProviderFactory
     public function getProviderByAuthMode(ilAuthCredentials $credentials, $a_authmode) : ilAuthProviderInterface
     {
         switch ((int) $a_authmode) {
-            case AUTH_LDAP:
+            case ilAuthUtils::AUTH_LDAP:
                 $ldap_info = explode('_', $a_authmode);
                 $this->logger->debug('Using ldap authentication with credentials ');
                 return new ilAuthProviderLDAP($credentials, $ldap_info[1]);
             
-            case AUTH_LOCAL:
+            case ilAuthUtils::AUTH_LOCAL:
                 $this->logger->debug('Using local database authentication');
                 return new ilAuthProviderDatabase($credentials);
                 
-            case AUTH_SOAP:
+            case ilAuthUtils::AUTH_SOAP:
                 $this->logger->debug('Using SOAP authentication.');
                 return new ilAuthProviderSoap($credentials);
                 
-            case AUTH_APACHE:
+            case ilAuthUtils::AUTH_APACHE:
                 $this->logger->debug('Using apache authentication.');
                 return new ilAuthProviderApache($credentials);
 
-            case AUTH_CAS:
+            case ilAuthUtils::AUTH_CAS:
                 $this->logger->debug('Using CAS authentication');
                 return new ilAuthProviderCAS($credentials);
 
@@ -91,23 +91,23 @@ class ilAuthProviderFactory
                 $this->logger->debug('Using radius authentication.');
                 return new ilAuthProviderRadius($credentials);
                 
-            case AUTH_SHIBBOLETH:
+            case ilAuthUtils::AUTH_SHIBBOLETH:
                 $this->logger->debug('Using shibboleth authentication.');
                 return new ilAuthProviderShibboleth($credentials);
                 
-            case AUTH_PROVIDER_LTI:
+            case ilAuthUtils::AUTH_PROVIDER_LTI:
                 $this->logger->debug('Using lti provider authentication.');
                 return new ilAuthProviderLTI($credentials);
 
-            case AUTH_ECS:
+            case ilAuthUtils::AUTH_ECS:
                 $this->logger->debug('Using ecs authentication.');
                 return new ilAuthProviderECS($credentials);
 
-            case AUTH_SAML:
+            case ilAuthUtils::AUTH_SAML:
                 $this->logger->debug('Using apache authentication.');
                 return new ilAuthProviderSaml($credentials, ilSamlIdp::getIdpIdByAuthMode($a_authmode));
 
-            case AUTH_OPENID_CONNECT:
+            case ilAuthUtils::AUTH_OPENID_CONNECT:
                 $this->logger->debug('Using openid connect authentication.');
                 return new ilAuthProviderOpenIdConnect($credentials);
 

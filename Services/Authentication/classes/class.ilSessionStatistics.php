@@ -16,9 +16,6 @@
 
 /**
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesAuthentication
 */
 class ilSessionStatistics
 {

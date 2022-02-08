@@ -182,7 +182,7 @@ class ilCASSettingsGUI
 
 
         // LDAP
-        $server_ids = ilLDAPServer::getAvailableDataSources(AUTH_CAS);
+        $server_ids = ilLDAPServer::getAvailableDataSources(ilAuthUtils::AUTH_CAS);
 
         if (count($server_ids)) {
             $ldap = new ilRadioOption(
@@ -201,13 +201,13 @@ class ilCASSettingsGUI
             }
             $ldap_server_select->setOptions($options);
             $ldap_server_select->setRequired(true);
-            $ds = ilLDAPServer::getDataSource(AUTH_CAS);
+            $ds = ilLDAPServer::getDataSource(ilAuthUtils::AUTH_CAS);
             $ldap_server_select->setValue($ds);
 
             $ldap->addSubItem($ldap_server_select);
         }
 
-        if (ilLDAPServer::isDataSourceActive(AUTH_CAS)) {
+        if (ilLDAPServer::isDataSourceActive(ilAuthUtils::AUTH_CAS)) {
             $sync->setValue(ilCASSettings::SYNC_LDAP);
         } else {
             $sync->setValue(
@@ -272,11 +272,11 @@ class ilCASSettingsGUI
 
             switch ((int) $form->getInput('sync')) {
                 case ilCASSettings::SYNC_DISABLED:
-                    ilLDAPServer::disableDataSourceForAuthMode(AUTH_CAS);
+                    ilLDAPServer::disableDataSourceForAuthMode(ilAuthUtils::AUTH_CAS);
                     break;
 
                 case ilCASSettings::SYNC_CAS:
-                    ilLDAPServer::disableDataSourceForAuthMode(AUTH_CAS);
+                    ilLDAPServer::disableDataSourceForAuthMode(ilAuthUtils::AUTH_CAS);
                     break;
 
                 case ilCASSettings::SYNC_LDAP:
@@ -286,7 +286,7 @@ class ilCASSettingsGUI
                         return false;
                     }
 
-                    ilLDAPServer::toggleDataSource((int) $_REQUEST['ldap_sid'], AUTH_CAS, true);
+                    ilLDAPServer::toggleDataSource((int) $_REQUEST['ldap_sid'], ilAuthUtils::AUTH_CAS, true);
                     break;
             }
 

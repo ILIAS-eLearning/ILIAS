@@ -15,13 +15,8 @@
  *****************************************************************************/
 
 /**
-* Class ilObjRootFolderAccess
-*
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjAuthSettingsAccess extends ilObjectAccess
 {
 }

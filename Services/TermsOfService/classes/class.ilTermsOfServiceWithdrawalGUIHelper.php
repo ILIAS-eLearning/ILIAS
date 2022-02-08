@@ -87,17 +87,17 @@ class ilTermsOfServiceWithdrawalGUIHelper
             return;
         }
 
-        $defaultAuth = AUTH_LOCAL;
+        $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
             $defaultAuth = $this->setting->get('auth_mode');
         }
 
         $external = false;
         if (
-            $this->user->getAuthMode() == AUTH_PROVIDER_LTI ||
-            $this->user->getAuthMode() == AUTH_ECS ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_PROVIDER_LTI) ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_ECS)
+            $this->user->getAuthMode() == ilAuthUtils::AUTH_PROVIDER_LTI ||
+            $this->user->getAuthMode() == ilAuthUtils::AUTH_ECS ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_PROVIDER_LTI) ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_ECS)
         ) {
             $external = true;
         }
@@ -130,14 +130,14 @@ class ilTermsOfServiceWithdrawalGUIHelper
 
     public function getConsentWithdrawalConfirmation(object $parentObject) : string
     {
-        $defaultAuth = AUTH_LOCAL;
+        $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
             $defaultAuth = $this->setting->get('auth_mode');
         }
 
         $isLdapUser = (
-            $this->user->getAuthMode() == AUTH_LDAP ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
+            $this->user->getAuthMode() == ilAuthUtils::AUTH_LDAP ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_LDAP)
         );
 
         $lng_suffix = '';
