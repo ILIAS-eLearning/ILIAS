@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilComponentDefinitionInfoProcessorTest extends TestCase
 {
-    protected ilComponentDefinitionInfoProcessor $processor1;
+    protected ilComponentInfoDefinitionProcessor $processor;
 
     protected function setUp() : void
     {
