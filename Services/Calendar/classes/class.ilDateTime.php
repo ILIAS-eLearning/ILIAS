@@ -236,10 +236,18 @@ class ilDateTime
         $a_tz = ''
     ) : bool {
         return
-            (ilDateTime::_after($dt, $start, $a_compare_field, $a_tz) or ilDateTime::_equals($dt, $start,
-                    $a_compare_field, $a_tz)) &&
-            (ilDateTime::_before($dt, $end, $a_compare_field, $a_tz) or ilDateTime::_equals($dt, $end, $a_compare_field,
-                    $a_tz));
+            (ilDateTime::_after($dt, $start, $a_compare_field, $a_tz) or ilDateTime::_equals(
+                $dt,
+                $start,
+                $a_compare_field,
+                $a_tz
+            )) &&
+            (ilDateTime::_before($dt, $end, $a_compare_field, $a_tz) or ilDateTime::_equals(
+                $dt,
+                $end,
+                $a_compare_field,
+                $a_tz
+            ));
     }
 
     /**
@@ -374,8 +382,11 @@ class ilDateTime
                 break;
 
             case IL_CAL_DATETIME:
-                $matches = preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?(Z|[\+\-]\d{2}:?\d{2})?)$/i',
-                    $a_date, $d_parts);
+                $matches = preg_match(
+                    '/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?(Z|[\+\-]\d{2}:?\d{2})?)$/i',
+                    $a_date,
+                    $d_parts
+                );
                 if ($matches < 1) {
                     $this->log->warning('Cannot parse date: ' . $a_date);
                     $this->log->warning(print_r($matches, true));
@@ -426,12 +437,12 @@ class ilDateTime
                     throw new ilDateTimeException('Cannot parse date.');
                 }
                 $this->dt_obj = $this->parsePartsToDate(
-                    $d_parts[1],
-                    $d_parts[2],
-                    $d_parts[3],
-                    $d_parts[4],
-                    $d_parts[5],
-                    $d_parts[6],
+                    (int) $d_parts[1],
+                    (int) $d_parts[2],
+                    (int) $d_parts[3],
+                    (int) $d_parts[4],
+                    (int) $d_parts[5],
+                    (int) $d_parts[6],
                     $this->getTimeZoneIdentifier()
                 );
                 break;

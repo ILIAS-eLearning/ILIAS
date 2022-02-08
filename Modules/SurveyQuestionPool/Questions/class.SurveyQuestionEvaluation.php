@@ -147,7 +147,7 @@ abstract class SurveyQuestionEvaluation
                 $parsed = new ilSurveyEvaluationResultsAnswer(
                     $active_id,
                     $answer["value"],
-                    $answer["text"],
+                    (string) $answer["text"],
                     $answer["tstamp"]
                 );
                 $a_results->addAnswer($parsed);

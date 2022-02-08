@@ -1100,7 +1100,7 @@ class ilSurveyEvaluationGUI
             $button->setOmitPreventDoubleSubmission(true);
             $ilToolbar->addButtonInstance($button);
             
-            $finished_ids = null;
+            $finished_ids = [];
             if ($appr_id) {
                 $finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);
                 if (!sizeof($finished_ids)) {
