@@ -12,6 +12,10 @@ use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\Layout\Page;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Implementation\Component\Breadcrumbs\Breadcrumbs as Crumbs;
+use ILIAS\UI\Implementation\Component\Link\Standard as CrumbEntry;
+use ILIAS\UI\Implementation\Component\Button;
+use ILIAS\UI\Implementation\Component\Dropdown;
 
 /**
  * Tests for the Standard Page
@@ -191,7 +195,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
          <div class="nav il-maincontrols">MainBar Stub</div>
          <!-- html5 main-tag is not supported in IE / div is needed -->
          <main class="il-layout-page-content">
-            <div><div class="breadcrumbs"></div>some content</div>
+            <div>some content</div>
          </main>
       </div>
       <script>il.Util.addOnLoad(function() {});</script>
@@ -228,7 +232,82 @@ class StandardPageTest extends ILIAS_UI_TestBase
          <div class="nav il-maincontrols">MainBar Stub</div>
          <!-- html5 main-tag is not supported in IE / div is needed -->
          <main class="il-layout-page-content">
-            <div><div class="breadcrumbs"></div>some content</div>
+            <div>some content</div>
+         </main>
+      </div>
+      <script>il.Util.addOnLoad(function() {});</script>
+   </body>
+</html>');
+        $this->assertEquals($exptected, $html);
+    }
+
+
+    public function getUIFactory() : NoUIFactory
+    {
+        return new class extends NoUIFactory {
+            public function button() : \ILIAS\UI\Component\Button\Factory
+            {
+                return new Button\Factory();
+            }
+            public function dropdown() : \ILIAS\UI\Component\Dropdown\Factory
+            {
+                return new Dropdown\Factory();
+            }
+        };
+    }
+
+    public function testRenderingWithCrumbs() : void
+    {
+        $crumbs = new Crumbs([
+            new CrumbEntry("label1", '#'),
+            new CrumbEntry("label2", '#'),
+            new CrumbEntry("label3", '#')
+        ]);
+        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->logo]);
+
+        $stdpage = $this->factory->standard(
+            $this->contents,
+            $this->metabar,
+            $this->mainbar,
+            $crumbs,
+            $this->logo,
+            null,
+            $this->title
+        );
+
+        $html = $this->brutallyTrimHTML($r->render($stdpage));
+
+        $exptected = $this->brutallyTrimHTML('
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      <title>:</title>
+      <style></style>
+   </head>
+   <body>
+      <div class="il-layout-page">
+         <header>
+            <div class="header-inner">
+                <div class="il-logo">Logo Stub<div class="il-pagetitle">pagetitle</div></div>
+                <nav class="il-header-locator">
+                    <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">label3<span class="caret"></span></button><ul class="dropdown-menu"><li><button class="btn btn-link" data-action="#" id="id_1">label2</button></li><li><button class="btn btn-link" data-action="#" id="id_2">label1</button></li></ul></div>
+                </nav>MetaBar Stub
+            </div>
+         </header>
+         <div class="il-system-infos"></div>
+         <div class="nav il-maincontrols">MainBar Stub</div>
+         <!-- html5 main-tag is not supported in IE / div is needed -->
+         <main class="il-layout-page-content">
+            <div>
+                <div class="breadcrumbs">
+                    <nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper">
+                        <div class="breadcrumb"><span class="crumb"><a href="#">label1</a></span><span class="crumb"><a href="#">label2</a></span><span class="crumb"><a href="#">label3</a></span></div>
+                    </nav>
+                </div>some content
+            </div>
          </main>
       </div>
       <script>il.Util.addOnLoad(function() {});</script>
