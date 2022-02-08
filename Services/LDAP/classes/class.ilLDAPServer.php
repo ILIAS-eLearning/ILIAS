@@ -74,9 +74,8 @@ class ilLDAPServer
     
     /**
      * Rotate fallback urls in case of connect timeouts
-     * @return boolean
      */
-    public function rotateFallbacks()
+    public function rotateFallbacks() : bool
     {
         if (!$this->fallback_urls) {
             return false;
@@ -95,9 +94,8 @@ class ilLDAPServer
 
     /**
      * Check if ldap module is installed
-     * @return
      */
-    public static function checkLDAPLib()
+    public static function checkLDAPLib() : bool
     {
         return function_exists('ldap_bind');
     }
@@ -105,9 +103,9 @@ class ilLDAPServer
     /**
      * Get active server list
      *
-     * @return array server ids of active ldap server
+     * @return int[] server ids of active ldap server
      */
-    public static function _getActiveServerList()
+    public static function _getActiveServerList() : array
     {
         global $DIC;
 
@@ -117,9 +115,11 @@ class ilLDAPServer
             "WHERE active = 1 AND authentication = 1 " .
             "ORDER BY name ";
         $res = $ilDB->query($query);
-        $server_ids = array();
+
+        $server_ids = [];
+
         while ($row = $ilDB->fetchObject($res)) {
-            $server_ids[] = $row->server_id;
+            $server_ids[] = (int) $row->server_id;
         }
         return $server_ids;
     }
@@ -127,9 +127,9 @@ class ilLDAPServer
     /**
      * Get list of acticve servers with option 'SyncCron'
      *
-     * @return array server ids of active ldap server
+     * @return int[] server ids of active ldap server
      */
-    public static function _getCronServerIds()
+    public static function _getCronServerIds() : array
     {
         global $DIC;
 
@@ -141,18 +141,17 @@ class ilLDAPServer
             "ORDER BY name";
             
         $res = $ilDB->query($query);
+
+        $server_ids = [];
+
         while ($row = $ilDB->fetchObject($res)) {
-            $server_ids[] = $row->server_id;
+            $server_ids[] = (int) $row->server_id;
         }
-        return $server_ids ? $server_ids : array();
+        return $server_ids;
     }
     
     /**
      * Check whether there if there is an active server with option role_sync_active
-     *
-     * @access public
-     * @param
-     *
      */
     public static function _getRoleSyncServerIds()
     {
@@ -165,7 +164,9 @@ class ilLDAPServer
             "AND role_sync_active = 1 ";
             
         $res = $ilDB->query($query);
-        $server_ids = array();
+
+        $server_ids = [];
+
         while ($row = $ilDB->fetchObject($res)) {
             $server_ids[] = $row->server_id;
         }
@@ -173,24 +174,11 @@ class ilLDAPServer
     }
     
     /**
-     * Checks whether password synchronistation is enabled for an user
-     *
-     * @access public
-     * @param int user_id
-     *
-     */
-    public static function _getPasswordServers()
-    {
-        return ilLDAPServer::_getActiveServerList();
-    }
-    
-    
-    /**
      * Get first active server
      *
      * @return int first active server
      */
-    public static function _getFirstActiveServer()
+    public static function _getFirstActiveServer() : int
     {
         $servers = ilLDAPServer::_getActiveServerList();
         if (count($servers)) {
@@ -202,19 +190,19 @@ class ilLDAPServer
     /**
      * Get list of all configured servers
      *
-     * @return array list of server ids
+     * @return int[] list of server ids
      */
-    public static function _getServerList()
+    public static function _getServerList() : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
-        $server_ids = [];
-        
+
         $query = "SELECT server_id FROM ldap_server_settings ORDER BY name";
-        
         $res = $ilDB->query($query);
+
+        $server_ids = [];
+
         while ($row = $ilDB->fetchObject($res)) {
             $server_ids[] = $row->server_id;
         }
@@ -223,9 +211,9 @@ class ilLDAPServer
 
     /**
      * Get all server ids
-     * @return array int
+     * @return int[]
      */
-    public static function getServerIds()
+    public static function getServerIds() : array
     {
         global $DIC;
 
@@ -233,10 +221,9 @@ class ilLDAPServer
         
         $query = "SELECT server_id FROM ldap_server_settings ORDER BY name";
         
-        
         $res = $ilDB->query($query);
 
-        $server = array();
+        $server = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $server[] = $row->server_id;
         }
@@ -246,9 +233,9 @@ class ilLDAPServer
     /**
      * Get list of all configured servers
      *
-     * @return array list of server
+     * @return int[] list of server
      */
-    public static function _getAllServer()
+    public static function _getAllServer() : array
     {
         global $DIC;
 
@@ -256,7 +243,7 @@ class ilLDAPServer
         
         $query = "SELECT * FROM ldap_server_settings ORDER BY name";
         
-        $server = array();
+        $server = [];
         
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
@@ -267,10 +254,8 @@ class ilLDAPServer
     
     /*
      * Get first server id
-     *
-     * @return integer server_id
      */
-    public static function _getFirstServer()
+    public static function _getFirstServer() : int
     {
         $servers = ilLDAPServer::_getServerList();
         
