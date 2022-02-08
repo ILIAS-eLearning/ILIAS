@@ -1,36 +1,21 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesLDAP
-*/
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilLDAPRoleGroupMapping
 {
     private $log = null;
@@ -193,7 +178,7 @@ class ilLDAPRoleGroupMapping
      */
     public function deleteUser($a_usr_id)
     {
-        foreach ($this->mappings as $role_id => $data) {
+        foreach ($this->mappings as $role_id) {
             $this->deassign($role_id, $a_usr_id);
         }
         return true;
@@ -214,10 +199,8 @@ class ilLDAPRoleGroupMapping
         if (!count($server_ids)) {
             return false;
         }
-        
+
         // Init servers
-        include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMappingSettings.php');
-        
         $this->active_servers = true;
         $this->mappings = array();
         foreach ($server_ids as $server_id) {
@@ -227,7 +210,7 @@ class ilLDAPRoleGroupMapping
         $this->mapping_info = array();
         $this->mapping_info_strict = array();
         foreach ($this->mappings as $mapping) {
-            foreach ($mapping as $key => $data) {
+            foreach (array_values($mapping) as $data) {
                 if (strlen($data['info']) and $data['object_id']) {
                     $this->mapping_info[$data['object_id']][] = $data['info'];
                 }
@@ -370,7 +353,7 @@ class ilLDAPRoleGroupMapping
                 $res = $query_obj->query(
                     $data['dn'],
                     '(objectClass=*)',
-                    IL_LDAP_SCOPE_BASE,
+                    ilLDAPServer::LDAP_SCOPE_BASE,
                     array($data['member'])
                 );
                 
@@ -489,11 +472,9 @@ class ilLDAPRoleGroupMapping
             $res = $query_obj->query($search_base, $filter, $server->getUserScope(), array('dn'));
             
             if (!$res->numRows()) {
-                include_once('Services/LDAP/classes/class.ilLDAPQueryException.php');
                 throw new ilLDAPQueryException(__METHOD__ . ' cannot find dn for user ' . $external_account);
             }
             if ($res->numRows() > 1) {
-                include_once('Services/LDAP/classes/class.ilLDAPQueryException.php');
                 throw new ilLDAPQueryException(__METHOD__ . ' found multiple distinguished name for: ' . $external_account);
             }
             
@@ -513,8 +494,6 @@ class ilLDAPRoleGroupMapping
      */
     private function getLDAPQueryInstance($a_server_id, $a_url)
     {
-        include_once 'Services/LDAP/classes/class.ilLDAPQuery.php';
-
         if (array_key_exists($a_server_id, $this->query) and
             array_key_exists($a_url, $this->query[$a_server_id]) and
             is_object($this->query[$a_server_id][$a_url])) {
@@ -522,7 +501,7 @@ class ilLDAPRoleGroupMapping
         }
         try {
             $tmp_query = new ilLDAPQuery($this->servers[$a_server_id], $a_url);
-            $tmp_query->bind(IL_LDAP_BIND_ADMIN);
+            $tmp_query->bind(ilLDAPQuery::LDAP_BIND_ADMIN);
         } catch (ilLDAPQueryException $exc) {
             throw $exc;
         }
