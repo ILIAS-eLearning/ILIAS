@@ -219,7 +219,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $form->addItem($mask);*/
         $gui = ilAdministrationSettingsFormHandler::getSettingsGUIInstance("adve");
         $ne = new ilNonEditableValueGUI($lng->txt("prtf_allow_html"), "", true);
-        $this->ctrl->setParameter($gui, "ref_id", $gui->object->getRefId());
+        $this->ctrl->setParameter($gui, "ref_id", $gui->getObject()->getRefId());
         $link = $this->ctrl->getLinkTarget($gui);
         $ne->setValue("<a href='$link'> >> " . $this->lng->txt("settings") . "</a>");
         $form->addItem($ne);

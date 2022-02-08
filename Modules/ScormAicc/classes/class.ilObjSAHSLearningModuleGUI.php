@@ -92,19 +92,19 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 //            case 'ilexportgui':
 //                $exp = new ilExportGUI($this);
 //                $exp->addFormat('xml');
-//                $ret = $this->ctrl->forwardCommand($exp);
+//                $this->ctrl->forwardCommand($exp);
 //                break;
 
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case "ilfilesystemgui":
                 $fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
                 $fs_gui->setUseUploadDirectory(true);
                 $fs_gui->setTableId("sahsfs" . $this->object->getId());
-                $ret = $this->ctrl->forwardCommand($fs_gui);
+                $this->ctrl->forwardCommand($fs_gui);
                 break;
 
             case "ilcertificategui":
@@ -114,7 +114,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $guiFactory = new ilCertificateGUIFactory();
                 $output_gui = $guiFactory->create($this->object);
 
-                $ret = $this->ctrl->forwardCommand($output_gui);
+                $this->ctrl->forwardCommand($output_gui);
                 break;
 
             case "illearningprogressgui":
@@ -172,7 +172,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 //                    $this->object->setStyleSheetId(0);
 //                    $this->object->update();
 //                }
-//                $ret = $this->ctrl->forwardCommand($style_gui);
+//                $this->ctrl->forwardCommand($style_gui);
 //                if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
 //                    $style_id = $ret;
 //                    $this->object->setStyleSheetId($style_id);
@@ -206,7 +206,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                     $cmd .= "Object";
                 }
 
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
     }

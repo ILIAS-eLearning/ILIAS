@@ -37,54 +37,18 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    public $tpl;
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-    /**
-     * @var ilTree
-     */
-    public $tree;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilErrorHandling
-     */
+    public ilLanguage $lng;
+    public ilCtrl $ctrl;
+    public ilGlobalTemplateInterface $tpl;
+    protected ilObjUser $user;
+    public ilTree $tree;
+    protected ilAccessHandler $access;
+    protected ilToolbarGUI $toolbar;
     protected $ilErr;
-    /**
-     * @var ilObjectService
-     */
-    protected $object_service;
-    /**
-     * @var object
-     */
-    public $objDefinition;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
+    protected ilObjectService $object_service;
+    public ilObjectDefinition $objDefinition;
+    protected ilTabsGUI $tabs_gui;
+    protected ilLocatorGUI $locator;
     /**
      * @var ilRbacReview
      */
@@ -194,7 +158,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
     }
 
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
@@ -314,8 +278,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
         
         $this->addHeaderAction();
-        
-        return true;
     }
 
     protected function membersObject() : void
@@ -333,9 +295,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         return $object;
     }
 
-    public function prepareOutput($a_show_subobjects = true) : void
+    public function prepareOutput(bool $show_subobjects = true) : bool
     {
-        parent::prepareOutput($a_show_subobjects);
+        parent::prepareOutput($show_subobjects);
         
         if (!$this->getCreationMode()) {
             $title = strlen($this->object->getTitle()) ? (': ' . $this->object->getTitle()) : '';
@@ -344,6 +306,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->object->getFirstAppointment()->appointmentToString() . $title
             );
         }
+        return true;
     }
 
     public function registerObject() : void
@@ -795,7 +758,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->ctrl->redirect($this, 'materials');
     }
 
-    public function saveObject(bool $a_redirect_on_success = true) : bool
+    public function saveObject(bool $a_redirect_on_success = true) : void
     {
         $ilErr = $this->ilErr;
         $ilUser = $this->user;
@@ -826,7 +789,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->tpl->setOnScreenMessage('failure', $ilErr->getMessage());
             $this->form->setValuesByPost();
             $this->createObject();
-            return false;
         }
         // Create session
         $this->object->create();
@@ -873,7 +835,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('event_add_new_event'), true);
             $this->ctrl->returnToParent($this);
         }
-        return true;
     }
     
     public function handleFileUpload() : void
@@ -980,7 +941,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         return true;
     }
 
-    public function editObject() : bool
+    public function editObject() : void
     {
         $this->tabs_gui->setTabActive('settings');
         
@@ -989,7 +950,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->tpl->setVariable('EVENT_EDIT_TABLE', $this->form->getHTML());
         
         if (!count($this->object->getFiles())) {
-            return true;
+            return;
         }
         $rows = [];
         foreach ($this->object->getFiles() as $file) {
@@ -1008,11 +969,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $table_gui->addMultiCommand("confirmDeleteFiles", $this->lng->txt("delete"));
         $table_gui->setSelectAllCheckbox("file_id");
         $this->tpl->setVariable('EVENT_FILE_TABLE', $table_gui->getHTML());
-
-        return true;
     }
 
-    public function updateObject() : bool
+    public function updateObject() : void
     {
         $ilErr = $this->ilErr;
         $object_service = $this->object_service;
@@ -1040,7 +999,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (strlen($ilErr->getMessage())) {
             $this->tpl->setOnScreenMessage('failure', $ilErr->getMessage());
             $this->editObject();
-            return false;
         }
         // Update event
         $this->object->update();
@@ -1068,8 +1026,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('event_updated'), true);
         $this->ctrl->redirect($this, 'edit');
-
-        return true;
     }
 
     public function confirmDeleteFilesObject() : bool
@@ -1444,6 +1400,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->tpl->setVariable("LEGEND_EVENT_APPOINTMENT", $event_obj->getFirstAppointment()->appointmentToString());
             $this->tpl->parseCurrentBlock();
         }
+    }
+
+    protected function __showButton(string $cmd, string $text, string $target = '') : void
+    {
+        $this->toolbar->addButton($text, $this->ctrl->getLinkTarget($this, $cmd), $target);
     }
 
     protected function initForm(string $a_mode) : bool

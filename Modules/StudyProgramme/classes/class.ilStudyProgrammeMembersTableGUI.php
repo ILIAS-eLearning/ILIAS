@@ -98,7 +98,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $show_optional = !$optional || ($optional && array_key_exists($col, $selected));
 
             if ($show_by_lp && $show_optional) {
-                $this->addColumn($this->lng->txt($lng_var), $col ?? '');
+                $this->addColumn($this->lng->txt($lng_var), $col ?? "");
             }
         }
 

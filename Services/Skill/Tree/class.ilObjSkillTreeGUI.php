@@ -32,18 +32,9 @@ use ILIAS\GlobalScreen\ScreenContext;
  */
 class ilObjSkillTreeGUI extends ilObjectGUI
 {
-    /**
-     * @var ilObjSkillTree
-     */
-    public $object;
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
+    public ?ilObject $object;
+    protected ilRbacSystem $rbacsystem;
+    protected ilLocatorGUI $locator;
     protected ilErrorHandling $error;
     protected ilTabsGUI $tabs;
     protected ilSkillTree $skill_tree;
@@ -421,8 +412,10 @@ class ilObjSkillTreeGUI extends ilObjectGUI
             $data = $form->getData();
             if (is_array($data["props"])) {
                 $props = $data["props"];
+                /** @var ilObjSkillTree $obj */
+                $obj = $this->object;
                 $this->skill_tree_manager->updateTree(
-                    $this->object,
+                    $obj,
                     $props["title"],
                     $props["description"]
                 );

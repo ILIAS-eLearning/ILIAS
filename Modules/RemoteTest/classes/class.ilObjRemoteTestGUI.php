@@ -35,7 +35,7 @@ class ilObjRemoteTestGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         $this->lng->loadLanguageModule('assessment');
     }
     
-    public function getType()
+    public function getType() : ?string
     {
         return 'rtst';
     }

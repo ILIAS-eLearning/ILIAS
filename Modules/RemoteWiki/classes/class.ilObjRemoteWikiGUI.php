@@ -36,7 +36,7 @@ class ilObjRemoteWikiGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         $this->lng->loadLanguageModule('wiki');
     }
     
-    public function getType()
+    public function getType() : ?string
     {
         return 'rwik';
     }

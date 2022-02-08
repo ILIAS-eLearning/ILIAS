@@ -411,7 +411,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $url = $this->ctrl->getLinkTarget($this, "dl" . $a_type);
             $this->ctrl->setParameter($this, "dlid", "");
         } else {
-            $file = $verification->object->getFilePath();
+            $file = $verification->getObject()->getFilePath();
             $url = "files/" . basename($file);
 
             $this->export_material["files"][] = $file;

@@ -49,7 +49,7 @@ class ilExportGUI
         $this->objDefinition = $DIC['objDefinition'];
         $this->tree = $DIC->repositoryTree();
         if ($a_main_obj == null) {
-            $this->obj = $a_parent_gui->object;
+            $this->obj = $a_parent_gui->getObject();
         } else {
             $this->obj = $a_main_obj;
         }
@@ -369,7 +369,7 @@ class ilExportGUI
         $this->tpl->setVariable('BODY_ATTRIBUTES', 'onload="ilDisableChilds(\'cmd\');"');
 
         $table = new ilExportSelectionTableGUI($this, 'listExportFiles');
-        $table->parseContainer($this->getParentGUI()->object->getRefId());
+        $table->parseContainer($this->getParentGUI()->getObject()->getRefId());
         $this->tpl->setContent($table->getHTML());
     }
 

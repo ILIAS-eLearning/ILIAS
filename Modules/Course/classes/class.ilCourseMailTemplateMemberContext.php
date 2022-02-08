@@ -8,7 +8,7 @@
  */
 class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 {
-    protected const ID = 'crs_context_member_manual';
+    const ID = 'crs_context_member_manual';
 
     /** @var array */
     protected static array $periodInfoByObjIdCache = [];

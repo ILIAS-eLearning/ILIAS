@@ -30,22 +30,17 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 {
     /** @var GlobalHttpState */
     protected $http;
-    /** @var Refinery */
-    protected $refinery;
+    protected Refinery $refinery;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
-    /** @var ilCtrl */
-    protected $ctrl;
-    /** @var ilAccessHandler */
-    protected $access;
-    /** @var ilSetting */
-    protected $settings;
-    /** @var ilObjUser */
-    protected $user;
+    protected ilCtrl $ctrl;
+    protected ilAccessHandler $access;
+    protected ilSetting $settings;
+    protected ilObjUser $user;
     private ilTabsGUI $tabs;
     private ilObjectService $obj_service;
     private ilNavigationHistory $navHistory;
-    private ilErrorHandling $error;
+    protected ilErrorHandling $error;
     private Container $dic;
     private bool $infoScreenEnabled = false;
     private PageMetricsService $pageMetricsService;
@@ -189,7 +184,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd(self::UI_CMD_VIEW);
@@ -247,12 +242,14 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
                 $this->tpl->parseCurrentBlock();
 
+                /** @var ilObjContentPage $obj */
+                $obj = $this->object;
                 $forwarder = new ilContentPagePageCommandForwarder(
                     $this->http,
                     $this->ctrl,
                     $this->tabs,
                     $this->lng,
-                    $this->object,
+                    $obj,
                     $this->user,
                     $this->refinery,
                     $this->content_style_domain
@@ -275,7 +272,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
             case strtolower(ilInfoScreenGUI::class):
                 if (!$this->infoScreenEnabled) {
-                    return null;
+                    return;
                 }
                 $this->prepareOutput();
 
@@ -364,9 +361,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     $this->ctrl->setCmd($cmd . 'Object');
                 }
 
-                return parent::executeCommand();
+                parent::executeCommand();
         }
-        return null;
     }
 
     public function addToNavigationHistory() : void

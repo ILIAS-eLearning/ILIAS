@@ -36,15 +36,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     /**
      * @var ilObjectDefinition
      */
-    protected $obj_definition;
+    protected ilObjectDefinition $obj_definition;
 
     /**
      * @var ilErrorHandling
      */
-    protected $error;
+    protected ilErrorHandling $error;
 
     /**
-     * @var ilDB
+     * @var ilDBInterface
      */
     protected $db;
 
@@ -68,12 +68,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
      */
     protected $bench;
 
-    /**
-    * ILIAS3 object type abbreviation
-    * @var		string
-    * @access	public
-    */
-    public $type;
+    public string $type;
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
     protected \ILIAS\Refinery\Factory $refinery;
 
@@ -113,7 +108,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                   ->styleForRefId($this->object->getRefId());
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilTabs = $this->tabs;
 
@@ -123,7 +118,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
             
             case 'ilimprintgui':
@@ -172,8 +167,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
                 break;
         }
-
-        return true;
     }
 
     /**
@@ -181,19 +174,19 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     *
     * @access	public
     */
-    public function viewObject()
+    public function viewObject() : void
     {
         $ilAccess = $this->access;
 
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            return $this->showBasicSettingsObject();
+            $this->showBasicSettingsObject();
         }
-        return $this->showServerInfoObject();
+        $this->showServerInfoObject();
     }
 
     public function viewScanLogObject()
     {
-        return $this->viewScanLog();
+        $this->viewScanLog();
     }
     
     /**
@@ -619,7 +612,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->ctrl->redirect($this);
     }
 
-    public function cancelObject()
+    public function cancelObject() : void
     {
         $this->ctrl->redirect($this, "view");
     }
@@ -903,7 +896,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     }
 
     // get tabs
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $rbacsystem = $this->rbacsystem;
         $ilHelp = $this->help;

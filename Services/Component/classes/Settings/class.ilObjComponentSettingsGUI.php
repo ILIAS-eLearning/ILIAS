@@ -67,7 +67,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule(self::TYPE);
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -114,7 +114,6 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                         $this->listPlugins();
                 }
         }
-        return true;
     }
 
     protected function forwardConfigGUI(string $name) : void

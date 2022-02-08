@@ -27,7 +27,7 @@ class ilExplorer
     protected ilObjectDefinition $obj_definition;
     protected ilErrorHandling $error;
     protected ilRbacSystem $rbacsystem;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     public string $id;
     public string $output;
@@ -105,7 +105,7 @@ class ilExplorer
         $this->order_column = "title";
         $this->tree = new ilTree(ROOT_FOLDER_ID);
         $this->tree->initLangCode();
-        $this->expand_target = $_SERVER["PATH_INFO"];
+        $this->expand_target = $_SERVER["PATH_INFO"] ?? "";
         $this->rbac_check = true;
         $this->output_icons = true;
         $this->expand_variable = "expand";

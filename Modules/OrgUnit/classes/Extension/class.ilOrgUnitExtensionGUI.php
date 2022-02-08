@@ -64,7 +64,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
     /**
      * Override the locator (breadcrumbs). We want the breadcrumbs with the Admin Org Unit node as a root and not the repository.
      */
-    protected function setLocator()
+    protected function setLocator() : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];

@@ -54,9 +54,8 @@ class ilObjTestGUI extends ilObjectGUI
     private static $infoScreenChildClasses = array(
         'ilpublicuserprofilegui', 'ilobjportfoliogui'
     );
-    
-    /** @var ilObjTest $object */
-    public $object = null;
+
+    public ?ilObject $object = null;
     
     /** @var ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory Factory for question set config. */
     private $testQuestionSetConfigFactory = null;
@@ -141,7 +140,7 @@ class ilObjTestGUI extends ilObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $ilAccess = $DIC['ilAccess'];
@@ -1030,7 +1029,7 @@ class ilObjTestGUI extends ilObjectGUI
     /**
     * form for new test object import
     */
-    protected function importFileObject($parent_id = null, $a_catch_errors = true)
+    protected function importFileObject(int $parent_id = null, bool $catch_errors = true) : void
     {
         $form = $this->initImportForm($_REQUEST["new_type"]);
         if ($form->checkInput()) {
@@ -1044,14 +1043,14 @@ class ilObjTestGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
     
-    public function addDidacticTemplateOptions(array &$a_options)
+    public function addDidacticTemplateOptions(array &$options) : void
     {
         include_once("./Modules/Test/classes/class.ilObjTest.php");
         $tst = new ilObjTest();
         $defaults = $tst->getAvailableDefaults();
         if (count($defaults)) {
             foreach ($defaults as $row) {
-                $a_options["tstdef_" . $row["test_defaults_id"]] = array($row["name"],
+                $options["tstdef_" . $row["test_defaults_id"]] = array($row["name"],
                     $this->lng->txt("tst_default_settings"));
             }
         }
@@ -1061,7 +1060,7 @@ class ilObjTestGUI extends ilObjectGUI
         $templates = ilSettingsTemplate::getAllSettingsTemplates("tst");
         if ($templates) {
             foreach ($templates as $item) {
-                $a_options["tsttpl_" . $item["id"]] = array($item["title"],
+                $options["tsttpl_" . $item["id"]] = array($item["title"],
                     nl2br(trim($item["description"])));
             }
         }
@@ -1071,13 +1070,13 @@ class ilObjTestGUI extends ilObjectGUI
     * save object
     * @access	public
     */
-    public function afterSave(ilObject $a_new_object)
+    public function afterSave(ilObject $new_object) : void
     {
         $tstdef = $this->getDidacticTemplateVar("tstdef");
         if ($tstdef) {
             $testDefaultsId = $tstdef;
             $testDefaults = ilObjTest::_getTestDefaults($testDefaultsId);
-            $a_new_object->applyDefaults($testDefaults);
+            $new_object->applyDefaults($testDefaults);
         }
 
         $template_id = $this->getDidacticTemplateVar("tsttpl");
@@ -1087,17 +1086,19 @@ class ilObjTestGUI extends ilObjectGUI
 
             $template_settings = $template->getSettings();
             if ($template_settings) {
-                $this->applyTemplate($template_settings, $a_new_object);
+                /** @var ilObjTest $obj */
+                $obj = $new_object;
+                $this->applyTemplate($template_settings, $obj);
             }
 
-            $a_new_object->setTemplate($template_id);
+            $new_object->setTemplate($template_id);
         }
         
-        $a_new_object->saveToDb();
+        $new_object->saveToDb();
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
-        $this->ctrl->setParameter($this, 'ref_id', $a_new_object->getRefId());
+        $this->ctrl->setParameter($this, 'ref_id', $new_object->getRefId());
         $this->ctrl->redirectByClass('ilObjTestSettingsGeneralGUI');
     }
 
@@ -2303,13 +2304,13 @@ class ilObjTestGUI extends ilObjectGUI
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
     
-    public function initImportForm($a_new_type)
+    public function initImportForm(string $new_type) : ilPropertyFormGUI
     {
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
-        $new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-        $this->ctrl->setParameter($this, "new_type", $new_type);
+        $n_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+        $this->ctrl->setParameter($this, "new_type", $n_type);
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("import_tst"));
 
@@ -2923,7 +2924,7 @@ class ilObjTestGUI extends ilObjectGUI
         $this->ctrl->redirect($this, 'infoScreen');
     }
 
-    public function addLocatorItems()
+    public function addLocatorItems() : void
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -2999,7 +3000,7 @@ class ilObjTestGUI extends ilObjectGUI
     *
     * @param ilTabsGUI $tabs_gui
     */
-    public function getTabs()
+    public function getTabs() : void
     {
         global $DIC;
         $help = $DIC['ilHelp'];

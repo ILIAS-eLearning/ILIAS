@@ -39,8 +39,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private bool $is_moderator;
     private $replyEditForm;
     private bool $hideToolbar = false;
-    /** @var $object ilObjForum */
-    public $object;
+    public ?ilObject $object;
     private $httpRequest;
     private \ILIAS\HTTP\Services $http;
     private Factory $uiFactory;
@@ -52,21 +51,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private string $requestAction;
     private array $modalActionsContainer = [];
 
-    public $access;
+    public ilAccessHandler $access;
     public $ilObjDataCache;
     public $tabs;
-    public $error;
-    public $user;
-    public $settings;
-    public $toolbar;
+    public ilErrorHandling $error;
+    public ilObjUser $user;
+    public ilSetting $settings;
+    public ilToolbarGUI $toolbar;
     public $repositoryTree;
     public $rbac;
-    public $locator;
+    public ilLocatorGUI $locator;
     public $ilHelp;
 
     private int $selectedSorting;
     private ilForumThreadSettingsSessionStorage $selected_post_storage;
-    private \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
 
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
@@ -304,8 +303,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         return [];
     }
 
-
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -381,12 +379,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
                 $this->tpl->parseCurrentBlock();
 
+                /** @var ilObjForum $obj */
+                $obj = $this->object;
+
                 $forwarder = new ilForumPageCommandForwarder(
                     $this->http,
                     $this->ctrl,
                     $this->tabs,
                     $this->lng,
-                    $this->object,
+                    $obj,
                     $this->objProperties,
                     $this->user,
                     $this->content_style_domain

@@ -156,7 +156,7 @@ final class ilLinkCheckerTableGUI extends ilTable2GUI
         // #11002
         $lng->loadLanguageModule("webr");
         
-        $title = $this->getParentObject()->object->getTitle() . ' (' . $lng->txt('invalid_links_tbl') . ')';
+        $title = $this->getParentObject()->getObject()->getTitle() . ' (' . $lng->txt('invalid_links_tbl') . ')';
         if ($last_access = $this->getLinkChecker()->getLastCheckTimestamp()) {
             $title .= ', ' . $lng->txt('last_change') . ': ' .
                       ilDatePresentation::formatDate(new ilDateTime($last_access, IL_CAL_UNIX));

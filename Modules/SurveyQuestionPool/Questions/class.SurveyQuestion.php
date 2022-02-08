@@ -985,7 +985,7 @@ class SurveyQuestion
                 switch ($type) {
                     case "lm":
                         $cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
-                        $cont_obj = $cont_obj_gui->object;
+                        $cont_obj = $cont_obj_gui->getObject();
                         $material_title .= $cont_obj->getTitle();
                         break;
 
@@ -993,7 +993,7 @@ class SurveyQuestion
                         $lm_id = ilLMObject::_lookupContObjID($target_id);
                         $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
                         /** @var ilObjLearningModule $cont_obj */
-                        $cont_obj = $cont_obj_gui->object;
+                        $cont_obj = $cont_obj_gui->getObject();
                         $pg_obj = new ilLMPageObject($cont_obj, $target_id);
                         $material_title .= $pg_obj->getTitle();
                         break;
@@ -1002,7 +1002,7 @@ class SurveyQuestion
                         $lm_id = ilLMObject::_lookupContObjID($target_id);
                         $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
                         /** @var ilObjLearningModule $cont_obj */
-                        $cont_obj = $cont_obj_gui->object;
+                        $cont_obj = $cont_obj_gui->getObject();
                         $st_obj = new ilStructureObject($cont_obj, $target_id);
                         $material_title .= $st_obj->getTitle();
                         break;
@@ -1084,7 +1084,7 @@ class SurveyQuestion
                     switch ($type) {
                         case "lm":
                             $cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
-                            $cont_obj = $cont_obj_gui->object;
+                            $cont_obj = $cont_obj_gui->getObject();
                             $material_title .= $cont_obj->getTitle();
                             break;
 
@@ -1092,7 +1092,7 @@ class SurveyQuestion
                             $lm_id = ilLMObject::_lookupContObjID($target_id);
                             $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
                             /** @var ilObjLearningModule $cont_obj */
-                            $cont_obj = $cont_obj_gui->object;
+                            $cont_obj = $cont_obj_gui->getObject();
                             $pg_obj = new ilLMPageObject($cont_obj, $target_id);
                             $material_title .= $pg_obj->getTitle();
                             break;
@@ -1101,7 +1101,7 @@ class SurveyQuestion
                             $lm_id = ilLMObject::_lookupContObjID($target_id);
                             $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
                             /** @var ilObjLearningModule $cont_obj */
-                            $cont_obj = $cont_obj_gui->object;
+                            $cont_obj = $cont_obj_gui->getObject();
                             $st_obj = new ilStructureObject($cont_obj, $target_id);
                             $material_title .= $st_obj->getTitle();
                             break;

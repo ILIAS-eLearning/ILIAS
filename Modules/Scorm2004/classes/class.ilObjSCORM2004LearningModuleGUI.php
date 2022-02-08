@@ -13,6 +13,9 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+use ILIAS\GlobalScreen\ScreenContext\ContextServices;
+
 /**
  * Class ilObjSCORMLearningModuleGUI
  * @author Alex Killing <alex.killing@gmx.de>
@@ -29,33 +32,11 @@
 class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 {
     protected \ILIAS\DI\Container $dic;
-
-    /**
-     * @var ilTabsGUI
-     */
     protected ilTabsGUI $tabs;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
-     */
-    protected \ILIAS\GlobalScreen\ScreenContext\ContextServices $tool_context;
-
-    public ilPropertyFormGUI $form;
+    protected ilRbacSystem $rbacsystem;
+    protected ilHelpGUI $help;
+    protected ilErrorHandling $error;
+    protected ContextServices $tool_context;
 
     /**
      * Constructor

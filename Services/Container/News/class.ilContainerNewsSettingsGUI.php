@@ -42,7 +42,7 @@ class ilContainerNewsSettingsGUI
         $this->tpl = $DIC["tpl"];
         $this->setting = $DIC["ilSetting"];
         $this->parent_gui = $a_parent_gui;
-        $this->object = $this->parent_gui->object;
+        $this->object = $this->parent_gui->getObject();
 
         $this->initDefaultOptions();
     }
