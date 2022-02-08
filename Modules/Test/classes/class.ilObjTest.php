@@ -10314,7 +10314,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "TestQuestionPool", "qst", $a_pname)) {
+        if ($ilPluginAdmin->isActive(ilComponentInfo::TYPE_MODULES, "TestQuestionPool", "qst", $a_pname)) {
             return true;
         } else {
             return false;
