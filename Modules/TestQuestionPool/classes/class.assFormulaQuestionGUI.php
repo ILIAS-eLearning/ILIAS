@@ -689,6 +689,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
                         $max_range->setAlert($this->lng->txt('err_range'));
                         $custom_errors = true;
                     }
+                    $intPrecision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
+                    if ( $intPrecision >= $max_range) {
+                        $intPrecision->setAlert($this->lng->txt('err_division'));
+                        $custom_errors = true;
+                    }
                 }
             }
 
