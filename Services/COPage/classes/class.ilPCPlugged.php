@@ -241,6 +241,7 @@ class ilPCPlugged extends ilPageContent
             /** @var ilPageComponentPlugin $plugin_obj */
             $plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name);
             $plugin_obj->setPageObj($a_page);
+            $properties = [];
             /** @var DOMElement $child */
             foreach ($a_node->childNodes as $child) {
                 $properties[$child->getAttribute('Name')] = $child->nodeValue;
