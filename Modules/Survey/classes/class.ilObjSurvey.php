@@ -34,8 +34,8 @@ class ilObjSurvey extends ilObject
     public const QUESTIONTITLES_VISIBLE = 1;
 
     // constants to define the print view values.
-    public const PRINT_HIDE_LABELS = 1; // Show only the titles in "print" and "PDF Export"
-    public const PRINT_SHOW_LABELS = 3; // Show titles and labels in "print" and "PDF Export"
+    public const PRINT_HIDE_LABELS = 1; // Show only the titles in print view
+    public const PRINT_SHOW_LABELS = 3; // Show titles and labels in print view
 
     //MODE TYPES
     public const MODE_STANDARD = 0;
@@ -4029,88 +4029,6 @@ class ilObjSurvey extends ilObject
                 return true;
             }
         }
-        return false;
-    }
-
-    /**
-     * Convert a print output to XSL-FO
-     * @todo deprecate / abandon
-     * @throws Exception
-     */
-    public function processPrintoutput2FO(
-        string $print_output
-    ) : string {
-        if (extension_loaded("tidy")) {
-            $config = array(
-                "indent" => false,
-                "output-xml" => true,
-                "numeric-entities" => true
-            );
-            $tidy = new tidy();
-            $tidy->parseString($print_output, $config, 'utf8');
-            $tidy->cleanRepair();
-            $print_output = tidy_get_output($tidy);
-            $print_output = preg_replace("/^.*?(<html)/", "\\1", $print_output);
-        } else {
-            $print_output = str_replace("&nbsp;", "&#160;", $print_output);
-            $print_output = str_replace("&otimes;", "X", $print_output);
-            
-            // #17680 - metric questions use &#160; in print view
-            $print_output = str_replace("&gt;", "~|gt|~", $print_output);		// see #21550
-            $print_output = str_replace("&lt;", "~|lt|~", $print_output);
-            $print_output = str_replace("&#160;", "~|nbsp|~", $print_output);
-            $print_output = preg_replace('/&(?!amp)/', '&amp;', $print_output);
-            $print_output = str_replace("~|nbsp|~", "&#160;", $print_output);
-            $print_output = str_replace("~|gt|~", "&gt;", $print_output);
-            $print_output = str_replace("~|lt|~", "&lt;", $print_output);
-        }
-        $xsl = file_get_contents("./Modules/Survey/xml/question2fo.xsl");
-
-        // additional font support
-        $xsl = str_replace(
-            'font-family="Helvetica, unifont"',
-            'font-family="' . $GLOBALS['ilSetting']->get('rpc_pdf_font', 'Helvetica, unifont') . '"',
-            $xsl
-        );
-        $args = array( '/_xml' => $print_output, '/_xsl' => $xsl );
-        $xh = xslt_create();
-        $params = array();
-        try {
-            $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        } catch (Exception $e) {
-            $this->log->error("Print XSLT failed:");
-            $this->log->error("Content: " . $print_output);
-            $this->log->error("Xsl: " . $xsl);
-            throw ($e);
-        }
-        xslt_error($xh);
-        xslt_free($xh);
-
-        return $output;
-    }
-    
-    /**
-     * Delivers a PDF file from a XSL-FO string
-     * @todo deprecate / abandon
-     */
-    public function deliverPDFfromFO(string $fo) : bool
-    {
-        /*
-        $ilLog = $this->log;
-
-        $fo_file = ilUtil::ilTempnam() . ".fo";
-        $fp = fopen($fo_file, "w");
-        fwrite($fp, $fo);
-        fclose($fp);
-
-        try {
-            $pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo);
-            ilUtil::deliverData($pdf_base64->scalar, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
-            return true;
-        } catch (Exception $e) {
-            $ilLog->write(__METHOD__ . ': ' . $e->getMessage());
-            return false;
-        }*/
         return false;
     }
 

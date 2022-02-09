@@ -97,39 +97,6 @@ class PagePrintViewProviderGUI extends Export\AbstractPrintViewProvider
                 $page
             );
             $print_pages[] = $page_renderer->render();
-            continue;
-
-            $template = new \ilTemplate("tpl.il_svy_svy_printview.html", true, true, "Modules/Survey");
-            if (count($page) > 0) {
-                foreach ($page as $question) {
-                    $questionGUI = $this->survey->getQuestionGUI($question["type_tag"], $question["question_id"]);
-                    if (strlen($question["heading"])) {
-                        $template->setCurrentBlock("textblock");
-                        $template->setVariable("TEXTBLOCK", $question["heading"]);
-                        $template->parseCurrentBlock();
-                    }
-                    $template->setCurrentBlock("question");
-                    $template->setVariable("QUESTION_DATA", $questionGUI->getPrintView(
-                        $current_title,
-                        $question["questionblock_show_questiontext"]
-                    ));
-                    $template->parseCurrentBlock();
-
-                    if ($question["obligatory"]) {
-                        $required = true;
-                    }
-                }
-                $template->setCurrentBlock("page");
-                if (count($page) > 1 && $page[0]["questionblock_show_blocktitle"]) {
-                    $template->setVariable("BLOCKTITLE", $page[0]["questionblock_title"]);
-                }
-                $template->parseCurrentBlock();
-            }
-            // #6412
-            if ($required) {
-                $template->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
-            }
-            $print_pages[] = $template->get();
         }
         return $print_pages;
     }

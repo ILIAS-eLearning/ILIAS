@@ -107,7 +107,11 @@ abstract class ilChartData
         
         $series->data = array();
         foreach ($this->getData() as $point) {
-            $series->data[] = array($point[0], $point[1]);
+            if (is_array($point)) {
+                $series->data[] = array($point[0], $point[1]);
+            } else {
+                $series->data[] = $point;
+            }
         }
             
         $options = array("show" => !$this->isHidden());

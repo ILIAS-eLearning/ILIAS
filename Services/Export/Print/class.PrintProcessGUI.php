@@ -95,6 +95,7 @@ class PrintProcessGUI
         $tpl = new \ilTemplate("tpl.print_view_selection.html", true, true, "Services/Export/Print");
         $form->setTarget("print_view");
         $tpl->setVariable("FORM", $form->getHTML());
+        $tpl->setVariable("ON_SUBMIT_CODE", $this->provider->getOnSubmitCode());
         $modal = $this->ui->factory()->modal()->roundtrip(
             $this->lng->txt("exp_print_pdf"),
             $this->ui->factory()->legacy(

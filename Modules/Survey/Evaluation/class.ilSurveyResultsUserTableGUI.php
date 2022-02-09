@@ -94,7 +94,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
             $this->tpl->setVariable("FINISHED", "&nbsp;");
         }
         
-        if ($a_set["subitems"]) {
+        if (isset($a_set["subitems"])) {
             $this->tpl->setCurrentBlock("tbl_content");
             $this->tpl->parseCurrentBlock();
             

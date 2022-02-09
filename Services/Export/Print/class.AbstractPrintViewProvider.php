@@ -39,6 +39,11 @@ abstract class AbstractPrintViewProvider implements PrintViewProvider
             : self::PRINT;
     }
 
+    public function getOnSubmitCode() : string
+    {
+        return "";
+    }
+
     /**
      * @inheritDoc
      */
