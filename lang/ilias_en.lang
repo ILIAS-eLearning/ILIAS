@@ -16737,3 +16737,7 @@ cmps#:#cmps_available_version#:#Available Version
 cmps#:#cmps_refresh_lng#:#Refresh language
 cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled
 cmps#:#cmps_plugin_updated#:#The plugin has been updated
+svy#:#svy_print_selection#:#Print View Selection
+svy#:#svy_selection#:#Selection
+svy#:#svy_current_page#:#Current Page
+svy#:#svy_all_pages#:#All Pages

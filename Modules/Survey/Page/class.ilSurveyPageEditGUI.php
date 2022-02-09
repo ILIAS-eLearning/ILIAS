@@ -17,10 +17,12 @@
  * Survey per page view
  *
  * @author		Jörg Lützenkirchen <luetzenkirchen@leifos.com
- * @ilCtrl_Calls ilSurveyPageGUI:
+ * @ilCtrl_Calls ilSurveyPageEditGUI:
  */
-class ilSurveyPageGUI
+class ilSurveyPageEditGUI
 {
+    protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\DI\UIServices $ui;
     protected bool $suppress_clipboard_msg;
     protected string $pgov;
     protected \ILIAS\Survey\Editing\EditingGUIRequest $svy_request;
@@ -71,6 +73,8 @@ class ilSurveyPageGUI
             ->editing()
             ->request();
         $this->pgov = $this->svy_request->getTargetPosition();
+        $this->ui = $DIC->ui();
+        $this->http = $DIC->http();
     }
 
     public function executeCommand() : void
@@ -1301,6 +1305,20 @@ class ilSurveyPageGUI
                 $ilToolbar->addButtonInstance($button);
             }
         }
+
+        // print view
+        if (is_array($pages_drop)) {
+            $ilToolbar->addSeparator();
+            $print_view = $this->getPrintView();
+            $modal_elements = $print_view->getModalElements(
+                $this->ctrl->getLinkTarget(
+                    $this,
+                    "printViewSelection"
+                )
+            );
+            $ilToolbar->addComponent($modal_elements->button);
+            $ilToolbar->addComponent($modal_elements->modal);
+        }
     }
 
     /**
@@ -1723,5 +1741,27 @@ class ilSurveyPageGUI
         
         $cmd = ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks';
         $ilCtrl->redirect($this->editor_gui, $cmd);
+    }
+
+    protected function getPrintView() : \ILIAS\Export\PrintProcessGUI
+    {
+        $provider = new \ILIAS\Survey\PagePrintViewProviderGUI(
+            $this->lng,
+            $this->ctrl,
+            $this->ref_id
+        );
+
+        return new \ILIAS\Export\PrintProcessGUI(
+            $provider,
+            $this->http,
+            $this->ui,
+            $this->lng
+        );
+    }
+
+    public function printViewSelection()
+    {
+        $view = $this->getPrintView();
+        $view->sendForm();
     }
 }

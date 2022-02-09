@@ -339,7 +339,7 @@ class ilSurveyExecutionGUI
      * @throws ilSurveyException
      */
     public function outSurveyPage(
-        ?int $activepage = null,
+        int $activepage = 0,
         int $direction = 0
     ) : void {
         $ilUser = $this->user;
@@ -385,7 +385,6 @@ class ilSurveyExecutionGUI
                 }
             }
         }
-        
         $first_question = -1;
         if (is_null($page) && $direction == -1) {
             $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
@@ -410,7 +409,8 @@ class ilSurveyExecutionGUI
             $required = false;
             //$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", "Modules/Survey");
             $stpl = new ilTemplate("tpl.il_svy_svy_content.html", true, true, "Modules/Survey");
-            
+
+            // title / appraisee
             if ($this->feature_config->usesAppraisees()) {
                 $appr_id = $this->requested_appr_id;
                 
@@ -419,6 +419,7 @@ class ilSurveyExecutionGUI
                     ilUserUtil::getNamePresentation($appr_id) . ")");
             }
 
+            // top / bottom nav
             if (!($this->object->getAnonymize() && $this->object->isAccessibleWithoutCode() && ($ilUser->getId() == ANONYMOUS_USER_ID))) {
                 $stpl->setCurrentBlock("suspend_survey");
 
@@ -436,96 +437,42 @@ class ilSurveyExecutionGUI
                 $stpl->parseCurrentBlock();
             }
             $this->outNavigationButtons("top", $page, $stpl);
+            $this->outNavigationButtons("bottom", $page, $stpl);
 
-
+            // progress
             $stpl->setCurrentBlock("percentage");
-            
             $percentage = (int) (($page[0]["position"]) * 100);
-            
             $pbar = ilProgressBar::getInstance();
             $pbar->setCurrent($percentage);
             $stpl->setVariable("NEW_PBAR", $pbar->render());
-
             $stpl->parseCurrentBlock();
-            
-            
-            if (count($page) > 1 && $page[0]["questionblock_show_blocktitle"]) {
-                $stpl->setCurrentBlock("questionblock_title");
-                $stpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $page[0]["questionblock_title"]);
-                $stpl->parseCurrentBlock();
-            }
-            $compress_view = false;
-            if (count($page) > 1) {
-                $compress_view = $page[0]["questionblock_compress_view"];
-            }
-            $previous_page = null;
 
-            // set compress view flags
-            $previous_key = null;
-            foreach ($page as $k => $data) {
-                $page[$k]["compressed"] = false;
-                $page[$k]["compressed_first"] = false;
-                if ($compress_view && $this->compressQuestion($previous_page, $data)) {
-                    $page[$k]["compressed"] = true;
-                    if ($previous_key !== null && $page[$previous_key]["compressed"] == false) {
-                        $page[$previous_key]["compressed_first"] = true;
-                    }
-                }
-                $previous_key = $k;
-                $previous_page = $data;
-            }
+            // questions
+            $working_data = [];
+            $errors = $this->run_manager->getErrors();
             foreach ($page as $data) {
-                if ($data["heading"]) {
-                    $stpl->setCurrentBlock("heading");
-                    $stpl->setVariable("QUESTION_HEADING", $data["heading"]);
-                    $stpl->parseCurrentBlock();
-                }
-                $stpl->setCurrentBlock("survey_content");
                 if ($first_question == -1) {
                     $first_question = $data["question_id"];
                 }
                 $question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
-                $errors = $this->run_manager->getErrors();
+
                 if (count($errors) > 0) {
-                    $working_data = $question_gui->object->getWorkingDataFromUserInput(
+                    $working_data[$data["question_id"]] = $question_gui->object->getWorkingDataFromUserInput(
                         $this->run_manager->getPostData()
                     );
                 } else {
-                    $working_data = $this->object->loadWorkingData($data["question_id"], $this->getCurrentRunId());
+                    $working_data[$data["question_id"]] = $this->object->loadWorkingData($data["question_id"], $this->run_manager->getCurrentRunId());
                 }
-                $question_gui->object->setObligatory($data["obligatory"]);
-                $error_messages = array();
-                if (count($errors) > 0) {
-                    $error_messages = $errors;
-                }
-                $show_questiontext = ($data["questionblock_show_questiontext"]) ? 1 : 0;
-                $show_title = ($this->object->getShowQuestionTitles() && !$data["compressed_first"]);
-                $question_output = $question_gui->getWorkingForm(
-                    $working_data,
-                    $show_title,
-                    $show_questiontext,
-                    $error_messages[$data["question_id"]] ?? "",
-                    $this->object->getSurveyId(),
-                    $compress_view
-                );
-                if ($data["compressed"]) {
-                    $question_output = '<div class="il-svy-qst-compressed">' . $question_output . '</div>';
-                }
-                $stpl->setVariable("QUESTION_OUTPUT", $question_output);
-                $this->ctrl->setParameter($this, "qid", $data["question_id"]);
-                //$this->tpl->parse("survey_content");
-                if ($data["obligatory"]) {
-                    $required = true;
-                }
-                $stpl->parseCurrentBlock();
-            }
-            if ($required) {
-                $stpl->setCurrentBlock("required");
-                $stpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
-                $stpl->parseCurrentBlock();
             }
 
-            $this->outNavigationButtons("bottom", $page, $stpl);
+            $page_renderer = new \ILIAS\Survey\Page\PageRenderer(
+                $this->object,
+                $page,
+                $working_data,
+                $errors
+            );
+
+            $stpl->setVariable("PAGE", $page_renderer->render());
 
             $stpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
             $this->tpl->setContent($stpl->get());
@@ -540,24 +487,6 @@ class ilSurveyExecutionGUI
     protected function getCurrentRunId() : int
     {
         return $this->run_manager->getCurrentRunId($this->requested_appr_id);
-    }
-
-    protected function compressQuestion(
-        ?array $previous_page,
-        array $page
-    ) : bool {
-        if (is_null($previous_page)) {
-            return false;
-        }
-
-        if ($previous_page["type_tag"] === $page["type_tag"] &&
-            $page["type_tag"] === "SurveySingleChoiceQuestion") {
-            if (SurveySingleChoiceQuestion::compressable($previous_page["question_id"], $page["question_id"])) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

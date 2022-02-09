@@ -17,6 +17,7 @@ namespace ILIAS\Portfolio;
 
 use ILIAS\COPage;
 use ILIAS\Export;
+use ilPropertyFormGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -62,7 +63,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         return $c;
     }
 
-    public function getSelectionForm() : \ilPropertyFormGUI
+    public function getSelectionForm() : ?ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

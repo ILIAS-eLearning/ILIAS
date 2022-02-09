@@ -22,10 +22,12 @@ use ILIAS\Survey\Editing\EditingGUIRequest;
  * @author	Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilSurveyEditorGUI: SurveyMultipleChoiceQuestionGUI, SurveyMetricQuestionGUI
  * @ilCtrl_Calls ilSurveyEditorGUI: SurveySingleChoiceQuestionGUI, SurveyTextQuestionGUI
- * @ilCtrl_Calls ilSurveyEditorGUI: SurveyMatrixQuestionGUI, ilSurveyPageGUI
+ * @ilCtrl_Calls ilSurveyEditorGUI: SurveyMatrixQuestionGUI, ilSurveyPageEditGUI
  */
 class ilSurveyEditorGUI
 {
+    protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\DI\UIServices $ui;
     protected string $requested_pgov;
     protected EditingGUIRequest $request;
     protected EditManager $edit_manager;
@@ -81,6 +83,8 @@ class ilSurveyEditorGUI
             ->editing()
             ->request();
         $this->requested_pgov = $this->request->getTargetPosition();
+        $this->ui = $DIC->ui();
+        $this->http = $DIC->http();
     }
     
     public function executeCommand() : void
@@ -91,20 +95,20 @@ class ilSurveyEditorGUI
                                     
         if ($this->requested_pgov != "") {
             if ($cmd == "questions") {
-                $this->ctrl->setCmdClass("ilsurveypagegui");
+                $this->ctrl->setCmdClass("ilSurveyPageEditGUI");
                 $this->ctrl->setCmd("renderpage");
             } elseif ($cmd == "confirmRemoveQuestions") {
                 // #14324
-                $this->ctrl->setCmdClass("ilsurveypagegui");
+                $this->ctrl->setCmdClass("ilSurveyPageEditGUI");
                 $this->ctrl->setCmd("confirmRemoveQuestions");
             }
         }
         
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
-            case 'ilsurveypagegui':
+            case 'ilsurveypageeditgui':
                 $this->questionsSubtabs("page");
-                $pg = new ilSurveyPageGUI($this->object, $this);
+                $pg = new ilSurveyPageEditGUI($this->object, $this);
                 $this->ctrl->forwardCommand($pg);
                 break;
             
@@ -150,7 +154,7 @@ class ilSurveyEditorGUI
         $ilTabs->addSubTab(
             "page",
             $this->lng->txt("survey_per_page_view"),
-            $this->ctrl->getLinkTargetByClass("ilsurveypagegui", "renderPage")
+            $this->ctrl->getLinkTargetByClass("ilSurveyPageEditGUI", "renderPage")
         );
 
         $this->ctrl->setParameter($this, "pgov", "");
@@ -730,7 +734,7 @@ class ilSurveyEditorGUI
         if ($this->requested_pgov == "") {
             $link = $this->ctrl->getLinkTarget($this, "questions");
         } else {
-            $link = $this->ctrl->getLinkTargetByClass("ilsurveypagegui", "renderpage");
+            $link = $this->ctrl->getLinkTargetByClass("ilSurveyPageEditGUI", "renderpage");
         }
         $ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), $link);
                 
@@ -794,7 +798,7 @@ class ilSurveyEditorGUI
         $qids = $this->request->getQuestionIds();
         if (count($qids) > 0) {
             if ($this->requested_pgov != "") {
-                $page_gui = new ilSurveyPageGUI($this->object, $this);
+                $page_gui = new ilSurveyPageEditGUI($this->object, $this);
                 $page_gui->determineCurrentPage();
                 
                 // as target position is predefined, insert in reverse order
@@ -818,15 +822,15 @@ class ilSurveyEditorGUI
             } else {
                 $target_page = $this->requested_pgov;
                 if (substr($this->request->getTargetQuestionPosition(), -1) == "c") {
-                    // see ilSurveyPageGUI::insertNewQuestion()
+                    // see ilSurveyPageEditGUI::insertNewQuestion()
                     if ((int) $this->request->getTargetQuestionPosition()) {
                         $target_page++;
                     } else {
                         $target_page = 1;
                     }
                 }
-                $this->ctrl->setParameterByClass("ilsurveypagegui", "pgov", $target_page);
-                $this->ctrl->redirectByClass("ilsurveypagegui", "renderpage");
+                $this->ctrl->setParameterByClass("ilSurveyPageEditGUI", "pgov", $target_page);
+                $this->ctrl->redirectByClass("ilSurveyPageEditGUI", "renderpage");
             }
         } else {
             ilUtil::sendInfo($this->lng->txt("insert_missing_question"), true);
@@ -864,7 +868,7 @@ class ilSurveyEditorGUI
         $block_ids = $this->request->getBlockIds();
         if (count($block_ids) > 0) {
             if ($this->requested_pgov != "") {
-                $page_gui = new ilSurveyPageGUI($this->object, $this);
+                $page_gui = new ilSurveyPageEditGUI($this->object, $this);
                 $page_gui->determineCurrentPage();
                 
                 // as target position is predefined, insert in reverse order
@@ -889,8 +893,8 @@ class ilSurveyEditorGUI
                 if (substr($this->request->getTargetQuestionPosition(), -1) == "c") {
                     $target_page++;
                 }
-                $this->ctrl->setParameterByClass("ilsurveypagegui", "pgov", $target_page);
-                $this->ctrl->redirectByClass("ilsurveypagegui", "renderpage");
+                $this->ctrl->setParameterByClass("ilSurveyPageEditGUI", "pgov", $target_page);
+                $this->ctrl->redirectByClass("ilSurveyPageEditGUI", "renderpage");
             }
         } else {
             ilUtil::sendInfo($this->lng->txt("insert_missing_questionblock"), true);
@@ -1173,10 +1177,32 @@ class ilSurveyEditorGUI
         $this->ctrl->redirect($this, "questions");
     }
 
+    protected function getPrintView() : \ILIAS\Export\PrintProcessGUI
+    {
+        $provider = new \ILIAS\Survey\PagePrintViewProviderGUI(
+            $this->lng,
+            $this->ctrl,
+            $this->object->getRefId()
+        );
+
+        return new \ILIAS\Export\PrintProcessGUI(
+            $provider,
+            $this->http,
+            $this->ui,
+            $this->lng
+        );
+    }
+
+    public function printViewObject()
+    {
+        $print_view = $this->getPrintView();
+        $print_view->sendPrintView();
+    }
+
     /**
      * Print view of the survey questions
      */
-    public function printViewObject() : void
+    public function printViewObjectOld() : void
     {
         $ilToolbar = $this->toolbar;
         $uname = "";
