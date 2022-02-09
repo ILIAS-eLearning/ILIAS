@@ -262,9 +262,9 @@ class EditingGUIRequest
         return $this->str("il_hform_" . $key);
     }
 
-    public function getJump() : int
+    public function getJump() : string
     {
-        return $this->int("jump");
+        return $this->str("jump");
     }
 
     public function getCheckSum() : string
@@ -386,5 +386,10 @@ class EditingGUIRequest
     public function getThresholds() : array
     {
         return $this->strArray("threshold");
+    }
+
+    public function getPrintSelection() : string
+    {
+        return $this->str("print_selection");
     }
 }

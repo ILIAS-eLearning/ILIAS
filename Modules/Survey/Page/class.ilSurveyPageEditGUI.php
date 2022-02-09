@@ -38,7 +38,7 @@ class ilSurveyPageEditGUI
     protected ilLanguage $lng;
     protected ilObjSurvey $object;
     protected ilSurveyEditorGUI $editor_gui;
-    protected int $current_page;
+    protected string $current_page;
     protected bool $has_previous_page;
     protected bool $has_next_page;
     protected bool $has_datasets;

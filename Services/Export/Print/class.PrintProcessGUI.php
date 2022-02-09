@@ -116,6 +116,8 @@ class PrintProcessGUI
             "Services/Export/Print"
         );
 
+        \iljQueryUtil::initjQuery($tpl);
+
         foreach ($this->provider->getTemplateInjectors() as $f) {
             $f($tpl);
         }

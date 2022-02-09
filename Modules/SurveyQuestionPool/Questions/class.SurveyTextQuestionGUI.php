@@ -150,7 +150,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         if ($this->object->getTextHeight() == 1) {
             $template->setCurrentBlock("textinput");
             if (is_array($working_data)) {
-                if (strlen($working_data[0]["textanswer"])) {
+                if (isset($working_data[0]["textanswer"])) {
                     $template->setVariable("VALUE_ANSWER", " value=\"" . ilUtil::prepareFormOutput($working_data[0]["textanswer"]) . "\"");
                 }
             }
@@ -161,7 +161,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
             }
         } else {
             $template->setCurrentBlock("textarea");
-            if (is_array($working_data)) {
+            if (is_array($working_data) && isset($working_data[0]["textanswer"])) {
                 $template->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($working_data[0]["textanswer"]));
             }
             $template->setVariable("QUESTION_ID", $this->object->getId());
