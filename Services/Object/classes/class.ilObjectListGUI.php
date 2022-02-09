@@ -1502,9 +1502,6 @@ class ilObjectListGUI
     */
     public function getIconImageType()
     {
-        if ($this->type == "sahs" && $this->offline_mode) {
-            return $this->type . "_offline";
-        }
         return $this->type;
     }
 
@@ -3174,7 +3171,7 @@ class ilObjectListGUI
     {
         global $DIC;
 
-        if (strstr($a_link, 'ilSAHSPresentationGUI') && !$this->offline_mode) {
+        if (strstr($a_link, 'ilSAHSPresentationGUI')) {
             $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
             $om = $sahs_obj->getOpenMode();
             $width = $sahs_obj->getWidth();
