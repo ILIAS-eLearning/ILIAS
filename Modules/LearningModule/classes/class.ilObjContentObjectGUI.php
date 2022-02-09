@@ -1944,7 +1944,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         } elseif ($a_offline) {
             $tabs_gui->setForcePresentationOfSingleTab(true);
         }
-
         // table of contents
         if ($this->object->isActiveTOC() && $ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
             if (!$a_offline) {
