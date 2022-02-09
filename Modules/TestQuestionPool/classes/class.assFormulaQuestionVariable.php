@@ -47,8 +47,7 @@ class assFormulaQuestionVariable
     {
         
 //		@todo check this
-        if ($this->getIntprecision() > $this->getRangeMax())
-        {
+        if ($this->getIntprecision() > $this->getRangeMax()){
             global $DIC;
             $lng = $DIC['lng'];
             ilUtil::sendFailure($lng->txt('err_divider_too_big'));
