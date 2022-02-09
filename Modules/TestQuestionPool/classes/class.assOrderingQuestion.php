@@ -18,6 +18,7 @@ require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElem
  * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author	Björn Heyser <bheyser@databay.de>
  * @author	Maximilian Becker <mbecker@databay.de>
+ * @author	Nils Haagen <nils.haagen@concepts-and-training.de>
  *
  * @version		$Id$
  *
@@ -30,6 +31,15 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     const ORDERING_ELEMENT_FORM_CMD_UPLOAD_IMG = 'uploadElementImage';
     const ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG = 'removeElementImage';
     
+    const OQ_PICTURES = 0;
+    const OQ_TERMS = 1;
+    const OQ_NESTED_PICTURES = 2;
+    const OQ_NESTED_TERMS = 3;
+
+    const OQ_CT_PICTURES = 'pics';
+    const OQ_CT_TERMS = 'terms';
+
+
     /**
      * @var ilAssOrderingElementList
      */
@@ -37,13 +47,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     
     /**
     * Type of ordering question
-    *
-    * There are two possible types of ordering questions: Ordering terms (=1)
-    * and Ordering pictures (=0).
-    *
     * @var integer
     */
-    public $ordering_type;
+    protected $ordering_type;
 
     /**
     * Maximum thumbnail geometry
@@ -92,29 +98,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @return boolean True, if the ordering question is complete for use, otherwise false
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
-        if (!$this->getAuthor()) {
-            return false;
-        }
-        
-        if (!$this->getTitle()) {
-            return false;
-        }
-        
-        if (!$this->getQuestion()) {
-            return false;
-        }
-        
-        if (!$this->getMaximumPoints()) {
-            return false;
-        }
-        
-        if (!$this->getOrderingElementList()->countElements()) {
-            return false;
-        }
-        
-        return true;
+        return  $this->getAuthor()
+            && $this->getTitle()
+            && $this->getQuestion()
+            && $this->getMaximumPoints()
+            && $this->getOrderingElementList()->countElements();
     }
 
     /**
@@ -374,43 +364,91 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
     }
 
-    /**
-    * Sets the ordering question type
-    *
-    * @param integer $ordering_type The question ordering type
-    * @access public
-    * @see $ordering_type
-    */
-    public function setOrderingType($ordering_type = OQ_TERMS)
+    protected function getValidOrderingTypes() : array
     {
+        return [
+            self::OQ_PICTURES,
+            self::OQ_TERMS,
+            self::OQ_NESTED_PICTURES,
+            self::OQ_NESTED_TERMS
+        ];
+    }
+
+    public function setOrderingType($ordering_type = self::OQ_TERMS)
+    {
+        if (!in_array($ordering_type, $this->getValidOrderingTypes())) {
+            throw new \InvalidArgumentException('Must be valid ordering type.');
+        }
         $this->ordering_type = $ordering_type;
     }
     
-    /**
-    * Returns the ordering question type
-    *
-    * @return integer The ordering question type
-    * @access public
-    * @see $ordering_type
-    */
     public function getOrderingType()
     {
         return $this->ordering_type;
     }
-    
+
     public function isOrderingTypeNested()
     {
-        return in_array($this->getOrderingType(), array(OQ_NESTED_TERMS, OQ_NESTED_PICTURES));
+        $nested = [
+            self::OQ_NESTED_TERMS,
+            self::OQ_NESTED_PICTURES
+        ];
+        return in_array($this->getOrderingType(), $nested);
     }
     
     public function isImageOrderingType()
     {
-        return in_array($this->getOrderingType(), array(OQ_PICTURES, OQ_NESTED_PICTURES));
+        $with_images = [
+            self::OQ_PICTURES,
+            self::OQ_NESTED_PICTURES
+        ];
+        return in_array($this->getOrderingType(), $with_images);
     }
     
+    public function setContentType($ct)
+    {
+        if (!in_array($ct, [
+            self::OQ_CT_PICTURES,
+            self::OQ_CT_TERMS
+        ])) {
+            throw new \InvalidArgumentException("use OQ content-type", 1);
+        }
+        if ($ct == self::OQ_CT_PICTURES) {
+            if ($this->isOrderingTypeNested()) {
+                $this->setOrderingType(self::OQ_NESTED_PICTURES);
+            } else {
+                $this->setOrderingType(self::OQ_PICTURES);
+            }
+        }
+        if ($ct == self::OQ_CT_TERMS) {
+            if ($this->isOrderingTypeNested()) {
+                $this->setOrderingType(self::OQ_NESTED_TERMS);
+            } else {
+                $this->setOrderingType(self::OQ_TERMS);
+            }
+        }
+    }
+
+    public function setNestingType(bool $nesting)
+    {
+        if ($nesting) {
+            if ($this->isImageOrderingType()) {
+                $this->setOrderingType(self::OQ_NESTED_PICTURES);
+            } else {
+                $this->setOrderingType(self::OQ_NESTED_TERMS);
+            }
+        } else {
+            if ($this->isImageOrderingType()) {
+                $this->setOrderingType(self::OQ_PICTURES);
+            } else {
+                $this->setOrderingType(self::OQ_TERMS);
+            }
+        }
+    }
+
     public function hasOrderingTypeUploadSupport()
     {
-        return $this->getOrderingType() == OQ_PICTURES;
+        return $this->getOrderingType() == self::OQ_PICTURES;
     }
     
     /**
@@ -730,7 +768,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     
     protected function cleanImagefiles()
     {
-        if ($this->getOrderingType() == OQ_PICTURES) {
+        if ($this->getOrderingType() == self::OQ_PICTURES) {
             if (@file_exists($this->getImagePath())) {
                 $contents = ilUtil::getDir($this->getImagePath());
                 foreach ($contents as $f) {
@@ -1101,7 +1139,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function rebuildThumbnails()
     {
-        if ($this->getOrderingType() == OQ_PICTURES || $this->getOrderingType() == OQ_NESTED_PICTURES) {
+        if ($this->isImageOrderingType()) {
             foreach ($this->getOrderElements() as $orderingElement) {
                 $this->generateThumbForFile($this->getImagePath(), $orderingElement->getContent());
             }
@@ -1153,7 +1191,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
         );
-        if ($this->getOrderingType() == OQ_PICTURES) {
+        if ($this->getOrderingType() == self::OQ_PICTURES) {
             $result['path'] = $this->getImagePathWeb();
         }
         
@@ -1185,24 +1223,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function buildOrderingElementInputGui()
     {
-        switch ($this->getOrderingType()) {
-            case OQ_TERMS:
-                
-                return $this->buildOrderingTextsInputGui();
-                
-            case OQ_PICTURES:
-                
-                return $this->buildOrderingImagesInputGui();
-            
-            case OQ_NESTED_TERMS:
-            case OQ_NESTED_PICTURES:
-                
-                return $this->buildNestedOrderingElementInputGui();
-                
-            default:
-                throw new ilTestQuestionPoolException('unknown ordering mode');
+        if ($this->isImageOrderingType()) {
+            return $this->buildOrderingImagesInputGui();
         }
+        return $this->buildOrderingTextsInputGui();
     }
+
 
     /**
      * @param ilAssOrderingTextsInputGUI|ilAssOrderingImagesInputGUI|ilAssNestedOrderingElementsInputGUI $formField
