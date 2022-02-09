@@ -49,8 +49,10 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withPosition(10)
                 ->withAvailableCallable(
                     function () use ($dic) {
+                        // note: the setting disable_my_offers is used for
+                        // presenting the favourites in the main section of the dashboard
+                        // return $dic->settings()->get('disable_my_offers', 0) == 0;
                         return true;
-                        return $dic->settings()->get('disable_my_offers', 0) == 0;
                     }
                 )
                 ->withVisibilityCallable(
