@@ -3183,7 +3183,6 @@ abstract class ilPageObject
     public function deleteContent($a_hid, $a_update = true, $a_pcid = "")
     {
         $curr_node = $this->getContentNode($a_hid, $a_pcid);
-        $this->handleDeleteContent($curr_node);
         $curr_node->unlink_node($curr_node);
         if ($a_update) {
             return $this->update();
