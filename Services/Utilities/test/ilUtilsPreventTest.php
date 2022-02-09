@@ -28,7 +28,6 @@ class ilUtilsPreventTest extends TestCase
     {
         $r = new ReflectionClass(ilUtil::class);
         $methods = $this->extractMethodNames($r->getMethods());
-        var_export($methods);
         $amount_of_methods = count($methods);
         $this->assertEquals(47, $amount_of_methods);
         $this->assertEquals([
@@ -123,7 +122,6 @@ class ilUtilsPreventTest extends TestCase
     {
         $r = new ReflectionClass(ilLegacyFormElementsUtil::class);
         $methods = $this->extractMethodNames($r->getMethods());
-        var_export($methods);
         $amount_of_methods = count($methods);
         $this->assertEquals(7, $amount_of_methods);
         $this->assertEquals([
@@ -141,7 +139,6 @@ class ilUtilsPreventTest extends TestCase
     {
         $r = new ReflectionClass(ilStr::class);
         $methods = $this->extractMethodNames($r->getMethods());
-        var_export($methods);
         $amount_of_methods = count($methods);
         $this->assertEquals(12, $amount_of_methods);
         $this->assertEquals([
