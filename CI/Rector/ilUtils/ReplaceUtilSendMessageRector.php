@@ -94,7 +94,7 @@ final class ReplaceUtilSendMessageRector extends \Rector\Core\Rector\AbstractRec
         }
         
         if ($method_where_call_happend->isStatic()) {
-            return null;
+//            return null;
         }
         
         // prepend a new argument with the type of the message, aka sendInfo goes to setOnScreenMessage('info', ...

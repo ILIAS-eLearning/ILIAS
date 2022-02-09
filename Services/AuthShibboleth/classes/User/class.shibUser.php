@@ -102,7 +102,7 @@ class shibUser extends ilObjUser
         $this->setFirstname($this->shibServerData->getFirstname());
         $this->setLastname($this->shibServerData->getLastname());
         $this->setLogin($this->returnNewLoginName());
-        $array = ilUtil::generatePasswords(1);
+        $array = ilSecuritySettingsChecker::generatePasswords(1);
         $this->setPasswd(md5(end($array)), ilObjUser::PASSWD_CRYPTED);
         $this->setGender($this->shibServerData->getGender());
         $this->setExternalAccount($this->shibServerData->getLogin());

@@ -91,7 +91,7 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable(
             $a_prefix . 'TYPE_IMG',
-            ilUtil::getTypeIconPath((string) ($child_data['type'] ?? ''), (int) ($child_data['obj_id'] ?? 0))
+            ilObject::_getIcon((int) ($child_data['obj_id'] ?? 0), "small", (string) ($child_data['type'] ?? ''))
         );
         $this->tpl->setVariable($a_prefix . 'TYPE_STR', $this->lng->txt('obj_' . ($child_data['type'] ?? '')));
     }

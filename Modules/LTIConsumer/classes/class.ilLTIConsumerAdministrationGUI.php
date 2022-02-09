@@ -60,10 +60,12 @@ class ilLTIConsumerAdministrationGUI
     const ALLOWED_FILE_EXT = ['jpg', 'jpeg', 'png', 'gif', 'ico', 'svg'];
 
     private array $_importedXmlData = [];
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate(); /* @var \ILIAS\DI\Container $DIC */
 
         $DIC->language()->loadLanguageModule("rep");
 
@@ -294,7 +296,7 @@ class ilLTIConsumerAdministrationGUI
         
         $provider = $this->performProviderImport($providerXml);
         
-        ilUtil::sendSuccess($DIC->language()->txt('provider_import_success_msg'));
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('provider_import_success_msg'));
         $DIC->ctrl()->setParameter($this, 'provider_id', $provider->getId());
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDER_FORM);
     }
@@ -552,20 +554,20 @@ class ilLTIConsumerAdministrationGUI
         $providers = $this->fetchProviderMulti();
         
         if (!count($providers)) {
-            ilUtil::sendFailure($DIC->language()->txt('lti_no_provider_selected'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_no_provider_selected'), true);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_USER_PROVIDER);
         }
         
         foreach ($providers as $provider) {
             if (!$provider->isAcceptableAsGlobal()) {
-                ilUtil::sendFailure($DIC->language()->txt('lti_at_least_one_not_acceptable_as_global'), true);
+                $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_at_least_one_not_acceptable_as_global'), true);
                 $DIC->ctrl()->redirect($this, self::CMD_SHOW_USER_PROVIDER);
             }
         }
         
         $this->performAcceptProvidersAsGlobal($providers);
         
-        ilUtil::sendSuccess($DIC->language()->txt('lti_success_accept_as_global_multi'), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('lti_success_accept_as_global_multi'), true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_USER_PROVIDER);
     }
 
@@ -583,7 +585,7 @@ class ilLTIConsumerAdministrationGUI
             $this->performAcceptProvidersAsGlobal([$provider]);
         }
         
-        ilUtil::sendSuccess($DIC->language()->txt('lti_success_accept_as_global'), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('lti_success_accept_as_global'), true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_USER_PROVIDER);
     }
 
@@ -615,20 +617,20 @@ class ilLTIConsumerAdministrationGUI
         $providers = $this->fetchProviderMulti();
         
         if (!count($providers)) {
-            ilUtil::sendFailure($DIC->language()->txt('lti_no_provider_selected'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_no_provider_selected'), true);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDER);
         }
         
         foreach ($providers as $provider) {
             if (!$provider->isResetableToUserDefined()) {
-                ilUtil::sendFailure($DIC->language()->txt('lti_at_least_one_not_resetable_to_usr_def'), true);
+                $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_at_least_one_not_resetable_to_usr_def'), true);
                 $DIC->ctrl()->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDER);
             }
         }
         
         $this->performResetProvidersToUserScope($providers);
         
-        ilUtil::sendSuccess($DIC->language()->txt('lti_success_reset_to_usr_def_multi'), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('lti_success_reset_to_usr_def_multi'), true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDER);
     }
 
@@ -646,7 +648,7 @@ class ilLTIConsumerAdministrationGUI
             $this->performResetProvidersToUserScope([$provider]);
         }
         
-        ilUtil::sendSuccess($DIC->language()->txt('lti_success_reset_to_usr_def'), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('lti_success_reset_to_usr_def'), true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDER);
     }
 
@@ -756,7 +758,7 @@ class ilLTIConsumerAdministrationGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         if (!count($providers)) {
-            ilUtil::sendFailure($DIC->language()->txt('lti_no_provider_selected'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_no_provider_selected'), true);
             return false;
         }
         
@@ -764,7 +766,7 @@ class ilLTIConsumerAdministrationGUI
         
         foreach ($providers as $provider) {
             if ($providerList->hasUsages($provider->getId())) {
-                ilUtil::sendFailure($DIC->language()->txt('lti_at_least_one_prov_has_usages'), true);
+                $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_at_least_one_prov_has_usages'), true);
                 return false;
             }
         }
@@ -825,7 +827,7 @@ class ilLTIConsumerAdministrationGUI
                 $provider->delete();
             }
             
-            ilUtil::sendSuccess($DIC->language()->txt('lti_success_delete_provider'), true);
+            $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('lti_success_delete_provider'), true);
         }
         
         $DIC->ctrl()->redirect($this, $_GET[self::REDIRECTION_CMD_PARAMETER]);

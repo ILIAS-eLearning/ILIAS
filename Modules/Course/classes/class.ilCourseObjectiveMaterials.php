@@ -170,7 +170,7 @@ class ilCourseObjectiveMaterials
         $container_obj_id = ilObject::_lookupObjId($a_container_id);
         
         $all_materials = $tree->getSubTree($tree->getNodeData($a_container_id), true);
-        $all_materials = ilUtil::sortArray($all_materials, 'title', 'asc');
+        $all_materials = ilArrayUtil::sortArray($all_materials, 'title', 'asc');
         
         // Filter
         foreach ($all_materials as $material) {

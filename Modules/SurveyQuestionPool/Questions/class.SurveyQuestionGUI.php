@@ -553,7 +553,7 @@ abstract class SurveyQuestionGUI
         $title = "";
         switch ($question_title) {
             case ilObjSurvey::PRINT_HIDE_LABELS:
-                $title = ilUtil::prepareFormOutput($this->object->getTitle());
+                $title = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle());
                 break;
 
             #19448  get rid of showing only the label without title
@@ -562,9 +562,11 @@ abstract class SurveyQuestionGUI
             //	break;
 
             case ilObjSurvey::PRINT_SHOW_LABELS:
-                $title = ilUtil::prepareFormOutput($this->object->getTitle());
+                $title = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle());
                 if (trim($this->object->getLabel())) {
-                    $title .= ' <span class="questionLabel">(' . ilUtil::prepareFormOutput($this->object->getLabel()) . ')</span>';
+                    $title .= ' <span class="questionLabel">(' . ilLegacyFormElementsUtil::prepareFormOutput(
+                            $this->object->getLabel()
+                        ) . ')</span>';
                 }
                 break;
         }
@@ -623,7 +625,9 @@ abstract class SurveyQuestionGUI
                         $template->setVariable('MATERIAL_HREF', $href);
                         break;
                 }
-                $template->setVariable('MATERIAL_TITLE', (strlen($material->title)) ? ilUtil::prepareFormOutput($material->title) : $this->lng->txt('material'));
+                $template->setVariable('MATERIAL_TITLE', (strlen($material->title)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                    $material->title
+                ) : $this->lng->txt('material'));
                 $template->setVariable('TEXT_AVAILABLE_MATERIALS', $this->lng->txt('material'));
                 $template->parseCurrentBlock();
             }
@@ -697,7 +701,9 @@ abstract class SurveyQuestionGUI
                         $type = $this->lng->txt('internal_link');
                         break;
                 }
-                $title = (strlen($material->title)) ? ilUtil::prepareFormOutput($material->title) : $this->lng->txt('material');
+                $title = (strlen($material->title)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                    $material->title
+                ) : $this->lng->txt('material');
                 $data[] = array('href' => $href, 'title' => $title, 'type' => $type);
             }
             $table_gui->setData($data);

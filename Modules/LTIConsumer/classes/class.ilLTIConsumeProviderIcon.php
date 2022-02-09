@@ -165,7 +165,7 @@ class ilLTIConsumeProviderIcon
         $convertCmd .= " -extent {$minSize}x{$minSize}";
         $convertCmd .= " {$this->getAbsoluteFilePath()}";
         
-        ilUtil::execConvert($convertCmd);
+        ilShellUtil::execConvert($convertCmd);
     }
     
     /**

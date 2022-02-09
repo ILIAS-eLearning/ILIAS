@@ -511,7 +511,7 @@ class ilObjectDefinition // extends ilSaxParser
                 }
             }
 
-            $subs2 = ilUtil::sortArray($subs, "pos", 'ASC', true, true);
+            $subs2 = ilArrayUtil::sortArray($subs, "pos", 'ASC', true, true);
 
             return $subs2;
         }
@@ -593,7 +593,7 @@ class ilObjectDefinition // extends ilSaxParser
                 $recursivesubs[$a_obj_type]['pos'] = -1;
             }
         }
-        return ilUtil::sortArray($recursivesubs, "pos", 'ASC', true, true);
+        return ilArrayUtil::sortArray($recursivesubs, "pos", 'ASC', true, true);
     }
     
 
@@ -915,7 +915,7 @@ class ilObjectDefinition // extends ilSaxParser
         $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, ilComponentInfo::TYPE_SERVICES, "Repository", "robj");
         $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, ilComponentInfo::TYPE_MODULES, "OrgUnit", "orguext");
 
-        $ret = ilUtil::sortArray($grouped_obj, "pos", "asc", true, true);
+        $ret = ilArrayUtil::sortArray($grouped_obj, "pos", "asc", true, true);
         return $ret;
     }
 

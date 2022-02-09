@@ -255,18 +255,20 @@ class ilObjUserGUI extends ilObjectGUI
             if ($definition['field_type'] == UDF_TYPE_TEXT) {
                 $this->tpl->setCurrentBlock("field_text");
                 $this->tpl->setVariable("FIELD_NAME", 'udf[' . $definition['field_id'] . ']');
-                $this->tpl->setVariable("FIELD_VALUE", ilUtil::prepareFormOutput($old));
+                $this->tpl->setVariable("FIELD_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($old));
             } else {
                 $this->tpl->setCurrentBlock("field_select");
-                $this->tpl->setVariable("SELECT_BOX", ilUtil::formSelect(
-                    $old,
-                    'udf[' . $definition['field_id'] . ']',
-                    $this->user_defined_fields->fieldValuesToSelectArray(
-                        $definition['field_values']
-                    ),
-                    false,
-                    true
-                ));
+                $this->tpl->setVariable("SELECT_BOX",
+                    ilLegacyFormElementsUtil::formSelect(
+                        $old,
+                        'udf[' . $definition['field_id'] . ']',
+                        $this->user_defined_fields->fieldValuesToSelectArray(
+                            $definition['field_values']
+                        ),
+                        false,
+                        true
+                    )
+                );
             }
             $this->tpl->parseCurrentBlock();
             $this->tpl->setCurrentBlock("user_defined");
@@ -1123,7 +1125,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($a_mode == "create") {
                 $pw->setRequiredOnAuth(true);
             }
-            $pw->setInfo(ilUtil::getPasswordRequirementsInfo());
+            $pw->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
             $this->form_gui->addItem($pw);
         }
         // @todo: invisible/hidden passwords
@@ -1656,22 +1658,30 @@ class ilObjUserGUI extends ilObjectGUI
             $thumb_file = "$image_dir/usr_" . $this->object->getId() . "_small.jpg";
             $xthumb_file = "$image_dir/usr_" . $this->object->getId() . "_xsmall.jpg";
             $xxthumb_file = "$image_dir/usr_" . $this->object->getId() . "_xxsmall.jpg";
-            $uploaded_file = ilUtil::escapeShellArg($uploaded_file);
-            $show_file = ilUtil::escapeShellArg($show_file);
-            $thumb_file = ilUtil::escapeShellArg($thumb_file);
-            $xthumb_file = ilUtil::escapeShellArg($xthumb_file);
-            $xxthumb_file = ilUtil::escapeShellArg($xxthumb_file);
+            $uploaded_file = ilShellUtil::escapeShellArg($uploaded_file);
+            $show_file = ilShellUtil::escapeShellArg($show_file);
+            $thumb_file = ilShellUtil::escapeShellArg($thumb_file);
+            $xthumb_file = ilShellUtil::escapeShellArg($xthumb_file);
+            $xxthumb_file = ilShellUtil::escapeShellArg($xxthumb_file);
 
-            if (ilUtil::isConvertVersionAtLeast("6.3.8-3")) {
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file);
+            if (ilShellUtil::isConvertVersionAtLeast("6.3.8-3")) {
+                ilShellUtil::execConvert(
+                    $uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file
+                );
+                ilShellUtil::execConvert(
+                    $uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file
+                );
+                ilShellUtil::execConvert(
+                    $uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file
+                );
+                ilShellUtil::execConvert(
+                    $uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file
+                );
             } else {
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
+                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
+                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
+                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
             }
         }
     }
@@ -1854,25 +1864,25 @@ class ilObjUserGUI extends ilObjectGUI
                 for ($i = 0; $i <= 60; $i++) {
                     $days[$i] = $i < 10 ? "0" . $i : $i;
                 }
-                return ilUtil::formSelect($a_selected, $a_varname, $days, false, true);
+                return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $days, false, true);
 
             case "hour":
                 for ($i = 0; $i < 24; $i++) {
                     $days[$i] = $i < 10 ? "0" . $i : $i;
                 }
-                return ilUtil::formSelect($a_selected, $a_varname, $days, false, true);
+                return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $days, false, true);
 
             case "day":
                 for ($i = 1; $i < 32; $i++) {
                     $days[$i] = $i < 10 ? "0" . $i : $i;
                 }
-                return ilUtil::formSelect($a_selected, $a_varname, $days, false, true);
+                return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $days, false, true);
 
             case "month":
                 for ($i = 1; $i < 13; $i++) {
                     $month[$i] = $i < 10 ? "0" . $i : $i;
                 }
-                return ilUtil::formSelect($a_selected, $a_varname, $month, false, true);
+                return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $month, false, true);
 
             case "year":
                 if ($a_selected < date('Y', time())) {
@@ -1884,7 +1894,7 @@ class ilObjUserGUI extends ilObjectGUI
                 for ($i = $start; $i < date("Y", time()) + 11; ++$i) {
                     $year[$i] = $i;
                 }
-                return ilUtil::formSelect($a_selected, $a_varname, $year, false, true);
+                return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $year, false, true);
         }
         return "";
     }
@@ -1915,7 +1925,7 @@ class ilObjUserGUI extends ilObjectGUI
         $action[4] = $this->lng->txt('internal_local_roles_only');
         $action[5] = $this->lng->txt('non_internal_local_roles_only');
 
-        return ilUtil::formSelect(
+        return ilLegacyFormElementsUtil::formSelect(
             ilSession::get("filtered_roles"),
             "filter",
             $action,

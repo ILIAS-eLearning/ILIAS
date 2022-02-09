@@ -223,7 +223,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             }
             $path_categories[] = $cat;
         }
-        $path_categories = ilUtil::sortArray($path_categories, 'title', "asc");
+        $path_categories = ilArrayUtil::sortArray($path_categories, 'title', "asc");
 
         $this->calendars[self::CAL_GRP_CURRENT_CONT_CONS] = array();
         $this->calendars[self::CAL_GRP_CURRENT_CONT] = array();

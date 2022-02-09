@@ -52,7 +52,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                 ilFileUtils::moveUploadedFile($media['tmp_name'], $file_name, $file);
             }
 
-            ilUtil::renameExecutables($mob_dir);
+            ilFileUtils::renameExecutables($mob_dir);
             // Check image/video
             $format = ilObjMediaObject::getMimeType($file);
 

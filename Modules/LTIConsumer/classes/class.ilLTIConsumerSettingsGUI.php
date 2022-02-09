@@ -43,6 +43,7 @@ class ilLTIConsumerSettingsGUI
      * @var ilLTIConsumerAccess
      */
     protected ilLTIConsumerAccess $access;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilLTIConsumerAccess constructor.
@@ -51,6 +52,8 @@ class ilLTIConsumerSettingsGUI
      */
     public function __construct(ilObjLTIConsumer $object, ilLTIConsumerAccess $access)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
         $this->access = $access;
     }
@@ -172,7 +175,7 @@ class ilLTIConsumerSettingsGUI
                 ilLPStatusWrapper::_refreshStatus($this->object->getId());
             }
             
-            ilUtil::sendSuccess($DIC->language()->txt('msg_obj_modified'), true);
+            $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('msg_obj_modified'), true);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_SETTINGS);
         }
         
@@ -200,7 +203,7 @@ class ilLTIConsumerSettingsGUI
         $validator = new ilCertificateDownloadValidator();
 
         if (!$validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->object->getId())) {
-            ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
             $DIC->ctrl()->redirectByClass(ilObjLTIConsumerGUI::class, ilObjLTIConsumerGUI::DEFAULT_CMD);
         }
 

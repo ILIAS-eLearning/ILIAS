@@ -398,7 +398,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         foreach ($user_ids as $user_id) {
             $forced_events = $this->forumNotificationObj->getForcedEventsObjectByUserId($user_id);
 
-            $users[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
+            $users[$counter]['user_id'] = ilLegacyFormElementsUtil::formCheckbox(0, 'user_id[]', $user_id);
             $users[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
             $name = ilObjUser::_lookupName($user_id);
             $users[$counter]['firstname'] = $name['firstname'];

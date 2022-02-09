@@ -111,7 +111,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
         // :TODO: mind personal deadline?
         
         if ($dl) {
-            $dl = ilUtil::period2String(new ilDateTime($dl, IL_CAL_UNIX));
+            $dl = ilLegacyFormElementsUtil::period2String(new ilDateTime($dl, IL_CAL_UNIX));
         }
         
         return array(

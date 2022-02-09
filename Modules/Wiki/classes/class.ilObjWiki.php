@@ -548,7 +548,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
                 $ipages[$k]["indent"] = (int) $a_indent[$v["page_id"]];
             }
         }
-        $ipages = ilUtil::sortArray($ipages, "ord", "asc", true);
+        $ipages = ilArrayUtil::sortArray($ipages, "ord", "asc", true);
 
         // fix indentation: no 2 is allowed after a 0
         $c_indent = 0;

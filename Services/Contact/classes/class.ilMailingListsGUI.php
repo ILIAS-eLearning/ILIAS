@@ -211,7 +211,7 @@ class ilMailingListsGUI
                     continue;
                 }
 
-                $result[$counter]['check'] = ilUtil::formCheckbox(0, 'ml_id[]', $entry->getId());
+                $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(0, 'ml_id[]', $entry->getId());
                 $result[$counter]['title'] = $entry->getTitle() . " [#il_ml_" . $entry->getId() . "]";
                 $result[$counter]['description'] = $entry->getDescription();
                 $result[$counter]['members'] = count($entry->getAssignedEntries());
@@ -418,7 +418,7 @@ class ilMailingListsGUI
 
             $counter = 0;
             foreach ($assigned_entries as $entry) {
-                $result[$counter]['check'] = ilUtil::formCheckbox(0, 'a_id[]', $entry['a_id']);
+                $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(0, 'a_id[]', $entry['a_id']);
                 $result[$counter]['user'] = $names[$entry['usr_id']];
                 ++$counter;
             }

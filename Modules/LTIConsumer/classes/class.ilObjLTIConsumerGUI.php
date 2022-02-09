@@ -381,6 +381,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         /* @var \ILIAS\DI\Container $DIC */
         $err = $DIC['ilErr'];
         /* @var ilErrorHandling $err */
@@ -403,7 +404,8 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         } elseif ($access->checkAccess('visible', '', $id)) {
             ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
         } elseif ($access->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(
+            $main_tpl->setOnScreenMessage(
+                'info',
                 sprintf(
                     $DIC->language()->txt('msg_no_perm_read_item'),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($id))
@@ -657,10 +659,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             );
 
             //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
-            ilUtil::sendInfo($linkBuilder->getPipelineDebug());
-            ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), true) . '</pre>');
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('info', $linkBuilder->getPipelineDebug());
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('question', '<pre>' . print_r($report->getTableData(), true) . '</pre>');
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
         }
     }
 
@@ -866,9 +868,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
         if ($this->object->getProvider()->getProviderUrl() == '') {
-            ilUtil::sendFailure($DIC->language()->txt('lti_provider_not_set_msg'));
+            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_provider_not_set_msg'));
         } elseif ($this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
-            ilUtil::sendFailure($DIC->language()->txt('lti_provider_not_avail_msg'));
+            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_provider_not_avail_msg'));
         }
     }
 }

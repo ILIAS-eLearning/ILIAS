@@ -127,7 +127,7 @@ class ilObject
     * max title length
     * @var integer
     */
-    public $max_title;
+    public $max_title = self::TITLE_LENGTH;
 
     /**
     * max description length
@@ -139,7 +139,7 @@ class ilObject
     * add dots to shortened titles and descriptions
     * @var boolean
     */
-    public $add_dots;
+    public $add_dots = true;
 
 
     /**
@@ -414,7 +414,7 @@ class ilObject
      */
     final public function setTitle(string $a_title)
     {
-        $this->title = ilUtil::shortenText($a_title, $this->max_title, $this->add_dots);
+        $this->title = ilStr::shortenTextExtended($a_title, $this->max_title ?? self::TITLE_LENGTH, $this->add_dots);
         // WebDAV needs to access the untranslated title of an object
         $this->untranslatedTitle = $this->title;
     }
@@ -435,7 +435,7 @@ class ilObject
     final public function setDescription(string $a_desc)
     {
         // Shortened form is storted in object_data. Long form is stored in object_description
-        $this->desc = ilUtil::shortenText($a_desc, $this->max_desc, $this->add_dots);
+        $this->desc = ilStr::shortenTextExtended($a_desc, $this->max_desc, $this->add_dots);
         $this->long_desc = $a_desc;
     }
 
@@ -650,10 +650,10 @@ class ilObject
 
         // write log entry
         $ilLog->write("ilObject::create(), start");
-
-        $this->title = ilUtil::shortenText($this->getTitle(), $this->max_title, $this->add_dots);
-        $this->desc = ilUtil::shortenText($this->getDescription(), $this->max_desc, $this->add_dots);
-
+        
+        $this->title = ilStr::shortenTextExtended($this->getTitle(), $this->max_title, $this->add_dots);
+        $this->desc = ilStr::shortenTextExtended($this->getDescription(), $this->max_desc, $this->add_dots);
+        
         // determine owner
         if ($this->getOwner() > 0) {
             $owner = $this->getOwner();
@@ -1246,7 +1246,7 @@ class ilObject
         $objDefinition = $DIC["objDefinition"];
 
 
-        $desc = ilUtil::shortenText($a_desc, self::DESC_LENGTH, true);
+        $desc = ilStr::shortenTextExtended($a_desc, self::DESC_LENGTH, true);
 
         $q = "UPDATE object_data " .
             "SET " .

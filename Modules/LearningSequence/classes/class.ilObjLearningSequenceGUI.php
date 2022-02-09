@@ -98,6 +98,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public static function _goto(string $target)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $request = $DIC->http()->request();
         $lng = $DIC->language();
@@ -130,7 +131,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
 
         if (self::hasAccess(self::ACCESS_READ, ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(sprintf(
+            $main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt('msg_no_perm_read_item'),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($id))
             ), true);

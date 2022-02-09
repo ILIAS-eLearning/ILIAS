@@ -943,12 +943,14 @@ class ilExSubmission
                     echo 'Could not copy ' . $oldFilename . ' to ' . $newFilename;
                 }
                 touch($newFilename, filectime($oldFilename));
-                $parsed_files[] = ilUtil::escapeShellArg($deliverFilename . DIRECTORY_SEPARATOR . basename($newFilename));
+                $parsed_files[] = ilShellUtil::escapeShellArg(
+                    $deliverFilename . DIRECTORY_SEPARATOR . basename($newFilename)
+                );
             }
         }
         
         chdir($tmpdir);
-        $zipcmd = $zip . " " . ilUtil::escapeShellArg($tmpzipfile) . " " . join(" ", $parsed_files);
+        $zipcmd = $zip . " " . ilShellUtil::escapeShellArg($tmpzipfile) . " " . join(" ", $parsed_files);
 
         exec($zipcmd);
         ilFileUtils::delDir($tmpdir);
@@ -1115,7 +1117,7 @@ class ilExSubmission
         }
         $tmpzipfile = ilFileUtils::getASCIIFilename($lng->txt("exc_ass_submission_zip")) . ".zip";
         // Safe mode fix
-        $zipcmd = $zip . " -r " . ilUtil::escapeShellArg($tmpzipfile) . " .";
+        $zipcmd = $zip . " -r " . ilShellUtil::escapeShellArg($tmpzipfile) . " .";
         exec($zipcmd);
         //$path_final_zip_file = $to_path.DIRECTORY_SEPARATOR."Submissions/".$tmpzipfile;
         $path_final_zip_file = $to_path . DIRECTORY_SEPARATOR . $tmpzipfile;

@@ -2902,7 +2902,7 @@ class ilObjStyleSheet extends ilObject
             foreach ($mqueries as $k => $mq) {
                 $mqueries[$k]["order_nr"] = $a_order_nr[$mq["id"]];
             }
-            $mqueries = ilUtil::sortArray($mqueries, "order_nr", "", true);
+            $mqueries = ilArrayUtil::sortArray($mqueries, "order_nr", "", true);
         }
         $cnt = 10;
         foreach ($mqueries as $mq) {

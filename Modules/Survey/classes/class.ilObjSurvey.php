@@ -2249,7 +2249,7 @@ class ilObjSurvey extends ilObject
             }
         }
         
-        $result_array = ilUtil::sortArray($result_array, "order", "ASC", true, true);
+        $result_array = ilArrayUtil::sortArray($result_array, "order", "ASC", true, true);
         foreach ($result_array as $idx => $item) {
             unset($result_array[$idx]["order"]);
         }
@@ -3956,7 +3956,7 @@ class ilObjSurvey extends ilObject
     public function prepareTextareaOutput(
         string $txt_output
     ) : string {
-        return ilUtil::prepareTextareaOutput($txt_output);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($txt_output);
     }
 
     /**

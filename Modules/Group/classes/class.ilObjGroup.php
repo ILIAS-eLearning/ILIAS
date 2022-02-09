@@ -846,7 +846,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $usr_arr = array();
         $q = "SELECT login,firstname,lastname,title,usr_id,last_login " .
              "FROM usr_data " .
-             "WHERE usr_id IN (" . implode(',', ilUtil::quoteArray($a_mem_ids)) . ") ";
+             "WHERE usr_id IN (" . implode(',', ilArrayUtil::quoteArray($a_mem_ids)) . ") ";
 
         if (is_numeric($active) && $active > -1) {
             $q .= "AND active = '$active'";
@@ -1174,7 +1174,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                 return false;
             }
             $query = "SELECT * FROM usr_data as ud " .
-                "WHERE usr_id IN (" . implode(",", ilUtil::quoteArray($members)) . ") " .
+                "WHERE usr_id IN (" . implode(",", ilArrayUtil::quoteArray($members)) . ") " .
                 $and;
             $res = $this->db->query($query);
             return (bool) $res->numRows();

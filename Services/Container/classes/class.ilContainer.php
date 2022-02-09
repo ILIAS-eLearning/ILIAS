@@ -899,7 +899,11 @@ class ilContainer extends ilObject
             // using (part of) shortened description
             if ($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::DESC_LENGTH) {
                 foreach ($objects as $key => $object) {
-                    $objects[$key]["description"] = ilUtil::shortenText($object["description"], $short_desc_max_length, true);
+                    $objects[$key]["description"] = ilStr::shortenTextExtended(
+                        $object["description"],
+                        $short_desc_max_length,
+                        true
+                    );
                 }
             }
             // using (part of) long description
@@ -916,7 +920,11 @@ class ilContainer extends ilObject
                             $long_desc[$object["obj_id"]] = $object["description"];
                         }
                         if ($short_desc && $short_desc_max_length) {
-                            $long_desc[$object["obj_id"]] = ilUtil::shortenText($long_desc[$object["obj_id"]], $short_desc_max_length, true);
+                            $long_desc[$object["obj_id"]] = ilStr::shortenTextExtended(
+                                $long_desc[$object["obj_id"]],
+                                $short_desc_max_length,
+                                true
+                            );
                         }
                         $objects[$key]["description"] = $long_desc[$object["obj_id"]];
                     }

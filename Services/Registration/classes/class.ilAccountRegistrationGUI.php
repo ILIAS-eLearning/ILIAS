@@ -281,7 +281,7 @@ class ilAccountRegistrationGUI
         $error_lng_var = '';
         if (
             !$this->registration_settings->passwordGenerationEnabled() &&
-            !ilUtil::isPasswordValidForUserContext(
+            !ilSecuritySettingsChecker::isPasswordValidForUserContext(
                 $this->form->getInput('usr_password'),
                 $this->form->getInput('username'),
                 $error_lng_var
@@ -346,7 +346,7 @@ class ilAccountRegistrationGUI
             $this->lng->loadLanguageModule('tos');
             $this->tpl->setOnScreenMessage('failure', sprintf(
                 $this->lng->txt('tos_account_reg_not_possible'),
-                'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
+                'mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
             ));
         } else {
             $password = $this->__createUser($valid_role);
@@ -406,7 +406,7 @@ class ilAccountRegistrationGUI
         $this->userObj->setDescription($this->userObj->getEmail());
 
         if ($this->registration_settings->passwordGenerationEnabled()) {
-            $password = ilUtil::generatePasswords(1);
+            $password = ilSecuritySettingsChecker::generatePasswords(1);
             $password = $password[0];
         } else {
             $password = $this->form->getInput("usr_password");

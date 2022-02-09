@@ -907,14 +907,14 @@ class ilSoapFunctions
 
         //dirname cuts the last directory from a directory path e.g content/classes return content
         include_once 'Services/Utilities/classes/class.ilUtil.php';
-        $module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
+        $module = ilFileUtils::removeTrailingPathSeparators(ILIAS_MODULE);
 
         $dirs = explode('/', $module);
         $uri = $path;
         foreach ($dirs as $dir) {
             $uri = dirname($uri);
         }
-        return ilUtil::removeTrailingPathSeparators($protocol . $host . $uri);
+        return ilFileUtils::removeTrailingPathSeparators($protocol . $host . $uri);
     }
 
     public static function getSCORMCompletionStatus($sid, $usr_id, $a_ref_id)

@@ -181,7 +181,7 @@ class ilForumModeratorsGUI
             }
 
             if ($num > 1) {
-                $result[$i]['check'] = ilUtil::formCheckbox(false, 'usr_id[]', $user->getId());
+                $result[$i]['check'] = ilLegacyFormElementsUtil::formCheckbox(false, 'usr_id[]', $user->getId());
             } else {
                 $result[$i]['check'] = '';
             }

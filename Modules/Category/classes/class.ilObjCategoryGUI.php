@@ -1061,7 +1061,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             $role_obj = ilObjectFactory::getInstanceByObjId($role['obj_id']);
             
             $disabled = false;
-            $f_result[$counter]['checkbox'] = ilUtil::formCheckbox(
+            $f_result[$counter]['checkbox'] = ilLegacyFormElementsUtil::formCheckbox(
                 in_array($role['obj_id'], $ass_roles) ? 1 : 0,
                 'role_ids[]',
                 $role['obj_id'],
@@ -1185,6 +1185,7 @@ class ilObjCategoryGUI extends ilContainerGUI
     public static function _goto($a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $ilErr = $DIC["ilErr"];
@@ -1194,7 +1195,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);

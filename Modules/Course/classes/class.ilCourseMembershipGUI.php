@@ -454,7 +454,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 }
             }
         }
-        return ilUtil::sortArray($print_member, 'name', $_SESSION['crs_print_order'], false, true);
+        return ilArrayUtil::sortArray($print_member, 'name', $_SESSION['crs_print_order'], false, true);
     }
     
     /**

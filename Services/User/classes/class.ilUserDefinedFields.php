@@ -534,7 +534,7 @@ class ilUserDefinedFields
                 }
                 $sort[] = array("value" => $item);
             }
-            foreach (ilUtil::sortArray($sort, "value", "asc", $is_numeric) as $item) {
+            foreach (ilArrayUtil::sortArray($sort, "value", "asc", $is_numeric) as $item) {
                 $tmp[] = $item["value"];
             }
                         

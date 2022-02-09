@@ -1168,6 +1168,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
@@ -1180,7 +1181,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $ctrl->setParameterByClass("ilGlossaryPresentationGUI", "ref_id", $a_target);
             $ctrl->redirectByClass("ilGlossaryPresentationGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);

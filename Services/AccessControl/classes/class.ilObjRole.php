@@ -410,7 +410,7 @@ class ilObjRole extends ilObject
             $sorted[$subtype]['translation'] = $translation;
         }
 
-        return ilUtil::sortArray($sorted, 'translation', 'asc', true, true);
+        return ilArrayUtil::sortArray($sorted, 'translation', 'asc', true, true);
     }
 
     public static function _updateAuthMode(array $a_roles) : void

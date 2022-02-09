@@ -59,16 +59,16 @@ class ilObjCertificateSettings extends ilObject
                 return false;
             }
             // convert the uploaded file to JPEG
-            ilUtil::convertImage(
+            ilShellUtil::convertImage(
                 $this->getDefaultBackgroundImageTempfilePath(),
                 $this->getDefaultBackgroundImagePath(),
                 "JPEG"
             );
-            ilUtil::convertImage(
+            ilShellUtil::convertImage(
                 $this->getDefaultBackgroundImageTempfilePath(),
                 $this->getDefaultBackgroundImageThumbPath(),
                 "JPEG",
-                100
+                '100'
             );
             // something went wrong converting the file. use the original file and hope, that PDF can work with it
             if (!is_file($this->getDefaultBackgroundImagePath()) && !ilFileUtils::moveUploadedFile(
@@ -134,8 +134,8 @@ class ilObjCertificateSettings extends ilObject
     public function getDefaultBackgroundImagePathWeb() : string
     {
         return str_replace(
-            ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
             $this->getDefaultBackgroundImagePath()
         );
     }
@@ -143,8 +143,8 @@ class ilObjCertificateSettings extends ilObject
     public function getBackgroundImageThumbPathWeb() : string
     {
         return str_replace(
-            ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
             $this->getDefaultBackgroundImageThumbPath()
         );
     }

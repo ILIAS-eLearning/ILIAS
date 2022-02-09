@@ -88,12 +88,12 @@ class ilAdministrationCommandGUI
                 'id[]',
                 $delete,
                 call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'), $obj_id),
-                ilUtil::getTypeIconPath($type, $obj_id)
+                ilObject::_getIcon($obj_id, 'small', $type)
             );
         }
 
         $msg = $this->lng->txt("info_delete_sure");
-            
+        
         if (!$ilSetting->get('enable_trash')) {
             $msg .= "<br/>" . $this->lng->txt("info_delete_warning_no_trash");
         }

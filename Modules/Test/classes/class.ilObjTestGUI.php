@@ -1012,9 +1012,6 @@ class ilObjTestGUI extends ilObjectGUI
 
         // set locator
         $this->setLocator();
-        
-        // catch feedback message
-        ilUtil::infoPanel();
 
         // set title and description and title icon
         $this->setTitleAndDescription();
@@ -2442,12 +2439,16 @@ class ilObjTestGUI extends ilObjectGUI
             $max_points += $question_gui->object->getMaximumPoints();
         }
 
-        $template->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-        $template->setVariable("PRINT_TEST", ilUtil::prepareFormOutput($this->lng->txt("tst_print")));
-        $template->setVariable("TXT_PRINT_DATE", ilUtil::prepareFormOutput($this->lng->txt("date")));
-        $template->setVariable("VALUE_PRINT_DATE", ilUtil::prepareFormOutput(strftime("%c", $print_date)));
-        $template->setVariable("TXT_MAXIMUM_POINTS", ilUtil::prepareFormOutput($this->lng->txt("tst_maximum_points")));
-        $template->setVariable("VALUE_MAXIMUM_POINTS", ilUtil::prepareFormOutput($max_points));
+        $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle()));
+        $template->setVariable("PRINT_TEST", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("tst_print")));
+        $template->setVariable("TXT_PRINT_DATE", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("date")));
+        $template->setVariable("VALUE_PRINT_DATE",
+            ilLegacyFormElementsUtil::prepareFormOutput(strftime("%c", $print_date))
+        );
+        $template->setVariable("TXT_MAXIMUM_POINTS",
+            ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("tst_maximum_points"))
+        );
+        $template->setVariable("VALUE_MAXIMUM_POINTS", ilLegacyFormElementsUtil::prepareFormOutput($max_points));
         
         if ($isPdfDeliveryRequest) {
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_PRINT_VIEW_QUESTIONS);
@@ -2511,9 +2512,11 @@ class ilObjTestGUI extends ilObjectGUI
             $max_points += $question_gui->object->getMaximumPoints();
         }
 
-        $template->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-        $template->setVariable("PRINT_TEST", ilUtil::prepareFormOutput($this->lng->txt("review_view")));
-        $template->setVariable("TXT_PRINT_DATE", ilUtil::prepareFormOutput($this->lng->txt("date")));
+        $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle()));
+        $template->setVariable("PRINT_TEST",
+            ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("review_view"))
+        );
+        $template->setVariable("TXT_PRINT_DATE", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("date")));
         $usedRelativeDates = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
         $template->setVariable(
@@ -2521,8 +2524,10 @@ class ilObjTestGUI extends ilObjectGUI
             ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
         );
         ilDatePresentation::setUseRelativeDates($usedRelativeDates);
-        $template->setVariable("TXT_MAXIMUM_POINTS", ilUtil::prepareFormOutput($this->lng->txt("tst_maximum_points")));
-        $template->setVariable("VALUE_MAXIMUM_POINTS", ilUtil::prepareFormOutput($max_points));
+        $template->setVariable("TXT_MAXIMUM_POINTS",
+            ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("tst_maximum_points"))
+        );
+        $template->setVariable("VALUE_MAXIMUM_POINTS", ilLegacyFormElementsUtil::prepareFormOutput($max_points));
 
         if ($isPdfDeliveryRequest) {
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_PRINT_VIEW_QUESTIONS);
@@ -3012,9 +3017,10 @@ class ilObjTestGUI extends ilObjectGUI
     
     public static function accessViolationRedirect()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate(); /* @var ILIAS\DI\Container $DIC */
         
-        ilUtil::sendInfo($DIC->language()->txt("no_permission"), true);
+        $main_tpl->setOnScreenMessage('info', $DIC->language()->txt("no_permission"), true);
         $DIC->ctrl()->redirectByClass('ilObjTestGUI', "infoScreen");
     }
     
@@ -3029,6 +3035,7 @@ class ilObjTestGUI extends ilObjectGUI
     public static function _goto($a_target)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
@@ -3042,7 +3049,7 @@ class ilObjTestGUI extends ilObjectGUI
             exit;
         //ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=$a_target");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(sprintf(
+            $main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);

@@ -349,7 +349,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
             case OQ_NESTED_TERMS:
             
                 $tpl->setCurrentBlock('item_text');
-                $tpl->setVariable("ITEM_CONTENT", ilUtil::prepareFormOutput($element['content']));
+                $tpl->setVariable("ITEM_CONTENT", ilLegacyFormElementsUtil::prepareFormOutput($element['content']));
                 $tpl->parseCurrentBlock();
                 break;
                 
@@ -373,7 +373,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
         $tpl->setCurrentBlock('item');
         $tpl->setVariable("ITEM_ID", $itemSubFieldId);
         $tpl->setVariable("ITEM_POSTVAR", $itemSubFieldPostVar);
-        $tpl->setVariable("ITEM_CONTENT", ilUtil::prepareFormOutput($element['content']));
+        $tpl->setVariable("ITEM_CONTENT", ilLegacyFormElementsUtil::prepareFormOutput($element['content']));
         $tpl->parseCurrentBlock();
 
         return $tpl->get();

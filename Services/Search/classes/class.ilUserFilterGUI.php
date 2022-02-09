@@ -93,9 +93,13 @@ class ilUserFilterGUI
         $tpl->setVariable("TXT_LASTNAME", $this->lng->txt('lastname'));
         $tpl->setVariable("BTN_REFRESH", $this->lng->txt('trac_refresh'));
 
-        $tpl->setVariable("QUERY", ilUtil::prepareFormOutput($this->filter->getQueryString('login')));
-        $tpl->setVariable("FIRSTNAME", ilUtil::prepareFormOutput($this->filter->getQueryString('firstname')));
-        $tpl->setVariable("LASTNAME", ilUtil::prepareFormOutput($this->filter->getQueryString('lastname')));
+        $tpl->setVariable("QUERY", ilLegacyFormElementsUtil::prepareFormOutput($this->filter->getQueryString('login')));
+        $tpl->setVariable("FIRSTNAME",
+            ilLegacyFormElementsUtil::prepareFormOutput($this->filter->getQueryString('firstname'))
+        );
+        $tpl->setVariable("LASTNAME",
+            ilLegacyFormElementsUtil::prepareFormOutput($this->filter->getQueryString('lastname'))
+        );
 
         return $tpl->get();
     }

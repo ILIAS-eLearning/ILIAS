@@ -171,22 +171,22 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         
         if (strlen($this->getTop())) {
             $a_tpl->setCurrentBlock("cssrect_value_top");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getTop()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getTop()));
             $a_tpl->parseCurrentBlock();
         }
         if (strlen($this->getBottom())) {
             $a_tpl->setCurrentBlock("cssrect_value_bottom");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getBottom()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getBottom()));
             $a_tpl->parseCurrentBlock();
         }
         if (strlen($this->getLeft())) {
             $a_tpl->setCurrentBlock("cssrect_value_left");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getLeft()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getLeft()));
             $a_tpl->parseCurrentBlock();
         }
         if (strlen($this->getRight())) {
             $a_tpl->setCurrentBlock("cssrect_value_right");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getRight()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getRight()));
             $a_tpl->parseCurrentBlock();
         }
         $a_tpl->setCurrentBlock("cssrect");

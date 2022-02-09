@@ -748,7 +748,7 @@ class ilObjWikiGUI extends ilObjectGUI
         if ($a_mode == "edit") {
             $pages = ilWikiPage::getAllWikiPages($this->object->getId());
             foreach ($pages as $p) {
-                $options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
+                $options[$p["id"]] = ilStr::shortenTextExtended($p["title"], 60, true);
             }
             $si = new ilSelectInputGUI($lng->txt("wiki_start_page"), "startpage_id");
             $si->setOptions($options);
@@ -1021,6 +1021,7 @@ class ilObjWikiGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -1069,7 +1070,7 @@ class ilObjWikiGUI extends ilObjectGUI
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -1500,7 +1501,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $options = array("" => $lng->txt("please_select"));
         foreach ($pages as $p) {
             if (!in_array($p["id"], $ipages_ids)) {
-                $options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
+                $options[$p["id"]] = ilStr::shortenTextExtended($p["title"], 60, true);
             }
         }
         if (count($options) > 0) {

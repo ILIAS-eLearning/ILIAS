@@ -1021,7 +1021,7 @@ abstract class assQuestionGUI
         } else {
             // author as hidden field
             $hi = new ilHiddenInputGUI("author");
-            $author = ilUtil::prepareFormOutput($this->object->getAuthor());
+            $author = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getAuthor());
             if (trim($author) == "") {
                 $author = "-";
             }
@@ -1259,7 +1259,11 @@ abstract class assQuestionGUI
                 $href = $this->object->getSuggestedSolutionPathWeb() . $solution_array["value"]["name"];
                 $template->setCurrentBlock("preview");
                 $template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
-                $template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . ilUtil::prepareFormOutput((strlen($solution_array["value"]["filename"])) ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]) . "</a> ");
+                $template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . ilLegacyFormElementsUtil::prepareFormOutput(
+                        (strlen(
+                            $solution_array["value"]["filename"]
+                        )) ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]
+                    ) . "</a> ");
                 $template->parseCurrentBlock();
             }
             $template->setVariable("TEXT_TYPE", $this->lng->txt("type"));
@@ -1287,7 +1291,7 @@ abstract class assQuestionGUI
                         $this->object->getSuggestedSolutionPath() . $_FILES["file"]["name"]
                     );
                     if ($res) {
-                        ilUtil::renameExecutables($this->object->getSuggestedSolutionPath());
+                        ilFileUtils::renameExecutables($this->object->getSuggestedSolutionPath());
                         
                         // remove an old file download
                         if (is_array($solution_array["value"])) {
@@ -1505,7 +1509,7 @@ abstract class assQuestionGUI
                     $this->ctrl->setParameter($this, $page['type'], $page['obj_id']);
                     $rows[] = array(
                         'title' => $page['title'],
-                        'description' => ilUtil::prepareFormOutput($path_str),
+                        'description' => ilLegacyFormElementsUtil::prepareFormOutput($path_str),
                         'text_add' => $this->lng->txt('add'),
                         'href_add' => $this->ctrl->getLinkTarget($this, 'add' . strtoupper($page['type']))
                     );

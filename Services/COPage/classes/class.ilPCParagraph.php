@@ -41,7 +41,35 @@ class ilPCParagraph extends ilPageContent
             "sup" => "Sup",
             "quot" => "Quotation",
             );
-
+    
+    /**
+    * converts a string of format var1 = "val1" var2 = "val2" ... into an array
+    *
+    * @param string $a_str string in format: var1 = "val1" var2 = "val2" ...
+    *
+    * @return    array        array of variable value pairs
+    * @static
+    *
+    */
+    public static function attribsToArray(string $a_str) : array
+    {
+        $attribs = [];
+        while (is_int(strpos($a_str, "="))) {
+            $eq_pos = strpos($a_str, "=");
+            $qu1_pos = strpos($a_str, "\"");
+            $qu2_pos = strpos(substr($a_str, $qu1_pos + 1), "\"") + $qu1_pos + 1;
+            if (is_int($eq_pos) && is_int($qu1_pos) && is_int($qu2_pos)) {
+                $var = trim(substr($a_str, 0, $eq_pos));
+                $val = trim(substr($a_str, $qu1_pos + 1, ($qu2_pos - $qu1_pos) - 1));
+                $attribs[$var] = $val;
+                $a_str = substr($a_str, $qu2_pos + 1);
+            } else {
+                $a_str = "";
+            }
+        }
+        return $attribs;
+    }
+    
     public function init() : void
     {
         global $DIC;
@@ -567,9 +595,9 @@ class ilPCParagraph extends ilPageContent
         }
         // external links
         while (preg_match("~\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
+            $attribs = self::attribsToArray($found[2]);
             if (isset($attribs["url"])) {
-                $a2 = ilUtil::attribsToArray($found[4]);
+                $a2 = self::attribsToArray($found[4]);
                 $tstr = "";
                 if (in_array($a2["target"], array("FAQ", "Glossary", "Media"))) {
                     $tstr = ' TargetFrame="' . $a2["target"] . '"';
@@ -593,14 +621,14 @@ class ilPCParagraph extends ilPageContent
         // anchor
         $ws = "[ \t\r\f\v\n]*";
         while (preg_match("~\[(anc$ws(name$ws=$ws\"([^\"])*\")$ws)\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
+            $attribs = self::attribsToArray($found[2]);
             $a_text = str_replace("[" . $found[1] . "]", "<Anchor Name=\"" . $attribs["name"] . "\">", $a_text);
         }
         $a_text = preg_replace("~\[\/anc\]~i", "</Anchor>", $a_text);
 
         // marked text
         while (preg_match("~\[(marked$ws(class$ws=$ws\"([^\"])*\")$ws)\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
+            $attribs = self::attribsToArray($found[2]);
             if (isset($attribs["class"])) {
                 $a_text = str_replace("[" . $found[1] . "]", "<Marked Class=\"" . $attribs["class"] . "\">", $a_text);
             } else {
@@ -638,7 +666,7 @@ class ilPCParagraph extends ilPageContent
         while (preg_match('~\[(iln' . $ws . '((inst' . $ws . '=' . $ws . '([\"0-9])*)?' . $ws .
             "((" . $ltypes . ")$ws=$ws([\"0-9])*)$ws" .
             "(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
+            $attribs = self::attribsToArray($found[2]);
             $inst_str = $attribs["inst"] ?? "";
             // pages
             if (isset($attribs["page"])) {
@@ -763,7 +791,7 @@ class ilPCParagraph extends ilPageContent
         }
 
         while (preg_match("~\[(iln$ws((inst$ws=$ws([\"0-9])*)?" . $ws . "media$ws=$ws([\"0-9])*)$ws)/\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
+            $attribs = self::attribsToArray($found[2]);
             $inst_str = $attribs["inst"] ?? "";
             $a_text = preg_replace(
                 '~\[' . $found[1] . '/\]~i',
@@ -774,7 +802,7 @@ class ilPCParagraph extends ilPageContent
 
         // user
         while (preg_match("~\[(iln$ws((inst$ws=$ws([\"0-9])*)?" . $ws . "user$ws=$ws(\"([^\"])*)\")$ws)/\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
+            $attribs = self::attribsToArray($found[2]);
             $inst_str = $attribs["inst"] ?? "";
             $user_id = ilObjUser::_lookupId($attribs['user']);
             $a_text = preg_replace(
@@ -1003,7 +1031,7 @@ class ilPCParagraph extends ilPageContent
 
         // internal links
         while (preg_match('~<IntLink(' . $any . ')>~i', $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[1]);
+            $attribs = self::attribsToArray($found[1]);
             $target = explode("_", $attribs["Target"]);
             $target_id = $target[count($target) - 1];
             $inst_str = (!is_int(strpos($attribs["Target"], "__")))
@@ -1083,7 +1111,7 @@ class ilPCParagraph extends ilPageContent
 
         // external links
         while (preg_match('~<ExtLink(' . $any . ')>~i', $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[1]);
+            $attribs = self::attribsToArray($found[1]);
             //$found[1] = str_replace("?", "\?", $found[1]);
             $tstr = "";
             if (in_array(($attribs["TargetFrame"] ?? ""), array("FAQ", "Glossary", "Media"))) {
@@ -1095,18 +1123,18 @@ class ilPCParagraph extends ilPageContent
 
         // anchor
         while (preg_match('~<Anchor(' . $any . '/)>~i', $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[1]);
+            $attribs = self::attribsToArray($found[1]);
             $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . $attribs["Name"] . "\"][/anc]", $a_text);
         }
         while (preg_match('~<Anchor(' . $any . ')>~i', $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[1]);
+            $attribs = self::attribsToArray($found[1]);
             $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . $attribs["Name"] . "\"]", $a_text);
         }
         $a_text = str_replace("</Anchor>", "[/anc]", $a_text);
 
         // marked text
         while (preg_match('~<Marked(' . $any . ')>~i', $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[1]);
+            $attribs = self::attribsToArray($found[1]);
             $a_text = str_replace("<Marked" . $found[1] . ">", "[marked class=\"" . $attribs["Class"] . "\"]", $a_text);
         }
         $a_text = str_replace("</Marked>", "[/marked]", $a_text);
@@ -1526,7 +1554,7 @@ class ilPCParagraph extends ilPageContent
                 // external links
                 $any = "[^>]*";
                 while (preg_match('~<ilMarked(' . $any . ')>~i', $text, $found)) {
-                    $attribs = ilUtil::attribsToArray($found[1]);
+                    $attribs = self::attribsToArray($found[1]);
                     $text = str_replace("<ilMarked" . $found[1] . ">", "[marked class=\"" . $attribs["Class"] . "\"]", $text);
                 }
                 $text = str_replace("</ilMarked>", "[/marked]", $text);
@@ -1666,7 +1694,7 @@ class ilPCParagraph extends ilPageContent
         foreach ($a_terms as $k => $t) {
             $a_terms[$k]["termlength"] = strlen($t["term"]);
         }
-        $a_terms = ilUtil::sortArray($a_terms, "termlength", "asc", true);
+        $a_terms = ilArrayUtil::sortArray($a_terms, "termlength", "asc", true);
 
 
         if ($a_dom instanceof php4DOMDocument) {

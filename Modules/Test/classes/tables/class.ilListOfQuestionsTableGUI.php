@@ -123,7 +123,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
         if (strlen($a_set['description'])) {
             $this->tpl->setCurrentBlock('description');
-            $this->tpl->setVariable("DESCRIPTION", ilUtil::prepareFormOutput($a_set['description']));
+            $this->tpl->setVariable("DESCRIPTION", ilLegacyFormElementsUtil::prepareFormOutput($a_set['description']));
             $this->tpl->parseCurrentBlock();
         }
         if ($this->isShowMarkerEnabled()) {
@@ -163,7 +163,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         
         if ($a_set['disabled']) {
             $this->tpl->setCurrentBlock('static_title');
-            $this->tpl->setVariable("STATIC_TITLE", ilUtil::prepareFormOutput($a_set['title']));
+            $this->tpl->setVariable("STATIC_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
             $this->tpl->parseCurrentBlock();
         } else {
             $this->ctrl->setParameter($this->parent_obj, 'sequence', $a_set['sequence']);
@@ -171,7 +171,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             $href = $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION);
             
             $this->tpl->setCurrentBlock('linked_title');
-            $this->tpl->setVariable("LINKED_TITLE", ilUtil::prepareFormOutput($a_set['title']));
+            $this->tpl->setVariable("LINKED_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
             $this->tpl->setVariable("HREF", $href);
             $this->tpl->parseCurrentBlock();
         }

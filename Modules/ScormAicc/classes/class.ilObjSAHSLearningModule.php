@@ -1394,7 +1394,7 @@ class ilObjSAHSLearningModule extends ilObject
             $a_dir = $a_dir."/sahs_".$match[1];
         }*/
         ilFileUtils::rCopy($a_dir, $this->getDataDirectory());
-        ilUtil::renameExecutables($this->getDataDirectory());
+        ilFileUtils::renameExecutables($this->getDataDirectory());
     }
 
     /**

@@ -382,13 +382,17 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
                 case "mark":
                     if (!$has_no_team_yet) {
-                        $this->tpl->setVariable("VAL_" . strtoupper($col), ilUtil::prepareFormOutput(trim($a_row[$col])));
+                        $this->tpl->setVariable("VAL_" . strtoupper($col),
+                            ilLegacyFormElementsUtil::prepareFormOutput(trim($a_row[$col]))
+                        );
                     }
                     break;
 
                 case "notice":
                     // see #22076
-                    $this->tpl->setVariable("VAL_" . strtoupper($col), ilUtil::prepareFormOutput(trim($a_row[$col])));
+                    $this->tpl->setVariable("VAL_" . strtoupper($col),
+                        ilLegacyFormElementsUtil::prepareFormOutput(trim($a_row[$col]))
+                    );
                     break;
                     
                 case "comment":

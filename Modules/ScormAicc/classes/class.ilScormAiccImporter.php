@@ -101,7 +101,7 @@ class ilScormAiccImporter extends ilXmlImporter
                             ilFileUtils::unzip($file_path);
                             unlink($file_path);
                             ilFileUtils::delDir($lmTempDir, false);
-                            ilUtil::renameExecutables($newObj->getDataDirectory());
+                            ilFileUtils::renameExecutables($newObj->getDataDirectory());
 
                             $newId = $newObj->getRefId();
                             // $newObj->putInTree($newId);

@@ -1715,7 +1715,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     public function uploadMultipleSubtitleFileObject() : void
     {
         try {
-            $this->object->uploadMultipleSubtitleFile(ilUtil::stripSlashesArray($_FILES["subtitle_file"]));
+            $this->object->uploadMultipleSubtitleFile(ilArrayUtil::stripSlashesArray($_FILES["subtitle_file"]));
             $this->ctrl->redirect($this, "showMultiSubtitleConfirmationTable");
         } catch (ilMediaObjectsException $e) {
             $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);

@@ -122,7 +122,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
             $materials[] = $node;
         }
 
-        $materials = ilUtil::sortArray($materials, "sorthash", "ASC");
+        $materials = ilArrayUtil::sortArray($materials, "sorthash", "ASC");
 
         if (!empty($this->filter)) {
             $materials = $this->filterData($materials);

@@ -126,7 +126,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         // suitable for self assessment or not)
         $all_types = ilObjQuestionPool::_getSelfAssessmentQuestionTypes();
         $options = array();
-        $all_types = ilUtil::sortArray($all_types, "order", "asc", true, true);
+        $all_types = ilArrayUtil::sortArray($all_types, "order", "asc", true, true);
 
         foreach ($all_types as $k => $v) {
             $options[$v["type_tag"]] = $k;

@@ -388,7 +388,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
             if ($this->getDisabled()) {
                 $ttpl->setVariable('DISABLED', 'disabled="disabled" ');
             }
-            $ttpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+            $ttpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
         
             if ($this->getRequired()) {
                 $ttpl->setVariable("REQUIRED", "required=\"required\"");

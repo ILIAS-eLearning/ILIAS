@@ -400,7 +400,7 @@ class ilInitialisation
             $path = dirname($rq_uri);
 
             // dirname cuts the last directory from a directory path e.g content/classes return content
-            $module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
+            $module = ilFileUtils::removeTrailingPathSeparators(ILIAS_MODULE);
 
             $dirs = explode('/', $module);
             $uri = $path;
@@ -412,7 +412,7 @@ class ilInitialisation
         $iliasHttpPath = ilContext::modifyHttpPath(implode('', [$protocol, $host, $uri]));
 
         $f = new \ILIAS\Data\Factory();
-        $uri = $f->uri(ilUtil::removeTrailingPathSeparators($iliasHttpPath));
+        $uri = $f->uri(ilFileUtils::removeTrailingPathSeparators($iliasHttpPath));
 
         return define('ILIAS_HTTP_PATH', $uri->getBaseURI());
     }
@@ -424,6 +424,7 @@ class ilInitialisation
     protected static function determineClient() : void
     {
         global $ilIliasIniFile, $DIC;
+        $df = new \ILIAS\Data\Factory;
 
         // check whether ini file object exists
         if (!is_object($ilIliasIniFile)) {
@@ -436,7 +437,8 @@ class ilInitialisation
             $client_id = (string) $_GET['client_id'];
         }
         if (strlen($client_id) > 0) {
-            $client_id = $_GET['client_id'] = \ilUtil::getClientIdByString($client_id)->toString();
+            
+            $client_id = $_GET['client_id'] = $df->clientId($client_id)->toString();
             if (!defined('IL_PHPUNIT_TEST')) {
                 if (ilContext::supportsPersistentSessions()) {
                     ilUtil::setCookie('ilClientId', $client_id);
@@ -451,8 +453,8 @@ class ilInitialisation
         } else {
             $clientId = $client_id;
         }
-
-        define('CLIENT_ID', \ilUtil::getClientIdByString((string) $clientId)->toString());
+        
+        define('CLIENT_ID', $df->clientId($clientId)->toString());
     }
 
     /**

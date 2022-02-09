@@ -1009,11 +1009,18 @@ class ilLDAPSettingsGUI
     
     private function prepareMappingSelect()
     {
-        return ilUtil::formSelect($_POST['mapping_template'], 'mapping_template', array(0 => $this->lng->txt('ldap_mapping_template'),
-                                                    "inetOrgPerson" => 'inetOrgPerson',
-                                                    "organizationalPerson" => 'organizationalPerson',
-                                                    "person" => 'person',
-                                                    "ad_2003" => 'Active Directory (Win 2003)'), false, true);
+        return ilLegacyFormElementsUtil::formSelect(
+            $_POST['mapping_template'],
+            'mapping_template',
+            [0 => $this->lng->txt('ldap_mapping_template'),
+             "inetOrgPerson" => 'inetOrgPerson',
+             "organizationalPerson" => 'organizationalPerson',
+             "person" => 'person',
+             "ad_2003" => 'Active Directory (Win 2003)'
+            ],
+            false,
+            true
+        );
     }
     
     /**

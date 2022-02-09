@@ -356,6 +356,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     public static function _goto($a_target)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -376,13 +377,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         }
 
-        ilUtil::sendFailure(
-            sprintf(
-                $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-            ),
-            true
-        );
+        $main_tpl->setOnScreenMessage('failure', sprintf(
+            $lng->txt("msg_no_perm_read_item"),
+            ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+        ), true);
         ilObjectGUI::_gotoRepositoryRoot();
     }
 

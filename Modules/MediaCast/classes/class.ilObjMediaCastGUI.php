@@ -674,7 +674,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $locationType = "LocalFile";
             $location = $title;
             ilFileUtils::moveUploadedFile($_FILES['file_' . $purpose]['tmp_name'], $file_name, $file);
-            ilUtil::renameExecutables($mob_dir);
+            ilFileUtils::renameExecutables($mob_dir);
         }
         
         // check if not automatic mimetype detection
@@ -1262,6 +1262,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -1273,7 +1274,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ));

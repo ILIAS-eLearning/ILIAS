@@ -766,7 +766,7 @@ class ilSCORM13Package
                     // alex: fixed media import: these lines have been
                     // behind the next curly bracket which makes it fail
                     // when no medianode is given. (id=0 -> fatal error)
-                    ilUtil::renameExecutables($mob_dir);
+                    ilFileUtils::renameExecutables($mob_dir);
                     $media_object->update(true);
                     $ttnode ["OriginId"] = "il__mob_" . $media_object->getId();
                 }

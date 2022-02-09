@@ -193,14 +193,14 @@ class ilQueryParser
                 continue;
             }
             
-            $this->words[] = ilUtil::prepareDBString($word);
+            $this->words[] = addslashes($word);
         }
         
         $fullstr = trim($this->getQueryString());
         if (!in_array($fullstr, $this->words)) {
-            $this->words[] = ilUtil::prepareDBString($fullstr);
+            $this->words[] = addslashes($fullstr);
         }
-                
+        
         if (!$this->getAllowedWildcards()) {
             // #14768
             foreach ($this->words as $idx => $word) {
@@ -228,7 +228,7 @@ class ilQueryParser
         $query_str = $this->getQueryString();
         while (preg_match("/\".*?\"/", $query_str, $matches)) {
             $query_str = str_replace($matches[0], '', $query_str);
-            $this->quoted_words[] = ilUtil::prepareDBString($matches[0]);
+            $this->quoted_words[] = addslashes($matches[0]);
         }
 
         // Parse the rest
@@ -238,9 +238,9 @@ class ilQueryParser
                 continue;
             }
             
-            $this->quoted_words[] = ilUtil::prepareDBString($word);
+            $this->quoted_words[] = addslashes($word);
         }
-                        
+        
         if (!$this->getAllowedWildcards()) {
             // #14768
             foreach ($this->quoted_words as $idx => $word) {

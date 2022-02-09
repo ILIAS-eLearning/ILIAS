@@ -904,7 +904,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $cgui->setConfirm($lng->txt("delete"), "deleteColor");
             
             foreach ($colors as $c) {
-                $cgui->addItem("color[]", ilUtil::prepareFormOutput($c), $c);
+                $cgui->addItem("color[]", ilLegacyFormElementsUtil::prepareFormOutput($c), $c);
             }
             
             $tpl->setContent($cgui->getHTML());

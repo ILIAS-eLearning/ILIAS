@@ -280,8 +280,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     $alt = $answer->getAnswertext();
                 }
                 $alt = preg_replace("/<[^>]*?>/", "", $alt);
-                $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                 $template->parseCurrentBlock();
             }
             if ($show_feedback) {
@@ -366,8 +366,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 } else {
                     $template->setCurrentBlock("answer_image");
@@ -379,8 +379,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
                     $template->setVariable("ATTR", $attr);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 }
             }
@@ -452,8 +452,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 } else {
                     $template->setCurrentBlock("answer_image");
@@ -465,8 +465,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
                     $template->setVariable("ATTR", $attr);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 }
             }

@@ -2298,7 +2298,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         foreach ($keywords as $keyword => $counter) {
             $tmp[] = array("keyword" => $keyword, "counter" => $counter);
         }
-        $tmp = ilUtil::sortArray($tmp, "keyword", "ASC");
+        $tmp = ilArrayUtil::sortArray($tmp, "keyword", "ASC");
         
         $keywords = array();
         foreach ($tmp as $item) {

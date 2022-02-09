@@ -266,7 +266,7 @@ class ilInfoScreenGUI
     ) : void {
         $input = "<span class=\"form-inline\"><input class=\"form-control\" type=\"text\" name=\"$a_input_name\" id=\"$a_input_name\"";
         if (strlen($a_input_value)) {
-            $input .= " value=\"" . ilUtil::prepareFormOutput($a_input_value) . "\"";
+            $input .= " value=\"" . ilLegacyFormElementsUtil::prepareFormOutput($a_input_value) . "\"";
         }
         if (strlen($a_input_size)) {
             $input .= " size=\"" . $a_input_size . "\"";
@@ -1135,7 +1135,7 @@ class ilInfoScreenGUI
             for ($i = 0; $i < count($conditions); $i++) {
                 $conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
             }
-            $conditions = ilUtil::sortArray($conditions, 'title', 'DESC');
+            $conditions = ilArrayUtil::sortArray($conditions, 'title', 'DESC');
 
             // Show obligatory and optional preconditions seperated
             $this->addPreconditionSection($obj, $conditions, true);

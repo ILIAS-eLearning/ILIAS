@@ -63,7 +63,11 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
     {
         $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set['tstamp'], IL_CAL_UNIX)));
         $user = ilObjUser::_lookupName($a_set["user_fi"]);
-        $this->tpl->setVariable("USER", ilUtil::prepareFormOutput(trim($user["title"] . " " . $user["firstname"] . " " . $user["lastname"])));
+        $this->tpl->setVariable("USER",
+            ilLegacyFormElementsUtil::prepareFormOutput(
+                trim($user["title"] . " " . $user["firstname"] . " " . $user["lastname"])
+            )
+        );
         $title = "";
         if ($a_set["question_fi"] || $a_set["original_fi"]) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -73,7 +77,7 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
             }
             $title = $this->lng->txt("assessment_log_question") . ": " . $title;
         }
-        $this->tpl->setVariable("MESSAGE", ilUtil::prepareFormOutput($a_set['logtext']) . ((strlen($title)) ?  " (" . $title . ")" : ''));
+        $this->tpl->setVariable("MESSAGE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['logtext']) . ((strlen($title)) ?  " (" . $title . ")" : ''));
 
         if (strlen($a_set['location_href']) > 0 && strlen($a_set['location_txt']) > 0) {
             $this->tpl->setVariable("LOCATION_HREF", $a_set['location_href']);

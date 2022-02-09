@@ -44,8 +44,12 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
 
         $this->placeholder = array_merge($defaultPlaceholderDescription, $customUserFieldsPlaceholderHtmlDescription);
         $this->placeholder['COURSE_TITLE'] = $this->language->txt('crs_title');
-        $this->placeholder['DATE_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_date_completed'));
-        $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
+        $this->placeholder['DATE_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_ph_date_completed')
+        );
+        $this->placeholder['DATETIME_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_ph_datetime_completed')
+        );
     }
 
     public function createPlaceholderHtmlDescription(?ilTemplate $template = null) : string

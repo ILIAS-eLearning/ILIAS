@@ -569,7 +569,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         if (is_array($subobj)) {
             //build form
-            $opts = ilUtil::formSelect(
+            $opts = ilLegacyFormElementsUtil::formSelect(
                 12,
                 "new_type",
                 $subobj
@@ -3121,7 +3121,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $action[6] = $this->lng->txt("usr_filter_groupmember");
         $action[7] = $this->lng->txt("usr_filter_role");
 
-        return ilUtil::formSelect(
+        return ilLegacyFormElementsUtil::formSelect(
             ilSession::get("user_filter"),
             "user_filter",
             $action,
@@ -3830,6 +3830,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public static function _goto(int $a_user) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
@@ -3850,13 +3851,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 "",
                 ROOT_FOLDER_ID
             )) {
-                ilUtil::sendFailure(
-                    sprintf(
-                        $lng->txt("msg_no_perm_read_item"),
-                        ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-                    ),
-                    true
-                );
+                $main_tpl->setOnScreenMessage('failure', sprintf(
+                    $lng->txt("msg_no_perm_read_item"),
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ), true);
                 ilObjectGUI::_gotoRepositoryRoot();
             }
         }

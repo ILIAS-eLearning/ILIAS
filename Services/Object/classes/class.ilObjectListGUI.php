@@ -2045,7 +2045,7 @@ class ilObjectListGUI
             for ($i = 0; $i < count($conditions); $i++) {
                 $conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
             }
-            $conditions = ilUtil::sortArray($conditions, 'title', 'DESC');
+            $conditions = ilArrayUtil::sortArray($conditions, 'title', 'DESC');
         
             ++self::$js_unique_id;
 

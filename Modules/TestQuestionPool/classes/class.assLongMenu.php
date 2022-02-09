@@ -726,7 +726,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     public function getSolutionSubmit() : array
     {
         $solutionSubmit = array();
-        $answer = ilUtil::stripSlashesRecursive($_POST['answer']);
+        $answer = ilArrayUtil::stripSlashesRecursive($_POST['answer']);
         
         foreach ($answer as $key => $value) {
             $solutionSubmit[$key] = $value;

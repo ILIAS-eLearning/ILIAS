@@ -1237,7 +1237,7 @@ class ilObjMediaObject extends ilObject
             $a_height . "." . $file_path["extension"];
         $target_file = $file_path["dirname"] . "/" .
             $location;
-        ilUtil::resizeImage(
+        ilShellUtil::resizeImage(
             $a_file,
             $target_file,
             $a_width,
@@ -1472,7 +1472,7 @@ class ilObjMediaObject extends ilObject
         $m_dir = ilObjMediaObject::_getDirectory($this->getId());
         $t_dir = ilObjMediaObject::_getThumbnailDirectory($this->getId());
         self::_createThumbnailDirectory($this->getId());
-        ilUtil::convertImage(
+        ilShellUtil::convertImage(
             $m_dir . "/" . $a_file,
             $t_dir . "/" . $a_thumbname,
             $a_format,
@@ -1649,14 +1649,14 @@ class ilObjMediaObject extends ilObject
                 $file = $dir . "/" .
                     $item->getLocation();
                 if (is_file($file)) {
-                    if (ilUtil::isConvertVersionAtLeast("6.3.8-3")) {
-                        ilUtil::execConvert(
-                            ilUtil::escapeShellArg(
+                    if (ilShellUtil::isConvertVersionAtLeast("6.3.8-3")) {
+                        ilShellUtil::execConvert(
+                            ilShellUtil::escapeShellArg(
                                 $file
                             ) . "[0] -geometry " . $a_width . "x" . $a_height . "^ -gravity center -extent " . $a_width . "x" . $a_height . " PNG:" . $dir . "/mob_vpreview.png"
                         );
                     } else {
-                        ilUtil::convertImage($file, $dir . "/mob_vpreview.png", "PNG", $a_width . "x" . $a_height);
+                        ilShellUtil::convertImage($file, $dir . "/mob_vpreview.png", "PNG", $a_width . "x" . $a_height);
                     }
                 }
             }
@@ -1796,9 +1796,9 @@ class ilObjMediaObject extends ilObject
     public static function renameExecutables(
         string $a_dir
     ) : void {
-        ilUtil::renameExecutables($a_dir);
+        ilFileUtils::renameExecutables($a_dir);
         if (!self::isTypeAllowed("html")) {
-            ilUtil::rRenameSuffix($a_dir, "html", "sec");        // see #20187
+            ilFileUtils::rRenameSuffix($a_dir, "html", "sec");        // see #20187
         }
     }
 }

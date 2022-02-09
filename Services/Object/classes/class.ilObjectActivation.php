@@ -734,9 +734,9 @@ class ilObjectActivation
                 $active[] = $item;
             }
         }
-        $active = \ilUtil::sortArray($active, 'suggestion_start', 'asc');
-        $availability = \ilUtil::sortArray($availability, 'timing_start', 'asc');
-        $inactive = \ilUtil::sortArray($inactive, 'title', 'asc');
+        $active = ilArrayUtil::sortArray($active, 'suggestion_start', 'asc');
+        $availability = ilArrayUtil::sortArray($availability, 'timing_start', 'asc');
+        $inactive = ilArrayUtil::sortArray($inactive, 'title', 'asc');
 
         $items = array_merge($active, $availability, $inactive);
         return $items;

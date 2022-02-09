@@ -129,14 +129,14 @@ class ilExportIDTableGUI extends ilTable2GUI
             }
             $this->tpl->setVariable(
                 "EXPORT_ID",
-                ilUtil::prepareFormOutput(
+                ilLegacyFormElementsUtil::prepareFormOutput(
                     ilUtil::stripSlashes($req_export_ids[$a_set["obj_id"]])
                 )
             );
         } else {
             $this->tpl->setVariable(
                 "EXPORT_ID",
-                ilUtil::prepareFormOutput($exp_id)
+                ilLegacyFormElementsUtil::prepareFormOutput($exp_id)
             );
         }
 

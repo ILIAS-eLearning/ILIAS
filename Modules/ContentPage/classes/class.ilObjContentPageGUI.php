@@ -99,6 +99,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     public static function _goto(string $target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $targetAttributes = explode('_', $target);
         $refId = (int) $targetAttributes[0];
@@ -117,7 +118,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         } elseif ($DIC->access()->checkAccess('visible', '', $refId)) {
             ilObjectGUI::_gotoRepositoryNode($refId, 'infoScreen');
         } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(sprintf(
+            $main_tpl->setOnScreenMessage('info', sprintf(
                 $DIC->language()->txt('msg_no_perm_read_item'),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($refId))
             ), true);

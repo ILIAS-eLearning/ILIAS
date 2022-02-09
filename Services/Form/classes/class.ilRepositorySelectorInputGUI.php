@@ -181,7 +181,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("ID", $this->getFieldId());
-        $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+        $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
         $tpl->setVariable("TXT_SELECT", $this->getSelectText());
         $tpl->setVariable("TXT_RESET", $lng->txt("reset"));
         switch ($a_mode) {

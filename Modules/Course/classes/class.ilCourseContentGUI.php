@@ -57,7 +57,144 @@ class ilCourseContentGUI
 
         $this->__initCourseObject();
     }
-
+    
+    /**
+    * Creates a combination of HTML selects for date inputs
+    *
+    * Creates a combination of HTML selects for date inputs
+    * The select names are $prefix[y] for years, $prefix[m]
+    * for months and $prefix[d] for days.
+    *
+    * @access	public
+    * @param	string	$prefix Prefix of the select name
+    * @param	integer	$year Default value for year select
+    * @param	integer	$month Default value for month select
+    * @param	integer	$day Default value for day select
+    * @return	string	HTML select boxes
+    * @author	Aresch Yavari <ay@databay.de>
+    * @author Helmut Schottmüller <hschottm@tzi.de>
+    * @static
+    *
+    */
+    public static function makeDateSelect(
+        $prefix,
+        $year = "",
+        $month = "",
+        $day = "",
+        $startyear = "",
+        $a_long_month = true,
+        $a_further_options = [],
+        $emptyoption = false
+    ) {
+        global $DIC;
+        
+        $lng = $DIC->language();
+        
+        $disabled = '';
+        if (isset($a_further_options['disabled']) and $a_further_options['disabled']) {
+            $disabled = 'disabled="disabled" ';
+        }
+        
+        $now = getdate();
+        if (!$emptyoption) {
+            if (!strlen($year)) {
+                $year = $now["year"];
+            }
+            if (!strlen($month)) {
+                $month = $now["mon"];
+            }
+            if (!strlen($day)) {
+                $day = $now["mday"];
+            }
+        }
+        
+        $year = (int) $year;
+        $month = (int) $month;
+        $day = (int) $day;
+        
+        // build day select
+        
+        $sel_day .= '<select class="form-control" ';
+        if (isset($a_further_options['select_attributes'])) {
+            foreach ($a_further_options['select_attributes'] as $name => $value) {
+                $sel_day .= ($name . '="' . $value . '" ');
+            }
+        }
+        
+        $sel_day .= $disabled . "name=\"" . $prefix . "[d]\" id=\"" . $prefix . "_d\">\n";
+        
+        if ($emptyoption) {
+            $sel_day .= "<option value=\"0\">--</option>\n";
+        }
+        for ($i = 1; $i <= 31; $i++) {
+            $sel_day .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
+        }
+        $sel_day .= "</select>\n";
+        $sel_day = preg_replace("/(value\=\"$day\")/", "$1 selected=\"selected\"", $sel_day);
+        
+        // build month select
+        $sel_month = '<select class="form-control" ';
+        if (isset($a_further_options['select_attributes'])) {
+            foreach ($a_further_options['select_attributes'] as $name => $value) {
+                $sel_month .= ($name . '="' . $value . '" ');
+            }
+        }
+        $sel_month .= $disabled . "name=\"" . $prefix . "[m]\" id=\"" . $prefix . "_m\">\n";
+        
+        if ($emptyoption) {
+            $sel_month .= "<option value=\"0\">--</option>\n";
+        }
+        for ($i = 1; $i <= 12; $i++) {
+            if ($a_long_month) {
+                $sel_month .= "<option value=\"$i\">" . $lng->txt(
+                        "month_" . sprintf("%02d", $i) . "_long"
+                    ) . "</option>\n";
+            } else {
+                $sel_month .= "<option value=\"$i\">" . $i . "</option>\n";
+            }
+        }
+        $sel_month .= "</select>\n";
+        $sel_month = preg_replace("/(value\=\"$month\")/", "$1 selected=\"selected\"", $sel_month);
+        
+        // build year select
+        $sel_year = '<select class="form-control" ';
+        if (isset($a_further_options['select_attributes'])) {
+            foreach ($a_further_options['select_attributes'] as $name => $value) {
+                $sel_year .= ($name . '="' . $value . '" ');
+            }
+        }
+        $sel_year .= $disabled . "name=\"" . $prefix . "[y]\" id=\"" . $prefix . "_y\">\n";
+        if ((strlen($startyear) == 0) || ($startyear > $year)) {
+            if (!$emptyoption || $year != 0) {
+                $startyear = $year - 5;
+            }
+        }
+        
+        if (($year + 5) < (date('Y', time()) + 5)) {
+            $end_year = date('Y', time()) + 5;
+        } else {
+            $end_year = $year + 5;
+        }
+        
+        if ($emptyoption) {
+            $sel_year .= "<option value=\"0\">----</option>\n";
+        }
+        for ($i = $startyear; $i <= $end_year; $i++) {
+            $sel_year .= "<option value=\"$i\">" . sprintf("%04d", $i) . "</option>\n";
+        }
+        $sel_year .= "</select>\n";
+        $sel_year = preg_replace("/(value\=\"$year\")/", "$1 selected=\"selected\"", $sel_year);
+        
+        //$dateformat = $lng->text["lang_dateformat"];
+        $dateformat = "d-m-Y";
+        $dateformat = strtolower(preg_replace("/\W/", "", $dateformat));
+        $dateformat = strtolower(preg_replace("/(\w)/", "%%$1", $dateformat));
+        $dateformat = preg_replace("/%%d/", $sel_day, $dateformat);
+        $dateformat = preg_replace("/%%m/", $sel_month, $dateformat);
+        $dateformat = preg_replace("/%%y/", $sel_year, $dateformat);
+        return $dateformat;
+    }
+    
     public function executeCommand()
     {
         global $DIC;
@@ -634,7 +771,7 @@ class ilCourseContentGUI
             $date = $this->__prepareDateSelect($start);
             $this->tpl->setVariable(
                 "SUG_START",
-                ilUtil::makeDateSelect(
+                self::makeDateSelect(
                     $item_prefix . "[sug_start]",
                     $date['y'],
                     $date['m'],
@@ -657,7 +794,7 @@ class ilCourseContentGUI
             $date = $this->__prepareDateSelect($end);
             $this->tpl->setVariable(
                 "LIM_END",
-                ilUtil::makeDateSelect(
+                self::makeDateSelect(
                     $item_prefix . "[lim_end]",
                     $date['y'],
                     $date['m'],
@@ -799,7 +936,7 @@ class ilCourseContentGUI
 
         $this->tpl->setCurrentBlock("container_standard_row");
 
-        $this->tpl->setVariable('TYPE_IMG', ilUtil::getTypeIconPath($item['type'], $item['obj_id'], 'tiny'));
+        $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon($item['obj_id'], 'tiny', $item['type']));
         $this->tpl->setVariable("TYPE_ALT_IMG", $this->lng->txt('obj_' . $item['type']));
 
         if ($item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) {
@@ -992,7 +1129,7 @@ class ilCourseContentGUI
             $this->tpl->setVariable("ROWCLASS", 'tblrowmarked');
         }
 
-        $this->tpl->setVariable('TYPE_IMG', ilUtil::getTypeIconPath($item['type'], $item['obj_id'], 'small'));
+        $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon($item['obj_id'], 'small', $item['type']));
         $this->tpl->setVariable("TYPE_ALT_IMG", $this->lng->txt('obj_' . $item['type']));
 
 
@@ -1018,7 +1155,7 @@ class ilCourseContentGUI
             $date = $this->__prepareDateSelect($start);
             $this->tpl->setVariable(
                 "OWN_START",
-                ilUtil::makeDateSelect(
+                self::makeDateSelect(
                     $item_prefix . "[own_start]",
                     $date['y'],
                     $date['m'],

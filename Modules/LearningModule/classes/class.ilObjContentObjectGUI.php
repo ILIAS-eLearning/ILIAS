@@ -2292,7 +2292,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->tpl->setVariable("TXT_SET_PUBLIC_MODE", $this->lng->txt("set_public_mode"));
         $this->tpl->setVariable("TXT_CHOOSE_PUBLIC_MODE", $this->lng->txt("choose_public_mode"));
         $modes = array("complete" => $this->lng->txt("all_pages"), "selected" => $this->lng->txt("selected_pages_only"));
-        $select_public_mode = ilUtil::formSelect($this->lm->getPublicAccessMode(), "lm_public_mode", $modes, false, true);
+        $select_public_mode = ilLegacyFormElementsUtil::formSelect(
+            $this->lm->getPublicAccessMode(),
+            "lm_public_mode",
+            $modes,
+            false,
+            true
+        );
         $this->tpl->setVariable("SELECT_PUBLIC_MODE", $select_public_mode);
 
         $this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("choose_public_pages"));
@@ -2451,6 +2457,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $ilErr = $DIC["ilErr"];
@@ -2464,7 +2471,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $ctrl->setParameterByClass("ilLMPresentationGUI", "ref_id", $a_target);
             $ctrl->redirectByClass("ilLMPresentationGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -2919,7 +2926,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-            
+        
         $cgui = new ilConfirmationGUI();
         $ilCtrl->setParameter($this, "glo_ref_id", $this->requested_root_id);
         $cgui->setFormAction($ilCtrl->getFormAction($this));

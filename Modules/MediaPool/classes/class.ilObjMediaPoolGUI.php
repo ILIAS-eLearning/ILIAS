@@ -1564,6 +1564,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -1583,7 +1584,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         } elseif ($ilAccess->checkAccess("visible", "", $ref_id)) {
             $ctrl->redirectByClass("ilMediaPoolPresentationGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -1723,7 +1724,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $file = $mob_dir . "/" . basename($fullpath);
 
                 // virus handling
-                $vir = ilUtil::virusHandling($fullpath, basename($fullpath));
+                $vir = ilVirusScanner::virusHandling($fullpath, basename($fullpath));
                 if (!$vir[0]) {
                     $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("file_is_infected") . "<br />" . $vir[1], true);
                     ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&cmd=listMedia&ref_id=" .
@@ -1766,7 +1767,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $media_item->setHeight($wh["height"]);
 
                 $media_item->setHAlign("Left");
-                ilUtil::renameExecutables($mob_dir);
+                ilFileUtils::renameExecutables($mob_dir);
                 $mob->update();
 
 

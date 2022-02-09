@@ -188,7 +188,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 }
                 $this->tpl->setVariable(
                     "SEL_MONTHS",
-                    ilUtil::formSelect($mon, 'tlt[' . $a_set['id'] . '][mo]', $options, false, true)
+                    ilLegacyFormElementsUtil::formSelect($mon, 'tlt[' . $a_set['id'] . '][mo]', $options, false, true)
                 );
 
                 for ($i = 0; $i <= 31; $i++) {
@@ -196,17 +196,19 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 }
                 $this->tpl->setVariable(
                     "SEL_DAYS",
-                    ilUtil::formSelect($day, 'tlt[' . $a_set['id'] . '][d]', $options, false, true)
+                    ilLegacyFormElementsUtil::formSelect($day, 'tlt[' . $a_set['id'] . '][d]', $options, false, true)
                 );
 
-                $this->tpl->setVariable("SEL_TLT", ilUtil::makeTimeSelect(
-                    'tlt[' . $a_set['id'] . ']',
-                    true,
-                    $hr,
-                    $min,
-                    null,
-                    false
-                ));
+                $this->tpl->setVariable("SEL_TLT",
+                    ilLegacyFormElementsUtil::makeTimeSelect(
+                        'tlt[' . $a_set['id'] . ']',
+                        true,
+                        $hr,
+                        $min,
+                        null,
+                        false
+                    )
+                );
 
                 $this->tpl->parseCurrentBlock();
             }

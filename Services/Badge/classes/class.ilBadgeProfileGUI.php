@@ -143,7 +143,7 @@ class ilBadgeProfileGUI
         }
         
         // :TODO:
-        $data = ilUtil::sortArray($data, "issued_on", "desc", true);
+        $data = ilArrayUtil::sortArray($data, "issued_on", "desc", true);
 
         $tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
 

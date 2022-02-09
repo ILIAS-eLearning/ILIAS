@@ -71,7 +71,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
             $materials[] = $item;
         }
         
-        $materials = ilUtil::sortArray($materials, "sorthash", "asc");
+        $materials = ilArrayUtil::sortArray($materials, "sorthash", "asc");
         $this->setData($materials);
     }
     

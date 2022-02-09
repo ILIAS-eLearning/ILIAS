@@ -202,8 +202,8 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
             $rows[] = $current_row;
         }
         // stable sort first title, second start
-        $rows = ilUtil::sortArray($rows, 'title', 'asc', false);
-        $rows = ilUtil::sortArray($rows, 'start', 'asc', true);
+        $rows = ilArrayUtil::sortArray($rows, 'title', 'asc', false);
+        $rows = ilArrayUtil::sortArray($rows, 'start', 'asc', true);
         $this->setData($rows);
     }
     

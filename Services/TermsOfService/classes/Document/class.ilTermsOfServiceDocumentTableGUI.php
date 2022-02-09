@@ -158,7 +158,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         } elseif ('actions' === $column) {
             return $this->formatActionsDropDown($column, $row);
         } elseif ('chb' === $column) {
-            return ilUtil::formCheckbox(false, 'tos_id[]', $row['id']);
+            return ilLegacyFormElementsUtil::formCheckbox(false, 'tos_id[]', $row['id']);
         } elseif ('criteria' === $column) {
             return $this->formatCriterionAssignments($column, $row);
         }

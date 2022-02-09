@@ -186,7 +186,9 @@ class ilMailSearchGUI
             is_string(ilSession::get('mail_search_search')) &&
             ilSession::get('mail_search_search') !== ''
         ) {
-            $inp->setValue(ilUtil::prepareFormOutput(trim(ilSession::get('mail_search_search')), true));
+            $inp->setValue(
+                ilLegacyFormElementsUtil::prepareFormOutput(trim(ilSession::get('mail_search_search')), true)
+            );
         }
         $form->addItem($inp);
 
@@ -302,11 +304,15 @@ class ilMailSearchGUI
 
                 if ($this->isDefaultRequestContext()) {
                     $result[$counter]['check'] =
-                        ilUtil::formCheckbox(0, 'search_name_to_addr[]', $login) .
-                        ilUtil::formCheckbox(0, 'search_name_cc[]', $login) .
-                        ilUtil::formCheckbox(0, 'search_name_bcc[]', $login);
+                        ilLegacyFormElementsUtil::formCheckbox(0, 'search_name_to_addr[]', $login) .
+                        ilLegacyFormElementsUtil::formCheckbox(0, 'search_name_cc[]', $login) .
+                        ilLegacyFormElementsUtil::formCheckbox(0, 'search_name_bcc[]', $login);
                 } else {
-                    $result[$counter]['check'] = ilUtil::formCheckbox(0, 'search_name_to_addr[]', $user);
+                    $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(
+                        0,
+                        'search_name_to_addr[]',
+                        $user
+                    );
                 }
 
                 $result[$counter]['login'] = $login;
@@ -398,11 +404,19 @@ class ilMailSearchGUI
                 $login = ilObjUser::_lookupLogin($user);
 
                 if ($this->isDefaultRequestContext()) {
-                    $result[$counter]['check'] = ilUtil::formCheckbox(0, 'search_name_to_usr[]', $login) .
-                        ilUtil::formCheckbox(0, 'search_name_cc[]', $login) .
-                        ilUtil::formCheckbox(0, 'search_name_bcc[]', $login);
+                    $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(
+                            0,
+                            'search_name_to_usr[]',
+                            $login
+                        ) .
+                        ilLegacyFormElementsUtil::formCheckbox(0, 'search_name_cc[]', $login) .
+                        ilLegacyFormElementsUtil::formCheckbox(0, 'search_name_bcc[]', $login);
                 } else {
-                    $result[$counter]['check'] = ilUtil::formCheckbox(0, 'search_name_to_usr[]', $user);
+                    $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(
+                        0,
+                        'search_name_to_usr[]',
+                        $user
+                    );
                 }
                 $result[$counter]['login'] = $login;
 
@@ -503,11 +517,15 @@ class ilMailSearchGUI
                     $str_members = implode(',', $members);
 
                     $result[$counter]['check'] =
-                        ilUtil::formCheckbox(0, 'search_name_to_grp[]', $str_members) .
-                        ilUtil::formCheckbox(0, 'search_name_cc[]', $str_members) .
-                        ilUtil::formCheckbox(0, 'search_name_bcc[]', $str_members);
+                        ilLegacyFormElementsUtil::formCheckbox(0, 'search_name_to_grp[]', $str_members) .
+                        ilLegacyFormElementsUtil::formCheckbox(0, 'search_name_cc[]', $str_members) .
+                        ilLegacyFormElementsUtil::formCheckbox(0, 'search_name_bcc[]', $str_members);
                 } else {
-                    $result[$counter]['check'] = ilUtil::formCheckbox(0, 'search_name_to_grp[]', $grp['obj_id']);
+                    $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(
+                        0,
+                        'search_name_to_grp[]',
+                        $grp['obj_id']
+                    );
                 }
                 $result[$counter]['title'] = $this->object_data_cache->lookupTitle($grp['obj_id']);
                 $result[$counter]['description'] = $this->object_data_cache->lookupDescription($grp['obj_id']);

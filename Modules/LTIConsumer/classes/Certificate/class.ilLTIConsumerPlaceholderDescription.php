@@ -53,12 +53,24 @@ class ilLTIConsumerPlaceholderDescription implements ilCertificatePlaceholderDes
         $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
         $this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
-        $this->placeholder['OBJECT_TITLE'] = ilUtil::prepareFormOutput($this->language->txt('lti_cert_ph_object_title'));
-        $this->placeholder['OBJECT_DESCRIPTION'] = ilUtil::prepareFormOutput($this->language->txt('lti_cert_ph_object_description'));
-        $this->placeholder['MASTERY_SCORE'] = ilUtil::prepareFormOutput($this->language->txt('lti_cert_ph_mastery_score'));
-        $this->placeholder['REACHED_SCORE'] = ilUtil::prepareFormOutput($this->language->txt('lti_cert_ph_reached_score'));
-        $this->placeholder['DATE_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_date_completed'));
-        $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
+        $this->placeholder['OBJECT_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('lti_cert_ph_object_title')
+        );
+        $this->placeholder['OBJECT_DESCRIPTION'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('lti_cert_ph_object_description')
+        );
+        $this->placeholder['MASTERY_SCORE'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('lti_cert_ph_mastery_score')
+        );
+        $this->placeholder['REACHED_SCORE'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('lti_cert_ph_reached_score')
+        );
+        $this->placeholder['DATE_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_ph_date_completed')
+        );
+        $this->placeholder['DATETIME_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_ph_datetime_completed')
+        );
     }
 
     /**

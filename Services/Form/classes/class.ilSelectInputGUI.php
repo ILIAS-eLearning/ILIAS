@@ -159,7 +159,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
         }
         foreach ($this->getOptions() as $option_value => $option_text) {
             $tpl->setCurrentBlock("prop_select_option");
-            $tpl->setVariable("VAL_SELECT_OPTION", ilUtil::prepareFormOutput($option_value));
+            $tpl->setVariable("VAL_SELECT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($option_value));
             if ((string) $sel_value == (string) $option_value) {
                 $tpl->setVariable(
                     "CHK_SEL_OPTION",
@@ -202,7 +202,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
             $tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());
         }
 
-        $tpl->setVariable("ARIA_LABEL", ilUtil::prepareFormOutput($this->getTitle()));
+        $tpl->setVariable("ARIA_LABEL", ilLegacyFormElementsUtil::prepareFormOutput($this->getTitle()));
 
         return $tpl->get();
     }

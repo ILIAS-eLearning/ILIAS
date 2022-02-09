@@ -621,7 +621,7 @@ class ilObjExercise extends ilObject
         foreach ((array) $filtered_members as $user_id) {
             $mems[$user_id] = ilObjUser::_lookupName($user_id);
         }
-        $mems = ilUtil::sortArray($mems, "lastname", "asc", false, true);
+        $mems = ilArrayUtil::sortArray($mems, "lastname", "asc", false, true);
         
         foreach ($mems as $user_id => $d) {
             $col = 0;

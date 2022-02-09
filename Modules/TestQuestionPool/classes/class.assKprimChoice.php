@@ -601,7 +601,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                     $ext = 'JPEG';
                     break;
             }
-            ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbSize());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbSize());
         }
     }
 

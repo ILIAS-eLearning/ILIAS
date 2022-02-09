@@ -575,7 +575,7 @@ class ilFileSystemGUI
             }
         }
 
-        ilUtil::renameExecutables($this->main_dir);
+        ilFileUtils::renameExecutables($this->main_dir);
         if (is_dir($dir . $new_name)) {
             $this->tpl->setOnScreenMessage('success', $lng->txt("cont_dir_renamed"), true);
             $this->setPerformedCommand("rename_dir", [self::PARAM_OLD_NAME => $old_name,
@@ -688,7 +688,7 @@ class ilFileSystemGUI
 
         $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
 
-        ilUtil::renameExecutables($this->main_dir);
+        ilFileUtils::renameExecutables($this->main_dir);
 
         $this->ctrl->redirect($this, 'listFiles');
     }
@@ -834,7 +834,7 @@ class ilFileSystemGUI
             }
         }
 
-        ilUtil::renameExecutables($this->main_dir);
+        ilFileUtils::renameExecutables($this->main_dir);
 
         $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_file_unzipped"), true);

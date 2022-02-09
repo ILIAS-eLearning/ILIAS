@@ -190,22 +190,30 @@ class ilPersonalProfileGUI
                 $thumb_file = "$image_dir/usr_" . $ilUser->getId() . "_small.jpg";
                 $xthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xsmall.jpg";
                 $xxthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xxsmall.jpg";
-                $uploaded_file = ilUtil::escapeShellArg($uploaded_file);
-                $show_file = ilUtil::escapeShellArg($show_file);
-                $thumb_file = ilUtil::escapeShellArg($thumb_file);
-                $xthumb_file = ilUtil::escapeShellArg($xthumb_file);
-                $xxthumb_file = ilUtil::escapeShellArg($xxthumb_file);
+                $uploaded_file = ilShellUtil::escapeShellArg($uploaded_file);
+                $show_file = ilShellUtil::escapeShellArg($show_file);
+                $thumb_file = ilShellUtil::escapeShellArg($thumb_file);
+                $xthumb_file = ilShellUtil::escapeShellArg($xthumb_file);
+                $xxthumb_file = ilShellUtil::escapeShellArg($xxthumb_file);
                 
-                if (ilUtil::isConvertVersionAtLeast("6.3.8-3")) {
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file);
+                if (ilShellUtil::isConvertVersionAtLeast("6.3.8-3")) {
+                    ilShellUtil::execConvert(
+                        $uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file
+                    );
+                    ilShellUtil::execConvert(
+                        $uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file
+                    );
+                    ilShellUtil::execConvert(
+                        $uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file
+                    );
+                    ilShellUtil::execConvert(
+                        $uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file
+                    );
                 } else {
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
+                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
+                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
+                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
                 }
             }
         }
@@ -482,7 +490,9 @@ class ilPersonalProfileGUI
                 'TERMS_OF_SERVICE_CONTENT',
                 sprintf(
                     $this->lng->txt('no_agreement_description'),
-                    'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
+                    'mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
+                        ilSystemSupportContacts::getMailsToAddress()
+                    )
                 )
             );
         }
@@ -687,7 +697,9 @@ class ilPersonalProfileGUI
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             if ($definition['field_type'] == UDF_TYPE_TEXT) {
                 $this->tpl->setCurrentBlock("field_text");
-                $this->tpl->setVariable("FIELD_VALUE", ilUtil::prepareFormOutput($user_defined_data[$field_id]));
+                $this->tpl->setVariable("FIELD_VALUE",
+                    ilLegacyFormElementsUtil::prepareFormOutput($user_defined_data[$field_id])
+                );
                 if (!$definition['changeable']) {
                     $this->tpl->setVariable("DISABLED_FIELD", 'disabled=\"disabled\"');
                 }
@@ -701,19 +713,21 @@ class ilPersonalProfileGUI
                     $disabled = true;
                 }
                 $this->tpl->setCurrentBlock("field_select");
-                $this->tpl->setVariable("SELECT_BOX", ilUtil::formSelect(
-                    $user_defined_data[$field_id],
-                    $name,
-                    $this->user_defined_fields->fieldValuesToSelectArray(
-                        $definition['field_values']
-                    ),
-                    false,
-                    true,
-                    0,
-                    '',
-                    '',
-                    $disabled
-                ));
+                $this->tpl->setVariable("SELECT_BOX",
+                    ilLegacyFormElementsUtil::formSelect(
+                        $user_defined_data[$field_id],
+                        $name,
+                        $this->user_defined_fields->fieldValuesToSelectArray(
+                            $definition['field_values']
+                        ),
+                        false,
+                        true,
+                        0,
+                        '',
+                        '',
+                        $disabled
+                    )
+                );
             }
             $this->tpl->parseCurrentBlock();
             $this->tpl->setCurrentBlock("user_defined");

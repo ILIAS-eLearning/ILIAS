@@ -150,7 +150,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
             }
         }
         closedir($dp);
-        return ilUtil::sortArray($files, "name", "asc");
+        return ilArrayUtil::sortArray($files, "name", "asc");
     }
 
 

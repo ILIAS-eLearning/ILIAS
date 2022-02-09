@@ -267,6 +267,6 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
      */
     protected function sortQuestions($a_qst_ids)
     {
-        return ilUtil::sortArray($a_qst_ids, 'title', 'asc');
+        return ilArrayUtil::sortArray($a_qst_ids, 'title', 'asc');
     }
 }

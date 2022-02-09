@@ -94,9 +94,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         $this->creation_mode = false;
 
         $this->ctrl->saveParameter($this, array("ref_id"));
-        if (!ilUtil::isAPICall()) {
-            $this->ctrl->setReturn($this, "");
-        }
+        $this->ctrl->setReturn($this, "");
 
         $this->request = $DIC->repository()->internal()->gui()->standardRequest();
 

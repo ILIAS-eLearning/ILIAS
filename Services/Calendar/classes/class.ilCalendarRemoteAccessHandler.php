@@ -70,7 +70,7 @@ class ilCalendarRemoteAccessHandler
 
         if ($this->getTokenHandler()->getIcal() and !$this->getTokenHandler()->isIcalExpired()) {
             $GLOBALS['DIC']['ilAuthSession']->logout();
-            ilUtil::deliverData($this->getTokenHandler(), 'calendar.ics', 'text/calendar', 'utf-8');
+            ilUtil::deliverData($this->getTokenHandler(), 'calendar.ics', 'text/calendar');
             exit;
         }
 
@@ -91,7 +91,7 @@ class ilCalendarRemoteAccessHandler
         $this->getTokenHandler()->storeIcal();
 
         $GLOBALS['DIC']['ilAuthSession']->logout();
-        ilUtil::deliverData($export->getExportString(), 'calendar.ics', 'text/calendar', 'utf-8');
+        ilUtil::deliverData($export->getExportString(), 'calendar.ics', 'text/calendar');
         exit;
     }
 

@@ -356,7 +356,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             asort($ts);
             $this->tpl->setVariable(
                 "TYPE_LIMIT_CHOICE",
-                ilUtil::formSelect(
+                ilLegacyFormElementsUtil::formSelect(
                     $ilUser->getPref("systemcheck_type_limit"),
                     'type_limit',
                     $ts,
@@ -549,7 +549,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
             $this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
             $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-            $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"], $strip));
+            $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($val["title"], $strip));
             $this->tpl->setVariable("DESC", ilUtil::stripSlashes($val["desc"]));
             $this->tpl->setVariable("NUM", $key);
             $this->tpl->parseCurrentBlock();
@@ -1770,6 +1770,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     public static function _goto()
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $ilErr = $DIC["ilErr"];
@@ -1782,7 +1783,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             exit;
         } else {
             if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                ilUtil::sendFailure(sprintf(
+                $main_tpl->setOnScreenMessage('failure', sprintf(
                     $lng->txt("msg_no_perm_read_item"),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
                 ), true);

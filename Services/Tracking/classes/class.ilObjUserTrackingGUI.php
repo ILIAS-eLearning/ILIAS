@@ -348,7 +348,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                 );
             }
         }
-        $types = ilUtil::sortArray($types, "caption", "asc");
+        $types = ilArrayUtil::sortArray($types, "caption", "asc");
         foreach ($types as $item) {
             $class = ilObjectLP::getTypeClass($item["type"]);
             $modes = $class::getDefaultModes(ilObjUserTracking::_enabledLearningProgress());

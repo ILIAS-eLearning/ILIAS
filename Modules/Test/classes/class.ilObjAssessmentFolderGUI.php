@@ -359,7 +359,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $available_tests = ilObjTest::_getAvailableTests(1);
-        array_push($csv, ilUtil::processCSVRow($row, true, $separator));
+        array_push($csv, ilCSVUtil::processCSVRow($row, true, $separator));
         $log_output = ilObjAssessmentFolder::getLog($from, $until, $test);
         $users = array();
         foreach ($log_output as $key => $log) {
@@ -380,13 +380,16 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             array_push($csvrow, trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]));
             array_push($csvrow, trim($log["logtext"]));
             array_push($csvrow, $title);
-            array_push($csv, ilUtil::processCSVRow($csvrow, true, $separator));
+            array_push($csv, ilCSVUtil::processCSVRow($csvrow, true, $separator));
         }
         $csvoutput = "";
         foreach ($csv as $row) {
             $csvoutput .= join($separator, $row) . "\n";
         }
-        ilUtil::deliverData($csvoutput, str_replace(" ", "_", "log_" . $from . "_" . $until . "_" . $available_tests[$test]) . ".csv");
+        ilUtil::deliverData(
+            $csvoutput,
+            str_replace(" ", "_", "log_" . $from . "_" . $until . "_" . $available_tests[$test]) . ".csv"
+        );
     }
 
     /**
@@ -427,11 +430,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $sorted_options = array();
         foreach ($available_tests as $key => $value) {
             $sorted_options[] = array(
-                'title' => ilUtil::prepareFormOutput($value) . " [" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . "]",
+                'title' => ilLegacyFormElementsUtil::prepareFormOutput($value) . " [" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . "]",
                 'key' => $key
             );
         }
-        $sorted_options = ilUtil::sortArray($sorted_options, 'title', 'asc');
+        $sorted_options = ilArrayUtil::sortArray($sorted_options, 'title', 'asc');
         $options = array('' => $this->lng->txt('please_choose'));
         foreach ($sorted_options as $option) {
             $options[$option['key']] = $option['title'];

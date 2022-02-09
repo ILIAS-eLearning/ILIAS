@@ -45,6 +45,7 @@ class ilLTIConsumerScoringGUI
     private array $tableData;
     private string $tableHtml = '';
     private int $userRank;
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     /**
@@ -52,6 +53,8 @@ class ilLTIConsumerScoringGUI
      */
     public function __construct(ilObjLTIConsumer $object)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
 
         $this->access = ilLTIConsumerAccess::getInstance($this->object);
@@ -85,7 +88,7 @@ class ilLTIConsumerScoringGUI
                 ->initUserRankTable()
             ;
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
             //$DIC->ui()->mainTemplate()->
             $table = $this->buildTableGUI('fallback');
             $table->setData(array());

@@ -152,7 +152,7 @@ class ilObjFileBasedLM extends ilObject
             $a_dir = $a_dir . "/htlm_" . $match[1];
         }
         ilFileUtils::rCopy($a_dir, $this->getDataDirectory());
-        ilUtil::renameExecutables($this->getDataDirectory());
+        ilFileUtils::renameExecutables($this->getDataDirectory());
     }
     
     public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)

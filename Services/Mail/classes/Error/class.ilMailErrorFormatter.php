@@ -39,7 +39,7 @@ class ilMailErrorFormatter
                 $errorsToDisplay[] = $translation;
             } else {
                 $escapedPlaceholderValues = array_map(static function (string $address) : string {
-                    return ilUtil::prepareFormOutput($address);
+                    return ilLegacyFormElementsUtil::prepareFormOutput($address);
                 }, $error->getPlaceholderValues());
 
                 array_unshift($escapedPlaceholderValues, $translation);

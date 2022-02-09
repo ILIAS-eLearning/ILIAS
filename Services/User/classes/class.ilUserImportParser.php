@@ -383,7 +383,7 @@ class ilUserImportParser extends ilSaxParser
             case "Role":
                 // detect numeric, ilias id (then extract role id) or alphanumeric
                 $this->current_role_id = $a_attribs["Id"];
-                if ($internal_id = ilUtil::__extractId($this->current_role_id, IL_INST_ID)) {
+                if ($internal_id = ilUtil::__extractId($this->current_role_id, IL_INST_ID) > 0) {
                     $this->current_role_id = $internal_id;
                 }
                 $this->current_role_type = $a_attribs["Type"];
@@ -404,7 +404,7 @@ class ilUserImportParser extends ilSaxParser
         switch ($a_name) {
             case "Role":
                 $this->current_role_id = $a_attribs["Id"];
-                if ($internal_id = ilUtil::__extractId($this->current_role_id, IL_INST_ID)) {
+                if ($internal_id = ilUtil::__extractId($this->current_role_id, IL_INST_ID) > 0) {
                     $this->current_role_id = $internal_id;
                 }
                 $this->current_role_type = $a_attribs["Type"];
@@ -447,7 +447,7 @@ class ilUserImportParser extends ilSaxParser
                 if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs["Id"])) {
                         $this->user_id = $a_attribs["Id"];
-                    } elseif ($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID)) {
+                    } elseif ($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) > 0) {
                         $this->user_id = $id;
                     }
                 }
@@ -592,7 +592,7 @@ class ilUserImportParser extends ilSaxParser
                 if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs["Id"])) {
                         $this->user_id = $a_attribs["Id"];
-                    } elseif ($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID)) {
+                    } elseif ($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) > 0) {
                         $this->user_id = $id;
                     }
                 }

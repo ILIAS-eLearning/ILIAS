@@ -97,7 +97,7 @@ class ilBackgroundImageInputGUI extends ilFormPropertyGUI
         if (is_int(strpos($value, "/"))) {
             $current_type = "ext";
             $tpl->setVariable("EXTERNAL_SELECTED", 'checked="checked"');
-            $tpl->setVariable("VAL_EXT", ilUtil::prepareFormOutput($value));
+            $tpl->setVariable("VAL_EXT", ilLegacyFormElementsUtil::prepareFormOutput($value));
         } else {
             $current_type = "int";
             $tpl->setVariable("INTERNAL_SELECTED", 'checked="checked"');

@@ -110,8 +110,6 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             ""
         );
         $this->tpl->setTitle($this->lng->txt("search"));
-
-        ilUtil::infoPanel();
     }
     
     public function initStandardSearchForm(int $a_mode) : ilPropertyFormGUI

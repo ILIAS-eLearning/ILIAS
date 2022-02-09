@@ -1406,7 +1406,7 @@ class ilCourseObjectivesGUI
             if ($desc = ilObject::_lookupDescription($test['obj_id'])) {
                 $tpl->setVariable('TST_DESC', $desc);
             }
-            $tpl->setVariable('TST_TYPE_IMG', ilUtil::getTypeIconPath('tst', $test['obj_id'], 'tiny'));
+            $tpl->setVariable('TST_TYPE_IMG', ilObject::_getIcon($test['obj_id'], 'tiny', 'tst'));
             $tpl->setVariable('TST_ALT_IMG', $this->lng->txt('obj_tst'));
             $tpl->parseCurrentBlock();
         }

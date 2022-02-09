@@ -177,7 +177,7 @@ class ilObjUserFolder extends ilObject
 
         $separator = ";";
         $file = fopen($filename, "w");
-        $formattedrow = &ilUtil::processCSVRow($headerrow, true, $separator);
+        $formattedrow = &ilCSVUtil::processCSVRow($headerrow, true, $separator);
         fwrite($file, join($separator, $formattedrow) . "\n");
         foreach ($data as $row) {
             $csvrow = array();
@@ -199,7 +199,7 @@ class ilObjUserFolder extends ilObject
                 }
             }
 
-            $formattedrow = &ilUtil::processCSVRow($csvrow, true, $separator);
+            $formattedrow = &ilCSVUtil::processCSVRow($csvrow, true, $separator);
             fwrite($file, join($separator, $formattedrow) . "\n");
         }
         fclose($file);

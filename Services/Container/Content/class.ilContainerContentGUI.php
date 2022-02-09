@@ -442,7 +442,7 @@ abstract class ilContainerContentGUI
                 if (isset($this->items[$type]) && is_array($this->items[$type]) && $this->renderer->addTypeBlock($type)) {
                     // :TODO: obsolete?
                     if ($type == 'sess') {
-                        $this->items['sess'] = ilUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
+                        $this->items['sess'] = ilArrayUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
                     }
                     
                     $position = 1;

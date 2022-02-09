@@ -247,7 +247,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
             $size_bytes = $F['size'][$index];
             // virus handling
             if (strlen($tmpname)) {
-                $vir = ilUtil::virusHandling($tmpname, $filename);
+                $vir = ilVirusScanner::virusHandling($tmpname, $filename);
                 if ($vir[0] == false) {
                     $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                     return false;
@@ -273,7 +273,9 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setCurrentBlock('image');
                 
                 $tpl->setVariable('STORED_IMAGE_SRC', $this->fetchContentImageSourceFromValue($value));
-                $tpl->setVariable('STORED_IMAGE_ALT', ilUtil::prepareFormOutput($this->fetchContentImageTitleFromValue($value)));
+                $tpl->setVariable('STORED_IMAGE_ALT',
+                    ilLegacyFormElementsUtil::prepareFormOutput($this->fetchContentImageTitleFromValue($value))
+                );
                 $tpl->setVariable('STORED_IMAGE_FILENAME', $this->fetchContentImageTitleFromValue($value));
                 $tpl->setVariable("STORED_IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::STORED_IMAGE_SUBFIELD_NAME, $i));
                 

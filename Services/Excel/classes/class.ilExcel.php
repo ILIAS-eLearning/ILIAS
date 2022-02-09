@@ -110,7 +110,7 @@ class ilExcel
         
         // #19056 - phpExcel only allows 31 chars
         // see https://github.com/PHPOffice/PHPExcel/issues/79
-        $a_name = ilUtil::shortenText($a_name, 31);
+        $a_name = ilStr::shortenTextExtended($a_name, 31);
         
         $sheet = new Worksheet($this->workbook, $a_name);
         $this->workbook->addSheet($sheet);

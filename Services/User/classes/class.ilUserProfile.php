@@ -732,7 +732,7 @@ class ilUserProfile
                             $ta = new ilPasswordInputGUI($lng->txt($lv), "usr_" . $f);
                             $ta->setUseStripSlashes(false);
                             $ta->setRequired(true);
-                            $ta->setInfo(ilUtil::getPasswordRequirementsInfo());
+                            $ta->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
                         // $ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
                         } else {
                             $ta = new ilNonEditableValueGUI($lng->txt($lv));

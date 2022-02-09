@@ -1069,9 +1069,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         );
         $user = new ilTextInputGUI($this->lng->txt('login'), 'mig_username');
         $user->setRequired(true);
-        $user->setValue(ilUtil::prepareFormOutput(
-            (string) ($this->httpRequest->getParsedBody()['mig_username'] ?? '')
-        ));
+        $user->setValue(
+            ilLegacyFormElementsUtil::prepareFormOutput(
+                (string) ($this->httpRequest->getParsedBody()['mig_username'] ?? '')
+            )
+        );
         $user->setSize(32);
         $user->setMaxLength(128);
         $keep->addSubItem($user);
@@ -1079,9 +1081,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $pass = new ilPasswordInputGUI($this->lng->txt('password'), 'mig_password');
         $pass->setRetype(false);
         $pass->setRequired(true);
-        $pass->setValue(ilUtil::prepareFormOutput(
-            (string) ($this->httpRequest->getParsedBody()['mig_password'] ?? '')
-        ));
+        $pass->setValue(
+            ilLegacyFormElementsUtil::prepareFormOutput(
+                (string) ($this->httpRequest->getParsedBody()['mig_password'] ?? '')
+            )
+        );
         $pass->setSize(12);
         $pass->setMaxLength(128);
         $keep->addSubItem($pass);
@@ -1412,7 +1416,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             }
 
             $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
-            $tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
+            $tpl->setVariable('ACCEPT_CHECKBOX', ilLegacyFormElementsUtil::formCheckbox(0, 'status', 'accepted'));
             $tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
             $tpl->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
 
@@ -1423,7 +1427,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 'TERMS_OF_SERVICE_CONTENT',
                 sprintf(
                     $this->lng->txt('no_agreement_description'),
-                    'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
+                    'mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
+                        ilSystemSupportContacts::getMailsToAddress()
+                    )
                 )
             );
         }
@@ -1491,7 +1497,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 'TERMS_OF_SERVICE_CONTENT',
                 sprintf(
                     $this->lng->txt('no_agreement_description'),
-                    'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
+                    'mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
+                        ilSystemSupportContacts::getMailsToAddress()
+                    )
                 )
             );
         }
@@ -1705,7 +1713,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $user->setActive(true);
             $password = '';
             if ($oRegSettings->passwordGenerationEnabled()) {
-                $passwords = ilUtil::generatePasswords(1);
+                $passwords = ilSecuritySettingsChecker::generatePasswords(1);
                 $password = $passwords[0];
                 $user->setPasswd($password, ilObjUser::PASSWD_PLAIN);
                 $user->setLastPasswordChangeTS(time());

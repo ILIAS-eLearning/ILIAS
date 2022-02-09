@@ -2718,6 +2718,7 @@ class ilObjCourseGUI extends ilContainerGUI
     public static function _goto($a_target, $a_add = "")
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
@@ -2757,7 +2758,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreenGoto");
             } else {
                 if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                    ilUtil::sendFailure(sprintf(
+                    $main_tpl->setOnScreenMessage('failure', sprintf(
                         $lng->txt("msg_no_perm_read_item"),
                         ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
                     ), true);

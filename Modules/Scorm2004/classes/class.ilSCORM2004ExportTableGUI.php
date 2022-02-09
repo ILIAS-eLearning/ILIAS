@@ -95,7 +95,7 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');
             $this->tpl->setVariable('CB_ID', $this->counter);
-            $this->tpl->setVariable('CB_FILENAME', ilUtil::prepareFormOutput($a_set['file']));
+            $this->tpl->setVariable('CB_FILENAME', ilLegacyFormElementsUtil::prepareFormOutput($a_set['file']));
             $this->tpl->setVariable("FILETYPE", $a_set["filetype"]);
             $this->tpl->parseCurrentBlock();
 
@@ -107,12 +107,12 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock('hidden');
-            $this->tpl->setVariable('HIDDEN_FILENAME', ilUtil::prepareFormOutput($a_set['file']));
-            $this->tpl->setVariable('HIDDEN_TYPE', ilUtil::prepareFormOutput($a_set['type']));
+            $this->tpl->setVariable('HIDDEN_FILENAME', ilLegacyFormElementsUtil::prepareFormOutput($a_set['file']));
+            $this->tpl->setVariable('HIDDEN_TYPE', ilLegacyFormElementsUtil::prepareFormOutput($a_set['type']));
             $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setVariable('CB_ID', $this->counter);
-        $this->tpl->setVariable("FILENAME", ilUtil::prepareFormOutput($a_set['file']));
+        $this->tpl->setVariable("FILENAME", ilLegacyFormElementsUtil::prepareFormOutput($a_set['file']));
         $this->tpl->setVariable("SIZE", $a_set["size"]);
         $this->tpl->setVariable("DATE", $a_set["date"]);
         $this->tpl->setVariable("TYPE", $a_set["type"]);

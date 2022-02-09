@@ -60,7 +60,7 @@ class ilHiddenInputGUI extends ilFormPropertyGUI implements ilToolbarItem
         $a_tpl->setVariable('PROP_INPUT_TYPE', 'hidden');
         $a_tpl->setVariable("POST_VAR", $this->getPostVar());
         $a_tpl->setVariable("ID", $this->getFieldId());
-        $a_tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+        $a_tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
         $a_tpl->parseCurrentBlock();
     }
 
@@ -68,7 +68,7 @@ class ilHiddenInputGUI extends ilFormPropertyGUI implements ilToolbarItem
     {
         return "<input type=\"hidden\"" .
             " name=\"" . $this->getPostVar() . "\"" .
-            " value=\"" . ilUtil::prepareFormOutput($this->getValue()) . "\"" .
+            " value=\"" . ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()) . "\"" .
             " id=\"" . $this->getFieldId() . "\" />";
     }
 }

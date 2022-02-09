@@ -276,9 +276,7 @@ class ilLearningProgressBaseGUI
 
     public function __buildHeader() : void
     {
-        if ($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP) {
-            ilUtil::infoPanel();
-        }
+    
     }
 
     /**
@@ -400,18 +398,20 @@ class ilLearningProgressBaseGUI
             // status
             $i_tpl = new ilTemplate("tpl.lp_edit_manual_info_page.html", true, true, "Services/Tracking");
             $i_tpl->setVariable("INFO_EDITED", $this->lng->txt("trac_info_edited"));
-            $i_tpl->setVariable("SELECT_STATUS", ilUtil::formSelect(
-                (int) ilLPMarks::_hasCompleted(
-                    $user_id,
-                    $item_id
-                ),
-                'lp_edit',
-                array(0 => $this->lng->txt('trac_not_completed'),
-                      1 => $this->lng->txt('trac_completed')
-                ),
-                false,
-                true
-            ));
+            $i_tpl->setVariable("SELECT_STATUS",
+                ilLegacyFormElementsUtil::formSelect(
+                    (int) ilLPMarks::_hasCompleted(
+                        $user_id,
+                        $item_id
+                    ),
+                    'lp_edit',
+                    [0 => $this->lng->txt('trac_not_completed'),
+                     1 => $this->lng->txt('trac_completed')
+                    ],
+                    false,
+                    true
+                )
+            );
             $i_tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
             $info->addProperty($this->lng->txt('trac_status'), $i_tpl->get());
 

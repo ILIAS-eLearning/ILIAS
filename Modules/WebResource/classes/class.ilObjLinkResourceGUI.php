@@ -1568,10 +1568,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         if ($this->message) {
             $this->tpl->setOnScreenMessage('info', $this->message);
         }
-
-        // display infopanel if something happened
-        ilUtil::infoPanel();
-        ;
     }
 
     public function addLocatorItems()
@@ -1727,6 +1723,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     public static function _goto($a_target, $a_additional = null)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
@@ -1748,7 +1745,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $a_target . "&cmd=infoScreen");
             } else {
                 if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                    ilUtil::sendFailure(sprintf(
+                    $main_tpl->setOnScreenMessage('failure', sprintf(
                         $lng->txt("msg_no_perm_read_item"),
                         ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
                     ), true);

@@ -194,7 +194,7 @@ class ilScorm2004DataSet extends ilDataSet
                     ilFileUtils::rename($source_dir . "/" . $a_rec["File"], $file_path);
 
                     ilFileUtils::unzip($file_path);
-                    ilUtil::renameExecutables($lm->getDataDirectory());
+                    ilFileUtils::renameExecutables($lm->getDataDirectory());
                     $title = $lm->readObject();
                     if ($title != "") {
                         ilObject::_writeTitle($lm->getId(), $title);

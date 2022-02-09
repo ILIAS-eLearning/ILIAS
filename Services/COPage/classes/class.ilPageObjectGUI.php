@@ -1177,7 +1177,7 @@ class ilPageObjectGUI
                 $tpl->setVariable("TXT_LINKED_MOBS", $this->lng->txt("cont_linked_mobs"));
                 $tpl->setVariable(
                     "SEL_MED_LINKS",
-                    ilUtil::formSelect(0, "mob_id", $mob_links, false, true)
+                    ilLegacyFormElementsUtil::formSelect(0, "mob_id", $mob_links, false, true)
                 );
                 $tpl->setVariable("TXT_EDIT_MEDIA", $this->lng->txt("cont_edit_mob"));
                 $tpl->setVariable("TXT_COPY_TO_CLIPBOARD", $this->lng->txt("cont_copy_to_clipboard"));
@@ -1199,7 +1199,7 @@ class ilPageObjectGUI
                 $tpl->setVariable("TXT_CONTENT_SNIPPETS_USED", $this->lng->txt("cont_snippets_used"));
                 $tpl->setVariable(
                     "SEL_SNIPPETS",
-                    ilUtil::formSelect(0, "ci_id", $sn_arr, false, true)
+                    ilLegacyFormElementsUtil::formSelect(0, "ci_id", $sn_arr, false, true)
                 );
                 $tpl->setVariable("TXT_SHOW_INFO", $this->lng->txt("cont_show_info"));
                 $tpl->parseCurrentBlock();

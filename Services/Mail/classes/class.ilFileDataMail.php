@@ -212,7 +212,7 @@ class ilFileDataMail extends ilFileData
             return 1;
         }
 
-        $name = ilUtil::_sanitizeFilemame($a_filename);
+        $name = ilFileUtils::_sanitizeFilemame($a_filename);
         $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $name);
 
         $abs_path = $this->getMailPath() . '/' . $this->user_id . '_' . $name;
@@ -236,7 +236,7 @@ class ilFileDataMail extends ilFileData
      */
     public function storeUploadedFile(array $file) : void
     {
-        $file['name'] = ilUtil::_sanitizeFilemame($file['name']);
+        $file['name'] = ilFileUtils::_sanitizeFilemame($file['name']);
 
         $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $file['name']);
 

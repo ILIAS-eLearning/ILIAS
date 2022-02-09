@@ -560,7 +560,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         }
         
         // always sort by name first
-        $a_user_data = ilUtil::sortArray(
+        $a_user_data = ilArrayUtil::sortArray(
             $a_user_data,
             'name',
             $this->getOrderDirection()

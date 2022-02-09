@@ -354,7 +354,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             }
         }
 
-        $user_data = ilUtil::sortArray(
+        $user_data = ilArrayUtil::sortArray(
             $user_data,
             'name',
             $this->getOrderDirection()

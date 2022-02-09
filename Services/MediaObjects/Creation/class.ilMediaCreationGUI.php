@@ -290,7 +290,7 @@ class ilMediaCreationGUI
             $locationType = "LocalFile";
             $location = $title;
             ilFileUtils::moveUploadedFile($_FILES['file']['tmp_name'], $file_name, $file);
-            ilUtil::renameExecutables($mob_dir);
+            ilFileUtils::renameExecutables($mob_dir);
 
             // get mime type, if not already set!
             $format = ilObjMediaObject::getMimeType($file, false);
