@@ -16,12 +16,6 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 class ilPCPlugged extends ilPageContent
 {
     /**
-     * @var string assoc key for $a_properties which tells if the
-     *             plugged content should be removed in the db.
-     */
-    public const KEY_DELETE = 'delete_in_db';
-
-    /**
      * @var ilLanguage
      */
     protected $lng;
@@ -234,9 +228,8 @@ class ilPCPlugged extends ilPageContent
      * objects referenced within the content (e.g. question objects)
      * @param ilPageObject $a_page   the current page object
      * @param DOMDocument  $a_node   dom node
-     * @param bool         $a_update if the node should be deleted from the db
      */
-    public static function handleDeletedPluggedNode(ilPageObject $a_page, DOMNode $a_node, $a_update = true)
+    public static function handleDeletedPluggedNode(ilPageObject $a_page, DOMNode $a_node)
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
@@ -248,10 +241,6 @@ class ilPCPlugged extends ilPageContent
             /** @var ilPageComponentPlugin $plugin_obj */
             $plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name);
             $plugin_obj->setPageObj($a_page);
-
-            $properties = array(
-                self::KEY_DELETE => $a_update
-            );
             /** @var DOMElement $child */
             foreach ($a_node->childNodes as $child) {
                 $properties[$child->getAttribute('Name')] = $child->nodeValue;

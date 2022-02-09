@@ -347,7 +347,8 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         $updated = $page->deleteContents(
             [$hier_id],
             true,
-            $this->page_gui->getPageConfig()->getEnableSelfAssessment()
+            $this->page_gui->getPageConfig()->getEnableSelfAssessment(),
+            true
         );
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
