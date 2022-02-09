@@ -712,7 +712,7 @@ class ilDclBaseRecordModel
             $this->loadTable();
             $recordfields = array();
             foreach ($this->table->getRecordFields() as $field) {
-                if ($recordfields[$field->getId()] == null) {
+                if (($recordfields[$field->getId()] ?? null) === null) {
                     $recordfields[$field->getId()] = ilDclCache::getRecordFieldCache($this, $field);
                 }
             }

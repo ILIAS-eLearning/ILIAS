@@ -134,7 +134,9 @@ class ilDclFieldListGUI
         }
 
         foreach ($fields as $field) {
-            $field->setExportable($_POST['exportable'] && $_POST['exportable'][$field->getId()] === "on");
+            $exportable = $_POST['exportable'];
+
+            $field->setExportable($exportable && $exportable[$field->getId()] === "on");
             $field->setOrder($order[$field->getId()]);
             $field->doUpdate();
         }

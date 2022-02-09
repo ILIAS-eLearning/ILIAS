@@ -89,7 +89,7 @@ class ilDclBaseRecordFieldModel
             . $this->db->quote($this->getRecord()->getId(), "integer");
         $set = $this->db->query($query);
         $rec = $this->db->fetchAssoc($set);
-        $this->id = $rec['id'];
+        $this->id = $rec['id'] ?? null;
 
         $this->loadValue();
     }
@@ -355,7 +355,7 @@ class ilDclBaseRecordFieldModel
 
                 $set = $this->db->query($query);
                 $rec = $this->db->fetchAssoc($set);
-                $value = $this->deserializeData($rec['value']);
+                $value = $this->deserializeData($rec['value'] ?? null);
                 $this->value = $value;
             }
         }
