@@ -105,9 +105,9 @@ class ilAuthModeDetermination
         $sorted = array();
         
         foreach ($this->position as $auth_key) {
-            $sid = ilLDAPServer::getServerIdByAuthMode($auth_key);
+            $sid = ilLDAPServer::getServerIdByAuthMode((string) $auth_key);
             if ($sid) {
-                $server = ilLDAPServer::getInstanceByServerId($sid);
+                $server = ilLDAPServer::getInstanceByServerId((int) $sid);
                 $this->logger->debug('Validating username filter for ' . $server->getName());
                 if (strlen($server->getUsernameFilter())) {
                     //#17731
