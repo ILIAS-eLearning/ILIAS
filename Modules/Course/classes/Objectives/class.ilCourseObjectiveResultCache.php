@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,48 +21,25 @@
         +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Caches results for a specific user and course
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesCourse
-*/
+ * Caches results for a specific user and course
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ModulesCourse
+ */
 class ilCourseObjectiveResultCache
 {
-    private static $suggested = null;
-    private static $status = null;
-    
-    
-    /**
-     * check if objective is suggested
-     *
-     * @access public
-     * @param int usr_id
-     * @param int course_id
-     * @return bool
-     * @static
-     */
-    public static function isSuggested($a_usr_id, $a_crs_id, $a_objective_id)
+    private static array $suggested = [];
+    private static array $status = [];
+
+    public static function isSuggested(int $a_usr_id, int $a_crs_id, int $a_objective_id) : bool
     {
         if (!is_array(self::$suggested[$a_usr_id][$a_crs_id])) {
             self::$suggested[$a_usr_id][$a_crs_id] = self::readSuggested($a_usr_id, $a_crs_id);
         }
-        return in_array($a_objective_id, self::$suggested[$a_usr_id][$a_crs_id]) ? true : false;
+        return in_array($a_objective_id, self::$suggested[$a_usr_id][$a_crs_id]);
     }
-    
-    /**
-     * get status of user
-     *
-     * @access public
-     * @param int usr_id
-     * @param int crs_id
-     * @return
-     * @static
-     */
-    public static function getStatus($a_usr_id, $a_crs_id)
+
+    public static function getStatus(int $a_usr_id, int $a_crs_id) : string
     {
         if (isset(self::$status[$a_usr_id][$a_crs_id])) {
             return self::$status[$a_usr_id][$a_crs_id];
@@ -70,16 +47,8 @@ class ilCourseObjectiveResultCache
         $tmp_res = new ilCourseObjectiveResult($a_usr_id);
         return self::$status[$a_usr_id][$a_crs_id] = $tmp_res->getStatus($a_crs_id);
     }
-    
-    
-    /**
-     * read suggested objectives
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function readSuggested($a_usr_id, $a_crs_id)
+
+    protected function readSuggested(int $a_usr_id, int $a_crs_id) : array
     {
         return ilCourseObjectiveResult::_getSuggested($a_usr_id, $a_crs_id, self::getStatus($a_usr_id, $a_crs_id));
     }

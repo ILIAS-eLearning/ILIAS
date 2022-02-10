@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=0);
+
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,24 +22,21 @@
     +-----------------------------------------------------------------------------+
 */
 
-// begin-patch lok
 use ILIAS\UI\Component\Listing\Workflow\Step;
-
-// end-patch lok
+use ILIAS\UI\Component\Listing\Workflow\Factory as Workflow;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
-* class ilobjcourseobjectivesgui
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @extends Object
-*/
+ * class ilobjcourseobjectivesgui
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilCourseObjectivesGUI
 {
-    const MODE_UNDEFINED = 0;
-    const MODE_CREATE = 1;
-    const MODE_UPDATE = 2;
+    protected const MODE_UNDEFINED = 0;
+    protected const MODE_CREATE = 1;
+    protected const MODE_UPDATE = 2;
 
     protected const STEP_SETTINGS = 1;
     protected const STEP_MATERIAL_ASSIGNMENT = 2;
@@ -47,77 +45,69 @@ class ilCourseObjectivesGUI
     protected const STEP_FINAL_TEST_ASSIGNMENT = 5;
     protected const STEP_FINAL_TEST_LIMIT = 6;
 
-    
-    
-    public $ctrl;
-    public $ilias;
-    public $ilErr;
-    public $lng;
-    public $tpl;
+    protected ilObjCourse $course_obj;
+    protected ?ilCourseObjective $objective = null;
+    protected ?ilCourseObjective $objectives_obj = null;
+    protected ?ilCourseObjectiveMaterials $objectives_lm_obj = null;
+    protected ?ilCourseObjectiveQuestion $objectives_qst_obj = null;
+    protected ?ilCourseObjectiveQuestion $questions = null;
+    protected int $course_id;
+    protected ilLOSettings $settings;
+    protected int $test_type = 0;
+    protected ?ilPropertyFormGUI $form = null;
 
-    public $course_obj;
-    public $course_id;
-    
-    // begin-patch lok
-    protected $settings;
-    protected $test_type = 0;
-    // end-patch lok
-    
-    /**
-     * @var ilLogger
-     */
-    private $logger = null;
-    private \ilGlobalTemplateInterface $main_tpl;
-    
-    /**
-     * Constructor
-     * @param int $a_course_id
-     */
-    public function __construct($a_course_id)
+    private ilLogger $logger;
+    protected ilDBInterface $db;
+    protected ilCtrlInterface $ctrl;
+    protected ilErrorHandling $ilErr;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTree $tree;
+    protected ilTabsGUI $tabs;
+    protected ilToolbarGUI $toolbar;
+    protected ilAccessHandler $access;
+    protected ilRbacSystem $rbacsystem;
+    protected ilHelpGUI $help;
+    protected ilObjectDataCache $objectDataCache;
+    protected Workflow $workflow;
+    protected UIRenderer $renderer;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
+
+    public function __construct(int $a_course_id)
     {
         global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilErr = $DIC['ilErr'];
-        $ilias = $DIC['ilias'];
-        $tpl = $DIC['tpl'];
-        $tree = $DIC['tree'];
-        $ilTabs = $DIC['ilTabs'];
-
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $DIC->ctrl();
+        $this->db = $DIC->database();
         $this->ctrl->saveParameter($this, array("ref_id"));
 
-        $this->logger = $GLOBALS['DIC']->logger()->crs();
-        $this->ilErr = $ilErr;
-        $this->lng = $lng;
+        $this->logger = $DIC->logger()->crs();
+        $this->ilErr = $DIC['ilErr'];
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('crs');
-        $this->tpl = $tpl;
-        $this->tree = $tree;
-        $this->tabs_gui = $ilTabs;
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->tree = $DIC->repositoryTree();
+        $this->tabs = $DIC->tabs();
+        $this->access = $DIC->access();
+        $this->rbacsystem = $DIC->rbac()->system();
+        $this->toolbar = $DIC->toolbar();
+        $this->help = $DIC->help();
+        $this->objectDataCache = $DIC['ilObjDataCache'];
+        $this->workflow = $DIC->ui()->factory()->listing()->workflow();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->course_id = $a_course_id;
         $this->__initCourseObject();
-
-        // begin-patch lok
         $this->settings = ilLOSettings::getInstanceByObjId($this->course_obj->getId());
-        // end-patch lok
     }
 
-    /**
-     * execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        global $DIC;
+        $this->tabs->setTabActive('crs_objectives');
 
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->setTabActive('crs_objectives');
-        
         $cmd = $this->ctrl->getCmd();
-
 
         if (!$cmd = $this->ctrl->getCmd()) {
             $cmd = "list";
@@ -125,111 +115,111 @@ class ilCourseObjectivesGUI
 
         $this->$cmd();
     }
-    
-    // begin-patch lok
-    /**
-     * Get settings
-     * @return ilLOSettings
-     */
-    public function getSettings()
+
+    protected function initObjectiveIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('objective_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'objective_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initObjectiveIdsFromPost() : array
+    {
+        if ($this->http->wrapper()->post()->has('objective')) {
+            return $this->http->wrapper()->post()->retrieve(
+                'objective',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        return [];
+    }
+
+    protected function initTestTypeFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('tt')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'tt',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    public function getSettings() : ilLOSettings
     {
         return $this->settings;
     }
-    // end-patch lok
-    
-    
-    /**
-     * list objectives
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function listObjectives()
-    {
-        global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilToolbar = $DIC['ilToolbar'];
-        
+    protected function listObjectives() : void
+    {
         $_SESSION['objective_mode'] = self::MODE_UNDEFINED;
-        if (!$ilAccess->checkAccess("write", '', $this->course_obj->getRefId())) {
+        if (!$this->access->checkAccess("write", '', $this->course_obj->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
         }
-        
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.crs_objectives.html', 'Modules/Course');
-        
-        $ilToolbar->addButton(
+        $this->toolbar->addButton(
             $this->lng->txt('crs_add_objective'),
             $this->ctrl->getLinkTarget($this, "'create")
         );
-        
+
         $table = new ilCourseObjectivesTableGUI($this, $this->course_obj);
         $table->setTitle($this->lng->txt('crs_objectives'), '', $this->lng->txt('crs_objectives'));
         $table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId(), false));
-        
+
         $this->tpl->setVariable('OBJECTIVES_TABLE', $table->getHTML());
     }
-    
-    /**
-     * save position
-     *
-     * @access protected
-     * @return
-     */
-    protected function saveSorting()
-    {
-        global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
-        if (!$ilAccess->checkAccess("write", '', $this->course_obj->getRefId())) {
+    protected function saveSorting() : void
+    {
+        if (!$this->access->checkAccess("write", '', $this->course_obj->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
         }
-        
+
         asort($_POST['position'], SORT_NUMERIC);
-        
+
         $counter = 1;
         foreach ($_POST['position'] as $objective_id => $position) {
             $objective = new ilCourseObjective($this->course_obj, $objective_id);
             $objective->writePosition($counter++);
         }
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_objective_saved_sorting'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objective_saved_sorting'));
         $this->listObjectives();
     }
 
-    public function askDeleteObjective()
+    public function askDeleteObjective() : void
     {
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
 
         // MINIMUM ACCESS LEVEL = 'write'
-        if (!$rbacsystem->checkAccess("write", $this->course_obj->getRefId())) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
+        if (!$this->rbacsystem->checkAccess("write", $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
         }
-        if (!count($_POST['objective'])) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'));
+        $objective_ids = $this->initObjectiveIdsFromPost();
+        if (!count($objective_ids)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'));
             $this->listObjectives();
-            
-            return true;
+            return;
         }
 
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives.html", 'Modules/Course');
 
-        $this->main_tpl->setOnScreenMessage('question', $this->lng->txt('crs_delete_objectve_sure'));
+        $this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_delete_objectve_sure'));
 
         $tpl = new ilTemplate("tpl.table.html", true, true);
-        $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_row.html", 'Modules/Course');
+        $tpl->addBlockFile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_row.html", 'Modules/Course');
 
         $counter = 0;
-        foreach ($_POST['objective'] as $objective_id) {
+        foreach ($objective_ids as $objective_id) {
             $objective_obj = $this->__initObjectivesObject($objective_id);
-            
+
             $tpl->setCurrentBlock("tbl_content");
             $tpl->setVariable("ROWCOL", ilUtil::switchColor(++$counter, "tblrow2", "tblrow1"));
             $tpl->setVariable("TITLE", $objective_obj->getTitle());
@@ -255,7 +245,6 @@ class ilCourseObjectivesGUI
         $tpl->setVariable("IMG_ARROW", ilUtil::getImagePath('arrow_downright.svg'));
         $tpl->parseCurrentBlock();
 
-
         // create table
         $tbl = new ilTableGUI();
         $tbl->setStyle('table', 'std');
@@ -275,7 +264,7 @@ class ilCourseObjectivesGUI
 
         $tbl->setLimit($_GET["limit"]);
         $tbl->setOffset($_GET["offset"]);
-        $tbl->setMaxCount(count($_POST['objective']));
+        $tbl->setMaxCount(count($this->initObjectiveIdsFromPost()));
 
         // footer
         $tbl->disable("footer");
@@ -286,60 +275,38 @@ class ilCourseObjectivesGUI
         $tbl->render();
 
         $this->tpl->setVariable("OBJECTIVES_TABLE", $tpl->get());
-        
 
         // Save marked objectives
-        $_SESSION['crs_delete_objectives'] = $_POST['objective'];
-
-        return true;
+        ilSession::set('crs_delete_objectives', $this->initObjectiveIdsFromPost());
     }
 
-    public function deleteObjectives()
+    public function deleteObjectives() : void
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
         // MINIMUM ACCESS LEVEL = 'write'
-        if (!$rbacsystem->checkAccess("write", $this->course_obj->getRefId())) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
+        if (!$this->rbacsystem->checkAccess("write", $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
         }
-        if (!count($_SESSION['crs_delete_objectives'])) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'));
+        $objective_ids = (array) ilSession::get('crs_delete_objectives');
+        if (!count($objective_ids)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'));
             $this->listObjectives();
-            
-            return true;
+            return;
         }
 
-        foreach ($_SESSION['crs_delete_objectives'] as $objective_id) {
+        foreach ($objective_ids as $objective_id) {
             $objective_obj = $this->__initObjectivesObject($objective_id);
             $objective_obj->delete();
         }
-
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_deleted'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_deleted'));
         $this->listObjectives();
-
-        return true;
     }
-    
-    /**
-     * question overiew
-     *
-     * @access protected
-     * @return
-     */
-    protected function questionOverview()
-    {
-        global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $ilTabs = $DIC['ilTabs'];
-        
-        $ilTabs->setSubTabActive('crs_objective_overview_question_assignment');
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+    protected function questionOverview() : void
+    {
+        $this->tabs->setSubTabActive('crs_objective_overview_question_assignment');
+
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
 
         $table = new ilCourseObjectiveQuestionsTableGUI($this, $this->course_obj);
@@ -348,393 +315,264 @@ class ilCourseObjectivesGUI
             '',
             $this->lng->txt('crs_objectives')
         );
-        // begin-patch lok
         $table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId(), false));
-        // end-patch lok
-        
         $this->tpl->setContent($table->getHTML());
     }
-    
-    /**
-     * update question overview
-     *
-     * @access protected
-     * @return
-     */
-    protected function saveQuestionOverview()
-    {
-        global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+    protected function saveQuestionOverview() : void
+    {
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
         $error = false;
-        
-        $_POST['self'] = $_POST['self'] ? $_POST['self'] : array();
-        $_POST['final'] = $_POST['final'] ? $_POST['final'] : array();
-        
+
+        $_POST['self'] = $_POST['self'] ?: array();
+        $_POST['final'] = $_POST['final'] ?: array();
+
         foreach ($_POST['self'] as $objective_id => $limit) {
             $qst = new ilCourseObjectiveQuestion($objective_id);
             $max_points = $qst->getSelfAssessmentPoints();
-            
+
             if ($limit < 0 or $limit > $max_points) {
-                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_limit_err'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_limit_err'));
                 $this->questionOverview();
-                return false;
+                return;
             }
         }
         foreach ($_POST['final'] as $objective_id => $limit) {
             $qst = new ilCourseObjectiveQuestion($objective_id);
             $max_points = $qst->getFinalTestPoints();
-            
+
             if ($limit < 0 or $limit > $max_points) {
-                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_limit_err'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_limit_err'));
                 $this->questionOverview();
-                return false;
+                return;
             }
         }
-        
+
         foreach ($_POST['self'] as $objective_id => $limit) {
-            ilCourseObjectiveQuestion::_updateTestLimits($objective_id, ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT, $limit);
+            ilCourseObjectiveQuestion::_updateTestLimits($objective_id, ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT,
+                $limit);
         }
-        
+
         foreach ($_POST['final'] as $objective_id => $limit) {
-            ilCourseObjectiveQuestion::_updateTestLimits($objective_id, ilCourseObjectiveQuestion::TYPE_FINAL_TEST, $limit);
+            ilCourseObjectiveQuestion::_updateTestLimits($objective_id, ilCourseObjectiveQuestion::TYPE_FINAL_TEST,
+                $limit);
         }
-        
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->questionOverview();
-        return true;
     }
 
-    // PRIVATE
-    public function __initCourseObject()
+    protected function __initCourseObject() : void
     {
+        /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
         if (!$this->course_obj = ilObjectFactory::getInstanceByRefId($this->course_id, false)) {
-            $this->ilErr->raiseError("ilCourseObjectivesGUI: cannot create course object", $this->ilErr->MESSAGE);
-            exit;
+            $this->logger->logStack(ilLogLevel::ERROR);
+            throw new RuntimeException('Course objectives GUI initialized without valid course instance');
         }
-        return true;
     }
 
-    public function __initObjectivesObject($a_id = 0)
+    public function __initObjectivesObject(int $a_id = 0) : ilCourseObjective
     {
         return $this->objectives_obj = new ilCourseObjective($this->course_obj, $a_id);
     }
 
-    public function __initLMObject($a_objective_id = 0)
+    public function __initLMObject($a_objective_id = 0) : ilCourseObjectiveMaterials
     {
-        $this->objectives_lm_obj = new ilCourseObjectiveMaterials($a_objective_id);
-
-        return true;
+        return $this->objectives_lm_obj = new ilCourseObjectiveMaterials($a_objective_id);
     }
 
-    // begin-patch lok
-    /**
-     *
-     * @param type $a_objective_id
-     * @return ilCourseObjectiveQuestion
-     */
-    public function __initQuestionObject($a_objective_id = 0)
+    public function __initQuestionObject($a_objective_id = 0) : ilCourseObjectiveQuestion
     {
         $this->objectives_qst_obj = new ilCourseObjectiveQuestion($a_objective_id);
-
         return $this->objectives_qst_obj;
     }
+
     // end-patch lok
 
-    /**
-    * set sub tabs
-    */
-    public function setSubTabs($a_active = "")
+    public function setSubTabs(string $a_active = "") : void
     {
-        global $DIC;
-
-        $ilTabs = $DIC['ilTabs'];
-        $ilHelp = $DIC['ilHelp'];
-
         if ($a_active != "") {
-            $ilHelp->setScreenIdComponent("crs");
-            $ilHelp->setScreenId("crs_objective");
-            $ilHelp->setSubScreenId($a_active);
-        }
-
-
-        // begin-patch lok
-        // no subtabs here
-        return true;
-        // end-patch lok
-        
-        
-        $ilTabs->addSubTabTarget(
-            "crs_objective_overview_objectives",
-            $this->ctrl->getLinkTarget($this, "listObjectives"),
-            array("listObjectives", "moveObjectiveUp", "moveObjectiveDown", "listAssignedLM"),
-            array(),
-            '',
-            true
-        );
-        
-        if (ilCourseObjectiveQuestion::_hasTests($this->course_obj->getId())) {
-            $ilTabs->addSubTabTarget(
-                "crs_objective_overview_question_assignment",
-                $this->ctrl->getLinkTarget($this, "questionOverview"),
-                "editQuestionAssignment",
-                array(),
-                '',
-                false
-            );
+            $this->help->setScreenIdComponent("crs");
+            $this->help->setScreenId("crs_objective");
+            $this->help->setSubScreenId($a_active);
         }
     }
-    
-    
-    /**
-     * create objective
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function create()
+
+    public function create(?ilPropertyFormGUI $form) : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-
         $this->setSubTabs("create_obj");
-
         $_SESSION['objective_mode'] = self::MODE_CREATE;
 
         $this->ctrl->saveParameter($this, 'objective_id');
 
-        if (!is_object($this->objective)) {
-            $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
+        if (!$this->objective instanceof ilCourseObjective) {
+            $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
         }
-        $this->__initQuestionObject((int) $_GET['objective_id']);
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
         $this->initWizard(self::STEP_SETTINGS);
-
-        $this->initFormTitle('create', 1);
-        $GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
-        #$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
-        #$tpl->setContent($w_tpl->get());
+        if (!$form instanceof ilPropertyFormGUI) {
+            $form = $this->initFormTitle('create');
+        }
+        $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * edit objective
-     *
-     * @access protected
-     * @return
-     */
-    protected function edit()
+    protected function edit(?ilPropertyFormGUI $form) : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-
         $_SESSION['objective_mode'] = self::MODE_UPDATE;
-
         $this->setSubTabs("edit_obj");
+        $this->ctrl->setParameter($this, 'objective_id', $this->initObjectiveIdFromQuery());
 
-        $this->ctrl->setParameter($this, 'objective_id', (int) $_REQUEST['objective_id']);
-
-        if (!$_REQUEST['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
+        if (!$this->initObjectiveIdFromQuery()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
-
-        if (!is_object($this->objective)) {
-            $this->objective = new ilCourseObjective($this->course_obj, (int) $_REQUEST['objective_id']);
+        if (!$this->objective instanceof ilCourseObjective) {
+            $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
         }
 
-        $this->__initQuestionObject((int) $_REQUEST['objective_id']);
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
         $this->initWizard(self::STEP_SETTINGS);
-        $this->initFormTitle('create', 1);
-        $GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
-        #$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
-        #$tpl->setContent($w_tpl->get());
+        if (!$form instanceof ilPropertyFormGUI) {
+            $form = $this->initFormTitle('create');
+        }
+        $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * save
-     *
-     * @access protected
-     * @return
-     */
-    protected function save()
+    protected function save() : void
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
 
         $this->ctrl->saveParameter($this, 'objective_id');
-        
-        $this->objective = new ilCourseObjective($this->course_obj, (int) $_REQUEST['objective_id']);
-        $this->initFormTitle('create', 1);
-        if ($this->form->checkInput()) {
-            $this->objective->setTitle($this->form->getInput('title'));
-            $this->objective->setDescription($this->form->getInput('description'));
+        $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
+        $form = $this->initFormTitle('create');
+        if ($form->checkInput()) {
+            $this->objective->setTitle($form->getInput('title'));
+            $this->objective->setDescription($form->getInput('description'));
             $this->objective->setPasses(0);
-            
-            if (!$_GET['objective_id']) {
+
+            if (!$this->initObjectiveIdFromQuery()) {
                 $objective_id = $this->objective->add();
-                $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_added_objective'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_added_objective'), true);
             } else {
                 $this->objective->update();
-                $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_objective_modified'), true);
-                $objective_id = $_GET['objective_id'];
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objective_modified'), true);
+                $objective_id = $this->initObjectiveIdFromQuery();
             }
+        } elseif ($this->initObjectiveIdFromQuery()) {
+            $form->setValuesByPost();
+            $this->edit($form);
+            return;
         } else {
-            if ((int) $_GET['objective_id']) {
-                $this->form->setValuesByPost();
-                return $this->edit();
-            } else {
-                $this->form->setValuesByPost();
-                return $this->create();
-            }
+            $form->setValuesByPost();
+            $this->create($form);
+            return;
         }
-        
         if ($_SESSION['objective_mode'] != self::MODE_CREATE) {
             $this->ctrl->returnToParent($this);
         }
-        
         $this->ctrl->setParameter($this, 'objective_id', $objective_id);
         $this->ctrl->redirect($this, 'materialAssignment');
-        return true;
     }
-    
-    /**
-     * material assignment
-     *
-     * @access protected
-     * @return
-     */
+
     protected function materialAssignment()
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $tpl = $DIC['tpl'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        if (!$_GET['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
+        if (!$this->initObjectiveIdFromQuery()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
 
         $this->setSubTabs("materials");
-
         $this->ctrl->saveParameter($this, 'objective_id');
+        $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
 
-        $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
-        
-        $table = new ilCourseObjectiveMaterialAssignmentTableGUI($this, $this->course_obj, (int) $_GET['objective_id']);
+        $table = new ilCourseObjectiveMaterialAssignmentTableGUI($this, $this->course_obj,
+            $this->initObjectiveIdFromQuery());
         $table->setTitle(
             $this->lng->txt('crs_objective_wiz_materials'),
             '',
             $this->lng->txt('crs_objectives')
         );
-
         $table->parse(ilCourseObjectiveMaterials::_getAssignableMaterials($this->course_obj->getRefId()));
-        
-        $this->__initQuestionObject((int) $_GET['objective_id']);
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
         $this->initWizard(self::STEP_MATERIAL_ASSIGNMENT);
-        $GLOBALS['DIC']['tpl']->setContent($table->getHTML());
+        $this->tpl->setContent($table->getHTML());
     }
-    
-    /**
-     * update material assignment
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function updateMaterialAssignment()
+
+    protected function updateMaterialAssignment() : void
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        if (!$_GET['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
+        if (!$this->initObjectiveIdFromQuery()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
 
-        $this->__initLMObject((int) $_GET['objective_id']);
+        $this->__initLMObject($this->initObjectiveIdFromQuery());
         $this->objectives_lm_obj->deleteAll();
 
-        if (is_array($_POST['materials'])) {
-            foreach ($_POST['materials'] as $node_id) {
-                $obj_id = $ilObjDataCache->lookupObjId($node_id);
-                $type = $ilObjDataCache->lookupType($obj_id);
-
-                $this->objectives_lm_obj->setLMRefId($node_id);
-                $this->objectives_lm_obj->setLMObjId($obj_id);
-                $this->objectives_lm_obj->setType($type);
-                $this->objectives_lm_obj->add();
-            }
+        $materials = [];
+        if ($this->http->wrapper()->post()->has('materials')) {
+            $materials = $this->http->wrapper()->post()->retrieve(
+                'materials',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
         }
-        if (is_array($_POST['chapters'])) {
-            foreach ($_POST['chapters'] as $chapter) {
-                list($ref_id, $chapter_id) = explode('_', $chapter);
+        foreach ($materials as $node_id) {
+            $obj_id = $this->objectDataCache->lookupObjId($node_id);
+            $type = $this->objectDataCache->lookupType($obj_id);
 
-                $this->objectives_lm_obj->setLMRefId($ref_id);
-                $this->objectives_lm_obj->setLMObjId($chapter_id);
-                $this->objectives_lm_obj->setType(ilLMObject::_lookupType($chapter_id));
-                $this->objectives_lm_obj->add();
-            }
+            $this->objectives_lm_obj->setLMRefId($node_id);
+            $this->objectives_lm_obj->setLMObjId($obj_id);
+            $this->objectives_lm_obj->setType($type);
+            $this->objectives_lm_obj->add();
         }
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
+        $chapters = [];
+        if ($this->http->wrapper()->post()->has('chapters')) {
+            $materials = $this->http->wrapper()->post()->retrieve(
+                'chapters',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
+        foreach ($chapters as $chapter) {
+            list($ref_id, $chapter_id) = explode('_', $chapter);
 
+            $this->objectives_lm_obj->setLMRefId($ref_id);
+            $this->objectives_lm_obj->setLMObjId($chapter_id);
+            $this->objectives_lm_obj->setType(ilLMObject::_lookupType($chapter_id));
+            $this->objectives_lm_obj->add();
+        }
 
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
         if ($_SESSION['objective_mode'] != self::MODE_CREATE) {
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'), true);
             $this->ctrl->returnToParent($this);
         }
-
-        // begin-patch lok
         if ($this->getSettings()->worksWithInitialTest()) {
             $this->selfAssessmentAssignment();
         } else {
             $this->finalTestAssignment();
         }
-        // end-patch lok
     }
 
-    /**
-     * self assessment assignemnt
-     *
-     * @access protected
-     * @return
-     */
-    protected function selfAssessmentAssignment()
+    protected function selfAssessmentAssignment() : void
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $tpl = $DIC['tpl'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        if (!$_GET['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
+        if (!$this->initObjectiveIdFromQuery()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
 
@@ -742,20 +580,20 @@ class ilCourseObjectivesGUI
 
         $this->ctrl->saveParameter($this, 'objective_id');
 
-        $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
+        $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
 
         // begin-patch lok
         $this->ctrl->setParameter($this, 'tt', ilLOSettings::TYPE_TEST_INITIAL);
-        $this->test_type = $_REQUEST['tt'] = ilLOSettings::TYPE_TEST_INITIAL;
+        $this->test_type = ilLOSettings::TYPE_TEST_INITIAL;
         if ($this->isRandomTestType(ilLOSettings::TYPE_TEST_INITIAL)) {
-            return $this->showRandomTestAssignment();
+            $this->showRandomTestAssignment();
+            return;
         }
         // end-patch lok
-        
         $table = new ilCourseObjectiveQuestionAssignmentTableGUI(
             $this,
             $this->course_obj,
-            (int) $_GET['objective_id'],
+            $this->initObjectiveIdFromQuery(),
             ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT
         );
         $table->setTitle(
@@ -764,39 +602,24 @@ class ilCourseObjectivesGUI
             $this->lng->txt('crs_objective')
         );
         $table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
-        
-        $this->__initQuestionObject((int) $_GET['objective_id']);
-        $this->initWizard(self::STEP_INITIAL_TEST_ASSIGNMENT);
-        $GLOBALS['DIC']['tpl']->setContent($table->getHTML());
-    }
-    
-    /**
-     * update self assessment assignment
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function updateSelfAssessmentAssignment()
-    {
-        global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
-        $checked_questions = $_POST['questions'] ? $_POST['questions'] : array();
-        
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
+        $this->initWizard(self::STEP_INITIAL_TEST_ASSIGNMENT);
+        $this->tpl->setContent($table->getHTML());
+    }
+
+    protected function updateSelfAssessmentAssignment() : void
+    {
+        $checked_questions = $_POST['questions'] ?: array();
+
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        if (!$_GET['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
+        if (!$this->initObjectiveIdFromQuery()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
-
-        $this->__initQuestionObject((int) $_GET['objective_id']);
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
 
         // Delete unchecked
         foreach ($this->objectives_qst_obj->getSelfAssessmentQuestions() as $question) {
@@ -808,8 +631,8 @@ class ilCourseObjectivesGUI
         // Add checked
         foreach ($checked_questions as $question_id) {
             list($test_ref_id, $qst_id) = explode('_', $question_id);
-            $test_obj_id = $ilObjDataCache->lookupObjId($test_ref_id);
-    
+            $test_obj_id = $this->objectDataCache->lookupObjId($test_ref_id);
+
             if ($this->objectives_qst_obj->isSelfAssessmentQuestion($qst_id)) {
                 continue;
             }
@@ -819,149 +642,105 @@ class ilCourseObjectivesGUI
             $this->objectives_qst_obj->setQuestionId($qst_id);
             $this->objectives_qst_obj->add();
         }
-        
+
         // TODO: not nice
-        $this->questions = new ilCourseObjectiveQuestion((int) $_GET['objective_id']);
-        // not required due to percentages
-        //$this->questions->updateLimits();
-        
+        $this->questions = new ilCourseObjectiveQuestion($this->initObjectiveIdFromQuery());
+
         if ($checked_questions) {
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
             $this->selfAssessmentLimits();
-            return true;
         } else {
             switch ($_SESSION['objective_mode']) {
                 case self::MODE_CREATE:
                     $this->finalTestAssignment();
-                    return true;
+                    return;
 
                 case self::MODE_UPDATE:
                     $this->selfAssessmentAssignment();
-                    $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
-                    return true;
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
+                    return;
             }
         }
     }
-    
-    /**
-     * self assessment limits
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function selfAssessmentLimits()
+
+    protected function selfAssessmentLimits() : void
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $tpl = $DIC['tpl'];
-
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        if (!$_GET['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
+        if (!$this->initObjectiveIdFromQuery()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
 
         $this->setSubTabs("self_ass_limits");
 
         $this->ctrl->saveParameter($this, 'objective_id');
-        $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
+        $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
 
-        $this->__initQuestionObject((int) $_GET['objective_id']);
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
         $this->initWizard(self::STEP_INITIAL_TEST_LIMIT);
 
         $this->initFormLimits('selfAssessment');
-        $GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
-        #$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
-        #$tpl->setContent($w_tpl->get());
+        $this->tpl->setContent($this->form->getHTML());
     }
-    
-    /**
-     * update self assessment limits
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function updateSelfAssessmentLimits()
-    {
-        global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+    protected function updateSelfAssessmentLimits() : void
+    {
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        if (!$_GET['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
+        if (!$this->initObjectiveIdFromQuery()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
 
-        $this->__initQuestionObject((int) $_GET['objective_id']);
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
 
         if ((int) $_POST['limit'] < 1 or (int) $_POST['limit'] > 100) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_err_limit'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_err_limit'));
             $this->selfAssessmentLimits();
-            return false;
+            return;
         }
-        
+
         foreach ($this->objectives_qst_obj->getSelfAssessmentTests() as $test) {
             $this->objectives_qst_obj->setTestStatus(ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT);
             $this->objectives_qst_obj->setTestSuggestedLimit((int) $_POST['limit']);
             $this->objectives_qst_obj->updateTest($test['test_objective_id']);
         }
 
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->returnToParent($this);
     }
-    
-    
-    /**
-     * final test assignment
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function finalTestAssignment()
-    {
-        global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $tpl = $DIC['tpl'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+    protected function finalTestAssignment() : void
+    {
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        if (!$_GET['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
+        if (!$this->initObjectiveIdFromQuery()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
 
         $this->setSubTabs("final_test_assign");
 
         $this->ctrl->saveParameter($this, 'objective_id');
-        $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
-        
+        $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
+
         // begin-patch lok
         $this->ctrl->setParameter($this, 'tt', ilLOSettings::TYPE_TEST_QUALIFIED);
-        $this->test_type = $_REQUEST['tt'] = ilLOSettings::TYPE_TEST_QUALIFIED;
+        $this->test_type = ilLOSettings::TYPE_TEST_QUALIFIED;
         if ($this->isRandomTestType(ilLOSettings::TYPE_TEST_QUALIFIED)) {
-            return $this->showRandomTestAssignment();
+            $this->showRandomTestAssignment();
+            return;
         }
         // end-patch lok
-        
+
         $table = new ilCourseObjectiveQuestionAssignmentTableGUI(
             $this,
             $this->course_obj,
-            (int) $_GET['objective_id'],
+            $this->initObjectiveIdFromQuery(),
             ilCourseObjectiveQuestion::TYPE_FINAL_TEST
         );
 
@@ -971,94 +750,83 @@ class ilCourseObjectivesGUI
             $this->lng->txt('crs_objective')
         );
         $table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
-        
-        $this->__initQuestionObject((int) $_GET['objective_id']);
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
         $this->initWizard(self::STEP_FINAL_TEST_ASSIGNMENT);
-        $GLOBALS['DIC']['tpl']->setContent($table->getHTML());
+        $this->tpl->setContent($table->getHTML());
     }
-    
-    // begin-patch lok
-    protected function isRandomTestType($a_tst_type = 0)
+
+    protected function isRandomTestType(int $a_tst_type = 0) : bool
     {
         if (!$a_tst_type) {
             $a_tst_type = $this->test_type;
         }
-        
+
         $tst_ref_id = $this->getSettings()->getTestByType($a_tst_type);
         if (!$tst_ref_id) {
             return false;
         }
         return ilObjTest::_lookupRandomTest(ilObject::_lookupObjId($tst_ref_id));
     }
-    
-    /**
-     *
-     * @param ilPropertyFormGUI $form
-     */
-    protected function showRandomTestAssignment(ilPropertyFormGUI $form = null)
+
+    protected function showRandomTestAssignment(ilPropertyFormGUI $form = null) : void
     {
         $this->ctrl->saveParameter($this, 'objective_id');
-        $this->ctrl->setParameter($this, 'tt', (int) $_REQUEST['tt']);
-        $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
-        $this->test_type = (int) $_REQUEST['tt'];
-
-
+        $this->ctrl->setParameter($this, 'tt', $this->initTestTypeFromQuery());
+        $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
+        $this->test_type = $this->initTestTypeFromQuery();
         $this->setSubTabs("rand_test_assign");
 
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initFormRandom();
         }
-        
-        $this->__initQuestionObject((int) $_GET['objective_id']);
+
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
         $this->initWizard(self::STEP_FINAL_TEST_ASSIGNMENT);
-        $GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
-    
-    /**
-     * show random test
-     */
-    protected function initFormRandom()
+
+    protected function initFormRandom() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
-        
+
         if ($this->test_type == ilLOSettings::TYPE_TEST_INITIAL) {
             $form->setTitle($this->lng->txt('crs_loc_form_random_limits_it'));
         } else {
             $form->setTitle($this->lng->txt('crs_loc_form_random_limits_qt'));
         }
-        
+
         $form->addCommandButton('saveRandom', $this->lng->txt('save'));
-        
+
         $options = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_rand_assign_qpl'), 'type');
-        $options->setValue(1);
+        $options->setValue('1');
         $options->setRequired(true);
-        
-        $ass_qpl = new ilRadioOption($this->lng->txt('crs_loc_rand_assign_qpl'), 1);
+
+        $ass_qpl = new ilRadioOption($this->lng->txt('crs_loc_rand_assign_qpl'), '1');
         $options->addOption($ass_qpl);
-        
+
         $qpl = new ilSelectInputGUI($this->lng->txt('crs_loc_rand_qpl'), 'qpl');
         $qpl->setRequired(true);
         $qpl->setMulti(true, false);
         $qpl->setOptions($this->getRandomTestQplOptions());
-        
+
         $sequences = ilLORandomTestQuestionPools::lookupSequencesByType(
             $this->course_obj->getId(),
-            (int) $_REQUEST['objective_id'],
+            $this->initObjectiveIdFromQuery(),
             ilObject::_lookupObjId($this->getSettings()->getTestByType($this->test_type)),
             $this->test_type
         );
-        
+
         $qpl->setValue($sequences[0]);
         $qpl->setMultiValues($sequences);
         $ass_qpl->addSubItem($qpl);
-        
+
         // points
         $per = new ilNumberInputGUI($this->lng->txt('crs_loc_perc'), 'per');
         $per->setValue(
-            ilLORandomTestQuestionPools::lookupLimit(
+            (string) ilLORandomTestQuestionPools::lookupLimit(
                 $this->course_obj->getId(),
-                (int) $_REQUEST['objective_id'],
+                $this->initObjectiveIdFromQuery(),
                 $this->test_type
             )
         );
@@ -1067,14 +835,13 @@ class ilCourseObjectivesGUI
         $per->setMaxValue(100);
         $per->setRequired(true);
         $ass_qpl->addSubItem($per);
-        
         $form->addItem($options);
         return $form;
     }
-    
-    
-    protected function getRandomTestQplOptions()
+
+    protected function getRandomTestQplOptions() : array
     {
+        $tst = null;
         $tst_ref_id = $this->getSettings()->getTestByType($this->test_type);
         if ($tst_ref_id) {
             $tst = ilObjectFactory::getInstanceByRefId($tst_ref_id, false);
@@ -1083,19 +850,18 @@ class ilCourseObjectivesGUI
             return array();
         }
         $list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
-            $GLOBALS['DIC']['ilDB'],
+            $this->db,
             $tst,
             new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-                $GLOBALS['DIC']['ilDB'],
+                $this->db,
                 $tst
             )
         );
-                
-        $list->loadDefinitions();
 
+        $list->loadDefinitions();
         $translater = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['DIC']['ilDB']);
         $translater->loadLabels($list);
-        
+
         $options[0] = $this->lng->txt('select_one');
         foreach ($list as $definition) {
             /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
@@ -1107,45 +873,27 @@ class ilCourseObjectivesGUI
             if (!empty($filterTitle)) {
                 $title .= ' -> ' . implode(' / ', $filterTitle);
             }
-            #$tax_id = $definition->getMappedFilterTaxId();
-            #if($tax_id)
-            #{
-            #	$title .= (' -> '. $translater->getTaxonomyTreeLabel($tax_id));
-            #}
-            #$tax_node = $definition->getMappedFilterTaxNodeId();
-            #if($tax_node)
-            #{
-            #	$title .= (' -> ' .$translater->getTaxonomyNodeLabel($tax_node));
-            #}
-            // fau.
             $options[$definition->getId()] = $title;
         }
         return $options;
     }
-    
-    /**
-     * Save random test settings
-     */
-    protected function saveRandom()
+
+    protected function saveRandom() : void
     {
         $this->ctrl->saveParameter($this, 'objective_id');
-        $this->ctrl->setParameter($this, 'tt', (int) $_REQUEST['tt']);
-        $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
-        $this->test_type = (int) $_REQUEST['tt'];
-        
+        $this->ctrl->setParameter($this, 'tt', $this->initTestTypeFromQuery());
+        $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
+        $this->test_type = $this->initTestTypeFromQuery();
+
         $form = $this->initFormRandom();
-        
-        
-        
-        
         if ($form->checkInput()) {
             ilLORandomTestQuestionPools::deleteForObjectiveAndTestType(
                 $this->course_obj->getId(),
-                (int) $_REQUEST['objective_id'],
+                $this->initObjectiveIdFromQuery(),
                 $this->test_type
             );
 
-            $qst = $this->__initQuestionObject((int) $_GET['objective_id']);
+            $qst = $this->__initQuestionObject($this->initObjectiveIdFromQuery());
             $qst->deleteByTestType(
                 ($this->test_type == ilLOSettings::TYPE_TEST_INITIAL) ?
                     ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT :
@@ -1155,7 +903,7 @@ class ilCourseObjectivesGUI
             foreach (array_unique((array) $form->getInput('qpl')) as $qpl_id) {
                 $rnd = new ilLORandomTestQuestionPools(
                     $this->course_obj->getId(),
-                    (int) $_REQUEST['objective_id'],
+                    $this->initObjectiveIdFromQuery(),
                     $this->test_type,
                     $qpl_id
                 );
@@ -1165,11 +913,12 @@ class ilCourseObjectivesGUI
             }
         } else {
             $form->setValuesByPost();
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
-            return $this->showRandomTestAssignment();
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+            $this->showRandomTestAssignment($form);
+            return;
         }
 
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         if ($this->test_type == ilLOSettings::TYPE_TEST_QUALIFIED) {
             $this->ctrl->returnToParent($this);
         } else {
@@ -1177,33 +926,18 @@ class ilCourseObjectivesGUI
         }
     }
 
-    /**
-     * update self assessment assignment
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function updateFinalTestAssignment()
+    protected function updateFinalTestAssignment() : void
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
-        $checked_questions = $_POST['questions'] ? $_POST['questions'] : array();
-        
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+        $checked_questions = $_POST['questions'] ?: array();
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        if (!$_GET['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
+        if (!$this->initObjectiveIdFromQuery()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
 
-        $this->__initQuestionObject((int) $_GET['objective_id']);
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
 
         // Delete unchecked
         foreach ($this->objectives_qst_obj->getFinalTestQuestions() as $question) {
@@ -1215,142 +949,82 @@ class ilCourseObjectivesGUI
         // Add checked
         foreach ($checked_questions as $question_id) {
             list($test_ref_id, $qst_id) = explode('_', $question_id);
-            $test_obj_id = $ilObjDataCache->lookupObjId($test_ref_id);
-    
+            $test_obj_id = $this->objectDataCache->lookupObjId($test_ref_id);
+
             if ($this->objectives_qst_obj->isFinalTestQuestion($qst_id)) {
                 continue;
             }
-            
+
             $this->objectives_qst_obj->setTestStatus(ilCourseObjectiveQuestion::TYPE_FINAL_TEST);
             $this->objectives_qst_obj->setTestRefId($test_ref_id);
             $this->objectives_qst_obj->setTestObjId($test_obj_id);
             $this->objectives_qst_obj->setQuestionId($qst_id);
             $this->objectives_qst_obj->add();
         }
-        
+
         // TODO: not nice
-        $this->questions = new ilCourseObjectiveQuestion((int) $_GET['objective_id']);
-        // not required due to percentages
-        //$this->questions->updateLimits();
-        
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
+        $this->questions = new ilCourseObjectiveQuestion($this->initObjectiveIdFromQuery());
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
         $this->finalTestLimits();
     }
-    
-    /**
-     * Show test assignment form
-     * @param ilPropertyFormGUI $form
-     */
-    protected function finalSeparatedTestAssignment(ilPropertyFormGUI $form = null)
-    {
-        global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
-        }
-        if (!$_GET['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
-            $this->ctrl->returnToParent($this);
-        }
-        $this->ctrl->saveParameter($this, 'objective_id');
-        $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
-        
-        $this->initWizard(self::STEP_FINAL_TEST_LIMIT);
-        $form = $this->initFormTestAssignment();
-        $GLOBALS['DIC']['tpl']->setContent($form->getHtml());
-    }
-    
     /**
-     * self assessment limits
-     *
-     * @access protected
-     * @param
-     * @return
+     * @todo get rid of this form
      */
-    protected function finalTestLimits()
+    protected function finalTestLimits() : void
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $tpl = $DIC['tpl'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        if (!$_GET['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
+        if (!$this->initObjectiveIdFromQuery()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->returnToParent($this);
         }
 
         $this->setSubTabs("final_test_limits");
 
         $this->ctrl->saveParameter($this, 'objective_id');
-        $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
-        
-        $this->__initQuestionObject((int) $_GET['objective_id']);
-        $this->initWizard(self::STEP_FINAL_TEST_LIMIT);
-        
-        $this->initFormLimits('final');
-        $GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
-    }
-    
-    /**
-     * update self assessment limits
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function updateFinalTestLimits()
-    {
-        global $DIC;
+        $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
 
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->course_obj->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
+        $this->initWizard(self::STEP_FINAL_TEST_LIMIT);
+
+        $this->initFormLimits('final');
+        $this->tpl->setContent($this->form->getHTML());
+    }
+
+    protected function updateFinalTestLimits() : void
+    {
+        if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        if (!$_GET['objective_id']) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
+        if (!$this->initObjectiveIdFromQuery()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
-
-        $this->__initQuestionObject((int) $_GET['objective_id']);
+        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
 
         if ((int) $_POST['limit'] < 1 or (int) $_POST['limit'] > 100) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_err_limit'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_err_limit'));
             $this->finalTestLimits();
-            return false;
+            return;
         }
-        
+
         foreach ($this->objectives_qst_obj->getFinalTests() as $test) {
             $this->objectives_qst_obj->setTestStatus(ilCourseObjectiveQuestion::TYPE_FINAL_TEST);
             $this->objectives_qst_obj->setTestSuggestedLimit((int) $_POST['limit']);
             $this->objectives_qst_obj->updateTest($test['test_objective_id']);
         }
-        
+
         if ($_SESSION['objective_mode'] != self::MODE_CREATE) {
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         } else {
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('crs_added_objective'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_added_objective'), true);
         }
         $this->ctrl->returnToParent($this);
     }
-    
-    /**
-     * init limit form
-     *
-     * @access protected
-     * @param string mode selfAssessment or final
-     * @return
-     */
-    protected function initFormLimits($a_mode)
+
+    protected function initFormLimits(string $a_mode) : ilPropertyFormGUI
     {
         if (!is_object($this->form)) {
             $this->form = new ilPropertyFormGUI();
@@ -1358,7 +1032,9 @@ class ilCourseObjectivesGUI
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setTableWidth('100%');
         //$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.svg'),$this->lng->txt('crs_objective'));
-        
+
+        $tests = [];
+        $max_points = 0;
         switch ($a_mode) {
             case 'selfAssessment':
                 $this->form->setTitle($this->lng->txt('crs_objective_wiz_self_limit'));
@@ -1368,7 +1044,7 @@ class ilCourseObjectivesGUI
                 $max_points = $this->objectives_qst_obj->getSelfAssessmentPoints();
 
                 break;
-            
+
             case 'final':
                 $this->form->setTitle($this->lng->txt('crs_objective_wiz_final_limit'));
                 $this->form->addCommandButton('updateFinalTestLimits', $this->lng->txt('crs_wiz_next'));
@@ -1378,17 +1054,16 @@ class ilCourseObjectivesGUI
 
                 break;
         }
-        
+
         $over = new ilCustomInputGUI($this->lng->txt('crs_objective_qst_summary'), '');
-        
+
         $tpl = new ilTemplate('tpl.crs_objective_qst_summary.html', true, true, 'Modules/Course');
-        
-        
+
         $limit = 0;
-        
+
         foreach ($tests as $test) {
             $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . print_r($test, true));
-            
+
             $limit = $test['limit'];
 
             foreach ($this->objectives_qst_obj->getQuestionsOfTest($test['obj_id']) as $question) {
@@ -1410,14 +1085,14 @@ class ilCourseObjectivesGUI
             $tpl->setVariable('TST_ALT_IMG', $this->lng->txt('obj_tst'));
             $tpl->parseCurrentBlock();
         }
-        
+
         $tpl->setVariable('TXT_ALL_POINTS', $this->lng->txt('crs_objective_all_points'));
         $tpl->setVariable('TXT_POINTS', $this->lng->txt('crs_objective_points'));
         $tpl->setVariable('POINTS', $max_points);
-        
+
         $over->setHtml($tpl->get());
         $this->form->addItem($over);
-        
+
         // points
         $req = new ilNumberInputGUI($this->lng->txt('crs_loc_perc'), 'limit');
         $req->setValue($limit);
@@ -1429,31 +1104,21 @@ class ilCourseObjectivesGUI
             case 'selfAssessment':
                 $req->setInfo($this->lng->txt('crs_obj_initial_req_info'));
                 break;
-                
+
             case 'final':
                 $req->setInfo($this->lng->txt('crs_obj_final_req_info'));
                 break;
         }
         $this->form->addItem($req);
+        return $this->form;
     }
 
-    
-    /**
-     * init form title
-     *
-     * @access protected
-     * @return
-     */
-    protected function initFormTitle($a_mode, $a_step_number)
+    protected function initFormTitle(string $a_mode) : ilPropertyFormGUI
     {
-        if ($this->form instanceof ilPropertyFormGUI) {
-            return;
-        }
-        
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         //$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.svg'),$this->lng->txt('crs_objective'));
-        
+
         switch ($a_mode) {
             case 'create':
                 $this->form->setTitle($this->lng->txt('crs_objective_wiz_title'));
@@ -1462,53 +1127,43 @@ class ilCourseObjectivesGUI
                 #$this->form->addCommandButton('listObjectives',$this->lng->txt('cancel'));
                 // end-patch lok
                 break;
-            
+
             case 'update':
                 break;
         }
-        
+
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         $title->setValue($this->objective->getTitle());
         $title->setRequired(true);
         $title->setSize(40);
         $title->setMaxLength(70);
         $this->form->addItem($title);
-        
+
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
         $desc->setValue($this->objective->getDescription());
         $desc->setCols(40);
         $desc->setRows(5);
         $this->form->addItem($desc);
+        return $this->form;
     }
-    
-    
-    /**
-     * init wizard
-     * @access protected
-     * @param int $a_step_number
-     * @return void
-     */
+
     protected function initWizard(int $active_step)
     {
-        global $DIC;
         $steps = [];
         $step_positions = [];
-
-        $workflow = $DIC->ui()->factory()->listing()->workflow();
 
         // 1 Settings
         $title = $this->lng->txt('crs_objective_wiz_title');
         $link = $this->ctrl->getLinkTarget($this, 'edit');
 
-        $steps[] = $workflow->step($title, "", $link);
+        $steps[] = $this->workflow->step($title, "", $link);
         $step_positions[self::STEP_SETTINGS] = count($steps) - 1;
 
         // 2 Material
         $title = $this->lng->txt('crs_objective_wiz_materials');
         $link = $this->ctrl->getLinkTarget($this, 'materialAssignment');
-        $steps[] = $workflow->step($title, "", $link);
+        $steps[] = $this->workflow->step($title, "", $link);
         $step_positions[self::STEP_MATERIAL_ASSIGNMENT] = count($steps) - 1;
-
 
         if ($this->getSettings()->worksWithInitialTest() && !$this->getSettings()->hasSeparateInitialTests()) {
             // 3 initial
@@ -1517,19 +1172,19 @@ class ilCourseObjectivesGUI
                 ? $this->ctrl->getLinkTarget($this, 'selfAssessmentAssignment')
                 : null;
 
-            $steps[] = $workflow->step($title, "", $link)
-                ->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
+            $steps[] = $this->workflow->step($title, "", $link)
+                                      ->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
             $step_positions[self::STEP_INITIAL_TEST_ASSIGNMENT] = count($steps) - 1;
 
             if (!$this->isRandomTestType(ilLOSettings::TYPE_TEST_INITIAL)) {
                 // 4 initial limit
                 $title = $this->lng->txt('crs_objective_wiz_self_limit');
                 $link = count($this->objectives_qst_obj->getSelfAssessmentQuestions())
-                    && $this->getSettings()->worksWithInitialTest()
+                && $this->getSettings()->worksWithInitialTest()
                     ? $this->ctrl->getLinkTarget($this, 'selfAssessmentLimits')
                     : null;
-                $steps[] = $workflow->step($title, "", $link)
-                    ->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
+                $steps[] = $this->workflow->step($title, "", $link)
+                                          ->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
                 $step_positions[self::STEP_INITIAL_TEST_LIMIT] = count($steps) - 1;
             }
         }
@@ -1538,7 +1193,7 @@ class ilCourseObjectivesGUI
             // 5 final
             $title = $this->lng->txt('crs_objective_wiz_final');
             $link = $this->ctrl->getLinkTarget($this, 'finalTestAssignment');
-            $steps[] = $workflow->step($title, "", $link);
+            $steps[] = $this->workflow->step($title, "", $link);
             $step_positions[self::STEP_FINAL_TEST_ASSIGNMENT] = count($steps) - 1;
 
             if (!$this->isRandomTestType(ilLOSettings::TYPE_TEST_QUALIFIED)) {
@@ -1547,22 +1202,19 @@ class ilCourseObjectivesGUI
                 $link = count($this->objectives_qst_obj->getFinalTestQuestions())
                     ? $this->ctrl->getLinkTarget($this, 'finalTestLimits')
                     : null;
-                $steps[] = $workflow->step($title, "", $link)
-                    ->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
+                $steps[] = $this->workflow->step($title, "", $link)
+                                          ->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
                 $step_positions[self::STEP_FINAL_TEST_LIMIT] = count($steps) - 1;
             }
         }
 
-        $list = $workflow->linear(
+        $list = $this->workflow->linear(
             $this->lng->txt('crs_checklist_objective'),
             $steps
         );
         if (!empty($step_positions[$active_step])) {
             $list = $list->withActive($step_positions[$active_step]);
         }
-
-        $renderer = $DIC->ui()->renderer();
-
-        $DIC["tpl"]->setRightContent($renderer->render($list));
+        $this->tpl->setRightContent($this->renderer->render($list));
     }
 }

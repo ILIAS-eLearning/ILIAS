@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,109 +21,72 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* class ilcourseobjectiveQuestion
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @extends Object
-*/
-
+ * class ilcourseobjectiveQuestion
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilCourseObjectiveQuestion
 {
-    const TYPE_SELF_ASSESSMENT = 0;
-    const TYPE_FINAL_TEST = 1;
+    public const TYPE_SELF_ASSESSMENT = 0;
+    public const TYPE_FINAL_TEST = 1;
 
-    public $db = null;
+    private $objective_id = 0;
+    private $questions = [];
+    private $tests = [];
+    private int $tst_status = 0;
+    private int $tst_limit = 0;
+    private int $tst_ref_id = 0;
+    private int $tst_obj_id = 0;
+    private int $question_id = 0;
 
-    public $objective_id = null;
-    public $questions;
-    protected $tests = array();
+    protected ilLogger $logger;
+    protected ilDBInterface $db;
+    protected ilObjectDataCache $objectDataCache;
+    protected ilTree $tree;
 
-    /**
-     * Constructor
-     * @global type $ilDB
-     * @param type $a_objective_id
-     */
-    public function __construct($a_objective_id)
+    public function __construct(int $a_objective_id = 0)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $this->db = $ilDB;
+        $this->logger = $DIC->logger()->crs();
+        $this->objectDataCache = $DIC['ilObjDataCache'];
+        $this->db = $DIC->database();
+        $this->tree = $DIC->repositoryTree();
 
         $this->objective_id = $a_objective_id;
-
         $this->__read();
     }
 
-
-    /**
-     * Lookup objective for test question
-     * @global type $ilDB
-     * @param type $a_test_ref_id
-     * @param type $a_qid
-     * @return int
-     */
-    public static function lookupObjectivesOfQuestion($a_qid)
+    public static function lookupObjectivesOfQuestion(int $a_qid) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = 'SELECT objective_id FROM crs_objective_qst ' .
-                'WHERE question_id = ' . $ilDB->quote($a_qid, 'integer');
+            'WHERE question_id = ' . $ilDB->quote($a_qid, 'integer');
         $res = $ilDB->query($query);
         $objectiveIds = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $objectiveIds[] = $row->objective_id;
+            $objectiveIds[] = (int) $row->objective_id;
         }
         return $objectiveIds;
     }
 
-    /**
-     * Check if test is assigned to objective
-     *
-     * @access public
-     * @static
-     *
-     * @param int test ref_id
-     * @param int objective_id
-     * @return boolean success
-     */
-    public static function _isTestAssignedToObjective($a_test_id, $a_objective_id)
+    public static function _isTestAssignedToObjective(int $a_test_id, int $a_objective_id) : bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT qst_ass_id FROM crs_objective_qst " .
             "WHERE ref_id = " . $ilDB->quote($a_test_id, 'integer') . " " .
             "AND objective_id = " . $ilDB->quote($a_objective_id, 'integer');
         $res = $ilDB->query($query);
-        return $res->numRows() ? true : false;
+        return (bool) $res->numRows();
     }
 
-    /**
-     * clone objective questions
-     *
-     * @access public
-     *
-     * @param int source objective
-     * @param int target objective
-     * @param int copy id
-     */
-    public function cloneDependencies($a_new_objective, $a_copy_id)
+    public function cloneDependencies(int $a_new_objective, int $a_copy_id) : void
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilLog = $DIC['ilLog'];
-        $ilDB = $DIC['ilDB'];
-
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
         foreach ($this->getQuestions() as $question) {
@@ -135,21 +98,22 @@ class ilCourseObjectiveQuestion
             $question_obj_id = $question['obj_id'];
             $question_qst_id = $question['question_id'];
             $new_ref_id = $mappings[$question_ref_id];
-            $new_obj_id = $ilObjDataCache->lookupObjId($new_ref_id);
+            $new_obj_id = $this->objectDataCache->lookupObjId($new_ref_id);
 
             if ($new_obj_id == $question_obj_id) {
-                ilLoggerFactory::getLogger('crs')->info('Test has been linked. Keeping question id');
+                $this->logger->info('Test has been linked. Keeping question id');
                 // Object has been linked
                 $new_question_id = $question_qst_id;
             } else {
                 $new_question_info = $mappings[$question_ref_id . '_question_' . $question_qst_id];
                 $new_question_arr = explode('_', $new_question_info);
                 if (!isset($new_question_arr[2]) or !$new_question_arr[2]) {
-                    ilLoggerFactory::getLogger('crs')->debug('found invalid format of question id mapping: ' . print_r($new_question_arr, true));
+                    $this->logger->debug('found invalid format of question id mapping: ' . print_r($new_question_arr,
+                            true));
                     continue;
                 }
                 $new_question_id = $new_question_arr[2];
-                ilLoggerFactory::getLogger('crs')->info('New question id is: ' . $new_question_id);
+                $this->logger->info('New question id is: ' . $new_question_id);
             }
 
             ilLoggerFactory::getLogger('crs')->debug('Copying question assignments');
@@ -169,65 +133,55 @@ class ilCourseObjectiveQuestion
                 "tst_limit_p = " . $this->db->quote($test['tst_limit'], 'integer') . " " .
                 "WHERE objective_id = " . $this->db->quote($a_new_objective, 'integer') . " " .
                 "AND ref_id = " . $this->db->quote($new_test_id, 'integer');
-            $res = $ilDB->manipulate($query);
+            $res = $this->db->manipulate($query);
         }
     }
 
-    /**
-     * Get assignable tests
-     *
-     * @access public
-     * @static
-     *
-     * @param
-     */
-    public static function _getAssignableTests($a_container_ref_id)
+    public static function _getAssignableTests(int $a_container_ref_id) : array
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-
-        return $tree->getSubTree($tree->getNodeData($a_container_ref_id), true, 'tst');
+        $tree = $DIC->repositoryTree();
+        return $tree->getSubTree($tree->getNodeData($a_container_ref_id), true, ['tst']);
     }
 
     // ########################################################  Methods for test table
-    public function setTestStatus($a_status)
+    public function setTestStatus(int $a_status) : void
     {
         $this->tst_status = $a_status;
     }
-    public function getTestStatus()
+
+    public function getTestStatus() : int
     {
-        return (int) $this->tst_status;
+        return $this->tst_status;
     }
-    public function setTestSuggestedLimit($a_limit)
+
+    public function setTestSuggestedLimit(int $a_limit) : void
     {
         $this->tst_limit = $a_limit;
     }
-    public function getTestSuggestedLimit()
+
+    public function getTestSuggestedLimit() : int
     {
-        return (int) $this->tst_limit;
+        return $this->tst_limit;
     }
-    public function __addTest()
+
+    public function __addTest() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "UPDATE crs_objective_tst " .
             "SET tst_status = " . $this->db->quote($this->getTestStatus(), 'integer') . " " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
             "AND ref_id = " . $this->db->quote($this->getTestRefId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-
+        $res = $this->db->manipulate($query);
 
         // CHECK if entry already exists
         $query = "SELECT * FROM crs_objective_tst " .
-            "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " " .
-            "AND ref_id = " . $ilDB->quote($this->getTestRefId(), 'integer') . "";
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
+            "AND ref_id = " . $this->db->quote($this->getTestRefId(), 'integer') . "";
 
         $res = $this->db->query($query);
         if ($res->numRows()) {
-            return false;
+            return;
         }
 
         // Check for existing limit
@@ -239,58 +193,39 @@ class ilCourseObjectiveQuestion
 
         $limit = 100;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $limit = $row->tst_limit_p;
+            $limit = (int) $row->tst_limit_p;
         }
 
-        $next_id = $ilDB->nextId('crs_objective_tst');
+        $next_id = $this->db->nextId('crs_objective_tst');
         $query = "INSERT INTO crs_objective_tst (test_objective_id,objective_id,ref_id,obj_id,tst_status,tst_limit_p) " .
             "VALUES( " .
-            $ilDB->quote($next_id, 'integer') . ", " .
-            $ilDB->quote($this->getObjectiveId(), 'integer') . ", " .
-            $ilDB->quote($this->getTestRefId(), 'integer') . ", " .
-            $ilDB->quote($this->getTestObjId(), 'integer') . ", " .
-            $ilDB->quote($this->getTestStatus(), 'integer') . ", " .
+            $this->db->quote($next_id, 'integer') . ", " .
+            $this->db->quote($this->getObjectiveId(), 'integer') . ", " .
+            $this->db->quote($this->getTestRefId(), 'integer') . ", " .
+            $this->db->quote($this->getTestObjId(), 'integer') . ", " .
+            $this->db->quote($this->getTestStatus(), 'integer') . ", " .
             $this->db->quote($limit, 'integer') . " " .
             ")";
-        $res = $ilDB->manipulate($query);
-
-        return true;
+        $res = $this->db->manipulate($query);
     }
 
-    public function __deleteTest($a_test_ref_id)
+    public function __deleteTest(int $a_test_ref_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         // Delete questions
         $query = "DELETE FROM crs_objective_qst " .
-            "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " " .
-            "AND ref_id = " . $ilDB->quote($a_test_ref_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
+            "AND ref_id = " . $this->db->quote($a_test_ref_id, 'integer') . " ";
+        $res = $this->db->manipulate($query);
 
         // delete tst entries
         $query = "DELETE FROM crs_objective_tst " .
-            "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " " .
-            "AND ref_id = " . $ilDB->quote($a_test_ref_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
+            "AND ref_id = " . $this->db->quote($a_test_ref_id, 'integer') . " ";
+        $res = $this->db->manipulate($query);
         unset($this->tests[$a_test_ref_id]);
-
-        return true;
     }
 
-    /**
-     * update test limits
-     *
-     * @access public
-     * @param int objective_id
-     * @param int status
-     * @param int limit
-     * @return
-     * @static
-     */
-    public static function _updateTestLimits($a_objective_id, $a_status, $a_limit)
+    public static function _updateTestLimits(int $a_objective_id, int $a_status, int $a_limit) : void
     {
         global $DIC;
 
@@ -301,314 +236,236 @@ class ilCourseObjectiveQuestion
             "WHERE tst_status = " . $ilDB->quote($a_status, 'integer') . " " .
             "AND objective_id = " . $ilDB->quote($a_objective_id, 'integer');
         $res = $ilDB->manipulate($query);
-        return true;
     }
 
-    public function updateTest($a_objective_id)
+    public function updateTest(int $a_objective_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "UPDATE crs_objective_tst " .
-            "SET tst_status = " . $ilDB->quote($this->getTestStatus(), 'integer') . ", " .
-            "tst_limit_p = " . $ilDB->quote($this->getTestSuggestedLimit(), 'integer') . " " .
-            "WHERE test_objective_id = " . $ilDB->quote($a_objective_id, 'integer') . "";
-        $res = $ilDB->manipulate($query);
-
-        return true;
+            "SET tst_status = " . $this->db->quote($this->getTestStatus(), 'integer') . ", " .
+            "tst_limit_p = " . $this->db->quote($this->getTestSuggestedLimit(), 'integer') . " " .
+            "WHERE test_objective_id = " . $this->db->quote($a_objective_id, 'integer') . "";
+        $res = $this->db->manipulate($query);
     }
 
-    public function getTests()
+    public function getTests() : array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "SELECT * FROM crs_objective_tst cot " .
             "JOIN object_data obd ON cot.obj_id = obd.obj_id " .
-            "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " " .
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
             "ORDER BY title ";
 
         $res = $this->db->query($query);
+        $tests = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $test['test_objective_id'] = $row->test_objective_id;
-            $test['objective_id'] = $row->objective_id;
-            $test['ref_id'] = $row->ref_id;
-            $test['obj_id'] = $row->obj_id;
-            $test['tst_status'] = $row->tst_status;
-            $test['tst_limit'] = $row->tst_limit_p;
-            $test['title'] = $row->title;
+            $test['test_objective_id'] = (int) $row->test_objective_id;
+            $test['objective_id'] = (int) $row->objective_id;
+            $test['ref_id'] = (int) $row->ref_id;
+            $test['obj_id'] = (int) $row->obj_id;
+            $test['tst_status'] = (int) $row->tst_status;
+            $test['tst_limit'] = (int) $row->tst_limit_p;
+            $test['title'] = (string) $row->title;
 
             $tests[] = $test;
         }
-
-        return $tests ? $tests : array();
+        return $tests;
     }
 
-    /**
-     * get self assessment tests
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function getSelfAssessmentTests()
+    public function getSelfAssessmentTests() : array
     {
+        $self = [];
         foreach ($this->tests as $test) {
             if ($test['status'] == self::TYPE_SELF_ASSESSMENT) {
                 $self[] = $test;
             }
         }
-        return $self ? $self : array();
+        return $self;
     }
 
-    /**
-     * get final tests
-     *
-     * @access public
-     * @return
-     */
-    public function getFinalTests()
+    public function getFinalTests() : array
     {
+        $final = [];
         foreach ($this->tests as $test) {
             if ($test['status'] == self::TYPE_FINAL_TEST) {
                 $final[] = $test;
             }
         }
-        return $final ? $final : array();
+        return $final;
     }
 
-    public static function _getTest($a_test_objective_id)
+    public static function _getTest(int $a_test_objective_id) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = "SELECT * FROM crs_objective_tst " .
             "WHERE test_objective_id = " . $ilDB->quote($a_test_objective_id, 'integer') . " ";
 
         $res = $ilDB->query($query);
+        $test = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $test['test_objective_id'] = $row->test_objective_id;
-            $test['objective_id'] = $row->objective_id;
-            $test['ref_id'] = $row->ref_id;
-            $test['obj_id'] = $row->obj_id;
-            $test['tst_status'] = $row->tst_status;
-            $test['tst_limit'] = $row->tst_limit_p;
+            $test['test_objective_id'] = (int) $row->test_objective_id;
+            $test['objective_id'] = (int) $row->objective_id;
+            $test['ref_id'] = (int) $row->ref_id;
+            $test['obj_id'] = (int) $row->obj_id;
+            $test['tst_status'] = (int) $row->tst_status;
+            $test['tst_limit'] = (int) $row->tst_limit_p;
         }
 
-        return $test ? $test : array();
+        return $test;
     }
 
-    // ############################################################# METHODS for question table
-    public function getQuestions()
+    public function getQuestions() : array
     {
-        return $this->questions ? $this->questions : array();
+        return $this->questions;
     }
 
-    /**
-     * get self assessment questions
-     *
-     * @access public
-     * @return
-     */
-    public function getSelfAssessmentQuestions()
+    public function getSelfAssessmentQuestions() : array
     {
+        $self = [];
         foreach ($this->questions as $question) {
             if ($question['test_type'] == self::TYPE_SELF_ASSESSMENT) {
                 $self[] = $question;
             }
         }
-        return $self ? $self : array();
+        return $self;
     }
 
-    /**
-     * get self assessment points
-     *
-     * @access public
-     * @return
-     */
-    public function getSelfAssessmentPoints()
+    public function getSelfAssessmentPoints() : int
     {
+        $points = 0;
         foreach ($this->getSelfAssessmentQuestions() as $question) {
             $points += $question['points'];
         }
-        return $points ? $points : 0;
+        return $points;
     }
 
-    /**
-     * get final test points
-     *
-     * @access public
-     * @return
-     */
-    public function getFinalTestPoints()
+    public function getFinalTestPoints() : int
     {
+        $points = 0;
         foreach ($this->getFinalTestQuestions() as $question) {
             $points += $question['points'];
         }
-        return $points ? $points : 0;
+        return $points;
     }
 
-    /**
-     * check if question is self assessment question
-     * @param int question id
-     * @access public
-     * @return
-     */
-    public function isSelfAssessmentQuestion($a_question_id)
+    public function isSelfAssessmentQuestion(int $a_question_id) : bool
     {
         foreach ($this->questions as $question) {
             if ($question['question_id'] == $a_question_id) {
-                return $question['test_type'] == self::TYPE_SELF_ASSESSMENT;
+                return $question['test_type'] === self::TYPE_SELF_ASSESSMENT;
             }
         }
         return false;
     }
 
-    /**
-     * is final test question
-     *
-     * @access public
-     * @param int question id
-     * @return
-     */
-    public function isFinalTestQuestion($a_question_id)
+    public function isFinalTestQuestion(int $a_question_id) : bool
     {
         foreach ($this->questions as $question) {
             if ($question['question_id'] == $a_question_id) {
-                return $question['test_type'] == self::TYPE_FINAL_TEST;
+                return $question['test_type'] === self::TYPE_FINAL_TEST;
             }
         }
         return false;
     }
 
-    /**
-     * get final test questions
-     *
-     * @access public
-     * @return
-     */
-    public function getFinalTestQuestions()
+    public function getFinalTestQuestions() : array
     {
+        $final = [];
         foreach ($this->questions as $question) {
             if ($question['test_type'] == self::TYPE_FINAL_TEST) {
                 $final[] = $question;
             }
         }
-        return $final ? $final : array();
+        return $final;
     }
 
-
-
-    /**
-     * Get questions of test
-     *
-     * @access public
-     * @param int test id
-     *
-     */
-    public function getQuestionsOfTest($a_test_id)
+    public function getQuestionsOfTest(int $a_test_id) : array
     {
+        $questions = [];
         foreach ($this->getQuestions() as $qst) {
             if ($a_test_id == $qst['obj_id']) {
                 $questions[] = $qst;
             }
         }
-        return $questions ? $questions : array();
+        return $questions;
     }
 
-    public function getQuestion($question_id)
+    public function getQuestion(int $question_id) : array
     {
-        return $this->questions[$question_id] ? $this->questions[$question_id] : array();
+        if ($this->questions[$question_id]) {
+            return $this->questions[$question_id];
+        } else {
+            return array();
+        }
     }
 
-    public function getObjectiveId()
+    public function getObjectiveId() : int
     {
         return $this->objective_id;
     }
 
-    public function setTestRefId($a_ref_id)
+    public function setTestRefId(int $a_ref_id) : void
     {
         $this->tst_ref_id = $a_ref_id;
     }
-    public function getTestRefId()
+
+    public function getTestRefId() : int
     {
-        return $this->tst_ref_id ? $this->tst_ref_id : 0;
+        return $this->tst_ref_id;
     }
-    public function setTestObjId($a_obj_id)
+
+    public function setTestObjId(int $a_obj_id) : void
     {
         $this->tst_obj_id = $a_obj_id;
     }
-    public function getTestObjId()
+
+    public function getTestObjId() : int
     {
-        return $this->tst_obj_id ? $this->tst_obj_id : 0;
+        return $this->tst_obj_id;
     }
-    public function setQuestionId($a_question_id)
+
+    public function setQuestionId(int $a_question_id) : void
     {
         $this->question_id = $a_question_id;
     }
-    public function getQuestionId()
+
+    public function getQuestionId() : int
     {
         return $this->question_id;
     }
 
-
-    public function getMaxPointsByObjective()
+    public function getMaxPointsByObjective() : int
     {
         $points = 0;
         foreach ($this->getQuestions() as $question) {
             $tmp_test = ilObjectFactory::getInstanceByRefId($question['ref_id']);
-
             $tmp_question = ilObjTest::_instanciateQuestion($question['question_id']);
-
             $points += $tmp_question->getMaximumPoints();
-
-            unset($tmp_question);
-            unset($tmp_test);
         }
         return $points;
     }
 
-    public function getMaxPointsByTest($a_test_ref_id)
+    public function getMaxPointsByTest(int $a_test_ref_id) : int
     {
         $points = 0;
-
         $tmp_test = ilObjectFactory::getInstanceByRefId($a_test_ref_id);
-
         foreach ($this->getQuestions() as $question) {
             if ($question['ref_id'] == $a_test_ref_id) {
                 $tmp_question = ilObjTest::_instanciateQuestion($question['question_id']);
-
                 $points += $tmp_question->getMaximumPoints();
-
-                unset($tmp_question);
             }
         }
-        unset($tmp_test);
-
         return $points;
     }
 
-    /**
-     * lookup maximimum point
-     *
-     * @access public
-     * @param int question id
-     * @return
-     * @static
-     */
-    public static function _lookupMaximumPointsOfQuestion($a_question_id)
+    public static function _lookupMaximumPointsOfQuestion(int $a_question_id) : float
     {
         return assQuestion::_getMaximumPoints($a_question_id);
     }
 
-
-    public function getNumberOfQuestionsByTest($a_test_ref_id)
+    public function getNumberOfQuestionsByTest(int $a_test_ref_id) : int
     {
         $counter = 0;
-
         foreach ($this->getQuestions() as $question) {
             if ($question['ref_id'] == $a_test_ref_id) {
                 ++$counter;
@@ -617,29 +474,20 @@ class ilCourseObjectiveQuestion
         return $counter;
     }
 
-    public function getQuestionsByTest($a_test_ref_id)
+    public function getQuestionsByTest(int $a_test_ref_id) : array
     {
+        $qst = [];
         foreach ($this->getQuestions() as $question) {
             if ($question['ref_id'] == $a_test_ref_id) {
                 $qst[] = $question['question_id'];
             }
         }
-        return $qst ? $qst : array();
+        return $qst;
     }
 
-    /**
-     * update limits
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function updateLimits()
+    public function updateLimits() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
+        $points = 0;
         foreach ($this->tests as $ref_id => $test_data) {
             switch ($test_data['status']) {
                 case self::TYPE_SELF_ASSESSMENT:
@@ -663,208 +511,160 @@ class ilCourseObjectiveQuestion
                 $query = "UPDATE crs_objective_tst " .
                     "SET tst_limit = " . $this->db->quote($points, 'integer') . " " .
                     "WHERE test_objective_id = " . $this->db->quote($test_data['test_objective_id'], 'integer') . " ";
-                $res = $ilDB->manipulate($query);
+                $res = $this->db->manipulate($query);
             }
         }
     }
 
-
-    public function add()
+    public function add() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "DELETE FROM crs_objective_qst " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
             "AND question_id = " . $this->db->quote($this->getQuestionId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
 
-        $next_id = $ilDB->nextId('crs_objective_qst');
+        $next_id = $this->db->nextId('crs_objective_qst');
         $query = "INSERT INTO crs_objective_qst (qst_ass_id, objective_id,ref_id,obj_id,question_id) " .
             "VALUES( " .
-            $ilDB->quote($next_id, 'integer') . ", " .
-            $ilDB->quote($this->getObjectiveId(), 'integer') . ", " .
-            $ilDB->quote($this->getTestRefId(), 'integer') . ", " .
-            $ilDB->quote($this->getTestObjId(), 'integer') . ", " .
-            $ilDB->quote($this->getQuestionId(), 'integer') .
+            $this->db->quote($next_id, 'integer') . ", " .
+            $this->db->quote($this->getObjectiveId(), 'integer') . ", " .
+            $this->db->quote($this->getTestRefId(), 'integer') . ", " .
+            $this->db->quote($this->getTestObjId(), 'integer') . ", " .
+            $this->db->quote($this->getQuestionId(), 'integer') .
             ")";
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
 
         $this->__addTest();
-
         $this->__read();
-
-        return true;
     }
-    public function delete($qst_id)
+
+    public function delete(int $qst_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!$qst_id) {
-            return false;
+            return;
         }
 
         $query = "SELECT * FROM crs_objective_qst " .
-            "WHERE qst_ass_id = " . $ilDB->quote($qst_id, 'integer') . " ";
+            "WHERE qst_ass_id = " . $this->db->quote($qst_id, 'integer') . " ";
 
+        $test_rid = $test_oid = 0;
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $test_rid = $row->ref_id;
-            $test_oid = $row->obj_id;
+            $test_rid = (int) $row->ref_id;
+            $test_oid = (int) $row->obj_id;
         }
 
         $query = "DELETE FROM crs_objective_qst " .
-            "WHERE qst_ass_id = " . $ilDB->quote($qst_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+            "WHERE qst_ass_id = " . $this->db->quote($qst_id, 'integer') . " ";
+        $res = $this->db->manipulate($query);
 
         // delete test if it was the last question
         $query = "SELECT * FROM crs_objective_qst " .
-            "WHERE ref_id = " . $ilDB->quote($test_rid, 'integer') . " " .
-            "AND obj_id = " . $ilDB->quote($test_oid, 'integer') . " " .
-            "AND objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " ";
+            "WHERE ref_id = " . $this->db->quote($test_rid, 'integer') . " " .
+            "AND obj_id = " . $this->db->quote($test_oid, 'integer') . " " .
+            "AND objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
 
         $res = $this->db->query($query);
         if (!$res->numRows()) {
             $this->__deleteTest($test_rid);
         }
-
-        return true;
     }
 
     // begin-patch lok
-    public static function deleteTest($a_tst_ref_id)
+    public static function deleteTest(int $a_tst_ref_id) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = 'DELETE FROM crs_objective_tst ' .
-                'WHERE ref_id = ' . $ilDB->quote($a_tst_ref_id, 'integer');
+            'WHERE ref_id = ' . $ilDB->quote($a_tst_ref_id, 'integer');
         $ilDB->manipulate($query);
 
         $query = 'DELETE FROM crs_objective_qst ' .
-                'WHERE ref_id = ' . $ilDB->quote($a_tst_ref_id, 'integer');
+            'WHERE ref_id = ' . $ilDB->quote($a_tst_ref_id, 'integer');
         $ilDB->manipulate($query);
     }
 
-
-    public function deleteByTestType($a_type)
+    public function deleteByTestType(int $a_type) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-
         // Read tests by type
         $deletable_refs = array();
-        foreach ((array) $this->tests as $tst_data) {
+        foreach ($this->tests as $tst_data) {
             if ($tst_data['status'] == $a_type) {
                 $deletable_refs[] = $tst_data['ref_id'];
             }
         }
 
         $query = 'DELETE from crs_objective_tst ' .
-                'WHERE objective_id = ' . $ilDB->quote($this->getObjectiveId(), 'integer') . ' ' .
-                'AND tst_status = ' . $ilDB->quote($a_type, 'integer');
-        $ilDB->manipulate($query);
-
+            'WHERE objective_id = ' . $this->db->quote($this->getObjectiveId(), 'integer') . ' ' .
+            'AND tst_status = ' . $this->db->quote($a_type, 'integer');
+        $this->db->manipulate($query);
 
         $query = 'DELETE from crs_objective_tst ' .
-                'WHERE objective_id = ' . $ilDB->quote($this->getObjectiveId(), 'integer') . ' ' .
-                'AND ' . $ilDB->in('ref_id', $deletable_refs, false, 'integer');
-        $ilDB->manipulate($query);
-
-        return true;
+            'WHERE objective_id = ' . $this->db->quote($this->getObjectiveId(), 'integer') . ' ' .
+            'AND ' . $this->db->in('ref_id', $deletable_refs, false, 'integer');
+        $this->db->manipulate($query);
     }
-    // end-patch lok
 
-
-    public function deleteAll()
+    public function deleteAll() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "DELETE FROM crs_objective_qst " .
-            "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
+        $res = $this->db->manipulate($query);
 
         $query = "DELETE FROM crs_objective_tst " .
-            "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-
-        return true;
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
+        $res = $this->db->manipulate($query);
     }
 
-
-    // PRIVATE
-    public function __read()
+    public function __read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $tree = $DIC['tree'];
-
-
         $container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
         $container_ref_id = current($container_ref_ids);
 
         // Read test data
         $query = "SELECT * FROM crs_objective_tst " .
-            "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " ";
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->tests[$row->ref_id]['test_objective_id'] = $row->test_objective_id;
-            $this->tests[$row->ref_id]['ref_id'] = $row->ref_id;
-            $this->tests[$row->ref_id]['obj_id'] = $row->obj_id;
-            $this->tests[$row->ref_id]['status'] = $row->tst_status;
-            $this->tests[$row->ref_id]['limit'] = $row->tst_limit_p;
+            $this->tests[(int) $row->ref_id]['test_objective_id'] = (int) $row->test_objective_id;
+            $this->tests[(int) $row->ref_id]['ref_id'] = (int) $row->ref_id;
+            $this->tests[(int) $row->ref_id]['obj_id'] = (int) $row->obj_id;
+            $this->tests[(int) $row->ref_id]['status'] = (int) $row->tst_status;
+            $this->tests[(int) $row->ref_id]['limit'] = (int) $row->tst_limit_p;
         }
 
         $this->questions = array();
         $query = "SELECT * FROM crs_objective_qst coq " .
             "JOIN qpl_questions qq ON coq.question_id = qq.question_id " .
-            "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " " .
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
             "ORDER BY title";
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (!$tree->isInTree($row->ref_id) or !$tree->isGrandChild($container_ref_id, $row->ref_id)) {
-                $this->__deleteTest($row->ref_id);
+            if (!$this->tree->isInTree((int) $row->ref_id) or !$this->tree->isGrandChild($container_ref_id,
+                    (int) $row->ref_id)) {
+                $this->__deleteTest((int) $row->ref_id);
                 continue;
             }
-            if (!$question = ilObjTest::_instanciateQuestion($row->question_id)) {
-                $this->delete($row->question_id);
+            if (!$question = ilObjTest::_instanciateQuestion((int) $row->question_id)) {
+                $this->delete((int) $row->question_id);
                 continue;
             }
+            $qst['ref_id'] = (int) $row->ref_id;
+            $qst['obj_id'] = (int) $row->obj_id;
+            $qst['question_id'] = (int) $row->question_id;
+            $qst['qst_ass_id'] = (int) $row->qst_ass_id;
+            $qst['title'] = (string) $question->getTitle();
+            $qst['description'] = (string) $question->getComment();
+            $qst['test_type'] = (int) $this->tests[(int) $row->ref_id]['status'];
+            $qst['points'] = (int) $question->getPoints();
 
-            $qst['ref_id'] = $row->ref_id;
-            $qst['obj_id'] = $row->obj_id;
-            $qst['question_id'] = $row->question_id;
-            $qst['qst_ass_id'] = $row->qst_ass_id;
-            $qst['title'] = $question->getTitle();
-            $qst['description'] = $question->getComment();
-            $qst['test_type'] = $this->tests[$row->ref_id]['status'];
-            $qst['points'] = $question->getPoints();
-
-            $this->questions[$row->qst_ass_id] = $qst;
+            $this->questions[(int) $row->qst_ass_id] = $qst;
         }
-
-        return true;
     }
 
-    // STATIC
-    /**
-     *
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public static function _hasTests($a_course_id)
+    public static function _hasTests(int $a_course_id) : bool
     {
         global $DIC;
 
@@ -874,16 +674,14 @@ class ilCourseObjectiveQuestion
             "crs_objective_tst cot ON co.objective_id = cot.objective_id " .
             "WHERE crs_id = " . $ilDB->quote($a_course_id, 'integer') . " ";
         $res = $ilDB->query($query);
-        return $res->numRows() ? true : false;
+        return (bool) $res->numRows();
     }
 
-
-    public static function _isAssigned($a_objective_id, $a_tst_ref_id, $a_question_id)
+    public static function _isAssigned(int $a_objective_id, int $a_tst_ref_id, int $a_question_id) : int
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = "SELECT crs_qst.objective_id objective_id FROM crs_objective_qst crs_qst, crs_objectives crs_obj " .
             "WHERE crs_qst.objective_id = crs_obj.objective_id " .
             "AND crs_qst.objective_id = " . $ilDB->quote($a_objective_id, 'integer') . " " .
@@ -891,41 +689,38 @@ class ilCourseObjectiveQuestion
             "AND question_id = " . $ilDB->quote($a_question_id, 'integer') . " ";
 
         $res = $ilDB->query($query);
+        $objective_id = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $objective_id = $row->objective_id;
+            $objective_id = (int) $row->objective_id;
         }
-
-        return $objective_id ? $objective_id : 0;
+        return $objective_id;
     }
 
-    // begin-patch lok
-    public static function lookupQuestionsByObjective($a_test_id, $a_objective)
+    public static function lookupQuestionsByObjective(int $a_test_id, int $a_objective) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = 'SELECT question_id FROM crs_objective_qst ' .
-                'WHERE objective_id = ' . $ilDB->quote($a_objective, 'integer') . ' ' .
-                'AND obj_id = ' . $ilDB->quote($a_test_id, 'integer');
+            'WHERE objective_id = ' . $ilDB->quote($a_objective, 'integer') . ' ' .
+            'AND obj_id = ' . $ilDB->quote($a_test_id, 'integer');
         $res = $ilDB->query($query);
 
         $questions = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $questions[] = $row->question_id;
         }
-        return (array) $questions;
+        return $questions;
     }
 
-    public static function loookupTestLimit($a_test_id, $a_objective_id)
+    public static function loookupTestLimit(int $a_test_id, int $a_objective_id) : int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
         $query = 'SELECT tst_limit_p FROM crs_objective_tst ' .
-                'WHERE objective_id = ' . $ilDB->quote($a_objective_id, 'integer') . ' ' .
-                'AND obj_id = ' . $ilDB->quote($a_test_id, 'integer');
+            'WHERE objective_id = ' . $ilDB->quote($a_objective_id, 'integer') . ' ' .
+            'AND obj_id = ' . $ilDB->quote($a_test_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return (int) $row->tst_limit_p;
@@ -933,11 +728,7 @@ class ilCourseObjectiveQuestion
         return 0;
     }
 
-    /**
-     * To xml
-     * @param ilXmlWriter $writer
-     */
-    public function toXml(ilXmlWriter $writer)
+    public function toXml(ilXmlWriter $writer) : void
     {
         foreach ($this->getTests() as $test) {
             $writer->xmlStartTag(

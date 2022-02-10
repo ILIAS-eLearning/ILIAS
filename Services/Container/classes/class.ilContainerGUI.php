@@ -2521,7 +2521,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected function saveSortingSettings(ilPropertyFormGUI $form) : void
     {
         $settings = new ilContainerSortingSettings($this->object->getId());
-        $settings->setSortMode($form->getInput("sorting"));
+        $settings->setSortMode((int) $form->getInput("sorting"));
 
         switch ($form->getInput('sorting')) {
             case ilContainer::SORT_TITLE:

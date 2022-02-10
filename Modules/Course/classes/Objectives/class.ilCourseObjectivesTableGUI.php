@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,60 +21,37 @@
         +-----------------------------------------------------------------------------+
 */
 
-
 // begin-patch lok
 // end-patch lok
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesCourse
-*/
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @ingroup ModulesCourse
+ */
 class ilCourseObjectivesTableGUI extends ilTable2GUI
 {
-    protected $course_obj = null;
-    
-    // begin-patch lok
-    protected $settings = null;
-    // end-patch lok
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param object parent gui object
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_course_obj)
+    protected ilObject $course_obj;
+    protected ilLOSettings $settings;
+
+    public function __construct(object $a_parent_obj, ilObject $a_course_obj)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->course_obj = $a_course_obj;
 
-        // begin-patch lok
         $this->settings = ilLOSettings::getInstanceByObjId($this->course_obj->getId());
-        // end-patch lok
-
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('crs');
-        $this->ctrl = $ilCtrl;
 
         parent::__construct($a_parent_obj, 'listObjectives');
+        $this->lng->loadLanguageModule('crs');
         $this->setFormName('objectives');
         $this->addColumn('', 'f', "1px");
         $this->addColumn($this->lng->txt('position'), 'position', '10em');
         $this->addColumn($this->lng->txt('title'), 'title', '20%');
         $this->addColumn($this->lng->txt('crs_objective_assigned_materials'), 'materials');
-        // begin-patch lok
         if ($this->getSettings()->worksWithInitialTest()) {
             $this->addColumn($this->lng->txt('crs_objective_self_assessment'), 'self');
         }
-        // end-patch lok
         if ($this->getSettings()->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_SELECTED) {
             $this->addColumn($this->lng->txt('crs_objective_tbl_col_final_tsts'), 'final');
         } else {
@@ -88,38 +65,19 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         $this->enable('header');
         $this->disable('numinfo');
         $this->enable('select_all');
-        // begin-patch lok
         $this->setSelectAllCheckbox('objective');
-        // end-patch lok
         $this->setLimit(200);
-
-        // begin-patch lo
         $this->addMultiCommand('activateObjectives', $this->lng->txt('set_online'));
         $this->addMultiCommand('deactivateObjectives', $this->lng->txt('set_offline'));
         $this->addMultiCommand('askDeleteObjectives', $this->lng->txt('delete'));
-        // end-patch lok
         $this->addCommandButton('saveSorting', $this->lng->txt('sorting_save'));
-        // $this->addCommandButton('create',$this->lng->txt('crs_add_objective'));
     }
-    
-    // begin-patch lok
-    /**
-     * Get settings
-     * @return ilLOSettings
-     */
-    public function getSettings()
+
+    public function getSettings() : ilLOSettings
     {
         return $this->settings;
     }
-    // end-patch lok
-    
-    
-    /**
-     * fill row
-     * @access protected
-     * @param array row data
-     * @return void
-     */
+
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
@@ -138,7 +96,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             $this->tpl->setVariable('PASSES_TXT', $this->lng->txt('crs_loc_passes_info'));
             $this->tpl->setVariable('PASSES_VAL', $a_set['passes']);
         }
-
 
         // begin-patch lok
         $this->ctrl->setParameterByClass('ilcourseobjectivesgui', 'objective_id', $a_set['id']);
@@ -240,7 +197,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     $this->ctrl->getLinkTargetByClass('ilobjtestgui')
                 );
 
-
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->touchBlock('final_test_per_objective');
@@ -252,28 +208,14 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     $this->tpl->setVariable('FINAL_QST_TITLE', $question['title']);
                     $this->tpl->parseCurrentBlock();
                 }
-                // begin-patch lok
-                #$this->tpl->setCurrentBlock('final_test_row');
-                #$this->tpl->setVariable('FINAL_TST_IMG',ilUtil::getImagePath('icon_tst_s.png'));
-                #$this->tpl->setVariable('FINAL_TST_ALT',$this->lng->txt('obj_tst'));
-                #$this->tpl->setVariable('FINAL_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
-                #$this->tpl->parseCurrentBlock();
-                // end-patch lok
             }
         }
-
-        // begin-patch lok
-        // Edit Link
-        #$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'objective_id',$a_set['id']);
         $this->ctrl->setParameterByClass('ilcourseobjectivesgui', 'objective_id', $a_set['id']);
-        #$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'edit'));
         $this->tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'edit'));
-        // end-patch lok
         $this->tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
 
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId($a_set['id']);
-        //$alist->setListTitle($this->lng->txt("actions"));
 
         $alist->addItem(
             $this->lng->txt('edit'),
@@ -296,11 +238,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         }
         // qtest
         if ($this->getSettings()->hasSeparateQualifiedTests()) {
-            #$alist->addItem(
-            #		$this->lng->txt('crs_objective_action_qtest_sep'),
-            #		'',
-            #		$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'finalSeparatedTestAssignment')
-            #);
+            // @todo
         } else {
             $alist->addItem(
                 $this->lng->txt('crs_objective_action_qtest'),
@@ -316,36 +254,27 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             $this->ctrl->getLinkTargetByClass('illopagegui', 'edit')
         );
 
-
         $this->tpl->setVariable('VAL_ACTIONS', $alist->getHTML());
 
         // end-patch lok
     }
-        
-    
-    /**
-     * parse
-     *
-     * @access public
-     * @param array array of objective id's
-     */
-    public function parse($a_objective_ids)
+
+    public function parse(array $a_objective_ids) : void
     {
         $position = 1;
+        $objectives = [];
         foreach ($a_objective_ids as $objective_id) {
             $objective = new ilCourseObjective($this->course_obj, $objective_id);
-            
+
             $objective_data = [];
             $objective_data['id'] = $objective_id;
             $objective_data['position'] = sprintf("%.1f", $position++) * 10;
             $objective_data['title'] = $objective->getTitle();
             $objective_data['description'] = $objective->getDescription();
-            
-            // begin-patch lok
+
             $objective_data['online'] = $objective->isActive();
             $objective_data['passes'] = $objective->getPasses();
-            // end-patch lok
-            
+
             // assigned materials
             $materials = array();
             $ass_materials = new ilCourseObjectiveMaterials($objective_id);
@@ -359,18 +288,19 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                         $materials[$material['ref_id']]['items'][] = $material;
                         break;
                     default:
-                        
+
                 }
             }
             $objective_data['materials'] = $materials;
             $question_obj = new ilCourseObjectiveQuestion($objective_id);
-            
+
             // self assessment questions
             // begin-patch lok
             if ($this->getSettings()->worksWithInitialTest()) {
                 if ($this->getSettings()->hasSeparateInitialTests()) {
                     $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
-                    $assignment = $assignments->getAssignmentByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL);
+                    $assignment = $assignments->getAssignmentByObjective($objective_id,
+                        ilLOSettings::TYPE_TEST_INITIAL);
 
                     $objective_data['initial'] = 0;
                     if ($assignment instanceof ilLOTestAssignment) {
@@ -414,15 +344,11 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     $objective_data['self'] = $tests;
                 }
             }
-            // end-patch lok
-            
-            // final test questions
-            // begin-patch lok
-            // single test assignments
+
             if ($this->getSettings()->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_SELECTED) {
                 $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
                 $assignment = $assignments->getAssignmentByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
-            
+
                 $objective_data['final'] = 0;
                 if ($assignment instanceof ilLOTestAssignment) {
                     $test_id = $assignment->getTestRefId();
@@ -466,8 +392,8 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                 }
             }
             // end-patch lok
-            $objectives[] = (array) $objective_data;
+            $objectives[] = $objective_data;
         }
-        $this->setData($objectives ? $objectives : array());
+        $this->setData($objectives);
     }
 }
