@@ -423,38 +423,39 @@ class ilInitialisation
      */
     protected static function determineClient() : void
     {
-        global $ilIliasIniFile, $DIC;
+        global $DIC;
         $df = new \ILIAS\Data\Factory;
 
         // check whether ini file object exists
-        if (!is_object($ilIliasIniFile)) {
+        if (!$DIC->isDependencyAvailable('iliasIni')) {
             self::abortAndDie('Fatal Error: ilInitialisation::determineClient called without initialisation of ILIAS ini file object.');
         }
-
-        $client_id = '';
-        if ($DIC->http()->wrapper()->query()->has('client_id')) {
+        $in_unit_tests = defined('IL_PHPUNIT_TEST');
+        $context_supports_persitent_session = (bool) ilContext::supportsPersistentSessions();
+        $can_set_cookie = !$in_unit_tests && $context_supports_persitent_session;
+        $has_request_client_id = $DIC->http()->wrapper()->query()->has('client_id');
+        $has_cookie_client_id = $DIC->http()->cookieJar()->has('ilClientId');
+        $default_client_id = $DIC->iliasIni()->readVariable('clients', 'default');
+        
+        // determintaion of client_id:
+        $client_id_to_use = '';
+        // first we try to get the client_id from request
+        if ($has_request_client_id) {
             // @todo refinerey undefined
-            $client_id = (string) $_GET['client_id'];
+            $client_id_from_get = (string) $_GET['client_id'];
         }
-        if (strlen($client_id) > 0) {
-            
-            $client_id = $_GET['client_id'] = $df->clientId($client_id)->toString();
-            if (!defined('IL_PHPUNIT_TEST')) {
-                if (ilContext::supportsPersistentSessions()) {
-                    ilUtil::setCookie('ilClientId', $client_id);
-                }
+        // we found a client_id in $GET
+        if (isset($client_id_from_get) && strlen($client_id_from_get) > 0) {
+            $client_id_to_use = $_GET['client_id'] = $df->clientId($client_id_from_get)->toString();
+            if ($can_set_cookie) {
+                ilUtil::setCookie('ilClientId', $client_id_to_use);
             }
         } elseif (!isset($_COOKIE['ilClientId'])) {
-            ilUtil::setCookie('ilClientId', $ilIliasIniFile->readVariable('clients', 'default'));
-        }
-
-        if (!defined('IL_PHPUNIT_TEST') && ilContext::supportsPersistentSessions()) {
-            $clientId = $_COOKIE['ilClientId'];
-        } else {
-            $clientId = $client_id;
+            $client_id_to_use = $default_client_id;
+            ilUtil::setCookie('ilClientId', $client_id_to_use);
         }
         
-        define('CLIENT_ID', $df->clientId($clientId)->toString());
+        define('CLIENT_ID', $df->clientId($client_id_to_use)->toString());
     }
 
     /**
