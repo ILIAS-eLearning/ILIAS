@@ -42,7 +42,8 @@ class ilForumDraftsTableGUI extends ilTable2GUI
             );
         }
 
-        $this->tpl->setVariable('VAL_CHECK',
+        $this->tpl->setVariable(
+            'VAL_CHECK',
             ilLegacyFormElementsUtil::formCheckbox(
                 in_array($a_set['draft_id'], $selected_draft_ids, true),
                 'draft_ids[]',

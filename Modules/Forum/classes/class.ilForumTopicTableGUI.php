@@ -160,7 +160,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
         if ('mergeThreads' === $this->parent_cmd) {
             $checked = $this->max_count === 1 || (isset($thread_ids) && in_array($thread->getId(), $thread_ids, true));
-            $this->tpl->setVariable('VAL_CHECK',
+            $this->tpl->setVariable(
+                'VAL_CHECK',
                 ilLegacyFormElementsUtil::formRadioButton(
                     $checked,
                     'thread_ids[]',
@@ -168,7 +169,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
                 )
             );
         } elseif ('showThreads' === $this->parent_cmd) {
-            $this->tpl->setVariable('VAL_CHECK',
+            $this->tpl->setVariable(
+                'VAL_CHECK',
                 ilLegacyFormElementsUtil::formCheckbox(
                     (isset($thread_ids) && in_array($thread->getId(), $thread_ids, true)),
                     'thread_ids[]',
