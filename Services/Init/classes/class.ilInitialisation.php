@@ -450,9 +450,11 @@ class ilInitialisation
             if ($can_set_cookie) {
                 ilUtil::setCookie('ilClientId', $client_id_to_use);
             }
-        } elseif (!isset($_COOKIE['ilClientId'])) {
+        } else {
             $client_id_to_use = $default_client_id;
-            ilUtil::setCookie('ilClientId', $client_id_to_use);
+            if (!isset($_COOKIE['ilClientId'])) {
+                ilUtil::setCookie('ilClientId', $client_id_to_use);
+            }
         }
         
         define('CLIENT_ID', $df->clientId($client_id_to_use)->toString());
