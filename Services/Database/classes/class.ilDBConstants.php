@@ -83,7 +83,7 @@ class ilDBConstants
         ilDBConstants::TYPE_POSTGRES => "Postgres (experimental)",
         ilDBConstants::TYPE_GALERA => "Galera-Cluster (experimental)",
         // Development identifiers (will be removed in 5.3)
-        ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.5.x or higher (InnoDB engine) [developers-identifier]",
+        ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.7.x or higher (InnoDB engine) [developers-identifier]",
         ilDBConstants::TYPE_PDO_POSTGRE => "Postgres (experimental) [developers-identifier]",
         ilDBConstants::TYPE_PDO_MYSQL_GALERA => "Galera-Cluster (experimental) [developers-identifier]",
     );
