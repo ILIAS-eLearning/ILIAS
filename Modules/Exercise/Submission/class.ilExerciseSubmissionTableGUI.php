@@ -228,7 +228,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
     ) : void {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
-        
+
         $has_no_team_yet = ($a_ass->hasTeam() &&
             !ilExAssignmentTeam::getTeamId($a_ass->getId(), $a_user_id));
         
@@ -334,6 +334,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         // selectable columns
             
         foreach ($this->getSelectedColumns() as $col) {
+            $include_seconds = false;
             switch ($col) {
                 case "image":
                     if (!$a_ass->hasTeam()) {
@@ -382,7 +383,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
                 case "mark":
                     if (!$has_no_team_yet) {
-                        $this->tpl->setVariable("VAL_" . strtoupper($col),
+                        $this->tpl->setVariable(
+                            "VAL_" . strtoupper($col),
                             ilLegacyFormElementsUtil::prepareFormOutput(trim($a_row[$col]))
                         );
                     }
@@ -390,7 +392,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
                 case "notice":
                     // see #22076
-                    $this->tpl->setVariable("VAL_" . strtoupper($col),
+                    $this->tpl->setVariable(
+                        "VAL_" . strtoupper($col),
                         ilLegacyFormElementsUtil::prepareFormOutput(trim($a_row[$col]))
                     );
                     break;
@@ -410,6 +413,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 case "sent_time":
                 case "submission":
                     if ($col == "submission" && $a_row["submission_obj"]) {
+                        $include_seconds = true;
                         foreach ($a_row["submission_obj"]->getFiles() as $file) {
                             if ($file["late"]) {
                                 $this->tpl->setVariable("TXT_LATE", $this->lng->txt("exc_late_submission"));
@@ -420,7 +424,12 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     $this->tpl->setVariable(
                         "VAL_" . strtoupper($col),
                         $a_row[$col]
-                            ? ilDatePresentation::formatDate(new ilDateTime($a_row[$col], IL_CAL_DATETIME))
+                            ? ilDatePresentation::formatDate(
+                                new ilDateTime($a_row[$col], IL_CAL_DATETIME),
+                                false,
+                                false,
+                                $include_seconds
+                            )
                             : "&nbsp;"
                     );
                     break;
