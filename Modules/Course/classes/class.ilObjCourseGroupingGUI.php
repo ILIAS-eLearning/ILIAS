@@ -1,22 +1,20 @@
 <?php declare(strict_types=0);
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
-
 /**
-* Class ilObjCourseGroupingGUI
-* @author your name <your email>
-*
-*/
+ * Class ilObjCourseGroupingGUI
+ * @author your name <your email>
+ */
 class ilObjCourseGroupingGUI
 {
     private ilObjCourseGrouping $grp_obj;
     private int $id;
     private ilObject $content_obj;
     private string $content_type = '';
-
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
@@ -27,7 +25,6 @@ class ilObjCourseGroupingGUI
     protected ilToolbarGUI $toolbar;
     protected GlobalHttpState $http;
     protected Factory $refinery;
-
 
     public function __construct(ilObject $content_obj, int $a_obj_id = 0)
     {
@@ -175,7 +172,8 @@ class ilObjCourseGroupingGUI
 
         $options = array('login' => 'login',
                          'email' => 'email',
-                         'matriculation' => 'matriculation');
+                         'matriculation' => 'matriculation'
+        );
 
         foreach ($options as $value => $caption) {
             $options[$value] = $this->lng->txt($caption);

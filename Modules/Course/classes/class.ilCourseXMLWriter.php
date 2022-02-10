@@ -22,26 +22,23 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* XML writer class
-*
-* Class to simplify manual writing of xml documents.
-* It only supports writing xml sequentially, because the xml document
-* is saved in a string with no additional structure information.
-* The author is responsible for well-formedness and validity
-* of the xml document.
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*/
+ * XML writer class
+ * Class to simplify manual writing of xml documents.
+ * It only supports writing xml sequentially, because the xml document
+ * is saved in a string with no additional structure information.
+ * The author is responsible for well-formedness and validity
+ * of the xml document.
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ */
 class ilCourseXMLWriter extends ilXmlWriter
 {
     public const MODE_SOAP = 1;
     public const MODE_EXPORT = 2;
 
     public const EXPORT_VERSION = '8.0';
-    
+
     private int $mode = self::MODE_SOAP;
 
     private string $xml = '';
@@ -50,8 +47,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 
     protected ilSetting $setting;
     protected ilAccessHandler $access;
-    
-    
+
     public function __construct(ilObjCourse $course_obj)
     {
         global $DIC;
@@ -62,12 +58,12 @@ class ilCourseXMLWriter extends ilXmlWriter
         parent::__construct();
         $this->course_obj = $course_obj;
     }
-    
+
     public function setMode(int $a_mode) : void
     {
         $this->mode = $a_mode;
     }
-    
+
     public function getMode() : int
     {
         return $this->mode;
@@ -87,7 +83,7 @@ class ilCourseXMLWriter extends ilXmlWriter
             }
             $this->__buildSubscriber();
             $this->__buildWaitingList();
-            
+
             $this->__buildSetting();
             ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->course_obj->getId());
             ilContainer::_exportContainerSettings($this, $this->course_obj->getId());
@@ -124,7 +120,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         $this->xmlSetGenCmt("Export of ILIAS course " . $this->course_obj->getId() . " of installation " . $this->setting->get('inst_id') . ".");
         $this->xmlHeader();
     }
-    
+
     public function __buildCourseStart() : void
     {
         $attrs["exportVersion"] = self::EXPORT_VERSION;
@@ -132,19 +128,19 @@ class ilCourseXMLWriter extends ilXmlWriter
         $attrs['showMembers'] = ($this->course_obj->getShowMembers() ? 'Yes' : 'No');
         $this->xmlStartTag("Course", $attrs);
     }
-    
+
     public function __buildMetaData() : void
     {
         $md2xml = new ilMD2XML($this->course_obj->getId(), $this->course_obj->getId(), 'crs');
         $md2xml->startExport();
         $this->appendXML($md2xml->getXML());
     }
-    
+
     private function __buildAdvancedMetaData() : void
     {
         ilAdvancedMDValues::_appendXMLByObjId($this, $this->course_obj->getId());
     }
-    
+
     public function __buildAdmin() : void
     {
         $admins = $this->course_obj->getMembersObject()->getAdmins();
@@ -154,7 +150,7 @@ class ilCourseXMLWriter extends ilXmlWriter
             $this->course_obj->getRefId(),
             $admins
         );
-        
+
         foreach ($admins as $id) {
             $attr['id'] = 'il_' . $this->setting->get('inst_id') . '_usr_' . $id;
             $attr['notification'] = ($this->course_obj->getMembersObject()->isNotificationEnabled($id)) ? 'Yes' : 'No';
@@ -185,6 +181,7 @@ class ilCourseXMLWriter extends ilXmlWriter
             $this->xmlEndTag('Tutor');
         }
     }
+
     public function __buildMember() : void
     {
         $members = $this->course_obj->getMembersObject()->getMembers();
@@ -213,7 +210,7 @@ class ilCourseXMLWriter extends ilXmlWriter
             $this->course_obj->getRefId(),
             $subs
         );
-        
+
         foreach ($subs as $id) {
             $data = $this->course_obj->getMembersObject()->getSubscriberData($id);
 
@@ -239,16 +236,15 @@ class ilCourseXMLWriter extends ilXmlWriter
             if (!count($is_accessible)) {
                 continue;
             }
-            
+
             $attr['id'] = 'il_' . $this->setting->get('inst_id') . '_usr_' . $data['usr_id'];
             $attr['position'] = $data['position'];
             $attr['subscriptionTime'] = $data['time'];
-            
+
             $this->xmlStartTag('WaitingList', $attr);
             $this->xmlEndTag('WaitingList');
         }
     }
-
 
     public function __buildSetting() : void
     {
@@ -272,8 +268,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         $this->xmlElement('Syllabus', null, $this->course_obj->getSyllabus());
         $this->xmlElement('ImportantInformation', null, $this->course_obj->getImportantInformation());
         $this->xmlElement('TargetGroup', null, $this->course_obj->getTargetGroup());
-        
-        
+
         // Contact
         $this->xmlStartTag('Contact');
         $this->xmlElement('Name', null, $this->course_obj->getContactName());
@@ -300,7 +295,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         $attr['waitingList'] = $this->course_obj->enabledWaitingList() ? 'Yes' : 'No';
 
         $this->xmlStartTag('Registration', $attr);
-        
+
         if ($this->course_obj->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED) {
             $this->xmlElement('Disabled');
         } elseif ($this->course_obj->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_UNLIMITED) {
@@ -316,7 +311,6 @@ class ilCourseXMLWriter extends ilXmlWriter
         }
         $this->xmlEndTag('Registration');
 
-        
         $this->xmlStartTag('Period', ['withTime' => $this->course_obj->getCourseStartTimeIndication() ? 1 : 0]);
         $this->xmlElement(
             'Start',
@@ -334,9 +328,10 @@ class ilCourseXMLWriter extends ilXmlWriter
         );
         $this->xmlEndTag('Period');
         $this->xmlElement('WaitingListAutoFill', null, (int) $this->course_obj->hasWaitingListAutoFill());
-        $this->xmlElement('CancellationEnd', null, ($this->course_obj->getCancellationEnd() && !$this->course_obj->getCancellationEnd()->isNull()) ? $this->course_obj->getCancellationEnd()->get(IL_CAL_UNIX) : null);
+        $this->xmlElement('CancellationEnd', null,
+            ($this->course_obj->getCancellationEnd() && !$this->course_obj->getCancellationEnd()->isNull()) ? $this->course_obj->getCancellationEnd()->get(IL_CAL_UNIX) : null);
         $this->xmlElement('MinMembers', null, $this->course_obj->getSubscriptionMinMembers());
-        
+
         $this->xmlElement('ViewMode', null, $this->course_obj->getViewMode());
         if ($this->course_obj->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING) {
             $this->xmlElement('TimingMode', null, $this->course_obj->getTimingMode());
@@ -357,7 +352,6 @@ class ilCourseXMLWriter extends ilXmlWriter
                 'status' => $this->course_obj->getAutoNotification() ? 1 : 0
             ]
         );
-
 
         $this->xmlEndTag('Settings');
     }

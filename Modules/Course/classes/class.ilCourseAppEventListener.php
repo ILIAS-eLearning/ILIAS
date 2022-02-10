@@ -3,9 +3,8 @@
 
 /**
  * Course Pool listener. Listens to events of other components.
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  * @ingroup ModulesMediaPool
  */
@@ -24,12 +23,12 @@ class ilCourseAppEventListener
         global $DIC;
         $this->logger = $DIC->logger()->crs();
     }
-    
+
     public function getLogger() : ilLogger
     {
         return $this->logger;
     }
-    
+
     protected function handleUserAssignments(string $a_event, array $a_parameters) : void
     {
         if ($a_parameters['type'] != 'crs') {
@@ -44,34 +43,34 @@ class ilCourseAppEventListener
             $this->getLogger()->debug('Handling assign user event for type crs.');
             $new_status = 0;
         }
-        
+
         ilLoggerFactory::getInstance()->getLogger('crs')->debug(print_r($a_parameters, true));
         ilLoggerFactory::getInstance()->getLogger('crs')->debug(print_r($new_status, true));
-        
+
         ilCourseParticipant::updateMemberRoles(
             $a_parameters['obj_id'],
             $a_parameters['usr_id'],
             $a_parameters['role_id'],
             $new_status
         );
-        
+
         if ($a_event == 'deassignUser') {
             $self = new self();
             $self->doAutoFill($a_parameters['obj_id']);
         }
     }
-    
+
     /**
      * Trigger autofill from waiting list
      */
     protected function doAutoFill(int $a_obj_id) : void
     {
         $this->getLogger()->debug('Handling event deassign user -> waiting list auto fill');
-        
+
         // #16694
         $refs = ilObject::_getAllReferences($a_obj_id);
         $ref_id = array_pop($refs);
-        
+
         $course = ilObjectFactory::getInstanceByRefId($ref_id, false);
         if (!$course instanceof ilObjCourse) {
             $this->getLogger()->warning('Cannot handle event deassign user since passed obj_id is not of type course: ' . $a_obj_id);
@@ -82,7 +81,7 @@ class ilCourseAppEventListener
     public static function initializeTimings(int $a_obj_id, int $a_usr_id, int $a_role_id) : bool
     {
         static $timing_mode = array();
-        
+
         if (!array_key_exists($a_obj_id, $timing_mode)) {
             $timing_mode[$a_obj_id] = ilObjCourse::lookupTimingMode($a_obj_id) == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE;
         }
@@ -112,7 +111,7 @@ class ilCourseAppEventListener
             $listener = new self();
             $listener->handleUserAssignments($a_event, $a_parameter);
         }
-    
+
         switch ($a_component) {
             case 'Modules/Course':
                 if ($a_event == 'addParticipant') {
@@ -131,21 +130,21 @@ class ilCourseAppEventListener
             if (self::$blocked_for_lp) {
                 return;
             }
-            
+
             // #13905
             if (!ilObjUserTracking::_enabledLearningProgress()) {
                 return;
             }
-            
+
             $obj_id = $a_parameter["obj_id"];
             $user_id = $a_parameter["usr_id"];
             $status = $a_parameter["status"];
-            
+
             if ($obj_id && $user_id) {
                 if (ilObject::_lookupType($obj_id) != "crs") {
                     return;
                 }
-                
+
                 // determine couse setting only once
                 if (!isset(self::$course_mode[$obj_id])) {
                     $crs = new ilObjCourse($obj_id, false);
@@ -157,9 +156,9 @@ class ilCourseAppEventListener
                     }
                     self::$course_mode[$obj_id] = $mode;
                 }
-                
+
                 $is_completed = ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM);
-                
+
                 // we are NOT using the members object because of performance issues
                 switch (self::$course_mode[$obj_id]) {
                     case ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR:
@@ -188,7 +187,7 @@ class ilCourseAppEventListener
             }
         }
     }
-    
+
     /**
      * Toggle LP blocking property status
      */

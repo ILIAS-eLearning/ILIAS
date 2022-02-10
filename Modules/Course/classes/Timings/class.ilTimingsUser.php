@@ -3,17 +3,16 @@
 
 /**
  * Handle user timings
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ModulesCourse
  */
 class ilTimingsUser
 {
     private static array $instances = array();
-    
+
     private int $container_obj_id = 0;
     private int $container_ref_id = 0;
-    
+
     private bool $initialized = false;
     private array $item_ids = array();
 
@@ -34,7 +33,7 @@ class ilTimingsUser
         $refs = ilObject::_getAllReferences($a_container_obj_id);
         $this->container_ref_id = end($refs);
     }
-    
+
     public static function getInstanceByContainerId(int $a_container_obj_id) : self
     {
         if (array_key_exists($a_container_obj_id, self::$instances)) {
@@ -42,12 +41,12 @@ class ilTimingsUser
         }
         return self::$instances[$a_container_obj_id] = new self($a_container_obj_id);
     }
-    
+
     public function getContainerObjId() : int
     {
         return $this->container_obj_id;
     }
-    
+
     public function getContainerRefId() : int
     {
         return $this->container_ref_id;
@@ -68,12 +67,11 @@ class ilTimingsUser
         $this->initialized = true;
     }
 
-
     public function handleNewMembership(int $a_usr_id, ilDateTime $sub_date) : void
     {
         foreach ($this->getItemIds() as $item_ref_id) {
             $item = ilObjectActivation::getItem($item_ref_id);
-            
+
             if ($item['timing_type'] != ilObjectActivation::TIMINGS_PRESETTING) {
                 continue;
             }
@@ -87,17 +85,17 @@ class ilTimingsUser
             $user_item->update();
         }
     }
-    
+
     public function handleUnsubscribe(int $a_usr_id) : void
     {
-        $query = 'DELETE FROM crs_timings_user WHERE ' . $this->db->in('ref_id', $this->item_ids, false, 'integer') . ' ' .
-                'AND usr_id = ' . $this->db->quote($a_usr_id, 'integer');
+        $query = 'DELETE FROM crs_timings_user WHERE ' . $this->db->in('ref_id', $this->item_ids, false,
+                'integer') . ' ' .
+            'AND usr_id = ' . $this->db->quote($a_usr_id, 'integer');
         $this->db->manipulate($query);
     }
 
     /**
      * Check if users currently exceeded ANY object
-     *
      * @param int[] $a_user_ids
      * @return array
      */
@@ -116,10 +114,9 @@ class ilTimingsUser
 
     /**
      * Lookup references, users with exceeded timings
-     *
-     * @param int[] $a_user_ids
+     * @param int[]  $a_user_ids
      * @param array &$a_meta
-     * @param bool $a_only_exceeded
+     * @param bool   $a_only_exceeded
      * @return array
      */
     public static function lookupTimings(array $a_user_ids, array &$a_meta = null, $a_only_exceeded = true) : array
@@ -131,7 +128,6 @@ class ilTimingsUser
 
         $res = array();
         $now = time();
-
 
         // get all relevant courses
         $course_members_map = ilParticipants::getUserMembershipAssignmentsByType($a_user_ids, ['crs'], true);
@@ -213,7 +209,6 @@ class ilTimingsUser
                 ' WHERE ' . $ilDB->in('usr_id', $a_user_ids, false, 'integer') .
                 ' AND ' . $ilDB->in('ref_id', $user_relevant, false, 'integer');
             $set = $ilDB->query($query);
-            ;
             while ($row = $ilDB->fetchAssoc($set)) {
                 $ref_id = (int) $row['ref_id'];
                 $user_id = (int) $row['usr_id'];
@@ -242,8 +237,6 @@ class ilTimingsUser
             }
         }
 
-
-
         // clean-up/minimize the result
         foreach (array_keys($res) as $ref_id) {
             if (!sizeof($res[$ref_id])) {
@@ -263,8 +256,7 @@ class ilTimingsUser
                 // invalid LP?
                 if (in_array($ref_id, $invalid_lp)) {
                     $res[$ref_id] = array();
-                }
-                // LP completed?
+                } // LP completed?
                 else {
                     $user_ids = $res[$ref_id];
                     if (count($user_ids)) {
@@ -302,8 +294,7 @@ class ilTimingsUser
 
     /**
      * Check object LP modes
-     *
-     * @param int[] $a_ref_ids
+     * @param int[]  $a_ref_ids
      * @param array &$a_obj_map
      * @return array
      */
@@ -343,8 +334,7 @@ class ilTimingsUser
             // use db mode
             if (array_key_exists($obj_id, $db_modes)) {
                 $mode = $db_modes[$obj_id];
-            }
-            // use default
+            } // use default
             else {
                 if (!array_key_exists($type, $type_modes)) {
                     $type_modes[$type] = ilObjectLP::getInstance($obj_id);

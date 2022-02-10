@@ -6,7 +6,7 @@ use ILIAS\DI\Container;
 
 /**
  * List all completed course for current user
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ModulesCourse
  */
 class ilCourseVerificationTableGUI extends ilTable2GUI

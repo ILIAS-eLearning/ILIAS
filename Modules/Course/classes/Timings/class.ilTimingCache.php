@@ -21,12 +21,10 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* class ilTimingCache
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*/
+ * class ilTimingCache
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilTimingCache
 {
     private static array $instances = [];
@@ -94,7 +92,6 @@ class ilTimingCache
         }
         $this->completed_users = ilLPStatus::_getCompleted($this->obj_id);
     }
-
 
     public static function _getTimings(int $a_ref_id) : array
     {

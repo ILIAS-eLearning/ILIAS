@@ -21,16 +21,14 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup ModulesCourse
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ModulesCourse
+ */
 class ilCourseParticipants extends ilParticipants
 {
     protected const COMPONENT_NAME = 'Modules/Course';
-    
+
     protected static array $instances = [];
 
     /**
@@ -47,11 +45,11 @@ class ilCourseParticipants extends ilParticipants
         $this->NOTIFY_ADMINS = 7;
         $this->NOTIFY_STATUS_CHANGED = 8;
         $this->NOTIFY_SUBSCRIPTION_REQUEST = 9;
-        
+
         $this->NOTIFY_REGISTERED = 10;
         $this->NOTIFY_UNSUBSCRIBE = 11;
         $this->NOTIFY_WAITING_LIST = 12;
-        
+
         // ref based constructor
         $refs = ilObject::_getAllReferences($a_obj_id);
         parent::__construct(self::COMPONENT_NAME, array_pop($refs));
@@ -64,7 +62,7 @@ class ilCourseParticipants extends ilParticipants
         }
         return self::$instances[$a_obj_id] = new ilCourseParticipants($a_obj_id);
     }
-    
+
     public function add(int $a_usr_id, int $a_role) : bool
     {
         if (parent::add($a_usr_id, $a_role)) {
@@ -73,7 +71,7 @@ class ilCourseParticipants extends ilParticipants
         }
         return false;
     }
-    
+
     public static function getMemberRoles(int $a_ref_id) : array
     {
         global $DIC;
@@ -95,7 +93,7 @@ class ilCourseParticipants extends ilParticipants
         }
         return $roles;
     }
-    
+
     public function addSubscriber(int $a_usr_id) : void
     {
         parent::addSubscriber($a_usr_id);
@@ -103,9 +101,9 @@ class ilCourseParticipants extends ilParticipants
             "Modules/Course",
             'addSubscriber',
             array(
-                    'obj_id' => $this->getObjId(),
-                    'usr_id' => $a_usr_id
-                )
+                'obj_id' => $this->getObjId(),
+                'usr_id' => $a_usr_id
+            )
         );
     }
 
@@ -114,12 +112,10 @@ class ilCourseParticipants extends ilParticipants
         bool $a_passed,
         bool $a_manual = false,
         bool $a_no_origin = false
-    ) : void
-    {
+    ) : void {
         $this->participants_status[$a_usr_id]['passed'] = $a_passed;
         self::_updatePassed($this->obj_id, $a_usr_id, $a_passed, $a_manual, $a_no_origin);
     }
-
 
     public static function _updatePassed(
         int $a_obj_id,
@@ -127,8 +123,7 @@ class ilCourseParticipants extends ilParticipants
         bool $a_passed,
         bool $a_manual = false,
         bool $a_no_origin = false
-    ) : void
-    {
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -140,10 +135,10 @@ class ilCourseParticipants extends ilParticipants
         if ($a_manual) {
             $origin = $ilUser->getId();
         }
-        
+
         $query = "SELECT passed FROM obj_members " .
-        "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
-        "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer');
+            "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
+            "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->query($query);
         $update_query = '';
         if ($res->numRows()) {
@@ -166,7 +161,7 @@ class ilCourseParticipants extends ilParticipants
             } else {
                 $origin_ts = time();
             }
-            
+
             $update_query = "INSERT INTO obj_members (passed,obj_id,usr_id,notification,blocked,origin,origin_ts) " .
                 "VALUES ( " .
                 $ilDB->quote((int) $a_passed, 'integer') . ", " .
@@ -187,7 +182,7 @@ class ilCourseParticipants extends ilParticipants
             }
         }
     }
-    
+
     public function getPassedInfo(int $a_usr_id) : array
     {
         $sql = "SELECT origin, origin_ts" .
@@ -204,7 +199,7 @@ class ilCourseParticipants extends ilParticipants
         }
         return [];
     }
-    
+
     public function sendNotification(int $a_type, int $a_usr_id, bool $a_force_sending_mail = false) : void
     {
         $mail = new ilCourseMembershipMailNotification();
@@ -217,7 +212,7 @@ class ilCourseParticipants extends ilParticipants
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
-                
+
             case $this->NOTIFY_ACCEPT_SUBSCRIBER:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);
                 $mail->setRefId($this->ref_id);
@@ -238,7 +233,7 @@ class ilCourseParticipants extends ilParticipants
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
-                
+
             case $this->NOTIFY_UNBLOCK_MEMBER:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_UNBLOCKED_MEMBER);
                 $mail->setRefId($this->ref_id);
@@ -259,14 +254,14 @@ class ilCourseParticipants extends ilParticipants
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
-                
+
             case $this->NOTIFY_UNSUBSCRIBE:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
-                
+
             case $this->NOTIFY_REGISTERED:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER);
                 $mail->setRefId($this->ref_id);
@@ -277,7 +272,7 @@ class ilCourseParticipants extends ilParticipants
             case $this->NOTIFY_WAITING_LIST:
                 $wl = new ilCourseWaitingList($this->obj_id);
                 $pos = $wl->getPosition($a_usr_id);
-                    
+
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_WAITING_LIST_MEMBER);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
@@ -294,7 +289,7 @@ class ilCourseParticipants extends ilParticipants
                 break;
         }
     }
-    
+
     public function sendUnsubscribeNotificationToAdmins(int $a_usr_id) : void
     {
         $mail = new ilCourseMembershipMailNotification();
@@ -304,8 +299,7 @@ class ilCourseParticipants extends ilParticipants
         $mail->setRecipients($this->getNotificationRecipients());
         $mail->send();
     }
-    
-    
+
     public function sendSubscriptionRequestToAdmins(int $a_usr_id) : void
     {
         $mail = new ilCourseMembershipMailNotification();
@@ -315,7 +309,6 @@ class ilCourseParticipants extends ilParticipants
         $mail->setRecipients($this->getNotificationRecipients());
         $mail->send();
     }
-    
 
     public function sendNotificationToAdmins(int $a_usr_id) : void
     {
@@ -343,7 +336,7 @@ class ilCourseParticipants extends ilParticipants
         }
         return '';
     }
-    
+
     public static function getPassedUsersForObjects(array $a_obj_ids, array $a_usr_ids) : array
     {
         global $DIC;

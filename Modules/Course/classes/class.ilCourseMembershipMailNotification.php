@@ -1,11 +1,9 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
- *
  * @ingroup ServicesMembership
  */
 class ilCourseMembershipMailNotification extends ilMailNotification
@@ -13,15 +11,15 @@ class ilCourseMembershipMailNotification extends ilMailNotification
     // v Notifications affect members & co. v
     public const TYPE_ADMISSION_MEMBER = 20;
     public const TYPE_DISMISS_MEMBER = 21;
-    
+
     public const TYPE_ACCEPTED_SUBSCRIPTION_MEMBER = 22;
     public const TYPE_REFUSED_SUBSCRIPTION_MEMBER = 23;
-    
+
     public const TYPE_STATUS_CHANGED = 24;
-    
+
     public const TYPE_BLOCKED_MEMBER = 25;
     public const TYPE_UNBLOCKED_MEMBER = 26;
-    
+
     public const TYPE_UNSUBSCRIBE_MEMBER = 27;
     public const TYPE_SUBSCRIBE_MEMBER = 28;
     public const TYPE_WAITING_LIST_MEMBER = 29;
@@ -41,7 +39,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
         self::TYPE_NOTIFICATION_REGISTRATION_REQUEST,
         self::TYPE_NOTIFICATION_UNSUBSCRIBE
     );
-    
+
     private $force_sending_mail = false;
 
     protected ilSetting $setting;
@@ -70,7 +68,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 
         return $this->mail;
     }
-    
+
     /**
      * Force sending mail independent from global setting
      */
@@ -78,7 +76,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
     {
         $this->force_sending_mail = $a_status;
     }
-    
+
     public function send() : bool
     {
         if (
@@ -97,7 +95,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
         }
         // #11359
         // parent::send();
-        
+
         switch ($this->getType()) {
             case self::TYPE_ADMISSION_MEMBER:
 
@@ -117,12 +115,11 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createPermanentLink());
                     $this->getMail()->appendInstallationSignature(true);
-                                        
+
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
-                
+
             case self::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER:
 
                 foreach ($this->getRecipients() as $rcp) {
@@ -141,11 +138,11 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createPermanentLink());
                     $this->getMail()->appendInstallationSignature(true);
-                                        
+
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_REFUSED_SUBSCRIPTION_MEMBER:
 
                 foreach ($this->getRecipients() as $rcp) {
@@ -161,11 +158,11 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     );
 
                     $this->getMail()->appendInstallationSignature(true);
-                                        
+
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_STATUS_CHANGED:
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
@@ -178,7 +175,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->appendBody(
                         sprintf($this->getLanguageText('crs_status_changed_body'), $this->getObjectTitle())
                     );
-                    
+
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createCourseStatus($rcp));
 
@@ -188,14 +185,13 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->appendBody($this->createPermanentLink());
 
                     $this->getMail()->appendInstallationSignature(true);
-                                        
+
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
 
             case self::TYPE_DISMISS_MEMBER:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -211,8 +207,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
-                
+
             case self::TYPE_BLOCKED_MEMBER:
 
                 foreach ($this->getRecipients() as $rcp) {
@@ -230,7 +225,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_UNBLOCKED_MEMBER:
 
                 foreach ($this->getRecipients() as $rcp) {
@@ -244,19 +239,19 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->appendBody(
                         sprintf($this->getLanguageText('crs_unblocked_member_body'), $this->getObjectTitle())
                     );
-                    
+
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('crs_mail_permanent_link'));
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createPermanentLink());
                     $this->getMail()->appendInstallationSignature(true);
-                                        
+
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_NOTIFICATION_REGISTRATION:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -265,7 +260,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     );
                     $this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
                     $this->appendBody("\n\n");
-                    
+
                     $info = $this->getAdditionalInformation();
                     $this->appendBody(
                         sprintf(
@@ -278,17 +273,17 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->appendBody($this->getLanguageText('crs_mail_permanent_link'));
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createPermanentLink(array(), '_mem'));
-                    
+
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('crs_notification_explanation_admin'));
-                    
+
                     $this->getMail()->appendInstallationSignature(true);
                     $this->sendMail(array($rcp));
                 }
                 break;
 
             case self::TYPE_NOTIFICATION_REGISTRATION_REQUEST:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -297,7 +292,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     );
                     $this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
                     $this->appendBody("\n\n");
-                    
+
                     $info = $this->getAdditionalInformation();
                     $this->appendBody(
                         sprintf(
@@ -310,15 +305,15 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->appendBody($this->getLanguageText('crs_new_subscription_request_body2'));
                     $this->appendBody("\n");
                     $this->appendBody($this->createPermanentLink(array(), '_mem'));
-                    
+
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('crs_notification_explanation_admin'));
-                    
+
                     $this->getMail()->appendInstallationSignature(true);
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_NOTIFICATION_UNSUBSCRIBE:
 
                 foreach ($this->getRecipients() as $rcp) {
@@ -329,7 +324,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     );
                     $this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
                     $this->appendBody("\n\n");
-                    
+
                     $info = $this->getAdditionalInformation();
                     $this->appendBody(
                         sprintf(
@@ -342,15 +337,15 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->appendBody($this->getLanguageText('crs_cancel_subscription_body2'));
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createPermanentLink(array(), '_mem'));
-                    
+
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('crs_notification_explanation_admin'));
-                    
+
                     $this->getMail()->appendInstallationSignature(true);
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_UNSUBSCRIBE_MEMBER:
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
@@ -369,7 +364,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_SUBSCRIBE_MEMBER:
 
                 foreach ($this->getRecipients() as $rcp) {
@@ -383,7 +378,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->appendBody(
                         sprintf($this->getLanguageText('crs_subscribe_member_body'), $this->getObjectTitle())
                     );
-                    
+
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('crs_mail_permanent_link'));
                     $this->appendBody("\n\n");
@@ -393,7 +388,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_WAITING_LIST_MEMBER:
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
@@ -401,9 +396,9 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->setSubject(
                         sprintf($this->getLanguageText('crs_subscribe_wl'), $this->getObjectTitle(true))
                     );
-                    
+
                     $this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
-                    
+
                     $info = $this->getAdditionalInformation();
                     $this->appendBody("\n\n");
                     $this->appendBody(
@@ -420,21 +415,20 @@ class ilCourseMembershipMailNotification extends ilMailNotification
         }
         return true;
     }
-    
+
     protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('crs');
     }
-    
+
     protected function createCourseStatus(int $a_usr_id) : string
     {
         $part = ilCourseParticipants::_getInstanceByObjId($this->getObjId());
-        
+
         $body = $this->getLanguageText('crs_new_status') . "\n";
         $body .= $this->getLanguageText('role') . ': ';
-        
-        
+
         if ($part->isAdmin($a_usr_id)) {
             $body .= $this->getLanguageText('crs_admin') . "\n";
         } elseif ($part->isTutor($a_usr_id)) {
@@ -445,7 +439,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 
         if ($part->isAdmin($a_usr_id) or $part->isTutor($a_usr_id)) {
             $body .= $this->getLanguageText('crs_status') . ': ';
-            
+
             if ($part->isNotificationEnabled($a_usr_id)) {
                 $body .= $this->getLanguageText('crs_notify') . "\n";
             } else {
@@ -453,7 +447,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
             }
         } else {
             $body .= $this->getLanguageText('crs_access') . ': ';
-            
+
             if ($part->isBlocked($a_usr_id)) {
                 $body .= $this->getLanguageText('crs_blocked') . "\n";
             } else {
@@ -462,7 +456,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
         }
 
         $body .= $this->getLanguageText('crs_passed') . ': ';
-        
+
         if ($part->hasPassed($a_usr_id)) {
             $body .= $this->getLanguageText('yes');
         } else {
@@ -474,7 +468,6 @@ class ilCourseMembershipMailNotification extends ilMailNotification
     /**
      * get setting "mail_crs_member_notification" and excludes types which are not affected by this setting
      * See description of $this->permanent_enabled_notifications
-     *
      */
     protected function isNotificationTypeEnabled(int $a_type) : bool
     {

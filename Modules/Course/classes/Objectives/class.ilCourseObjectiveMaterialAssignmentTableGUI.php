@@ -21,13 +21,11 @@
         +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* TableGUI for material assignments of course objectives
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ModulesCourse
-*/
+ * TableGUI for material assignments of course objectives
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ModulesCourse
+ */
 class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 {
     private int $objective_id = 0;
@@ -61,22 +59,22 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->addCommandButton('updateMaterialAssignment', $this->lng->txt('crs_wiz_next'));
         $this->initObjectiveAssignments();
     }
-    
+
     protected function fillRow(array $a_set) : void
     {
         foreach ($a_set['sub'] as $sub_data) {
             // Indentation
-            for ($i = $sub_data['depth'];$i > 1;$i--) {
+            for ($i = $sub_data['depth']; $i > 1; $i--) {
                 $this->tpl->touchBlock('begin_depth');
                 $this->tpl->touchBlock('end_depth');
             }
 
             $this->tpl->setCurrentBlock('chapter');
-            
+
             if ($this->objective_lm->isChapterAssigned($a_set['id'], $sub_data['id'])) {
                 $this->tpl->setVariable('CHAP_CHECKED', 'checked="checked"');
             }
-            
+
             $this->tpl->setVariable('CHAPTER_TITLE', ilLMObject::_lookupTitle($sub_data['id']));
             $this->tpl->setVariable('CHAP_ID', $a_set['id'] . '_' . $sub_data['id']);
             $this->tpl->setVariable('CHAP_TYPE_IMG', ilObject::_getIcon($sub_data['id'], "tiny", $sub_data['type']));
@@ -88,20 +86,20 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         }
 
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
-        
+
         if ($this->objective_lm->isAssigned($a_set['id'])) {
             $this->tpl->setVariable('VAL_CHECKED', 'checked="checked"');
         }
-        
+
         $this->tpl->setVariable('ROW_TYPE_IMG', ilObject::_getIcon($a_set['obj_id'], "tiny", $a_set['type']));
         $this->tpl->setVariable('ROW_TYPE_ALT', $this->lng->txt('obj_' . $a_set['type']));
-        
+
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         if (strlen($a_set['description'])) {
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
     }
-    
+
     public function parse(array $a_assignable) : void
     {
         $materials = [];
@@ -110,7 +108,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
             if ($this->objectDefinition->isSideBlock($node['type'])) {
                 continue;
             }
-            
+
             $tmp_data = array();
             $subobjects = array();
             if ($node['type'] == 'lm') {
@@ -120,7 +118,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
                     $sub['id'] = $chapter;
                     $sub['depth'] = $chapter_data['depth'];
                     $sub['type'] = $chapter_data['type'];
-                    
+
                     $subobjects[] = $sub;
                 }
             }
@@ -134,7 +132,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         }
         $this->setData($materials);
     }
-    
+
     protected function getAllSubObjects(int $a_ref_id) : array
     {
         $tree = new ilTree(ilObject::_lookupObjId($a_ref_id));

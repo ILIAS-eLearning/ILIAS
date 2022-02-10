@@ -21,14 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @extends Object
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @extends Object
+ */
 class ilCourseFile
 {
     private int $course_id = 0;
@@ -54,7 +51,7 @@ class ilCourseFile
         $this->file_id = $a_file_id;
         $this->__read();
     }
-    
+
     public static function _cloneFiles(int $a_source_id, int $a_target_id) : void
     {
         $source = new ilFSStorageCourse($a_source_id);
@@ -69,7 +66,8 @@ class ilCourseFile
 
             $target = new ilFSStorageCourse($a_target_id);
             $target->initInfoDirectory();
-            $source->copyFile($file_obj->getAbsolutePath(), $new_file->fss_storage->getInfoDirectory() . '/' . $new_file->getFileId());
+            $source->copyFile($file_obj->getAbsolutePath(),
+                $new_file->fss_storage->getInfoDirectory() . '/' . $new_file->getFileId());
         }
     }
 
@@ -77,6 +75,7 @@ class ilCourseFile
     {
         $this->file_id = $a_id;
     }
+
     public function getFileId() : int
     {
         return $this->file_id;
@@ -86,6 +85,7 @@ class ilCourseFile
     {
         return $this->course_id;
     }
+
     public function setCourseId(int $a_course_id) : void
     {
         $this->course_id = $a_course_id;
@@ -95,38 +95,47 @@ class ilCourseFile
     {
         $this->file_name = $a_name;
     }
+
     public function getFileName() : string
     {
         return $this->file_name;
     }
+
     public function setFileType(string $a_type) : void
     {
         $this->file_type = $a_type;
     }
+
     public function getFileType() : string
     {
         return $this->file_type;
     }
+
     public function setFileSize(int $a_size) : void
     {
         $this->file_size = $a_size;
     }
+
     public function getFileSize() : int
     {
         return $this->file_size;
     }
+
     public function setTemporaryName(string $a_name) : void
     {
         $this->tmp_name = $a_name;
     }
+
     public function getTemporaryName() : string
     {
         return $this->tmp_name;
     }
+
     public function setErrorCode(int $a_code) : void
     {
         $this->error_code = $a_code;
     }
+
     public function getErrorCode() : int
     {
         return $this->error_code;
@@ -227,7 +236,7 @@ class ilCourseFile
             unlink($this->getAbsolutePath());
         }
     }
-        
+
     public static function _deleteByCourse(int $a_course_id) : void
     {
         global $DIC;
@@ -239,7 +248,6 @@ class ilCourseFile
             "WHERE course_id = " . $ilDB->quote($a_course_id, 'integer') . "";
         $res = $ilDB->manipulate($query);
     }
-
 
     /**
      * @param int $a_course_id obj_id of course

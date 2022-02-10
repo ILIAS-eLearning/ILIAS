@@ -1,11 +1,9 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * LO test assignment form creator
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @package ModulesCourse
  */
 class ilLOTestAssignmentForm
@@ -16,12 +14,12 @@ class ilLOTestAssignmentForm
     private ilLanguage $lng;
     private ilCtrlInterface $ctrl;
     private ilTree $tree;
-    
+
     private ilObject $container;
     private object $gui;
     private ilLOSettings $settings;
     private int $type = 0;
-    
+
     /**
      * Constructor
      */
@@ -37,48 +35,48 @@ class ilLOTestAssignmentForm
         $this->settings = ilLOSettings::getInstanceByObjId($this->getContainer()->getId());
         $this->type = $a_type;
     }
-    
+
     public function getContainer() : ilObject
     {
         return $this->container;
     }
-    
+
     public function getGUI() : object
     {
         return $this->gui;
     }
-    
+
     public function getSettings() : ilLOSettings
     {
         return $this->settings;
     }
-    
+
     public function getTestType() : int
     {
         return $this->type;
     }
-    
+
     public function initForm(bool $a_as_multi_assignment = false) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('crs_loc_tst_assignment'));
         $form->setFormAction($this->ctrl->getFormAction($this->getGUI()));
-        
+
         if ($a_as_multi_assignment) {
             $form->addCommandButton('saveMultiTestAssignment', $this->lng->txt('save'));
         } else {
             $form->addCommandButton('saveTest', $this->lng->txt('save'));
         }
-        
+
         switch ($this->getTestType()) {
             case ilLOSettings::TYPE_TEST_INITIAL:
                 $form->setTitle($this->lng->txt('crs_loc_settings_itest_tbl'));
                 break;
-            
+
             case ilLOSettings::TYPE_TEST_QUALIFIED:
                 $form->setTitle($this->lng->txt('crs_loc_settings_qtest_tbl'));
                 break;
-                
+
         }
 
         $assignable = $this->getAssignableTests();
@@ -86,7 +84,7 @@ class ilLOTestAssignmentForm
         $cr_mode = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_form_assign_it'), 'mode');
         $cr_mode->setRequired(true);
         $cr_mode->setValue((string) self::TEST_NEW);
-        
+
         $new = new ilRadioOption($this->lng->txt('crs_loc_form_tst_new'), (string) self::TEST_NEW);
 
         switch ($this->getTestType()) {
@@ -111,18 +109,18 @@ class ilLOTestAssignmentForm
         $ta->setCols(40);
         $ta->setRows(2);
         $new->addSubItem($ta);
-        
+
         // Question assignment type
         $this->lng->loadLanguageModule('assessment');
         $qst = new ilRadioGroupInputGUI($this->lng->txt('tst_question_set_type'), 'qtype');
         $qst->setRequired(true);
-        
+
         $random = new ilRadioOption(
             $this->lng->txt('tst_question_set_type_random'),
             ilObjTest::QUESTION_SET_TYPE_RANDOM
         );
         $qst->addOption($random);
-        
+
         $fixed = new ilRadioOption(
             $this->lng->txt('tst_question_set_type_fixed'),
             ilObjTest::QUESTION_SET_TYPE_FIXED
@@ -130,7 +128,7 @@ class ilLOTestAssignmentForm
         $qst->addOption($fixed);
         $new->addSubItem($qst);
         $cr_mode->addOption($new);
-        
+
         // assign existing
         $existing = new ilRadioOption($this->lng->txt('crs_loc_form_assign'), (string) self::TEST_ASSIGN);
 
@@ -148,7 +146,7 @@ class ilLOTestAssignmentForm
             $existing->setDisabled(true);
         }
         $cr_mode->addOption($existing);
-        
+
         $options = array();
         $options[''] = $this->lng->txt('select_one');
         foreach ($assignable as $tst_ref_id) {
@@ -162,7 +160,7 @@ class ilLOTestAssignmentForm
         $form->addItem($cr_mode);
         if ($a_as_multi_assignment) {
             $assignments = ilLOTestAssignments::getInstance($this->getContainer()->getId());
-            
+
             $objective_ids = ilCourseObjective::_getObjectiveIds($this->getContainer()->getId(), false);
 
             $options = array();
@@ -173,7 +171,7 @@ class ilLOTestAssignmentForm
                     $options[$oid] = ilCourseObjective::lookupObjectiveTitle($oid);
                 }
             }
-            
+
             $objective = new ilSelectInputGUI($this->lng->txt('crs_objectives'), 'objective');
             $objective->setRequired(true);
             $objective->setOptions($options);
@@ -181,7 +179,7 @@ class ilLOTestAssignmentForm
         }
         return $form;
     }
-    
+
     protected function getAssignableTests() : array
     {
         $assignments = ilLOTestAssignments::getInstance($this->getContainer()->getId());

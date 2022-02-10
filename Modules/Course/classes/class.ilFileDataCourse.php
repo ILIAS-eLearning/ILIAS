@@ -21,12 +21,10 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* This class handles all operations of archive files for the course object
-*
-* @author	Stefan Meyer <meyer@leifos.com>
-*/
+ * This class handles all operations of archive files for the course object
+ * @author    Stefan Meyer <meyer@leifos.com>
+ */
 class ilFileDataCourse extends ilFileData
 {
     private string $course_path;
@@ -48,13 +46,13 @@ class ilFileDataCourse extends ilFileData
         parent::__construct();
         $this->course_path = parent::getPath() . "/" . COURSE_PATH;
         $this->course_id = $a_course_id;
-    
+
         if (!$this->__checkPath()) {
             $this->__initDirectory();
         }
         $this->__checkImportPath();
     }
-    
+
     public function getArchiveFile($a_rel_name) : string
     {
         if (@file_exists($this->course_path . '/' . $a_rel_name . '.zip')) {
@@ -65,7 +63,7 @@ class ilFileDataCourse extends ilFileData
         }
         return '';
     }
-    
+
     public function getMemberExportFiles() : array
     {
         $files = array();
@@ -75,15 +73,16 @@ class ilFileDataCourse extends ilFileData
             if (is_dir($file)) {
                 continue;
             }
-            
-            if (preg_match("/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/", $file, $matches) and $matches[3] == $this->course_id) {
+
+            if (preg_match("/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/", $file,
+                    $matches) and $matches[3] == $this->course_id) {
                 $timest = $matches[1];
                 $file_info['name'] = $matches[0];
                 $file_info['timest'] = $matches[1];
                 $file_info['type'] = $matches[2];
                 $file_info['id'] = $matches[3];
                 $file_info['size'] = filesize($this->course_path . '/' . $file);
-                
+
                 $files[$timest] = $file_info;
             }
         }
@@ -129,7 +128,7 @@ class ilFileDataCourse extends ilFileData
     {
         if (file_exists($a_abs_name)) {
             ilFileUtils::delDir($a_abs_name);
-            
+
             return true;
         }
         return false;
@@ -161,7 +160,6 @@ class ilFileDataCourse extends ilFileData
         return true;
     }
 
-
     public function addDirectory(string $a_rel_name) : bool
     {
         ilFileUtils::makeDir($this->getCoursePath() . '/' . $a_rel_name);
@@ -184,7 +182,6 @@ class ilFileDataCourse extends ilFileData
         // RETURN filesize
         return (int) filesize($this->getCoursePath() . '/' . $a_zip_name);
     }
-
 
     public function getCoursePath() : string
     {
@@ -212,12 +209,11 @@ class ilFileDataCourse extends ilFileData
             ilFileUtils::makeDir(CLIENT_WEB_DIR . '/courses');
         }
 
-            
         $this->__checkReadWrite();
 
         return true;
     }
-    
+
     public function __checkImportPath()
     {
         if (!@file_exists($this->getCoursePath() . '/import')) {

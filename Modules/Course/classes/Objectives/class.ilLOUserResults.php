@@ -3,15 +3,14 @@
 
 /**
  * LO courses user results
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @package ModulesCourse
  */
 class ilLOUserResults
 {
     protected int $course_obj_id;
     protected int $user_id;
-    
+
     public const TYPE_INITIAL = 1;
     public const TYPE_QUALIFIED = 2;
 
@@ -19,7 +18,7 @@ class ilLOUserResults
     public const STATUS_FAILED = 2;
 
     protected ilDBInterface $db;
-    
+
     public function __construct(int $a_course_obj_id, int $a_user_id)
     {
         global $DIC;
@@ -29,18 +28,21 @@ class ilLOUserResults
 
         $this->db = $DIC->database();
     }
-    
 
-    public static function lookupResult(int $a_course_obj_id, int $a_user_id, int $a_objective_id, int $a_tst_type) : array
-    {
+    public static function lookupResult(
+        int $a_course_obj_id,
+        int $a_user_id,
+        int $a_objective_id,
+        int $a_tst_type
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
         $query = 'SELECT * FROM loc_user_results ' .
-                'WHERE user_id = ' . $ilDB->quote($a_user_id, 'integer') . ' ' .
-                'AND course_id = ' . $ilDB->quote($a_course_obj_id, 'integer') . ' ' .
-                'AND objective_id = ' . $ilDB->quote($a_objective_id, 'integer') . ' ' .
-                'AND type = ' . $ilDB->quote($a_tst_type, 'integer');
+            'WHERE user_id = ' . $ilDB->quote($a_user_id, 'integer') . ' ' .
+            'AND course_id = ' . $ilDB->quote($a_course_obj_id, 'integer') . ' ' .
+            'AND objective_id = ' . $ilDB->quote($a_objective_id, 'integer') . ' ' .
+            'AND type = ' . $ilDB->quote($a_tst_type, 'integer');
         $res = $ilDB->query($query);
         $ur = array(
             'status' => self::STATUS_FAILED,
@@ -60,29 +62,28 @@ class ilLOUserResults
         }
         return $ur;
     }
-    
+
     public static function resetFinalByObjective(int $a_objective_id) : void
     {
         global $DIC;
 
         $db = $DIC->database();
         $query = 'UPDATE loc_user_results ' .
-                'SET is_final = ' . $db->quote(0, 'integer') . ' ' .
-                'WHERE objective_id = ' . $db->quote($a_objective_id, 'integer');
+            'SET is_final = ' . $db->quote(0, 'integer') . ' ' .
+            'WHERE objective_id = ' . $db->quote($a_objective_id, 'integer');
         $db->manipulate($query);
     }
-    
 
     protected static function isValidType(int $a_type) : bool
     {
         return in_array($a_type, array(self::TYPE_INITIAL, self::TYPE_QUALIFIED));
     }
-        
+
     protected static function isValidStatus(int $a_status) : bool
     {
         return in_array($a_status, array(self::STATUS_COMPLETED, self::STATUS_FAILED));
     }
-    
+
     public static function deleteResultsForUser(int $a_user_id) : bool
     {
         global $DIC;
@@ -91,13 +92,12 @@ class ilLOUserResults
         if (!$a_user_id) {
             return false;
         }
-        
+
         $ilDB->manipulate("DELETE FROM loc_user_results" .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer"));
         return true;
     }
-    
-    
+
     public static function deleteResultsForCourse(int $a_course_id) : bool
     {
         global $DIC;
@@ -110,17 +110,22 @@ class ilLOUserResults
             " WHERE course_id = " . $ilDB->quote($a_course_id, "integer"));
         return true;
     }
-    
+
     public function delete() : void
     {
         $query = 'DELETE FROM loc_user_results ' .
-                'WHERE course_id = ' . $this->db->quote($this->course_obj_id, ilDBConstants::T_INTEGER) . ' ' .
-                'AND user_id = ' . $this->db->quote($this->user_id, ilDBConstants::T_INTEGER);
+            'WHERE course_id = ' . $this->db->quote($this->course_obj_id, ilDBConstants::T_INTEGER) . ' ' .
+            'AND user_id = ' . $this->db->quote($this->user_id, ilDBConstants::T_INTEGER);
         $this->db->manipulate($query);
     }
-    
-    public static function deleteResultsFromLP(int $a_course_id, array $a_user_ids, bool $a_remove_initial, bool $a_remove_qualified, array $a_objective_ids) : bool
-    {
+
+    public static function deleteResultsFromLP(
+        int $a_course_id,
+        array $a_user_ids,
+        bool $a_remove_initial,
+        bool $a_remove_qualified,
+        array $a_objective_ids
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -128,7 +133,7 @@ class ilLOUserResults
             !sizeof($a_user_ids)) {
             return false;
         }
-        
+
         $base_sql = "DELETE FROM loc_user_results" .
             " WHERE course_id = " . $ilDB->quote($a_course_id, "integer") .
             " AND " . $ilDB->in("user_id", $a_user_ids, false, "integer");
@@ -139,26 +144,32 @@ class ilLOUserResults
                 " AND type = " . $ilDB->quote(self::TYPE_INITIAL, "integer");
             $ilDB->manipulate($sql);
         }
-        
+
         if ($a_remove_qualified) {
             $sql = $base_sql .
                 " AND type = " . $ilDB->quote(self::TYPE_QUALIFIED, "integer");
             $ilDB->manipulate($sql);
         }
-        
+
         if (is_array($a_objective_ids)) {
             $sql = $base_sql .
                 " AND " . $ilDB->in("objective_id", $a_objective_ids, false, "integer");
             $ilDB->manipulate($sql);
         }
-                
+
         $ilDB->manipulate($sql);
         return true;
     }
-    
-            
-    public function saveObjectiveResult(int $a_objective_id, int $a_type, int $a_status, int $a_result_percentage, int $a_limit_percentage, int $a_tries, bool $a_is_final) : bool
-    {
+
+    public function saveObjectiveResult(
+        int $a_objective_id,
+        int $a_type,
+        int $a_status,
+        int $a_result_percentage,
+        int $a_limit_percentage,
+        int $a_tries,
+        bool $a_is_final
+    ) : bool {
         if (!self::isValidType($a_type) ||
             !self::isValidStatus($a_status)) {
             return false;
@@ -182,7 +193,7 @@ class ilLOUserResults
         );
         return true;
     }
-    
+
     protected function findObjectiveIds(int $a_type = 0, int $a_status = 0, ?bool $a_is_final = null)
     {
         $res = array();
@@ -190,7 +201,7 @@ class ilLOUserResults
             " FROM loc_user_results" .
             " WHERE course_id = " . $this->db->quote($this->course_obj_id, "integer") .
             " AND user_id = " . $this->db->quote($this->user_id, "integer");
-        
+
         if ($this->isValidType($a_type)) {
             $sql .= " AND type = " . $this->db->quote($a_type, "integer");
         }
@@ -200,20 +211,20 @@ class ilLOUserResults
         if ($a_is_final !== null) {
             $sql .= " AND is_final = " . $this->db->quote($a_is_final, "integer");
         }
-        
+
         $set = $this->db->query($sql);
         while ($row = $this->db->fetchAssoc($set)) {
             $res[] = $row["objective_id"];
         }
-        
+
         return $res;
     }
-    
+
     public function getCompletedObjectiveIdsByType(int $a_type) : array
     {
         return $this->findObjectiveIds($a_type, self::STATUS_COMPLETED);
     }
-    
+
     /**
      * Get all objectives where the user failed the initial test
      */
@@ -221,18 +232,18 @@ class ilLOUserResults
     {
         return $this->findObjectiveIds(self::TYPE_INITIAL, self::STATUS_FAILED);
     }
-    
+
     /**
      * Get all objectives where the user completed the qualified test
      */
     public function getCompletedObjectiveIds() : array
     {
         $settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
-        
+
         if (!$settings->isInitialTestQualifying() or !$settings->worksWithInitialTest()) {
             return $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED);
         }
-        
+
         // status of final final test overwrites initial qualified.
         $completed = [];
         if (
@@ -246,7 +257,7 @@ class ilLOUserResults
                 )
             );
             $failed_final = $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_FAILED);
-            
+
             foreach ($completed_candidates as $objective_completed) {
                 if (!in_array($objective_completed, $failed_final)) {
                     $completed[] = $objective_completed;
@@ -256,12 +267,12 @@ class ilLOUserResults
         }
         return [];
     }
-    
+
     public function getFailedObjectiveIds(bool $a_is_final = true) : array
     {
         return $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_FAILED, $a_is_final);
     }
-        
+
     public function getCourseResultsForUserPresentation() : array
     {
         $res = [];
@@ -279,7 +290,7 @@ class ilLOUserResults
             ) {
                 continue;
             }
-            
+
             $objective_id = (int) $row["objective_id"];
             $type = (int) $row["type"];
             unset($row["objective_id"]);
@@ -288,21 +299,21 @@ class ilLOUserResults
         }
         return $res;
     }
-    
+
     public static function getObjectiveStatusForLP(int $a_user_id, int $a_obj_id, array $a_objective_ids) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-                
+
         // are initital test(s) qualifying?
         $lo_set = ilLOSettings::getInstanceByObjId($a_obj_id);
         $initial_qualifying = $lo_set->isInitialTestQualifying();
-        
+
         // this method returns LP status codes!
-        
+
         $res = array();
-        
+
         $sql = "SELECT lor.objective_id, lor.user_id, lor.status, lor.is_final" .
             " FROM loc_user_results lor" .
             " JOIN crs_objectives cobj ON (cobj.objective_id = lor.objective_id)" .
@@ -324,23 +335,26 @@ class ilLOUserResults
                         $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
                     }
                     break;
-                
+
                 case self::STATUS_COMPLETED:
                     $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
                     break;
-                
+
                 default:
                     continue 2;
             }
-            
+
             // if both initial and qualified, qualified will overwrite initial
             $res[(int) $row["objective_id"]] = $status;
         }
         return $res;
     }
-    
-    public static function getSummarizedObjectiveStatusForLP(int $a_obj_id, array $a_objective_ids, int $a_user_id = 0) : array
-    {
+
+    public static function getSummarizedObjectiveStatusForLP(
+        int $a_obj_id,
+        array $a_objective_ids,
+        int $a_user_id = 0
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -348,11 +362,11 @@ class ilLOUserResults
         // are initital test(s) qualifying?
         $lo_set = ilLOSettings::getInstanceByObjId($a_obj_id);
         $initial_qualifying = $lo_set->isInitialTestQualifying();
-        
+
         // this method returns LP status codes!
-                
+
         $res = $tmp_completed = array();
-        
+
         $sql = "SELECT lor.objective_id, lor.user_id, lor.status, lor.type, lor.is_final" .
             " FROM loc_user_results lor" .
             " JOIN crs_objectives cobj ON (cobj.objective_id = lor.objective_id)" .
@@ -366,16 +380,16 @@ class ilLOUserResults
         }
         $sql .= " ORDER BY lor.type DESC"; // qualified must come first!
         $set = $ilDB->query($sql);
-        
+
         $has_final_result = array();
         while ($row = $ilDB->fetchAssoc($set)) {
             if ($row['type'] == self::TYPE_QUALIFIED) {
                 $has_final_result[$row['objective_id']] = $row['user_id'];
             }
-            
+
             $user_id = (int) $row["user_id"];
             $status = (int) $row["status"];
-            
+
             // initial tests only count if no qualified test
             if (
                 $row["type"] == self::TYPE_INITIAL &&
@@ -383,15 +397,15 @@ class ilLOUserResults
             ) {
                 continue;
             }
-            
+
             // user did do something
             $res[$user_id] = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
-            
+
             switch ($status) {
                 case self::STATUS_COMPLETED:
                     $tmp_completed[$user_id]++;
                     break;
-                
+
                 case self::STATUS_FAILED:
                     if ($row["is_final"]) {
                         // object is failed when at least 1 objective is failed without any tries left
@@ -400,7 +414,7 @@ class ilLOUserResults
                     break;
             }
         }
-        
+
         $all_nr = sizeof($a_objective_ids);
         foreach ($tmp_completed as $user_id => $counter) {
             // if used as precondition object should be completed ASAP, status can be lost on subsequent tries
@@ -408,7 +422,7 @@ class ilLOUserResults
                 $res[$user_id] = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             }
         }
-        
+
         if ($a_user_id) {
             // might return null!
             return $res[$a_user_id];
@@ -416,16 +430,16 @@ class ilLOUserResults
             return $res;
         }
     }
-    
+
     public static function hasResults(int $a_container_id, int $a_user_id) : bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $query = 'SELECT objective_id FROM loc_user_results ' .
-                'WHERE course_id = ' . $ilDB->quote($a_container_id, 'integer') . ' ' .
-                'AND user_id = ' . $ilDB->quote($a_user_id, 'integer');
-        
+            'WHERE course_id = ' . $ilDB->quote($a_container_id, 'integer') . ' ' .
+            'AND user_id = ' . $ilDB->quote($a_user_id, 'integer');
+
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return true;

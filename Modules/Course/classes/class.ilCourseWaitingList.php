@@ -2,12 +2,9 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Course waiting list
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @extends ilWaitingList
  */
 class ilCourseWaitingList extends ilWaitingList
@@ -38,7 +35,6 @@ class ilCourseWaitingList extends ilWaitingList
         );
         return true;
     }
-
 
     public function removeFromList(int $a_usr_id) : bool
     {

@@ -3,8 +3,7 @@
 
 /**
  * Calendar schedule filter for individual timings
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ModulesCourse
  */
 class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
@@ -114,7 +113,6 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
         return $a_event;
     }
 
-
     /**
      * Add custom events: relative timings, modified timings
      * @inheritDoc
@@ -124,7 +122,6 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
         // @fixme
         // @todo categories can appear more than once
         $a_categories = array_unique($a_categories);
-
 
         $all_events = [];
         foreach ($a_categories as $cat_id) {
@@ -209,7 +206,6 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
         }
         return $entries;
     }
-
 
     protected function isCourseCategory(int $a_category_id) : ?ilCalendarCategory
     {

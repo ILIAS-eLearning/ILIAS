@@ -21,14 +21,10 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* class ilCourseObjectiveMaterials
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-*/
-
+ * class ilCourseObjectiveMaterials
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilCourseObjectiveMaterials
 {
     private int $objective_id = 0;
@@ -42,7 +38,6 @@ class ilCourseObjectiveMaterials
     protected ilObjectDataCache $objectDataCache;
     protected ilTree $tree;
 
-
     public function __construct(int $a_objective_id = 0)
     {
         global $DIC;
@@ -53,7 +48,7 @@ class ilCourseObjectiveMaterials
         $this->objective_id = $a_objective_id;
         $this->__read();
     }
-    
+
     public function cloneDependencies(int $a_new_objective, int $a_copy_id) : void
     {
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -93,7 +88,7 @@ class ilCourseObjectiveMaterials
             $new_material->add();
         }
     }
-    
+
     public static function _getAssignedMaterials(int $a_objective_id) : array
     {
         global $DIC;
@@ -108,8 +103,6 @@ class ilCourseObjectiveMaterials
         }
         return $ref_ids;
     }
-    
-    
 
     /**
      * Get an array of course material ids that can be assigned to learning objectives
@@ -121,10 +114,10 @@ class ilCourseObjectiveMaterials
 
         $tree = $DIC->repositoryTree();
         $container_obj_id = ilObject::_lookupObjId($a_container_id);
-        
+
         $all_materials = $tree->getSubTree($tree->getNodeData($a_container_id), true);
         $all_materials = ilArrayUtil::sortArray($all_materials, 'title', 'asc');
-        
+
         // Filter
         $assignable = [];
         foreach ($all_materials as $material) {
@@ -137,12 +130,12 @@ class ilCourseObjectiveMaterials
 
                     $assignable[] = $material;
                     break;
-                    
+
                 case 'crs':
                 case 'rolf':
                 case 'itgr':
                     break;
-                
+
                 default:
                     $assignable[] = $material;
                     break;
@@ -150,7 +143,7 @@ class ilCourseObjectiveMaterials
         }
         return $assignable;
     }
-    
+
     public static function _getAllAssignedMaterials(int $a_container_id) : array
     {
         global $DIC;
@@ -162,7 +155,7 @@ class ilCourseObjectiveMaterials
             "JOIN object_data obd ON obr.obj_id = obd.obj_id " .
             "WHERE co.crs_id = " . $ilDB->quote($a_container_id, 'integer') . " " .
             "ORDER BY obd.title ";
-            
+
         $res = $ilDB->query($query);
         $ref_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -189,7 +182,7 @@ class ilCourseObjectiveMaterials
         }
         return $chapters;
     }
-    
+
     public function getLM(int $lm_id) : array
     {
         if ($this->lms[$lm_id]) {
@@ -208,22 +201,27 @@ class ilCourseObjectiveMaterials
     {
         $this->lm_ref_id = $a_ref_id;
     }
+
     public function getLMRefId() : int
     {
         return $this->lm_ref_id;
     }
+
     public function setLMObjId(int $a_obj_id) : void
     {
         $this->lm_obj_id = $a_obj_id;
     }
+
     public function getLMObjId() : int
     {
         return $this->lm_obj_id;
     }
+
     public function setType(string $a_type) : void
     {
         $this->type = $a_type;
     }
+
     public function getType() : string
     {
         return $this->type;
@@ -320,12 +318,12 @@ class ilCourseObjectiveMaterials
             "AND lm_ass_id = " . $this->db->quote($a_ass_id, "integer");
         $this->db->manipulate($query);
     }
-    
+
     public function __read()
     {
         $container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
         $container_ref_id = current($container_ref_ids);
-        
+
         $this->lms = array();
         $query = "SELECT position,lm_ass_id,lm.ref_id,lm.obj_id,lm.type FROM crs_objective_lm lm " .
             "JOIN object_reference obr ON lm.ref_id = obr.ref_id " .
@@ -359,7 +357,7 @@ class ilCourseObjectiveMaterials
         }
         return true;
     }
-    
+
     public function toXml(ilXmlWriter $writer)
     {
         foreach ($this->getMaterials() as $material) {

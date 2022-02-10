@@ -1,22 +1,18 @@
 <?php declare(strict_types=0);
 /******************************************************************************
- *
  * This file is part of ILIAS, a powerful learning management system.
- *
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
  * of said license along with the source code.
- *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
  *****************************************************************************/
+
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup ModulesCourse
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ModulesCourse
+ */
 class ilFSStorageCourse extends ilFileSystemAbstractionStorage
 {
     public const MEMBER_EXPORT_DIR = 'memberExport';
@@ -58,7 +54,6 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
         return $this->getAbsolutePath() . '/' . self::INFO_DIR;
     }
 
-
     public function initMemberExportDirectory() : void
     {
         ilFileUtils::makeDirParents($this->getMemberExportDirectory());
@@ -95,7 +90,8 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
                 continue;
             }
 
-            if (preg_match("/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/", $file, $matches) and $matches[3] == $this->getContainerId()) {
+            if (preg_match("/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/", $file,
+                    $matches) and $matches[3] == $this->getContainerId()) {
                 $timest = $matches[1];
                 $file_info['name'] = $matches[0];
                 $file_info['timest'] = $matches[1];
@@ -127,9 +123,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
 
     /**
      * Implementation of abstract method
-     *
      * @access protected
-     *
      */
     protected function getPathPostfix() : string
     {
@@ -138,9 +132,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
 
     /**
      * Implementation of abstract method
-     *
      * @access protected
-     *
      */
     protected function getPathPrefix() : string
     {

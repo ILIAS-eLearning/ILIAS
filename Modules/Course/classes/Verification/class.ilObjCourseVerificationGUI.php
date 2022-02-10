@@ -6,7 +6,7 @@ use ILIAS\DI\Container;
 
 /**
  * GUI class for course verification
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjCourseVerificationGUI: ilWorkspaceAccessGUI
  */
 class ilObjCourseVerificationGUI extends ilObject2GUI
@@ -49,7 +49,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
     public function save() : void
     {
         $ilUser = $this->dic->user();
-        
+
         $objectId = $this->getRequestValue("crs_id");
         if ($objectId) {
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
@@ -90,7 +90,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
         $this->create();
     }
-    
+
     public function deliver() : void
     {
         $file = $this->object->getFilePath();
@@ -103,15 +103,15 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
     {
         $ilUser = $this->dic->user();
         $lng = $this->dic->language();
-        
+
         if (!$a_return) {
             $this->deliver();
         } else {
             $tree = new ilWorkspaceTree($ilUser->getId());
             $wsp_id = $tree->lookupNodeId($this->object->getId());
-            
+
             $caption = $lng->txt("wsp_type_crsv") . ' "' . $this->object->getTitle() . '"';
-            
+
             $valid = true;
             $message = '';
             if (!file_exists($this->object->getFilePath())) {
@@ -124,7 +124,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
                     $message = $lng->txt("permission_denied");
                 }
             }
-            
+
             if ($valid) {
                 if (!$a_url) {
                     $a_url = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
@@ -137,7 +137,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
         return "";
     }
-    
+
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
@@ -145,11 +145,11 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         }
         $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
     }
-    
+
     public static function _goto(string $a_target) : void
     {
         $id = explode("_", $a_target);
-        
+
         $_GET["baseClass"] = "ilsharedresourceGUI";
         $_GET["wsp_id"] = $id[0];
         include("ilias.php");
@@ -158,7 +158,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
     /**
      * @param string $key
-     * @param mixed   $default
+     * @param mixed  $default
      * @return mixed|null
      */
     protected function getRequestValue(string $key, $default = null)

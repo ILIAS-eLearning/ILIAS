@@ -2,15 +2,11 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-* Class ilObjCourseAccess
-*
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+ * Class ilObjCourseAccess
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ */
 class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 {
     protected static bool $using_code = false;
@@ -44,18 +40,22 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * @inheritDoc
      */
-    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
-    {
+    public static function checkCondition(
+        int $a_trigger_obj_id,
+        string $a_operator,
+        string $a_value,
+        int $a_usr_id
+    ) : bool {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
                 return ilCourseParticipants::_hasPassed($a_trigger_obj_id, $a_usr_id);
         }
         return false;
     }
-    
+
     /**
      * @inheritDoc
-    */
+     */
     public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
     {
         if ($a_user_id == "") {
@@ -67,11 +67,11 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
             $participants = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
         }
 
-
         switch ($a_cmd) {
             case "view":
                 if ($participants->isBlocked($a_user_id) and $participants->isAssigned($a_user_id)) {
-                    $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("crs_status_blocked"));
+                    $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS,
+                        $this->lng->txt("crs_status_blocked"));
                     return false;
                 }
                 break;
@@ -84,11 +84,12 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                     if (!ilObjCourse::mayLeave($a_obj_id, $a_user_id, $limit)) {
                         $this->access->addInfoItem(
                             ilAccessInfo::IL_STATUS_INFO,
-                            sprintf($this->lng->txt("crs_cancellation_end_rbac_info"), ilDatePresentation::formatDate($limit))
+                            sprintf($this->lng->txt("crs_cancellation_end_rbac_info"),
+                                ilDatePresentation::formatDate($limit))
                         );
                         return false;
                     }
-                    
+
                     if (!$participants->isAssigned($a_user_id)) {
                         return false;
                     }
@@ -109,7 +110,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                 }
                 break;
         }
-        
+
         switch ($a_permission) {
             case 'visible':
                 $visible = null;
@@ -122,7 +123,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                     return false;
                 }
                 break;
-            
+
             case 'read':
                 $tutor = $this->rbacSystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
                 if ($tutor) {
@@ -134,11 +135,12 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                     return false;
                 }
                 if ($participants->isBlocked($a_user_id) and $participants->isAssigned($a_user_id)) {
-                    $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("crs_status_blocked"));
+                    $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS,
+                        $this->lng->txt("crs_status_blocked"));
                     return false;
                 }
                 break;
-                
+
             case 'join':
                 if (!self::_registrationEnabled($a_obj_id)) {
                     return false;
@@ -148,7 +150,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                     return false;
                 }
                 break;
-                
+
             case 'leave':
                 return ilObjCourse::mayLeave($a_obj_id, $a_user_id);
         }
@@ -167,7 +169,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
         // on waiting list
         $commands[] = array('permission' => "join", "cmd" => "leave", "lang_var" => "leave_waiting_list");
-        
+
         // regualar users
         $commands[] = array('permission' => "leave", "cmd" => "leave", "lang_var" => "crs_unsubscribe");
 
@@ -176,29 +178,31 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
             $commands[] = $webdav_obj->retrieveWebDAVCommandArrayForActionMenu();
         }
 
-        $commands[] = array("permission" => "write", "cmd" => "enableAdministrationPanel", "lang_var" => "edit_content");
+        $commands[] = array("permission" => "write",
+                            "cmd" => "enableAdministrationPanel",
+                            "lang_var" => "edit_content"
+        );
         $commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "settings");
         return $commands;
     }
-    
+
     /**
      * @inheritDoc
-    */
+     */
     public static function _checkGoto($a_target)
     {
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];
         $ilUser = $DIC['ilUser'];
-        
+
         $t_arr = explode("_", $a_target);
-        
+
         // registration codes
         if (isset($t_arr[2]) && substr($t_arr[2], 0, 5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID) {
             self::$using_code = true;
             return true;
         }
-        
 
         if ($t_arr[0] != "crs" || ((int) $t_arr[1]) <= 0) {
             return false;
@@ -213,7 +217,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         }
         return false;
     }
-    
+
     public static function _lookupViewMode(int $a_id) : int
     {
         global $DIC;
@@ -227,7 +231,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         }
         return ilContainer::VIEW_DEFAULT;
     }
-    
+
     public static function _isActivated(int $a_obj_id, ?bool &$a_visible_flag = null, bool $a_mind_member_view = true)
     {
         // #7669
@@ -240,18 +244,18 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         $ref_id = ilObject::_getAllReferences($a_obj_id);
         $ref_id = array_pop($ref_id);
         $a_visible_flag = true;
-        
+
         $item = ilObjectActivation::getItem($ref_id);
         switch ($item['timing_type']) {
             case ilObjectActivation::TIMINGS_ACTIVATION:
                 if (time() < $item['timing_start'] or
-                   time() > $item['timing_end']) {
+                    time() > $item['timing_end']) {
                     $a_visible_flag = $item['visible'];
                     return false;
                 }
-                // fallthrough
-                
-                // no break
+            // fallthrough
+
+            // no break
             default:
                 return true;
         }
@@ -284,15 +288,15 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
             case ilCourseConstants::IL_CRS_SUBSCRIPTION_LIMITED:
                 if (time() > $reg_start and
-                   time() < $reg_end) {
+                    time() < $reg_end) {
                     return true;
                 }
-                // no break
+            // no break
             default:
                 return false;
         }
     }
-    
+
     public static function lookupRegistrationInfo(int $a_obj_id) : array
     {
         global $DIC;
@@ -300,11 +304,11 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
         $lng = $DIC->language();
-        
+
         $query = 'SELECT sub_limitation_type, sub_start, sub_end, sub_mem_limit, sub_max_members FROM crs_settings ' .
             'WHERE obj_id = ' . $ilDB->quote($a_obj_id, ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
-        
+
         $info = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $info['reg_info_start'] = new ilDateTime($row->sub_start, IL_CAL_UNIX);
@@ -313,7 +317,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
             $info['reg_info_max_members'] = (int) $row->sub_max_members;
             $info['reg_info_mem_limit'] = (int) $row->sub_mem_limit;
         }
-        
+
         $registration_possible = true;
 
         // Limited registration
@@ -337,7 +341,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
             $info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg');
             $info['reg_info_list_prop']['value'] = $lng->txt('crs_list_reg_noreg');
         }
-        
+
         if ($info['reg_info_mem_limit'] && $info['reg_info_max_members'] && $registration_possible) {
             // Check for free places
             $part = ilCourseParticipant::_getInstanceByObjId($a_obj_id, $ilUser->getId());
@@ -348,7 +352,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
             } else {
                 $info['reg_info_free_places'] = max(0, $info['reg_info_max_members'] - $part->getNumberOfMembers());
             }
-            
+
             if ($info['reg_info_free_places']) {
                 $info['reg_info_list_prop_limit']['property'] = $lng->txt('crs_list_reg_limit_places');
                 $info['reg_info_list_prop_limit']['value'] = $info['reg_info_free_places'];
@@ -365,7 +369,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         $dummy = null;
         return !self::_isActivated($a_obj_id, $dummy, false);
     }
-    
+
     /**
      * Preload data
      */
@@ -377,9 +381,9 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         $lng = $DIC['lng'];
 
         $lng->loadLanguageModule("crs");
-        
+
         ilCourseWaitingList::_preloadOnListInfo([$ilUser->getId()], $a_obj_ids);
-        
+
         $repository = new ilUserCertificateRepository();
         $coursePreload = new ilCertificateObjectsForUserPreloader($repository);
         $coursePreload->preLoad($ilUser->getId(), $a_obj_ids);
@@ -393,7 +397,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         return self::$booking_repo;
     }
 
-
     public static function _usingRegistrationCode() : bool
     {
         return self::$using_code;
@@ -405,7 +408,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
         $ilDB = $DIC->database();
         $lng = $DIC->language();
-        
+
         $start = $end = null;
         $query = 'SELECT period_start, period_end, period_time_indication FROM crs_settings ' .
             'WHERE obj_id = ' . $ilDB->quote($a_obj_id, ilDBConstants::T_INTEGER);
@@ -430,14 +433,14 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         }
         if ($start && $end) {
             $lng->loadLanguageModule('crs');
-            
+
             return
                 [
                     'crs_start' => $start,
                     'crs_end' => $end,
                     'property' => $lng->txt('crs_period'),
                     'value' => ilDatePresentation::formatPeriod($start, $end)
-            ];
+                ];
         }
         return [];
     }

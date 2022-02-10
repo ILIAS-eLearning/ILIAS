@@ -3,13 +3,12 @@
 
 /**
  * Settings for LO courses
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilLOTestAssignments
 {
     private static array $instances = [];
-    
+
     private int $container_id = 0;
     /**
      * @var ilLOTestAssignment[]
@@ -19,7 +18,6 @@ class ilLOTestAssignments
 
     protected ilDBInterface $db;
 
-    
     public function __construct(int $a_container_id)
     {
         global $DIC;
@@ -30,7 +28,7 @@ class ilLOTestAssignments
         $this->settings = ilLOSettings::getInstanceByObjId($a_container_id);
         $this->readTestAssignments();
     }
-    
+
     public static function getInstance(int $a_container_id) : self
     {
         if (self::$instances[$a_container_id]) {
@@ -38,32 +36,32 @@ class ilLOTestAssignments
         }
         return self::$instances[$a_container_id] = new self($a_container_id);
     }
-    
+
     public static function lookupContainerForTest(int $a_test_ref_id) : int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'SELECT container_id FROM loc_tst_assignments ' .
-                'WHERE tst_ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer');
+            'WHERE tst_ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->container_id;
         }
         return 0;
     }
-    
+
     public function getContainerId() : int
     {
         return $this->container_id;
     }
-    
+
     public function getSettings() : ilLOSettings
     {
         return $this->settings;
     }
-    
+
     /**
      * Get assignments
      * @return ilLOTestAssignment[]
@@ -79,7 +77,7 @@ class ilLOTestAssignments
 
         $ilDB = $DIC->database();
         $query = 'DELETE FROM loc_tst_assignments ' .
-                'WHERE container_id = ' . $ilDB->quote($a_container_id, 'integer');
+            'WHERE container_id = ' . $ilDB->quote($a_container_id, 'integer');
         $ilDB->manipulate($query);
     }
 
@@ -124,21 +122,21 @@ class ilLOTestAssignments
                     return $this->getSettings()->getInitialTest();
                 }
                 break;
-                
+
             case ilLOSettings::TYPE_TEST_QUALIFIED:
                 if (!$this->getSettings()->hasSeparateQualifiedTests()) {
                     return $this->getSettings()->getQualifiedTest();
                 }
                 break;
         }
-                
+
         $assignment = $this->getAssignmentByObjective($a_objective_id, $a_type);
         if ($assignment) {
             return $assignment->getTestRefId();
         }
         return 0;
     }
-    
+
     public function isSeparateTest(int $a_test_ref_id) : bool
     {
         if (!$this->getSettings()->hasSeparateInitialTests()) {
@@ -153,7 +151,7 @@ class ilLOTestAssignments
         }
         return true;
     }
-    
+
     public function getTypeByTest(int $a_test_ref_id) : int
     {
         if ($this->getSettings()->worksWithInitialTest() && !$this->getSettings()->hasSeparateInitialTests()) {
@@ -180,7 +178,7 @@ class ilLOTestAssignments
         }
         return ilLOSettings::TYPE_TEST_UNDEFINED;
     }
-    
+
     public function getAssignmentByObjective(int $a_objective_id, int $a_type) : ?ilLOTestAssignment
     {
         foreach ($this->assignments as $assignment) {
@@ -193,19 +191,19 @@ class ilLOTestAssignments
         }
         return null;
     }
-    
+
     protected function readTestAssignments() : void
     {
         $query = 'SELECT assignment_id FROM loc_tst_assignments ' .
-                'WHERE container_id = ' . $this->db->quote($this->getContainerId(), 'integer');
+            'WHERE container_id = ' . $this->db->quote($this->getContainerId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $assignment = new ilLOTestAssignment($row->assignment_id);
-            
+
             $this->assignments[] = $assignment;
         }
     }
-    
+
     public function toXml(ilXmlWriter $writer, int $a_objective_id) : void
     {
         foreach ($this->getAssignments() as $assignment) {
@@ -222,8 +220,7 @@ class ilLOTestAssignments
             );
         }
     }
-    
-    
+
     public static function lookupObjectivesForTest(int $a_test_ref_id) : array
     {
         global $DIC;
@@ -231,7 +228,7 @@ class ilLOTestAssignments
         $ilDB = $DIC->database();
         $objectives = [];
         $query = 'SELECT objective_id FROM loc_tst_assignments ' .
-                'WHERE tst_ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer');
+            'WHERE tst_ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $objectives[] = $row->objective_id;

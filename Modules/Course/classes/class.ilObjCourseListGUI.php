@@ -2,13 +2,10 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilObjCourseListGUI
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * $Id$
- *
  * @ingroup ModulesCourse
  */
 class ilObjCourseListGUI extends ilObjectListGUI
@@ -17,8 +14,8 @@ class ilObjCourseListGUI extends ilObjectListGUI
     private bool $conditions_ok = false;
 
     /**
-    * @inheritDoc
-    */
+     * @inheritDoc
+     */
     public function init()
     {
         $this->static_link_enabled = true;
@@ -61,7 +58,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
     /**
      * @inheritDoc
-    */
+     */
     public function getProperties()
     {
         global $DIC;
@@ -84,14 +81,18 @@ class ilObjCourseListGUI extends ilObjectListGUI
         // blocked
         $members = ilCourseParticipant::_getInstanceByObjId($this->obj_id, $this->user->getId());
         if ($members->isBlocked() and $members->isAssigned()) {
-            $props[] = array("alert" => true, "property" => $this->lng->txt("member_status"),
-                "value" => $this->lng->txt("crs_status_blocked"));
+            $props[] = array("alert" => true,
+                             "property" => $this->lng->txt("member_status"),
+                             "value" => $this->lng->txt("crs_status_blocked")
+            );
         }
 
         // pending subscription
         if (ilCourseParticipants::_isSubscriber($this->obj_id, $this->user->getId())) {
-            $props[] = array("alert" => true, "property" => $this->lng->txt("member_status"),
-                "value" => $this->lng->txt("crs_status_pending"));
+            $props[] = array("alert" => true,
+                             "property" => $this->lng->txt("member_status"),
+                             "value" => $this->lng->txt("crs_status_pending")
+            );
         }
 
         $info = ilObjCourseAccess::lookupRegistrationInfo($this->obj_id);

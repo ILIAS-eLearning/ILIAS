@@ -21,15 +21,11 @@
         +-----------------------------------------------------------------------------+
 */
 
-
-
 /**
-* List gui for course objectives
-*
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ModulesCourse
-*/
+ * List gui for course objectives
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ModulesCourse
+ */
 class ilCourseObjectiveListGUI extends ilObjectListGUI
 {
     /**
@@ -46,14 +42,18 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
         $this->progress_enabled = true;
         $this->type = "lobj";
         //$this->gui_class_name = "ilobjcoursegui";
-        
+
         // general commands array
         $this->commands = array();
     }
-    
 
-    public function getObjectiveListItemHTML(int $a_ref_id, int $a_obj_id, string $a_title, string $a_description, bool $a_manage = false) : string
-    {
+    public function getObjectiveListItemHTML(
+        int $a_ref_id,
+        int $a_obj_id,
+        string $a_title,
+        string $a_description,
+        bool $a_manage = false
+    ) : string {
         $this->tpl = new ilTemplate(
             "tpl.container_list_item.html",
             true,
@@ -65,7 +65,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
         $this->insertIconsAndCheckboxes();
         $this->insertTitle();
         $this->insertDescription();
-        
+
         if (!$a_manage) {
             $this->insertProgressInfo();
         }
@@ -79,7 +79,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
         $this->cust_commands = array();
         $this->sub_item_html = array();
         $this->position_enabled = false;
-        
+
         return $this->tpl->get();
     }
 
@@ -89,8 +89,10 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     public function insertTitle()
     {
         if (
-            ilCourseObjectiveResultCache::getStatus($this->user->getId(), $this->getContainerObject()->object->getId()) != ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE and
-            ilCourseObjectiveResultCache::isSuggested($this->user->getId(), $this->getContainerObject()->object->getId(), $this->obj_id)
+            ilCourseObjectiveResultCache::getStatus($this->user->getId(),
+                $this->getContainerObject()->object->getId()) != ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE and
+            ilCourseObjectiveResultCache::isSuggested($this->user->getId(),
+                $this->getContainerObject()->object->getId(), $this->obj_id)
         ) {
             $this->tpl->setVariable('DIV_CLASS', 'ilContainerListItemOuterHighlight');
         } else {
@@ -105,7 +107,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
         }
         $this->tpl->setCurrentBlock("item_title_linked");
         $this->tpl->setVariable("TXT_TITLE_LINKED", $this->getTitle());
-        
+
         $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getContainerObject()->object->getRefId());
         $this->ctrl->setParameterByClass("ilrepositorygui", "objective_details", $this->obj_id);
         $link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "");
@@ -122,18 +124,20 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     {
         $this->lng->loadLanguageModule('trac');
         $this->tpl->setCurrentBlock('item_progress');
-        
-        switch (ilCourseObjectiveResultCache::getStatus($this->user->getId(), $this->getContainerObject()->object->getId())) {
+
+        switch (ilCourseObjectiveResultCache::getStatus($this->user->getId(),
+            $this->getContainerObject()->object->getId())) {
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE:
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_status'));
                 $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/not_attempted.svg'));
                 $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_no_attempted'));
                 break;
-                
+
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST:
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_PRETEST:
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_pretest'));
-                if (ilCourseObjectiveResultCache::isSuggested($this->user->getId(), $this->getContainerObject()->object->getId(), $this->obj_id)) {
+                if (ilCourseObjectiveResultCache::isSuggested($this->user->getId(),
+                    $this->getContainerObject()->object->getId(), $this->obj_id)) {
                     $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.svg'));
                     $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_failed'));
                 } else {
@@ -141,11 +145,12 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
                     $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_passed'));
                 }
                 break;
-                
+
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_FINISHED:
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_FINAL:
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_result'));
-                if (ilCourseObjectiveResultCache::isSuggested($this->user->getId(), $this->getContainerObject()->object->getId(), $this->obj_id)) {
+                if (ilCourseObjectiveResultCache::isSuggested($this->user->getId(),
+                    $this->getContainerObject()->object->getId(), $this->obj_id)) {
                     $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.svg'));
                     $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_failed'));
                 } else {
@@ -153,8 +158,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
                     $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_passed'));
                 }
                 break;
-                
-                        
+
         }
         $this->tpl->parseCurrentBlock();
     }

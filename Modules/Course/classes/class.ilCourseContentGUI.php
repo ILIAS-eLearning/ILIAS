@@ -1,18 +1,16 @@
 <?php declare(strict_types=0);
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
 /**
-* Class ilCourseContentGUI
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @extends ilObjectGUI
-*
-* @ilCtrl_Calls ilCourseContentGUI: ilColumnGUI, ilObjectCopyGUI
-*
-*/
+ * Class ilCourseContentGUI
+ * @author       Stefan Meyer <meyer@leifos.com>
+ * @extends      ilObjectGUI
+ * @ilCtrl_Calls ilCourseContentGUI: ilColumnGUI, ilObjectCopyGUI
+ */
 class ilCourseContentGUI
 {
     protected ilContainerGUI $container_gui;
@@ -32,7 +30,6 @@ class ilCourseContentGUI
     protected GlobalHttpState $http;
     protected Factory $refinery;
 
-
     public function __construct(ilContainerGUI $container_gui_obj)
     {
         global $DIC;
@@ -40,7 +37,7 @@ class ilCourseContentGUI
 
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
-        $this->lng  = $DIC->language();
+        $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
         $this->fav_manager = new ilFavouritesManager();
         $this->access = $DIC->access();
@@ -95,7 +92,6 @@ class ilCourseContentGUI
         return $this->container_obj;
     }
 
-
     public function initStartObjects() : ?ilCourseStart
     {
         if ($this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
@@ -142,7 +138,8 @@ class ilCourseContentGUI
                 $this->tpl->setCurrentBlock("start_read");
                 $this->tpl->setVariable("READ_TITLE_START", $this->objectDataCache->lookupTitle($obj_id));
                 $this->tpl->setVariable("READ_TARGET_START", $obj_frame);
-                $this->tpl->setVariable("READ_LINK_START", $obj_link . '&crs_show_result=' . $this->course_obj->getRefId());
+                $this->tpl->setVariable("READ_LINK_START",
+                    $obj_link . '&crs_show_result=' . $this->course_obj->getRefId());
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setCurrentBlock("start_visible");
@@ -154,7 +151,8 @@ class ilCourseContentGUI
             if (isset($continue_data[$ref_id])) {
                 $this->tpl->setCurrentBlock("link");
                 $this->tpl->setVariable("LINK_HREF", ilLink::_getLink($ref_id, '', array('obj_id',
-                                                                                      $continue_data[$ref_id]['lm_page_id'])));
+                                                                                         $continue_data[$ref_id]['lm_page_id']
+                )));
                 #$this->tpl->setVariable("CONTINUE_LINK_TARGET",$target);
                 $this->tpl->setVariable("LINK_NAME", $this->lng->txt('continue_work'));
                 $this->tpl->parseCurrentBlock();
@@ -191,14 +189,12 @@ class ilCourseContentGUI
                 }
             }
 
-
             // Description
             if (strlen($this->objectDataCache->lookupDescription($obj_id))) {
                 $this->tpl->setCurrentBlock("start_description");
                 $this->tpl->setVariable("DESCRIPTION_START", $this->objectDataCache->lookupDescription($obj_id));
                 $this->tpl->parseCurrentBlock();
             }
-
 
             if ($start_obj->isFullfilled($this->user->getId(), $ref_id)) {
                 $accomplished = 'accomplished';
@@ -228,7 +224,7 @@ class ilCourseContentGUI
         }
         $this->tabs->setTabActive('timings_timings');
         $this->tabs->clearSubTabs();
-        
+
         $table = new ilTimingsManageTableGUI(
             $this,
             'manageTimings',
@@ -239,7 +235,8 @@ class ilCourseContentGUI
             $table->setFailureStatus(true);
         }
         $table->init();
-        $table->parse(ilObjectActivation::getTimingsAdministrationItems($this->getContainerObject()->getRefId()), $failed_items);
+        $table->parse(ilObjectActivation::getTimingsAdministrationItems($this->getContainerObject()->getRefId()),
+            $failed_items);
         $this->tpl->setContent($table->getHTML());
     }
 
@@ -255,7 +252,7 @@ class ilCourseContentGUI
         }
         $this->tabs->setTabActive('timings_timings');
         $this->tabs->clearSubTabs();
-        
+
         $table = new ilTimingsPersonalTableGUI(
             $this,
             'managePersonalTimings',
@@ -274,7 +271,6 @@ class ilCourseContentGUI
         );
         $this->tpl->setContent($table->getHTML());
     }
-
 
     /**
      * Update personal timings
@@ -336,14 +332,12 @@ class ilCourseContentGUI
             $this->ctrl->returnToParent($this);
         }
 
-
         // Back button
         $this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
         $this->tpl->setCurrentBlock("btn_cell");
         $this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, 'returnToMembers'));
         $this->tpl->setVariable("BTN_TXT", $this->lng->txt("back"));
         $this->tpl->parseCurrentBlock();
-
 
         $this->tpl->setVariable("HEADER_IMG", ilUtil::getImagePath('icon_usr.svg'));
         $this->tpl->setVariable("HEADER_ALT", $this->lng->txt('obj_usr'));
@@ -361,7 +355,7 @@ class ilCourseContentGUI
         $items = ilObjectActivation::getTimingsAdministrationItems($this->course_obj->getRefId());
         foreach ($items as $item) {
             if (($item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) or
-               ilObjectActivation::hasChangeableTimings($item['ref_id'])) {
+                ilObjectActivation::hasChangeableTimings($item['ref_id'])) {
                 $this->__renderUserItem($item, 0);
             }
         }
@@ -377,7 +371,7 @@ class ilCourseContentGUI
 
         $usr_planed = new ilTimingUser($item['ref_id'], $this->initMemberIdFromQuery());
 
-        for ($i = 0;$i < $level;$i++) {
+        for ($i = 0; $i < $level; $i++) {
             $this->tpl->touchBlock('start_indent');
             $this->tpl->touchBlock('end_indent');
         }
@@ -396,7 +390,8 @@ class ilCourseContentGUI
         if (!$item['title'] &&
             $item['type'] == 'sess') {
             $app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item["ref_id"]));
-            $item['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
+            $item['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'],
+                $app_info['fullday']);
         }
 
         $this->tpl->setCurrentBlock("title_plain");
@@ -419,7 +414,7 @@ class ilCourseContentGUI
         $this->tpl->parseCurrentBlock();
         foreach (ilObjectActivation::getTimingsAdministrationItems($item['ref_id']) as $item_data) {
             if (($item_data['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) or
-               ilObjectActivation::hasChangeableTimings($item_data['ref_id'])) {
+                ilObjectActivation::hasChangeableTimings($item_data['ref_id'])) {
                 $this->__renderUserItem($item_data, $level + 1);
             }
         }
@@ -432,20 +427,19 @@ class ilCourseContentGUI
         }
 
         $this->tabs->clearSubTabs();
-        
+
         $failed = array();
         $all_items = array();
         foreach ((array) $_POST['item'] as $ref_id => $data) {
             $item_obj = new ilObjectActivation();
             $item_obj->read($ref_id);
 
-            $item_obj->setTimingType($data['active'] ? 	ilObjectActivation::TIMINGS_PRESETTING : ilObjectActivation::TIMINGS_DEACTIVATED);
+            $item_obj->setTimingType($data['active'] ? ilObjectActivation::TIMINGS_PRESETTING : ilObjectActivation::TIMINGS_DEACTIVATED);
             $item_obj->toggleChangeable((bool) $data['change']);
 
             if ($this->course_obj->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE) {
                 $sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start']);
                 $sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end']);
-
 
                 if (($sug_start_dt instanceof ilDate) and ($sug_end_dt instanceof ilDate)) {
                     if (ilDateTime::_after($sug_start_dt, $sug_end_dt)) {

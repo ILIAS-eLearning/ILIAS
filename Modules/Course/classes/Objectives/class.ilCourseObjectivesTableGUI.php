@@ -21,17 +21,14 @@
         +-----------------------------------------------------------------------------+
 */
 
-
 // begin-patch lok
 // end-patch lok
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesCourse
-*/
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @ingroup ModulesCourse
+ */
 class ilCourseObjectivesTableGUI extends ilTable2GUI
 {
     protected ilObject $course_obj;
@@ -42,7 +39,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         global $DIC;
 
         $this->course_obj = $a_course_obj;
-        
+
         $this->settings = ilLOSettings::getInstanceByObjId($this->course_obj->getId());
 
         parent::__construct($a_parent_obj, 'listObjectives');
@@ -75,13 +72,12 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         $this->addMultiCommand('askDeleteObjectives', $this->lng->txt('delete'));
         $this->addCommandButton('saveSorting', $this->lng->txt('sorting_save'));
     }
-    
+
     public function getSettings() : ilLOSettings
     {
         return $this->settings;
     }
 
-    
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
@@ -100,7 +96,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             $this->tpl->setVariable('PASSES_TXT', $this->lng->txt('crs_loc_passes_info'));
             $this->tpl->setVariable('PASSES_VAL', $a_set['passes']);
         }
-
 
         // begin-patch lok
         $this->ctrl->setParameterByClass('ilcourseobjectivesgui', 'objective_id', $a_set['id']);
@@ -202,7 +197,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     $this->ctrl->getLinkTargetByClass('ilobjtestgui')
                 );
 
-
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->touchBlock('final_test_per_objective');
@@ -260,26 +254,24 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             $this->ctrl->getLinkTargetByClass('illopagegui', 'edit')
         );
 
-
         $this->tpl->setVariable('VAL_ACTIONS', $alist->getHTML());
 
         // end-patch lok
     }
-        
-    
+
     public function parse(array $a_objective_ids) : void
     {
         $position = 1;
         $objectives = [];
         foreach ($a_objective_ids as $objective_id) {
             $objective = new ilCourseObjective($this->course_obj, $objective_id);
-            
+
             $objective_data = [];
             $objective_data['id'] = $objective_id;
             $objective_data['position'] = sprintf("%.1f", $position++) * 10;
             $objective_data['title'] = $objective->getTitle();
             $objective_data['description'] = $objective->getDescription();
-            
+
             $objective_data['online'] = $objective->isActive();
             $objective_data['passes'] = $objective->getPasses();
 
@@ -296,18 +288,19 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                         $materials[$material['ref_id']]['items'][] = $material;
                         break;
                     default:
-                        
+
                 }
             }
             $objective_data['materials'] = $materials;
             $question_obj = new ilCourseObjectiveQuestion($objective_id);
-            
+
             // self assessment questions
             // begin-patch lok
             if ($this->getSettings()->worksWithInitialTest()) {
                 if ($this->getSettings()->hasSeparateInitialTests()) {
                     $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
-                    $assignment = $assignments->getAssignmentByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL);
+                    $assignment = $assignments->getAssignmentByObjective($objective_id,
+                        ilLOSettings::TYPE_TEST_INITIAL);
 
                     $objective_data['initial'] = 0;
                     if ($assignment instanceof ilLOTestAssignment) {
@@ -355,7 +348,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             if ($this->getSettings()->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_SELECTED) {
                 $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
                 $assignment = $assignments->getAssignmentByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
-            
+
                 $objective_data['final'] = 0;
                 if ($assignment instanceof ilLOTestAssignment) {
                     $test_id = $assignment->getTestRefId();

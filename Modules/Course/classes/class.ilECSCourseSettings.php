@@ -2,13 +2,11 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-* Class ilECSCourseSettings
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ModulesCourse
-*/
+ * Class ilECSCourseSettings
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ModulesCourse
+ */
 class ilECSCourseSettings extends ilECSObjectSettings
 {
     protected ilLogger $logger;
@@ -25,18 +23,19 @@ class ilECSCourseSettings extends ilECSObjectSettings
     {
         return '/campusconnect/courselinks';
     }
-    
+
     protected function buildJson(ilECSSetting $a_server)
     {
         $json = $this->getJsonCore('application/ecs-course');
-        
+
         // meta language
-        $lang = ilMDLanguage::_lookupFirstLanguage($this->content_obj->getId(), $this->content_obj->getId(), $this->content_obj->getType());
+        $lang = ilMDLanguage::_lookupFirstLanguage($this->content_obj->getId(), $this->content_obj->getId(),
+            $this->content_obj->getType());
         if (strlen($lang)) {
             $json->lang = $lang . '_' . strtoupper($lang);
         }
         $json->status = $this->content_obj->isActivated() ? 'online' : 'offline';
-        
+
         $definition = ilECSUtils::getEContentDefinition($this->getECSObjectType());
         $this->addMetadataToJson($json, $a_server, $definition);
         $json->courseID = 'il_' . IL_INST_ID . '_' . $this->getContentObject()->getType() . '_' . $this->getContentObject()->getId();

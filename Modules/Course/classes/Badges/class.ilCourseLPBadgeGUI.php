@@ -1,13 +1,10 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Course LP badge gui
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
- *
  * @ingroup ModulesCourse
  */
 class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
@@ -23,17 +20,17 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
-        $this->ctrl  = $DIC->ctrl();
+        $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('trac');
     }
-    
+
     public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id) : void
     {
         $this->parent_ref_id = $a_parent_ref_id;
 
         $subitems = new ilRepositorySelector2InputGUI($this->lng->txt("objects"), "subitems", true);
-        
+
         $exp = $subitems->getExplorerGUI();
         $exp->setSkipRootNode(true);
         $exp->setRootId($this->parent_ref_id);
@@ -53,18 +50,18 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
             }
             return ilObject::_lookupTitle(ilObject::_lookupObjId($a_id)) . " (" . $mode . ")";
         });
-        
+
         $subitems->setRequired(true);
         $a_form->addItem($subitems);
     }
-    
+
     protected function getLPTypes(int $a_parent_ref_id) : array
     {
         $res = array();
         $root = $this->tree->getNodeData($a_parent_ref_id);
         $sub_items = $this->tree->getSubTree($root);
         array_shift($sub_items); // remove root
-        
+
         foreach ($sub_items as $node) {
             if (ilObjectLP::isSupportedObjectType($node["type"])) {
                 $class = ilObjectLP::getTypeClass($node["type"]);
@@ -76,7 +73,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         }
         return $res;
     }
-    
+
     public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config) : void
     {
         if (is_array($a_config["subitems"])) {
@@ -84,7 +81,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
             $items->setValue($a_config["subitems"]);
         }
     }
-    
+
     public function getConfigFromForm(ilPropertyFormGUI $a_form) : array
     {
         return array("subitems" => $a_form->getInput("subitems"));
@@ -110,7 +107,8 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
          */
 
         $invalid_modes = array(ilLPObjSettings::LP_MODE_DEACTIVATED,
-            ilLPObjSettings::LP_MODE_UNDEFINED);
+                               ilLPObjSettings::LP_MODE_UNDEFINED
+        );
 
         // without active LP the following modes cannot be supported
         if (!ilObjUserTracking::_enabledLearningProgress()) {
@@ -128,7 +126,6 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         }
         return $invalid_modes;
     }
-
 
     public function validateForm(ilPropertyFormGUI $a_form) : bool
     {

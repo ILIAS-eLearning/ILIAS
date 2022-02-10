@@ -2,13 +2,9 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Member-tab content
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- *
+ * @author       Stefan Meyer <smeyer.ilias@gmx.de>
  * @ilCtrl_Calls ilCourseMembershipGUI: ilMailMemberSearchGUI, ilUsersGalleryGUI, ilRepositorySearchGUI
  * @ilCtrl_Calls ilCourseMembershipGUI: ilCourseParticipantsGroupsGUI, ilObjectCustomuserFieldsGUI
  * @ilCtrl_Calls ilCourseMembershipGUI: ilSessionOverviewGUI
@@ -23,7 +19,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     {
         return new ilMailMemberCourseRoles();
     }
-    
+
     /**
      * Filter user ids by access
      * @param int[] $a_user_ids
@@ -66,14 +62,14 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     {
         $this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_ref_delete_confirmation_info'));
 
-        $table = new ilCourseReferenceDeleteConfirmationTableGUI($this, $this->getParentObject(), 'confirmDeleteParticipants');
+        $table = new ilCourseReferenceDeleteConfirmationTableGUI($this, $this->getParentObject(),
+            'confirmDeleteParticipants');
         $table->init();
         $table->setParticipants($participants);
         $table->parse();
 
         $this->tpl->setContent($table->getHTML());
     }
-
 
     protected function deleteParticipantsWithLinkedCourses() : void
     {
@@ -130,10 +126,10 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 $part->delete($usr_id);
             }
         }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
+        $this->tpl->setOnScreenMessage('success',
+            $this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
         $this->ctrl->redirect($this, "participants");
     }
-
 
     /**
      * callback from repository search gui
@@ -204,7 +200,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         }
         return [];
     }
-    
+
     protected function updateParticipantsStatus() : void
     {
         $visible_members = [];
@@ -220,13 +216,13 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         $blocked = $this->initParticipantStatusFromPostFor('blocked');
         $contact = $this->initParticipantStatusFromPostFor('contact');
         $notification = $this->initParticipantStatusFromPostFor('notification');
-        
+
         foreach ($visible_members as $member_id) {
             if ($this->access->checkAccess("grade", "", $this->getParentObject()->getRefId())) {
                 $this->getMembersObject()->updatePassed($member_id, in_array($member_id, $passed), true);
                 $this->updateLPFromStatus($member_id, in_array($member_id, $passed));
             }
-            
+
             if ($this->getMembersObject()->isAdmin($member_id) or $this->getMembersObject()->isTutor($member_id)) {
                 // remove blocked
                 $this->getMembersObject()->updateBlocked($member_id, false);
@@ -235,11 +231,13 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             } else {
                 // send notifications => unblocked
                 if ($this->getMembersObject()->isBlocked($member_id) && !in_array($member_id, $blocked)) {
-                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_UNBLOCK_MEMBER, $member_id);
+                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_UNBLOCK_MEMBER,
+                        $member_id);
                 }
                 // => blocked
                 if (!$this->getMembersObject()->isBlocked($member_id) && in_array($member_id, $blocked)) {
-                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_BLOCK_MEMBER, $member_id);
+                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_BLOCK_MEMBER,
+                        $member_id);
                 }
 
                 // normal member => remove notification, contact
@@ -251,23 +249,19 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'participants');
     }
-    
-    
+
     protected function initParticipantTableGUI() : ilParticipantTableGUI
     {
         $show_tracking =
-            (ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData())
-        ;
+            (ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData());
         if ($show_tracking) {
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
         }
 
         $timings_enabled =
-            (ilObjectActivation::hasTimings($this->getParentObject()->getRefId()) && ($this->getParentObject()->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING))
-        ;
-        
-        
+            (ilObjectActivation::hasTimings($this->getParentObject()->getRefId()) && ($this->getParentObject()->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING));
+
         return new ilCourseParticipantsTableGUI(
             $this,
             $this->getParentObject(),
@@ -283,7 +277,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         $table = new ilCourseEditParticipantsTableGUI($this, $this->getParentObject());
         $table->setTitle($this->lng->txt($this->getParentObject()->getType() . '_header_edit_members'));
         $table->setData($this->getParentGUI()->readMemberData($participants));
-        
+
         return $table;
     }
 
@@ -291,7 +285,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.crs_edit_members.html', 'Modules/Course');
     }
-    
+
     /**
      * @todo refactor delete
      */
@@ -299,12 +293,12 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     {
         return $this->getParentObject()->getLocalCourseRoles($a_translation);
     }
-    
+
     protected function updateLPFromStatus(int $a_member_id, bool $a_passed) : void
     {
         $this->getParentGUI()->updateLPFromStatus($a_member_id, $a_passed);
     }
-    
+
     protected function initWaitingList() : ilCourseWaitingList
     {
         return new ilCourseWaitingList($this->getParentObject()->getId());
@@ -314,12 +308,12 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     {
         return $this->getParentGUI()->object->getDefaultMemberRole();
     }
-    
+
     protected function deliverCertificate() : void
     {
         $this->getParentGUI()->deliverCertificateObject();
     }
-    
+
     protected function getPrintMemberData(array $a_members) : array
     {
         $this->lng->loadLanguageModule('trac');
@@ -337,13 +331,13 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
         }
-        
+
         if ($show_tracking) {
             $completed = ilLPStatusWrapper::_lookupCompletedForObject($this->getParentObject()->getId());
             $in_progress = ilLPStatusWrapper::_lookupInProgressForObject($this->getParentObject()->getId());
             $failed = ilLPStatusWrapper::_lookupFailedForObject($this->getParentObject()->getId());
         }
-        
+
         $profile_data = ilObjUser::_readUsersProfileData($a_members);
 
         // course defined fields
@@ -359,7 +353,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                     list($f, $field_id) = explode('_', $field);
                     $print_member[$member_id]['udf_' . $field_id] = (string) $value;
                 }
-                
+
                 foreach ((array) $cdfs[$member_id] as $cdf_field => $cdf_value) {
                     $print_member[$member_id]['cdf_' . $cdf_field] = (string) $cdf_value;
                 }
@@ -367,7 +361,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 foreach ((array) $profile_data[$member_id] as $field => $value) {
                     $print_member[$member_id][$field] = $value;
                 }
-                
+
                 $print_member[$member_id]['login'] = $tmp_obj->getLogin();
                 $print_member[$member_id]['name'] = $tmp_obj->getLastname() . ', ' . $tmp_obj->getFirstname();
 
@@ -391,16 +385,17 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                         $print_member[$member_id]['status'] = $this->lng->txt("crs_unblocked");
                     }
                 }
-    
+
                 if ($is_admin) {
                     $print_member[$member_id]['passed'] = $this->getMembersObject()->hasPassed($member_id) ?
-                                      $this->lng->txt('crs_member_passed') :
-                                      $this->lng->txt('crs_member_not_passed');
+                        $this->lng->txt('crs_member_passed') :
+                        $this->lng->txt('crs_member_not_passed');
                 }
                 if ($privacy->enabledCourseAccessTimes()) {
                     if (isset($progress[$member_id]['ts']) and $progress[$member_id]['ts']) {
                         ilDatePresentation::setUseRelativeDates(false);
-                        $print_member[$member_id]['access'] = ilDatePresentation::formatDate(new ilDateTime($progress[$member_id]['ts'], IL_CAL_UNIX));
+                        $print_member[$member_id]['access'] = ilDatePresentation::formatDate(new ilDateTime($progress[$member_id]['ts'],
+                            IL_CAL_UNIX));
                         ilDatePresentation::setUseRelativeDates(true);
                     } else {
                         $print_member[$member_id]['access'] = $this->lng->txt('no_date');
@@ -421,7 +416,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         }
         return ilArrayUtil::sortArray($print_member, 'name', $_SESSION['crs_print_order'], false, true);
     }
-    
+
     public function getAttendanceListUserData(int $a_user_id) : array
     {
         if (is_array($this->member_data) && array_key_exists($a_user_id, $this->member_data)) {

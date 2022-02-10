@@ -31,5 +31,4 @@ class ilCourseTest
     protected $backupGlobals = false;
     protected $preserveGlobalState = false;
 
-
 }

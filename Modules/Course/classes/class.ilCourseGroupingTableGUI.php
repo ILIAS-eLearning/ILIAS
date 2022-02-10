@@ -1,12 +1,10 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @ingroup ModulesCourse
-*/
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ModulesCourse
+ */
 class ilCourseGroupingTableGUI extends ilTable2GUI
 {
     public function __construct(object $a_parent_obj, string $a_parent_cmd, ilObject $a_content_obj)
@@ -15,29 +13,28 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $type = ilObject::_lookupType($a_content_obj->getId());
         $this->lng->loadLanguageModule($type);
-        
+
         $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('description'), 'description');
         $this->addColumn($this->lng->txt('unambiguousness'), 'unique');
         $this->addColumn($this->lng->txt('groupings_assigned_obj_' . $type), 'assigned');
         $this->addColumn('', '');
-        
-        
+
         $this->setTitle($this->lng->txt('groupings'));
 
         $this->addMultiCommand('askDeleteGrouping', $this->lng->txt('delete'));
         $this->setSelectAllCheckbox('grouping');
-        
+
         $this->setRowTemplate("tpl.groupings.html", "Modules/Course");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        
+
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('asc');
-        
+
         $this->getItems($a_content_obj);
     }
-    
+
     protected function getItems(ilObject $a_content_obj)
     {
         $items = ilObjCourseGrouping::_getVisibleGroupings($a_content_obj->getId());
@@ -63,7 +60,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
                 $data[$grouping_id]['assigned'][] = ilObject::_lookupTitle($condition['target_obj_id']);
             }
         }
-        
+
         $this->setData($data);
     }
 
@@ -96,7 +93,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
         $this->tpl->setVariable("TXT_UNIQUE", $a_set["unique"]);
-                
+
         $this->ctrl->setParameter($this->parent_obj, 'obj_id', $a_set["id"]);
         $this->tpl->setVariable(
             "EDIT_LINK",

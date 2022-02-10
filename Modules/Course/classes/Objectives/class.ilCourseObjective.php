@@ -3,13 +3,11 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* class ilcourseobjective
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @extends Object
-*/
+ * class ilcourseobjective
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @extends Object
+ */
 class ilCourseObjective
 {
     protected ilObject $course_obj;
@@ -24,7 +22,6 @@ class ilCourseObjective
 
     protected ilDBInterface $db;
     protected ilLogger $logger;
-
 
     public function __construct(ilObject $course_obj, int $a_objective_id = 0)
     {
@@ -44,7 +41,7 @@ class ilCourseObjective
     {
         return $this->course_obj;
     }
-    
+
     public static function _lookupContainerIdByObjectiveId(int $a_objective_id) : int
     {
         global $DIC;
@@ -63,14 +60,14 @@ class ilCourseObjective
     {
         return count(ilCourseObjective::_getObjectiveIds($a_obj_id, $a_activated_only));
     }
-    
+
     public static function lookupMaxPasses(int $a_objective_id) : int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         $query = 'SELECT passes from crs_objectives ' .
-                'WHERE objective_id = ' . $ilDB->quote($a_objective_id, 'integer');
+            'WHERE objective_id = ' . $ilDB->quote($a_objective_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return (int) $row->passes;
@@ -89,7 +86,7 @@ class ilCourseObjective
 
         $ilDB = $DIC->database();
         $query = 'SELECT title,description from crs_objectives ' .
-                'WHERE objective_id = ' . $ilDB->quote($a_objective_id, 'integer');
+            'WHERE objective_id = ' . $ilDB->quote($a_objective_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
             if (!$a_add_description) {
@@ -123,7 +120,7 @@ class ilCourseObjective
             $new_objective->setActive($row->active);
             $objective_id = $new_objective->add();
             $this->logger->debug('Added new objective nr: ' . $objective_id);
-            
+
             // Clone crs_objective_tst entries
             $objective_qst = new ilCourseObjectiveQuestion($row->objective_id);
             $objective_qst->cloneDependencies($objective_id, $a_copy_id);
@@ -145,18 +142,20 @@ class ilCourseObjective
             $random_q->copy($a_copy_id, $new_course->getId(), $objective_id);
 
             $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
-            $assignment_it = $assignments->getAssignmentByObjective($row->objective_id, ilLOSettings::TYPE_TEST_INITIAL);
+            $assignment_it = $assignments->getAssignmentByObjective($row->objective_id,
+                ilLOSettings::TYPE_TEST_INITIAL);
             if ($assignment_it) {
                 $assignment_it->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
             }
 
-            $assignment_qt = $assignments->getAssignmentByObjective($row->objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
+            $assignment_qt = $assignments->getAssignmentByObjective($row->objective_id,
+                ilLOSettings::TYPE_TEST_QUALIFIED);
             if ($assignment_qt) {
                 $assignment_qt->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
             }
 
             $this->logger->debug('Finished copying question dependencies');
-            
+
             // Clone crs_objective_lm entries (assigned course materials)
             $objective_material = new ilCourseObjectiveMaterials($row->objective_id);
             $objective_material->cloneDependencies($objective_id, $a_copy_id);
@@ -168,48 +167,54 @@ class ilCourseObjective
     {
         $this->active = $a_stat;
     }
-    
+
     public function isActive() : bool
     {
         return $this->active;
     }
-    
+
     public function setPasses(int $a_passes) : void
     {
         $this->passes = $a_passes;
     }
-    
+
     public function getPasses() : int
     {
         return $this->passes;
     }
-    
+
     public function arePassesLimited() : bool
     {
         return $this->passes > 0;
     }
+
     // end-patch lok
 
     public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
+
     public function getTitle() : string
     {
         return $this->title;
     }
+
     public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
+
     public function getDescription() : string
     {
         return $this->description;
     }
+
     public function setObjectiveId(int $a_objective_id) : void
     {
         $this->objective_id = $a_objective_id;
     }
+
     public function getObjectiveId() : int
     {
         return $this->objective_id;
@@ -265,16 +270,14 @@ class ilCourseObjective
     {
         return (bool) strlen($this->getTitle());
     }
-    
+
     public function delete() : void
     {
         $tmp_obj_qst = new ilCourseObjectiveQuestion($this->getObjectiveId());
         $tmp_obj_qst->deleteAll();
 
-
         $tmp_obj_lm = new ilCourseObjectiveMaterials($this->getObjectiveId());
         $tmp_obj_lm->deleteAll();
-
 
         $query = "DELETE FROM crs_objectives " .
             "WHERE crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " " .
@@ -300,7 +303,7 @@ class ilCourseObjective
             "WHERE position = " . $this->db->quote($this->__getPosition() - 1, 'integer') . " " .
             "AND crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " ";
         $res = $this->db->manipulate($query);
-        
+
         $query = "UPDATE crs_objectives " .
             "SET position = position - 1 " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
@@ -325,7 +328,7 @@ class ilCourseObjective
             "WHERE position = " . $this->db->quote($this->__getPosition() + 1, 'integer') . " " .
             "AND crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " ";
         $res = $this->db->manipulate($query);
-        
+
         $query = "UPDATE crs_objectives " .
             "SET position = position + 1 " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
@@ -340,14 +343,17 @@ class ilCourseObjective
     {
         $this->position = $a_position;
     }
+
     public function __getPosition() : int
     {
         return $this->position;
     }
+
     public function __setCreated(int $a_created) : void
     {
         $this->created = $a_created;
     }
+
     public function __getCreated() : int
     {
         return $this->created;
@@ -359,7 +365,6 @@ class ilCourseObjective
             $query = "SELECT * FROM crs_objectives " .
                 "WHERE crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " " .
                 "AND objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
-
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -451,7 +456,6 @@ class ilCourseObjective
         }
 
         $in = $ilDB->in('objective_id', $ids, false, 'integer');
-
 
         $query = "DELETE FROM crs_objective_lm WHERE  " . $in;
         $res = $ilDB->manipulate($query);

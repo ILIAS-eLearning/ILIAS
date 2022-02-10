@@ -21,12 +21,10 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* class ilTimingPlaned
-* @author Stefan Meyer <meyer@leifos.com>
-*
-*/
+ * class ilTimingPlaned
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilTimingPlaned
 {
     private int $item_id = 0;
@@ -35,7 +33,6 @@ class ilTimingPlaned
     private int $end = 0;
 
     protected ilDBInterface $db;
-
 
     public function __construct(int $item_id, int $a_usr_id)
     {
@@ -47,11 +44,12 @@ class ilTimingPlaned
         $this->user_id = $a_usr_id;
         $this->__read();
     }
-    
+
     public function getUserId() : int
     {
         return $this->user_id;
     }
+
     public function getItemId() : int
     {
         return $this->item_id;
@@ -61,14 +59,17 @@ class ilTimingPlaned
     {
         return $this->start;
     }
+
     public function setPlanedStartingTime(int $a_time) : void
     {
         $this->start = $a_time;
     }
+
     public function getPlanedEndingTime() : int
     {
         return $this->end;
     }
+
     public function setPlanedEndingTime(int $a_end) : void
     {
         $this->end = $a_end;
@@ -132,7 +133,6 @@ class ilTimingPlaned
         }
         return $data;
     }
-
 
     public static function _getPlanedTimingsByItem($a_item_id) : array
     {

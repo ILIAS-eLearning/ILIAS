@@ -1,4 +1,5 @@
 <?php declare(strict_types=0);
+
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -26,14 +27,14 @@ class ilCourseConstants
     public const CRS_ADMIN = 1;
     public const CRS_MEMBER = 2;
     public const CRS_TUTOR = 3;
-    
+
     public const SUBSCRIPTION_DEACTIVATED = 0;
     public const SUBSCRIPTION_UNLIMITED = 1;
     public const SUBSCRIPTION_LIMITED = 2;
-    
+
     public const MAIL_ALLOWED_ALL = 1;
     public const MAIL_ALLOWED_TUTORS = 2;
-    
+
     public const IL_CRS_VIEW_TIMING_ABSOLUTE = 0;
     public const IL_CRS_VIEW_TIMING_RELATIVE = 1;
 

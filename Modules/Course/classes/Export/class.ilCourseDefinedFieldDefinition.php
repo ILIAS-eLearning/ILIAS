@@ -22,12 +22,10 @@
 */
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup Modules/Course
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup Modules/Course
+ */
 class ilCourseDefinedFieldDefinition
 {
     public const IL_CDF_SORT_ID = 'field_id';
@@ -46,7 +44,7 @@ class ilCourseDefinedFieldDefinition
     private array $values = [];
     private array $value_options = [];
     private bool $required = false;
-    
+
     public function __construct(int $a_obj_id, int $a_field_id = 0)
     {
         global $DIC;
@@ -55,12 +53,12 @@ class ilCourseDefinedFieldDefinition
         $this->lng = $DIC->language();
         $this->obj_id = $a_obj_id;
         $this->id = $a_field_id;
-        
+
         if ($this->id) {
             $this->read();
         }
     }
-    
+
     public static function _clone(int $a_source_id, int $a_target_id)
     {
         foreach (ilCourseDefinedFieldDefinition::_getFields($a_source_id) as $field_obj) {
@@ -73,7 +71,7 @@ class ilCourseDefinedFieldDefinition
             $cdf->save();
         }
     }
-    
+
     public static function _deleteByContainer(int $a_container_id) : void
     {
         global $DIC;
@@ -87,7 +85,7 @@ class ilCourseDefinedFieldDefinition
             "WHERE obj_id = " . $ilDB->quote($a_container_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
     }
-    
+
     /**
      * Check if there are any define fields
      */
@@ -95,7 +93,7 @@ class ilCourseDefinedFieldDefinition
     {
         return count(ilCourseDefinedFieldDefinition::_getFields($a_container_id));
     }
-    
+
     /**
      * Get all fields of a container
      * @param int container obj_id
@@ -109,7 +107,7 @@ class ilCourseDefinedFieldDefinition
         }
         return $fields;
     }
-    
+
     /**
      * Get required filed id's
      */
@@ -118,7 +116,7 @@ class ilCourseDefinedFieldDefinition
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "SELECT * FROM crs_f_definitions " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
             "AND field_required = 1";
@@ -129,7 +127,7 @@ class ilCourseDefinedFieldDefinition
         }
         return $req_fields;
     }
-    
+
     public static function _fieldsToInfoString(int $a_obj_id) : string
     {
         global $DIC;
@@ -160,7 +158,7 @@ class ilCourseDefinedFieldDefinition
         }
         return $field_ids;
     }
-        
+
     public static function _lookupName(int $a_field_id) : string
     {
         global $DIC;
@@ -168,40 +166,47 @@ class ilCourseDefinedFieldDefinition
         $ilDB = $DIC->database();
         $query = "SELECT * FROM crs_f_definitions " .
             "WHERE field_id = " . $ilDB->quote($a_field_id, 'integer');
-        
+
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         return $row->field_name ?: '';
     }
-    
+
     public function getObjId() : int
     {
         return $this->obj_id;
     }
+
     public function getId() : int
     {
         return $this->id;
     }
+
     public function getType() : int
     {
         return $this->type;
     }
+
     public function setType(int $a_type) : void
     {
         $this->type = $a_type;
     }
+
     public function getName() : string
     {
         return $this->name;
     }
+
     public function setName(string $a_name) : void
     {
         $this->name = $a_name;
     }
+
     public function getValues() : array
     {
         return $this->values;
     }
+
     public function setValues(array $a_values) : void
     {
         $this->values = $a_values;
@@ -222,37 +227,38 @@ class ilCourseDefinedFieldDefinition
     {
         return (($pos = array_search($a_value, $this->values)) === false) ? -1 : $pos;
     }
-    
+
     public function isRequired() : bool
     {
         return $this->required;
     }
+
     public function enableRequired(bool $a_status) : void
     {
         $this->required = $a_status;
     }
-    
+
     public function setValueOptions(array $a_options) : void
     {
         $this->value_options = $a_options;
     }
-    
+
     public function getValueOptions() : array
     {
         return $this->value_options;
     }
-    
+
     public function prepareSelectBox() : array
     {
         $options = array();
         $options[''] = $this->lng->txt('select_one');
-        
+
         foreach ($this->values as $key => $value) {
             $options[$this->getId() . '_' . $key] = $value;
         }
         return $options;
     }
-    
+
     public function prepareValues(array $a_values) : array
     {
         $tmp_values = [];
@@ -263,7 +269,7 @@ class ilCourseDefinedFieldDefinition
         }
         return $tmp_values;
     }
-    
+
     public function appendValues(array $a_values) : bool
     {
         $this->values = array_unique(array_merge($this->values, $a_values));
@@ -287,7 +293,7 @@ class ilCourseDefinedFieldDefinition
         $res = $this->db->manipulate($query);
         $this->id = $next_id;
     }
-    
+
     public function update() : void
     {
         $query = "UPDATE crs_f_definitions " .
@@ -300,7 +306,7 @@ class ilCourseDefinedFieldDefinition
             "AND obj_id = " . $this->db->quote($this->getObjId(), 'integer');
         $res = $this->db->manipulate($query);
     }
-    
+
     public function delete()
     {
         ilCourseUserData::_deleteByField($this->getId());
@@ -308,16 +314,16 @@ class ilCourseDefinedFieldDefinition
             "WHERE field_id = " . $this->db->quote($this->getId(), 'integer') . " ";
         $res = $this->db->manipulate($query);
     }
-    
+
     private function read()
     {
         $query = "SELECT * FROM crs_f_definitions " .
             "WHERE field_id = " . $this->db->quote($this->getId(), 'integer') . " " .
             "AND obj_id = " . $this->db->quote($this->getObjId(), 'integer') . " ";
-        
+
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        
+
         $this->setName((string) $row->field_name);
         $this->setType((int) $row->field_type);
         $this->setValues(unserialize($row->field_values));

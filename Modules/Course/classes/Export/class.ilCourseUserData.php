@@ -22,10 +22,9 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup ModulesCourse
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ModulesCourse
+ */
 class ilCourseUserData
 {
     private int $user_id;
@@ -34,7 +33,6 @@ class ilCourseUserData
 
     protected ilDBInterface $db;
 
-    
     public function __construct(int $a_user_id, int $a_field_id = 0)
     {
         global $DIC;
@@ -46,7 +44,7 @@ class ilCourseUserData
             $this->read();
         }
     }
-    
+
     public static function _getValuesByObjId($a_obj_id)
     {
         global $DIC;
@@ -59,7 +57,7 @@ class ilCourseUserData
         $where = "WHERE " . $ilDB->in('field_id', $field_ids, false, 'integer');
         $query = "SELECT * FROM crs_user_data " .
             $where;
-        
+
         $res = $ilDB->query($query);
         $user_data = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -67,7 +65,7 @@ class ilCourseUserData
         }
         return $user_data;
     }
-    
+
     public static function _checkRequired(int $a_usr_id, int $a_obj_id) : bool
     {
         global $DIC;
@@ -77,10 +75,10 @@ class ilCourseUserData
         if (!count($required)) {
             return true;
         }
-        
+
         //$and = ("AND field_id IN (".implode(",",ilUtil::quoteArray($required)).")");
         $and = "AND " . $ilDB->in('field_id', $required, false, 'integer');
-        
+
         $query = "SELECT COUNT(*) num_entries FROM crs_user_data " .
             "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
             "AND value != '' AND value IS NOT NULL " .
@@ -90,7 +88,7 @@ class ilCourseUserData
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         return $row->num_entries == count($required);
     }
-    
+
     public static function _deleteByUser(int $a_user_id) : void
     {
         global $DIC;
@@ -100,33 +98,34 @@ class ilCourseUserData
             "WHERE usr_id = " . $ilDB->quote($a_user_id, 'integer');
         $res = $ilDB->manipulate($query);
     }
-    
+
     public static function _deleteByField(int $a_field_id) : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "DELETE FROM crs_user_data " .
             "WHERE field_id = " . $ilDB->quote($a_field_id, 'integer');
         $res = $ilDB->manipulate($query);
     }
-    
+
     public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
+
     public function getValue() : string
     {
         return $this->value;
     }
-    
+
     public function update() : void
     {
         $this->delete();
         $this->create();
     }
-    
+
     public function delete() : void
     {
         $query = "DELETE FROM crs_user_data " .
@@ -134,7 +133,7 @@ class ilCourseUserData
             "AND field_id = " . $this->db->quote($this->field_id, 'integer');
         $res = $this->db->manipulate($query);
     }
-    
+
     public function create() : void
     {
         $query = "INSERT INTO crs_user_data (value,usr_id,field_id) " .
@@ -143,7 +142,7 @@ class ilCourseUserData
             $this->db->quote($this->user_id, 'integer') . ", " .
             $this->db->quote($this->field_id, 'integer') . " " .
             ")";
-            
+
         $res = $this->db->manipulate($query);
     }
 

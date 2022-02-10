@@ -1,11 +1,10 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-* Class ilLOXmlWriter
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-*/
+ * Class ilLOXmlWriter
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilLOXmlWriter
 {
     public const TYPE_TST_PO = 1;
@@ -18,7 +17,7 @@ class ilLOXmlWriter
 
     private ilLogger $log;
     protected ilSetting $setting;
-    
+
     /**
      * Constructor
      */
@@ -32,23 +31,23 @@ class ilLOXmlWriter
         $this->setting = $DIC->settings();
         $this->log = $DIC->logger()->crs();
     }
-    
+
     protected function getWriter() : ilXmlWriter
     {
         return $this->writer;
     }
-    
+
     /**
      * Write xml
      */
     public function write() : void
     {
         $this->getWriter()->xmlStartTag('Objectives');
-        
+
         // export settings
         $settings = ilLOSettings::getInstanceByObjId($this->obj_id);
         $settings->toXml($this->getWriter());
-        
+
         $factory = new ilObjectFactory();
         $course = $factory->getInstanceByRefId($this->ref_id, false);
         if (!$course instanceof ilObjCourse) {
@@ -61,10 +60,10 @@ class ilLOXmlWriter
             $objective = new ilCourseObjective($course, $objective_id);
             $objective->toXml($this->getWriter());
         }
-        
+
         $this->getWriter()->xmlEndTag('Objectives');
     }
-    
+
     public function getXml() : string
     {
         return $this->getWriter()->xmlDumpMem(false);

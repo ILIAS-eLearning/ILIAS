@@ -21,13 +21,13 @@ class ilObjCourseVerificationListGUI extends ilObjectListGUI
 
         $this->commands = ilObjCourseVerificationAccess::_getCommands();
     }
-    
+
     public function getProperties() : array
     {
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         return [
             [
                 'alert' => false,

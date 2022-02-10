@@ -22,8 +22,8 @@
 */
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-*/
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilCourseStart
 {
     private int $ref_id;
@@ -47,22 +47,27 @@ class ilCourseStart
         $this->id = $a_course_obj_id;
         $this->__read();
     }
-    public function setId(int $a_id)  : void
+
+    public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
+
     public function getId() : int
     {
         return $this->id;
     }
+
     public function setRefId(int $a_ref_id) : void
     {
         $this->ref_id = $a_ref_id;
     }
+
     public function getRefId() : int
     {
         return $this->ref_id;
     }
+
     public function getStartObjects() : array
     {
         return $this->start_objs;
@@ -71,7 +76,7 @@ class ilCourseStart
     public function cloneDependencies(int $a_target_id, int $a_copy_id) : void
     {
         $this->logger->debug('Begin course start objects...');
-        
+
         $new_obj_id = $this->objectDataCache->lookupObjId($a_target_id);
         $start = new ilCourseStart($a_target_id, $new_obj_id);
 
@@ -155,7 +160,6 @@ class ilCourseStart
         return true;
     }
 
-
     public function isFullfilled(int $user_id, int $item_id) : bool
     {
         $lm_continue = new ilCourseLMHistory($this->getRefId(), $user_id);
@@ -163,7 +167,7 @@ class ilCourseStart
 
         $obj_id = $this->objectDataCache->lookupObjId($item_id);
         $type = $this->objectDataCache->lookupType($obj_id);
-        
+
         switch ($type) {
             case 'tst':
 
@@ -189,7 +193,6 @@ class ilCourseStart
         }
         return true;
     }
-
 
     public function __read() : void
     {

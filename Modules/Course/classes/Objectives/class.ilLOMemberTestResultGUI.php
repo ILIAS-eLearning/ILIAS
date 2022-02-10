@@ -3,8 +3,7 @@
 
 /**
  * test result overview
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author            Stefan Meyer <smeyer.ilias@gmx.de>
  * @ilCtrl_isCalledBy ilLOMemberTestResultGUI: ilObjCourseGUI
  */
 class ilLOMemberTestResultGUI
@@ -25,16 +24,16 @@ class ilLOMemberTestResultGUI
         $this->user_id = $a_user_id;
 
         $this->ctrl = $DIC->ctrl();
-        $this->tpl  = $DIC->ui()->mainTemplate();
+        $this->tpl = $DIC->ui()->mainTemplate();
     }
-    
+
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
         switch ($next_class) {
-            
+
             default:
                 if (!$cmd) {
                     $cmd = 'viewResult';
@@ -48,13 +47,12 @@ class ilLOMemberTestResultGUI
     {
         return $this->container;
     }
-    
+
     public function getParentGUI() : ilObjectGUI
     {
         return $this->container_gui;
     }
-    
-    
+
     public function getUserId() : int
     {
         return $this->user_id;
@@ -69,7 +67,7 @@ class ilLOMemberTestResultGUI
         $result_table->setUserId($this->getUserId());
         $result_table->init();
         $result_table->parse();
-        
+
         $this->tpl->setContent($result_table->getHTML());
     }
 }

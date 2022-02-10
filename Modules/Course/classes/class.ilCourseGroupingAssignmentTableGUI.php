@@ -1,24 +1,24 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
-* @ingroup ModulesCourse
-*/
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @version $Id$
+ * @ingroup ModulesCourse
+ */
 class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
 {
     private string $type = '';
 
-
     protected ilObjUser $user;
     protected ilTree $tree;
 
-    public function __construct(object $a_parent_obj, string $a_parent_cmd, ilObject $a_content_obj, ilObjCourseGrouping $a_group_obj)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObject $a_content_obj,
+        ilObjCourseGrouping $a_group_obj
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
@@ -27,28 +27,28 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->type = ilObject::_lookupType($a_content_obj->getId());
         $this->lng->loadLanguageModule($this->type);
-        
+
         // #9017
         $this->setLimit(9999);
-                    
+
         $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('path'), 'path');
-            
+
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('asc');
-            
+
         $this->setTitle($this->lng->txt('crs_grp_assign_crs') . ' (' . $a_group_obj->getTitle() . ')');
-        
+
         $this->setRowTemplate("tpl.crs_grp_select_crs.html", "Modules/Course");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        
+
         $this->addMultiCommand('assignCourse', $this->lng->txt('grouping_change_assignment'));
         $this->addCommandButton('edit', $this->lng->txt('cancel'));
-        
+
         $this->getItems($a_group_obj);
     }
-    
+
     protected function getItems(ilObjCourseGrouping $a_group_obj) : void
     {
         $counter = 0;
@@ -66,7 +66,7 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
             $items_obj_id[] = $obj_id;
         }
         $items_obj_id = ilUtil::_sortIds($items_obj_id, 'object_data', 'title', 'obj_id');
-        
+
         $assigned_ids = array();
         $assigned = $a_group_obj->getAssignedItems();
         if ($assigned) {
@@ -74,21 +74,22 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
                 $assigned_ids[] = $item['target_ref_id'];
             }
         }
-        
+
         $data = array();
         foreach ($items_obj_id as $obj_id) {
             $item_id = $items_ids[$obj_id];
             if ($this->tree->checkForParentType($item_id, 'adm')) {
                 continue;
             }
-            
+
             $obj_id = ilObject::_lookupObjId($item_id);
-            
+
             $data[] = array('id' => $item_id,
-                'title' => ilObject::_lookupTitle($obj_id),
-                'description' => ilObject::_lookupDescription($obj_id),
-                'path' => $this->__formatPath($this->tree->getPathFull($item_id)),
-                'assigned' => in_array($item_id, $assigned_ids));
+                            'title' => ilObject::_lookupTitle($obj_id),
+                            'description' => ilObject::_lookupDescription($obj_id),
+                            'path' => $this->__formatPath($this->tree->getPathFull($item_id)),
+                            'assigned' => in_array($item_id, $assigned_ids)
+            );
         }
         $this->setData($data);
     }
@@ -117,7 +118,7 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_PATH", $a_set["path"]);
-        
+
         if ($a_set["assigned"]) {
             $this->tpl->setVariable("STATUS_CHECKED", " checked=\"checked\"");
         }

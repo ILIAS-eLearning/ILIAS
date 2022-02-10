@@ -1,17 +1,15 @@
 <?php declare(strict_types=0);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
-
 /**
-* Class ilCourseParticipantsGroupsGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @ilCtrl_Calls ilCourseParticipantsGroupsGUI:
-*
-*/
+ * Class ilCourseParticipantsGroupsGUI
+ * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ilCtrl_Calls ilCourseParticipantsGroupsGUI:
+ */
 class ilCourseParticipantsGroupsGUI
 {
     private int $ref_id = 0;
@@ -25,8 +23,6 @@ class ilCourseParticipantsGroupsGUI
     protected GlobalHttpState $http;
     protected Factory $refinery;
 
-
-
     public function __construct($a_ref_id)
     {
         global $DIC;
@@ -39,7 +35,6 @@ class ilCourseParticipantsGroupsGUI
         $this->objectDataCache = $DIC['ilObjDataCache'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
 
         $this->ref_id = $a_ref_id;
     }
@@ -55,7 +50,7 @@ class ilCourseParticipantsGroupsGUI
         }
         $this->$cmd();
     }
-    
+
     public function show() : void
     {
         $tbl_gui = new ilCourseParticipantsGroupsTableGUI($this, "show", $this->ref_id);
@@ -132,7 +127,7 @@ class ilCourseParticipantsGroupsGUI
             $this->show();
             return;
         }
-    
+
         $members_obj = ilGroupParticipants::_getInstanceByObjId($this->objectDataCache->lookupObjId($grp_id));
         $members_obj->delete($usr_id);
 
@@ -141,11 +136,10 @@ class ilCourseParticipantsGroupsGUI
             ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER,
             (int) $usr_id
         );
-        
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("grp_msg_membership_annulled"), true);
         $this->ctrl->redirect($this, "show");
     }
-
 
     protected function add() : void
     {

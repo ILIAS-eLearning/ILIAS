@@ -3,8 +3,7 @@
 
 /**
  * Class ilCourseBadgeProvider
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @package ModulesCourse
  */
 class ilCourseBadgeProvider implements ilBadgeProvider
@@ -13,7 +12,8 @@ class ilCourseBadgeProvider implements ilBadgeProvider
     {
         return array(
             new ilCourseMeritBadge()
-            ,new ilCourseLPBadge()
+            ,
+            new ilCourseLPBadge()
         );
     }
 }

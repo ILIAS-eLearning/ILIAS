@@ -1,27 +1,22 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-* Class ilLOXmlWriter
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-*
-*/
+ * Class ilLOXmlWriter
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilLOXmlParser
 {
     public const TYPE_TST_PO = 1;
     public const TYPE_TST_ALL = 2;
     public const TYPE_TST_RND = 3;
-    
-    
+
     private string $xml = '';
     private ilObjCourse $course;
     private ?ilImportMapping $mapping = null;
 
     private ilLogger $logger;
-    
+
     public function __construct(ilObjCourse $course, string $a_xml)
     {
         global $DIC;
@@ -30,22 +25,22 @@ class ilLOXmlParser
         $this->course = $course;
         $this->xml = $a_xml;
     }
-    
+
     public function setMapping(ilImportMapping $mapping) : void
     {
         $this->mapping = $mapping;
     }
-    
+
     public function getMapping() : ?ilImportMapping
     {
         return $this->mapping;
     }
-    
+
     protected function getCourse() : ilObjCourse
     {
         return $this->course;
     }
-    
+
     public function parse() : void
     {
         libxml_use_internal_errors(true);
@@ -59,7 +54,7 @@ class ilLOXmlParser
         $this->parseSettings($root);
         $this->parseObjectives($root);
     }
-    
+
     /**
      * Parse object dependencies (assigned strucure objects, page objects, fixed questions)
      */
@@ -72,18 +67,18 @@ class ilLOXmlParser
             $this->logger->debug('Error parsing objective xml: ' . $this->parseXmlErrors());
             return;
         }
-        
+
         foreach ($root->Objective as $obj) {
-            $mapped_objective_id = $this->getMapping()->getMapping('Modules/Course', 'objectives', (string) $obj->attributes()->id);
+            $mapped_objective_id = $this->getMapping()->getMapping('Modules/Course', 'objectives',
+                (string) $obj->attributes()->id);
             if ($mapped_objective_id) {
                 $this->parseMaterials($obj, (int) $mapped_objective_id);
                 $this->parseTests($obj, (int) $mapped_objective_id);
             }
         }
     }
-    
+
     /**
-     *
      * @param SimpleXMLElement $root
      */
     protected function parseSettings(SimpleXMLElement $root) : void
@@ -98,19 +93,19 @@ class ilLOXmlParser
             $settings->setQualifyingTestAsStart((bool) (string) $set->attributes()->qualifyingTestStart);
             $settings->resetResults((bool) (string) $set->attributes()->resetResults);
             $settings->setPassedObjectiveMode((int) (string) $set->attributes()->passedObjectivesMode);
-            
+
             // itest
             $itest = $this->getMappingInfoForItem((int) (string) $set->attributes()->iTest);
             $settings->setInitialTest($itest);
-            
+
             // qtest
             $qtest = $this->getMappingInfoForItem((int) (string) $set->attributes()->qTest);
             $settings->setQualifiedTest($qtest);
-            
+
             $settings->update();
         }
     }
-    
+
     /**
      * Parse objective
      * @param SimpleXMLElement $root
@@ -127,20 +122,21 @@ class ilLOXmlParser
 
             $this->getMapping()->addMapping('Modules/Course', 'objectives', (string) $obj->attributes()->id,
                 (string) $new_objective_id);
-            $this->getMapping()->addMapping('Services/COPage', 'pg', 'lobj:' . $obj->attributes()->id, 'lobj:' . $new_objective_id);
+            $this->getMapping()->addMapping('Services/COPage', 'pg', 'lobj:' . $obj->attributes()->id,
+                'lobj:' . $new_objective_id);
         }
     }
-    
+
     protected function parseMaterials(SimpleXMLElement $obj, int $a_objective_id) : void
     {
         foreach ($obj->Material as $mat) {
             $mat_ref_id = (string) $mat->attributes()->refId;
-            
+
             $mapping_ref_id = $this->getMappingInfoForItem((int) $mat_ref_id);
             if ($mapping_ref_id) {
                 $new_mat = new ilCourseObjectiveMaterials($a_objective_id);
                 $new_mat->setLMRefId($mapping_ref_id);
-                
+
                 $mat_type = (string) $mat->attributes()->type;
                 $obj_id = 0;
                 switch ($mat_type) {
@@ -154,7 +150,7 @@ class ilLOXmlParser
                             $obj_id = $mapped_chapter;
                         }
                         break;
-                    
+
                     case 'pg':
                         $mapped_page = $this->getMapping()->getMapping(
                             'Modules/LearningModule',
@@ -165,7 +161,7 @@ class ilLOXmlParser
                             $obj_id = $mapped_page;
                         }
                         break;
-                        
+
                     default:
                         $obj_id = ilObject::_lookupObjId($mapping_ref_id);
                         break;
@@ -179,11 +175,11 @@ class ilLOXmlParser
             }
         }
     }
-    
+
     protected function parseTests(SimpleXMLElement $obj, int $a_objective_id) : void
     {
         $this->logger->debug(': Parsing ' . $obj->getName());
-        
+
         foreach ($obj->Test as $tst) {
             $type = (int) (string) $tst->attributes()->type;
             if ($type == self::TYPE_TST_PO) {
@@ -205,12 +201,12 @@ class ilLOXmlParser
                 if (!$mapping_id) {
                     continue;
                 }
-                
+
                 $new_qpl_id = $this->getMappingForQpls((int) (string) $tst->attributes()->poolId);
                 if (!$new_qpl_id) {
                     continue;
                 }
-                
+
                 $rnd = new ilLORandomTestQuestionPools(
                     $this->getCourse()->getId(),
                     $a_objective_id,
@@ -231,7 +227,7 @@ class ilLOXmlParser
                 $quest->setTestObjId(ilObject::_lookupObjId($mapping_ref_id));
                 $quest->setTestStatus((int) $tst->attributes()->testType);
                 $quest->setTestSuggestedLimit((int) $tst->attributes()->limit);
-                
+
                 foreach ($tst->Question as $qst) {
                     $qid = (string) $qst->attributes()->id;
                     $mapping_qid = $this->getMappingForQuestion((int) $qid);
@@ -243,28 +239,28 @@ class ilLOXmlParser
             }
         }
     }
-    
+
     protected function getMappingInfoForItem(int $a_ref_id) : int
     {
         $new_ref_id = $this->getMapping()->getMapping('Services/Container', 'refs', (string) $a_ref_id);
         $this->logger->debug(': Found new ref_id: ' . $new_ref_id . ' for ' . $a_ref_id);
         return (int) $new_ref_id;
     }
-    
+
     protected function getMappingInfoForItemObject(int $a_obj_id) : int
     {
         $new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', (string) $a_obj_id);
         $this->logger->debug('Found new ref_id: ' . $new_obj_id . ' for ' . $a_obj_id);
         return (int) $new_obj_id;
     }
-    
+
     protected function getMappingForQuestion(int $qid) : int
     {
         $new_qid = $this->getMapping()->getMapping('Modules/Test', 'quest', (string) $qid);
         $this->logger->debug('Found new question_id: ' . $new_qid . ' for ' . $qid);
         return (int) $new_qid;
     }
-    
+
     protected function getMappingForQpls(int $a_id) : int
     {
         $new_id = $this->getMapping()->getMapping('Modules/Test', 'rnd_src_pool_def', (string) $a_id);
@@ -276,7 +272,6 @@ class ilLOXmlParser
 
     /**
      * Parse xml errors from libxml_get_errors
-     *
      * @return string
      */
     protected function parseXmlErrors()

@@ -22,11 +22,10 @@
 */
 
 /**
-* @defgroup
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup
-*/
+ * @defgroup
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @ingroup
+ */
 class ilCourseInfoFileTableGUI extends ilTable2GUI
 {
     public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
@@ -37,7 +36,7 @@ class ilCourseInfoFileTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('filename'), 'filename', "60%");
         $this->addColumn($this->lng->txt('filesize'), 'filesize', "20%");
         $this->addColumn($this->lng->txt('filetype'), 'filetype', "20%");
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.crs_info_file_row.html", "Modules/Course");
         $this->setDefaultOrderField("filename");

@@ -1,7 +1,6 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
@@ -16,7 +15,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 
     protected ilAccessHandler $access;
     protected ilTree $tree;
-    
+
     /**
      * Constructor
      */
@@ -81,7 +80,8 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
             $this->participants = $this->groups = $this->groups_rights = array();
             foreach ($groups as $idx => $group_data) {
                 // check for group in group
-                if ($group_data["parent"] != $this->ref_id && $this->tree->checkForParentType($group_data["ref_id"], "grp", true)) {
+                if ($group_data["parent"] != $this->ref_id && $this->tree->checkForParentType($group_data["ref_id"],
+                        "grp", true)) {
                     unset($groups[$idx]);
                 } else {
                     $this->groups[$group_data["ref_id"]] = $group_data["title"];
@@ -89,17 +89,16 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                         'manage_members',
                         'manage_members',
                         $group_data['ref_id']
-                    )
-                    ;
-                    
+                    );
+
                     $this->groups_rights[$group_data["ref_id"]]["edit_permission"] = $this->access->checkAccess(
                         "edit_permission",
                         "",
                         $group_data["ref_id"]
                     );
-                    
+
                     $gobj = ilGroupParticipants::_getInstanceByObjId($group_data["obj_id"]);
-                    
+
                     $members = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
                         'manage_members',
                         'manage_members',
@@ -121,8 +120,8 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
     }
 
     /**
-    * Init filter
-    */
+     * Init filter
+     */
     public function initFilter() : void
     {
         $item = $this->addFilterItemByMetaType("name", ilTable2GUI::FILTER_TEXT);
@@ -145,12 +144,12 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                 $this->ref_id,
                 $part->getMembers()
             );
-            
+
             if (count($members)) {
                 $usr_data = array();
                 foreach ($members as $usr_id) {
                     $name = ilObjUser::_lookupName($usr_id);
-                    $user_groups = array("members" => array(),"admins" => array());
+                    $user_groups = array("members" => array(), "admins" => array());
                     $user_groups_number = 0;
                     foreach (array_keys($this->participants) as $group_id) {
                         if (in_array($usr_id, $this->participants[$group_id]["members"])) {
@@ -161,16 +160,16 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                             $user_groups_number++;
                         }
                     }
-                    
+
                     if ((!$this->filter["name"] || stristr(implode("", $name), $this->filter["name"])) &&
                         (!$this->filter["group"] || array_key_exists($this->filter["group"], $user_groups["members"]) ||
-                        array_key_exists($this->filter["group"], $user_groups["admins"]))) {
+                            array_key_exists($this->filter["group"], $user_groups["admins"]))) {
                         $usr_data[] = array("usr_id" => $usr_id,
-                            "name" => $name["lastname"] . ", " . $name["firstname"],
-                            "groups" => $user_groups,
-                            "groups_number" => $user_groups_number,
-                            "login" => $name["login"]
-                            );
+                                            "name" => $name["lastname"] . ", " . $name["firstname"],
+                                            "groups" => $user_groups,
+                                            "groups_number" => $user_groups_number,
+                                            "login" => $name["login"]
+                        );
                     }
                 }
 
@@ -202,7 +201,8 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 
                         $this->ctrl->setParameter($this->parent_obj, "usr_id", $a_set["usr_id"]);
                         $this->ctrl->setParameter($this->parent_obj, "grp_id", $grp_id);
-                        $this->tpl->setVariable("URL_REMOVE", $this->ctrl->getLinkTarget($this->parent_obj, "confirmremove"));
+                        $this->tpl->setVariable("URL_REMOVE",
+                            $this->ctrl->getLinkTarget($this->parent_obj, "confirmremove"));
                         $this->ctrl->setParameter($this->parent_obj, "grp_id", "");
                         $this->ctrl->setParameter($this->parent_obj, "usr_id", "");
 

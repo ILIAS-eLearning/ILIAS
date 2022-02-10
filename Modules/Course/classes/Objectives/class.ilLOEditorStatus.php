@@ -1,4 +1,5 @@
 <?php declare(strict_types=0);
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Implementation\Component\Listing\Workflow\Step;
@@ -23,10 +24,10 @@ class ilLOEditorStatus
 
     protected int $section = self::SECTION_UNDEFINED;
 
-    /** @var string[]  */
+    /** @var string[] */
     protected array $failures_by_section = [];
 
-    /** @var int[]  */
+    /** @var int[] */
     protected array $error_by_section = [];
 
     protected array $objectives = [];
@@ -83,7 +84,7 @@ class ilLOEditorStatus
         }
         return 0;
     }
-    
+
     /**
      * @return int[]
      */
@@ -91,7 +92,7 @@ class ilLOEditorStatus
     {
         return $this->objectives;
     }
-    
+
     public function getAssignments() : ilLOTestAssignments
     {
         return $this->assignments;
@@ -119,23 +120,22 @@ class ilLOEditorStatus
             $this->error_by_section[$a_section] = $a_section;
         }
     }
-    
+
     public function setCmdClass(object $a_cmd_class) : void
     {
         $this->cmd_class = $a_cmd_class;
     }
-    
+
     public function getCmdClass() : object
     {
         return $this->cmd_class;
     }
-    
-    
+
     public function getParentObject() : ilObject
     {
         return $this->parent_obj;
     }
-    
+
     public function getSettings() : ilLOSettings
     {
         return $this->settings;
@@ -172,8 +172,7 @@ class ilLOEditorStatus
         }
         return 'listObjectives';
     }
-    
-    
+
     public function getHTML() : string
     {
         $steps = [];
@@ -186,7 +185,6 @@ class ilLOEditorStatus
             implode(" ", $this->getFailureMessages(self::SECTION_SETTINGS)),
             $this->ctrl->getLinkTarget($this->getCmdClass(), 'settings')
         )->withStatus($this->determineStatus($done, self::SECTION_SETTINGS));
-
 
         // Step 1.1
         $done = $this->getObjectivesAvailableStatus(true);
@@ -215,8 +213,8 @@ class ilLOEditorStatus
         if (ilLOSettings::getInstanceByObjId($this->getParentObject()->getId())->worksWithInitialTest()) {
             $done = $this->getInitialTestStatus();
             $command = $this->getSettings()->hasSeparateInitialTests() ?
-                    'testsOverview' :
-                    'testOverview';
+                'testsOverview' :
+                'testOverview';
             $this->ctrl->setParameter($this->getCmdClass(), 'tt', ilLOSettings::TYPE_TEST_INITIAL);
 
             $steps[] = $this->workflow->step(
@@ -230,8 +228,8 @@ class ilLOEditorStatus
         // course qtest
         $done = $this->getQualifiedTestStatus();
         $command = $this->getSettings()->hasSeparateQualifiedTests() ?
-                'testsOverview' :
-                'testOverview';
+            'testsOverview' :
+            'testOverview';
         $this->ctrl->setParameter($this->getCmdClass(), 'tt', ilLOSettings::TYPE_TEST_QUALIFIED);
 
         $steps[] = $this->workflow->step(
@@ -258,7 +256,7 @@ class ilLOEditorStatus
             $this->lng->txt('crs_objective_status_configure'),
             $steps
         )
-            ->withActive($this->determineActiveSection());
+                               ->withActive($this->determineActiveSection());
         return $this->ui_renderer->render($list);
     }
 
@@ -369,8 +367,7 @@ class ilLOEditorStatus
             }
             return true;
         }
-        
-        
+
         $tst_ref = $this->getSettings()->getInitialTest();
         if (!$this->tree->isInTree($tst_ref)) {
             if ($a_set_errors) {
@@ -395,7 +392,8 @@ class ilLOEditorStatus
             }
 
             foreach ($this->getObjectives() as $objective_id) {
-                $tst_ref = $this->getAssignments()->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
+                $tst_ref = $this->getAssignments()->getTestByObjective($objective_id,
+                    ilLOSettings::TYPE_TEST_QUALIFIED);
                 if (!$this->tree->isInTree($tst_ref)) {
                     if ($a_set_errors) {
                         $this->appendFailure(self::SECTION_QTEST, 'crs_loc_err_stat_no_qt');
@@ -442,7 +440,8 @@ class ilLOEditorStatus
             }
         } else {
             foreach ($this->getObjectives() as $objective_id) {
-                $qsts = ilCourseObjectiveQuestion::lookupQuestionsByObjective(ilObject::_lookupObjId($a_test_ref_id), $objective_id);
+                $qsts = ilCourseObjectiveQuestion::lookupQuestionsByObjective(ilObject::_lookupObjId($a_test_ref_id),
+                    $objective_id);
                 if (!count($qsts)) {
                     return false;
                 }
@@ -456,7 +455,7 @@ class ilLOEditorStatus
         if (!$this->getObjectivesAvailableStatus($a_set_errors)) {
             return false;
         }
-        
+
         $num_active = ilCourseObjective::_getCountObjectives($this->getParentObject()->getId(), true);
         if (!$num_active) {
             if ($a_set_errors) {
@@ -492,22 +491,22 @@ class ilLOEditorStatus
         }
         return true;
     }
-    
+
     protected function getStartStatus() : bool
     {
         return true;
     }
-    
+
     protected function checkNumberOfTries() : bool
     {
         $qt = $this->getSettings()->getQualifiedTest();
         if (!$qt) {
             return true;
         }
-        
+
         $factory = new ilObjectFactory();
         $tst = $factory->getInstanceByRefId($qt, false);
-        
+
         if (!$tst instanceof ilObjTest) {
             return true;
         }
@@ -515,7 +514,7 @@ class ilLOEditorStatus
         if (!$tries) {
             return true;
         }
-        
+
         $obj_tries = 0;
         foreach ($this->getObjectives() as $objective) {
             $obj_tries += ilCourseObjective::lookupMaxPasses($objective);

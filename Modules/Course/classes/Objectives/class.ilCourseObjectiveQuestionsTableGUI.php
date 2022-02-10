@@ -21,18 +21,15 @@
         +-----------------------------------------------------------------------------+
 */
 
-
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesCourse
-*/
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @ingroup ModulesCourse
+ */
 class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
 {
     protected ilObject $course_obj;
-    
+
     public function __construct(object $a_parent_obj, ilObject $a_course_obj)
     {
         $this->course_obj = $a_course_obj;
@@ -42,7 +39,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('title'), 'title', '33%');
         $this->addColumn($this->lng->txt('crs_objective_self_assessment'), 'self', '33%%');
         $this->addColumn($this->lng->txt('crs_objective_final_test'), 'final', '33%');
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.crs_questions_table_row.html", "Modules/Course");
         $this->disable('sort');
@@ -52,16 +49,16 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
         $this->setLimit(200);
         $this->addCommandButton('saveQuestionOverview', $this->lng->txt('save'));
     }
-    
+
     protected function fillRow(array $a_set) : void
     {
         static $row_counter = 1;
-        
+
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         if (strlen($a_set['description'])) {
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
-        
+
         foreach ($a_set['self_tests'] as $tst) {
             foreach ($tst['questions'] as $qst) {
                 $this->tpl->setCurrentBlock('self_qst');
@@ -90,7 +87,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('SELF_ID', $a_set['id']);
             $this->tpl->setVariable('SELF_LIMIT', $a_set['self_limit']);
         }
-        
+
         foreach ($a_set['final_tests'] as $tst) {
             foreach ($tst['questions'] as $qst) {
                 $this->tpl->setCurrentBlock('final_qst');
@@ -120,17 +117,17 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('FINAL_LIMIT', $a_set['final_limit']);
         }
     }
-    
+
     public function parse(array $a_objective_ids) : void
     {
-        
+
         $objectives = array();
         foreach ($a_objective_ids as $objective_id) {
             $objective = new ilCourseObjective($this->course_obj, $objective_id);
-            
+
             // Self assessment tests
             $question_obj = new ilCourseObjectiveQuestion($objective_id);
-            
+
             $tests = array();
             foreach ($question_obj->getSelfAssessmentTests() as $tmp_test) {
                 if (isset($_POST['self'][$objective_id])) {
@@ -143,18 +140,18 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
                     $qst['title'] = $tmp_question['title'];
                     $qst['description'] = $tmp_question['description'];
                     $qst['points'] = $tmp_question['points'];
-                    
+
                     $questions[] = $qst;
                 }
                 $tst['questions'] = $questions;
                 $tst['title'] = ilObject::_lookupTitle($tmp_test['obj_id']);
                 $tst['description'] = ilObject::_lookupDescription($tmp_test['obj_id']);
-                
+
                 $tests[] = $tst;
             }
             $objective_data['self_tests'] = $tests;
             $objective_data['self_max_points'] = $question_obj->getSelfAssessmentPoints();
-            
+
             // Final tests
             $tests = array();
             foreach ($question_obj->getFinalTests() as $tmp_test) {
@@ -169,24 +166,24 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
                     $qst['title'] = $tmp_question['title'];
                     $qst['description'] = $tmp_question['description'];
                     $qst['points'] = $tmp_question['points'];
-                    
+
                     $questions[] = $qst;
                 }
                 $tst['questions'] = $questions;
                 $tst['title'] = ilObject::_lookupTitle($tmp_test['obj_id']);
                 $tst['description'] = ilObject::_lookupDescription($tmp_test['obj_id']);
-                
+
                 $tests[] = $tst;
             }
-            
+
             $objective_data['final_tests'] = $tests;
             $objective_data['final_max_points'] = $question_obj->getFinalTestPoints();
 
             $objective_data['id'] = $objective_id;
             $objective_data['title'] = $objective->getTitle();
-            
+
             $objective_data['description'] = $objective->getDescription();
-            
+
             $objectives[] = $objective_data;
         }
         $this->setData($objectives);

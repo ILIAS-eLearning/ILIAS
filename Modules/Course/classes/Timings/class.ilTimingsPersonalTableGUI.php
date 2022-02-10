@@ -3,35 +3,39 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* TableGUI class for editing personal timings
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ModulesCourse
-*/
+ * TableGUI class for editing personal timings
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ModulesCourse
+ */
 class ilTimingsPersonalTableGUI extends ilTable2GUI
 {
     private ilObject $container;
     private ilObjCourse $main_container;
     private int $user_id = 0;
     private bool $failure = false;
-    
-    public function __construct(object $a_parent_class, string $a_parent_cmd, ilObject $a_container_obj, ilObjCourse $a_main_container)
-    {
+
+    public function __construct(
+        object $a_parent_class,
+        string $a_parent_cmd,
+        ilObject $a_container_obj,
+        ilObjCourse $a_main_container
+    ) {
         $this->container = $a_container_obj;
         $this->main_container = $a_main_container;
         $this->setId('personal_timings_' . $this->getContainerObject()->getRefId());
         parent::__construct($a_parent_class, $a_parent_cmd);
     }
-    
+
     public function getContainerObject() : ilObject
     {
         return $this->container;
     }
-    
+
     public function getMainContainer() : ilObjCourse
     {
         return $this->main_container;
     }
-    
+
     public function setUserId(int $a_usr_id) : void
     {
         $this->user_id = $a_usr_id;
@@ -41,7 +45,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
     {
         return $this->user_id;
     }
-    
+
     public function init() : void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
@@ -54,7 +58,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         $this->addCommandButton('updatePersonalTimings', $this->lng->txt('save'));
         $this->setShowRowsSelector(false);
     }
-    
+
     public function setFailureStatus(bool $a_status) : void
     {
         $this->failure = $a_status;
@@ -64,7 +68,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
     {
         return $this->failure;
     }
-    
+
     protected function fillRow(array $a_set) : void
     {
         if ($a_set['error'] == true) {
@@ -72,7 +76,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable('TD_CLASS', 'std');
         }
-        
+
         // title
         if (strlen($a_set['title_link'])) {
             $this->tpl->setCurrentBlock('title_link');
@@ -96,33 +100,34 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_ALERT", $this->lng->txt($a_set['failure']));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // active
         $this->tpl->setVariable('NAME_ACTIVE', 'item[' . $a_set['ref_id'] . '][active]');
-        $this->tpl->setVariable('CHECKED_ACTIVE', ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
-        
+        $this->tpl->setVariable('CHECKED_ACTIVE',
+            ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
+
         // start
         $dt_input = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_start]');
         $dt_input->setDate(new ilDate($a_set['item']['suggestion_start'], IL_CAL_UNIX));
         if ($this->getFailureStatus()) {
             $dt_input->setDate(new ilDate($_POST['item'][$a_set['ref_id']]['sug_start'], IL_CAL_DATE));
         }
-        
+
         if (!$a_set['item']['changeable']) {
             $dt_input->setDisabled(true);
         }
-        
+
         $this->tpl->setVariable('start_abs');
         $this->tpl->setVariable('SUG_START', $dt_input->render());
         $this->tpl->parseCurrentBlock();
-        
+
         // end
         $dt_end = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_end]');
         $dt_end->setDate(new ilDate($a_set['item']['suggestion_end'], IL_CAL_UNIX));
         if ($this->getFailureStatus()) {
             $dt_end->setDate(new ilDate($_POST['item'][$a_set['ref_id']]['sug_end'], IL_CAL_DATE));
         }
-        
+
         if (!$a_set['item']['changeable']) {
             $dt_end->setDisabled(true);
         }
@@ -131,10 +136,10 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         // changeable
-        $this->tpl->setVariable('TXT_CHANGEABLE', $a_set['item']['changeable'] ? $this->lng->txt('yes') : $this->lng->txt('no'));
+        $this->tpl->setVariable('TXT_CHANGEABLE',
+            $a_set['item']['changeable'] ? $this->lng->txt('yes') : $this->lng->txt('no'));
     }
-    
-    
+
     public function parse(array $a_item_data, array $failed = array()) : void
     {
         $rows = array();
@@ -143,17 +148,17 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
             if ($item['timing_type'] != ilObjectActivation::TIMINGS_PRESETTING) {
                 continue;
             }
-            
+
             $current_row = array();
-            
+
             // no item groups
             if ($item['type'] == 'itgr') {
                 continue;
             }
             $current_row['ref_id'] = $item['ref_id'];
-            
+
             $current_row = $this->parseTitle($current_row, $item);
-            
+
             $item = $this->parseUserTimings($item);
             $current_row['start'] = $item['suggestion_start'];
 
@@ -169,11 +174,11 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         $rows = ilArrayUtil::sortArray($rows, 'start', 'asc', true);
         $this->setData($rows);
     }
-    
+
     protected function parseUserTimings(array $a_item) : array
     {
         $tu = new ilTimingUser($a_item['child'], $this->getUserId());
-        
+
         if ($a_item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) {
             if ($tu->getStart()->get(IL_CAL_UNIX)) {
                 $a_item['suggestion_start'] = $tu->getStart()->get(IL_CAL_UNIX);
@@ -193,7 +198,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
                 $current_row['title'] = $item['title'];
                 $current_row['title_link'] = ilLink::_getLink($item['ref_id'], $item['type']);
                 break;
-            
+
             case 'sess':
                 if (strlen($item['title'])) {
                     $current_row['title'] = $item['title'];
@@ -207,15 +212,15 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
                 }
                 $current_row['title_link'] = ilLink::_getLink($item['ref_id'], $item['type']);
                 break;
-                
+
             default:
                 $current_row['title'] = $item['title'];
                 $current_row['title_link'] = '';
                 break;
-                
+
         }
         $current_row['desc'] = $item['desc'];
-        
+
         return $current_row;
     }
 }

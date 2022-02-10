@@ -3,7 +3,7 @@
 
 /**
  * Course Verification
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ModulesCourse
  */
 class ilObjCourseVerification extends ilVerificationObject

@@ -1,4 +1,5 @@
 <?php declare(strict_types=0);
+
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 class ilTimingsCronReminder extends ilCronJob
@@ -301,7 +302,6 @@ class ilTimingsCronReminder extends ilCronJob
         }
     }
 
-
     protected function sendFreshlyStartedMail(int $user_id, array $ref_ids, string $mail_body) : void
     {
         $login = \ilObjUser::_lookupLogin($user_id);
@@ -379,10 +379,10 @@ class ilTimingsCronReminder extends ilCronJob
         if (!array_key_exists($ref_id, self::$objects_information)) {
             $obj_id = $this->obj_data_cache->lookupObjId($ref_id);
             $type = $this->obj_data_cache->lookupType($obj_id);
-            $value = array(	'title' => $this->obj_data_cache->lookupTitle($obj_id),
-                            'type' => $type,
-                            'url' => ilLink::_getLink($ref_id, $type),
-                            'obj_id' => $obj_id
+            $value = array('title' => $this->obj_data_cache->lookupTitle($obj_id),
+                           'type' => $type,
+                           'url' => ilLink::_getLink($ref_id, $type),
+                           'obj_id' => $obj_id
             );
             self::$objects_information[$ref_id] = $value;
 
@@ -390,7 +390,6 @@ class ilTimingsCronReminder extends ilCronJob
         }
         return self::$objects_information[$ref_id];
     }
-
 
     protected function getExceededObjectsForUser(int $user_id) : array
     {
@@ -404,7 +403,7 @@ class ilTimingsCronReminder extends ilCronJob
         $timings_obj_list = ilTimingsUser::lookupTimings(array($user_id), $meta, false);
         return $meta[$user_id];
     }
-    
+
     protected function hasUserActivatedNotification(int $user_id) : bool
     {
         return true;

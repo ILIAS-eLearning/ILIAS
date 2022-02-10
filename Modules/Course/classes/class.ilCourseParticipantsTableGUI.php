@@ -3,8 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ModulesCourse
  */
 class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
@@ -33,13 +32,14 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->show_learning_progress = $a_show_learning_progress;
 
         if (null === $preloader) {
-            $preloader = new ilCertificateUserForObjectPreloader(new ilUserCertificateRepository(), new ilCertificateActiveValidator());
+            $preloader = new ilCertificateUserForObjectPreloader(new ilUserCertificateRepository(),
+                new ilCertificateActiveValidator());
         }
         $this->preLoader = $preloader;
         $this->show_timings = $a_show_timings;
         $this->show_lp_status_sync = $a_show_lp_status_sync;
         $this->rep_object = $rep_object;
-        
+
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             $this->show_lp_status_sync = false;
         }
@@ -65,7 +65,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         $this->addColumn('', 'f', '1', true);
         $this->addColumn($this->lng->txt('name'), 'name', '20%');
-        
+
         $all_cols = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $col) {
             $this->addColumn($all_cols[$col]['txt'], $col);
@@ -78,18 +78,17 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         if ($this->privacy->enabledCourseAccessTimes()) {
             $this->addColumn($this->lng->txt('last_access'), 'access_ut', '16em');
         }
-        
+
         $this->addColumn($this->lng->txt('crs_member_passed'), 'passed');
         if ($this->show_lp_status_sync) {
             $this->addColumn($this->lng->txt('crs_member_passed_status_changed'), 'passed_info');
         }
-        
-        
+
         $this->setSelectAllCheckbox('participants', true);
         $this->addColumn($this->lng->txt('crs_mem_contact'), 'contact');
         $this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
         $this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
-        
+
         $this->addColumn($this->lng->txt(''), 'optional');
 
         $this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
@@ -106,19 +105,18 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->setEnableHeader(true);
         $this->setEnableTitle(true);
         $this->initFilter();
-        
+
         $this->setShowRowsSelector(true);
-            
+
         $preloader->preLoadDownloadableCertificates($this->getRepositoryObject()->getId());
         $this->addMultiCommand('editParticipants', $this->lng->txt('edit'));
         $this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
         $this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
         $this->lng->loadLanguageModule('user');
         $this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
-        
+
         $this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
     }
-    
 
     protected function fillRow(array $a_set) : void
     {
@@ -150,12 +148,13 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     break;
 
                 case 'birthday':
-                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'], IL_CAL_DATE)) : $this->lng->txt('no_date');
+                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'],
+                        IL_CAL_DATE)) : $this->lng->txt('no_date');
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', $a_set[$field]);
                     $this->tpl->parseCurrentBlock();
                     break;
-                
+
                 case 'consultation_hour':
                     $this->tpl->setCurrentBlock('custom_fields');
                     $dts = array();
@@ -173,7 +172,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     $this->tpl->setVariable('VAL_CUST', $dt_string);
                     $this->tpl->parseCurrentBlock();
                     break;
-                    
+
                 case 'prtf':
                     $tmp = array();
                     if (is_array($a_set['prtf'])) {
@@ -182,23 +181,22 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                         }
                     }
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', implode('<br />', $tmp)) ;
+                    $this->tpl->setVariable('VAL_CUST', implode('<br />', $tmp));
                     $this->tpl->parseCurrentBlock();
                     break;
-                    
-                    
+
                 case 'odf_last_update':
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', (string) $a_set['odf_info_txt']);
                     $this->tpl->parseCurrentBlock();
                     break;
-                
+
                 case 'roles':
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', (string) $a_set['roles_label']);
                     $this->tpl->parseCurrentBlock();
                     break;
-                    
+
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST',
@@ -242,7 +240,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             }
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable('VAL_POSTNAME', 'participants');
 
         if ($this->access->checkAccess("grade", "", $this->rep_object->getRefId())) {
@@ -255,7 +253,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                 ? $this->lng->txt("yes")
                 : $this->lng->txt("no")));
         }
-        
+
         if (
             $this->getParticipants()->isAdmin($a_set['usr_id']) ||
             $this->getParticipants()->isTutor($a_set['usr_id'])
@@ -272,7 +270,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // blocked only for real members
         if (
             !$this->getParticipants()->isAdmin($a_set['usr_id']) &&
@@ -283,12 +281,11 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->setVariable('VAL_BLOCKED_CHECKED', ($a_set['blocked'] ? 'checked="checked"' : ''));
             $this->tpl->parseCurrentBlock();
         }
-        
-                
+
         if ($this->show_lp_status_sync) {
             $this->tpl->setVariable('PASSED_INFO', $a_set["passed_info"]);
         }
-        
+
         $this->showActionLinks($a_set);
 
         $isPreloaded = $this->preLoader->isPreloaded($this->getRepositoryObject()->getId(), $a_set['usr_id']);
@@ -303,7 +300,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         if ($this->show_timings) {
             $this->ctrl->setParameterByClass('ilcoursecontentgui', 'member_id', $a_set['usr_id']);
             $this->tpl->setCurrentBlock('link');
-            $this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'showUserTimings'));
+            $this->tpl->setVariable('LINK_NAME',
+                $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'showUserTimings'));
             $this->tpl->setVariable('LINK_TXT', $this->lng->txt('timings_timings'));
             $this->tpl->parseCurrentBlock();
         }
@@ -322,22 +320,21 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         unset($additional_fields['prtf']);
         unset($additional_fields['roles']);
         unset($additional_fields['org_units']);
-        
+
         $part = $this->participants->getParticipants();
-        
+
         $part = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
             'manage_members',
             $this->getRepositoryObject()->getRefId(),
             $part
         );
-        
-        
+
         if (!$part) {
             $this->setData(array());
             return;
         }
-        
+
         $udf_ids = $usr_data_fields = $odf_ids = array();
         foreach ($additional_fields as $field) {
             if (substr($field, 0, 3) == 'udf') {
@@ -379,17 +376,16 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             }
             if ($this->current_filter['org_units']) {
                 $org_unit = $this->current_filter['org_units'];
-                
+
                 $assigned = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user['usr_id']);
                 if (!in_array($org_unit, $assigned)) {
                     continue;
                 }
             }
-            
-            
+
             $usr_ids[] = $user['usr_id'];
         }
-        
+
         // merge course data
         $course_user_data = $this->getParentObject()->readMemberData(
             $usr_ids,
@@ -398,7 +394,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $a_user_data = array();
         foreach ((array) $usr_data['set'] as $ud) {
             $user_id = (int) $ud['usr_id'];
-            
+
             if (!in_array($user_id, $usr_ids)) {
                 continue;
             }
@@ -406,9 +402,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             if (!$this->checkAcceptance($user_id)) {
                 $ud = array();
             }
-                        
-            $a_user_data[$user_id] = array_merge($ud, $course_user_data[$user_id]);
 
+            $a_user_data[$user_id] = array_merge($ud, $course_user_data[$user_id]);
 
             $roles = array();
             foreach ($local_roles as $role_id => $role_name) {
@@ -421,8 +416,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $a_user_data[$user_id]['name'] = ($a_user_data[$user_id]['lastname'] . ', ' . $a_user_data[$user_id]['firstname']);
             $a_user_data[$user_id]['roles_label'] = implode('<br />', $roles);
             $a_user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition($user_id);
-            
-            
+
             if ($this->show_lp_status_sync) {
                 // #9912 / #13208
                 $passed_info = "";
@@ -471,14 +465,13 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     $a_user_data[$usr_id]['odf_' . $field_id] = $value;
                 }
             }
-            
-            
+
             // add last edit date
             foreach (ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getRepositoryObject()->getId()) as $usr_id => $edit_info) {
                 if (!isset($a_user_data[$usr_id])) {
                     continue;
                 }
-                
+
                 if ($usr_id == $edit_info['update_user']) {
                     $a_user_data[$usr_id]['odf_last_update'] = '';
                     $a_user_data[$usr_id]['odf_info_txt'] = $this->lng->txt('cdf_edited_by_self');
@@ -489,7 +482,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                 } else {
                     $a_user_data[$usr_id]['odf_last_update'] = $edit_info['update_user'];
                     $a_user_data[$usr_id]['odf_last_update'] .= ('_' . $edit_info['editing_time']->get(IL_CAL_UNIX));
-                    
+
                     $name = ilObjUser::_lookupName($edit_info['update_user']);
                     $a_user_data[$usr_id]['odf_info_txt'] = ($name['firstname'] . ' ' . $name['lastname'] . ', ' . ilDatePresentation::formatDate($edit_info['editing_time']));
                 }
@@ -498,7 +491,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         // consultation hours
         if ($this->isColumnSelected('consultation_hour')) {
-            foreach (ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(), $this->user->getId()) as $buser => $booking) {
+            foreach (ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(),
+                $this->user->getId()) as $buser => $booking) {
                 if (isset($a_user_data[$buser])) {
                     $a_user_data[$buser]['consultation_hour'] = $booking[0]['dt'];
                     $a_user_data[$buser]['consultation_hour_end'] = $booking[0]['dtend'];
@@ -506,7 +500,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                 }
             }
         }
-        
+
         // always sort by name first
         $a_user_data = ilArrayUtil::sortArray(
             $a_user_data,

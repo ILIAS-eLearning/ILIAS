@@ -1,12 +1,10 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @ingroup ModulesCourse
-*/
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ModulesCourse
+ */
 class ilCourseStartObjectsTableGUI extends ilTable2GUI
 {
     public function __construct(object $a_parent_obj, string $a_parent_cmd, ilObject $a_obj_course)
@@ -20,44 +18,41 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('type'), 'type', '1');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('description'), 'description');
-        
+
         // add
         if ($a_parent_cmd != 'listStructure') {
             $this->setTitle($this->lng->txt('crs_select_starter'));
-                                     
+
             $this->addMultiCommand('addStarter', $this->lng->txt('crs_add_starter'));
-        }
-        // list
+        } // list
         else {
             $this->setTitle($this->lng->txt('crs_start_objects'));
-            
+
             $this->addMultiCommand('askDeleteStarter', $this->lng->txt('delete'));
         }
-             
+
         $this->setRowTemplate("tpl.crs_add_starter.html", "Modules/Course");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setSelectAllCheckbox('starter');
-        
+
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('asc');
-        
-        
+
         $data = array();
-                
+
         $crs_start = new ilCourseStart($a_obj_course->getRefId(), $a_obj_course->getId());
-        
+
         // add
         if ($a_parent_cmd != 'listStructure') {
             $data = $this->getPossibleObjects($a_obj_course, $crs_start);
-        }
-        // list
+        } // list
         else {
             $data = $this->getStartObjects($a_obj_course, $crs_start);
         }
-    
+
         $this->setData($data);
     }
-    
+
     protected function getPossibleObjects(ilObject $a_obj_course, ilCourseStart $crs_start) : array
     {
         $data = array();
@@ -75,7 +70,7 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
         }
         return $data;
     }
-    
+
     protected function getStartObjects(ilObject $a_obj_course, ilCourseStart $crs_start) : array
     {
         $starters = $crs_start->getStartObjects();
@@ -92,7 +87,7 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
                 $data[$item['item_ref_id']]['description'] = $tmp_obj->getDescription();
             }
         }
-        
+
         return $data;
     }
 

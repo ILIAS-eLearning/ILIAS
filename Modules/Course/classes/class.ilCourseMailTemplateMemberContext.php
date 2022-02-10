@@ -1,11 +1,9 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Handles course mail placeholders
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @package ModulesCourse
  */
 class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
@@ -85,7 +83,6 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
             'placeholder' => 'COURSE_LINK',
             'label' => $lng->txt('crs_mail_permanent_link')
         );
-
 
         return $placeholders;
     }

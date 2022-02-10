@@ -22,12 +22,10 @@
 */
 
 /**
-* Class ilObj<module_name>
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*/
+ * Class ilObj<module_name>
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ */
 class ilObjCourseGrouping
 {
     protected static array $assignedObjects = array();
@@ -65,10 +63,12 @@ class ilObjCourseGrouping
             $this->read();
         }
     }
+
     public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
+
     public function getId() : int
     {
         return $this->id;
@@ -78,22 +78,27 @@ class ilObjCourseGrouping
     {
         $this->ref_id = $a_ref_id;
     }
+
     public function getContainerRefId() : int
     {
         return $this->ref_id;
     }
+
     public function setContainerObjId(int $a_obj_id) : void
     {
         $this->obj_id = $a_obj_id;
     }
+
     public function getContainerObjId() : int
     {
         return $this->obj_id;
     }
+
     public function getContainerType() : string
     {
         return $this->container_type;
     }
+
     public function setContainerType(string $a_type) : void
     {
         $this->container_type = $a_type;
@@ -103,6 +108,7 @@ class ilObjCourseGrouping
     {
         $this->type = $a_type;
     }
+
     public function getType() : string
     {
         return $this->type;
@@ -112,22 +118,27 @@ class ilObjCourseGrouping
     {
         $this->title = $a_title;
     }
+
     public function getTitle() : string
     {
         return $this->title;
     }
+
     public function setDescription(string $a_desc) : void
     {
         $this->description = $a_desc;
     }
+
     public function getDescription() : string
     {
         return $this->description;
     }
+
     public function setUniqueField(string $a_uni) : void
     {
         $this->unique_field = $a_uni;
     }
+
     public function getUniqueField() : string
     {
         return $this->unique_field;
@@ -270,7 +281,6 @@ class ilObjCourseGrouping
         return !$found_invisible;
     }
 
-
     /**
      * Returns a list of all groupings for which the current user hast write permission on all assigned objects. Or groupings
      * the given object id is assigned to.
@@ -284,7 +294,6 @@ class ilObjCourseGrouping
         $ilDB = $DIC['ilDB'];
 
         $container_type = $ilObjDataCache->lookupType($a_obj_id) == 'grp' ? 'grp' : 'crs';
-
 
         // First get all groupings
         $query = "SELECT * FROM object_data WHERE type = 'crsg' ORDER BY title";
@@ -378,7 +387,6 @@ class ilObjCourseGrouping
         }
     }
 
-
     public function __addCondition(int $a_target_ref_id, int $a_target_obj_id) : void
     {
         $tmp_condh = new ilConditionHandler();
@@ -443,10 +451,9 @@ class ilObjCourseGrouping
         return true;
     }
 
-
     /**
-    * Get all ids of courses that are grouped with another course
-    */
+     * Get all ids of courses that are grouped with another course
+     */
     public static function _getGroupingCourseIds(int $a_course_ref_id, int $a_course_id) : array
     {
         global $DIC;
@@ -454,20 +461,22 @@ class ilObjCourseGrouping
         $tree = $DIC->repositoryTree();
         // get all grouping ids the course is assigned to
         $course_ids = [];
-        foreach (ilConditionHandler::_getPersistedConditionsOfTarget($a_course_ref_id, $a_course_id, 'crs') as $condition) {
+        foreach (ilConditionHandler::_getPersistedConditionsOfTarget($a_course_ref_id, $a_course_id,
+            'crs') as $condition) {
             if ($condition['trigger_type'] == 'crsg') {
-                foreach (ilConditionHandler::_getPersistedConditionsOfTrigger('crsg', $condition['trigger_obj_id']) as $target_condition) {
+                foreach (ilConditionHandler::_getPersistedConditionsOfTrigger('crsg',
+                    $condition['trigger_obj_id']) as $target_condition) {
                     if ($tree->isDeleted($target_condition['target_ref_id'])) {
                         continue;
                     }
                     $course_ids[] = array('id' => $target_condition['target_obj_id'],
-                                          'unique' => $target_condition['value']);
+                                          'unique' => $target_condition['value']
+                    );
                 }
             }
         }
         return $course_ids;
     }
-
 
     public static function getAssignedObjects() : array
     {
@@ -549,7 +558,6 @@ class ilObjCourseGrouping
         return true;
     }
 
-
     /**
      * Get courses/groups that are assigned to the same membership limitation
      */
@@ -561,7 +569,6 @@ class ilObjCourseGrouping
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $ilAccess = $DIC->access();
         $tree = $DIC->repositoryTree();
-
 
         $trigger_ids = array();
         foreach (ilConditionHandler::_getPersistedConditionsOfTarget(

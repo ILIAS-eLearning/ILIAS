@@ -21,12 +21,9 @@
         +-----------------------------------------------------------------------------+
 */
 
-
 /**
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
- *
  * @ingroup ModulesCourse
  */
 class ilCourseEditParticipantsTableGUI extends ilTable2GUI
@@ -37,7 +34,7 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 
     protected ilAccessHandler $access;
     protected ilObjUser $user;
-        
+
     /**
      * Holds the local roles of the course object.
      * This variable is an associative array.
@@ -47,7 +44,7 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
      *   'title'.
      */
     private array $localCourseRoles;
-    
+
     public function __construct(object $a_parent_obj, ilObjCourse $rep_object)
     {
         global $DIC;
@@ -58,12 +55,12 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 
         $this->access = $DIC->access();
         $this->user = $DIC->user();
-        
+
         parent::__construct($a_parent_obj, 'editMembers');
         $this->lng->loadLanguageModule('crs');
         $this->setFormName('participants');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        
+
         $this->addColumn($this->lng->txt('name'), 'name', '20%');
         $this->addColumn($this->lng->txt('login'), 'login', '25%');
 
@@ -83,15 +80,17 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
         $this->enable('header');
         $this->enable('numinfo');
         $this->disable('select_all');
-                
+
         // Performance improvement: We read the local course roles
         // only once, instead of reading them for each row in method fillRow().
         $this->localCourseRoles = array();
         foreach ($this->rep_object->getLocalCourseRoles(false) as $title => $role_id) {
-            $this->localCourseRoles[ilObjRole::_getTranslation($title)] = array('role_id' => $role_id, 'title' => $title);
+            $this->localCourseRoles[ilObjRole::_getTranslation($title)] = array('role_id' => $role_id,
+                                                                                'title' => $title
+            );
         }
     }
-    
+
     protected function fillRow(array $a_set) : void
     {
         $hasEditPermissionAccess =
@@ -99,10 +98,10 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
                 $this->access->checkAccess('edit_permission', '', $this->rep_object->getRefId()) or
                 $this->participants->isAdmin($this->user->getId())
             );
-        
+
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
-        
+
         $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
 
         if ($this->privacy->enabledCourseAccessTimes()) {
@@ -112,16 +111,16 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', $a_set['notification'] ? 'checked="checked"' : '');
         $this->tpl->setVariable('VAL_PASSED_CHECKED', $a_set['passed'] ? 'checked="checked"' : '');
         $this->tpl->setVariable('VAL_BLOCKED_CHECKED', $a_set['blocked'] ? 'checked="checked"' : '');
-        
+
         $this->tpl->setVariable('NUM_ROLES', count($this->participants->getRoles()));
-        
+
         $assigned = $this->participants->getAssignedRoles($a_set['usr_id']);
         foreach ($this->localCourseRoles as $localizedTitle => $roleData) {
             if ($hasEditPermissionAccess || substr($roleData['title'], 0, 12) != 'il_crs_admin') {
                 $this->tpl->setCurrentBlock('roles');
                 $this->tpl->setVariable('ROLE_ID', $roleData['role_id']);
                 $this->tpl->setVariable('ROLE_NAME', $localizedTitle);
-                
+
                 if (in_array($roleData['role_id'], $assigned)) {
                     $this->tpl->setVariable('ROLE_CHECKED', 'selected="selected"');
                 }

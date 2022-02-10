@@ -2,11 +2,9 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * (Course) learning objective page configuration
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ModulesCourse
  */
 class ilLOPageConfig extends ilPageConfig

@@ -21,13 +21,10 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* class ilTimingAccepted
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-*/
+ * class ilTimingAccepted
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilTimingAccepted
 {
     protected ilDBInterface $db;
@@ -47,35 +44,42 @@ class ilTimingAccepted
         $this->user_id = $a_usr_id;
         $this->__read();
     }
-    
+
     public function getUserId() : int
     {
         return $this->user_id;
     }
+
     public function getCourseId() : int
     {
         return $this->obj_id;
     }
+
     public function accept(bool $a_status) : void
     {
         $this->accepted = $a_status;
     }
+
     public function isAccepted() : bool
     {
         return $this->accepted;
     }
+
     public function setRemark(string $a_remark) : void
     {
         $this->remark = $a_remark;
     }
+
     public function getRemark() : string
     {
         return $this->remark;
     }
+
     public function setVisible(bool $a_visible) : void
     {
         $this->visible = $a_visible;
     }
+
     public function isVisible() : bool
     {
         return $this->visible;

@@ -20,9 +20,9 @@ class ilObjCourseVerificationAccess extends ilObjectAccess
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode('_', $a_target);
-        
+
         // #11021
         // personal workspace context: do not force normal login
         if (isset($t_arr[2]) && $t_arr[2] === 'wsp') {

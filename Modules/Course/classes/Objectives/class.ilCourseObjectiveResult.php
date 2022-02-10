@@ -3,10 +3,9 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* class ilcourseobjective
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*/
+ * class ilcourseobjective
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilCourseObjectiveResult
 {
     public const IL_OBJECTIVE_STATUS_EMPTY = 'empty';
@@ -20,7 +19,6 @@ class ilCourseObjectiveResult
 
     protected ilDBInterface $db;
 
-    
     public function __construct(int $a_usr_id)
     {
         global $DIC;
@@ -29,6 +27,7 @@ class ilCourseObjectiveResult
 
         $this->user_id = $a_usr_id;
     }
+
     public function getUserId() : int
     {
         return $this->user_id;
@@ -64,9 +63,12 @@ class ilCourseObjectiveResult
     {
         return ilCourseObjectiveResult::_getSuggested($this->getUserId(), $a_crs_id, $a_status);
     }
-    
-    public static function _getSuggested(int $a_user_id, int $a_crs_id, string $a_status = self::IL_OBJECTIVE_STATUS_FINAL) : array
-    {
+
+    public static function _getSuggested(
+        int $a_user_id,
+        int $a_crs_id,
+        string $a_status = self::IL_OBJECTIVE_STATUS_FINAL
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -102,7 +104,7 @@ class ilCourseObjectiveResult
         }
         return $suggested;
     }
-    
+
     public static function getSuggestedQuestions(int $a_usr_id, int $a_crs_id) : array
     {
         $qsts = [];
@@ -120,7 +122,7 @@ class ilCourseObjectiveResult
         // #15038
         $test_lp = ilTestLP::getInstance($a_test->getId());
         $test_lp->resetLPDataForUserIds(array($a_user_id));
-        
+
         // #15205 - see ilObjTestGUI::confirmDeleteSelectedUserDataObject()
         $active_id = $a_test->getActiveIdOfUser($a_user_id);
         if ($active_id) {
@@ -132,16 +134,16 @@ class ilCourseObjectiveResult
     {
         $assignments = ilLOTestAssignments::getInstance($a_course_id);
         foreach (array_merge(
-            $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_INITIAL),
-            $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_QUALIFIED)
-        )
-                as $assignment) {
+                     $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_INITIAL),
+                     $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_QUALIFIED)
+                 )
+                 as $assignment) {
             $tst = ilObjectFactory::getInstanceByRefId($assignment->getTestRefId(), false);
             if ($tst instanceof ilObjTest) {
                 global $DIC;
 
                 $lng = $DIC['lng'];
-                
+
                 $participantData = new ilTestParticipantData($this->db, $lng);
                 $participantData->setUserIdsFilter(array($this->getUserId()));
                 $participantData->load($tst->getTestId());
@@ -154,13 +156,13 @@ class ilCourseObjectiveResult
         if ($initial_tst instanceof ilObjTest) {
             $this->resetTestForUser($initial_tst, $this->getUserId());
         }
-        
+
         $qualified = ilLOSettings::getInstanceByObjId($a_course_id)->getQualifiedTest();
         $qualified_tst = ilObjectFactory::getInstanceByRefId($qualified, false);
         if ($qualified_tst instanceof ilObjTest) {
             $this->resetTestForUser($qualified_tst, $this->getUserId());
         }
-        
+
         $objectives = ilCourseObjective::_getObjectiveIds($a_course_id, false);
 
         if (count($objectives)) {
@@ -173,7 +175,7 @@ class ilCourseObjectiveResult
                 "WHERE " . $this->db->in('objective_id', $objectives, false, 'integer') . ' ' .
                 "AND user_id = " . $this->db->quote($this->getUserId(), ilDBConstants::T_INTEGER) . "";
             $res = $this->db->manipulate($query);
-            
+
             $query = "DELETE FROM loc_user_results " .
                 "WHERE " . $this->db->in('objective_id', $objectives, false, 'integer') . ' ' .
                 "AND user_id = " . $this->db->quote($this->getUserId(), ilDBConstants::T_INTEGER) . "";
@@ -212,7 +214,7 @@ class ilCourseObjectiveResult
             return self::IL_OBJECTIVE_STATUS_FINAL;
         }
         if ($all_pretest_answered and
-           !count($suggested)) {
+            !count($suggested)) {
             return self::IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST;
         } elseif ($all_pretest_answered) {
             return self::IL_OBJECTIVE_STATUS_PRETEST;
@@ -239,7 +241,6 @@ class ilCourseObjectiveResult
         $objectives = ilCourseObjectiveResult::_readAssignedObjectives($objective_ids);
         ilCourseObjectiveResult::_updateObjectiveStatus($this->getUserId(), $objectives);
     }
-
 
     public static function _updateObjectiveResult(int $a_user_id, int $a_active_id, int $a_question_id) : void
     {
@@ -276,7 +277,6 @@ class ilCourseObjectiveResult
         $objectives['objectives'] = self::_readAssignedObjectives($objectives['all_objectives']);
         return $objectives;
     }
-
 
     public static function _readAssignedObjectives(array $a_all_objectives) : array
     {
@@ -330,7 +330,7 @@ class ilCourseObjectiveResult
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $objectives['all_question_points'][$row->question_fi]['reached_points'] = (int) $row->reached;
         }
-        
+
         // Check accomplished
         $fullfilled = array();
         $pretest = array();
@@ -339,9 +339,9 @@ class ilCourseObjectiveResult
             if (ilCourseObjectiveResult::__isFullfilled($objectives['all_question_points'], $data)) {
                 // Status 0 means pretest fullfilled, status 1 means final test fullfilled
                 if ($data['tst_status']) {
-                    $fullfilled[] = array($data['objective_id'],$ilUser->getId(),$data['tst_status']);
+                    $fullfilled[] = array($data['objective_id'], $ilUser->getId(), $data['tst_status']);
                 } else {
-                    $pretest[] = array($data['objective_id'],$ilUser->getId());
+                    $pretest[] = array($data['objective_id'], $ilUser->getId());
                 }
             }
         }
@@ -350,11 +350,11 @@ class ilCourseObjectiveResult
                 $ilDB->replace(
                     'crs_objective_status',
                     array(
-                        'objective_id' => array('integer',$fullfilled_arr[0]),
-                        'user_id' => array('integer',$fullfilled_arr[1])
+                        'objective_id' => array('integer', $fullfilled_arr[0]),
+                        'user_id' => array('integer', $fullfilled_arr[1])
                     ),
                     array(
-                        'status' => array('integer',$fullfilled_arr[2])
+                        'status' => array('integer', $fullfilled_arr[2])
                     )
                 );
             }
@@ -365,8 +365,8 @@ class ilCourseObjectiveResult
                 $ilDB->replace(
                     'crs_objective_status_p',
                     array(
-                        'objective_id' => array('integer',$pretest_arr[0]),
-                        'user_id' => array('integer',$pretest_arr[1])
+                        'objective_id' => array('integer', $pretest_arr[0]),
+                        'user_id' => array('integer', $pretest_arr[1])
                     ),
                     array()
                 );
@@ -399,7 +399,7 @@ class ilCourseObjectiveResult
         $ilDB = $DIC['ilDB'];
 
         $passed = array();
-        
+
         $query = "SELECT COUNT(t1.crs_id) num,t1.crs_id FROM crs_objectives t1 " .
             "JOIN crs_objectives t2 WHERE t1.crs_id = t2.crs_id and  " .
             $ilDB->in('t1.objective_id', $objective_ids, false, 'integer') . " " .
@@ -426,7 +426,7 @@ class ilCourseObjectiveResult
                 $members->updatePassed($a_user_id, true);
             }
         }
-        
+
         // update tracking status
         foreach ($crs_ids as $cid) {
             ilLPStatusWrapper::_updateStatus($cid, $a_user_id);

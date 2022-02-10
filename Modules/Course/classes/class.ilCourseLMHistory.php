@@ -21,16 +21,12 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* class ilCourseLMHistory
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @extends Object
-*/
-
+ * class ilCourseLMHistory
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @extends Object
+ */
 class ilCourseLMHistory
 {
 
@@ -52,6 +48,7 @@ class ilCourseLMHistory
     {
         return $this->user_id;
     }
+
     public function getCourseRefId() : int
     {
         return $this->course_id;
@@ -71,10 +68,10 @@ class ilCourseLMHistory
         $ilDB->replace(
             "crs_lm_history",
             [
-            "crs_ref_id" => ["integer", $crs_ref_id],
-            "lm_ref_id" => ["integer", $a_lm_ref_id],
-            "usr_id" => ["integer", $a_user_id]
-        ],
+                "crs_ref_id" => ["integer", $crs_ref_id],
+                "lm_ref_id" => ["integer", $a_lm_ref_id],
+                "usr_id" => ["integer", $a_user_id]
+            ],
             [
                 "lm_page_id" => ["integer", $a_page_id],
                 "last_access" => ["integer", time()]
