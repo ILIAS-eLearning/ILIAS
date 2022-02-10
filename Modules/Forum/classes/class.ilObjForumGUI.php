@@ -16,7 +16,7 @@ use ILIAS\UI\Renderer;
  * @ilCtrl_Calls ilObjForumGUI: ilObjectContentStyleSettingsGUI
  * @ingroup      ModulesForum
  */
-class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForumObjectConstants
+class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForumObjectConstants, ilCtrlSecurityInterface
 {
     use ilForumRequestTrait;
 
@@ -289,6 +289,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             true
         );
     }
+
+    public function getUnsafeGetCommands() : array
+    {
+        return [
+            'enableForumNotification',
+            'disableForumNotification',
+            'toggleThreadNotification'
+        ];
+    }
+
+    public function getSafePostCommands() : array
+    {
+        return [];
+    }
+
 
     public function executeCommand()
     {
@@ -971,7 +986,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $tpl->setVariable('DRAFT_ANCHOR', 'draft_' . $draft->getDraftId());
 
             $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
-            $tpl->setVariable('USR_ICON_ALT',
+            $tpl->setVariable(
+                'USR_ICON_ALT',
                 ilLegacyFormElementsUtil::prepareFormOutput($authorinfo->getAuthorShortName())
             );
             if ($authorinfo->getAuthor()->getId() && ilForum::_isModerator(
@@ -1177,7 +1193,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
-        $tpl->setVariable('USR_ICON_ALT',
+        $tpl->setVariable(
+            'USR_ICON_ALT',
             ilLegacyFormElementsUtil::prepareFormOutput($authorinfo->getAuthorShortName())
         );
         $isModerator = ilForum::_isModerator($this->ref_id, $node->getPosAuthorId());
