@@ -6,17 +6,14 @@ include_once("class.ilCloudPluginConfig.php");
 
 /**
  * Class ilCloudPluginConfigGUI
- *
  * GUI class for the administration settings. Plugin classes can extend this method and override getFields to declare
  * the fields needed for the input of the settings.
- *
  * public function getFields()
  * {
  *  return array(
  *   "app_name"               => array("type" => "ilTextInputGUI", "info" => "config_info_app_name", "subelements" => null),
  *  );
  * }
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id$
  * @extends ilPluginConfigGUI
@@ -34,7 +31,6 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
      */
     protected $fields = array();
 
-
     /**
      * @return array
      */
@@ -42,7 +38,6 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
     {
         return null;
     }
-
 
     /**
      * @return string
@@ -52,7 +47,6 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         return $this->getPluginObject()->getPluginConfigTableName();
     }
 
-
     /**
      * @return ilCloudPluginConfig
      */
@@ -60,7 +54,6 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
     {
         return $this->object;
     }
-
 
     /**
      * Handles all commmands, default is "configure"
@@ -78,7 +71,6 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         }
     }
 
-
     /**
      * Configure screen
      */
@@ -91,7 +83,6 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         $this->getValues();
         $tpl->setContent($this->form->getHTML());
     }
-
 
     public function getValues()
     {
@@ -106,7 +97,6 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
 
         $this->form->setValuesByArray($values);
     }
-
 
     /**
      * @return ilPropertyFormGUI
@@ -125,7 +115,8 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
             $field->setInfo($this->plugin_object->txt($item["info"]));
             if (is_array($item["subelements"])) {
                 foreach ($item["subelements"] as $subkey => $subitem) {
-                    $subfield = new $subitem["type"]($this->plugin_object->txt($key . "_" . $subkey), $key . "_" . $subkey);
+                    $subfield = new $subitem["type"]($this->plugin_object->txt($key . "_" . $subkey),
+                        $key . "_" . $subkey);
                     $subfield->setInfo($this->plugin_object->txt($subitem["info"]));
                     $field->addSubItem($subfield);
                 }
@@ -141,7 +132,6 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
 
         return $this->form;
     }
-
 
     public function save()
     {

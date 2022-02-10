@@ -6,10 +6,7 @@ include_once("./Modules/Cloud/exceptions/class.ilCloudException.php");
 
 /**
  * Class ilCloudPluginCreateFolderGUI
- *
  * Standard GUI when creating a new folder. Could be overwritten by the plugin if needed.
- *
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id:
  * @extends ilCloudPluginGUI
@@ -38,10 +35,8 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         exit;
     }
 
-
     /**
      * Init  form.
-     *
      * @param int $a_mode Edit Mode
      */
     public function initCreateFolder()
@@ -71,7 +66,6 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         $this->form->setTarget("cld_blank_target");
     }
 
-
     /**
      * Update properties
      */
@@ -100,7 +94,6 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterCreateFolder(" . ilJsonUtil::encode($response) . ");</script>";
         exit;
     }
-
 
     /**
      * Update properties

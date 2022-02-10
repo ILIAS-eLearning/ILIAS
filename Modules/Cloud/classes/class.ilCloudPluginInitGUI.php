@@ -5,9 +5,7 @@ include_once("class.ilCloudPluginGUI.php");
 
 /**
  * Class ilCloudPluginInitGUI
- *
  * GUI Class for initialization of the object. Can be extended if needed.
- *
  * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
  * @version $Id$
  * @extends ilCloudPluginGUI
@@ -49,13 +47,13 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
      */
     protected $perm_folders_visible = false;
     private \ilGlobalTemplateInterface $main_tpl;
+
     public function __construct($plugin_service_class)
     {
         parent::__construct($plugin_service_class);
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
     }
-
 
     /**
      * @param \ilObjCloudGUI $gui_class
@@ -65,7 +63,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         $this->gui_class = $gui_class;
     }
 
-
     /**
      * @return \ilObjCloudGUI
      */
@@ -73,7 +70,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
     {
         return $this->gui_class;
     }
-
 
     /**
      * @param boolean $perm_create_folders
@@ -83,7 +79,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         $this->perm_create_folders = $perm_create_folders;
     }
 
-
     /**
      * @return boolean
      */
@@ -91,7 +86,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
     {
         return $this->perm_create_folders;
     }
-
 
     /**
      * @param boolean $perm_delete_files
@@ -101,7 +95,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         $this->perm_delete_files = $perm_delete_files;
     }
 
-
     /**
      * @return boolean
      */
@@ -109,7 +102,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
     {
         return $this->perm_delete_files;
     }
-
 
     /**
      * @param boolean $perm_delete_folders
@@ -119,7 +111,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         $this->perm_delete_folders = $perm_delete_folders;
     }
 
-
     /**
      * @return boolean
      */
@@ -127,7 +118,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
     {
         return $this->perm_delete_folders;
     }
-
 
     /**
      * @param boolean $perm_download
@@ -137,7 +127,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         $this->perm_download = $perm_download;
     }
 
-
     /**
      * @return boolean
      */
@@ -145,7 +134,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
     {
         return $this->perm_download;
     }
-
 
     /**
      * @param boolean $perm_files_visible
@@ -155,7 +143,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         $this->perm_files_visible = $perm_files_visible;
     }
 
-
     /**
      * @return boolean
      */
@@ -163,7 +150,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
     {
         return $this->perm_files_visible;
     }
-
 
     /**
      * @param boolean $perm_folders_visible
@@ -173,7 +159,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         $this->perm_folders_visible = $perm_folders_visible;
     }
 
-
     /**
      * @return boolean
      */
@@ -181,7 +166,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
     {
         return $this->perm_folders_visible;
     }
-
 
     /**
      * @param boolean $perm_upload_items
@@ -191,7 +175,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         $this->perm_upload_items = $perm_upload_items;
     }
 
-
     /**
      * @return boolean
      */
@@ -199,7 +182,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
     {
         return $this->perm_upload_items;
     }
-
 
     /**
      * @param \ilTemplate $tpl_file_tree
@@ -209,7 +191,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         $this->tpl_file_tree = $tpl_file_tree;
     }
 
-
     /**
      * @return \ilTemplate
      */
@@ -218,12 +199,10 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         return $this->tpl_file_tree;
     }
 
-
     /**
      * @var ilTemplate
      */
     protected $tpl_file_tree = null;
-
 
     /**
      * @param ilObjCloudGUI $gui_class
@@ -235,8 +214,16 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
      * @param               $perm_files_visible
      * @param               $perm_folders_visible
      */
-    public function initGUI(ilObjCloudGUI $gui_class, $perm_create_folder, $perm_upload_items, $perm_delete_files, $perm_delete_folders, $perm_download, $perm_files_visible, $perm_folders_visible)
-    {
+    public function initGUI(
+        ilObjCloudGUI $gui_class,
+        $perm_create_folder,
+        $perm_upload_items,
+        $perm_delete_files,
+        $perm_delete_folders,
+        $perm_download,
+        $perm_files_visible,
+        $perm_folders_visible
+    ) {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
@@ -279,10 +266,18 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
 
                 $this->addToolbar($file_tree->getRootNode());
 
-                $this->tpl_file_tree->setVariable("ASYNC_GET_BLOCK", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilobjcloudgui", "asyncGetBlock", true)));
-                $this->tpl_file_tree->setVariable("ASYNC_CREATE_FOLDER", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudplugincreatefoldergui", "asyncCreateFolder", true)));
-                $this->tpl_file_tree->setVariable("ASYNC_UPLOAD_FILE", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudpluginuploadgui", "asyncUploadFile", true)));
-                $this->tpl_file_tree->setVariable("ASYNC_DELETE_ITEM", json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudplugindeletegui", "asyncDeleteItem", true)));
+                $this->tpl_file_tree->setVariable("ASYNC_GET_BLOCK",
+                    json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilobjcloudgui", "asyncGetBlock",
+                        true)));
+                $this->tpl_file_tree->setVariable("ASYNC_CREATE_FOLDER",
+                    json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudplugincreatefoldergui",
+                        "asyncCreateFolder", true)));
+                $this->tpl_file_tree->setVariable("ASYNC_UPLOAD_FILE",
+                    json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudpluginuploadgui",
+                        "asyncUploadFile", true)));
+                $this->tpl_file_tree->setVariable("ASYNC_DELETE_ITEM",
+                    json_encode($this->getGUIClass()->getCtrl()->getLinkTargetByClass("ilcloudplugindeletegui",
+                        "asyncDeleteItem", true)));
                 $this->tpl_file_tree->setVariable("ROOT_ID", json_encode($file_tree->getRootNode()->getId()));
                 $this->tpl_file_tree->setVariable("ROOT_PATH", json_encode($file_tree->getRootNode()->getPath()));
                 if (isset($_POST["path"])) {
@@ -291,12 +286,14 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
                     $node = $file_tree->getNodeFromPath($_POST["path"]);
                     $this->tpl_file_tree->setVariable("CURRENT_ID", json_encode($node->getId()));
                 } else {
-                    $this->tpl_file_tree->setVariable("CURRENT_PATH", json_encode($file_tree->getRootNode()->getPath()));
+                    $this->tpl_file_tree->setVariable("CURRENT_PATH",
+                        json_encode($file_tree->getRootNode()->getPath()));
                     $this->tpl_file_tree->setVariable("CURRENT_ID", json_encode($file_tree->getRootNode()->getID()));
                 }
                 $txt_max_file_size = $lng->txt("file_notice") . " "
-                    . ilCloudConnector::getPluginClass($this->getGUIClass()->object->getServiceName(), $this->getGUIClass()->object->getId())
-                        ->getMaxFileSize() . " MB";
+                    . ilCloudConnector::getPluginClass($this->getGUIClass()->object->getServiceName(),
+                        $this->getGUIClass()->object->getId())
+                                      ->getMaxFileSize() . " MB";
                 $this->tpl_file_tree->setVariable("MAX_FILE_SIZE", json_encode($txt_max_file_size));
                 $this->beforeSetContent();
                 $tpl->setContent($this->tpl_file_tree->get());
@@ -311,7 +308,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
              * {
              * $path = $_GET["current_path"];
              * $id = $_GET["current_id"];
-             *
              * }
              * else
              * {
@@ -320,8 +316,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
              * ilCloudFileTree::clearFileTreeSession();
              * $file_tree = new ilCloudFileTree($this->getGUIClass()->object->getRootFolder(), $this->getGUIClass()->object->getRootId(), $this->getGUIClass()->object->getId(), $this->getGUIClass()->object->getServiceName());
              * }
-             *
-             *
              * $file_tree->updateFileTree($path);
              * $file_tree_gui = ilCloudConnector::getFileTreeGUIClass($this->getService(), $file_tree);
              * $this->content = $file_tree_gui->getFolderHtml($this->getGuiClass(), $id, $this->getPermDeleteFiles(), $this->getPermDeleteFolders(), $this->getPermDownload(), $this->getPermFilesVisible(), $this->getPermCreateFolders());
@@ -337,7 +331,6 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         }
     }
 
-
     /**
      * @param $root_node
      */
@@ -350,11 +343,13 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
 
         $create_list_gui = ilCloudConnector::getItemCreationListGUIClass($this->getService());
 
-        $list_gui_html = $create_list_gui->getGroupedListItemsHTML($this->getPermUploadItems(), $this->getPermCreateFolders());
+        $list_gui_html = $create_list_gui->getGroupedListItemsHTML($this->getPermUploadItems(),
+            $this->getPermCreateFolders());
         if ($list_gui_html) {
             //toolbar
             $toolbar_locator = new ilLocatorGUI();
-            $toolbar_locator->addItem($this->getGuiClass()->object->getTitle(), ilCloudPluginFileTreeGUI::getLinkToFolder($root_node));
+            $toolbar_locator->addItem($this->getGuiClass()->object->getTitle(),
+                ilCloudPluginFileTreeGUI::getLinkToFolder($root_node));
             $ilToolbar->setId('xcld_toolbar');
             $ilToolbar->addText("<div class='xcld_locator'>" . $toolbar_locator->getHtml() . "</div>");
             $ilToolbar->addSeparator();
@@ -363,7 +358,8 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
             $adv = new ilAdvancedSelectionListGUI();
             $adv->setListTitle($lng->txt("cld_add_new_item"));
 
-            $ilCloudGroupedListGUI = $create_list_gui->getGroupedListItems($this->getPermUploadItems(), $this->getPermCreateFolders());
+            $ilCloudGroupedListGUI = $create_list_gui->getGroupedListItems($this->getPermUploadItems(),
+                $this->getPermCreateFolders());
 
             if ($ilCloudGroupedListGUI->hasItems()) {
                 $adv->setGroupedList($ilCloudGroupedListGUI);
@@ -374,16 +370,13 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
         }
     }
 
-
     public function beforeInitGUI()
     {
     }
 
-
     public function beforeSetContent()
     {
     }
-
 
     public function afterInitGUI()
     {
