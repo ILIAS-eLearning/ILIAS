@@ -41,10 +41,7 @@ class ilLTIProviderObjectSettingGUI
      */
     protected ?ilLanguage $lng = null;
     
-    /**
-     * @var ilTemplate
-     */
-    protected ?ilTemplate $tpl = null;
+    protected ?\ilGlobalPageTemplate $tpl = null;
     
     /**
      * @var int

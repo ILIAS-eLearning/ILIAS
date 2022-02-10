@@ -753,7 +753,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->object->setSubscriptionStart(0);
         $this->object->setSubscriptionEnd(0);
 
-        $sub_type = $form->getInput('subscription_type');
+        $sub_type = (int) $form->getInput('subscription_type');
         $sub_period = $form->getItemByPostVar('subscription_period');
 
         $this->object->setSubscriptionType($sub_type);
@@ -811,8 +811,8 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->object->setOrderType(ilContainer::SORT_ACTIVATION);
             $this->object->setTimingMode((int) $form->getInput('timing_mode'));
         }
-        $this->object->setTimingMode($form->getInput('timing_mode'));
-        $this->object->setOrderType($form->getInput('sorting'));
+        $this->object->setTimingMode((int) $form->getInput('timing_mode'));
+        $this->object->setOrderType((int) $form->getInput('sorting'));
         $this->saveSortingSettings($form);
 
         $this->object->setAboStatus((bool) $form->getInput('abo'));
