@@ -2,7 +2,6 @@
 
 /**
  * Class ilCronUpdateOrgUnitPaths
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -21,7 +20,6 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
      * @var ilTree
      */
     protected $tree;
-
 
     public function getId() : string
     {

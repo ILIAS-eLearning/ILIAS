@@ -16,7 +16,6 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
 
     /**
      * ilOrgUnitUserAssignmentTableGUI constructor.
-     *
      * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_obj
      * @param string                                       $parent_cmd
      * @param \ilOrgUnitPosition                           $position
@@ -45,7 +44,6 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-
     protected function setTableHeaders()
     {
         $this->addColumn($this->lng->txt("login"), "login");
@@ -54,19 +52,16 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-
     public function parseData()
     {
         $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()
-            ->getAssignements($_GET["ref_id"], $this->ilOrgUnitPosition));
+                                                 ->getAssignements($_GET["ref_id"], $this->ilOrgUnitPosition));
 
         $this->setData($data);
     }
 
-
     /**
      * @param $user_ids
-     *
      * @return array
      */
     protected function parseRows($user_ids)
@@ -81,7 +76,6 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         return $data;
     }
 
-
     /**
      * @param $set
      * @param $user_id
@@ -95,7 +89,6 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $set["user_object"] = $user;
         $set["user_id"] = $user_id;
     }
-
 
     /**
      * @param array $a_set
@@ -112,7 +105,8 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         //		$this->ctrl->setParameterByClass(ilLearningProgressGUI::class, "obj_id", $set["user_id"]);
         //		$this->ctrl->setParameterByClass(ilObjOrgUnitGUI::class, "obj_id", $set["user_id"]);
         $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $a_set["user_id"]);
-        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id', $this->ilOrgUnitPosition->getId());
+        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id',
+            $this->ilOrgUnitPosition->getId());
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($lng->txt("Actions"));
         $selection->setId("selection_list_user_lp_" . $a_set["user_id"]);
@@ -122,11 +116,12 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
             && ilObjUserTracking::_enabledUserRelatedData()
         ) {
             $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'obj_id', $a_set["user_id"]);
-            $selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress", $this->ctrl->getLinkTargetByClass(array(
-                ilAdministrationGUI::class,
-                ilObjOrgUnitGUI::class,
-                ilLearningProgressGUI::class,
-            ), ""));
+            $selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress",
+                $this->ctrl->getLinkTargetByClass(array(
+                    ilAdministrationGUI::class,
+                    ilObjOrgUnitGUI::class,
+                    ilLearningProgressGUI::class,
+                ), ""));
         }
         if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
             $this->addActions($selection);
@@ -134,12 +129,13 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ACTIONS", $selection->getHTML());
     }
 
-
     /**
      * @param $selection ilAdvancedSelectionListGUI
      */
     protected function addActions(&$selection)
     {
-        $selection->addItem($this->lng->txt("remove"), "delete_from_employees", $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_CONFIRM));
+        $selection->addItem($this->lng->txt("remove"), "delete_from_employees",
+            $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class,
+                ilOrgUnitUserAssignmentGUI::CMD_CONFIRM));
     }
 }

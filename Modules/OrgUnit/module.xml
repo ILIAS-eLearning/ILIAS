@@ -1,27 +1,29 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2013-04-06 13:08:30Z otruffer $" id="orgu">
-	<baseclasses></baseclasses>
-	<objectgroups>
-		<objectgroup id="orgu" name="Organisational Unit" default_pres_pos="10" />
-	</objectgroups>
-	<objects>
-		<object id="orgu" class_name="OrgUnit" dir="classes" checkbox="1" inherit="1" translate="db" allow_copy="0" export="1" rbac="1" default_pres_pos="10" default_pos="10" force_active="1" group="orgu" repository="1" administration="1">
-			<parent id="orgu">orgu</parent>
-			<parent id="adm" max="1">adm</parent>
-			<sub_type id="orgu_type" amet="1" />
-		</object>
-	</objects>
-	<events>
-		<event type="raise" id="delete" />
-		<event type="listen" id="Services/Tree" />
-	</events>
-	<pluginslots>
-		<pluginslot id="orgutypehk" name="OrgUnitTypeHook" />
-	</pluginslots>
-	<pluginslots>
-		<pluginslot id="orguext" name="OrgUnitExtension" />
-	</pluginslots>
-	<crons>
-		<cron id="orgunit_paths" class="ilCronUpdateOrgUnitPaths" />
-	</crons>
+    <baseclasses></baseclasses>
+    <objectgroups>
+        <objectgroup id="orgu" name="Organisational Unit" default_pres_pos="10"/>
+    </objectgroups>
+    <objects>
+        <object id="orgu" class_name="OrgUnit" dir="classes" checkbox="1" inherit="1" translate="db" allow_copy="0"
+                export="1" rbac="1" default_pres_pos="10" default_pos="10" force_active="1" group="orgu" repository="1"
+                administration="1">
+            <parent id="orgu">orgu</parent>
+            <parent id="adm" max="1">adm</parent>
+            <sub_type id="orgu_type" amet="1"/>
+        </object>
+    </objects>
+    <events>
+        <event type="raise" id="delete"/>
+        <event type="listen" id="Services/Tree"/>
+    </events>
+    <pluginslots>
+        <pluginslot id="orgutypehk" name="OrgUnitTypeHook"/>
+    </pluginslots>
+    <pluginslots>
+        <pluginslot id="orguext" name="OrgUnitExtension"/>
+    </pluginslots>
+    <crons>
+        <cron id="orgunit_paths" class="ilCronUpdateOrgUnitPaths"/>
+    </crons>
 </module>

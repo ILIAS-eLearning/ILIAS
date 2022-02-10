@@ -4,7 +4,6 @@ namespace ILIAS\Modules\OrgUnit\ARHelper;
 
 /**
  * Class BaseForm
- *
  * @package ILIAS\Modules\OrgUnit\CtrlHelper
  */
 abstract class BaseForm extends \ilPropertyFormGUI
@@ -23,10 +22,8 @@ abstract class BaseForm extends \ilPropertyFormGUI
      */
     protected $object;
 
-
     /**
      * BaseForm constructor.
-     *
      * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
      * @param \ActiveRecord                                $object
      */
@@ -42,15 +39,11 @@ abstract class BaseForm extends \ilPropertyFormGUI
         parent::__construct();
     }
 
-
     abstract protected function initFormElements();
-
 
     abstract public function fillForm();
 
-
     abstract protected function fillObject();
-
 
     /**
      * @return int ID of the object
@@ -69,7 +62,6 @@ abstract class BaseForm extends \ilPropertyFormGUI
         return $this->object->getId();
     }
 
-
     protected function initButtons()
     {
         if (!$this->object->getId()) {
@@ -83,10 +75,8 @@ abstract class BaseForm extends \ilPropertyFormGUI
         }
     }
 
-
     /**
      * @param $key
-     *
      * @return string
      */
     protected function txt($key)
@@ -94,17 +84,14 @@ abstract class BaseForm extends \ilPropertyFormGUI
         return $this->parent_gui->txt($key);
     }
 
-
     /**
      * @param $key
-     *
      * @return string
      */
     protected function infoTxt($key)
     {
         return $this->parent_gui->txt($key . '_info');
     }
-
 
     /**
      * @return \ILIAS\DI\Container

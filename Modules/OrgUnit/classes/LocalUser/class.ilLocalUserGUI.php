@@ -3,7 +3,6 @@
 
 /**
  * Class ilLocalUserGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  */
@@ -71,7 +70,6 @@ class ilLocalUserGUI
         }
     }
 
-
     /**
      * @return bool
      */
@@ -82,7 +80,8 @@ class ilLocalUserGUI
             case "assignRoles":
             case "assignSave":
                 $this->tabs_gui->clearTargets();
-                $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
+                $this->tabs_gui->setBackTarget($this->lng->txt("back"),
+                    $this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
                 $this->$cmd();
                 break;
             default:
@@ -92,7 +91,6 @@ class ilLocalUserGUI
 
         return true;
     }
-
 
     /**
      * Reset filter
@@ -106,10 +104,8 @@ class ilLocalUserGUI
         $this->index();
     }
 
-
     /**
      * Apply filter
-     *
      * @return
      */
     protected function applyFilter()
@@ -119,7 +115,6 @@ class ilLocalUserGUI
         $table->writeFilterToSession();
         $this->index();
     }
-
 
     public function index($show_delete = false)
     {
@@ -161,7 +156,6 @@ class ilLocalUserGUI
         return true;
     }
 
-
     /**
      * Show auto complete results
      */
@@ -179,7 +173,6 @@ class ilLocalUserGUI
         echo $auto->getList($_REQUEST['term']);
         exit();
     }
-
 
     /**
      * Delete User
@@ -205,7 +198,6 @@ class ilLocalUserGUI
         return true;
     }
 
-
     public function deleteUsers()
     {
         $this->checkPermission("cat_administrate_users");
@@ -230,7 +222,6 @@ class ilLocalUserGUI
         }
         $this->tpl->setContent($confirm->getHTML());
     }
-
 
     public function assignRoles()
     {
@@ -284,7 +275,6 @@ class ilLocalUserGUI
         $this->__showRolesTable($f_result, "assignRolesObject");
     }
 
-
     public function assignSave()
     {
         global $DIC;
@@ -325,7 +315,6 @@ class ilLocalUserGUI
         return true;
     }
 
-
     public function __checkGlobalRoles($new_assigned)
     {
         global $DIC;
@@ -365,7 +354,6 @@ class ilLocalUserGUI
         return true;
     }
 
-
     public function __getAssignableRoles()
     {
         global $DIC;
@@ -384,7 +372,6 @@ class ilLocalUserGUI
 
         return $roles = array_merge($global_roles, $rbacreview->getAssignableChildRoles($this->object->getRefId()));
     }
-
 
     public function __showRolesTable($a_result_set, $a_from = "")
     {
@@ -445,7 +432,6 @@ class ilLocalUserGUI
 
         return true;
     }
-
 
     /**
      * @param $permission

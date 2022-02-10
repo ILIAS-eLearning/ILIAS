@@ -3,12 +3,10 @@
 
 /**
  * Class ilOrgUnitStaffGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  * Date: 4/07/13
  * Time: 1:09 PM
- *
  * @ilCtrl_Calls      ilOrgUnitStaffGUI: ilRepositorySearchGUI
  */
 class ilOrgUnitStaffGUI
@@ -51,7 +49,6 @@ class ilOrgUnitStaffGUI
      */
     protected $rbacreview;
 
-
     /**
      * @param ilObjOrgUnitGUI $parent_gui
      */
@@ -80,7 +77,6 @@ class ilOrgUnitStaffGUI
         $this->tabs_gui->setTabActive("orgu_staff");
         $this->setTabs();
     }
-
 
     /**
      * @return bool
@@ -136,7 +132,6 @@ class ilOrgUnitStaffGUI
         return true;
     }
 
-
     public function showStaff()
     {
         if (!ilObjOrgUnitAccess::_checkAccessStaff($this->parent_object->getRefId())) {
@@ -150,7 +145,6 @@ class ilOrgUnitStaffGUI
         $this->tpl->setContent($this->getStaffTableHTML(false, "showStaff"));
     }
 
-
     public function showOtherRoles()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
@@ -163,7 +157,6 @@ class ilOrgUnitStaffGUI
         $this->tpl->setContent($this->getOtherRolesTableHTML());
     }
 
-
     public function showStaffRec()
     {
         if (!ilObjOrgUnitAccess::_checkAccessStaffRec($this->parent_object->getRefId())) {
@@ -173,7 +166,6 @@ class ilOrgUnitStaffGUI
         $this->ctrl->setParameter($this, "recursive", true);
         $this->tpl->setContent($this->getStaffTableHTML(true, "showStaffRec"));
     }
-
 
     protected function addStaffToolbar()
     {
@@ -188,7 +180,6 @@ class ilOrgUnitStaffGUI
             'submit_name' => $this->lng->txt('add'),
         ));
     }
-
 
     protected function addOtherRolesToolbar()
     {
@@ -207,7 +198,6 @@ class ilOrgUnitStaffGUI
             'submit_name' => $this->lng->txt('add'),
         ));
     }
-
 
     public function addStaff()
     {
@@ -243,7 +233,6 @@ class ilOrgUnitStaffGUI
         $this->ctrl->redirect($this, "showStaff");
     }
 
-
     public function addOtherRoles()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
@@ -267,11 +256,9 @@ class ilOrgUnitStaffGUI
         $this->ctrl->redirect($this, "showOtherRoles");
     }
 
-
     /**
      * @param bool   $recursive
      * @param string $table_cmd
-     *
      * @return string the tables html.
      */
     public function getStaffTableHTML($recursive = false, $table_cmd = "showStaff")
@@ -288,7 +275,6 @@ class ilOrgUnitStaffGUI
 
         return $superior_table->getHTML() . $employee_table->getHTML();
     }
-
 
     public function getOtherRolesTableHTML()
     {
@@ -312,7 +298,6 @@ class ilOrgUnitStaffGUI
         return $html;
     }
 
-
     public function fromSuperiorToEmployee()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
@@ -325,7 +310,6 @@ class ilOrgUnitStaffGUI
         $this->ctrl->redirect($this, "showStaff");
     }
 
-
     public function fromEmployeeToSuperior()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
@@ -337,7 +321,6 @@ class ilOrgUnitStaffGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_changed_successful"), true);
         $this->ctrl->redirect($this, "showStaff");
     }
-
 
     public function confirmRemoveUser($cmd)
     {
@@ -381,7 +364,6 @@ class ilOrgUnitStaffGUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-
     public function removeFromSuperiors()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
@@ -396,7 +378,6 @@ class ilOrgUnitStaffGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("deassign_user_successful"), true);
         $this->ctrl->redirect($this, "showStaff");
     }
-
 
     public function removeFromEmployees()
     {
@@ -413,7 +394,6 @@ class ilOrgUnitStaffGUI
         $this->ctrl->redirect($this, "showStaff");
     }
 
-
     public function removeFromRole()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
@@ -426,15 +406,20 @@ class ilOrgUnitStaffGUI
         $this->ctrl->redirect($this, "showOtherRoles");
     }
 
-
     public function setTabs()
     {
-        $this->tabs_gui->addSubTab("show_staff", sprintf($this->lng->txt("local_staff"), $this->parent_object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaff"));
+        $this->tabs_gui->addSubTab("show_staff",
+            sprintf($this->lng->txt("local_staff"), $this->parent_object->getTitle()),
+            $this->ctrl->getLinkTarget($this, "showStaff"));
         if ($this->ilAccess->checkAccess("view_learning_progress_rec", "", $this->parent_object->getRefId())) {
-            $this->tabs_gui->addSubTab("show_staff_rec", sprintf($this->lng->txt("rec_staff"), $this->parent_object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaffRec"));
+            $this->tabs_gui->addSubTab("show_staff_rec",
+                sprintf($this->lng->txt("rec_staff"), $this->parent_object->getTitle()),
+                $this->ctrl->getLinkTarget($this, "showStaffRec"));
         }
         if ($this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            $this->tabs_gui->addSubTab("show_other_roles", sprintf($this->lng->txt("local_other_roles"), $this->parent_object->getTitle()), $this->ctrl->getLinkTarget($this, "showOtherRoles"));
+            $this->tabs_gui->addSubTab("show_other_roles",
+                sprintf($this->lng->txt("local_other_roles"), $this->parent_object->getTitle()),
+                $this->ctrl->getLinkTarget($this, "showOtherRoles"));
         }
     }
 }

@@ -2,7 +2,6 @@
 
 /**
  * Class ilObjOrgUnitSettingsFormGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
@@ -16,7 +15,6 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
      * @var
      */
     protected $parent_gui;
-
 
     public function __construct($parent_gui, ilObjOrgUnit $obj_orgu)
     {
@@ -34,10 +32,8 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-
     /**
      * Update object
-     *
      * @return bool
      */
     public function saveObject()
@@ -50,7 +46,6 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
 
         return true;
     }
-
 
     /**
      * Add all fields to the form
@@ -95,10 +90,8 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
         $this->addCommandButton('updateSettings', $this->lng->txt('save'));
     }
 
-
     /**
      * Check validity of form and pass values from form to object
-     *
      * @return bool
      */
     protected function fillObject()
@@ -115,7 +108,6 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-
     /**
      * Update title and description for the default language of translation
      */
@@ -130,7 +122,8 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
             }
             $lang_codes[] = $translation['lang'];
         }
-        $lang_code = (in_array($this->user->getLanguage(), $lang_codes)) ? $this->user->getLanguage() : $lang_code_default;
+        $lang_code = (in_array($this->user->getLanguage(),
+            $lang_codes)) ? $this->user->getLanguage() : $lang_code_default;
         $this->obj_orgu->updateTranslation($this->getInput('title'), $this->getInput('description'), $lang_code, 0);
     }
 }

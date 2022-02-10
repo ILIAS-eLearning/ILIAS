@@ -2,12 +2,11 @@
 
 /**
  * Class ilOrgUnitExtensionPlugin
- *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
 abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
 {
-   /**
+    /**
      * @return array
      */
     public function getParentTypes() : array
@@ -17,11 +16,9 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
         return $par_types;
     }
 
-
     /**
      * @param $a_type
      * @param $a_size
-     *
      * @return string
      */
     public static function _getIcon(string $a_type) : string
@@ -37,10 +34,8 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
         );
     }
 
-
     /**
      * @param $a_id
-     *
      * @return string
      */
     public static function _getName($a_id) : string
@@ -50,10 +45,8 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
         return $component_repository->getPluginById($a_id)->getName();
     }
 
-
     /**
      * return true iff this item should be displayed in the tree.
-     *
      * @return bool
      */
     public function showInTree()

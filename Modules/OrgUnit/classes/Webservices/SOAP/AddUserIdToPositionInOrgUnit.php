@@ -8,7 +8,6 @@ use ilOrgUnitPosition;
 
 /**
  * Class AddUserIdToPositionInOrgUnit
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class AddUserIdToPositionInOrgUnit extends Base
@@ -16,7 +15,6 @@ class AddUserIdToPositionInOrgUnit extends Base
 
     /**
      * @param array $params
-     *
      * @return mixed|void
      * @throws \ilSoapPluginException
      */
@@ -37,7 +35,6 @@ class AddUserIdToPositionInOrgUnit extends Base
         }
     }
 
-
     /**
      * @return string
      */
@@ -46,15 +43,16 @@ class AddUserIdToPositionInOrgUnit extends Base
         return "addUserToPositionInOrgUnit";
     }
 
-
     /**
      * @return array
      */
     protected function getAdditionalInputParams()
     {
-        return array(self::POSITION_ID => Base::TYPE_INT, self::USR_ID => Base::TYPE_INT, self::ORGU_REF_ID => Base::TYPE_INT);
+        return array(self::POSITION_ID => Base::TYPE_INT,
+                     self::USR_ID => Base::TYPE_INT,
+                     self::ORGU_REF_ID => Base::TYPE_INT
+        );
     }
-
 
     /**
      * @inheritdoc
@@ -63,7 +61,6 @@ class AddUserIdToPositionInOrgUnit extends Base
     {
         return [];
     }
-
 
     /**
      * @inheritdoc
