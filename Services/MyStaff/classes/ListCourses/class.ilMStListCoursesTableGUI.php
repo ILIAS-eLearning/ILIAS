@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\MyStaff\ListCourses;
 
 use Closure;
@@ -19,7 +20,6 @@ use ilUserSearchOptions;
 
 /**
  * Class ilMStListCoursesTableGUI
- *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListCoursesTableGUI extends ilTable2GUI
@@ -33,7 +33,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
      * @var ilMyStaffAccess
      */
     protected $access;
-
 
     /**
      * @param ilMStListCoursesGUI $parent_obj
@@ -61,7 +60,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $this->setDisableFilterHiding(true);
         $this->setEnableNumInfo(true);
 
-        $this->setExportFormats(array( self::EXPORT_EXCEL, self::EXPORT_CSV ));
+        $this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
 
         $this->setFilterCols(5);
         $this->initFilter();
@@ -70,7 +69,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
 
         $this->parseData();
     }
-
 
     /**
      *
@@ -110,7 +108,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-
     /**
      *
      */
@@ -128,7 +125,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $item->setParent($this->getParentObject());
         $item->setSelectText($DIC->language()->txt("mst_select_course"));
         $item->setHeaderMessage($DIC->language()->txt("mst_please_select_course"));
-        $item->setClickableTypes(array( ilMyStaffAccess::DEFAULT_CONTEXT ));
+        $item->setClickableTypes(array(ilMyStaffAccess::DEFAULT_CONTEXT));
         $this->addFilterItem($item);
         $item->readFromSession();
         $item->setParent($this->getParentObject());
@@ -167,7 +164,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
 
         //user
         $item = new ilTextInputGUI($DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
-                ->txt("name"), "user");
+                                                                                                                     ->txt("name"),
+            "user");
 
         $this->addFilterItem($item);
         $item->readFromSession();
@@ -186,7 +184,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             $this->filter['org_unit'] = $item->getValue();
         }
     }
-
 
     /**
      * @return array
@@ -265,7 +262,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         return $cols;
     }
 
-
     /**
      *
      */
@@ -290,7 +286,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param array $a_set
      */
@@ -298,7 +293,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $propGetter = Closure::bind(function ($prop) {
+        $propGetter = Closure::bind(function($prop) {
             return $this->$prop;
         }, $a_set, $a_set);
 
@@ -307,12 +302,14 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                 switch ($k) {
                     case 'usr_assinged_orgus':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set->getUsrId())));
+                        $this->tpl->setVariable('VALUE',
+                            strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set->getUsrId())));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'usr_reg_status':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ilMStListCourse::getMembershipStatusText($a_set->getUsrRegStatus()));
+                        $this->tpl->setVariable('VALUE',
+                            ilMStListCourse::getMembershipStatusText($a_set->getUsrRegStatus()));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'usr_lp_status':
@@ -323,7 +320,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                     default:
                         if ($propGetter($k) !== null) {
                             $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
+                            $this->tpl->setVariable('VALUE',
+                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
                             $this->tpl->parseCurrentBlock();
                         } else {
                             $this->tpl->setCurrentBlock('td');
@@ -344,11 +342,11 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_crs_ref_id', $a_set->getCrsRefId());
 
         $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-            ->getLinkTarget($this->parent_obj, ilMStListCoursesGUI::CMD_GET_ACTIONS, "", true)));
+                                                             ->getLinkTarget($this->parent_obj,
+                                                                 ilMStListCoursesGUI::CMD_GET_ACTIONS, "", true)));
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
-
 
     /**
      * @param ilExcel $a_excel excel wrapper
@@ -364,7 +362,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param ilCSVWriter $a_csv
      * @param array       $a_set
@@ -377,15 +374,13 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-
     /**
      * @param ilMStListCourse $my_staff_course
-     *
      * @return array
      */
     protected function getFieldValuesForExport(ilMStListCourse $my_staff_course)
     {
-        $propGetter = Closure::bind(function ($prop) {
+        $propGetter = Closure::bind(function($prop) {
             return $this->$prop;
         }, $my_staff_course, $my_staff_course);
 

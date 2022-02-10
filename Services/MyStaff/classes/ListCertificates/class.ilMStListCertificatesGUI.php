@@ -5,9 +5,7 @@ use ILIAS\MyStaff\ListCertificates\ilMStListCertificatesTableGUI;
 
 /**
  * Class ilMStListCertificatesGUI
- *
  * @author            Martin Studer <ms@studer-raimann.ch>
- *
  * @ilCtrl_IsCalledBy ilMStListCertificatesGUI: ilMyStaffGUI
  * @ilCtrl_Calls      ilMStListCertificatesGUI: ilFormPropertyDispatchGUI
  * @ilCtrl_Calls      ilMStListCertificatesGUI: ilUserCertificateApiGUI
@@ -28,7 +26,6 @@ class ilMStListCertificatesGUI
     protected $access;
     private \ilGlobalTemplateInterface $main_tpl;
 
-
     /**
      *
      */
@@ -38,7 +35,6 @@ class ilMStListCertificatesGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->access = ilMyStaffAccess::getInstance();
     }
-
 
     /**
      *
@@ -54,7 +50,6 @@ class ilMStListCertificatesGUI
             $DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }
-
 
     /**
      *
@@ -95,7 +90,6 @@ class ilMStListCertificatesGUI
         }
     }
 
-
     /**
      *
      */
@@ -103,7 +97,6 @@ class ilMStListCertificatesGUI
     {
         $this->listUsers();
     }
-
 
     /**
      *
@@ -119,7 +112,6 @@ class ilMStListCertificatesGUI
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-
     /**
      *
      */
@@ -130,7 +122,6 @@ class ilMStListCertificatesGUI
         $this->table->resetOffset();
         $this->index();
     }
-
 
     /**
      *
@@ -143,7 +134,6 @@ class ilMStListCertificatesGUI
         $this->index();
     }
 
-
     /**
      * @return string
      */
@@ -154,7 +144,6 @@ class ilMStListCertificatesGUI
         return $this->table->getId();
     }
 
-
     /**
      *
      */
@@ -164,7 +153,6 @@ class ilMStListCertificatesGUI
 
         $DIC->ctrl()->redirect($this);
     }
-
 
     /**
      *
@@ -181,22 +169,24 @@ class ilMStListCertificatesGUI
 
             if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
                 $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
-                $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
+                $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '',
+                    $link);
             };
 
             $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
             foreach (ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
                 'user_id' => $mst_co_usr_id,
                 'object_reference.deleted' => null
-            ), array( 'user_id' => '=', 'object_reference.deleted' => '!=' ))->get() as $org_unit_assignment) {
+            ), array('user_id' => '=', 'object_reference.deleted' => '!='))->get() as $org_unit_assignment) {
                 if ($DIC->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
                     $link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
                     $selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
                 }
             }
 
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id, rawurlencode($DIC->ctrl()
-                ->getLinkTarget($this, self::CMD_INDEX)));
+            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id,
+                rawurlencode($DIC->ctrl()
+                                 ->getLinkTarget($this, self::CMD_INDEX)));
 
             echo $selection->getHTML(true);
         }

@@ -18,7 +18,6 @@ use ilUserSearchOptions;
 
 /**
  * Class ilMStListCertificatesTableGUI
- *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListCertificatesTableGUI extends ilTable2GUI
@@ -32,7 +31,6 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
      * @var ilMyStaffAccess
      */
     protected $access;
-
 
     /**
      * @param ilMStListCertificatesGUI $parent_obj
@@ -70,7 +68,6 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-
     /**
      *
      */
@@ -104,7 +101,6 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-
     public function initFilter() : void
     {
         global $DIC;
@@ -116,7 +112,8 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         //user
         $item = new ilTextInputGUI($DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
-                ->txt("name"), "user");
+                                                                                                                     ->txt("name"),
+            "user");
 
         $this->addFilterItem($item);
         $item->readFromSession();
@@ -135,7 +132,6 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
             $this->filter['org_unit'] = $item->getValue();
         }
     }
-
 
     /**
      * @return array
@@ -204,7 +200,6 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         return $cols;
     }
 
-
     /**
      *
      */
@@ -229,7 +224,6 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param array $a_set
      */
@@ -237,7 +231,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $propGetter = Closure::bind(function ($prop) {
+        $propGetter = Closure::bind(function($prop) {
             return $this->$prop;
         }, $a_set, $a_set);
 
@@ -246,7 +240,8 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                 switch ($k) {
                     case 'usr_assinged_orgus':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set->getUserId())));
+                        $this->tpl->setVariable('VALUE',
+                            strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set->getUserId())));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'issuedOnTimestamp':
@@ -258,7 +253,8 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                     default:
                         if ($propGetter($k) !== null) {
                             $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
+                            $this->tpl->setVariable('VALUE',
+                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
                             $this->tpl->parseCurrentBlock();
                         } else {
                             $this->tpl->setCurrentBlock('td');
@@ -280,7 +276,6 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
     }
 
-
     /**
      * @param ilExcel $a_excel excel wrapper
      * @param int     $a_row
@@ -295,7 +290,6 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param ilCSVWriter $a_csv
      * @param array       $a_set
@@ -308,15 +302,13 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-
     /**
      * @param UserCertificateDto $user_certificate_dto
-     *
      * @return array
      */
     protected function getFieldValuesForExport(UserCertificateDto $user_certificate_dto)
     {
-        $propGetter = Closure::bind(function ($prop) {
+        $propGetter = Closure::bind(function($prop) {
             return $this->$prop;
         }, $user_certificate_dto, $user_certificate_dto);
 
