@@ -144,7 +144,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->buildData($data);
     }
 
-    public function numericOrdering(string $a_field): bool
+    public function numericOrdering(string $a_field) : bool
     {
         return in_array($a_field, $this->numeric_fields);
     }
@@ -222,7 +222,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      * @param array $a_set
      * @return void
      */
-    public function fillRow(array $a_set): void
+    public function fillRow(array $a_set) : void
     {
         $record_obj = $a_set['_record'];
 
@@ -315,7 +315,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     /**
      * normally initialize filters - used by applyFilter and resetFilter
      */
-    public function initFilter(): void
+    public function initFilter() : void
     {
         foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
             $field = $field_set->getFieldObject();
@@ -350,7 +350,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      * @param string $type
      * @return string
      */
-    public function loadProperty(string $type): string
+    public function loadProperty(string $type) : string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -384,7 +384,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     public function exportData(
         string $format,
         bool $send = false
-    ): void {
+    ) : void {
         if ($this->dataExists()) {
             // #9640: sort
             /*if (!$this->getExternalSorting() && $this->enabled["sort"]) {

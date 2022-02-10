@@ -14,7 +14,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
         $this->addCustomColumn($this->lng->txt('status'), $this, 'parseExportStatus');
     }
 
-    public function getExportFiles(): array
+    public function getExportFiles() : array
     {
         $types = array();
         foreach ($this->parent_obj->getFormats() as $f) {
@@ -63,7 +63,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
         return $files;
     }
 
-    protected function fillRow(array $a_set): void
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

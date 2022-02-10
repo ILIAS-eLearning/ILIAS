@@ -52,7 +52,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow(array $a_set): void
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

@@ -580,7 +580,7 @@ class ilDclTable
     /**
      * get id of first (for current user) available view
      */
-    public function getFirstTableViewId(int $ref_id, int $user_id = 0): bool
+    public function getFirstTableViewId(int $ref_id, int $user_id = 0) : bool
     {
         $uid = $user_id;
         $array = $this->getVisibleTableViews($ref_id, false, $uid);

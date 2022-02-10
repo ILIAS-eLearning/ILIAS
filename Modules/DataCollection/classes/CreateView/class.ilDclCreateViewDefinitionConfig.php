@@ -12,7 +12,7 @@ class ilDclCreateViewDefinitionConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init(): void
+    public function init() : void
     {
         // config
         $this->setPreventHTMLUnmasking(true);

@@ -60,7 +60,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     /**
      * execute command
      */
-    public function executeCommand(): string
+    public function executeCommand() : string
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -90,7 +90,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     /**
      * @return string
      */
-    public function showPage(): string
+    public function showPage() : string
     {
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
@@ -205,7 +205,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
      * Release page lock
      * overwrite to redirect properly
      */
-    public function releasePageLock(): void
+    public function releasePageLock() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -221,7 +221,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
      * @param string $a_output
      * @return string
      */
-    public function postOutputProcessing(string $a_output): string
+    public function postOutputProcessing(string $a_output) : string
     {
         // You can use this to parse placeholders and the like before outputting
 

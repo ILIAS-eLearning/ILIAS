@@ -17,7 +17,7 @@ class ilDataCollectionExporter extends ilXmlExporter
      */
     protected $db;
 
-    public function init(): void
+    public function init() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -30,7 +30,7 @@ class ilDataCollectionExporter extends ilXmlExporter
      * @param string $a_entity
      * @return array
      */
-    public function getValidSchemaVersions(string $a_entity): array
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             '4.5.0' => array(
@@ -43,7 +43,7 @@ class ilDataCollectionExporter extends ilXmlExporter
         );
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -59,7 +59,7 @@ class ilDataCollectionExporter extends ilXmlExporter
      * @param array  $a_ids
      * @return array
      */
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $dependencies = array(
             ilDclDatatype::INPUTFORMAT_FILE => array(
@@ -108,7 +108,7 @@ class ilDataCollectionExporter extends ilXmlExporter
      * @param array  $a_ids
      * @return array
      */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $page_object_ids = array();
         foreach ($a_ids as $dcl_obj_id) {

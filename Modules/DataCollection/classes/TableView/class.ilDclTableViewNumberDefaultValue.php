@@ -37,7 +37,7 @@ class ilDclTableViewNumberDefaultValue extends ilDclTableViewBaseDefaultValue
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName(): string
+    public static function returnDbTableName() : string
     {
         return "il_dcl_stloc2_default";
     }

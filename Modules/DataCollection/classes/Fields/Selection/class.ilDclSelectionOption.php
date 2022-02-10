@@ -9,7 +9,7 @@ class ilDclSelectionOption extends ActiveRecord
 {
     const DB_TABLE_NAME = "il_dcl_sel_opts";
 
-    public static function returnDbTableName(): string
+    public static function returnDbTableName() : string
     {
         return self::DB_TABLE_NAME;
     }

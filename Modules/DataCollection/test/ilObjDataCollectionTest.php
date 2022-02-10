@@ -17,7 +17,7 @@ class ilObjDataCollectionTest //extends TestCase
 
     protected $backupGlobals = false;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         parent::setUp();
 
@@ -45,7 +45,7 @@ class ilObjDataCollectionTest //extends TestCase
         $this->obj_definition = $objDefinition;
     }
 
-    protected function tearDown(): void
+    protected function tearDown() : void
     {
         if ($this->root_object) {
             $this->root_object->delete();

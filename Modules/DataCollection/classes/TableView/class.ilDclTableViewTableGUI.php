@@ -75,7 +75,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
     /**
      * @param ilDclTableView $a_set
      */
-    public function fillRow($a_set): void
+    public function fillRow($a_set) : void
     {
         if ($this->parent_obj instanceof ilDclTableViewGUI) {
             $this->tpl->setVariable("ID", $a_set->getId());

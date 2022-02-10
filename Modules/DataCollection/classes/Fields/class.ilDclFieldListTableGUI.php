@@ -84,7 +84,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
     /**
      * @param ilDclStandardField $a_set
      */
-    public function fillRow($a_set): void
+    public function fillRow($a_set) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

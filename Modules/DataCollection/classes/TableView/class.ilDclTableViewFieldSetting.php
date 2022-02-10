@@ -120,7 +120,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName(): string
+    public static function returnDbTableName() : string
     {
         return "il_dcl_tview_set";
     }
@@ -336,7 +336,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     /**
      * @param bool $not_visible_create
      */
-    public function setNotVisibleCreate(bool $not_visible_create): void
+    public function setNotVisibleCreate(bool $not_visible_create) : void
     {
         $this->visible_create = !$not_visible_create;
     }
@@ -344,7 +344,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     /**
      * @return bool
      */
-    public function isNotVisibleCreate(): bool
+    public function isNotVisibleCreate() : bool
     {
         return !$this->visible_create;
     }
@@ -368,7 +368,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     /**
      * @param bool $not_visible
      */
-    public function setNotVisibleEdit(bool $not_visible): void
+    public function setNotVisibleEdit(bool $not_visible) : void
     {
         $this->visible_edit = !$not_visible;
     }
@@ -376,7 +376,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     /**
      * @return bool
      */
-    public function isNotVisibleEdit(): bool
+    public function isNotVisibleEdit() : bool
     {
         return !$this->visible_edit;
     }
@@ -385,7 +385,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @param bool $creation_mode
      * @return bool
      */
-    public function isVisibleInForm(bool $creation_mode): bool
+    public function isVisibleInForm(bool $creation_mode) : bool
     {
         return $creation_mode ? $this->isVisibleCreate() : $this->isVisibleEdit();
     }
@@ -394,7 +394,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @param bool $creation_mode
      * @return bool
      */
-    public function isLocked(bool $creation_mode): bool
+    public function isLocked(bool $creation_mode) : bool
     {
         return $creation_mode ? $this->isLockedCreate() : $this->isLockedEdit();
     }
@@ -403,7 +403,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @param bool $creation_mode
      * @return bool
      */
-    public function isRequired(bool $creation_mode): bool
+    public function isRequired(bool $creation_mode) : bool
     {
         return $creation_mode ? $this->isRequiredCreate() : $this->isRequiredEdit();
     }

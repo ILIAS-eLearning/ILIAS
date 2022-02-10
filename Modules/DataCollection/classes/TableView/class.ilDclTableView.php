@@ -100,7 +100,7 @@ class ilDclTableView extends ActiveRecord
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName(): string
+    public static function returnDbTableName() : string
     {
         return "il_dcl_tableview";
     }
@@ -392,7 +392,7 @@ class ilDclTableView extends ActiveRecord
      * @return ilDclTableViewFieldSetting[]
      * @throws arException
      */
-    public function getFieldSettings(): array
+    public function getFieldSettings() : array
     {
         return ilDclTableViewFieldSetting::where(
             array(
@@ -406,7 +406,7 @@ class ilDclTableView extends ActiveRecord
      * @param $field_id
      * @return ilDclTableViewFieldSetting
      */
-    public function getFieldSetting($field_id): ilDclTableViewFieldSetting
+    public function getFieldSetting($field_id) : ilDclTableViewFieldSetting
     {
         return ilDclTableViewFieldSetting::where([
             'tableview_id' => $this->getId(),
@@ -417,7 +417,7 @@ class ilDclTableView extends ActiveRecord
     /**
      * @param bool $create_default_settings
      */
-    public function create($create_default_settings = true): void
+    public function create($create_default_settings = true) : void
     {
         parent::create();
         if ($create_default_settings) {

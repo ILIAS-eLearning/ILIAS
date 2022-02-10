@@ -63,7 +63,7 @@ class ilDclTableListTableGUI extends ilTable2GUI
     /**
      * @param ilDclTable $a_set // WRONG: dirty protected function override
      */
-    public function fillRow($a_set): void
+    public function fillRow($a_set) : void
     {
         $this->tpl->setVariable("ID", $a_set->getId());
         $this->tpl->setVariable("ORDER_NAME", "order[{$a_set->getId()}]");

@@ -360,7 +360,7 @@ class ilObjDataCollection extends ilObject2
     /**
      * setOnline
      */
-    public function setOnline($a_val): void
+    public function setOnline($a_val) : void
     {
         $this->is_online = $a_val;
     }

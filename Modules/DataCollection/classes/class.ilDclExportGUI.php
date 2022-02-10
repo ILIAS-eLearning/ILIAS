@@ -11,7 +11,7 @@ class ilDclExportGUI extends ilExportGUI
     /**
      * @return ilTestExportTableGUI
      */
-    protected function buildExportTableGUI(): ilExportTableGUI
+    protected function buildExportTableGUI() : ilExportTableGUI
     {
         $table = new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
 

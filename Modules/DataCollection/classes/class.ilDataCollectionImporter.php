@@ -14,7 +14,7 @@ class ilDataCollectionImporter extends ilXmlImporter
      */
     protected $ds;
 
-    public function init(): void
+    public function init() : void
     {
         $this->ds = new ilDataCollectionDataSet();
         $this->ds->setDSPrefix("ds");
@@ -34,7 +34,7 @@ class ilDataCollectionImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ): void {
+    ) : void {
         $parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
     }
 
@@ -42,7 +42,7 @@ class ilDataCollectionImporter extends ilXmlImporter
      * Called before finishing the import
      * @param ilImportMapping $a_mapping
      */
-    public function finalProcessing(ilImportMapping $a_mapping): void
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         $this->ds->beforeFinishImport($a_mapping);
     }

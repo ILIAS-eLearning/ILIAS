@@ -89,7 +89,7 @@ class ilDataCollectionDataSet extends ilDataSet
     /**
      * @return array
      */
-    public function getSupportedVersions(): array
+    public function getSupportedVersions() : array
     {
         return array('4.5.0');
     }
@@ -114,7 +114,7 @@ class ilDataCollectionDataSet extends ilDataSet
      * @param string $a_schema_version
      * @return string
      */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version): string
+    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return 'http://www.ilias.de/xml/Modules/DataCollection/' . $a_entity;
     }
@@ -132,7 +132,7 @@ class ilDataCollectionDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ): void {
+    ) : void {
         switch ($a_entity) {
             case 'dcl':
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
@@ -468,7 +468,7 @@ class ilDataCollectionDataSet extends ilDataSet
      * @param string $a_version
      * @return array
      */
-    protected function getTypes(string $a_entity, string $a_version): array
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         switch ($a_entity) {
             case 'dcl':
@@ -616,7 +616,7 @@ class ilDataCollectionDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ): array {
+    ) : array {
         if (!$a_rec && !$a_ids) {
             return [];
         }
@@ -722,7 +722,7 @@ class ilDataCollectionDataSet extends ilDataSet
      * @param string $a_version
      * @param array  $a_ids one or multiple ids
      */
-    public function readData(string $a_entity, string $a_version, array $a_ids): void
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $this->data = array();
         if (!is_array($a_ids)) {

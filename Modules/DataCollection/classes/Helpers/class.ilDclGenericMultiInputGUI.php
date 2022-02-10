@@ -178,7 +178,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         bool $a_multi,
         bool $a_sortable = false,
         bool $a_addremove = true
-    ): void {
+    ) : void {
         $this->multi = $a_multi;
         $this->multi_sortable = $a_sortable;
     }
@@ -237,7 +237,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      * Check input, strip slashes etc. set alert, if input is not ok.
      * @return    boolean        Input ok, true/false
      */
-    public function checkInput(): bool
+    public function checkInput() : bool
     {
         global $lng;
 

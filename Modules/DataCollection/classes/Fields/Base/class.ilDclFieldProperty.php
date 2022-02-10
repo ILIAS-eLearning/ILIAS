@@ -58,7 +58,7 @@ class ilDclFieldProperty extends ActiveRecord
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName(): string
+    public static function returnDbTableName() : string
     {
         return "il_dcl_field_prop";
     }
@@ -130,7 +130,7 @@ class ilDclFieldProperty extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function create(): void
+    public function create() : void
     {
         $this->value = $this->serializeData($this->value);
         parent::create();

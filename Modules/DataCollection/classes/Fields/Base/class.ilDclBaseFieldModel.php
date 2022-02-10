@@ -365,7 +365,7 @@ class ilDclBaseFieldModel
      * Builds model from db record
      * @param $rec
      */
-    public function buildFromDBRecord($rec): void
+    public function buildFromDBRecord($rec) : void
     {
         $this->setId($rec["id"]);
         $this->setTableId($rec["table_id"]);
@@ -500,7 +500,7 @@ class ilDclBaseFieldModel
     /**
      * @return ilDclTableViewFieldSetting[]
      */
-    public function getViewSettings(): array
+    public function getViewSettings() : array
     {
         return ilDclTableViewFieldSetting::where(array('field' => $this->getId()))->get();
     }
@@ -509,7 +509,7 @@ class ilDclBaseFieldModel
      * @param int $tableview_id
      * @return ilDclTableViewFieldSetting
      */
-    public function getViewSetting(int $tableview_id): ilDclTableViewFieldSetting
+    public function getViewSetting(int $tableview_id) : ilDclTableViewFieldSetting
     {
         return ilDclTableViewFieldSetting::where(array('field' => $this->getId(),
                                                        'tableview_id' => $tableview_id

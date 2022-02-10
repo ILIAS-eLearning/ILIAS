@@ -15,7 +15,7 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    public function init(): void
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
