@@ -2112,7 +2112,20 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         if (!in_array($activeId, $participantData->getActiveIds())) {
             $this->redirectBackToParticipantsScreen();
         }
-        
+
+        /**
+         * warn if the processing time of the user is not yet over
+         * @see https://mantis.ilias.de/view.php?id=30357
+         */
+        if ($this->object->isEndingTimeEnabled() || $this->object->getEnableProcessingTime()) {
+            if ($this->object->endingTimeReached() == false) {
+                $starting_time = $this->object->getStartingTimeOfUser($activeId);
+                if ($this->object->isMaxProcessingTimeReached($starting_time, $activeId) == false) {
+                    ilUtil::sendInfo($this->lng->txt("finish_pass_for_user_in_processing_time"));
+                }
+            }
+        }
+
         require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $cgui = new ilConfirmationGUI();
         
@@ -2154,6 +2167,31 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function finishAllUserPasses()
     {
+        /**
+         * give error if the processing time of at least user is not yet over
+         * @see https://mantis.ilias.de/view.php?id=30357
+         */
+        if ($this->object->isEndingTimeEnabled() || $this->object->getEnableProcessingTime()) {
+            if ($this->object->endingTimeReached() == false) {
+
+                $accessFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id);
+                $participantList = new ilTestParticipantList($this->object);
+                $participantList->initializeFromDbRows($this->object->getTestParticipants());
+                $participantList = $participantList->getAccessFilteredList($accessFilter);
+
+                foreach ($participantList as $participant) {
+                    if (!$participant->hasUnfinishedPasses()) {
+                        continue;
+                    }
+                    $starting_time = $this->object->getStartingTimeOfUser($participant->getActiveId());
+                    if ($this->object->isMaxProcessingTimeReached($starting_time, $participant->getActiveId()) == false) {
+                        ilUtil::sendFailure($this->lng->txt("finish_pass_for_all_users_in_processing_time"), true);
+                        $this->redirectBackToParticipantsScreen();
+                    }
+                }
+            }
+        }
+
         require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
