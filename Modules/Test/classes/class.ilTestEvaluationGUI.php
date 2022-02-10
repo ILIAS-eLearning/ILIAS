@@ -1875,6 +1875,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->redirectBackToParticipantsScreen();
         }
 
+        if (($this->object->isEndingTimeEnabled() || $this->object->getEnableProcessingTime())
+            && !$this->object->endingTimeReached()
+            && !$this->object->isMaxProcessingTimeReached(
+                $this->object->getStartingTimeOfUser($activeId),
+                $activeId
+            )) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('finish_pass_for_user_in_processing_time'));
+        }
+
         $cgui = new ilConfirmationGUI();
 
         $cgui->setHeaderText(sprintf(
@@ -1922,12 +1931,45 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function finishAllUserPasses()
     {
+        if ($this->hasUsersWithWorkingTimeAvailable()) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('finish_pass_for_all_users_in_processing_time'),
+                true
+            );
+            $this->redirectBackToParticipantsScreen();
+        }
+
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("finish_pass_for_all_users"));
         $cgui->setCancel($this->lng->txt("cancel"), "redirectBackToParticipantsScreen");
         $cgui->setConfirm($this->lng->txt("proceed"), "confirmFinishTestPassForAllUser");
         $this->tpl->setContent($cgui->getHTML());
+    }
+
+    private function hasUsersWithWorkingTimeAvailable(): bool
+    {
+        if (!$this->object->isEndingTimeEnabled() && !$this->object->getEnableProcessingTime()
+            || $this->object->endingTimeReached()) {
+            return false;
+        }
+
+        $access_filter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id);
+        $participant_list = new ilTestParticipantList($this->object);
+        $participant_list->initializeFromDbRows($this->object->getTestParticipants());
+
+        foreach ($participant_list->getAccessFilteredList($access_filter) as $participant) {
+            if ($participant->hasUnfinishedPasses()
+                && !$this->object->isMaxProcessingTimeReached(
+                    $this->object->getStartingTimeOfUser($participant->getActiveId()),
+                    $participant->getActiveId()
+                )) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function confirmFinishTestPassForAllUser()
