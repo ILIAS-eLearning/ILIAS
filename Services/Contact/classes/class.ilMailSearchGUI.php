@@ -405,10 +405,10 @@ class ilMailSearchGUI
 
                 if ($this->isDefaultRequestContext()) {
                     $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(
-                            0,
-                            'search_name_to_usr[]',
-                            $login
-                        ) .
+                        0,
+                        'search_name_to_usr[]',
+                        $login
+                    ) .
                         ilLegacyFormElementsUtil::formCheckbox(0, 'search_name_cc[]', $login) .
                         ilLegacyFormElementsUtil::formCheckbox(0, 'search_name_bcc[]', $login);
                 } else {
