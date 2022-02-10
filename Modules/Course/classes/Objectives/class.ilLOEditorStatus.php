@@ -1,137 +1,118 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Implementation\Component\Listing\Workflow\Step;
-
+use ILIAS\UI\Renderer as UiRenderer;
+use ILIAS\UI\Component\Listing\Workflow\Factory as UiWorkflow;
 
 /**
  * Presentation of the status of single steps during the configuration process.
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  */
 class ilLOEditorStatus
 {
-    const SECTION_SETTINGS = 1;
-    const SECTION_MATERIALS = 2;
-    const SECTION_ITES = 3;
-    const SECTION_QTEST = 4;
-    const SECTION_OBJECTIVES = 5;
-    const SECTION_OBJECTIVES_NEW = 6;
+    public const SECTION_UNDEFINED = 0;
+    public const SECTION_SETTINGS = 1;
+    public const SECTION_MATERIALS = 2;
+    public const SECTION_ITES = 3;
+    public const SECTION_QTEST = 4;
+    public const SECTION_OBJECTIVES = 5;
+    public const SECTION_OBJECTIVES_NEW = 6;
 
-    /** @var self|null  */
-    protected static $instance = null;
-    
-    /** @var int  */
-    protected $section = null;
+    protected static ?self $instance = null;
+
+    protected int $section = self::SECTION_UNDEFINED;
 
     /** @var string[]  */
-    protected $failures_by_section = array();
+    protected array $failures_by_section = [];
+
     /** @var int[]  */
-    protected $error_by_section = array();
+    protected array $error_by_section = [];
 
-    /** @var array  */
-    protected $objectives = array();
+    protected array $objectives = [];
 
-    /** @var ilLOSettings|null  */
-    protected $settings = null;
-    /** @var ilLOTestAssignments|null  */
-    protected $assignments = null;
-    /** @var ilObject|null  */
-    protected $parent_obj = null;
-    /** @var null|object  */
-    protected $cmd_class = null;
-    /** @var string  */
-    protected $html = '';
+    protected ilLOSettings $settings;
+    protected ilLOTestAssignments $assignments;
+    protected ilObject $parent_obj;
+    protected ?object $cmd_class = null;
+    protected string $html = '';
 
-    /** @var ilTemplate  */
-    protected $tpl = null;
-    /** @var ilCtrl|null  */
-    protected $ctrl = null;
-    /** @var ilLanguage|null  */
-    protected $lng = null;
-    
-    /**
-     * Constructor
-     * @param ilObject
-     */
+    protected ilCtrlInterface $ctrl;
+    protected ilLanguage $lng;
+    protected ilTree $tree;
+    protected ilGlobalTemplateInterface $tpl;
+    protected UiRenderer $ui_renderer;
+    protected UiWorkflow $workflow;
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\HTTP\Services $http;
+
     public function __construct(ilObject $a_parent)
     {
+        global $DIC;
+
         $this->parent_obj = $a_parent;
         $this->settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
         $this->assignments = ilLOTestAssignments::getInstance($this->getParentObject()->getId());
-        
-        $this->ctrl = $GLOBALS['DIC']['ilCtrl'];
-        $this->lng = $GLOBALS['DIC']['lng'];
-        
         $this->objectives = ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId());
+
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->tree = $DIC->repositoryTree();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->workflow = $DIC->ui()->factory()->listing()->workflow();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
-    /**
-     * Get instance
-     * @param ilObject $a_parent
-     * @return ilLOEditorStatus
-     */
-    public static function getInstance(ilObject $a_parent)
+    public static function getInstance(ilObject $a_parent) : self
     {
         if (self::$instance) {
             return self::$instance;
         }
         return self::$instance = new self($a_parent);
     }
+
+    protected function initTestTypeFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('tt')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'tt',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
     
     /**
-     * @return array
+     * @return int[]
      */
-    public function getObjectives()
+    public function getObjectives() : array
     {
         return $this->objectives;
     }
     
-    /**
-     *
-     * @return ilLOTestAssignments
-     */
-    public function getAssignments()
+    public function getAssignments() : ilLOTestAssignments
     {
         return $this->assignments;
     }
 
-
-    /**
-     * Set current section
-     * @param int $a_section
-     */
     public function setSection(int $a_section)
     {
         $this->section = $a_section;
     }
 
-    /**
-     * @return int
-     */
-    public function getSection()
+    public function getSection() : int
     {
         return $this->section;
     }
 
-    /**
-     * Get failures by section
-     * @param int $a_section
-     * @return array
-     */
-    public function getFailures($a_section)
+    public function getFailures(int $a_section) : array
     {
         return (array) $this->failures_by_section[$a_section];
     }
 
-    /**
-     * Append failure
-     * @param int $a_section
-     * @param string $a_failure_msg_key
-     * @param bool $is_error
-     */
-    protected function appendFailure(int $a_section, string $a_failure_msg_key, bool $is_error = false)
+    protected function appendFailure(int $a_section, string $a_failure_msg_key, bool $is_error = false) : void
     {
         $this->failures_by_section[$a_section][] = $a_failure_msg_key;
         if ($is_error) {
@@ -139,56 +120,32 @@ class ilLOEditorStatus
         }
     }
     
-    /**
-     * Command class
-     * @param object $a_cmd_class
-     */
-    public function setCmdClass($a_cmd_class)
+    public function setCmdClass(object $a_cmd_class) : void
     {
         $this->cmd_class = $a_cmd_class;
     }
     
-    /**
-     * Get cmd class
-     * @return object
-     */
-    public function getCmdClass()
+    public function getCmdClass() : object
     {
         return $this->cmd_class;
     }
     
     
-    /**
-     * Get parent object
-     * @return ilObject
-     */
-    public function getParentObject()
+    public function getParentObject() : ilObject
     {
         return $this->parent_obj;
     }
     
-    /**
-     * @return ilLOSettings
-     */
-    public function getSettings()
+    public function getSettings() : ilLOSettings
     {
         return $this->settings;
     }
 
-    /**
-     * Get first failed step
-     *
-     * @return string
-     */
     public function getFirstFailedStep() : string
     {
         if (!$this->getSettingsStatus()) {
             return 'settings';
         }
-        #if(!$this->getMaterialsStatus(false))
-        #{
-        #	return 'materials';
-        #}
         if (!$this->getObjectivesAvailableStatus()) {
             return 'showObjectiveCreation';
         }
@@ -217,21 +174,14 @@ class ilLOEditorStatus
     }
     
     
-    /**
-     * Get html
-     *
-     * @ret string
-     */
     public function getHTML() : string
     {
-        global $DIC;
         $steps = [];
-        $workflow = $DIC->ui()->factory()->listing()->workflow();
         // Step 1
         // course settings
         $done = $this->getSettingsStatus();
 
-        $steps[] = $workflow->step(
+        $steps[] = $this->workflow->step(
             $this->lng->txt('crs_objective_status_settings'),
             implode(" ", $this->getFailureMessages(self::SECTION_SETTINGS)),
             $this->ctrl->getLinkTarget($this->getCmdClass(), 'settings')
@@ -241,7 +191,7 @@ class ilLOEditorStatus
         // Step 1.1
         $done = $this->getObjectivesAvailableStatus(true);
 
-        $steps[] = $workflow->step(
+        $steps[] = $this->workflow->step(
             $this->lng->txt('crs_objective_status_objective_creation'),
             implode(" ", $this->getFailureMessages(self::SECTION_OBJECTIVES_NEW)),
             $done
@@ -254,7 +204,7 @@ class ilLOEditorStatus
         $done = $this->getMaterialsStatus(true);
         $this->ctrl->setParameterByClass('ilobjcoursegui', 'cmd', 'enableAdministrationPanel');
 
-        $steps[] = $workflow->step(
+        $steps[] = $this->workflow->step(
             $this->lng->txt('crs_objective_status_materials'),
             implode(" ", $this->getFailureMessages(self::SECTION_MATERIALS)),
             $this->ctrl->getLinkTargetByClass('ilobjcoursegui', '')
@@ -269,7 +219,7 @@ class ilLOEditorStatus
                     'testOverview';
             $this->ctrl->setParameter($this->getCmdClass(), 'tt', ilLOSettings::TYPE_TEST_INITIAL);
 
-            $steps[] = $workflow->step(
+            $steps[] = $this->workflow->step(
                 $this->lng->txt('crs_objective_status_itest'),
                 implode(" ", $this->getFailureMessages(self::SECTION_ITES)),
                 $this->ctrl->getLinkTarget($this->getCmdClass(), $command)
@@ -284,7 +234,7 @@ class ilLOEditorStatus
                 'testOverview';
         $this->ctrl->setParameter($this->getCmdClass(), 'tt', ilLOSettings::TYPE_TEST_QUALIFIED);
 
-        $steps[] = $workflow->step(
+        $steps[] = $this->workflow->step(
             $this->lng->txt('crs_objective_status_qtest'),
             implode(" ", $this->getFailureMessages(self::SECTION_QTEST)),
             $this->ctrl->getLinkTarget($this->getCmdClass(), $command)
@@ -293,32 +243,30 @@ class ilLOEditorStatus
         // Step 5
         // course qtest
         $done = $this->getObjectivesStatus();
-        $this->ctrl->setParameter($this->getCmdClass(), 'tt', $_GET["tt"]);
 
-        $steps[] = $workflow->step(
+        $tt = 0;
+
+        $this->ctrl->setParameter($this->getCmdClass(), 'tt', $this->initTestTypeFromQuery());
+
+        $steps[] = $this->workflow->step(
             $this->lng->txt('crs_objective_status_objectives'),
             implode(" ", $this->getFailureMessages(self::SECTION_OBJECTIVES)),
             $this->ctrl->getLinkTarget($this->getCmdClass(), 'listObjectives')
         )->withStatus($this->determineStatus($done, self::SECTION_OBJECTIVES));
 
-        $list = $workflow->linear(
+        $list = $this->workflow->linear(
             $this->lng->txt('crs_objective_status_configure'),
             $steps
         )
             ->withActive($this->determineActiveSection());
-
-        $renderer = $DIC->ui()->renderer();
-        return $renderer->render($list);
+        return $this->ui_renderer->render($list);
     }
 
-
     /**
-     * Get error messages
-     *
-     * @param
-     * @return array
+     * @param int $a_section
+     * @return string[]
      */
-    public function getFailureMessages($a_section)
+    public function getFailureMessages(int $a_section) : array
     {
         $mess = array();
         foreach ($this->getFailures($a_section) as $failure_code) {
@@ -327,33 +275,19 @@ class ilLOEditorStatus
         return $mess;
     }
 
-    /**
-     * Determines workflow status of section
-     *
-     * @param bool $done
-     * @param $section
-     * @return int
-     */
     public function determineStatus(bool $done, int $section) : int
     {
         if ($done) {
             return Step::SUCCESSFULLY;
         } elseif ($this->hasSectionErrors($section)) {
             return Step::UNSUCCESSFULLY;
+        } elseif ($this->section == $section) {
+            return Step::IN_PROGRESS;
         } else {
-            if ($this->section == $section) {
-                return Step::IN_PROGRESS;
-            } else {
-                return Step::NOT_STARTED;
-            }
+            return Step::NOT_STARTED;
         }
     }
 
-    /**
-     * Determines active section position of workflow
-     *
-     * @return int
-     */
     public function determineActiveSection() : int
     {
         $itest_enabled = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId())->worksWithInitialTest();
@@ -369,50 +303,31 @@ class ilLOEditorStatus
         return $active_map[$this->section];
     }
 
-    /**
-     * @param $a_section
-     * @return bool
-     */
-    public function hasSectionErrors($a_section) : bool
+    public function hasSectionErrors(int $a_section) : bool
     {
         return isset($this->error_by_section[$a_section]);
     }
 
-    /**
-     * Check if course is lo confgured
-     * @return bool
-     */
     protected function getSettingsStatus() : bool
     {
         return $this->getSettings()->settingsExist();
     }
 
-    /**
-     * Get objectives
-     * @var bool $a_set_errors
-     *
-     * @return int
-     */
-    protected function getObjectivesAvailableStatus($a_set_errors = false)
+    protected function getObjectivesAvailableStatus($a_set_errors = false) : bool
     {
         $ret = count($this->getObjectives());
 
         if (!$ret && $a_set_errors) {
             $this->appendFailure(self::SECTION_OBJECTIVES_NEW, 'crs_no_objectives_created');
+            return false;
         }
-
-        return $ret;
+        return true;
     }
 
-    /**
-     * Get status of materials
-     * @param bool $a_set_errors
-     * @return bool
-     */
-    protected function getMaterialsStatus($a_set_errors = true) : bool
+    protected function getMaterialsStatus(bool $a_set_errors = true) : bool
     {
-        $childs = $GLOBALS['DIC']['tree']->getChilds($this->getParentObject()->getRefId());
-        foreach ((array) $childs as $tnode) {
+        $childs = $this->tree->getChilds($this->getParentObject()->getRefId());
+        foreach ($childs as $tnode) {
             if ($tnode['type'] == 'rolf') {
                 continue;
             }
@@ -430,12 +345,7 @@ class ilLOEditorStatus
         return false;
     }
 
-    /**
-     * Get initial test status
-     * @param bool $a_set_errors
-     * @return boolean
-     */
-    protected function getInitialTestStatus($a_set_errors = true) : bool
+    protected function getInitialTestStatus(bool $a_set_errors = true) : bool
     {
         if ($this->getSettings()->hasSeparateInitialTests()) {
             if (count($this->objectives) <= 0) {
@@ -444,7 +354,7 @@ class ilLOEditorStatus
 
             foreach ($this->getObjectives() as $objective_id) {
                 $tst_ref = $this->getAssignments()->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL);
-                if (!$GLOBALS['DIC']['tree']->isInTree($tst_ref)) {
+                if (!$this->tree->isInTree($tst_ref)) {
                     if ($a_set_errors) {
                         $this->appendFailure(self::SECTION_ITES, 'crs_loc_err_stat_no_it');
                     }
@@ -462,7 +372,7 @@ class ilLOEditorStatus
         
         
         $tst_ref = $this->getSettings()->getInitialTest();
-        if (!$GLOBALS['DIC']['tree']->isInTree($tst_ref)) {
+        if (!$this->tree->isInTree($tst_ref)) {
             if ($a_set_errors) {
                 $this->appendFailure(self::SECTION_ITES, 'crs_loc_err_stat_no_it');
             }
@@ -477,12 +387,7 @@ class ilLOEditorStatus
         return true;
     }
 
-    /**
-     * Check status of qualified test
-     * @param bool $a_set_errors
-     * @return boolean
-     */
-    protected function getQualifiedTestStatus($a_set_errors = true) : bool
+    protected function getQualifiedTestStatus(bool $a_set_errors = true) : bool
     {
         if ($this->getSettings()->hasSeparateQualifiedTests()) {
             if (count($this->objectives) <= 0) {
@@ -491,7 +396,7 @@ class ilLOEditorStatus
 
             foreach ($this->getObjectives() as $objective_id) {
                 $tst_ref = $this->getAssignments()->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
-                if (!$GLOBALS['DIC']['tree']->isInTree($tst_ref)) {
+                if (!$this->tree->isInTree($tst_ref)) {
                     if ($a_set_errors) {
                         $this->appendFailure(self::SECTION_QTEST, 'crs_loc_err_stat_no_qt');
                     }
@@ -507,7 +412,7 @@ class ilLOEditorStatus
             return true;
         }
         $tst_ref = $this->getSettings()->getQualifiedTest();
-        if (!$GLOBALS['DIC']['tree']->isInTree($tst_ref)) {
+        if (!$this->tree->isInTree($tst_ref)) {
             if ($a_set_errors) {
                 $this->appendFailure(self::SECTION_QTEST, 'crs_loc_err_stat_no_qt');
             }
@@ -522,12 +427,7 @@ class ilLOEditorStatus
         return true;
     }
 
-    /**
-     * Check if questions are assigned
-     * @param int $a_test_ref_id
-     * @return bool
-     */
-    protected function lookupQuestionsAssigned($a_test_ref_id) : bool
+    protected function lookupQuestionsAssigned(int $a_test_ref_id) : bool
     {
         if (ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($a_test_ref_id))) {
             foreach ($this->getObjectives() as $objective_id) {
@@ -551,11 +451,7 @@ class ilLOEditorStatus
         return true;
     }
 
-    /**
-     * @param bool $a_set_errors
-     * @return bool
-     */
-    protected function getObjectivesStatus($a_set_errors = true) : bool
+    protected function getObjectivesStatus(bool $a_set_errors = true) : bool
     {
         if (!$this->getObjectivesAvailableStatus($a_set_errors)) {
             return false;
@@ -594,28 +490,15 @@ class ilLOEditorStatus
             }
             return false;
         }
-        
-        // @deprecated
-        /*
-        if(!$this->checkNumberOfTries())
-        {
-            if($a_set_errors)
-            {
-                $this->appendFailure(self::SECTION_OBJECTIVES, 'crs_loc_err_nr_tries_exceeded');
-            }
-            return false;
-        }
-        */
-        
         return true;
     }
     
-    protected function getStartStatus()
+    protected function getStartStatus() : bool
     {
         return true;
     }
     
-    protected function checkNumberOfTries()
+    protected function checkNumberOfTries() : bool
     {
         $qt = $this->getSettings()->getQualifiedTest();
         if (!$qt) {
@@ -637,16 +520,10 @@ class ilLOEditorStatus
         foreach ($this->getObjectives() as $objective) {
             $obj_tries += ilCourseObjective::lookupMaxPasses($objective);
         }
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . $obj_tries);
         return $obj_tries <= $tries;
     }
 
-    /**
-     * Check if test is online
-     * @param int $a_ref_id
-     * @return bool
-     */
-    protected function checkTestOnline($a_ref_id) : bool
+    protected function checkTestOnline(int $a_ref_id) : bool
     {
         return !ilObjTestAccess::_isOffline(ilObject::_lookupObjId($a_ref_id));
     }

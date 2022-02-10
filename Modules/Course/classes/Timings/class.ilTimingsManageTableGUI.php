@@ -1,52 +1,39 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for timings administration
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  * @ingroup ModulesCourse
  */
 class ilTimingsManageTableGUI extends ilTable2GUI
 {
-    /**
-     * @var \ilLogger
-     */
-    private $logger = null;
+    private ilLogger $logger;
 
-    private $container = null;
-    private $main_container = null;
-    private $failure = false;
+    private ilObject $container;
+    private ilObjCourse $main_container;
+    private bool $failure = false;
     
     /**
      * Constructor
      */
-    public function __construct($a_parent_class, $a_parent_cmd, ilObject $a_container_obj, ilObjCourse $a_main_container)
+    public function __construct(object $a_parent_class, string $a_parent_cmd, ilObject $a_container_obj, ilObjCourse $a_main_container)
     {
         global $DIC;
 
         $this->logger = $DIC->logger()->obj();
-
         $this->container = $a_container_obj;
         $this->main_container = $a_main_container;
         $this->setId('manage_timings_' . $this->getContainerObject()->getRefId());
-        
         parent::__construct($a_parent_class, $a_parent_cmd);
     }
     
-    /**
-     * @return ilObject
-     */
-    public function getContainerObject()
+    public function getContainerObject() : ilObject
     {
         return $this->container;
     }
     
-    /**
-     * @return ilObjectCourse
-     */
-    public function getMainContainer()
+    public function getMainContainer() : ilObjCourse
     {
         return $this->main_container;
     }
@@ -56,7 +43,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
      */
     public function init()
     {
-        $this->setFormAction($GLOBALS['ilCtrl']->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate('tpl.crs_manage_timings_row.html', 'Modules/Course');
         
         $this->setTitle($this->lng->txt('edit_timings_list'));
@@ -72,41 +59,22 @@ class ilTimingsManageTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt('crs_timings_short_end'), '');
         }
         $this->addColumn($this->lng->txt('crs_timings_short_changeable'), '', '', false);
-        
-        
-        
-        
         $this->addCommandButton('updateManagedTimings', $this->lng->txt('save'));
-        #$this->addCommandButton('timingsOff', $this->lng->txt('cancel'));
-        
-        
         $this->setShowRowsSelector(false);
     }
     
-    /**
-     * Set status
-     * @param type $a_status
-     */
-    public function setFailureStatus($a_status)
+    public function setFailureStatus(bool $a_status) : void
     {
         $this->failure = $a_status;
     }
-    
-    /**
-     * Get failure status
-     * @return type
-     */
-    public function getFailureStatus()
+
+    public function getFailureStatus() : bool
     {
         return $this->failure;
     }
     
     
-    /**
-     * Fill table row
-     * @param array $a_set
-     */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         if ($a_set['error'] == true) {
             $this->tpl->setVariable('TD_CLASS', 'warning');
@@ -141,7 +109,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         
         // active
         $this->tpl->setVariable('NAME_ACTIVE', 'item[' . $a_set['ref_id'] . '][active]');
-        $GLOBALS['ilLog']->write(__METHOD__ . ': ' . print_r($_POST, true));
         if ($this->getFailureStatus()) {
             $this->tpl->setVariable('CHECKED_ACTIVE', $_POST['item'][$a_set['ref_id']]['active'] ? 'checked="checked"' : '');
         } else {
@@ -202,10 +169,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
     }
     
     
-    /**
-     * Parse table content
-     */
-    public function parse($a_item_data, $a_failed_update = array())
+    public function parse(array $a_item_data, array $a_failed_update = array()) : void
     {
         $rows = array();
         foreach ($a_item_data as $item) {
@@ -232,10 +196,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
     
     
     
-    /**
-     * Parse title
-     */
-    protected function parseTitle($current_row, $item)
+    protected function parseTitle(array $current_row, array $item) : array
     {
         switch ($item['type']) {
             case 'fold':

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -11,46 +11,47 @@
 class ilCourseMembershipMailNotification extends ilMailNotification
 {
     // v Notifications affect members & co. v
-    const TYPE_ADMISSION_MEMBER = 20;
-    const TYPE_DISMISS_MEMBER = 21;
+    public const TYPE_ADMISSION_MEMBER = 20;
+    public const TYPE_DISMISS_MEMBER = 21;
     
-    const TYPE_ACCEPTED_SUBSCRIPTION_MEMBER = 22;
-    const TYPE_REFUSED_SUBSCRIPTION_MEMBER = 23;
+    public const TYPE_ACCEPTED_SUBSCRIPTION_MEMBER = 22;
+    public const TYPE_REFUSED_SUBSCRIPTION_MEMBER = 23;
     
-    const TYPE_STATUS_CHANGED = 24;
+    public const TYPE_STATUS_CHANGED = 24;
     
-    const TYPE_BLOCKED_MEMBER = 25;
-    const TYPE_UNBLOCKED_MEMBER = 26;
+    public const TYPE_BLOCKED_MEMBER = 25;
+    public const TYPE_UNBLOCKED_MEMBER = 26;
     
-    const TYPE_UNSUBSCRIBE_MEMBER = 27;
-    const TYPE_SUBSCRIBE_MEMBER = 28;
-    const TYPE_WAITING_LIST_MEMBER = 29;
+    public const TYPE_UNSUBSCRIBE_MEMBER = 27;
+    public const TYPE_SUBSCRIBE_MEMBER = 28;
+    public const TYPE_WAITING_LIST_MEMBER = 29;
 
     // v Notifications affect admins v
-    const TYPE_NOTIFICATION_REGISTRATION = 30;
-    const TYPE_NOTIFICATION_REGISTRATION_REQUEST = 31;
-    const TYPE_NOTIFICATION_UNSUBSCRIBE = 32;
+    public const TYPE_NOTIFICATION_REGISTRATION = 30;
+    public const TYPE_NOTIFICATION_REGISTRATION_REQUEST = 31;
+    public const TYPE_NOTIFICATION_UNSUBSCRIBE = 32;
 
     /**
      * @var array $permanent_enabled_notifications
      * Notifications which are not affected by "mail_crs_member_notification" setting
      * because they addresses admins
      */
-    protected $permanent_enabled_notifications = array(
+    protected array $permanent_enabled_notifications = array(
         self::TYPE_NOTIFICATION_REGISTRATION,
         self::TYPE_NOTIFICATION_REGISTRATION_REQUEST,
         self::TYPE_NOTIFICATION_UNSUBSCRIBE
     );
     
     private $force_sending_mail = false;
-    
 
-    /**
-     *
-     */
+    protected ilSetting $setting;
+
     public function __construct()
     {
-        parent::__construct();
+        global $DIC;
+
+        $this->setting = $DIC->settings();
+        parent::__construct(false);
     }
 
     /**
@@ -72,23 +73,18 @@ class ilCourseMembershipMailNotification extends ilMailNotification
     
     /**
      * Force sending mail independent from global setting
-     * @param type $a_status
      */
-    public function forceSendingMail($a_status)
+    public function forceSendingMail(bool $a_status) : void
     {
         $this->force_sending_mail = $a_status;
     }
     
-    /**
-     * Send notifications
-     * @return
-     */
-    public function send()
+    public function send() : bool
     {
         if (
-            (int) $this->getRefId() &&
+            $this->getRefId() &&
             in_array($this->getType(), array(self::TYPE_ADMISSION_MEMBER))) {
-            $obj = ilObjectFactory::getInstanceByRefId((int) $this->getRefId());
+            $obj = ilObjectFactory::getInstanceByRefId($this->getRefId());
 
             if ($obj->getAutoNotification() == false) {
                 if (!$this->force_sending_mail) {
@@ -96,11 +92,9 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                 }
             }
         }
-
         if (!$this->isNotificationTypeEnabled($this->getType())) {
             return false;
         }
-
         // #11359
         // parent::send();
         
@@ -427,22 +421,13 @@ class ilCourseMembershipMailNotification extends ilMailNotification
         return true;
     }
     
-    /**
-     * Add language module crs
-     * @return
-     */
     protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('crs');
     }
     
-    /**
-     * Get course status body
-     * @param int $a_usr_id
-     * @return string
-     */
-    protected function createCourseStatus($a_usr_id)
+    protected function createCourseStatus(int $a_usr_id) : string
     {
         $part = ilCourseParticipants::_getInstanceByObjId($this->getObjId());
         
@@ -490,18 +475,12 @@ class ilCourseMembershipMailNotification extends ilMailNotification
      * get setting "mail_crs_member_notification" and excludes types which are not affected by this setting
      * See description of $this->permanent_enabled_notifications
      *
-     * @param int $a_type
-     * @return bool
      */
-    protected function isNotificationTypeEnabled($a_type)
+    protected function isNotificationTypeEnabled(int $a_type) : bool
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
         return
             $this->force_sending_mail ||
-            $ilSetting->get('mail_crs_member_notification', true) ||
+            $this->setting->get('mail_crs_member_notification', '1') ||
             in_array($a_type, $this->permanent_enabled_notifications);
     }
 }

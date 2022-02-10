@@ -1,39 +1,22 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
 * @ingroup ModulesCourse
 */
 class ilCourseGroupingTableGUI extends ilTable2GUI
 {
-    /**
-     * @var null | \ilLogger
-     */
-    private $logger = null;
-
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_content_obj)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, ilObject $a_content_obj)
     {
-        global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-
-        $this->logger = $DIC->logger()->ac();
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
         $type = ilObject::_lookupType($a_content_obj->getId());
         $this->lng->loadLanguageModule($type);
         
-        $this->addColumn('', '', 1);
+        $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('description'), 'description');
         $this->addColumn($this->lng->txt('unambiguousness'), 'unique');
@@ -55,7 +38,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
         $this->getItems($a_content_obj);
     }
     
-    protected function getItems($a_content_obj)
+    protected function getItems(ilObject $a_content_obj)
     {
         $items = ilObjCourseGrouping::_getVisibleGroupings($a_content_obj->getId());
 
@@ -84,7 +67,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         if (is_array($a_set["assigned"]) && count($a_set["assigned"]) > 0) {
             foreach ($a_set["assigned"] as $item) {

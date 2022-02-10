@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -11,41 +11,32 @@
  */
 class ilCourseAppEventListener
 {
-    private $logger = null;
+    private ilLogger $logger;
 
-    protected static $timings_mode = null;
-
-    protected static $course_mode = array();
-    protected static $blocked_for_lp;
+    protected static array $course_mode = array();
+    protected static bool $blocked_for_lp;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->logger = ilLoggerFactory::getInstance()->getLogger('crs');
+        global $DIC;
+        $this->logger = $DIC->logger()->crs();
     }
     
-    /**
-     * @return ilLogger
-     */
-    public function getLogger()
+    public function getLogger() : ilLogger
     {
         return $this->logger;
     }
     
-    /**
-     * handle user assignments
-     * @param type $a_event
-     * @param type $a_parameters
-     */
-    protected function handleUserAssignments($a_event, $a_parameters)
+    protected function handleUserAssignments(string $a_event, array $a_parameters) : void
     {
         if ($a_parameters['type'] != 'crs') {
             $this->getLogger()->debug('Ignoring event for type ' . $a_parameters['type']);
-            return true;
+            return;
         }
-        
+        $new_status = 0;
         if ($a_event == 'assignUser') {
             $this->getLogger()->debug('Handling assign user event for type crs.');
             $new_status = 1;
@@ -72,10 +63,8 @@ class ilCourseAppEventListener
     
     /**
      * Trigger autofill from waiting list
-     *
-     * @param int $a_obj_id
      */
-    protected function doAutoFill($a_obj_id)
+    protected function doAutoFill(int $a_obj_id) : void
     {
         $this->getLogger()->debug('Handling event deassign user -> waiting list auto fill');
         
@@ -83,34 +72,23 @@ class ilCourseAppEventListener
         $refs = ilObject::_getAllReferences($a_obj_id);
         $ref_id = array_pop($refs);
         
-        $factory = new ilObjectFactory();
-        
-        $course = $factory->getInstanceByRefId($ref_id, false);
+        $course = ilObjectFactory::getInstanceByRefId($ref_id, false);
         if (!$course instanceof ilObjCourse) {
             $this->getLogger()->warning('Cannot handle event deassign user since passed obj_id is not of type course: ' . $a_obj_id);
         }
-        
         $course->handleAutoFill();
     }
 
-    /**
-     * initialize timings
-     */
-    public static function initializeTimings($a_obj_id, $a_usr_id, $a_role_id)
+    public static function initializeTimings(int $a_obj_id, int $a_usr_id, int $a_role_id) : bool
     {
         static $timing_mode = array();
         
         if (!array_key_exists($a_obj_id, $timing_mode)) {
-            $timing_mode[$a_obj_id] = (
-                (ilObjCourse::lookupTimingMode($a_obj_id) == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE) ?
-                    true :
-                    false
-            );
+            $timing_mode[$a_obj_id] = ilObjCourse::lookupTimingMode($a_obj_id) == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE;
         }
         if (!$timing_mode[$a_obj_id]) {
             return true;
         }
-        
         $user_timings = ilTimingsUser::getInstanceByContainerId($a_obj_id);
         $user_timings->init();
         $user_timings->handleNewMembership($a_usr_id, new ilDateTime(time(), IL_CAL_UNIX));
@@ -119,11 +97,8 @@ class ilCourseAppEventListener
 
     /**
      * Delete timings for user
-     * @param int $a_obj_id
-     * @param int $a_usr_id
-     * @return boolean
      */
-    public static function destroyTimings($a_obj_id, $a_usr_id)
+    public static function destroyTimings(int $a_obj_id, int $a_usr_id) : bool
     {
         $user_timings = ilTimingsUser::getInstanceByContainerId($a_obj_id);
         $user_timings->init();
@@ -131,16 +106,7 @@ class ilCourseAppEventListener
         return true;
     }
 
-    // cognos-blu-patch: end
-        
-    /**
-    * Handle an event in a listener.
-    *
-    * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
-    * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
-    * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
-    */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         if ($a_component == 'Services/AccessControl') {
             $listener = new self();
@@ -151,18 +117,18 @@ class ilCourseAppEventListener
             case 'Modules/Course':
                 if ($a_event == 'addParticipant') {
                     self::initializeTimings($a_parameter['obj_id'], $a_parameter['usr_id'], $a_parameter['role_id']);
-                    return true;
+                    return;
                 }
                 if ($a_event == 'deleteParticipant') {
                     self::destroyTimings($a_parameter['obj_id'], $a_parameter['usr_id']);
-                    return true;
+                    return;
                 }
                 break;
         }
 
         if ($a_component == "Services/Tracking" && $a_event == "updateStatus") {
             // see ilObjCourseGUI::updateLPFromStatus()
-            if ((bool) self::$blocked_for_lp) {
+            if (self::$blocked_for_lp) {
                 return;
             }
             
@@ -225,11 +191,9 @@ class ilCourseAppEventListener
     
     /**
      * Toggle LP blocking property status
-     *
-     * @param bool $a_status
      */
-    public static function setBlockedForLP($a_status)
+    public static function setBlockedForLP(bool $a_status) : void
     {
-        self::$blocked_for_lp = (bool) $a_status;
+        self::$blocked_for_lp = $a_status;
     }
 }

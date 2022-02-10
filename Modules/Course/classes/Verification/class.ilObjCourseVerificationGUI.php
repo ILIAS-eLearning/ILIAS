@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -12,11 +12,17 @@ use ILIAS\DI\Container;
 class ilObjCourseVerificationGUI extends ilObject2GUI
 {
     private Container $dic;
+    private ilErrorHandling $error;
+
+    protected ilTabsGUI $tabs;
 
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
         global $DIC;
         $this->dic = $DIC;
+        $this->error = $DIC->error();
+        $this->tabs = $DIC->tabs();
+
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
     }
 
@@ -31,7 +37,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
         $this->lng->loadLanguageModule("crsv");
 
-        $ilTabs->setBackTarget(
+        $this->tabs->setBackTarget(
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "cancel")
         );
@@ -56,7 +62,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
             $userCertificateRepository = new ilUserCertificateRepository();
 
             $userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
-                (int) $ilUser->getId(),
+                $ilUser->getId(),
                 (int) $objectId
             );
 
@@ -134,13 +140,10 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
     
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
-        $ilErr = $this->dic['ilErr'];
-        
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
         }
-        
-        $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+        $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
     }
     
     public static function _goto(string $a_target) : void

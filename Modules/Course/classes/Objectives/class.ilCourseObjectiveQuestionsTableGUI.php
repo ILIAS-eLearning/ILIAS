@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -31,29 +31,13 @@
 */
 class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
 {
-    protected $course_obj = null;
+    protected ilObject $course_obj;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param object parent gui object
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_course_obj)
+    public function __construct(object $a_parent_obj, ilObject $a_course_obj)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
         $this->course_obj = $a_course_obj;
-        
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('crs');
-        $this->ctrl = $ilCtrl;
-        
         parent::__construct($a_parent_obj, 'questionOverview');
+        $this->lng->loadLanguageModule('crs');
         $this->setFormName('questions');
         $this->addColumn($this->lng->txt('title'), 'title', '33%');
         $this->addColumn($this->lng->txt('crs_objective_self_assessment'), 'self', '33%%');
@@ -66,16 +50,9 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
         $this->disable('numinfo');
         $this->enable('select_all');
         $this->setLimit(200);
-        
         $this->addCommandButton('saveQuestionOverview', $this->lng->txt('save'));
     }
     
-    /**
-     * fill row
-     * @access protected
-     * @param array row data
-     * @return void
-     */
     protected function fillRow(array $a_set) : void
     {
         static $row_counter = 1;
@@ -144,13 +121,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * parse
-     *
-     * @access public
-     * @param array array of objective id's
-     */
-    public function parse($a_objective_ids)
+    public function parse(array $a_objective_ids) : void
     {
         
         $objectives = array();
@@ -218,6 +189,6 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             
             $objectives[] = $objective_data;
         }
-        $this->setData($objectives ? $objectives : array());
+        $this->setData($objectives);
     }
 }

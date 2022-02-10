@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -11,25 +11,27 @@
 */
 class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_content_obj, $a_group_obj)
+    private string $type = '';
+
+
+    protected ilObjUser $user;
+    protected ilTree $tree;
+
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, ilObject $a_content_obj, ilObjCourseGrouping $a_group_obj)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        
+        $this->user = $DIC->user();
+        $this->tree = $DIC->repositoryTree();
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
         $this->type = ilObject::_lookupType($a_content_obj->getId());
         $this->lng->loadLanguageModule($this->type);
         
         // #9017
         $this->setLimit(9999);
                     
-        $this->addColumn('', '', 1);
+        $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('path'), 'path');
             
@@ -44,21 +46,16 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
         $this->addMultiCommand('assignCourse', $this->lng->txt('grouping_change_assignment'));
         $this->addCommandButton('edit', $this->lng->txt('cancel'));
         
-        $this->getItems($a_content_obj, $a_group_obj);
+        $this->getItems($a_group_obj);
     }
     
-    protected function getItems($a_content_obj, $a_group_obj)
+    protected function getItems(ilObjCourseGrouping $a_group_obj) : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $tree = $DIC['tree'];
-        
         $counter = 0;
         $items = ilUtil::_getObjectsByOperations(
             $this->type,
             'write',
-            $ilUser->getId(),
+            $this->user->getId(),
             -1
         );
         $items_obj_id = array();
@@ -81,7 +78,7 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
         $data = array();
         foreach ($items_obj_id as $obj_id) {
             $item_id = $items_ids[$obj_id];
-            if ($tree->checkForParentType($item_id, 'adm')) {
+            if ($this->tree->checkForParentType($item_id, 'adm')) {
                 continue;
             }
             
@@ -90,16 +87,19 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
             $data[] = array('id' => $item_id,
                 'title' => ilObject::_lookupTitle($obj_id),
                 'description' => ilObject::_lookupDescription($obj_id),
-                'path' => $this->__formatPath($tree->getPathFull($item_id)),
+                'path' => $this->__formatPath($this->tree->getPathFull($item_id)),
                 'assigned' => in_array($item_id, $assigned_ids));
         }
-        
         $this->setData($data);
     }
-        
-    public function __formatPath($a_path_arr)
+
+    /**
+     * @todo use ilPathGUI
+     */
+    public function __formatPath(array $a_path_arr) : string
     {
         $counter = 0;
+        $path = '';
         foreach ($a_path_arr as $data) {
             if (!$counter++) {
                 continue;
@@ -109,11 +109,10 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
             }
             $path .= $data['title'];
         }
-
         return $path;
     }
 
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);

@@ -15,9 +15,6 @@ class ilObjectTableGUI extends ilTable2GUI
     
     /**
      * Constructor
-     * @param type $a_parent_obj
-     * @param type $a_parent_cmd
-     * @param type $a_id
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_id)
     {

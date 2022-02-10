@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -6,10 +6,7 @@
  * Course Administration Settings
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
  * @ilCtrl_Calls ilObjCourseAdministrationGUI: ilPermissionGUI, ilMemberExportSettingsGUI, ilUserActionadminGUI
- *
  * @ingroup ModulesCourse
  */
 class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI

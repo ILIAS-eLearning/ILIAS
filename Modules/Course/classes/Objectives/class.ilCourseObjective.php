@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -12,87 +12,63 @@
 */
 class ilCourseObjective
 {
-    public $db = null;
+    protected ilObject $course_obj;
 
-    public $course_obj = null;
-    public $objective_id = null;
+    private int $objective_id = 0;
+    private string $title = '';
+    private string $description = '';
+    private int $position;
+    private bool $active = true;
+    private int $passes = 0;
+    private int $created = 0;
 
-    // begin-patch lok
-    protected $active = true;
-    protected $passes = 0;
-    // end-patch lok
+    protected ilDBInterface $db;
+    protected ilLogger $logger;
 
-    /**
-     * Constructor
-     * @param ilObject $course_obj
-     * @param int $a_objective_id
-     */
-    public function __construct($course_obj, $a_objective_id = 0)
+
+    public function __construct(ilObject $course_obj, int $a_objective_id = 0)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $this->db = $DIC->database();
+        $this->logger = $DIC->logger()->crs();
 
-        $this->db = $ilDB;
         $this->course_obj = $course_obj;
-
         $this->objective_id = $a_objective_id;
         if ($this->objective_id) {
             $this->__read();
         }
     }
 
-    /**
-     * @return ilObjCourse
-     */
-    public function getCourse()
+    public function getCourse() : ilObject
     {
         return $this->course_obj;
     }
-
-    /**
-     * Get container of object
-     *
-     * @access public
-     * @static
-     *
-     * @param int objective id
-     */
-    public static function _lookupContainerIdByObjectiveId($a_objective_id)
+    
+    public static function _lookupContainerIdByObjectiveId(int $a_objective_id) : int
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = "SELECT crs_id FROM crs_objectives " .
             "WHERE objective_id = " . $ilDB->quote($a_objective_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->crs_id;
+            return (int) $row->crs_id;
         }
-        return false;
+        return 0;
     }
 
-    /**
-     * get count objectives
-     *
-     * @access public
-     * @param int obj_id
-     * @return
-     * @static
-     */
-    // begin-patch lok
-    public static function _getCountObjectives($a_obj_id, $a_activated_only = false)
+    public static function _getCountObjectives(int $a_obj_id, bool $a_activated_only = false) : int
     {
         return count(ilCourseObjective::_getObjectiveIds($a_obj_id, $a_activated_only));
     }
-
-    public static function lookupMaxPasses($a_objective_id)
+    
+    public static function lookupMaxPasses(int $a_objective_id) : int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
         $query = 'SELECT passes from crs_objectives ' .
                 'WHERE objective_id = ' . $ilDB->quote($a_objective_id, 'integer');
         $res = $ilDB->query($query);
@@ -102,12 +78,16 @@ class ilCourseObjective
         return 0;
     }
 
-    public static function lookupObjectiveTitle($a_objective_id, $a_add_description = false)
+    /**
+     * @param int  $a_objective_id
+     * @param bool $a_add_description
+     * @return array|string
+     */
+    public static function lookupObjectiveTitle(int $a_objective_id, bool $a_add_description = false)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = 'SELECT title,description from crs_objectives ' .
                 'WHERE objective_id = ' . $ilDB->quote($a_objective_id, 'integer');
         $res = $ilDB->query($query);
@@ -120,36 +100,21 @@ class ilCourseObjective
         }
         return "";
     }
-    // end-patch lok
 
-    /**
-     * clone objectives
-     *
-     * @access public
-     * @param int target id
-     * @param int copy id
-     *
-     */
-    public function ilClone($a_target_id, $a_copy_id)
+    public function ilClone(int $a_target_id, int $a_copy_id) : void
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
-        ilLoggerFactory::getLogger('crs')->debug('Start cloning learning objectives');
-
         $query = "SELECT * FROM crs_objectives " .
             "WHERE crs_id  = " . $this->db->quote($this->course_obj->getId(), 'integer') . ' ' .
             "ORDER BY position ";
         $res = $this->db->query($query);
         if (!$res->numRows()) {
-            ilLoggerFactory::getLogger('crs')->debug('.. no objectives found');
-            return true;
+            $this->logger->debug('.. no objectives found');
+            return;
         }
 
         if (!is_object($new_course = ilObjectFactory::getInstanceByRefId($a_target_id, false))) {
-            ilLoggerFactory::getLogger('crs')->warning('Cannot create course instance');
-            return true;
+            $this->logger->warning('Cannot create course instance');
+            return;
         }
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $new_objective = new ilCourseObjective($new_course);
@@ -157,8 +122,8 @@ class ilCourseObjective
             $new_objective->setDescription($row->description);
             $new_objective->setActive($row->active);
             $objective_id = $new_objective->add();
-            ilLoggerFactory::getLogger('crs')->debug('Added new objective nr: ' . $objective_id);
-
+            $this->logger->debug('Added new objective nr: ' . $objective_id);
+            
             // Clone crs_objective_tst entries
             $objective_qst = new ilCourseObjectiveQuestion($row->objective_id);
             $objective_qst->cloneDependencies($objective_id, $a_copy_id);
@@ -190,160 +155,119 @@ class ilCourseObjective
                 $assignment_qt->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
             }
 
-            ilLoggerFactory::getLogger('crs')->debug('Finished copying question dependencies');
-
+            $this->logger->debug('Finished copying question dependencies');
+            
             // Clone crs_objective_lm entries (assigned course materials)
             $objective_material = new ilCourseObjectiveMaterials($row->objective_id);
             $objective_material->cloneDependencies($objective_id, $a_copy_id);
         }
-        ilLoggerFactory::getLogger('crs')->debug('Finished copying objectives');
+        $this->logger->debug('Finished copying objectives');
     }
 
-    // begin-patch lok
-    public function setActive($a_stat)
+    public function setActive(bool $a_stat) : void
     {
         $this->active = $a_stat;
     }
-
-    public function isActive()
+    
+    public function isActive() : bool
     {
         return $this->active;
     }
-
-    public function setPasses($a_passes)
+    
+    public function setPasses(int $a_passes) : void
     {
         $this->passes = $a_passes;
     }
-
-    public function getPasses()
+    
+    public function getPasses() : int
     {
         return $this->passes;
     }
-
-    public function arePassesLimited()
+    
+    public function arePassesLimited() : bool
     {
         return $this->passes > 0;
     }
     // end-patch lok
 
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
-    public function setDescription($a_description)
+    public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
-    public function setObjectiveId($a_objective_id)
+    public function setObjectiveId(int $a_objective_id) : void
     {
         $this->objective_id = $a_objective_id;
     }
-    public function getObjectiveId()
+    public function getObjectiveId() : int
     {
         return $this->objective_id;
     }
 
-    // begin-patch optes_lok_export
-    public function setPosition($a_pos)
+    public function setPosition(int $a_pos) : void
     {
         $this->position = $a_pos;
     }
-    // end-patch optes_lok_export
 
-    public function add()
+    public function add() : int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        // begin-patch lok
-        $next_id = $ilDB->nextId('crs_objectives');
+        $next_id = $this->db->nextId('crs_objectives');
         $query = "INSERT INTO crs_objectives (crs_id,objective_id,active,title,description,position,created,passes) " .
             "VALUES( " .
-            $ilDB->quote($this->course_obj->getId(), 'integer') . ", " .
-            $ilDB->quote($next_id, 'integer') . ", " .
-            $ilDB->quote($this->isActive(), 'integer') . ', ' .
-            $ilDB->quote($this->getTitle(), 'text') . ", " .
-            $ilDB->quote($this->getDescription(), 'text') . ", " .
-            $ilDB->quote($this->__getLastPosition() + 1, 'integer') . ", " .
-            $ilDB->quote(time(), 'integer') . ", " .
-            $ilDB->quote($this->getPasses(), 'integer') . ' ' .
+            $this->db->quote($this->course_obj->getId(), 'integer') . ", " .
+            $this->db->quote($next_id, 'integer') . ", " .
+            $this->db->quote($this->isActive(), 'integer') . ', ' .
+            $this->db->quote($this->getTitle(), 'text') . ", " .
+            $this->db->quote($this->getDescription(), 'text') . ", " .
+            $this->db->quote($this->__getLastPosition() + 1, 'integer') . ", " .
+            $this->db->quote(time(), 'integer') . ", " .
+            $this->db->quote($this->getPasses(), 'integer') . ' ' .
             ")";
-        $res = $ilDB->manipulate($query);
-        // end-patch lok
+        $res = $this->db->manipulate($query);
 
         // refresh learning progress status after adding new objective
         ilLPStatusWrapper::_refreshStatus($this->course_obj->getId());
-
         return $this->objective_id = $next_id;
     }
 
-    public function update()
+    public function update() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        // begin-patch lok
         $query = "UPDATE crs_objectives " .
-            "SET title = " . $ilDB->quote($this->getTitle(), 'text') . ", " .
-            'active = ' . $ilDB->quote($this->isActive(), 'integer') . ', ' .
-            "description = " . $ilDB->quote($this->getDescription(), 'text') . ", " .
-            'passes = ' . $ilDB->quote($this->getPasses(), 'integer') . ' ' .
-            "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " " .
-            "AND crs_id = " . $ilDB->quote($this->course_obj->getId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-        // end-patch lok
-
-        return true;
+            "SET title = " . $this->db->quote($this->getTitle(), 'text') . ", " .
+            'active = ' . $this->db->quote($this->isActive(), 'integer') . ', ' .
+            "description = " . $this->db->quote($this->getDescription(), 'text') . ", " .
+            'passes = ' . $this->db->quote($this->getPasses(), 'integer') . ' ' .
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
+            "AND crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " ";
+        $res = $this->db->manipulate($query);
     }
 
-    /**
-     * write position
-     *
-     * @access public
-     * @param int new position
-     * @return
-     */
-    public function writePosition($a_position)
+    public function writePosition(int $a_position) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "UPDATE crs_objectives " .
             "SET position = " . $this->db->quote((string) $a_position, 'integer') . " " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
     }
 
-    /**
-     * validate
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function validate()
+    public function validate() : bool
     {
         return (bool) strlen($this->getTitle());
     }
-
-    public function delete()
+    
+    public function delete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-
         $tmp_obj_qst = new ilCourseObjectiveQuestion($this->getObjectiveId());
         $tmp_obj_qst->deleteAll();
 
@@ -353,127 +277,106 @@ class ilCourseObjective
 
 
         $query = "DELETE FROM crs_objectives " .
-            "WHERE crs_id = " . $ilDB->quote($this->course_obj->getId(), 'integer') . " " .
-            "AND objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+            "WHERE crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " " .
+            "AND objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
+        $res = $this->db->manipulate($query);
 
         // refresh learning progress status after deleting objective
         ilLPStatusWrapper::_refreshStatus($this->course_obj->getId());
-
-        return true;
     }
 
-    public function moveUp()
+    public function moveUp() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!$this->getObjectiveId()) {
-            return false;
+            return;
         }
         // Stop if position is first
         if ($this->__getPosition() == 1) {
-            return false;
+            return;
         }
 
         $query = "UPDATE crs_objectives " .
             "SET position = position + 1 " .
-            "WHERE position = " . $ilDB->quote($this->__getPosition() - 1, 'integer') . " " .
-            "AND crs_id = " . $ilDB->quote($this->course_obj->getId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-
+            "WHERE position = " . $this->db->quote($this->__getPosition() - 1, 'integer') . " " .
+            "AND crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " ";
+        $res = $this->db->manipulate($query);
+        
         $query = "UPDATE crs_objectives " .
             "SET position = position - 1 " .
-            "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " " .
-            "AND crs_id = " . $ilDB->quote($this->course_obj->getId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
+            "AND crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " ";
+        $res = $this->db->manipulate($query);
 
         $this->__read();
-
-        return true;
     }
 
-    public function moveDown()
+    public function moveDown() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!$this->getObjectiveId()) {
-            return false;
+            return;
         }
         // Stop if position is last
         if ($this->__getPosition() == $this->__getLastPosition()) {
-            return false;
+            return;
         }
 
         $query = "UPDATE crs_objectives " .
             "SET position = position - 1 " .
-            "WHERE position = " . $ilDB->quote($this->__getPosition() + 1, 'integer') . " " .
-            "AND crs_id = " . $ilDB->quote($this->course_obj->getId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-
+            "WHERE position = " . $this->db->quote($this->__getPosition() + 1, 'integer') . " " .
+            "AND crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " ";
+        $res = $this->db->manipulate($query);
+        
         $query = "UPDATE crs_objectives " .
             "SET position = position + 1 " .
-            "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " " .
-            "AND crs_id = " . $ilDB->quote($this->course_obj->getId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
+            "AND crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " ";
+        $res = $this->db->manipulate($query);
 
         $this->__read();
 
-        return true;
     }
 
-    // PRIVATE
-    public function __setPosition($a_position)
+    public function __setPosition(int $a_position) : void
     {
         $this->position = $a_position;
     }
-    public function __getPosition()
+    public function __getPosition() : int
     {
         return $this->position;
     }
-    public function __setCreated($a_created)
+    public function __setCreated(int $a_created) : void
     {
         $this->created = $a_created;
     }
-    public function __getCreated()
+    public function __getCreated() : int
     {
         return $this->created;
     }
 
-
     public function __read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if ($this->getObjectiveId()) {
             $query = "SELECT * FROM crs_objectives " .
-                "WHERE crs_id = " . $ilDB->quote($this->course_obj->getId(), 'integer') . " " .
-                "AND objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " ";
+                "WHERE crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " " .
+                "AND objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
 
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 // begin-patch lok
-                $this->setActive($row->active);
-                $this->setPasses($row->passes);
+                $this->setActive((bool) $row->active);
+                $this->setPasses((int) $row->passes);
                 // end-patch lok
-                $this->setObjectiveId($row->objective_id);
-                $this->setTitle($row->title);
-                $this->setDescription($row->description);
-                $this->__setPosition($row->position);
-                $this->__setCreated($row->created);
+                $this->setObjectiveId((int) $row->objective_id);
+                $this->setTitle((string) $row->title);
+                $this->setDescription((string) $row->description);
+                $this->__setPosition((int) $row->position);
+                $this->__setCreated((int) $row->created);
             }
-            return true;
         }
-        return false;
     }
 
-    public function __getOrderColumn()
+    public function __getOrderColumn() : string
     {
         switch ($this->course_obj->getOrderType()) {
             case ilContainer::SORT_MANUAL:
@@ -485,43 +388,31 @@ class ilCourseObjective
             case ilContainer::SORT_ACTIVATION:
                 return 'ORDER BY create';
         }
-        return false;
+        return '';
     }
 
-    public function __updateTop()
+    public function __updateTop() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "UPDATE crs_objectives " .
             "SET position = position - 1 " .
-            "WHERE position > " . $ilDB->quote($this->__getPosition(), 'integer') . " " .
-            "AND crs_id = " . $ilDB->quote($this->course_obj->getId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-
-        return true;
+            "WHERE position > " . $this->db->quote($this->__getPosition(), 'integer') . " " .
+            "AND crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " ";
+        $res = $this->db->manipulate($query);
     }
 
-    public function __getLastPosition()
+    public function __getLastPosition() : int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "SELECT MAX(position) pos FROM crs_objectives " .
-            "WHERE crs_id = " . $ilDB->quote($this->course_obj->getId(), 'integer') . " ";
+            "WHERE crs_id = " . $this->db->quote($this->course_obj->getId(), 'integer') . " ";
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->pos;
+            return (int) $row->pos;
         }
         return 0;
     }
 
-    // STATIC
-    // begin-patch lok
-    public static function _getObjectiveIds($course_id, $a_activated_only = false)
+    public static function _getObjectiveIds(int $course_id, bool $a_activated_only = false) : array
     {
         global $DIC;
 
@@ -543,12 +434,10 @@ class ilCourseObjective
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ids[] = $row->objective_id;
         }
-
         return $ids;
     }
-    // end-patch lok
 
-    public static function _deleteAll($course_id)
+    public static function _deleteAll(int $course_id) : void
     {
         global $DIC;
 
@@ -558,7 +447,7 @@ class ilCourseObjective
         $ids = ilCourseObjective::_getObjectiveIds($course_id, false);
         // end-patch lok
         if (!count($ids)) {
-            return true;
+            return;
         }
 
         $in = $ilDB->in('objective_id', $ids, false, 'integer');
@@ -578,23 +467,16 @@ class ilCourseObjective
 
         // refresh learning progress status after deleting objectives
         ilLPStatusWrapper::_refreshStatus($course_id);
-
-        return true;
     }
 
-    // begin-patch optes_lok_export
-    /**
-     * write objective xml
-     * @param ilXmlWriter $writer
-     */
-    public function toXml(ilXmlWriter $writer)
+    public function toXml(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag(
             'Objective',
             array(
                 'online' => (int) $this->isActive(),
-                'position' => (int) $this->position,
-                'id' => (int) $this->getObjectiveId()
+                'position' => $this->position,
+                'id' => $this->getObjectiveId()
             )
         );
         $writer->xmlElement('Title', array(), $this->getTitle());
@@ -615,5 +497,4 @@ class ilCourseObjective
 
         $writer->xmlEndTag('Objective');
     }
-    // end-patch optes_lok_export
 }

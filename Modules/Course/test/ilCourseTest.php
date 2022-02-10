@@ -26,58 +26,10 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class ilCourseTest
  */
-class ilCourseTest //extends TestCase
+class ilCourseTest
 {
     protected $backupGlobals = false;
     protected $preserveGlobalState = false;
 
-    protected function setUp() : void
-    {
-        //ilUnitUtil::performInitialisation();
-    }
-    
-    /**
-     * Test member agreement
-     * @group IL_Init
-     */
-    public function testMemberAgreement()
-    {
-        
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        
-        $agree = new ilMemberAgreement(9999, 8888);
-        $agree->read();
-        $agree->setAccepted(true);
-        $agree->save();
-        
-        $agree = new ilMemberAgreement(9999, 8888);
-        $agree->read();
-        $sta = $agree->isAccepted();
-        $this->assertEquals($sta, true);
-        $agree->delete();
-        
-        $agree = new ilMemberAgreement(9999, 8888);
-        $agree->read();
-        $sta = $agree->isAccepted();
-        $this->assertEquals($sta, false);
-        
-        $sta = ilMemberAgreement::_hasAccepted(9999, 8888);
-        $this->assertEquals($sta, false);
-        
-        $agree = new ilMemberAgreement(9999, 8888);
-        $agree->read();
-        $agree->setAccepted(true);
-        $agree->save();
-        
-        $sta = ilMemberAgreement::_hasAgreementsByObjId(8888);
-        $this->assertEquals($sta, true);
-        
-        $sta = ilMemberAgreement::_hasAgreements();
-        $this->assertEquals($sta, true);
-        
-        ilMemberAgreement::_deleteByUser(9999);
-    }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,26 +25,18 @@
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
 * @ingroup ModulesCourse
 */
-
 class ilCourseParticipants extends ilParticipants
 {
-    const COMPONENT_NAME = 'Modules/Course';
+    protected const COMPONENT_NAME = 'Modules/Course';
     
-    protected static $instances = array();
-    public int $NOTIFY_UNSUBSCRIBE;
+    protected static array $instances = [];
 
     /**
-     * Singleton constructor
-     *
-     * @access protected
-     * @param int obj_id of container
+     * @todo get rid of these pseude constants
      */
-    public function __construct($a_obj_id)
+    public function __construct(int $a_obj_id)
     {
         $this->NOTIFY_DISMISS_SUBSCRIBER = 1;
         $this->NOTIFY_ACCEPT_SUBSCRIBER = 2;
@@ -65,15 +57,7 @@ class ilCourseParticipants extends ilParticipants
         parent::__construct(self::COMPONENT_NAME, array_pop($refs));
     }
 
-    /**
-     * Get singleton instance
-     *
-     * @access public
-     * @static
-     *
-     * @param int obj_id
-     */
-    public static function _getInstanceByObjId($a_obj_id)
+    public static function _getInstanceByObjId(int $a_obj_id) : ilCourseParticipants
     {
         if (isset(self::$instances[$a_obj_id]) and self::$instances[$a_obj_id]) {
             return self::$instances[$a_obj_id];
@@ -81,11 +65,6 @@ class ilCourseParticipants extends ilParticipants
         return self::$instances[$a_obj_id] = new ilCourseParticipants($a_obj_id);
     }
     
-    /**
-     * Add user to role
-     * @param int $a_usr_id
-     * @param int $a_role
-     */
     public function add(int $a_usr_id, int $a_role) : bool
     {
         if (parent::add($a_usr_id, $a_role)) {
@@ -95,18 +74,12 @@ class ilCourseParticipants extends ilParticipants
         return false;
     }
     
-    /**
-     * Get member roles
-     * @param int $a_ref_id
-     */
-    public static function getMemberRoles($a_ref_id)
+    public static function getMemberRoles(int $a_ref_id) : array
     {
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
-
         $lrol = $rbacreview->getRolesOfRoleFolder($a_ref_id, false);
-
         $roles = array();
         foreach ($lrol as $role) {
             $title = ilObject::_lookupTitle($role);
@@ -125,15 +98,8 @@ class ilCourseParticipants extends ilParticipants
     
     public function addSubscriber(int $a_usr_id) : void
     {
-        global $DIC;
-
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
-        $ilLog = $DIC['ilLog'];
-        
         parent::addSubscriber($a_usr_id);
-
-        $ilLog->write(__METHOD__ . ': Raise new event: Modules/Course addSubscriber');
-        $ilAppEventHandler->raise(
+        $this->eventHandler->raise(
             "Modules/Course",
             'addSubscriber',
             array(
@@ -143,46 +109,31 @@ class ilCourseParticipants extends ilParticipants
         );
     }
 
-    /**
-     * Update passed status
-     *
-     * @access public
-     * @param int $usr_id
-     * @param bool $passed
-     * @param bool $a_manual
-     * @param bool $a_no_origin
-     */
-    public function updatePassed($a_usr_id, $a_passed, $a_manual = false, $a_no_origin = false)
+    public function updatePassed(
+        int $a_usr_id,
+        bool $a_passed,
+        bool $a_manual = false,
+        bool $a_no_origin = false
+    ) : void
     {
-        $this->participants_status[$a_usr_id]['passed'] = (int) $a_passed;
-
-        return self::_updatePassed($this->obj_id, $a_usr_id, $a_passed, $a_manual, $a_no_origin);
+        $this->participants_status[$a_usr_id]['passed'] = $a_passed;
+        self::_updatePassed($this->obj_id, $a_usr_id, $a_passed, $a_manual, $a_no_origin);
     }
 
 
-    /**
-     * Update passed status (static)
-     *
-     * @access public
-     *
-     * @param int  $a_obj_id
-     * @param int  $a_usr_id
-     * @param bool $a_passed
-     * @param bool $a_manual
-     * @param bool $a_no_origin
-     *
-     * @return bool
-     */
-    public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed, $a_manual = false, $a_no_origin = false)
+    public static function _updatePassed(
+        int $a_obj_id,
+        int $a_usr_id,
+        bool $a_passed,
+        bool $a_manual = false,
+        bool $a_no_origin = false
+    ) : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
-        /**
-         * @var $ilAppEventHandler ilAppEventHandler
-         */
+        $ilAppEventHandler = $DIC->event();
 
         // #11600
         $origin = -1;
@@ -200,7 +151,7 @@ class ilCourseParticipants extends ilParticipants
             $old = $ilDB->fetchAssoc($res);
             if ((int) $old["passed"] != (int) $a_passed) {
                 $update_query = "UPDATE obj_members SET " .
-                    "passed = " . $ilDB->quote((int) $a_passed, 'integer') . ", " .
+                    "passed = " . $ilDB->quote($a_passed, 'integer') . ", " .
                     "origin = " . $ilDB->quote($origin, 'integer') . ", " .
                     "origin_ts = " . $ilDB->quote(time(), 'integer') . " " .
                     "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
@@ -235,41 +186,27 @@ class ilCourseParticipants extends ilParticipants
                 ));
             }
         }
-        return true;
     }
     
-    /**
-     * Get info about passed status
-     *
-     * @param int $a_usr_id
-     * @return array (user_id, timestamp)
-     */
-    public function getPassedInfo($a_usr_id)
+    public function getPassedInfo(int $a_usr_id) : array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $sql = "SELECT origin, origin_ts" .
             " FROM obj_members" .
-            " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer") .
-            " AND usr_id = " . $ilDB->quote($a_usr_id, "integer");
-        $set = $ilDB->query($sql);
-        $row = $ilDB->fetchAssoc($set);
+            " WHERE obj_id = " . $this->ilDB->quote($this->obj_id, "integer") .
+            " AND usr_id = " . $this->ilDB->quote($a_usr_id, "integer");
+        $set = $this->ilDB->query($sql);
+        $row = $this->ilDB->fetchAssoc($set);
         if ($row["origin"]) {
-            return array("user_id" => $row["origin"],
-                "timestamp" => new ilDateTime($row["origin_ts"], IL_CAL_UNIX));
+            return [
+                "user_id" => (int) $row["origin"],
+                "timestamp" => new ilDateTime((int) $row["origin_ts"], IL_CAL_UNIX)
+            ];
         }
+        return [];
     }
     
-    // Subscription
-    public function sendNotification($a_type, $a_usr_id, $a_force_sending_mail = false)
+    public function sendNotification(int $a_type, int $a_usr_id, bool $a_force_sending_mail = false) : void
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilUser = $DIC['ilUser'];
-    
         $mail = new ilCourseMembershipMailNotification();
         $mail->forceSendingMail($a_force_sending_mail);
 
@@ -354,106 +291,47 @@ class ilCourseParticipants extends ilParticipants
 
             case $this->NOTIFY_ADMINS:
                 $this->sendNotificationToAdmins($a_usr_id);
-                return true;
                 break;
         }
-        return true;
     }
     
-    public function sendUnsubscribeNotificationToAdmins($a_usr_id)
+    public function sendUnsubscribeNotificationToAdmins(int $a_usr_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
         $mail = new ilCourseMembershipMailNotification();
         $mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE);
         $mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
         $mail->setRefId($this->ref_id);
         $mail->setRecipients($this->getNotificationRecipients());
         $mail->send();
-        return true;
     }
     
     
-    public function sendSubscriptionRequestToAdmins($a_usr_id)
+    public function sendSubscriptionRequestToAdmins(int $a_usr_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
         $mail = new ilCourseMembershipMailNotification();
         $mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST);
         $mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
         $mail->setRefId($this->ref_id);
         $mail->setRecipients($this->getNotificationRecipients());
         $mail->send();
-        return true;
     }
     
 
-    public function sendNotificationToAdmins($a_usr_id)
+    public function sendNotificationToAdmins(int $a_usr_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
         $mail = new ilCourseMembershipMailNotification();
         $mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION);
         $mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
         $mail->setRefId($this->ref_id);
         $mail->setRecipients($this->getNotificationRecipients());
         $mail->send();
-        return true;
     }
-    
-    
-    public function __buildStatusBody(&$user_obj)
+
+    public static function getDateTimeOfPassed(int $a_obj_id, int $a_usr_id) : string
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $body = $this->lng->txt('crs_status_changed_body') . "\n";
-        $body .= $this->lng->txt('login') . ': ' . $user_obj->getLogin() . "\n";
-        $body .= $this->lng->txt('role') . ': ';
-
-        if ($this->isAdmin($user_obj->getId())) {
-            $body .= $this->lng->txt('crs_admin') . "\n";
-        }
-        if ($this->isTutor($user_obj->getId())) {
-            $body .= $this->lng->txt('crs_tutor') . "\n";
-        }
-        if ($this->isMember($user_obj->getId())) {
-            $body .= $this->lng->txt('crs_member') . "\n";
-        }
-        $body .= $this->lng->txt('status') . ': ';
-        
-        if ($this->isNotificationEnabled($user_obj->getId())) {
-            $body .= $this->lng->txt("crs_notify") . "\n";
-        } else {
-            $body .= $this->lng->txt("crs_no_notify") . "\n";
-        }
-        if ($this->isBlocked($user_obj->getId())) {
-            $body .= $this->lng->txt("crs_blocked") . "\n";
-        } else {
-            $body .= $this->lng->txt("crs_unblocked") . "\n";
-        }
-        $passed = $this->hasPassed($user_obj->getId()) ? $this->lng->txt('yes') : $this->lng->txt('no');
-        $body .= $this->lng->txt('crs_passed') . ': ' . $passed . "\n";
-
-        return $body;
-    }
-    
-    public static function getDateTimeOfPassed($a_obj_id, $a_usr_id)
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
         $sql = "SELECT origin_ts FROM obj_members" .
             " WHERE usr_id = " . $ilDB->quote($a_usr_id, "integer") .
             " AND obj_id = " . $ilDB->quote($a_obj_id, "integer") .
@@ -463,25 +341,26 @@ class ilCourseParticipants extends ilParticipants
         if ($res["origin_ts"]) {
             return date("Y-m-d H:i:s", $res["origin_ts"]);
         }
+        return '';
     }
     
-    public static function getPassedUsersForObjects(array $a_obj_ids, array $a_usr_ids)
+    public static function getPassedUsersForObjects(array $a_obj_ids, array $a_usr_ids) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
         $res = array();
-        
         $sql = "SELECT usr_id,obj_id FROM obj_members" .
-            " WHERE " . $ilDB->in("usr_id", $a_usr_ids, "", "integer") .
-            " AND " . $ilDB->in("obj_id", $a_obj_ids, "", "integer") .
+            " WHERE " . $ilDB->in("usr_id", $a_usr_ids, false, "integer") .
+            " AND " . $ilDB->in("obj_id", $a_obj_ids, false, "integer") .
             " AND passed = " . $ilDB->quote(1, "integer");
         $set = $ilDB->query($sql);
+        $res = [];
         while ($row = $ilDB->fetchAssoc($set)) {
+            $row['usr_id'] = (int) $row['usr_id'];
+            $row['obj_id'] = (int) $row['obj_id'];
             $res[] = $row;
         }
-        
         return $res;
     }
 }

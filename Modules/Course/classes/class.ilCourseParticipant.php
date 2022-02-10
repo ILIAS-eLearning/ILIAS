@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,25 +25,19 @@
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
 * @ingroup ModulesCourse
 */
 
 class ilCourseParticipant extends ilParticipant
 {
-    const COMPONENT_NAME = 'Modules/Course';
+    protected const COMPONENT_NAME = 'Modules/Course';
     
-    protected static $instances = array();
-    
+    protected static array $instances = [];
+
     /**
-     * Singleton constructor
-     *
-     * @access protected
-     * @param int obj_id of container
+     * @todo get rid of these pseudo constants
      */
-    public function __construct($a_obj_id, $a_usr_id)
+    protected function __construct(int $a_obj_id, int $a_usr_id)
     {
         $this->type = 'crs';
         
@@ -64,16 +58,7 @@ class ilCourseParticipant extends ilParticipant
         parent::__construct(self::COMPONENT_NAME, $a_obj_id, $a_usr_id);
     }
 
-    /**
-     * Get singleton instance
-     *
-     * @access public
-     * @static
-     *
-     * @param int obj_id
-     * @return ilCourseParticipant
-     */
-    public static function _getInstanceByObjId($a_obj_id, $a_usr_id)
+    public static function _getInstanceByObjId(int $a_obj_id, int $a_usr_id) : ilCourseParticipant
     {
         if (isset(self::$instances[$a_obj_id][$a_usr_id]) && self::$instances[$a_obj_id][$a_usr_id]) {
             return self::$instances[$a_obj_id][$a_usr_id];

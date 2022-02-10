@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -13,21 +13,20 @@
 */
 class ilLORandomTestQuestionPools
 {
-    protected $container_id = 0;
-    protected $objective_id = 0;
-    protected $test_type = 0;
-    protected $test_id = 0;
-    protected $qpl_seq = 0;
-    protected $limit = 50;
+    protected int $container_id = 0;
+    protected int $objective_id = 0;
+    protected int $test_type = 0;
+    protected int $test_id = 0;
+    protected int $qpl_seq = 0;
+    protected int $limit = 50;
 
+    protected ilDBInterface $db;
+    
 
-    /**
-     * Constructor
-     * @param type $a_container_id
-     * @param type $a_objective_id
-     */
-    public function __construct($a_container_id, $a_objective_id, $a_test_type, $a_qpl_sequence)
+    public function __construct(int $a_container_id, int $a_objective_id, int $a_test_type, int $a_qpl_sequence)
     {
+        global $DIC;
+
         $this->container_id = $a_container_id;
         $this->objective_id = $a_objective_id;
         $this->test_type = $a_test_type;
@@ -36,20 +35,11 @@ class ilLORandomTestQuestionPools
         $this->read();
     }
 
-    /**
-     * lookup limit
-     * @global type $ilDB
-     * @param int $a_container_id
-     * @param int $a_objective_id
-     * @param int $a_test_type
-     * @return int
-     */
-    public static function lookupLimit($a_container_id, $a_objective_id, $a_test_type)
+    public static function lookupLimit(int $a_container_id, int $a_objective_id, int $a_test_type) : int
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = 'SELECT * FROM loc_rnd_qpl ' .
                 'WHERE container_id = ' . $ilDB->quote($a_container_id, 'integer') . ' ' .
                 'AND objective_id = ' . $ilDB->quote($a_objective_id, 'integer') . ' ' .
@@ -61,20 +51,11 @@ class ilLORandomTestQuestionPools
         return 0;
     }
 
-    /**
-     * Lookup sequence ids
-     * @global type $ilDB
-     * @param int $a_container_id
-     * @param int $a_objective_id
-     * @param int $a_test_id
-     * @return int[]
-     */
-    public static function lookupSequences($a_container_id, $a_objective_id, $a_test_id)
+    public static function lookupSequences(int $a_container_id, int $a_objective_id, int $a_test_id) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = 'SELECT * FROM loc_rnd_qpl ' .
                 'WHERE container_id = ' . $ilDB->quote($a_container_id, 'integer') . ' ' .
                 'AND objective_id = ' . $ilDB->quote($a_objective_id, 'integer') . ' ' .
@@ -85,24 +66,14 @@ class ilLORandomTestQuestionPools
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $sequences[] = $row->qp_seq;
         }
-        return (array) $sequences;
+        return $sequences;
     }
 
-    /**
-     * Lookup sequence ids
-     * @global type $ilDB
-     * @param int $a_container_id
-     * @param int $a_objective_id
-     * @param int $a_test_id
-     * @param int $a_test_type
-     * @return int[]
-     */
-    public static function lookupSequencesByType($a_container_id, $a_objective_id, $a_test_id, $a_test_type)
+    public static function lookupSequencesByType(int $a_container_id, int $a_objective_id, int $a_test_id, int $a_test_type) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = 'SELECT * FROM loc_rnd_qpl ' .
             'WHERE container_id = ' . $ilDB->quote($a_container_id, 'integer') . ' ' .
             'AND objective_id = ' . $ilDB->quote($a_objective_id, 'integer') . ' ' .
@@ -114,23 +85,15 @@ class ilLORandomTestQuestionPools
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $sequences[] = $row->qp_seq;
         }
-        return (array) $sequences;
+        return $sequences;
     }
 
 
-    /**
-     * Lookup objective ids by sequence_id
-     * @global type $ilDB
-     * @param int $a_container_id
-     * @param int $a_seq_id
-     * @return int[]
-     */
-    public static function lookupObjectiveIdsBySequence($a_container_id, $a_seq_id)
+    public static function lookupObjectiveIdsBySequence(int $a_container_id, int $a_seq_id) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = 'SELECT objective_id FROM loc_rnd_qpl ' .
                 'WHERE container_id = ' . $ilDB->quote($a_container_id, 'integer') . ' ' .
                 'AND qp_seq = ' . $ilDB->quote($a_seq_id, 'integer');
@@ -143,72 +106,67 @@ class ilLORandomTestQuestionPools
     }
 
 
-    public function setContainerId($a_id)
+    public function setContainerId(int $a_id) :void
     {
         $this->container_id = $a_id;
     }
 
-    public function getContainerId()
+    public function getContainerId() : int
     {
         return $this->container_id;
     }
-
-    public function setObjectiveId($a_id)
+    
+    public function setObjectiveId(int $a_id) : void
     {
         $this->objective_id = $a_id;
     }
-
-    public function getObjectiveId()
+    
+    public function getObjectiveId() : int
     {
         return $this->objective_id;
     }
-
-    public function setTestType($a_type)
+    
+    public function setTestType(int $a_type) : void
     {
         $this->test_type = $a_type;
     }
-
-    public function getTestType()
+    
+    public function getTestType() : int
     {
         return $this->test_type;
     }
-
-    public function setTestId($a_id)
+    
+    public function setTestId(int $a_id) : void
     {
         $this->test_id = $a_id;
     }
-
-    public function getTestId()
+    
+    public function getTestId() : int
     {
         return $this->test_id;
     }
-
-    public function setQplSequence($a_id)
+    
+    public function setQplSequence(int $a_id) : void
     {
         $this->qpl_seq = $a_id;
     }
-
-    public function getQplSequence()
+    
+    public function getQplSequence() : int
     {
         return $this->qpl_seq;
     }
-
-    public function setLimit($a_id)
+    
+    public function setLimit(int $a_id) : void
     {
         $this->limit = $a_id;
     }
-
-    public function getLimit()
+    
+    public function getLimit() : int
     {
         return $this->limit;
     }
-
-    /**
-     * Copy assignment
-     * @param type $a_copy_id
-     * @param type $a_new_objective_id
-     */
-    public function copy($a_copy_id, $a_new_course_id, $a_new_objective_id)
+    
+    public function copy(int $a_copy_id, int $a_new_course_id, int $a_new_objective_id) : void
     {
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $options->getMappings();
@@ -254,54 +212,33 @@ class ilLORandomTestQuestionPools
         }
     }
 
-
-    /**
-     * read settings
-     * @global type $ilDB
-     * @return boolean
-     */
-    public function read()
+    
+    public function read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'SELECT * FROM loc_rnd_qpl ' .
-            'WHERE container_id = ' . $ilDB->quote($this->getContainerId(), 'integer') . ' ' .
-            'AND objective_id = ' . $ilDB->quote($this->getObjectiveId(), 'integer') . ' ' .
-            'AND tst_type = ' . $ilDB->quote($this->getTestType(), 'integer') . ' ' .
-            'AND qp_seq = ' . $ilDB->quote($this->getQplSequence(), 'integer');
-
-        $res = $ilDB->query($query);
+            'WHERE container_id = ' . $this->db->quote($this->getContainerId(), 'integer') . ' ' .
+            'AND objective_id = ' . $this->db->quote($this->getObjectiveId(), 'integer') . ' ' .
+            'AND tst_type = ' . $this->db->quote($this->getTestType(), 'integer') . ' ' .
+            'AND qp_seq = ' . $this->db->quote($this->getQplSequence(), 'integer');
+        
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setLimit($row->percentage);
             $this->setTestId($row->tst_id);
         }
-        return true;
     }
 
-    public function delete()
+    public function delete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'DELETE FROM loc_rnd_qpl ' .
-            'WHERE container_id = ' . $ilDB->quote($this->getContainerId(), 'integer') . ' ' .
-            'AND objective_id = ' . $ilDB->quote($this->getObjectiveId(), 'integer') . ' ' .
-            'AND tst_type = ' . $ilDB->quote($this->getTestType(), 'integer') . ' ' .
-            'AND qp_seq = ' . $ilDB->quote($this->getQplSequence(), 'integer');
-        $ilDB->manipulate($query);
+            'WHERE container_id = ' . $this->db->quote($this->getContainerId(), 'integer') . ' ' .
+            'AND objective_id = ' . $this->db->quote($this->getObjectiveId(), 'integer') . ' ' .
+            'AND tst_type = ' . $this->db->quote($this->getTestType(), 'integer') . ' ' .
+            'AND qp_seq = ' . $this->db->quote($this->getQplSequence(), 'integer');
+        $this->db->manipulate($query);
     }
 
-    /**
-     * Delete assignment for objective id and test type
-     * @param int $a_course_id
-     * @param int $a_objective_id
-     * @param int $a_tst_type
-     *
-     */
-    public static function deleteForObjectiveAndTestType($a_course_id, $a_objective_id, $a_tst_type)
+    public static function deleteForObjectiveAndTestType(int $a_course_id, int $a_objective_id, int $a_tst_type) : void
     {
         $db = $GLOBALS['DIC']->database();
 
@@ -312,32 +249,26 @@ class ilLORandomTestQuestionPools
         $db->manipulate($query);
     }
 
-    public function create()
+    public function create() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'INSERT INTO loc_rnd_qpl ' .
                 '(container_id, objective_id, tst_type, tst_id, qp_seq, percentage) ' .
                 'VALUES ( ' .
-                $ilDB->quote($this->getContainerId(), 'integer') . ', ' .
-                $ilDB->quote($this->getObjectiveId(), 'integer') . ', ' .
-                $ilDB->quote($this->getTestType(), 'integer') . ', ' .
-                $ilDB->quote($this->getTestId(), 'integer') . ', ' .
-                $ilDB->quote($this->getQplSequence(), 'integer') . ', ' .
-                $ilDB->quote($this->getLimit()) . ' ' .
+                $this->db->quote($this->getContainerId(), 'integer') . ', ' .
+                $this->db->quote($this->getObjectiveId(), 'integer') . ', ' .
+                $this->db->quote($this->getTestType(), 'integer') . ', ' .
+                $this->db->quote($this->getTestId(), 'integer') . ', ' .
+                $this->db->quote($this->getQplSequence(), 'integer') . ', ' .
+                $this->db->quote($this->getLimit(), ilDBConstants::T_INTEGER) . ' ' .
                 ')';
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
     }
 
-    // begin-patch optes_lok_export
-    public static function toXml(ilXmlWriter $writer, $a_objective_id)
+    public static function toXml(ilXmlWriter $writer, int $a_objective_id) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = 'SELECT * FROM loc_rnd_qpl ' .
             'WHERE objective_id = ' . $ilDB->quote($a_objective_id, 'integer');
         $res = $ilDB->query($query);

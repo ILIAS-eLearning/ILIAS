@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -26,66 +26,27 @@
 * class ilTimingCache
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
 */
 class ilTimingCache
 {
-    /**
-     * @var null | ilTimingCache
-     */
-    private static $instances = array();
+    private static array $instances = [];
 
-    /**
-     * @var int
-     */
-    private $ref_id = 0;
+    private int $ref_id = 0;
+    private int $obj_id = 0;
+    private bool $timings_active = false;
+    private array $timings = array();
+    private array $timings_user = array();
+    private array $collection_items = array();
+    private array $completed_users = array();
 
-    /**
-     * @var int
-     */
-    private $obj_id = 0;
-
-    /**
-     * @var bool
-     */
-    private $timings_active = false;
-
-    /**
-     * @var array
-     */
-    private $timings = array();
-
-    /**
-     * @var array
-     */
-    private $timings_user = array();
-
-    /**
-     * @var array
-     */
-    private $collection_items = array();
-
-    /**
-     * @var array
-     */
-    private $completed_users = array();
-
-    /**
-     * ilTimingCache constructor.
-     */
-    public function __construct($ref_id)
+    public function __construct(int $ref_id)
     {
         $this->ref_id = $ref_id;
         $this->obj_id = ilObject::_lookupObjId($this->ref_id);
         $this->readObjectInformation();
     }
 
-    /**
-     * @param $ref_id
-     * @return ilTimingCache
-     */
-    public static function getInstanceByRefId($ref_id)
+    public static function getInstanceByRefId(int $ref_id) : ilTimingCache
     {
         if (!isset(self::$instances[$ref_id])) {
             self::$instances[$ref_id] = new self($ref_id);
@@ -93,11 +54,7 @@ class ilTimingCache
         return self::$instances[$ref_id];
     }
 
-    /**
-     * @param int $usr_id
-     * @return bool
-     */
-    public function isWarningRequired($usr_id)
+    public function isWarningRequired(int $usr_id) : bool
     {
         if (in_array($usr_id, $this->completed_users)) {
             return false;
@@ -121,10 +78,7 @@ class ilTimingCache
         return $end < time();
     }
 
-    /**
-     * Read timing information for object
-     */
-    protected function readObjectInformation()
+    protected function readObjectInformation() : void
     {
         $this->timings = ilObjectActivation::getItem($this->ref_id);
         $this->timings_active = false;
@@ -142,12 +96,7 @@ class ilTimingCache
     }
 
 
-    /**
-     * @deprecated 7
-     * @param $a_ref_id
-     * @return mixed
-     */
-    public static function &_getTimings($a_ref_id)
+    public static function _getTimings(int $a_ref_id) : array
     {
         static $cache = array();
 

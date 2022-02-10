@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -16,10 +16,7 @@
  */
 class ilLOPageGUI extends ilPageObjectGUI
 {
-    /**
-    * Constructor
-    */
-    public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "")
+    public function __construct(int $a_id = 0, int $a_old_nr = 0, string $a_lang = "")
     {
         parent::__construct("lobj", $a_id, $a_old_nr, false, $a_lang);
     }

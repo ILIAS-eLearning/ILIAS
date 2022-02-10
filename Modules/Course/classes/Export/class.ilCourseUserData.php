@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -24,90 +24,55 @@
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
 * @ingroup ModulesCourse
 */
 class ilCourseUserData
 {
-    private $db;
-    private $user_id;
-    private $field_id;
-    private $value;
+    private int $user_id;
+    private int $field_id;
+    private string $value;
+
+    protected ilDBInterface $db;
+
     
-    
-    /**
-     * Contructor
-     *
-     * @access public
-     * @param int user id
-     * @param int field id
-     *
-     */
-    public function __construct($a_user_id, $a_field_id = 0)
+    public function __construct(int $a_user_id, int $a_field_id = 0)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $this->db = $ilDB;
+        $this->db = $DIC->database();
         $this->user_id = $a_user_id;
         $this->field_id = $a_field_id;
-        
         if ($this->field_id) {
             $this->read();
         }
     }
     
-    /**
-     * Get values by obj_id (for all users)
-     *
-     * @access public
-     * @static
-     *
-     * @param int obj_id
-     */
     public static function _getValuesByObjId($a_obj_id)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
         $field_ids = ilCourseDefinedFieldDefinition::_getFieldIds($a_obj_id);
         if (!count($field_ids)) {
             return array();
         }
-                
         $where = "WHERE " . $ilDB->in('field_id', $field_ids, false, 'integer');
         $query = "SELECT * FROM crs_user_data " .
             $where;
         
         $res = $ilDB->query($query);
+        $user_data = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $user_data[$row->usr_id][$row->field_id] = $row->value;
+            $user_data[(int) $row->usr_id][(int) $row->field_id] = $row->value;
         }
-        
-        return $user_data ? $user_data : array();
+        return $user_data;
     }
     
-    /**
-     * Check required fields
-     *
-     * @access public
-     * @static
-     *
-     * @param int user id
-     * @param int object id
-     *
-     * @return bool all fields filled
-     */
-    public static function _checkRequired($a_usr_id, $a_obj_id)
+    public static function _checkRequired(int $a_usr_id, int $a_obj_id) : bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $required = ilCourseDefinedFieldDefinition::_getRequiredFieldIds($a_obj_id);
         if (!count($required)) {
             return true;
@@ -123,37 +88,20 @@ class ilCourseUserData
             " ";
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        
         return $row->num_entries == count($required);
     }
     
-    /**
-     * Delete all entries of an user
-     *
-     * @access public
-     * @static
-     * @param int user_id
-     *
-     */
-    public static function _deleteByUser($a_user_id)
+    public static function _deleteByUser(int $a_user_id) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
         $query = "DELETE FROM crs_user_data " .
             "WHERE usr_id = " . $ilDB->quote($a_user_id, 'integer');
         $res = $ilDB->manipulate($query);
     }
     
-    /**
-     * Delete by field
-     *
-     * @access public
-     * @param
-     *
-     */
-    public static function _deleteByField($a_field_id)
+    public static function _deleteByField(int $a_field_id) : void
     {
         global $DIC;
 
@@ -164,57 +112,31 @@ class ilCourseUserData
         $res = $ilDB->manipulate($query);
     }
     
-    public function setValue($a_value)
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
     
-    /**
-     * update value
-     *
-     * @access public
-     *
-     */
-    public function update()
+    public function update() : void
     {
         $this->delete();
         $this->create();
     }
     
-    /**
-     * insert entry
-     *
-     * @access public
-     *
-     */
-    public function delete()
+    public function delete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM crs_user_data " .
             "WHERE usr_id = " . $this->db->quote($this->user_id, 'integer') . " " .
             "AND field_id = " . $this->db->quote($this->field_id, 'integer');
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
     }
     
-    /**
-     * Add entry
-     *
-     * @access public
-     *
-     */
-    public function create()
+    public function create() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "INSERT INTO crs_user_data (value,usr_id,field_id) " .
             "VALUES( " .
             $this->db->quote($this->getValue(), 'text') . ", " .
@@ -222,26 +144,17 @@ class ilCourseUserData
             $this->db->quote($this->field_id, 'integer') . " " .
             ")";
             
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
     }
 
-    /**
-     * Read value
-     *
-     * @access private
-     */
-    private function read()
+    private function read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT * FROM crs_user_data " .
             "WHERE usr_id = " . $this->db->quote($this->user_id, 'integer') . " " .
             "AND field_id = " . $this->db->quote($this->field_id, 'integer');
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
-        $this->setValue($row->value);
+        $this->setValue((string) $row->value);
     }
 }

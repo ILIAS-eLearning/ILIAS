@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -6,66 +6,59 @@
  * LO test assignment form creator
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  * @package ModulesCourse
  */
 class ilLOTestAssignmentForm
 {
-    const TEST_NEW = 1;
-    const TEST_ASSIGN = 2;
+    public const TEST_NEW = 1;
+    public const TEST_ASSIGN = 2;
 
-    private $lng = null;
-    private $ctrl = null;
+    private ilLanguage $lng;
+    private ilCtrlInterface $ctrl;
+    private ilTree $tree;
     
-    private $container = null;
-    private $gui = null;
-    private $settings = null;
-    
-    private $type = 0;
+    private ilObject $container;
+    private object $gui;
+    private ilLOSettings $settings;
+    private int $type = 0;
     
     /**
      * Constructor
      */
-    public function __construct($gui, ilObject $a_container_obj, $a_type)
+    public function __construct(object $gui, ilObject $a_container_obj, int $a_type)
     {
-        $this->lng = $GLOBALS['DIC']['lng'];
-        $this->ctrl = $GLOBALS['DIC']['ilCtrl'];
-        
+        global $DIC;
+
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->tree = $DIC->repositoryTree();
         $this->gui = $gui;
         $this->container = $a_container_obj;
         $this->settings = ilLOSettings::getInstanceByObjId($this->getContainer()->getId());
-        
         $this->type = $a_type;
     }
     
-    /**
-     * @return ilObject
-     */
-    public function getContainer()
+    public function getContainer() : ilObject
     {
         return $this->container;
     }
     
-    public function getGUI()
+    public function getGUI() : object
     {
         return $this->gui;
     }
     
-    /**
-     *
-     * @return ilLOSettings
-     */
-    public function getSettings()
+    public function getSettings() : ilLOSettings
     {
         return $this->settings;
     }
     
-    public function getTestType()
+    public function getTestType() : int
     {
         return $this->type;
     }
     
-    public function initForm($a_as_multi_assignment = false)
+    public function initForm(bool $a_as_multi_assignment = false) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('crs_loc_tst_assignment'));
@@ -92,9 +85,9 @@ class ilLOTestAssignmentForm
 
         $cr_mode = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_form_assign_it'), 'mode');
         $cr_mode->setRequired(true);
-        $cr_mode->setValue(self::TEST_NEW);
+        $cr_mode->setValue((string) self::TEST_NEW);
         
-        $new = new ilRadioOption($this->lng->txt('crs_loc_form_tst_new'), self::TEST_NEW);
+        $new = new ilRadioOption($this->lng->txt('crs_loc_form_tst_new'), (string) self::TEST_NEW);
 
         switch ($this->getTestType()) {
             case ilLOSettings::TYPE_TEST_INITIAL:
@@ -139,7 +132,7 @@ class ilLOTestAssignmentForm
         $cr_mode->addOption($new);
         
         // assign existing
-        $existing = new ilRadioOption($this->lng->txt('crs_loc_form_assign'), self::TEST_ASSIGN);
+        $existing = new ilRadioOption($this->lng->txt('crs_loc_form_assign'), (string) self::TEST_ASSIGN);
 
         switch ($this->getTestType()) {
             case ilLOSettings::TYPE_TEST_INITIAL:
@@ -158,7 +151,7 @@ class ilLOTestAssignmentForm
         
         $options = array();
         $options[''] = $this->lng->txt('select_one');
-        foreach ((array) $assignable as $tst_ref_id) {
+        foreach ($assignable as $tst_ref_id) {
             $tst_obj_id = ilObject::_lookupObjId($tst_ref_id);
             $options[$tst_ref_id] = ilObject::_lookupTitle($tst_obj_id);
         }
@@ -166,10 +159,7 @@ class ilLOTestAssignmentForm
         $selectable->setRequired(true);
         $selectable->setOptions($options);
         $existing->addSubItem($selectable);
-        
         $form->addItem($cr_mode);
-        
-        
         if ($a_as_multi_assignment) {
             $assignments = ilLOTestAssignments::getInstance($this->getContainer()->getId());
             
@@ -189,20 +179,15 @@ class ilLOTestAssignmentForm
             $objective->setOptions($options);
             $form->addItem($objective);
         }
-        
         return $form;
     }
     
-    /**
-     * Get assignable tests
-     * @return array
-     */
-    protected function getAssignableTests()
+    protected function getAssignableTests() : array
     {
         $assignments = ilLOTestAssignments::getInstance($this->getContainer()->getId());
 
         $tests = array();
-        foreach ($GLOBALS['DIC']['tree']->getChildsByType($this->getContainer()->getRefId(), 'tst') as $tree_node) {
+        foreach ($this->tree->getChildsByType($this->getContainer()->getRefId(), 'tst') as $tree_node) {
             if (!in_array($tree_node['child'], $assignments->getTests())) {
                 $tests[] = $tree_node['child'];
             }

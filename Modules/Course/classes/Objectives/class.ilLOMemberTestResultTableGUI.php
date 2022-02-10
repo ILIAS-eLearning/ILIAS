@@ -1,77 +1,49 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
 * Class ilLOmemberTestResultTableGUI
-*
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* $Id$
 */
 class ilLOMemberTestResultTableGUI extends ilTable2GUI
 {
-    private $settings = null;
-    private $parent_container = null;
+    private ilLOSettings $settings;
+    private ilObject $parent_container;
     
-    private $current_user = 0;
+    private int $current_user = 0;
     
     
-    /**
-     * Constructor
-     * @param type $a_parent_obj
-     * @param type $a_parent_cmd
-     * @param type $a_template_context
-     */
-    public function __construct($a_parent_obj_gui, $a_parent_obj, $a_parent_cmd)
+    public function __construct(object $a_parent_obj_gui, ilObject $a_parent_obj, string $a_parent_cmd)
     {
         $this->parent_container = $a_parent_obj;
-        
         $this->setId('lomemtstres_' . $a_parent_obj->getId());
         parent::__construct($a_parent_obj_gui, $a_parent_cmd);
-        
-        
         $this->settings = ilLOSettings::getInstanceByObjId($a_parent_obj->getId());
     }
     
-    /**
-     *
-     * @return ilObject
-     */
-    public function getParentContainer()
+    public function getParentContainer() : ilObject
     {
         return $this->parent_container;
     }
     
-    /**
-     * return ilLOSettings
-     */
-    public function getSettings()
+    public function getSettings() : ilLOSettings
     {
         return $this->settings;
     }
     
-    /**
-     * Set user id
-     * @param type $a_id
-     */
-    public function setUserId($a_id)
+    public function setUserId(int $a_id) : void
     {
         $this->current_user = $a_id;
     }
     
     
-    /**
-     * Get current user id
-     */
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->current_user;
     }
     
-    /**
-     * Init Table
-     */
-    public function init()
+    public function init() : void
     {
         $name = ilObjUser::_lookupName($this->getUserId());
         
@@ -82,30 +54,21 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
         } else {
             $name_string = $name['login'];
         }
-
-        $this->setTitle($GLOBALS['DIC']['lng']->txt('crs_loc_test_results_of') . ' ' . $name_string);
-        
-        $this->addColumn($GLOBALS['DIC']['lng']->txt('crs_objectives'), 'title', '50%');
-        
+        $this->setTitle($this->lng->txt('crs_loc_test_results_of') . ' ' . $name_string);
+        $this->addColumn($this->lng->txt('crs_objectives'), 'title', '50%');
         if ($this->getSettings()->worksWithInitialTest()) {
-            $this->addColumn($GLOBALS['DIC']['lng']->txt('crs_loc_itest_info'), 'it', '25%');
-            $this->addColumn($GLOBALS['DIC']['lng']->txt('crs_loc_qtest_info'), 'qt', '25%');
+            $this->addColumn($this->lng->txt('crs_loc_itest_info'), 'it', '25%');
+            $this->addColumn($this->lng->txt('crs_loc_qtest_info'), 'qt', '25%');
         } else {
-            $this->addColumn($GLOBALS['DIC']['lng']->txt('crs_loc_qtest_info'), 'qt', '25%');
+            $this->addColumn($this->lng->txt('crs_loc_qtest_info'), 'qt', '25%');
         }
-        
         $this->setRowTemplate('tpl.crs_objectives_usr_result_row.html', 'Modules/Course');
-        
         $this->disable('sort');
         $this->disable('num_info');
     }
     
 
-    /**
-     * Fill table rows
-     * @param array $a_set
-     */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         if ($this->getSettings()->worksWithInitialTest()) {
@@ -129,16 +92,11 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * Parse user results for table
-     * @return type
-     */
-    public function parse()
+    public function parse() : void
     {
-        
         $objective_ids = ilCourseObjective::_getObjectiveIds($this->getParentContainer()->getId(), true);
-
-        foreach ((array) $objective_ids as $objective_id) {
+        $tbl_data = [];
+        foreach ($objective_ids as $objective_id) {
             $objective = array();
             $objective['id'] = $objective_id;
             $objective['title'] = ilCourseObjective::lookupObjectiveTitle($objective_id);
@@ -169,16 +127,10 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
 
             $tbl_data[] = $objective;
         }
-        
-        return $this->setData($tbl_data);
+        $this->setData($tbl_data);
     }
     
-    /**
-     * Create test result link
-     * @param type $a_type
-     * @param type $a_objective_id
-     */
-    protected function createTestResultLink($a_type, $a_objective_id)
+    protected function createTestResultLink(int $a_type, int $a_objective_id) : string
     {
         $assignments = ilLOTestAssignments::getInstance($this->getParentContainer()->getId());
         

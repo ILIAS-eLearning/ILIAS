@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,56 +21,38 @@
         +-----------------------------------------------------------------------------+
 */
 
-// begin-patch lok
-// end-patch lok
-
 /**
 * TableGUI for question assignments of course objectives
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
 * @ingroup ModulesCourse
 */
 class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 {
-    // begin-patch lok
-    private $settings = null;
-    // end-patch lok
+    private ilLOSettings $settings;
+    private int $mode = 0;
+    private ?ilCourseObjectiveQuestion $objective_qst_obj = null;
     
-    private $mode = 0;
-    private $objective = null;
-    private $objective_lm = null;
-    
-    private $objective_id = 0;
-    private $course_obj;
+    private int $objective_id = 0;
+    private ilObject $course_obj;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_course_obj, $a_objective_id, $a_mode)
+    protected ilObjectDefinition $objDefinition;
+    protected ilTree $tree;
+
+    public function __construct(object $a_parent_obj, ilObject $a_course_obj, int $a_objective_id, int $a_mode)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
         $this->objective_id = $a_objective_id;
         $this->course_obj = $a_course_obj;
-        
-        // begin-patch lok
         $this->settings = ilLOSettings::getInstanceByObjId($this->course_obj->getId());
-        // end-patch lok
-        
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('crs');
-        $this->ctrl = $ilCtrl;
-        
+        $this->objDefinition = $DIC['objDefinition'];
+        $this->tree = $DIC->repositoryTree();
+
         parent::__construct($a_parent_obj, 'materialAssignment');
+        $this->lng->loadLanguageModule('crs');
+
+
         $this->setFormName('assignments');
         $this->addColumn($this->lng->txt('type'), 'type', "20px");
         $this->addColumn($this->lng->txt('title'), 'title', '');
@@ -99,23 +81,11 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
         $this->initQuestionAssignments();
     }
     
-    // begin-patch lok
-    /**
-     * Get settings
-     * @return ilLOSettings
-     */
-    public function getSettings()
+    public function getSettings() : ilLOSettings
     {
         return $this->settings;
     }
-    // end-patch lok
-    
-    /**
-     * fill row
-     * @access protected
-     * @param array row data
-     * @return void
-     */
+
     protected function fillRow(array $a_set) : void
     {
         foreach ($a_set['sub'] as $sub_data) {
@@ -172,25 +142,11 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
     }
-    
-    /**
-     * parse
-     *
-     * @access public
-     * @param array array of assignable nodes (tree node data)
-     * @return
-     */
-    public function parse($a_assignable)
+
+    public function parse(array $a_assignable) : void
     {
-        global $DIC;
-
-        $objDefinition = $DIC['objDefinition'];
-        
-        // begin-patch lok
         $a_assignable = $this->getTestNode();
-        // end-patch lok
         $tests = array();
-
         foreach ($a_assignable as $node) {
             $tmp_data = array();
             $subobjects = array();
@@ -220,52 +176,35 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
             $tmp_data['id'] = $node['child'];
             $tmp_data['obj_id'] = $node['obj_id'];
             $tmp_data['sub'] = $subobjects;
-            
             $tests[] = $tmp_data;
         }
-        
         $this->setData($tests);
     }
-    // begin-patch lok
-    protected function getTestNode()
+
+    protected function getTestNode() : array
     {
         if ($this->mode == ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT) {
             $tst_ref_id = $this->getSettings()->getInitialTest();
             if ($tst_ref_id) {
-                return array($GLOBALS['DIC']['tree']->getNodeData($tst_ref_id));
+                return array($this->tree->getNodeData($tst_ref_id));
             }
         }
         if ($this->mode == ilCourseObjectiveQuestion::TYPE_FINAL_TEST) {
             $tst_ref_id = $this->getSettings()->getQualifiedTest();
             if ($tst_ref_id) {
-                return array($GLOBALS['DIC']['tree']->getNodeData($tst_ref_id));
+                return array($this->tree->getNodeData($tst_ref_id));
             }
         }
-        return array();
+        return [];
     }
     // end-patch lok
 
-    /**
-     * init objective assignments
-     *
-     * @access protected
-     * @return
-     */
-    protected function initQuestionAssignments()
+    protected function initQuestionAssignments() : void
     {
         $this->objective_qst_obj = new ilCourseObjectiveQuestion($this->objective_id);
-
-        return true;
     }
     
-    /**
-     * Sort questions
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function sortQuestions($a_qst_ids)
+    protected function sortQuestions(array $a_qst_ids) : array
     {
         return ilArrayUtil::sortArray($a_qst_ids, 'title', 'asc');
     }

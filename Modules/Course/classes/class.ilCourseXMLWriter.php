@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /*
     +-----------------------------------------------------------------------------+
@@ -37,59 +37,43 @@
 */
 class ilCourseXMLWriter extends ilXmlWriter
 {
-    const MODE_SOAP = 1;
-    const MODE_EXPORT = 2;
+    public const MODE_SOAP = 1;
+    public const MODE_EXPORT = 2;
+
+    public const EXPORT_VERSION = '8.0';
     
-    private $mode = self::MODE_SOAP;
+    private int $mode = self::MODE_SOAP;
 
+    private string $xml = '';
+    private ilObjCourse $course_obj;
+    private bool $attach_users = true;
 
-    private $ilias;
-
-    /**
-     * @var string
-     */
-    private $xml;
-
-    /**
-     * @var \ilObjCourse
-     */
-    private $course_obj;
-
-    private $attach_users = true;
+    protected ilSetting $setting;
+    protected ilAccessHandler $access;
     
     
-    /**
-     * constructor
-     *
-     * @param ilObject $course_obj
-     *
-     * @access	public
-     */
-    public function __construct($course_obj)
+    public function __construct(ilObjCourse $course_obj)
     {
         global $DIC;
 
-        $ilias = $DIC['ilias'];
+        $this->setting = $DIC->settings();
+        $this->access = $DIC->access();
 
         parent::__construct();
-
-        $this->EXPORT_VERSION = "2";
-
-        $this->ilias = $ilias;
         $this->course_obj = $course_obj;
     }
     
-    public function setMode($a_mode)
+    public function setMode(int $a_mode) : void
     {
         $this->mode = $a_mode;
     }
     
-    public function getMode()
+    public function getMode() : int
     {
         return $this->mode;
     }
 
-    public function start()
+    public function start() : void
     {
         if ($this->getMode() == self::MODE_SOAP) {
             $this->__buildHeader();
@@ -119,63 +103,49 @@ class ilCourseXMLWriter extends ilXmlWriter
         }
     }
 
-    public function getXML()
+    public function getXML() : string
     {
-        #var_dump("<pre>", htmlentities($this->xmlDumpMem()),"<pre>");
         return $this->xmlDumpMem(true);
     }
 
-    // Called from nested class
     public function modifyExportIdentifier($a_tag, $a_param, $a_value)
     {
         if ($a_tag == "Identifier" && $a_param == "Entry") {
-            $a_value = "il_" . $this->ilias->getSetting('inst_id') . "_crs_" . $this->course_obj->getId();
+            $a_value = "il_" . $this->setting->get('inst_id') . "_crs_" . $this->course_obj->getId();
         }
 
         return $a_value;
     }
 
     // PRIVATE
-    public function __buildHeader()
+    public function __buildHeader() : void
     {
         $this->xmlSetDtdDef("<!DOCTYPE Course PUBLIC \"-//ILIAS//DTD Course//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_crs_5_0.dtd\">");
-        $this->xmlSetGenCmt("Export of ILIAS course " . $this->course_obj->getId() . " of installation " . $this->ilias->getSetting('inst_id') . ".");
+        $this->xmlSetGenCmt("Export of ILIAS course " . $this->course_obj->getId() . " of installation " . $this->setting->get('inst_id') . ".");
         $this->xmlHeader();
-
-
-        return true;
     }
     
-    public function __buildCourseStart()
+    public function __buildCourseStart() : void
     {
-        $attrs["exportVersion"] = $this->EXPORT_VERSION;
-        $attrs["id"] = "il_" . $this->ilias->getSetting('inst_id') . '_crs_' . $this->course_obj->getId();
+        $attrs["exportVersion"] = self::EXPORT_VERSION;
+        $attrs["id"] = "il_" . $this->setting->get('inst_id') . '_crs_' . $this->course_obj->getId();
         $attrs['showMembers'] = ($this->course_obj->getShowMembers() ? 'Yes' : 'No');
         $this->xmlStartTag("Course", $attrs);
     }
     
-    public function __buildMetaData()
+    public function __buildMetaData() : void
     {
-
         $md2xml = new ilMD2XML($this->course_obj->getId(), $this->course_obj->getId(), 'crs');
         $md2xml->startExport();
         $this->appendXML($md2xml->getXML());
-
-        return true;
     }
     
-    /**
-     * Build advanced meta data
-     *
-     * @access private
-     *
-     */
-    private function __buildAdvancedMetaData()
+    private function __buildAdvancedMetaData() : void
     {
         ilAdvancedMDValues::_appendXMLByObjId($this, $this->course_obj->getId());
     }
     
-    public function __buildAdmin()
+    public function __buildAdmin() : void
     {
         $admins = $this->course_obj->getMembersObject()->getAdmins();
         $admins = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
@@ -186,7 +156,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         );
         
         foreach ($admins as $id) {
-            $attr['id'] = 'il_' . $this->ilias->getSetting('inst_id') . '_usr_' . $id;
+            $attr['id'] = 'il_' . $this->setting->get('inst_id') . '_usr_' . $id;
             $attr['notification'] = ($this->course_obj->getMembersObject()->isNotificationEnabled($id)) ? 'Yes' : 'No';
             $attr['passed'] = $this->course_obj->getMembersObject()->hasPassed($id) ? 'Yes' : 'No';
             $attr['contact'] = $this->course_obj->getMembersObject()->isContact($id) ? 'Yes' : 'No';
@@ -194,20 +164,19 @@ class ilCourseXMLWriter extends ilXmlWriter
             $this->xmlStartTag('Admin', $attr);
             $this->xmlEndTag('Admin');
         }
-        return true;
     }
 
-    public function __buildTutor()
+    public function __buildTutor() : void
     {
         $tutors = $this->course_obj->getMembersObject()->getTutors();
-        $tutors = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+        $tutors = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
             ilOrgUnitOperation::OP_MANAGE_MEMBERS,
             $this->course_obj->getRefId(),
             $tutors
         );
         foreach ($tutors as $id) {
-            $attr['id'] = 'il_' . $this->ilias->getSetting('inst_id') . '_usr_' . $id;
+            $attr['id'] = 'il_' . $this->setting->get('inst_id') . '_usr_' . $id;
             $attr['notification'] = ($this->course_obj->getMembersObject()->isNotificationEnabled($id)) ? 'Yes' : 'No';
             $attr['passed'] = $this->course_obj->getMembersObject()->hasPassed($id) ? 'Yes' : 'No';
             $attr['contact'] = $this->course_obj->getMembersObject()->isContact($id) ? 'Yes' : 'No';
@@ -215,9 +184,8 @@ class ilCourseXMLWriter extends ilXmlWriter
             $this->xmlStartTag('Tutor', $attr);
             $this->xmlEndTag('Tutor');
         }
-        return true;
     }
-    public function __buildMember()
+    public function __buildMember() : void
     {
         $members = $this->course_obj->getMembersObject()->getMembers();
         $members = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
@@ -227,20 +195,19 @@ class ilCourseXMLWriter extends ilXmlWriter
             $members
         );
         foreach ($members as $id) {
-            $attr['id'] = 'il_' . $this->ilias->getSetting('inst_id') . '_usr_' . $id;
+            $attr['id'] = 'il_' . $this->setting->get('inst_id') . '_usr_' . $id;
             $attr['blocked'] = ($this->course_obj->getMembersObject()->isBlocked($id)) ? 'Yes' : 'No';
             $attr['passed'] = $this->course_obj->getMembersObject()->hasPassed($id) ? 'Yes' : 'No';
 
             $this->xmlStartTag('Member', $attr);
             $this->xmlEndTag('Member');
         }
-        return true;
     }
 
-    public function __buildSubscriber()
+    public function __buildSubscriber() : void
     {
         $subs = $this->course_obj->getMembersObject()->getSubscribers();
-        $subs = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+        $subs = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
             ilOrgUnitOperation::OP_MANAGE_MEMBERS,
             $this->course_obj->getRefId(),
@@ -250,21 +217,18 @@ class ilCourseXMLWriter extends ilXmlWriter
         foreach ($subs as $id) {
             $data = $this->course_obj->getMembersObject()->getSubscriberData($id);
 
-            $attr['id'] = 'il_' . $this->ilias->getSetting('inst_id') . '_usr_' . $id;
+            $attr['id'] = 'il_' . $this->setting->get('inst_id') . '_usr_' . $id;
             $attr['subscriptionTime'] = $data['time'];
 
             $this->xmlStartTag('Subscriber', $attr);
             $this->xmlEndTag('Subscriber');
         }
-        return true;
     }
 
-    public function __buildWaitingList()
+    public function __buildWaitingList() : void
     {
         $waiting_list = new ilCourseWaitingList($this->course_obj->getId());
-
         $wait = $waiting_list->getAllUsers();
-        
         foreach ($wait as $data) {
             $is_accessible = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'manage_members',
@@ -276,21 +240,17 @@ class ilCourseXMLWriter extends ilXmlWriter
                 continue;
             }
             
-            $attr['id'] = 'il_' . $this->ilias->getSetting('inst_id') . '_usr_' . $data['usr_id'];
+            $attr['id'] = 'il_' . $this->setting->get('inst_id') . '_usr_' . $data['usr_id'];
             $attr['position'] = $data['position'];
             $attr['subscriptionTime'] = $data['time'];
             
             $this->xmlStartTag('WaitingList', $attr);
             $this->xmlEndTag('WaitingList');
         }
-        return true;
     }
 
 
-    /**
-     * @return bool
-     */
-    public function __buildSetting()
+    public function __buildSetting() : void
     {
         $this->xmlStartTag('Settings');
 
@@ -375,7 +335,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         $this->xmlEndTag('Period');
         $this->xmlElement('WaitingListAutoFill', null, (int) $this->course_obj->hasWaitingListAutoFill());
         $this->xmlElement('CancellationEnd', null, ($this->course_obj->getCancellationEnd() && !$this->course_obj->getCancellationEnd()->isNull()) ? $this->course_obj->getCancellationEnd()->get(IL_CAL_UNIX) : null);
-        $this->xmlElement('MinMembers', null, (int) $this->course_obj->getSubscriptionMinMembers());
+        $this->xmlElement('MinMembers', null, $this->course_obj->getSubscriptionMinMembers());
         
         $this->xmlElement('ViewMode', null, $this->course_obj->getViewMode());
         if ($this->course_obj->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING) {
@@ -400,22 +360,15 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 
         $this->xmlEndTag('Settings');
-
-        return true;
     }
 
-    public function __buildFooter()
+    public function __buildFooter() : void
     {
         $this->xmlEndTag('Course');
     }
 
-    /**
-     * write access to attach user property, if set to false no users will be attached.
-     *
-     * @param unknown_type $value
-     */
-    public function setAttachUsers($value)
+    public function setAttachUsers($value) : void
     {
-        $this->attach_users = $value ? true : false;
+        $this->attach_users = (bool) $value;
     }
 }

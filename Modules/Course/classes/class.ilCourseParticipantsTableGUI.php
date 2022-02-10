@@ -1,86 +1,63 @@
-<?php
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
  * @ingroup ModulesCourse
  */
 class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 {
-    protected $show_learning_progress = false;
-    protected $show_timings = false;
-    protected $show_lp_status_sync = false;
+    protected bool $show_learning_progress = false;
+    protected bool $show_timings = false;
+    protected bool $show_lp_status_sync = false;
 
+    private ?ilCertificateUserForObjectPreloader $preLoader = null;
+    private ilPrivacySettings $privacy;
 
-    /**
-     * @var ilCertificateUserForObjectPreloader|null
-     */
-    private $preLoader;
+    protected ilAccessHandler $access;
+    protected ilRbacReview $rbacReview;
+    protected ilObjUser $user;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @param ilObject $rep_object
-     * @param bool $a_show_learning_progress
-     * @param bool $a_show_timings
-     * @param bool $a_show_lp_status_sync
-     * @param ilCertificateUserForObjectPreloader|null $preloader
-     */
     public function __construct(
-        $a_parent_obj,
+        object $a_parent_obj,
         ilObject $rep_object,
-        $a_show_learning_progress = false,
-        $a_show_timings = false,
-        $a_show_lp_status_sync = false,
+        bool $a_show_learning_progress = false,
+        bool $a_show_timings = false,
+        bool $a_show_lp_status_sync = false,
         ilCertificateUserForObjectPreloader $preloader = null
     ) {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->show_learning_progress = $a_show_learning_progress;
-        if ($this->show_learning_progress) {
-        }
 
         if (null === $preloader) {
             $preloader = new ilCertificateUserForObjectPreloader(new ilUserCertificateRepository(), new ilCertificateActiveValidator());
         }
         $this->preLoader = $preloader;
-        
         $this->show_timings = $a_show_timings;
         $this->show_lp_status_sync = $a_show_lp_status_sync;
-        
         $this->rep_object = $rep_object;
         
-        // #13208
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             $this->show_lp_status_sync = false;
         }
+        $this->privacy = ilPrivacySettings::getInstance();
+        $this->access = $DIC->access();
+        $this->participants = ilParticipants::getInstanceByObjId($this->getRepositoryObject()->getId());
+        $this->rbacReview = $DIC->rbac()->review();
+        $this->user = $DIC->user();
 
-        $this->lng = $lng;
+        $this->setId('crs_' . $this->getRepositoryObject()->getId());
+        parent::__construct($a_parent_obj, 'participants');
+
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('trac');
         $this->lng->loadLanguageModule('rbac');
         $this->lng->loadLanguageModule('mmbr');
         $this->lng->loadLanguageModule('cert');
-
-        $this->ctrl = $ilCtrl;
-
-        $this->privacy = ilPrivacySettings::getInstance();
-        
-        $this->participants = ilParticipants::getInstanceByObjId($this->getRepositoryObject()->getId());
-
-
-        // required before constructor for columns
-        $this->setId('crs_' . $this->getRepositoryObject()->getId());
-        parent::__construct($a_parent_obj, 'participants');
+        $this->lng->loadLanguageModule('certificate');
 
         $this->initSettings();
 
@@ -125,8 +102,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         $this->setEnableNumInfo(true);
         $this->setExternalSegmentation(false);
-        
-        $this->getItems();
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
         $this->setEnableTitle(true);
@@ -135,9 +110,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->setShowRowsSelector(true);
             
         $preloader->preLoadDownloadableCertificates($this->getRepositoryObject()->getId());
-
-        $lng->loadLanguageModule('certificate');
-
         $this->addMultiCommand('editParticipants', $this->lng->txt('edit'));
         $this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
         $this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
@@ -147,30 +119,16 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
     }
     
-    
 
-    public function getItems()
+    protected function fillRow(array $a_set) : void
     {
-    }
-
-
-    /**
-     * fill row
-     * @access public
-     * @param
-     * @return void
-     */
-    public function fillRow(array $a_set) : void
-    {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
 
-        if (!$ilAccess->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) and
-            is_array($info = $ilAccess->getInfo())) {
+        if (
+            !$this->access->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
+            is_array($info = $this->access->getInfo())
+        ) {
             $this->tpl->setCurrentBlock('access_warning');
             $this->tpl->setVariable('PARENT_ACCESS', $info[0]['text']);
             $this->tpl->parseCurrentBlock();
@@ -224,7 +182,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                         }
                     }
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) implode('<br />', $tmp)) ;
+                    $this->tpl->setVariable('VAL_CUST', implode('<br />', $tmp)) ;
                     $this->tpl->parseCurrentBlock();
                     break;
                     
@@ -243,7 +201,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable('VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
                     $this->tpl->parseCurrentBlock();
                     break;
 
@@ -286,7 +245,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         
         $this->tpl->setVariable('VAL_POSTNAME', 'participants');
 
-        if ($ilAccess->checkAccess("grade", "", $this->rep_object->getRefId())) {
+        if ($this->access->checkAccess("grade", "", $this->rep_object->getRefId())) {
             $this->tpl->setCurrentBlock('grade');
             $this->tpl->setVariable('VAL_PASSED_ID', $a_set['usr_id']);
             $this->tpl->setVariable('VAL_PASSED_CHECKED', ($a_set['passed'] ? 'checked="checked"' : ''));
@@ -350,20 +309,9 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         }
     }
 
-    /**
-     * Parse data
-     * @return
-     *
-     * @global ilRbacReview $rbacreview
-     */
-    public function parse()
+    public function parse() : void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-
         $this->determineOffsetAndOrder(true);
-
 
         $additional_fields = $this->getSelectedColumns();
         unset($additional_fields["firstname"]);
@@ -377,7 +325,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         
         $part = $this->participants->getParticipants();
         
-        $part = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+        $part = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
             'manage_members',
             $this->getRepositoryObject()->getRefId(),
@@ -425,7 +373,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $local_roles = $this->getParentObject()->getLocalRoles();
         foreach ((array) $usr_data['set'] as $user) {
             if ($this->current_filter['roles']) {
-                if (!$GLOBALS['DIC']['rbacreview']->isAssigned($user['usr_id'], $this->current_filter['roles'])) {
+                if (!$this->rbacReview->isAssigned($user['usr_id'], $this->current_filter['roles'])) {
                     continue;
                 }
             }
@@ -465,7 +413,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $roles = array();
             foreach ($local_roles as $role_id => $role_name) {
                 // @todo fix performance
-                if ($GLOBALS['DIC']['rbacreview']->isAssigned($user_id, $role_id)) {
+                if ($this->rbacReview->isAssigned($user_id, $role_id)) {
                     $roles[] = $role_name;
                 }
             }
@@ -533,7 +481,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                 
                 if ($usr_id == $edit_info['update_user']) {
                     $a_user_data[$usr_id]['odf_last_update'] = '';
-                    $a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['DIC']['lng']->txt('cdf_edited_by_self');
+                    $a_user_data[$usr_id]['odf_info_txt'] = $this->lng->txt('cdf_edited_by_self');
                     if (ilPrivacySettings::getInstance()->enabledAccessTimesByType($this->getRepositoryObject()->getType())) {
                         $a_user_data[$usr_id]['odf_last_update'] .= ('_' . $edit_info['editing_time']->get(IL_CAL_UNIX));
                         $a_user_data[$usr_id]['odf_info_txt'] .= (', ' . ilDatePresentation::formatDate($edit_info['editing_time']));
@@ -550,7 +498,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         // consultation hours
         if ($this->isColumnSelected('consultation_hour')) {
-            foreach (ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(), $GLOBALS['DIC']['ilUser']->getId()) as $buser => $booking) {
+            foreach (ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(), $this->user->getId()) as $buser => $booking) {
                 if (isset($a_user_data[$buser])) {
                     $a_user_data[$buser]['consultation_hour'] = $booking[0]['dt'];
                     $a_user_data[$buser]['consultation_hour_end'] = $booking[0]['dtend'];
@@ -565,7 +513,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             'name',
             $this->getOrderDirection()
         );
-        
-        return $this->setData($a_user_data);
+        $this->setData($a_user_data);
     }
 }

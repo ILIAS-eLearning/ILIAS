@@ -245,7 +245,6 @@ class ilMemberExportGUI
 
         $filename = time() . '_participant_export_csv_' . $this->obj_id . '.csv';
         $this->fss_export->addMemberExportFile($this->export->getCSVString(), $filename);
-
         $this->ctrl->redirect($this, 'show');
     }
 

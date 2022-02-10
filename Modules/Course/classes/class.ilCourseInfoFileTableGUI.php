@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,34 +25,15 @@
 * @defgroup
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
 * @ingroup
 */
 class ilCourseInfoFileTableGUI extends ilTable2GUI
 {
-
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '')
+    public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
     {
-        global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->addColumn('', 'f', 1);
+        $this->addColumn('', 'f', '1');
         $this->addColumn($this->lng->txt('filename'), 'filename', "60%");
         $this->addColumn($this->lng->txt('filesize'), 'filesize', "20%");
         $this->addColumn($this->lng->txt('filetype'), 'filetype', "20%");
@@ -63,10 +44,6 @@ class ilCourseInfoFileTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("desc");
     }
 
-    /**
-     * @param string $a_field
-     * @return bool
-     */
     public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
@@ -76,14 +53,7 @@ class ilCourseInfoFileTableGUI extends ilTable2GUI
         return parent::numericOrdering($a_field);
     }
 
-    /**
-     * Fill row
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_FILENAME', $a_set['filename']);

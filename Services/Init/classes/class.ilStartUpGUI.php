@@ -1617,8 +1617,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     return false;
                 } elseif ($ptype == "crs") {
                     // check if already participant
-                    include_once "Modules/Course/classes/class.ilCourseParticipant.php";
-                    $participants = new ilCourseParticipant($pobj_id, $ilUser->getId());
+                    $participants = ilCourseParticipant::_getInstanceByObjId($pobj_id, $ilUser->getId());
                     if (!$participants->isAssigned()) {
                         // subscription currently possible?
                         include_once "Modules/Course/classes/class.ilObjCourse.php";

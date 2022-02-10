@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -7,45 +7,28 @@
 * Folder export
 *
 * @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
 * @ingroup ServicesBooking
 */
 class ilCourseExporter extends ilXmlExporter
 {
-    const ENTITY_OBJECTIVE = 'objectives';
-    const ENTITY_MAIN = 'crs';
+    public const ENTITY_OBJECTIVE = 'objectives';
+    public const ENTITY_MAIN = 'crs';
     
-    private $writer = null;
-    
-    /**
-     * @var ilLogger
-     */
-    protected $logger = null;
+    protected ilXmlWriter $writer;
+    protected ilLogger $logger;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
-        $this->logger = $GLOBALS['DIC']->logger()->crs();
+        global $DIC;
+        $this->logger = $DIC->logger()->crs();
     }
     
-    /**
-     * Init export
-     * @return void
-     */
     public function init() : void
     {
     }
     
     /**
      * Get head dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
      */
     public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
@@ -63,7 +46,6 @@ class ilCourseExporter extends ilXmlExporter
         );
     }
     
-    // begin-patch optes_lok_export
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $dependencies = array();
@@ -96,19 +78,11 @@ class ilCourseExporter extends ilXmlExporter
         }
         return $dependencies;
     }
-    // end-patch optes_lok_export
+
     
-    
-    /**
-     * Get xml
-     * @param string $a_entity
-     * @param string $a_schema_version
-     * @param string $a_id
-     * @return string
-     */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        $refs = ilObject::_getAllReferences($a_id);
+        $refs = ilObject::_getAllReferences((int) $a_id);
         $course_ref_id = end($refs);
         $course = ilObjectFactory::getInstanceByRefId($course_ref_id, false);
         
@@ -137,12 +111,6 @@ class ilCourseExporter extends ilXmlExporter
         return $this->writer->xmlDumpMem(false);
     }
     
-    /**
-     * Returns schema versions that the component can export to.
-     * ILIAS chooses the first one, that has min/max constraints which
-     * fit to the target release. Please put the newest on top.
-     * @return array
-     */
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(

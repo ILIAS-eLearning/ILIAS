@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -26,65 +26,42 @@
 * TableGUI for material assignments of course objectives
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
 * @ingroup ModulesCourse
 */
 class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 {
-    private $objective = null;
-    private $objective_lm = null;
-    
-    private $objective_id = 0;
-    private $course_obj;
+    private int $objective_id = 0;
+    private ilCourseObjective $objective;
+    private ilCourseObjectiveMaterials $objective_lm;
+    private ilObject $course_obj;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_course_obj, $a_objective_id)
+    protected ilObjectDefinition $objectDefinition;
+
+    public function __construct(object $a_parent_obj, ilObject $a_course_obj, int $a_objective_id)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
+        $this->objectDefinition = $DIC['ilObjDefinition'];
+
         $this->objective_id = $a_objective_id;
         $this->course_obj = $a_course_obj;
-        
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('crs');
-        $this->ctrl = $ilCtrl;
-        
+
         parent::__construct($a_parent_obj, 'materialAssignment');
+        $this->lng->loadLanguageModule('crs');
+
         $this->setFormName('assignments');
         $this->addColumn('', 'f', "1");
         $this->addColumn($this->lng->txt('type'), 'type', "1px");
         $this->addColumn($this->lng->txt('title'), 'title', '99%');
-        
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.crs_objective_list_materials_row.html", "Modules/Course");
-
         $this->setDefaultOrderField('title');
         $this->setLimit(200);
-        
         $this->setNoEntriesText($this->lng->txt('crs_no_objective_lms_found'));
-        
-        
         $this->addCommandButton('updateMaterialAssignment', $this->lng->txt('crs_wiz_next'));
-
         $this->initObjectiveAssignments();
     }
     
-    /**
-     * fill row
-     * @access protected
-     * @param array row data
-     * @return void
-     */
     protected function fillRow(array $a_set) : void
     {
         foreach ($a_set['sub'] as $sub_data) {
@@ -125,32 +102,18 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * parse
-     *
-     * @access public
-     * @param array array of assignable nodes (tree node data)
-     * @return
-     */
-    public function parse($a_assignable)
+    public function parse(array $a_assignable) : void
     {
-        global $DIC;
-
-        $objDefinition = $DIC['objDefinition'];
-
-        $materials = array();
+        $materials = [];
         foreach ($a_assignable as $node) {
             // no side blocks here
-            if ($objDefinition->isSideBlock($node['type'])) {
+            if ($this->objectDefinition->isSideBlock($node['type'])) {
                 continue;
             }
             
             $tmp_data = array();
             $subobjects = array();
-
             if ($node['type'] == 'lm') {
-
-
                 // Chapters and pages
                 foreach ($chapters = $this->getAllSubObjects($node['child']) as $chapter => $chapter_data) {
                     $sub['title'] = ilLMObject::_lookupTitle($chapter);
@@ -161,32 +124,23 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
                     $subobjects[] = $sub;
                 }
             }
-            
             $tmp_data['sub'] = $subobjects;
             $tmp_data['title'] = $node['title'];
             $tmp_data['description'] = $node['description'];
             $tmp_data['type'] = $node['type'];
             $tmp_data['id'] = $node['child'];
             $tmp_data['obj_id'] = $node['obj_id'];
-            
             $materials[] = $tmp_data;
         }
-        
         $this->setData($materials);
     }
     
-    /**
-     * get all subobject (structure and page objects) of a lm
-     *
-     * @access protected
-     * @return
-     */
-    protected function getAllSubObjects($a_ref_id)
+    protected function getAllSubObjects(int $a_ref_id) : array
     {
         $tree = new ilTree(ilObject::_lookupObjId($a_ref_id));
         $tree->setTableNames('lm_tree', 'lm_data');
         $tree->setTreeTablePK("lm_id");
-
+        $chapter = [];
         foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId())) as $node) {
             if ($node['type'] == 'st' or $node['type'] == 'pg') {
                 $depth = $node['depth'] - 1;
@@ -195,20 +149,12 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
                 $chapter[$child]['type'] = $node['type'];
             }
         }
-        return $chapter ? $chapter : array();
+        return $chapter;
     }
 
-    
-    /**
-     * init objective assignments
-     *
-     * @access protected
-     * @return
-     */
-    protected function initObjectiveAssignments()
+    protected function initObjectiveAssignments() : void
     {
         $this->objective = new ilCourseObjective($this->course_obj, $this->objective_id);
-        
         $this->objective_lm = new ilCourseObjectiveMaterials($this->objective_id);
     }
 }

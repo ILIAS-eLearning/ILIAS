@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,184 +9,138 @@
  */
 class ilLOTestAssignment
 {
-    private $assignment_id = 0;
-    private $container_id = 0;
-    private $assignment_type = 0;
-    private $objective_id = 0;
-    private $test_ref_id = 0;
+    private int $assignment_id = 0;
+    private int $container_id = 0;
+    private int $assignment_type = 0;
+    private int $objective_id = 0;
+    private int $test_ref_id = 0;
+
+    protected ilDBInterface $db;
     
-    
-    /**
-     * constructor
-     * @param type $a_id
-     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
         $this->setAssignmentId($a_id);
         $this->read();
     }
     
-    public function setAssignmentId($a_id)
+    public function setAssignmentId(int $a_id) : void
     {
         $this->assignment_id = $a_id;
     }
     
-    public function getAssignmentId()
+    public function getAssignmentId() : int
     {
         return $this->assignment_id;
     }
     
-    public function setContainerId($a_id)
+    public function setContainerId(int $a_id) : void
     {
         $this->container_id = $a_id;
     }
     
-    public function getContainerId()
+    public function getContainerId() : int
     {
         return $this->container_id;
     }
     
-    public function setAssignmentType($a_type)
+    public function setAssignmentType(int $a_type) : void
     {
         $this->assignment_type = $a_type;
     }
     
-    public function getAssignmentType()
+    public function getAssignmentType() : int
     {
         return $this->assignment_type;
     }
     
-    public function setObjectiveId($a_id)
+    public function setObjectiveId(int $a_id) : void
     {
         $this->objective_id = $a_id;
     }
     
-    public function getObjectiveId()
+    public function getObjectiveId() : int
     {
         return $this->objective_id;
     }
     
-    public function setTestRefId($a_id)
+    public function setTestRefId(int $a_id) : void
     {
         $this->test_ref_id = $a_id;
     }
     
-    public function getTestRefId()
+    public function getTestRefId() : int
     {
         return $this->test_ref_id;
     }
-    
-    /**
-     * save settings
-     * @return type
-     */
-    public function save()
+
+    public function save() : void
     {
         if ($this->getAssignmentId()) {
-            return $this->update();
+            $this->update();
         } else {
-            return $this->create();
+            $this->create();
         }
     }
     
-    /**
-     * Create new aassignment
-     * @global type $ilDB
-     */
-    public function create()
+    public function create() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        $this->setAssignmentId($ilDB->nextId('loc_tst_assignments'));
+        $this->setAssignmentId($this->db->nextId('loc_tst_assignments'));
         $query = 'INSERT INTO loc_tst_assignments (assignment_id, container_id, assignment_type, objective_id, tst_ref_id) ' .
                 'VALUES ( ' .
-                $ilDB->quote($this->getAssignmentId(), 'integer') . ', ' .
-                $ilDB->quote($this->getContainerId(), 'integer') . ', ' .
-                $ilDB->quote($this->getAssignmentType(), 'integer') . ', ' .
-                $ilDB->quote($this->getObjectiveId(), 'integer') . ', ' .
-                $ilDB->quote($this->getTestRefId(), 'integer') . ' ' .
+                $this->db->quote($this->getAssignmentId(), 'integer') . ', ' .
+                $this->db->quote($this->getContainerId(), 'integer') . ', ' .
+                $this->db->quote($this->getAssignmentType(), 'integer') . ', ' .
+                $this->db->quote($this->getObjectiveId(), 'integer') . ', ' .
+                $this->db->quote($this->getTestRefId(), 'integer') . ' ' .
                 ') ';
-        $GLOBALS['DIC']['ilLog']->write($query);
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
     }
     
-    /**
-     * Update assignment
-     * @global type $ilDB
-     */
-    public function update()
+    public function update() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = 'UPDATE loc_tst_assignments ' .
-                'SET container_id = ' . $ilDB->quote($this->getContainerId(), 'integer') . ', ' .
-                'assignment_type = ' . $ilDB->quote($this->getAssignmentType(), 'integer') . ', ' .
-                'objective_id = ' . $ilDB->quote($this->getObjectiveId(), 'integer') . ', ' .
-                'tst_ref_id = ' . $ilDB->quote($this->getTestRefId(), 'integer') . ' ' .
-                'WHERE assignment_id = ' . $ilDB->quote($this->getAssignmentId(), 'integer');
-        $ilDB->manipulate($query);
+                'SET container_id = ' . $this->db->quote($this->getContainerId(), 'integer') . ', ' .
+                'assignment_type = ' . $this->db->quote($this->getAssignmentType(), 'integer') . ', ' .
+                'objective_id = ' . $this->db->quote($this->getObjectiveId(), 'integer') . ', ' .
+                'tst_ref_id = ' . $this->db->quote($this->getTestRefId(), 'integer') . ' ' .
+                'WHERE assignment_id = ' . $this->db->quote($this->getAssignmentId(), 'integer');
+        $this->db->manipulate($query);
     }
     
-    /**
-     * Delete assignment
-     * @global type $ilDB
-     * @return boolean
-     */
-    public function delete()
+    public function delete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = 'DELETE FROM loc_tst_assignments ' .
-                'WHERE assignment_id = ' . $ilDB->quote($this->getAssignmentId(), 'integer') . ' ';
-        $ilDB->manipulate($query);
-        return true;
+                'WHERE assignment_id = ' . $this->db->quote($this->getAssignmentId(), 'integer') . ' ';
+        $this->db->manipulate($query);
     }
     
-    /**
-     * Read db entry
-     * @global type $ilDB
-     * @return boolean
-     */
-    public function read()
+    public function read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if (!$this->getAssignmentId()) {
-            return false;
+            return;
         }
         
         $query = 'SELECT * FROM loc_tst_assignments ' .
-                'WHERE assignment_id = ' . $ilDB->quote($this->getAssignmentId(), 'integer') . ' ';
-        $res = $ilDB->query($query);
+                'WHERE assignment_id = ' . $this->db->quote($this->getAssignmentId(), 'integer') . ' ';
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setContainerId($row->container_id);
-            $this->setObjectiveId($row->objective_id);
-            $this->setAssignmentType($row->assignment_type);
-            $this->setTestRefId($row->tst_ref_id);
+            $this->setContainerId((int) $row->container_id);
+            $this->setObjectiveId((int) $row->objective_id);
+            $this->setAssignmentType((int) $row->assignment_type);
+            $this->setTestRefId((int) $row->tst_ref_id);
         }
-        return true;
     }
     
-    /**
-     * Clone assignments
-     * @param type $a_target_id
-     * @param type $a_copy_id
-     */
-    public function cloneSettings($a_copy_id, $a_target_id, $a_objective_id)
+    public function cloneSettings(int $a_copy_id, int $a_target_id, int $a_objective_id) : void
     {
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $options->getMappings();
         
         if (!array_key_exists($this->getTestRefId(), $mappings)) {
-            return false;
+            return;
         }
         
         $copy = new ilLOTestAssignment();

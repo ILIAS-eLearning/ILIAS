@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -31,12 +31,12 @@
  */
 class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 {
-    public $container = null;
-    
-    /**
-     * @var ilObject
-     */
-    protected $rep_object = null;
+    protected ilObjCourse $rep_object;
+    protected ilPrivacySettings $privacy;
+    protected ilCourseParticipants $participants;
+
+    protected ilAccessHandler $access;
+    protected ilObjUser $user;
         
     /**
      * Holds the local roles of the course object.
@@ -46,34 +46,21 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
      * - The value is an associative array with the keys 'role_id' and
      *   'title'.
      */
-    private $localCourseRoles = null;
+    private array $localCourseRoles;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param object parent gui object
-     * @return void
-     */
-    public function __construct($a_parent_obj, $rep_object)
+    public function __construct(object $a_parent_obj, ilObjCourse $rep_object)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('crs');
-        $this->ctrl = $ilCtrl;
-        
-        $this->container = $a_parent_obj;
         $this->rep_object = $rep_object;
-        
         $this->privacy = ilPrivacySettings::getInstance();
-        
         $this->participants = ilCourseParticipants::_getInstanceByObjId($this->rep_object->getId());
+
+        $this->access = $DIC->access();
+        $this->user = $DIC->user();
         
         parent::__construct($a_parent_obj, 'editMembers');
+        $this->lng->loadLanguageModule('crs');
         $this->setFormName('participants');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         
@@ -85,17 +72,13 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
         }
         $this->addColumn($this->lng->txt('crs_passed'), 'passed');
         $this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
-        // cognos-blu-patch: begin
         $this->addColumn($this->lng->txt('crs_mem_contact'), 'contact');
-        // cognos-blu-patch: end
         $this->addColumn($this->lng->txt('crs_notification'), 'notification');
         $this->addColumn($this->lng->txt('objs_role'), 'roles');
 
         $this->addCommandButton('updateParticipants', $this->lng->txt('save'));
         $this->addCommandButton('participants', $this->lng->txt('cancel'));
-        
         $this->setRowTemplate("tpl.edit_participants_row.html", "Modules/Course");
-        
         $this->disable('sort');
         $this->enable('header');
         $this->enable('numinfo');
@@ -109,23 +92,12 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * fill row
-     *
-     * @access public
-     * @param array usr_data
-     */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilUser = $DIC['ilUser'];
         $hasEditPermissionAccess =
             (
-                $ilAccess->checkAccess('edit_permission', '', $this->rep_object->getRefId()) or
-                $this->participants->isAdmin($ilUser->getId())
+                $this->access->checkAccess('edit_permission', '', $this->rep_object->getRefId()) or
+                $this->participants->isAdmin($this->user->getId())
             );
         
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
@@ -136,10 +108,7 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
         if ($this->privacy->enabledCourseAccessTimes()) {
             $this->tpl->setVariable('VAL_ACCESS', $a_set['access_time']);
         }
-        // cognos-blu-patch: begin
         $this->tpl->setVariable('VAL_CONTACT_CHECKED', $a_set['contact'] ? 'checked="checked"' : '');
-        // cognos-blu-patch: end
-        
         $this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', $a_set['notification'] ? 'checked="checked"' : '');
         $this->tpl->setVariable('VAL_PASSED_CHECKED', $a_set['passed'] ? 'checked="checked"' : '');
         $this->tpl->setVariable('VAL_BLOCKED_CHECKED', $a_set['blocked'] ? 'checked="checked"' : '');

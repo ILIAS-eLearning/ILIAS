@@ -12,19 +12,27 @@
  */
 class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 {
-    protected $parent_ref_id; // [int]
-    
-    public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id) : void
+    protected int $parent_ref_id = 0;
+
+    protected ilTree $tree;
+    protected ilCtrlInterface $ctrl;
+    protected ilLanguage $lng;
+
+    public function __construct()
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        
-        $this->parent_ref_id = (int) $a_parent_ref_id;
-
-        $lng->loadLanguageModule("trac");
+        $this->tree = $DIC->repositoryTree();
+        $this->ctrl  = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule('trac');
+    }
     
-        $subitems = new ilRepositorySelector2InputGUI($lng->txt("objects"), "subitems", true);
+    public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id) : void
+    {
+        $this->parent_ref_id = $a_parent_ref_id;
+
+        $subitems = new ilRepositorySelector2InputGUI($this->lng->txt("objects"), "subitems", true);
         
         $exp = $subitems->getExplorerGUI();
         $exp->setSkipRootNode(true);
@@ -50,16 +58,11 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         $a_form->addItem($subitems);
     }
     
-    protected function getLPTypes($a_parent_ref_id)
+    protected function getLPTypes(int $a_parent_ref_id) : array
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-            
         $res = array();
-                            
-        $root = $tree->getNodeData($a_parent_ref_id);
-        $sub_items = $tree->getSubTree($root);
+        $root = $this->tree->getNodeData($a_parent_ref_id);
+        $sub_items = $this->tree->getSubTree($root);
         array_shift($sub_items); // remove root
         
         foreach ($sub_items as $node) {
@@ -71,50 +74,14 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
                 }
             }
         }
-        
         return $res;
     }
     
     public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
         if (is_array($a_config["subitems"])) {
             $items = $a_form->getItemByPostVar("subitems");
             $items->setValue($a_config["subitems"]);
-
-            /*
-            if(!ilObjUserTracking::_enabledLearningProgress())
-            {
-                $lng->loadLanguageModule("trac");
-                $lp = new ilNonEditableValueGUI($lng->txt("tracking_settings"), "", true);
-                $a_form->addItem($lp);
-
-
-                $links = array();
-                foreach($a_config["subitems"] as $ref_id)
-                {
-                    $obj_id = ilObject::_lookupObjId($ref_id);
-
-                    $olp = ilObjectLP::getInstance($obj_id);
-                    $mode = $olp->getCurrentMode();
-
-                    $ilCtrl->setParameterByClass("ilLPListOfSettingsGUI", "lpid", $ref_id);
-                    $url = $ilCtrl->getLinkTargetByClass("ilLPListOfSettingsGUI", "");
-                    $ilCtrl->setParameterByClass("ilLPListOfSettingsGUI", "lpid", "");
-
-                    $links[] = '<p><a href="'.$url.'">'.
-                        '<img src="'.ilObject::_getIcon("", "tiny", ilObject::_lookupType($obj_id)).'" /> ' .
-                        ilObject::_lookupTitle($obj_id).
-                        '</a><div class="help-block">'.$olp->getModeText($mode).'</div>'.
-                        '</p>';
-                }
-                $lp->setValue(implode("\n", $links));
-            }
-            */
         }
     }
     
@@ -123,13 +90,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         return array("subitems" => $a_form->getInput("subitems"));
     }
 
-    /**
-     * Get invalid lp modes
-     *
-     * @param
-     * @return
-     */
-    public static function getInvalidLPModes()
+    public static function getInvalidLPModes() : array
     {
 
         /* supported modes
@@ -171,14 +132,8 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 
     public function validateForm(ilPropertyFormGUI $a_form) : bool
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
         $invalid = array();
-        
-
         $invalid_modes = self::getInvalidLPModes();
-        
         foreach ($a_form->getInput("subitems") as $ref_id) {
             $obj_id = ilObject::_lookupObjId($ref_id);
             $olp = ilObjectLP::getInstance($obj_id);
@@ -186,13 +141,11 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
                 $invalid[] = ilObject::_lookupTitle($obj_id);
             }
         }
-        
         if (sizeof($invalid)) {
-            $mess = sprintf($lng->txt("badge_course_lp_invalid"), implode(", ", $invalid));
+            $mess = sprintf($this->lng->txt("badge_course_lp_invalid"), implode(", ", $invalid));
             $a_form->getItemByPostVar("subitems")->setAlert($mess);
             return false;
         }
-        
         return true;
     }
 }

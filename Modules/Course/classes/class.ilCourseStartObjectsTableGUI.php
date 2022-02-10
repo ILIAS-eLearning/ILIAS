@@ -1,31 +1,23 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
 * @ingroup ModulesCourse
 */
 class ilCourseStartObjectsTableGUI extends ilTable2GUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_obj_course)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, ilObject $a_obj_course)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        $this->lng->loadLanguageModule('crs');
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
-        $this->addColumn('', '', 1);
-        $this->addColumn($this->lng->txt('type'), 'type', 1);
+        $this->lng->loadLanguageModule('crs');
+
+        $this->addColumn('', '', '1');
+        $this->addColumn($this->lng->txt('type'), 'type', '1');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('description'), 'description');
         
@@ -66,7 +58,7 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function getPossibleObjects($a_obj_course, $crs_start)
+    protected function getPossibleObjects(ilObject $a_obj_course, ilCourseStart $crs_start) : array
     {
         $data = array();
         foreach ($crs_start->getPossibleStarters() as $item_ref_id) {
@@ -81,21 +73,12 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
                 $data[$item_ref_id]['description'] = $tmp_obj->getDescription();
             }
         }
-        
         return $data;
     }
     
-    protected function getStartObjects($a_obj_course, $crs_start)
+    protected function getStartObjects(ilObject $a_obj_course, ilCourseStart $crs_start) : array
     {
         $starters = $crs_start->getStartObjects();
-        
-        /*
-        if(!count($starters))
-        {
-            ilUtil::sendInfo($this->lng->txt('crs_no_starter_created'));
-        }
-        */
-        
         $data = array();
         foreach ($starters as $start_id => $item) {
             $tmp_obj = ilObjectFactory::getInstanceByRefId($item['item_ref_id']);
@@ -113,12 +96,12 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
         return $data;
     }
 
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("ID", $a_set["id"]);
-        $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-        $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
-        $this->tpl->setVariable("ICON_SRC", $a_set["icon"]);
-        $this->tpl->setVariable("ICON_ALT", $a_set["type"]);
+        $this->tpl->setVariable("ID", (string) $a_set["id"]);
+        $this->tpl->setVariable("TXT_TITLE", (string) $a_set["title"]);
+        $this->tpl->setVariable("TXT_DESCRIPTION", (string) $a_set["description"]);
+        $this->tpl->setVariable("ICON_SRC", (string) $a_set["icon"]);
+        $this->tpl->setVariable("ICON_ALT", (string) $a_set["type"]);
     }
 }
