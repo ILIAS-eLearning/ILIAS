@@ -221,7 +221,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
-        
+
         $has_no_team_yet = ($a_ass->hasTeam() &&
             !ilExAssignmentTeam::getTeamId($a_ass->getId(), $a_user_id));
         
@@ -333,6 +333,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         // selectable columns
             
         foreach ($this->getSelectedColumns() as $col) {
+            $include_seconds = false;
             switch ($col) {
                 case "image":
                     if (!$a_ass->hasTeam()) {
@@ -401,6 +402,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     break;
                                 
                 case "submission":
+                    $include_seconds = true;
                     if ($a_row["submission_obj"]) {
                         foreach ($a_row["submission_obj"]->getFiles() as $file) {
                             if ($file["late"]) {
@@ -418,7 +420,12 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     $this->tpl->setVariable(
                         "VAL_" . strtoupper($col),
                         $a_row[$col]
-                            ? ilDatePresentation::formatDate(new ilDateTime($a_row[$col], IL_CAL_DATETIME))
+                            ? ilDatePresentation::formatDate(
+                            new ilDateTime($a_row[$col], IL_CAL_DATETIME),
+                            false,
+                            false,
+                            $include_seconds
+                        )
                             : "&nbsp;"
                     );
                     break;
