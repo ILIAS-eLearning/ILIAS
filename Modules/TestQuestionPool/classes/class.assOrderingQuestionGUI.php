@@ -31,7 +31,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     const TAB_EDIT_QUESTION = 'edit_question';
     const TAB_EDIT_NESTING = 'edit_nesting';
     
-    const F_NESTED = 'nested_answers';
+    const F_USE_NESTED = 'nested_answers';
+    const F_NESTED_ORDER = 'order_elems';
 
     /**
      * @var assOrderingQuestion
@@ -40,11 +41,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     
     public $old_ordering_depth = array();
     public $leveled_ordering = array();
-
-    /**
-     * @var bool
-     */
-    private $clearAnswersOnWritingPostDataEnabled;
     
     /**
      * assOrderingQuestionGUI constructor
@@ -63,45 +59,23 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
-        $this->clearAnswersOnWritingPostDataEnabled = false;
-    }
-
-    /**
-     * @param boolean $clearAnswersOnWritingPostDataEnabled
-     */
-    public function setClearAnswersOnWritingPostDataEnabled($clearAnswersOnWritingPostDataEnabled)
-    {
-        $this->clearAnswersOnWritingPostDataEnabled = $clearAnswersOnWritingPostDataEnabled;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isClearAnswersOnWritingPostDataEnabled()
-    {
-        //TODO: remove
-        return $this->clearAnswersOnWritingPostDataEnabled;
     }
 
     public function changeToPictures()
     {
         if (!$this->object->isImageOrderingType()) {
-            //TODO: clear something?
-            //$this->setClearAnswersOnWritingPostDataEnabled(true);
+            //perhaps clear something?
         }
         
         $this->object->setContentType($this->object::OQ_CT_PICTURES);
         $this->object->saveToDb();
-        
-        //$form->ensureReprintableFormStructure($this->object);
         $this->editQuestion();
     }
 
     public function changeToText()
     {
         if ($this->object->isImageOrderingType()) {
-            //TODO: clear something?
-            //$this->setClearAnswersOnWritingPostDataEnabled(true);
+            //perhaps clear something?
         }
 
         $this->object->setContentType($this->object::OQ_CT_TERMS);
@@ -112,84 +86,70 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function saveNesting()
     {
-        $this->storeNesting();
-        $this->editNesting();
-    }
-
-    protected function storeNesting()
-    {
         $form = $this->buildNestingForm();
         $form->setValuesByPost();
         if ($form->checkInput()) {
-            $this->writeAnswerSpecificPostData($form);
-            $this->object->getOrderingElementList()->saveToDb();
+            $post = $_POST[self::F_NESTED_ORDER]; //array random_id => ordering_element
+
+            $list = $this->object->getOrderingElementList();
+            $ordered = [];
+
+            foreach ($list->getElements() as $element) {
+                $posted_element = $post[$element->getRandomIdentifier()];
+                $ordered[] = $element
+                    ->withPosition($posted_element->getPosition())
+                    ->withIndentation($posted_element->getIndentation());
+            }
+
+            $list = $list->withElements($ordered);
+            $this->object->setOrderingElementList($list);
+            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
         } else {
             ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
         }
+
+        $this->editNesting();
     }
+
 
     public function removeElementImage()
     {
-        $orderingInput = $this->object->buildOrderingImagesInputGui();
-        $this->object->initOrderingElementAuthoringProperties($orderingInput);
-
-        $form = $this->buildEditForm();
-        $form->replaceFormItemByPostVar($orderingInput);
-        $form->setValuesByPost();
-        
-        $replacementElemList = ilAssOrderingElementList::buildInstance(
-            $this->object->getId(),
-            array()
-        );
-        
-        $storedElementList = $this->object->getOrderingElementList();
-        
-        foreach ($orderingInput->getElementList($this->object->getId()) as $submittedElement) {
-            if ($submittedElement->isImageRemovalRequest()) {
-                if ($this->object->isImageFileStored($submittedElement->getContent())) {
-                    $this->object->dropImageFile($submittedElement->getContent());
-                }
-                
-                $submittedElement->setContent(null);
-            }
-            
-            if ($storedElementList->elementExistByRandomIdentifier($submittedElement->getRandomIdentifier())) {
-                $storedElement = $storedElementList->getElementByRandomIdentifier(
-                    $submittedElement->getRandomIdentifier()
-                );
-                
-                $submittedElement->setSolutionIdentifier($storedElement->getSolutionIdentifier());
-                $submittedElement->setIndentation($storedElement->getIndentation());
-            }
-            
-            $replacementElemList->addElement($submittedElement);
-        }
-        
-        $replacementElemList->saveToDb();
-        
-        $orderingInput->setElementList($replacementElemList);
-        $this->renderEditForm($form);
+        $this->uploadElementImage();
     }
 
     public function uploadElementImage()
     {
-        $orderingInput = $this->object->buildOrderingImagesInputGui();
-        $this->object->initOrderingElementAuthoringProperties($orderingInput);
-        
         $form = $this->buildEditForm();
-        $form->replaceFormItemByPostVar($orderingInput);
         $form->setValuesByPost();
-        
-        if (!$orderingInput->checkInput()) {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-        }
-        
-        $this->writeAnswerSpecificPostData($form);
+        $submitted_list = $this->fetchSolutionListFromSubmittedForm($form);
 
-        $this->object->getOrderingElementList()->saveToDb();
-        $orderingInput->setElementList($this->object->getOrderingElementList());
-        
-        $this->renderEditForm($form);
+        $elements = [];
+        foreach ($submitted_list->getElements() as $submitted_element) {
+            if ($submitted_element->isImageUploadAvailable()) {
+                $filename = $this->object->storeImageFile(
+                    $submitted_element->getUploadImageFile(),
+                    $submitted_element->getUploadImageName()
+                );
+
+                if (is_null($filename)) {
+                    ilUtil::sendFailure($this->lng->txt('form_upload_error'));
+                } else {
+                    $submitted_element = $submitted_element->withContent($filename);
+                }
+            }
+
+            if ($submitted_element->isImageRemovalRequest()) {
+                $this->object->dropImageFile($submitted_element->getContent());
+                $submitted_element = $submitted_element->withContent('');
+            }
+
+            $elements[] = $submitted_element;
+        }
+
+        $list = $this->object->getOrderingElementList()->withElements($elements);
+        $this->object->setOrderingElementList($list);
+
+        $this->editQuestion();
     }
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
@@ -198,90 +158,24 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->object->setThumbGeometry($post["thumb_geometry"]);
         $this->object->setPoints($post["points"]);
 
-        $use_nested = (bool) $post[self::F_NESTED];
+        $use_nested = (bool) $post[self::F_USE_NESTED];
         $this->object->setNestingType($use_nested);
+    }
+
+
+    protected function fetchSolutionListFromSubmittedForm(ilPropertyFormGUI $form) : ilAssOrderingElementList
+    {
+        $list = $form->getItemByPostVar(assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR)
+            ->getElementList($this->object->getId());
+        return $list;
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
     {
-        if (!is_array($_POST[assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR])) {
-            throw new ilTestQuestionPoolException('form submit request missing the form submit!?');
-        }
-
-        $submittedElementList = $this->object->fetchSolutionListFromSubmittedForm($form);
-
-        $replacementElementList = new ilAssOrderingElementList();
-        $replacementElementList->setQuestionId($this->object->getId());
-        
-        $currentElementList = $this->object->getOrderingElementList();
-        
-        foreach ($submittedElementList as $submittedElement) {
-            if ($this->object->hasOrderingTypeUploadSupport()) {
-                if ($submittedElement->isImageUploadAvailable()) {
-                    $suffix = strtolower(array_pop(explode(".", $submittedElement->getUploadImageName())));
-                    if (in_array($suffix, array("jpg", "jpeg", "png", "gif"))) {
-                        $submittedElement->setUploadImageName($this->object->buildHashedImageFilename(
-                            $submittedElement->getUploadImageName(),
-                            true
-                        ));
-                        
-                        $wasImageFileStored = $this->object->storeImageFile(
-                            $submittedElement->getUploadImageFile(),
-                            $submittedElement->getUploadImageName()
-                        );
-                        
-                        if ($wasImageFileStored) {
-                            if ($this->object->isImageFileStored($submittedElement->getContent())) {
-                                $this->object->dropImageFile($submittedElement->getContent());
-                            }
-
-                            $submittedElement->setContent($submittedElement->getUploadImageName());
-                        }
-                    }
-                }
-            }
-            
-            if ($currentElementList->elementExistByRandomIdentifier($submittedElement->getRandomIdentifier())) {
-                $storedElement = $currentElementList->getElementByRandomIdentifier(
-                    $submittedElement->getRandomIdentifier()
-                );
-                
-                $submittedElement->setSolutionIdentifier($storedElement->getSolutionIdentifier());
-                
-                if ($this->isAdjustmentEditContext() || $this->object->isOrderingTypeNested()) {
-                    $submittedElement->setContent($storedElement->getContent());
-                }
-                
-                if (!$this->object->isOrderingTypeNested()) {
-                    $submittedElement->setIndentation($storedElement->getIndentation());
-                }
-                
-                if ($this->object->isImageReplaced($submittedElement, $storedElement)) {
-                    $this->object->dropImageFile($storedElement->getContent());
-                }
-            }
-            
-            $replacementElementList->addElement($submittedElement);
-        }
-        
-        if ($this->object->isImageOrderingType()) {
-            $this->object->handleThumbnailCreation($replacementElementList);
-        }
-        
-        if ($this->isClearAnswersOnWritingPostDataEnabled()) {
-            $replacementElementList->clearElementContents();
-        }
-        
-        if ($this->object->hasOrderingTypeUploadSupport()) {
-            $obsoleteElementList = $currentElementList->getDifferenceElementList($replacementElementList);
-            
-            foreach ($obsoleteElementList as $obsoleteElement) {
-                $this->object->dropImageFile($obsoleteElement->getContent());
-            }
-        }
-        $this->object->setOrderingElementList($replacementElementList);
+        $list = $this->fetchSolutionListFromSubmittedForm($form);
+        $this->object->setOrderingElementList($list);
+        return;
     }
-
 
     public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
     {
@@ -294,7 +188,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->object->initOrderingElementAuthoringProperties($orderingElementInput);
         
         $orderingElementInput->setElementList($this->object->getOrderingElementList());
-        
         $form->addItem($orderingElementInput);
 
         return $form;
@@ -325,7 +218,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $nested_answers = new ilSelectInputGUI(
             $this->lng->txt('qst_use_nested_answers'),
-            self::F_NESTED
+            self::F_USE_NESTED
         );
         $nested_answers_options = [
             0 => $this->lng->txt('qst_nested_nested_answers_off'),
@@ -339,46 +232,26 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * This is called first; set object's properties here.
-     * afterwards, object->saveToDb is called.
-     */
+    * {@inheritdoc}
+    *
+    * parent::save calls this->writePostData.
+    * afterwards, object->saveToDb is called.
+    */
     protected function writePostData($forceSaving = false)
     {
-        $savingAllowed = true; // assume saving allowed first
-        
-        if (!$forceSaving) {
-            // this case seems to be a regular save call, so we consider
-            // the validation result for the decision of saving as well
-            
-            // inits {this->editForm} and performs validation
-            $form = $this->buildEditForm();
-            $form->setValuesByPost(); // manipulation and distribution of values
-            
-            if (!$form->checkInput()) { // manipulations regular style input propeties
-                $form->prepareValuesReprintable($this->object);
-                $this->renderEditForm($form);
-                
-                // consequence of vaidation
-                $savingAllowed = false;
-            }
-        } elseif (!$this->isSaveCommand()) {
-            // this case handles form workflow actions like the mode/view switching requests,
-            // so saving must not be skipped, even for inputs invalid by business rules
-            
-            $form = $this->buildEditForm();
-            $form->setValuesByPost(); // manipulation and distribution of values
-            $form->checkInput(); // manipulations regular style input propeties
+        $form = $this->buildEditForm();
+        $form->setValuesByPost();
+
+        if (!$form->checkInput()) {
+            return 1; // return 1 = something went wrong, no saving happened
         }
         
-        if ($savingAllowed) {
-            $this->persistAuthoringForm($form);
-            
-            return 0; // return 0 = all fine, was saved either forced or validated
-        }
-        
-        return 1; // return 1 = something went wrong, no saving happened
+        $this->saveTaxonomyAssignments();
+        $this->writeQuestionGenericPostData();
+        $this->writeAnswerSpecificPostData($form);
+        $this->writeQuestionSpecificPostData($form);
+
+        return 0; // return 0 = all fine, was saved either forced or validated
     }
     
     protected function addEditSubtabs($active = self::TAB_EDIT_QUESTION)
@@ -412,6 +285,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->addEditSubtabs(self::TAB_EDIT_NESTING);
     }
     
+
     protected function buildEditForm() : ilAssOrderingQuestionAuthoringFormGUI
     {
         require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingQuestionAuthoringFormGUI.php';
@@ -426,9 +300,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // title, author, description, question, working time (assessment mode)
         $this->addBasicQuestionFormProperties($form);
         $this->populateQuestionSpecificFormPart($form);
+        
         $this->populateAnswerSpecificFormPart($form);
         $this->populateTaxonomyFormSection($form);
-        
+
         $form->addSpecificOrderingQuestionCommandButtons($this->object);
         $form->addGenericAssessmentQuestionCommandButtons($this->object);
         
@@ -441,7 +316,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->outQuestionType());
         $form->setTableWidth("100%");
-        //$form->setId("ordering");
 
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle($this->lng->txt('oq_header_ordering_elements'));
@@ -783,34 +657,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     }
     
     /**
-     * @param $form
-     * @throws ilTestQuestionPoolException
-     */
-    protected function persistAuthoringForm($form)
-    {
-        $this->writeQuestionGenericPostData();
-        $this->writeQuestionSpecificPostData($form);
-        $this->writeAnswerSpecificPostData($form);
-        $this->saveTaxonomyAssignments();
-    }
-    
-    private function getOldLeveledOrdering()
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $res = $ilDB->queryF(
-            'SELECT depth FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_key ASC',
-            array('integer'),
-            array($this->object->getId())
-        );
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $this->old_ordering_depth[] = $row['depth'];
-        }
-        return $this->old_ordering_depth;
-    }
-
-    /**
      * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
      * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
      * make sense in the given context.
@@ -1072,7 +918,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $this->object->setPoints((float) $form->getInput('points'));
         
-        $submittedElementList = $this->object->fetchSolutionListFromSubmittedForm($form);
+        $submittedElementList = $this->fetchSolutionListFromSubmittedForm($form);
         
         $curElementList = $this->object->getOrderingElementList();
         
