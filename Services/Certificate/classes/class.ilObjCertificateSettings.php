@@ -72,10 +72,10 @@ class ilObjCertificateSettings extends ilObject
             );
             // something went wrong converting the file. use the original file and hope, that PDF can work with it
             if (!is_file($this->getDefaultBackgroundImagePath()) && !ilFileUtils::moveUploadedFile(
-                    $this->getDefaultBackgroundImageTempfilePath(),
-                    $convert_filename,
-                    $this->getDefaultBackgroundImagePath()
-                )) {
+                $this->getDefaultBackgroundImageTempfilePath(),
+                $convert_filename,
+                $this->getDefaultBackgroundImagePath()
+            )) {
                 return false;
             }
             unlink($this->getDefaultBackgroundImageTempfilePath());
