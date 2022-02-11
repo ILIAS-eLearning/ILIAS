@@ -1,19 +1,27 @@
 <?php
 
-/**
- * Class ilPDFGeneratorUtils
- */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 class ilPDFGeneratorUtils
 {
     /**
      * Prepare the content processing for a PDF generation request
      * This function should be called as in a request before any content is generated
      * It sets the generation mode for Latex processing according the needs of the PDF renderer
-     *
-     * @param string $service
-     * @param string $purpose
      */
-    public static function prepareGenerationRequest($service, $purpose)
+    public static function prepareGenerationRequest(string $service, string $purpose) : void
     {
         try {
             $map = self::getRendererMapForPurpose($service, $purpose);
@@ -24,7 +32,7 @@ class ilPDFGeneratorUtils
         }
     }
 
-    public static function getTestPdfDir()
+    public static function getTestPdfDir() : string
     {
         $iliasPDFTestPath = 'data/' . CLIENT_ID . '/pdf_service/';
         if (!file_exists($iliasPDFTestPath)) {
@@ -33,10 +41,7 @@ class ilPDFGeneratorUtils
         return $iliasPDFTestPath;
     }
 
-    /**
-     * @param string $path
-     */
-    public static function removePrintMediaDefinitionsFromStyleFile($path)
+    public static function removePrintMediaDefinitionsFromStyleFile(string $path) : void
     {
         foreach (glob($path . '*.css') as $filename) {
             $content = file_get_contents($filename);
@@ -45,10 +50,7 @@ class ilPDFGeneratorUtils
         }
     }
 
-    /**
-     * @param string $path
-     */
-    public static function removeWrongPathFromStyleFiles($path)
+    public static function removeWrongPathFromStyleFiles(string $path) : void
     {
         foreach (glob($path . '*.css') as $filename) {
             $content = file_get_contents($filename);
@@ -60,7 +62,7 @@ class ilPDFGeneratorUtils
     /**
      * @param ilPropertyFormGUI $form
      */
-    public static function setCheckedIfTrue(\ilPropertyFormGUI $form)
+    public static function setCheckedIfTrue(ilPropertyFormGUI $form) : void
     {
         foreach ($form->getItems() as $item) {
             if ($item instanceof ilCheckboxInputGUI) {
@@ -71,12 +73,15 @@ class ilPDFGeneratorUtils
         }
     }
 
-    public static function getPurposeMap()
+    /**
+     * @return array<int|string, mixed[]>
+     */
+    public static function getPurposeMap() : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
-        $purposes = array();
+        $purposes = [];
 
         $result = $ilDB->query('SELECT service, purpose FROM pdfgen_purposes ORDER BY service, purpose');
 
@@ -87,12 +92,15 @@ class ilPDFGeneratorUtils
         return $purposes;
     }
 
-    public static function getSelectionMap()
+    /**
+     * @return array<int|string, array<int|string, array<string, mixed>>>
+     */
+    public static function getSelectionMap() : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
-        $mappings = array();
+        $mappings = [];
         $result = $ilDB->query('SELECT service, purpose, preferred, selected FROM pdfgen_map');
 
         while ($row = $ilDB->fetchAssoc($result)) {
@@ -103,12 +111,15 @@ class ilPDFGeneratorUtils
         return $mappings;
     }
 
-    public static function getRenderers()
+    /**
+     * @return array<int|string, array<int|string, mixed[]>>
+     */
+    public static function getRenderers() : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
-        $renderers = array();
+        $renderers = [];
         $result = $ilDB->query('SELECT renderer, service, purpose FROM pdfgen_renderer_avail');
 
         while ($row = $ilDB->fetchAssoc($result)) {
@@ -118,15 +129,10 @@ class ilPDFGeneratorUtils
         return $renderers;
     }
 
-    /**
-     * @param string $service
-     * @param string $purpose
-     * @param string $renderer
-     */
-    public static function updateRendererSelection($service, $purpose, $renderer)
+    public static function updateRendererSelection(string $service, string $purpose, string $renderer) : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $ilDB->update(
             'pdfgen_map',
@@ -138,17 +144,10 @@ class ilPDFGeneratorUtils
         );
     }
 
-    /**
-     * @param string $service
-     * @param string $purpose
-     * @param string $renderer
-     * @return array
-     */
-    public static function getRendererConfig($service, $purpose, $renderer)
+    public static function getRendererConfig(string $service, string $purpose, string $renderer): array
     {
         global $DIC;
-        /** @var ilDB $ilDB */
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT config FROM pdfgen_conf WHERE renderer = ' . $ilDB->quote($renderer, 'text') .
             ' AND service = ' . $ilDB->quote($service, 'text') . ' AND purpose = ' . $ilDB->quote($purpose, 'text');
@@ -163,12 +162,9 @@ class ilPDFGeneratorUtils
     }
 
     /**
-     * @param string $service
-     * @param string $purpose
-     * @param string $renderer
-     * @return array
+     * @throws Exception
      */
-    public static function getRendererDefaultConfig($service, $purpose, $renderer)
+    public static function getRendererDefaultConfig(string $service, string $purpose, string $renderer) : array
     {
         /** @var ilRendererConfig $class_instance */
         $class_instance = self::getRendererInstance($renderer);
@@ -176,15 +172,10 @@ class ilPDFGeneratorUtils
         return $class_instance->getDefaultConfig($service, $purpose);
     }
 
-    /**
-     * @param string $service
-     * @param string $purpose
-     * @param string $renderer
-     */
-    public static function removeRendererConfig($service, $purpose, $renderer)
+    public static function removeRendererConfig(string $service, string $purpose, string $renderer) : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'DELETE FROM pdfgen_conf WHERE renderer = ' . $ilDB->quote($renderer, 'text') .
             ' AND service = ' . $ilDB->quote($service, 'text') . ' AND purpose = ' . $ilDB->quote($purpose, 'text');
@@ -193,11 +184,9 @@ class ilPDFGeneratorUtils
     }
 
     /**
-     * @param $renderer
-     * @return ilPDFRenderer
      * @throws Exception
      */
-    public static function getRendererInstance($renderer)
+    public static function getRendererInstance(string $renderer) : object
     {
         global $DIC;
         /** @var ilDB $ilDB */
@@ -209,47 +198,26 @@ class ilPDFGeneratorUtils
             throw new Exception('No such renderer - given: ' . $renderer);
         }
         $row = $ilDB->fetchAssoc($result);
-
-        include_once $row['path'];
         if (self::isRendererPlugin($row['path'])) {
             $classname = 'il' . $renderer . 'RendererPlugin';
         } else {
             $classname = 'il' . $renderer . 'Renderer';
         }
 
-        if (false && !class_exists($classname)) {
-            throw new Exception(
-                'Class failed loading, including path ' . $row['path']
-                . ' did not lead to class definition ' . $classname . ' being available.'
-            );
-        }
-
-        $class_instance = new $classname;
-        return $class_instance;
+        return new $classname;
     }
 
-    /**
-     * @param $path
-     * @return bool
-     */
-    protected static function isRendererPlugin($path)
+    protected static function isRendererPlugin(string $path) : bool
     {
         $needle = 'Plugin.php';
         $length = strlen($needle);
         return (substr($path, -$length) === $needle);
     }
 
-    /**
-     * @param string $service
-     * @param string $purpose
-     * @param string $renderer
-     * @param $config
-     */
-    public static function saveRendererPurposeConfig($service, $purpose, $renderer, $config)
+    public static function saveRendererPurposeConfig(string $service, string $purpose, string $renderer, array $config) : void
     {
         global $DIC;
-        /** @var ilDB $ilDB */
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'DELETE FROM pdfgen_conf WHERE renderer = ' . $ilDB->quote($renderer, 'text') .
             ' AND service = ' . $ilDB->quote($service, 'text') . ' AND purpose = ' . $ilDB->quote($purpose, 'text');
@@ -268,16 +236,10 @@ class ilPDFGeneratorUtils
         );
     }
 
-    /**
-     * @param string $service
-     * @param string $purpose
-     * @return array|mixed
-     */
-    public static function getRendererMapForPurpose($service, $purpose)
+    public static function getRendererMapForPurpose(string $service, string $purpose)
     {
         global $DIC;
-        /** @var ilDB $ilDB */
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $result = $ilDB->query('SELECT preferred, selected FROM pdfgen_map WHERE
 		service = ' . $ilDB->quote($service, 'text') . ' AND purpose=' . $ilDB->quote($purpose, 'text'));
@@ -285,8 +247,6 @@ class ilPDFGeneratorUtils
         if ($ilDB->numRows($result) == 0) {
             return array('selected' => 'TCPDF', 'preferred' => 'TCPDF');
         }
-        $row = $ilDB->fetchAssoc($result);
-
-        return $row;
+        return $ilDB->fetchAssoc($result);
     }
 }

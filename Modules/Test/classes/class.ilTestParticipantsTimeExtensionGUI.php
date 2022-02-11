@@ -25,6 +25,7 @@ class ilTestParticipantsTimeExtensionGUI
      * @var ilObjTest
      */
     protected $testObj;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilTestParticipantsTimeExtensionGUI constructor.
@@ -32,6 +33,8 @@ class ilTestParticipantsTimeExtensionGUI
      */
     public function __construct(ilObjTest $testObj)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->testObj = $testObj;
     }
     
@@ -246,7 +249,7 @@ class ilTestParticipantsTimeExtensionGUI
                 $form->getInput('extratime')
             );
             
-            ilUtil::sendSuccess(sprintf($DIC->language()->txt('tst_extratime_added'), $form->getInput('extratime')), true);
+            $this->main_tpl->setOnScreenMessage('success', sprintf($DIC->language()->txt('tst_extratime_added'), $form->getInput('extratime')), true);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_LIST);
         }
         

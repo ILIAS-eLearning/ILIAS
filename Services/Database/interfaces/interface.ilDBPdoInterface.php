@@ -29,14 +29,16 @@ interface ilDBPdoInterface extends ilDBInterface
     public function escape($value, bool $escape_wildcards = false) : string;
 
     public function escapePattern(string $text) : string;
-
+    
+    public function migrateTableToEngine(string $table_name, string $engine = ilDBConstants::MYSQL_ENGINE_INNODB) : bool;
     /**
      * @return array of failed tables
      */
     public function migrateAllTablesToEngine(string $engine = ilDBConstants::MYSQL_ENGINE_INNODB) : array;
 
     public function supportsEngineMigration() : bool;
-
+    
+    public function migrateTableCollation(string $table_name, string $collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4) : bool;
     /**
      * @return array of failed tables
      */

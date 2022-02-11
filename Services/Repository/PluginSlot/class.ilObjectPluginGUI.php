@@ -23,7 +23,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 {
     protected ilNavigationHistory $nav_history;
     protected ilTabsGUI $tabs;
-    protected ilPluginAdmin $plugin_admin;
     protected ilPlugin $plugin;
     protected PluginSlotGUIRequest $slot_request;
     protected ilComponentFactory $component_factory;
@@ -97,9 +96,9 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                     $this->slot_request->getRefId()
                 ), "big"),
                 $lng->txt("obj_" . ilObject::_lookupType(
-                        $this->slot_request->getRefId(),
-                        true
-                    ))
+                    $this->slot_request->getRefId(),
+                    true
+                ))
             );
             $this->setLocator();
         }
@@ -136,10 +135,10 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             case 'illearningprogressgui':
                 $user_id = $this->user->getId();
                 if ($this->access->checkAccess(
-                        'write',
-                        "",
-                        $this->object->getRefId()
-                    ) &&
+                    'write',
+                    "",
+                    $this->object->getRefId()
+                ) &&
                     $this->slot_request->getUserId() > 0) {
                     $user_id = $this->slot_request->getUserId();
                 }
@@ -345,7 +344,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     {
         $ilCtrl = $this->ctrl;
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
 
         $ilCtrl->setTargetScript('ilias.php');
         $ilCtrl->setParameterByClass(get_class($this), "ref_id", $a_new_object->getRefId());
@@ -444,6 +443,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     public static function _goto($a_target)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilCtrl = $DIC->ctrl();
         $ilAccess = $DIC->access();
@@ -462,7 +462,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             $ilCtrl->setParameterByClass($class_name, "ref_id", $ref_id);
             $ilCtrl->redirectByClass(array("ilobjplugindispatchgui", $class_name), "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
             ));

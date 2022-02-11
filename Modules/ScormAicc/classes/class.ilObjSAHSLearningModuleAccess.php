@@ -97,7 +97,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
             return false;
         }
 
-        if ($ilAccess->checkAccess("visible", "", $t_arr[1]) || $ilAccess->checkAccess("read", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("visible", "", (int) $t_arr[1]) || $ilAccess->checkAccess("read", "", (int) $t_arr[1])) {
             return true;
         }
         return false;
@@ -133,19 +133,19 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      */
     public static function _lookupDiskUsage($a_id) : int
     {
-        $lm_data_dir = ilUtil::getWebspaceDir('filesystem') . "/lm_data";
+        $lm_data_dir = ilFileUtils::getWebspaceDir('filesystem') . "/lm_data";
         $lm_dir = $lm_data_dir . DIRECTORY_SEPARATOR . "lm_" . $a_id;
 
-        return file_exists($lm_dir) ? ilUtil::dirsize($lm_dir) : 0;
+        return file_exists($lm_dir) ? ilFileUtils::dirsize($lm_dir) : 0;
     }
 
-    /**
-     * Checks offlineMode and returns false if
-     * @param $a_obj_id
-     * @return bool
-     */
-    public static function _lookupUserIsOfflineMode($a_obj_id) : bool
-    {
+//    /**
+//     * Checks offlineMode and returns false if
+//     * @param $a_obj_id
+//     * @return bool
+//     */
+//    public static function _lookupUserIsOfflineMode($a_obj_id) : bool
+//    {
 //        global $DIC;
 //        $ilDB = $DIC->database();
 //        $ilUser = $DIC->user();
@@ -161,8 +161,8 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 //        if (isset($rec["offline_mode"]) && $rec["offline_mode"] === "offline") {
 //            return true;
 //        }
-        return false;
-    }
+//        return false;
+//    }
 
 //    /**
 //     * checks wether a user may invoke a command or not

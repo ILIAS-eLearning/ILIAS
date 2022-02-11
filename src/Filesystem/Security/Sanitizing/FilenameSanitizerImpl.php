@@ -29,7 +29,7 @@ use ilFileUtils;
  * @version 1.1.0
  * @since 5.3.4
  */
-final class FilenameSanitizerImpl implements FilenameSanitizer
+class FilenameSanitizerImpl implements FilenameSanitizer
 {
 
     /**
@@ -43,9 +43,9 @@ final class FilenameSanitizerImpl implements FilenameSanitizer
     /**
      * FilenameSanitizerImpl constructor.
      */
-    public function __construct()
+    public function __construct(array $whitelist)
     {
-        $this->whitelist = ilFileUtils::getValidExtensions();
+        $this->whitelist = $whitelist;
 
         // the secure file ending must be valid, therefore add it if it got removed from the white list.
         if (!in_array(FilenameSanitizer::CLEAN_FILE_SUFFIX, $this->whitelist, true)) {

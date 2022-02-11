@@ -53,7 +53,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
             new \ilIniFilesPopulatedObjective(),
             new \ilDatabaseUpdatedObjective(),
             new \ilComponentPluginAdminInitObjective(),
-            new \ilComponentDatabaseExistsObjective(),
+            new \ilComponentRepositoryExistsObjective(),
             new \ilComponentFactoryExistsObjective()
         ];
     }
@@ -63,7 +63,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_DATABASE);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
         $info = $component_repository->getPluginByName($this->plugin_name);
 
@@ -92,7 +92,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $plugin = $component_repository->getPluginByName($this->plugin_name);
 
         return !$plugin->isInstalled();
@@ -119,22 +119,22 @@ class ilComponentInstallPluginObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public function write($m, $l = ilLogLevel::INFO)
+            public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
             {
             }
-            public function info($msg)
+            public function info(string $a_message) : void
             {
             }
-            public function warning($msg)
+            public function warning(string $a_message) : void
             {
             }
-            public function error($msg)
+            public function error(string $a_message) : void
             {
             }
-            public function debug($msg, $a = [])
+            public function debug(string $a_message, array $a_context = []) : void
             {
             }
-            public function dump($msg, $a = ilLogLevel::INFO)
+            public function dump($a_variable, int $a_level = ilLogLevel::INFO) : void
             {
             }
         };

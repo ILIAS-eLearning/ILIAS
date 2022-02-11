@@ -24,10 +24,9 @@ class ilIndividualAssessmentLP extends ilObjectLP
     
     /**
      * Get an array of member ids participating in the object corresponding to this.
-     *
-     * @return int|string[]
+     * @return array
      */
-    public function getMembers($a_search = true) : array
+    public function getMembers(bool $a_search = true) : array
     {
         if ($this->members_ids === null) {
             $iass = new ilObjIndividualAssessment($this->obj_id, false);

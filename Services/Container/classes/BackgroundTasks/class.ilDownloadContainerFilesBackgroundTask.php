@@ -81,7 +81,7 @@ class ilDownloadContainerFilesBackgroundTask
 
         // Copy Definition
         $definition = new ilCopyDefinition();
-        $normalized_name = ilUtil::getASCIIFilename($this->getBucketTitle());
+        $normalized_name = ilFileUtils::getASCIIFilename($this->getBucketTitle());
         $definition->setTempDir($normalized_name);
         $definition->setObjectRefIds($this->object_ref_ids);
         $this->logger->debug('Created copy definition and added the following tempdir: ' . $normalized_name);

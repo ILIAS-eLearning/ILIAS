@@ -358,7 +358,7 @@ class ilGlossaryDefinition
         if (is_int(strpos(substr($text, $a_length - 16 - 5, 10), "[tex]"))) {
             $offset = 5;
         }
-        $short = ilUtil::shortenText($text, $a_length - 16 + $offset, true);
+        $short = ilStr::shortenTextExtended($text, $a_length - 16 + $offset, true);
         
         // make short text longer, if tex end tag is missing
         $ltexs = strrpos($short, "[tex]");
@@ -366,11 +366,11 @@ class ilGlossaryDefinition
         if ($ltexs > $ltexe) {
             $ltexe = strpos($text, "[/tex]", $ltexs);
             if ($ltexe > 0) {
-                $text = ilUtil::shortenText($text, $ltexe + 6, true);
+                $text = ilStr::shortenTextExtended($text, $ltexe + 6, true);
             }
         }
         
-        $short = ilUtil::shortenText($text, $a_length, true);
+        $short = ilStr::shortenTextExtended($text, $a_length, true);
 
         return $short;
     }

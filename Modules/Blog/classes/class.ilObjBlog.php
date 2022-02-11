@@ -25,6 +25,7 @@ class ilObjBlog extends ilObject2
     public const ABSTRACT_DEFAULT_IMAGE_WIDTH = 144;
     public const ABSTRACT_DEFAULT_IMAGE_HEIGHT = 144;
     public const NAV_MODE_LIST_DEFAULT_POSTINGS = 10;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
 
     protected int $nav_mode_list_months_with_post = 0;
     protected bool $notes;
@@ -56,6 +57,11 @@ class ilObjBlog extends ilObject2
 
         parent::__construct($a_id, $a_reference);
         $this->rbacreview = $DIC->rbac()->review();
+
+        $this->content_style_service = $DIC
+            ->contentStyle()
+            ->domain()
+            ->styleForObjId($this->getId());
     }
 
     protected function initType() : void
@@ -93,8 +99,6 @@ class ilObjBlog extends ilObject2
         
         // #14661
         $this->setNotesStatus(ilNote::commentsActivated($this->id, 0, "blog"));
-        
-        $this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
     }
 
     protected function doCreate()
@@ -167,8 +171,6 @@ class ilObjBlog extends ilObject2
                         
             // #14661
             ilNote::activateComments($this->id, 0, "blog", $this->getNotesStatus());
-            
-            ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
         }
     }
 
@@ -199,13 +201,7 @@ class ilObjBlog extends ilObject2
         $new_obj->update();
         
         // set/copy stylesheet
-        $style_id = $this->getStyleSheetId();
-        if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
-            $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-            $new_id = $style_obj->ilClone();
-            $new_obj->setStyleSheetId($new_id);
-            $new_obj->update();
-        }
+        $this->content_style_service->cloneTo($new_obj->getId());
     }
     
     public function getNotesStatus() : bool
@@ -332,7 +328,7 @@ class ilObjBlog extends ilObject2
         $thumb = "thb_" . $this->id . "_" . $clean_name;
         $processed = $this->id . "_" . $clean_name;
 
-        if (ilUtil::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
+        if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
             chmod($path . $original, 0770);
 
             $blga_set = new ilSetting("blga");
@@ -344,11 +340,13 @@ class ilObjBlog extends ilObject2
             
             // take quality 100 to avoid jpeg artefacts when uploading jpeg files
             // taking only frame [0] to avoid problems with animated gifs
-            $original_file = ilUtil::escapeShellArg($path . $original);
-            $thumb_file = ilUtil::escapeShellArg($path . $thumb);
-            $processed_file = ilUtil::escapeShellArg($path . $processed);
-            ilUtil::execConvert($original_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-            ilUtil::execConvert($original_file . "[0] -geometry " . $dimensions . " -quality 100 JPEG:" . $processed_file);
+            $original_file = ilShellUtil::escapeShellArg($path . $original);
+            $thumb_file = ilShellUtil::escapeShellArg($path . $thumb);
+            $processed_file = ilShellUtil::escapeShellArg($path . $processed);
+            ilShellUtil::execConvert($original_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+            ilShellUtil::execConvert(
+                $original_file . "[0] -geometry " . $dimensions . " -quality 100 JPEG:" . $processed_file
+            );
             
             $this->setImage($processed);
             
@@ -379,16 +377,7 @@ class ilObjBlog extends ilObject2
         $this->approval = $a_status;
     }
     
-    public function getStyleSheetId() : int
-    {
-        return $this->style;
-    }
 
-    public function setStyleSheetId(int $a_style) : void
-    {
-        $this->style = $a_style;
-    }
-    
     public function hasAbstractShorten() : bool
     {
         return $this->abstract_shorten;

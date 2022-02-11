@@ -38,8 +38,7 @@ class PluginIdentificationProvider extends AbstractIdentificationProvider implem
         string $plugin_id,
         SerializerInterface $serializer,
         IdentificationMap $map
-    )
-    {
+    ) {
         parent::__construct($provider, $serializer, $map);
         $this->plugin_id = $plugin_id;
     }

@@ -183,7 +183,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                     $ext = 'JPEG';
                     break;
             }
-            ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbSize());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbSize());
         }
     }
 
@@ -706,7 +706,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         global $DIC;
         $ilDB = $DIC['ilDB'];
         if (!$this->isSingleline) {
-            ilUtil::delDir($this->getImagePath());
+            ilFileUtils::delDir($this->getImagePath());
         }
         $ilDB->manipulateF(
             "DELETE FROM qpl_a_sc WHERE question_fi = %s",
@@ -783,10 +783,10 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $image_filename = str_replace(" ", "_", $image_filename);
             $imagepath = $this->getImagePath();
             if (!file_exists($imagepath)) {
-                ilUtil::makeDirParents($imagepath);
+                ilFileUtils::makeDirParents($imagepath);
             }
             //if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename))
-            if (!ilUtil::moveUploadedFile($image_tempfilename, $image_filename, $imagepath . $image_filename)) {
+            if (!ilFileUtils::moveUploadedFile($image_tempfilename, $image_filename, $imagepath . $image_filename)) {
                 $result = 2;
             } else {
                 include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -834,7 +834,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $filename = $answer->getImage();
             if (strlen($filename)) {
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
@@ -863,7 +863,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $filename = $answer->getImage();
             if (strlen($filename)) {
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
 
                 if (file_exists($imagepath_original . $filename)) {
@@ -907,16 +907,16 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $question_id = $this->getOriginalId();
         $imagepath = $this->getImagePath();
         $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-        ilUtil::delDir($imagepath_original);
+        ilFileUtils::delDir($imagepath_original);
         foreach ($this->answers as $answer) {
             $filename = $answer->getImage();
             if (strlen($filename)) {
                 if (@file_exists($imagepath . $filename)) {
                     if (!file_exists($imagepath)) {
-                        ilUtil::makeDirParents($imagepath);
+                        ilFileUtils::makeDirParents($imagepath);
                     }
                     if (!file_exists($imagepath_original)) {
-                        ilUtil::makeDirParents($imagepath_original);
+                        ilFileUtils::makeDirParents($imagepath_original);
                     }
                     if (!@copy($imagepath . $filename, $imagepath_original . $filename)) {
                         $ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
@@ -1258,10 +1258,10 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $origImagePath = $this->buildImagePath($origQuestionId, $origParentObjId);
         $dupImagePath = $this->buildImagePath($dupQuestionId, $dupParentObjId);
 
-        ilUtil::delDir($origImagePath);
+        ilFileUtils::delDir($origImagePath);
         if (is_dir($dupImagePath)) {
-            ilUtil::makeDirParents($origImagePath);
-            ilUtil::rCopy($dupImagePath, $origImagePath);
+            ilFileUtils::makeDirParents($origImagePath);
+            ilFileUtils::rCopy($dupImagePath, $origImagePath);
         }
     }
 }

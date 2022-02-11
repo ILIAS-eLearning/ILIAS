@@ -127,7 +127,7 @@ class ilPreview
             $dest->getStorage()->create();
 
             // copy previews
-            ilUtil::rCopy($src->getStoragePath(), $dest->getStoragePath());
+            ilFileUtils::rCopy($src->getStoragePath(), $dest->getStoragePath());
 
             // save copy
             $dest->doCreate();
@@ -429,7 +429,7 @@ class ilPreview
      */
     public function getFilePathFormat() : string
     {
-        $path = ilUtil::removeTrailingPathSeparators($this->getAbsoluteStoragePath());
+        $path = ilFileUtils::removeTrailingPathSeparators($this->getAbsoluteStoragePath());
         return $path . "/" . self::FILENAME_FORMAT;
     }
 

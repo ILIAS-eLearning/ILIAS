@@ -142,7 +142,7 @@ class ilMailMemberSearchGUI
                     ));
                 } else {
                     $form->setValuesByPost();
-                    ilUtil::sendFailure($this->lng->txt('no_checkbox'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
                     $this->showSearchForm();
                     return;
                 }
@@ -209,7 +209,7 @@ class ilMailMemberSearchGUI
     protected function sendMailToSelectedUsers() : bool
     {
         if (!isset($this->httpRequest->getParsedBody()['user_ids']) || !is_array($this->httpRequest->getParsedBody()['user_ids']) || 0 === count($this->httpRequest->getParsedBody()['user_ids'])) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
             return false;
         }
@@ -220,7 +220,7 @@ class ilMailMemberSearchGUI
         }
 
         if (!count(array_filter($rcps))) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
             return false;
         }

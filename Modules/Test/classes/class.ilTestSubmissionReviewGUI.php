@@ -228,13 +228,13 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         
         require_once 'Services/Utilities/classes/class.ilUtil.php';
         
-        $path = ilUtil::getWebspaceDir() . '/assessment/' . $this->testOutputGUI->object->getId() . '/exam_pdf';
+        $path = ilFileUtils::getWebspaceDir() . '/assessment/' . $this->testOutputGUI->object->getId() . '/exam_pdf';
         
         if (!is_dir($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         
-        $filename = ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . '/' . $path . '/exam_N';
+        $filename = ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . '/' . $path . '/exam_N';
         $filename .= $inst_id . '-' . $this->testOutputGUI->object->getId();
         $filename .= '-' . $this->testSession->getActiveId() . '-';
         $filename .= $this->testSession->getPass() . '.pdf';

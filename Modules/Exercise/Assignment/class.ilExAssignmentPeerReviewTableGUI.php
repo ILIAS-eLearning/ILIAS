@@ -11,10 +11,10 @@
 class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 {
     protected ilExAssignment $ass;
-    protected int $user_id;
-    protected array $peer_data;
+    protected int $user_id = 0;
+    protected array $peer_data = [];
     protected ilFSStorageExercise $fstorage;
-    protected int $invalid;
+    protected int $invalid = 0;
     
     public function __construct(
         object $a_parent_obj,

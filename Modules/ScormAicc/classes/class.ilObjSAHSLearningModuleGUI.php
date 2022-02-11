@@ -410,7 +410,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             if (in_array($fType, $cFileTypes)) {
                 $timeStamp = time();
                 $tempFile = $sFile["tmp_name"];
-                $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/";
+                $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
                 $lmTempDir = $lmDir . $timeStamp;
                 if (!file_exists($lmTempDir)) {
                     mkdir($lmTempDir, 0755, true);
@@ -457,26 +457,26 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $scormFilePath = $import_dirname . "/" . $scormFile;
                 $file_path = $newObj->getDataDirectory() . "/" . $scormFile;
                 ilFileUtils::rename($scormFilePath, $file_path);
-                ilUtil::unzip($file_path);
+                ilFileUtils::unzip($file_path);
                 unlink($file_path);
-                ilUtil::delDir($lmTempDir, false);
+                ilFileUtils::delDir($lmTempDir, false);
             } else {
                 // copy uploaded file to data directory
                 $file_path = $newObj->getDataDirectory() . "/" . $_FILES["scormfile"]["name"];
-                ilUtil::moveUploadedFile(
+                ilFileUtils::moveUploadedFile(
                     $_FILES["scormfile"]["tmp_name"],
                     $_FILES["scormfile"]["name"],
                     $file_path
                 );
-                ilUtil::unzip($file_path);
+                ilFileUtils::unzip($file_path);
             }
         } else {
             // copy uploaded file to data directory
             $file_path = $newObj->getDataDirectory() . "/" . $_POST["uploaded_file"];
             ilUploadFiles::_copyUploadFile($_POST["uploaded_file"], $file_path);
-            ilUtil::unzip($file_path);
+            ilFileUtils::unzip($file_path);
         }
-        ilUtil::renameExecutables($newObj->getDataDirectory());
+        ilFileUtils::renameExecutables($newObj->getDataDirectory());
 
         $title = $newObj->readObject();
         if ($title != "") {
@@ -490,7 +490,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $importer->writeData("sahs", "5.1.0", $newObj->getId());
         }
 
-        ilUtil::sendInfo($this->lng->txt($newObj->getType() . "_added"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt($newObj->getType() . "_added"), true);
         ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=" . $newObj->getRefId());
     }
 
@@ -725,27 +725,28 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public static function _goto($a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilAccess = $DIC->access();
         $ilErr = $DIC['ilErr'];
         $lng = $DIC->language();
 
         $parts = explode("_", $a_target);
 
-        if ($ilAccess->checkAccess("write", "", $parts[0])) {
+        if ($ilAccess->checkAccess("write", "", (int) $parts[0])) {
             $_GET["cmd"] = "";
             $_GET["baseClass"] = "ilSAHSEditGUI";
             $_GET["ref_id"] = $parts[0];
             $_GET["obj_id"] = $parts[1];
             exit;
         }
-        if ($ilAccess->checkAccess("visible", "", $parts[0]) || $ilAccess->checkAccess("read", "", $parts[0])) {
+        if ($ilAccess->checkAccess("visible", "", (int) $parts[0]) || $ilAccess->checkAccess("read", "", (int) $parts[0])) {
             $_GET["cmd"] = "infoScreen";
             $_GET["baseClass"] = "ilSAHSPresentationGUI";
             $_GET["ref_id"] = $parts[0];
             exit;
         } else {
             if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                ilUtil::sendInfo(sprintf(
+                $main_tpl->setOnScreenMessage('info', sprintf(
                     $lng->txt("msg_no_perm_read_item"),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($parts[0]))
                 ), true);

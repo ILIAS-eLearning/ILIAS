@@ -98,6 +98,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public static function _goto(string $target)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $request = $DIC->http()->request();
         $lng = $DIC->language();
@@ -130,7 +131,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
 
         if (self::hasAccess(self::ACCESS_READ, ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(sprintf(
+            $main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt('msg_no_perm_read_item'),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($id))
             ), true);
@@ -142,10 +143,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected static function isAccessible(int $id) : bool
     {
         return $id > 0 && (
-                self::hasAccess(self::ACCESS_READ, $id) ||
+            self::hasAccess(self::ACCESS_READ, $id) ||
                 self::hasAccess(self::ACCESS_VISIBLE, $id) ||
                 self::hasAccess(self::ACCESS_READ, ROOT_FOLDER_ID)
-            );
+        );
     }
 
     protected static function hasAccess(string $mode, int $id) : bool
@@ -544,9 +545,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->settings
         );
 
-        $participant->add($this->user->getId(), IL_LSO_ADMIN);
-        $participant->updateNotification($this->user->getId(),
-            (bool) $this->settings->get('mail_lso_admin_notification', "1"));
+        $participant->add($this->user->getId(), ilParticipants::IL_LSO_ADMIN);
+        $participant->updateNotification(
+            $this->user->getId(),
+            (bool) $this->settings->get('mail_lso_admin_notification', "1")
+        );
 
         $settings = new ilContainerSortingSettings($new_object->getId());
         $settings->setSortMode(ilContainer::SORT_MANUAL);
@@ -555,7 +558,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
         $settings->save();
 
-        ilUtil::sendSuccess($this->lng->txt('object_added'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
         $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
         ilUtil::redirect(
             $this->getReturnLocation(

@@ -90,7 +90,7 @@ class ilBookingPreferencesGUI
             }
             $this->main_tpl->setContent($ui->renderer()->render($form));
         } else {
-            ilUtil::sendInfo($this->lng->txt("book_type_warning"));
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("book_type_warning"));
         }
     }
 
@@ -151,13 +151,13 @@ class ilBookingPreferencesGUI
                 }
 
                 if (count($obj_ids) > $this->pool->getPreferenceNumber()) {
-                    ilUtil::sendFailure($lng->txt("book_too_many_preferences"), true);
+                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("book_too_many_preferences"), true);
                     $this->listPreferenceOptions($form);
                     return;
                 }
 
                 if (count($obj_ids) < $this->pool->getPreferenceNumber()) {
-                    ilUtil::sendFailure($lng->txt("book_not_enough_preferences"), true);
+                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("book_not_enough_preferences"), true);
                     $this->listPreferenceOptions($form);
                     return;
                 }
@@ -173,7 +173,7 @@ class ilBookingPreferencesGUI
                     return ilBookingObject::lookupTitle($id);
                 }, $obj_ids));
 
-                ilUtil::sendSuccess($lng->txt("book_preferences_saved") . " (" . $titles . ")", true);
+                $this->main_tpl->setOnScreenMessage('success', $lng->txt("book_preferences_saved") . " (" . $titles . ")", true);
             }
         }
         $ctrl->redirect($this, "show");
@@ -189,7 +189,7 @@ class ilBookingPreferencesGUI
         $info = str_replace("%2", ilDatePresentation::formatDate(
             new ilDateTime($this->pool->getPreferenceDeadline(), IL_CAL_UNIX)
         ), $info);
-        ilUtil::sendInfo($info);
+        $this->main_tpl->setOnScreenMessage('info', $info);
     }
 
     protected function listBookingResults() : void

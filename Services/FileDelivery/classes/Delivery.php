@@ -94,7 +94,10 @@ final class Delivery
     public function deliver(): void
     {
         $response = $this->http->response()->withHeader('X-ILIAS-FileDelivery-Method', $this->getDeliveryType());
-        if (!$this->delivery()->doesFileExists($this->path_to_file)) {
+        if (
+            !$this->delivery()->doesFileExists($this->path_to_file)
+            && $this->path_to_file !== self::DIRECT_PHP_OUTPUT
+        ) {
             $response = $this->http->response()->withStatus(404);
             $this->http->saveResponse($response);
             $this->http->sendResponse();
@@ -167,7 +170,7 @@ final class Delivery
 
     private function determineMimeType(): void
     {
-        $info = \ilMimeTypeUtil::lookupMimeType($this->getPathToFile(), \ilMimeTypeUtil::APPLICATION__OCTET_STREAM);
+        $info = \ILIAS\FileUpload\MimeType::lookupMimeType($this->getPathToFile(), \ILIAS\FileUpload\MimeType::APPLICATION__OCTET_STREAM);
         if ($info) {
             $this->setMimeType($info);
 

@@ -98,7 +98,7 @@ class ilObjLearningSequenceContentGUI
         $ref_ids = $_POST["id"];
 
         if (!$ref_ids || count($ref_ids) < 1) {
-            ilUtil::sendInfo($this->lng->txt('no_entries_selected_for_delete'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_entries_selected_for_delete'), true);
             $this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
         }
 
@@ -125,7 +125,7 @@ class ilObjLearningSequenceContentGUI
 
         $this->parent_gui->getObject()->deletePostConditionsForSubObjects($ref_ids);
 
-        ilUtil::sendSuccess($this->lng->txt('entries_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('entries_deleted'), true);
         $this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
     }
 
@@ -165,7 +165,7 @@ class ilObjLearningSequenceContentGUI
 
         $this->parent_gui->getObject()->storeLSItems($updated);
 
-        ilUtil::sendSuccess($this->lng->txt('entries_updated'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('entries_updated'), true);
         $this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
     }
 }

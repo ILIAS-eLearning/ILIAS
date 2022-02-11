@@ -141,7 +141,7 @@ class ilShibbolethSettingsForm
                             }));
 
         $instructions = $field->textarea($this->txt('auth_login_instructions'))
-                              ->withValue($this->settings->get('login_instructions'))
+                              ->withValue($this->settings->get('login_instructions', ''))
                               ->withAdditionalTransformation($custom_trafo(function ($v) : void {
                                   $this->settings->set('login_instructions', (string) $v);
                               }));

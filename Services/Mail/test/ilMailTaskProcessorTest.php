@@ -15,6 +15,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     private ilLanguage $languageMock;
     private Container $dicMock;
     private ilLogger $loggerMock;
+    protected const SOME_USER_ID = 113;
 
     /**
      * @throws ReflectionException
@@ -74,7 +75,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObject = new ilMailValueObject(
@@ -143,7 +144,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObjects = [];
@@ -220,7 +221,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObjects = [];
@@ -310,7 +311,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObjects = [];

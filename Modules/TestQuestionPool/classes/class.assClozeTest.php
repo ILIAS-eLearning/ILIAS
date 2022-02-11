@@ -1314,7 +1314,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             }
 
             if (strlen($value) && !$this->isValidNumericSubmitValue($value)) {
-                ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_no_numeric_value"), true);
                 return false;
             }
         }

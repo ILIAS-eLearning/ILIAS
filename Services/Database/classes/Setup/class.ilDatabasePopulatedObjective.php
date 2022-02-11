@@ -53,7 +53,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
         // $this->setDefaultEngine($db); // maybe we could set the default?
         $default = $this->getDefaultEngine($db);
 
-        $io->text("Default DB engine is {$default}");
+        $io->text("Default DB engine is $default");
 
         switch ($default) {
             case 'innodb':
@@ -69,7 +69,29 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
         return $environment;
     }
-
+    
+    /**
+     * @description Method is currently not used, needed for non-mysql databases
+     */
+    private function readingAbstractionFile(
+        ilDBInterface $db,
+        Setup\CLI\IOWrapper $io
+    ) : void {
+        $io->text("reading abstraction file, this may take a while...");
+        $db_backup = $GLOBALS['ilDB'];
+        $GLOBALS['ilDB'] = $db;
+        /** @noRector  */
+        require "./setup/sql/ilDBTemplate.php";
+        if (function_exists('setupILIASDatabase')) {
+            setupILIASDatabase();
+        } else {
+            throw new Setup\UnachievableException(
+                "Cannot read ilDBTemplate"
+            );
+        }
+        $GLOBALS['ilDB'] = $db_backup;
+    }
+    
     /**
      * @inheritDoc
      */

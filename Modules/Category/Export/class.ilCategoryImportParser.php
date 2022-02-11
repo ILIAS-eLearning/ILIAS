@@ -1,7 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Category Import Parser
  *
@@ -17,7 +28,7 @@ class ilCategoryImportParser extends ilSaxParser
     public int $parent_cnt;
     public int $withrol;
     protected ilLogger $cat_log;
-    protected ?ilObjCategory $category;
+    protected ?ilObjCategory $category = null;
     protected string $default_language = "";
     protected string $cur_spec_lang = "";
     protected string $cur_title = "";
@@ -45,18 +56,18 @@ class ilCategoryImportParser extends ilSaxParser
         $this->parent[$this->parent_cnt] = $a_parent;
         $this->parent_cnt++;
         $this->withrol = $withrol;
-        
+
         parent::__construct($a_xml_file);
     }
 
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function startParsing()
+    public function startParsing() : void
     {
         parent::startParsing();
     }
@@ -66,7 +77,7 @@ class ilCategoryImportParser extends ilSaxParser
         string $type,
         string $name,
         array $attr = null
-    ) {
+    ) : string {
         $tag = "<";
 
         if ($type == "end") {
@@ -86,7 +97,7 @@ class ilCategoryImportParser extends ilSaxParser
         return $tag;
     }
 
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
     {
         switch ($a_name) {
             case "Category":
@@ -109,7 +120,7 @@ class ilCategoryImportParser extends ilSaxParser
     }
 
 
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, $a_name) : void
     {
         switch ($a_name) {
             case "Category":
@@ -146,7 +157,7 @@ class ilCategoryImportParser extends ilSaxParser
         $this->cdata = "";
     }
 
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, $a_data) : void
     {
         // i don't know why this is necessary, but
         // the parser seems to convert "&gt;" to ">" and "&lt;" to "<"

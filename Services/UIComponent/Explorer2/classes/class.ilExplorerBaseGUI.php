@@ -129,8 +129,8 @@ abstract class ilExplorerBaseGUI
 
     public static function createHTMLExportDirs(string $a_target_dir) : void
     {
-        ilUtil::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/lib/jstree-v.pre1.0");
-        ilUtil::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/js");
+        ilFileUtils::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/lib/jstree-v.pre1.0");
+        ilFileUtils::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/js");
     }
 
 

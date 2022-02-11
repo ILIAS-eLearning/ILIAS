@@ -113,7 +113,7 @@ class ilSkinFactory
         $temp_zip_path = $skin_path . '/' . $name;
         rename($import_zip_path, $temp_zip_path);
 
-        ilUtil::unzip($temp_zip_path);
+        ilFileUtils::unzip($temp_zip_path);
         unlink($temp_zip_path);
 
         return $this->skinStyleContainerFromId($skin_id, $message_stack);

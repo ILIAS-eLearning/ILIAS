@@ -131,7 +131,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
 
         $request_body = $request->getParam('content');
 
-        $tmpname = ilUtil::ilTempnam();
+        $tmpname = ilFileUtils::ilTempnam();
         $path = $this->getPath() . '/' . basename($tmpname);
 
         $this->writeToFile($request_body, $path);
@@ -144,7 +144,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
 
     public function storeFileForRest(string $content) : string
     {
-        $tmpname = ilUtil::ilTempnam();
+        $tmpname = ilFileUtils::ilTempnam();
         $path = $this->getPath() . '/' . basename($tmpname);
 
         $this->writeToFile($content, $path);

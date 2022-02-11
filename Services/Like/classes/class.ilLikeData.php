@@ -288,7 +288,7 @@ class ilLikeData
             }
         }
 
-        $exp = ilUtil::sortArray($exp, "timestamp", "desc");
+        $exp = ilArrayUtil::sortArray($exp, "timestamp", "desc");
         return $exp;
     }
 
@@ -329,7 +329,7 @@ class ilLikeData
             }
         }
 
-        $exp = ilUtil::sortArray($exp, "timestamp", "desc");
+        $exp = ilArrayUtil::sortArray($exp, "timestamp", "desc");
         return $exp;
     }
 }

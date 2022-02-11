@@ -174,13 +174,11 @@ class ilPersonalSettingsGUI
         // check whether password of user have to be changed
         // due to first login or password of user is expired
         if ($ilUser->isPasswordChangeDemanded()) {
-            ilUtil::sendInfo(
-                $this->lng->txt('password_change_on_first_login_demand')
-            );
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('password_change_on_first_login_demand'));
         } elseif ($ilUser->isPasswordExpired()) {
             $msg = $this->lng->txt('password_expired');
             $password_age = $ilUser->getPasswordAge();
-            ilUtil::sendInfo(sprintf($msg, $password_age));
+            $this->tpl->setOnScreenMessage('info', sprintf($msg, $password_age));
         }
 
         if (!$a_no_init && !$hide_form) {
@@ -206,13 +204,13 @@ class ilPersonalSettingsGUI
             // unless the user uses Shibboleth authentication with additional
             // local authentication for WebDAV.
             //if (
-            //	($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local"))
+            //	($ilUser->getAuthMode(true) != ilAuthUtils::AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local"))
             //)
             $pw_info_set = false;
-            if ($ilUser->getAuthMode(true) == AUTH_LOCAL) {
+            if ($ilUser->getAuthMode(true) == ilAuthUtils::AUTH_LOCAL) {
                 // current password
                 $cpass = new ilPasswordInputGUI($lng->txt("current_password"), "current_password");
-                $cpass->setInfo(ilUtil::getPasswordRequirementsInfo());
+                $cpass->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
                 $cpass->setRetype(false);
                 $cpass->setSkipSyntaxCheck(true);
                 $pw_info_set = true;
@@ -226,7 +224,7 @@ class ilPersonalSettingsGUI
             // new password
             $ipass = new ilPasswordInputGUI($lng->txt("desired_password"), "new_password");
             if ($pw_info_set === false) {
-                $ipass->setInfo(ilUtil::getPasswordRequirementsInfo());
+                $ipass->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
             }
             $ipass->setRequired(true);
 
@@ -234,12 +232,12 @@ class ilPersonalSettingsGUI
             $this->form->addCommandButton("savePassword", $lng->txt("save"));
             
             switch ($ilUser->getAuthMode(true)) {
-                case AUTH_LOCAL:
+                case ilAuthUtils::AUTH_LOCAL:
                     $this->form->setTitle($lng->txt("chg_password"));
                     break;
                     
-                case AUTH_SHIBBOLETH:
-                case AUTH_CAS:
+                case ilAuthUtils::AUTH_SHIBBOLETH:
+                case ilAuthUtils::AUTH_CAS:
                     if (ilDAVActivationChecker::_isActive()) {
                         $this->form->setTitle($lng->txt("chg_ilias_and_webfolder_password"));
                     } else {
@@ -297,15 +295,15 @@ class ilPersonalSettingsGUI
             // The old password needs to be checked for verification
             // unless the user uses Shibboleth authentication with additional
             // local authentication for WebDAV.
-            #if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
-            if ($ilUser->getAuthMode(true) == AUTH_LOCAL) {
-                if (!ilUserPasswordManager::getInstance()->verifyPassword($ilUser, $this->entered_new_password)) {
+            #if ($ilUser->getAuthMode(true) != ilAuthUtils::AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
+            if ($ilUser->getAuthMode(true) == ilAuthUtils::AUTH_LOCAL) {
+                if (!ilUserPasswordManager::getInstance()->verifyPassword($ilUser, $this->entered_current_password)) {
                     $error = true;
                     $cp->setAlert($this->lng->txt('passwd_wrong'));
                 }
             }
 
-            if (!ilUtil::isPassword($this->entered_new_password, $custom_error)) {
+            if (!ilSecuritySettingsChecker::isPassword($this->entered_new_password, $custom_error)) {
                 $error = true;
                 if ($custom_error != '') {
                     $np->setAlert($custom_error);
@@ -314,8 +312,12 @@ class ilPersonalSettingsGUI
                 }
             }
             $error_lng_var = '';
-            if (!ilUtil::isPasswordValidForUserContext($this->entered_new_password, $ilUser, $error_lng_var)) {
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            if (!ilSecuritySettingsChecker::isPasswordValidForUserContext(
+                $this->entered_new_password,
+                $ilUser,
+                $error_lng_var
+            )) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
                 $np->setAlert($this->lng->txt($error_lng_var));
                 $error = true;
             }
@@ -335,12 +337,12 @@ class ilPersonalSettingsGUI
                 }
 
                 if (ilSession::get('orig_request_target')) {
-                    ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
                     $target = ilSession::get('orig_request_target');
                     ilSession::set('orig_request_target', '');
                     ilUtil::redirect($target);
                 } else {
-                    ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
                     $this->showPassword(true, true);
                     return;
                 }
@@ -577,7 +579,7 @@ class ilPersonalSettingsGUI
                 ? ilUserUtil::getPersonalStartingPoint()
                 : 0);
             $this->form->addItem($si);
-                        
+            
             // starting point: repository object
             $repobj = new ilRadioOption($lng->txt("adm_user_starting_point_object"), ilUserUtil::START_REPOSITORY_OBJ);
             $repobj_id = new ilTextInputGUI($lng->txt("adm_user_starting_point_ref_id"), "usr_start_ref_id");
@@ -708,8 +710,8 @@ class ilPersonalSettingsGUI
             $user_settings->setDateFormat((int) $this->form->getInput("date_format"));
             $user_settings->setTimeFormat((int) $this->form->getInput("time_format"));
             $user_settings->save();
-                        
-            ilUtil::sendSuccess($lng->txtlng("common", "msg_obj_modified", $ilUser->getLanguage()), true);
+            
+            $this->tpl->setOnScreenMessage('success', $lng->txtlng("common", "msg_obj_modified", $ilUser->getLanguage()), true);
 
             $ilCtrl->redirect($this, "showGeneralSettings");
         }
@@ -742,7 +744,7 @@ class ilPersonalSettingsGUI
         $this->__initSubTabs("deleteOwnAccount");
         $ilTabs->activateTab("delacc");
         
-        ilUtil::sendInfo($this->lng->txt('user_delete_own_account_info'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('user_delete_own_account_info'));
         $ilToolbar->addButton(
             $this->lng->txt('btn_next'),
             $this->ctrl->getLinkTarget($this, 'deleteOwnAccount2')
@@ -789,7 +791,7 @@ class ilPersonalSettingsGUI
         
         $ilUser->removeDeletionFlag();
         
-        ilUtil::sendInfo($this->lng->txt("user_delete_own_account_aborted"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("user_delete_own_account_aborted"), true);
         $ilCtrl->redirect($this, "showGeneralSettings");
     }
     
@@ -798,11 +800,11 @@ class ilPersonalSettingsGUI
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-                
+        
         // we are setting the flag and ending the session in the same step
         
         $ilUser->activateDeletionFlag();
-                
+        
         // see ilStartupGUI::doLogout()
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
@@ -903,7 +905,7 @@ class ilPersonalSettingsGUI
         }
         
         $ilLog->write("Account deleted: " . $ilUser->getLogin() . " (" . $ilUser->getId() . ")");
-                
+        
         $ilUser->delete();
 
         // terminate session

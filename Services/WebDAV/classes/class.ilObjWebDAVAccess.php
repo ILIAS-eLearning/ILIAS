@@ -1,48 +1,41 @@
-<?php
+<?php declare(strict_types = 1);
+
+use ILIAS\HTTP\Services;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Refinery\Transformation;
 
 /**
- * Class ilObjWebDAVAccess
  * @author Lukas Zehnder <lz@studer-raimann.ch>
  */
 class ilObjWebDAVAccess extends ilObjectAccess
 {
-    /**
-     * @var \ILIAS\HTTP\Services
-     */
-    private $http;
-    /**
-     * @var ilRbacSystem
-     */
-    private $rbacsystem;
-
-    /**
-     * ilObjWebDAVAccess constructor.
-     */
+    private RequestWrapper $http;
+    private ilRbacSystem $rbacsystem;
+    private Transformation $int_trafo;
+    
     public function __construct()
     {
         global $DIC;
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->http       = $DIC->http();
+        $this->http = $DIC->http()->wrapper()->query();
+        $this->int_trafo = $DIC->refinery()->kindlyTo()->int();
     }
-
-    /**
-     * @param string $permission
-     * @throws ilException
-     */
+    
     public function checkAccessAndThrowException(string $permission) : void
     {
         if (!$this->hasUserPermissionTo($permission)) {
             throw new ilException('Permission denied');
         }
     }
-
-    /**
-     * @param string $permission
-     * @return bool
-     */
+    
     public function hasUserPermissionTo(string $permission) : bool
     {
-        return (bool) $this->rbacsystem->checkAccess($permission, $this->http->request()->getQueryParams()['ref_id']);
+        if (!$this->http->has('ref_id')) {
+            return false;
+        }
+        return (bool) $this->rbacsystem->checkAccess(
+            $permission,
+            $this->http->retrieve('ref_id', $this->int_trafo)
+        );
     }
-
 }

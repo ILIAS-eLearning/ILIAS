@@ -155,7 +155,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     public function initFilter() : void
     {
         global $DIC;
-        
+
         // no filter at all
     }
     

@@ -58,30 +58,36 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
         if ($this->params["langmode"]) {
             $this->tpl->setCurrentBlock("comment");
-            $this->tpl->setVariable("COM_ID", ilUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment"));
-            $this->tpl->setVariable("COM_NAME", ilUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment"));
-            $this->tpl->setVariable("COM_VALUE", ilUtil::prepareFormOutput($a_set["comment"]));
+            $this->tpl->setVariable("COM_ID",
+                ilLegacyFormElementsUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment")
+            );
+            $this->tpl->setVariable("COM_NAME",
+                ilLegacyFormElementsUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment")
+            );
+            $this->tpl->setVariable("COM_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["comment"]));
             $this->tpl->setVariable("COM_SIZE", $this->commentsize);
             $this->tpl->setVariable("COM_MAX", 250);
             $this->tpl->setVariable("TXT_COMMENT", $lng->txt("comment"));
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock("hidden_comment");
-            $this->tpl->setVariable("COM_NAME", ilUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment"));
-            $this->tpl->setVariable("COM_VALUE", ilUtil::prepareFormOutput($a_set["comment"]));
+            $this->tpl->setVariable("COM_NAME",
+                ilLegacyFormElementsUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment")
+            );
+            $this->tpl->setVariable("COM_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["comment"]));
             $this->tpl->parseCurrentBlock();
         }
 
         $this->tpl->setVariable("T_ROWS", ceil(strlen($a_set["translation"]) / $this->inputsize));
         $this->tpl->setVariable("T_SIZE", $this->inputsize);
-        $this->tpl->setVariable("T_NAME", ilUtil::prepareFormOutput($a_set["name"]));
-        $this->tpl->setVariable("T_USER_VALUE", ilUtil::prepareFormOutput($a_set["translation"]));
+        $this->tpl->setVariable("T_NAME", ilLegacyFormElementsUtil::prepareFormOutput($a_set["name"]));
+        $this->tpl->setVariable("T_USER_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["translation"]));
 
-        $this->tpl->setVariable("MODULE", ilUtil::prepareFormOutput($a_set["module"]));
-        $this->tpl->setVariable("TOPIC", ilUtil::prepareFormOutput($a_set["topic"]));
+        $this->tpl->setVariable("MODULE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["module"]));
+        $this->tpl->setVariable("TOPIC", ilLegacyFormElementsUtil::prepareFormOutput($a_set["topic"]));
 
-        $this->tpl->setVariable("DEFAULT_VALUE", ilUtil::prepareFormOutput($a_set["default"]));
-        $this->tpl->setVariable("COMMENT", ilUtil::prepareFormOutput($a_set["default_comment"]));
+        $this->tpl->setVariable("DEFAULT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["default"]));
+        $this->tpl->setVariable("COMMENT", ilLegacyFormElementsUtil::prepareFormOutput($a_set["default_comment"]));
     }
 
     /**

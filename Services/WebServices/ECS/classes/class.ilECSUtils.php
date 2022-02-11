@@ -1,25 +1,18 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 *
@@ -30,7 +23,6 @@
 * @ilCtrl_Calls
 * @ingroup ServicesWebServicesECS
 */
-
 class ilECSUtils
 {
     const TYPE_ARRAY = 1;
@@ -38,31 +30,6 @@ class ilECSUtils
     const TYPE_STRING = 3;
     const TYPE_TIMEPLACE = 4;
         
-    /**
-     * Lookup participant name
-     * @param int	$a_owner	Mid of participant
-     * @param int	$a_server_id
-     * @return
-     */
-    public static function lookupParticipantName($a_owner, $a_server_id)
-    {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
-        try {
-            include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
-            $reader = ilECSCommunityReader::getInstanceByServerId($a_server_id);
-            if ($part = $reader->getParticipantByMID($a_owner)) {
-                return $part->getParticipantName();
-            }
-            return '';
-        } catch (ilECSConnectorException $e) {
-            $ilLog->write(__METHOD__ . ': Error reading participants.');
-            return '';
-        }
-    }
-    
     /**
      * get optional econtent fields
      * These fields might be mapped against AdvancedMetaData field definitions
@@ -189,9 +156,6 @@ class ilECSUtils
      */
     public static function getMatchableContent($a_resource_id, $a_server_id, $a_ecs_content, $a_owner)
     {
-        include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingRule.php';
-        include_once './Services/WebServices/ECS/classes/class.ilECSCommunitiesCache.php';
-        
         // see ilECSCategoryMapping::getPossibleFields();
         $res = array();
         $res["part_id"] = array($a_owner, ilECSCategoryMappingRule::ATTR_INT);
@@ -210,21 +174,32 @@ class ilECSUtils
             }
             switch ($type) {
                 case ilECSUtils::TYPE_ARRAY:
-                    $value = array(implode(',', (array) $a_ecs_content->$target), ilECSCategoryMappingRule::ATTR_ARRAY);
+                    if (isset($a_ecs_content->$target)) {
+                        $value = array(implode(',', (array) $a_ecs_content->$target), ilECSCategoryMappingRule::ATTR_ARRAY);
+                    } else {
+                        $value = [];
+                    }
                     break;
 
                 case ilECSUtils::TYPE_INT:
-                    $value = array((int) $a_ecs_content->$target, ilECSCategoryMappingRule::ATTR_INT);
+                    if (isset($a_ecs_content->$target)) {
+                        $value = array((int) $a_ecs_content->$target, ilECSCategoryMappingRule::ATTR_INT);
+                    } else {
+                        $value = 0;
+                    }
                     break;
 
                 case ilECSUtils::TYPE_STRING:
-                    $value = array((string) $a_ecs_content->$target, ilECSCategoryMappingRule::ATTR_STRING);
+                    if (isset($a_ecs_content->$target)) {
+                        $value = array((string) $a_ecs_content->$target, ilECSCategoryMappingRule::ATTR_STRING);
+                    } else {
+                        $value = "";
+                    }
                     break;
 
                 case ilECSUtils::TYPE_TIMEPLACE:
                     if (!is_object($timePlace)) {
-                        include_once('./Services/WebServices/ECS/classes/class.ilECSTimePlace.php');
-                        if (is_object($a_ecs_content->$target)) {
+                        if (isset($a_ecs_content->$target) && is_object($a_ecs_content->$target)) {
                             $timePlace = new ilECSTimePlace();
                             $timePlace->loadFromJSON($a_ecs_content->$target);
                         } else {
@@ -262,7 +237,6 @@ class ilECSUtils
     public static function getAdvancedMDValuesForObjId($a_obj_id)
     {
         $res = array();
-        
 
         // getting all records
         foreach (ilAdvancedMDValues::getInstancesForObjectId($a_obj_id) as $a_values) {

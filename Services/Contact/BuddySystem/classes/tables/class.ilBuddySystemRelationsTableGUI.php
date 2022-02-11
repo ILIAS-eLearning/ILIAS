@@ -170,7 +170,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         if ($this->hasAccessToMailSystem) {
-            $a_set['chb'] = ilUtil::formCheckbox(0, 'usr_id[]', $a_set['usr_id']);
+            $a_set['chb'] = ilLegacyFormElementsUtil::formCheckbox(0, 'usr_id[]', $a_set['usr_id']);
         }
 
         $public_profile = ilObjUser::_lookupPref($a_set['usr_id'], 'public_profile');

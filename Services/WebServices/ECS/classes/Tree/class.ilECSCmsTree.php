@@ -1,7 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/Tree/classes/class.ilTree.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  *
@@ -22,23 +33,18 @@ class ilECSCmsTree extends ilTree
 
     public function insertRootNode($tree, $a_child)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'INSERT INTO ecs_cms_tree ' .
             '(tree,child,parent,lft,rgt,depth) ' .
             'VALUES ( ' .
-            $ilDB->quote($tree, 'integer') . ', ' .
-            $ilDB->quote($a_child, 'integer') . ', ' .
-            $ilDB->quote(0, 'integer') . ', ' .
-            $ilDB->quote(1, 'integer') . ', ' .
-            $ilDB->quote(100, 'integer') . ', ' .
-            $ilDB->quote(1, 'integer') . ' )';
+            $this->db->quote($tree, 'integer') . ', ' .
+            $this->db->quote($a_child, 'integer') . ', ' .
+            $this->db->quote(0, 'integer') . ', ' .
+            $this->db->quote(1, 'integer') . ', ' .
+            $this->db->quote(100, 'integer') . ', ' .
+            $this->db->quote(1, 'integer') . ' )';
 
-        $ilDB->manipulate($query);
-        
-        
+        $this->db->manipulate($query);
+
         return true;
     }
     
@@ -51,7 +57,7 @@ class ilECSCmsTree extends ilTree
 
         $ilDB = $DIC['ilDB'];
 
-        $GLOBALS['DIC']->logger()->wsrv()->debug('Deleting cms tree: ' . $a_tree_id);
+        $DIC->logger()->wsrv()->debug('Deleting cms tree: ' . $a_tree_id);
         $query = 'DELETE FROM ecs_cms_tree ' .
                 'WHERE tree = ' . $ilDB->quote($a_tree_id, 'integer');
         $ilDB->manipulate($query);
@@ -64,12 +70,8 @@ class ilECSCmsTree extends ilTree
      */
     public function treeExists($a_tree_id)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $query = 'SELECT COUNT(*) num FROM ecs_cms_tree WHERE tree = ' . $ilDB->quote($a_tree_id, 'integer');
-        $res = $ilDB->query($query);
+        $query = 'SELECT COUNT(*) num FROM ecs_cms_tree WHERE tree = ' . $this->db->quote($a_tree_id, 'integer');
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->num > 0 ? true : false;
         }

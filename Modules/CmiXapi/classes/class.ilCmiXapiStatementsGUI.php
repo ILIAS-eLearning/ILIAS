@@ -27,18 +27,21 @@ class ilCmiXapiStatementsGUI
     /**
      * @var ilObjCmiXapi
      */
-    protected $object;
+    protected ilObjCmiXapi $object;
 
     /**
      * @var ilCmiXapiAccess
      */
-    protected $access;
+    protected ilCmiXapiAccess $access;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * @param ilObjCmiXapi $object
      */
     public function __construct(ilObjCmiXapi $object)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
 
         $this->access = ilCmiXapiAccess::getInstance($this->object);
@@ -94,7 +97,7 @@ class ilCmiXapiStatementsGUI
 
             $this->initTableData($table, $statementsFilter);
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
             $table->setData(array());
             $table->setMaxCount(0);
             $table->resetOffset();
@@ -119,7 +122,7 @@ class ilCmiXapiStatementsGUI
         global $DIC;
         if ($this->access->hasOutcomesAccess()) {
             $actor = $table->getFilterItemByPostVar('actor')->getValue();
-            if (strlen($actor)) {
+            if ($actor && strlen($actor)) {
                 $usrId = ilObjUser::getUserIdByLogin($actor);
                 if ($usrId) {
                     $filter->setActor(new ilCmiXapiUser($this->object->getId(), $usrId, $this->object->getPrivacyIdent()));
@@ -136,10 +139,12 @@ class ilCmiXapiStatementsGUI
 
     protected function initVerbFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table) : void
     {
-        $verb = urldecode($table->getFilterItemByPostVar('verb')->getValue());
+        if ($table->getFilterItemByPostVar('verb')->getValue()) {
+            $verb = urldecode($table->getFilterItemByPostVar('verb')->getValue());
 
-        if (ilCmiXapiVerbList::getInstance()->isValidVerb($verb)) {
-            $filter->setVerb($verb);
+            if (ilCmiXapiVerbList::getInstance()->isValidVerb($verb)) {
+                $filter->setVerb($verb);
+            }
         }
     }
 
@@ -188,7 +193,8 @@ class ilCmiXapiStatementsGUI
             }
         } else {
             $usrId = $DIC->user()->getId();
-            if (!ilCmiXapiUser::getUsersForObject($this->object->getId(), $usrId)) {
+//            if (!ilCmiXapiUser::getUsersForObject($this->object->getId(), $usrId)) {
+            if (!ilCmiXapiUser::getUsersForObject($this->object->getId())) {
                 $table->setData(array());
                 $table->setMaxCount(0);
                 $table->resetOffset();

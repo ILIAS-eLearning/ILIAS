@@ -28,8 +28,8 @@ class ilMediaImageUtil
     {
         if (substr($a_location, 0, 4) == "http") {
             if (ilCurlConnection::_isCurlExtensionLoaded()) {
-                $dir = ilUtil::getDataDir() . "/temp/mob/remote_img";
-                ilUtil::makeDirParents($dir);
+                $dir = ilFileUtils::getDataDir() . "/temp/mob/remote_img";
+                ilFileUtils::makeDirParents($dir);
                 $filename = $dir . "/" . uniqid();
                 $file = fopen($filename, "w");
                 $c = new ilCurlConnection($a_location);

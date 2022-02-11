@@ -48,7 +48,7 @@ class ilCalendarActions
     public function checkSettingsCal(int $a_cat_id) : bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
-        return $info['accepted'];
+        return (bool) $info['accepted'];
     }
 
     /**

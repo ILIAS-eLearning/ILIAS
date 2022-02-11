@@ -180,9 +180,9 @@ class SurveyQuestion
         if (!empty($materials_filename)) {
             $materialspath = $this->getMaterialsPath();
             if (!file_exists($materialspath)) {
-                ilUtil::makeDirParents($materialspath);
+                ilFileUtils::makeDirParents($materialspath);
             }
-            if (ilUtil::moveUploadedFile(
+            if (ilFileUtils::moveUploadedFile(
                 $materials_tempfilename,
                 $materials_filename,
                 $materialspath . $materials_filename
@@ -623,8 +623,10 @@ class SurveyQuestion
      */
     public function getImagePathWeb() : string
     {
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/images/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/images/";
+        return str_replace(
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
     }
 
     /**
@@ -632,8 +634,10 @@ class SurveyQuestion
      */
     public function getMaterialsPathWeb() : string
     {
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
+        return str_replace(
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
     }
 
     /**
@@ -781,7 +785,7 @@ class SurveyQuestion
 
         $directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
         if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory)) {
-            ilUtil::delDir($directory);
+            ilFileUtils::delDir($directory);
         }
 
         $mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $question_id);
@@ -1043,7 +1047,7 @@ class SurveyQuestion
             $materialspath = $this->getMaterialsPath();
             $materialspath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $materialspath);
             if (!file_exists($materialspath)) {
-                ilUtil::makeDirParents($materialspath);
+                ilFileUtils::makeDirParents($materialspath);
             }
             if (!copy($materialspath_original . $filename, $materialspath . $filename)) {
                 throw new ilSurveyException("Unable to duplicate materials.");
@@ -1218,10 +1222,12 @@ class SurveyQuestion
                 case "PageObject":
                 case "GlossaryItem":
                 case "LearningModule":
-                    $href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/goto.php?target=" . $type . "_" . $target_id;
+                    $href = ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/goto.php?target=" . $type . "_" . $target_id;
                     break;
                 case "MediaObject":
-                    $href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=" . $a_parent_ref_id . "&mob_id=" . $target_id;
+                    $href = ilFileUtils::removeTrailingPathSeparators(
+                            ILIAS_HTTP_PATH
+                        ) . "/ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=" . $a_parent_ref_id . "&mob_id=" . $target_id;
                     break;
             }
         }
@@ -1300,7 +1306,6 @@ class SurveyQuestion
             $component_factory = $DIC["component.factory"];
             foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
                 if (strcmp($pl->getQuestionType(), $question_type) == 0) {
-                    $pl->includeClass("class." . $type . ".php");
                     return true;
                 }
             }
@@ -1368,6 +1373,9 @@ class SurveyQuestion
         array $a_finished_ids = null
     ) : ?SurveyQuestionEvaluation {
         $question = self::_instanciateQuestion($question_id);
+        if (is_null($a_finished_ids)) {
+            $a_finished_ids = [];
+        }
         if ($question) {
             $question_type = self::_getQuestionType($question_id);
             self::_includeClass($question_type, 2);
@@ -1465,7 +1473,7 @@ class SurveyQuestion
         string $txt_output,
         bool $prepare_for_latex_output = false
     ) : string {
-        return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
     }
 
     /**

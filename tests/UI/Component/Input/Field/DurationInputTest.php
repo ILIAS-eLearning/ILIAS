@@ -28,9 +28,10 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
     protected function buildLanguage() : ilLanguage
     {
-        if (!isset($this->lng)) {
-            $this->lng = $this->createMock(ilLanguage::class);
-        }
+        $this->lng = $this->createMock(ilLanguage::class);
+        $this->lng->method("txt")
+            ->will($this->returnArgument(0));
+
         return $this->lng;
     }
 
@@ -143,6 +144,9 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $datetime = $this->factory->duration('label', 'byline');
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($datetime));
+        $label_start = 'duration_default_label_start';
+        $label_end = 'duration_default_label_end';
+
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
@@ -150,13 +154,13 @@ class DurationInputTest extends ILIAS_UI_TestBase
            <div class="col-sm-9">
               <div class="il-input-duration" id="id_1">
                  <div class="form-group row">
-                    <label for="id_2" class="control-label col-sm-3">' . I\Input\Field\Duration::DEFAULT_START_LABEL . '</label>
+                    <label for="id_2" class="control-label col-sm-3">' . $label_start . '</label>
                     <div class="col-sm-9">
                        <div class="input-group date il-input-datetime" id="id_2"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
                     </div>
                  </div>
                  <div class="form-group row">
-                    <label for="id_3" class="control-label col-sm-3">' . I\Input\Field\Duration::DEFAULT_END_LABEL . '</label>
+                    <label for="id_3" class="control-label col-sm-3">' . $label_end . '</label>
                     <div class="col-sm-9">
                        <div class="input-group date il-input-datetime" id="id_3"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
                     </div>

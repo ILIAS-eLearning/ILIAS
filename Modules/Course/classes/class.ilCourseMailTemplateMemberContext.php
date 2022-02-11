@@ -1,32 +1,34 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
 
 /**
  * Handles course mail placeholders
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @package ModulesCourse
  */
 class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 {
-    const ID = 'crs_context_member_manual';
+    protected const ID = 'crs_context_member_manual';
 
     /** @var array */
-    protected static $periodInfoByObjIdCache = [];
+    protected static array $periodInfoByObjIdCache = [];
 
-    /**
-     * @return string
-     */
+    protected ilLanguage $lng;
+
+    public function __construct(
+        \OrgUnit\PublicApi\OrgUnitUserService $orgUnitUserService = null,
+        ilMailEnvironmentHelper $envHelper = null,
+        ilMailUserHelper $usernameHelper = null,
+        ilMailLanguageHelper $languageHelper = null
+    ) {
+        parent::__construct($orgUnitUserService, $envHelper, $usernameHelper, $languageHelper);
+    }
+
     public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         global $DIC;
@@ -38,9 +40,6 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
         return $lng->txt('crs_mail_context_member_title');
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         global $DIC;
@@ -52,10 +51,6 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
         return $lng->txt('crs_mail_context_member_info');
     }
 
-    /**
-     * Return an array of placeholders
-     * @return array
-     */
     public function getSpecificPlaceholders() : array
     {
         /**
@@ -89,15 +84,10 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
             'label' => $lng->txt('crs_mail_permanent_link')
         );
 
-
         return $placeholders;
     }
 
-    /**
-     * @param int $objId
-     * @return array|null
-     */
-    private function getCachedPeriodByObjId(int $objId)
+    private function getCachedPeriodByObjId(int $objId) : array
     {
         if (!array_key_exists($objId, self::$periodInfoByObjIdCache)) {
             self::$periodInfoByObjIdCache[$objId] = ilObjCourseAccess::lookupPeriodInfo($objId);
@@ -126,7 +116,6 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
             return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
         } else {
             if ('crs_link' == $placeholder_id) {
-                require_once './Services/Link/classes/class.ilLink.php';
                 return ilLink::_getLink($context_parameters['ref_id'], 'crs');
             } elseif ('crs_period_start' == $placeholder_id) {
                 $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId($context_parameters['ref_id']));

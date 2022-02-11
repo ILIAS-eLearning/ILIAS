@@ -29,6 +29,24 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+style#:#style_support_reuse#:#Re-Use
+style#:#style_support_reuse_info#:#Allow sub-objects of the current container to re-use this content style.
+style#:#sty_resize_image#:#Resize Image
+style#:#sty_resize#:#Resize
+style#:#sty_outdated#:#Outdated
+style#:#sty_remove_outdated#:#Remove Outdated Status
+style#:#sty_set_outdated#:#Set Outdated
+style#:#sty_save_hide_order_status#:#Save Order and Hidden Status
+style#:#sty_save_order_status#:#Save Order
+style#:#sty_class#:#Style Class
+style#:#sty_paste_chars#:#Paste Classes
+style#:#sty_create_new_class#:#Create new style class
+style#:#sty_overwrite_existing_class#:#Overwrite existing style class
+style#:#sty_class_name#:#Class Name
+style#:#sty_parameters#:#Parameters
+style#:#sty_titles#:#Titles
+style#:#sty_bg_img_info#:#To add images to the dropdown selection please upload them in the "Images" section of the style first.
+content#:#cont_caption_style#:#Caption Style Class
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 survey#:#svy_ext_rater_firstname#:#First name of external rater
 survey#:#svy_ext_rater_lastname#:#Last name of external rater
@@ -2313,6 +2331,7 @@ common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system langu
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.
 common#:#cat_add#:#Add Category
+common#:#catr_add#:#Add Category Link
 common#:#cat_added#:#Category added
 rbac#:#cat_cat_administrate_users#:#User can create and administrate local user accounts in this category
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
@@ -2355,10 +2374,10 @@ common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter
 common#:#characters#:#characters
-common#:#chat_enter_public_room_tooltip#:#Enter public chat.
-common#:#chat_enter_public_room#:#Public Chat
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
-common#:#chat_invite_public_room#:#Public Chat
+common#:#chat_enter_public_room_tooltip#:#Enter public chat room
+common#:#chat_enter_public_room#:#Public Chat Room
+common#:#chat_invite_public_room_tooltip#:#Invite to public chat room
+common#:#chat_invite_public_room#:#Public Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_use_osc#:#Using On-Screen-Chat
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
@@ -2457,6 +2476,7 @@ common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification#:#New Mail Notifications
 common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.
 common#:#crs_add#:#Add Course
+common#:#crsr_add#:#Add Course Link
 common#:#crs_added#:#Course added
 common#:#crs_archives#:#Archives
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
@@ -2538,6 +2558,7 @@ forum#:#descending_order#:#Latest postings at the top
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
 common#:#details#:#Details
+common#:#didactic_template#:#Didactic Template
 common#:#disable_check#:#Disable check
 common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
 common#:#disable_hide_user_toggle#:#Member is allowed to deactivate
@@ -2823,6 +2844,7 @@ common#:#groupings_assigned_obj_grp#:#Assigned Groups
 common#:#groupings#:#Membership Limitations
 common#:#groups#:#Groups
 common#:#grp_add#:#Add Group
+common#:#grpr_add#:#Add Group Link
 common#:#grp_added#:#Group added
 common#:#grp_btn_unsubscribe#:#Unsubscribe from Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
@@ -3363,6 +3385,7 @@ common#:#note#:#Note
 common#:#notes_and_comments#:#Notes and Comments
 common#:#notes#:#Notes
 common#:#notifications#:#Notifications
+common#:#mm_private_chats#:#Private Chats
 common#:#num_users#:#Number of Users
 common#:#edit_metadata#:#Edit Metadata
 rbac#:#nwss_edit_permission#:#User can change permission settings in News and Web Feeds administration
@@ -3370,7 +3393,6 @@ rbac#:#nwss_read#:#User has read access to ews and Web Feeds administration
 rbac#:#nwss_visible#:#News and Web Feeds administration is visible
 rbac#:#nwss_write#:#User can edit settings in News and Web Feeds administration
 common#:#obj_accs_desc#:#Settings for accessibility features.
-common#:#obj_accs_captcha#:#Captchas
 common#:#obj_accs#:#Accessibility
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_adm#:#Administration
@@ -3400,7 +3422,6 @@ common#:#obj_extt_desc#:#Configure external software or services that are suppor
 common#:#obj_extt#:#Third Party Software
 common#:#obj_facs_desc#:#Settings for files and file handling
 common#:#obj_facs#:#Files
-common#:#obj_feed#:#Web Feed
 common#:#obj_file_inline#:#Learning Module File
 common#:#obj_file#:#File
 common#:#obj_file_duplicate#:#Duplicate File
@@ -3495,7 +3516,6 @@ common#:#objs_catr#:#Category Link
 common#:#objs_crs#:#Courses
 common#:#objs_crsr#:#Course Link
 common#:#objs_exc#:#Exercises
-common#:#objs_feed#:#Web Feeds
 common#:#objs_file#:#Files
 common#:#objs_fold#:#Folders
 common#:#objs_frm#:#Forums
@@ -5186,7 +5206,7 @@ crs#:#event_unregistered#:#You have been unregistered.
 crs#:#event_updated#:#Saved Settings
 crs#:#event#:#Session
 crs#:#events#:#Sessions
-crs#:#export_members#:#Export Participants
+crs#:#export_members#:#Export Data of Participants
 crs#:#grouping_change_assignment#:#Change Assignment
 crs#:#sess_attendance_list#:#Attendance List
 crs#:#sess_gen_attendance_list#:#Generate List
@@ -5595,18 +5615,6 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_omit#:#Omit
 export#:#export_resource#:#Resource
 export#:#export_select_resources#:#Select Resources
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL
-feed#:#block_feed_block_feed_url#:#Feed URL
-feed#:#block_feed_block_head#:#External Web Feed
-feed#:#block_feed_block_title#:#Title
-feed#:#feed_disable_rep_feeds_info#:#Disables presentation of external web feeds in case of an unexpected problem due to an external feed source.
-feed#:#feed_disable_rep_feeds#:#Hide Web Feeds
-feed#:#feed_feed_items#:#Feed Item(s)
-feed#:#feed_loading_feed#:#Loading Feed...
-feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.
-feed#:#feed_no_valid_url#:#The Feed URL is not valid.
-feed#:#feed_open_source_page#:#Open in New Window
-feed#:#feed_settings#:#External Web Feeds Settings
 common#:#page_count#:#Page Count
 form#:#form_days#:#Days
 form#:#form_file_input#:#File Input
@@ -5874,14 +5882,17 @@ jscalendar#:#time#:#Time
 jscalendar#:#today#:#Today
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
-mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.
-mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
+mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script.
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
-mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters
-mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.
+mathjax#:#mathjax_limiter_info#:#Select the inline delimiters that ILIAS should produce for the MathJax script
 mathjax#:#mathjax_home_link#:# » MathJax
 mathjax#:#mathjax_enable_client#:#Enable MathJax in the Browser
 mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server
@@ -5890,7 +5901,7 @@ mathjax#:#mathjax_server_installation#:# » Installation
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_timeout#:#Timeout
-mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the mathjax server in seconds
+mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the MathJax server in seconds
 mathjax#:#mathjax_server_for_pdf#:#Use for PDF Generation
 mathjax#:#mathjax_server_for_pdf_info#:#The server will be used when PDF files are generated.
 mathjax#:#mathjax_server_for_browser#:#Use for Browser
@@ -5902,7 +5913,8 @@ mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
 mathjax#:#mathjax_server_cache_size#:#Cache Size
 mathjax#:#mathjax_server_cache_size_info#:#Disk space used for caching rendered graphics.
 mathjax#:#mathjax_test_expression#:#Test Expression
-mathjax#:#mathjax_test_expression_info#:#This LaTeX expression will be rendered with the saved MathJax settings.
+mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered by the script in the browser.
+mathjax#:#mathjax_test_expression_info_server#:#This expression will be rendered on the server.
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
@@ -6927,8 +6939,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password 
 ps#:#ps_export_admin#:#Administrators
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
 ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups
-ps#:#ps_export_course#:#Visibility of User Profile Data in Courses
-ps#:#ps_export_groups#:#Visibility of User Profile Data in Groups
+ps#:#ps_export_course#:#Allow export of user profile data in courses
+ps#:#ps_export_groups#:#Allow export of user profile data in groups
 ps#:#ps_export_data#:#Data Types of the Personal Profile
 ps#:#ps_export_files#:#Export Files
 ps#:#ps_export_member#:#Members
@@ -6981,13 +6993,13 @@ pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the 
 pwassist#:#pwassist_enter_username_and_email#:#Enter a username and the associated e-mail address in the fields shown below. ILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account. In case you are unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the username and the new password in the fields below.
 pwassist#:#pwassist_login_not_match#:#Please enter another username. The username you have entered does not match the username for which you had asked for password assistance.
-pwassist#:#pwassist_mail_body#:#Register a new password for your user account: \t%1$s  This message has been generated automatically by the ILIAS server \t%2$s  You (or someone at %3$s) has asked for password assistance for the user account "%4$s".  Please check carefully the conditions listed below, and proceed accordingly:  - If you have used the password assistance form on the ILIAS server by accident: Delete this mail.  - If you are certain, that you never asked for password assistance at this ILIAS server: Please contact %5$s.  - If you asked for password assistance, please proceed as follows:  1. Open your browser.  2. Enter the following address in your browser: \t%6$s  Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.  3. On the web page shown by your browser, enter a new password for your user account.  Please note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
+pwassist#:#pwassist_mail_body#:#Register a new password for your user account: %1$s<br><br>This message has been generated automatically by the ILIAS server %2$s<br><br>You (or someone at %3$s) has asked for password assistance for the user account "%4$s". Please check carefully the conditions listed below and proceed accordingly:<br><br>• If you have used the password assistance form on the ILIAS server by accident: Delete this mail.<br><br>• If you are certain, that you never asked for password assistance at this ILIAS server: Please contact %5$s.<br><br>• If you asked for password assistance, please proceed as follows:<br>1. Open your browser.<br>2. Enter the following address in your browser: %6$s<br>Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.<br>3. On the web page shown by your browser, enter a new password for your user account.<br><br>Please note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
 pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s. Please check your mail box.
 pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance
 pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".
 pwassist#:#pwassist_session_expired#:#Please fill in this form again. Your password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address: %s  This message has been created automatically by the following ILIAS Server: \t%s  You (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'.  Please check the following and act as suggested::  -You have requested this e-mail by accident: Delete this e-mail.  -You are sure, that you never requested this e-mail: Please contact %s.  - If you requested this e-mail, please proceed as follows::  1. Start your internet browser.  2. Enter the following url: \t%s  Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.  3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address: %s <br><br>This message has been created automatically by the following ILIAS Server: %s  <br><br>You (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'. Please check the following and act as suggested:<br><br>• You have requested this e-mail by accident: Delete this e-mail.<br><br>• You are sure, that you never requested this e-mail: Please contact %s.<br><br>• If you requested this e-mail, please proceed as follows:<br>1. Start your internet browser.<br>2. Enter the following url: %s <br>Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.<br>3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
 pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s
 pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s
 rating#:#rating_your_rating#:#Your Rating
@@ -7077,7 +7089,6 @@ rbac#:#rbac_create_catr#:#Create Category Link
 rbac#:#rbac_create_crs#:#Create Course
 rbac#:#rbac_create_crsr#:#Create Course Link
 rbac#:#rbac_create_exc#:#Create Exercise
-rbac#:#rbac_create_feed#:#Create Web Feed
 rbac#:#rbac_create_file#:#Upload File
 rbac#:#rbac_create_frm#:#Create Forum
 rbac#:#rbac_create_glo#:#Create Glossary
@@ -7408,7 +7419,7 @@ style#:#sty_ha_icont_class#:#Hor. Accordion Item Content
 style#:#sty_ha_ihead_class#:#Hor. Accordion Item Header
 style#:#sty_haccordion_templates#:#Hor. Accordion Templates
 style#:#sty_height#:#Height
-style#:#sty_hide#:#Hide
+style#:#sty_hide#:#Hidden
 style#:#sty_horizontal#:#Horizontal
 style#:#sty_image_file#:#Image File
 style#:#sty_images#:#Images
@@ -7433,7 +7444,7 @@ style#:#sty_media_char#:#Media
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_style#:#Change Style
-style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter and only include the following characters:
+style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter, does not use spaces and only include the following characters:
 style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
@@ -7453,7 +7464,7 @@ style#:#sty_right#:#Right
 style#:#sty_row_foot_class#:#Row Footer
 style#:#sty_row_head_class#:#Row Header
 style#:#sty_save_active_styles#:#Save Active Styles
-style#:#sty_save_hide_status#:#Save Hide Status
+style#:#sty_save_hide_status#:#Save
 style#:#sty_sco_char#:#SCO and Objective
 style#:#sty_scope#:#Scope
 style#:#sty_section_char#:#Section
@@ -8273,7 +8284,6 @@ wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has b
 wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_link#:#URL
-feed#:#feed_import#:#Import Feed
 dateplaner#:#cal_repeat_until#:#Repeat until
 dateplaner#:#cal_upcoming_events_header#:#Upcoming Events
 sess#:#sess_import#:#Import Session
@@ -9423,6 +9433,7 @@ chatroom#:#kicked#:#You have been kicked from this chat room
 chatroom#:#unban#:#Unban
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
 common#:#obj_chtr#:#Chat Room
+common#:#obj_chtr_duplicate#:#Copy Chat Room
 chatroom#:#unable_to_connect#:#The connection to the chat server could not be established.
 user#:#user_account_codes_add#:#Add Codes
 user#:#user_account_codes_export#:#Export Codes
@@ -9629,7 +9640,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
-common#:#public_room#:#Public room
+common#:#public_room#:#Public Chat Room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
@@ -10018,10 +10029,7 @@ crs#:#crs_course_group_notification_link#:#Link:
 common#:#obj_lm_duplicate#:#Copy Learning Module
 blog#:#blog_edit_date#:#Edit Date
 blog#:#blog_edit_date_info#:#Publication status does not depend on this date.
-content#:#cont_captcha_verification#:#User Verification
-content#:#cont_captcha_code#:#Code
 cptch#:#cptch_wrong_input#:#Wrong Input
-forum#:#cont_captcha_code#:#Code
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 certificate#:#certificate_file_basename#:#Certificate
 grp#:#grp_print_list#:#Generate List
@@ -10435,7 +10443,6 @@ pd#:#block_show_pdnotes#:#Show Notes
 pd#:#block_show_chatviewer#:#Show Chat Viewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
 pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts
-pd#:#block_create_pdfeed#:#Add New Webfeed
 pd#:#block_show_x#:#Show %s
 common#:#crs_list_reg_start#:#Registration Begin
 common#:#crs_list_reg_end#:#Registration End
@@ -11069,7 +11076,7 @@ common#:#obj_bibs_desc#:#Bibliography Administration
 bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact the administrators of the platform.
 bibl#:#bibl_new#:#New Bibliography
 bibl#:#bibl_link_online#:#Lookup inventory
-bibl#:#bibl_add#:#Add Bibliography
+common#:#bibl_add#:#Add Bibliography
 bibl#:#bibl_import#:#Import Bibliography
 bibl#:#download_original_file#:#Download Original File
 bibl#:#Type#:#Type
@@ -11773,6 +11780,8 @@ assessment#:#tolerance#:#Tolerance (%)
 assessment#:#result_units#:#Available Units
 assessment#:#precision#:#Precision
 assessment#:#err_range#:#The maximum range must be greater than the minimum range
+assessment#:#err_division#:#This value has to be smaller than the maximum range.
+assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
 assessment#:#err_no_formula#:#You must enter a formula
 assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent
 assessment#:#rating_sign#:#Rate Sign
@@ -11996,14 +12005,8 @@ mail#:#search_content#:#Search Result
 book#:#book_reservation_available#:#%s available
 form#:#form_retype_email#:#Retype E-Mail
 form#:#email_not_match#:#Your entries for the e-mail address don't match! Please re-enter your e-mail address.
-form#:#captcha_code#:#User Verification
 content#:#save_new#:#Save and New
-cptch#:#captcha_code_info#:#Please type in the letters and characters of the image.
-administration#:#adm_captcha_anonymous_short#:#Captcha
 poll#:#poll_voting_period_info#:#Deadline for Voting: %s
-cptch#:#captcha_code_reload#:#Load new image
-cptch#:#captcha_audio_title#:#Audio Captcha. Click to hear the letters and characters of the captcha.
-cptch#:#captcha_alt_txt#:#This is a visual captcha. Click the tab to get to an audio captcha
 obj#:#obj_features#:#Additional Features
 obj#:#obj_tool_setting_info_tab#:#Info Tab
 adve#:#char_selector_admin#:#Menu for Selecting Special Characters (Unicode) in Tests and Question Pools
@@ -12057,12 +12060,8 @@ content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achiev
 content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal
 content#:#cont_auto_suspend#:#Safeguard tracking data
 content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
-administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
-administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.
-administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_auth_reg#:#Authentication Registration
 administration#:#adm_auth_login#:#Authentication Login
-administration#:#adm_captcha_anonymous_wiki#:#Activate captcha for anonymous in wikis. Please keep in mind that this may effect the accessibility of your installation.
 auth#:#auth_auth_settings#:#Settings
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
 common#:#obj_wiks#:#Wiki
@@ -12213,8 +12212,8 @@ skmg#:#skmg_suggested_resources#:#Suggested Resources
 cntr#:#exc_next_deadline_single#:#Deadline
 trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
-survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors
-survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys and results will be sent to tutors.
+survey#:#survey_reminder_cron#:#Remind users to participate
+survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys
 cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
 cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
 cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?
@@ -12547,7 +12546,7 @@ rbac#:#file_read_learning_progress#:#User can view learning progress of other us
 rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users
 rbac#:#lso_read_learning_progress#:#User can view learning progress of other users
 content#:#cont_progress_icons#:#Progress Icons
-content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 5.0 and higher.
+content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode.
 content#:#cont_self_assessment#:#Self Assessment
 content#:#cont_tries#:#Question Behaviour
 content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
@@ -13340,6 +13339,7 @@ crs#:#crs_mail_context_tutor_title#:#Course: Mail to Member
 crs#:#crs_mail_context_member_title#:#Course: Info Page
 sahs#:#sahs_mail_context_lp#:#Learning Module SCORM: Learning Progress
 mail#:#mail_templates#:#Text Templates
+mail#:#deleteTemplate#:#Delete
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_template_set_as_default#:#Set as Default
 mail#:#mail_template_unset_as_default#:#Unset as Default
@@ -13516,7 +13516,7 @@ awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
 awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
 common#:#contact_sysadmin#:#Contact Technical Support
 common#:#report_accessibility_issue#:#Report Accessibility Issue
-common#:#report_accessibility_link#:#Reported Link:
+common#:#report_accessibility_link#:#Reported%20Link:
 common#:#accessibility_control_concept#:#Accessibility Control Concept
 common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.
 common#:#mainbar_aria_label#:#Mainbar
@@ -13574,6 +13574,7 @@ mail#:#mail_notification_membership_section#:#Membership
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_add#:#Add Study Programme
+common#:#prgr_add#:#Add Study Programme Link
 prg#:#prg_edit#:#Edit Study Programme
 prg#:#prg_type#:#Study Programme Type
 prg#:#prg_assessment#:#Study Programme Assessment
@@ -14392,12 +14393,12 @@ chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#locked by
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
-common#:#chtr_import#:#Import Chatroom
+common#:#chtr_import#:#Import Chat Room
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
-chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
+chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Room
 chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
@@ -16145,8 +16146,8 @@ prg#:#modal_categories_title#:#Category to be monitored
 prg#:#category#:#Category
 common#:#obj_prgr#:#Link to Study Programme
 common#:#obj_prgrs#:#Links to Study Programmes
-prg#:#prgr_new#:#Create Study Programme Link
-prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
+common#:#prgr_new#:#Create Study Programme Link
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
 prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
 prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry
 prg#:#prg_validity_of_qualification_restart#:#Restart
@@ -16330,7 +16331,6 @@ survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale value
 survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
-feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
 common#:#lso_admin_form_title#:#Settings
 common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
 common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
@@ -16687,11 +16687,10 @@ prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when
 prg#:#status_unchanged#:#Status unchanged
 common#:#file_system_clean_temp_dir_cron#:#Clean temp directory
 common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.
-common#:#actions_for#:#Actions for %s
 violation#:#not_a_string#:#Given value is not a String
 common#:#actions_for#:#Actions for %s
 validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.
-validation#:#not_an_array#:#Given value is not an array
+validation#:#no_array#:#Given value is not an array
 validation#:#not_less_than_or_equal#:#The value is not less than or equal '%s'.
 skmg#:#skmg_add_skill_tree#:#Add Competence Tree
 skmg#:#skmg_skill_tree#:#Competence Tree
@@ -16712,3 +16711,41 @@ skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted 
 skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement
 skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.
 skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.
+ui#:#duration_default_label_start#:#start
+ui#:#duration_default_label_end#:#end
+exc#:#exc_fullscreen#:#Fullscreen
+cont#:#cont_tile_size_1#:#small (up to six tiles in a row)
+cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)
+cont#:#cont_tile_size_2#:#large (up to three tiles in a row)
+cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
+cont#:#cont_tile_size_4#:#full (one tile in a row)
+cont#:#cont_tile_size#:#Tile Size
+itgr#:#itgr_tile_size#:#Tile Size
+itgr#:#itgr_tile#:#Tiles
+itgr#:#itgr_list#:#List
+itgr#:#itgr_list_presentation#:#Item Presentation
+itgr#:#itgr_list_default#:#Default
+itgr#:#itgr_list_default_info#:#Inherits value from upper container.
+user#:#user_local_role#:#Local Role
+form#:#form_use_camera#:#Use Camera
+form#:#form_take_snapshot#:#Take Snapshot
+cmps#:#cmps_responsible_mail#:#Mail (Responsible)
+cmps#:#cmps_supports_learning_progress#:#Supports learning progress
+cmps#:#cmps_supports_export#:#Supports export
+cmps#:#cmps_supports_cli_setup#:#Supports CLI-Setup
+cmps#:#cmps_is_installed#:#Installed
+cmps#:#cmps_is_active#:#Activated
+cmps#:#cmps_current_db_version#:#Current DB-Version
+cmps#:#cmps_detailed_information#:#Detailed Informationen
+cmps#:#cmps_available_version#:#Available Version
+cmps#:#cmps_refresh_lng#:#Refresh language
+cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled
+cmps#:#cmps_plugin_updated#:#The plugin has been updated
+svy#:#svy_print_selection#:#Print View Selection
+svy#:#svy_selection#:#Selection
+svy#:#svy_current_page#:#Current Page
+svy#:#svy_all_pages#:#All Pages
+svy#:#svy_all_participants#:#All Participants
+svy#:#svy_selected_participants#:#Selected Participants
+svy#:#svy_all_questions#:#All Questions
+svy#:#svy_selected_questions#:#Selected Questions

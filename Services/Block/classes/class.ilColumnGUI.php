@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\HTTP\Agent\AgentDetermination;
+
 define("IL_COL_LEFT", "left");
 define("IL_COL_RIGHT", "right");
 define("IL_COL_CENTER", "center");
@@ -39,7 +41,7 @@ class ilColumnGUI
     protected ilLanguage $lng;
     protected ilObjUser $user;
     protected ilTemplate $tpl;
-    protected ilBrowser $browser;
+    protected AgentDetermination $browser;
     protected ilSetting $settings;
 
     protected string $side = IL_COL_RIGHT;
@@ -55,7 +57,7 @@ class ilColumnGUI
     protected bool $admincommands = false;
     protected bool $movementmode = false;
     protected bool $enablemovement = false;
-    protected ilAdvancedSelectionListGUI $action_menu;
+    protected ?ilAdvancedSelectionListGUI $action_menu = null;
     
     //
     // This two arrays may be replaced by some
@@ -70,8 +72,6 @@ class ilColumnGUI
         "ilPDMailBlockGUI" => "Services/Mail/",
         "ilPDSelectedItemsBlockGUI" => "Services/Dashboard/ItemsBlock/",
         "ilPDNewsBlockGUI" => "Services/News/",
-        "ilExternalFeedBlockGUI" => "Modules/ExternalFeed/",
-        "ilPDExternalFeedBlockGUI" => "Services/Feeds/",
         'ilPollBlockGUI' => 'Modules/Poll/',
         'ilClassificationBlockGUI' => 'Services/Classification/',
         "ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/",
@@ -85,8 +85,6 @@ class ilColumnGUI
         "ilNewsForContextBlockGUI" => "news",
         "ilCalendarBlockGUI" => "cal",
         "ilPDCalendarBlockGUI" => "pdcal",
-        "ilExternalFeedBlockGUI" => "feed",
-        "ilPDExternalFeedBlockGUI" => "pdfeed",
         "ilPDSelectedItemsBlockGUI" => "pditems",
         'ilPollBlockGUI' => 'poll',
         'ilClassificationBlockGUI' => 'clsfct',
@@ -137,9 +135,6 @@ class ilColumnGUI
         "fold" => array(),
         "pd" => array()
     );
-    /*
-        "pd" => array("ilPDExternalFeedBlockGUI")
-        );*/
 
     // check global activation for these block types
     // @todo: add calendar
@@ -167,7 +162,7 @@ class ilColumnGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
-        $this->browser = $DIC["ilBrowser"];
+        $this->browser = $DIC->http()->agent();
         $this->settings = $DIC->settings();
         $this->setColType($a_col_type);
         $this->setSide($a_side);
@@ -511,13 +506,14 @@ class ilColumnGUI
                 }
             }
         }
+        /*
         if (count($hidden_blocks) > 0) {
             foreach ($hidden_blocks as $id => $title) {
                 $ilCtrl->setParameter($this, 'block', $id);
                 $this->action_menu->addItem($title, '', $ilCtrl->getLinkTarget($this, 'activateBlock'));
                 $ilCtrl->setParameter($this, 'block', '');
             }
-        }
+        }*/
         
         // create block selection list
         if (!$this->getRepositoryMode() || $this->getEnableEdit()) {
@@ -731,7 +727,6 @@ class ilColumnGUI
             }
         } else {	// get all subitems
             $rep_items = $this->getRepositoryItems();
-
             foreach ($this->rep_block_types as $block_type) {
                 if ($this->isGloballyActivated($block_type)) {
                     if (!isset($rep_items[$block_type]) || !is_array($rep_items[$block_type])) {
@@ -751,7 +746,7 @@ class ilColumnGUI
                             $nr = $def_nr++;
                         }
                         $side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
-                        if ($side === false) {
+                        if ($side == false) {
                             $side = IL_COL_RIGHT;
                         }
             
@@ -792,11 +787,11 @@ class ilColumnGUI
         
         
         $this->blocks[IL_COL_LEFT] =
-            ilUtil::sortArray($this->blocks[IL_COL_LEFT], "nr", "asc", true);
+            ilArrayUtil::sortArray($this->blocks[IL_COL_LEFT], "nr", "asc", true);
         $this->blocks[IL_COL_RIGHT] =
-            ilUtil::sortArray($this->blocks[IL_COL_RIGHT], "nr", "asc", true);
+            ilArrayUtil::sortArray($this->blocks[IL_COL_RIGHT], "nr", "asc", true);
         $this->blocks[IL_COL_CENTER] =
-            ilUtil::sortArray($this->blocks[IL_COL_CENTER], "nr", "asc", true);
+            ilArrayUtil::sortArray($this->blocks[IL_COL_CENTER], "nr", "asc", true);
     }
 
     /**

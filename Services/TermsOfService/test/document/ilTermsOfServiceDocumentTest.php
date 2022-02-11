@@ -96,19 +96,19 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
                         'id' => $criterionAssignment1->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment1->getCriterionId(),
-                        'criterion_value' => $criterionAssignment1->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment1->getCriterionValue()->toJson(),
                     ],
                     [
                         'id' => $criterionAssignment2->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment2->getCriterionId(),
-                        'criterion_value' => $criterionAssignment2->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment2->getCriterionValue()->toJson(),
                     ],
                     [
                         'id' => $criterionAssignment3->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment3->getCriterionId(),
-                        'criterion_value' => $criterionAssignment3->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment3->getCriterionValue()->toJson(),
                     ]
                 ];
             });
@@ -132,7 +132,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      */
-    public function testDocumentModelCanCreatedByIdWithAttachedCriteriaBeingRead(
+    public function testDocumentModelCanBeCreatedByIdWithAttachedCriteriaBeingRead(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
@@ -167,19 +167,19 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
                         'id' => $criterionAssignment1->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment1->getCriterionId(),
-                        'criterion_value' => $criterionAssignment1->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment1->getCriterionValue()->toJson(),
                     ],
                     [
                         'id' => $criterionAssignment2->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment2->getCriterionId(),
-                        'criterion_value' => $criterionAssignment2->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment2->getCriterionValue()->toJson(),
                     ],
                     [
                         'id' => $criterionAssignment3->getId(),
                         'doc_id' => 4711,
                         'criterion_id' => $criterionAssignment3->getCriterionId(),
-                        'criterion_value' => $criterionAssignment3->getCriterionValue(),
+                        'criterion_value' => $criterionAssignment3->getCriterionValue()->toJson(),
                     ]
                 ];
             });

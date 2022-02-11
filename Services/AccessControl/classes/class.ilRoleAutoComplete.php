@@ -18,12 +18,14 @@ class ilRoleAutoComplete
         $ilDB->setLimit(20, 0);
         $query = "SELECT o1.title role,o2.title container FROM object_data o1 " .
             "JOIN rbac_fa fa ON o1.obj_id = rol_id " .
-            "JOIN tree t1 ON fa.parent =  t1.child " .
-            "JOIN object_reference obr ON ref_id = t1.parent " .
+//            "JOIN tree t1 ON fa.parent =  t1.child " .
+//            "JOIN object_reference obr ON ref_id = t1.parent " .
+            "JOIN object_reference obr ON ref_id = fa.parent " .
             "JOIN object_data o2 ON obr.obj_id = o2.obj_id " .
             "WHERE o1.type = 'role' " .
             "AND assign = 'y' " .
-            "AND " . $ilDB->like('o1.title', 'text', '%' . $a_str . '%') . " " .
+            "AND (" . $ilDB->like('o1.title', 'text', '%' . $a_str . '%') . "OR " .
+                $ilDB->like('o2.title', 'text', '%' . $a_str . '%') . " )" .
             "AND fa.parent != 8 " .
             "ORDER BY role,container";
 

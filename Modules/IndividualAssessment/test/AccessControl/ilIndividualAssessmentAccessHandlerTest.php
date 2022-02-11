@@ -28,7 +28,7 @@ class ilIndividualAssessmentAccessHandlerTest extends TestCase
      */
     private $obj_user;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->iass_object = $this->createMock(ilObjIndividualAssessment::class);
         $this->access_handler = $this->createMock(ilAccessHandler::class);

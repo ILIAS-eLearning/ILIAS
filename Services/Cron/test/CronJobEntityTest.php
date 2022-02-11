@@ -1,6 +1,18 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -50,11 +62,9 @@ class CronJobEntityTest extends TestCase
 
     public function testEntityCollectionCanBeCreatedWithItems() : ilCronJobEntities
     {
-        $entities = new ilCronJobEntities([
-            $this->getEntity()
-        ]);
+        $entities = new ilCronJobEntities($this->getEntity(), $this->getEntity());
 
-        $this->assertCount(1, $entities->toArray());
+        $this->assertCount(2, $entities->toArray());
 
         return $entities;
     }
@@ -68,7 +78,7 @@ class CronJobEntityTest extends TestCase
     {
         $entities->add($this->getEntity());
 
-        $this->assertCount(2, $entities->toArray());
+        $this->assertCount(3, $entities->toArray());
 
         return $entities;
     }

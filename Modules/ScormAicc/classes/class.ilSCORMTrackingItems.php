@@ -988,7 +988,7 @@ class ilSCORMTrackingItems
         }
         $tarr = explode(":", $a_time);
         //		$sec = (int) $tarr[2] + (int) $tarr[1] * 60 + (int) substr($tarr[0], strlen($tarr[0]) - 3) * 3600;
-        if (count($tarr) != 3 || is_nan($tarr[0]) || is_nan($tarr[1]) || is_nan($tarr[2])) {
+        if (count($tarr) != 3 || is_nan((float) $tarr[0]) || is_nan((float) $tarr[1]) || is_nan((float) $tarr[2])) {
             return "";
         }
         $csec = (int) $tarr[0] * 360000 + (int) $tarr[1] * 6000 + $tarr[2] * 100;

@@ -491,7 +491,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 // check if internal id
                 $internalId = ilUtil::__extractId($role_id, IL_INST_ID);
                 
-                if (is_numeric($internalId)) {
+                if (is_numeric($internalId) && $internalId > 0) {
                     $role_id = $internalId;
                     $role_name = $role_id;
                 }

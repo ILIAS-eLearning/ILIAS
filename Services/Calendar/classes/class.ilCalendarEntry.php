@@ -146,7 +146,7 @@ class ilCalendarEntry implements ilDatePeriod
         }
 
         if ($a_shorten) {
-            return ilUtil::shortenText(ilUtil::shortenWords($title, 20), 40, true);
+            return ilStr::shortenTextExtended(ilStr::shortenWords($title, 20), 40, true);
         }
         return $title;
     }

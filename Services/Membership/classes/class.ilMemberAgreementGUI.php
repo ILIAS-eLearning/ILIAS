@@ -174,7 +174,7 @@ class ilMemberAgreementGUI
 
         foreach ($cdf_fields as $field_obj) {
             switch ($field_obj->getType()) {
-                case IL_CDF_TYPE_SELECT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
 
                     if ($field_obj->getValueOptions()) {
                         // Show as radio group
@@ -189,8 +189,10 @@ class ilMemberAgreementGUI
 
                             // open answers
                             if (in_array($key, $open_answer_indexes)) {
-                                $open_answer = new ilTextInputGUI($lng->txt("form_open_answer"),
-                                    'cdf_oa_' . $field_obj->getId() . '_' . $key);
+                                $open_answer = new ilTextInputGUI(
+                                    $lng->txt("form_open_answer"),
+                                    'cdf_oa_' . $field_obj->getId() . '_' . $key
+                                );
                                 $open_answer->setRequired(true);
                                 $option_radio->addSubItem($open_answer);
                             }
@@ -216,7 +218,7 @@ class ilMemberAgreementGUI
                     }
                     break;
 
-                case IL_CDF_TYPE_TEXT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
                     $text = new ilTextInputGUI($field_obj->getName(), 'cdf_' . $field_obj->getId());
                     $text->setSize(32);
                     $text->setMaxLength(255);
@@ -256,12 +258,12 @@ class ilMemberAgreementGUI
 
             $this->ctrl->returnToParent($this);
         } elseif (!$this->checkAgreement()) {
-            ilUtil::sendFailure($this->lng->txt($this->type . '_agreement_required'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt($this->type . '_agreement_required'));
             $form->setValuesByPost();
             $this->showAgreement($form);
             return false;
         } else {
-            ilUtil::sendFailure($this->lng->txt('fill_out_all_required_fields'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('fill_out_all_required_fields'));
             $form->setValuesByPost();
             $this->showAgreement($form);
             return false;
@@ -291,7 +293,7 @@ class ilMemberAgreementGUI
             }
 
             switch ($field_obj->getType()) {
-                case IL_CDF_TYPE_SELECT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
 
                     $id = $field_obj->getIdByValue($current_value);
 
@@ -311,7 +313,7 @@ class ilMemberAgreementGUI
                     }
                     break;
 
-                case IL_CDF_TYPE_TEXT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
                     $item = $form->getItemByPostVar('cdf_' . $field_obj->getId());
                     $item->setValue($current_value);
                     break;
@@ -330,7 +332,7 @@ class ilMemberAgreementGUI
         foreach (ilCourseDefinedFieldDefinition::_getFields($a_obj_id) as $field_obj) {
             $value = '';
             switch ($field_obj->getType()) {
-                case IL_CDF_TYPE_SELECT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
                     // Split value id from post
                     list($field_id, $option_id) = explode('_', $form->getInput('cdf_' . $field_obj->getId()));
                     $open_answer_indexes = $field_obj->getValueOptions();
@@ -341,7 +343,7 @@ class ilMemberAgreementGUI
                     }
                     break;
 
-                case IL_CDF_TYPE_TEXT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
                     $value = $form->getInput('cdf_' . $field_obj->getId());
                     break;
             }
@@ -389,7 +391,7 @@ class ilMemberAgreementGUI
             $message .= $this->lng->txt($this->type . '_ps_required_info');
         }
         if (strlen($message)) {
-            ilUtil::sendFailure($message);
+            $this->tpl->setOnScreenMessage('failure', $message);
         }
     }
 }

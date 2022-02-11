@@ -1,13 +1,24 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Table presentation of membership export files
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilMemberExportFileTableGUI extends ilTable2GUI
 {
-    public function __construct(object $a_parent_obj, string $a_parent_cmd, ilFileSystemStorage $a_fss_export)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, ilFileSystemAbstractionStorage $a_fss_export)
     {
         $this->setId('memexp');
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -58,8 +69,10 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_TYPE', $a_set['type']);
         $this->tpl->setVariable('VAL_SIZE', ilUtil::formatSize($a_set['size']));
-        $this->tpl->setVariable('VAL_DATE',
-            ilDatePresentation::formatDate(new ilDateTime($a_set['date'], IL_CAL_UNIX)));
+        $this->tpl->setVariable(
+            'VAL_DATE',
+            ilDatePresentation::formatDate(new ilDateTime($a_set['date'], IL_CAL_UNIX))
+        );
 
         $ilCtrl->setParameter($this->getParentObject(), 'fl', $a_set['id']);
         $url = $ilCtrl->getLinkTarget($this->getParentObject(), 'downloadExportFile');

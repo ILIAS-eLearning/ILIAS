@@ -371,7 +371,7 @@ class ilSharedResourceGUI implements ilCtrlBaseClassInterface
             } else {
                 $item = $form->getItemByPostVar("password");
                 $item->setAlert($lng->txt("wsp_invalid_password"));
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
         }
         

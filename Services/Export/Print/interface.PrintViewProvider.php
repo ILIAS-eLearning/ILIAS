@@ -4,8 +4,9 @@
 
 namespace ILIAS\Export;
 
+use ilPropertyFormGUI;
+
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 interface PrintViewProvider
@@ -14,9 +15,13 @@ interface PrintViewProvider
      * form which is featured in the modal
      * form target is modified to open in new window (not yet possible with ks forms)
      * the print/pdf message is added automatically
-     * @return \ilPropertyFormGUI
+     * @return ilPropertyFormGUI|null
      */
-    public function getSelectionForm();
+    public function getSelectionForm() : ?ilPropertyFormGUI;
+
+    public function getOnSubmitCode() : string;
+
+    public function autoPageBreak() : bool;
 
     /**
      * @return string[]

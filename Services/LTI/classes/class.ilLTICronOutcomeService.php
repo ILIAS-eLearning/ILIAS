@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Description of class class
  *
@@ -55,7 +66,7 @@ class ilLTICronOutcomeService extends ilCronJob
 
         $status = \ilCronJobResult::STATUS_NO_ACTION;
 
-        $info = ilCronManager::getCronJobData($this->getId());
+        $info = $DIC->cron()->repository()->getCronJobData($this->getId());
         $last_ts = $info['job_status_ts'];
         if (!$last_ts) {
             $last_ts = time() - 24 * 3600;

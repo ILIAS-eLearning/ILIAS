@@ -26,12 +26,14 @@ class ilCustomUserFieldsGUI
     protected int $field_id = 0;
     protected array $field_definition = [];
     protected ilClaimingPermissionHelper $permissions;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
         int $ref_id,
         int $requested_field_id
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -171,7 +173,7 @@ class ilCustomUserFieldsGUI
                 
         if (ilMemberAgreement::_hasAgreements()) {
             $lng->loadLanguageModule("ps");
-            ilUtil::sendInfo($lng->txt("ps_warning_modify"));
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("ps_warning_modify"));
         }
         
         $perms = array();
@@ -223,7 +225,7 @@ class ilCustomUserFieldsGUI
 
         if (ilMemberAgreement::_hasAgreements()) {
             $lng->loadLanguageModule("ps");
-            ilUtil::sendInfo($lng->txt("ps_warning_modify"));
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("ps_warning_modify"));
         }
 
         if ($this->field_definition) {
@@ -397,7 +399,7 @@ class ilCustomUserFieldsGUI
             }
             
             if (!$valid) {
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
             return $valid;
         }
@@ -444,7 +446,7 @@ class ilCustomUserFieldsGUI
                 ilMemberAgreement::_reset();
             }
 
-            ilUtil::sendSuccess($lng->txt('udf_added_field'), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt('udf_added_field'), true);
             $ilCtrl->redirect($this);
         }
         
@@ -568,7 +570,7 @@ class ilCustomUserFieldsGUI
                 ilMemberAgreement::_reset();
             }
 
-            ilUtil::sendSuccess($lng->txt('settings_saved'), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
             $ilCtrl->redirect($this);
         }
         
@@ -586,7 +588,7 @@ class ilCustomUserFieldsGUI
 
         $fields = $this->request->getFields();
         if (count($fields) == 0) {
-            ilUtil::sendFailure($lng->txt("select_one"));
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("select_one"));
             $this->listUserDefinedFields();
             return false;
         }
@@ -631,7 +633,7 @@ class ilCustomUserFieldsGUI
             }
         }
         if ($fail) {
-            ilUtil::sendFailure($lng->txt('msg_no_perm_delete') . " " . implode(", ", $fail), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt('msg_no_perm_delete') . " " . implode(", ", $fail), true);
             $ilCtrl->redirect($this, "listUserDefinedFields");
         }
         
@@ -639,7 +641,7 @@ class ilCustomUserFieldsGUI
             $user_field_definitions->delete($id);
         }
 
-        ilUtil::sendSuccess($lng->txt('udf_field_deleted'), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('udf_field_deleted'), true);
         $ilCtrl->redirect($this);
     }
 
@@ -703,7 +705,7 @@ class ilCustomUserFieldsGUI
                 (!isset($checked['visib_reg_' . $field_id]) || !(int) $checked['visib_reg_' . $field_id])) {
                 $this->confirm_change = true;
     
-                ilUtil::sendFailure($lng->txt('invalid_visible_required_options_selected'));
+                $this->main_tpl->setOnScreenMessage('failure', $lng->txt('invalid_visible_required_options_selected'));
                 $this->listUserDefinedFields();
                 return;
             }
@@ -728,7 +730,7 @@ class ilCustomUserFieldsGUI
             $user_field_definitions->update($field_id);
         }
 
-        ilUtil::sendSuccess($lng->txt('settings_saved'), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
         $ilCtrl->redirect($this);
     }
 }

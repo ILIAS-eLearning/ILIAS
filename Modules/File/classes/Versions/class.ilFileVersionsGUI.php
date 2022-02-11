@@ -52,15 +52,15 @@ class ilFileVersionsGUI
     public function __construct(ilObjFile $file)
     {
         global $DIC;
-        $this->file       = $file;
-        $this->ctrl       = $DIC->ctrl();
-        $this->tpl        = $DIC->ui()->mainTemplate();
-        $this->tabs       = $DIC->tabs();
-        $this->http       = $DIC->http();
-        $this->lng        = $DIC->language();
-        $this->ref_id     = $this->http->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
-        $this->toolbar    = $DIC->toolbar();
-        $this->access     = $DIC->access();
+        $this->file = $file;
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->tabs = $DIC->tabs();
+        $this->http = $DIC->http();
+        $this->lng = $DIC->language();
+        $this->ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
+        $this->toolbar = $DIC->toolbar();
+        $this->access = $DIC->access();
         $this->wsp_access = new ilWorkspaceAccessHandler();
         $this->version_id = $this->http->wrapper()->query()->has(self::HIST_ID)
             ? $this->http->wrapper()->query()->retrieve(self::HIST_ID, $DIC->refinery()->kindlyTo()->int())
@@ -71,7 +71,7 @@ class ilFileVersionsGUI
     {
         // bugfix mantis 26007: use new function hasPermission to ensure that the check also works for workspace files
         if (!$this->hasPermission('write')) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->returnToParent($this);
         }
         $cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
@@ -145,7 +145,7 @@ class ilFileVersionsGUI
     {
         $form = new ilFileVersionFormGUI($this, $mode);
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
         $form->setValuesByPost();
@@ -162,8 +162,8 @@ class ilFileVersionsGUI
     
     private function deleteVersions()
     {
-        $version_ids        = $this->getVersionIdsFromRequest();
-        $existing_versions  = $this->file->getVersions();
+        $version_ids = $this->getVersionIdsFromRequest();
+        $existing_versions = $this->file->getVersions();
         $remaining_versions = array_udiff(
             $existing_versions,
             $version_ids,
@@ -179,7 +179,7 @@ class ilFileVersionsGUI
         );
         
         if (count($version_ids) < 1) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         } else {
             $conf_gui = new ilConfirmationGUI();
@@ -187,11 +187,11 @@ class ilFileVersionsGUI
             $conf_gui->setCancel($this->lng->txt("cancel"), self::CMD_DEFAULT);
             
             $icon = ilObject::_getIcon($this->file->getId(), "small", $this->file->getType());
-            $alt  = $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->file->getType());
+            $alt = $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->file->getType());
             
             if (count($remaining_versions) < 1) {
                 // Ask
-                ilUtil::sendQuestion($this->lng->txt("file_confirm_delete_all_versions"));
+                $this->tpl->setOnScreenMessage('question', $this->lng->txt("file_confirm_delete_all_versions"));
                 
                 $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_FILE);
                 $conf_gui->addItem(
@@ -203,14 +203,14 @@ class ilFileVersionsGUI
                 );
             } else {
                 // Ask
-                ilUtil::sendQuestion($this->lng->txt("file_confirm_delete_versions"));
+                $this->tpl->setOnScreenMessage('question', $this->lng->txt("file_confirm_delete_versions"));
                 
                 $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_VERSIONS);
                 
                 foreach ($this->file->getVersions($version_ids) as $version) {
-                    $a_text         = $version['filename'] ?? $version->getFilename() ?? $this->file->getTitle();
+                    $a_text = $version['filename'] ?? $version->getFilename() ?? $this->file->getTitle();
                     $version_string = $version['hist_id'] ?? $version->getVersion();
-                    $a_text         .= " (v" . $version_string . ")";
+                    $a_text .= " (v" . $version_string . ")";
                     $conf_gui->addItem(
                         "hist_id[]",
                         $version['hist_entry_id'],
@@ -231,14 +231,14 @@ class ilFileVersionsGUI
         
         // more than one entry selected?
         if (count($version_ids) != 1) {
-            ilUtil::sendInfo($this->lng->txt("file_rollback_select_exact_one"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("file_rollback_select_exact_one"), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
         
         // rollback the version
         $this->file->rollback($version_ids[0]);
         
-        ilUtil::sendSuccess(sprintf($this->lng->txt("file_rollback_done"), ''), true);
+        $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt("file_rollback_done"), ''), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
     
@@ -248,7 +248,7 @@ class ilFileVersionsGUI
         $versions_to_delete = $this->getVersionIdsFromRequest();
         if (is_array($versions_to_delete) && count($versions_to_delete) > 0) {
             $this->file->deleteVersions($versions_to_delete);
-            ilUtil::sendSuccess($this->lng->txt("file_versions_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_versions_deleted"), true);
         }
         
         $this->ctrl->setParameter($this, self::HIST_ID, "");

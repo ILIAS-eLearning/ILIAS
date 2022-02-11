@@ -12,8 +12,6 @@
 * https://www.ilias.de
 * https://github.com/ILIAS-eLearning
 *
-********************************************************************
-*/
 /**
 * ILIAS language file (All entries)
 *
@@ -29,6 +27,24 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+style#:#style_support_reuse#:#Re-Use
+style#:#style_support_reuse_info#:#Allow sub-objects of the current container to re-use this content style.
+style#:#sty_resize_image#:#Bildgröße anpassen
+style#:#sty_resize#:#Bildgröße anpassen
+style#:#sty_outdated#:#Veraltet
+style#:#sty_remove_outdated#:#"Veraltet"-Status entfernen
+style#:#sty_set_outdated#:#Als "veraltet" kennzeichnen
+style#:#sty_save_hide_order_status#:#Reihefolge und Status speichern
+style#:#sty_save_order_status#:#Reihenfolge speichern
+style#:#sty_class#:#Style-Klasse
+style#:#sty_paste_chars#:#Klassen einfügen
+style#:#sty_create_new_class#:#Neue Klasse erstellen
+style#:#sty_overwrite_existing_class#:#Vorhandene Klasse überschreiben
+style#:#sty_class_name#:#Klassenname
+style#:#sty_parameters#:#Parameter
+style#:#sty_titles#:#Titel
+style#:#sty_bg_img_info#:#Um Bilder in die Auswahl aufzunehmen müssen diese zunächst im Bereich "Bilder" des Styles hochgeladen werden.
+content#:#cont_caption_style#:#Caption Style
 survey#:#svy_ext_rater_firstname#:#Vorname eines externen Feedback-Gebers
 survey#:#svy_ext_rater_lastname#:#Nachname eines externen Feedback-Gebers
 survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen Feedback-Geber aus.
@@ -801,7 +817,7 @@ assessment#:#tst_nav_next_locks_current_answer_header#:#Navigieren zur nächsten
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
 assessment#:#tst_filter_question_type#:#Fragentyp
 assessment#:#tst_filter_question_type_enabled#:#Fragentyp Filter verwenden
-assessment#:#tst_filter_lifecycle_enabled#:#Lifecycle Filter verwenden
+assessment#:#tst_filter_lifecycle_enabled#:#Filter „Lebenszyklus“ verwenden
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
 assessment#:#tst_objective_progress_header#:#Fortschritt im Lernziel
 assessment#:#assClozeTest#:#Lückentextfrage
@@ -1962,8 +1978,8 @@ assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen
 assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
-assessment#:#qst_lifecycle_filter_all#:#Alle Lifecycle
-assessment#:#qst_lifecycle#:#Lifecycle
+assessment#:#qst_lifecycle_filter_all#:#Alle Lebenszyklen
+assessment#:#qst_lifecycle#:#Lebenszyklus
 assessment#:#qst_lifecycle_draft#:#Entwurf
 assessment#:#qst_lifecycle_review#:#Überarbeitung notwendig
 assessment#:#qst_lifecycle_rejected#:#Abgelehnt
@@ -2728,6 +2744,7 @@ common#:#cannot_unzip_file#:#Kann die heraufgeladene Datei nicht entpacken.
 common#:#cant_deactivate_if_users_assigned#:#Sie können einen Style nicht deaktivieren, wenn ihm noch Benutzer zugeordnet sind.
 common#:#cat#:#Kategorie
 common#:#cat_add#:#Kategorie anlegen
+common#:#catr_add#:#Kategorielink anlegen
 common#:#cat_added#:#Kategorie angelegt
 rbac#:#cat_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und verwaltet werden
 rbac#:#cat_copy#:#Kategorie kopieren
@@ -2886,6 +2903,7 @@ common#:#cronjob_last_start_unknown#:#Konnte nicht ermittelt werden
 common#:#crs#:#Kurs
 common#:#crs_activation_start_invalid#:#Der Start und der Endtermin sind nicht gültig.
 common#:#crs_add#:#Kurs anlegen
+common#:#crsr_add#:#Kurslink anlegen
 common#:#crs_added#:#Kurs angelegt
 common#:#crs_archives#:#Archive
 crs#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
@@ -2983,6 +3001,7 @@ forum#:#descending_order#:#Neueste Beiträge oben
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#details#:#Details
+common#:#didactic_template#:#Didaktische Vorlage
 common#:#disable#:#ausschalten
 common#:#disable_check#:#Nicht überprüfen
 common#:#disable_ext_lang_maint#:#Eweiterte Sprachenverwaltung deaktivieren
@@ -3285,6 +3304,7 @@ common#:#groupings_assigned_obj_grp#:#Zugeordnete Gruppen
 common#:#groups#:#Gruppen
 common#:#grp#:#Gruppe
 common#:#grp_add#:#Gruppe anlegen
+common#:#grpr_add#:#Gruppenlink anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_btn_unsubscribe#:#Gruppenmitgliedschaft beenden
 common#:#grp_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste der Gruppe "%s" austragen möchten?
@@ -3830,6 +3850,7 @@ common#:#notes#:#Notizen
 common#:#notes_and_comments#:#Notizen und Kommentare
 common#:#notice#:#Hinweis
 common#:#notifications#:#Benachrichtigungen
+common#:#mm_private_chats#:#Private Chats
 common#:#nr_following_sessions#:#%1d folgende Sitzung(en)...
 common#:#num_users#:#Anzahl Benutzer
 rbac#:#nwss_edit_permission#:#Rechteeinstellungen in der News- und Webfeeds-Administration ändern
@@ -3861,6 +3882,7 @@ common#:#obj_cert_desc#:#Einstellungen für Zertifikate
 common#:#obj_chap#:#Kapitel
 common#:#obj_chta#:#Chat
 common#:#obj_chtr#:#Chatraum
+common#:#obj_chtr_duplicate#:#Chatraum kopieren
 common#:#obj_cmps#:#Plugins
 common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Plugins
 common#:#obj_crs#:#Kurs
@@ -5949,7 +5971,7 @@ crs#:#event_unregister#:#Abmelden
 crs#:#event_unregistered#:#Sie wurden abgemeldet.
 crs#:#event_updated#:#Die Änderungen wurden gespeichert
 crs#:#events#:#Sitzungen
-crs#:#export_members#:#Teilnehmerexport
+crs#:#export_members#:#Export der Teilnehmendendaten
 crs#:#grouping_change_assignment#:#Zuordnungen ändern
 crs#:#sess_attendance_list#:#Teilnehmerliste
 crs#:#sess_gen_attendance_list#:#Liste erstellen
@@ -8003,11 +8025,11 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwort
 ps#:#ps_export_admin#:#Administratoren
 ps#:#ps_export_confirm#:#Nutzungsvereinbarung für Kursmitglieder aktivieren
 ps#:#ps_export_confirm_group#:#Nutzungsvereinbarung für Gruppenmitglieder aktivieren
-ps#:#ps_export_course#:#Persönliche Daten in Kursen anzeigen und exportieren
+ps#:#ps_export_course#:#Export der Persönlichen Daten aus Kursen erlauben
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_excel#:#Starte Excel-Export
 ps#:#ps_export_files#:#Exportdateien
-ps#:#ps_export_groups#:#Persönliche Daten in Gruppen anzeigen und exportieren
+ps#:#ps_export_groups#:#Export der Persönlichen Daten aus Gruppen erlauben
 ps#:#ps_export_member#:#Teilnehmer
 ps#:#ps_export_settings#:#Einstellungen zum Export
 ps#:#ps_export_sub#:#Noch nicht freigeschaltete Benutzer
@@ -8061,13 +8083,13 @@ pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken
 pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken. ILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können. Falls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein. Der Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
-pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort für Ihr Benutzerkonto ein: \t%1$s  Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: \t%2$s  Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese Mail.  -Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.  - Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: \t%6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.  Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
+pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort ein für Ihr Benutzerkonto %1$s <br><br>Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: %2$s <br><br>Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Passwort-Unterstützung versehentlich benutzt: Löschen Sie diese Mail.<br><br>• Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.<br><br>Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:<br><br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.<br><br>Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte Adresse versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
 pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus. Die Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat: %s  Diese Mail ist automatisch generiert worden von der ILIAS-Installation: \t%s  Sie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.  -Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.  - Sie haben um Benutzernamen-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: \t%s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die in ILIAS dieser E-Mail-Adresse zugeordnet sind: %s  <br><br>Diese Mail ist automatisch generiert worden von der ILIAS-Installation: %s<br><br>Sie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.<br><br>• Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.<br><br>• Sie haben um Benutzernamen-Unterstützung angefragt: Bitte gehen Sie wie folgt vor:<br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %s  <br>Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
 pwassist#:#pwassist_disabled_no_access#:#Die Passwort-Unterstützung ist nicht aktiviert.  Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 pwassist#:#unassist_disabled_no_access#:#Die Benutzernamen-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 rating#:#rat_not_rated_yet#:#Noch nicht bewertet
@@ -8915,7 +8937,7 @@ style#:#sty_media_char#:#Medien
 style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_style#:#Stylesheet ändern
-style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles muss mit einem Buchstaben beginnen und darf nur die folgenden Zeichen enthalten
+style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles muss mit einem Buchstaben beginnen und darf keine Leerzeichen sondern nur die folgenden Zeichen enthalten:
 style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchstaben/Zeichen enthalten
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
@@ -8941,7 +8963,7 @@ style#:#sty_row_foot_class#:#Fuß (Zeilen)
 style#:#sty_row_head_class#:#Kopf (Zeilen)
 style#:#sty_rte_char#:#SCORM RTE#
 style#:#sty_save_active_styles#:#Aktive Stylesheets speichern
-style#:#sty_save_hide_status#:#Save Hide Status
+style#:#sty_save_hide_status#:#Status Speichern
 style#:#sty_sco_char#:#SCOs und Lernziele
 style#:#sty_scope#:#Geltungsbereich
 style#:#sty_section_char#:#Block
@@ -10619,8 +10641,8 @@ itgr#:#itgr_materials#:#Objekte
 itgr#:#itgr_item#:#Objekte, die eingebunden werden können
 itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock
 itgr#:#itgr_assignment#:#Eingebunden
-common#:#itgr_new#:#Neuer Objekteblock
-common#:#itgr_add#:#Objekteblock hinzufügen
+common#:#itgr_new#:#Neuen Objekteblock anlegen
+common#:#itgr_add#:#Objekteblock anlegen
 dcl#:#dcl_msg_table_created#:#Tabelle angelegt
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht
 dcl#:#dcl_ilias_reference#:#Objekt im Magazin
@@ -10697,18 +10719,20 @@ rating#:#rating_export_date#:#Datum
 rating#:#rating_export_rating#:#Bewertung
 trac#:#trac_mode_plugin#:#Plugin
 common#:#qpl_copy#:#Fragenpool für Tests kopieren
-mathjax#:#mathjax_enable_mathjax_info#:#Aktiviert die LaTeX-Unterstützung mit MathJax, um mathematische Formeln ausgeben zu können.
-mathjax#:#mathjax_enable_mathjax#:#MathJax aktivieren
-mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML oder eine URL zu Ihrer lokalen Installation.
-mathjax#:#mathjax_path_to_mathjax#:#URL zu MathJax
+mathjax#:#mathjax_enable_client_info#:#Aktiviert die Darstellung von TeX im Browser durch Einbindung des MathJax-Skripts
+mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
+mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
+mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
+mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML
+mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
 mathjax#:#mathjax_settings#:#MathJax-Einstellungen
 mathjax#:#mathjax_limiter#:#Trennzeichen
-mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, wie Sie in Ihrer MathJax-Installation konfiguriert sind.
+mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, die ILIAS für das MathJax-Skript produzieren soll
 mathjax#:#mathjax_home_link#:# » MathJax
 mathjax#:#mathjax_enable_client#:#MathJax im Browser aktivieren
 mathjax#:#mathjax_enable_server#:#MathJax im Server aktivieren
-mathjax#:#mathjax_enable_server_info#:#Aktiviert eine serverseitige Umwandlung von TeX in Grafiken.
+mathjax#:#mathjax_enable_server_info#:#Aktiviert die serverseitige Umwandlung von TeX in Grafiken.
 mathjax#:#mathjax_server_installation#:# » Installation
 mathjax#:#mathjax_server_address#:#Server-Adresse
 mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003
@@ -10725,7 +10749,8 @@ mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.
 mathjax#:#mathjax_server_cache_size#:#Cache-Größe
 mathjax#:#mathjax_server_cache_size_info#:#Festplattenspeicher, der zur Speicherung der Grafiken verbraucht wird.
 mathjax#:#mathjax_test_expression#:#Test-Ausdruck
-mathjax#:#mathjax_test_expression_info#:#Dieser LaTeX-Ausdruck wird mit den gespeicherten MathJax-Einstellungen dargestellt.
+mathjax#:#mathjax_test_expression_info_client#:#Dieser Ausdruck wird mit dem Skript im Browser dargestellt
+mathjax#:#mathjax_test_expression_info_server#:#Dieser Ausdruck wird auf dem Server in eine Grafik umgewandelt
 content#:#cont_initial_attached_content#:#Zusätzliche Einstiegsinhalte
 content#:#cont_topic#:#Thema
 content#:#cont_selected_topic#:#Ausgewähltes Thema
@@ -11056,9 +11081,9 @@ common#:#obj_bibl#:#Literaturliste
 common#:#obj_bibs#:#Literaturliste
 common#:#obj_bibs_desc#:#Literaturlisten-Administration
 bibl#:#not_yet_migrated#:#Dieses Objekt wurde noch nicht migriert. Wenden Sie sich an die Administratoren der Plattform.
-bibl#:#bibl_new#:#Neue Literaturliste
+bibl#:#bibl_new#:#Neue Literaturliste anlegen
 bibl#:#bibl_link_online#:#Bestandsabfrage
-bibl#:#bibl_add#:#Literaturliste hinzufügen
+common#:#bibl_add#:#Literaturliste anlegen
 bibl#:#bibl_import#:#Literaturliste importieren
 bibl#:#download_original_file#:#Original-Datei herunterladen
 bibl#:#Type#:#Typ
@@ -11372,7 +11397,7 @@ rbac#:#sysc_read#:#Rechteeinstellungen für den Systemcheck ändern.
 rbac#:#sysc_visible#:#Lesezugriff auf den Systemcheck
 rbac#:#sysc_write#:#Benutzer darf Systemcheck durchführen.
 assessment#:#apply_def_settings_to_tst#:#Einstellungen für Test übernehmen
-cld#:#cld_add#:#Neues Cloud-Objekt
+cld#:#cld_add#:#Cloud-Objekt anlegen
 cld#:#cld_add_download_failed#:#Download fehlgeschlagen
 cld#:#cld_add_file#:#Datei
 cld#:#cld_add_folder#:#Ordner
@@ -11401,7 +11426,7 @@ cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#Die Id existiert nicht in 
 cld#:#cld_info_add_file_to_current_directory#:#Datei zum Verzeichnis hinzufügen
 cld#:#cld_info_add_folder_to_current_directory#:#Ordner zum Verzeichnis hinzufügen
 cld#:#cld_invalid_input#:#Ungültige Eingabe
-cld#:#cld_new#:#Neues Cloud Objekt hinzufügen
+cld#:#cld_new#:#Neues Cloud-Objekt anlegen
 cld#:#cld_no_service_active#:#Leider ist kein Cloud-Plugin aktiviert
 cld#:#cld_no_service_selected#:#Es wurde kein Cloud-Dienst ausgewählt.
 cld#:#cld_not_authenticated_offline#:#Nicht authentifiziert - offline
@@ -11725,6 +11750,8 @@ assessment#:#tolerance#:#Toleranz (%)
 assessment#:#result_units#:#Auswählbare Einheiten
 assessment#:#precision#:#Präzision
 assessment#:#err_range#:#Die obere Grenze muss größer als die untere Grenze sein.
+assessment#:#err_division#:#Dieser Wert muss kleiner als das Maximum sein.
+assessment#:#err_divider_too_big#:#Der Teiler einer der Variablen in dieser Frage ist zu gross.
 assessment#:#err_no_formula#:#Bitte geben Sie eine Formel zur Berechnung des Ergebnisses an.
 assessment#:#err_wrong_rating_advanced#:#Bitte stellen Sie sicher, dass die Summe der erweiterten Bewertungsoptionen genau 100 Prozent ergibt.
 assessment#:#rating_sign#:#Bewertung (Vorzeichen)
@@ -12131,8 +12158,8 @@ rep#:#rep_time_period#:#Zeitraum
 cntr#:#exc_next_deadline_single#:#Abgabefrist
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
-survey#:#survey_reminder_cron#:#Benutzer an Teilnahme erinnern / Tutoren Ergebnisse zusenden
-survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert und Tutoren erhalten die Ergebnisse zugesendet.
+survey#:#survey_reminder_cron#:#Benutzer an Teilnahme erinnern
+survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
 cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
 cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
@@ -12472,7 +12499,7 @@ rbac#:#file_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benut
 rbac#:#mcst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#lso_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 content#:#cont_progress_icons#:#Fortschritts-Icons
-content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an. Fortschrittsinformationen werden von ILIAS ab Version 5.0 gespeichert.
+content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an.
 content#:#cont_self_assessment#:#Selbsttests
 content#:#cont_tries#:#Antwortversuche
 content#:#cont_tries_reset_on_visit#:#Zurücksetzen bei Aufruf der Seite
@@ -13346,6 +13373,7 @@ crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
 crs#:#crs_mail_context_member_title#:#Kurs: Info-Seite
 sahs#:#sahs_mail_context_lp#:#Lernmodul SCORM: Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
+mail#:#deleteTemplate#:#Löschen
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_template_set_as_default#:#Als Standard setzen
 mail#:#mail_template_unset_as_default#:#Als Standard entfernen
@@ -13520,7 +13548,7 @@ awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige au
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 common#:#contact_sysadmin#:#Technische Betreuung kontaktieren
 common#:#report_accessibility_issue#:#Barriere melden
-common#:#report_accessibility_link#:#Gemeldeter Link:
+common#:#report_accessibility_link#:#Gemeldeter%20Link:
 common#:#accessibility_control_concept#:#Info Barrierefreiheit
 common#:#no_accessibility_control_concept_description#:#Aktuell wird in dieser Installation keine Info zur Barrierefreiheit angeboten. Bitte kontaktieren Sie die <a href="%1$s">Anlaufstelle für Barrierefreiheit</a> für weitere Informationen.
 common#:#mainbar_aria_label#:#Hauptleiste
@@ -13576,8 +13604,9 @@ mail#:#mail_enable_crs_admin_notification_info#:#In neuen Kursen ist im Reiter "
 mail#:#mail_enable_grp_admin_notification_info#:#In neuen Gruppen ist im Reiter "Mitglieder" für Gruppenadministratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung der Gruppe nicht erreicht wird.
 mail#:#mail_notification_membership_section#:#Mitgliedschaften
 prg#:#form_msg_file_wrong_file_type#:#Falscher Dateityp.
-prg#:#prg_new#:#Neues Studienprogramm
-prg#:#prg_add#:#Studienprogramm hinzufügen
+prg#:#prg_new#:#Neues Studienprogramm anlegen
+prg#:#prg_add#:#Studienprogramm anlegen
+common#:#prgr_add#:#Link zu Studienprogramm anlegen
 prg#:#prg_edit#:#Studienprogramm bearbeiten
 prg#:#prg_type#:#Studienprogrammtyp
 prg#:#prg_assessment#:#Studienprogrammbewertung
@@ -14938,7 +14967,7 @@ rbac#:#rbac_create_copa#:#Inhaltsseite anlegen
 copa#:#copa_new#:#Neue Inhaltsseite anlegen
 copa#:#copa_import#:#Inhaltsseite importieren
 copa#:#copa_copy#:#Inhaltsseite kopieren
-copa#:#copa_add#:#Inhaltsseite hinzufügen
+copa#:#copa_add#:#Inhaltsseite anlegen
 copa#:#copa_edit#:#Einstellungen der Inhaltsseite
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
 copa#:#copa_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
@@ -15260,8 +15289,8 @@ dateplaner#:#cal_calendar_subscription_modal_title#:#Kalender abonnieren
 sess#:#sess_members#:#Teilnehmer
 grp#:#grp_contact#:#Betreuung
 grp#:#grp_mem_contacts#:#Tutorielle Betreuung
-common#:#lso_new#:#Neue Lernsequenz
-common#:#lso_add#:#Lernsequenz hinzufügen
+common#:#lso_new#:#Neue Lernsequenz anlegen
+common#:#lso_add#:#Lernsequenz anlegen
 common#:#lso_edit#:#Lernsequenz bearbeiten
 common#:#obj_lso#:#Lernsequenz
 common#:#objs_lso#:#Lernsequenzen
@@ -15748,7 +15777,7 @@ lti#:#lti_import_global_provider#:#Globalen Provider für alle Benutzer mit XML-
 lti#:#form_import_provider#:#Globalen Provider importieren
 lti#:#field_provider_xml#:#XML-Datei
 lti#:#field_provider_xml_info#:#Unterstützt werden XML-Dateien für Tool Consumer und für Common Cartridge gemäß https://www.imsglobal.org/specs/lti/xml.
-lti#:#lti_add_own_provider#:#Eigenen LTI-Provider hinzufügen (nicht für alle Benutzer)
+lti#:#lti_add_own_provider#:#Provider-Einstellungen anlegen
 lti#:#tbl_provider_header#:#LTI-Provider
 lti#:#lti_form_provider_create#:#Provider-Einstellungen anlegen
 lti#:#lti_con_prov_authentication#:#Authentifizierung
@@ -15898,8 +15927,8 @@ lti#:#highscore_all_tables_description#:#Zeigt sowohl eine Tabelle mit der eigen
 lti#:#highscore_top_num#:#Länge der Bestenliste
 lti#:#highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Bestenliste angezeigt werden.
 lti#:#highscore_top_num_unit#:#Platzierungen
-cmix#:#cmix_new#:#Neues xAPI/cmi5-Objekt
-cmix#:#cmix_add#:#xAPI/cmi5-Objekt hinzufügen
+cmix#:#cmix_new#:#Neues xAPI/cmi5-Objekt anlegen
+cmix#:#cmix_add#:#xAPI/cmi5-Objekt anlegen
 cmix#:#cmix_add_cmi5_lm#:#cmi5 Lernmodul
 cmix#:#cmix_add_cmi5_lm_info#:#Diese Option sollte verwendet werden, wenn es sich bei den Inhalten um ein cmi5 konformes Lernmodul handelt. Verwandte Funktionen wie geeignete Berichte sind ohne weitere Konfigurationen verfügbar.
 cmix#:#cmix_add_xapi_standard_object#:#xAPI Standardobjekt
@@ -16690,7 +16719,7 @@ common#:#file_system_clean_temp_dir_cron_info#:#Dieser Cronjob räumt das temp-V
 violation#:#not_a_string#:#Wert ist keine Zeichenkette
 common#:#actions_for#:#Aktionen für %s
 validation#:#not_greater_than_or_equal#:#Der Wert ist nicht größer oder gleich '%s'.
-validation#:#not_an_array#:#Wert ist kein Feld
+validation#:#no_array#:#Wert ist kein Feld
 validation#:#not_less_than_or_equal#:#Der Wert ist nicht kleiner oder gleich '%s'.
 skmg#:#skmg_add_skill_tree#:#Kompetenzbaum hinzufügen
 skmg#:#skmg_skill_tree#:#Kompetenzbaum
@@ -16711,3 +16740,41 @@ skmg#:#skmg_skill_needs_self_eval_box#:#Bitte beachten Sie, dass für mindestens
 skmg#:#skmg_recommended_learning_material#:#Lerninhalte zur Zielerreichung
 skmg#:#skmg_recommended_learning_material_info#:#Wählen Sie genau einen der folgenden Lerninhalte aus. Bearbeiten Sie ihn um das Kompetenzziel zu erreichen.
 skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewählt. Klicken Sie auf den Button "Kompetenz hinzufügen" um eine Kompetenz auszuwählen und sie hier angezeigt zu bekommen. Sie können beliebig viele Kompetenzen hinzufügen.
+ui#:#duration_default_label_start#:#Beginn
+ui#:#duration_default_label_end#:#Ende
+exc#:#exc_fullscreen#:#Vollbild
+cont#:#cont_tile_size_1#:#klein (bis zu sechs Kacheln in einer Zeile)
+cont#:#cont_tile_size_0#:#normal (bis zu vier Kacheln in einer Zeile)
+cont#:#cont_tile_size_2#:#groß (bis zu drei Kacheln in einer Zeile)
+cont#:#cont_tile_size_3#:#sehr groß (bis zu zwei Kacheln in einer Zeile)
+cont#:#cont_tile_size_4#:#volle Breite (eine Kachel in einer Zeile)
+cont#:#cont_tile_size#:#Kachelgröße
+itgr#:#itgr_tile_size#:#Kachelgröße
+itgr#:#itgr_tile#:#Kacheln
+itgr#:#itgr_list#:#Liste
+itgr#:#itgr_list_presentation#:#Präsentationsansicht für Inhalte
+itgr#:#itgr_list_default#:#Standard
+itgr#:#itgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten Containers.
+user#:#user_local_role#:#Lokale Rolle
+form#:#form_use_camera#:#Kamera benutzen
+form#:#form_take_snapshot#:#Schnappschuss machen
+cmps#:#cmps_responsible_mail#:#Mail (Verantwortlicher)
+cmps#:#cmps_supports_learning_progress#:#Unterstützt Lernfortschritt
+cmps#:#cmps_supports_export#:#Unterstüzt Export
+cmps#:#cmps_supports_cli_setup#:#Unterstüzt CLI-Setup
+cmps#:#cmps_is_installed#:#Installiert
+cmps#:#cmps_is_active#:#Aktiviert
+cmps#:#cmps_current_db_version#:#Aktuelle DB-Version
+cmps#:#cmps_detailed_information#:#Detaillierte Informationen
+cmps#:#cmps_available_version#:#Verfügbare Version
+cmps#:#cmps_refresh_lng#:#Sprache aktualisiert
+cmps#:#cmps_plugin_deinstalled#:#Das Plugin wurde deinstalliert
+cmps#:#cmps_plugin_updated#:#Das Plugin wurde aktualisiert
+svy#:#svy_print_selection#:#Auswahl Druckansicht
+svy#:#svy_selection#:#Auswahl
+svy#:#svy_current_page#:#Aktuelle Seite
+svy#:#svy_all_pages#:#Alle Seiten
+svy#:#svy_all_participants#:#Alle Teilnehmer
+svy#:#svy_selected_participants#:#Ausgewählte Teilnehmer
+svy#:#svy_all_questions#:#Alle Fragen
+svy#:#svy_selected_questions#:#Ausgewählte Fragen

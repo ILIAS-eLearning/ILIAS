@@ -69,6 +69,6 @@ class ilTestHistoryTableGUI extends ilTable2GUI
         $username = $this->tstObject->userLookupFullName($a_set["user_fi"], true);
         $this->tpl->setVariable("DATETIME", ilDatePresentation::formatDate(new ilDateTime($a_set["tstamp"], IL_CAL_UNIX)));
         $this->tpl->setVariable("USER", $username);
-        $this->tpl->setVariable("LOG", trim(ilUtil::prepareFormOutput($a_set["logtext"])));
+        $this->tpl->setVariable("LOG", trim(ilLegacyFormElementsUtil::prepareFormOutput($a_set["logtext"])));
     }
 }

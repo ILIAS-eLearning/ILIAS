@@ -86,7 +86,7 @@ class ilUserAvatarResolver
         if (defined('ILIAS_MODULE')) {
             $webspace_dir = ('.' . $webspace_dir);
         }
-        $webspace_dir .= ('./' . ltrim(ilUtil::getWebspaceDir(), "./"));
+        $webspace_dir .= ('./' . ltrim(ilFileUtils::getWebspaceDir(), "./"));
 
         $image_dir = $webspace_dir . '/usr_images';
         $this->uploaded_file = $image_dir . '/usr_' . $this->user_id . '.jpg';

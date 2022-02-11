@@ -23,7 +23,7 @@ class CssCollection extends AbstractCollection
     /**
      * @param Css $item
      */
-    public function addItem(Css $item): void
+    public function addItem(Css $item) : void
     {
         $real_path = realpath(parse_url($item->getContent(), PHP_URL_PATH));
         foreach ($this->getItems() as $css) {

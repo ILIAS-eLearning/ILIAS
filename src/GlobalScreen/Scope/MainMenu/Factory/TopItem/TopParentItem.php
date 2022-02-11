@@ -40,7 +40,7 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
         
         return $clone;
@@ -56,7 +56,7 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
     
     public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
     {
-        $clone                         = clone($this);
+        $clone = clone($this);
         $clone->supports_async_loading = $supported;
         
         return $clone;
@@ -66,5 +66,4 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
     {
         return $this->supports_async_loading;
     }
-    
 }

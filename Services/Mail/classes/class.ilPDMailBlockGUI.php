@@ -220,9 +220,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
             [$mailId],
             $mbox->getTrashFolder()
         )) {
-            ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('mail_moved_to_trash'), true);
         } else {
-            ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('mail_move_error'), true);
         }
         $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
     }

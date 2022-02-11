@@ -6,7 +6,7 @@ class ilSystemStyleRootLoggerMock extends ilLogger
     {
     }
 
-    public function debug($a_message, $a_context = []) : void
+    public function debug(string $a_message, array $a_context = []) : void
     {
     }
 }

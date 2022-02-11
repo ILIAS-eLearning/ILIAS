@@ -85,7 +85,7 @@ class ilPermission2GUI
             );
         }
         if (!$user_id = ilObjUser::_lookupId($owner)) {
-            ilUtil::sendFailure($this->lng->txt('user_not_known'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_known'));
             $this->owner();
             return;
         }
@@ -101,7 +101,7 @@ class ilPermission2GUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('owner_updated'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('owner_updated'), true);
 
         if (!$this->rbacsystem->checkAccess("edit_permission", $this->gui_obj->object->getRefId())) {
             $this->ctrl->redirect($this->gui_obj);
@@ -129,8 +129,14 @@ class ilPermission2GUI
         );
 
         if (ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->gui_obj->object->getId())) {
-            $this->tabs->addSubTabTarget(self::TAB_POSITION_PERMISSION_SETTINGS,
-                $this->ctrl->getLinkTarget($this, ilPermissionGUI::CMD_PERM_POSITIONS), "", "", "", $perm_positions);
+            $this->tabs->addSubTabTarget(
+                self::TAB_POSITION_PERMISSION_SETTINGS,
+                $this->ctrl->getLinkTarget($this, ilPermissionGUI::CMD_PERM_POSITIONS),
+                "",
+                "",
+                "",
+                $perm_positions
+            );
         }
 
         $this->tabs->addSubTabTarget(

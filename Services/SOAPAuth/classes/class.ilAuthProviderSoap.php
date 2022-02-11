@@ -76,7 +76,7 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * @inheritDoc
      */
-    public function doAuthentication(ilAuthStatus $status)
+    public function doAuthentication(ilAuthStatus $status) : bool
     {
         try {
             $this->initClient();
@@ -175,7 +175,7 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
 
         $password = '';
         if ($this->settings->get('soap_auth_allow_local')) {
-            $passwords = ilUtil::generatePasswords(1);
+            $passwords = ilSecuritySettingsChecker::generatePasswords(1);
             $password = $passwords[0];
             $usrData['passwd'] = $password;
             $usrData['passwd_type'] = ilObjUser::PASSWD_PLAIN;

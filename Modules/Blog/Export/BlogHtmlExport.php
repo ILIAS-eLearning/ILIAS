@@ -15,8 +15,11 @@
 
 namespace ILIAS\Blog\Export;
 
+use ilFileUtils;
+
 /**
  * Blog HTML export
+ *
  * @author Alexander Killing <killing@leifos.de>
  */
 class BlogHtmlExport
@@ -37,6 +40,7 @@ class BlogHtmlExport
     protected bool $include_comments = false;
     protected bool $print_version = false;
     protected static bool $export_key_set = false;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         \ilObjBlogGUI $blog_gui,
@@ -69,6 +73,13 @@ class BlogHtmlExport
                 true
             );
         }
+
+        $cs = $DIC->contentStyle();
+        if ($this->blog_gui->getIdType() == \ilObject2GUI::REPOSITORY_NODE_ID) {
+            $this->content_style_domain = $cs->domain()->styleForRefId($this->blog->getRefId());
+        } else {
+            $this->content_style_domain = $cs->domain()->styleForObjId($this->blog->getId());
+        }
     }
     protected function init() : void
     {
@@ -88,8 +99,8 @@ class BlogHtmlExport
     protected function initDirectories() : void
     {
         // initialize temporary target directory
-        \ilUtil::delDir($this->target_dir);
-        \ilUtil::makeDir($this->target_dir);
+        ilFileUtils::delDir($this->target_dir);
+        ilFileUtils::makeDir($this->target_dir);
     }
 
     /**
@@ -101,7 +112,10 @@ class BlogHtmlExport
     {
         $this->initDirectories();
         $this->export_util->exportSystemStyle();
-        $this->export_util->exportCOPageFiles($this->blog->getStyleSheetId(), "blog");
+        $this->export_util->exportCOPageFiles(
+            $this->content_style_domain->getEffectiveStyleId(),
+            "blog"
+        );
 
         // export banner
         $this->exportBanner();
@@ -154,8 +168,8 @@ class BlogHtmlExport
         $zip_file = \ilExport::_getExportDirectory($this->blog->getId(), $type, "blog") .
             "/" . $date . "__" . IL_INST_ID . "__" .
             $this->blog->getType() . "_" . $this->blog->getId() . ".zip";
-        \ilUtil::zip($this->target_dir, $zip_file);
-        \ilUtil::delDir($this->target_dir);
+        ilFileUtils::zip($this->target_dir, $zip_file);
+        ilFileUtils::delDir($this->target_dir);
         return $zip_file;
     }
 
@@ -343,7 +357,7 @@ class BlogHtmlExport
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
         $this->global_screen->layout()->meta()->addCss($location_stylesheet);
         $this->global_screen->layout()->meta()->addCss(
-            \ilObjStyleSheet::getContentStylePath($this->blog->getStyleSheetId())
+            \ilObjStyleSheet::getContentStylePath($this->content_style_domain->getEffectiveStyleId())
         );
         \ilPCQuestion::resetInitialState();
 

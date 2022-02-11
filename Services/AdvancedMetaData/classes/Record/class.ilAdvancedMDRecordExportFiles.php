@@ -32,7 +32,7 @@ class ilAdvancedMDRecordExportFiles
 
     public function __construct(int $a_obj_id = null)
     {
-        $this->export_dir = ilUtil::getDataDir() . '/ilAdvancedMetaData/export';
+        $this->export_dir = ilFileUtils::getDataDir() . '/ilAdvancedMetaData/export';
         if ($a_obj_id) {
             $this->export_dir .= "_" . $a_obj_id;
         }
@@ -80,7 +80,7 @@ class ilAdvancedMDRecordExportFiles
             return array();
         }
         $files = [];
-        foreach (ilUtil::getDir($this->export_dir) as $file_name => $file_data) {
+        foreach (ilFileUtils::getDir($this->export_dir) as $file_name => $file_data) {
             $files[$file_name] = $file_data;
         }
         return $files;
@@ -138,7 +138,7 @@ class ilAdvancedMDRecordExportFiles
     private function init() : void
     {
         if (!@is_dir($this->export_dir)) {
-            ilUtil::makeDirParents($this->export_dir);
+            ilFileUtils::makeDirParents($this->export_dir);
         }
     }
 }

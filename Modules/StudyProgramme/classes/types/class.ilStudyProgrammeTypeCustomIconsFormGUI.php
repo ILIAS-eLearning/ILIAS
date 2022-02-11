@@ -75,7 +75,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
         $item = $this->getItemByPostVar('icon');
         if ($type->getIcon() != '' && $this->webdir->has($type->getIconPath(true))) {
             // TODO: that´s horrible, try to avoid ilUtil in future
-            $item->setImage(ilUtil::getWebspaceDir() . '/' . $type->getIconPath(true));
+            $item->setImage(ilFileUtils::getWebspaceDir() . '/' . $type->getIconPath(true));
         }
     }
 

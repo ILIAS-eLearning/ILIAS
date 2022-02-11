@@ -30,7 +30,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     const CMD_MOVE = 'move';
     const CMD_FLUSH = 'flush';
 
-    private function dispatchCommand($cmd):string
+    private function dispatchCommand($cmd) : string
     {
         global $DIC;
         switch ($cmd) {
@@ -145,7 +145,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      */
     private function index() : string
     {
-
         if ($this->access->hasUserPermissionTo('write')) {
             // ADD NEW
             $b = ilLinkButton::getInstance();
@@ -175,12 +174,12 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $table->getHTML();
     }
 
-    private function cancel():void
+    private function cancel() : void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_TOP_ITEMS);
     }
 
-    private function doubleCancel():void
+    private function doubleCancel() : void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_CANCEL);
     }
@@ -250,7 +249,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         if ($item->isDeletable()) {
             $this->repository->deleteItem($item);
         }
-        ilUtil::sendSuccess($this->lng->txt("msg_topitem_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_topitem_deleted"), true);
         $this->cancel();
     }
 
@@ -286,7 +285,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     private function flush() : void
     {
         $this->repository->flushLostItems();
-        ilUtil::sendSuccess($this->lng->txt("msg_subitem_flushed"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_subitem_flushed"), true);
         $this->cancel();
     }
 
@@ -297,7 +296,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         ilMMItemTranslationStorage::flushDB();
         ilMMTypeActionStorage::flushDB();
 
-        ilUtil::sendSuccess($this->lng->txt('msg_restored'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_restored'), true);
 
         $this->cancel();
     }
@@ -321,9 +320,9 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
             $f = $this->repository->getItemFacadeForIdentificationString($data[0]);
             $item->setParent($data[0]);
             $this->repository->updateItem($item);
-            ilUtil::sendSuccess($this->lng->txt('msg_moved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_moved'), true);
         } else {
-            ilUtil::sendFailure($this->lng->txt('msg_not_moved'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_not_moved'), true);
         }
 
         $this->cancel();

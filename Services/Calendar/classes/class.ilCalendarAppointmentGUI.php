@@ -4,6 +4,8 @@
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
 
 /**
  * Administrate calendar appointments
@@ -31,6 +33,9 @@ class ilCalendarAppointmentGUI
     protected ilHelpGUI $help;
     protected ilErrorHandling $error;
     private ilLogger $logger;
+    protected HTTPServices $http;
+    protected RefineryFactory $refinery;
+
 
     /**
      * @var RequestInterface|ServerRequestInterface
@@ -55,12 +60,47 @@ class ilCalendarAppointmentGUI
         $this->help = $DIC->help();
         $this->error = $DIC['ilErr'];
 
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->request = $DIC->http()->request();
 
         $this->initTimeZone();
         $this->initSeed($seed);
         $this->initInitialDate($initialDate);
         $this->initAppointment($a_appointment_id);
+    }
+
+    protected function getAppointmentIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('app_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'app_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function getRecurrenceExclusionFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('rexl')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'rexl',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function getRecurrenceDateFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('dt')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'dt',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
     }
 
     public function executeCommand() : void
@@ -131,8 +171,10 @@ class ilCalendarAppointmentGUI
                 if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
                     && ($type == "grp" || $type == "crs")) {
                     $resp_info = true;
-                    $this->form->addCommandButton('editResponsibleUsers',
-                        $this->lng->txt('cal_change_responsible_users'));
+                    $this->form->addCommandButton(
+                        'editResponsibleUsers',
+                        $this->lng->txt('cal_change_responsible_users')
+                    );
                 }
                 $this->form->addCommandButton('update', $this->lng->txt('save'));
                 // $this->form->addCommandButton('askDelete',$this->lng->txt('delete'));
@@ -147,21 +189,35 @@ class ilCalendarAppointmentGUI
         $title->setSize(32);
         $this->form->addItem($title);
 
+        $category_id = 0;
+        if ($this->http->wrapper()->query()->has('category_id')) {
+            $category_id = $this->http->wrapper()->query()->retrieve(
+                'category_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $ref_id = 0;
+        if ($this->http->wrapper()->query()->has('ref_id')) {
+            $ref_id_id = $this->http->wrapper()->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
         // calendar selection
         $calendar = new ilSelectInputGUI($this->lng->txt('cal_category_selection'), 'calendar');
         if ($_POST['category']) {
             $calendar->setValue((int) $_POST['calendar']);
             $selected_calendar = (int) $_POST['calendar'];
-        } elseif ($_GET['category_id']) {
-            $calendar->setValue((int) $_GET['category_id']);
-            $selected_calendar = (int) $_GET['category_id'];
+        } elseif ($category_id) {
+            $calendar->setValue((int) $category_id);
+            $selected_calendar = (int) $category_id;
         } elseif ($a_mode == 'edit') {
             $ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
             $cat = $ass->getFirstAssignment();
             $calendar->setValue($cat);
             $selected_calendar = $cat;
-        } elseif (isset($_GET['ref_id'])) {
-            $obj_cal = ilObject::_lookupObjId($_GET['ref_id']);
+        } elseif ($ref_id) {
+            $obj_cal = ilObject::_lookupObjId($ref_id);
             $calendar->setValue(ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal));
             $selected_calendar = ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal);
             $cats = ilCalendarCategories::_getInstance($this->user->getId());
@@ -365,19 +421,19 @@ class ilCalendarAppointmentGUI
 
             if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
                 && ($type == "grp" || $type == "crs")) {
-                ilUtil::sendSuccess($this->lng->txt('cal_created_milestone_resp_q'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_created_milestone_resp_q'), true);
                 $this->showResponsibleUsersList($cat_info['obj_id']);
                 return;
             } elseif ($a_as_milestone) {
-                ilUtil::sendSuccess($this->lng->txt('cal_created_milestone'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_created_milestone'), true);
                 $this->ctrl->returnToParent($this);
             } else {
-                ilUtil::sendSuccess($this->lng->txt('cal_created_appointment'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_created_appointment'), true);
                 $this->ctrl->returnToParent($this);
             }
         } else {
             $this->form->setValuesByPost();
-            ilUtil::sendFailure($this->error->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
             $this->add($this->form);
             return;
         }
@@ -513,7 +569,6 @@ class ilCalendarAppointmentGUI
      * ^ */
     protected function editSingle() : void
     {
-        $_REQUEST['rexl'] = 1;
         $GLOBALS['DIC']['ilCtrl']->setParameter($this, 'rexcl', 1);
         $this->edit(true);
     }
@@ -533,14 +588,14 @@ class ilCalendarAppointmentGUI
 
         $this->ctrl->saveParameter($this, array('seed', 'app_id', 'dt', 'idate'));
 
-        if ($_REQUEST['rexl']) {
+        if ($a_edit_single_app) {
             $this->ctrl->setParameter($this, 'rexl', 1);
 
             // Calculate new appointment time
             $duration = $this->getAppointment()->getEnd()->get(IL_CAL_UNIX) - $this->getAppointment()->getStart()->get(IL_CAL_UNIX);
             $calc = new ilCalendarRecurrenceCalculator($this->getAppointment(), $this->rec);
 
-            $current_date = new ilDateTime($_REQUEST['dt'], IL_CAL_UNIX);
+            $current_date = new ilDateTime($this->getRecurrenceDateFromQuery(), IL_CAL_UNIX);
 
             $yesterday = clone $current_date;
             $yesterday->increment(IL_CAL_DAY, -1);
@@ -550,8 +605,10 @@ class ilCalendarAppointmentGUI
             foreach ($calc->calculateDateList($current_date, $tomorrow, 1) as $date_entry) {
                 if (ilDateTime::_equals($current_date, $date_entry, IL_CAL_DAY)) {
                     $this->getAppointment()->setStart(new ilDateTime($date_entry->get(IL_CAL_UNIX), IL_CAL_UNIX));
-                    $this->getAppointment()->setEnd(new ilDateTime($date_entry->get(IL_CAL_UNIX) + $duration,
-                        IL_CAL_UNIX));
+                    $this->getAppointment()->setEnd(new ilDateTime(
+                        $date_entry->get(IL_CAL_UNIX) + $duration,
+                        IL_CAL_UNIX
+                    ));
                     break;
                 }
             }
@@ -645,15 +702,17 @@ class ilCalendarAppointmentGUI
             $refs = ilObject::_getAllReferences($cat_info['obj_id']);
 
             $href = ilLink::_getStaticLink(current($refs), ilObject::_lookupType($cat_info['obj_id']), true);
-            $info->addProperty($this->lng->txt('perma_link'),
-                '<a class="small" href="' . $href . '" target="_top">' . $href . '</a>');
+            $info->addProperty(
+                $this->lng->txt('perma_link'),
+                '<a class="small" href="' . $href . '" target="_top">' . $href . '</a>'
+            );
         }
         $this->tpl->setContent($info->getHTML());
     }
 
     protected function update() : void
     {
-        $single_editing = ($_REQUEST['rexl'] ? true : false);
+        $single_editing = (bool) $this->getRecurrenceExclusionFromQuery();
 
         $this->load('edit', $this->app->isMilestone());
 
@@ -667,7 +726,7 @@ class ilCalendarAppointmentGUI
             if ($single_editing) {
                 $original_id = $this->getAppointment()->getEntryId();
                 $this->getAppointment()->save();
-                $selected_ut = (int) ($this->request->getQueryParams()['dt'] ?? 0);
+                $selected_ut = $this->getRecurrenceDateFromQuery();
                 if ($selected_ut > 0) {
                     $exclusion = new ilCalendarRecurrenceExclusion();
                     $exclusion->setEntryId($original_id);
@@ -684,7 +743,6 @@ class ilCalendarAppointmentGUI
             $this->notification->save();
             $this->saveRecurrenceSettings();
             $ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
-            $this->logger->debug($this->app->getEntryId());
             $ass->deleteAssignments();
             $ass->addAssignment($cat_id);
 
@@ -696,11 +754,11 @@ class ilCalendarAppointmentGUI
                 $this->distributeUserNotifications();
             }
 
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->returnToParent($this);
         } else {
             $this->form->setValuesByPost();
-            ilUtil::sendFailure($this->error->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
         }
         $this->edit(false, $this->form);
     }
@@ -719,7 +777,7 @@ class ilCalendarAppointmentGUI
 
         $app_id = (int) ($this->request->getQueryParams()['app_id'] ?? 0);
         if (!$app_id) {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $this->ctrl->returnToParent($this);
         }
 
@@ -745,8 +803,8 @@ class ilCalendarAppointmentGUI
             $table->init();
             $table->parse();
             $this->tpl->setContent($table->getHTML());
-            ilUtil::sendQuestion($this->lng->txt('cal_delete_app_sure'));
-            ilUtil::sendInfo($this->lng->txt('cal_recurrence_confirm_deletion'));
+            $this->tpl->setOnScreenMessage('question', $this->lng->txt('cal_delete_app_sure'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cal_recurrence_confirm_deletion'));
         }
     }
 
@@ -768,7 +826,7 @@ class ilCalendarAppointmentGUI
 
             ilCalendarUserNotification::deleteCalendarEntry($app_id);
         }
-        ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_deleted_app'), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -777,7 +835,7 @@ class ilCalendarAppointmentGUI
         $recurrence_ids = (array) ($this->request->getParsedBody()['recurrence_ids'] ?? []);
         $app_id = (int) ($this->request->getQueryParams()['app_id'] ?? 0);
         if (!count($recurrence_ids)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'askDelete');
         }
         if (!$app_id) {
@@ -790,7 +848,7 @@ class ilCalendarAppointmentGUI
             $exclusion->save();
         }
         if ($a_return) {
-            ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_deleted_app'), true);
             $this->ctrl->returnToParent($this);
         }
     }
@@ -802,17 +860,28 @@ class ilCalendarAppointmentGUI
 
     protected function initInitialDate(ilDate $initialDate) : void
     {
-        if (!isset($_GET['hour'])) {
+        $hour = 0;
+        if ($this->http->wrapper()->query()->has('hour')) {
+            $hour = $this->http->wrapper()->query()->retrieve(
+                'hour',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+        if (!$hour) {
             $this->initialDate = clone $initialDate;
             $this->default_fulltime = true;
         } else {
-            if ((int) $_GET['hour'] < 10) {
-                $time = '0' . (int) $_GET['hour'] . ':00:00';
+            if ($hour < 10) {
+                $time = '0' . $hour . ':00:00';
             } else {
-                $time = (int) $_GET['hour'] . ':00:00';
+                $time = (int) $hour . ':00:00';
             }
-            $this->initialDate = new ilDateTime($initialDate->get(IL_CAL_DATE) . ' ' . $time, IL_CAL_DATETIME,
-                $this->timezone);
+            $this->initialDate = new ilDateTime(
+                $initialDate->get(IL_CAL_DATE) . ' ' . $time,
+                IL_CAL_DATETIME,
+                $this->timezone
+            );
             $this->default_fulltime = false;
         }
     }
@@ -1049,15 +1118,31 @@ class ilCalendarAppointmentGUI
      */
     protected function confirmRegister() : void
     {
-        $entry = new ilCalendarEntry((int) $_GET['app_id']);
+        $dstart = 0;
+        if ($this->http->wrapper()->query()->has('dstart')) {
+            $dstart = $this->http->wrapper()->query()->retrieve(
+                'dstart',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $dend = 0;
+        if ($this->http->wrapper()->query()->has('dend')) {
+            $dend = $this->http->wrapper()->query()->retrieve(
+                'dend',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+        $app_id = $this->getAppointmentIdFromQuery();
+        $entry = new ilCalendarEntry($app_id);
         $start = ilDatePresentation::formatPeriod(
-            new ilDateTime($_GET['dstart'], IL_CAL_UNIX),
-            new ilDateTime($_GET['dend'], IL_CAL_UNIX)
+            new ilDateTime($dstart, IL_CAL_UNIX),
+            new ilDateTime($dend, IL_CAL_UNIX)
         );
 
         $conf = new ilConfirmationGUI();
-        $this->ctrl->setParameter($this, 'dstart', (int) $_REQUEST['dstart']);
-        $this->ctrl->setParameter($this, 'dend', (int) $_REQUEST['dend']);
+        $this->ctrl->setParameter($this, 'dstart', $dstart);
+        $this->ctrl->setParameter($this, 'dend', $dend);
 
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('cal_confirm_reg_info'));
@@ -1069,27 +1154,58 @@ class ilCalendarAppointmentGUI
 
     protected function register() : void
     {
+        $dstart = 0;
+        if ($this->http->wrapper()->query()->has('dstart')) {
+            $dstart = $this->http->wrapper()->query()->retrieve(
+                'dstart',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $dend = 0;
+        if ($this->http->wrapper()->query()->has('dend')) {
+            $dend = $this->http->wrapper()->query()->retrieve(
+                'dend',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
         $reg = new ilCalendarRegistration((int) $_POST['app_id']);
         $reg->register(
             $this->user->getId(),
-            new ilDateTime((int) $_REQUEST['dstart'], IL_CAL_UNIX),
-            new ilDateTime((int) $_REQUEST['dend'], IL_CAL_UNIX)
+            new ilDateTime($dstart, IL_CAL_UNIX),
+            new ilDateTime((int) $dend, IL_CAL_UNIX)
         );
 
-        ilUtil::sendSuccess($this->lng->txt('cal_reg_registered'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_reg_registered'), true);
         $this->ctrl->returnToParent($this);
     }
 
     public function confirmUnregister() : void
     {
-        $entry = new ilCalendarEntry((int) $_GET['app_id']);
+        $dstart = 0;
+        if ($this->http->wrapper()->query()->has('dstart')) {
+            $dstart = $this->http->wrapper()->query()->retrieve(
+                'dstart',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $dend = 0;
+        if ($this->http->wrapper()->query()->has('dend')) {
+            $dend = $this->http->wrapper()->query()->retrieve(
+                'dend',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+        $app_id = $this->getAppointmentIdFromQuery();
+        $entry = new ilCalendarEntry($app_id);
         $start = ilDatePresentation::formatPeriod(
-            $dstart = new ilDateTime($_GET['dstart'], IL_CAL_UNIX),
-            $dend = new ilDateTime($_GET['dend'], IL_CAL_UNIX)
+            $dstart = new ilDateTime($dstart, IL_CAL_UNIX),
+            $dend = new ilDateTime($dend, IL_CAL_UNIX)
         );
 
-        $this->ctrl->setParameter($this, 'dstart', (int) $_REQUEST['dstart']);
-        $this->ctrl->setParameter($this, 'dend', (int) $_REQUEST['dend']);
+        $this->ctrl->setParameter($this, 'dstart', (int) $dstart);
+        $this->ctrl->setParameter($this, 'dend', (int) $dend);
 
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
@@ -1106,14 +1222,30 @@ class ilCalendarAppointmentGUI
      */
     protected function unregister() : void
     {
+        $dstart = 0;
+        if ($this->http->wrapper()->query()->has('dstart')) {
+            $dstart = $this->http->wrapper()->query()->retrieve(
+                'dstart',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $dend = 0;
+        if ($this->http->wrapper()->query()->has('dend')) {
+            $dend = $this->http->wrapper()->query()->retrieve(
+                'dend',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+
         $reg = new ilCalendarRegistration((int) $_POST['app_id']);
         $reg->unregister(
             $this->user->getId(),
-            new ilDateTime((int) $_REQUEST['dstart'], IL_CAL_UNIX),
-            new ilDateTime((int) $_REQUEST['dend'], IL_CAL_UNIX)
+            new ilDateTime((int) $dstart, IL_CAL_UNIX),
+            new ilDateTime((int) $dend, IL_CAL_UNIX)
         );
 
-        ilUtil::sendSuccess($this->lng->txt('cal_reg_unregistered'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_reg_unregistered'), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -1122,7 +1254,7 @@ class ilCalendarAppointmentGUI
      */
     public function book() : void
     {
-        $entry_id = (int) $_GET['app_id'];
+        $entry_id = $this->getAppointmentIdFromQuery();
         $this->ctrl->saveParameter($this, 'app_id');
 
         $entry = new ilCalendarEntry($entry_id);
@@ -1130,8 +1262,10 @@ class ilCalendarAppointmentGUI
         $user = $booking->getObjId();
 
         $form = $this->initFormConfirmBooking();
-        $form->getItemByPostVar('date')->setValue(ilDatePresentation::formatPeriod($entry->getStart(),
-            $entry->getEnd()));
+        $form->getItemByPostVar('date')->setValue(ilDatePresentation::formatPeriod(
+            $entry->getStart(),
+            $entry->getEnd()
+        ));
         $form->getItemByPostVar('title')->setValue($entry->getTitle() . " (" . ilObjUser::_lookupFullname($user) . ')');
 
         $this->tpl->setContent($form->getHTML());
@@ -1162,7 +1296,7 @@ class ilCalendarAppointmentGUI
      */
     public function bookconfirmed()
     {
-        $entry = (int) $_REQUEST['app_id'];
+        $entry = $this->getAppointmentIdFromQuery();
         $form = $this->initFormConfirmBooking();
         if ($form->checkInput()) {
             // check if appointment is bookable
@@ -1171,14 +1305,14 @@ class ilCalendarAppointmentGUI
             $booking = new ilBookingEntry($cal_entry->getContextId());
 
             if (!$booking->isAppointmentBookableForUser($entry, $GLOBALS['DIC']['ilUser']->getId())) {
-                ilUtil::sendFailure($this->lng->txt('cal_booking_failed_info'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cal_booking_failed_info'), true);
                 $this->ctrl->returnToParent($this);
             }
 
             ilConsultationHourUtils::bookAppointment($this->user->getId(), $entry);
             ilBookingEntry::writeBookingMessage($entry, $this->user->getId(), $form->getInput('comment'));
         }
-        ilUtil::sendSuccess($this->lng->txt('cal_booking_confirmed'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_booking_confirmed'), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -1188,8 +1322,7 @@ class ilCalendarAppointmentGUI
      */
     public function cancelBooking() : void
     {
-        $entry = (int) $_GET['app_id'];
-
+        $entry = $this->getAppointmentIdFromQuery();
         $entry = new ilCalendarEntry($entry);
 
         $category = $this->calendarEntryToCategory($entry);
@@ -1250,7 +1383,7 @@ class ilCalendarAppointmentGUI
             $booking = new ilBookingEntry($entry->getContextId());
             $booking->cancelBooking($entry->getEntryId());
 
-            // do NOT delete original entry
+        // do NOT delete original entry
         } elseif ($category->getType() == ilCalendarCategory::TYPE_BOOK) {
             $booking = new ilBookingReservation($entry->getContextId());
             $booking->setStatus(ilBookingReservation::STATUS_CANCELLED);
@@ -1259,7 +1392,7 @@ class ilCalendarAppointmentGUI
             $entry->delete();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('cal_cancel_booking_confirmed'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_cancel_booking_confirmed'), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -1275,10 +1408,17 @@ class ilCalendarAppointmentGUI
 
     protected function doUserAutoComplete() : void
     {
-        if (!isset($_GET['autoCompleteField'])) {
+        $autoCompleteField = '';
+        if ($this->http->wrapper()->query()->has('autoCompleteField')) {
+            $autoCompleteField = $this->http->wrapper()->query()->retrieve(
+                'autoCompleteField',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        if (!strlen($autoCompleteField)) {
             $a_fields = array('login', 'firstname', 'lastname', 'email');
         } else {
-            $a_fields = array((string) $_GET['autoCompleteField']);
+            $a_fields = array($autoCompleteField);
         }
 
         $auto = new ilUserAutoComplete();
@@ -1286,11 +1426,17 @@ class ilCalendarAppointmentGUI
         $auto->enableFieldSearchableCheck(true);
         $auto->setMoreLinkAvailable(true);
 
-        if (($_REQUEST['fetchall'])) {
+        if ($this->http->wrapper()->query()->has('fetchall')) {
             $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
         }
-
-        echo $auto->getList($_REQUEST['query']);
+        $query = '';
+        if ($this->http->wrapper()->query()->has('query')) {
+            $query = $this->http->wrapper()->query()->retrieve(
+                'query',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        echo $auto->getList($query);
         exit();
     }
 }

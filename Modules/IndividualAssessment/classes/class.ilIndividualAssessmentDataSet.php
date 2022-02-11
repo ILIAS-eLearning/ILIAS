@@ -111,43 +111,41 @@ class ilIndividualAssessmentDataSet extends ilDataSet
         ilImportMapping $mapping,
         string $schema_version
     ) : void {
-        switch ($entity) {
-            case "iass":
-                if ($new_id = $mapping->getMapping('Services/Container', 'objs', $rec['id'])) {
-                    $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-                } else {
-                    $newObj = new ilObjIndividualAssessment();
-                    $newObj->create();
-                }
+        if ($entity == "iass") {
+            if ($new_id = $mapping->getMapping('Services/Container', 'objs', $rec['id'])) {
+                $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+            } else {
+                $newObj = new ilObjIndividualAssessment();
+                $newObj->create();
+            }
 
-                $newObj->setTitle($rec["title"]);
-                $newObj->setDescription($rec["description"]);
+            $newObj->setTitle($rec["title"]);
+            $newObj->setDescription($rec["description"]);
 
-                $settings = new ilIndividualAssessmentSettings(
-                    $newObj->getId(),
-                    $newObj->getTitle(),
-                    $newObj->getDescription(),
-                    $rec["content"],
-                    $rec["recordTemplate"],
-                    $rec['eventTimePlaceRequired'],
-                    $rec['file_required']
-                );
+            $settings = new ilIndividualAssessmentSettings(
+                $newObj->getId(),
+                $newObj->getTitle(),
+                $newObj->getDescription(),
+                $rec["content"],
+                $rec["recordTemplate"],
+                $rec['eventTimePlaceRequired'],
+                $rec['file_required']
+            );
 
-                $info = new ilIndividualAssessmentInfoSettings(
-                    $newObj->getId(),
-                    $rec['contact'],
-                    $rec['responsibility'],
-                    $rec['phone'],
-                    $rec['mails'],
-                    $rec['consultation_hours']
-                );
+            $info = new ilIndividualAssessmentInfoSettings(
+                $newObj->getId(),
+                $rec['contact'],
+                $rec['responsibility'],
+                $rec['phone'],
+                $rec['mails'],
+                $rec['consultation_hours']
+            );
 
-                $newObj->setSettings($settings);
-                $newObj->setInfoSettings($info);
-                $newObj->update();
-                $newObj->updateInfo();
-                $mapping->addMapping("Modules/IndividualAssessment", "iass", $rec["id"], (string) $newObj->getId());
-                break;
+            $newObj->setSettings($settings);
+            $newObj->setInfoSettings($info);
+            $newObj->update();
+            $newObj->updateInfo();
+            $mapping->addMapping("Modules/IndividualAssessment", "iass", $rec["id"], (string) $newObj->getId());
         }
     }
 }

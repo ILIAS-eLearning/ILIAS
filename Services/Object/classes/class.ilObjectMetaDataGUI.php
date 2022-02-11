@@ -549,7 +549,7 @@ class ilObjectMetaDataGUI
                 $ecs->handleContentUpdate();
             }
             
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "edit");
         }
         
@@ -671,7 +671,7 @@ class ilObjectMetaDataGUI
         if ($form->checkInput()) {
             $this->taxonomy_settings_form_saver->bindTo($this);
             call_user_func_array($this->taxonomy_settings_form_saver, [$form]);
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editTaxonomySettings");
         } else {
             $form->setValuesByPost();

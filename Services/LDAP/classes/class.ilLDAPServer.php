@@ -1,65 +1,70 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-define('IL_LDAP_BIND_ANONYMOUS', 0);
-define('IL_LDAP_BIND_USER', 1);
-
-define('IL_LDAP_SCOPE_SUB', 0);
-define('IL_LDAP_SCOPE_ONE', 1);
-define('IL_LDAP_SCOPE_BASE', 2);
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
-* @defgroup ServicesLDAP Services/LDAP
-*/
-
-/**
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesLDAP
-*/
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilLDAPServer
 {
     private static $instances = array();
     
+    const LDAP_BIND_ANONYMOUS = 0;
+    const LDAP_BIND_USER = 1;
+
+    const LDAP_SCOPE_SUB = 0;
+    const LDAP_SCOPE_ONE = 1;
+    const LDAP_SCOPE_BASE = 2;
+
     const DEBUG = false;
     const DEFAULT_VERSION = 3;
     const DEFAULT_NETWORK_TIMEOUT = 5;
     
-    private $role_bind_dn = '';
-    private $role_bind_pass = '';
-    private $role_sync_active = 0;
+    private string $role_bind_dn = '';
+    private string $role_bind_pass = '';
+    private bool $role_sync_active = false;
+
+    private int $server_id;
+    private array $fallback_urls = array();
+
+    private bool $enabled_authentication = true;
+    private int $authentication_mapping = 0;
+    private bool $escape_dn = false;
     
-    private $server_id = null;
-    private $fallback_urls = array();
+    private bool $active = false;
+    
+    private ilDBInterface $db;
+    private ilLanguage $lng;
+    private ilErrorHandling $ilErr;
 
-    private $enabled_authentication = true;
-    private $authentication_mapping = 0;
-    private $escape_dn = false;
-
-    public function __construct($a_server_id = 0)
+    public function __construct(int $a_server_id = 0)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
-
-        $this->db = $ilDB;
-        $this->lng = $lng;
-        $this->server_id = $a_server_id;
+        $this->db = $DIC->database();
+        $this->lng = $DIC->language();
+        $this->ilErr = $DIC['ilErr'];
         
+        $this->server_id = $a_server_id;
+
         $this->read();
     }
     
     /**
      * Get instance by server id
-     * @param int $a_server_id
-     * @return ilLDAPServer
      */
-    public static function getInstanceByServerId($a_server_id)
+    public static function getInstanceByServerId(int $a_server_id) : ilLDAPServer
     {
         if (isset(self::$instances[$a_server_id])) {
             return self::$instances[$a_server_id];
@@ -69,14 +74,9 @@ class ilLDAPServer
     
     /**
      * Rotate fallback urls in case of connect timeouts
-     * @return boolean
      */
-    public function rotateFallbacks()
+    public function rotateFallbacks() : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if (!$this->fallback_urls) {
             return false;
         }
@@ -85,18 +85,17 @@ class ilLDAPServer
         $all_urls[] = $this->getUrl();
         
         $query = 'UPDATE ldap_server_settings SET ' .
-                'url = ' . $ilDB->quote(implode(',', $all_urls), 'text') . ' ' .
-                'WHERE server_id = ' . $ilDB->quote($this->getServerId(), 'integer');
-        $ilDB->manipulate($query);
+                'url = ' . $this->db->quote(implode(',', $all_urls), 'text') . ' ' .
+                'WHERE server_id = ' . $this->db->quote($this->getServerId(), 'integer');
+        $this->db->manipulate($query);
         return true;
     }
 
 
     /**
      * Check if ldap module is installed
-     * @return
      */
-    public static function checkLDAPLib()
+    public static function checkLDAPLib() : bool
     {
         return function_exists('ldap_bind');
     }
@@ -104,9 +103,9 @@ class ilLDAPServer
     /**
      * Get active server list
      *
-     * @return array server ids of active ldap server
+     * @return int[] server ids of active ldap server
      */
-    public static function _getActiveServerList()
+    public static function _getActiveServerList() : array
     {
         global $DIC;
 
@@ -116,9 +115,11 @@ class ilLDAPServer
             "WHERE active = 1 AND authentication = 1 " .
             "ORDER BY name ";
         $res = $ilDB->query($query);
-        $server_ids = array();
+
+        $server_ids = [];
+
         while ($row = $ilDB->fetchObject($res)) {
-            $server_ids[] = $row->server_id;
+            $server_ids[] = (int) $row->server_id;
         }
         return $server_ids;
     }
@@ -126,9 +127,9 @@ class ilLDAPServer
     /**
      * Get list of acticve servers with option 'SyncCron'
      *
-     * @return array server ids of active ldap server
+     * @return int[] server ids of active ldap server
      */
-    public static function _getCronServerIds()
+    public static function _getCronServerIds() : array
     {
         global $DIC;
 
@@ -140,18 +141,17 @@ class ilLDAPServer
             "ORDER BY name";
             
         $res = $ilDB->query($query);
+
+        $server_ids = [];
+
         while ($row = $ilDB->fetchObject($res)) {
-            $server_ids[] = $row->server_id;
+            $server_ids[] = (int) $row->server_id;
         }
-        return $server_ids ? $server_ids : array();
+        return $server_ids;
     }
     
     /**
      * Check whether there if there is an active server with option role_sync_active
-     *
-     * @access public
-     * @param
-     *
      */
     public static function _getRoleSyncServerIds()
     {
@@ -164,7 +164,9 @@ class ilLDAPServer
             "AND role_sync_active = 1 ";
             
         $res = $ilDB->query($query);
-        $server_ids = array();
+
+        $server_ids = [];
+
         while ($row = $ilDB->fetchObject($res)) {
             $server_ids[] = $row->server_id;
         }
@@ -172,24 +174,11 @@ class ilLDAPServer
     }
     
     /**
-     * Checks whether password synchronistation is enabled for an user
-     *
-     * @access public
-     * @param int user_id
-     *
-     */
-    public static function _getPasswordServers()
-    {
-        return ilLDAPServer::_getActiveServerList();
-    }
-    
-    
-    /**
      * Get first active server
      *
      * @return int first active server
      */
-    public static function _getFirstActiveServer()
+    public static function _getFirstActiveServer() : int
     {
         $servers = ilLDAPServer::_getActiveServerList();
         if (count($servers)) {
@@ -201,29 +190,30 @@ class ilLDAPServer
     /**
      * Get list of all configured servers
      *
-     * @return array list of server ids
+     * @return int[] list of server ids
      */
-    public static function _getServerList()
+    public static function _getServerList() : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT server_id FROM ldap_server_settings ORDER BY name";
-        
         $res = $ilDB->query($query);
+
+        $server_ids = [];
+
         while ($row = $ilDB->fetchObject($res)) {
             $server_ids[] = $row->server_id;
         }
-        return $server_ids ? $server_ids : array();
+        return $server_ids;
     }
 
     /**
      * Get all server ids
-     * @global ilDB $ilDB
-     * @return array int
+     * @return int[]
      */
-    public static function getServerIds()
+    public static function getServerIds() : array
     {
         global $DIC;
 
@@ -231,10 +221,9 @@ class ilLDAPServer
         
         $query = "SELECT server_id FROM ldap_server_settings ORDER BY name";
         
-        
         $res = $ilDB->query($query);
 
-        $server = array();
+        $server = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $server[] = $row->server_id;
         }
@@ -244,9 +233,9 @@ class ilLDAPServer
     /**
      * Get list of all configured servers
      *
-     * @return array list of server
+     * @return int[] list of server
      */
-    public static function _getAllServer()
+    public static function _getAllServer() : array
     {
         global $DIC;
 
@@ -254,7 +243,7 @@ class ilLDAPServer
         
         $query = "SELECT * FROM ldap_server_settings ORDER BY name";
         
-        $server = array();
+        $server = [];
         
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
@@ -265,10 +254,8 @@ class ilLDAPServer
     
     /*
      * Get first server id
-     *
-     * @return integer server_id
      */
-    public static function _getFirstServer()
+    public static function _getFirstServer() : int
     {
         $servers = ilLDAPServer::_getServerList();
         
@@ -301,7 +288,6 @@ class ilLDAPServer
 
     /**
      * Check if a data source is active for a specific auth mode
-     * @global ilDB $ilDB
      * @param int $a_auth_mode
      * @return bool
      */
@@ -315,7 +301,7 @@ class ilLDAPServer
             "WHERE authentication_type = " . $ilDB->quote($a_auth_mode, 'integer') . " " .
             "AND authentication = " . $ilDB->quote(0, 'integer');
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        while ($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return true;
         }
         return false;
@@ -377,27 +363,26 @@ class ilLDAPServer
         return true;
     }
     
-    // begin-patch ldap_multiple
     /**
      * Check if user auth mode is LDAP
-     * @param type $a_auth_mode
      */
-    public static function isAuthModeLDAP($a_auth_mode)
+    public static function isAuthModeLDAP(string $a_auth_mode)
     {
+        global $DIC;
+        $logger = $DIC->logger()->auth();
+
         if (!$a_auth_mode) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': No auth mode given..............');
+            $logger->error(__METHOD__ . ': No auth mode given..............');
             return false;
         }
         $auth_arr = explode('_', $a_auth_mode);
-        return ($auth_arr[0] == AUTH_LDAP) and $auth_arr[1];
+        return ($auth_arr[0] == ilAuthUtils::AUTH_LDAP) and $auth_arr[1];
     }
     
     /**
      * Get auth id by auth mode
-     * @param type $a_auth_mode
-     * @return null
      */
-    public static function getServerIdByAuthMode($a_auth_mode)
+    public static function getServerIdByAuthMode(string $a_auth_mode) : ?string
     {
         if (self::isAuthModeLDAP($a_auth_mode)) {
             $auth_arr = explode('_', $a_auth_mode);
@@ -428,9 +413,9 @@ class ilLDAPServer
     {
         $auth_arr = explode('_', $a_auth_mode);
         if (count((array) $auth_arr) > 1) {
-            return AUTH_LDAP . '_' . $auth_arr[1];
+            return ilAuthUtils::AUTH_LDAP . '_' . $auth_arr[1];
         }
-        return AUTH_LDAP;
+        return ilAuthUtils::AUTH_LDAP;
     }
 
     // end-patch ldap_multiple
@@ -480,15 +465,11 @@ class ilLDAPServer
     /**
      * Get authentication mapping key
      * Default is ldap
-     * @return string
      */
-    public function getAuthenticationMappingKey()
+    public function getAuthenticationMappingKey() : string
     {
         if ($this->isAuthenticationEnabled() or !$this->getAuthenticationMapping()) {
-            // begin-patch ldap_multiple
             return 'ldap_' . $this->getServerId();
-            #return 'ldap';
-            // end-patch ldap_multiple
         }
         return ilAuthUtils::_getAuthModeName($this->getAuthenticationMapping());
     }
@@ -536,14 +517,12 @@ class ilLDAPServer
      */
     public function doConnectionCheck()
     {
-        include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
-        
         foreach (array_merge(array(0 => $this->url), $this->fallback_urls) as $url) {
             try {
                 ilLoggerFactory::getLogger('auth')->debug('Using url: ' . $url);
                 // Need to do a full bind, since openldap return valid connection links for invalid hosts
                 $query = new ilLDAPQuery($this, $url);
-                $query->bind(IL_LDAP_BIND_TEST);
+                $query->bind(ilLDAPQuery::LDAP_BIND_TEST);
                 $this->url = $url;
                 return true;
             } catch (ilLDAPQueryException $exc) {
@@ -602,10 +581,10 @@ class ilLDAPServer
     }
     public function setBindingType($a_type)
     {
-        if ($a_type == IL_LDAP_BIND_USER) {
-            $this->binding_type = IL_LDAP_BIND_USER;
+        if ($a_type == ilLDAPServer::LDAP_BIND_USER) {
+            $this->binding_type = ilLDAPServer::LDAP_BIND_USER;
         } else {
-            $this->binding_type = IL_LDAP_BIND_ANONYMOUS;
+            $this->binding_type = ilLDAPServer::LDAP_BIND_ANONYMOUS;
         }
     }
     public function getBindUser()
@@ -842,46 +821,39 @@ class ilLDAPServer
      */
     public function validate()
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        
-        $ilErr->setMessage('');
+        $this->ilErr->setMessage('');
         if (!strlen($this->getName()) ||
             !strlen($this->getUrl()) ||
             !strlen($this->getBaseDN()) ||
             !strlen($this->getUserAttribute())) {
-            $ilErr->setMessage($this->lng->txt('fill_out_all_required_fields'));
+            $this->ilErr->setMessage($this->lng->txt('fill_out_all_required_fields'));
         }
         
-        if ($this->getBindingType() == IL_LDAP_BIND_USER
+        if ($this->getBindingType() == ilLDAPServer::LDAP_BIND_USER
             && (!strlen($this->getBindUser()) || !strlen($this->getBindPassword()))) {
-            $ilErr->appendMessage($this->lng->txt('ldap_missing_bind_user'));
+            $this->ilErr->appendMessage($this->lng->txt('ldap_missing_bind_user'));
         }
         
         if (($this->enabledSyncPerCron() or $this->enabledSyncOnLogin()) and !$this->global_role) {
-            $ilErr->appendMessage($this->lng->txt('ldap_missing_role_assignment'));
+            $this->ilErr->appendMessage($this->lng->txt('ldap_missing_role_assignment'));
         }
         if ($this->getVersion() == 2 and $this->isActiveTLS()) {
-            $ilErr->appendMessage($this->lng->txt('ldap_tls_conflict'));
+            $this->ilErr->appendMessage($this->lng->txt('ldap_tls_conflict'));
         }
         
-        return strlen($ilErr->getMessage()) ? false : true;
+        return strlen($this->ilErr->getMessage()) ? false : true;
     }
     
     public function create()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $next_id = $ilDB->nextId('ldap_server_settings');
+        $next_id = $this->db->nextId('ldap_server_settings');
         
         $query = 'INSERT INTO ldap_server_settings (server_id,active,name,url,version,base_dn,referrals,tls,bind_type,bind_user,bind_pass,' .
             'search_base,user_scope,user_attribute,filter,group_dn,group_scope,group_filter,group_member,group_memberisdn,group_name,' .
             'group_attribute,group_optional,group_user_filter,sync_on_login,sync_per_cron,role_sync_active,role_bind_dn,role_bind_pass,migration, ' .
             'authentication,authentication_type,username_filter, escape_dn) ' .
             'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
-        $res = $ilDB->queryF(
+        $this->db->queryF(
             $query,
             array(
                 'integer','integer','text','text','integer','text','integer','integer','integer','text','text','text','integer',
@@ -931,10 +903,6 @@ class ilLDAPServer
     
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "UPDATE ldap_server_settings SET " .
             "active = " . $this->db->quote($this->isActive(), 'integer') . ", " .
             "name = " . $this->db->quote($this->getName(), 'text') . ", " .
@@ -971,7 +939,7 @@ class ilLDAPServer
             ", escape_dn = " . $this->db->quote($this->enabledEscapeDN() ? 1 : 0, 'integer') . " " .
             "WHERE server_id = " . $this->db->quote($this->getServerId(), 'integer');
             
-        $res = $ilDB->manipulate($query);
+        $this->db->manipulate($query);
         return true;
     }
     
@@ -984,24 +952,22 @@ class ilLDAPServer
             return false;
         }
         
-        include_once 'Services/LDAP/classes/class.ilLDAPAttributeMapping.php';
         ilLDAPAttributeMapping::_delete($this->getServerId());
         
-        include_once 'Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php';
         $rules = ilLDAPRoleAssignmentRule::_getRules($this->getServerId());
         
         foreach ($rules as $ruleAssigment) {
             $ruleAssigment->delete();
         }
         
-        include_once 'Services/LDAP/classes/class.ilLDAPRoleGroupMappingSettings.php';
         ilLDAPRoleGroupMappingSettings::_deleteByServerId($this->getServerId());
         
         $query = "DELETE FROM ldap_server_settings " .
             "WHERE server_id = " . $this->db->quote($this->getServerId(), 'integer');
-        $res = $this->db->manipulate($query);
+        $this->db->manipulate($query);
     }
     
+    //TODO check if this is still needed
     /**
      * Creates an array of options compatible to PEAR Auth
      *
@@ -1014,7 +980,7 @@ class ilLDAPServer
             'version' => (int) $this->getVersion(),
             'referrals' => (bool) $this->isActiveReferrer());
         
-        if ($this->getBindingType() == IL_LDAP_BIND_USER) {
+        if ($this->getBindingType() == ilLDAPServer::LDAP_BIND_USER) {
             $options['binddn'] = $this->getBindUser();
             $options['bindpw'] = $this->getBindPassword();
         }
@@ -1022,7 +988,7 @@ class ilLDAPServer
         $options['start_tls'] = (bool) $this->isActiveTLS();
         $options['userdn'] = $this->getSearchBase();
         switch ($this->getUserScope()) {
-            case IL_LDAP_SCOPE_ONE:
+            case ilLDAPServer::LDAP_SCOPE_ONE:
                 $options['userscope'] = 'one';
                 break;
             default:
@@ -1035,16 +1001,14 @@ class ilLDAPServer
         $options['attributes'] = $this->getPearAtributeArray();
         $options['debug'] = self::DEBUG;
         
-        if (@include_once('Log.php')) {
-            if (@include_once('Log/observer.php')) {
-                $options['enableLogging'] = true;
-            }
-        }
+
+        $options['enableLogging'] = true;
+
         switch ($this->getGroupScope()) {
-            case IL_LDAP_SCOPE_BASE:
+            case ilLDAPServer::LDAP_SCOPE_BASE:
                 $options['groupscope'] = 'base';
                 break;
-            case IL_LDAP_SCOPE_ONE:
+            case ilLDAPServer::LDAP_SCOPE_ONE:
                 $options['groupscope'] = 'one';
                 break;
             default:
@@ -1097,8 +1061,6 @@ class ilLDAPServer
     private function getPearAtributeArray()
     {
         if ($this->enabledSyncOnLogin()) {
-            include_once('Services/LDAP/classes/class.ilLDAPAttributeMapping.php');
-            include_once('Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php');
             $mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->getServerId());
             return array_merge(
                 array($this->getUserAttribute()),
@@ -1117,16 +1079,16 @@ class ilLDAPServer
      * Read server settings
      *
      */
-    private function read()
+    private function read() : void
     {
         if (!$this->server_id) {
-            return true;
+            return;
         }
         $query = "SELECT * FROM ldap_server_settings WHERE server_id = " . $this->db->quote($this->server_id) . "";
         
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->toggleActive($row->active);
+            $this->toggleActive((bool) $row->active);
             $this->setName($row->name);
             $this->setUrl($row->url);
             $this->setVersion($row->version);
@@ -1151,14 +1113,14 @@ class ilLDAPServer
             $this->setGroupName($row->group_name);
             $this->enableSyncOnLogin($row->sync_on_login);
             $this->enableSyncPerCron($row->sync_per_cron);
-            $this->enableRoleSynchronization($row->role_sync_active);
+            $this->enableRoleSynchronization((bool) $row->role_sync_active);
             $this->setRoleBindDN($row->role_bind_dn);
             $this->setRoleBindPassword($row->role_bind_pass);
             $this->enableAccountMigration($row->migration);
             $this->enableAuthentication($row->authentication);
-            $this->setAuthenticationMapping($row->authentication_type);
+            $this->setAuthenticationMapping((int) $row->authentication_type);
             $this->setUsernameFilter($row->username_filter);
-            $this->enableEscapeDN($row->escape_dn);
+            $this->enableEscapeDN((bool) $row->escape_dn);
         }
     }
 }

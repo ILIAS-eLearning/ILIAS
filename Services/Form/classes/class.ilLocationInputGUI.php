@@ -139,7 +139,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
         
         $tpl->setVariable(
             "ZOOM_SELECT",
-            ilUtil::formSelect(
+            ilLegacyFormElementsUtil::formSelect(
                 $this->getZoom(),
                 $this->getPostVar() . "[zoom]",
                 $levels,

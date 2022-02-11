@@ -33,7 +33,11 @@ class ilObjCmiXapiVerificationAccess extends ilObjectAccess
         $commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
         return $commands;
     }
-    
+
+    /**
+     * @param string $a_target
+     * @return bool
+     */
     public static function _checkGoto($a_target) : bool
     {
         global $ilAccess;
@@ -43,7 +47,7 @@ class ilObjCmiXapiVerificationAccess extends ilObjectAccess
         // #11021
         // personal workspace context: do not force normal login
         if (isset($t_arr[2]) && $t_arr[2] == "wsp") {
-            return ilSharedResourceGUI::hasAccess($t_arr[1]);
+            return ilSharedResourceGUI::hasAccess((int) $t_arr[1]);
         }
         
         if ($ilAccess->checkAccess("read", "", $t_arr[1])) {

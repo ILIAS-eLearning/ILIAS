@@ -78,7 +78,7 @@ class ilShibbolethSettings
     {
         $a_keyword = str_replace(self::PREFIX, '', $a_keyword);
 
-        return (string) $this->data[$a_keyword] ?? $a_default_value;
+        return (string) isset($this->data[$a_keyword]) ?? $a_default_value;
     }
 
     public function delete(string $a_keyword) : void

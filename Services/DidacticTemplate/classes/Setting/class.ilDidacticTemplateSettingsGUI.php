@@ -53,7 +53,6 @@ class ilDidacticTemplateSettingsGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
         $this->upload = $DIC->upload();
-
     }
 
     protected function initReferenceFromRequest() : void
@@ -240,7 +239,7 @@ class ilDidacticTemplateSettingsGUI
         }
 
         if (!$form->checkInput()) {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $form->setValuesByPost();
 
             if ($setting instanceof ilDidacticTemplateSetting) {
@@ -255,10 +254,10 @@ class ilDidacticTemplateSettingsGUI
         $import = new ilDidacticTemplateImport(ilDidacticTemplateImport::IMPORT_FILE);
 
         $file = $form->getInput('file');
-        $tmp = ilUtil::ilTempnam() . '.xml';
+        $tmp = ilFileUtils::ilTempnam() . '.xml';
 
         // move uploaded file
-        ilUtil::moveUploadedFile(
+        ilFileUtils::moveUploadedFile(
             $file['tmp_name'],
             $file['name'],
             $tmp
@@ -276,10 +275,10 @@ class ilDidacticTemplateSettingsGUI
             }
         } catch (ilDidacticTemplateImportException $e) {
             $this->logger->error('Import failed with message: ' . $e->getMessage());
-            ilUtil::sendFailure($this->lng->txt('didactic_import_failed') . ': ' . $e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('didactic_import_failed') . ': ' . $e->getMessage());
         }
 
-        ilUtil::sendSuccess($this->lng->txt('didactic_import_success'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_import_success'), true);
 
         if ($setting instanceof ilDidacticTemplateSetting) {
             $this->ctrl->redirect($this, 'editTemplate');
@@ -292,7 +291,7 @@ class ilDidacticTemplateSettingsGUI
     {
         $setting = $this->initTemplateFromRequest();
         if (!$setting instanceof ilDidacticTemplateSetting) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'overview');
         }
         $this->setEditTabs("edit");
@@ -360,7 +359,7 @@ class ilDidacticTemplateSettingsGUI
                 $this->setting->getIconHandler()->delete();
             }
             $this->setting->getIconHandler()->handleUpload($this->upload, $_FILES['icon']['tmp_name']);
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'overview');
         }
         $this->handleUpdateFailure($form);
@@ -368,7 +367,7 @@ class ilDidacticTemplateSettingsGUI
 
     protected function handleUpdateFailure(ilPropertyFormGUI $form) : void
     {
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->editTemplate($form);
     }
@@ -464,8 +463,10 @@ class ilDidacticTemplateSettingsGUI
             $type->setOptions($options);
             $form->addItem($type);
 
-            $lokal_templates = new ilCheckboxInputGUI($this->lng->txt("activate_local_didactic_template"),
-                "local_template");
+            $lokal_templates = new ilCheckboxInputGUI(
+                $this->lng->txt("activate_local_didactic_template"),
+                "local_template"
+            );
             $lokal_templates->setChecked(count($set->getEffectiveFrom()) > 0);
             $lokal_templates->setInfo($this->lng->txt("activate_local_didactic_template_info"));
 
@@ -502,7 +503,7 @@ class ilDidacticTemplateSettingsGUI
 
         $setting = $this->initTemplateFromRequest();
         if (!$setting instanceof ilDidacticTemplateSetting) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->ctrl->redirect($this, 'overview');
             return;
         }
@@ -510,7 +511,7 @@ class ilDidacticTemplateSettingsGUI
         $copier = new ilDidacticTemplateCopier($setting->getId());
         $copier->start();
 
-        ilUtil::sendSuccess($this->lng->txt('didactic_copy_suc_message'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_copy_suc_message'), true);
         $this->ctrl->redirect($this, 'overview');
     }
 
@@ -518,7 +519,7 @@ class ilDidacticTemplateSettingsGUI
     {
         $setting = $this->initTemplateFromRequest();
         if (!$setting instanceof ilDidacticTemplateSetting) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->ctrl->redirect($this, 'overview');
             return;
         }
@@ -536,7 +537,7 @@ class ilDidacticTemplateSettingsGUI
     {
         $templates = $this->initTemplatesFromRequest();
         if (!count($templates)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'overview');
             return;
         }
@@ -559,13 +560,13 @@ class ilDidacticTemplateSettingsGUI
         }
 
         if (count($forbidden) > 0 && count($templates) == 1) {
-            ilUtil::sendFailure($this->lng->txt('didactic_cannot_delete_auto_generated'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('didactic_cannot_delete_auto_generated'), true);
             $this->ctrl->redirect($this, "overview");
         } elseif (count($forbidden) > 0 && count($templates) > 1) {
-            ilUtil::sendInfo($this->lng->txt('didactic_cannot_delete_auto_generated_confirmation'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('didactic_cannot_delete_auto_generated_confirmation'));
         }
 
-        ilUtil::sendQuestion($this->lng->txt('didactic_confirm_delete_msg'));
+        $this->tpl->setOnScreenMessage('question', $this->lng->txt('didactic_confirm_delete_msg'));
         $this->tpl->setContent($confirm->getHTML());
     }
 
@@ -576,7 +577,7 @@ class ilDidacticTemplateSettingsGUI
         }
         $templates = $this->initTemplatesFromRequest();
         if (!$templates) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'overview');
             return;
         }
@@ -586,7 +587,7 @@ class ilDidacticTemplateSettingsGUI
             $tpl->delete();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('didactic_delete_msg'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_delete_msg'), true);
         $this->ctrl->redirect($this, 'overview');
     }
 
@@ -597,7 +598,7 @@ class ilDidacticTemplateSettingsGUI
         }
         $templates = $this->initTemplatesFromRequest();
         if (!count($templates)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'overview');
             return;
         }
@@ -608,7 +609,7 @@ class ilDidacticTemplateSettingsGUI
             $tpl->update();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('didactic_activated_msg'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_activated_msg'), true);
         $this->ctrl->redirect($this, 'overview');
     }
 
@@ -620,7 +621,7 @@ class ilDidacticTemplateSettingsGUI
 
         $templates = $this->initTemplatesFromRequest();
         if (!count($templates)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'overview');
         }
         foreach ($templates as $tplid) {
@@ -628,7 +629,7 @@ class ilDidacticTemplateSettingsGUI
             $tpl->enable(false);
             $tpl->update();
         }
-        ilUtil::sendSuccess($this->lng->txt('didactic_deactivated_msg'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_deactivated_msg'), true);
         $this->ctrl->redirect($this, 'overview');
     }
 
@@ -643,14 +644,23 @@ class ilDidacticTemplateSettingsGUI
 
         if (!$this->setting->isAutoGenerated()) {
             $this->tabs->addTab('edit', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'editTemplate'));
-            $this->tabs->addTab('import', $this->lng->txt('import'),
-                $this->ctrl->getLinkTarget($this, 'showEditImportForm'));
+            $this->tabs->addTab(
+                'import',
+                $this->lng->txt('import'),
+                $this->ctrl->getLinkTarget($this, 'showEditImportForm')
+            );
 
             if (in_array($a_tab_active, array('edit', 'settings_trans'))) {
-                $this->tabs->addSubTab('edit', $this->lng->txt('settings'),
-                    $this->ctrl->getLinkTarget($this, 'editTemplate'));
-                $this->tabs->addSubTab('settings_trans', $this->lng->txt("obj_multilinguality"),
-                    $this->ctrl->getLinkTargetByClass(array("ilmultilingualismgui"), 'listTranslations'));
+                $this->tabs->addSubTab(
+                    'edit',
+                    $this->lng->txt('settings'),
+                    $this->ctrl->getLinkTarget($this, 'editTemplate')
+                );
+                $this->tabs->addSubTab(
+                    'settings_trans',
+                    $this->lng->txt("obj_multilinguality"),
+                    $this->ctrl->getLinkTargetByClass(array("ilmultilingualismgui"), 'listTranslations')
+                );
                 $this->tabs->setTabActive('edit');
                 $this->tabs->setSubTabActive($a_tab_active);
             } else {

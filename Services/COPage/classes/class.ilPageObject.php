@@ -60,11 +60,11 @@ abstract class ilPageObject
     protected ilLanguage $lng;
     protected ilTree $tree;
     protected int $id;
-    public php4DOMDocument $dom;
+    public ?php4DOMDocument $dom = null;
     public string $xml = "";
     public string $encoding = "";
     public php4DOMElement $node;
-    public string $cur_dtd = "ilias_pg_5_4.dtd";
+    public string $cur_dtd = "ilias_pg_8.dtd";
     public bool $contains_int_link = false;
     public bool $needs_parsing = false;
     public string $parent_type = "";
@@ -177,7 +177,13 @@ abstract class ilPageObject
     {
         return $this->page_config;
     }
-
+    
+    public static function randomhash()
+    {
+        $random = new \ilRandom();
+        return md5($random->int(1, 9999999) + str_replace(" ", "", (string) microtime()));
+    }
+    
     public function setRenderMd5(string $a_rendermd5) : void
     {
         $this->rendermd5 = $a_rendermd5;
@@ -270,7 +276,7 @@ abstract class ilPageObject
         }
 
         $this->xml = $this->page_record["content"];
-        $this->setParentId($this->page_record["parent_id"]);
+        $this->setParentId((int) $this->page_record["parent_id"]);
         $this->last_change_user = $this->page_record["last_change_user"];
         $this->create_user = $this->page_record["create_user"];
         $this->setRenderedContent((string) $this->page_record["rendered_content"]);
@@ -363,7 +369,7 @@ abstract class ilPageObject
     /**
      * @depracated
      */
-    public function getDom() : php4DOMDocument
+    public function getDom() : ?php4DOMDocument
     {
         return $this->dom;
     }
@@ -3743,7 +3749,7 @@ s     */
 
     public function generatePcId() : string
     {
-        $id = ilUtil::randomhash();
+        $id = self::randomhash();
         return $id;
     }
 
@@ -3767,7 +3773,7 @@ s     */
         $res = xpath_eval($xpc, $path);
 
         for ($i = 0; $i < count($res->nodeset); $i++) {
-            $id = ilUtil::randomhash();
+            $id = self::randomhash();
             $res->nodeset[$i]->set_attribute("PCID", $id);
         }
     }
@@ -4223,7 +4229,7 @@ s     */
             );
         }
 
-        $page_changes = ilUtil::sortArray($page_changes, "date", "desc");
+        $page_changes = ilArrayUtil::sortArray($page_changes, "date", "desc");
 
         return $page_changes;
     }

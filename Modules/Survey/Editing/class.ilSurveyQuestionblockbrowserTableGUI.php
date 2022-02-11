@@ -105,9 +105,9 @@ class ilSurveyQuestionblockbrowserTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('QUESTIONBLOCK_ID', $a_set["questionblock_id"]);
-        $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($a_set["title"]));
-        $this->tpl->setVariable("CONTAINS", ilUtil::prepareFormOutput($a_set["contains"]));
-        $this->tpl->setVariable("SVY", ilUtil::prepareFormOutput($a_set['svy']));
+        $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
+        $this->tpl->setVariable("CONTAINS", ilLegacyFormElementsUtil::prepareFormOutput($a_set["contains"]));
+        $this->tpl->setVariable("SVY", ilLegacyFormElementsUtil::prepareFormOutput($a_set['svy']));
     }
     
     public function setEditable(bool $value) : void

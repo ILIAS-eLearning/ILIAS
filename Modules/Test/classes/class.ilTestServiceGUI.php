@@ -492,7 +492,11 @@ class ilTestServiceGUI
                     $scoretemplate->setCurrentBlock("feedback");
                     $scoretemplate->setVariable("FEEDBACK_NAME_INPUT", $question);
                     $feedback = $this->object->getSingleManualFeedback($active_id, $question, $pass)['feedback'];
-                    $scoretemplate->setVariable("VALUE_FEEDBACK", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($feedback, true)));
+                    $scoretemplate->setVariable("VALUE_FEEDBACK",
+                        ilLegacyFormElementsUtil::prepareFormOutput(
+                            $this->object->prepareTextareaOutput($feedback, true)
+                        )
+                    );
                     $scoretemplate->setVariable("TEXT_MANUAL_FEEDBACK", $this->lng->txt("set_manual_feedback"));
                     $scoretemplate->parseCurrentBlock();
 
@@ -1114,7 +1118,7 @@ class ilTestServiceGUI
     protected function outCorrectSolution()
     {
         if (!$this->object->getShowSolutionDetails()) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"), true);
             $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
         }
 

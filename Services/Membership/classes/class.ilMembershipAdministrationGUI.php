@@ -114,7 +114,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                     (string) $form->getInput('mail_admin_notification')
                 );
 
-                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "editSettings");
             }
         }

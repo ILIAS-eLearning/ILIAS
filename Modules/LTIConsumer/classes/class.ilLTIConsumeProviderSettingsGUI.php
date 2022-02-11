@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumeProviderSettingsGUI
  *
@@ -19,12 +29,12 @@ class ilLTIConsumeProviderSettingsGUI
     /**
      * @var ilObjLTIConsumer
      */
-    protected $object;
+    protected ilObjLTIConsumer $object;
     
     /**
      * @var ilLTIConsumerAccess
      */
-    protected $access;
+    protected ilLTIConsumerAccess $access;
     
     /**
      * ilLTIConsumerAccess constructor.
@@ -39,7 +49,7 @@ class ilLTIConsumeProviderSettingsGUI
     /**
      * Execute Command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -51,7 +61,7 @@ class ilLTIConsumeProviderSettingsGUI
         }
     }
     
-    protected function showSettingsCmd(ilLTIConsumeProviderFormGUI $form = null)
+    protected function showSettingsCmd(ilLTIConsumeProviderFormGUI $form = null) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -62,7 +72,7 @@ class ilLTIConsumeProviderSettingsGUI
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
     
-    protected function saveSettingsCmd()
+    protected function saveSettingsCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -77,11 +87,13 @@ class ilLTIConsumeProviderSettingsGUI
         
         $this->showSettingsCmd($form);
     }
-    
+
     /**
+     * @param ilLTIConsumeProvider $provider
      * @return ilLTIConsumeProviderFormGUI
+     * @throws ilCtrlException
      */
-    protected function buildForm(ilLTIConsumeProvider $provider)
+    protected function buildForm(ilLTIConsumeProvider $provider) : ilLTIConsumeProviderFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

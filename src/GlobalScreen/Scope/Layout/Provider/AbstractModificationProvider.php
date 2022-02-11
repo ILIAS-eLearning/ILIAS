@@ -52,7 +52,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         parent::__construct($dic);
         $this->context_collection = $this->globalScreen()->tool()->context()->collection();
-        $this->factory            = $this->globalScreen()->layout()->factory();
+        $this->factory = $this->globalScreen()->layout()->factory();
     }
     
     /**

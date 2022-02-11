@@ -4,14 +4,15 @@
 
 namespace ILIAS\Export;
 
+use ilPropertyFormGUI;
+
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 abstract class AbstractPrintViewProvider implements PrintViewProvider
 {
-    const PRINT = "print";
-    const OFFLINE = "offline";
+    public const PRINT = "print";
+    public const OFFLINE = "offline";
 
     /**
      * @var bool
@@ -38,10 +39,20 @@ abstract class AbstractPrintViewProvider implements PrintViewProvider
             : self::PRINT;
     }
 
+    public function getOnSubmitCode() : string
+    {
+        return "";
+    }
+
+    public function autoPageBreak() : bool
+    {
+        return true;
+    }
+
     /**
      * @inheritDoc
      */
-    public function getSelectionForm()
+    public function getSelectionForm() : ?ilPropertyFormGUI
     {
         return null;
     }

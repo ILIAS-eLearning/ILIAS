@@ -155,6 +155,10 @@ class ilSessionOverviewGUI
             $this->csv->addRow();
         }
         $date = new ilDate(time(), IL_CAL_UNIX);
-        ilUtil::deliverData($this->csv->getCSVString(), $date->get(IL_CAL_FKT_DATE, 'Y-m-d') . "_course_events.csv", "text/csv");
+        ilUtil::deliverData(
+            $this->csv->getCSVString(),
+            $date->get(IL_CAL_FKT_DATE, 'Y-m-d') . "_course_events.csv",
+            "text/csv"
+        );
     }
 }

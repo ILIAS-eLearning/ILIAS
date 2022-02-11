@@ -598,7 +598,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->setVersion($this->getVersion() + 1);
         
         if (@!is_dir($this->getDirectory($this->getVersion()))) {
-            ilUtil::makeDir($this->getDirectory($this->getVersion()));
+            ilFileUtils::makeDir($this->getDirectory($this->getVersion()));
         }
         
         $file = $this->getDirectory($this->getVersion()) . "/" . $a_filename;

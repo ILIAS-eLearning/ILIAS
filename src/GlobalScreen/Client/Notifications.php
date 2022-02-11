@@ -62,12 +62,12 @@ class Notifications
          * @DI $DI
          */
         global $DIC;
-        $this->notification_groups          = $DIC->globalScreen()->collector()->notifications()->getNotifications();
+        $this->notification_groups = $DIC->globalScreen()->collector()->notifications()->getNotifications();
         $this->administrative_notifications = $DIC->globalScreen()->collector()->notifications()->getAdministrativeNotifications();
-        $this->identifiers_to_handle        = $DIC->http()->request()->getQueryParams()[self::NOTIFICATION_IDENTIFIERS] ?? [];
-        $this->single_identifier_to_handle  = $DIC->http()->request()->getQueryParams()[self::ITEM_ID] ?? null;
+        $this->identifiers_to_handle = $DIC->http()->request()->getQueryParams()[self::NOTIFICATION_IDENTIFIERS] ?? [];
+        $this->single_identifier_to_handle = $DIC->http()->request()->getQueryParams()[self::ITEM_ID] ?? null;
         
-        $mode  = 0;
+        $mode = 0;
         $query = $DIC->http()->wrapper()->query();
         if ($query->has(self::MODE)) {
             $mode = $query->retrieve(self::MODE, $DIC->refinery()->to()->string());
@@ -123,5 +123,4 @@ class Notifications
             }
         }
     }
-    
 }

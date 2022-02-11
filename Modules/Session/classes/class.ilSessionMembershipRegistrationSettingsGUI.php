@@ -36,30 +36,22 @@ class ilSessionMembershipRegistrationSettingsGUI extends ilMembershipRegistratio
     
     public function setFormValues(ilPropertyFormGUI $form) : void
     {
-        $form->getItemByPostVar('registration_type')->setValue($this->getCurrentObject()->getRegistrationType());
+        $form->getItemByPostVar('registration_type')->setValue((string) $this->getCurrentObject()->getRegistrationType());
 
         if ($this->getCurrentObject()->isCannotParticipateOptionEnabled()) {
             $form->getItemByPostVar('show_cannot_participate_direct')->setChecked(true);
             $form->getItemByPostVar('show_cannot_participate_request')->setChecked(true);
         }
-
-
-        $form->getItemByPostVar('registration_membership_limited')->setChecked($this->getCurrentObject()->isRegistrationUserLimitEnabled());
+        $form->getItemByPostVar('registration_membership_limited')->setChecked((bool) $this->getCurrentObject()->isRegistrationUserLimitEnabled());
 
         $notificationCheckBox = $form->getItemByPostVar('registration_notification');
         $notificationCheckBox->setChecked($this->getCurrentObject()->isRegistrationNotificationEnabled());
 
         $notificationOption = $form->getItemByPostVar('notification_option');
         $notificationOption->setValue($this->getCurrentObject()->getRegistrationNotificationOption());
-        /* not supported yet
-        $form->getItemByPostVar('registration_min_members')->setValue(
-            $this->getCurrentObject()->getRegistrationMinUsers() > 0 ?
-            $this->getCurrentObject()->getRegistrationMinUsers() : "");
-        */
-        
         $form->getItemByPostVar('registration_max_members')->setValue(
             $this->getCurrentObject()->getRegistrationMaxUsers() > 0 ?
-            $this->getCurrentObject()->getRegistrationMaxUsers() : ""
+                (string) $this->getCurrentObject()->getRegistrationMaxUsers() : ""
         );
         
         $wait = 0;
@@ -68,6 +60,6 @@ class ilSessionMembershipRegistrationSettingsGUI extends ilMembershipRegistratio
         } elseif ($this->getCurrentObject()->isRegistrationWaitingListEnabled()) {
             $wait = 1;
         }
-        $form->getItemByPostVar('waiting_list')->setValue($wait);
+        $form->getItemByPostVar('waiting_list')->setValue((string) $wait);
     }
 }

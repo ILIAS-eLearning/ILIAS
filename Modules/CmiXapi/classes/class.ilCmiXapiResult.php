@@ -27,37 +27,37 @@ class ilCmiXapiResult
     /**
      * @var int
      */
-    protected $id;
+    protected int $id;
     
     /**
      * @var int
      */
-    protected $objId;
+    protected int $objId;
     
     /**
      * @var int
      */
-    protected $usrId;
+    protected int $usrId;
     
     /**
      * @var int
      */
-    protected $version;
+    protected int $version;
     
     /**
      * @var float
      */
-    protected $score;
+    protected float $score;
     
     /**
      * @var string
      */
-    protected $status;
+    protected string $status;
     
     /**
      * @var string
      */
-    protected $lastUpdate;
+    protected string $lastUpdate;
     
     /**
      * ilCmiXapiResult constructor.
@@ -233,12 +233,12 @@ class ilCmiXapiResult
             'last_update' => array('timestamp', ilCmiXapiAuthToken::selectCurrentTimestamp())
         ));
     }
-    
+
     /**
-     * @param ilCmiXapiResult $result
-     * @param $row
+     * @param array $row
+     * @return void
      */
-    protected function assignFromDbRow($row) : void
+    protected function assignFromDbRow(array $row) : void
     {
         $this->setId($row['id']);
         $this->setObjId($row['obj_id']);
@@ -248,8 +248,14 @@ class ilCmiXapiResult
         $this->setStatus($row['status']);
         $this->setLastUpdate($row['last_update']);
     }
-    
-    public static function getInstanceByObjIdAndUsrId($objId, $usrId) : \ilCmiXapiResult
+
+    /**
+     * @param int $objId
+     * @param int $usrId
+     * @return ilCmiXapiResult
+     * @throws ilCmiXapiException
+     */
+    public static function getInstanceByObjIdAndUsrId(int $objId, int $usrId) : \ilCmiXapiResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -271,17 +277,20 @@ class ilCmiXapiResult
             "no result record exists for: usr=$usrId obj=$objId"
         );
     }
-    
+
+    /**
+     * @return ilCmiXapiResult
+     */
     public static function getEmptyInstance() : \ilCmiXapiResult
     {
         return new self();
     }
-    
+
     /**
-     * @param $objId
+     * @param int $objId
      * @return ilCmiXapiResult[]
      */
-    public static function getResultsForObject($objId) : array
+    public static function getResultsForObject(int $objId) : array
     {
         global $DIC;
         

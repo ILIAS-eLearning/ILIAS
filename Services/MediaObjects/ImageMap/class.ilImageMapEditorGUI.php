@@ -204,7 +204,7 @@ class ilImageMapEditorGUI
             $area->update();
         }
 
-        ilUtil::sendSuccess($lng->txt("cont_saved_map_data"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_saved_map_data"), true);
         $ilCtrl->redirect($this, "editMapAreas");
     }
 
@@ -344,31 +344,31 @@ class ilImageMapEditorGUI
                 // rectangle
                 case "Rect":
                     if ($cnt_coords == 0) {
-                        ilUtil::sendInfo($lng->txt("cont_click_tl_corner"));
+                        $this->main_tpl->setOnScreenMessage('info', $lng->txt("cont_click_tl_corner"));
                     }
                     if ($cnt_coords == 1) {
-                        ilUtil::sendInfo($lng->txt("cont_click_br_corner"));
+                        $this->main_tpl->setOnScreenMessage('info', $lng->txt("cont_click_br_corner"));
                     }
                     break;
 
                 // circle
                 case "Circle":
                     if ($cnt_coords == 0) {
-                        ilUtil::sendInfo($lng->txt("cont_click_center"));
+                        $this->main_tpl->setOnScreenMessage('info', $lng->txt("cont_click_center"));
                     }
                     if ($cnt_coords == 1) {
-                        ilUtil::sendInfo($lng->txt("cont_click_circle"));
+                        $this->main_tpl->setOnScreenMessage('info', $lng->txt("cont_click_circle"));
                     }
                     break;
 
                 // polygon
                 case "Poly":
                     if ($cnt_coords == 0) {
-                        ilUtil::sendInfo($lng->txt("cont_click_starting_point"));
+                        $this->main_tpl->setOnScreenMessage('info', $lng->txt("cont_click_starting_point"));
                     } elseif ($cnt_coords < 3) {
-                        ilUtil::sendInfo($lng->txt("cont_click_next_point"));
+                        $this->main_tpl->setOnScreenMessage('info', $lng->txt("cont_click_next_point"));
                     } else {
-                        ilUtil::sendInfo($lng->txt("cont_click_next_or_save"));
+                        $this->main_tpl->setOnScreenMessage('info', $lng->txt("cont_click_next_or_save"));
                     }
                     break;
             }
@@ -543,7 +543,7 @@ class ilImageMapEditorGUI
         //echo htmlentities($xml); exit;
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
         $xh = xslt_create();
-        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $mode = "media";
         //echo htmlentities($ilCtrl->getLinkTarget($this, "showImageMap"));
 
@@ -762,7 +762,7 @@ class ilImageMapEditorGUI
         }
 
         //$this->initMapParameters();
-        ilUtil::sendSuccess($lng->txt("cont_saved_map_area"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_saved_map_area"), true);
         $ilCtrl->redirect($this, "editMapAreas");
         return "";
     }
@@ -802,12 +802,12 @@ class ilImageMapEditorGUI
             $area_nr = $area[0] ?? "";
         }
         if ($area_nr == "") {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
         if (count($area) > 1) {
-            ilUtil::sendFailure($lng->txt("cont_select_max_one_item"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("cont_select_max_one_item"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
@@ -894,7 +894,7 @@ class ilImageMapEditorGUI
 
         $area = $this->request->getArea();
         if (count($area) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
@@ -910,7 +910,7 @@ class ilImageMapEditorGUI
             }
 
             $this->media_object->update();
-            ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_areas_deleted"), true);
         }
 
         $ilCtrl->redirect($this, "editMapAreas");
@@ -989,12 +989,12 @@ class ilImageMapEditorGUI
             $area_nr = $area[0] ?? "";
         }
         if ($area_nr == "") {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
         if (count($area) > 1) {
-            ilUtil::sendFailure($lng->txt("cont_select_max_one_item"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("cont_select_max_one_item"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
@@ -1069,7 +1069,7 @@ class ilImageMapEditorGUI
         //$st_item->setHighlightClass($this->request->getHighlightClass());
         $st_item->update();
         
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editMapAreas");
     }
 }

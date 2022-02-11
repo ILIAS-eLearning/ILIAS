@@ -72,7 +72,7 @@ class ilExcCriteriaFile extends ilExcCriteria
         $path = $this->initStorage();
         
         if ($this->form->getItemByPostVar("prccc_file_" . $this->getId())->getDeletionFlag()) {
-            ilUtil::delDir($path);
+            ilFileUtils::delDir($path);
             $this->form->getItemByPostVar("prccc_file_" . $this->getId())->setValue(null);
         }
         
@@ -80,7 +80,7 @@ class ilExcCriteriaFile extends ilExcCriteria
         if ($incoming["tmp_name"]) {
             $org_name = basename($incoming["name"]);
             
-            ilUtil::moveUploadedFile(
+            ilFileUtils::moveUploadedFile(
                 $incoming["tmp_name"],
                 $org_name,
                 $path . $org_name,

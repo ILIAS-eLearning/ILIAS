@@ -40,7 +40,7 @@ class ilForumXMLWriter extends ilXmlWriter
         global $DIC;
         $ilDB = $DIC->database();
 
-        ilUtil::makeDir($this->target_dir_absolute . "/objects");
+        ilFileUtils::makeDir($this->target_dir_absolute . "/objects");
 
         $query_frm = '
             SELECT *
@@ -59,9 +59,6 @@ class ilForumXMLWriter extends ilXmlWriter
         $this->xmlElement("Id", null, (int) $row->top_pk);
         $this->xmlElement("ObjId", null, (int) $row->obj_id);
         $this->xmlElement("Title", null, $row->title);
-        if ($row->stylesheet > 0) {
-            $this->xmlElement("StyleId", null, $row->stylesheet);
-        }
         $this->xmlElement("Description", null, $row->description);
         $this->xmlElement("DefaultView", null, (int) $row->default_view);
         $this->xmlElement("Pseudonyms", null, (int) $row->anonymized);

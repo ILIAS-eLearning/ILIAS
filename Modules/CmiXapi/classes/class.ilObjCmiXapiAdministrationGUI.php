@@ -109,7 +109,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     protected function buildLrsTypesToolbarGUI() : \ilToolbarGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        //todo
         $createTypeButton = ilLinkButton::getInstance();
         $createTypeButton->setCaption('btn_create_lrs_type');
         $createTypeButton->setUrl($DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_LRS_TYPE_FORM));
@@ -272,7 +272,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         );
         $op->setInfo($DIC->language()->txt('conf_privacy_ident_real_email_info'));
         $item->addOption($op);
-        $item->setValue($lrsType->getPrivacyIdent());
+        $item->setValue((string) $lrsType->getPrivacyIdent());
         $item->setInfo(
             $DIC->language()->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
         );
@@ -304,7 +304,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         );
         $op->setInfo($DIC->language()->txt('conf_privacy_name_fullname_info'));
         $item->addOption($op);
-        $item->setValue($lrsType->getPrivacyName());
+        $item->setValue((string) $lrsType->getPrivacyName());
         $item->setInfo($DIC->language()->txt('conf_privacy_name_info'));
         $item->setRequired(false);
         $form->addItem($item);
@@ -386,7 +386,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $item->addOption($op);
         $op = new ilRadioOption($DIC->language()->txt('conf_privacy_setting_force'), "1");
         $item->addOption($op);
-        $item->setValue((string) $lrsType->getForcePrivacySettings());
+        $item->setValue((string) ((int) $lrsType->getForcePrivacySettings()));
         $form->addItem($item);
         
         $sectionHeader = new ilFormSectionHeaderGUI();
@@ -428,23 +428,23 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         
         $lrsType->setTitle($form->getInput("title"));
         $lrsType->setDescription($form->getInput("description"));
-        $lrsType->setAvailability($form->getInput("availability"));
+        $lrsType->setAvailability((int) $form->getInput("availability"));
         
         $lrsType->setLrsEndpoint(
-            ilUtil::removeTrailingPathSeparators($form->getInput("lrs_endpoint"))
+            ilFileUtils::removeTrailingPathSeparators($form->getInput("lrs_endpoint"))
         );
         
         $lrsType->setLrsKey($form->getInput("lrs_key"));
         $lrsType->setLrsSecret($form->getInput("lrs_secret"));
-        $lrsType->setExternalLrs($form->getInput("external_lrs"));
-        $lrsType->setPrivacyIdent($form->getInput("privacy_ident"));
-        $lrsType->setPrivacyName($form->getInput("privacy_name"));
+        $lrsType->setExternalLrs((bool) $form->getInput("external_lrs"));
+        $lrsType->setPrivacyIdent((int) $form->getInput("privacy_ident"));
+        $lrsType->setPrivacyName((int) $form->getInput("privacy_name"));
         $lrsType->setPrivacyCommentDefault($form->getInput("privacy_comment_default"));
         $lrsType->setRemarks($form->getInput("remarks"));
         
         $oldBypassProxyEnabled = $lrsType->isBypassProxyEnabled();
-        $newBypassProxyEnabled = $form->getInput("cronjob_neccessary");
-        $lrsType->setBypassProxyEnabled((bool) $newBypassProxyEnabled);
+        $newBypassProxyEnabled = (bool) $form->getInput("cronjob_neccessary");
+        $lrsType->setBypassProxyEnabled($newBypassProxyEnabled);
         if ($newBypassProxyEnabled && $newBypassProxyEnabled != $oldBypassProxyEnabled) {
             ilObjCmiXapi::updateByPassProxyFromLrsType($lrsType);
         }

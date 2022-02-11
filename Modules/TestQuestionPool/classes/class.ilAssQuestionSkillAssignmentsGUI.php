@@ -256,10 +256,10 @@ class ilAssQuestionSkillAssignmentsGUI
         }
 
         if ($success) {
-            ilUtil::sendSuccess($this->lng->txt('tst_msg_skl_qst_assign_points_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('tst_msg_skl_qst_assign_points_saved'), true);
             $this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
         } else {
-            ilUtil::sendFailure($this->lng->txt('tst_msg_skl_qst_assign_points_not_saved'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_msg_skl_qst_assign_points_not_saved'));
             $this->showSkillQuestionAssignmentsCmd(true);
         }
     }
@@ -323,7 +323,7 @@ class ilAssQuestionSkillAssignmentsGUI
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('qpl_qst_skl_assigns_updated'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('qpl_qst_skl_assigns_updated'), true);
             
             if ($this->isSyncOriginalPossibleAndAllowed($questionId)) {
                 $this->keepAssignmentParameters();
@@ -432,7 +432,7 @@ class ilAssQuestionSkillAssignmentsGUI
                 $solCmpExprInput = $form->getItemByPostVar('solution_compare_expressions');
                 
                 if (!$this->checkSolutionCompareExpressionInput($solCmpExprInput, $questionGUI->object)) {
-                    ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
                     $this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
                     return;
                 }
@@ -456,7 +456,7 @@ class ilAssQuestionSkillAssignmentsGUI
                 (int) $_GET['skill_tref_id']
             );
             
-            ilUtil::sendSuccess($this->lng->txt('qpl_qst_skl_assign_properties_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('qpl_qst_skl_assign_properties_modified'), true);
 
             if ($this->isSyncOriginalPossibleAndAllowed($questionId)) {
                 $this->ctrl->redirect($this, self::CMD_SHOW_SYNC_ORIGINAL_CONFIRMATION);
@@ -548,7 +548,7 @@ class ilAssQuestionSkillAssignmentsGUI
                 $question->getOriginalId()
             );
 
-            ilUtil::sendSuccess($this->lng->txt('qpl_qst_skl_assign_synced_to_orig'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('qpl_qst_skl_assign_synced_to_orig'), true);
         }
 
         $this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
@@ -735,7 +735,7 @@ class ilAssQuestionSkillAssignmentsGUI
     private function handleAssignmentConfigurationHintMessage()
     {
         if ($this->getAssignmentConfigurationHintMessage()) {
-            ilUtil::sendInfo($this->getAssignmentConfigurationHintMessage());
+            $this->tpl->setOnScreenMessage('info', $this->getAssignmentConfigurationHintMessage());
         }
     }
 

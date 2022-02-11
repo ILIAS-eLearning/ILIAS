@@ -151,7 +151,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable(
             "TXT_INSTRUCTIONS",
-            nl2br(trim(ilUtil::shortenText(strip_tags($a_set["instruction"]), 200, true)))
+            nl2br(trim(ilStr::shortenTextExtended(strip_tags($a_set["instruction"]), 200, true)))
         );
 
         if (!$this->random_manager->isActivated()) {

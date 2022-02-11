@@ -56,12 +56,15 @@ class ilObjContentObject extends ilObject
     public array $auto_glossaries = array();
     private string $import_dir = '';
     protected ilObjLearningModule $lm;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         int $a_id = 0,
         bool $a_call_by_reference = true
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->user = $DIC->user();
         $this->db = $DIC->database();
@@ -84,6 +87,8 @@ class ilObjContentObject extends ilObject
         $this->mob_ids = array();
         $this->file_ids = array();
         $this->q_ids = array();
+        $cs = $DIC->contentStyle();
+        $this->content_style_domain = $cs->domain();
     }
 
     /**
@@ -310,7 +315,7 @@ class ilObjContentObject extends ilObject
     {
         $ilErr = $this->error;
 
-        $lm_data_dir = ilUtil::getDataDir() . "/lm_data";
+        $lm_data_dir = ilFileUtils::getDataDir() . "/lm_data";
         if (!is_writable($lm_data_dir)) {
             $ilErr->raiseError("Content object Data Directory (" . $lm_data_dir
                 . ") not writeable.", $ilErr->FATAL);
@@ -318,14 +323,14 @@ class ilObjContentObject extends ilObject
 
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $lm_dir = $lm_data_dir . "/lm_" . $this->getId();
-        ilUtil::makeDir($lm_dir);
+        ilFileUtils::makeDir($lm_dir);
         if (!is_dir($lm_dir)) {
             $ilErr->raiseError("Creation of Learning Module Directory failed.", $ilErr->FATAL);
         }
 
         // create import subdirectory (data_dir/lm_data/lm_<id>/import)
         $import_dir = $lm_dir . "/import";
-        ilUtil::makeDir($import_dir);
+        ilFileUtils::makeDir($import_dir);
         if (!is_dir($import_dir)) {
             $ilErr->raiseError("Creation of Import Directory failed.", $ilErr->FATAL);
         }
@@ -333,7 +338,7 @@ class ilObjContentObject extends ilObject
 
     public function getDataDirectory() : string
     {
-        return ilUtil::getDataDir() . "/lm_data" .
+        return ilFileUtils::getDataDir() . "/lm_data" .
             "/lm_" . $this->getId();
     }
 
@@ -343,7 +348,7 @@ class ilObjContentObject extends ilObject
             return $this->import_dir;
         }
         
-        $import_dir = ilUtil::getDataDir() . "/lm_data" .
+        $import_dir = ilFileUtils::getDataDir() . "/lm_data" .
             "/lm_" . $this->getId() . "/import";
         if (is_dir($import_dir)) {
             return $import_dir;
@@ -368,10 +373,10 @@ class ilObjContentObject extends ilObject
     ) : void {
         $ilErr = $this->error;
 
-        $lm_data_dir = ilUtil::getDataDir() . "/lm_data";
+        $lm_data_dir = ilFileUtils::getDataDir() . "/lm_data";
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $lm_dir = $lm_data_dir . "/lm_" . $this->getId();
-        ilUtil::makeDirParents($lm_dir);
+        ilFileUtils::makeDirParents($lm_dir);
         if (!is_dir($lm_dir)) {
             $ilErr->raiseError("Creation of Learning Module Directory failed.", $ilErr->FATAL);
         }
@@ -390,7 +395,7 @@ class ilObjContentObject extends ilObject
                 }
                 break;
         }
-        ilUtil::makeDir($export_dir);
+        ilFileUtils::makeDir($export_dir);
 
         if (!is_dir($export_dir)) {
             $ilErr->raiseError("Creation of Export Directory failed.", $ilErr->FATAL);
@@ -402,14 +407,14 @@ class ilObjContentObject extends ilObject
     ) : string {
         switch ($a_type) {
             case "scorm":
-                $export_dir = ilUtil::getDataDir() . "/lm_data" . "/lm_" . $this->getId() . "/export_scorm";
+                $export_dir = ilFileUtils::getDataDir() . "/lm_data" . "/lm_" . $this->getId() . "/export_scorm";
                 break;
                 
             default:			// = xml
                 if (substr($a_type, 0, 4) == "html") {
-                    $export_dir = ilUtil::getDataDir() . "/lm_data" . "/lm_" . $this->getId() . "/export_" . $a_type;
+                    $export_dir = ilFileUtils::getDataDir() . "/lm_data" . "/lm_" . $this->getId() . "/export_" . $a_type;
                 } else {
-                    $export_dir = ilUtil::getDataDir() . "/lm_data" . "/lm_" . $this->getId() . "/export";
+                    $export_dir = ilFileUtils::getDataDir() . "/lm_data" . "/lm_" . $this->getId() . "/export";
                 }
                 break;
         }
@@ -447,7 +452,7 @@ class ilObjContentObject extends ilObject
         $this->lm_tree->removeTree($this->lm_tree->getTreeId());
 
         // delete data directory
-        ilUtil::delDir($this->getDataDirectory());
+        ilFileUtils::delDir($this->getDataDirectory());
 
         // delete content object record
         $q = "DELETE FROM content_object WHERE id = " .
@@ -477,28 +482,6 @@ class ilObjContentObject extends ilObject
     public function setLayout(string $a_layout) : void
     {
         $this->layout = $a_layout;
-    }
-
-    public function getStyleSheetId() : int
-    {
-        return $this->style_id;
-    }
-
-    public function setStyleSheetId(int $a_style_id) : void
-    {
-        $this->style_id = $a_style_id;
-    }
-
-    public function writeStyleSheetId(int $a_style_id) : void
-    {
-        $ilDB = $this->db;
-
-        $q = "UPDATE content_object SET " .
-            " stylesheet = " . $ilDB->quote($a_style_id, "integer") .
-            " WHERE id = " . $ilDB->quote($this->getId(), "integer");
-        $ilDB->manipulate($q);
-
-        $this->style_id = $a_style_id;
     }
 
     public static function writeHeaderPage(
@@ -911,7 +894,6 @@ class ilObjContentObject extends ilObject
         $lm_set = $ilDB->query($q);
         $lm_rec = $ilDB->fetchAssoc($lm_set);
         $this->setLayout($lm_rec["default_layout"]);
-        $this->setStyleSheetId((int) $lm_rec["stylesheet"]);
         $this->setPageHeader($lm_rec["page_header"]);
         $this->setTOCMode($lm_rec["toc_mode"]);
         $this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
@@ -930,7 +912,7 @@ class ilObjContentObject extends ilObject
         $this->setPublicExportFile("xml", (string) $lm_rec["public_xml_file"]);
         $this->setPublicExportFile("html", (string) $lm_rec["public_html_file"]);
         $this->setPublicExportFile("scorm", (string) $lm_rec["public_scorm_file"]);
-        $this->setLayoutPerPage($lm_rec["layout_per_page"]);
+        $this->setLayoutPerPage((bool) $lm_rec["layout_per_page"]);
         $this->setRating($lm_rec["rating"]);
         $this->setRatingPages($lm_rec["rating_pages"]);
         $this->setDisableDefaultFeedback($lm_rec["disable_def_feedback"]);
@@ -955,7 +937,6 @@ class ilObjContentObject extends ilObject
         
         $q = "UPDATE content_object SET " .
             " default_layout = " . $ilDB->quote($this->getLayout(), "text") . ", " .
-            " stylesheet = " . $ilDB->quote($this->getStyleSheetId(), "integer") . "," .
             " page_header = " . $ilDB->quote($this->getPageHeader(), "text") . "," .
             " toc_mode = " . $ilDB->quote($this->getTOCMode(), "text") . "," .
             " toc_active = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveTOC()), "text") . "," .
@@ -994,13 +975,13 @@ class ilObjContentObject extends ilObject
     public function createProperties() : void
     {
         $ilDB = $this->db;
-        
+
         $q = "INSERT INTO content_object (id) VALUES (" . $ilDB->quote($this->getId(), "integer") . ")";
         $ilDB->manipulate($q);
-        
+
         // #14661
         ilNote::activateComments($this->getId(), 0, $this->getType(), true);
-        
+
         $this->readProperties();		// to get db default values
     }
 
@@ -2012,7 +1993,7 @@ class ilObjContentObject extends ilObject
                 
                 if ($error != "") {
                     $this->lng->loadLanguageModule("content");
-                    ilUtil::sendInfo($this->lng->txt("cont_import_validation_errors"));
+                    $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("cont_import_validation_errors"));
                     $title = ilLMObject::_lookupTitle($page["obj_id"]);
                     $page_obj = new ilLMPageObject($this->lm, $page["obj_id"]);
                     $mess .= $this->lng->txt("obj_pg") . ": " . $title;
@@ -2076,15 +2057,9 @@ class ilObjContentObject extends ilObject
         $new_obj->createLMTree();
         
         // copy style
-        $style_id = $this->getStyleSheetId();
-        if ($style_id > 0 &&
-            !ilObjStyleSheet::_lookupStandard($style_id)) {
-            $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-            $new_id = $style_obj->ilClone();
-            $new_obj->setStyleSheetId($new_id);
-        } else {	// or just set the same standard style
-            $new_obj->setStyleSheetId($style_id);
-        }
+        $style = $this->content_style_domain->styleForObjId($this->getId());
+        $style->cloneTo($new_obj->getId());
+
         $new_obj->update();
         
         // copy content
@@ -2353,5 +2328,10 @@ class ilObjContentObject extends ilObject
         }
 
         return $export_files;
+    }
+
+    public function isInfoEnabled() : bool
+    {
+        return ilObjContentObjectAccess::isInfoEnabled($this->getId());
     }
 }

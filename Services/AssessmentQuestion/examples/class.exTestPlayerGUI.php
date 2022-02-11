@@ -37,59 +37,59 @@ class exTestPlayerGUI
     public function showQuestion()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $questionId = 0; // initialise with id of question to be shown
-        
+
         /**
          * fetch possibly existing participant solution, an empty one is required otherwise
          */
-        
+
         $participantSolution = $this->getParticipantSolution($questionId);
-        
+
         /**
          * question presentation to be answered by the examine
          */
-        
+
         $questionInstance = $DIC->question()->getQuestionInstance($questionId);
         $questionPresentationGUI = $DIC->question()->getQuestionPresentationInstance($questionInstance);
-        
+
         $questionNavigationAware; /* @var ilAsqQuestionNavigationAware $questionNavigationAware */
         $questionPresentationGUI->setQuestionNavigation($questionNavigationAware);
-        
+
         $questionPresentationGUI->setRenderPurpose(ilAsqQuestionPresentation::RENDER_PURPOSE_PLAYBACK);
-        
+
         if ($participantSolutionLocked = false) {
             $renderer = $questionPresentationGUI->getSolutionPresentation($participantSolution);
         } else {
             $renderer = $questionPresentationGUI->getQuestionPresentation($participantSolution);
         }
-        
+
         $playerQstPageHTML = $renderer->getContent();
-        
+
         /**
          * feedback presentation for the given
          */
-        
+
         if ($showFeedbacks = true && !$participantSolution->isEmpty()) {
             $genericFeedbackRenderer = $questionPresentationGUI->getGenericFeedbackOutput($participantSolution);
             $playerQstPageHTML .= $genericFeedbackRenderer->getContent();
-            
+
             $specificFeedbackRenderer = $questionPresentationGUI->getSpecificFeedbackOutput($participantSolution);
             $playerQstPageHTML .= $specificFeedbackRenderer->getContent();
         }
-        
+
         /**
          * best solution presentation to be answered by the examine
          */
-        
+
         if ($showBestSolution = true) {
             $renderer = $questionPresentationGUI->getSolutionPresentation(
                 $questionInstance->getBestSolution()
             );
-            
+
             $playerQstPageHTML .= $renderer->getContent();
         }
-        
+
         $playerQstPageHTML; // complete question page html
     }
     

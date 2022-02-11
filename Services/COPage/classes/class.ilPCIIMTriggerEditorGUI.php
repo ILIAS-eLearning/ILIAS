@@ -109,7 +109,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         if ($this->edit_request->getString("shape") == "Marker") {
             $this->content_obj->addTriggerMarker();
             $this->page->update();
-            ilUtil::sendSuccess($lng->txt("cont_saved_map_data"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_saved_map_data"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         } else {
             return parent::addNewArea();
@@ -182,7 +182,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         }
 
         //$this->initMapParameters();
-        ilUtil::sendSuccess($lng->txt("cont_saved_map_area"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_saved_map_area"), true);
         $ilCtrl->redirect($this, "editMapAreas");
         return "";
     }
@@ -217,7 +217,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
             $this->edit_request->getStringArray("title")
         );
         $this->page->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editMapAreas");
     }
     
@@ -234,7 +234,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $titles = $this->edit_request->getStringArray("title");
 
         if (count($trigger) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -266,7 +266,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
                 $this->content_obj->deleteTrigger($this->std_alias_item, $tr_nr);
             }
             $this->page->update();
-            ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_areas_deleted"), true);
         }
 
         $ilCtrl->redirect($this, "editMapAreas");

@@ -23,6 +23,7 @@ use ILIAS\Skill\Service\SkillTreeService;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * Skill profile GUI class
@@ -293,7 +294,7 @@ class ilSkillProfileGUI
 
         // image
         $img = $this->ui_fac->input()->field()->file(new ilSkillProfileUploadHandlerGUI(), $lng->txt("image"))
-                            ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__PNG, ilMimeTypeUtil::IMAGE__JPEG]);
+                            ->withAcceptedMimeTypes([MimeType::IMAGE__PNG, MimeType::IMAGE__JPEG]);
     
         // save commands
         $sec_des = "";
@@ -363,7 +364,7 @@ class ilSkillProfileGUI
             $prof->setImageId($result["section_advanced"]["image"][0] ?? "");
             $prof->create();
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "listProfiles");
         }
         $ilCtrl->redirect($this, "listProfiles");
@@ -396,7 +397,7 @@ class ilSkillProfileGUI
             $prof->setRefId($this->requested_ref_id);
             $prof->create();
             $prof->addRoleToProfile(ilParticipants::getDefaultMemberRole($this->requested_ref_id));
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirectByClass("ilcontskilladmingui", "listProfiles");
         }
         $ilCtrl->redirectByClass("ilcontskilladmingui", "listProfiles");
@@ -426,7 +427,7 @@ class ilSkillProfileGUI
             $this->profile->setImageId($result["section_advanced"]["image"][0] ?? "");
             $this->profile->update();
             
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "edit");
         }
         $ilCtrl->redirect($this, "listProfiles");
@@ -439,7 +440,7 @@ class ilSkillProfileGUI
         $lng = $this->lng;
             
         if (empty($this->requested_profile_ids)) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listProfiles");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -471,7 +472,7 @@ class ilSkillProfileGUI
                 $prof = new ilSkillProfile($i);
                 $prof->delete();
             }
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
         }
         
         $ilCtrl->redirect($this, "listProfiles");
@@ -548,7 +549,7 @@ class ilSkillProfileGUI
 
         //$this->setTabs("levels");
         
-        ilUtil::sendInfo($lng->txt("skmg_select_skill_level_assign"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_select_skill_level_assign"));
         
         $ilTabs->clearTargets();
         if ($local) {
@@ -639,7 +640,7 @@ class ilSkillProfileGUI
         // profile completion check because of profile editing
         $this->checkProfileCompletionForAllAssignedUsers();
         
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         if ($local) {
             $ilCtrl->redirect($this, "showLevelsWithLocalContext");
         }
@@ -661,7 +662,7 @@ class ilSkillProfileGUI
         }
             
         if (empty($this->requested_level_ass_ids)) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             if ($local) {
                 $ilCtrl->redirect($this, "showLevelsWithLocalContext");
             }
@@ -728,10 +729,10 @@ class ilSkillProfileGUI
             return;
         }
 
-        $order = ilUtil::stripSlashesArray($this->requested_level_order);
+        $order = ilArrayUtil::stripSlashesArray($this->requested_level_order);
         $this->profile->updateSkillOrder($order);
 
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         if ($local) {
             $ilCtrl->redirect($this, "showLevelsWithLocalContext");
         }
@@ -789,7 +790,7 @@ class ilSkillProfileGUI
             // profile completion check for added user
             $prof_manager = new ilSkillProfileCompletionManager($user_id);
             $prof_manager->writeCompletionEntryForSingleProfile($this->profile->getId());
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
 
         // user assignment with ilRepositorySearchGUI
@@ -803,7 +804,7 @@ class ilSkillProfileGUI
                     $prof_manager->writeCompletionEntryForSingleProfile($this->profile->getId());
                 }
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
     
         $ilCtrl->redirect($this, "showUsers");
@@ -827,7 +828,7 @@ class ilSkillProfileGUI
             }
         }
         if ($success) {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
 
         $ilCtrl->redirect($this, "showUsers");
@@ -846,7 +847,7 @@ class ilSkillProfileGUI
         $this->setTabs("users");
 
         if (empty($this->requested_user_ids)) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showUsers");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -911,7 +912,7 @@ class ilSkillProfileGUI
                         echo 'not deleted';
                 }
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "showUsers");
     }
@@ -998,7 +999,7 @@ class ilSkillProfileGUI
             $conf->setSkillTreeId($this->skill_tree_id);
             $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "Services/Skill");
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "");
         } else {
             $form->setValuesByPost();

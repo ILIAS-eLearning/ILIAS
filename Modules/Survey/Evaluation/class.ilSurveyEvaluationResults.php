@@ -21,14 +21,14 @@ class ilSurveyEvaluationResults
 {
     protected ilLanguage $lng;
     protected SurveyQuestion $question;
-    protected int $users_answered;
-    protected int $users_skipped;
+    protected int $users_answered = 0;
+    protected int $users_skipped = 0;
     /**
      * @var array|string
      */
     protected $mode_value;
-    protected int $mode_nr_of_selections;
-    protected float $arithmetic_mean;
+    protected int $mode_nr_of_selections = 0;
+    protected float $arithmetic_mean = 0;
     /**
      * @var string|array
      */

@@ -54,10 +54,10 @@ class ilScormAiccImporter extends ilXmlImporter
         // case i container
         if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-            $exportDir = ilExport::_getExportDirectory($a_id);
+            $exportDir = ilExport::_getExportDirectory((int) $a_id);
             $tempFile = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) . '.zip';
             $timeStamp = time();
-            $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/";
+            $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
             $lmTempDir = $lmDir . $timeStamp;
             if (!file_exists($lmTempDir)) {
                 mkdir($lmTempDir, 0755, true);
@@ -98,10 +98,10 @@ class ilScormAiccImporter extends ilXmlImporter
                             $file_path = $targetPath;
 
                             ilFileUtils::rename($scormFilePath, $targetPath);
-                            ilUtil::unzip($file_path);
+                            ilFileUtils::unzip($file_path);
                             unlink($file_path);
-                            ilUtil::delDir($lmTempDir, false);
-                            ilUtil::renameExecutables($newObj->getDataDirectory());
+                            ilFileUtils::delDir($lmTempDir, false);
+                            ilFileUtils::renameExecutables($newObj->getDataDirectory());
 
                             $newId = $newObj->getRefId();
                             // $newObj->putInTree($newId);

@@ -446,7 +446,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $xh = xslt_create();
         //echo "<b>XML</b>:".htmlentities($content).":<br>";
         //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-        $wb_path = ilUtil::getWebspaceDir("output");
+        $wb_path = ilFileUtils::getWebspaceDir("output");
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $a_mode,
             'media_mode' => 'disable',
@@ -714,7 +714,7 @@ class ilPCTableGUI extends ilPageContentGUI
             }
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editCellStyle");
     }
     
@@ -737,7 +737,7 @@ class ilPCTableGUI extends ilPageContentGUI
             }
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editCellWidth");
     }
 
@@ -760,7 +760,7 @@ class ilPCTableGUI extends ilPageContentGUI
             $this->content_obj->setTDSpans($cs, $rs);
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editCellSpan");
     }
 
@@ -882,7 +882,7 @@ class ilPCTableGUI extends ilPageContentGUI
                         $import_table
                     );
                     if ($res !== true) {
-                        ilUtil::sendFailure($res);
+                        $this->tpl->setOnScreenMessage('failure', $res);
                         $this->insert();
                         return;
                     }
@@ -986,7 +986,7 @@ class ilPCTableGUI extends ilPageContentGUI
             }
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
         $this->ctrl->redirect($this, "editCellAlignment");
     }

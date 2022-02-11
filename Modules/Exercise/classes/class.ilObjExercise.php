@@ -621,7 +621,7 @@ class ilObjExercise extends ilObject
         foreach ((array) $filtered_members as $user_id) {
             $mems[$user_id] = ilObjUser::_lookupName($user_id);
         }
-        $mems = ilUtil::sortArray($mems, "lastname", "asc", false, true);
+        $mems = ilArrayUtil::sortArray($mems, "lastname", "asc", false, true);
         
         foreach ($mems as $user_id => $d) {
             $col = 0;
@@ -681,7 +681,7 @@ class ilObjExercise extends ilObject
             $excel->setCell($row++, $col, ilLPMarks::_lookupMark($user_id, $this->getId()));
         }
         
-        $exc_name = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->getTitle()));
+        $exc_name = ilFileUtils::getASCIIFilename(preg_replace("/\s/", "_", $this->getTitle()));
         $excel->sendToClient($exc_name);
     }
     

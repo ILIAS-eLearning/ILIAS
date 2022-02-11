@@ -213,7 +213,7 @@ class ilExSubmissionTeamGUI
         $read_only = !$this->canEditTeam();
                 
         if ($this->submission->getAssignment()->afterDeadlineStrict(false)) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"));
         } elseif (!$read_only) {
             $add_search = $this->submission->isTutor();
             // add member
@@ -228,7 +228,7 @@ class ilExSubmissionTeamGUI
                 )
             );
         } elseif ($this->submission->getAssignment()->getTeamTutor()) {
-            ilUtil::sendInfo($this->lng->txt("exc_no_team_yet_info_tutor"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exc_no_team_yet_info_tutor"));
         }
         
         $tbl = new ilExAssignmentTeamTableGUI(
@@ -254,7 +254,7 @@ class ilExSubmissionTeamGUI
         }
         
         if (!count($a_user_ids)) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             return;
         }
 
@@ -270,7 +270,7 @@ class ilExSubmissionTeamGUI
                 }
             } else {
                 // #11959
-                ilUtil::sendFailure($this->lng->txt("exc_members_already_assigned_team"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_members_already_assigned_team"), true);
             }
         }
         
@@ -283,7 +283,7 @@ class ilExSubmissionTeamGUI
                 $this->submission->validatePeerReviews()
             );
             // :TODO: notification?
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
 
         $this->ctrl->redirect($this, "submissionScreenTeam");
@@ -314,7 +314,7 @@ class ilExSubmissionTeamGUI
             }
 
             if (0 === count($ids) && !$this->canEditTeam()) {
-                ilUtil::sendFailure($this->lng->txt("select_one"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
                 $this->ctrl->redirect($this, "submissionScreenTeam");
             }
         } else {
@@ -331,7 +331,7 @@ class ilExSubmissionTeamGUI
                 $this->removeTeamMemberObject($a_full_delete);
                 return;
             } else {
-                ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_team_at_least_one"), true);
                 $this->ctrl->redirect($this, "submissionScreenTeam");
             }
         }
@@ -384,7 +384,7 @@ class ilExSubmissionTeamGUI
         $ids = array_filter(array_map('intval', $ids));
 
         if (0 === count($ids) && !$this->canEditTeam()) {
-            ilUtil::sendFailure($this->lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, $cancel_cmd);
         }
                 
@@ -395,7 +395,7 @@ class ilExSubmissionTeamGUI
                 if (sizeof($members) == 1 && $members[0] == $ilUser->getId()) {
                     $team_deleted = true;
                 } else {
-                    ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_team_at_least_one"), true);
                     $this->ctrl->redirect($this, $cancel_cmd);
                 }
             }
@@ -422,7 +422,7 @@ class ilExSubmissionTeamGUI
             );
         }
                 
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         if (!$team_deleted) {
             $this->ctrl->redirect($this, $cancel_cmd);
         } else {
@@ -450,7 +450,7 @@ class ilExSubmissionTeamGUI
             $this->submission->getUserId(),
             true
         );
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $this->returnToParentObject();
     }
     
@@ -533,7 +533,7 @@ class ilExSubmissionTeamGUI
                 $this->exercise->members_obj->assignMember($ilUser->getId());
             }
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         
         $ilCtrl->redirect($this, "returnToParent");
@@ -558,7 +558,7 @@ class ilExSubmissionTeamGUI
                 ilExAssignmentTeam::getTeamId($this->assignment->getId(), $ilUser->getId(), true);
             }
             
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
         
         $ilCtrl->redirect($this, "returnToParent");
@@ -572,7 +572,7 @@ class ilExSubmissionTeamGUI
     {
         $user_login = $this->request->getUserLogin();
         if ($user_login == "") {
-            ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'));
             $this->submissionScreenTeamObject();
             return;
         }
@@ -584,7 +584,7 @@ class ilExSubmissionTeamGUI
             $user_id = ilObjUser::_lookupId($user);
 
             if (!$user_id) {
-                ilUtil::sendFailure($this->lng->txt('user_not_known'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_known'));
                 $this->submissionScreenTeamObject();
                 return;
             }

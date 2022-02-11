@@ -32,22 +32,22 @@ include_once("./webservice/soap/lib/nusoap.php");
 */
 class ilSOAPAuth
 {
-    public $valid 	= array();
-    
+    public $valid = array();
+
     /**
     * Constructor
     * @access	public
     */
-    
+
     /**
     * Test connection with values of soap auth administration settings
     */
     public static function testConnection($a_ext_uid, $a_soap_pw, $a_new_user)
     {
         global $ilSetting;
-        
+
         $settings = $ilSetting->getAll();
-        
+
         $server_hostname = $settings["soap_auth_server"];
         $server_port = (int) $settings["soap_auth_port"];
         $server_uri = $settings["soap_auth_uri"];
@@ -58,29 +58,29 @@ class ilSOAPAuth
         } else {
             $uri = "http://";
         }
-        
-        $uri.= $server_hostname;
-        
+
+        $uri .= $server_hostname;
+
         if ($server_port > 0) {
-            $uri.= ":" . $server_port;
+            $uri .= ":" . $server_port;
         }
 
         if ($server_uri != "") {
-            $uri.= "/" . $server_uri;
+            $uri .= "/" . $server_uri;
         }
 
         $soap_client = new nusoap_client($uri);
         if ($err = $soap_client->getError()) {
             return "SOAP Authentication Initialisation Error: " . $err;
         }
-        
+
         $soapAction = "";
         $nspref = "";
         if ($use_dotnet) {
             $soapAction = $namespace . "/isValidSession";
             $nspref = "ns1:";
         }
-        
+
         $valid = $soap_client->call(
             'isValidSession',
             array($nspref . 'ext_uid' => $a_ext_uid,
@@ -89,7 +89,7 @@ class ilSOAPAuth
             $namespace,
             $soapAction
         );
-            
+
         return
             "<br>== Request ==" .
             '<br><pre>' . htmlspecialchars(str_replace("\" ", "\"\n ", str_replace(">", ">\n", $soap_client->request)), ENT_QUOTES) . '</pre><br>' .

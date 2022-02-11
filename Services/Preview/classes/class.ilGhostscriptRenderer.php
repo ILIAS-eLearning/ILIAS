@@ -67,7 +67,7 @@ class ilGhostscriptRenderer extends ilFilePreviewRenderer
         $inputFile = $this->prepareFileForExec($filepath);
 
         // create a temporary file name and remove its extension
-        $output = str_replace(".tmp", "", ilUtil::ilTempnam());
+        $output = str_replace(".tmp", "", ilFileUtils::ilTempnam());
 
         // use '#' instead of '%' as it gets replaced by 'escapeShellArg' on windows!
         $outputFile = $output . "_#02d.png";
@@ -78,11 +78,11 @@ class ilGhostscriptRenderer extends ilFilePreviewRenderer
         $args = sprintf(
             "-dBATCH -dNOPAUSE -dSAFER -dFirstPage=1 -dLastPage=%d -sDEVICE=pngalpha -dEPSCrop -r72 -o %s %s",
             $numOfPreviews,
-            str_replace("#", "%", ilUtil::escapeShellArg($outputFile)),
-            ilUtil::escapeShellArg($inputFile)
+            str_replace("#", "%", ilShellUtil::escapeShellArg($outputFile)),
+            ilShellUtil::escapeShellArg($inputFile)
         );
 
-        ilUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $args);
+        ilShellUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $args);
 
         // was a temporary file created? then delete it
         if ($filepath != $inputFile) {

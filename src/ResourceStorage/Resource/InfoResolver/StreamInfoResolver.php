@@ -60,6 +60,9 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         if (class_exists('finfo')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $this->mime_type = finfo_buffer($finfo, $this->file_stream->getContents());
+            if ($this->file_stream->isSeekable()) {
+                $this->file_stream->rewind();
+            }
         }
     }
 
@@ -73,6 +76,10 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
                 $this->size = mb_strlen($this->file_stream->getContents(), '8bit');
             } else {
                 $this->size = strlen($this->file_stream->getContents());
+            }
+            
+            if ($this->file_stream->isSeekable()) {
+                $this->file_stream->rewind();
             }
         }
     }

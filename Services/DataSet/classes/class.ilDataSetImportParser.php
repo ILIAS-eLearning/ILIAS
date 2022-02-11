@@ -1,18 +1,18 @@
 <?php
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *****************************************************************************/
 /**
  * Manifest parser for ILIAS standard export files
  *
@@ -36,7 +36,7 @@ class ilDataSetImportParser extends ilSaxParser
     protected string $current_installation_id = "";
     protected string $chr_data = "";
     protected ilImportMapping $mapping;
-    
+
     public function __construct(
         string $a_top_entity,
         string $a_schema_version,
@@ -51,7 +51,7 @@ class ilDataSetImportParser extends ilSaxParser
         $this->dspref = ($this->ds->getDSPrefix() != "")
             ? $this->ds->getDSPrefix() . ":"
             : "";
-        
+
         parent::__construct();
         $this->setXMLContent($a_xml);
         $this->startParsing();
@@ -62,12 +62,14 @@ class ilDataSetImportParser extends ilSaxParser
         return $this->current_installation_id;
     }
 
-    public function setHandlers($a_xml_parser)
+
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handleBeginTag', 'handleEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handleCharacterData');
     }
+
 
     public function handleBeginTag(
         $a_xml_parser,
@@ -80,23 +82,23 @@ class ilDataSetImportParser extends ilSaxParser
                 $this->current_installation_id = $a_attribs["InstallationId"];
                 $this->ds->setCurrentInstallationId($a_attribs["InstallationId"]);
                 break;
-                
+
             case $this->dspref . "Types":
                 $this->current_entity = $a_attribs["Entity"];
                 $this->current_version = $a_attribs["Version"];
                 break;
-                
+
             case $this->dspref . "FieldType":
                 $this->current_ftypes[$a_attribs["Name"]] =
                     $a_attribs["Type"];
                 break;
-                
+
             case $this->dspref . "Rec":
                 $this->current_entity = $a_attribs["Entity"];
                 $this->in_record = true;
                 $this->current_field_values = array();
                 break;
-                
+
             default:
                 if ($this->in_record) {
                     $field = explode(":", $a_name);		// remove namespace
@@ -105,7 +107,7 @@ class ilDataSetImportParser extends ilSaxParser
                 }
         }
     }
-    
+
     public function handleEndTag(
         $a_xml_parser,
         string $a_name
@@ -121,7 +123,7 @@ class ilDataSetImportParser extends ilSaxParser
                 $this->current_entity = "";
                 $this->current_version = "";
                 break;
-                
+
             case $this->dspref . "Rec":
                 $this->ds->importRecord(
                     $this->current_entity,
@@ -134,7 +136,7 @@ class ilDataSetImportParser extends ilSaxParser
                 $this->current_entity = "";
                 $this->current_field_values = array();
                 break;
-                
+
             default:
                 if ($this->in_record && $this->current_field != "") {
                     $this->current_field_values[$this->current_field] =
@@ -143,10 +145,11 @@ class ilDataSetImportParser extends ilSaxParser
                 $this->current_field = "";
                 break;
         }
-        
+
         $this->chr_data = "";
     }
-    
+
+
     public function handleCharacterData(
         $a_xml_parser,
         string $a_data

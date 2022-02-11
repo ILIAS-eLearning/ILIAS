@@ -19,7 +19,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class ilObjTestListGUI extends ilObjectListGUI
 {
     protected $command_link_params = array();
-    
+
     /**
     * constructor
     *
@@ -116,17 +116,17 @@ class ilObjTestListGUI extends ilObjectListGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         $a_cmd = explode('::', $a_cmd);
-        
+
         if (count($a_cmd) == 2) {
             $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjTestGUI', $a_cmd[0]), $a_cmd[1]);
         } else {
             $cmd_link = $ilCtrl->getLinkTargetByClass('ilObjTestGUI', $a_cmd[0]);
         }
-        
+
         $params = array_merge(array('ref_id' => $this->ref_id), $this->command_link_params);
-        
+
         foreach ($params as $param => $value) {
             $cmd_link = ilUtil::appendUrlParameterString($cmd_link, "$param=$value", true);
         }
@@ -137,30 +137,30 @@ class ilObjTestListGUI extends ilObjectListGUI
     public function getCommands()
     {
         $commands = parent::getCommands();
-        
+
         $commands = $this->handleUserResultsCommand($commands);
-        
+
         return $commands;
     }
-    
+
     private function handleUserResultsCommand($commands)
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        
+
         if (!$this->isObjectiveTest()) {
             $commands = $this->removeUserResultsCommand($commands);
         } else {
             require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
-            
+
             if (!ilObjTestAccess::visibleUserResultExists($this->obj_id, $ilUser->getId())) {
                 $commands = $this->removeUserResultsCommand($commands);
             }
         }
-        
+
         return $commands;
     }
-    
+
     private function isObjectiveTest()
     {
         require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
@@ -175,10 +175,10 @@ class ilObjTestListGUI extends ilObjectListGUI
                 break;
             }
         }
-        
+
         return $commands;
     }
-    
+
     /**
      * overwritten from base class for course objectives
      *
@@ -190,7 +190,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     {
         return $a_command;
     }
-    
+
 
     /**
      * add command link parameters
@@ -209,13 +209,13 @@ class ilObjTestListGUI extends ilObjectListGUI
     {
         include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $id = ilLOSettings::isObjectiveTest($this->ref_id);
-        
+
         $cmd_link = $a_default_link;
-        
+
         if ($id) {
             $ref_ids = ilObject::_getAllReferences($id);
             $ref_id = end($ref_ids);
-            
+
             $this->ctrl->setParameterByClass("ilrepositorygui", 'ref_id', $ref_id);
             $this->ctrl->setParameterByClass("ilrepositorygui", 'tid', $this->ref_id);
             $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", 'redirectLocToTest');

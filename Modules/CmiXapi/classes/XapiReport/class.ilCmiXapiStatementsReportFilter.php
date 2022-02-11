@@ -27,47 +27,47 @@ class ilCmiXapiStatementsReportFilter
     /**
      * @var string
      */
-    protected $activityId;
+    protected string $activityId;
     
     /**
      * @var int
      */
-    protected $limit;
+    protected int $limit;
     
     /**
      * @var int
      */
-    protected $offset;
+    protected int $offset;
     
     /**
      * @var string
      */
-    protected $orderField;
+    protected string $orderField;
     
     /**
      * @var string
      */
-    protected $orderDirection;
-    
+    protected string $orderDirection;
+
     /**
-     * @var ilCmiXapiUser
+     * @var ilCmiXapiUser|null
      */
-    protected $actor;
-    
+    protected ?ilCmiXapiUser $actor = null;
+
     /**
-     * @var string
+     * @var string|null
      */
-    protected $verb;
-    
+    protected ?string $verb = null;
+
     /**
-     * @var ilCmiXapiDateTime
+     * @var ilCmiXapiDateTime|null
      */
-    protected $startDate;
-    
+    protected ?ilCmiXapiDateTime $startDate = null;
+
     /**
-     * @var ilCmiXapiDateTime
+     * @var ilCmiXapiDateTime|null
      */
-    protected $endDate;
+    protected ?ilCmiXapiDateTime $endDate = null;
     
     public function getActivityId() : string
     {
@@ -119,7 +119,7 @@ class ilCmiXapiStatementsReportFilter
         $this->orderDirection = $orderDirection;
     }
     
-    public function getActor() : \ilCmiXapiUser
+    public function getActor() : ?\ilCmiXapiUser
     {
         return $this->actor;
     }
@@ -129,7 +129,7 @@ class ilCmiXapiStatementsReportFilter
         $this->actor = $actor;
     }
     
-    public function getVerb() : string
+    public function getVerb() : ?string
     {
         return $this->verb;
     }
@@ -139,7 +139,7 @@ class ilCmiXapiStatementsReportFilter
         $this->verb = $verb;
     }
     
-    public function getStartDate() : \ilCmiXapiDateTime
+    public function getStartDate() : ?\ilCmiXapiDateTime
     {
         return $this->startDate;
     }
@@ -149,7 +149,7 @@ class ilCmiXapiStatementsReportFilter
         $this->startDate = $startDate;
     }
     
-    public function getEndDate() : \ilCmiXapiDateTime
+    public function getEndDate() : ?\ilCmiXapiDateTime
     {
         return $this->endDate;
     }

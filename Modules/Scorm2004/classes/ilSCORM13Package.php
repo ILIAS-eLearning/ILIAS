@@ -651,7 +651,7 @@ class ilSCORM13Package
     public function dbImportSco($slm, $sco, $asset = false)
     {
         $qtis = array();
-        $d = ilUtil::getDir($this->packageFolder);
+        $d = ilFileUtils::getDir($this->packageFolder);
         foreach ($d as $f) {
             //continue;
             if ($f["type"] == 'file' && substr($f["entry"], 0, 4) == 'qti_') {
@@ -760,13 +760,13 @@ class ilSCORM13Package
                     }
                     
                     // copy whole directory
-                    ilUtil::rCopy($this->packageFolder . "/objects/" . $OriginId, $mob_dir);
+                    ilFileUtils::rCopy($this->packageFolder . "/objects/" . $OriginId, $mob_dir);
 
                     
                     // alex: fixed media import: these lines have been
                     // behind the next curly bracket which makes it fail
                     // when no medianode is given. (id=0 -> fatal error)
-                    ilUtil::renameExecutables($mob_dir);
+                    ilFileUtils::renameExecutables($mob_dir);
                     $media_object->update(true);
                     $ttnode ["OriginId"] = "il__mob_" . $media_object->getId();
                 }

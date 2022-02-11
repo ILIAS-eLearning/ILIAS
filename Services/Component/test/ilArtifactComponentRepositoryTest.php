@@ -678,5 +678,4 @@ class ilArtifactComponentRepositoryTest extends TestCase
 
         $this->assertEquals(2, $db->build_called);
     }
-
 }

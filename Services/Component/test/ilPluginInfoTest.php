@@ -240,6 +240,14 @@ class ilPluginInfoTest extends TestCase
         );
     }
 
+    public function testGetConfigureClassName()
+    {
+        $this->assertEquals(
+            "ilPlugin1ConfigGUI",
+            $this->plugin->getConfigGUIClassName()
+        );
+    }
+
     /**
      * @dataProvider isActivationPossibleTruthTable
      */

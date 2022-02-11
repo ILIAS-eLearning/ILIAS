@@ -117,8 +117,8 @@ class ilContObjectExport
 
         // create directories
         $this->cont_obj->createExportDirectory();
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
 
         // get Log File
         $expDir = $this->cont_obj->getExportDirectory();
@@ -136,6 +136,7 @@ class ilContObjectExport
         );
 
         // export style
+        /*
         if ($this->cont_obj->getStyleSheetId() > 0) {
             $style_obj = new ilObjStyleSheet($this->cont_obj->getStyleSheetId(), false);
             $style_obj->setExportSubDir("style");
@@ -143,7 +144,7 @@ class ilContObjectExport
             if (is_file($style_file)) {
                 copy($style_file, $this->export_dir . "/" . $this->subdir . "/style.zip");
             }
-        }
+        }*/
 
         // dump xml document to file
         $this->xml->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->filename, false);
@@ -164,7 +165,7 @@ class ilContObjectExport
         }
 
         // zip the file
-        ilUtil::zip(
+        ilFileUtils::zip(
             $this->export_dir . "/" . $this->subdir,
             $this->export_dir . "/" . $this->subdir . ".zip"
         );

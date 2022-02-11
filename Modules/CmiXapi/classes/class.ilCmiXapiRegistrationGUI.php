@@ -33,12 +33,13 @@ class ilCmiXapiRegistrationGUI
     /**
      * @var ilObjCmiXapi
      */
-    protected $object;
+    protected ilObjCmiXapi $object;
     
     /**
      * @var ilCmiXapiUser
      */
-    protected $cmixUser;
+    protected ilCmiXapiUser $cmixUser;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilCmiXapiRegistrationGUI constructor.
@@ -46,13 +47,18 @@ class ilCmiXapiRegistrationGUI
      */
     public function __construct(ilObjCmiXapi $object)
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate(); /* @var \ILIAS\DI\Container $DIC */
         
         $this->object = $object;
         
         $this->cmixUser = new ilCmiXapiUser($object->getId(), $DIC->user()->getId(), $object->getPrivacyIdent());
     }
-    
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
     public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -63,7 +69,11 @@ class ilCmiXapiRegistrationGUI
                 $this->{$command}();
         }
     }
-    
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
     protected function cancelCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -71,6 +81,10 @@ class ilCmiXapiRegistrationGUI
         $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
 
+    /**
+     * @param ilPropertyFormGUI|null $form
+     * @return void
+     */
     protected function showFormCmd(ilPropertyFormGUI $form = null) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -81,7 +95,11 @@ class ilCmiXapiRegistrationGUI
         
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
-    
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
     protected function saveFormCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -96,10 +114,14 @@ class ilCmiXapiRegistrationGUI
         
         $this->saveRegistration($form);
         
-        ilUtil::sendSuccess($DIC->language()->txt('registration_saved_successfully'), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('registration_saved_successfully'), true);
         $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
-    
+
+    /**
+     * @return ilPropertyFormGUI
+     * @throws ilCtrlException
+     */
     protected function buildForm() : \ilPropertyFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -126,12 +148,19 @@ class ilCmiXapiRegistrationGUI
         
         return $form;
     }
-    
+
+    /**
+     * @return int
+     */
     protected function hasRegistration() : int
     {
         return strlen($this->cmixUser->getUsrIdent());
     }
-    
+
+    /**
+     * @param ilPropertyFormGUI $form
+     * @return void
+     */
     protected function saveRegistration(ilPropertyFormGUI $form) : void
     {
         $this->cmixUser->setUsrIdent($form->getInput('user_ident'));

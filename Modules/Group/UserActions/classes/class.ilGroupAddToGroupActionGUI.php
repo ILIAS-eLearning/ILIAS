@@ -237,7 +237,7 @@ class ilGroupAddToGroupActionGUI
         $group = new ilObjGroup($ref_id);
         $participants = ilParticipants::getInstanceByObjId($group->getId());
 
-        $participants->add($user_id, IL_GRP_MEMBER);
+        $participants->add($user_id, ilParticipants::IL_GRP_MEMBER);
 
         $participants->sendNotification(
             ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
@@ -381,7 +381,7 @@ class ilGroupAddToGroupActionGUI
 
         $participants = ilParticipants::getInstanceByObjId($newObj->getId());
 
-        $participants->add($user_id, IL_GRP_MEMBER);
+        $participants->add($user_id, ilParticipants::IL_GRP_MEMBER);
 
         $participants->sendNotification(
             ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,

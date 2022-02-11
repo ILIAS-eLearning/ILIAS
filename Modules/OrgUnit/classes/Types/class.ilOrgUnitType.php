@@ -70,10 +70,6 @@ class ilOrgUnitType
      */
     protected $user;
     /**
-     * @var ilPluginAdmin
-     */
-    protected $pluginAdmin;
-    /**
      * @var array
      */
     protected $active_plugins;
@@ -621,10 +617,10 @@ class ilOrgUnitType
             return false;
         }
         if (!is_dir($this->getIconPath())) {
-            ilUtil::makeDirParents($this->getIconPath());
+            ilFileUtils::makeDirParents($this->getIconPath());
         }
         $filename = $this->getIcon() ? $this->getIcon() : $file_data['name'];
-        $return = ilUtil::moveUploadedFile($file_data['tmp_name'], $filename, $this->getIconPath(true), false);
+        $return = ilFileUtils::moveUploadedFile($file_data['tmp_name'], $filename, $this->getIconPath(true), false);
 
         // TODO Resize
         return $return;
@@ -947,7 +943,7 @@ class ilOrgUnitType
      */
     public function getIconPath($append_filename = false)
     {
-        $path = ilUtil::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
+        $path = ilFileUtils::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
         if ($append_filename) {
             $path .= $this->getIcon();
         }

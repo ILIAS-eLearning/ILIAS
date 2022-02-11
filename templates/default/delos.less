@@ -10,6 +10,7 @@
 bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
 bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
 
+
 /*
 /* rtl-review */
 /* with specifics imports
@@ -1524,6 +1525,10 @@ div.ilSideBarContent{
 	overflow-y: auto;
 	/* prevent horizontal scrollbar */
 	overflow-x: hidden;
+
+	li.ui-menu-item {
+		cursor: pointer;
+	}
 }
 
 /* Icon Default */
@@ -1577,7 +1582,6 @@ span.ilIcalIcon {
 @import "less/Modules/Bibliographic/delos.less";
 @import "less/Services/MediaObjects/delos.less";
 @import "less/Services/Chart/delos.less";
-@import "less/Services/Captcha/delos.less";
 @import "less/Services/User/delos.less";
 @import "less/Services/Style/delos.less";
 @import "less/Modules/Course/delos.less";

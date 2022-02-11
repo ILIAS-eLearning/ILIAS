@@ -107,14 +107,14 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
             ));
             $internal_account = ilObjUser::_checkExternalAuthAccount($fallback_auth_mode, $this->uid, false);
 
-            $defaultAuth = AUTH_LOCAL;
+            $defaultAuth = ilAuthUtils::AUTH_LOCAL;
             if ($GLOBALS['DIC']['ilSetting']->get('auth_mode')) {
                 $defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
             }
 
             if (
                 (!is_string($internal_account) || $internal_account === '') &&
-                ($defaultAuth == AUTH_LOCAL || $defaultAuth == $this->getTriggerAuthMode())
+                ($defaultAuth == ilAuthUtils::AUTH_LOCAL || $defaultAuth == $this->getTriggerAuthMode())
             ) {
                 ilLoggerFactory::getLogger('auth')->debug(sprintf(
                     'Could not find ext_account "%s" for auth_mode "%s".',
@@ -267,7 +267,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
 
     public function getTriggerAuthMode() : string
     {
-        return AUTH_SAML . '_' . $this->idp->getIdpId();
+        return ilAuthUtils::AUTH_SAML . '_' . $this->idp->getIdpId();
     }
 
     public function getUserAuthModeName() : string

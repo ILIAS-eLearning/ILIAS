@@ -40,14 +40,14 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         $lng = $DIC->language();
-        
+
         parent::__construct($a_title, $a_postvar);
-                
+
         $this->show_wizard = false;
         $this->show_save_phrase = false;
         $this->categorytext = $lng->txt('answer');
         $this->use_other_answer = false;
-        
+
         $this->setMaxLength(1000); // #6218
     }
     
@@ -257,7 +257,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
     public function getInput() : array
     {
         $val = $this->arrayArray($this->getPostVar());
-        $val = ilUtil::stripSlashesRecursive($val);
+        $val = ilArrayUtil::stripSlashesRecursive($val);
         return $val;
     }
 
@@ -284,10 +284,12 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                 $cat = $this->values->getCategory($i);
                 if (!$cat->neutral) {
                     $tpl->setCurrentBlock("prop_text_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($cat->title));
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($cat->title));
                     $tpl->parseCurrentBlock();
                     $tpl->setCurrentBlock("prop_scale_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->values->getScale($i)));
+                    $tpl->setVariable("PROPERTY_VALUE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($this->values->getScale($i))
+                    );
                     $tpl->parseCurrentBlock();
 
                     if ($this->getUseOtherAnswer()) {
@@ -355,18 +357,22 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         if ($this->getShowNeutralCategory()) {
             if (is_object($neutral_category) && strlen($neutral_category->title)) {
                 $tpl->setCurrentBlock("prop_text_neutral_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($neutral_category->title));
+                $tpl->setVariable("PROPERTY_VALUE",
+                    ilLegacyFormElementsUtil::prepareFormOutput($neutral_category->title)
+                );
                 $tpl->parseCurrentBlock();
             }
             if (strlen($this->getNeutralCategoryTitle())) {
                 $tpl->setCurrentBlock("neutral_category_title");
                 $tpl->setVariable("NEUTRAL_COLS", ($this->getUseOtherAnswer()) ? 4 : 3);
-                $tpl->setVariable("CATEGORY_TITLE", ilUtil::prepareFormOutput($this->getNeutralCategoryTitle()));
+                $tpl->setVariable("CATEGORY_TITLE",
+                    ilLegacyFormElementsUtil::prepareFormOutput($this->getNeutralCategoryTitle())
+                );
                 $tpl->parseCurrentBlock();
             }
             $tpl->setCurrentBlock("prop_scale_neutral_propval");
             $scale = (is_object($neutral_category) && $neutral_category->scale > 0) ? $neutral_category->scale : $this->values->getNewScale();
-            $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($scale));
+            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($scale));
             $tpl->parseCurrentBlock();
 
             if ($this->getUseOtherAnswer()) {

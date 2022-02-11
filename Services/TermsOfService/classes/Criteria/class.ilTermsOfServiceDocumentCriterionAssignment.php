@@ -10,14 +10,14 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
     private const TABLE_NAME = 'tos_criterion_to_doc';
 
     /**
-     * @var string
+     * @var int
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           4
      * @db_is_primary       true
      * @con_sequence        true
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @var int
@@ -25,7 +25,7 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $assigned_ts = 0;
+    protected int $assigned_ts = 0;
 
     /**
      * @var int
@@ -33,7 +33,7 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $modification_ts = 0;
+    protected int $modification_ts = 0;
 
     /**
      * @var int
@@ -41,7 +41,7 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $doc_id = 0;
+    protected int $doc_id = 0;
 
     /**
      * @var string
@@ -50,7 +50,7 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
      * @db_length           255
      * @con_is_notnull      true
      */
-    protected $criterion_id = '';
+    protected string $criterion_id = '';
 
     /**
      * @var string
@@ -58,7 +58,7 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
      * @db_fieldtype        text
      * @db_length           255
      */
-    protected $criterion_value = '';
+    protected string $criterion_value;
 
     /**
      * @var int
@@ -66,7 +66,7 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $owner_usr_id = 0;
+    protected int $owner_usr_id = 0;
 
     /**
      * @var int
@@ -74,7 +74,7 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $last_modified_usr_id = 0;
+    protected int $last_modified_usr_id = 0;
 
     public static function returnDbTableName() : string
     {

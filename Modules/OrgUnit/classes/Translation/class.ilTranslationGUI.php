@@ -42,6 +42,7 @@ class ilTranslationGUI
     public function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
@@ -60,7 +61,7 @@ class ilTranslationGUI
         $this->ilAccess = $ilAccess;
 
         if (!$ilAccess->checkAccess('write', '', $this->ilObjectOrgUnit->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
     }
@@ -112,21 +113,21 @@ class ilTranslationGUI
     {
         // default language set?
         if (!isset($_POST["default"])) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_default_language"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
 
             return $this->editTranslations(true);
         }
 
         // all languages set?
         if (array_key_exists("", $_POST["lang"])) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_language_selected"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_language_selected"));
 
             return $this->editTranslations(true);
         }
 
         // no single language is selected more than once?
         if (count(array_unique($_POST["lang"])) < count($_POST["lang"])) {
-            ilUtil::sendFailure($this->lng->txt("msg_multi_language_selected"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_multi_language_selected"));
 
             return $this->editTranslations(true);
         }
@@ -153,7 +154,7 @@ class ilTranslationGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editTranslations");
     }
 
@@ -187,7 +188,7 @@ class ilTranslationGUI
                     unset($_POST["desc"][$k]);
                     unset($_POST["lang"][$k]);
                 } else {
-                    ilUtil::sendFailure($this->lng->txt("msg_no_default_language"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
 
                     return $this->editTranslations();
                 }

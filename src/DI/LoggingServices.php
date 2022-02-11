@@ -31,7 +31,7 @@ class LoggingServices
     /**
      * Get interface to the global logger.
      */
-    public function root() : \ilLogger
+    public function root()
     {
         return $this->container["ilLoggerFactory"]->getRootLogger();
     }

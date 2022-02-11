@@ -92,7 +92,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
         if (count($user_ids) == 0) {
             $this->lng->loadLanguageModule('search');
-            ilUtil::sendFailure($this->lng->txt('search_err_user_not_exist'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_err_user_not_exist'), true);
             return false;
         }
 
@@ -106,7 +106,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
             switch ($type) {
                 case $object->getDefaultAdminRole():
-                    $members->add($new_member, IL_LSO_ADMIN);
+                    $members->add($new_member, ilParticipants::IL_LSO_ADMIN);
                     $members->sendNotification(
                         ilLearningSequenceMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                         $new_member
@@ -114,7 +114,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
                     $assigned = true;
                     break;
                 case $object->getDefaultMemberRole():
-                    $members->add($new_member, IL_LSO_MEMBER);
+                    $members->add($new_member, ilParticipants::IL_LSO_MEMBER);
                     $members->sendNotification(
                         ilLearningSequenceMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                         $new_member
@@ -123,13 +123,13 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
                     break;
                 default:
                     if (in_array($type, $object->getLocalLearningSequenceRoles(true))) {
-                        $members->add($new_member, IL_LSO_MEMBER);
+                        $members->add($new_member, ilParticipants::IL_LSO_MEMBER);
                         $members->updateRoleAssignments($new_member, array($type));
                     } else {
                         ilLoggerFactory::getLogger('lso')->notice(
                             'Can not find role with id .' . $type . ' to assign users.'
                         );
-                        ilUtil::sendFailure($this->lng->txt("lso_cannot_find_role"), true);
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("lso_cannot_find_role"), true);
                         return false;
                     }
 
@@ -143,9 +143,9 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         }
 
         if ($assigned) {
-            ilUtil::sendSuccess($this->lng->txt("lso_msg_member_assigned"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("lso_msg_member_assigned"), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt('lso_users_already_assigned'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('lso_users_already_assigned'), true);
         }
 
         $this->ctrl->redirect($this, 'participants');
@@ -170,7 +170,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
             $members->updateNotification($participant, false);
         }
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'participants');
     }
 

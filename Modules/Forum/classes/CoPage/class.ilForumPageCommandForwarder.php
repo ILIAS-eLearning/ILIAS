@@ -18,6 +18,7 @@
  */
 
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Style\Content\Object\ObjectFacade;
 
 class ilForumPageCommandForwarder implements ilForumObjectConstants
 {
@@ -45,6 +46,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
     protected ilObjUser $actor;
     protected GlobalHttpState $http;
     private ilForumProperties $forumProperties;
+    protected ObjectFacade $content_style_domain;
 
     public function __construct(
         GlobalHttpState $http,
@@ -53,7 +55,8 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         ilLanguage $lng,
         ilObjForum $parentObject,
         ilForumProperties $forumProperties,
-        ilObjUser $actor
+        ilObjUser $actor,
+        ObjectFacade $content_style_domain
     ) {
         $this->http = $http;
         $this->ctrl = $ctrl;
@@ -62,6 +65,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         $this->parentObject = $parentObject;
         $this->forumProperties = $forumProperties;
         $this->actor = $actor;
+        $this->content_style_domain = $content_style_domain;
 
         $this->lng->loadLanguageModule('content');
 
@@ -86,10 +90,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
     {
         $pageObjectGUI = new ilForumPageGUI($this->parentObject->getId(), 0, $isEmbedded, $language);
         $pageObjectGUI->setStyleId(
-            ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->forumProperties->getStyleSheetId(),
-                $this->parentObject->getType()
-            )
+            $this->content_style_domain->getEffectiveStyleId()
         );
 
         $pageObjectGUI->obj->addUpdateListener($this->parentObject, 'update');
@@ -153,10 +154,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         $pageObjectGUI = $this->getPageObjectGUI($language);
         $pageObjectGUI->setEnabledTabs(false);
         $pageObjectGUI->setStyleId(
-            ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->forumProperties->getStyleSheetId(),
-                $this->parentObject->getType()
-            )
+            $this->content_style_domain->getEffectiveStyleId()
         );
 
         return $pageObjectGUI;
@@ -169,10 +167,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         $pageObjectGUI = $this->getPageObjectGUI($language, true);
         $pageObjectGUI->setEnabledTabs(false);
         $pageObjectGUI->setStyleId(
-            ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->forumProperties->getStyleSheetId(),
-                $this->parentObject->getType()
-            )
+            $this->content_style_domain->getEffectiveStyleId()
         );
 
         return $pageObjectGUI;

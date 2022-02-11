@@ -21,7 +21,7 @@ trait PluginProviderHelper
     {
         parent::__construct($dic);
         $this->plugin = $plugin;
-        $this->if     = $this->globalScreen()->identification()->plugin($plugin->getId(), $this);
+        $this->if = $this->globalScreen()->identification()->plugin($plugin->getId(), $this);
     }
     
     final public function getProviderNameForPresentation() : string

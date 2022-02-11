@@ -32,7 +32,7 @@ class ilFSStorageSession extends ilFileSystemAbstractionStorage
 
     public function createDirectory() : bool
     {
-        return ilUtil::makeDirParents($this->getAbsolutePath());
+        return ilFileUtils::makeDirParents($this->getAbsolutePath());
     }
 
     protected function getPathPostfix() : string

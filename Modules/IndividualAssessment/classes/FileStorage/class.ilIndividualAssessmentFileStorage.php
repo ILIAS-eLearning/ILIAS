@@ -59,7 +59,7 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemAbstractionStorage i
     public function create() : void
     {
         if (!file_exists($this->getAbsolutePath())) {
-            ilUtil::makeDirParents($this->getAbsolutePath());
+            ilFileUtils::makeDirParents($this->getAbsolutePath());
         }
     }
 
@@ -103,15 +103,15 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemAbstractionStorage i
     /**
      * Upload the file
      */
-    public function uploadFile(UploadResult $result) : bool
+    public function uploadFile(UploadResult $file) : bool
     {
         $path = $this->getAbsolutePath();
 
-        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $result->getName());
+        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $file->getName());
         $new_file = $path . "/" . $clean_name;
 
-        ilUtil::moveUploadedFile(
-            $result->getPath(),
+        ilFileUtils::moveUploadedFile(
+            $file->getPath(),
             $clean_name, // This parameter does not do a thing
             $new_file
         );

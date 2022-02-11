@@ -34,10 +34,13 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
+    private ilCronJobRepository $cronRepository;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         if ($DIC) {
             if (isset($DIC['http'])) {
@@ -58,6 +61,10 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
             if (isset($DIC['rbacreview'])) {
                 $this->rbacReview = $DIC->rbac()->review();
+            }
+
+            if (isset($DIC['cron.repository'])) {
+                $this->cronRepository = $DIC->cron()->repository();
             }
 
             if (isset($DIC['ilSetting'])) {
@@ -237,7 +244,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     
     protected function calculateDeletionData(int $date_for_deletion) : int
     {
-        $cron_timing = ilCronManager::getCronJobData($this->getId());
+        $cron_timing = $this->cronRepository->getCronJobData($this->getId());
         $time_difference = 0;
         $multiplier = 1;
 
@@ -449,7 +456,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         $this->settings->set('cron_inactive_user_reminder_period', (string) $reminder_period);
 
         if (!$valid) {
-            ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
             return false;
         }
 

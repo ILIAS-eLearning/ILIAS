@@ -13,6 +13,8 @@
  *
  *****************************************************************************/
 
+use ILIAS\FileUpload\MimeType;
+
 /**
  * File System Explorer GUI class
  *
@@ -297,7 +299,7 @@ class ilFileSystemGUI
         $items = [];
 
         $entries = (is_dir($a_dir))
-            ? ilUtil::getDir($a_dir)
+            ? ilFileUtils::getDir($a_dir)
             : array(array("type" => "dir", "entry" => ".."));
 
         $items = array();
@@ -367,13 +369,13 @@ class ilFileSystemGUI
         $selected = $this->getIncomingFiles();
 
         if (!count($selected)) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listFiles");
         }
 
         // check if only one item is select, if command does not allow multiple selection
         if (count($selected) > 1 && $this->commands[$a_nr]["single"]) {
-            ilUtil::sendFailure($this->lng->txt("cont_select_max_one_item"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"), true);
             $this->ctrl->redirect($this, "listFiles");
         }
 
@@ -390,7 +392,7 @@ class ilFileSystemGUI
             // check wether selected item is a directory
             if (is_dir($this->main_dir . "/" . $file) &&
                 !$this->commands[$a_nr]["allow_dir"]) {
-                ilUtil::sendFailure($this->lng->txt("select_a_file"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_a_file"), true);
                 $this->ctrl->redirect($this, "listFiles");
             }
 
@@ -550,7 +552,7 @@ class ilFileSystemGUI
         $pi = pathinfo($new_name);
         $suffix = $pi["extension"];
         if ($suffix != "" && !$this->isValidSuffix($suffix)) {
-            ilUtil::sendFailure($this->lng->txt("file_no_valid_file_type") . " ($suffix)", true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_no_valid_file_type") . " ($suffix)", true);
             $this->ctrl->redirect($this, "listFiles");
         }
 
@@ -568,19 +570,19 @@ class ilFileSystemGUI
             try {
                 ilFileUtils::rename($dir . ilUtil::stripSlashes($old_name), $dir . $new_name);
             } catch (ilException $e) {
-                ilUtil::sendFailure($e->getMessage(), true);
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
                 $this->ctrl->redirect($this, "listFiles");
             }
         }
 
-        ilUtil::renameExecutables($this->main_dir);
+        ilFileUtils::renameExecutables($this->main_dir);
         if (is_dir($dir . $new_name)) {
-            ilUtil::sendSuccess($lng->txt("cont_dir_renamed"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_dir_renamed"), true);
             $this->setPerformedCommand("rename_dir", [self::PARAM_OLD_NAME => $old_name,
                                                       self::POST_PARAM_NEW_NAME => $new_name
             ]);
         } else {
-            ilUtil::sendSuccess($lng->txt("cont_file_renamed"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_file_renamed"), true);
             $this->setPerformedCommand("rename_file", array(self::PARAM_OLD_NAME => $old_name,
                                                             self::POST_PARAM_NEW_NAME => $new_name
             ));
@@ -612,13 +614,13 @@ class ilFileSystemGUI
         $new_dir = str_replace("/", "", $new_dir);
 
         if (!empty($new_dir)) {
-            ilUtil::makeDir($cur_dir . "/" . $new_dir);
+            ilFileUtils::makeDir($cur_dir . "/" . $new_dir);
             if (is_dir($cur_dir . "/" . $new_dir)) {
-                ilUtil::sendSuccess($lng->txt("cont_dir_created"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("cont_dir_created"), true);
                 $this->setPerformedCommand("create_dir", array("name" => $new_dir));
             }
         } else {
-            ilUtil::sendFailure($lng->txt("cont_enter_a_dir_name"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_enter_a_dir_name"), true);
         }
         $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
         $this->ctrl->redirect($this, 'listFiles');
@@ -640,7 +642,7 @@ class ilFileSystemGUI
         $pi = pathinfo($_FILES["new_file"]["name"]);
         $suffix = $pi["extension"];
         if (!$this->isValidSuffix($suffix)) {
-            ilUtil::sendFailure($this->lng->txt("file_no_valid_file_type") . " ($suffix)", true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_no_valid_file_type") . " ($suffix)", true);
             $this->ctrl->redirect($this, "listFiles");
         }
 
@@ -651,7 +653,7 @@ class ilFileSystemGUI
             $name = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
             $tgt_file = $cur_dir . "/" . $name;
 
-            ilUtil::moveUploadedFile($_FILES["new_file"]["tmp_name"], $name, $tgt_file);
+            ilFileUtils::moveUploadedFile($_FILES["new_file"]["tmp_name"], $name, $tgt_file);
         } elseif ($uploaded_file) {
             // check if the file is in the ftp directory and readable
             if (ilUploadFiles::_checkUploadFile($uploaded_file)) {
@@ -661,12 +663,12 @@ class ilFileSystemGUI
                 ilUploadFiles::_copyUploadFile($uploaded_file, $tgt_file);
             }
         } elseif (trim($_FILES["new_file"]["name"]) == "") {
-            ilUtil::sendFailure($lng->txt("cont_enter_a_file"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_enter_a_file"), true);
         }
 
         if ($tgt_file && is_file($tgt_file)) {
             $unzip = null;
-            if (ilMimeTypeUtil::getMimeType($tgt_file) == "application/zip") {
+            if (MimeType::getMimeType($tgt_file) == "application/zip") {
                 $this->ctrl->setParameter($this, self::PARAM_UPFILE, basename($tgt_file));
                 $url = $this->ctrl->getLinkTarget($this, "unzipFile");
                 $this->ctrl->setParameter($this, self::PARAM_UPFILE, "");
@@ -676,7 +678,7 @@ class ilFileSystemGUI
                 $unzip = " " . $unzip->render();
             }
 
-            ilUtil::sendSuccess($lng->txt("cont_file_created") . $unzip, true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_file_created") . $unzip, true);
 
             $this->setPerformedCommand(
                 "create_file",
@@ -686,7 +688,7 @@ class ilFileSystemGUI
 
         $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
 
-        ilUtil::renameExecutables($this->main_dir);
+        ilFileUtils::renameExecutables($this->main_dir);
 
         $this->ctrl->redirect($this, 'listFiles');
     }
@@ -744,19 +746,19 @@ class ilFileSystemGUI
 
             if (is_dir($file)) {
                 $is_dir = true;
-                ilUtil::delDir($file);
+                ilFileUtils::delDir($file);
             }
         }
 
         $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
         if ($is_dir) {
-            ilUtil::sendSuccess($this->lng->txt("cont_dir_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_dir_deleted"), true);
             $this->setPerformedCommand(
                 "delete_dir",
                 array("name" => ilUtil::stripSlashes($post_file))
             );
         } else {
-            ilUtil::sendSuccess($this->lng->txt("cont_file_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_file_deleted"), true);
             $this->setPerformedCommand(
                 "delete_file",
                 array("name" => ilUtil::stripSlashes($post_file))
@@ -782,16 +784,16 @@ class ilFileSystemGUI
         $a_file = $this->main_dir . "/" . $a_file;
 
         if (is_file($a_file)) {
-            $cur_files = array_keys(ilUtil::getDir($cur_dir));
+            $cur_files = array_keys(ilFileUtils::getDir($cur_dir));
             $cur_files_r = iterator_to_array(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($cur_dir)));
 
             if ($this->getAllowDirectories()) {
-                ilUtil::unzip($a_file, true);
+                ilFileUtils::unzip($a_file, true);
             } else {
-                ilUtil::unzip($a_file, true, true);
+                ilFileUtils::unzip($a_file, true, true);
             }
 
-            $new_files = array_keys(ilUtil::getDir($cur_dir));
+            $new_files = array_keys(ilFileUtils::getDir($cur_dir));
             $new_files_r = iterator_to_array(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($cur_dir)));
 
             $diff = array_diff($new_files, $cur_files);
@@ -801,10 +803,7 @@ class ilFileSystemGUI
             foreach ($diff_r as $f => $d) {
                 $pi = pathinfo($f);
                 if (!is_dir($f) && !$this->isValidSuffix(strtolower($pi["extension"]))) {
-                    ilUtil::sendFailure(
-                        $this->lng->txt("file_some_invalid_file_types_removed") . " (" . $pi["extension"] . ")",
-                        true
-                    );
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_some_invalid_file_types_removed") . " (" . $pi["extension"] . ")", true);
                     unlink($f);
                 }
             }
@@ -835,10 +834,10 @@ class ilFileSystemGUI
             }
         }
 
-        ilUtil::renameExecutables($this->main_dir);
+        ilFileUtils::renameExecutables($this->main_dir);
 
         $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
-        ilUtil::sendSuccess($this->lng->txt("cont_file_unzipped"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_file_unzipped"), true);
         $this->ctrl->redirect($this, "listFiles");
     }
 

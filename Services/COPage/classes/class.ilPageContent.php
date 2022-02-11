@@ -26,7 +26,7 @@ abstract class ilPageContent
     protected ilPageObject $pg_obj;
     public string $hier_id = "";
     public ?php4DOMElement $node = null;
-    public php4DOMDocument $dom;
+    public ?php4DOMDocument $dom = null;
     public string $page_lang = "";
     // needed for post processing (e.g. content includes)
     protected string $file_download_link;

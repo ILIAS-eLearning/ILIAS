@@ -43,7 +43,7 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
-        $pluginAdmin = new ilPluginAdmin();
+        $pluginAdmin = new ilPluginAdmin($this->createMock(ilComponentRepository::class));
         $this->setGlobalVariable("ilPluginAdmin", $pluginAdmin);
 
         $this->parentObj_mock = $this->createMock(ilObjTestGUI::class);

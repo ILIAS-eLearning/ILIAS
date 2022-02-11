@@ -868,7 +868,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
         }
         $this->object->update();
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "properties");
     }
 
@@ -934,7 +934,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         $parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
         if (!$rbacsystem->checkAccess("create", $parent_ref_id, "glo")) {
-            ilUtil::sendFailure($lng->txt("no_permission"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_permission"), true);
             $ilCtrl->redirect($this, "properties");
         }
 
@@ -954,7 +954,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $this->object->setAssignedGlossary($newObj->getId());
             $this->object->update();
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "properties");
         }
 

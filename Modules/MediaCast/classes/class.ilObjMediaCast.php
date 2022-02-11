@@ -99,15 +99,15 @@ class ilObjMediaCast extends ilObject
         // sort by order setting
         switch ($this->getOrder()) {
             case ilObjMediaCast::ORDER_TITLE:
-                $med_items = ilUtil::sortArray($med_items, "title", "asc", false, true);
+                $med_items = ilArrayUtil::sortArray($med_items, "title", "asc", false, true);
                 break;
             
             case ilObjMediaCast::ORDER_CREATION_DATE_ASC:
-                $med_items = ilUtil::sortArray($med_items, "creation_date", "asc", false, true);
+                $med_items = ilArrayUtil::sortArray($med_items, "creation_date", "asc", false, true);
                 break;
             
             case ilObjMediaCast::ORDER_CREATION_DATE_DESC:
-                $med_items = ilUtil::sortArray($med_items, "creation_date", "desc", false, true);
+                $med_items = ilArrayUtil::sortArray($med_items, "creation_date", "desc", false, true);
                 break;
             
             case ilObjMediaCast::ORDER_MANUAL:
@@ -123,7 +123,7 @@ class ilObjMediaCast extends ilObject
                     }
                 }
                 
-                $med_items = ilUtil::sortArray($med_items, "order", "asc", true, true);
+                $med_items = ilArrayUtil::sortArray($med_items, "order", "asc", true, true);
                 break;
         }
 

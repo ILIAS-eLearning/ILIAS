@@ -1,7 +1,17 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -12,9 +22,9 @@ class ilAssQuestionProcessLockFileStorage extends ilFileSystemAbstractionStorage
 {
     private $subPath;
 
-    public function __construct($questionId, $userId)
+    public function __construct(int $questionId, $userId)
     {
-        parent::__construct(ilFileSystemStorage::STORAGE_DATA, true, $questionId);
+        parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $questionId);
 
         $this->initSubPath($userId);
     }
@@ -27,7 +37,7 @@ class ilAssQuestionProcessLockFileStorage extends ilFileSystemAbstractionStorage
      *
      * @return string path prefix e.g files
      */
-    protected function getPathPrefix(): string
+    protected function getPathPrefix() : string
     {
         return 'ilAssQuestionProcessLocks';
     }
@@ -41,24 +51,24 @@ class ilAssQuestionProcessLockFileStorage extends ilFileSystemAbstractionStorage
      *
      * @return string directory name
      */
-    protected function getPathPostfix(): string
+    protected function getPathPostfix() : string
     {
         return 'question';
     }
 
-    public function getPath(): string
+    public function getPath() : string
     {
         return parent::getPath() . '/' . $this->subPath;
     }
 
-    public function create(): void
+    public function create() : void
     {
-        set_error_handler(function ($severity, $message, $file, $line) {
+        set_error_handler(function ($severity, $message, $file, $line) : void {
             throw new ErrorException($message, $severity, 0, $file, $line);
         });
 
         try {
-            ilUtil::makeDirParents($this->getPath());
+            ilFileUtils::makeDirParents($this->getPath());
             restore_error_handler();
         } catch (Exception $e) {
             restore_error_handler();
@@ -69,7 +79,7 @@ class ilAssQuestionProcessLockFileStorage extends ilFileSystemAbstractionStorage
         }
     }
 
-    private function initSubPath($userId)
+    private function initSubPath($userId) : void
     {
         $userId = (string) $userId;
 

@@ -22,15 +22,15 @@ class ilExAssignmentReminder
     protected ilTree $tree;
 
     protected ?bool $rmd_status = null;
-    protected int $rmd_start;
-    protected int $rmd_end;
-    protected int $rmd_frequency;
-    protected int $rmd_last_send;
-    protected int $rmd_tpl_id;
+    protected int $rmd_start = 0;
+    protected int $rmd_end = 0;
+    protected int $rmd_frequency = 0;
+    protected int $rmd_last_send = 0;
+    protected int $rmd_tpl_id = 0;
 
-    protected int $ass_id;
-    protected int $exc_id;
-    protected string $rmd_type;
+    protected int $ass_id = 0;
+    protected int $exc_id = 0;
+    protected string $rmd_type = "";
 
     protected ilLogger $log;
     protected ilAccessHandler $access;

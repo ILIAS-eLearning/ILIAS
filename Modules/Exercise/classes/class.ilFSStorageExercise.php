@@ -67,7 +67,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     ) : string {
         $path = $this->feedb_path . "/" . $a_user_id;
         if (!file_exists($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         return $path;
     }
@@ -76,7 +76,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     {
         $path = $this->feedb_path . "/0";
         if (!file_exists($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         return $path;
     }
@@ -90,7 +90,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     ) : string {
         $path = $this->multi_feedback_upload_path . "/" . $a_user_id;
         if (!file_exists($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         return $path;
     }
@@ -110,7 +110,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
             $path .= (int) $a_crit_id . "/";
         }
         if (!file_exists($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         return $path;
     }
@@ -122,13 +122,13 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     {
         parent::create();
         if (!file_exists($this->submission_path)) {
-            ilUtil::makeDirParents($this->submission_path);
+            ilFileUtils::makeDirParents($this->submission_path);
         }
         if (!file_exists($this->tmp_path)) {
-            ilUtil::makeDirParents($this->tmp_path);
+            ilFileUtils::makeDirParents($this->tmp_path);
         }
         if (!file_exists($this->feedb_path)) {
-            ilUtil::makeDirParents($this->feedb_path);
+            ilFileUtils::makeDirParents($this->feedb_path);
         }
     }
 
@@ -150,7 +150,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
             }
         }
         closedir($dp);
-        return ilUtil::sortArray($files, "name", "asc");
+        return ilArrayUtil::sortArray($files, "name", "asc");
     }
 
 
@@ -188,16 +188,16 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
             $filename = preg_replace("/[^_a-zA-Z0-9\.]/", "", $filename);
 
             if (!is_dir($savepath = $this->getAbsoluteSubmissionPath())) {
-                ilUtil::makeDir($savepath);
+                ilFileUtils::makeDir($savepath);
             }
             $savepath .= '/' . $user_id;
             if (!is_dir($savepath)) {
-                ilUtil::makeDir($savepath);
+                ilFileUtils::makeDir($savepath);
             }
 
             // CHECK IF FILE PATH EXISTS
             if (!is_dir($savepath)) {
-                ilUtil::makeDir($savepath);
+                ilFileUtils::makeDir($savepath);
             }
             $now = getdate();
             $prefix = sprintf(
@@ -211,7 +211,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
             );
 
             if (!$is_unziped) {
-                ilUtil::moveUploadedFile(
+                ilFileUtils::moveUploadedFile(
                     $a_http_post_file["tmp_name"],
                     $prefix . "_" . $filename,
                     $savepath . "/" . $prefix . "_" . $filename

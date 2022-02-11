@@ -172,7 +172,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $overall_html = "";
         if (sizeof($html)) {
             $btpl = new ilTemplate("tpl.classification_block.html", true, true, "Services/Classification");
-            
+
             foreach ($html as $item) {
                 $btpl->setCurrentBlock("provider_chunk_bl");
                 $btpl->setVariable("TITLE", $item["title"]);
@@ -275,7 +275,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
                         $preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);
                     }
                 }
-                $valid_objects = ilUtil::sortArray($valid_objects, "title", "asc", false, true);
+                $valid_objects = ilArrayUtil::sortArray($valid_objects, "title", "asc", false, true);
                 if (sizeof($valid_objects)) {
                     $has_content = true;
                     
@@ -283,7 +283,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
                     $this->item_list_gui = array();
                     foreach ($valid_objects as $block) {
-                        $items = ilUtil::sortArray($block["items"], "title", "asc", false, true);
+                        $items = ilArrayUtil::sortArray($block["items"], "title", "asc", false, true);
                         foreach ($items as $obj) {
                             $type = $obj["type"];
 

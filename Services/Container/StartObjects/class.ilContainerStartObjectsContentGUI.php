@@ -28,7 +28,9 @@ class ilContainerStartObjectsContentGUI
     protected bool $enable_desktop;
     protected ilContainerGUI $parent_gui;
     protected ilContainer $parent_obj;
-    
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+
     public function __construct(
         ilContainerGUI $a_gui,
         ilContainer $a_parent_obj
@@ -45,6 +47,9 @@ class ilContainerStartObjectsContentGUI
             $a_parent_obj->getRefId(),
             $a_parent_obj->getId()
         );
+        $cs = $DIC->contentStyle();
+        $this->content_style_domain = $cs->domain()->styleForRefId($a_parent_obj->getRefId());
+        $this->content_style_gui = $cs->gui();
     }
     
     public function enableDesktop(
@@ -94,13 +99,7 @@ class ilContainerStartObjectsContentGUI
             return "";
         }
 
-        $tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath(ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->parent_obj->getStyleSheetId(),
-                $this->parent_obj->getType()
-            ))
-        );
+        $this->content_style_gui->addCss($tpl, $this->parent_obj->getRefId());
         $tpl->setCurrentBlock("SyntaxStyle");
         $tpl->setVariable(
             "LOCATION_SYNTAX_STYLESHEET",
@@ -110,10 +109,7 @@ class ilContainerStartObjectsContentGUI
 
         $page_gui = new ilContainerStartObjectsPageGUI($page_id);
         
-        $page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-            $this->parent_obj->getStyleSheetId(),
-            $this->parent_obj->getType()
-        ));
+        $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
         $page_gui->setPresentationTitle("");
         $page_gui->setTemplateOutput(false);

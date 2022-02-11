@@ -48,15 +48,11 @@ class ilMDLifecycle extends ilMDBase
      */
     public function getContributeIds() : array
     {
-
-
         return ilMDContribute::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_lifecycle');
     }
 
     public function getContribute(int $a_contribute_id) : ?ilMDContribute
     {
-
-
         if (!$a_contribute_id) {
             return null;
         }
@@ -68,8 +64,6 @@ class ilMDLifecycle extends ilMDBase
 
     public function addContribute() : ilMDContribute
     {
-
-
         $con = new ilMDContribute($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $con->setParentId($this->getMetaId());
         $con->setParentType('meta_lifecycle');
@@ -124,8 +118,7 @@ class ilMDLifecycle extends ilMDBase
 
     public function save() : int
     {
-
-        $fields                      = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_lifecycle_id'] = array('integer', $next_id = $this->db->nextId('il_meta_lifecycle'));
 
         if ($this->db->insert('il_meta_lifecycle', $fields)) {
@@ -137,7 +130,6 @@ class ilMDLifecycle extends ilMDBase
 
     public function update() : bool
     {
-
         if ($this->getMetaId()) {
             if ($this->db->update(
                 'il_meta_lifecycle',
@@ -162,7 +154,7 @@ class ilMDLifecycle extends ilMDBase
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_lifecycle " .
                 "WHERE meta_lifecycle_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res   = $this->db->manipulate($query);
+            $res = $this->db->manipulate($query);
             return true;
         }
         return false;
@@ -174,19 +166,17 @@ class ilMDLifecycle extends ilMDBase
     public function __getFields() : array
     {
         return array(
-            'rbac_id'          => array('integer', $this->getRBACId()),
-            'obj_id'           => array('integer', $this->getObjId()),
-            'obj_type'         => array('text', $this->getObjType()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
             'lifecycle_status' => array('text', $this->getStatus()),
-            'meta_version'     => array('text', $this->getVersion()),
+            'meta_version' => array('text', $this->getVersion()),
             'version_language' => array('text', $this->getVersionLanguageCode())
         );
     }
 
     public function read() : bool
     {
-
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_lifecycle " .
                 "WHERE meta_lifecycle_id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -196,8 +186,8 @@ class ilMDLifecycle extends ilMDBase
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setStatus($row->lifecycle_status);
-                $this->setVersion($row->meta_version);
+                $this->setStatus((string) $row->lifecycle_status);
+                $this->setVersion((string) $row->meta_version);
                 $this->setVersionLanguage(new ilMDLanguageItem($row->version_language));
             }
         }
@@ -228,7 +218,6 @@ class ilMDLifecycle extends ilMDBase
             $con->toXML($writer);
         }
         if (!count($contributes)) {
-
             $con = new ilMDContribute($this->getRBACId(), $this->getObjId());
             $con->toXML($writer);
         }

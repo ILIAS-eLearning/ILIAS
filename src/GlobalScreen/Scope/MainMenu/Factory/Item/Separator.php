@@ -20,7 +20,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
  */
 class Separator extends AbstractChildItem implements hasTitle, isChild
 {
-    
     protected bool $visible_title = false;
     protected string $title = '';
     
@@ -30,7 +29,7 @@ class Separator extends AbstractChildItem implements hasTitle, isChild
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
         
         return $clone;
@@ -46,7 +45,7 @@ class Separator extends AbstractChildItem implements hasTitle, isChild
     
     public function withVisibleTitle(bool $visible_title) : self
     {
-        $clone                = clone($this);
+        $clone = clone($this);
         $clone->visible_title = $visible_title;
         
         return $clone;

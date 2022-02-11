@@ -72,6 +72,30 @@ class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     }
 
     /**
+     * Deletes the table 'service_class' from the database, since information 
+     * is now stored in an artifact.
+     */
+    public function step_5() : void
+    {
+        $this->abortIfNotPrepared();
+        if ($this->database->tableExists('service_class')) {
+            $this->database->dropTable('service_class');
+        }
+    }
+    
+    /**
+     * Deletes the table 'module_class' from the database, since information 
+     * is now stored in an artifact.
+     */
+    public function step_6() : void
+    {
+        $this->abortIfNotPrepared();
+        if ($this->database->tableExists('module_class')) {
+            $this->database->dropTable('module_class');
+        }
+    }
+
+    /**
      * Halts the execution of these update steps if no database was
      * provided.
      *

@@ -455,10 +455,10 @@ class ilObjAssessmentFolder extends ilObject
         $pathelements = array();
         foreach ($path as $id => $data) {
             if ($id == 0) {
-                array_push($pathelements, ilUtil::prepareFormOutput($this->lng->txt("repository")));
+                array_push($pathelements, ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("repository")));
             } else {
                 array_push($pathelements, "<a href=\"./goto.php?target=" . $data["type"] . "_" . $data["ref_id"] . "&amp;client=" . CLIENT_ID . "\">" .
-                    ilUtil::prepareFormOutput($data["title"]) . "</a>");
+                    ilLegacyFormElementsUtil::prepareFormOutput($data["title"]) . "</a>");
             }
         }
         return implode("&nbsp;&gt;&nbsp;", $pathelements);

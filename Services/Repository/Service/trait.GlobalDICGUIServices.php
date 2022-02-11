@@ -35,6 +35,7 @@ trait GlobalDICGUIServices
     protected GlobalScreen\Services $global_screen;
     protected \ilHelpGUI $help;
     protected \ilTabsGUI $tabs;
+    protected \ilLocatorGUI $locator;
 
     protected function initGUIServices(\ILIAS\DI\Container $DIC)
     {
@@ -48,6 +49,7 @@ trait GlobalDICGUIServices
         $this->global_screen = $DIC->globalScreen();
         $this->help = $DIC->help();
         $this->tabs = $DIC->tabs();
+        $this->locator = $DIC["ilLocator"];
     }
 
     public function ui() : UIServices
@@ -98,5 +100,10 @@ trait GlobalDICGUIServices
     public function tabs() : \ilTabsGUI
     {
         return $this->tabs;
+    }
+
+    public function locator() : \ilLocatorGUI
+    {
+        return $this->locator;
     }
 }

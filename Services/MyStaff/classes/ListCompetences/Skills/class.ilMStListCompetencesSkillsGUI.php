@@ -29,6 +29,7 @@ class ilMStListCompetencesSkillsGUI
      * @var Container
      */
     private $dic;
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     /**
@@ -36,6 +37,8 @@ class ilMStListCompetencesSkillsGUI
      */
     public function __construct(Container $dic)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->access = ilMyStaffAccess::getInstance();
         $this->dic = $dic;
     }
@@ -46,7 +49,7 @@ class ilMStListCompetencesSkillsGUI
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
         } else {
-            ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
             $this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }

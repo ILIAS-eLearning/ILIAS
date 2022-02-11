@@ -44,9 +44,9 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->parseCurrentBlock();
             }
         }
-
         $row_mapping = $component->getRowMapping();
         $data = $component->getData();
+
         foreach ($data as $record) {
             $row = $row_mapping(
                 new PresentationRow($component->getSignalGenerator()),
@@ -90,7 +90,10 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("HEADLINE", $component->getHeadline());
         $tpl->setVariable("TOGGLE_SIGNAL", $sig_toggle);
-        $tpl->setVariable("SUBHEADLINE", $component->getSubheadline());
+        $subheadline = $component->getSubheadline();
+        if ($subheadline) {
+            $tpl->setVariable("SUBHEADLINE", $subheadline);
+        }
 
         foreach ($component->getImportantFields() as $label => $value) {
             $tpl->setCurrentBlock("important_field");
@@ -104,17 +107,23 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("DESCLIST", $default_renderer->render($component->getContent()));
 
         $further_fields_headline = $component->getFurtherFieldsHeadline();
-        if ($further_fields_headline) {
-            $tpl->setVariable("FURTHER_FIELDS_HEADLINE", $further_fields_headline);
-        }
+        $further_fields = $component->getFurtherFields();
 
-        foreach ($component->getFurtherFields() as $label => $value) {
-            $tpl->setCurrentBlock("further_field");
-            if (is_string($label)) {
-                $tpl->setVariable("FIELD_LABEL", $label);
+        if (count($further_fields) > 0) {
+            $tpl->touchBlock("has_further_fields");
+
+            if ($further_fields_headline) {
+                $tpl->setVariable("FURTHER_FIELDS_HEADLINE", $further_fields_headline);
             }
-            $tpl->setVariable("FIELD_VALUE", $value);
-            $tpl->parseCurrentBlock();
+
+            foreach ($further_fields as $label => $value) {
+                $tpl->setCurrentBlock("further_field");
+                if (is_string($label)) {
+                    $tpl->setVariable("FIELD_LABEL", $label);
+                }
+                $tpl->setVariable("FIELD_VALUE", $value);
+                $tpl->parseCurrentBlock();
+            }
         }
 
         $action = $component->getAction();

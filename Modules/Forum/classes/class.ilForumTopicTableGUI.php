@@ -133,7 +133,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'confirmMergeThreads'));
         $this->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');
 
-        ilUtil::sendInfo($this->lng->txt('please_choose_target'));
+        $this->mainTemplate->setOnScreenMessage('info', $this->lng->txt('please_choose_target'));
 
         $this->setTitle(sprintf($this->lng->txt('frm_selected_merge_src'), $this->getSelectedThread()->getSubject()));
 
@@ -160,17 +160,23 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
         if ('mergeThreads' === $this->parent_cmd) {
             $checked = $this->max_count === 1 || (isset($thread_ids) && in_array($thread->getId(), $thread_ids, true));
-            $this->tpl->setVariable('VAL_CHECK', ilUtil::formRadioButton(
-                $checked,
-                'thread_ids[]',
-                $thread->getId()
-            ));
+            $this->tpl->setVariable(
+                'VAL_CHECK',
+                ilLegacyFormElementsUtil::formRadioButton(
+                    $checked,
+                    'thread_ids[]',
+                    $thread->getId()
+                )
+            );
         } elseif ('showThreads' === $this->parent_cmd) {
-            $this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
-                (isset($thread_ids) && in_array($thread->getId(), $thread_ids, true)),
-                'thread_ids[]',
-                $thread->getId()
-            ));
+            $this->tpl->setVariable(
+                'VAL_CHECK',
+                ilLegacyFormElementsUtil::formCheckbox(
+                    (isset($thread_ids) && in_array($thread->getId(), $thread_ids, true)),
+                    'thread_ids[]',
+                    $thread->getId()
+                )
+            );
 
             if ($this->parent_obj->objProperties->isIsThreadRatingEnabled()) {
                 $rating = new ilRatingGUI();
@@ -230,7 +236,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $authorinfo = new ilForumAuthorInformation(
             $thread->getThrAuthorId(),
             $thread->getDisplayUserId(),
-            $thread->getUserAlias(),
+            (string) $thread->getUserAlias(),
             (string) $thread->getImportName(),
             [
                 'class' => 'il_ItemProperty',
@@ -266,8 +272,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
             $authorinfo = new ilForumAuthorInformation(
                 $objLastPost->getPosAuthorId(),
                 $objLastPost->getDisplayUserId(),
-                $objLastPost->getUserAlias(),
-                $objLastPost->getImportName(),
+                (string) $objLastPost->getUserAlias(),
+                (string) $objLastPost->getImportName(),
                 [
                     'href' => $this->ctrl->getLinkTarget($this->getParentObject(), 'showUser')
                 ]

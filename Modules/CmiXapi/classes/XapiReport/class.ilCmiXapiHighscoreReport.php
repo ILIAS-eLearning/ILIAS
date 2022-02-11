@@ -32,21 +32,23 @@ class ilCmiXapiHighscoreReport
     private array $tableData = [];
 
     private ?int $userRank = null;
-    
+
     /**
      * @var ilCmiXapiUser[]
      */
-    protected $cmixUsersByIdent;
+    protected array $cmixUsersByIdent;
     
     /**
      * @var int
      */
-    protected $objId;
+    protected int $objId;
+
     /**
      * ilCmiXapiHighscoreReport constructor.
      * @param string $responseBody
+     * @param int    $objId
      */
-    public function __construct(string $responseBody, $objId)
+    public function __construct(string $responseBody, int $objId)
     {
         $this->objId = $objId;
         $responseBody = json_decode($responseBody, true);
@@ -145,7 +147,7 @@ class ilCmiXapiHighscoreReport
         return true;
     }
 
-    private function identUser($userIdent) : bool
+    private function identUser(int $userIdent) : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
     
@@ -156,8 +158,12 @@ class ilCmiXapiHighscoreReport
         }
         return false;
     }
-    
-    protected function fetchTotalDuration($allDurations) : string
+
+    /**
+     * @param array $allDurations
+     * @return string
+     */
+    protected function fetchTotalDuration(array $allDurations) : string
     {
         $totalDuration = 0;
         

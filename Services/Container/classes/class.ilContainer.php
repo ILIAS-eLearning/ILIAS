@@ -49,6 +49,12 @@ class ilContainer extends ilObject
     public const SORT_NEW_ITEMS_ORDER_CREATION = 1;
     public const SORT_NEW_ITEMS_ORDER_ACTIVATION = 2;
 
+    public const TILE_NORMAL = 0;
+    public const TILE_SMALL = 1;
+    public const TILE_LARGE = 2;
+    public const TILE_EXTRA_LARGE = 3;
+    public const TILE_FULL = 4;
+
     public static bool $data_preloaded = false;
 
     protected ilAccessHandler $access;
@@ -67,7 +73,7 @@ class ilContainer extends ilObject
     protected bool $news_block_activated = false;
     protected bool $use_news = false;
     protected ilRecommendedContentManager $recommended_content_manager;
-
+    
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
         /** @var \ILIAS\DI\Container $DIC */
@@ -92,6 +98,21 @@ class ilContainer extends ilObject
         $this->recommended_content_manager = new ilRecommendedContentManager();
     }
 
+    /**
+     * @return array<int,string>
+     */
+    public function getTileSizes() : array
+    {
+        $lng = $this->lng;
+        return [
+            self::TILE_SMALL => $lng->txt("cont_tile_size_1"),
+            self::TILE_NORMAL => $lng->txt("cont_tile_size_0"),
+            self::TILE_LARGE => $lng->txt("cont_tile_size_2"),
+            self::TILE_EXTRA_LARGE => $lng->txt("cont_tile_size_3"),
+            self::TILE_FULL => $lng->txt("cont_tile_size_4")
+        ];
+    }
+
     public function getObjectTranslation() : ?ilObjectTranslation
     {
         return $this->obj_trans;
@@ -105,14 +126,14 @@ class ilContainer extends ilObject
     // <webspace_dir>/container_data.
     public function createContainerDirectory() : void
     {
-        $webspace_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir();
         $cont_dir = $webspace_dir . "/container_data";
         if (!is_dir($cont_dir)) {
-            ilUtil::makeDir($cont_dir);
+            ilFileUtils::makeDir($cont_dir);
         }
         $obj_dir = $cont_dir . "/obj_" . $this->getId();
         if (!is_dir($obj_dir)) {
-            ilUtil::makeDir($obj_dir);
+            ilFileUtils::makeDir($obj_dir);
         }
     }
     
@@ -123,7 +144,7 @@ class ilContainer extends ilObject
     
     public static function _getContainerDirectory(int $a_id) : string
     {
-        return ilUtil::getWebspaceDir() . "/container_data/obj_" . $a_id;
+        return ilFileUtils::getWebspaceDir() . "/container_data/obj_" . $a_id;
     }
 
     // Set Found hidden files (set by getSubItems).
@@ -878,7 +899,11 @@ class ilContainer extends ilObject
             // using (part of) shortened description
             if ($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::DESC_LENGTH) {
                 foreach ($objects as $key => $object) {
-                    $objects[$key]["description"] = ilUtil::shortenText($object["description"], $short_desc_max_length, true);
+                    $objects[$key]["description"] = ilStr::shortenTextExtended(
+                        $object["description"],
+                        $short_desc_max_length,
+                        true
+                    );
                 }
             }
             // using (part of) long description
@@ -895,7 +920,11 @@ class ilContainer extends ilObject
                             $long_desc[$object["obj_id"]] = $object["description"];
                         }
                         if ($short_desc && $short_desc_max_length) {
-                            $long_desc[$object["obj_id"]] = ilUtil::shortenText($long_desc[$object["obj_id"]], $short_desc_max_length, true);
+                            $long_desc[$object["obj_id"]] = ilStr::shortenTextExtended(
+                                $long_desc[$object["obj_id"]],
+                                $short_desc_max_length,
+                                true
+                            );
                         }
                         $objects[$key]["description"] = $long_desc[$object["obj_id"]];
                     }

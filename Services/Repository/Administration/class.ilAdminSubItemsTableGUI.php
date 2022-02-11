@@ -191,7 +191,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
             }
         }
         $this->tpl->setVariable("VAL_TITLE", $title);
-        $this->tpl->setVariable("VAL_DESC", ilUtil::shortenText($a_set["desc"], ilObject::DESC_LENGTH, true));
+        $this->tpl->setVariable("VAL_DESC", ilStr::shortenTextExtended($a_set["desc"], ilObject::DESC_LENGTH, true));
         $this->tpl->setVariable("VAL_LAST_CHANGE", ilDatePresentation::formatDate(new ilDateTime($a_set["last_update"], IL_CAL_DATETIME)));
         $alt = ($objDefinition->isPlugin($a_set["type"]))
             ? $lng->txt("icon") . " " . ilObjectPlugin::lookupTxtById($a_set["type"], "obj_" . $a_set["type"])

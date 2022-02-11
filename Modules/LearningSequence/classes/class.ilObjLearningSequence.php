@@ -412,6 +412,7 @@ class ilObjLearningSequence extends ilContainer
     public static function _goto(int $target, string $add = "")
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
@@ -447,13 +448,10 @@ class ilObjLearningSequence extends ilContainer
                 ilObjectGUI::_gotoRepositoryNode($target, "infoScreenGoto");
             } else {
                 if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                    ilUtil::sendFailure(
-                        sprintf(
-                            $lng->txt("msg_no_perm_read_item"),
-                            ilObject::_lookupTitle(ilObject::_lookupObjId($target))
-                        ),
-                        true
-                    );
+                    $main_tpl->setOnScreenMessage('failure', sprintf(
+                        $lng->txt("msg_no_perm_read_item"),
+                        ilObject::_lookupTitle(ilObject::_lookupObjId($target))
+                    ), true);
                     ilObjectGUI::_gotoRepositoryRoot();
                 }
             }

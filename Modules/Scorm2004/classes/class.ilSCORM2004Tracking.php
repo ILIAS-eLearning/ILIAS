@@ -79,7 +79,7 @@ class ilSCORM2004Tracking
      * Get overall scorm status
      * @return
      */
-    public static function _getProgressInfo(object $a_obj_id) : array
+    public static function _getProgressInfo(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -100,13 +100,13 @@ class ilSCORM2004Tracking
 
         while ($row = $ilDB->fetchAssoc($res)) {
             if (self::_isCompleted($row["status"], $row["satisfied"])) {
-                $info['completed'][] = $row["user_id"];
+                $info['completed'][] = (int) $row["user_id"];
             }
             if (self::_isInProgress($row["status"], $row["satisfied"])) {
-                $info['in_progress'][] = $row["user_id"];
+                $info['in_progress'][] = (int) $row["user_id"];
             }
             if (self::_isFailed($row["status"], $row["satisfied"])) {
-                $info['failed'][] = $row["user_id"];
+                $info['failed'][] = (int) $row["user_id"];
             }
         }
 
@@ -117,7 +117,7 @@ class ilSCORM2004Tracking
      * Get overall scorm status
      * @return
      */
-    public static function _getProgressInfoOfUser(object $a_obj_id, $a_user_id) : string
+    public static function _getProgressInfoOfUser(int $a_obj_id, $a_user_id) : string
     {
         global $DIC;
 
@@ -152,7 +152,7 @@ class ilSCORM2004Tracking
      * Get all tracked users
      * @return
      */
-    public static function _getTrackedUsers(object $a_obj_id) : array
+    public static function _getTrackedUsers(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -170,7 +170,7 @@ class ilSCORM2004Tracking
 
         $users = array();
         while ($row = $ilDB->fetchAssoc($res)) {
-            $users[] = $row["user_id"];
+            $users[] = (int) $row["user_id"];
         }
         return $users;
     }

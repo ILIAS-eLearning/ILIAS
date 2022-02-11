@@ -34,7 +34,7 @@ class DecoratedPageBuilder implements PageBuilder
     public function __construct(PageBuilder $original, Closure $deco)
     {
         $this->original = $original;
-        $this->deco     = $deco;
+        $this->deco = $deco;
     }
     
     /**

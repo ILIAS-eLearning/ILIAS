@@ -10,7 +10,7 @@
  */
 class ilExerciseLP extends ilObjectLP
 {
-    public static function getDefaultModes($a_lp_active) : array
+    public static function getDefaultModes(bool $a_lp_active) : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -31,7 +31,7 @@ class ilExerciseLP extends ilObjectLP
         );
     }
     
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids) : bool
+    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids) : bool
     {
         global $DIC;
 

@@ -258,10 +258,14 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
             if ($this->getSingleline()) {
                 if (is_object($value)) {
                     $tpl->setCurrentBlock("prop_text_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
+                    $tpl->setVariable("PROPERTY_VALUE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                    );
                     $tpl->parseCurrentBlock();
                     $tpl->setCurrentBlock("prop_points_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
+                    $tpl->setVariable("PROPERTY_VALUE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints())
+                    );
                     $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('singleline');
@@ -277,7 +281,9 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
             } elseif (!$this->getSingleline()) {
                 if (is_object($value)) {
                     $tpl->setCurrentBlock("prop_points_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
+                    $tpl->setVariable("PROPERTY_VALUE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints())
+                    );
                     $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('multiline');
@@ -362,7 +368,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     protected function sanitizeSuperGlobalSubmitValue()
     {
         if (isset($_POST[$this->getPostVar()]) && is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
     }
 }

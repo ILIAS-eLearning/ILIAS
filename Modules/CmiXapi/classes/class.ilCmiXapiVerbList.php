@@ -63,44 +63,47 @@ class ilCmiXapiVerbList
         'http://adlnet.gov/expapi/verbs/terminated',
         'http://adlnet.gov/expapi/verbs/voided'
     );
-    
+
     /**
-     * @param string $verbId
+     * @param string $verb
+     * @return bool
      */
-    public function isValidVerb($verb) : bool
+    public function isValidVerb(string $verb) : bool
     {
         return in_array($verb, $this->verbs);
     }
-    
+
     /**
-     * @param string $shortVerbId
+     * @param string $verb
+     * @return string
      */
-    public function getVerbUri($verb) : string
+    public function getVerbUri(string $verb) : string
     {
         return 'http://adlnet.gov/expapi/verbs/' . $verb;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    public function getDynamicSelectOptions($verbs) : array
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $options = array(
-            '' => $DIC->language()->txt('cmix_all_verbs')
-        );
-        
-        foreach ($verbs as $verb) {
-            $verb = $verb['_id'];
-            $options[urlencode($verb)] = self::getVerbTranslation(
-                $DIC->language(),
-                $verb
-            );
-        }
-        
-        return $options;
-    }
+//    /**
+//     * @param string[] $verbs
+//     * @return array<string, mixed>
+//     */
+//    public function getDynamicSelectOptions(array $verbs) : array
+//    {
+//        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+//
+//        $options = array(
+//            '' => $DIC->language()->txt('cmix_all_verbs')
+//        );
+//
+//        foreach ($verbs as $verb) {
+//            $verb = $verb['_id'];
+//            $options[urlencode($verb)] = self::getVerbTranslation(
+//                $DIC->language(),
+//                $verb
+//            );
+//        }
+//
+//        return $options;
+//    }
 
     /**
      * @return array<string, mixed>
@@ -122,11 +125,13 @@ class ilCmiXapiVerbList
         
         return $options;
     }
-    
+
     /**
+     * @param ilLanguage $lng
+     * @param string     $verb
      * @return string
      */
-    public static function getVerbTranslation(ilLanguage $lng, string $verb)
+    public static function getVerbTranslation(ilLanguage $lng, string $verb) : string
     {
         $verbMatch = preg_match('/\/([^\/]+)$/', $verb, $matches);
         $shortVerb = $matches[1];

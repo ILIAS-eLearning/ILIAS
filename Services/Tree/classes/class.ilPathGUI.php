@@ -193,7 +193,7 @@ class ilPathGUI
                 }
                 if ($this->getUseImages()) {
                     $tpl->setCurrentBlock('locator_img');
-                    $tpl->setVariable('IMG_SRC', ilUtil::getTypeIconPath($type, $obj_id));
+                    $tpl->setVariable('IMG_SRC', ilObject::_getIcon($obj_id, "small", $type));
                     $tpl->setVariable('IMG_ALT', $this->lng->txt('obj_' . $type));
                     $tpl->parseCurrentBlock();
                 }
@@ -211,6 +211,7 @@ class ilPathGUI
 
                 $first = false;
             }
+            $tpl->setVariable("TXT_BREADCRUMBS", $this->lng->txt("breadcrumb_navigation"));
             return $tpl->get();
         }
     }

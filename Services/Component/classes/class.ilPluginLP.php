@@ -45,12 +45,12 @@ class ilPluginLP extends ilObjectLP
         return $this->status;
     }
     
-    public function getDefaultMode()
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_UNDEFINED;
     }
     
-    public function getValidModes()
+    public function getValidModes() : array
     {
         return array(
             ilLPObjSettings::LP_MODE_UNDEFINED,
@@ -58,7 +58,7 @@ class ilPluginLP extends ilObjectLP
         );
     }
     
-    public function getCurrentMode()
+    public function getCurrentMode() : int
     {
         if ($this->status !== null) {
             return ilLPObjSettings::LP_MODE_PLUGIN;
@@ -66,7 +66,7 @@ class ilPluginLP extends ilObjectLP
         return ilLPObjSettings::LP_MODE_UNDEFINED;
     }
     
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
+    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids) : bool
     {
         global $DIC;
         $objDefinition = $DIC['objDefinition'];

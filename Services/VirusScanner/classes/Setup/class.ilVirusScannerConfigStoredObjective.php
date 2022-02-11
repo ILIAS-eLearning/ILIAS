@@ -1,18 +1,26 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
 use ILIAS\Setup;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilVirusScannerConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilVirusScannerSetupConfig
-     */
-    protected $config;
+    protected \ilVirusScannerSetupConfig $config;
 
     public function __construct(
-        \ilVirusScannerSetupConfig $config
+        ilVirusScannerSetupConfig $config
     ) {
         $this->config = $config;
     }
@@ -32,6 +40,9 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
         return false;
     }
 
+    /**
+     * @return \ilIniFilesLoadedObjective[]
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
@@ -43,13 +54,13 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 
-        $ini->setVariable("tools", "vscantype", $this->config->getVirusScanner());
-        $ini->setVariable("tools", "scancommand", $this->config->getPathToScan());
-        $ini->setVariable("tools", "cleancommand", $this->config->getPathToClean());
-        $ini->setVariable("tools", "icap_host", $this->config->getIcapHost());
-        $ini->setVariable("tools", "icap_port", $this->config->getIcapPort());
-        $ini->setVariable("tools", "icap_service_name", $this->config->getIcapServiceName());
-        $ini->setVariable("tools", "icap_client_path", $this->config->getIcapClientPath());
+        $ini->setVariable("tools", "vscantype", (string) $this->config->getVirusScanner());
+        $ini->setVariable("tools", "scancommand", (string) $this->config->getPathToScan());
+        $ini->setVariable("tools", "cleancommand", (string) $this->config->getPathToClean());
+        $ini->setVariable("tools", "icap_host", (string) $this->config->getIcapHost());
+        $ini->setVariable("tools", "icap_port", (string) $this->config->getIcapPort());
+        $ini->setVariable("tools", "icap_service_name", (string) $this->config->getIcapServiceName());
+        $ini->setVariable("tools", "icap_client_path", (string) $this->config->getIcapClientPath());
 
         if (!$ini->write()) {
             throw new Setup\UnachievableException("Could not write ilias.ini.php");
@@ -58,9 +69,6 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
         return $environment;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isApplicable(Setup\Environment $environment) : bool
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
@@ -72,7 +80,6 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
             $ini->readVariable("tools", "icap_host") !== $this->config->getIcapHost() ||
             $ini->readVariable("tools", "icap_port") !== $this->config->getIcapPort() ||
             $ini->readVariable("tools", "icap_service_name") !== $this->config->getIcapServiceName() ||
-            $ini->readVariable("tools", "icap_client_path") !== $this->config->getIcapClientPath()
-        ;
+            $ini->readVariable("tools", "icap_client_path") !== $this->config->getIcapClientPath();
     }
 }

@@ -1,10 +1,21 @@
-<?php
-
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 use \GuzzleHttp\Client;
 use \GuzzleHttp\Psr7\Uri;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumingAdministrationGUI
  *
@@ -48,19 +59,20 @@ class ilLTIConsumerAdministrationGUI
 
     const ALLOWED_FILE_EXT = ['jpg', 'jpeg', 'png', 'gif', 'ico', 'svg'];
 
-    /** @var array $_importedXmlData */
-    private $_importedXmlData = [];
+    private array $_importedXmlData = [];
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate(); /* @var \ILIAS\DI\Container $DIC */
+
         $DIC->language()->loadLanguageModule("rep");
 
         //$this->performProviderImport($this->xml2());
     }
     
-    protected function initSubTabs()
+    protected function initSubTabs() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -92,7 +104,7 @@ class ilLTIConsumerAdministrationGUI
         );
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -105,8 +117,9 @@ class ilLTIConsumerAdministrationGUI
                 $this->{$cmd}();
         }
     }
-    
-    protected function applyGlobalProviderFilterCmd()
+
+//    todo?
+    protected function applyGlobalProviderFilterCmd() : void
     {
         $table = $this->buildProviderTable($this, self::CMD_SHOW_GLOBAL_PROVIDER);
         $table->writeFilterToSession();
@@ -114,7 +127,7 @@ class ilLTIConsumerAdministrationGUI
         $this->showGlobalProviderCmd();
     }
     
-    protected function resetGlobalProviderFilterCmd()
+    protected function resetGlobalProviderFilterCmd() : void
     {
         $table = $this->buildProviderTable($this, self::CMD_SHOW_GLOBAL_PROVIDER);
         $table->resetFilter();
@@ -122,7 +135,7 @@ class ilLTIConsumerAdministrationGUI
         $this->showGlobalProviderCmd();
     }
     
-    protected function showGlobalProviderCmd()
+    protected function showGlobalProviderCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -184,8 +197,13 @@ class ilLTIConsumerAdministrationGUI
         
         $DIC->ui()->mainTemplate()->setContent($table->getHTML());
     }
-    
-    protected function showGlobalProviderFormCmd(ilLTIConsumeProviderFormGUI $form = null)
+
+    /**
+     * @param ilLTIConsumeProviderFormGUI|null $form
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws ilCtrlException
+     */
+    protected function showGlobalProviderFormCmd(?ilLTIConsumeProviderFormGUI $form = null) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -209,7 +227,7 @@ class ilLTIConsumerAdministrationGUI
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
     
-    protected function saveGlobalProviderFormCmd()
+    protected function saveGlobalProviderFormCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -237,7 +255,7 @@ class ilLTIConsumerAdministrationGUI
         $this->showGlobalProviderFormCmd($form);
     }
 
-    protected function showGlobalProviderImportCmd(ilPropertyFormGUI $form = null)
+    protected function showGlobalProviderImportCmd(ilPropertyFormGUI $form = null) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -253,7 +271,7 @@ class ilLTIConsumerAdministrationGUI
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
 
-    protected function saveGlobalProviderImportCmd()
+    protected function saveGlobalProviderImportCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -278,17 +296,18 @@ class ilLTIConsumerAdministrationGUI
         
         $provider = $this->performProviderImport($providerXml);
         
-        ilUtil::sendSuccess($DIC->language()->txt('provider_import_success_msg'));
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('provider_import_success_msg'));
         $DIC->ctrl()->setParameter($this, 'provider_id', $provider->getId());
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDER_FORM);
     }
-    
+
     /**
-     * @param $saveCommand
-     * @param $cancelCommand
+     * @param string $saveCommand
+     * @param string $cancelCommand
      * @return ilPropertyFormGUI
+     * @throws ilCtrlException
      */
-    protected function buildProviderImportForm($saveCommand, $cancelCommand)
+    protected function buildProviderImportForm(string $saveCommand, string $cancelCommand) : \ilPropertyFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -309,12 +328,15 @@ class ilLTIConsumerAdministrationGUI
         
         return $form;
     }
-    
+
     /**
      * @param string $providerXml
      * @return ilLTIConsumeProvider
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    protected function performProviderImport(string $providerXml)
+    protected function performProviderImport(string $providerXml) : \ilLTIConsumeProvider
     {
         $doc = new DOMDocument;
         $doc->loadXML($providerXml);
@@ -342,7 +364,7 @@ class ilLTIConsumerAdministrationGUI
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    private function prepareProvider()
+    private function prepareProvider() : \ilLTIConsumeProvider
     {
         $provider = new ilLTIConsumeProvider();
         $provider->setTitle($this->getInput('title'));
@@ -355,7 +377,7 @@ class ilLTIConsumerAdministrationGUI
 
         // PROVIDER ICON
         $pId = $provider->getId();
-        if (null !== $pIconFileName = $this->getIconXml($this->getInput('provider_icon'), $pId)) {
+        if (null !== $pIconFileName = $this->getIconXml($this->getInput('provider_icon'), (string) $pId)) {
             $provider->setProviderIconFilename($pIconFileName);
             $provider->update();
             $provider->update();
@@ -368,7 +390,7 @@ class ilLTIConsumerAdministrationGUI
      * @param $key
      * @return mixed
      */
-    private function getInput($key)
+    private function getInput($key) : array
     {
         /*if( !is_bool($this->_importedXmlData[$key]) ) {
             $this->_importedXmlData[$key] = trim($this->_importedXmlData[$key]);
@@ -378,14 +400,13 @@ class ilLTIConsumerAdministrationGUI
 
     /**
      * @param string $url
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @param string $pId
      * @return string|null
+     * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    private function getIconXml($url, $pId)
+    private function getIconXml(string $url, string $pId) : ?string
     {
-        global $DIC; /** @var \ILIAS\DI\Container $DIC */
-        require_once('libs/composer/vendor/guzzlehttp/guzzle/src/Client.php');
-        require_once('libs/composer/vendor/guzzlehttp/psr7/src/Uri.php');
+        global $DIC;
 
         $regex = '~(.+)://([^/]+)/([^?]+)\??(.*)~';
         preg_match_all($regex, $url, $urlPart, PREG_SET_ORDER);
@@ -422,20 +443,13 @@ class ilLTIConsumerAdministrationGUI
         return $finalIcoName;
     }
 
-    /**
-     * @param string $ext
-     * @return bool
-     */
-    private function checkIconFileExtension($ext)
+    private function checkIconFileExtension(string $ext) : bool
     {
+//        todo - check?
         return false !== ($check = array_search($ext, self::ALLOWED_FILE_EXT)) ? true : false;
     }
 
-    /**
-     * @param string $ico
-     * @return bool
-     */
-    private function checkIconFileVirus($ico)
+    private function checkIconFileVirus(string $ico) : bool
     {
         $virusScan = ilVirusScannerFactory::_getInstance();
         if (!$virusScan) {
@@ -445,7 +459,7 @@ class ilLTIConsumerAdministrationGUI
         // return false === (bool)$virusScan->scanBuffer($ico) ? false : true;
     }
 
-    protected function showUserProviderCmd()
+    protected function showUserProviderCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -468,8 +482,14 @@ class ilLTIConsumerAdministrationGUI
         
         $DIC->ui()->mainTemplate()->setContent($table->getHTML());
     }
-    
-    protected function showUserProviderFormCmd(ilLTIConsumeProviderFormGUI $form = null)
+
+    /**
+     * @param ilLTIConsumeProviderFormGUI|null $form
+     * @return void
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws ilCtrlException
+     */
+    protected function showUserProviderFormCmd(?ilLTIConsumeProviderFormGUI $form = null) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -492,8 +512,15 @@ class ilLTIConsumerAdministrationGUI
         
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
-    
-    protected function saveUserProviderFormCmd()
+
+    /**
+     * @return void
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws ilCtrlException
+     */
+    protected function saveUserProviderFormCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -515,32 +542,40 @@ class ilLTIConsumerAdministrationGUI
         
         $this->showUserProviderFormCmd($form);
     }
-    
-    protected function acceptProviderAsGlobalMultiCmd()
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function acceptProviderAsGlobalMultiCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $providers = $this->fetchProviderMulti();
         
         if (!count($providers)) {
-            ilUtil::sendFailure($DIC->language()->txt('lti_no_provider_selected'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_no_provider_selected'), true);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_USER_PROVIDER);
         }
         
         foreach ($providers as $provider) {
             if (!$provider->isAcceptableAsGlobal()) {
-                ilUtil::sendFailure($DIC->language()->txt('lti_at_least_one_not_acceptable_as_global'), true);
+                $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_at_least_one_not_acceptable_as_global'), true);
                 $DIC->ctrl()->redirect($this, self::CMD_SHOW_USER_PROVIDER);
             }
         }
         
         $this->performAcceptProvidersAsGlobal($providers);
         
-        ilUtil::sendSuccess($DIC->language()->txt('lti_success_accept_as_global_multi'), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('lti_success_accept_as_global_multi'), true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_USER_PROVIDER);
     }
-    
-    protected function acceptProviderAsGlobalCmd()
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function acceptProviderAsGlobalCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -550,14 +585,17 @@ class ilLTIConsumerAdministrationGUI
             $this->performAcceptProvidersAsGlobal([$provider]);
         }
         
-        ilUtil::sendSuccess($DIC->language()->txt('lti_success_accept_as_global'), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('lti_success_accept_as_global'), true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_USER_PROVIDER);
     }
-    
+
     /**
      * @param ilLTIConsumeProvider[] $providers
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    protected function performAcceptProvidersAsGlobal(array $providers)
+    protected function performAcceptProvidersAsGlobal(array $providers) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -567,32 +605,40 @@ class ilLTIConsumerAdministrationGUI
             $provider->save();
         }
     }
-    
-    protected function resetProviderToUserScopeMultiCmd()
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function resetProviderToUserScopeMultiCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $providers = $this->fetchProviderMulti();
         
         if (!count($providers)) {
-            ilUtil::sendFailure($DIC->language()->txt('lti_no_provider_selected'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_no_provider_selected'), true);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDER);
         }
         
         foreach ($providers as $provider) {
             if (!$provider->isResetableToUserDefined()) {
-                ilUtil::sendFailure($DIC->language()->txt('lti_at_least_one_not_resetable_to_usr_def'), true);
+                $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_at_least_one_not_resetable_to_usr_def'), true);
                 $DIC->ctrl()->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDER);
             }
         }
         
         $this->performResetProvidersToUserScope($providers);
         
-        ilUtil::sendSuccess($DIC->language()->txt('lti_success_reset_to_usr_def_multi'), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('lti_success_reset_to_usr_def_multi'), true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDER);
     }
-    
-    protected function resetProviderToUserScopeCmd()
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function resetProviderToUserScopeCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -602,14 +648,17 @@ class ilLTIConsumerAdministrationGUI
             $this->performResetProvidersToUserScope([$provider]);
         }
         
-        ilUtil::sendSuccess($DIC->language()->txt('lti_success_reset_to_usr_def'), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('lti_success_reset_to_usr_def'), true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDER);
     }
-    
+
     /**
      * @param ilLTIConsumeProvider[] $providers
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    protected function performResetProvidersToUserScope(array $providers)
+    protected function performResetProvidersToUserScope(array $providers) : void
     {
         foreach ($providers as $provider) {
             $provider->setIsGlobal(false);
@@ -617,8 +666,12 @@ class ilLTIConsumerAdministrationGUI
             $provider->save();
         }
     }
-    
-    protected function deleteGlobalProviderMultiCmd()
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function deleteGlobalProviderMultiCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -634,8 +687,12 @@ class ilLTIConsumerAdministrationGUI
         
         $this->confirmDeleteProviders($providers, self::CMD_SHOW_GLOBAL_PROVIDER);
     }
-    
-    protected function deleteGlobalProviderCmd()
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function deleteGlobalProviderCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -652,8 +709,12 @@ class ilLTIConsumerAdministrationGUI
         
         $this->confirmDeleteProviders($providers, self::CMD_SHOW_GLOBAL_PROVIDER);
     }
-    
-    protected function deleteUserProviderMultiCmd()
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function deleteUserProviderMultiCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -669,8 +730,12 @@ class ilLTIConsumerAdministrationGUI
         
         $this->confirmDeleteProviders($providers, self::CMD_SHOW_USER_PROVIDER);
     }
-    
-    protected function deleteUserProviderCmd()
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function deleteUserProviderCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -688,12 +753,12 @@ class ilLTIConsumerAdministrationGUI
         $this->confirmDeleteProviders($providers, self::CMD_SHOW_USER_PROVIDER);
     }
     
-    protected function validateProviderDeletionSelection(array $providers)
+    protected function validateProviderDeletionSelection(array $providers) : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         if (!count($providers)) {
-            ilUtil::sendFailure($DIC->language()->txt('lti_no_provider_selected'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_no_provider_selected'), true);
             return false;
         }
         
@@ -701,15 +766,21 @@ class ilLTIConsumerAdministrationGUI
         
         foreach ($providers as $provider) {
             if ($providerList->hasUsages($provider->getId())) {
-                ilUtil::sendFailure($DIC->language()->txt('lti_at_least_one_prov_has_usages'), true);
+                $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_at_least_one_prov_has_usages'), true);
                 return false;
             }
         }
         
         return true;
     }
-    
-    protected function confirmDeleteProviders(array $providers, string $cancelCommand)
+
+    /**
+     * @param array  $providers
+     * @param string $cancelCommand
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function confirmDeleteProviders(array $providers, string $cancelCommand) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -732,7 +803,7 @@ class ilLTIConsumerAdministrationGUI
             
             $confirmationGUI->addItem(
                 'provider_ids[]',
-                $provider->getId(),
+                (string) $provider->getId(),
                 $provider->getTitle(),
                 $providerIcon
             );
@@ -740,8 +811,12 @@ class ilLTIConsumerAdministrationGUI
         
         $DIC->ui()->mainTemplate()->setContent($confirmationGUI->getHTML());
     }
-    
-    protected function performDeleteProvidersCmd()
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function performDeleteProvidersCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -752,19 +827,18 @@ class ilLTIConsumerAdministrationGUI
                 $provider->delete();
             }
             
-            ilUtil::sendSuccess($DIC->language()->txt('lti_success_delete_provider'), true);
+            $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('lti_success_delete_provider'), true);
         }
         
         $DIC->ctrl()->redirect($this, $_GET[self::REDIRECTION_CMD_PARAMETER]);
     }
-    
+
     /**
-     * @param $parentGui
-     * @param $parentCmd
-     * @param $editCmd
+     * @param ilLTIConsumerAdministrationGUI $parentGui
+     * @param string      $parentCmd
      * @return ilLTIConsumerProviderTableGUI
      */
-    protected function buildProviderTable($parentGui, $parentCmd)
+    protected function buildProviderTable(ilLTIConsumerAdministrationGUI $parentGui, string $parentCmd) : \ilLTIConsumerProviderTableGUI
     {
         $table = new ilLTIConsumerProviderTableGUI(
             $parentGui,
@@ -783,10 +857,9 @@ class ilLTIConsumerAdministrationGUI
         return $table;
     }
     
-    protected function showUsagesCmd()
+    protected function showUsagesCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        require_once('./Modules/LTIConsumer/classes/class.ilLTIConsumerProviderUsageTableGUI.php');
+        global $DIC;
         
         $DIC->tabs()->activateSubTab('usage');
 
@@ -800,11 +873,15 @@ class ilLTIConsumerAdministrationGUI
 
         $DIC->ui()->mainTemplate()->setContent($table->getHTML());
     }
-    
+
     /**
+     * @param ilLTIConsumeProvider $provider
+     * @param string               $saveCmd
+     * @param string               $cancelCmd
      * @return ilLTIConsumeProviderFormGUI
+     * @throws ilCtrlException
      */
-    protected function buildProviderForm(ilLTIConsumeProvider $provider, $saveCmd, $cancelCmd)
+    protected function buildProviderForm(ilLTIConsumeProvider $provider, string $saveCmd, string $cancelCmd) : \ilLTIConsumeProviderFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -814,11 +891,12 @@ class ilLTIConsumerAdministrationGUI
         
         return $form;
     }
-    
+
     /**
      * @return ilLTIConsumeProvider
+     * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    protected function fetchProvider()
+    protected function fetchProvider() : \ilLTIConsumeProvider
     {
         if (isset($_GET['provider_id'])) {
             $provider = new ilLTIConsumeProvider((int) $_GET['provider_id']);
@@ -827,11 +905,12 @@ class ilLTIConsumerAdministrationGUI
         }
         return $provider;
     }
-    
+
     /**
      * @return ilLTIConsumeProvider[]
+     * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    protected function fetchProviderMulti()
+    protected function fetchProviderMulti() : array
     {
         $providers = [];
         
@@ -866,11 +945,12 @@ class ilLTIConsumerAdministrationGUI
 //        return '';
 //    }
     
-    protected function showSettingsCmd(ilPropertyFormGUI $form = null)
+    protected function showSettingsCmd(?ilPropertyFormGUI $form = null) : void
     {
+//        todo - check
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        return ''; // no settings at all currently
+        return; // no settings at all currently
         
         $DIC->tabs()->activateSubTab('settings');
         
@@ -881,11 +961,12 @@ class ilLTIConsumerAdministrationGUI
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
     
-    protected function saveSettingsCmd()
+    protected function saveSettingsCmd() : void
     {
+//        todo - check
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        return ''; // no settings at all currently
+        return; // no settings at all currently
         
         $form = $this->buildSettingsForm();
         
@@ -896,11 +977,12 @@ class ilLTIConsumerAdministrationGUI
         
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_SETTINGS);
     }
-    
+
     /**
      * @return ilPropertyFormGUI
+     * @throws ilCtrlException
      */
-    protected function buildSettingsForm()
+    protected function buildSettingsForm() : \ilPropertyFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

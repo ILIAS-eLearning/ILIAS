@@ -96,7 +96,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
             $tpl->setVariable('ACCESSIBILITY_CONTROL_CONCEPT_CONTENT', $document->content());
         } else {
             $mails = (ilAccessibilitySupportContacts::getMailsToAddress() != "")
-                ? ilUtil::prepareFormOutput(ilAccessibilitySupportContacts::getMailsToAddress())
+                ? ilLegacyFormElementsUtil::prepareFormOutput(ilAccessibilitySupportContacts::getMailsToAddress())
                 : $this->settings->get("admin_email");
             $tpl->setVariable(
                 'ACCESSIBILITY_CONTROL_CONCEPT_CONTENT',

@@ -160,6 +160,15 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         return $wait;
     }
 
+    public function getParentObject() : ilObjSession
+    {
+        /**
+         * @var ilObjSession $parent_object
+         */
+        $parent_object = parent::getParentObject();
+        return $parent_object;
+    }
+
     protected function initParticipantTableGUI() : ilSessionParticipantsTableGUI
     {
         $table = new ilSessionParticipantsTableGUI(
@@ -205,7 +214,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
                 }
             } else {
                 if ($participated || $registered || $contact) {
-                    $part->add($part_id, IL_SESS_MEMBER);
+                    $part->add($part_id, ilParticipants::IL_SESS_MEMBER);
                 }
             }
             $event_part = new ilEventParticipants($this->getParentObject()->getId());
@@ -220,7 +229,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
             $event_part->updateUser();
         }
         
-        ilUtil::sendSuccess($this->getLanguage()->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->getLanguage()->txt('settings_saved'), true);
         $this->getCtrl()->redirect($this, 'participants');
     }
 
@@ -229,7 +238,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         $participants = $this->requested_participants;
         
         if (!count($participants)) {
-            ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
@@ -260,7 +269,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         $participants = $this->requested_participants;
         
         if (!is_array($participants) || !count($participants)) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
         
@@ -277,7 +286,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
             $event_part->updateUser();
         }
         
-        ilUtil::sendSuccess($this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
         $this->ctrl->redirect($this, "participants");
     }
 

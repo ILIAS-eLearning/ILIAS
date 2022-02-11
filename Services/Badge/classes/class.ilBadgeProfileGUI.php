@@ -143,7 +143,7 @@ class ilBadgeProfileGUI
         }
         
         // :TODO:
-        $data = ilUtil::sortArray($data, "issued_on", "desc", true);
+        $data = ilArrayUtil::sortArray($data, "issued_on", "desc", true);
 
         $tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
 
@@ -257,7 +257,7 @@ class ilBadgeProfileGUI
             
             return $res;
         } else {
-            ilUtil::sendFailure($lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("select_one"), true);
             $ilCtrl->redirect($this, "manageBadges");
         }
         return [];
@@ -276,7 +276,7 @@ class ilBadgeProfileGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "manageBadges");
     }
     
@@ -293,7 +293,7 @@ class ilBadgeProfileGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "manageBadges");
     }
 
@@ -310,7 +310,7 @@ class ilBadgeProfileGUI
             }
         }
 
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listBadges");
     }
 
@@ -327,7 +327,7 @@ class ilBadgeProfileGUI
             }
         }
 
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listBadges");
     }
     
@@ -366,7 +366,7 @@ class ilBadgeProfileGUI
             $ilCtrl->getLinkTarget($this, "manageBadges")
         );
         
-        ilUtil::sendInfo(sprintf($lng->txt("badge_add_to_backpack_multi"), implode(", ", $titles)));
+        $this->tpl->setOnScreenMessage('info', sprintf($lng->txt("badge_add_to_backpack_multi"), implode(", ", $titles)));
     }
     
     protected function setBackpackSubTabs() : void
@@ -404,16 +404,16 @@ class ilBadgeProfileGUI
         $this->setBackpackSubTabs();
         $ilTabs->activateSubTab("backpack_badges");
         
-        ilUtil::sendInfo($lng->txt("badge_backpack_gallery_info"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("badge_backpack_gallery_info"));
                 
         $bp = new ilBadgeBackpack($this->getBackpackMail());
         $bp_groups = $bp->getGroups();
 
         if (!is_array($bp_groups)) {
-            ilUtil::sendInfo(sprintf($lng->txt("badge_backpack_connect_failed"), $this->getBackpackMail()));
+            $this->tpl->setOnScreenMessage('info', sprintf($lng->txt("badge_backpack_connect_failed"), $this->getBackpackMail()));
             return;
         } elseif (!sizeof($bp_groups)) {
-            ilUtil::sendInfo($lng->txt("badge_backpack_no_groups"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("badge_backpack_no_groups"));
             return;
         }
         
@@ -570,7 +570,7 @@ class ilBadgeProfileGUI
                 ilBadgeAssignment::clearBadgeCache($ilUser->getId());
             }
                     
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
         

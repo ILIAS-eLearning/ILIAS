@@ -208,10 +208,10 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
 
         if (isset($a_node['post_read']) && $a_node['post_read']) {
             $this->ctrl->setParameter($this->parent_obj, 'pos_pk', null);
-            $url = $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd, $a_node['pos_pk'], false, false);
+            $url = $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd, (string) $a_node['pos_pk'], false, false);
         } else {
             $this->ctrl->setParameter($this->parent_obj, 'pos_pk', $a_node['pos_pk']);
-            $url = $this->ctrl->getLinkTarget($this->parent_obj, 'markPostRead', $a_node['pos_pk'], false, false);
+            $url = $this->ctrl->getLinkTarget($this->parent_obj, 'markPostRead', (string) $a_node['pos_pk'], false, false);
             $this->ctrl->setParameter($this->parent_obj, 'pos_pk', null);
         }
 

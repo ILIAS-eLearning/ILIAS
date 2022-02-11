@@ -68,7 +68,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     public function setValue($a_value) : void
     {
         $this->values = array();
-        
+
         if (is_array($a_value) && is_array($a_value['answer'])) {
             foreach ($a_value['answer'] as $index => $value) {
                 $answer = new ilAssKprimChoiceAnswer();
@@ -76,7 +76,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $answer->setPosition($index);
                 $answer->setAnswertext($value);
                 $answer->setImageFile($a_value['imagename'][$index]);
-                
+
                 if (strlen($a_value['correctness'][$index])) {
                     $answer->setCorrectness((bool) $a_value['correctness'][$index]);
                 }
@@ -84,11 +84,11 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $answer->setThumbPrefix($this->qstObject->getThumbPrefix());
                 $answer->setImageFsDir($this->qstObject->getImagePath());
                 $answer->setImageWebDir($this->qstObject->getImagePathWeb());
-                
+
                 $this->values[] = $answer;
             }
         }
-        
+
         #vd($this->values);
     }
 
@@ -99,7 +99,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive(
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
                 false,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
@@ -164,7 +164,9 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                         $tpl->setCurrentBlock('image');
                         $tpl->setVariable('SRC_IMAGE', $imagename);
                         $tpl->setVariable('IMAGE_NAME', $value->getImageFile());
-                        $tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->getAnswertext()));
+                        $tpl->setVariable('ALT_IMAGE',
+                            ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                        );
                         $tpl->setVariable("TXT_DELETE_EXISTING", $this->lng->txt("delete_existing_file"));
                         $tpl->setVariable("IMAGE_ROW_NUMBER", $value->getPosition());
                         $tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
@@ -180,7 +182,9 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 }
 
                 $tpl->setCurrentBlock("prop_text_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
+                $tpl->setVariable("PROPERTY_VALUE",
+                    ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                );
                 $tpl->parseCurrentBlock();
 
                 $tpl->setCurrentBlock('singleline');
@@ -195,7 +199,9 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->parseCurrentBlock();
             } elseif (!$this->getSingleline()) {
                 $tpl->setCurrentBlock('multiline');
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
+                $tpl->setVariable("PROPERTY_VALUE",
+                    ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                );
                 $tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][{$value->getPosition()}]");
                 $tpl->setVariable("MULTILINE_ROW_NUMBER", $value->getPosition());
                 $tpl->setVariable("MULTILINE_POST_VAR", $this->getPostVar());
@@ -262,7 +268,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
                 $tpl->setCurrentBlock("image_heading");
                 $tpl->setVariable("ANSWER_IMAGE", $this->lng->txt('answer_image'));
-                $tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+                $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
                 $tpl->parseCurrentBlock();
             }
         }
@@ -396,7 +402,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                         $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
                         // virus handling
                         if (strlen($tmpname)) {
-                            $vir = ilUtil::virusHandling($tmpname, $filename);
+                            $vir = ilVirusScanner::virusHandling($tmpname, $filename);
                             if ($vir[0] == false) {
                                 $_FILES[$this->getPostVar()]['error']['image'][$index] = self::CUSTOM_UPLOAD_ERR;
                                 $this->setAlert($this->lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);

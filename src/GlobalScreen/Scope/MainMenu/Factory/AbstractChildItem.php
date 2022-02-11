@@ -26,7 +26,7 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isChild
      */
     public function withParent(IdentificationInterface $identification) : self
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->parent = $identification;
         
         return $clone;

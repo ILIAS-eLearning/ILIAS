@@ -39,13 +39,16 @@ class ilCmiXapiSettingsGUI
     /**
      * @var ilObjCmiXapi
      */
-    protected $object;
+    protected ilObjCmiXapi $object;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * @param ilObjCmiXapi $object
      */
     public function __construct(ilObjCmiXapi $object)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
     }
     
@@ -109,7 +112,7 @@ class ilCmiXapiSettingsGUI
         if ($form->checkInput()) {
             $this->saveSettings($form);
             
-            ilUtil::sendSuccess($DIC->language()->txt('msg_obj_modified'), true);
+            $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('msg_obj_modified'), true);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW);
         }
         
@@ -273,6 +276,7 @@ class ilCmiXapiSettingsGUI
                 $bypassProxy->addOption($opt1);
                 $opt2 = new ilRadioOption($DIC->language()->txt('conf_bypass_proxy_enabled'), "1");
                 $bypassProxy->addOption($opt2);
+                $bypassProxy->setValue((string) ((int) $this->object->getLrsType()->isBypassProxyEnabled()));
                 $form->addItem($bypassProxy);
                 if ($this->object->getLrsType()->isBypassProxyEnabled()) {
                     $bypassProxy->setDisabled(true);
@@ -585,8 +589,8 @@ class ilCmiXapiSettingsGUI
             }
             
             if (!$this->object->getLrsType()->getForcePrivacySettings()) {
-                $this->object->setPrivacyIdent($form->getInput('privacy_ident'));
-                $this->object->setPrivacyName($form->getInput('privacy_name'));
+                $this->object->setPrivacyIdent((int) $form->getInput('privacy_ident'));
+                $this->object->setPrivacyName((int) $form->getInput('privacy_name'));
                 $this->object->setOnlyMoveon((bool) $form->getInput("only_moveon"));
                 $this->object->setAchieved((bool) $form->getInput("achieved"));
                 $this->object->setAnswered((bool) $form->getInput("answered"));
@@ -635,7 +639,7 @@ class ilCmiXapiSettingsGUI
         $validator = new ilCertificateDownloadValidator();
 
         if (!$validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->object->getId())) {
-            ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
             $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
         }
 

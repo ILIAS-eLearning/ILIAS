@@ -432,7 +432,7 @@ class ilBadgeHandler
     
     protected function getBasePath() : string
     {
-        return ilUtil::getWebspaceDir() . "/pub_badges/";
+        return ilFileUtils::getWebspaceDir() . "/pub_badges/";
     }
     
     public function getInstancePath(ilBadgeAssignment $a_ass) : string
@@ -443,7 +443,7 @@ class ilBadgeHandler
             $a_ass->getBadgeId() . "/" .
             floor($a_ass->getUserId() / 1000) . "/";
         
-        ilUtil::makeDirParents($path);
+        ilFileUtils::makeDirParents($path);
         
         $path .= $hash . ".json";
         
@@ -481,7 +481,7 @@ class ilBadgeHandler
             floor($a_badge->getId() / 100) . "/" .
             $hash . "/";
         
-        ilUtil::makeDirParents($path);
+        ilFileUtils::makeDirParents($path);
         
         return $path;
     }
@@ -502,7 +502,7 @@ class ilBadgeHandler
     public function getIssuerStaticUrl() : string
     {
         $path = $this->getBasePath() . "issuer/";
-        ilUtil::makeDirParents($path);
+        ilFileUtils::makeDirParents($path);
         $path .= "issuer.json";
         
         $url = ILIAS_HTTP_PATH . substr($path, 1);

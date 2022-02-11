@@ -414,7 +414,7 @@ class ilPropertyFormGUI extends ilFormGUI
             default:
 
                 if (!$ok && !$this->getDisableStandardMessage()) {
-                    ilUtil::sendFailure($txt);
+                    $this->global_tpl->setOnScreenMessage('failure', $txt);
                 }
 
                 return $ok;
@@ -643,14 +643,14 @@ class ilPropertyFormGUI extends ilFormGUI
         //if(method_exists($item, "getMulti") && $item->getMulti())
         if ($item instanceof ilMultiValuesItem && $item->getMulti()) {
             $tpl->addJavascript("./Services/Form/js/ServiceFormMulti.js");
-            
+
             $this->tpl->setCurrentBlock("multi_in");
             $this->tpl->setVariable("ID", $item->getFieldId());
             $this->tpl->parseCurrentBlock();
 
             $this->tpl->touchBlock("multi_out");
 
-            
+
             // add hidden item to enable preset multi items
             // not used yet, should replace hidden field stuff
             $multi_values = $item->getMultiValues();
@@ -841,7 +841,7 @@ class ilPropertyFormGUI extends ilFormGUI
             return;
         }
 
-        $a_name = ilUtil::getASCIIFilename($a_name);
+        $a_name = ilFileUtils::getASCIIFilename($a_name);
         
         $tmp_file_name = implode("~~", array(session_id(),
             $a_hash,
@@ -852,12 +852,12 @@ class ilPropertyFormGUI extends ilFormGUI
             str_replace("~~", "_", $a_name)));
         
         // make sure temp directory exists
-        $temp_path = ilUtil::getDataDir() . "/temp";
+        $temp_path = ilFileUtils::getDataDir() . "/temp";
         if (!is_dir($temp_path)) {
-            ilUtil::createDirectory($temp_path);
+            ilFileUtils::createDirectory($temp_path);
         }
 
-        ilUtil::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path . "/" . $tmp_file_name);
+        ilFileUtils::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path . "/" . $tmp_file_name);
 
         /** @var ilFileInputGUI $file_input */
         $file_input = $this->getItemByPostVar($a_field);
@@ -956,7 +956,7 @@ class ilPropertyFormGUI extends ilFormGUI
             $target_file = str_replace("//", "/", $target_file);
             
             if ($data["is_upload"]) {
-                if (!ilUtil::moveUploadedFile($data["tmp_name"], $data["name"], $target_file)) {
+                if (!ilFileUtils::moveUploadedFile($data["tmp_name"], $data["name"], $target_file)) {
                     return "";
                 }
             } else {
@@ -974,7 +974,7 @@ class ilPropertyFormGUI extends ilFormGUI
     {
         $file_hash = (string) $this->getFileHash();
         if ($file_hash != "") {
-            $temp_path = ilUtil::getDataDir() . "/temp";
+            $temp_path = ilFileUtils::getDataDir() . "/temp";
             if (is_dir($temp_path)) {
                 $reload = array();
                 

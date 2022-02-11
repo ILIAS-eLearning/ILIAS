@@ -620,7 +620,7 @@ class ilExerciseDataSet extends ilDataSet
                     if ($dir != "" && $this->getImportDirectory() != "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = $fstorage->getPath();
-                        ilUtil::rCopy($source_dir, $target_dir);
+                        ilFileUtils::rCopy($source_dir, $target_dir);
                     }
                     
                     // (4.4) global feedback file
@@ -628,7 +628,7 @@ class ilExerciseDataSet extends ilDataSet
                     if ($dir != "" && $this->getImportDirectory() != "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = $fstorage->getGlobalFeedbackPath();
-                        ilUtil::rCopy($source_dir, $target_dir);
+                        ilFileUtils::rCopy($source_dir, $target_dir);
                     }
 
                     // (5.3) assignment files inside ILIAS
@@ -638,7 +638,7 @@ class ilExerciseDataSet extends ilDataSet
                     if ($dir != "" && $this->getImportDirectory() != "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = $fwebstorage->getPath();
-                        ilUtil::rCopy($source_dir, $target_dir);
+                        ilFileUtils::rCopy($source_dir, $target_dir);
                     }
 
                     // 5.4 Team wiki assignment AR

@@ -442,7 +442,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         if (!$this->getPermissionsHelper()->mayAnyOf($permissions)) {
             if ($this->getPermissionsHelper()->may(ilPRGPermissionsHelper::ROLEPERM_VIEW)) {
-                ilUtil::sendFailure($this->lng->txt("msg_no_perm_write"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_write"));
                 $this->ctrl->redirectByClass('ilinfoscreengui', '');
             } else {
                 $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
@@ -704,7 +704,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
         $validator = new ilCertificateDownloadValidator();
         if (false === $validator->isCertificateDownloadable($user_id, $obj_id)) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this);
         }
         $repository = new ilUserCertificateRepository();

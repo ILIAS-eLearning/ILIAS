@@ -46,7 +46,7 @@ class BaseTypeRenderer implements TypeRenderer
     public function __construct()
     {
         global $DIC;
-        $this->ui_factory  = $DIC->ui()->factory();
+        $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
     }
     
@@ -76,10 +76,10 @@ class BaseTypeRenderer implements TypeRenderer
         }
         /** @var $item supportsAsynchronousLoading $content */
         $content = $this->ui_factory->legacy('...');
-        $name    = $item instanceof hasTitle ? $item->getTitle() : "-";
-        $slate   = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
-        $slate   = $this->addAsyncLoadingCode($slate, $item);
-        $slate   = $this->addOnloadCode($slate, $item);
+        $name = $item instanceof hasTitle ? $item->getTitle() : "-";
+        $slate = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
+        $slate = $this->addAsyncLoadingCode($slate, $item);
+        $slate = $this->addOnloadCode($slate, $item);
         
         return $slate;
     }

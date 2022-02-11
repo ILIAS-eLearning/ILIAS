@@ -21,6 +21,9 @@
         +-----------------------------------------------------------------------------+
 */
 
+use ILIAS\HTTP\Services as HttpServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
+
 /**
  * Administration, Side-Block presentation of calendar categories
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
@@ -55,6 +58,9 @@ class ilCalendarCategoryGUI
     protected ilAccessHandler $access;
     protected ilRbacSystem $rbacsystem;
     protected ilTree $tree;
+    protected HttpServices $http;
+    protected RefineryFactory $refinery;
+
 
     /**
      * Constructor
@@ -79,6 +85,8 @@ class ilCalendarCategoryGUI
         $this->seed = $seed;
         $this->ref_id = $a_ref_id;
         $this->obj_id = ilObject::_lookupObjId($a_ref_id);
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         if (
             in_array($this->ctrl->getNextClass(), array("", "ilcalendarcategorygui")) &&
@@ -86,16 +94,26 @@ class ilCalendarCategoryGUI
             if ($a_ref_id > 0) {        // no manage screen in repository
                 $this->ctrl->returnToParent($this);
             }
-            if ((int) $_GET['category_id'] > 0) {
+            if ($this->initCategoryIdFromQuery() > 0) {
                 // reset category id on manage screen (redirect needed to initialize categories correctly)
                 $this->ctrl->setParameter($this, "category_id", "");
                 $this->ctrl->setParameterByClass("ilcalendarpresentationgui", "category_id", "");
                 $this->ctrl->redirect($this, "manage");
             }
         }
-        $this->category_id = (int) $_GET['category_id'];
-
+        $this->category_id = $this->initCategoryIdFromQuery();
         $this->actions = ilCalendarActions::getInstance();
+    }
+
+    protected function initCategoryIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('category_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'category_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
     }
 
     public function executeCommand() : void
@@ -104,14 +122,21 @@ class ilCalendarCategoryGUI
         $this->ctrl->saveParameter($this, 'category_id');
         $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
-        if (array_key_exists('backvm', $_REQUEST)) {
+        if ($this->http->wrapper()->query()->has('backvm')) {
             $this->ctrl->setParameter($this, 'backvm', 1);
         }
         switch ($next_class) {
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, 'details');
 
-                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, (int) $_GET['app_id']);
+                $app_id = 0;
+                if ($this->http->wrapper()->query()->has('app_id')) {
+                    $app_id = $this->http->wrapper()->query()->retrieve(
+                        'app_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, $app_id);
                 $this->ctrl->forwardCommand($app);
                 break;
 
@@ -126,10 +151,9 @@ class ilCalendarCategoryGUI
 
     protected function cancel() : void
     {
-        if (array_key_exists('backvm', $_REQUEST)) {
+        if ($this->http->wrapper()->query()->has('backvm')) {
             $this->ctrl->redirect($this, 'manage');
         }
-
         $this->ctrl->returnToParent($this);
     }
 
@@ -167,7 +191,7 @@ class ilCalendarCategoryGUI
             }
             $category->add();
         } else {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $form->setValuesByPost();
             $this->add($form);
             return;
@@ -181,13 +205,13 @@ class ilCalendarCategoryGUI
         } catch (Exception $e) {
             // Delete calendar if creation failed
             $category->delete();
-            ilUtil::sendFailure($e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
             $form->setValuesByPost();
             $this->add($form);
             return;
         }
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'manage');
     }
 
@@ -197,12 +221,12 @@ class ilCalendarCategoryGUI
         $this->readPermissions();
 
         if (!$this->category_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
 
         if (!$this->actions->checkSettingsCal($this->category_id)) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -215,7 +239,7 @@ class ilCalendarCategoryGUI
     protected function details() : void
     {
         if (!$this->category_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -234,7 +258,7 @@ class ilCalendarCategoryGUI
     protected function synchroniseCalendar() : void
     {
         if (!$this->category_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -243,10 +267,10 @@ class ilCalendarCategoryGUI
         try {
             $this->doSynchronisation($category);
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             $this->ctrl->redirect($this, 'manage');
         }
-        ilUtil::sendSuccess($this->lng->txt('cal_cal_sync_success'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_cal_sync_success'), true);
         $this->ctrl->redirect($this, 'manage');
     }
 
@@ -262,12 +286,12 @@ class ilCalendarCategoryGUI
     protected function update() : void
     {
         if (!$this->category_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
         $this->readPermissions();
         if (!$this->isEditable()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
             $this->edit();
             return;
         }
@@ -280,7 +304,7 @@ class ilCalendarCategoryGUI
             }
             $category->setColor('#' . $form->getInput('color'));
             $category->update();
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             if ($this->ref_id > 0) {
                 $this->ctrl->returnToParent($this);
             } else {
@@ -288,7 +312,7 @@ class ilCalendarCategoryGUI
             }
         } else {
             $form->setValuesByPost();
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $this->edit($form);
         }
     }
@@ -297,10 +321,10 @@ class ilCalendarCategoryGUI
     {
         $cat_ids = (is_array($_POST['selected_cat_ids']) && count($_POST['selected_cat_ids']) > 0)
             ? $_POST['selected_cat_ids']
-            : ($_GET["category_id"] > 0 ? array($_GET["category_id"]) : null);
+            : ($this->initCategoryIdFromQuery() > 0 ? array($this->initCategoryIdFromQuery()) : null);
 
         if (!is_array($cat_ids)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->manage();
         }
 
@@ -321,7 +345,7 @@ class ilCalendarCategoryGUI
     protected function delete() : void
     {
         if (!$_POST['category_id']) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->manage();
         }
 
@@ -330,7 +354,7 @@ class ilCalendarCategoryGUI
             $category->delete();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('cal_cal_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_cal_deleted'), true);
         $this->ctrl->redirect($this, 'manage');
     }
 
@@ -380,7 +404,7 @@ class ilCalendarCategoryGUI
 
         $cat_visibility->save();
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -389,13 +413,13 @@ class ilCalendarCategoryGUI
         $this->tabs->activateTab("share");
 
         if (!$this->category_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
 
         $this->readPermissions();
         if (!$this->isEditable()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
             $this->manage();
             return;
         }
@@ -419,7 +443,7 @@ class ilCalendarCategoryGUI
         $this->lng->loadLanguageModule('search');
 
         if (!$this->category_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
         $this->ctrl->saveParameter($this, 'category_id');
@@ -435,7 +459,7 @@ class ilCalendarCategoryGUI
         }
 
         if (!$query) {
-            ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'));
             $this->shareSearch();
             return;
         }
@@ -481,7 +505,7 @@ class ilCalendarCategoryGUI
         }
 
         if (!count($res_sum->getResults())) {
-            ilUtil::sendFailure($this->lng->txt('search_no_match'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_no_match'));
             $this->shareSearch();
             return;
         }
@@ -508,18 +532,18 @@ class ilCalendarCategoryGUI
     public function shareAssign($a_editable = false) : void
     {
         if (!$this->category_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
         if (!isset($_POST['user_ids']) || !count($_POST['user_ids'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->sharePerformSearch();
             return;
         }
 
         $this->readPermissions();
         if (!$this->isEditable()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
             $this->shareSearch();
             return;
         }
@@ -531,7 +555,7 @@ class ilCalendarCategoryGUI
                 $shared->share($user_id, ilCalendarShared::TYPE_USR, $a_editable);
             }
         }
-        ilUtil::sendSuccess($this->lng->txt('cal_shared_selected_usr'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_shared_selected_usr'));
         $this->shareSearch();
     }
 
@@ -543,18 +567,18 @@ class ilCalendarCategoryGUI
     public function shareAssignRoles(bool $a_editable = false) : void
     {
         if (!$this->category_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
         if (!isset($_POST['role_ids']) || !count($_POST['role_ids'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->sharePerformSearch();
             return;
         }
 
         $this->readPermissions();
         if (!$this->isEditable()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
             $this->shareSearch();
             return;
         }
@@ -564,25 +588,25 @@ class ilCalendarCategoryGUI
         foreach ($_POST['role_ids'] as $role_id) {
             $shared->share($role_id, ilCalendarShared::TYPE_ROLE, $a_editable);
         }
-        ilUtil::sendSuccess($this->lng->txt('cal_shared_selected_usr'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_shared_selected_usr'));
         $this->shareSearch();
     }
 
     public function shareDeassign() : void
     {
         if (!$this->category_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
         if (!isset($_POST['obj_ids']) || !count($_POST['obj_ids'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->shareSearch();
             return;
         }
 
         $this->readPermissions();
         if (!$this->isEditable()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
             $this->shareSearch();
             return;
         }
@@ -592,7 +616,7 @@ class ilCalendarCategoryGUI
         foreach ($_POST['obj_ids'] as $obj_id) {
             $shared->stopSharing($obj_id);
         }
-        ilUtil::sendSuccess($this->lng->txt('cal_unshared_selected_usr'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_unshared_selected_usr'));
         $this->shareSearch();
     }
 
@@ -700,8 +724,10 @@ class ilCalendarCategoryGUI
         $title->setValue($category->getTitle());
         $this->form->addItem($title);
 
-        if ($a_mode == 'create' and $this->rbacsystem->checkAccess('edit_event',
-                ilCalendarSettings::_getInstance()->getCalendarSettingsId())) {
+        if ($a_mode == 'create' and $this->rbacsystem->checkAccess(
+            'edit_event',
+            ilCalendarSettings::_getInstance()->getCalendarSettingsId()
+        )) {
             $type = new ilRadioGroupInputGUI($this->lng->txt('cal_cal_type'), 'type');
             $type->setValue((string) $category->getType());
             $type->setRequired(true);
@@ -726,11 +752,15 @@ class ilCalendarCategoryGUI
 
         $location = new ilRadioGroupInputGUI($this->lng->txt('cal_type_rl'), 'type_rl');
         $location->setDisabled($a_mode == 'edit');
-        $location_local = new ilRadioOption($this->lng->txt('cal_type_local'),
-            (string) ilCalendarCategory::LTYPE_LOCAL);
+        $location_local = new ilRadioOption(
+            $this->lng->txt('cal_type_local'),
+            (string) ilCalendarCategory::LTYPE_LOCAL
+        );
         $location->addOption($location_local);
-        $location_remote = new ilRadioOption($this->lng->txt('cal_type_remote'),
-            (string) ilCalendarCategory::LTYPE_REMOTE);
+        $location_remote = new ilRadioOption(
+            $this->lng->txt('cal_type_remote'),
+            (string) ilCalendarCategory::LTYPE_REMOTE
+        );
         $location->addOption($location_remote);
         $location->setValue((string) $category->getLocationType());
 
@@ -780,7 +810,7 @@ class ilCalendarCategoryGUI
     protected function unshare() : void
     {
         if (!$this->category_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -790,13 +820,13 @@ class ilCalendarCategoryGUI
         $status = new ilCalendarSharedStatus($this->user->getId());
 
         if (!ilCalendarShared::isSharedWithUser($this->user->getId(), $this->category_id)) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->returnToParent($this);
             return;
         }
         $status->decline($this->category_id);
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'manage');
     }
 
@@ -815,7 +845,7 @@ class ilCalendarCategoryGUI
     protected function askDeleteAppointments() : void
     {
         if (!isset($_POST['appointments']) || !count($_POST['appointments'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->details();
             return;
         }
@@ -838,7 +868,7 @@ class ilCalendarCategoryGUI
     protected function deleteAppointments() : void
     {
         if (!isset($_POST['appointments']) || !count($_POST['appointments'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->details();
             return;
         }
@@ -848,7 +878,7 @@ class ilCalendarCategoryGUI
             ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
         }
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->details();
     }
 
@@ -896,7 +926,14 @@ class ilCalendarCategoryGUI
 
     protected function switchCalendarMode() : void
     {
-        ilCalendarUserSettings::_getInstance()->setCalendarSelectionType((int) $_GET['calendar_mode']);
+        $mode = 0;
+        if ($this->http->wrapper()->query()->has('calendar_mode')) {
+            $mode = $this->http->wrapper()->query()->retrieve(
+                'calendar_mode',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        ilCalendarUserSettings::_getInstance()->setCalendarSelectionType($mode);
         ilCalendarUserSettings::_getInstance()->save();
 
         $this->ctrl->returnToParent($this);
@@ -1022,7 +1059,7 @@ class ilCalendarCategoryGUI
     protected function importAppointments(ilPropertyFormGUI $form = null) : void
     {
         if (!$this->category_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
         $this->ctrl->setParameter($this, 'category_id', $this->category_id);
@@ -1032,7 +1069,7 @@ class ilCalendarCategoryGUI
         $this->checkVisible();
 
         if (!$this->isImportable()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -1065,14 +1102,14 @@ class ilCalendarCategoryGUI
         $form = $this->initImportForm();
         if ($form->checkInput()) {
             $file = $form->getInput('file');
-            $tmp = ilUtil::ilTempnam();
-            ilUtil::moveUploadedFile($file['tmp_name'], $file['name'], $tmp);
-            $num = $this->doImportFile($tmp, (int) $_REQUEST['category_id']);
-            ilUtil::sendSuccess(sprintf($this->lng->txt('cal_imported_success'), $num), true);
+            $tmp = ilFileUtils::ilTempnam();
+            ilFileUtils::moveUploadedFile($file['tmp_name'], $file['name'], $tmp);
+            $num = $this->doImportFile($tmp, $this->initCategoryIdFromQuery());
+            $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt('cal_imported_success'), $num), true);
             $this->ctrl->redirect($this, 'cancel');
         }
 
-        ilUtil::sendFailure($this->lng->txt('cal_err_file_upload'), true);
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cal_err_file_upload'), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -1117,7 +1154,7 @@ class ilCalendarCategoryGUI
     protected function acceptShared() : void
     {
         if (!$_POST['cal_ids'] or !is_array($_POST['cal_ids'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->ctrl->returnToParent($this);
             return;
         }
@@ -1126,13 +1163,13 @@ class ilCalendarCategoryGUI
 
         foreach ($_POST['cal_ids'] as $calendar_id) {
             if (!ilCalendarShared::isSharedWithUser($this->user->getId(), $calendar_id)) {
-                ilUtil::sendFailure($this->lng->txt('permission_denied'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
                 $this->ctrl->returnToParent($this);
                 return;
             }
             $status->accept($calendar_id);
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'invitations');
     }
 
@@ -1144,7 +1181,7 @@ class ilCalendarCategoryGUI
     protected function declineShared() : void
     {
         if (!$_POST['cal_ids'] or !is_array($_POST['cal_ids'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
             return;
         }
@@ -1153,13 +1190,13 @@ class ilCalendarCategoryGUI
 
         foreach ($_POST['cal_ids'] as $calendar_id) {
             if (!ilCalendarShared::isSharedWithUser($this->user->getId(), $calendar_id)) {
-                ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                 $this->ctrl->returnToParent($this);
                 return;
             }
             $status->decline($calendar_id);
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'invitations');
     }
 }

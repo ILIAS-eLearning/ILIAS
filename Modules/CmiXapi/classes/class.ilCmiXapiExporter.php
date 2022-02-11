@@ -27,7 +27,7 @@ class ilCmiXapiExporter extends ilXmlExporter
     const ENTITY = 'cmix';
     const SCHEMA_VERSION = '5.1.0';
 
-    private $main_object = null;
+//    private $main_object = null;
     private ?ilCmiXapiDataSet $_dataset = null;
 
     public function __construct()
@@ -61,8 +61,8 @@ class ilCmiXapiExporter extends ilXmlExporter
         return $this->_dataset->getCmiXapiXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-
     /**
+     * @param string $a_entity
      * @return array<string, array<string, string|bool>>
      */
     public function getValidSchemaVersions(string $a_entity) : array

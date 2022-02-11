@@ -298,7 +298,7 @@ class ilBadge
             $this->setImage($a_upload_meta["name"]);
             $path = $this->getImagePath();
 
-            if (ilUtil::moveUploadedFile($a_upload_meta["tmp_name"], $this->getImagePath(false), $path)) {
+            if (ilFileUtils::moveUploadedFile($a_upload_meta["tmp_name"], $this->getImagePath(false), $path)) {
                 $this->update();
             }
         }
@@ -538,7 +538,7 @@ class ilBadge
         // remove instance files
         $path = ilBadgeHandler::getInstance()->getBadgePath($this);
         if (is_dir($path)) {
-            ilUtil::delDir($path);
+            ilFileUtils::delDir($path);
         }
     }
     

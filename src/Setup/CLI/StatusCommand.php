@@ -36,11 +36,13 @@ class StatusCommand extends Command
     }
 
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $agent = $this->getRelevantAgent($input);
 
         $output->write($this->getMetrics($agent)->toYAML() . "\n");
+        
+        return 0;
     }
 
     public function getMetrics(Agent $agent) : Metrics\Metric

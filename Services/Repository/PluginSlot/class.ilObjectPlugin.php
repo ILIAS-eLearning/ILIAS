@@ -40,6 +40,7 @@ abstract class ilObjectPlugin extends ilObject2
      */
     public static function getPluginObjectByType(string $type) : ?ilPlugin
     {
+        global $DIC;
         $component_factory = $DIC["component.factory"];
         try {
             return $component_factory->getPlugin($type);

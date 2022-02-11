@@ -62,7 +62,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
         $adv_ad = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
         $this->adv_fields = $adv_ad->getAllFields();
 
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         //$this->setTitle($this->lng->txt("cont_terms"));
 
@@ -78,14 +78,14 @@ class ilPresentationListTableGUI extends ilTable2GUI
                     $this->addColumn($c["text"], "md_" . $c["id"]);
                 }
             }
-                        
+
 
             $this->addColumn($this->lng->txt("cont_definitions"));
             if ($this->glossary->isVirtual()) {
                 $this->addColumn($this->lng->txt("obj_glo"));
             }
         }
-        
+
         $this->setEnableHeader(true);
         if (!$this->offline) {
             $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
@@ -94,14 +94,14 @@ class ilPresentationListTableGUI extends ilTable2GUI
         }
         $this->setRowTemplate("tpl.term_tbl_pres_row.html", "Modules/Glossary");
         $this->setEnableTitle(true);
-        
+
         if (!$this->offline) {
             $this->initFilter();
             $this->setFilterCommand("applyFilter");
-            
+
             $this->setShowRowsSelector(true);
         }
-                
+
         // advanced metadata
         $this->record_gui = new ilAdvancedMDRecordGUI(
             ilAdvancedMDRecordGUI::MODE_FILTER,
@@ -235,7 +235,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
                         $short_str = $page->getFirstParagraphText();
                         $short_str = strip_tags($short_str, "<br>");
                         $ltexe = strpos($short_str, "[/tex]", $ltexs);
-                        $short_str = ilUtil::shortenText($short_str, $ltexe + 6, true);
+                        $short_str = ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
                     }
 
                     if (!$this->offline) {

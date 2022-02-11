@@ -37,7 +37,6 @@ class ilCloudConnector
     public static function getActiveServices()
     {
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
         $component_repository = $DIC['component.repository'];
 
         $cloud_services = $component_repository->getPluginSlotById("cldh")->getActivePlugins();

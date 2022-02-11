@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\FileUpload\MimeType;
+
 /**
  * Stores all mediacast relevant settings.
  * @author Roland Küstermann <rkuestermann@mps.de>
@@ -115,10 +117,10 @@ class ilMediaCastSettings
     {
         $this->storage = new ilSetting('mcst');
         $this->purposeSuffixes = array_flip(ilObjMediaCast::$purposes);
-               
+        
         $this->purposeSuffixes["Standard"] = $this->supported_suffixes;
         $this->setDefaultAccess("users");
-        $mimeTypes = array_unique(array_values(ilMimeTypeUtil::getExt2MimeMap()));
+        $mimeTypes = array_unique(array_values(MimeType::getExt2MimeMap()));
         sort($mimeTypes);
         $this->setMimeTypes($this->supported_mime_types);
     }

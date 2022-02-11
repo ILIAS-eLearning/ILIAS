@@ -13,6 +13,10 @@
  */
 class ilDclDetailedViewGUI
 {
+    /**
+     * @var \ILIAS\Style\Content\Object\ObjectFacade
+     */
+    protected $content_style_domain;
 
     /**
      * @var ilObjDataCollectionGUI
@@ -58,6 +62,7 @@ class ilDclDetailedViewGUI
      * @var ilLanguage
      */
     protected $lng;
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     /**
@@ -66,6 +71,8 @@ class ilDclDetailedViewGUI
     public function __construct(ilObjDataCollectionGUI $a_dcl_object)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
@@ -76,7 +83,7 @@ class ilDclDetailedViewGUI
         $this->record_obj = ilDclCache::getRecordCache($this->record_id);
 
         if (!$this->record_obj->hasPermissionToView((int) $_GET['ref_id'])) {
-            ilUtil::sendFailure('dcl_msg_no_perm_view', true);
+            $main_tpl->setOnScreenMessage('failure', 'dcl_msg_no_perm_view', true);
             $ilCtrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
 
@@ -107,6 +114,11 @@ class ilDclDetailedViewGUI
         if ($this->is_enabled_paging) {
             $this->determineNextPrevRecords();
         }
+        $this->content_style_domain = $DIC->contentStyle()
+            ->domain()
+            ->styleForRefId(
+                $this->dcl_gui_object->getDataCollectionObject()->getRefId()
+            );
     }
 
 
@@ -122,7 +134,7 @@ class ilDclDetailedViewGUI
             if ($this->table->getVisibleTableViews($_GET['ref_id'], true)) {
                 $this->offerAlternativeViews();
             } else {
-                ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             }
 
             return;
@@ -163,7 +175,7 @@ class ilDclDetailedViewGUI
     {
         global $DIC;
         $tpl = $DIC['tpl'];
-        ilUtil::sendInfo($this->lng->txt('dcl_msg_info_alternatives'));
+        $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('dcl_msg_info_alternatives'));
         $table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table);
         $tpl->setContent($table_gui->getHTML());
     }
@@ -189,7 +201,9 @@ class ilDclDetailedViewGUI
 
         // see ilObjDataCollectionGUI->executeCommand about instantiation
         $pageObj = new ilDclDetailedViewDefinitionGUI($this->tableview_id);
-        $pageObj->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
+        $pageObj->setStyleId(
+            $this->content_style_domain->getEffectiveStyleId()
+        );
 
         $html = $pageObj->getHTML();
         $rctpl->addCss("./Services/COPage/css/content.css");
@@ -299,7 +313,7 @@ class ilDclDetailedViewGUI
 
         if (!$field) {
             if (ilObjDataCollectionAccess::hasWriteAccess($this->dcl_gui_object->ref_id)) {
-                ilUtil::sendInfo("Bad Viewdefinition at [ext tableOf=\"" . $found[1] . "\" ...]", true);
+                $this->main_tpl->setOnScreenMessage('info', "Bad Viewdefinition at [ext tableOf=\"" . $found[1] . "\" ...]", true);
             }
 
             return;

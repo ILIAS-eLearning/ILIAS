@@ -194,7 +194,11 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
 //        $this->setMaxCount($tr_data["cnt"]);
         if (ilUtil::stripSlashes($this->getOrderField()) != "") {
-            $tr_data = ilUtil::stableSortArray($tr_data, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()));
+            $tr_data = ilArrayUtil::stableSortArray(
+                $tr_data,
+                ilUtil::stripSlashes($this->getOrderField()),
+                ilUtil::stripSlashes($this->getOrderDirection())
+            );
         }
 
         $this->setData($tr_data);

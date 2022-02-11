@@ -19,6 +19,8 @@
 
 namespace ILIAS\Skill\Tree;
 
+use ilArrayUtil;
+
 /**
  * Skill tree manager
  *
@@ -343,7 +345,7 @@ class SkillTreeNodeManager
             }
         }
 
-        $childs = \ilUtil::sortArray($childs, "order_nr", "asc", true);
+        $childs = ilArrayUtil::sortArray($childs, "order_nr", "asc", true);
 
         $cnt = 10;
         foreach ($childs as $c) {

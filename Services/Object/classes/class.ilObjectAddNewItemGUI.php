@@ -147,7 +147,7 @@ class ilObjectAddNewItemGUI
             }
         }
         
-        $this->sub_objects = ilUtil::sortArray($this->sub_objects, "title", 1);
+        $this->sub_objects = ilArrayUtil::sortArray($this->sub_objects, "title", 1);
         
         return (bool) sizeof($this->sub_objects);
     }
@@ -204,7 +204,7 @@ class ilObjectAddNewItemGUI
                 }
                 
                 // sort by default positions
-                $subtypes = ilUtil::sortArray($subtypes, "pos", "asc", true, true);
+                $subtypes = ilArrayUtil::sortArray($subtypes, "pos", "asc", true, true);
             }
             // use group assignment
             else {

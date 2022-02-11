@@ -123,20 +123,6 @@ class ilSoapAdministration
         return true;
     }
 
-    /**
-     * Overwrite error handler
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function initErrorWriter()
-    {
-        include_once('./Services/Init/classes/class.ilErrorHandling.php');
-
-        set_error_handler(array('ilErrorHandling','_ilErrorWriter'), E_ALL);
-    }
-
 
     public function __explodeSid($sid)
     {

@@ -57,7 +57,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             false == $ilAccess->checkAccess("write", "", $this->ref_id) &&
             false == $ilAccess->checkAccess("man_scoring_access", "", $this->ref_id)
         ) {
-            ilUtil::sendInfo($this->lng->txt('cannot_edit_test'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
             $this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
         }
 
@@ -179,12 +179,12 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 exit();
             }
 
-            ilUtil::sendInfo($this->lng->txt('cannot_edit_test'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
             $this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
         }
 
         if (false == isset($_POST['scoring']) || false == is_array($_POST['scoring'])) {
-            ilUtil::sendFailure($this->lng->txt('tst_save_manscoring_failed_unknown'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_save_manscoring_failed_unknown'));
             $this->showManScoringByQuestionParticipantsTable();
             return;
         }
@@ -234,7 +234,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         }
         
         if ($oneExceededMaxPoints) {
-            ilUtil::sendFailure(sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1));
+            $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1));
             $this->showManScoringByQuestionParticipantsTable($manPointsPost);
             return;
         }
@@ -289,7 +289,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 $pass + 1
             );
 
-            ilUtil::sendSuccess($msg, true);
+            $this->tpl->setOnScreenMessage('success', $msg, true);
 
             if (isset($active_id)) {
                 $correction_feedback = $this->object->getSingleManualFeedback($active_id, $qst_id, $pass);

@@ -4,7 +4,6 @@
 
 /**
  * Import object type does not match
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilImportObjectTypeMismatchException extends ilImportException

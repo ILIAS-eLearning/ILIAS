@@ -26,6 +26,8 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected ilTabsGUI $tabs;
     /** @var MessageBox[] */
     protected array $messages = [];
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
 
     protected function getObjectClass() : string
     {
@@ -46,6 +48,9 @@ class ilContentPageKioskModeView extends ilKioskModeView
         $this->refinery = $DIC->refinery();
         $this->tabs = $DIC->tabs();
         $this->user = $DIC->user();
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
+        $this->content_style_domain = $cs->domain()->styleForRefId($object->getRefId());
     }
 
     protected function hasPermissionToAccessKioskMode() : bool
@@ -145,7 +150,8 @@ class ilContentPageKioskModeView extends ilKioskModeView
             $this->lng,
             $this->contentPageObject,
             $this->user,
-            $this->refinery
+            $this->refinery,
+            $this->content_style_domain
         );
         $forwarder->setPresentationMode(ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
 
@@ -165,10 +171,9 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected function renderContentStyle() : void
     {
         $this->mainTemplate->addCss(ilObjStyleSheet::getSyntaxStylePath());
-        $this->mainTemplate->addCss(
-            ilObjStyleSheet::getContentStylePath(
-                $this->contentPageObject->getStyleSheetId()
-            )
+        $this->content_style_gui->addCss(
+            $this->mainTemplate,
+            $this->contentPageObject->getRefId()
         );
     }
 }

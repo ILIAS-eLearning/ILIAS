@@ -1,44 +1,57 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * @defgroup ServicesRadius
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesRadius
 */
 class ilRadiusSettingsGUI
 {
-
-    /**
-     * @var ILIAS\DI\Container
-     */
-    private $dic;
-
+    private ilCtrl $ctrl;
+    private ilTabsGUI $tabs_gui;
+    private ilLanguage $lng;
+    private ilGlobalTemplateInterface $tpl;
+    private ilRbacReview $rbacreview;
+    private ilRbacSystem $rbacsystem;
+    private ilErrorHandling $ilErr;
+    
     private $ref_id;
     
     /**
-     * Constructor
-     *
-     * @access public
      * @param int object auth ref_id
      *
      */
-    public function __construct($a_auth_ref_id)
+    public function __construct(int $a_auth_ref_id)
     {
         global $DIC;
-
-        $this->dic = $DIC;
-        $this->ctrl = $this->dic->ctrl();
-        $this->tabs_gui = $this->dic->tabs();
-        $this->lng = $this->dic->language();
+        
+        $this->ctrl = $DIC->ctrl();
+        $this->tabs_gui = $DIC->tabs();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbacreview = $DIC->rbac()->review();
+        $this->lng = $DIC->language();
+        $this->ilErr = $DIC['ilErr'];
+        
         $this->lng->loadLanguageModule('registration');
         $this->lng->loadLanguageModule('auth');
-        
-        $this->tpl = $this->dic['tpl'];
         $this->ref_id = $a_auth_ref_id;
 
         $this->initSettings();
@@ -46,21 +59,15 @@ class ilRadiusSettingsGUI
     
     /**
      * Execute command
-     *
-     * @access public
-     * @param
-     *
      */
     public function executeCommand()
     {
-        global $ilErr;
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("settings");
         
-        if (!$this->dic->rbac()->system()->checkAccess("visible,read", $this->ref_id)) {
-            $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->WARNING);
-            $this->dic->ctrl()->redirect($this, "settings");
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->ref_id)) {
+            $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->WARNING);
+            $this->ctrl()->redirect($this, "settings");
         }
 
         switch ($next_class) {
@@ -76,15 +83,9 @@ class ilRadiusSettingsGUI
     
     /**
      * Show settings
-     *
-     * @access public
-     * @param
-     *
      */
     public function settings()
     {
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-        
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.settings.html', 'Services/Radius');
 
         $this->lng->loadLanguageModule('auth');
@@ -93,10 +94,9 @@ class ilRadiusSettingsGUI
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('auth_radius_configure'));
         
-        // Form checkbox
         $check = new ilCheckboxInputGUI($this->lng->txt('auth_radius_enable'), 'active');
-        $check->setChecked($this->settings->isActive() ? 1 : 0);
-        $check->setValue(1);
+        $check->setChecked($this->settings->isActive());
+        $check->setValue("1");
         $form->addItem($check);
         
         $text = new ilTextInputGUI($this->lng->txt('auth_radius_name'), 'name');
@@ -149,7 +149,7 @@ class ilRadiusSettingsGUI
         // Disabled
         $dis = new ilRadioOption(
             $this->lng->txt('disabled'),
-            ilRadiusSettings::SYNC_DISABLED,
+            (string) ilRadiusSettings::SYNC_DISABLED,
             ''
         );
         #$dis->setInfo($this->lng->txt('auth_radius_sync_disabled_info'));
@@ -158,7 +158,7 @@ class ilRadiusSettingsGUI
         // Radius
         $rad = new ilRadioOption(
             $this->lng->txt('auth_radius_sync_rad'),
-            ilRadiusSettings::SYNC_RADIUS,
+            (string) ilRadiusSettings::SYNC_RADIUS,
             ''
         );
         $rad->setInfo($this->lng->txt('auth_radius_sync_rad_info'));
@@ -171,13 +171,12 @@ class ilRadiusSettingsGUI
 
         $migr = new ilCheckboxInputGUI($this->lng->txt('auth_rad_migration'), 'migration');
         $migr->setInfo($this->lng->txt('auth_rad_migration_info'));
-        $migr->setChecked($this->settings->isAccountMigrationEnabled() ? 1 : 0);
-        $migr->setValue(1);
+        $migr->setChecked($this->settings->isAccountMigrationEnabled());
+        $migr->setValue("1");
         $rad->addSubItem($migr);
 
         // LDAP
-        include_once './Services/LDAP/classes/class.ilLDAPServer.php';
-        $server_ids = ilLDAPServer::getAvailableDataSources(AUTH_RADIUS);
+        $server_ids = ilLDAPServer::getAvailableDataSources(ilAuthUtils::AUTH_RADIUS);
         
         if (count($server_ids)) {
             $ldap = new ilRadioOption(
@@ -196,23 +195,23 @@ class ilRadiusSettingsGUI
             }
             $ldap_server_select->setOptions($options);
             $ldap_server_select->setRequired(true);
-            $ds = ilLDAPServer::getDataSource(AUTH_RADIUS);
+            $ds = ilLDAPServer::getDataSource(ilAuthUtils::AUTH_RADIUS);
             $ldap_server_select->setValue($ds);
             
             $ldap->addSubItem($ldap_server_select);
         }
 
-        if (ilLDAPServer::isDataSourceActive(AUTH_RADIUS)) {
+        if (ilLDAPServer::isDataSourceActive(ilAuthUtils::AUTH_RADIUS)) {
             $sync->setValue(ilRadiusSettings::SYNC_LDAP);
         } else {
             $sync->setValue(
                 $this->settings->enabledCreation() ?
-                    ilRadiusSettings::SYNC_RADIUS :
-                    ilRadiusSettings::SYNC_DISABLED
+                    (string) ilRadiusSettings::SYNC_RADIUS :
+                    (string) ilRadiusSettings::SYNC_DISABLED
             );
         }
 
-        if ($this->dic->rbac()->system()->checkAccess('write', $this->ref_id)) {
+        if ($this->rbacsystem->checkAccess('write', $this->ref_id)) {
             $form->addCommandButton('save', $this->lng->txt('save'));
         }
         $this->tpl->setVariable('SETTINGS_TABLE', $form->getHTML());
@@ -220,61 +219,57 @@ class ilRadiusSettingsGUI
     
     /**
      * Save
-     *
-     * @access public
-     *
      */
     public function save()
     {
-        $this->settings->setActive((int) $_POST['active']);
+        $this->settings->setActive((bool) $_POST['active']);
         $this->settings->setName(ilUtil::stripSlashes($_POST['name']));
-        $this->settings->setPort(ilUtil::stripSlashes($_POST['port']));
+        $this->settings->setPort((int) ilUtil::stripSlashes($_POST['port']));
         $this->settings->setSecret(ilUtil::stripSlashes($_POST['secret']));
         $this->settings->setServerString(ilUtil::stripSlashes($_POST['servers']));
         $this->settings->setDefaultRole((int) $_POST['role']);
-        $this->settings->enableAccountMigration((int) $_POST['migration']);
+        $this->settings->enableAccountMigration((bool) $_POST['migration']);
         $this->settings->setCharset((int) $_POST['charset']);
-        $this->settings->enableCreation(((int) $_POST['sync'] == ilRadiusSettings::SYNC_RADIUS) ? true : false);
+        $this->settings->enableCreation($_POST['sync'] == ilRadiusSettings::SYNC_RADIUS ? true : false);
 
         if (!$this->settings->validateRequired()) {
-            ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("fill_out_all_required_fields"));
             $this->settings();
             return false;
         }
         if (!$this->settings->validatePort()) {
-            ilUtil::sendFailure($this->lng->txt("err_invalid_port"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_invalid_port"));
             $this->settings();
             return false;
         }
         if (!$this->settings->validateServers()) {
-            ilUtil::sendFailure($this->lng->txt("err_invalid_server"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_invalid_server"));
             $this->settings();
             return false;
         }
 
-        include_once './Services/LDAP/classes/class.ilLDAPServer.php';
         switch ((int) $_POST['sync']) {
             case ilRadiusSettings::SYNC_DISABLED:
-                ilLDAPServer::disableDataSourceForAuthMode(AUTH_RADIUS);
+                ilLDAPServer::disableDataSourceForAuthMode(ilAuthUtils::AUTH_RADIUS);
                 break;
 
             case ilRadiusSettings::SYNC_RADIUS:
-                ilLDAPServer::disableDataSourceForAuthMode(AUTH_RADIUS);
+                ilLDAPServer::disableDataSourceForAuthMode(ilAuthUtils::AUTH_RADIUS);
                 break;
 
             case ilRadiusSettings::SYNC_LDAP:
                 if (!(int) $_REQUEST['ldap_sid']) {
-                    ilUtil::sendFailure($this->lng->txt('err_check_input'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
                     $this->settings();
                     return false;
                 }
                 
-                ilLDAPServer::toggleDataSource((int) $_REQUEST['ldap_sid'], AUTH_RADIUS, true);
+                ilLDAPServer::toggleDataSource((int) $_REQUEST['ldap_sid'], ilAuthUtils::AUTH_RADIUS, true);
                 break;
         }
 
         $this->settings->save();
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->settings();
         return true;
     }
@@ -282,22 +277,16 @@ class ilRadiusSettingsGUI
     
     /**
      * Init Server settings
-     *
-     * @access private
-     *
      */
     private function initSettings()
     {
-        include_once('Services/Radius/classes/class.ilRadiusSettings.php');
         $this->settings = ilRadiusSettings::_getInstance();
     }
     
     private function prepareRoleSelection()
     {
-        global $rbacreview,$ilObjDataCache;
-        
         $global_roles = ilUtil::_sortIds(
-            $rbacreview->getGlobalRoles(),
+            $this->rbacreview->getGlobalRoles(),
             'object_data',
             'title',
             'obj_id'
@@ -305,21 +294,17 @@ class ilRadiusSettingsGUI
         
         $select[0] = $this->lng->txt('links_select_one');
         foreach ($global_roles as $role_id) {
-            $select[$role_id] = ilObject::_lookupTitle($role_id);
+            $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
         }
-        
         return $select;
     }
     
     /**
      * Get charset options
-     *
-     * @access private
-     *
      */
     private function prepareCharsetSelection()
     {
-        return $select = array(ilRadiusSettings::RADIUS_CHARSET_UTF8 => 'UTF-8',
+        return array(ilRadiusSettings::RADIUS_CHARSET_UTF8 => 'UTF-8',
                 ilRadiusSettings::RADIUS_CHARSET_LATIN1 => 'ISO-8859-1');
     }
 }

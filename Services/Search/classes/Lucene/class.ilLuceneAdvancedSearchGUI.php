@@ -109,7 +109,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         }
         
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_adv_search.html', 'Services/Search');
-                $presentation = new ilSearchResultPresentation($this);
+        $presentation = new ilSearchResultPresentation($this);
         $presentation->setResults($filter->getResultIds());
         $presentation->setSearcher($searcher);
 
@@ -121,7 +121,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         if ($presentation->render()) {
             $this->tpl->setVariable('SEARCH_RESULTS', $presentation->getHTML());
         } elseif (strlen(trim($qp->getQuery()))) {
-            ilUtil::sendInfo($this->lng->txt('search_no_match'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
         
         // and finally add search form
@@ -188,7 +188,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
     {
         if (!is_array($this->search_cache->getQuery())) {
             // TOD: handle empty advances search
-            ilUtil::sendInfo($this->lng->txt('msg_no_search_string'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_no_search_string'));
             $this->showSavedResults();
             return;
         }
@@ -196,7 +196,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         $this->search_cache->deleteCachedEntries();
         
         // Reset details
-                ilSubItemListGUI::resetDetails();
+        ilSubItemListGUI::resetDetails();
         
         $this->performSearch();
     }
@@ -216,13 +216,12 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
      */
     protected function performSearch() : void
     {
-        
         unset($_SESSION['vis_references']);
         
         $qp = new ilLuceneAdvancedQueryParser($this->search_cache->getQuery());
         $qp->parse();
         if (!strlen(trim($qp->getQuery()))) {
-            ilUtil::sendInfo($this->lng->txt('msg_no_search_string'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_no_search_string'));
             $this->showSavedResults();
             return;
         }
@@ -231,7 +230,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         $searcher->search();
         
         // Filter results
-                        $filter = ilLuceneSearchResultFilter::getInstance($this->user->getId());
+        $filter = ilLuceneSearchResultFilter::getInstance($this->user->getId());
         $filter->addFilter(new ilLucenePathFilter($this->search_cache->getRoot()));
         $filter->setCandidates($searcher->getResult());
         $filter->filter();
@@ -242,7 +241,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 
         // Show results
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_adv_search.html', 'Services/Search');
-                $presentation = new ilSearchResultPresentation($this);
+        $presentation = new ilSearchResultPresentation($this);
         $presentation->setResults($filter->getResultIds());
         $presentation->setSearcher($searcher);
 
@@ -253,7 +252,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         if ($presentation->render()) {
             $this->tpl->setVariable('SEARCH_RESULTS', $presentation->getHTML());
         } else {
-            ilUtil::sendInfo($this->lng->txt('search_no_match'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
         
         // and finally add search form
@@ -279,7 +278,6 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
      */
     protected function getTabs() : void
     {
-
         $this->help->setScreenIdComponent("src_luc");
 
         $this->tabs_gui->addTarget('search', $this->ctrl->getLinkTargetByClass('illucenesearchgui'));

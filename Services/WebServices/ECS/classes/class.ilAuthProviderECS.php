@@ -1,9 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Authentication/classes/Provider/class.ilAuthProvider.php';
-include_once './Services/Authentication/interfaces/interface.ilAuthProviderInterface.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Auth prvider for ecs auth
@@ -13,11 +22,15 @@ include_once './Services/Authentication/interfaces/interface.ilAuthProviderInter
  */
 class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterface
 {
-    protected $mid = null;
-    protected $abreviation = null;
+    private ilIniFile $clientIniFile;
+    private ilRbacAdmin $rbacAdmin;
+    private ilSetting $settings;
 
-    protected $currentServer = null;
-    protected $servers = null;
+    protected ?int $mid = null;
+    protected ?string $abreviation = null;
+
+    protected ilECSSetting $currentServer;
+    protected ilECSServerSettings $servers;
     
     
     /**
@@ -27,6 +40,12 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
     public function __construct(\ilAuthCredentials $credentials)
     {
         parent::__construct($credentials);
+
+        global $DIC;
+
+        $this->clientIniFile = $DIC->clientIni();
+        $this->rbacadmin = $DIC->rbac()->admin();
+        $this->setting = $DIC->settings();
 
         $this->initECSServices();
     }
@@ -38,7 +57,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      * @param
      *
      */
-    public function getAbreviation()
+    public function getAbreviation() : string
     {
         return $this->abreviation;
     }
@@ -48,12 +67,12 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      *
      * @access public
      */
-    public function getMID()
+    public function getMID() : int
     {
         return $this->mid;
     }
     
-    public function setMID($a_mid)
+    public function setMID(int $a_mid) : void
     {
         $this->mid = $a_mid;
     }
@@ -71,7 +90,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      * Get current server
      * @return ilECSSetting
      */
-    public function getCurrentServer()
+    public function getCurrentServer() : ilECSSetting
     {
         return $this->currentServer;
     }
@@ -80,18 +99,18 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      * Get server settings
      * @return ilECSServerSettings
      */
-    public function getServerSettings()
+    public function getServerSettings() : ilECSServerSettings
     {
         return $this->servers;
     }
     
 
     /**
-     * Tra ecs authentication
+     * Try ecs authentication
      * @param \ilAuthStatus $status
      * @return boolean
      */
-    public function doAuthentication(\ilAuthStatus $status)
+    public function doAuthentication(\ilAuthStatus $status) : bool
     {
         $this->getLogger()->debug('Starting ECS authentication');
         if (!$this->getServerSettings()->activeServerExists()) {
@@ -101,8 +120,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         }
         
         // Iterate through all active ecs instances
-        include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
-        foreach ($this->getServerSettings()->getServers() as $server) {
+        foreach ($this->getServerSettings()->getServers(ilECSServerSettings::ACTIVE_SERVER) as $server) {
             $this->setCurrentServer($server);
             if ($this->validateHash()) {
                 // handle successful authentication
@@ -127,8 +145,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      */
     public function handleLogin()
     {
-        include_once('./Services/WebServices/ECS/classes/class.ilECSUser.php');
-        
         $user = new ilECSUser($_GET);
         
         if (!$usr_id = ilObject::_lookupObjIdByImportId($user->getImportId())) {
@@ -138,23 +154,20 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         }
         
         // set user imported
-        include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
         $import = new ilECSImport($this->getCurrentServer()->getServerId(), $usr_id);
         $import->save();
         
         // Store remote user data
-        include_once './Services/WebServices/ECS/classes/class.ilECSRemoteUser.php';
-        $remote = new ilECSRemoteUser();
-        $remote->setServerId($this->getCurrentServer()->getServerId());
-        $remote->setMid($this->getMID());
-        $remote->setRemoteUserId($user->getImportId());
-        $remote->setUserId(ilObjUser::_lookupId($username));
+        $remoteUserRepository = new ilECSRemoteUserRepository();
+        $remoteUserRepository->createIfNotExisting(
+            $this->getCurrentServer()->getServerId(),
+            $this->getMID(),
+            ilObjUser::_lookupId($username),
+            $user->getImportId()
+        );
 
         $this->getLogger()->info('Current user is: ' . $username);
         
-        if (!$remote->exists()) {
-            $remote->create();
-        }
         return ilObjUser::_lookupId($username);
     }
     
@@ -169,10 +182,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      */
     public function validateHash()
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
         // fetch hash
         if (isset($_GET['ecs_hash']) and strlen($_GET['ecs_hash'])) {
             $hash = $_GET['ecs_hash'];
@@ -186,7 +195,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         $this->getLogger()->info('Using ecs hash: ' . $hash);
         // Check if hash is valid ...
         try {
-            include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
             $connector = new ilECSConnector($this->getCurrentServer());
             $res = $connector->getAuth($hash);
             $auths = $res->getResult();
@@ -195,7 +203,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 
             if ($auths->pid) {
                 try {
-                    include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
                     $reader = ilECSCommunityReader::getInstanceByServerId($this->getCurrentServer()->getServerId());
                     foreach ($reader->getParticipantsByPid($auths->pid) as $participant) {
                         if ($participant->getOrganisation() instanceof \ilECSOrganisation) {
@@ -222,7 +229,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         
         // read current mid
         try {
-            include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
             $connector = new ilECSConnector($this->getCurrentServer());
             $details = $connector->getAuth($hash, true);
             
@@ -246,7 +252,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      */
     private function initECSServices()
     {
-        include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
         $this->servers = ilECSServerSettings::getInstance();
     }
     
@@ -257,17 +262,9 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      */
     protected function createUser(ilECSUser $user)
     {
-        global $DIC;
-
-        $ilClientIniFile = $DIC['ilClientIniFile'];
-        $ilSetting = $DIC['ilSetting'];
-        $rbacadmin = $DIC['rbacadmin'];
-        $ilLog = $DIC['ilLog'];
-
         $userObj = new ilObjUser();
         $userObj->setOwner(SYSTEM_USER_ID);
 
-        include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
         $local_user = ilAuthUtils::_generateLogin($this->getAbreviation() . '_' . $user->getLogin());
 
         $newUser["login"] = $local_user;
@@ -289,13 +286,13 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         $userObj->setDescription($userObj->getEmail());
 
         // set user language to system language
-        $userObj->setLanguage($ilSetting->get("language"));
+        $userObj->setLanguage($this->setting->get("language"));
 
         // Time limit
         $userObj->setTimeLimitOwner(7);
         $userObj->setTimeLimitUnlimited(0);
         $userObj->setTimeLimitFrom(time() - 5);
-        $userObj->setTimeLimitUntil(time() + $ilClientIniFile->readVariable("session", "expire"));
+        $userObj->setTimeLimitUntil(time() + $this->clientIniFile->readVariable("session", "expire"));
 
         #$now = new ilDateTime(time(), IL_CAL_UNIX);
         #$userObj->setAgreeDate($now->get(IL_CAL_DATETIME));
@@ -308,8 +305,8 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         $userObj->saveAsNew();
         $userObj->writePrefs();
 
-        if ($global_role = $this->getCurrentServer()->getGlobalRole()) {
-            $rbacadmin->assignUser($this->getCurrentServer()->getGlobalRole(), $userObj->getId(), true);
+        if ($this->getCurrentServer()->getGlobalRole()) {
+            $this->rbacAdmin->assignUser($this->getCurrentServer()->getGlobalRole(), $userObj->getId(), true);
         }
         ilObject::_writeImportId($userObj->getId(), $user->getImportId());
 
@@ -329,12 +326,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      */
     protected function updateUser(ilECSUser $user, $a_local_user_id)
     {
-        global $DIC;
-
-        $ilClientIniFile = $DIC['ilClientIniFile'];
-        $ilLog = $DIC['ilLog'];
-        $rbacadmin = $DIC['rbacadmin'];
-        
         $user_obj = new ilObjUser($a_local_user_id);
         $user_obj->setFirstname($user->getFirstname());
         $user_obj->setLastname($user->getLastname());
@@ -344,15 +335,15 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         
         $until = $user_obj->getTimeLimitUntil();
 
-        if ($until < (time() + $ilClientIniFile->readVariable('session', 'expire'))) {
+        if ($until < (time() + $this->clientIniFile->readVariable('session', 'expire'))) {
             $user_obj->setTimeLimitFrom(time() - 60);
-            $user_obj->setTimeLimitUntil(time() + $ilClientIniFile->readVariable("session", "expire"));
+            $user_obj->setTimeLimitUntil(time() + $this->clientIniFile->readVariable("session", "expire"));
         }
         $user_obj->update();
         $user_obj->refreshLogin();
         
-        if ($global_role = $this->getCurrentServer()->getGlobalRole()) {
-            $rbacadmin->assignUser(
+        if ($this->getCurrentServer()->getGlobalRole()) {
+            $this->rbacAdmin->assignUser(
                 $this->getCurrentServer()->getGlobalRole(),
                 $user_obj->getId(),
                 true
@@ -371,7 +362,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      */
     protected function resetMailOptions($a_usr_id)
     {
-        include_once './Services/Mail/classes/class.ilMailOptions.php';
         $options = new ilMailOptions($a_usr_id);
         $options->setIncomingType(ilMailOptions::INCOMING_LOCAL);
         $options->updateOptions();

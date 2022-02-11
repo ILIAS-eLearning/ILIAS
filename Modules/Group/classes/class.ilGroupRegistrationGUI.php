@@ -51,7 +51,6 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         parent::__construct($a_container);
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
     }
     
     protected function executeCommand() : void
@@ -137,7 +136,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
             // Disable registration
             $this->enableRegistration(false);
             #$reg->setAlert($warning);
-            ilUtil::sendFailure($warning);
+            $this->tpl->setOnScreenMessage('failure', $warning);
         }
         $this->form->addItem($reg);
     }
@@ -147,7 +146,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
      * @access protected
      * @return void
      */
-    protected function fillMaxMembers():void
+    protected function fillMaxMembers() : void
     {
         $alert = '';
         if (!$this->container->isMembershipLimited()) {
@@ -225,7 +224,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         $max->setHtml($tpl->get());
         if (strlen($alert)) {
             #$max->setAlert($alert);
-            ilUtil::sendFailure($alert);
+            $this->tpl->setOnScreenMessage('failure', $alert);
         }
         $this->form->addItem($max);
     }
@@ -292,7 +291,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                     $sub_data = $this->participants->getSubscriberData($this->user->getId());
                     $sub->setValue($sub_data['subject']);
                     $sub->setInfo('');
-                    ilUtil::sendFailure($this->lng->txt('grp_already_assigned'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('grp_already_assigned'));
                     $this->enableRegistration(false);
                 }
                 $txt->addSubItem($sub);
@@ -346,7 +345,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
      * @access protected
      * @return bool
      */
-    protected function validate():bool
+    protected function validate() : bool
     {
         if ($this->user->getId() == ANONYMOUS_USER_ID) {
             $this->join_error = $this->lng->txt('permission_denied');
@@ -411,7 +410,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                 ilGroupMembershipMailNotification::TYPE_WAITING_LIST_MEMBER,
                 $this->user->getId()
             );
-            ilUtil::sendSuccess($info, true);
+            $this->tpl->setOnScreenMessage('success', $info, true);
             $this->ctrl->setParameterByClass(
                 "ilrepositorygui",
                 "ref_id",
@@ -438,7 +437,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                     $this->user->getId()
                 );
 
-                ilUtil::sendSuccess($this->lng->txt("application_completed"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("application_completed"), true);
                 $this->ctrl->setParameterByClass(
                     "ilrepositorygui",
                     "ref_id",
@@ -449,7 +448,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
             
             default:
                 
-                $this->participants->add($this->user->getId(), IL_GRP_MEMBER);
+                $this->participants->add($this->user->getId(), ilParticipants::IL_GRP_MEMBER);
                 $this->participants->sendNotification(
                     ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION,
                     $this->user->getId()
@@ -462,7 +461,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                 ilForumNotification::checkForumsExistsInsert($this->container->getRefId(), $this->user->getId());
                     
                 if (!$_SESSION["pending_goto"]) {
-                    ilUtil::sendSuccess($this->lng->txt("grp_registration_completed"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("grp_registration_completed"), true);
                     $this->ctrl->returnToParent($this);
                 } else {
                     $tgt = $_SESSION["pending_goto"];

@@ -17,6 +17,7 @@ namespace ILIAS\Blog;
 
 use ILIAS\COPage;
 use ILIAS\Export;
+use ilPropertyFormGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -92,7 +93,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         return $print_pages;
     }
 
-    public function getSelectionForm() : \ilPropertyFormGUI
+    public function getSelectionForm() : ?ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

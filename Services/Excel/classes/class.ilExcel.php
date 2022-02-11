@@ -22,6 +22,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use ILIAS\FileUpload\MimeType;
 
 /*
  * Wrapper for Microsoft Excel Import/Export (based on PHPSpreadsheet, formerPHPExcel which is deprecated)
@@ -109,7 +110,7 @@ class ilExcel
         
         // #19056 - phpExcel only allows 31 chars
         // see https://github.com/PHPOffice/PHPExcel/issues/79
-        $a_name = ilUtil::shortenText($a_name, 31);
+        $a_name = ilStr::shortenTextExtended($a_name, 31);
         
         $sheet = new Worksheet($this->workbook, $a_name);
         $this->workbook->addSheet($sheet);
@@ -410,17 +411,17 @@ class ilExcel
         $a_file_name = $this->prepareStorage($a_file_name);
         switch ($this->format) {
             case self::FORMAT_BIFF:
-                $a_mime_type = ilMimeTypeUtil::APPLICATION__VND_MS_EXCEL;
+                $a_mime_type = MimeType::APPLICATION__VND_MS_EXCEL;
                 break;
 
             case self::FORMAT_XML:
-                $a_mime_type = ilMimeTypeUtil::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET;
+                $a_mime_type = MimeType::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET;
                 break;
             default:
-                $a_mime_type = ilMimeTypeUtil::APPLICATION__OCTET_STREAM;
+                $a_mime_type = MimeType::APPLICATION__OCTET_STREAM;
                 break;
         }
-        $tmp_name = ilUtil::ilTempnam();
+        $tmp_name = ilFileUtils::ilTempnam();
 
         $writer = IOFactory::createWriter($this->workbook, $this->format);
         $writer->save($tmp_name);
@@ -447,7 +448,7 @@ class ilExcel
     public function writeToTmpFile() : string
     {
         $writer = IOFactory::createWriter($this->workbook, $this->format);
-        $filename = ilUtil::ilTempnam();
+        $filename = ilFileUtils::ilTempnam();
         $writer->save($filename);
         
         return $filename;

@@ -26,12 +26,13 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     protected array $cmixUserResult = array();
     
     private static array $statusInfoCache = array();
-    
+
     /**
-     * @param $objId
-     * @param $usrId
+     * @param int $objId
+     * @param int $usrId
+     * @return ilCmiXapiResult
      */
-    public function getCmixUserResult($objId, $usrId) : \ilCmiXapiResult
+    public function getCmixUserResult(int $objId, int $usrId) : \ilCmiXapiResult
     {
         if (!isset($this->cmixUserResult[$objId])) {
             $this->cmixUserResult[$objId] = array();
@@ -48,13 +49,15 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
         
         return $this->cmixUserResult[$objId][$usrId];
     }
-    
+
     /**
-     * @param $objId
-     * @param $object
-     * @return ilObjCmiXapi
+     * @param int $objId
+     * @param     $object
+     * @return bool|ilObjCmiXapi|ilObject|mixed|null
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
      */
-    protected function ensureObject($objId, $object = null)
+    protected function ensureObject(int $objId, $object = null)
     {
         if (!($object instanceof ilObjCmiXapi)) {
             $object = ilObjectFactory::getInstanceByObjId($objId);
@@ -62,46 +65,71 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
         
         return $object;
     }
-    
-    public static function _getNotAttempted($a_obj_id)
+
+    /**
+     * @param int $a_obj_id
+     * @return array|int[]
+     */
+    public static function _getNotAttempted(int $a_obj_id) : array
     {
         return self::getUserIdsByLpStatusNum(
             $a_obj_id,
             ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
         );
     }
-    
-    public static function _getInProgress($a_obj_id)
+
+    /**
+     * @param int $a_obj_id
+     * @return array|int[]
+     */
+    public static function _getInProgress(int $a_obj_id) : array
     {
         return self::getUserIdsByLpStatusNum(
             $a_obj_id,
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
         );
     }
-    
-    public static function _getCompleted($a_obj_id)
+
+    /**
+     * @param int $a_obj_id
+     * @return array
+     */
+    public static function _getCompleted(int $a_obj_id) : array
     {
         return self::getUserIdsByLpStatusNum(
             $a_obj_id,
             ilLPStatus::LP_STATUS_COMPLETED_NUM
         );
     }
-    
-    public static function _getFailed($a_obj_id)
+
+    /**
+     * @param int $a_obj_id
+     * @return array|int[]
+     */
+    public static function _getFailed(int $a_obj_id) : array
     {
         return self::getUserIdsByLpStatusNum(
             $a_obj_id,
             ilLPStatus::LP_STATUS_FAILED_NUM
         );
     }
-    
-    private static function getUserIdsByLpStatusNum($objId, $lpStatusNum)
+
+    /**
+     * @param int $objId
+     * @param int $lpStatusNum
+     * @return array|int[]|mixed
+     */
+    private static function getUserIdsByLpStatusNum(int $objId, int $lpStatusNum) : array
     {
         $statusInfo = self::_getStatusInfo($objId);
         return $statusInfo[$lpStatusNum];
     }
-    
-    public static function _getStatusInfo($a_obj_id)
+
+    /**
+     * @param int $a_obj_id
+     * @return array|array[]|int[][]
+     */
+    public static function _getStatusInfo(int $a_obj_id) : array
     {
         if (self::$statusInfoCache[$a_obj_id] === null) {
             self::$statusInfoCache[$a_obj_id] = self::loadStatusInfo($a_obj_id);
@@ -109,11 +137,12 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
         
         return self::$statusInfoCache[$a_obj_id];
     }
-    
+
     /**
+     * @param int $a_obj_id
      * @return array<int, int[]>
      */
-    private static function loadStatusInfo($a_obj_id) : array
+    private static function loadStatusInfo(int $a_obj_id) : array
     {
         $statusInfo = [
             ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => [],
@@ -145,8 +174,14 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
         
         return $statusInfo;
     }
-    
-    public function determineStatus($a_obj_id, $a_usr_id, $a_obj = null)
+
+    /**
+     * @param int         $a_obj_id
+     * @param int         $a_usr_id
+     * @param object|null $a_obj
+     * @return int
+     */
+    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         $cmixUserResult = $this->getCmixUserResult($a_obj_id, $a_usr_id);
         
@@ -168,8 +203,14 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
         
         return self::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
-    
-    public function determinePercentage($a_obj_id, $a_usr_id, $a_obj = null)
+
+    /**
+     * @param int         $a_obj_id
+     * @param int         $a_usr_id
+     * @param object|null $a_obj
+     * @return int
+     */
+    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
     {
         $cmixResult = $this->getCmixUserResult($a_obj_id, $a_usr_id);
         
@@ -179,32 +220,36 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
         
         return 0;
     }
-    
+
     /**
      * @param ilCmiXapiResult $result
+     * @return bool
      */
     abstract protected function resultSatisfyCompleted(ilCmiXapiResult $result) : bool;
-    
+
     /**
-     * @param ilObjCmiXapi $object
      * @param ilCmiXapiResult $result
+     * @param int             $a_obj_id
+     * @return bool
      */
-    protected static function _resultSatisfyCompleted(ilCmiXapiResult $result, $a_obj_id) : bool
+    protected static function _resultSatisfyCompleted(ilCmiXapiResult $result, int $a_obj_id) : bool
     {
         $lpStatusDetermination = new static($a_obj_id);
         return $lpStatusDetermination->resultSatisfyCompleted($result);
     }
-    
+
     /**
      * @param ilCmiXapiResult $result
+     * @return bool
      */
     abstract protected function resultSatisfyFailed(ilCmiXapiResult $result) : bool;
-    
+
     /**
-     * @param ilObjCmiXapi $object
      * @param ilCmiXapiResult $result
+     * @param int             $a_obj_id
+     * @return bool
      */
-    protected static function _resultSatisfyFailed(ilCmiXapiResult $result, $a_obj_id) : bool
+    protected static function _resultSatisfyFailed(ilCmiXapiResult $result, int $a_obj_id) : bool
     {
         $lpStatusDetermination = new static($a_obj_id);
         return $lpStatusDetermination->resultSatisfyFailed($result);

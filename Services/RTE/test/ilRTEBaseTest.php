@@ -4,6 +4,7 @@
 use ILIAS\DI\Container;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use ILIAS\HTTP\Agent\AgentDetermination;
 
 /**
  * Class ilRTEBaseTest
@@ -48,10 +49,6 @@ abstract class ilRTEBaseTest extends TestCase
         $this->setGlobalVariable(
             'ilCtrl',
             $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock()
-        );
-        $this->setGlobalVariable(
-            'ilBrowser',
-            $this->getMockBuilder(ilBrowser::class)->disableOriginalConstructor()->getMock()
         );
         $this->setGlobalVariable(
             'ilClientIniFile',

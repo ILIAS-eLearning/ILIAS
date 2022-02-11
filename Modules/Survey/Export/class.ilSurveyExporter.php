@@ -42,7 +42,7 @@ class ilSurveyExporter extends ilXmlExporter
             $zip = $svy_exp->buildExportFile();
 
             // Unzip, since survey deletes this dir
-            ilUtil::unzip($zip);
+            ilFileUtils::unzip($zip);
 
             $GLOBALS['ilLog']->write(__METHOD__ . ': Created zip file ' . $zip);
             return "";

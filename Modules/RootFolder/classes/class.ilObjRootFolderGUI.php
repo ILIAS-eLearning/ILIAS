@@ -21,7 +21,7 @@ use ILIAS\RootFolder\StandardGUIRequest;
  * @author Stefan Meyer <meyer@leifos.com>
  *
  * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI
- * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ilObjectTranslationGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilRepositoryTrashGUI
  */
@@ -120,9 +120,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
             case "ilcolumngui":
                 $this->checkPermission("read");
                 $this->prepareOutput();
-                $this->tpl->setVariable(
-                    "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                $this->content_style_gui->addCss(
+                    $this->tpl,
+                    $this->object->getRefId()
                 );
                 $this->renderObject();
                 break;
@@ -133,9 +133,17 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 $cp->setType('root');
                 $this->ctrl->forwardCommand($cp);
                 break;
-                
-            case "ilobjstylesheetgui":
-                $this->forwardToStyleSheet();
+
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->setTitleAndDescription();
+                $this->showContainerPageTabs();
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
             
             case "ilcommonactiondispatchergui":
@@ -162,9 +170,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
                     }
                 }
                 $this->prepareOutput();
-                $this->tpl->setVariable(
-                    "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                $this->content_style_gui->addCss(
+                    $this->tpl,
+                    $this->object->getRefId()
                 );
 
                 if (!$cmd) {
@@ -330,7 +338,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
                 // END ChangeEvent: Record update
 
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirect($this, "edit");
             }
 

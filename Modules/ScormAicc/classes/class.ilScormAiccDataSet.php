@@ -190,13 +190,13 @@ class ilScormAiccDataSet extends ilDataSet
             $writer->appendXML("\n");
         }
 
-        $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
+        $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
         $baseFileName = "sahs_" . $id;
         $scormBasePath = $exportDir . "/" . $baseFileName;
         if (!file_exists($exportDir)) {
             mkdir($exportDir, 0755, true);
         }
-        ilUtil::zip($lmDir, $scormBasePath, true);
+        ilFileUtils::zip($lmDir, $scormBasePath, true);
         $scormFilePath = $scormBasePath . ".zip";
 
         $writer->xmlEndTag($this->getDSPrefixString() . "DataSet");

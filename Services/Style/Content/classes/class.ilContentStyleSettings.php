@@ -1,26 +1,27 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Content style settings
- *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesStyle
  */
 class ilContentStyleSettings
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    public array $styles = array();
 
-    public $styles = array();
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -31,32 +32,23 @@ class ilContentStyleSettings
 
     /**
      * Add style to style folder
-     *
-     * @param	int		$a_style_id		style id
      */
-    public function addStyle($a_style_id)
+    public function addStyle(int $a_style_id) : void
     {
         $this->styles[$a_style_id] =
             array("id" => $a_style_id,
                 "title" => ilObject::_lookupTitle($a_style_id));
     }
 
-
     /**
      * remove Style from style list
      */
-    public function removeStyle($a_id)
+    public function removeStyle(int $a_id) : void
     {
         unset($this->styles[$a_id]);
     }
 
-
-    /**
-     * update object data
-     *
-     * @return	boolean
-     */
-    public function update()
+    public function update() : bool
     {
         $ilDB = $this->db;
 
@@ -66,7 +58,7 @@ class ilContentStyleSettings
         $ilDB->manipulate($q);
         foreach ($this->styles as $style) {
             $q = "INSERT INTO style_folder_styles (folder_id, style_id) VALUES" .
-                "(" . $ilDB->quote((int) 0, "integer") . ", " .
+                "(" . $ilDB->quote(0, "integer") . ", " .
                 $ilDB->quote((int) $style["id"], "integer") . ")";
             $ilDB->manipulate($q);
         }
@@ -74,10 +66,7 @@ class ilContentStyleSettings
         return true;
     }
 
-    /**
-     * read style folder data
-     */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
 
@@ -94,16 +83,10 @@ class ilContentStyleSettings
         }
 
         $this->styles =
-            ilUtil::sortArray($this->styles, "title", "asc", false, true);
+            ilArrayUtil::sortArray($this->styles, "title", "asc", false, true);
     }
 
-
-    /**
-     * get style ids
-     *
-     * @return		array		ids
-     */
-    public function getStyles()
+    public function getStyles() : array
     {
         return $this->styles;
     }

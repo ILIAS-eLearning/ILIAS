@@ -47,7 +47,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
         
         return $clone;
@@ -63,7 +63,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     
     public function withAltText(string $alt_text) : self
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->alt_text = $alt_text;
         
         return $clone;
@@ -91,7 +91,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function withAction(string $action) : hasAction
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->ref_id = (int) $action;
         
         return $clone;
@@ -99,7 +99,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     
     public function withRefId(int $ref_id) : self
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->ref_id = $ref_id;
         
         return $clone;
@@ -133,5 +133,4 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return false;
     }
-    
 }

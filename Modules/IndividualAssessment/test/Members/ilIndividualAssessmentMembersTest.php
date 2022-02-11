@@ -38,7 +38,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
      */
     private $iass;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->iass = $this->createMock(ilObjIndividualAssessment::class);
     }
@@ -204,7 +204,7 @@ class ilIndividualAssessmentMembersTest extends TestCase
     }
 
     /**
-     * @return ilObjUser|mixed|MockObject
+     * @return ilObjUser|MockObject
      */
     public function getRecordOKUserMock()
     {
@@ -439,8 +439,8 @@ class ilIndividualAssessmentMembersTest extends TestCase
         ]);
 
         $new_obj = $obj->withOnlyUsersByIds($keep_usr_ids);
-        $this->assertTrue(empty(array_diff([23, 44, 365, 18, 44, 22, 16], array_keys($obj->getMemberRecords()))));
+        $this->assertEmpty(array_diff([23, 44, 365, 18, 44, 22, 16], array_keys($obj->getMemberRecords())));
 
-        $this->assertTrue(empty(array_diff([18, 22], array_keys($new_obj->getMemberRecords()))));
+        $this->assertEmpty(array_diff([18, 22], array_keys($new_obj->getMemberRecords())));
     }
 }
