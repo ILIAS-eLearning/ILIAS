@@ -25,6 +25,9 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->mainbar = $this->createMock(MainBar::class);
         $this->crumbs = $this->createMock(Breadcrumbs::class);
         $this->logo = $this->createMock(Image::class);
+        $this->logo->method("getCanonicalName")->willReturn("Logo Stub");
+        $this->responsive_logo = $this->createMock(Image::class);
+        $this->responsive_logo->method("getCanonicalName")->willReturn("Responsive Logo Stub");
         $this->contents = array(new Legacy('some content', $sig_gen));
         $this->title = 'pagetitle';
 
@@ -37,7 +40,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->logo,
             null,
             $this->title
-        );
+        )->withResponsiveLogo($this->responsive_logo);
     }
 
     public function testConstruction()
@@ -88,6 +91,24 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
+    public function testHasLogo()
+    {
+        $this->assertTrue($this->stdpage->hasLogo());
+    }
+
+    public function testGetResponsiveLogo()
+    {
+        $this->assertEquals(
+            $this->responsive_logo,
+            $this->stdpage->getResponsiveLogo()
+        );
+    }
+
+    public function testHasResponsiveLogo()
+    {
+        $this->assertTrue($this->stdpage->hasResponsiveLogo());
+    }
+
     public function testWithWrongContents()
     {
         $this->expectException(TypeError::class);
@@ -131,5 +152,103 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $title,
             $this->stdpage->withViewTitle($title)->getViewTitle()
         );
+    }
+
+    public function testWithTextDirection()
+    {
+        $this->assertEquals("ltr", $this->stdpage->getTextDirection());
+        $this->assertEquals(
+            "rtl",
+            $this->stdpage
+            ->withTextDirection($this->stdpage::RTL)
+            ->getTextDirection()
+        );
+    }
+
+    public function testRenderingWithTitle()
+    {
+        $this->stdpage = $this->stdpage
+            ->withTitle("Title")
+            ->withViewTitle("View Title")
+            ->withShortTitle("Short Title");
+
+        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo]);
+        $html = $this->brutallyTrimHTML($r->render($this->stdpage));
+
+        $exptected = $this->brutallyTrimHTML('
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      <title>Short Title: View Title</title>
+      <style></style>
+   </head>
+   <body>
+      <div class="il-layout-page">
+         <header>
+            <div class="header-inner">
+              <div class="il-logo">
+                <span class="hidden-xs">Logo Stub</span>
+                <span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-pagetitle">Title</div>
+              </div>MetaBar Stub
+            </div>
+         </header>
+         <div class="breadcrumbs"></div>
+         <div class="il-system-infos"></div>
+         <div class="nav il-maincontrols">MainBar Stub</div>
+         <!-- html5 main-tag is not supported in IE / div is needed -->
+         <main class="il-layout-page-content">
+            <div>some content</div>
+         </main>
+      </div>
+      <script>il.Util.addOnLoad(function() {});</script>
+   </body>
+</html>');
+        $this->assertEquals($exptected, $html);
+    }
+
+    public function testRenderingWithRtlLanguage()
+    {
+        $this->stdpage = $this->stdpage->withTextDirection($this->stdpage::RTL);
+
+        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo]);
+        $html = $this->brutallyTrimHTML($r->render($this->stdpage));
+
+        $exptected = $this->brutallyTrimHTML('
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+   <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      <title>: </title>
+      <style></style>
+   </head>
+   <body>
+      <div class="il-layout-page">
+         <header>
+            <div class="header-inner">
+              <div class="il-logo">
+                <span class="hidden-xs">Logo Stub</span>
+                <span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-pagetitle">pagetitle</div>
+              </div>MetaBar Stub
+            </div>
+         </header>
+         <div class="breadcrumbs"></div>
+         <div class="il-system-infos"></div>
+         <div class="nav il-maincontrols">MainBar Stub</div>
+         <!-- html5 main-tag is not supported in IE / div is needed -->
+         <main class="il-layout-page-content">
+            <div>some content</div>
+         </main>
+      </div>
+      <script>il.Util.addOnLoad(function() {});</script>
+   </body>
+</html>');
+        $this->assertEquals($exptected, $html);
     }
 }

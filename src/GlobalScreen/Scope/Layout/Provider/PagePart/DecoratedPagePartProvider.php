@@ -112,6 +112,24 @@ class DecoratedPagePartProvider implements PagePartProvider
         return $this->getDecoratedOrOriginal(Image::class, $this->original->getLogo());
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @inheritDoc
+     */
+    public function getResponsiveLogo() : ?Image
+    {
+        return $this->getDecoratedOrOriginal(Image::class, $this->original->getResponsiveLogo());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSystemInfos() : array
+    {
+        return $this->original->getSystemInfos();
+    }
+>>>>>>> 9789b67ea7 (UI Components, fix of responsive Logo Issue, see: #32016)
 
     /**
      * @inheritDoc
