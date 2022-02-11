@@ -61,13 +61,11 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
      */
     public function step(Environment $environment) : void
     {
-        $errors = $this->database->migrateAllTablesToEngine();
-        if (sizeof($errors) > 0) {
-            $error_string = '';
-            foreach ($errors as $table_name => $error) {
-                $error_string .= sprintf("Table: %s => ErrorMessage: %s\n", $table_name, $error);
-            }
-            throw new ilException("The migration of the following tables did throw errors, please resolve the problem before you continue: \n" . $error_string);
+        $rows = $this->getNonInnoDBTables();
+        $table_name = array_pop($rows);
+        $migration = $this->database->migrateTableToEngine($table_name);
+        if ($migration === false) {
+            throw new ilException("The migration of the following tables did throw errors, please resolve the problem before you continue: \n" . $table_name);
         }
     }
 
@@ -77,15 +75,24 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     public function getRemainingAmountOfSteps() : int
     {
         if ($this->db_name !== null) {
-            $set = $this->database->queryF("SELECT count(*) as tables
-                FROM INFORMATION_SCHEMA.TABLES
-                WHERE ENGINE != %s AND table_schema = %s;", ['text', 'text'], [
-                ilDBConstants::MYSQL_ENGINE_INNODB,
-                $this->db_name
-            ]);
-            $row = $this->database->fetchAssoc($set);
-            return (int) $row['tables'];
+            $rows = $this->getNonInnoDBTables();
+            return count($rows);
         }
         return 0;
+    }
+
+    protected function getNonInnoDBTables() : array
+    {
+        $tables = [];
+        $set = $this->database->queryF("SELECT table_name
+                FROM INFORMATION_SCHEMA.TABLES
+                WHERE ENGINE != %s AND table_schema = %s;", ['text', 'text'], [
+            ilDBConstants::MYSQL_ENGINE_INNODB,
+            $this->db_name
+        ]);
+        while ($row = $this->database->fetchAssoc($set)) {
+            $tables[] = $row['table_name'];
+        }
+        return $tables;
     }
 }
