@@ -322,7 +322,8 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         if ($this->getMulti() && substr($postvar, -2) != "[]") {
             $postvar .= "[]";
         }
-        
+
+        $tpl->setVariable("POST_VAR", $postvar);
         if ($this->getDisabled()) {
             if ($this->getMulti()) {
                 $value = $this->getMultiValues();
@@ -339,8 +340,6 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
                 $tpl->setVariable("HIDDEN_INPUT", $hidden);
             }
             $tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-        } else {
-            $tpl->setVariable("POST_VAR", $postvar);
         }
 
         // use autocomplete feature?
