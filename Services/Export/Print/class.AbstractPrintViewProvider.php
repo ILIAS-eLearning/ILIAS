@@ -44,6 +44,11 @@ abstract class AbstractPrintViewProvider implements PrintViewProvider
         return "";
     }
 
+    public function autoPageBreak() : bool
+    {
+        return true;
+    }
+
     /**
      * @inheritDoc
      */

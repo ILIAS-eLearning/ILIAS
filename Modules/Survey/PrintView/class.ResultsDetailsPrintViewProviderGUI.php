@@ -13,7 +13,10 @@ use ILIAS\Survey\Page\PageRenderer;
  */
 class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
-    protected \ILIAS\Survey\Editing\EditingGUIRequest $request;
+    protected \ILIAS\Survey\InternalGUIService $gui;
+    protected \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request;
+    protected \ILIAS\Survey\Mode\UIModifier $ui_modifier;
+    protected \ILIAS\Survey\Evaluation\EvaluationManager $evaluation_manager;
     protected \ilObjSurvey $survey;
     protected int $ref_id;
     protected \ilLanguage $lng;
@@ -26,16 +29,31 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
     ) {
         global $DIC;
 
-        $this->request = $DIC->survey()
-            ->internal()
-            ->gui()
-            ->editing()
-            ->request();
-
         $this->lng = $lng;
         $this->ctrl = $ctrl;
         $this->ref_id = $ref_id;
         $this->survey = new \ilObjSurvey($this->ref_id);
+        $this->request = $DIC->survey()
+                             ->internal()
+                             ->gui()
+                             ->evaluation($this->survey)
+                             ->request();
+        $this->evaluation_manager = $DIC->survey()
+            ->internal()
+            ->domain()
+            ->evaluation(
+                $this->survey,
+                $DIC->user()->getId(),
+                $this->request->getAppraiseeId(),
+                $this->request->getRaterId()
+            );
+        $this->ui_modifier = $DIC->survey()
+                                 ->internal()
+                                 ->gui()
+                                 ->modeUIModifier($this->survey->getMode());
+        $this->gui = $DIC->survey()
+            ->internal()
+            ->gui();
     }
 
     public function getTemplateInjectors() : array
@@ -54,17 +72,70 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
 
         $form = new \ilPropertyFormGUI();
 
-        $form->addCommandButton("printView", $lng->txt("print_view"));
+        $radg = new \ilRadioGroupInputGUI($lng->txt("svy_selection"), "print_selection");
+        $radg->setValue("all");
+        $op1 = new \ilRadioOption($lng->txt("svy_all_questions"), "all");
+        $radg->addOption($op1);
+        $op2 = new \ilRadioOption($lng->txt("svy_selected_questions"), "selected");
+        $radg->addOption($op2);
 
-        //$form->setTitle($lng->txt("svy_print_selection"));
-        $form->setFormAction("#");
+        $nl = new \ilNestedListInputGUI("", "qids");
+        $op2->addSubItem($nl);
+
+        foreach ($this->survey->getSurveyQuestions() as $qdata) {
+            $nl->addListNode(
+                $qdata["question_id"],
+                $qdata["title"],
+                0,
+                false,
+                false
+            );
+        }
+
+        $form->addItem($radg);
+
+
+        $form->addCommandButton("printResultsDetails", $lng->txt("print_view"));
+
+        $form->setTitle($lng->txt("svy_print_selection"));
+        $form->setFormAction($ilCtrl->getFormActionByClass(
+            "ilSurveyEvaluationGUI",
+            "printResultsDetails"
+        ));
 
         return $form;
     }
 
-    public function getOnSubmitCode() : string
+    public function getPages() : array
     {
-        return "event.preventDefault(); if(il.Accordion) { il.Accordion.preparePrint(); } " .
-            "window.setTimeout(() => { window.print();}, 500);";
+        $print_pages = [];
+
+        $finished_ids = $this->evaluation_manager->getFilteredFinishedIds();
+
+        $selection = $this->request->getPrintSelection();
+        $qids = $this->request->getQuestionIds();
+
+        foreach ($this->survey->getSurveyQuestions() as $qdata) {
+            $q_eval = \SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
+
+            if ($selection != "all" && !in_array($qdata["question_id"], $qids)) {
+                continue;
+            }
+
+            $panels = $this->ui_modifier->getDetailPanels(
+                $this->survey->getSurveyParticipants(),
+                $this->request,
+                $q_eval
+            );
+            $panel_report = $this->gui->ui()->factory()->panel()->report("", $panels);
+            $print_pages[] = $this->gui->ui()->renderer()->render($panel_report);
+            //$print_pages[] = $this->gui->ui()->renderer()->render($panels);
+        }
+        return $print_pages;
+    }
+
+    public function autoPageBreak() : bool
+    {
+        return false;
     }
 }

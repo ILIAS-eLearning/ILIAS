@@ -21,7 +21,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
     protected int $counter;
 
     public function __construct(
-        object $a_parent_obj,
+        ?object $a_parent_obj,
         string $a_parent_cmd
     ) {
         global $DIC;
@@ -39,22 +39,33 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
         $this->setFormName('invitegroups');
         $this->setStyle('table', 'fullwidth');
 
-        $this->addColumn($this->lng->txt("username"), 'username', '');
-        $this->addColumn($this->lng->txt("question"), '', '');
-        $this->addColumn($this->lng->txt("results"), '', '');
-        $this->addColumn($this->lng->txt("workingtime"), 'workingtime', '');
-        $this->addColumn($this->lng->txt("survey_results_finished"), 'finished', '');
-    
         $this->setRowTemplate(
             "tpl.il_svy_svy_results_user_row.html",
             "Modules/Survey/Evaluation"
         );
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        if (!is_null($a_parent_obj)) {
+            $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+            $this->addColumn($this->lng->txt("username"), 'username', '');
+            $this->addColumn($this->lng->txt("question"), '', '');
+            $this->addColumn($this->lng->txt("results"), '', '');
+            $this->addColumn($this->lng->txt("workingtime"), 'workingtime', '');
+            $this->addColumn($this->lng->txt("survey_results_finished"), 'finished', '');
+            $this->setShowRowsSelector(true);
+        } else {
+            $this->setLimit(9999);
+            $this->setEnableHeader(false);
+            $this->setEnableNumInfo(false);
+            $this->enabled["linkbar"] = false;
+            $this->addColumn($this->lng->txt("username"), '', '');
+            $this->addColumn($this->lng->txt("question"), '', '');
+            $this->addColumn($this->lng->txt("results"), '', '');
+            $this->addColumn($this->lng->txt("workingtime"), '', '');
+            $this->addColumn($this->lng->txt("survey_results_finished"), '', '');
+        }
         
         $this->setDefaultOrderField('username');
-        
-        $this->setShowRowsSelector(true);
+
 
         $this->enable('header');
         $this->disable('select_all');

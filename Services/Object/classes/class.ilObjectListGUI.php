@@ -3721,7 +3721,8 @@ class ilObjectListGUI
             // fallback to single object check if no preloaded data
             // only the repository does preloadCommonProperties() yet
             if (!$a_header_actions && self::$preload_done) {
-                if (self::$comments_activation[$a_obj_id][$a_type]) {
+                if (isset(self::$comments_activation[$a_obj_id][$a_type]) &&
+                    self::$comments_activation[$a_obj_id][$a_type]) {
                     return true;
                 }
             } else {

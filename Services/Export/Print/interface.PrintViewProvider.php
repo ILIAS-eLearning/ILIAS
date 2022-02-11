@@ -21,6 +21,8 @@ interface PrintViewProvider
 
     public function getOnSubmitCode() : string;
 
+    public function autoPageBreak() : bool;
+
     /**
      * @return string[]
      */

@@ -186,4 +186,87 @@ class EvaluationManager
     {
         $this->eval_repo->clearAnonEvaluationAccess();
     }
+
+    /**
+     * @param int $appr_id
+     * @return array|null : null means, nothing is filtered (=all), [] means "no finish id"
+     */
+    public function getFilteredFinishedIds() : ?array
+    {
+        $appr_id = $this->getCurrentAppraisee();
+        $finished_ids = null;
+        if ($appr_id > 0) {
+            $finished_ids = $this->survey->getFinishedIdsForAppraiseeId($appr_id);
+            if (!sizeof($finished_ids)) {
+                $finished_ids = [];
+            }
+        }
+
+        // @todo (from SM 2018)
+        // filter finished ids
+        /*
+        $finished_ids2 = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
+            'read_results',
+            'access_results',
+            $this->survey->getRefId(),
+            (array) $finished_ids
+        );*/
+
+        return $finished_ids;
+    }
+
+    public function getUserSpecificResults() : array
+    {
+        $data = array();
+
+        $finished_ids = $this->getFilteredFinishedIds();
+
+        $participants = $this->access->canReadResultOfParticipants($finished_ids);
+        foreach ($this->survey->getSurveyQuestions() as $qdata) {
+            $q_eval = \SurveyQuestion::_instanciateQuestionEvaluation((int) $qdata["question_id"], $finished_ids);
+            $q_res = $q_eval->getResults();
+
+            // see #28507 (matrix question without a row)
+            if (is_array($q_res) && !is_object($q_res[0][1])) {
+                continue;
+            }
+
+            $question = is_array($q_res)
+                ? $q_res[0][1]->getQuestion()
+                : $q_res->getQuestion();
+
+            foreach ($participants as $user) {
+                $user_id = (int) $user["active_id"];
+
+                $parsed_results = $q_eval->parseUserSpecificResults($q_res, $user_id);
+
+                if (!array_key_exists($user_id, $data)) {
+                    $wt = $this->survey->getWorkingtimeForParticipant($user_id);
+
+                    $finished = $user["finished"]
+                        ? $user["finished_tstamp"]
+                        : false;
+
+                    $data[$user_id] = array(
+                        "username" => $user["sortname"],
+                        "question" => $question->getTitle(),
+                        "results" => $parsed_results,
+                        "workingtime" => $wt,
+                        "finished" => $finished,
+                        "subitems" => array()
+                    );
+                } else {
+                    $data[$user_id]["subitems"][] = array(
+                        "username" => " ",
+                        "question" => $question->getTitle(),
+                        "results" => $parsed_results,
+                        "workingtime" => null,
+                        "finished" => null
+                    );
+                }
+            }
+        }
+
+        return $data;
+    }
 }

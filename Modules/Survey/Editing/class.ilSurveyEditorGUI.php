@@ -26,6 +26,7 @@ use ILIAS\Survey\Editing\EditingGUIRequest;
  */
 class ilSurveyEditorGUI
 {
+    protected \ILIAS\Survey\PrintView\GUIService $print;
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\DI\UIServices $ui;
     protected string $requested_pgov;
@@ -85,6 +86,10 @@ class ilSurveyEditorGUI
         $this->requested_pgov = $this->request->getTargetPosition();
         $this->ui = $DIC->ui();
         $this->http = $DIC->http();
+        $this->print = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->print();
     }
     
     public function executeCommand() : void
@@ -1171,25 +1176,9 @@ class ilSurveyEditorGUI
         $this->ctrl->redirect($this, "questions");
     }
 
-    protected function getPrintView() : \ILIAS\Export\PrintProcessGUI
-    {
-        $provider = new \ILIAS\Survey\PagePrintViewProviderGUI(
-            $this->lng,
-            $this->ctrl,
-            $this->object->getRefId()
-        );
-
-        return new \ILIAS\Export\PrintProcessGUI(
-            $provider,
-            $this->http,
-            $this->ui,
-            $this->lng
-        );
-    }
-
     public function printViewObject()
     {
-        $print_view = $this->getPrintView();
+        $print_view = $this->print->page($this->object->getRefId());
         $print_view->sendPrintView();
     }
 }

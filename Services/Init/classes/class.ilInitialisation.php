@@ -503,7 +503,6 @@ class ilInitialisation
         }
 
         self::initGlobal("ilClientIniFile", $ilClientIniFile);
-
         // set constants
         define("SESSION_REMINDER_LEADTIME", 30);
         define("DEBUG", $ilClientIniFile->readVariable("system", "DEBUG"));
@@ -1074,7 +1073,7 @@ class ilInitialisation
 
     protected static function abortAndDie(string $a_message) : void
     {
-        if (is_object($GLOBALS['ilLog'])) {
+        if (isset($GLOBALS['ilLog'])) {
             $GLOBALS['ilLog']->write("Fatal Error: ilInitialisation - " . $a_message);
             $GLOBALS['ilLog']->logStack();
         }

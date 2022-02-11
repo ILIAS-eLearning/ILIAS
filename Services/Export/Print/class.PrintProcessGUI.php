@@ -134,8 +134,12 @@ class PrintProcessGUI
         $tpl->addCss(\ilObjStyleSheet::getContentPrintStyle());
         $tpl->addCss(\ilObjStyleSheet::getSyntaxStylePath());
 
+        $pb = ($this->provider->autoPageBreak())
+            ? '<div style="page-break-after:always;"></div>'
+            : "";
+
         $content = implode(
-            '<p style="page-break-after:always;"></p>',
+            $pb,
             $pages
         );
 

@@ -117,7 +117,6 @@ class ilErrorHandling extends PEAR
         //		   error-handler.
         //		 * Check for context? The current implementation e.g. would output HTML for
         //		   for SOAP.
-
         if ($this->isDevmodeActive()) {
             return $this->devmodeHandler();
         }
@@ -309,8 +308,12 @@ class ilErrorHandling extends PEAR
                 $message = sprintf($lng->txt("log_error_message"), $file_name);
 
                 if ($logger->mail()) {
-                    $message .= " " . sprintf($lng->txt("log_error_message_send_mail"), $logger->mail(), $file_name,
-                            $logger->mail());
+                    $message .= " " . sprintf(
+                        $lng->txt("log_error_message_send_mail"),
+                        $logger->mail(),
+                        $file_name,
+                        $logger->mail()
+                    );
                 }
             } else {
                 $message = 'Sorry, an error occured. A logfile has been created which can be identified via the code "' . $file_name . '"';
@@ -319,7 +322,6 @@ class ilErrorHandling extends PEAR
                     $message .= ' ' . 'Please send a mail to <a href="mailto:' . $logger->mail() . '?subject=code: ' . $file_name . '">' . $logger->mail() . '</a>';
                 }
             }
-
             $GLOBALS['DIC']->ui()->mainTemplate()->setOnScreenMessage('failure', $message, true);
             
             ilUtil::redirect("error.php");
@@ -332,7 +334,6 @@ class ilErrorHandling extends PEAR
     protected function devmodeHandler() : HandlerInterface
     {
         global $ilLog;
-
         switch (ERROR_HANDLER) {
             case "TESTING":
                 return new ilTestingHandler();
@@ -434,7 +435,7 @@ class ilErrorHandling extends PEAR
     {
         global $ilLog;
 
-        if ($level&error_reporting()) {
+        if ($level & error_reporting()) {
             if (!$this->isDevmodeActive()) {
                 // log E_USER_NOTICE, E_STRICT, E_DEPRECATED, E_USER_DEPRECATED only
                 if ($level >= E_USER_NOTICE) {

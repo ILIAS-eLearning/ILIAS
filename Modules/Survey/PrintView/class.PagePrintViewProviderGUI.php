@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-namespace ILIAS\Survey;
+namespace ILIAS\Survey\PrintView;
 
 use \ILIAS\Export;
 use ilPropertyFormGUI;
@@ -13,7 +13,7 @@ use ILIAS\Survey\Page\PageRenderer;
  */
 class PagePrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
-    protected Editing\EditingGUIRequest $request;
+    protected \ILIAS\Survey\Editing\EditingGUIRequest $request;
     protected \ilObjSurvey $survey;
     protected int $ref_id;
     protected \ilLanguage $lng;

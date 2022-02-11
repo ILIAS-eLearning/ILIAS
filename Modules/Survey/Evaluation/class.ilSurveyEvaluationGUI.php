@@ -26,6 +26,7 @@ class ilSurveyEvaluationGUI
     public const TYPE_XLS = "excel";
     public const TYPE_SPSS = "csv";
     public const EXCEL_SUBTITLE = "DDDDDD";
+    protected \ILIAS\Survey\Access\AccessManager $access_manager;
     protected \ILIAS\Survey\PrintView\GUIService $print;
     /**
      * @var mixed
@@ -99,6 +100,13 @@ class ilSurveyEvaluationGUI
             ->internal()
             ->gui()
             ->print();
+        $this->access_manager = $DIC->survey()
+            ->internal()
+            ->domain()
+            ->access(
+                $this->object->getRefId(),
+                $DIC->user()->getId()
+            );
     }
     
     public function executeCommand() : string
@@ -727,11 +735,8 @@ class ilSurveyEvaluationGUI
         $this->log->debug("check access ok");
         // setup toolbar
 
-        $appr_id = 0;
+        $appr_id = $this->evaluation_manager->getCurrentAppraisee();
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-        if ($this->object->get360Mode()) {
-            $appr_id = $this->getAppraiseeId();
-        }
         $results = array();
 
         $eval_tpl = new ilTemplate("tpl.il_svy_svy_evaluation.html", true, true, "Modules/Survey");
@@ -760,22 +765,7 @@ class ilSurveyEvaluationGUI
                 $toc_tpl->setVariable("TITLE_TOC", $this->lng->txt('cont_toc'));
             }
 
-            $finished_ids = null;
-            if ($appr_id) {
-                $finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);
-                if (!sizeof($finished_ids)) {
-                    $finished_ids = array(-1);
-                }
-            }
-            
-            // @todo
-            // filter finished ids
-            $finished_ids2 = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                'read_results',
-                'access_results',
-                $this->object->getRefId(),
-                (array) $finished_ids
-            );
+            $finished_ids = $this->evaluation_manager->getFilteredFinishedIds();
 
             // parse answer data in evaluation results
             $list = new ilNestedList();
@@ -990,7 +980,7 @@ class ilSurveyEvaluationGUI
         }
                 
         //$participants = $this->object->getSurveyParticipants($finished_ids);
-        $participants = $this->filterSurveyParticipantsByAccess($finished_ids);
+        $participants = $this->access_manager->canReadResultOfParticipants($finished_ids);
         
         foreach ($participants as $user) {
             $user_id = $user["active_id"];
@@ -1104,105 +1094,14 @@ class ilSurveyEvaluationGUI
             $ilToolbar->addComponent($modal_elements->button);
             $ilToolbar->addComponent($modal_elements->modal);
 
-
-            $finished_ids = [];
-            if ($appr_id) {
-                $finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);
-                if (!sizeof($finished_ids)) {
-                    $finished_ids = array(-1);
-                }
-            }
-            
-            $data = $this->parseUserSpecificResults($finished_ids);
+            $data = $this->evaluation_manager->getUserSpecificResults();
         }
-        
+
         $table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser');
         $table_gui->setData($data);
         $this->tpl->setContent($table_gui->getHTML() . $modal);
     }
-    
-    protected function filterSurveyParticipantsByAccess(
-        array $a_finished_ids
-    ) : array {
-        $all_participants = $this->object->getSurveyParticipants($a_finished_ids);
-        $participant_ids = [];
-        foreach ($all_participants as $participant) {
-            $participant_ids[] = $participant['usr_id'];
-        }
 
-        $filtered_participant_ids = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'read_results',
-            'access_results',
-            $this->object->getRefId(),
-            $participant_ids
-        );
-        $participants = [];
-        foreach ($all_participants as $username => $user_data) {
-            if (!$user_data['usr_id']) {
-                $participants[$username] = $user_data;
-            }
-            if (in_array($user_data['usr_id'], $filtered_participant_ids)) {
-                $participants[$username] = $user_data;
-            }
-        }
-        return $participants;
-    }
-
-    protected function parseUserSpecificResults(
-        array $a_finished_ids = null
-    ) : array {
-        $data = array();
-        
-        $participants = $this->filterSurveyParticipantsByAccess($a_finished_ids);
-        
-        foreach ($this->object->getSurveyQuestions() as $qdata) {
-            $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $a_finished_ids);
-            $q_res = $q_eval->getResults();
-
-            // see #28507 (matrix question without a row)
-            if (is_array($q_res) && !is_object($q_res[0][1])) {
-                continue;
-            }
-
-            $question = is_array($q_res)
-                ? $q_res[0][1]->getQuestion()
-                : $q_res->getQuestion();
-                
-            foreach ($participants as $user) {
-                $user_id = $user["active_id"];
-                
-                $parsed_results = $q_eval->parseUserSpecificResults($q_res, $user_id);
-                
-                if (!array_key_exists($user_id, $data)) {
-                    $wt = $this->object->getWorkingtimeForParticipant($user_id);
-                    
-                    $finished = $user["finished"]
-                        ? $user["finished_tstamp"]
-                        : false;
-                    
-                    $data[$user_id] = array(
-                            "username" => $user["sortname"],
-                            "question" => $question->getTitle(),
-                            "results" => $parsed_results,
-                            "workingtime" => $wt,
-                            "finished" => $finished,
-                            "subitems" => array()
-                        );
-                } else {
-                    $data[$user_id]["subitems"][] = array(
-                            "username" => " ",
-                            "question" => $question->getTitle(),
-                            "results" => $parsed_results,
-                            "workingtime" => null,
-                            "finished" => null
-                        );
-                }
-            }
-        }
-        
-        return $data;
-    }
-    
     public function competenceEval() : void
     {
         $lng = $this->lng;
@@ -1386,7 +1285,7 @@ class ilSurveyEvaluationGUI
         ?array $a_finished_ids = null
     ) : array {
         $sum_scores = [];
-        foreach ($this->filterSurveyParticipantsByAccess($a_finished_ids) as $p) {
+        foreach ($this->access_manager->canReadResultOfParticipants($a_finished_ids) as $p) {
             $sum_scores[$p["active_id"]] = [
                 "username" => $p["sortname"],
                 "score" => 0
@@ -1425,6 +1324,12 @@ class ilSurveyEvaluationGUI
         $view->sendForm();
     }
 
+    public function printResultsDetails() : void
+    {
+        $view = $this->print->resultsDetails($this->object->getRefId());
+        $view->sendPrintView();
+    }
+
     /**
      * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
      */
@@ -1432,5 +1337,11 @@ class ilSurveyEvaluationGUI
     {
         $view = $this->print->resultsPerUser($this->object->getRefId());
         $view->sendForm();
+    }
+
+    public function printResultsPerUser() : void
+    {
+        $view = $this->print->resultsPerUser($this->object->getRefId());
+        $view->sendPrintView();
     }
 }

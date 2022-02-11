@@ -13,7 +13,9 @@ use ILIAS\Survey\Page\PageRenderer;
  */
 class ResultsPerUserPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
-    protected \ILIAS\Survey\Editing\EditingGUIRequest $request;
+    protected \ILIAS\Survey\Evaluation\EvaluationManager $evaluation_manager;
+    protected \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request;
+    protected \ILIAS\Survey\Access\AccessManager $access_manager;
     protected \ilObjSurvey $survey;
     protected int $ref_id;
     protected \ilLanguage $lng;
@@ -26,16 +28,28 @@ class ResultsPerUserPrintViewProviderGUI extends Export\AbstractPrintViewProvide
     ) {
         global $DIC;
 
-        $this->request = $DIC->survey()
-            ->internal()
-            ->gui()
-            ->editing()
-            ->request();
-
         $this->lng = $lng;
         $this->ctrl = $ctrl;
         $this->ref_id = $ref_id;
         $this->survey = new \ilObjSurvey($this->ref_id);
+        $this->access_manager = $DIC->survey()
+            ->internal()
+            ->domain()
+            ->access($this->ref_id, $DIC->user()->getId());
+        $this->request = $DIC->survey()
+                             ->internal()
+                             ->gui()
+                             ->evaluation($this->survey)
+                             ->request();
+        $this->evaluation_manager = $DIC->survey()
+                                         ->internal()
+                                         ->domain()
+                                         ->evaluation(
+                                             $this->survey,
+                                             $DIC->user()->getId(),
+                                             $this->request->getAppraiseeId(),
+                                             $this->request->getRaterId()
+                                         );
     }
 
     public function getTemplateInjectors() : array
@@ -54,17 +68,59 @@ class ResultsPerUserPrintViewProviderGUI extends Export\AbstractPrintViewProvide
 
         $form = new \ilPropertyFormGUI();
 
-        $form->addCommandButton("printView", $lng->txt("print_view"));
+        $radg = new \ilRadioGroupInputGUI($lng->txt("svy_selection"), "print_selection");
+        $radg->setValue("all");
+        $op1 = new \ilRadioOption($lng->txt("svy_all_participants"), "all");
+        $radg->addOption($op1);
+        $op2 = new \ilRadioOption($lng->txt("svy_selected_participants"), "selected");
+        $radg->addOption($op2);
 
-        //$form->setTitle($lng->txt("svy_print_selection"));
-        $form->setFormAction("#");
+        $nl = new \ilNestedListInputGUI("", "active_ids");
+        $op2->addSubItem($nl);
+
+        foreach ($this->access_manager->canReadResultOfParticipants() as $participant) {
+            $nl->addListNode(
+                $participant["active_id"],
+                $participant["fullname"],
+                0,
+                false,
+                false
+            );
+        }
+
+        $form->addItem($radg);
+        $form->addCommandButton("printResultsPerUser", $lng->txt("print_view"));
+
+        $form->setTitle($lng->txt("svy_print_selection"));
+        $form->setFormAction($ilCtrl->getFormActionByClass(
+            "ilSurveyEvaluationGUI",
+            "printResultsPerUser"
+        ));
 
         return $form;
     }
 
-    public function getOnSubmitCode() : string
+    public function getPages() : array
     {
-        return "event.preventDefault(); if(il.Accordion) { il.Accordion.preparePrint(); } " .
-            "window.setTimeout(() => { window.print();}, 500);";
+        $print_pages = [];
+
+        $data = $this->evaluation_manager->getUserSpecificResults();
+
+        $selection = $this->request->getPrintSelection();
+        $active_ids = $this->request->getActiveIds();
+
+        $table_gui = new \ilSurveyResultsUserTableGUI(null, '');
+        $filtered_data = [];
+        foreach ($data as $active_id => $d) {
+            if ($selection == "all" || in_array($active_id, $active_ids)) {
+                $filtered_data[$active_id] = $d;
+            }
+        }
+
+        $table_gui->setData($filtered_data);
+
+        $print_pages[] = $table_gui->getHTML();
+
+        return $print_pages;
     }
 }

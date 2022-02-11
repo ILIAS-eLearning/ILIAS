@@ -12158,8 +12158,8 @@ rep#:#rep_time_period#:#Zeitraum
 cntr#:#exc_next_deadline_single#:#Abgabefrist
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
-survey#:#survey_reminder_cron#:#Benutzer an Teilnahme erinnern / Tutoren Ergebnisse zusenden
-survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert und Tutoren erhalten die Ergebnisse zugesendet.
+survey#:#survey_reminder_cron#:#Benutzer an Teilnahme erinnern
+survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
 cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
 cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
@@ -16774,3 +16774,7 @@ svy#:#svy_print_selection#:#Auswahl Druckansicht
 svy#:#svy_selection#:#Auswahl
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_all_pages#:#Alle Seiten
+svy#:#svy_all_participants#:#Alle Teilnehmer
+svy#:#svy_selected_participants#:#Ausgewählte Teilnehmer
+svy#:#svy_all_questions#:#Alle Fragen
+svy#:#svy_selected_questions#:#Ausgewählte Fragen

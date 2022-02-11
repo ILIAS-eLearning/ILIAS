@@ -507,7 +507,7 @@ class SettingsFormGUI
             $tuts = $survey->getTutorNotificationRecipients();
             if ($tuts) {
                 foreach ($tuts as $tut_id) {
-                    $tmp = \ilObjUser::_lookupName($tut_id);
+                    $tmp = \ilObjUser::_lookupName((int) $tut_id);
                     if ($tmp["login"]) {
                         $tut_logins[] = $tmp["login"];
                     }
@@ -547,6 +547,7 @@ class SettingsFormGUI
             $tut_grp_inv->setInfo(sprintf($lng->txt("survey_notification_target_group_invited_info"), $num_inv));
             $tut_grp->addOption($tut_grp_inv);
 
+            /*
             $tut_res = new \ilCheckboxInputGUI($lng->txt("svy_notification_tutor_results"), "tut_res");
             $tut_res->setInfo($lng->txt("svy_notification_tutor_results_info"));
             $tut_res->setChecked($survey->getTutorResultsStatus());
@@ -556,7 +557,7 @@ class SettingsFormGUI
             $tuts = $survey->getTutorResultsRecipients();
             if ($tuts) {
                 foreach ($tuts as $tut_id) {
-                    $tmp = \ilObjUser::_lookupName($tut_id);
+                    $tmp = \ilObjUser::_lookupName((int) $tut_id);
                     if ($tmp["login"]) {
                         $tut_res_logins[] = $tmp["login"];
                     }
@@ -575,7 +576,7 @@ class SettingsFormGUI
             $tut_res_ids->setMulti(true);
             $tut_res_ids->setMultiValues($tut_res_logins);
             $tut_res_ids->setValue(array_shift($tut_res_logins));
-            $tut_res->addSubItem($tut_res_ids);
+            $tut_res->addSubItem($tut_res_ids);*/
         }
 
         return $form;
@@ -817,6 +818,8 @@ class SettingsFormGUI
         }
 
         if (!$feature_config->supportsTutorNotification()) {
+
+            // "one mail after all participants finished"
             if ($form->getInput("tut")) {
                 $tut_ids = $this->getTutorIdsFromForm($form);
                 $survey->setTutorNotificationStatus(true);
@@ -826,13 +829,14 @@ class SettingsFormGUI
                 $survey->setTutorNotificationStatus(false);
             }
 
+            /*
             if ($form->getInput("tut_res")) {
                 $tut_res_ids = $this->getTutorResIdsFromForm($form);
                 $survey->setTutorResultsStatus(true);
                 $survey->setTutorResultsRecipients($tut_res_ids); // see above
             } else {
                 $survey->setTutorResultsStatus(false);
-            }
+            }*/
         }
 
         // #10055
@@ -884,6 +888,8 @@ class SettingsFormGUI
         $survey->setOutro($form->getInput("outro"));
         $survey->setShowQuestionTitles((bool) $form->getInput("show_question_titles"));
         $survey->setPoolUsage((bool) $form->getInput("use_pool"));
+
+        // "separate mail for each participant finished"
         $survey->setMailNotification((bool) $form->getInput('mailnotification'));
         $survey->setMailAddresses($form->getInput('mailaddresses'));
         $survey->setMailParticipantData($form->getInput('mailparticipantdata'));

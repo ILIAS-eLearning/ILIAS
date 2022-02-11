@@ -39,6 +39,17 @@ class GUIService
         $this->domain_service = $domain_service;
     }
 
+    public function page(int $ref_id) : PrintProcessGUI
+    {
+        $provider = new PagePrintViewProviderGUI(
+            $this->domain_service->lng(),
+            $this->ui_service->ctrl(),
+            $ref_id
+        );
+        return $this->getPrintProcessGUI($provider);
+    }
+
+
     public function resultsOverview(int $ref_id) : PrintProcessGUI
     {
         $provider = new ResultsOverviewPrintViewProviderGUI(
