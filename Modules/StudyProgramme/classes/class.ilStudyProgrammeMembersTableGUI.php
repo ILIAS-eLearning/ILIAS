@@ -188,7 +188,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
     protected function getUserDateFormat() : string
     {
-        return ilCalendarUtil::getUserDateFormat(false, true);
+        return ilCalendarUtil::getUserDateFormat(0, true);
     }
 
     protected function fillRow(array $a_set) : void

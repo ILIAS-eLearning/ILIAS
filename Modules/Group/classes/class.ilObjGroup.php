@@ -1331,7 +1331,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                     $app = new ilCalendarAppointmentTemplate(self::CAL_START);
                     $app->setTitle($this->getTitle());
                     $app->setSubtitle('grp_cal_start');
-                    $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                    $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                     $app->setDescription($this->getLongDescription());
                     $app->setStart($this->getStart());
                     $app->setFullday(!$this->getStartTimeIndication());
@@ -1340,7 +1340,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                     $app = new ilCalendarAppointmentTemplate(self::CAL_END);
                     $app->setTitle($this->getTitle());
                     $app->setSubtitle('grp_cal_end');
-                    $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                    $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                     $app->setDescription($this->getLongDescription());
                     $app->setStart($this->getEnd());
                     $app->setFullday($this->getStartTimeIndication());
@@ -1353,7 +1353,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                 $app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
                 $app->setTitle($this->getTitle());
                 $app->setSubtitle('grp_cal_reg_start');
-                $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $app->setDescription($this->getLongDescription());
                 $app->setStart($this->getRegistrationStart());
                 $apps[] = $app;
@@ -1361,7 +1361,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                 $app = new ilCalendarAppointmentTemplate(self::CAL_REG_END);
                 $app->setTitle($this->getTitle());
                 $app->setSubtitle('grp_cal_reg_end');
-                $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $app->setDescription($this->getLongDescription());
                 $app->setStart($this->getRegistrationEnd());
                 $apps[] = $app;

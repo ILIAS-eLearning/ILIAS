@@ -1487,7 +1487,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                     $app = new ilCalendarAppointmentTemplate(self::CAL_ACTIVATION_START);
                     $app->setTitle($this->getTitle());
                     $app->setSubtitle('crs_cal_activation_start');
-                    $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                    $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                     $app->setDescription($this->getLongDescription());
                     $app->setStart(new ilDateTime($this->getActivationStart(), IL_CAL_UNIX));
                     $apps[] = $app;
@@ -1495,7 +1495,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                     $app = new ilCalendarAppointmentTemplate(self::CAL_ACTIVATION_END);
                     $app->setTitle($this->getTitle());
                     $app->setSubtitle('crs_cal_activation_end');
-                    $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                    $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                     $app->setDescription($this->getLongDescription());
                     $app->setStart(new ilDateTime($this->getActivationEnd(), IL_CAL_UNIX));
                     $apps[] = $app;
@@ -1504,7 +1504,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                     $app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
                     $app->setTitle($this->getTitle());
                     $app->setSubtitle('crs_cal_reg_start');
-                    $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                    $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                     $app->setDescription($this->getLongDescription());
                     $app->setStart(new ilDateTime($this->getSubscriptionStart(), IL_CAL_UNIX));
                     $apps[] = $app;
@@ -1512,7 +1512,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                     $app = new ilCalendarAppointmentTemplate(self::CAL_REG_END);
                     $app->setTitle($this->getTitle());
                     $app->setSubtitle('crs_cal_reg_end');
-                    $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                    $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                     $app->setDescription($this->getLongDescription());
                     $app->setStart(new ilDateTime($this->getSubscriptionEnd(), IL_CAL_UNIX));
                     $apps[] = $app;
@@ -1521,7 +1521,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                     $app = new ilCalendarAppointmentTemplate(self::CAL_COURSE_START);
                     $app->setTitle($this->getTitle());
                     $app->setSubtitle('crs_cal_start');
-                    $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                    $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                     $app->setDescription($this->getLongDescription());
                     $app->setStart($this->getCourseStart());
                     $app->setFullday(!$this->getCourseStartTimeIndication());
@@ -1530,7 +1530,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                     $app = new ilCalendarAppointmentTemplate(self::CAL_COURSE_END);
                     $app->setTitle($this->getTitle());
                     $app->setSubtitle('crs_cal_end');
-                    $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                    $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                     $app->setDescription($this->getLongDescription());
                     $app->setStart($this->getCourseEnd());
                     $app->setFullday(!$this->getCourseStartTimeIndication());
@@ -1547,7 +1547,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                             $app->setContextInfo($item['ref_id']);
                             $app->setTitle($item['title']);
                             $app->setSubtitle('cal_crs_timing_start');
-                            $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                            $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                             $app->setStart(new ilDate($item['suggestion_start'], IL_CAL_UNIX));
                             $app->setFullday(true);
                             $apps[] = $app;
@@ -1556,7 +1556,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                             $app->setContextInfo($item['ref_id']);
                             $app->setTitle($item['title']);
                             $app->setSubtitle('cal_crs_timing_end');
-                            $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                            $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                             $app->setStart(new ilDate($item['suggestion_end'], IL_CAL_UNIX));
                             $app->setFullday(true);
                             $apps[] = $app;

@@ -873,7 +873,7 @@ class ilConsultationHoursGUI
                 $entry->setStart($app_start);
                 $entry->setEnd($app_end);
 
-                $entry->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $entry->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $entry->save();
 
                 $cat_assign = new ilCalendarCategoryAssignments($entry->getEntryId());

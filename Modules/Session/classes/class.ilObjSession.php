@@ -641,7 +641,7 @@ class ilObjSession extends ilObject
             case 'update':
 
                 $app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
-                $app->setTranslationType(IL_CAL_TRANSLATION_NONE);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_NONE);
                 $app->setTitle($this->getTitle() ? $this->getTitle() : $this->lng->txt('obj_sess'));
                 $app->setDescription($this->getLongDescription());
                 $app->setLocation($this->getLocation());
