@@ -266,7 +266,7 @@ class ilLDAPServer
     }
 
 
-    public static function getAvailableDataSources($a_auth_mode)
+    public static function getAvailableDataSources(int $a_auth_mode)
     {
         global $DIC;
 
@@ -366,7 +366,7 @@ class ilLDAPServer
     /**
      * Check if user auth mode is LDAP
      */
-    public static function isAuthModeLDAP(string $a_auth_mode)
+    public static function isAuthModeLDAP(string $a_auth_mode) : bool
     {
         global $DIC;
         $logger = $DIC->logger()->auth();
@@ -382,11 +382,11 @@ class ilLDAPServer
     /**
      * Get auth id by auth mode
      */
-    public static function getServerIdByAuthMode(string $a_auth_mode) : ?string
+    public static function getServerIdByAuthMode(string $a_auth_mode) : ?int
     {
         if (self::isAuthModeLDAP($a_auth_mode)) {
             $auth_arr = explode('_', $a_auth_mode);
-            return $auth_arr[1];
+            return (int) $auth_arr[1];
         }
         return null;
     }

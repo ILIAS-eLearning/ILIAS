@@ -647,8 +647,7 @@ class ilAuthUtils
             return false;
         }
         
-        // begin-patch ldap_multiple
-        // cast to int
+        //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_authmode) {
             // No local passwords for these auth modes
             case ilAuthUtils::AUTH_LDAP:
@@ -685,8 +684,7 @@ class ilAuthUtils
      */
     public static function supportsLocalPasswordValidation($a_authmode)
     {
-        // begin-patch ldap_multiple
-        // cast to int
+        //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_authmode) {
             case ilAuthUtils::AUTH_LDAP:
             case ilAuthUtils::AUTH_LOCAL:
@@ -712,7 +710,6 @@ class ilAuthUtils
         }
     }
     
-    // begin-patch auth_plugin
     /**
      * Get active enabled auth plugins
      * @return ilAuthDefinition
@@ -721,18 +718,14 @@ class ilAuthUtils
     {
         return $GLOBALS['DIC']['component.factory']->getActivePluginsInSlot('authhk');
     }
-    // end-patch auth_plugins
-    
-    /**
-     * @param string $a_auth_key
-     * @param string $auth_name
-     */
-    public static function getAuthModeTranslation($a_auth_key, $auth_name = '')
+
+    public static function getAuthModeTranslation(string $a_auth_key, string $auth_name = '')
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         
+        //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_auth_key) {
             case ilAuthUtils::AUTH_LDAP:
                 $sid = ilLDAPServer::getServerIdByAuthMode($a_auth_key);

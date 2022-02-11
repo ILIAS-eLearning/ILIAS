@@ -696,12 +696,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $counter = 1;
         foreach ($auth_sequenced as $auth_mode) {
             switch ($auth_mode) {
-                // begin-patch ldap_multiple
                 case ilLDAPServer::isAuthModeLDAP((string) $auth_mode):
                     $auth_id = ilLDAPServer::getServerIdByAuthMode($auth_mode);
                     $server = ilLDAPServer::getInstanceByServerId($auth_id);
                     $text = $server->getName();
-                // end-patch ldap_multiple
                     break;
                 case ilAuthUtils::AUTH_RADIUS:
                     $text = $this->lng->txt('auth_radius');
@@ -715,14 +713,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 case ilAuthUtils::AUTH_APACHE:
                     $text = $this->lng->txt('auth_apache');
                     break;
-                // begin-patch auth_plugin
                 default:
                     foreach (ilAuthUtils::getAuthPlugins() as $pl) {
                         $option = $pl->getMultipleAuthModeOptions($auth_mode);
                         $text = $option[$auth_mode]['txt'];
                     }
                     break;
-                // end-patch auth_plugin
             }
             
             $pos = new ilTextInputGUI($text, 'position[' . $auth_mode . ']');
