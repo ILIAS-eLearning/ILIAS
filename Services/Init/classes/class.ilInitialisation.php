@@ -454,6 +454,7 @@ class ilInitialisation
             $client_id_to_use = $default_client_id;
             ilUtil::setCookie('ilClientId', $client_id_to_use);
         }
+        $client_id_to_use = strlen($client_id_to_use) > 0 ? $client_id_to_use : $default_client_id;
         
         define('CLIENT_ID', $df->clientId($client_id_to_use)->toString());
     }
@@ -496,7 +497,7 @@ class ilInitialisation
                 $mess = array("en" => "Client does not exist.",
                               "de" => "Mandant ist ungültig."
                 );
-                self::redirect("index.php?client_id=" . $default_client, null, $mess);
+                self::redirect("index.php?client_id=" . $default_client, '', $mess);
             } else {
                 self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile initializing client ini file abborted with: " . $ilClientIniFile->ERROR);
             }
