@@ -94,7 +94,7 @@ class ilDAVFile implements IFile
         
         if (($r_id = $this->obj->getResourceId()) &&
             ($identification = $this->resource_manager->find($r_id))) {
-            return $this->resource_consumer->stream($identification)->getStream()->getContents();
+            return $this->resource_consumer->stream($identification)->getStream();
         }
         
         throw new NotFound("File not found");
