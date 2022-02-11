@@ -924,6 +924,15 @@ class ilObjCourseGUI extends ilContainerGUI
         }
     }
 
+    /**
+     * values are already set in initEditForm
+     * Returning an empty array avoid overriding these values.
+     */
+    protected function getEditFormValues()
+    {
+        return [];
+    }
+
     protected function initEditForm()
     {
         $obj_service = $this->getObjectService();
@@ -1033,7 +1042,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
         // Registration codes
         $reg_code = new ilCheckboxInputGUI($this->lng->txt('crs_reg_code'), 'reg_code_enabled');
-        $reg_code->setChecked($this->object->isRegistrationAccessCodeEnabled());
+        $reg_code->setChecked($this->object->isRegistrationAccessCodeEnabled() || 1);
         $reg_code->setValue('1');
         $reg_code->setInfo($this->lng->txt('crs_reg_code_enabled_info'));
 
