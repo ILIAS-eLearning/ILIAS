@@ -362,7 +362,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             $xml_writer->xmlStartTag('User', ['Action' => 'Update', 'Id' => $usr_id]);
 
             $loginClaim = $a_user_data[$this->idp->getLoginClaim()][0];
-            if ($login !== $loginClaim) {
+            if (ilStr::strToLower($login) !== ilStr::strToLower($loginClaim)) {
                 $login = ilAuthUtils::_generateLogin($loginClaim);
                 $xml_writer->xmlElement('Login', [], $login);
             }
