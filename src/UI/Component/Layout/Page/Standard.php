@@ -43,6 +43,13 @@ interface Standard extends Page, JavaScriptBindable
     public function withLogo(Image $logo) : Standard;
 
     /**
+     * @param Image $logo
+     *
+     * @return Standard
+     */
+    public function withResponsiveLogo(Image $logo) : Standard;
+
+    /**
      * @return bool
      */
     public function hasMetabar() : bool;
@@ -56,6 +63,11 @@ interface Standard extends Page, JavaScriptBindable
      * @return bool
      */
     public function hasLogo() : bool;
+
+    /**
+     * @return bool
+     */
+    public function hasResponsiveLogo() : bool;
 
     /**
      * @return Metabar|null
@@ -76,6 +88,11 @@ interface Standard extends Page, JavaScriptBindable
      * @return Image|null
      */
     public function getLogo();
+
+    /**
+     * @return Image|null
+     */
+    public function getResponsiveLogo();
 
     /**
      * @return Footer|null

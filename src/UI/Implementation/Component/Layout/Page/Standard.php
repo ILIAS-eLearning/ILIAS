@@ -47,6 +47,10 @@ class Standard implements Page\Standard
      */
     private $logo;
     /**
+     * @var Image|null
+     */
+    private $responsive_logo;
+    /**
      * @var    footer|null
      */
     private $footer;
@@ -146,6 +150,16 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
+    public function withResponsiveLogo(Image $logo) : Page\Standard
+    {
+        $clone = clone $this;
+        $clone->responsive_logo = $logo;
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function withFooter(Footer $footer) : Page\Standard
     {
         $clone = clone $this;
@@ -175,6 +189,14 @@ class Standard implements Page\Standard
     public function hasLogo() : bool
     {
         return ($this->logo instanceof Image);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasResponsiveLogo() : bool
+    {
+        return ($this->responsive_logo instanceof Image);
     }
 
     /**
@@ -223,6 +245,14 @@ class Standard implements Page\Standard
     public function getLogo()
     {
         return $this->logo;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getResponsiveLogo()
+    {
+        return $this->responsive_logo;
     }
 
     /**

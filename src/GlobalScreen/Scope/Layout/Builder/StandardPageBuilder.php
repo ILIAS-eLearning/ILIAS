@@ -37,6 +37,7 @@ class StandardPageBuilder implements PageBuilder
     public function build(PagePartProvider $parts) : Page
     {
         $header_image = $parts->getLogo();
+        $responsive_header_image = $parts->getResponsiveLogo();
         $main_bar = $parts->getMainBar();
         $meta_bar = $parts->getMetaBar();
         $bread_crumbs = $parts->getBreadCrumbs();
@@ -58,6 +59,7 @@ class StandardPageBuilder implements PageBuilder
         );
 
         return $standard->withSystemInfos($parts->getSystemInfos())
+                        ->withResponsiveLogo($responsive_header_image)
                         ->withTextDirection($this->meta->getTextDirection() ?? Standard::LTR);
     }
 }

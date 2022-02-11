@@ -116,6 +116,14 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
+    public function getResponsiveLogo() : ?Image
+    {
+        return $this->getDecoratedOrOriginal(Image::class, $this->original->getResponsiveLogo());
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getSystemInfos() : array
     {
         return $this->original->getSystemInfos();

@@ -59,6 +59,8 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->crumbs->method("getCanonicalName")->willReturn("Breadcrumbs Stub");
         $this->logo = $this->createMock(Image::class);
         $this->logo->method("getCanonicalName")->willReturn("Logo Stub");
+        $this->responsive_logo = $this->createMock(Image::class);
+        $this->responsive_logo->method("getCanonicalName")->willReturn("Responsive Logo Stub");
         $this->contents = array(new Legacy('some content', $sig_gen));
         $this->title = 'pagetitle';
 
@@ -71,7 +73,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->logo,
             null,
             $this->title
-        );
+        )->withResponsiveLogo($this->responsive_logo);
     }
 
     public function testConstruction()
@@ -120,6 +122,24 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->logo,
             $this->stdpage->getLogo()
         );
+    }
+
+    public function testHasLogo()
+    {
+        $this->assertTrue($this->stdpage->hasLogo());
+    }
+
+    public function testGetResponsiveLogo()
+    {
+        $this->assertEquals(
+            $this->responsive_logo,
+            $this->stdpage->getResponsiveLogo()
+        );
+    }
+
+    public function testHasResponsiveLogo()
+    {
+        $this->assertTrue($this->stdpage->hasResponsiveLogo());
     }
 
     public function testWithWrongContents()
@@ -202,7 +222,12 @@ class StandardPageTest extends ILIAS_UI_TestBase
       <div class="il-layout-page">
          <header>
             <div class="header-inner">
-               <div class="il-logo">Logo Stub<div class="il-pagetitle">Title</div></div>MetaBar Stub</div>
+              <div class="il-logo">
+                <span class="hidden-xs">Logo Stub</span>
+                <span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-pagetitle">Title</div>
+              </div>MetaBar Stub
+            </div>
          </header>
          <div class="breadcrumbs"></div>
          <div class="il-system-infos"></div>
@@ -239,7 +264,12 @@ class StandardPageTest extends ILIAS_UI_TestBase
       <div class="il-layout-page">
          <header>
             <div class="header-inner">
-               <div class="il-logo">Logo Stub<div class="il-pagetitle">pagetitle</div></div>MetaBar Stub</div>
+              <div class="il-logo">
+                <span class="hidden-xs">Logo Stub</span>
+                <span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-pagetitle">pagetitle</div>
+              </div>MetaBar Stub
+            </div>
          </header>
          <div class="breadcrumbs"></div>
          <div class="il-system-infos"></div>
