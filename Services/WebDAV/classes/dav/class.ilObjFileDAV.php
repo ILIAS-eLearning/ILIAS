@@ -105,7 +105,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             
             if (($r_id = $this->obj->getResourceId()) &&
                 ($identification = $this->resource_manager->find($r_id))) {
-                return $this->resource_consumer->stream($identification)->getStream()->getContents();
+                return $this->resource_consumer->stream($identification)->getStream();
             }
             
             /*
