@@ -2089,7 +2089,7 @@
 		</xsl:variable>
 		<xsl:variable name="captiondisplay">
 			<xsl:choose>
-				<xsl:when test="$figuredisplay = 'display:table;'">
+				<xsl:when test="contains($figuredisplay, 'display:table;')">
 					display: table-caption; caption-side: bottom;
 				</xsl:when>
 				<xsl:otherwise>
