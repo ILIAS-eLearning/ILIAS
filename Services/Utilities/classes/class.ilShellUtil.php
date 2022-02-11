@@ -18,17 +18,22 @@ class ilShellUtil
 {
     
     /**
-    * resize image
-    *
-    * @param string $a_from   source file
-    * @param string $a_to     target file
-    * @param int    $a_width  target width
-    * @param int    $a_height target height
-    * @static
-    *
-    */
-    public static function resizeImage(string $a_from, string $a_to, int $a_width, int $a_height, bool $a_constrain_prop = false) : void
-    {
+     * resize image
+     *
+     * @param string $a_from   source file
+     * @param string $a_to     target file
+     * @param int    $a_width  target width
+     * @param int    $a_height target height
+     * @static
+     *
+     */
+    public static function resizeImage(
+        string $a_from,
+        string $a_to,
+        int $a_width,
+        int $a_height,
+        bool $a_constrain_prop = false
+    ) : void {
         if ($a_constrain_prop) {
             $size = " -geometry " . $a_width . "x" . $a_height . " ";
         } else {
@@ -132,27 +137,27 @@ class ilShellUtil
     }
     
     /**
-    * get convert command
-    *
-    * @deprecated
-    * @see ilShellUtil::execConvert()
-    * @static
-    *
-    */
+     * get convert command
+     *
+     * @deprecated
+     * @see ilShellUtil::execConvert()
+     * @static
+     *
+     */
     public static function getConvertCmd() : string
     {
         return PATH_TO_CONVERT;
     }
     
     /**
-    * convert image
-    *
-    * @param string $a_from          source file
-    * @param string $a_to            target file
-    * @param string $a_target_format target image file format
-    * @static
-    *
-    */
+     * convert image
+     *
+     * @param string $a_from          source file
+     * @param string $a_to            target file
+     * @param string $a_target_format target image file format
+     * @static
+     *
+     */
     public static function convertImage(
         string $a_from,
         string $a_to,

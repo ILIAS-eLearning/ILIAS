@@ -166,16 +166,18 @@ class ilStr
      */
     public static function convertUpperCamelCaseToUnderscoreCase(string $value) : string
     {
-        return strtolower(preg_replace(
-            ['#(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])#', '#(?<=(?:[a-z0-9]))([A-Z])#'],
-            ['\1_\2', '_\1'],
-            $value
-        ));
+        return strtolower(
+            preg_replace(
+                ['#(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])#', '#(?<=(?:[a-z0-9]))([A-Z])#'],
+                ['\1_\2', '_\1'],
+                $value
+            )
+        );
     }
     
     /**
      * @deprecated
-    */
+     */
     public static function shortenTextExtended(
         string $a_str,
         int $a_len,

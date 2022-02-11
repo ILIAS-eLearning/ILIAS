@@ -14,6 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Util class
  * various functions, usage as namespace
@@ -31,8 +32,8 @@ class ilLegacyFormElementsUtil
 {
     
     /**
-    * @deprecated
-    */
+     * @deprecated
+     */
     public static function prepareFormOutput(string $a_str, bool $a_strip = false) : string
     {
         if ($a_strip) {
@@ -51,10 +52,10 @@ class ilLegacyFormElementsUtil
     }
     
     /**
-    * Return a string of time period
-    *
-    * @deprecated
-    */
+     * Return a string of time period
+     *
+     * @deprecated
+     */
     public static function period2String(ilDateTime $a_from, $a_to = null) : string
     {
         global $DIC;
@@ -99,19 +100,20 @@ class ilLegacyFormElementsUtil
     
     /**
      * Prepares a string for a text area output where latex code may be in it
-    * If the text is HTML-free, CHR(13) will be converted to a line break
-    *
-    * @param string $txt_output String which should be prepared for output
-    * @access public
-    *
-    */public static function prepareTextareaOutput(
+     * If the text is HTML-free, CHR(13) will be converted to a line break
+     *
+     * @param string $txt_output String which should be prepared for output
+     * @access public
+     *
+     */
+    public static function prepareTextareaOutput(
         $txt_output,
         $prepare_for_latex_output = false,
         $omitNl2BrWhenTextArea = false
     ) {
         $result = $txt_output;
         $is_html = ilUtil::isHTML($result);
-    
+        
         // removed: did not work with magic_quotes_gpc = On
         if (!$is_html) {
             if (!$omitNl2BrWhenTextArea) {
@@ -131,14 +133,14 @@ class ilLegacyFormElementsUtil
                 }
             }
         }
-    
+        
         // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
         // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
         if ($prepare_for_latex_output) {
             $result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
             $result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
         }
-    
+        
         if ($prepare_for_latex_output) {
             // replace special characters to prevent problems with the ILIAS template system
             // eg. if someone uses {1} as an answer, nothing will be shown without the replacement
@@ -146,25 +148,26 @@ class ilLegacyFormElementsUtil
             $result = str_replace("}", "&#125;", $result);
             $result = str_replace("\\", "&#92;", $result);
         }
-    
+        
         return $result;
     }
     
     /**
      * Creates a combination of HTML selects for time inputs
-    *
-    * Creates a combination of HTML selects for time inputs.
-    * The select names are $prefix[h] for hours, $prefix[m]
-    * for minutes and $prefix[s] for seconds.
-    *
-    * @access	public
-    * @param string $prefix  Prefix of the select name
-    * @param boolean $short  Set TRUE for a short time input (only hours and minutes). Default is TRUE
-    * @param integer $hour   Default hour value
-    * @param integer $minute Default minute value
-    * @param integer $second Default second value
-    * @deprecated
-    */public static function makeTimeSelect(
+     *
+     * Creates a combination of HTML selects for time inputs.
+     * The select names are $prefix[h] for hours, $prefix[m]
+     * for minutes and $prefix[s] for seconds.
+     *
+     * @access    public
+     * @param string  $prefix Prefix of the select name
+     * @param boolean $short  Set TRUE for a short time input (only hours and minutes). Default is TRUE
+     * @param integer $hour   Default hour value
+     * @param integer $minute Default minute value
+     * @param integer $second Default second value
+     * @deprecated
+     */
+    public static function makeTimeSelect(
         string $prefix,
         bool $short = true,
         int $hour = 0,
@@ -174,10 +177,10 @@ class ilLegacyFormElementsUtil
         array $a_further_options = []
     ) : string {
         global $DIC;
-    
+        
         $lng = $DIC->language();
         $ilUser = $DIC->user();
-    
+        
         $minute_steps = 1;
         $disabled = '';
         if (count($a_further_options)) {
@@ -188,7 +191,7 @@ class ilLegacyFormElementsUtil
                 $disabled = 'disabled="disabled" ';
             }
         }
-    
+        
         if ($a_use_default and !strlen("$hour$minute$second")) {
             $now = localtime();
             $hour = $now[2];
@@ -207,7 +210,7 @@ class ilLegacyFormElementsUtil
             }
         }
         $sel_hour .= " " . $disabled . "name=\"" . $prefix . "[h]\" id=\"" . $prefix . "_h\" class=\"form-control\">\n";
-    
+        
         $format = $ilUser->getTimeFormat();
         for ($i = 0; $i <= 23; $i++) {
             if ($format == ilCalendarSettings::TIME_FORMAT_24) {
@@ -218,20 +221,20 @@ class ilLegacyFormElementsUtil
         }
         $sel_hour .= "</select>\n";
         $sel_hour = preg_replace("/(value\=\"$hour\")/", "$1 selected=\"selected\"", $sel_hour);
-    
+        
         // build minutes select
         $sel_minute = "<select " . $disabled . "name=\"" . $prefix . "[m]\" id=\"" . $prefix . "_m\" class=\"form-control\">\n";
-    
+        
         for ($i = 0; $i <= 59; $i = $i + $minute_steps) {
             $sel_minute .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
         }
         $sel_minute .= "</select>\n";
         $sel_minute = preg_replace("/(value\=\"$minute\")/", "$1 selected=\"selected\"", $sel_minute);
-    
+        
         if (!$short) {
             // build seconds select
             $sel_second = "<select " . $disabled . "name=\"" . $prefix . "[s]\" id=\"" . $prefix . "_s\" class=\"form-control\">\n";
-        
+            
             for ($i = 0; $i <= 59; $i++) {
                 $sel_second .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
             }
@@ -256,61 +259,63 @@ class ilLegacyFormElementsUtil
     
     /**
      * @deprecated
-     */public static function formCheckbox(
+     */
+    public static function formCheckbox(
         bool $checked,
         string $varname,
         string $value,
         bool $disabled = false
     ) : string {
         $str = "<input type=\"checkbox\" name=\"" . $varname . "\"";
-    
+        
         if ($checked === true) {
             $str .= " checked=\"checked\"";
         }
-    
+        
         if ($disabled === true) {
             $str .= " disabled=\"disabled\"";
         }
-    
+        
         $array_var = false;
-    
+        
         if (substr($varname, -2) == "[]") {
             $array_var = true;
         }
-    
+        
         // if varname ends with [], use varname[-2] + _ + value as id tag (e.g. "user_id[]" => "user_id_15")
         if ($array_var) {
             $varname_id = substr($varname, 0, -2) . "_" . $value;
         } else {
             $varname_id = $varname;
         }
-    
+        
         // dirty removal of other "[]" in string
         $varname_id = str_replace("[", "_", $varname_id);
         $varname_id = str_replace("]", "", $varname_id);
-    
+        
         $str .= " value=\"" . $value . "\" id=\"" . $varname_id . "\" />\n";
-    
+        
         return $str;
     }
     
     /**
      * Builds a select form field with options and shows the selected option first
-    *
-    * @access	public
-    * @param	string/array	value to be selected
-    * @param	string			variable name in formular
-    * @param	array			array with $options (key = lang_key, value = long name)
-    * @param	boolean			multiple selection list true/false
-    * @param	boolean			if true, the option values are displayed directly, otherwise
-    *							they are handled as language variable keys and the corresponding
-    *							language variable is displayed
-    * @param	int				size
-    * @param	string			style class
-    * @param	array			additional attributes (key = attribute name, value = attribute value)
-    * @param    boolean			disabled
-    * @deprecated
-    */public static function formSelect(
+     *
+     * @access    public
+     * @param string/array    value to be selected
+     * @param string            variable name in formular
+     * @param array            array with $options (key = lang_key, value = long name)
+     * @param boolean            multiple selection list true/false
+     * @param boolean            if true, the option values are displayed directly, otherwise
+     *                            they are handled as language variable keys and the corresponding
+     *                            language variable is displayed
+     * @param int                size
+     * @param string            style class
+     * @param array            additional attributes (key = attribute name, value = attribute value)
+     * @param boolean            disabled
+     * @deprecated
+     */
+    public static function formSelect(
         $selected,
         string $varname,
         array $options,
@@ -322,22 +327,22 @@ class ilLegacyFormElementsUtil
         bool $disabled = false
     ) : string {
         global $DIC;
-    
+        
         $lng = $DIC->language();
-    
+        
         if ($multiple == true) {
             $multiple = " multiple=\"multiple\"";
         } else {
             $multiple = "";
             $size = 0;
         }
-    
+        
         $class = " class=\" form-control " . $style_class . "\"";
-    
+        
         // use form-inline!
         // this is workaround the whole function should be set deprecated
         // $attributes = " style='display:inline-block;' ";
-    
+        
         $attributes = "";
         if (is_array($attribs)) {
             foreach ($attribs as $key => $val) {
@@ -347,24 +352,24 @@ class ilLegacyFormElementsUtil
         if ($disabled) {
             $disabled = ' disabled=\"disabled\"';
         }
-    
+        
         $size_str = "";
         if ($size > 0) {
             $size_str = ' size="' . $size . '" ';
         }
         $str = "<select name=\"" . $varname . "\"" . $multiple . " $class " . $size_str . " $disabled>\n";
-    
+        
         foreach ((array) $options as $key => $val) {
             $style = "";
             if (is_array($val)) {
                 $style = $val["style"];
                 $val = $val["text"];        // mus be last line, since we overwrite
             }
-        
+            
             $sty = ($style != "")
-            ? ' style="' . $style . '" '
-            : "";
-        
+                ? ' style="' . $style . '" '
+                : "";
+            
             if ($direct_text) {
                 $str .= " <option $sty value=\"" . $key . "\"";
             } else {
@@ -377,22 +382,23 @@ class ilLegacyFormElementsUtil
             } elseif ($selected == $key) {
                 $str .= " selected=\"selected\"";
             }
-        
+            
             if ($direct_text) {
                 $str .= ">" . $val . "</option>\n";
             } else {
                 $str .= ">" . $lng->txt($val) . "</option>\n";
             }
         }
-    
+        
         $str .= "</select>\n";
-    
+        
         return $str;
     }
     
     /**
      * @deprecated
-     */public static function formRadioButton(
+     */
+    public static function formRadioButton(
         bool $checked,
         string $varname,
         string $value,
@@ -400,24 +406,24 @@ class ilLegacyFormElementsUtil
         bool $disabled = false
     ) : string {
         $str = '<input ';
-    
+        
         if ($onclick !== null) {
             $str .= ('onclick="' . $onclick . '"');
         }
-    
+        
         $str .= (" type=\"radio\" name=\"" . $varname . "\"");
         if ($checked === true) {
             $str .= " checked=\"checked\"";
         }
-    
+        
         if ($disabled === true) {
             $str .= " disabled=\"disabled\"";
         }
-    
+        
         $str .= " value=\"" . $value . "\"";
-    
+        
         $str .= " id=\"" . $value . "\" />\n";
-    
+        
         return $str;
     }
 }
