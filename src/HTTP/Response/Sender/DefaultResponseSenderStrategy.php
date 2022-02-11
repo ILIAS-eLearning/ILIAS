@@ -48,6 +48,7 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
 
         if (is_resource($resource)) {
             set_time_limit(0);
+            ob_end_clean(); // see https://mantis.ilias.de/view.php?id=32046
             $sendStatus = fpassthru($resource);
 
             //free up resources
