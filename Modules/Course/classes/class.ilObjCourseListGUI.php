@@ -129,8 +129,8 @@ class ilObjCourseListGUI extends ilObjectListGUI
             $props[] = array(
                 'alert' => false,
                 'newline' => true,
-                'property' => $info['property'],
-                'value' => $info['value']
+                'property' => $info['property'] ?? "",
+                'value' => $info['value'] ?? ""
             );
         }
 
