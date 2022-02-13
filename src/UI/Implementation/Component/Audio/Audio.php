@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\UI\Implementation\Component\Audio;
 
@@ -20,15 +31,8 @@ class Audio implements C\Audio\Audio
     use JavaScriptBindable;
     use Triggerer;
 
-    /**
-     * @var	string
-     */
-    private $src;
-
-    /**
-     * @var	string
-     */
-    private $transcript;
+    private string $src;
+    private string $transcript;
 
     /**
      * @inheritdoc
@@ -45,7 +49,7 @@ class Audio implements C\Audio\Audio
     /**
      * @inheritdoc
      */
-    public function withSource($source)
+    public function withSource(string $source) : \ILIAS\UI\Component\Audio\Audio
     {
         $this->checkStringArg("src", $source);
 
@@ -57,7 +61,7 @@ class Audio implements C\Audio\Audio
     /**
      * @inheritdoc
      */
-    public function getSource()
+    public function getSource() : string
     {
         return $this->src;
     }
@@ -65,7 +69,7 @@ class Audio implements C\Audio\Audio
     /**
      * @inheritdoc
      */
-    public function withTranscription($transcript)
+    public function withTranscription(string $transcript) : \ILIAS\UI\Component\Audio\Audio
     {
         $this->checkStringArg("transcript", $transcript);
 
@@ -77,7 +81,7 @@ class Audio implements C\Audio\Audio
     /**
      * @inheritdoc
      */
-    public function getTranscription()
+    public function getTranscription() : string
     {
         return $this->transcript;
     }

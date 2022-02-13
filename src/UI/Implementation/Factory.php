@@ -139,7 +139,7 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
-    public function audio(string $src, string $transcript)
+    public function audio(string $src, string $transcript) : C\Audio\Audio
     {
         return new Component\Audio\Audio($src, $transcript);
     }

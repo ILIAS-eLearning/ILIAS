@@ -101,7 +101,7 @@ interface Factory
      * @param string $transcript
      * @return  \ILIAS\UI\Component\Audio\Audio
      */
-    public function audio(string $src, string $transcript);
+    public function audio(string $src, string $transcript) : C\Audio\Audio;
 
     /**
      * ---
