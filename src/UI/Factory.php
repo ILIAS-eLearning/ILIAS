@@ -96,6 +96,9 @@ interface Factory
      *     1: >
      *        The widget will be presented with the full width of its container. The widget will use a default
      *        high contrast presentation provided by the respective library being used.
+     *
+     * context:
+     *   - Listing Items in Panels
      * ----
      * @param string $src
      * @param string $transcript
