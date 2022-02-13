@@ -1,0 +1,23 @@
+<div class="il-audio-container">
+    <audio class="il-audio-player" id="{ID}" src="{SOURCE}" width="100%" preload="none"></audio>
+    <!-- BEGIN transcription -->
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#{TID}-modal">
+        {TRANSCRIPTION}
+    </button>
+    <div class="modal fade" id="{TID}-modal" tabindex="-1" role="dialog" aria-labelledby="{TID}-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{CLOSE}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="{TID}-modal-label">{TRANSCRIPTION}</h4>
+                </div>
+                <div class="modal-body">
+                    {TRANSCRIPTION_CONTENT}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{CLOSE}</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- END transcription -->
+</div>

@@ -139,6 +139,14 @@ class Factory implements \ILIAS\UI\Factory
     /**
      * @inheritdoc
      */
+    public function audio(string $src, string $transcript)
+    {
+        return new Component\Audio\Audio($src, $transcript);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function legacy(string $content) : C\Legacy\Legacy
     {
         return $this->legacy_factory->legacy($content);
