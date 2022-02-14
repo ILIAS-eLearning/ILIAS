@@ -31,7 +31,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     /**
      * @var ilTabsGUI
      */
-    protected $tabs;
+    protected ilTabsGUI $tabs;
 
     /**
      * @var ilRbacSystem
@@ -51,14 +51,19 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     /**
      * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
      */
-    protected $tool_context;
+    protected \ILIAS\GlobalScreen\ScreenContext\ContextServices $tool_context;
+
+    public ilPropertyFormGUI $form;
 
     /**
-    * Constructor
-    *
-    * @access	public
-    */
-    public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+     * Constructor
+     * @access    public
+     * @param array     $a_data
+     * @param int       $a_id
+     * @param bool      $a_call_by_reference
+     * @param bool|null $a_prepare_output
+     */
+    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference, ?bool $a_prepare_output = true)
     {
         global $DIC;
 
@@ -260,90 +265,90 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ilSetting = $this->settings;
         $ilTabs = $this->tabs;
 
-        $this->setSubTabs("settings", "general_settings");
+//        $this->setSubTabs("settings", "general_settings");
 
-        $lng->loadLanguageModule("style");
+//        $lng->loadLanguageModule("style");
 
         // not editable
-        if ($this->object->editable != 1) {
-            ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
-            $ilTabs->setSubTabActive('cont_settings');
-            // view
-            $ilToolbar->addButtonInstance($this->object->getViewButton());
-        } else {  	// editable
-            // glossary buttons to toolbar
-            $sep = false;
-            if (ilObject::_lookupType($this->object->getAssignedGlossary()) != "glo") {
-                $parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
-                if ($rbacsystem->checkAccess("create", $parent_ref_id, "glo")) {
-                    $ilToolbar->addButton(
-                        $this->lng->txt("cont_glo_create"),
-                        $ilCtrl->getLinkTarget($this, "createGlossary")
-                    );
-                }
-                $ilToolbar->addButton(
-                    $this->lng->txt("cont_glo_assign"),
-                    $ilCtrl->getLinkTarget($this, "assignGlossary")
-                );
-            } else {
-                $ilToolbar->addButton(
-                    $this->lng->txt("cont_glo_detach"),
-                    $ilCtrl->getLinkTarget($this, "detachGlossary")
-                );
-            }
-
-            // style buttons to toolbar
-            $fixed_style = $ilSetting->get("fixed_content_style_id");
-            $style_id = $this->object->getStyleSheetId();
-
-            if ($fixed_style == 0) {
-                $st_styles = ilObjStyleSheet::_getStandardStyles(
-                    true,
-                    false,
-                    $_GET["ref_id"]
-                );
-
-                $st_styles[0] = $this->lng->txt("default");
-                ksort($st_styles);
-
-                if ($style_id > 0) {
-                    // individual style
-                    if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                        $ilToolbar->addSeparator();
-
-                        // delete command
-                        $ilToolbar->addButton(
-                            $this->lng->txt("cont_edit_style"),
-                            $ilCtrl->getLinkTarget($this, "editStyle")
-                        );
-                        $ilToolbar->addButton(
-                            $this->lng->txt("cont_delete_style"),
-                            $ilCtrl->getLinkTarget($this, "deleteStyle")
-                        );
-                    }
-                }
-
-                if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $ilToolbar->addSeparator();
-
-                    $ilToolbar->addButton(
-                        $this->lng->txt("sty_create_ind_style"),
-                        $ilCtrl->getLinkTarget($this, "createStyle")
-                    );
-                }
-            }
-        }
+//        if ($this->object->editable != 1) {
+        ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
+        $ilTabs->setSubTabActive('cont_settings');
+        // view
+        $ilToolbar->addButtonInstance($this->object->getViewButton());
+//        } else {  	// editable
+//            // glossary buttons to toolbar
+//            $sep = false;
+//            if (ilObject::_lookupType($this->object->getAssignedGlossary()) != "glo") {
+//                $parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
+//                if ($rbacsystem->checkAccess("create", $parent_ref_id, "glo")) {
+//                    $ilToolbar->addButton(
+//                        $this->lng->txt("cont_glo_create"),
+//                        $ilCtrl->getLinkTarget($this, "createGlossary")
+//                    );
+//                }
+//                $ilToolbar->addButton(
+//                    $this->lng->txt("cont_glo_assign"),
+//                    $ilCtrl->getLinkTarget($this, "assignGlossary")
+//                );
+//            } else {
+//                $ilToolbar->addButton(
+//                    $this->lng->txt("cont_glo_detach"),
+//                    $ilCtrl->getLinkTarget($this, "detachGlossary")
+//                );
+//            }
+//
+//            // style buttons to toolbar
+//            $fixed_style = $ilSetting->get("fixed_content_style_id");
+//            $style_id = $this->object->getStyleSheetId();
+//
+//            if ($fixed_style == 0) {
+//                $st_styles = ilObjStyleSheet::_getStandardStyles(
+//                    true,
+//                    false,
+//                    $_GET["ref_id"]
+//                );
+//
+//                $st_styles[0] = $this->lng->txt("default");
+//                ksort($st_styles);
+//
+//                if ($style_id > 0) {
+//                    // individual style
+//                    if (!ilObjStyleSheet::_lookupStandard($style_id)) {
+//                        $ilToolbar->addSeparator();
+//
+//                        // delete command
+//                        $ilToolbar->addButton(
+//                            $this->lng->txt("cont_edit_style"),
+//                            $ilCtrl->getLinkTarget($this, "editStyle")
+//                        );
+//                        $ilToolbar->addButton(
+//                            $this->lng->txt("cont_delete_style"),
+//                            $ilCtrl->getLinkTarget($this, "deleteStyle")
+//                        );
+//                    }
+//                }
+//
+//                if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
+//                    $ilToolbar->addSeparator();
+//
+//                    $ilToolbar->addButton(
+//                        $this->lng->txt("sty_create_ind_style"),
+//                        $ilCtrl->getLinkTarget($this, "createStyle")
+//                    );
+//                }
+//            }
+//        }
 
         // output forms
-        if ($this->object->editable != 1) {
-            $this->initPropertiesForm();
-            $this->getPropertiesFormValues();
-            $tpl->setContent($this->form->getHTML());
-        } else {
-            $this->initPropertiesEditableForm();
-            $this->getPropertiesEditableValues();
-            $tpl->setContent($this->form->getHTML());
-        }
+//        if ($this->object->editable != 1) {
+        $this->initPropertiesForm();
+        $this->getPropertiesFormValues();
+        $tpl->setContent($this->form->getHTML());
+//        } else {
+//            $this->initPropertiesEditableForm();
+//            $this->getPropertiesEditableValues();
+//            $tpl->setContent($this->form->getHTML());
+//        }
     }
 
     /**
@@ -764,24 +769,24 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 //        $this->form->setFormAction($ilCtrl->getFormAction($this));
 //    }
 
-    /**
-     * Get current values for properties (editable) from
-     */
-    public function getPropertiesEditableValues() : void
-    {
-        $values = array();
-
-        if (ilObject::_lookupType($this->object->getAssignedGlossary()) == "glo") {
-            $values["glossary"] = ilObject::_lookupTitle($this->object->getAssignedGlossary());
-        } else {
-            $values["glossary"] = $this->lng->txt("cont_no_glossary");
-        }
-        $values["q_tries"] = $this->object->getTries();
-        $values["localization"] = $this->object->getLocalization();
-        $values["style_id"] = $this->object->getStyleSheetId();
-
-        $this->form->setValuesByArray($values);
-    }
+//    /**
+//     * Get current values for properties (editable) from
+//     */
+//    public function getPropertiesEditableValues() : void
+//    {
+//        $values = array();
+//
+//        if (ilObject::_lookupType($this->object->getAssignedGlossary()) == "glo") {
+//            $values["glossary"] = ilObject::_lookupTitle($this->object->getAssignedGlossary());
+//        } else {
+//            $values["glossary"] = $this->lng->txt("cont_no_glossary");
+//        }
+//        $values["q_tries"] = $this->object->getTries();
+//        $values["localization"] = $this->object->getLocalization();
+//        $values["style_id"] = $this->object->getStyleSheetId();
+//
+//        $this->form->setValuesByArray($values);
+//    }
 
     /**
     * save scorm 2004 module properties
@@ -793,174 +798,164 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->initPropertiesForm();
         $this->form->checkInput();
 
-        if ($this->object->editable != 1) {
-            //check if OfflineMode-Zip has to be created
-//            $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
-            $tmpFourth_edition = ilUtil::yn2tf($_POST["cobj_fourth_edition"]);
-            $tmpSequencing = ilUtil::yn2tf($_POST["cobj_sequencing"]);
-//            if ($tmpOfflineMode == true) {
-//                //				$tmpSequencing = false; //actually no sequencing for offline_mode
-//                $tmpFourth_edition = false; //4th edition is not possible
-//                if ($this->object->getOfflineMode() == false) {
-//                    $this->object->zipLmForOfflineMode();
-//                }
-//            }
+        $tmpFourth_edition = ilUtil::yn2tf($_POST["cobj_fourth_edition"]);
+        $tmpSequencing = ilUtil::yn2tf($_POST["cobj_sequencing"]);
 
-            if (isset($_POST["mastery_score"])) {
-                $this->object->setMasteryScore($_POST["mastery_score"]);
-                // $this->object->updateMasteryScoreValues();
-            }
-
-            $t_auto_review = $_POST["auto_review"];
-            $t_auto_suspend = ilUtil::yn2tf($_POST["cobj_auto_suspend"]);
-            $t_session = ilUtil::yn2tf($_POST["cobj_session"]);
-            if ($t_auto_review == "s") {
-                $t_auto_suspend = true;
-                //if not storing without session
-                $t_session = true;
-            }
-
-            $t_height = $this->object->getHeight();
-            if ($_POST["height_0"] != $this->object->getHeight()) {
-                $t_height = $_POST["height_0"];
-            }
-            if ($_POST["height_1"] != $this->object->getHeight()) {
-                $t_height = $_POST["height_1"];
-            }
-
-            $t_width = $this->object->getWidth();
-            if ($_POST["width_0"] != $this->object->getWidth()) {
-                $t_width = $_POST["width_0"];
-            }
-            if ($_POST["width_1"] != $this->object->getWidth()) {
-                $t_width = $_POST["width_1"];
-            }
-
-            $this->object->setOfflineStatus(!($_POST['cobj_online']));
-            $this->object->setOpenMode($_POST["open_mode"]);
-            $this->object->setWidth($t_width);
-            $this->object->setHeight($t_height);
-            $this->object->setCreditMode($_POST["credit_mode"]);
-            $this->object->setMaxAttempt($_POST["max_attempt"]);
-            $this->object->setAutoReviewChar($t_auto_review);
-            $this->object->setDefaultLessonMode($_POST["lesson_mode"]);
-            $this->object->setSession($t_session);
-            $this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
-            $this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
-            $this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
-            $this->object->setIe_force_render(ilUtil::yn2tf($_POST["cobj_ie_force_render"]));
-            $this->object->setFourth_edition($tmpFourth_edition);
-            $this->object->setSequencing($tmpSequencing);
-            $this->object->setInteractions(ilUtil::yn2tf($_POST["cobj_interactions"]));
-            $this->object->setObjectives(ilUtil::yn2tf($_POST["cobj_objectives"]));
-            $this->object->setComments(ilUtil::yn2tf($_POST["cobj_comments"]));
-            $this->object->setTime_from_lms(ilUtil::yn2tf($_POST["cobj_time_from_lms"]));
-            $this->object->setCheck_values(ilUtil::yn2tf($_POST["cobj_check_values"]));
-            $this->object->setAutoSuspend($t_auto_suspend);
-//            $this->object->setOfflineMode($tmpOfflineMode);
-            $this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
-            $this->object->setIdSetting($_POST["id_setting"]);
-            $this->object->setNameSetting($_POST["name_setting"]);
-            $this->object->setTitle($_POST["Fobject_title"]);
-            $this->object->setDescription($_POST["Fobject_description"]);
-
-            // tile image
-            $obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
+        if (isset($_POST["mastery_score"])) {
+            $this->object->setMasteryScore($_POST["mastery_score"]);
+            // $this->object->updateMasteryScoreValues();
         }
+
+        $t_auto_review = $_POST["auto_review"];
+        $t_auto_suspend = ilUtil::yn2tf($_POST["cobj_auto_suspend"]);
+        $t_session = ilUtil::yn2tf($_POST["cobj_session"]);
+        if ($t_auto_review == "s") {
+            $t_auto_suspend = true;
+            //if not storing without session
+            $t_session = true;
+        }
+
+        $t_height = $this->object->getHeight();
+        if ($_POST["height_0"] != $this->object->getHeight()) {
+            $t_height = $_POST["height_0"];
+        }
+        if ($_POST["height_1"] != $this->object->getHeight()) {
+            $t_height = $_POST["height_1"];
+        }
+
+        $t_width = $this->object->getWidth();
+        if ($_POST["width_0"] != $this->object->getWidth()) {
+            $t_width = $_POST["width_0"];
+        }
+        if ($_POST["width_1"] != $this->object->getWidth()) {
+            $t_width = $_POST["width_1"];
+        }
+
+        $this->object->setOfflineStatus(!($_POST['cobj_online']));
+        $this->object->setOpenMode($_POST["open_mode"]);
+        $this->object->setWidth($t_width);
+        $this->object->setHeight($t_height);
+        $this->object->setCreditMode($_POST["credit_mode"]);
+        $this->object->setMaxAttempt($_POST["max_attempt"]);
+        $this->object->setAutoReviewChar($t_auto_review);
+        $this->object->setDefaultLessonMode($_POST["lesson_mode"]);
+        $this->object->setSession($t_session);
+        $this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
+        $this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
+        $this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
+        $this->object->setIe_force_render(ilUtil::yn2tf($_POST["cobj_ie_force_render"]));
+        $this->object->setFourth_edition($tmpFourth_edition);
+        $this->object->setSequencing($tmpSequencing);
+        $this->object->setInteractions(ilUtil::yn2tf($_POST["cobj_interactions"]));
+        $this->object->setObjectives(ilUtil::yn2tf($_POST["cobj_objectives"]));
+        $this->object->setComments(ilUtil::yn2tf($_POST["cobj_comments"]));
+        $this->object->setTime_from_lms(ilUtil::yn2tf($_POST["cobj_time_from_lms"]));
+        $this->object->setCheck_values(ilUtil::yn2tf($_POST["cobj_check_values"]));
+        $this->object->setAutoSuspend($t_auto_suspend);
+//            $this->object->setOfflineMode($tmpOfflineMode);
+        $this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
+        $this->object->setIdSetting($_POST["id_setting"]);
+        $this->object->setNameSetting($_POST["name_setting"]);
+        $this->object->setTitle($_POST["Fobject_title"]);
+        $this->object->setDescription($_POST["Fobject_description"]);
+
+        // tile image
+        $obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
+
         $this->object->update();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "properties");
     }
 
-    /**
-     * Detach glossary
-     */
-    public function detachGlossary() : void
-    {
-        $ilCtrl = $this->ctrl;
+//    /**
+//     * Detach glossary
+//     */
+//    public function detachGlossary() : void
+//    {
+//        $ilCtrl = $this->ctrl;
+//
+//        $this->object->setAssignedGlossary(0);
+//        $this->object->update();
+//        $ilCtrl->redirect($this, "properties");
+//    }
 
-        $this->object->setAssignedGlossary(0);
-        $this->object->update();
-        $ilCtrl->redirect($this, "properties");
-    }
+//    /**
+//     * Create glossary
+//     */
+//    public function createGlossary() : void
+//    {
+//        $tpl = $this->tpl;
+//
+//        $this->initGlossaryCreationForm();
+//        $tpl->setContent($this->form->getHTML());
+//    }
 
-    /**
-     * Create glossary
-     */
-    public function createGlossary() : void
-    {
-        $tpl = $this->tpl;
+//    /**
+//     * Init glossary creation form.
+//     */
+//    public function initGlossaryCreationForm() : void
+//    {
+//        $lng = $this->lng;
+//        $ilCtrl = $this->ctrl;
+//
+//        $this->form = new ilPropertyFormGUI();
+//
+//        // title
+//        $ti = new ilTextInputGUI($lng->txt("title"), "title");
+//        $ti->setRequired(true);
+//        $this->form->addItem($ti);
+//
+//        // description
+//        $ta = new ilTextAreaInputGUI($lng->txt("desc"), "description");
+//        $this->form->addItem($ta);
+//
+//        $this->form->addCommandButton("saveGlossary", $lng->txt("save"));
+//        $this->form->addCommandButton("properties", $lng->txt("cancel"));
+//
+//        $this->form->setTitle($lng->txt("cont_glo_create"));
+//        $this->form->setFormAction($ilCtrl->getFormAction($this));
+//    }
 
-        $this->initGlossaryCreationForm();
-        $tpl->setContent($this->form->getHTML());
-    }
-
-    /**
-     * Init glossary creation form.
-     */
-    public function initGlossaryCreationForm() : void
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $this->form = new ilPropertyFormGUI();
-
-        // title
-        $ti = new ilTextInputGUI($lng->txt("title"), "title");
-        $ti->setRequired(true);
-        $this->form->addItem($ti);
-
-        // description
-        $ta = new ilTextAreaInputGUI($lng->txt("desc"), "description");
-        $this->form->addItem($ta);
-
-        $this->form->addCommandButton("saveGlossary", $lng->txt("save"));
-        $this->form->addCommandButton("properties", $lng->txt("cancel"));
-
-        $this->form->setTitle($lng->txt("cont_glo_create"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-    }
-
-    /**
-     * Save glossary form
-     */
-    public function saveGlossary() : void
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $rbacsystem = $this->rbacsystem;
-        $tree = $this->tree;
-
-        $parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
-        if (!$rbacsystem->checkAccess("create", $parent_ref_id, "glo")) {
-            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_permission"), true);
-            $ilCtrl->redirect($this, "properties");
-        }
-
-        $this->initGlossaryCreationForm();
-        if ($this->form->checkInput()) {
-            $newObj = new ilObjGlossary();
-            $newObj->setType("glo");
-            $newObj->setTitle($_POST["title"]);
-            $newObj->setDescription($_POST["description"]);
-            $newObj->setVirtualMode("none");
-            $newObj->create();
-            $newObj->createReference();
-            $newObj->putInTree($parent_ref_id);
-            $newObj->setPermissions($parent_ref_id);
-
-            // perform save
-            $this->object->setAssignedGlossary($newObj->getId());
-            $this->object->update();
-
-            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-            $ilCtrl->redirect($this, "properties");
-        }
-
-        $this->form->setValuesByPost();
-        $tpl->setContent($this->form->getHtml());
-    }
+//    /**
+//     * Save glossary form
+//     */
+//    public function saveGlossary() : void
+//    {
+//        $tpl = $this->tpl;
+//        $lng = $this->lng;
+//        $ilCtrl = $this->ctrl;
+//        $rbacsystem = $this->rbacsystem;
+//        $tree = $this->tree;
+//
+//        $parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
+//        if (!$rbacsystem->checkAccess("create", $parent_ref_id, "glo")) {
+//            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_permission"), true);
+//            $ilCtrl->redirect($this, "properties");
+//        }
+//
+//        $this->initGlossaryCreationForm();
+//        if ($this->form->checkInput()) {
+//            $newObj = new ilObjGlossary();
+//            $newObj->setType("glo");
+//            $newObj->setTitle($_POST["title"]);
+//            $newObj->setDescription($_POST["description"]);
+//            $newObj->setVirtualMode("none");
+//            $newObj->create();
+//            $newObj->createReference();
+//            $newObj->putInTree($parent_ref_id);
+//            $newObj->setPermissions($parent_ref_id);
+//
+//            // perform save
+//            $this->object->setAssignedGlossary($newObj->getId());
+//            $this->object->update();
+//
+//            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+//            $ilCtrl->redirect($this, "properties");
+//        }
+//
+//        $this->form->setValuesByPost();
+//        $tpl->setContent($this->form->getHtml());
+//    }
 
 //    /**
 //     * Assign glossary
@@ -1004,42 +999,42 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 //        $tpl->setContent($exp->getOutput());
 //    }
 
-    /**
-     * Select glossary
-     */
-    public function selectGlossary() : void
-    {
-        $ilCtrl = $this->ctrl;
+//    /**
+//     * Select glossary
+//     */
+//    public function selectGlossary() : void
+//    {
+//        $ilCtrl = $this->ctrl;
+//
+//        $this->object->setAssignedGlossary(ilObject::_lookupObjId((int) $_GET["glo_ref_id"]));
+//        $this->object->update();
+//        $ilCtrl->redirect($this, "properties");
+//    }
 
-        $this->object->setAssignedGlossary(ilObject::_lookupObjId((int) $_GET["glo_ref_id"]));
-        $this->object->update();
-        $ilCtrl->redirect($this, "properties");
-    }
+//    /**
+//    * assign scorm object to scorm gui object
+//    */
+//    protected function assignObject() : void
+//    {
+//        if ($this->id != 0) {
+//            if ($this->call_by_reference) {
+//                $this->object = new ilObjSCORM2004LearningModule($this->id, true);
+//            } else {
+//                $this->object = new ilObjSCORM2004LearningModule($this->id, false);
+//            }
+//        }
+//    }
 
-    /**
-    * assign scorm object to scorm gui object
-    */
-    protected function assignObject() : void
-    {
-        if ($this->id != 0) {
-            if ($this->call_by_reference) {
-                $this->object = new ilObjSCORM2004LearningModule($this->id, true);
-            } else {
-                $this->object = new ilObjSCORM2004LearningModule($this->id, false);
-            }
-        }
-    }
-
-    /**
-     * Edit Stlye Properties
-     */
-    public function editStyleProperties() : void
-    {
-        $tpl = $this->tpl;
-
-        $this->initStylePropertiesForm();
-        $tpl->setContent($this->form->getHTML());
-    }
+//    /**
+//     * Edit Stlye Properties
+//     */
+//    public function editStyleProperties() : void
+//    {
+//        $tpl = $this->tpl;
+//
+//        $this->initStylePropertiesForm();
+//        $tpl->setContent($this->form->getHTML());
+//    }
 
 //    /**
 //     * Init style properties form
@@ -1222,6 +1217,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         }
         return true;
     }
+
     public function showTrackingItems() : bool
     {
         $ilTabs = $this->tabs;
@@ -1643,143 +1639,143 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 //        $this->tpl->setContent($table_gui->getHTML());
 //    }
 
-    /**
-     * Adds tabs to tab gui object
-     *
-     * @param	object		$tabs_gui		ilTabsGUI object
-     */
-    protected function getTabs() : void
-    {
-        $ilAccess = $this->access;
-        $ilHelp = $this->help;
-
-        if ($this->ctrl->getCmd() == "delete") {
-//            return;
-        }
-
-        if (!$this->object->getEditable()) {
-            parent::getTabs();
-        }
-
-        $ilHelp->setScreenIdComponent("sahsed");
-
-        // organization
-        $this->tabs_gui->addTarget(
-            "sahs_organization",
-            $this->ctrl->getLinkTarget($this, "showOrganization"),
-            "showOrganization",
-            get_class($this)
-        );
-
-        // info screen
-        $force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui")
-        ? true
-        : false;
-        $this->tabs_gui->addTarget(
-            "info_short",
-            $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"),
-            "",
-            "ilinfoscreengui",
-            "",
-            $force_active
-        );
-
-        // settings
-        $this->tabs_gui->addTarget(
-            "settings",
-            $this->ctrl->getLinkTarget($this, "properties"),
-            "properties",
-            get_class($this)
-        );
-
-        // tracking data
-        /*	Later, only if tracking data exists
-         $tabs_gui->addTarget("cont_tracking_data",
-            $this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
-            get_class($this));
-            */
-
-        // objective alignment
-        $this->tabs_gui->addTarget(
-            "sahs_objectives_alignment",
-            $this->ctrl->getLinkTarget($this, "showLearningObjectivesAlignment"),
-            "showLearningObjectivesAlignment",
-            get_class($this)
-        );
-
-        // sequencing
-        $this->tabs_gui->addTarget(
-            "sahs_sequencing",
-            $this->ctrl->getLinkTarget($this, "showSequencing"),
-            "showSequencing",
-            get_class($this)
-        );
-
-        // edit meta
-        $mdgui = new ilObjectMetaDataGUI($this->object);
-        $mdtab = $mdgui->getTab();
-        if ($mdtab) {
-            $this->tabs_gui->addTarget(
-                "meta_data",
-                $mdtab,
-                "",
-                "ilmdeditorgui"
-            );
-        }
-
-        // export
-        $this->tabs_gui->addTarget(
-            "export",
-            $this->ctrl->getLinkTarget($this, "showExportList"),
-            array("showExportList", 'confirmDeleteExportFile'),
-            get_class($this)
-        );
-
-        // perm
-        if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget(
-                "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
-                array("perm","info","owner"),
-                'ilpermissiongui'
-            );
-        }
-
-//        if ($this->object->editable == 1) {
-//            // preview
-//            $this->tabs_gui->addNonTabbedLink(
-//                "preview",
-//                $this->lng->txt("cont_sc_preview"),
-//                $this->ctrl->getLinkTarget($this, "preview"),
-//                "_blank"
+//    /**
+//     * Adds tabs to tab gui object
+//     *
+//     * @param	object		$tabs_gui		ilTabsGUI object
+//     */
+//    protected function getTabs() : void
+//    {
+//        $ilAccess = $this->access;
+//        $ilHelp = $this->help;
+//
+//        if ($this->ctrl->getCmd() == "delete") {
+////            return;
+//        }
+//
+//        if (!$this->object->getEditable()) {
+//            parent::getTabs();
+//        }
+//
+//        $ilHelp->setScreenIdComponent("sahsed");
+//
+//        // organization
+//        $this->tabs_gui->addTarget(
+//            "sahs_organization",
+//            $this->ctrl->getLinkTarget($this, "showOrganization"),
+//            "showOrganization",
+//            get_class($this)
+//        );
+//
+//        // info screen
+//        $force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui")
+//        ? true
+//        : false;
+//        $this->tabs_gui->addTarget(
+//            "info_short",
+//            $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"),
+//            "",
+//            "ilinfoscreengui",
+//            "",
+//            $force_active
+//        );
+//
+//        // settings
+//        $this->tabs_gui->addTarget(
+//            "settings",
+//            $this->ctrl->getLinkTarget($this, "properties"),
+//            "properties",
+//            get_class($this)
+//        );
+//
+//        // tracking data
+//        /*	Later, only if tracking data exists
+//         $tabs_gui->addTarget("cont_tracking_data",
+//            $this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
+//            get_class($this));
+//            */
+//
+//        // objective alignment
+//        $this->tabs_gui->addTarget(
+//            "sahs_objectives_alignment",
+//            $this->ctrl->getLinkTarget($this, "showLearningObjectivesAlignment"),
+//            "showLearningObjectivesAlignment",
+//            get_class($this)
+//        );
+//
+//        // sequencing
+//        $this->tabs_gui->addTarget(
+//            "sahs_sequencing",
+//            $this->ctrl->getLinkTarget($this, "showSequencing"),
+//            "showSequencing",
+//            get_class($this)
+//        );
+//
+//        // edit meta
+//        $mdgui = new ilObjectMetaDataGUI($this->object);
+//        $mdtab = $mdgui->getTab();
+//        if ($mdtab) {
+//            $this->tabs_gui->addTarget(
+//                "meta_data",
+//                $mdtab,
+//                "",
+//                "ilmdeditorgui"
 //            );
 //        }
-    }
+//
+//        // export
+//        $this->tabs_gui->addTarget(
+//            "export",
+//            $this->ctrl->getLinkTarget($this, "showExportList"),
+//            array("showExportList", 'confirmDeleteExportFile'),
+//            get_class($this)
+//        );
+//
+//        // perm
+//        if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId())) {
+//            $this->tabs_gui->addTarget(
+//                "perm_settings",
+//                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
+//                array("perm","info","owner"),
+//                'ilpermissiongui'
+//            );
+//        }
+//
+////        if ($this->object->editable == 1) {
+////            // preview
+////            $this->tabs_gui->addNonTabbedLink(
+////                "preview",
+////                $this->lng->txt("cont_sc_preview"),
+////                $this->ctrl->getLinkTarget($this, "preview"),
+////                "_blank"
+////            );
+////        }
+//    }
 
-    /**
-     * Set sub tabs
-     */
-    public function setSubTabs($a_main_tab = "", $a_active = "") : void
-    {
-        $ilTabs = $this->tabs;
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        if ($a_main_tab == "settings" &&
-            $this->object->editable == 1) {
-            /*			// general properties
-                        $ilTabs->addSubTab("general_settings",
-                            $lng->txt("general_settings"),
-                            $ilCtrl->getLinkTarget($this, 'properties'));
-
-                        // style properties
-                        $ilTabs->addSubTab("style",
-                            $lng->txt("cont_style"),
-                            $ilCtrl->getLinkTarget($this, 'editStyleProperties'));
-            */
-            $ilTabs->activateSubTab($a_active);
-        }
-    }
+//    /**
+//     * Set sub tabs
+//     */
+//    public function setSubTabs($a_main_tab = "", $a_active = "") : void
+//    {
+//        $ilTabs = $this->tabs;
+//        $ilCtrl = $this->ctrl;
+//        $lng = $this->lng;
+//
+//        if ($a_main_tab == "settings" &&
+//            $this->object->editable == 1) {
+//            /*			// general properties
+//                        $ilTabs->addSubTab("general_settings",
+//                            $lng->txt("general_settings"),
+//                            $ilCtrl->getLinkTarget($this, 'properties'));
+//
+//                        // style properties
+//                        $ilTabs->addSubTab("style",
+//                            $lng->txt("cont_style"),
+//                            $ilCtrl->getLinkTarget($this, 'editStyleProperties'));
+//            */
+//            $ilTabs->activateSubTab($a_active);
+//        }
+//    }
 
 
 //    /**

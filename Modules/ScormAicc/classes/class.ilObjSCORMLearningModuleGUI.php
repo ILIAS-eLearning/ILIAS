@@ -626,24 +626,24 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             }
             $this->object->setOfflineStatus(!($_POST['cobj_online']));
 //            $this->object->setOfflineMode($tmpOfflineMode);
-            $this->object->setOpenMode($_POST["open_mode"]);
+            $this->object->setOpenMode((int) $_POST["open_mode"]);
             $this->object->setWidth($t_width);
             $this->object->setHeight($t_height);
             $this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
-            $this->object->setAutoContinue(ilUtil::yn2tf($_POST["auto_continue"]));
-            $this->object->setMaxAttempt($_POST["max_attempt"]);
+            $this->object->setAutoContinue(ilUtil::yn2tf((string) $_POST["auto_continue"]));
+            $this->object->setMaxAttempt((int) $_POST["max_attempt"]);
             $this->object->setDefaultLessonMode($_POST["lesson_mode"]);
             $this->object->setCreditMode($_POST["credit_mode"]);
             $this->object->setAutoReview(ilUtil::yn2tf($_POST["auto_review"]));
-            $this->object->setSession(ilUtil::yn2tf($_POST["cobj_session"]));
+            $this->object->setSession(ilUtil::yn2tf((string) $_POST["cobj_session"]));
             $this->object->setInteractions(ilUtil::yn2tf($_POST["cobj_interactions"]));
             $this->object->setObjectives(ilUtil::yn2tf($_POST["cobj_objectives"]));
-            $this->object->setTime_from_lms(ilUtil::yn2tf($_POST["cobj_time_from_lms"]));
-            $this->object->setCheck_values(ilUtil::yn2tf($_POST["cobj_check_values"]));
-            $this->object->setAutoSuspend(ilUtil::yn2tf($_POST["cobj_auto_suspend"]));
-            $this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
-            $this->object->setIdSetting($_POST["id_setting"]);
-            $this->object->setNameSetting($_POST["name_setting"]);
+            $this->object->setTime_from_lms(ilUtil::yn2tf((string) $_POST["cobj_time_from_lms"]));
+            $this->object->setCheck_values(ilUtil::yn2tf((string) $_POST["cobj_check_values"]));
+            $this->object->setAutoSuspend(ilUtil::yn2tf((string) $_POST["cobj_auto_suspend"]));
+            $this->object->setDebug(ilUtil::yn2tf((string) $_POST["cobj_debug"]));
+            $this->object->setIdSetting((int) $_POST["id_setting"]);
+            $this->object->setNameSetting((int) $_POST["name_setting"]);
             $this->object->update();
 
             // tile image

@@ -311,12 +311,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $this->form->addItem($fi);
         }
 
-        // validate file
-        $cb = new ilCheckboxInputGUI($this->lng->txt("cont_validate_file"), "validate");
-        $cb->setValue("y");
-        //$cb->setChecked(true);
-        $this->form->addItem($cb);
-
         $this->form->addCommandButton("upload", $lng->txt("import"));
         $this->form->addCommandButton("cancel", $lng->txt("cancel"));
 

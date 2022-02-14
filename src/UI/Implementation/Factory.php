@@ -34,6 +34,7 @@ class Factory implements \ILIAS\UI\Factory
     protected C\MainControls\Factory $maincontrols_factory;
     protected C\Tree\Factory $tree_factory;
     protected C\Symbol\Factory $symbol_factory;
+    protected C\Toast\Factory $toast_factory;
     protected C\Legacy\Factory $legacy_factory;
 
     public function __construct(
@@ -60,6 +61,7 @@ class Factory implements \ILIAS\UI\Factory
         C\Tree\Factory $tree_factory,
         C\Menu\Factory $menu_factory,
         C\Symbol\Factory $symbol_factory,
+        C\Toast\Factory $toast_factory,
         C\Legacy\Factory $legacy_factory
     ) {
         $this->counter_factory = $counter_factory;
@@ -85,6 +87,7 @@ class Factory implements \ILIAS\UI\Factory
         $this->tree_factory = $tree_factory;
         $this->menu_factory = $menu_factory;
         $this->symbol_factory = $symbol_factory;
+        $this->toast_factory = $toast_factory;
         $this->legacy_factory = $legacy_factory;
     }
 
@@ -299,6 +302,6 @@ class Factory implements \ILIAS\UI\Factory
 
     public function toast() : C\Toast\Factory
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        return $this->toast_factory;
     }
 }

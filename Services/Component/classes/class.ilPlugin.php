@@ -56,7 +56,7 @@ abstract class ilPlugin
      */
     public function getMessage() : string
     {
-        return strval($this->message);
+        return $this->message;
     }
 
 

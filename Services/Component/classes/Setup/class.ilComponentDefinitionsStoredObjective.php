@@ -123,12 +123,12 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
         $reader = new \ilComponentDefinitionReader(
             new \ilBadgeDefinitionProcessor($db),
             new \ilCOPageDefinitionProcessor($db),
-            new \ilComponentInfoDefinitionProcessor($db),
+            new \ilComponentInfoDefinitionProcessor(),
             new \ilEventDefinitionProcessor($db),
             new \ilLoggingDefinitionProcessor($db),
             new \ilCronDefinitionProcessor(
                 $db,
-                $settings_factory->settingsFor('common'),
+                $settings_factory->settingsFor(),
                 $component_repository,
                 $component_factory
             ),

@@ -23,8 +23,6 @@
 */
 class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 {
-    public $validator;
-
     /**
     * Constructor
     * @access	public
@@ -35,30 +33,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     {
         $this->type = "sahs";
         parent::__construct($a_id, $a_call_by_reference);
-    }
-
-    /**
-     * Validate all XML-Files in a SCORM-Directory
-     * @access       public
-     * @param string $directory
-     * @return       boolean true if all XML-Files are wellfomred and valid
-     */
-    public function validate(string $directory) : bool
-    {
-        $this->validator = new ilObjSCORMValidator($directory);
-        $returnValue = $this->validator->validate();
-        return $returnValue;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValidationSummary() : string
-    {
-        if (is_object($this->validator)) {
-            return $this->validator->getSummary();
-        }
-        return "";
     }
 
     /**
@@ -199,12 +173,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             }
         }
 
-        //validate the XML-Files in the SCORM-Package
-        if ($_POST["validate"] == "y") {
-            if (!$this->validate($this->getDataDirectory())) {
-                $ilErr->raiseError("<b>Validation Error(s):</b><br>" . $this->getValidationSummary(), $ilErr->MESSAGE);
-            }
-        }
         // todo determine imsmanifest.xml path here...
         $slmParser = new ilSCORMPackageParser($this, $manifest_file);
         $slmParser->startParsing();

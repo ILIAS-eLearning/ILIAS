@@ -60,7 +60,7 @@ class ilComponentInfoTest extends TestCase
     {
         $pluginslots = iterator_to_array($this->component->getPluginSlots());
         $plugins = [];
-        $this->assertEquals(2, count($pluginslots));
+        $this->assertCount(2, $pluginslots);
         $this->assertEquals(new ilPluginSlotInfo($this->component, "slt1", "Slot1", $plugins), $pluginslots["slt1"]);
         $this->assertEquals(new ilPluginSlotInfo($this->component, "slt2", "Slot2", $plugins), $pluginslots["slt2"]);
     }

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilComponentBuildPluginInfoObjectiveTest extends TestCase
 {
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->scanned = [];
         $this->dirs = [];
@@ -15,6 +15,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
         $this->added = [];
         $this->builder = new class($this) extends ilComponentBuildPluginInfoObjective {
             const BASE_PATH = "";
+            protected ilComponentBuildPluginInfoObjectiveTest $test;
             public function __construct($test)
             {
                 $this->test = $test;

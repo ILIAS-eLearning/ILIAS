@@ -26,9 +26,15 @@
 */
 class ilObjSAHSLearningModule extends ilObject
 {
-//    public $validator;
     protected bool $sequencing = false;
-    //	var $meta_data;
+
+    protected string $localization = "";
+
+    protected string $mastery_score_values = "";
+
+    protected int $tries;
+
+    protected string $api_adapter;
 
     /**
     * Constructor
@@ -195,7 +201,7 @@ class ilObjSAHSLearningModule extends ilObject
     *
     * @return	boolean	Editable
     */
-    public function getEditable()
+    public function getEditable() : bool
     {
         return false;
     }
@@ -239,7 +245,7 @@ class ilObjSAHSLearningModule extends ilObject
     }
 
     /**
-     * obsolet!
+     * obsolet?
      *
      * @param int $a_id
      * @return int
@@ -283,7 +289,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * get data directory of lm
-     * @param string $mode
+     * @param string|null $mode
      * @return string
      */
     public function getDataDirectory($mode = "filesystem") : string
@@ -1057,14 +1063,12 @@ class ilObjSAHSLearningModule extends ilObject
 				debug = %s,
 				localization = %s,
 				seq_exp_mode = %s,
-				debugpw = %s,
 				open_mode = %s,
 				width = %s,
 				height = %s,
 				auto_continue = %s,
 				auto_last_visited = %s,
 				check_values = %s,
-				offline_mode = %s,
 				auto_suspend = %s,
 				ie_force_render = %s,
 				mastery_score = %s,
@@ -1095,11 +1099,9 @@ class ilObjSAHSLearningModule extends ilObject
                 'text',
                 'text',
                 'integer',
-                'text',
                 'integer',
                 'integer',
                 'integer',
-                'text',
                 'text',
                 'text',
                 'text',
@@ -1134,14 +1136,12 @@ class ilObjSAHSLearningModule extends ilObject
                 ilUtil::tf2yn($this->getDebug()),
                 $this->getLocalization(),
                 0,//$this->getSequencingExpertMode(),
-//                $this->getDebugPw(),
                 $this->getOpenMode(),
                 $this->getWidth(),
                 $this->getHeight(),
                 ilUtil::tf2yn($this->getAutoContinue()),
                 ilUtil::tf2yn($this->getAuto_last_visited()),
                 ilUtil::tf2yn($this->getCheck_values()),
-//                ilUtil::tf2yn($this->getOfflineMode()),
                 ilUtil::tf2yn($this->getAutoSuspend()),
                 ilUtil::tf2yn($this->getIe_force_render()),
                 $s_mastery_score,

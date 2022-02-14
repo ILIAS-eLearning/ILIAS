@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilSCORMObjectTest extends TestCase
 {
-    public function testManifestImportId(): void
+    public function testManifestImportId() : void
     {
         $manifest = new ilSCORMManifest();
         $testImportId = str_shuffle(uniqid('abcdefgh'));

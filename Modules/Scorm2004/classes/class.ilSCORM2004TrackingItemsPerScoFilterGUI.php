@@ -21,6 +21,11 @@
  */
 class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
 {
+    protected ilObjSCORM2004LearningModuleGUI $parent_obj;
+
+    protected string $parent_cmd;
+
+    public ilPropertyFormGUI $form;
 
     /**
      * Constructor
@@ -36,7 +41,14 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function parse($scoSelected, $report, $reports) : void
+    /**
+     * @param string  $scoSelected
+     * @param string $report
+     * @param array  $reports
+     * @return void
+     * @throws ilCtrlException
+     */
+    public function parse(string $scoSelected, string $report, array $reports) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

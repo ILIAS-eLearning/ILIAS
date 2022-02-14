@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Dropdown\Standard;
 use ILIAS\UI\Component\Signal;
@@ -35,13 +34,15 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     public ilToolbarGUI $toolbar;
     public ilLanguage $lng;
     public ?int $prg_ref_id;
-    public ?ilObjStudyProgramme $object;
+    public ?ilObjStudyProgramme $object = null;
     protected MessageBox\Factory $message_box_factory;
     protected Button\Factory $button_factory;
     public ILIAS\UI\Factory $ui_factory;
     public ILIAS\UI\Renderer $ui_renderer;
     protected Psr\Http\Message\ServerRequestInterface $request;
     protected ilTree $tree;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
 
     public function __construct(
@@ -53,8 +54,10 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         MessageBox\Factory $message_box_factory,
         Button\Factory $button_factory,
         Renderer $ui_renderer,
-        ServerRequest $request,
-        ilTree $tree
+        Psr\Http\Message\ServerRequestInterface $request,
+        ilTree $tree,
+        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
+        ILIAS\Refinery\Factory $refinery
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -66,6 +69,8 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $this->ui_renderer = $ui_renderer;
         $this->request = $request;
         $this->tree = $tree;
+        $this->request_wrapper = $request_wrapper;
+        $this->refinery = $refinery;
     }
 
     public function executeCommand() : void
@@ -189,6 +194,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $field_ids_in_post = array_key_exists($field, $post);
 
         $msg = '';
+        $cat_ids = '';
         if ($field_ids_in_get) {
             $cat_ids = $get[$field];
             $msg = $this->lng->txt('prg_delete_single_confirmation');
@@ -281,8 +287,11 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     protected function getAsyncModalOutput() : void
     {
         $current_ref_id = null;
-        if (array_key_exists(self::CHECKBOX_CATEGORY_REF_IDS, $_GET)) {
-            $current_ref_id = (int) $_GET[self::CHECKBOX_CATEGORY_REF_IDS];
+        if ($this->request_wrapper->has(self::CHECKBOX_CATEGORY_REF_IDS)) {
+            $current_ref_id = $this->request_wrapper->retrieve(
+                self::CHECKBOX_CATEGORY_REF_IDS,
+                $this->refinery->kindlyTo()->int()
+            );
         }
         $form = $this->getForm($current_ref_id);
         $form_id = "form_" . $form->getId();

@@ -192,6 +192,10 @@ class SeqActivity
     public bool $mProgressDeterminedByMeasure = false;
        
     public float $mProgressWeight = 1.0;
+
+    public bool $mmActivityExDurControl;
+
+    public string $iTiming;
     
 
     public function __construct()
