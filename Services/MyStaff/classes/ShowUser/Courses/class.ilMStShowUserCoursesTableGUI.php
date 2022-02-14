@@ -37,6 +37,9 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
      * @var ilMyStaffAccess
      */
     protected $access;
+    
+    /** @var null|array */
+    protected $columnDefinition = null;
 
     /**
      * @param ilMStShowUserCoursesGUI $parent_obj
@@ -177,6 +180,10 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
     {
         global $DIC;
 
+        if ($this->columnDefinition !== null) {
+            return $this->columnDefinition;
+        }
+
         $cols = array();
 
         $cols['crs_title'] = array(
@@ -200,7 +207,9 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
             );
         }
 
-        return $cols;
+        $this->columnDefinition = $cols;
+        
+        return $this->columnDefinition;
     }
 
     /**
