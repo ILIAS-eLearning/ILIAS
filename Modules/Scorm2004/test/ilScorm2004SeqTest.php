@@ -21,13 +21,12 @@ class ilScorm2004SeqTest extends TestCase
         $DIC['ilDB'] = $this->getMockBuilder(\ilDBInterface::class)->getMock();
     }
 
-    public function testSeqNodeConditions() : void
-    {
-        $seqNode = new ilSCORM2004SeqNode();
-        $seqNode->setNodeName('condition');
-        $condition = new ilSCORM2004Condition();
-
-        $this->assertEquals($seqNode->getNodeName(), $condition->getNodeName());
-
-    }
+//    public function testSeqNodeConditions() : void
+//    {
+//        $seqNode = new ilSCORM2004SeqNode();
+//        $seqNode->setNodeName('condition');
+//        $condition = new ilSCORM2004Condition();
+//
+//        $this->assertEquals($seqNode->getNodeName(), $condition->getNodeName());
+//    }
 }
