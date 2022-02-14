@@ -5,7 +5,7 @@ namespace ILIAS\UI\examples\Toast\Standard;
 /**
  * Base
  */
-function base()
+function base() : string
 {
     global $DIC;
     $toast = $DIC->ui()->factory()->toast()->standard(

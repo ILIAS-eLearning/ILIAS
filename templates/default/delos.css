@@ -10851,6 +10851,47 @@ footer {
 .il-link.link-bulky .bulky-label {
   color: #161616;
 }
+.il-toast-wrapper {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+}
+.il-toast {
+  width: 300px;
+  margin: 20px;
+  padding: 8px;
+  background-color: white;
+  display: grid;
+  grid-template-areas: "icon title close" "none description description" "none actions actions";
+  grid-template-columns: 20px 1fr 20px;
+  grid-gap: 8px;
+  box-shadow: 0px 2px 2px 0px #808080;
+  transform: translateX(150%);
+  transition: all 0.25s ease-in-out;
+}
+.il-toast.active {
+  transform: translateX(0);
+}
+.il-toast .icon {
+  grid-area: icon;
+}
+.il-toast .title {
+  grid-area: title;
+}
+.il-toast .close {
+  grid-area: close;
+}
+.il-toast .description {
+  grid-area: description;
+  font-size: 90%;
+}
+.il-toast .actions {
+  grid-area: actions;
+  display: flex;
+  flex-direction: column;
+}
 /**
 This file contains all less Variables set by ILIAS. Please do not overwrite bootstrap standard variables here.
 Set an ILIAS variable here with an il- prefix and overwrite the bootstrap variable in the bootstrap variables file
