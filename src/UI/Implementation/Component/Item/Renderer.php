@@ -73,6 +73,7 @@ class Renderer extends AbstractComponentRenderer
         $this->renderTitle($component, $default_renderer, $tpl);
         $this->renderDescription($component, $tpl);
         $this->renderProperties($component, $default_renderer, $tpl);
+        $this->renderAudio($component, $default_renderer, $tpl);
         // color
         $color = $component->getColor();
         if ($color !== null) {
@@ -277,6 +278,20 @@ class Renderer extends AbstractComponentRenderer
         if (!is_null($desc) && trim($desc) != "") {
             $tpl->setCurrentBlock("desc");
             $tpl->setVariable("DESC", htmlentities($desc));
+            $tpl->parseCurrentBlock();
+        }
+    }
+
+    protected function renderAudio(
+        Item $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ) : void {
+        // description
+        $audio = $component->getAudio();
+        if (!is_null($audio)) {
+            $tpl->setCurrentBlock("audio");
+            $tpl->setVariable("AUDIO", $default_renderer->render($audio));
             $tpl->parseCurrentBlock();
         }
     }
