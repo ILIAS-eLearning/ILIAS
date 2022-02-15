@@ -322,8 +322,6 @@ class ilErrorHandling extends PEAR
                     $message .= ' ' . 'Please send a mail to <a href="mailto:' . $logger->mail() . '?subject=code: ' . $file_name . '">' . $logger->mail() . '</a>';
                 }
             }
-            var_dump($message);
-            exit;
             $GLOBALS['DIC']->ui()->mainTemplate()->setOnScreenMessage('failure', $message, true);
             
             ilUtil::redirect("error.php");
