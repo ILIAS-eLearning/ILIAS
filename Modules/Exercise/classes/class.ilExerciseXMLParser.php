@@ -1,73 +1,40 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Exercise XML Parser which completes/updates a given exercise by an xml string.
-*
-* @author Roland Küstermann <roland@kuestermann.com>
-*
-* @ingroup ModulesExercise
-*
-* @extends ilSaxParser
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * Exercise XML Parser which completes/updates a given exercise by an xml string.
+ * @author Roland Küstermann <roland@kuestermann.com>
+ */
 class ilExerciseXMLParser extends ilSaxParser
 {
     public static $CONTENT_NOT_COMPRESSED = 0;
     public static $CONTENT_GZ_COMPRESSED = 1;
     public static $CONTENT_ZLIB_COMPRESSED = 2;
 
-    /**
-     * Exercise object which has been parsed
-     *
-     * @var ilObjExercise
-     */
-    public $exercise;
+    public ilObjExercise $exercise;
+    public int $obj_id;
+    public bool $result;
+    public int $mode;
+    public ilExAssignment $assignment;
+    public ilFSStorageExercise $storage;
 
-    /**
-     * this will be matched against the id in the xml
-     * in case we want to update an exercise
-     *
-     * @var int
-     */
-    public $obj_id;
-
-
-    /**
-     * result of parsing and updating
-     *
-     * @var boolean
-     */
-    public $result;
-
-    /**
-     * Content compression mode, defaults to no compression
-     *
-     * @var int
-     */
-    public $mode;
-    
-    /**
-     * Current Exercise Assignment
-     * @var ilExAssignment
-     */
-    public $assignment;
-    
-    /**
-     * Storage for exercise related files
-     * @var ilFSStorageExercise
-     */
-    public $storage;
-
-    /**
-    * Constructor
-    *
-    * @param   ilExercise  $exercise   existing exercise object
-    * @param	string		$a_xml_file			xml data
-    * @param   int $obj_id obj id of exercise which is to be updated
-    * @access	public
-    */
-    public function __construct($exercise, $a_xml_data, $obj_id = -1)
-    {
+    public function __construct(
+        ilObjExercise $exercise,
+        string $a_xml_data,
+        int $obj_id = -1
+    ) {
         // @todo: needs to be revised for multiple assignments per exercise
 
         parent::__construct();
@@ -94,12 +61,10 @@ class ilExerciseXMLParser extends ilSaxParser
 
 
     /**
-    * set event handlers
-    *
-    * @param	resource	reference to the xml parser
-    * @access	private
-    */
-    public function setHandlers($a_xml_parser)
+     * @param resource $a_xml_parser reference to the xml parser
+     * @return void
+     */
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -114,7 +79,7 @@ class ilExerciseXMLParser extends ilSaxParser
     * @param	array		$a_attribs			element attributes array
     * @throws   ilExerciseException   when obj id != - 1 and if it it does not match the id in the xml
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
             case 'Exercise':
@@ -171,7 +136,7 @@ class ilExerciseXMLParser extends ilSaxParser
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_name				element name
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
             case 'Exercise':
@@ -229,7 +194,7 @@ class ilExerciseXMLParser extends ilSaxParser
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_data				character data
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {
             $this->cdata .= $a_data;
@@ -239,11 +204,8 @@ class ilExerciseXMLParser extends ilSaxParser
 
     /**
      * update member object according to given action
-     *
-     * @param int $user_id
-     * @param string $action can be Attach or Detach
      */
-    private function updateMember($user_id, $action)
+    private function updateMember(int $user_id, string $action) : void
     {
         if (!is_int($user_id) || $user_id <= 0) {
             return;
@@ -266,8 +228,11 @@ class ilExerciseXMLParser extends ilSaxParser
      * @param string $content  base 64 encoded string
      * @param string $action can be Attach or Detach
      */
-    private function updateFile($filename, $b64encodedContent, $action)
-    {
+    private function updateFile(
+        string $filename,
+        string $b64encodedContent,
+        string $action
+    ) : void {
         if (strlen($filename) == 0) {
             return;
         }
@@ -296,7 +261,7 @@ class ilExerciseXMLParser extends ilSaxParser
      * @return boolean true, if no errors happend.
      *
      */
-    public function start()
+    public function start() : bool
     {
         $this->startParsing();
         return $this->result > 0;
@@ -307,7 +272,7 @@ class ilExerciseXMLParser extends ilSaxParser
      *
      * @param int $usr_id
      */
-    private function updateMarking($usr_id)
+    private function updateMarking(int $usr_id) : void
     {
         $member_status = $this->assignment->getMemberStatus($usr_id);
         if (isset($this->mark)) {
@@ -331,7 +296,7 @@ class ilExerciseXMLParser extends ilSaxParser
         $this->comment = null;
     }
     
-    public function getAssignment()
+    public function getAssignment() : ilExAssignment
     {
         return $this->assignment;
     }
