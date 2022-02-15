@@ -2736,7 +2736,7 @@ output {
 .form-control {
   display: block;
   width: 100%;
-  height: 1.5rem;
+  height: 1.56rem;
   padding: 3px 8px;
   font-size: 0.875rem;
   line-height: 1.42857143;
@@ -2789,7 +2789,7 @@ textarea.form-control {
   input[type="time"].form-control,
   input[type="datetime-local"].form-control,
   input[type="month"].form-control {
-    line-height: 1.5rem;
+    line-height: 1.56rem;
   }
   input[type="date"].input-sm,
   input[type="time"].input-sm,
@@ -2958,7 +2958,7 @@ select[multiple].input-lg {
   position: relative;
 }
 .has-feedback .form-control {
-  padding-right: 1.875rem;
+  padding-right: 1.95rem;
 }
 .form-control-feedback {
   position: absolute;
@@ -2966,9 +2966,9 @@ select[multiple].input-lg {
   right: 0;
   z-index: 2;
   display: block;
-  width: 1.5rem;
-  height: 1.5rem;
-  line-height: 1.5rem;
+  width: 1.56rem;
+  height: 1.56rem;
+  line-height: 1.56rem;
   text-align: center;
   pointer-events: none;
 }
@@ -4527,8 +4527,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 19.25px;
-  margin-bottom: 19.25px;
+  margin-top: 19.22px;
+  margin-bottom: 19.22px;
 }
 @media (min-width: 768px) {
   .navbar-form .form-group {
@@ -4613,8 +4613,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom-left-radius: 0;
 }
 .navbar-btn {
-  margin-top: 19.25px;
-  margin-bottom: 19.25px;
+  margin-top: 19.22px;
+  margin-bottom: 19.22px;
 }
 .navbar-btn.btn-sm {
   margin-top: 15.5px;
@@ -8262,7 +8262,7 @@ ul.dropdown-menu > li > .btn:focus {
   padding-left: 0px;
 }
 .il-standard-form textarea {
-  height: 5.5rem;
+  height: 5.56rem;
 }
 .il-filter .col-md-4,
 .il-filter .col-md-6 {
@@ -13113,6 +13113,7 @@ textarea.form-control {
   max-width: 100%;
 }
 select.form-control {
+  font-size: 0.75rem;
   width: auto;
   max-width: 100%;
 }
@@ -13147,7 +13148,7 @@ select.form-control {
   min-height: 1rem;
 }
 .form-horizontal div.radio label.radio-inline {
-  line-height: 1.5rem;
+  line-height: 1.56rem;
 }
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
