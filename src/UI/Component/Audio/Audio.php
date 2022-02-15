@@ -26,7 +26,7 @@ use ILIAS\UI\Component\JavaScriptBindable;
 interface Audio extends \ILIAS\UI\Component\Component, JavaScriptBindable
 {
     /**
-     * Set the source (path) of the audio. The complete path to the audio has to be provided.
+     * Set the source (path) of the audio file. The complete path to the audio file has to be provided.
      */
     public function withSource(string $source) : \ILIAS\UI\Component\Audio\Audio;
 
@@ -36,7 +36,7 @@ interface Audio extends \ILIAS\UI\Component\Component, JavaScriptBindable
     public function getSource() : string;
 
     /**
-     * Set the source (path) of the audio. The complete path to the audio has to be provided.
+     * Set the transcription
      */
     public function withTranscription(string $transcription) : \ILIAS\UI\Component\Audio\Audio;
 
