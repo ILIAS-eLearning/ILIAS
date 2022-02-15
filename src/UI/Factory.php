@@ -865,6 +865,9 @@ interface Factory
      *   style:
      *     1: >
      *        The widget will be presented with the full width of its container.
+     * context:
+     *   - Main Content
+     *   - Modal Content
      * ----
      * @return \ILIAS\UI\Component\Video\Video
      */
