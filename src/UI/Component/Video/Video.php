@@ -24,7 +24,8 @@ use ILIAS\UI\Component\JavaScriptBindable;
 interface Video extends \ILIAS\UI\Component\Component, JavaScriptBindable
 {
     /**
-     * Set the source (path) of the video. The complete path to a mp4 video has to be provided.
+     * Set the source (path) of the video. The complete path to a mp4 video, a youtube
+     * or a vimeo url has to be provided.
      */
     public function withSource(string $source) : \ILIAS\UI\Component\Video\Video;
 
