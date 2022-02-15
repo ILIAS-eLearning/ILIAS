@@ -845,7 +845,7 @@ interface Factory
     /**
      * ---
      * description:
-     *   purpose: The Video component is used to play and control an mp4 video source.
+     *   purpose: The Video component is used to play and control mp4 video files, youtube or vimeo videos.
      *   composition: >
      *       The Video component is composed by a video area, play/pause button, a playtime presentation,
      *       a volume button, a volume slider and a time slider. Additionally it optionally
@@ -869,6 +869,7 @@ interface Factory
      *   - Main Content
      *   - Modal Content
      * ----
+     * @param string $src mp4 file path, youtube or vimeo url
      * @return \ILIAS\UI\Component\Video\Video
      */
     public function video(string $src) : \ILIAS\UI\Component\Video\Video;
