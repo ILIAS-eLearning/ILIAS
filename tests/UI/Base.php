@@ -113,6 +113,9 @@ class NoUIFactory implements Factory
     public function toast() : C\Toast\Factory
     {
     }
+    public function video(string $src) : C\Video\Video
+    {
+    }
 }
 
 class LoggingRegistry implements ResourceRegistry
