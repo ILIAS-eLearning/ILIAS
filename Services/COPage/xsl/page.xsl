@@ -3761,7 +3761,7 @@
 			<xsl:if test="$mode = 'edit'">
 				<xsl:attribute name="class">flex-col flex-grow copg-edit-container</xsl:attribute>
 			</xsl:if>
-			<div>	<!-- this div enforces margin collapsing, see bug 31536 -->
+			<div style="height:100%">	<!-- this div enforces margin collapsing, see bug 31536, for height see 32067 -->
 				<xsl:if test="$mode = 'edit'">
 					<xsl:call-template name="EditReturnAnchors"/>
 				</xsl:if>
