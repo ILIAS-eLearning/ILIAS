@@ -847,14 +847,14 @@ interface Factory
      * description:
      *   purpose: The Video component is used to play and control an mp4 video source.
      *   composition: >
-     *       The Audio component is composed by a video area, play/pause button, a playtime presentation,
+     *       The Video component is composed by a video area, play/pause button, a playtime presentation,
      *       a volume button, a volume slider and a time slider. Additionally it optionally
      *       provides presents subtitles of a srt file.
      *
      * rules:
      *   accessibility:
      *     1: >
-     *        The play/pause button MUST be accessible via tab key and allow to start/stop the audio when the
+     *        The play/pause button MUST be accessible via tab key and allow to start/stop the video when the
      *        space/return key is being pressed.
      *     2: >
      *        The playing position SHOULD be adjustable by using the cursor left/right keys.
