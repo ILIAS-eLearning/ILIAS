@@ -48,6 +48,12 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
+        if ($component->getPoster() !== "") {
+            $tpl->setCurrentBlock("poster");
+            $tpl->setVariable("POSTER_SOURCE", $component->getPoster());
+            $tpl->parseCurrentBlock();
+        }
+
         $tpl->setVariable("ID", $id);
         $tpl->setVariable("SOURCE", $component->getSource());
 

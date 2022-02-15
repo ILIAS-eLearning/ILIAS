@@ -30,6 +30,7 @@ class Video implements C\Video\Video
     use Triggerer;
 
     private string $src = "";
+    private string $poster = "";
     private array $subtitle_files = [];
 
     public function __construct(string $source)
@@ -66,5 +67,19 @@ class Video implements C\Video\Video
     public function getSubtitleFiles() : array
     {
         return $this->subtitle_files;
+    }
+
+    public function withPoster(string $poster) : \ILIAS\UI\Component\Video\Video
+    {
+        $this->checkStringArg("poster", $poster);
+
+        $clone = clone $this;
+        $clone->poster = $poster;
+        return $clone;
+    }
+
+    public function getPoster() : string
+    {
+        return $this->poster;
     }
 }

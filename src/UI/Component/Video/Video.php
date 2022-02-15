@@ -44,4 +44,14 @@ interface Video extends \ILIAS\UI\Component\Component, JavaScriptBindable
      * @return array<string,string>
      */
     public function getSubtitleFiles() : array;
+
+    /**
+     * Set initially shown poster image
+     */
+    public function withPoster(string $poster) : \ILIAS\UI\Component\Video\Video;
+
+    /**
+     * Get poster
+     */
+    public function getPoster() : string;
 }
