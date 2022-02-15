@@ -30,3 +30,4 @@ Please subscribe to our admin mailing list (ilias-admins@lists.ilias.de) to get 
 * Fabian Sesterhenn, TH Köln, Cologne, Germany
 * Nadimo Staszak, University of Cologne, Cologne, Germany
 * Robin Baumgartner, studer + raimann ag, Burgdorf, Switzerland
+* Manuel G. Müller, Qualitus GmbH,  Cologne, Germany
