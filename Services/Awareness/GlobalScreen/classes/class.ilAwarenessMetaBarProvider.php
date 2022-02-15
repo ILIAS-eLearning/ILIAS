@@ -42,7 +42,7 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
         $ilUser = $DIC->user();
 
         $awrn_set = new ilSetting("awrn");
-        if (!$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId()) {
+        if (!$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId() || $ilUser->getId() == 0) {
             return [];
         }
 
