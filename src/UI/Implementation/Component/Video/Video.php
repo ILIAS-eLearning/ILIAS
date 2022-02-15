@@ -29,8 +29,8 @@ class Video implements C\Video\Video
     use JavaScriptBindable;
     use Triggerer;
 
-    private string $src;
-    private string $srt_file;
+    private string $src = "";
+    private array $subtitle_files = [];
 
     public function __construct(string $source)
     {
@@ -53,17 +53,18 @@ class Video implements C\Video\Video
         return $this->src;
     }
 
-    public function withSubtitleFile(string $srt_file) : C\Video\Video
+    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file) : C\Video\Video
     {
-        $this->checkStringArg("srt_file", $srt_file);
+        $this->checkStringArg("subtitle_file", $subtitle_file);
+        $this->checkStringArg("lang_key", $lang_key);
 
         $clone = clone $this;
-        $clone->srt_file = $srt_file;
+        $clone->subtitle_files[$lang_key] = $subtitle_file;
         return $clone;
     }
 
-    public function getSubtitleFile() : string
+    public function getSubtitleFiles() : array
     {
-        return $this->srt_file;
+        return $this->subtitle_files;
     }
 }

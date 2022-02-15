@@ -849,8 +849,7 @@ interface Factory
      *   composition: >
      *       The Video component is composed by a video area, play/pause button, a playtime presentation,
      *       a volume button, a volume slider and a time slider. Additionally it optionally
-     *       provides presents subtitles of a srt file.
-     *
+     *       provides subtitles stored in WebVTT files, see https://en.wikipedia.org/wiki/WebVTT.
      * rules:
      *   accessibility:
      *     1: >

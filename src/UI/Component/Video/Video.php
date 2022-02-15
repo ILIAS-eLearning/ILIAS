@@ -34,12 +34,13 @@ interface Video extends \ILIAS\UI\Component\Component, JavaScriptBindable
     public function getSource() : string;
 
     /**
-     * Set a subtitle file path. For SubRiP format, see https://en.wikipedia.org/wiki/SubRip
+     * Set a subtitle file path (vtt file). For WebVTT format, see https://en.wikipedia.org/wiki/WebVTT.
      */
-    public function withSubtitleFile(string $srt_file) : \ILIAS\UI\Component\Video\Video;
+    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file) : \ILIAS\UI\Component\Video\Video;
 
     /**
-     * Get subtitle file
+     * Get subtitle files
+     * @return array<string,string>
      */
-    public function getSubtitleFile() : string;
+    public function getSubtitleFiles() : array;
 }
