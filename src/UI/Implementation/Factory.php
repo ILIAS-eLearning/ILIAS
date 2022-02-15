@@ -304,4 +304,9 @@ class Factory implements \ILIAS\UI\Factory
     {
         return $this->toast_factory;
     }
+
+    public function video(string $src) : C\Video\Video
+    {
+        return new Component\Video\Video($src);
+    }
 }

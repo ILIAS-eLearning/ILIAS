@@ -841,4 +841,32 @@ interface Factory
      * @return \ILIAS\UI\Component\Toast\Factory
      */
     public function toast() : C\Toast\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: The Video component is used to play and control an mp4 video source.
+     *   composition: >
+     *       The Audio component is composed by a video area, play/pause button, a playtime presentation,
+     *       a volume button, a volume slider and a time slider. Additionally it optionally
+     *       provides presents subtitles of a srt file.
+     *
+     * rules:
+     *   accessibility:
+     *     1: >
+     *        The play/pause button MUST be accessible via tab key and allow to start/stop the audio when the
+     *        space/return key is being pressed.
+     *     2: >
+     *        The playing position SHOULD be adjustable by using the cursor left/right keys.
+     *     3: >
+     *        The volume SHOULD be adjustable by using the cursor up/down keys.
+     *     4: >
+     *        A subtitle file SHOULD be provided, if the video content contains speech.
+     *   style:
+     *     1: >
+     *        The widget will be presented with the full width of its container.
+     * ----
+     * @return \ILIAS\UI\Component\Video\Video
+     */
+    public function video(string $src) : \ILIAS\UI\Component\Video\Video;
 }
