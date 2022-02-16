@@ -1919,19 +1919,19 @@
 	<!-- Alignment Part 1 (Left, Center, Right)-->
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
 		and $mode != 'fullscreen' and $mode != 'media'">
-		<div style="clear:both; margin-right:auto; margin-left:0; display: table;">
+		<div style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Center'
 		or $mode = 'fullscreen' or $mode = 'media'">
-		<div style="clear:both; margin-right:auto; margin-left:auto; display: table;">
+		<div style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
 		and $mode != 'fullscreen' and $mode != 'media'">
-		<div style="clear:both; margin-right:0; margin-left:auto; display: table;">
+		<div style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
@@ -2116,15 +2116,17 @@
 				and $mode != 'fullscreen' and $mode != 'media'">
 				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">float:right; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-right: 0px;</xsl:if></xsl:attribute>
 			</xsl:if>
-
-			<!-- make object fit to left/right border -->
 			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
-				and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
-				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/> margin-left: 0px;</xsl:attribute>
+				and $mode != 'fullscreen' and $mode != 'media'">
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">margin-right:auto; margin-left:0; </xsl:if></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
-				and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
-				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/> margin-right: 0px;</xsl:attribute>
+				and $mode != 'fullscreen' and $mode != 'media'">
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">margin-right:0; margin-left:auto; </xsl:if></xsl:attribute>
+			</xsl:if>
+			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Center'
+				and $mode != 'fullscreen' and $mode != 'media'">
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">margin-right:auto; margin-left:auto; </xsl:if></xsl:attribute>
 			</xsl:if>
 
 			<!-- build object tag -->
