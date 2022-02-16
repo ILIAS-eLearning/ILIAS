@@ -11,12 +11,9 @@ require_once 'Services/FileSystem/classes/class.ilFileSystemStorage.php';
  */
 class ilTestProcessLockFileStorage extends ilFileSystemStorage
 {
-    /**
-     * @param integer $activeId
-     */
-    public function __construct($activeId)
+    public function __construct(int $contextId)
     {
-        parent::__construct(ilFileSystemStorage::STORAGE_DATA, true, $activeId);
+        parent::__construct(ilFileSystemStorage::STORAGE_DATA, true, $contextId);
     }
 
     /**
@@ -43,7 +40,7 @@ class ilTestProcessLockFileStorage extends ilFileSystemStorage
      */
     protected function getPathPostfix()
     {
-        return 'active';
+        return 'context';
     }
 
     public function create()

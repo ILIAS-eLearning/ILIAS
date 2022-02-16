@@ -2224,7 +2224,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     protected function finishTestPass($active_id, $obj_id)
     {
-        $this->processLockerFactory->setActiveId($active_id);
+        $this->processLockerFactory->setContextId($active_id);
         $processLocker = $this->processLockerFactory->getLocker();
         
         $test_pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);

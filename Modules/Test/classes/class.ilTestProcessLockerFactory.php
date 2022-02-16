@@ -26,9 +26,9 @@ class ilTestProcessLockerFactory
     protected $db;
 
     /**
-     * @var integer
+     * @var null|int
      */
-    protected $activeId;
+    protected $contextId;
 
     /**
      * @param ilSetting $settings
@@ -38,24 +38,24 @@ class ilTestProcessLockerFactory
     {
         $this->settings = $settings;
         $this->db = $db;
-        
-        $this->activeId = null;
     }
 
-    /**
-     * @param int $activeId
-     */
-    public function setActiveId($activeId)
+    public function setContextId(?int $activeId) : void
     {
-        $this->activeId = $activeId;
+        $this->contextId = $activeId;
     }
 
-    /**
-     * @return int
-     */
-    public function getActiveId()
+    public function getContextId() : ?int
     {
-        return $this->activeId;
+        return $this->contextId;
+    }
+
+    public function withContextId(int $contextId) : self
+    {
+        $clone = clone $this;
+        $clone->contextId = $contextId;
+
+        return $clone;
     }
 
     private function getLockModeSettingValue()
@@ -66,7 +66,7 @@ class ilTestProcessLockerFactory
     /**
      * @return ilTestProcessLockerDb|ilTestProcessLockerFile|ilTestProcessLockerNone
      */
-    public function getLocker()
+    public function getLocker() : ilTestProcessLocker
     {
         switch ($this->getLockModeSettingValue()) {
             case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE:
@@ -76,8 +76,7 @@ class ilTestProcessLockerFactory
                 
             case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_FILE:
 
-                require_once 'Modules/Test/classes/class.ilTestProcessLockFileStorage.php';
-                $storage = new ilTestProcessLockFileStorage($this->getActiveId());
+                $storage = new ilTestProcessLockFileStorage((int) $this->getContextId());
                 $storage->create();
 
                 $locker = new ilTestProcessLockerFile($storage);
@@ -90,5 +89,14 @@ class ilTestProcessLockerFactory
         }
         
         return $locker;
+    }
+
+    public function getPreferablyFileSystemLockerOrNull() : ilTestProcessLocker
+    {
+        if ($this->getLocker() instanceof ilTestProcessLockerFile) {
+            return $this->getLocker();
+        }
+
+        return new ilTestProcessLockerNone();
     }
 }

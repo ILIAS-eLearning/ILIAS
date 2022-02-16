@@ -232,7 +232,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
     
     protected function finishPassForUser($active_id, $obj_id)
     {
-        $this->processLockerFactory->setActiveId($active_id);
+        $this->processLockerFactory->setContextId($active_id);
         $processLocker = $this->processLockerFactory->getLocker();
         
         $pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);

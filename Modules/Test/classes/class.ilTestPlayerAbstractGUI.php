@@ -143,7 +143,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
         $processLockerFactory = new ilTestProcessLockerFactory($this->assSettings, $ilDB);
 
-        $processLockerFactory->setActiveId($activeId);
+        $processLockerFactory->setContextId($activeId);
         
         $this->processLocker = $processLockerFactory->getLocker();
     }
