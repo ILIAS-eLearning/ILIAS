@@ -4241,7 +4241,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
     }
 
-    public function handleFormInput(string $a_text, $a_stripslashes = true) : string
+    public function handleFormInput(string $a_text, bool $a_stripslashes = true) : string
     {
         $a_text = str_replace(["<", ">"], ["&lt;", "&gt;"], $a_text);
         if ($a_stripslashes) {
@@ -4251,7 +4251,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         return $a_text;
     }
 
-    public function prepareFormOutput($a_text) : string
+    public function prepareFormOutput(string $a_text) : string
     {
         $a_text = str_replace(["&lt;", "&gt;"], ["<", ">"], $a_text);
         $a_text = ilLegacyFormElementsUtil::prepareFormOutput($a_text);
