@@ -165,7 +165,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
                 ilLegacyFormElementsUtil::formRadioButton(
                     $checked,
                     'thread_ids[]',
-                    $thread->getId()
+                    (string) $thread->getId()
                 )
             );
         } elseif ('showThreads' === $this->parent_cmd) {
@@ -174,7 +174,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
                 ilLegacyFormElementsUtil::formCheckbox(
                     (isset($thread_ids) && in_array($thread->getId(), $thread_ids, true)),
                     'thread_ids[]',
-                    $thread->getId()
+                    (string) $thread->getId()
                 )
             );
 

@@ -47,7 +47,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
             ilLegacyFormElementsUtil::formCheckbox(
                 in_array($a_set['draft_id'], $selected_draft_ids, true),
                 'draft_ids[]',
-                $a_set['draft_id']
+                (string) $a_set['draft_id']
             )
         );
 
