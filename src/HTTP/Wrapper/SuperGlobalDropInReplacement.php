@@ -35,14 +35,11 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
     }
 
     /**
-     * @deprecated Please note that this will throw an exception in a future version
      * @inheritDoc
      */
     public function offsetSet($offset, $value) : void
     {
-        /** @noRector */
-        // this is currently possible, throw new \OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!"); if you want to prevent from overriding a value here
-        parent::offsetSet($offset, $value);
+        throw new \OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
     }
 
     /**
@@ -52,5 +49,4 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
     {
         throw new \LogicException("Modifying global Request-Array such as \$_GET is not allowed!");
     }
-
 }
