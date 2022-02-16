@@ -28,7 +28,6 @@
     "nestable2": "^1.6.0",
     "ol": "^6.9.0",
     "owl.carousel": "git+https://github.com/OwlCarousel2/OwlCarousel2.git",
-    "pouchdb": "^7.2.1",
     "qtip2": "^3.0.3",
     "rollup-plugin-sourcemaps": "^0.6.2",
     "tinymce": "github:ILIAS-eLearning/tinymce-dist#master",
@@ -59,13 +58,6 @@
   },
   "homepage": "https://github.com/ILIAS-eLearning/ILIAS#readme",
   "extra": {
-    "pouchdb": {
-      "introduction-date": null,
-      "approved-by": null,
-      "developer": null,
-      "purpose": "We use pouchdb in SCORM-Offline-Player",
-      "last-update-for-ilias": "5.3.0"
-    },
     "jquery": {
       "introduction-date": null,
       "approved-by": "Jour Fixe",
