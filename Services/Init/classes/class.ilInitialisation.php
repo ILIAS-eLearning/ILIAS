@@ -968,18 +968,23 @@ class ilInitialisation
         if (!$DIC['ilAuthSession']->isAuthenticated()) {
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
         }
-
-        $target = '';
-        if ($DIC->http()->wrapper()->query()->has('target')) {
-            $target = $DIC->http()->wrapper()->query()->retrieve(
+        
+        $target = $DIC->http()->wrapper()->query()->has('target')
+            ? $DIC->http()->wrapper()->query()->retrieve(
                 'target',
                 $DIC->refinery()->kindlyTo()->string()
-            );
-        }
+            )
+            : '';
+        
         if (strlen($target)) {
             $target = "target=" . $target . "&";
         }
-        $script = "login.php?" . $target . "client_id=" . $_COOKIE["ilClientId"] .
+        
+        $client_id = $DIC->http()->wrapper()->cookie()->has('ilClientId')
+            ? $DIC->http()->wrapper()->cookie()->retrieve('ilClientId', $DIC->refinery()->kindlyTo()->string())
+            : '';
+        
+        $script = "login.php?" . $target . "client_id=" . $client_id .
             "&auth_stat=" . $a_auth_stat;
 
         self::redirect(
