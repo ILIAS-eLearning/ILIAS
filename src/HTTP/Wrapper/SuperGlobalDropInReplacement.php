@@ -25,12 +25,11 @@ use ILIAS\Refinery\KeyValueAccess;
  */
 class SuperGlobalDropInReplacement extends KeyValueAccess
 {
+    private bool $throwOnValueAssignment;
 
-    /**
-     * DirectValueAccessDropInReplacement constructor.
-     */
-    public function __construct(Factory $factory, array $raw_values)
+    public function __construct(Factory $factory, array $raw_values, bool $throwOnValueAssignment = false)
     {
+        $this->throwOnValueAssignment = $throwOnValueAssignment;
         parent::__construct($raw_values, $factory->kindlyTo()->string());
     }
 
@@ -39,7 +38,9 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
      */
     public function offsetSet($offset, $value) : void
     {
-        throw new \OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
+        if ($this->throwOnValueAssignment) {
+            throw new \OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
+        }
     }
 
     /**
