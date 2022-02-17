@@ -8,6 +8,7 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\JsCollection;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCode;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCodeCollection;
+use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
 
 /**
  * Class MetaContent
@@ -37,6 +38,10 @@ class MetaContent
      * @var string
      */
     private $base_url = "";
+    /**
+     * @var string
+     */
+    private $text_direction;
     /**
      * @var string
      */
@@ -157,5 +162,24 @@ class MetaContent
     public function getBaseURL() : string
     {
         return $this->base_url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTextDirection() : ?string
+    {
+        return $this->text_direction;
+    }
+
+    /**
+     * @param string $text_direction
+     */
+    public function setTextDirection(string $text_direction) : void
+    {
+        if (!in_array($text_direction, [Standard::LTR, Standard::RTL], true)) {
+            throw new \InvalidArgumentException('$text_direction MUST be Standard::LTR, or Standard::RTL');
+        }
+        $this->text_direction = $text_direction;
     }
 }

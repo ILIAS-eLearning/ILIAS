@@ -9,6 +9,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkListItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LostItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SeparatorItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemRenderer;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\RepositoryLinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
@@ -23,18 +24,16 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\JavaScriptBindable;
 use ilMMCustomItemStorage;
 use ilMMItemStorage;
 use ilMMTypeHandlerLink;
 use ilMMTypeHandlerRepositoryLink;
 use ilMMTypeHandlerSeparator;
 use ilMMTypeHandlerTopLink;
+use ilObjMainMenuAccess;
 
 /**
  * Class CustomMainBarProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider
@@ -45,10 +44,13 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
      */
     private $access_helper;
     /**
+     * @var ilObjMainMenuAccess
+     */
+    private $mm_access;
+    /**
      * @var \ILIAS\DI\Container
      */
     protected $dic;
-
 
     /**
      * @inheritDoc
@@ -56,9 +58,9 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
+        $this->mm_access = new ilObjMainMenuAccess();
         $this->access_helper = BasicAccessCheckClosures::getInstance();
     }
-
 
     /**
      * @return TopParentItem[]
@@ -76,7 +78,6 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         return $top_items;
     }
 
-
     /**
      * @return isItem[]
      */
@@ -93,44 +94,24 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         return $items;
     }
 
-
     /**
      * @param ilMMCustomItemStorage $storage
      * @param bool                  $register
-     *
      * @return isItem
      */
     public function getSingleCustomItem(ilMMCustomItemStorage $storage, $register = false) : isItem
     {
         $identification = $this->globalScreen()->identification()->core($this)->identifier($storage->getIdentifier());
 
-        $item = $this->globalScreen()->mainBar()->custom($storage->getType(), $identification);
+        $item = $this->globalScreen()->mainBar()->custom($storage->getType(), $identification)->withVisibilityCallable(
+            $this->mm_access->isCurrentUserAllowedToSeeCustomItem($storage)
+        );
 
-        // See https://mantis.ilias.de/view.php?id=30743
-        if ($item instanceof Link || $item instanceof TopLinkItem) {
-            $item = $item->withVisibilityCallable(function () {
-                $active = $this->access_helper->isPublicSectionActive();
-                if ($active()) {
-                    return true;
-                }
-
-                return $this->access_helper->isUserLoggedIn()();
-            });
-        }
-
-        if ($item instanceof hasTitle && $storage->getDefaultTitle() !== '') {
+        if ($item instanceof hasTitle && !empty($storage->getDefaultTitle())) {
             $item = $item->withTitle($storage->getDefaultTitle());
         }
         if ($item instanceof hasAction) {
             $item = $item->withAction("#");
-            // always close MainBar when a link has been clicked
-            $item = $item->addComponentDecorator(static function (Component $c) : Component {
-                if ($c instanceof JavaScriptBindable) {
-                    return $c->withAdditionalOnLoadCode(function ($id) {
-                        return "$('#$id').click(function() { il.UI.maincontrols.mainbar.disengageAll();})";
-                    });
-                }
-            });
         }
         if ($item instanceof isChild) {
             $mm_item = ilMMItemStorage::find($identification->serialize());
@@ -142,8 +123,8 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
             if ($parent_identification) {
                 $item = $item->withParent(
                     $this->globalScreen()
-                        ->identification()
-                        ->fromSerializedIdentification($parent_identification)
+                         ->identification()
+                         ->fromSerializedIdentification($parent_identification)
                 );
             }
         }
@@ -154,7 +135,6 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
 
         return $item;
     }
-
 
     /**
      * @inheritDoc
@@ -230,10 +210,8 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         return $c;
     }
 
-
     /**
      * @param string $type
-     *
      * @return string
      */
     private function translateType(string $type) : string
@@ -244,10 +222,8 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         return $this->dic->language()->txt("type_" . strtolower($last_part));
     }
 
-
     /**
      * @param string $type
-     *
      * @return string
      */
     private function translateByline(string $type) : string
@@ -257,7 +233,6 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
 
         return $this->dic->language()->txt("type_" . strtolower($last_part) . "_info");
     }
-
 
     /**
      * @inheritDoc

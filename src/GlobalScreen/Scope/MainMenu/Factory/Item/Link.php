@@ -5,6 +5,9 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 
 /**
@@ -13,10 +16,11 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
  * read the difference between GlobalScreen and UI in the README.md of the GlobalScreen Service.
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
+class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, isInterchangeableItem
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
+    use isInterchangeableItemTrait;
 
     /**
      * @var bool

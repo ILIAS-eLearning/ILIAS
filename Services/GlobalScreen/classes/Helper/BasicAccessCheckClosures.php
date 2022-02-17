@@ -46,8 +46,7 @@ class BasicAccessCheckClosures
         if (!isset($repo_read)) {
             $is_user_logged_in = $this->isUserLoggedIn()();
             if (!$is_user_logged_in) {
-                $repo_read = (bool) $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('read',
-                        '', ROOT_FOLDER_ID);
+                $repo_read = (bool) $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
             } else {
                 $repo_read = (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
             }
@@ -77,8 +76,7 @@ class BasicAccessCheckClosures
         if (!isset($repo_visible)) {
             $is_user_logged_in = $this->isUserLoggedIn()();
             if (!$is_user_logged_in) {
-                $repo_visible = (bool) ($this->isPublicSectionActive()() && $this->dic->access()->checkAccess('visible',
-                        '', ROOT_FOLDER_ID));
+                $repo_visible = (bool) $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID);
             } else {
                 $repo_visible = (bool) $this->dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID);
             }

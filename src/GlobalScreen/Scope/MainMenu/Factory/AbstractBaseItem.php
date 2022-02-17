@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -202,5 +203,16 @@ abstract class AbstractBaseItem implements isItem
     public function getTypeInformation() : TypeInformation
     {
         return $this->type_information instanceof TypeInformation ? $this->type_information : new TypeInformation(get_class($this), get_class($this));
+    }
+
+    public function isTop() : bool
+    {
+        if ($this instanceof isChild) {
+            return $this->getParent() instanceof NullIdentification || (int) $this->getParent()->serialize() === false;
+        }
+        if ($this instanceof isTopItem && $this instanceof isInterchangeableItem) {
+            return $this->getParent() === null || $this->getParent() instanceof NullIdentification;
+        }
+        return $this instanceof isTopItem;
     }
 }

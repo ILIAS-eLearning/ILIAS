@@ -62,6 +62,10 @@ final class CalledContexts extends ContextCollection
         $called_classes = array_filter(
             debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
             function ($item) {
+                if (!isset($item['class'])) {
+                    return false;
+                }
+
                 return (!in_array($item['class'], [CalledContexts::class, ContextCollection::class]));
             }
         );

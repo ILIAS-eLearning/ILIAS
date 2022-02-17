@@ -10,19 +10,12 @@ interface ilMMItemFacadeInterface
     //
     // Access to related objects
     //
-    /**
-     * @return ilMMItemStorage
-     */
     public function itemStorage() : ilMMItemStorage;
-
-    /**
-     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
-     */
-    public function item() : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-
-    /**
-     * @return \ILIAS\GlobalScreen\Identification\IdentificationInterface
-     */
+    
+    public function getRawItem() : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+    
+    public function getFilteredItem() : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+    
     public function identification() : \ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 
@@ -93,6 +86,31 @@ interface ilMMItemFacadeInterface
      * @return bool
      */
     public function hasStorage() : bool;
+
+    /**
+     * @return bool
+     */
+    public function supportsRoleBasedVisibility() : bool;
+
+    /**
+     * @return bool
+     */
+    public function hasRoleBasedVisibility() : bool;
+
+    /**
+     * @return array
+     */
+    public function getGlobalRoleIDs() : array;
+
+    /**
+     * @param array $global_role_ids
+     */
+    public function setGlobalRoleIDs(array $global_role_ids) : void;
+
+    /**
+     * @param bool $role_based_visibility
+     */
+    public function setRoleBasedVisibility(bool $role_based_visibility) : void;
 
     /**
      * @return bool
@@ -185,6 +203,11 @@ interface ilMMItemFacadeInterface
      * @param bool $top_item ;
      */
     public function setIsTopItm(bool $top_item);
+
+    /**
+     * @return bool
+     */
+    public function isInterchangeable() : bool;
 
     //
     // CRUD

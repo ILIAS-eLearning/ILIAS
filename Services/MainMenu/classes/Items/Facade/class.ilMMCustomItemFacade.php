@@ -5,7 +5,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 
 /**
  * Class ilMMCustomItemFacade
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMCustomItemFacade extends ilMMAbstractItemFacade
@@ -28,7 +27,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
      */
     protected $top_item = false;
 
-
     /**
      * @inheritDoc
      */
@@ -40,9 +38,12 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
             if ($this->custom_item_storage->getType()) {
                 $this->type = $this->custom_item_storage->getType();
             }
+            $this->role_based_visibility = $this->custom_item_storage->hasRoleBasedVisibility();
+            if ($this->custom_item_storage->hasRoleBasedVisibility()) {
+                $this->global_role_ids = $this->custom_item_storage->getGlobalRoleIDs();
+            }
         }
     }
-
 
     /**
      * @inheritDoc
@@ -55,12 +56,15 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
                 $default_title = ilMMItemTranslationStorage::getDefaultTranslation($this->identification());
                 $mm->setDefaultTitle($default_title);
                 $mm->setType($this->getType());
+                $mm->setRoleBasedVisibility($this->role_based_visibility);
+                if ($this->role_based_visibility) {
+                    $mm->setGlobalRoleIDs($this->global_role_ids);
+                }
                 $mm->update();
             }
         }
         parent::update();
     }
-
 
     /**
      * @inheritDoc
@@ -78,18 +82,24 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         parent::delete();
     }
 
-
     /**
      * @return ilMMCustomItemStorage|null
      */
     private function getCustomStorage()
     {
-        $id = $this->gs_item->getProviderIdentification()->getInternalIdentifier();
+        $id = $this->raw_item->getProviderIdentification()->getInternalIdentifier();
         $mm = ilMMCustomItemStorage::find($id);
 
         return $mm;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function supportsRoleBasedVisibility() : bool
+    {
+        return true;
+    }
 
     /**
      * @inheritDoc
@@ -99,7 +109,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         return true;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -107,7 +116,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         return true;
     }
-
 
     /**
      * @inheritDoc
@@ -117,7 +125,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         return true;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -125,7 +132,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         return "Custom";
     }
-
 
     /**
      * @return string
@@ -135,7 +141,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         return "";
     }
 
-
     /**
      * @inheritDoc
      */
@@ -143,7 +148,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         $this->action = $action;
     }
-
 
     /**
      * @inheritDoc
@@ -153,7 +157,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         return $this->type;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -162,19 +165,17 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         $this->type = $type;
     }
 
-
     /**
      * @inheritDoc
      */
     public function isTopItem() : bool
     {
-        if ($this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem) {
+        if ($this->raw_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem) {
             return parent::isTopItem();
         }
 
         return $this->top_item;
     }
-
 
     /**
      * @inheritDoc

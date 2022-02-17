@@ -57,15 +57,23 @@ class ilMMTopItemFormGUI
     const F_ACTIVE = 'active';
     const F_TITLE = 'title';
     const F_TYPE = 'type';
+    const F_ROLE_BASED_VISIBILITY = "role_based_visibility";
 
-    public function __construct(ilCtrl $ctrl, Factory $ui_fa, Renderer $ui_re, ilLanguage $lng, \ILIAS\DI\HTTPServices $http, ilMMItemFacadeInterface $item, ilMMItemRepository $repository)
-    {
-        $this->repository  = $repository;
-        $this->http        = $http;
-        $this->ctrl        = $ctrl;
-        $this->ui_fa       = $ui_fa;
-        $this->ui_re       = $ui_re;
-        $this->lng         = $lng;
+    public function __construct(
+        ilCtrl $ctrl,
+        Factory $ui_fa,
+        Renderer $ui_re,
+        ilLanguage $lng,
+        \ILIAS\DI\HTTPServices $http,
+        ilMMItemFacadeInterface $item,
+        ilMMItemRepository $repository
+    ) {
+        $this->repository = $repository;
+        $this->http = $http;
+        $this->ctrl = $ctrl;
+        $this->ui_fa = $ui_fa;
+        $this->ui_re = $ui_re;
+        $this->lng = $lng;
         $this->item_facade = $item;
         if (!$this->item_facade->isEmpty()) {
             $this->ctrl->saveParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER);
@@ -79,7 +87,7 @@ class ilMMTopItemFormGUI
         $txt = function ($key) {
             return $this->lng->txt($key);
         };
-        $f   = function () : InputFactory {
+        $f = function () : InputFactory {
             return $this->ui_fa->input();
         };
 
@@ -107,10 +115,11 @@ class ilMMTopItemFormGUI
         // TYPE
         if (($this->item_facade->isEmpty() || $this->item_facade->isCustom())) {
             $type_groups = $this->getTypeGroups($f);
-            $type        = $f()->field()->switchableGroup($type_groups, $txt('topitem_type'), $txt('topitem_type_byline'))->withRequired(true);
+            $type = $f()->field()->switchableGroup($type_groups, $txt('topitem_type'),
+                $txt('topitem_type_byline'))->withRequired(true);
             if (!$this->item_facade->isEmpty()) {
                 $string = $this->item_facade->getType() === '' ? TopParentItem::class : $this->item_facade->getType();
-                $type   = $type->withValue($this->hash($string));
+                $type = $type->withValue($this->hash($string));
             } else {
                 $type = $type->withValue($this->hash(TopParentItem::class));
             }
@@ -118,24 +127,26 @@ class ilMMTopItemFormGUI
         }
 
         // ACTIVE
-        $active                = $f()->field()->checkbox($txt('topitem_active'), $txt('topitem_active_byline'));
-        $active                = $active->withValue($this->item_facade->isActivated());
+        $active = $f()->field()->checkbox($txt('topitem_active'), $txt('topitem_active_byline'));
+        $active = $active->withValue($this->item_facade->isActivated());
         $items[self::F_ACTIVE] = $active;
 
         // RETURN FORM
         if ($this->item_facade->isEmpty()) {
-            $section    = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_ADD), "");
-            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_CREATE), [$section]);
+            $section = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_ADD), "");
+            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class,
+                ilMMTopItemGUI::CMD_CREATE), [$section]);
         } else {
-            $section    = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_EDIT), "");
-            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_UPDATE), [$section]);
+            $section = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_EDIT), "");
+            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class,
+                ilMMTopItemGUI::CMD_UPDATE), [$section]);
         }
     }
 
     public function save()
     {
         $this->form = $this->form->withRequest($this->http->request());
-        $data       = $this->form->getData();
+        $data = $this->form->getData();
         if (is_null($data)) {
             return false;
         }
@@ -157,9 +168,9 @@ class ilMMTopItemFormGUI
         }
 
         if ($this->item_facade->isCustom()) {
-            $type               = $this->item_facade->getType();
+            $type = $this->item_facade->getType();
             $type_specific_data = (array) $data[0][self::F_TYPE][1];
-            $type_handler       = $this->repository->getTypeHandlerForType($type);
+            $type_handler = $this->repository->getTypeHandlerForType($type);
             $type_handler->saveFormFields($this->item_facade->identification(), $type_specific_data);
         }
 
@@ -182,14 +193,15 @@ class ilMMTopItemFormGUI
      */
     private function getTypeGroups(Closure $f) : array
     {
-        $type_groups       = [];
+        $type_groups = [];
         $type_informations = $this->repository->getPossibleTopItemTypesWithInformation();
         foreach ($type_informations as $classname => $information) {
             if ($this->item_facade->isEmpty()
                 || (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())
             ) { // https://mantis.ilias.de/view.php?id=24152
-                $inputs                               = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
-                $type_groups[$this->hash($classname)] = $f()->field()->group($inputs, $information->getTypeNameForPresentation());
+                $inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
+                $type_groups[$this->hash($classname)] = $f()->field()->group($inputs,
+                    $information->getTypeNameForPresentation());
             }
         }
 

@@ -7,6 +7,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\MainMenu\Provider\CustomMainBarProvider;
 
@@ -69,6 +70,16 @@ class ilMMItemRepository
     public function getSingleItem(IdentificationInterface $identification) : isItem
     {
         return $this->main_collector->getSingleItemFromRaw($identification);
+    }
+
+    public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
+    {
+        return $this->main_collector->getSingleItemFromFilter($identification);
+    }
+
+    public function resolveIdentificationFromString(string $identification_string) : IdentificationInterface
+    {
+        return $this->services->identification()->fromSerializedIdentification($identification_string);
     }
 
     /**
@@ -200,6 +211,9 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
                 continue;
             }
             if ($information->isChild()) {
+                if ($information->getType() === TopLinkItem::class) { // since these two types are identical (more or less), we truncate one
+                    continue;
+                }
                 $types[$information->getType()] = $information;
             }
         }

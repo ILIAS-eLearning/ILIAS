@@ -16,7 +16,7 @@ class ContextRepository
     /**
      * @var array
      */
-    private  $contexts = [];
+    private $contexts = [];
     const C_MAIN = 'main';
     const C_DESKTOP = 'desktop';
     const C_REPO = 'repo';
@@ -66,7 +66,7 @@ class ContextRepository
     public function repository() : ScreenContext
     {
         $context = $this->get(BasicScreenContext::class, self::C_REPO);
-        $context = $context->withReferenceId(new ReferenceId((int) $_GET['ref_id']));
+        $context = $context->withReferenceId(new ReferenceId((int) ($_GET['ref_id'] ?? 0)));
 
         return $context;
     }

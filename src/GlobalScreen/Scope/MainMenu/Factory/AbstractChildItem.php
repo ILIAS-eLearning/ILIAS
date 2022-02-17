@@ -7,7 +7,7 @@ use ILIAS\GlobalScreen\Identification\NullIdentification;
  * Class AbstractBaseItem
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractChildItem extends AbstractBaseItem implements isChild
+abstract class AbstractChildItem extends AbstractBaseItem
 {
 
     /**

@@ -29,6 +29,7 @@ trait MakeSlateAsync
 
         $serialize = $item->getProviderIdentification()->serialize();
         $replace_signal = $slate->getReplaceSignal()->withAsyncRenderUrl("./gs_content.php?item={$this->hash($serialize)}");
+
         $slate = $slate->appendOnFirstView($replace_signal);
 
         return $slate;

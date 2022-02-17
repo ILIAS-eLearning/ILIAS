@@ -10,20 +10,19 @@ use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
-use ilUtil;
 use ilUserUtil;
+use ilUtil;
 
 /**
  * Class StandardPagePartProvider
- *
  * @internal
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class StandardPagePartProvider implements PagePartProvider
 {
     use isSupportedTrait;
     use SlateSessionStateCode;
+
     /**
      * @var Legacy
      */
@@ -41,7 +40,6 @@ class StandardPagePartProvider implements PagePartProvider
      */
     protected $lang;
 
-
     /**
      * @inheritDoc
      */
@@ -53,7 +51,6 @@ class StandardPagePartProvider implements PagePartProvider
         $this->lang = $DIC->language();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -61,7 +58,6 @@ class StandardPagePartProvider implements PagePartProvider
     {
         return $this->content ?? $this->ui->factory()->legacy("");
     }
-
 
     /**
      * @inheritDoc
@@ -84,7 +80,6 @@ class StandardPagePartProvider implements PagePartProvider
 
         return $meta_bar;
     }
-
 
     /**
      * @inheritDoc
@@ -150,7 +145,6 @@ class StandardPagePartProvider implements PagePartProvider
         return $main_bar;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -172,7 +166,6 @@ class StandardPagePartProvider implements PagePartProvider
         return $f->breadcrumbs($crumbs);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -185,8 +178,8 @@ class StandardPagePartProvider implements PagePartProvider
         }
 
         return $this->ui->factory()->image()
-            ->standard($std_logo, "ILIAS")
-            ->withAction($std_logo_link);
+                        ->standard($std_logo, "ILIAS")
+                        ->withAction($std_logo_link);
     }
 
 
@@ -198,7 +191,6 @@ class StandardPagePartProvider implements PagePartProvider
         return $this->ui->factory()->mainControls()->footer([]);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -207,7 +199,6 @@ class StandardPagePartProvider implements PagePartProvider
         return 'title';
     }
 
-
     /**
      * @inheritDoc
      */
@@ -215,7 +206,6 @@ class StandardPagePartProvider implements PagePartProvider
     {
         return 'short';
     }
-
 
     /**
      * @inheritDoc

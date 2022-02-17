@@ -35,6 +35,22 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      */
     protected $action = "";
     /**
+     * @var bool
+     *
+     * @con_has_field  false
+     * @con_fieldtype  integer
+     * @con_length     1
+     */
+    protected $role_based_visibility = false;
+    /**
+     * @var string
+     *
+     * @con_has_field  false
+     * @con_fieldtype  text
+     * @con_length     4000
+     */
+    protected $global_role_ids = "";
+    /**
      * @var string
      *
      * @con_has_field  true
@@ -139,6 +155,50 @@ class ilMMCustomItemStorage extends CachedActiveRecord
     public function setAction(string $action) : ilMMCustomItemStorage
     {
         $this->action = $action;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasRoleBasedVisibility() : bool
+    {
+        return false;
+    }
+
+
+    /**
+     * @param bool $role_based_visibility
+     *
+     * @return ilMMCustomItemStorage
+     */
+    public function setRoleBasedVisibility(bool $role_based_visibility) : ilMMCustomItemStorage
+    {
+        $this->role_based_visibility = $role_based_visibility;
+
+        return $this;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getGlobalRoleIDs() : array
+    {
+        return explode(",", $this->global_role_ids);
+    }
+
+
+    /**
+     * @param array $global_role_ids
+     *
+     * @return ilMMCustomItemStorage
+     */
+    public function setGlobalRoleIDs(array $global_role_ids) : ilMMCustomItemStorage
+    {
+        $this->global_role_ids = implode(",", $global_role_ids);
 
         return $this;
     }

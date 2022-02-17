@@ -20,24 +20,20 @@ interface PagePartProvider
      */
     public function getContent() : ?Legacy;
 
-
     /**
      * @return MetaBar|null
      */
     public function getMetaBar() : ?MetaBar;
-
 
     /**
      * @return MainBar|null
      */
     public function getMainBar() : ?MainBar;
 
-
     /**
      * @return Breadcrumbs|null
      */
     public function getBreadCrumbs() : ?Breadcrumbs;
-
 
     /**
      * @return Image|null
@@ -51,6 +47,8 @@ interface PagePartProvider
     public function getFooter() : ?Footer;
 
     public function getTitle() : string;
+
     public function getShortTitle() : string;
+
     public function getViewTitle() : string;
 }

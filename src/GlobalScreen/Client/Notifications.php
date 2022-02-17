@@ -8,15 +8,14 @@ use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 /**
  * Class Notifications
  * Handles Async Calls for the Notification Center
- *
  * @package ILIAS\GlobalScreen\Client
  */
 class Notifications
 {
     use Hasher;
+
     /**
      * Collected set of collected notifications
-     *
      * @var StandardNotificationGroup[]
      */
     protected $notification_groups;
@@ -44,7 +43,14 @@ class Notifications
      * Location of the endpoint handling async notification requests
      */
     const NOTIFY_ENDPOINT = ILIAS_HTTP_PATH . "/src/GlobalScreen/Client/notify.php";
-
+    /**
+     * @var array
+     */
+    protected $identifiers_to_handle;
+    /**
+     * @var string|null
+     */
+    protected $single_identifier_to_handle;
 
     public function run()
     {
@@ -53,14 +59,18 @@ class Notifications
          */
         global $DIC;
         $this->notification_groups = $DIC->globalScreen()->collector()->notifications()->getNotifications();
+        $this->identifiers_to_handle = $DIC->http()->request()->getQueryParams()[self::NOTIFICATION_IDENTIFIERS] ?? [];
+        $this->single_identifier_to_handle = $DIC->http()->request()->getQueryParams()[self::ITEM_ID] ?? null;
 
-        if ($_GET[self::MODE] === self::MODE_OPENED) {
-            $this->handleOpened();
-        } else {
-            $this->handleClosed();
+        switch ($DIC->http()->request()->getQueryParams()[self::MODE]) {
+            case self::MODE_OPENED:
+                $this->handleOpened();
+                break;
+            case self::MODE_CLOSED:
+                $this->handleClosed();
+                break;
         }
     }
-
 
     /**
      * Loops through all available open callable provided by the notification
@@ -68,30 +78,26 @@ class Notifications
      */
     private function handleOpened() : void
     {
-        $identifiers = $_GET[self::NOTIFICATION_IDENTIFIERS];
-
         foreach ($this->notification_groups as $notification_group) {
             foreach ($notification_group->getNotifications() as $notification) {
-                if (in_array($this->hash($notification->getProviderIdentification()->serialize()), $identifiers, true)) {
+                if (in_array($this->hash($notification->getProviderIdentification()->serialize()), $this->identifiers_to_handle, true)) {
                     $notification->getOpenedCallable()();
                 }
             }
-            if (in_array($this->hash($notification_group->getProviderIdentification()->serialize()), $identifiers, true)) {
+            if (in_array($this->hash($notification_group->getProviderIdentification()->serialize()), $this->identifiers_to_handle, true)) {
                 $notification_group->getOpenedCallable()();
             }
         }
     }
-
 
     /**
      * Runs the closed callable if such a callable is provided
      */
     private function handleClosed() : void
     {
-        $id = $_GET[self::ITEM_ID];
         foreach ($this->notification_groups as $notification_group) {
             foreach ($notification_group->getNotifications() as $notification) {
-                if ($id === $this->hash($notification->getProviderIdentification()->serialize())) {
+                if ($this->single_identifier_to_handle === $this->hash($notification->getProviderIdentification()->serialize())) {
                     if ($notification->hasClosedCallable()) {
                         $notification->getClosedCallable()();
                     }

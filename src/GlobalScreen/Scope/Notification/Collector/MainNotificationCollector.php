@@ -9,12 +9,12 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 
 /**
  * Class MainNotificationCollector
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class MainNotificationCollector extends AbstractBaseCollector implements ItemCollector
 {
     use Hasher;
+
     /**
      * @var NotificationProvider[]
      */
@@ -27,7 +27,6 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
 
     /**
      * MetaBarMainCollector constructor.
-     *
      * @param NotificationProvider[] $providers
      */
     public function __construct(array $providers)
@@ -36,10 +35,8 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
         $this->collectOnce();
     }
 
-
     /**
      * Generator yielding the Notifications from the set of providers
-     *
      * @return \Generator
      */
     private function returnNotificationsFromProviders() : \Generator
@@ -77,7 +74,6 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
         // TODO: Implement sortItemsForUIRepresentation() method.
     }
 
-
     /**
      * @inheritDoc
      */
@@ -85,7 +81,6 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     {
         yield from $this->notifications;
     }
-
 
     /**
      * @inheritDoc
@@ -95,11 +90,9 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
         return (is_array($this->notifications) && count($this->notifications) > 0);
     }
 
-
     /**
      * Returns the sum of all old notifications values in the
      * Standard Notifications
-     *
      * @return int
      */
     public function getAmountOfOldNotifications() : int
@@ -122,11 +115,9 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
         return 0;
     }
 
-
     /**
      * Returns the sum of all new notifications values in the
      * Standard Notifications
-     *
      * @return int
      */
     public function getAmountOfNewNotifications() : int
@@ -149,10 +140,8 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
         return 0;
     }
 
-
     /**
      * Returns the set of collected informations
-     *
      * @return isItem[]
      */
     public function getNotifications() : array
@@ -163,7 +152,6 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
 
     /**
      * @param bool $hashed
-     *
      * @return array
      */
     public function getNotificationsIdentifiersAsArray($hashed = false) : array

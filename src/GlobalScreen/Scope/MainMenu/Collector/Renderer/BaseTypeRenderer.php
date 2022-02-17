@@ -64,10 +64,10 @@ class BaseTypeRenderer implements TypeRenderer
             return $this->getComponentWithContent($item);
         }
         $content = $this->ui_factory->legacy('...');
-        $name    = $item instanceof hasTitle ? $item->getTitle() : "-";
-        $slate   = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
-        $slate   = $this->addAsyncLoadingCode($slate, $item);
-        $slate   = $this->addOnloadCode($slate, $item);
+        $name = $item instanceof hasTitle ? $item->getTitle() : "-";
+        $slate = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
+        $slate = $this->addAsyncLoadingCode($slate, $item);
+        $slate = $this->addOnloadCode($slate, $item);
 
         return $slate;
     }
@@ -144,7 +144,7 @@ class BaseTypeRenderer implements TypeRenderer
     public static function getURIConverter() : \Closure
     {
         return static function (string $v) : string {
-            if(strpos($v, './') === 0) {
+            if (strpos($v, './') === 0) {
                 $v = ltrim($v, './');
                 return ILIAS_HTTP_PATH . '/' . $v;
             }

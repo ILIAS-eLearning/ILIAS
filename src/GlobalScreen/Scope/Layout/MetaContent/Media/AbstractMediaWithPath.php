@@ -15,8 +15,7 @@ abstract class AbstractMediaWithPath extends AbstractMedia
         if (!$this->isContentDataUri($content)) {
             if ($this->hasContentParameters($content)) {
                 return rtrim($content, "&") . "&version=" . $this->version;
-            }
-            else {
+            } else {
                 return rtrim($content, "?") . "?version=" . $this->version;
             }
         }
@@ -28,12 +27,12 @@ abstract class AbstractMediaWithPath extends AbstractMedia
     {
         // regex pattern matches if a string follows the data uri syntax.
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs#syntax
-
+        
         return (bool) preg_match('/^(data:)([a-z\/]*)((;base64)?)(,?)([A-z0-9=]*)$/', $content);
     }
 
-    protected function hasContentParameters(string $content): bool
+    protected function hasContentParameters(string $content) : bool
     {
-        return (bool) (strpos($content, "?") !== false);
+        return (strpos($content, "?") !== false);
     }
 }

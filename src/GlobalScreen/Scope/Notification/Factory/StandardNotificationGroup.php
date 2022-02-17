@@ -11,7 +11,7 @@ use ILIAS\UI\Factory as UIFactory;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class StandardNotificationGroup extends AbstractBaseNotification implements isItem
+class StandardNotificationGroup extends AbstractBaseNotification implements isStandardItem
 {
 
     /**

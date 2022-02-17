@@ -88,4 +88,6 @@ interface isItem extends isGlobalScreenItem
      * @return TypeInformation
      */
     public function getTypeInformation() : TypeInformation;
+
+    public function isTop() : bool;
 }

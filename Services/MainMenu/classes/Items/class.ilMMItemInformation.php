@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
@@ -10,6 +11,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\MainMenu\Storage\Services;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
 
 /**
  * Class ilMMItemInformation
@@ -63,14 +65,17 @@ class ilMMItemInformation implements ItemInformation
         if (!$default_language) {
             $default_language = ilMMItemTranslationStorage::getDefaultLanguage();
         }
-
+        if ($item instanceof RepositoryLink && empty($item->getTitle())) {
+            $item = $item->withTitle(($item->getRefId() > 0) ?
+                \ilObject2::_lookupTitle(\ilObject2::_lookupObjectId($item->getRefId())) :
+                ""
+            );
+        }
         if ($item instanceof hasTitle && isset($this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"])
             && $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"] !== ''
         ) {
             $item = $item->withTitle((string) $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]);
         }
-
-        // $item = $item->withTitle($item->getTitle() . "({$item->getProviderIdentification()->serialize()})"); // Activate for debugging in UI
 
         return $item;
     }
