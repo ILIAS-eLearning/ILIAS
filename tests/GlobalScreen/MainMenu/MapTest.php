@@ -35,7 +35,15 @@ class MapTest extends TestCase
      * @var StaticMainMenuProvider
      */
     protected $provider;
-
+    
+    /**
+     * @return Map
+     */
+    private function getMap() : Map
+    {
+        return new Map($this->factory);
+    }
+    
     /**
      * @inheritDoc
      */
@@ -55,7 +63,7 @@ class MapTest extends TestCase
 
     public function testAddItem() : void
     {
-        $map = new Map();
+        $map = $this->getMap();
 
         $p1 = $this->getId('parent_1');
         $p2 = $this->getId('parent_2');
@@ -81,7 +89,7 @@ class MapTest extends TestCase
 
     public function testFilterItems() : void
     {
-        $map = new Map();
+        $map = $this->getMap();
 
         $p1 = $this->getId('parent_1');
         $p2 = $this->getId('parent_2');
@@ -126,7 +134,7 @@ class MapTest extends TestCase
 
     public function testSortingTopItems() : void
     {
-        $map = new Map();
+        $map = $this->getMap();
 
         for ($x = 1; $x <= 10; $x++) {
             $map->add($this->factory->topParentItem($this->getId((string) $x))->withPosition(11 - $x));

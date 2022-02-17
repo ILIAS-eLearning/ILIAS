@@ -168,7 +168,7 @@ class Map implements Filterable, Walkable
     public function sort() : void
     {
         $this->applyFilters();
-        $sorter = function (isItem &$item_one, isItem &$item_two) : int {
+        $sorter = function (isItem $item_one, isItem $item_two) : int {
             /**
              * @var $parent isParent
              */
@@ -189,7 +189,7 @@ class Map implements Filterable, Walkable
         };
 
         $this->filtered->uasort($sorter);
-        $replace_children_sorted = static function (isItem &$item, $key) use ($sorter) : isItem {
+        $replace_children_sorted = static function (isItem &$item) use ($sorter) : isItem {
             if ($item instanceof isParent) {
                 $children = $item->getChildren();
                 uasort($children, $sorter);
