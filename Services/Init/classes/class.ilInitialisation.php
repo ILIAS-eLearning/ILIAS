@@ -1480,12 +1480,22 @@ class ilInitialisation
      */
     protected static function replaceSuperGlobals(\ILIAS\DI\Container $container) : void
     {
-        $throwOnValueAssignment = defined('DEVMODE') && DEVMODE;
+        /** @var ilIniFile $client_ini */
+        $client_ini = $container['ilClientIniFile'];
 
-        $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET, $throwOnValueAssignment);
-        $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST, $throwOnValueAssignment);
-        $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE, $throwOnValueAssignment);
-        $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST, $throwOnValueAssignment);
+        $replace_super_globals = (
+            !$client_ini->variableExists('system', 'prevent_super_global_replacement') ||
+            !(bool) $client_ini->readVariable('system', 'prevent_super_global_replacement')
+        );
+
+        if ($replace_super_globals) {
+            $throwOnValueAssignment = defined('DEVMODE') && DEVMODE;
+
+            $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET, $throwOnValueAssignment);
+            $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST, $throwOnValueAssignment);
+            $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE, $throwOnValueAssignment);
+            $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST, $throwOnValueAssignment);
+        }
     }
 
     protected static function initComponentService(\ILIAS\DI\Container $container) : void
