@@ -1480,12 +1480,12 @@ class ilInitialisation
      */
     protected static function replaceSuperGlobals(\ILIAS\DI\Container $container) : void
     {
-        if (defined('DEVMODE') && DEVMODE) {
-            $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET);
-            $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
-            $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);
-            $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST);
-        }
+        $throwOnValueAssignment = defined('DEVMODE') && DEVMODE;
+
+        $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET, $throwOnValueAssignment);
+        $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST, $throwOnValueAssignment);
+        $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE, $throwOnValueAssignment);
+        $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST, $throwOnValueAssignment);
     }
 
     protected static function initComponentService(\ILIAS\DI\Container $container) : void
