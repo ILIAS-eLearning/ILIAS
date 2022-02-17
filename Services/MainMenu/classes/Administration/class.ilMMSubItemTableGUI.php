@@ -121,6 +121,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable('IDENTIFIER', self::IDENTIFIER);
         $this->tpl->setVariable('ID', $this->hash($item_facade->getId()));
+        $this->tpl->setVariable('NATIVE_ID', $item_facade->getId());
         $this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
         $this->tpl->setVariable('PARENT', $this->getSelect($item_facade)->render());
         $this->tpl->setVariable('STATUS', $item_facade->getStatus());

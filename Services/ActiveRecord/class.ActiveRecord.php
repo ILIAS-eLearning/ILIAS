@@ -334,14 +334,14 @@ abstract class ActiveRecord
         return $new_obj;
     }
 
-    public function afterObjectLoad()
+    public function afterObjectLoad() : void
     {
     }
 
     /**
      * @throws arException
      */
-    public function read()
+    public function read() : void
     {
         $records = $this->getArConnector()->read($this);
         if ($this->ar_safe_read === true && is_array($records) && count($records) === 0) {
