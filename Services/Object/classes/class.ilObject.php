@@ -1200,12 +1200,12 @@ class ilObject
                 continue;
             }
             $operations = $this->rbac_review->getOperationsOfRole(
-                $parent_role['obj_id'],
+                (int) $parent_role['obj_id'],
                 $this->getType(),
-                $parent_role['parent']
+                (int) $parent_role['parent']
             );
             $this->rbac_admin->grantPermission(
-                $parent_role['obj_id'],
+                (int) $parent_role['obj_id'],
                 $operations,
                 $this->getRefId()
             );
