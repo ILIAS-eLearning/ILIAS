@@ -84,6 +84,18 @@ class ilObject
             $this->lng = $DIC["lng"];
         }
 
+        if (isset($DIC["ilUser"])) {
+            $this->user = $DIC["ilUser"];
+        }
+
+        if (isset($DIC["rbacadmin"])) {
+            $this->rbac_admin = $DIC["rbacadmin"];
+        }
+
+        if (isset($DIC["rbacreview"])) {
+            $this->rbac_review = $DIC["rbacreview"];
+        }
+
         if ($id == 0) {
             $this->referenced = false;		// newly created objects are never referenced
         }									// they will get referenced if createReference() is called
@@ -126,10 +138,10 @@ class ilObject
             // read object data
             $sql =
                 "SELECT od.obj_id, od.type, od.title, od.description, od.owner, od.create_date," . PHP_EOL
-                ."od.last_update, od.import_id, od.offline, ore.ref_id, ore.obj_id, ore.deleted, ore.deleted_by" . PHP_EOL
-                ."FROM " . self::TABLE_OBJECT_DATA . " od" . PHP_EOL
-                ."JOIN object_reference ore ON od.obj_id = ore.obj_id" . PHP_EOL
-                ."WHERE ore.ref_id = " . $this->db->quote($this->ref_id, "integer") . PHP_EOL
+                . "od.last_update, od.import_id, od.offline, ore.ref_id, ore.obj_id, ore.deleted, ore.deleted_by" . PHP_EOL
+                . "FROM " . self::TABLE_OBJECT_DATA . " od" . PHP_EOL
+                . "JOIN object_reference ore ON od.obj_id = ore.obj_id" . PHP_EOL
+                . "WHERE ore.ref_id = " . $this->db->quote($this->ref_id, "integer") . PHP_EOL
             ;
 
             $result = $this->db->query($sql);
@@ -143,7 +155,6 @@ class ilObject
                 );
                 $this->error->raiseError($message, $this->error->WARNING);
             }
-
         } else {
             if (!isset($this->id)) {
                 $message = sprintf("ilObject::read(): No obj_id given! (%s)", $this->type);
@@ -152,8 +163,8 @@ class ilObject
 
             $sql =
                 "SELECT obj_id, type, title, description, owner, create_date, last_update, import_id, offline" . PHP_EOL
-                ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-                ."WHERE obj_id = " . $this->db->quote($this->id, "integer") . PHP_EOL
+                . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+                . "WHERE obj_id = " . $this->db->quote($this->id, "integer") . PHP_EOL
             ;
             $result = $this->db->query($sql);
 
@@ -161,7 +172,6 @@ class ilObject
                 $message = sprintf("ilObject::read(): Object with obj_id: %s (%s) not found!", $this->id, $this->type);
                 throw new ilObjectNotFoundException($message);
             }
-
         }
         $obj = $this->db->fetchAssoc($result);
 
@@ -197,8 +207,8 @@ class ilObject
         if ($this->obj_definition->isRBACObject($this->getType())) {
             $sql =
                 "SELECT obj_id, description" . PHP_EOL
-                ."FROM object_description" . PHP_EOL
-                ."WHERE obj_id = " . $this->db->quote($this->id, 'integer') . PHP_EOL
+                . "FROM object_description" . PHP_EOL
+                . "WHERE obj_id = " . $this->db->quote($this->id, 'integer') . PHP_EOL
             ;
 
             $res = $this->db->query($sql);
@@ -219,10 +229,10 @@ class ilObject
         } elseif ($translation_type == "db") {
             $sql =
                 "SELECT title, description" . PHP_EOL
-                ."FROM object_translation" . PHP_EOL
-                ."WHERE obj_id = "  . $this->db->quote($this->id, 'integer') . PHP_EOL
-                ."AND lang_code = " . $this->db->quote($ilUser->getCurrentLanguage(), 'text') . PHP_EOL
-                ."AND NOT lang_default = 1" . PHP_EOL
+                . "FROM object_translation" . PHP_EOL
+                . "WHERE obj_id = " . $this->db->quote($this->id, 'integer') . PHP_EOL
+                . "AND lang_code = " . $this->db->quote($ilUser->getCurrentLanguage(), 'text') . PHP_EOL
+                . "AND NOT lang_default = 1" . PHP_EOL
             ;
             $r = $this->db->query($sql);
             $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
@@ -341,9 +351,9 @@ class ilObject
 
         $sql =
             "SELECT obj_id" . PHP_EOL
-            ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-            ."WHERE import_id = " . $db->quote($import_id, "text") . PHP_EOL
-            ."ORDER BY create_date DESC" . PHP_EOL
+            . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+            . "WHERE import_id = " . $db->quote($import_id, "text") . PHP_EOL
+            . "ORDER BY create_date DESC" . PHP_EOL
         ;
         $result = $db->query($sql);
 
@@ -379,8 +389,8 @@ class ilObject
 
         $sql =
             "SELECT import_id" . PHP_EOL
-            ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-            ."WHERE obj_id = " .  $db->quote($obj_id, "integer") . PHP_EOL
+            . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+            . "WHERE obj_id = " . $db->quote($obj_id, "integer") . PHP_EOL
         ;
 
         $res = $db->query($sql);
@@ -518,8 +528,8 @@ class ilObject
         //$this->read();
         $sql =
             "SELECT last_update, create_date" . PHP_EOL
-            ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-            ."WHERE obj_id = " . $this->db->quote($this->id, "integer") . PHP_EOL
+            . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+            . "WHERE obj_id = " . $this->db->quote($this->id, "integer") . PHP_EOL
         ;
         $obj_set = $this->db->query($sql);
         $obj_rec = $this->db->fetchAssoc($obj_set);
@@ -570,8 +580,8 @@ class ilObject
         //$this->read();
         $sql =
             "SELECT last_update" . PHP_EOL
-            ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-            ."WHERE obj_id = " . $this->db->quote($this->getId(), "integer") . PHP_EOL
+            . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+            . "WHERE obj_id = " . $this->db->quote($this->getId(), "integer") . PHP_EOL
         ;
         $obj_set = $this->db->query($sql);
         $obj_rec = $this->db->fetchAssoc($obj_set);
@@ -581,8 +591,8 @@ class ilObject
             // Update long description
             $sql =
                 "SELECT obj_id, description" . PHP_EOL
-                ."FROM object_description" . PHP_EOL
-                ."WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . PHP_EOL
+                . "FROM object_description" . PHP_EOL
+                . "WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . PHP_EOL
             ;
             $res = $this->db->query($sql);
 
@@ -773,9 +783,9 @@ class ilObject
 
         $sql =
             "SELECT obj_id" . PHP_EOL
-            ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-            ."WHERE import_id = " . $db->quote($import_id, "text") . PHP_EOL
-            ."ORDER BY create_date DESC" . PHP_EOL
+            . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+            . "WHERE import_id = " . $db->quote($import_id, "text") . PHP_EOL
+            . "ORDER BY create_date DESC" . PHP_EOL
         ;
 
         $result = $db->query($sql);
@@ -798,8 +808,8 @@ class ilObject
 
         $sql =
             "SELECT ref_id" . PHP_EOL
-            ."FROM object_reference" . PHP_EOL
-            ."WHERE obj_id = " . $db->quote($id, 'integer') . PHP_EOL
+            . "FROM object_reference" . PHP_EOL
+            . "WHERE obj_id = " . $db->quote($id, 'integer') . PHP_EOL
         ;
 
         $result = $db->query($sql);
@@ -851,8 +861,8 @@ class ilObject
 
         $sql =
             "SELECT obj_id" . PHP_EOL
-            ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-            ."WHERE " . $where . PHP_EOL
+            . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+            . "WHERE " . $where . PHP_EOL
         ;
 
         if ($type != '') {
@@ -895,8 +905,8 @@ class ilObject
 
         $sql =
             "SELECT MAX(last_update) as last_update" . PHP_EOL
-            ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-            ."WHERE " . $db->in("obj_id", $obj_ids, false, "integer") . PHP_EOL
+            . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+            . "WHERE " . $db->in("obj_id", $obj_ids, false, "integer") . PHP_EOL
         ;
 
         $result = $db->query($sql);
@@ -960,7 +970,6 @@ class ilObject
         ];
 
         $db->update("object_reference", $values, $where);
-
     }
 
     final public static function _lookupDeletedDate(int $ref_id) : ?string
@@ -970,8 +979,8 @@ class ilObject
 
         $sql =
             "SELECT deleted" . PHP_EOL
-            ."FROM object_reference" . PHP_EOL
-            ."WHERE ref_id = " . $db->quote($ref_id, "integer") . PHP_EOL
+            . "FROM object_reference" . PHP_EOL
+            . "WHERE ref_id = " . $db->quote($ref_id, "integer") . PHP_EOL
         ;
         $result = $db->query($sql);
         $row = $db->fetchAssoc($result);
@@ -1027,8 +1036,8 @@ class ilObject
             // Update long description
             $sql =
                 "SELECT obj_id, description" . PHP_EOL
-                ."FROM object_description" . PHP_EOL
-                ."WHERE obj_id = " . $db->quote($obj_id, 'integer') . PHP_EOL
+                . "FROM object_description" . PHP_EOL
+                . "WHERE obj_id = " . $db->quote($obj_id, 'integer') . PHP_EOL
             ;
             $result = $db->query($sql);
 
@@ -1119,8 +1128,8 @@ class ilObject
 
         $sql =
             "SELECT obj_id, type, title, description, owner, create_date, last_update, import_id, offline" . PHP_EOL
-            ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-            ."WHERE type = " . $db->quote($type, "text") . PHP_EOL
+            . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+            . "WHERE type = " . $db->quote($type, "text") . PHP_EOL
         ;
         $result = $db->query($sql);
 
@@ -1238,8 +1247,8 @@ class ilObject
 
         $sql =
             "SELECT COUNT(ref_id) num" . PHP_EOL
-            ."FROM object_reference" . PHP_EOL
-            ."WHERE obj_id = " . $this->db->quote($this->id, 'integer') . PHP_EOL
+            . "FROM object_reference" . PHP_EOL
+            . "WHERE obj_id = " . $this->db->quote($this->id, 'integer') . PHP_EOL
         ;
 
         $res = $this->db->query($sql);
@@ -1285,13 +1294,13 @@ class ilObject
 
             $sql =
                 "DELETE FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-                ."WHERE obj_id = " . $this->db->quote($this->getId(), "integer") . PHP_EOL
+                . "WHERE obj_id = " . $this->db->quote($this->getId(), "integer") . PHP_EOL
             ;
             $this->db->manipulate($sql);
 
             $sql =
                 "DELETE FROM object_description" . PHP_EOL
-                ."WHERE obj_id = " . $this->db->quote($this->getId(), "integer") . PHP_EOL
+                . "WHERE obj_id = " . $this->db->quote($this->getId(), "integer") . PHP_EOL
             ;
             $this->db->manipulate($sql);
 
@@ -1317,7 +1326,7 @@ class ilObject
             // BEGIN WebDAV: Delete WebDAV properties
             $sql =
                 "DELETE FROM dav_property" . PHP_EOL
-                ."WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . PHP_EOL
+                . "WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . PHP_EOL
             ;
             $this->db->manipulate($sql);
             // END WebDAV: Delete WebDAV properties
@@ -1347,7 +1356,7 @@ class ilObject
 
             $sql =
                 "DELETE FROM object_reference" . PHP_EOL
-                ."WHERE ref_id = " . $this->db->quote($this->getRefId(), 'integer') . PHP_EOL
+                . "WHERE ref_id = " . $this->db->quote($this->getRefId(), 'integer') . PHP_EOL
             ;
             $this->db->manipulate($sql);
             
@@ -1423,15 +1432,15 @@ class ilObject
         if ($reference) {
             $sql =
                 "SELECT obj_id" . PHP_EOL
-                ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-                ."LEFT JOIN object_reference ON object_reference.obj_id = object_data.obj_id " . PHP_EOL
-                ."WHERE object_reference.ref_id= " . $db->quote($id, "integer") . PHP_EOL
+                . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+                . "LEFT JOIN object_reference ON object_reference.obj_id = object_data.obj_id " . PHP_EOL
+                . "WHERE object_reference.ref_id= " . $db->quote($id, "integer") . PHP_EOL
             ;
         } else {
             $sql =
                 "SELECT obj_id" . PHP_EOL
-                ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-                ."WHERE obj_id = " . $db->quote($id, "integer") . PHP_EOL
+                . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+                . "WHERE obj_id = " . $db->quote($id, "integer") . PHP_EOL
             ;
         }
 
@@ -1471,7 +1480,7 @@ class ilObject
 
         $sql =
             "SELECT obj_id, type, title, description, owner, create_date, last_update, import_id, offline" . PHP_EOL
-            ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+            . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
             . $where . PHP_EOL
             . $order . PHP_EOL
         ;
@@ -1507,13 +1516,13 @@ class ilObject
         
         $sql =
             "SELECT obj_data.title obj_title, path_data.title path_title, child" . PHP_EOL
-            ."FROM tree " . PHP_EOL
-            ."JOIN object_reference obj_ref ON child = obj_ref.ref_id " . PHP_EOL
-            ."JOIN object_data obj_data ON obj_ref.obj_id = obj_data.obj_id " . PHP_EOL
-            ."JOIN object_reference path_ref ON parent = path_ref.ref_id " . PHP_EOL
-            ."JOIN object_data path_data ON path_ref.obj_id = path_data.obj_id " . PHP_EOL
-            ."WHERE " . $db->in("child", $ref_ids, false, "integer") . PHP_EOL
-            ."ORDER BY obj_data.title" . PHP_EOL
+            . "FROM tree " . PHP_EOL
+            . "JOIN object_reference obj_ref ON child = obj_ref.ref_id " . PHP_EOL
+            . "JOIN object_data obj_data ON obj_ref.obj_id = obj_data.obj_id " . PHP_EOL
+            . "JOIN object_reference path_ref ON parent = path_ref.ref_id " . PHP_EOL
+            . "JOIN object_data path_data ON path_ref.obj_id = path_data.obj_id " . PHP_EOL
+            . "WHERE " . $db->in("child", $ref_ids, false, "integer") . PHP_EOL
+            . "ORDER BY obj_data.title" . PHP_EOL
         ;
         $res = $db->query($sql);
         
@@ -1595,10 +1604,10 @@ class ilObject
         // BEGIN WebDAV: Clone WebDAV properties
         $sql =
             "INSERT INTO dav_property" . PHP_EOL
-            ."(obj_id, node_id, ns, name, value)" . PHP_EOL
-            ."SELECT " . $this->db->quote($new_obj->getId(), 'integer') . ", node_id, ns, name, value " . PHP_EOL
-            ."FROM dav_property" . PHP_EOL
-            ."WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . PHP_EOL
+            . "(obj_id, node_id, ns, name, value)" . PHP_EOL
+            . "SELECT " . $this->db->quote($new_obj->getId(), 'integer') . ", node_id, ns, name, value " . PHP_EOL
+            . "FROM dav_property" . PHP_EOL
+            . "WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . PHP_EOL
         ;
         $this->db->manipulate($sql);
         // END WebDAV: Clone WebDAV properties
@@ -1833,8 +1842,8 @@ class ilObject
         
         $sql =
             "SELECT obj_id, description" . PHP_EOL
-            ."FROM object_description" . PHP_EOL
-            ."WHERE " . $db->in("obj_id", $obj_ids, false, "integer") . PHP_EOL
+            . "FROM object_description" . PHP_EOL
+            . "WHERE " . $db->in("obj_id", $obj_ids, false, "integer") . PHP_EOL
         ;
         $result = $db->query($sql);
 
@@ -1857,9 +1866,9 @@ class ilObject
             
         $sql =
             "SELECT od.obj_id, od.type, od.title" . PHP_EOL
-            ."FROM object_data od" . PHP_EOL
-            ."JOIN object_reference oref ON(oref.obj_id = od.obj_id)" . PHP_EOL
-            ."JOIN tree ON (tree.child = oref.ref_id)" . PHP_EOL
+            . "FROM object_data od" . PHP_EOL
+            . "JOIN object_reference oref ON(oref.obj_id = od.obj_id)" . PHP_EOL
+            . "JOIN tree ON (tree.child = oref.ref_id)" . PHP_EOL
         ;
 
         if ($user_id) {
@@ -1867,15 +1876,15 @@ class ilObject
         } else {
             $sql .=
                 "LEFT JOIN usr_data ud ON (ud.usr_id = od.owner)" . PHP_EOL
-                ."WHERE (od.owner < " . $db->quote(1, "integer") . PHP_EOL
-                ."OR od.owner IS NULL OR ud.login IS NULL)" . PHP_EOL
-                ."AND od.owner <> " . $db->quote(-1, "integer") . PHP_EOL
+                . "WHERE (od.owner < " . $db->quote(1, "integer") . PHP_EOL
+                . "OR od.owner IS NULL OR ud.login IS NULL)" . PHP_EOL
+                . "AND od.owner <> " . $db->quote(-1, "integer") . PHP_EOL
             ;
         }
         
         $sql .=
             "AND " . $db->in("od.type", $types, false, "text") . PHP_EOL
-            ."AND tree.tree > " . $db->quote(0, "integer") . PHP_EOL
+            . "AND tree.tree > " . $db->quote(0, "integer") . PHP_EOL
         ;
             
         $res = $db->query($sql);
@@ -1919,9 +1928,9 @@ class ilObject
             case "prgr":
                 $sql =
                     "SELECT oref.obj_id, od.type, od.title" . PHP_EOL
-                    ."FROM object_data od" . PHP_EOL
-                    ."JOIN container_reference oref ON (od.obj_id = oref.target_obj_id)" . PHP_EOL
-                    ."AND " . $db->in("oref.obj_id", $missing_obj_ids, false, "integer") . PHP_EOL
+                    . "FROM object_data od" . PHP_EOL
+                    . "JOIN container_reference oref ON (od.obj_id = oref.target_obj_id)" . PHP_EOL
+                    . "AND " . $db->in("oref.obj_id", $missing_obj_ids, false, "integer") . PHP_EOL
                 ;
                 $result = $db->query($sql);
 
@@ -1945,8 +1954,8 @@ class ilObject
         
         $sql =
             "SELECT create_date" . PHP_EOL
-            ."FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-            ."WHERE obj_id = " . $db->quote($obj_id, "integer") . PHP_EOL
+            . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
+            . "WHERE obj_id = " . $db->quote($obj_id, "integer") . PHP_EOL
         ;
         $result = $db->query($sql);
         $rec = $db->fetchAssoc($result);
