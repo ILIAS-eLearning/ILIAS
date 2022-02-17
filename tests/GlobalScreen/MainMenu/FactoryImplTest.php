@@ -90,18 +90,15 @@ class FactoryImplTest extends TestCase
         $this->assertInstanceOf(isTopItem::class, $this->factory->topParentItem($this->id));
         $this->assertNotInstanceOf(isTopItem::class, $this->factory->complex($this->id));
         $this->assertNotInstanceOf(isTopItem::class, $this->factory->link($this->id));
-        $this->assertNotInstanceOf(isTopItem::class, $this->factory->repositoryLink($this->id));
         $this->assertNotInstanceOf(isTopItem::class, $this->factory->separator($this->id));
     }
 
 
     public function testChildConstraints()
     {
-        $this->assertNotInstanceOf(isChild::class, $this->factory->topLinkItem($this->id));
         $this->assertNotInstanceOf(isChild::class, $this->factory->topParentItem($this->id));
         $this->assertInstanceOf(isChild::class, $this->factory->complex($this->id));
         $this->assertInstanceOf(isChild::class, $this->factory->link($this->id));
-        $this->assertInstanceOf(isChild::class, $this->factory->repositoryLink($this->id));
         $this->assertInstanceOf(isChild::class, $this->factory->separator($this->id));
     }
 }
