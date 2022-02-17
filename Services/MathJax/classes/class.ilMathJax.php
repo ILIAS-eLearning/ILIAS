@@ -341,18 +341,15 @@ class ilMathJax
                 }
 
                 // omit the html newlines added by the ILIAS page editor
-                // handle custom newlines in JSMath (still needed?)
                 $tex = str_replace('<br>', '', $tex);
                 $tex = str_replace('<br/>', '', $tex);
                 $tex = str_replace('<br />', '', $tex);
-                $tex = str_replace('\\\\', '\\cr', $tex);
 
                 // check, if tags go across div borders
                 if (is_int(ilStr::strPos($tex, '<div>')) || is_int(ilStr::strPos($tex, '</div>'))) {
                     // keep the original including delimiters, continue search behind
                     $cpos = $epos + ilStr::strLen($a_end);
-                }
-                else {
+                } else {
                     switch ($this->engine) {
                         case self::ENGINE_CLIENT:
                             // prepare code for processing in the browser
@@ -393,8 +390,7 @@ class ilMathJax
                     // continue search behind replacement
                     $cpos = $spos + ilStr::strLen($replacement);
                 }
-            }
-            else {
+            } else {
                 // end delimiter position not found => stop search
                 break;
             }
