@@ -8,6 +8,7 @@ in this document are to be interpreted as described in
 **Table of Contents**
 
 * [Server Configuration](#web-server-configuration)
+* [ILIAS Configuration](#ilias-configuration)
 
 ## Web Server Configuration
 
@@ -61,4 +62,19 @@ location ~ \.php$ {
 }
 
 [...]
+```
+
+## ILIAS Configuration
+
+With ILIAS 8 `HTTP Requests` and the derived `Super Global Variables ($_GET, $_POST, $_COOKIE, $_REQUEST)` are made
+immutable. This leads to issues with the `SimpleSAMLphp` library, which is not aware of this mechanism
+in ILIAS (these variables are objects implementing `ArrayAccess`, which is not exactly an `array`).
+
+To use the `SAML` authentication in ILIAS >= 8.x, you'll have to add the following setting to the `client.ini.php` file:
+
+```ini
+[system]
+...
+prevent_super_global_replacement = "1"
+...
 ```
