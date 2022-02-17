@@ -491,8 +491,8 @@ class ilObject
             "title" => ["text", $this->getTitle()],
             "description" => ["text", $this->getDescription()],
             "owner" => ["integer", $owner],
-            "create_date" => ["text", $this->db->now()],
-            "last_update" => ["text", $this->db->now()],
+            "create_date" => ["date", $this->db->now()],
+            "last_update" => ["date", $this->db->now()],
             "import_id" => ["text", $this->getImportId()],
             "offline" => ["integer", $this->supportsOfflineHandling() ? $this->getOfflineStatus() : null]
         ];
