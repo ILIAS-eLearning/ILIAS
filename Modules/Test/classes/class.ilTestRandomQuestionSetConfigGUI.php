@@ -305,7 +305,7 @@ class ilTestRandomQuestionSetConfigGUI
     {
         if ($this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
             $locker = $this->processLockerFactory->getPreferablyFileSystemLockerOrNull();
-            $locker->executeGenericOperation(__METHOD__, function() : void {
+            $locker->executeGenericOperation(__FUNCTION__, function() : void {
                 $this->stagingPool->rebuild($this->sourcePoolDefinitionList);
                 $this->sourcePoolDefinitionList->saveDefinitions();
 
