@@ -289,10 +289,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         }
     }
     
-    /**
-     * @return \ILIAS\UI\Component\Button\Standard
-     */
-    private function buildQuestionStageRebuildButton()
+    private function buildQuestionStageRebuildButton() : \ILIAS\UI\Component\Button\Standard
     {
         $this->ctrl->setParameter(
             $this->getTargetGUI(),

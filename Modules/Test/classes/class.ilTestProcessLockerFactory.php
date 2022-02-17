@@ -40,11 +40,6 @@ class ilTestProcessLockerFactory
         $this->db = $db;
     }
 
-    public function setContextId(?int $activeId) : void
-    {
-        $this->contextId = $activeId;
-    }
-
     public function getContextId() : ?int
     {
         return $this->contextId;
