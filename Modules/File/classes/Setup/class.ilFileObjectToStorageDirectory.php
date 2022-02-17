@@ -118,6 +118,8 @@ class ilFileObjectToStorageDirectory
 
     public function tearDown() : void
     {
-        touch(rtrim($this->path, "/") . "/" . ilFileObjectToStorageMigrationHelper::MIGRATED);
+        if (is_writable($this->path)) {
+            touch(rtrim($this->path, "/") . "/" . ilFileObjectToStorageMigrationHelper::MIGRATED);
+        }
     }
 }
