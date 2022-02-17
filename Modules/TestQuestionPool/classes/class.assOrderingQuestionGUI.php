@@ -148,7 +148,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $list = $this->object->getOrderingElementList()->withElements($elements);
         $this->object->setOrderingElementList($list);
-
         $this->editQuestion();
     }
 
@@ -186,13 +185,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $orderingElementInput = $this->object->buildOrderingElementInputGui();
         $orderingElementInput->setStylingDisabled($this->isRenderPurposePrintPdf());
         $this->object->initOrderingElementAuthoringProperties($orderingElementInput);
-        
-        $orderingElementInput->setElementList($this->object->getOrderingElementList());
+
+        $list = $this->object->getOrderingElementList();
+        $orderingElementInput->setElementList($list);
         $form->addItem($orderingElementInput);
 
         return $form;
     }
-    
+
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
     {
         if ($this->object->isImageOrderingType()) {
@@ -290,17 +290,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingQuestionAuthoringFormGUI.php';
         $form = new ilAssOrderingQuestionAuthoringFormGUI();
-        $this->editForm = $form;
-        
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->outQuestionType());
-        $form->setMultipart(($this->object->getOrderingType() == OQ_PICTURES) ? true : false);
+        $form->setMultipart($this->object->isImageOrderingType());
         $form->setTableWidth("100%");
         $form->setId("ordering");
         // title, author, description, question, working time (assessment mode)
         $this->addBasicQuestionFormProperties($form);
         $this->populateQuestionSpecificFormPart($form);
-        
         $this->populateAnswerSpecificFormPart($form);
         $this->populateTaxonomyFormSection($form);
 

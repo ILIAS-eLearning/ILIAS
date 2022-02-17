@@ -189,10 +189,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             } catch (ilTestQuestionPoolException $e) {
             }
         }
-        
-        $this->orderingElementList->setQuestionId($this->getId());
-        $this->orderingElementList->loadFromDb();
-        
+    
         parent::loadFromDb($question_id);
     }
     
@@ -235,7 +232,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $clone->saveToDb();
         }
         
-        $clone->duplicateOrderlingElementList();
+        //was:
+        //$clone->duplicateOrderlingElementList();
+        $list = $this->getRepository()->getOrderingList($original_id);
+        $list->distributeNewRandomIdentifiers();
+        $clone->setOrderingElementList($list);
 
         // copy question page content
         $clone->copyPageOfQuestion($this_id);
@@ -247,13 +248,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
         
         return $clone->id;
-    }
-    
-    protected function duplicateOrderlingElementList()
-    {
-        $this->getOrderingElementList()->setQuestionId($this->getId());
-        $this->getOrderingElementList()->distributeNewRandomIdentifiers();
-        $this->getOrderingElementList()->saveToDb();
     }
 
     /**
@@ -1261,7 +1255,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         );
         
         $orderingElementInput->setImageUploadCommand(self::ORDERING_ELEMENT_FORM_CMD_UPLOAD_IMG);
-        $orderingElementInput->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_UPLOAD_IMG);
+        $orderingElementInput->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
         
         $this->initOrderingElementFormFieldLabels($orderingElementInput);
         
@@ -1628,10 +1622,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($this->getOrderingType() == OQ_NESTED_PICTURES) {
             $formDataConverter->setImageRemovalCommand(self::ORDERING_ELEMENT_FORM_CMD_REMOVE_IMG);
             $formDataConverter->setImageUrlPath($this->getImagePathWeb());
-            
-            if ($this->getThumbSize() && $this->getThumbPrefix()) {
-                $formDataConverter->setThumbnailPrefix($this->getThumbPrefix());
-            }
+            $formDataConverter->setThumbnailPrefix($this->getThumbPrefix());
         }
         
         return $formDataConverter;
