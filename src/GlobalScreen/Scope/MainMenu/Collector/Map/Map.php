@@ -8,6 +8,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 
 /**
  * Class Map
@@ -29,13 +30,18 @@ class Map implements Filterable, Walkable
      * @var ArrayObject
      */
     private $filtered;
-
+    /**
+     * @var MainMenuItemFactory
+     */
+    private $factory;
+    
     /**
      * Tree constructor.
      */
-    public function __construct()
+    public function __construct(MainMenuItemFactory $factory)
     {
         $this->raw = new ArrayObject();
+        $this->factory = $factory;
     }
 
     /**
@@ -162,7 +168,7 @@ class Map implements Filterable, Walkable
     public function sort() : void
     {
         $this->applyFilters();
-        $sorter = function (isItem $item_one, isItem $item_two) : int {
+        $sorter = function (isItem &$item_one, isItem &$item_two) : int {
             /**
              * @var $parent isParent
              */
@@ -179,37 +185,29 @@ class Map implements Filterable, Walkable
             } else {
                 $position_item_two = $item_two->getPosition();
             }
-
-            return $position_item_one <=> $position_item_two;
+            return $position_item_one - $position_item_two;
         };
 
         $this->filtered->uasort($sorter);
-
-        $this->walk(static function (isItem &$item) use ($sorter) : isItem {
+        $replace_children_sorted = static function (isItem &$item, $key) use ($sorter) : isItem {
             if ($item instanceof isParent) {
                 $children = $item->getChildren();
                 uasort($children, $sorter);
                 $item = $item->withChildren($children);
             }
             return $item;
-        });
+        };
+        $this->walk($replace_children_sorted);
     }
-
-    /**
-     * @param IdentificationInterface $identification
-     * @return Lost
-     */
+    
     private function getLostItem(IdentificationInterface $identification) : Lost
     {
-        global $DIC;
-
-        return $DIC->globalScreen()->mainBar()->custom(Lost::class, new NullIdentification($identification))
-                   ->withAlwaysAvailable(true)
-                   ->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('mme_lost_item_reason')}"))
-                   ->withVisibilityCallable(
-                       function () use ($DIC) {
-                           return (bool) ($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
-                       }
-                   )->withTitle($DIC->language()->txt("mme_lost_item_title"));
+        return $this->factory->custom(Lost::class, new NullIdentification($identification))
+                             ->withAlwaysAvailable(true)
+                             ->withVisibilityCallable(
+                                 function () : bool {
+                                     return false;
+                                 }
+                             )->withTitle('Lost');
     }
 }
