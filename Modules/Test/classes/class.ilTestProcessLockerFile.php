@@ -89,16 +89,16 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
         parent::onAfterExecutingTestStartOperation();
     }
 
-    protected function onBeforeExecutingGenericOperation(string $operationDescriptor) : void
+    protected function onBeforeExecutingNamedOperation(string $operationDescriptor) : void
     {
         $this->requestLock($operationDescriptor);
-        parent::onBeforeExecutingGenericOperation($operationDescriptor);
+        parent::onBeforeExecutingNamedOperation($operationDescriptor);
     }
 
-    protected function onAfterExecutingGenericOperation(string $operationDescriptor) : void
+    protected function onAfterExecutingNamedOperation(string $operationDescriptor) : void
     {
         $this->releaseLock($operationDescriptor);
-        parent::onAfterExecutingGenericOperation($operationDescriptor);
+        parent::onAfterExecutingNamedOperation($operationDescriptor);
     }
 
     private function requestLock($processName)

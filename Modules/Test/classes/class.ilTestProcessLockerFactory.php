@@ -86,7 +86,7 @@ class ilTestProcessLockerFactory
         return $locker;
     }
 
-    public function getPreferablyFileSystemLockerOrNull() : ilTestProcessLocker
+    public function retrieveLockerForNamedOperation() : ilTestProcessLocker
     {
         if ($this->getLocker() instanceof ilTestProcessLockerFile) {
             return $this->getLocker();

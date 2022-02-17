@@ -76,12 +76,12 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
         $this->atom_query->run();
     }
 
-    protected function onBeforeExecutingGenericOperation(string $operationDescriptor) : void
+    protected function onBeforeExecutingNamedOperation(string $operationDescriptor) : void
     {
         throw new RuntimeException('Operation not supported');
     }
 
-    protected function onAfterExecutingGenericOperation(string $operationDescriptor) : void
+    protected function onAfterExecutingNamedOperation(string $operationDescriptor) : void
     {
         throw new RuntimeException('Operation not supported');
     }

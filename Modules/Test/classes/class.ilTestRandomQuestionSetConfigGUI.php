@@ -304,8 +304,8 @@ class ilTestRandomQuestionSetConfigGUI
     private function buildQuestionStageCmd() : void
     {
         if ($this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
-            $locker = $this->processLockerFactory->getPreferablyFileSystemLockerOrNull();
-            $locker->executeGenericOperation(__FUNCTION__, function() : void {
+            $locker = $this->processLockerFactory->retrieveLockerForNamedOperation();
+            $locker->executeNamedOperation(__FUNCTION__, function() : void {
                 $this->stagingPool->rebuild($this->sourcePoolDefinitionList);
                 $this->sourcePoolDefinitionList->saveDefinitions();
 

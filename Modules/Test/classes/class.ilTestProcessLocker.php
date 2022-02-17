@@ -77,11 +77,11 @@ abstract class ilTestProcessLocker
         $this->onAfterExecutingTestFinishOperation();
     }
 
-    final public function executeGenericOperation(string $operationDescriptor, callable $operation) : void
+    final public function executeNamedOperation(string $operationDescriptor, callable $operation) : void
     {
-        $this->onBeforeExecutingGenericOperation($operationDescriptor);
+        $this->onBeforeExecutingNamedOperation($operationDescriptor);
         $this->executeOperation($operation);
-        $this->onAfterExecutingGenericOperation($operationDescriptor);
+        $this->onAfterExecutingNamedOperation($operationDescriptor);
     }
 
     /**
@@ -98,12 +98,12 @@ abstract class ilTestProcessLocker
     {
     }
 
-    protected function onBeforeExecutingGenericOperation(string $operationDescriptor) : void
+    protected function onBeforeExecutingNamedOperation(string $operationDescriptor) : void
     {
         
     }
 
-    protected function onAfterExecutingGenericOperation(string $operationDescriptor) : void
+    protected function onAfterExecutingNamedOperation(string $operationDescriptor) : void
     {
     }
 }
