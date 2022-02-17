@@ -26,6 +26,8 @@ class ilSurveyEvaluationGUI
     public const TYPE_XLS = "excel";
     public const TYPE_SPSS = "csv";
     public const EXCEL_SUBTITLE = "DDDDDD";
+    protected \ILIAS\Survey\Access\AccessManager $access_manager;
+    protected \ILIAS\Survey\PrintView\GUIService $print;
     /**
      * @var mixed
      */
@@ -94,6 +96,17 @@ class ilSurveyEvaluationGUI
              ->internal()
              ->gui()
              ->modeUIModifier($this->object->getMode());
+        $this->print = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->print();
+        $this->access_manager = $DIC->survey()
+            ->internal()
+            ->domain()
+            ->access(
+                $this->object->getRefId(),
+                $DIC->user()->getId()
+            );
     }
     
     public function executeCommand() : string
@@ -239,7 +252,7 @@ class ilSurveyEvaluationGUI
             $this->evaluation_manager->setAnonEvaluationAccess($this->request->getRefId());
             $this->evaluation();
         } else {
-            ilUtil::sendFailure($this->lng->txt("svy_check_evaluation_wrong_key", true));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_check_evaluation_wrong_key", true));
             $this->cancelEvaluationAccess();
         }
     }
@@ -620,7 +633,7 @@ class ilSurveyEvaluationGUI
     
     public function printEvaluation() : void
     {
-        ilUtil::sendInfo($this->lng->txt('use_browser_print_function'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('use_browser_print_function'), true);
         $this->ctrl->redirect($this, 'evaluation');
     }
 
@@ -681,9 +694,7 @@ class ilSurveyEvaluationGUI
     }
 
     public function evaluation(
-        int $details = 0,
-        bool $pdf = false,
-        bool $return_pdf = false
+        int $details = 0
     ) : void {
         $ilToolbar = $this->toolbar;
         $tree = $this->tree;
@@ -699,14 +710,14 @@ class ilSurveyEvaluationGUI
         // auth
         if (!$this->hasResultsAccess()) {
             if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
-                ilUtil::sendFailure($this->lng->txt("permission_denied"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"));
                 return;
             }
                 
             switch ($this->object->getEvaluationAccess()) {
                 case ilObjSurvey::EVALUATION_ACCESS_OFF:
                     if ($this->object->getMode() != ilObjSurvey::MODE_IND_FEEDB) {
-                        ilUtil::sendFailure($this->lng->txt("permission_denied"));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"));
                         return;
                     }
                     break;
@@ -714,7 +725,7 @@ class ilSurveyEvaluationGUI
                 case ilObjSurvey::EVALUATION_ACCESS_ALL:
                 case ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS:
                     if (!$this->checkAnonymizedEvaluationAccess()) {
-                        ilUtil::sendFailure($this->lng->txt("permission_denied"));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"));
                         return;
                     }
                     break;
@@ -724,14 +735,8 @@ class ilSurveyEvaluationGUI
         $this->log->debug("check access ok");
         // setup toolbar
 
-        $appr_id = 0;
-        if (!$pdf) {
-            $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-            if ($this->object->get360Mode()) {
-                $appr_id = $this->getAppraiseeId();
-//                $this->addApprSelectionToToolbar();
-            }
-        }
+        $appr_id = $this->evaluation_manager->getCurrentAppraisee();
+        $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
         $results = array();
 
         $eval_tpl = new ilTemplate("tpl.il_svy_svy_evaluation.html", true, true, "Modules/Survey");
@@ -760,22 +765,7 @@ class ilSurveyEvaluationGUI
                 $toc_tpl->setVariable("TITLE_TOC", $this->lng->txt('cont_toc'));
             }
 
-            $finished_ids = null;
-            if ($appr_id) {
-                $finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);
-                if (!sizeof($finished_ids)) {
-                    $finished_ids = array(-1);
-                }
-            }
-            
-            // @todo
-            // filter finished ids
-            $finished_ids2 = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                'read_results',
-                'access_results',
-                $this->object->getRefId(),
-                (array) $finished_ids
-            );
+            $finished_ids = $this->evaluation_manager->getFilteredFinishedIds();
 
             // parse answer data in evaluation results
             $list = new ilNestedList();
@@ -990,7 +980,7 @@ class ilSurveyEvaluationGUI
         }
                 
         //$participants = $this->object->getSurveyParticipants($finished_ids);
-        $participants = $this->filterSurveyParticipantsByAccess($finished_ids);
+        $participants = $this->access_manager->canReadResultOfParticipants($finished_ids);
         
         foreach ($participants as $user) {
             $user_id = $user["active_id"];
@@ -1069,7 +1059,7 @@ class ilSurveyEvaluationGUI
 
         if (!$this->hasResultsAccess() &&
             $this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL) {
-            ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
             $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
         
@@ -1094,110 +1084,24 @@ class ilSurveyEvaluationGUI
                         
             $ilToolbar->addSeparator();
 
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("print");
-            $button->setOnClick("window.print(); return false;");
-            $button->setOmitPreventDoubleSubmission(true);
-            $ilToolbar->addButtonInstance($button);
-            
-            $finished_ids = null;
-            if ($appr_id) {
-                $finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);
-                if (!sizeof($finished_ids)) {
-                    $finished_ids = array(-1);
-                }
-            }
-            
-            $data = $this->parseUserSpecificResults($finished_ids);
+            $pv = $this->print->resultsDetails($this->object->getRefId());
+            $modal_elements = $pv->getModalElements(
+                $this->ctrl->getLinkTargetByClass(
+                    "ilSurveyEvaluationGUI",
+                    "printResultsPerUserSelection"
+                )
+            );
+            $ilToolbar->addComponent($modal_elements->button);
+            $ilToolbar->addComponent($modal_elements->modal);
+
+            $data = $this->evaluation_manager->getUserSpecificResults();
         }
-        
+
         $table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser');
         $table_gui->setData($data);
         $this->tpl->setContent($table_gui->getHTML() . $modal);
     }
-    
-    protected function filterSurveyParticipantsByAccess(
-        array $a_finished_ids
-    ) : array {
-        $all_participants = $this->object->getSurveyParticipants($a_finished_ids);
-        $participant_ids = [];
-        foreach ($all_participants as $participant) {
-            $participant_ids[] = $participant['usr_id'];
-        }
 
-        $filtered_participant_ids = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'read_results',
-            'access_results',
-            $this->object->getRefId(),
-            $participant_ids
-        );
-        $participants = [];
-        foreach ($all_participants as $username => $user_data) {
-            if (!$user_data['usr_id']) {
-                $participants[$username] = $user_data;
-            }
-            if (in_array($user_data['usr_id'], $filtered_participant_ids)) {
-                $participants[$username] = $user_data;
-            }
-        }
-        return $participants;
-    }
-
-    protected function parseUserSpecificResults(
-        array $a_finished_ids = null
-    ) : array {
-        $data = array();
-        
-        $participants = $this->filterSurveyParticipantsByAccess($a_finished_ids);
-        
-        foreach ($this->object->getSurveyQuestions() as $qdata) {
-            $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $a_finished_ids);
-            $q_res = $q_eval->getResults();
-
-            // see #28507 (matrix question without a row)
-            if (is_array($q_res) && !is_object($q_res[0][1])) {
-                continue;
-            }
-
-            $question = is_array($q_res)
-                ? $q_res[0][1]->getQuestion()
-                : $q_res->getQuestion();
-                
-            foreach ($participants as $user) {
-                $user_id = $user["active_id"];
-                
-                $parsed_results = $q_eval->parseUserSpecificResults($q_res, $user_id);
-                
-                if (!array_key_exists($user_id, $data)) {
-                    $wt = $this->object->getWorkingtimeForParticipant($user_id);
-                    
-                    $finished = $user["finished"]
-                        ? $user["finished_tstamp"]
-                        : false;
-                    
-                    $data[$user_id] = array(
-                            "username" => $user["sortname"],
-                            "question" => $question->getTitle(),
-                            "results" => $parsed_results,
-                            "workingtime" => $wt,
-                            "finished" => $finished,
-                            "subitems" => array()
-                        );
-                } else {
-                    $data[$user_id]["subitems"][] = array(
-                            "username" => " ",
-                            "question" => $question->getTitle(),
-                            "results" => $parsed_results,
-                            "workingtime" => null,
-                            "finished" => null
-                        );
-                }
-            }
-        }
-        
-        return $data;
-    }
-    
     public function competenceEval() : void
     {
         $lng = $this->lng;
@@ -1216,7 +1120,7 @@ class ilSurveyEvaluationGUI
         $appr_id = $this->getAppraiseeId();
 
         if ($appr_id == 0) {
-            ilUtil::sendInfo($this->lng->txt("svy_no_appraisees_found"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("svy_no_appraisees_found"));
             return;
         }
 
@@ -1341,175 +1245,6 @@ class ilSurveyEvaluationGUI
     }
 
     /**
-     * @deprecated
-     */
-    public function evaluationpdf() : void
-    {
-        $this->evaluation(0, true);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function evaluationdetailspdf() : void
-    {
-        $this->evaluation(1, true);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function downloadChart() : void
-    {
-        /*
-        $qid = (int) $_GET["qid"];
-        if (!$qid) {
-            return;
-        }
-
-        $this->renderChartOnly();*/
-    }
-
-    /**
-     * @deprecated
-     */
-    public function renderChartOnly() : void
-    {
-        global $tpl;
-
-        /*
-        $qid = (int) $_GET["qid"];
-        if (!$qid) {
-            return;
-        }
-
-        $finished_ids = null;
-        if ($this->object->get360Mode()) {
-            $appr_id = $this->getAppraiseeId();
-            $finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);
-            if (!sizeof($finished_ids)) {
-                $finished_ids = array(-1);
-            }
-        }
-
-        // parse answer data in evaluation results
-        foreach ($this->object->getSurveyQuestions() as $qdata) {
-            if ($qid == $qdata["question_id"]) {
-                $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
-                $q_res = $q_eval->getResults();
-
-                $chart = $q_eval->getChart($q_res);
-                if ($chart) {
-                    $dtmpl = new ilTemplate("tpl.il_svy_svy_results_details_single.html", true, true, "Modules/Survey/Evaluation");
-
-                    if (is_array($chart)) {
-                        // legend
-                        if (is_array($chart[1])) {
-                            foreach ($chart[1] as $legend_item) {
-                                $dtmpl->setCurrentBlock("legend_bl");
-                                $dtmpl->setVariable("LEGEND_CAPTION", $legend_item[0]);
-                                $dtmpl->setVariable("LEGEND_COLOR", $legend_item[1]);
-                                $dtmpl->parseCurrentBlock();
-                            }
-                        }
-
-                        $chart = $chart[0];
-                    }
-                    $dtmpl->setVariable("CHART", $chart);
-                }
-            }
-        }
-
-        // "print view"
-        $this->tpl->setContent($dtmpl->get());
-
-        $html = $this->tpl->printToString();
-        $this->generateAndSendPDF($html, $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid) . ".pdf");*/
-    }
-
-    /**
-     * @deprecated
-     */
-    public function generateAndSendPDF(
-        string $html,
-        string $filename = ""
-    ) : void {
-        // :TODO: fixing css dummy parameters
-        $html = preg_replace("/\?dummy\=[0-9]+/", "", $html);
-        $html = preg_replace("/\?vers\=[0-9A-Za-z\-]+/", "", $html);
-        $html = str_replace('.css$Id$', ".css", $html);
-        $html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
-        $html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
-
-        //echo $html; exit;
-
-        if ($filename == "") {
-            $filename = $this->object->getTitle() . ".pdf";
-        }
-        $pdf_factory = new ilHtmlToPdfTransformerFactory();
-        $pdf_factory->deliverPDFFromHTMLString($html, $filename, ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Survey", "Results");
-    }
-
-    /**
-     * @deprecated
-     */
-    public function callPdfGeneration(
-        string $a_url,
-        string $a_suffix,
-        string $a_filename,
-        bool $a_return = false
-    ) : string {
-        $script = ILIAS_ABSOLUTE_PATH . "/Modules/Survey/js/phantom.js";
-
-        $bin = ilUtil::isWindows()
-            ? ILIAS_ABSOLUTE_PATH . "/libs/composer/vendor/jakoch/phantomjs/bin/phantomjs.exe"
-            : ILIAS_ABSOLUTE_PATH . "/libs/composer/vendor/jakoch/phantomjs/bin/phantomjs";
-
-        $parts = parse_url(ILIAS_HTTP_PATH);
-
-        $target = ilFileUtils::ilTempnam() . "." . $a_suffix;
-        $path = $parts["path"];
-        if (empty($path)) {
-            $path = "''";
-        }
-
-        $args = array(
-            session_id(),
-            $parts["host"],
-            $parts["path"] ?: '/',
-            CLIENT_ID,
-            "\"" . ILIAS_HTTP_PATH . "/" . $a_url . "\"",
-            $target
-        );
-
-        ilSession::_writeData(session_id(), session_encode());
-
-        $output = $return = "";
-
-        exec($executable_string = $bin . " " . $script . " " . implode(" ", $args), $output, $return);
-
-        $log = ilLoggerFactory::getLogger("svy");
-        $log->debug($executable_string);
-        $log->dump($output, ilLogLevel::DEBUG);
-        $log->dump($return, ilLogLevel::DEBUG);
-        
-        $mime_type = '';
-        if (substr($a_filename, -3) == 'pdf') {
-            $mime_type = 'application/pdf';
-        } elseif (substr($a_filename, -3) == 'png') {
-            $mime_type = 'image/png';
-        }
-
-        if (!$a_return) {
-            ilFileDelivery::deliverFileLegacy($target, $a_filename, $mime_type);
-        } else {
-            ilLoggerFactory::getRootLogger()->debug("**** Return a target = " . $target);
-            return $target;
-        }
-        return "";
-    }
-
-    /**
      * Show sum score table
      */
     public function sumscore() : void
@@ -1518,11 +1253,11 @@ class ilSurveyEvaluationGUI
 
         if (!$this->hasResultsAccess() &&
             $this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL) {
-            ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
             $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
 
-        ilUtil::sendInfo($this->lng->txt("svy_max_sum_score") . ": " . $this->object->getMaxSumScore());
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("svy_max_sum_score") . ": " . $this->object->getMaxSumScore());
 
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
 
@@ -1550,7 +1285,7 @@ class ilSurveyEvaluationGUI
         ?array $a_finished_ids = null
     ) : array {
         $sum_scores = [];
-        foreach ($this->filterSurveyParticipantsByAccess($a_finished_ids) as $p) {
+        foreach ($this->access_manager->canReadResultOfParticipants($a_finished_ids) as $p) {
             $sum_scores[$p["active_id"]] = [
                 "username" => $p["sortname"],
                 "score" => 0
@@ -1569,5 +1304,44 @@ class ilSurveyEvaluationGUI
             }
         }
         return $sum_scores;
+    }
+
+    /**
+     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     */
+    public function printResultsOverviewSelection() : void
+    {
+        $view = $this->print->resultsOverview($this->object->getRefId());
+        $view->sendForm();
+    }
+
+    /**
+     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     */
+    public function printResultsDetailsSelection() : void
+    {
+        $view = $this->print->resultsDetails($this->object->getRefId());
+        $view->sendForm();
+    }
+
+    public function printResultsDetails() : void
+    {
+        $view = $this->print->resultsDetails($this->object->getRefId());
+        $view->sendPrintView();
+    }
+
+    /**
+     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     */
+    public function printResultsPerUserSelection() : void
+    {
+        $view = $this->print->resultsPerUser($this->object->getRefId());
+        $view->sendForm();
+    }
+
+    public function printResultsPerUser() : void
+    {
+        $view = $this->print->resultsPerUser($this->object->getRefId());
+        $view->sendPrintView();
     }
 }

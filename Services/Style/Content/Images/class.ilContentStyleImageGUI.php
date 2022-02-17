@@ -1,11 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-use \ILIAS\UI\Component\Input\Container\Form;
-use \Psr\Http\Message;
-use \ILIAS\Style\Content;
-use \ILIAS\Style\Content\Access;
+use ILIAS\UI\Component\Input\Container\Form;
+use Psr\Http\Message;
+use ILIAS\Style\Content;
+use ILIAS\Style\Content\Access;
 
 /**
  * Conent style images UI
@@ -14,74 +25,51 @@ use \ILIAS\Style\Content\Access;
  */
 class ilContentStyleImageGUI
 {
-    use Content\UI;
-
-    /**
-     * @var ilObjStyleSheet
-     */
-    protected $object;
-
-    /**
-     * @var Content\ImageManager
-     */
-    protected $manager;
-
-    /**
-     * @var Access\StyleAccessManager
-     */
-    protected $access_manager;
-
-    /**
-     * @var string
-     */
-    protected $current_image = null;
-
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected Content\InternalGUIService $gui;
+    protected Content\StandardGUIRequest $request;
+    protected ilObjStyleSheet $object;
+    protected Content\ImageManager $manager;
+    protected Access\StyleAccessManager $access_manager;
+    protected ?string $current_image = null;
     /**
      * @var string[]
      */
-    protected $current_images = [];
+    protected array $current_images = [];
 
-    /**
-     * ilContentStyleImageGUI constructor.
-     * @param Content\UIFactory             $ui_factory
-     * @param Access\StyleAccessManager     $access_manager
-     * @param Content\ImageManager          $manager
-     */
     public function __construct(
-        Content\UIFactory $ui_factory,
+        Content\InternalDomainService $domain_service,
+        Content\InternalGUIService $gui_service,
         Access\StyleAccessManager $access_manager,
         Content\ImageManager $manager
     ) {
-        $this->initUI($ui_factory);
-
         $this->access_manager = $access_manager;
 
+        $this->lng = $domain_service->lng();
         $this->lng->loadLanguageModule("content");
 
-        $params = $this->request->getQueryParams();
-        $body = $this->request->getParsedBody();
+        $this->request = $gui_service
+            ->standardRequest();
+        $this->gui = $gui_service;
 
-        $image = (string) ($params["file"] ?? "");
-        if ($image == "") {
-            $image = ($body["file"] ?? "");
-        }
-        if (is_string($image) && $manager->filenameExists($image)) {
-            $this->current_image = $image;
-        } elseif (is_array($image)) {
-            $this->current_images = array_filter($image, function ($i) use ($manager) {
+        $images = $this->request->getFiles();
+
+        if (count($images) == 1 && $manager->filenameExists(current($images))) {
+            $this->current_image = current($images);
+        } else {
+            $this->current_images = array_filter($images, function ($i) use ($manager) {
                 return $manager->filenameExists($i);
             });
         }
 
         $this->manager = $manager;
+        $this->tpl = $gui_service->mainTemplate();
     }
 
-    /**
-     * Execute command
-     */
     public function executeCommand() : void
     {
-        $ctrl = $this->ctrl;
+        $ctrl = $this->gui->ctrl();
 
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("listImages");
@@ -97,14 +85,11 @@ class ilContentStyleImageGUI
         }
     }
 
-    /**
-     * List images of style
-     */
     public function listImages() : void
     {
-        $tpl = $this->tpl;
-        $ilToolbar = $this->toolbar;
-        $ilCtrl = $this->ctrl;
+        $tpl = $this->gui->mainTemplate();
+        $ilToolbar = $this->gui->toolbar();
+        $ilCtrl = $this->gui->ctrl();
         $lng = $this->lng;
 
         if ($this->access_manager->checkWrite()) {
@@ -123,34 +108,25 @@ class ilContentStyleImageGUI
         $tpl->setContent($table_gui->getHTML());
     }
 
-    /**
-     * Add an image
-     */
     public function addImage() : void
     {
-        $tpl = $this->tpl;
+        $tpl = $this->gui->mainTemplate();
 
         $form = $this->getImageForm();
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Cancel Upload
-     */
     public function cancelUpload() : void
     {
-        $ilCtrl = $this->ctrl;
+        $ilCtrl = $this->gui->ctrl();
 
         $ilCtrl->redirect($this, "listImages");
     }
 
-    /**
-     * Upload image
-     */
     public function uploadImage() : void
     {
-        $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
+        $tpl = $this->gui->mainTemplate();
+        $ilCtrl = $this->gui->ctrl();
 
         $form = $this->getImageForm();
 
@@ -163,13 +139,10 @@ class ilContentStyleImageGUI
         }
     }
 
-    /**
-     * Init image form
-     */
     protected function getImageForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
+        $ilCtrl = $this->gui->ctrl();
 
         $form_gui = new ilPropertyFormGUI();
 
@@ -187,12 +160,9 @@ class ilContentStyleImageGUI
         return $form_gui;
     }
 
-    /**
-     * Delete images
-     */
-    public function deleteImage()
+    public function deleteImage() : void
     {
-        $ilCtrl = $this->ctrl;
+        $ilCtrl = $this->gui->ctrl();
 
         foreach ($this->current_images as $i) {
             $this->manager->deleteByFilename($i);
@@ -200,23 +170,14 @@ class ilContentStyleImageGUI
         $ilCtrl->redirect($this, "listImages");
     }
 
-    /**
-     *
-     * @param
-     * @return
-     */
-    protected function resizeImageForm()
+    protected function resizeImageForm() : void
     {
         $this->tpl->setContent($this->getResizeImageForm()->getHTML());
     }
 
-    /**
-     * Get resize image form.
-     * @return ilPropertyFormGUI
-     */
     public function getResizeImageForm() : ilPropertyFormGUI
     {
-        $ctrl = $this->ctrl;
+        $ctrl = $this->gui->ctrl();
         $lng = $this->lng;
 
         $form = new ilPropertyFormGUI();
@@ -233,7 +194,7 @@ class ilContentStyleImageGUI
 
         // file
         $hi = new ilHiddenInputGUI("file");
-        $hi->setValue($_GET["file"]);
+        $hi->setValue($this->current_image);
         $form->addItem($hi);
 
         $form->addCommandButton("resizeImage", $lng->txt("sty_resize"));
@@ -244,14 +205,11 @@ class ilContentStyleImageGUI
         return $form;
     }
 
-    /**
-     * Save  form
-     */
-    public function resizeImage()
+    public function resizeImage() : void
     {
-        $ctrl = $this->ctrl;
+        $ctrl = $this->gui->ctrl();
         $lng = $this->lng;
-        $main_tpl = $this->main_tpl;
+        $main_tpl = $this->gui->mainTemplate();
 
         $form = $this->getResizeImageForm();
         if ($form->checkInput()) {
@@ -264,11 +222,11 @@ class ilContentStyleImageGUI
                 (bool) $wh["const_prop"]
             );
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ctrl->redirect($this, "listImages");
         } else {
             $form->setValuesByPost();
-            $main_tpl->setContent($form->getHtml());
+            $main_tpl->setContent($form->getHTML());
         }
     }
 }

@@ -7,19 +7,9 @@
  */
 abstract class ilOrgUnitExtension extends ilObjectPlugin
 {
-
-    /**
-     * @var ilObjOrgUnitTree
-     */
-    protected $ilObjOrgUnitTree;
-    /**
-     * @var int
-     */
-    protected $parent_ref_id;
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected ilObjOrgUnitTree $ilObjOrgUnitTree;
+    protected int $parent_ref_id;
+    protected ilTree $tree;
 
 
     /**

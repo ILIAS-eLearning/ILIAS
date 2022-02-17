@@ -296,7 +296,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             '',
             0,
             9999,
-            $this->current_filter['login'],
+            (string) $this->current_filter['login'],
             '',
             null,
             false,
@@ -403,7 +403,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             }
         }
         // always sort by name first
-        $a_user_data = ilUtil::sortArray(
+        $a_user_data = ilArrayUtil::sortArray(
             $a_user_data,
             'name',
             $this->getOrderDirection()

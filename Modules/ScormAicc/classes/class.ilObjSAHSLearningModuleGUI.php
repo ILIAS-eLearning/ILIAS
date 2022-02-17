@@ -311,12 +311,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $this->form->addItem($fi);
         }
 
-        // validate file
-        $cb = new ilCheckboxInputGUI($this->lng->txt("cont_validate_file"), "validate");
-        $cb->setValue("y");
-        //$cb->setChecked(true);
-        $this->form->addItem($cb);
-
         $this->form->addCommandButton("upload", $lng->txt("import"));
         $this->form->addCommandButton("cancel", $lng->txt("cancel"));
 
@@ -476,7 +470,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             ilUploadFiles::_copyUploadFile($_POST["uploaded_file"], $file_path);
             ilFileUtils::unzip($file_path);
         }
-        ilUtil::renameExecutables($newObj->getDataDirectory());
+        ilFileUtils::renameExecutables($newObj->getDataDirectory());
 
         $title = $newObj->readObject();
         if ($title != "") {
@@ -490,7 +484,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $importer->writeData("sahs", "5.1.0", $newObj->getId());
         }
 
-        ilUtil::sendInfo($this->lng->txt($newObj->getType() . "_added"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt($newObj->getType() . "_added"), true);
         ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=" . $newObj->getRefId());
     }
 
@@ -725,27 +719,28 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public static function _goto($a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilAccess = $DIC->access();
         $ilErr = $DIC['ilErr'];
         $lng = $DIC->language();
 
         $parts = explode("_", $a_target);
 
-        if ($ilAccess->checkAccess("write", "", $parts[0])) {
+        if ($ilAccess->checkAccess("write", "", (int) $parts[0])) {
             $_GET["cmd"] = "";
             $_GET["baseClass"] = "ilSAHSEditGUI";
             $_GET["ref_id"] = $parts[0];
             $_GET["obj_id"] = $parts[1];
             exit;
         }
-        if ($ilAccess->checkAccess("visible", "", $parts[0]) || $ilAccess->checkAccess("read", "", $parts[0])) {
+        if ($ilAccess->checkAccess("visible", "", (int) $parts[0]) || $ilAccess->checkAccess("read", "", (int) $parts[0])) {
             $_GET["cmd"] = "infoScreen";
             $_GET["baseClass"] = "ilSAHSPresentationGUI";
             $_GET["ref_id"] = $parts[0];
             exit;
         } else {
             if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                ilUtil::sendInfo(sprintf(
+                $main_tpl->setOnScreenMessage('info', sprintf(
                     $lng->txt("msg_no_perm_read_item"),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($parts[0]))
                 ), true);

@@ -57,7 +57,7 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
     protected function getInput() : array
     {
         $val = $this->arrayArray($this->getPostVar());
-        $val = ilUtil::stripSlashesRecursive($val);
+        $val = ilArrayUtil::stripSlashesRecursive($val);
         return $val;
     }
 
@@ -77,8 +77,8 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
                 $tpl->setVariable("TXT_UP", $lng->txt("up"));
                 $tpl->setVariable('NAME', $this->getPostVar() . "[" . $k . "][id]");
                 $tpl->setVariable('TNAME', $this->getPostVar() . "[" . $k . "][text]");
-                $tpl->setVariable('VAL', ilUtil::prepareFormOutput($v["id"]));
-                $tpl->setVariable('TVAL', ilUtil::prepareFormOutput($v["text"]));
+                $tpl->setVariable('VAL', ilLegacyFormElementsUtil::prepareFormOutput($v["id"]));
+                $tpl->setVariable('TVAL', ilLegacyFormElementsUtil::prepareFormOutput($v["text"]));
                 $tpl->parseCurrentBlock();
             }
         }

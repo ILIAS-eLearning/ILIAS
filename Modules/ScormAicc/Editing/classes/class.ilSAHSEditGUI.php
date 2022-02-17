@@ -91,7 +91,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                 break;
 
             case "scorm2004":
-                $this->slm_gui = new ilObjSCORM2004LearningModuleGUI("", $this->refId, true, false);
+                $this->slm_gui = new ilObjSCORM2004LearningModuleGUI([], $this->refId, true, false);
                 break;
                 
         }

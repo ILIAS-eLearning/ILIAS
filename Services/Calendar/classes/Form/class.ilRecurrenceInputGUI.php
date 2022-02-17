@@ -241,17 +241,19 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $options[ilCalendarRecurrence::FREQ_YEARLY] = $this->lng->txt('cal_yearly');
         }
 
-        $tpl->setVariable('FREQUENCE', ilUtil::formSelect(
-            $this->recurrence->getFrequenceType(),
-            'frequence',
-            $options,
-            false,
-            true,
-            '',
-            '',
-            array('onchange' => 'ilHideFrequencies();', 'id' => 'il_recurrence_1')
-        ));
-
+        $tpl->setVariable('FREQUENCE',
+            ilLegacyFormElementsUtil::formSelect(
+                $this->recurrence->getFrequenceType(),
+                'frequence',
+                $options,
+                false,
+                true,
+                '',
+                '',
+                ['onchange' => 'ilHideFrequencies();', 'id' => 'il_recurrence_1']
+            )
+        );
+    
         $tpl->setVariable('TXT_EVERY', $this->lng->txt('cal_every'));
 
         // DAILY
@@ -373,7 +375,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             -1 => $this->lng->txt('cal_last')
         );
 
-        $tpl->setVariable('SELECT_BYDAY_NUM_MONTHLY', ilUtil::formSelect(
+        $tpl->setVariable('SELECT_BYDAY_NUM_MONTHLY', ilLegacyFormElementsUtil::formSelect(
             $chosen_num_day,
             'monthly_byday_num',
             $num_options,
@@ -391,7 +393,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         }
         $days_select[8] = $this->lng->txt('cal_weekday');
         $days_select[9] = $this->lng->txt('cal_day_of_month');
-        $tpl->setVariable('SEL_BYDAY_DAY_MONTHLY', ilUtil::formSelect(
+        $tpl->setVariable('SEL_BYDAY_DAY_MONTHLY', ilLegacyFormElementsUtil::formSelect(
             $chosen_day,
             'monthly_byday_day',
             $days_select,
@@ -428,7 +430,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         for ($i = 1; $i < 32; $i++) {
             $options[$i] = $i;
         }
-        $tpl->setVariable('SELECT_BYMONTHDAY', ilUtil::formSelect(
+        $tpl->setVariable('SELECT_BYMONTHDAY', ilLegacyFormElementsUtil::formSelect(
             $chosen_day,
             'monthly_bymonthday',
             $options,
@@ -461,7 +463,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         for ($i = 1; $i < 32; $i++) {
             $options[$i] = $i;
         }
-        $tpl->setVariable('SELECT_BYMONTHDAY_NUM_YEARLY', ilUtil::formSelect(
+        $tpl->setVariable('SELECT_BYMONTHDAY_NUM_YEARLY', ilLegacyFormElementsUtil::formSelect(
             $chosen_day,
             'yearly_bymonthday',
             $options,
@@ -476,7 +478,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         for ($m = 1; $m < 13; $m++) {
             $options[$m] = ilCalendarUtil::_numericMonthToString($m);
         }
-        $tpl->setVariable('SELECT_BYMONTH_YEARLY', ilUtil::formSelect(
+        $tpl->setVariable('SELECT_BYMONTH_YEARLY', ilLegacyFormElementsUtil::formSelect(
             $chosen_month,
             'yearly_bymonth_by_monthday',
             $options,
@@ -516,7 +518,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             -1 => $this->lng->txt('cal_last')
         );
 
-        $tpl->setVariable('SELECT_BYDAY_NUM_YEARLY', ilUtil::formSelect(
+        $tpl->setVariable('SELECT_BYDAY_NUM_YEARLY', ilLegacyFormElementsUtil::formSelect(
             $chosen_num_day,
             'yearly_byday_num',
             $num_options,
@@ -532,7 +534,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         for ($i = $this->user_settings->getWeekStart(); $i < 7 + $this->user_settings->getWeekStart(); $i++) {
             $days_select[$days[$i]] = ilCalendarUtil::_numericDayToString($i);
         }
-        $tpl->setVariable('SELECT_BYDAY_DAY_YEARLY', ilUtil::formSelect(
+        $tpl->setVariable('SELECT_BYDAY_DAY_YEARLY', ilLegacyFormElementsUtil::formSelect(
             $chosen_day,
             'yearly_byday',
             $days_select,
@@ -556,7 +558,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         for ($m = 1; $m < 13; $m++) {
             $options[$m] = ilCalendarUtil::_numericMonthToString($m);
         }
-        $tpl->setVariable('SELECT_BYMONTH_BYDAY', ilUtil::formSelect(
+        $tpl->setVariable('SELECT_BYMONTH_BYDAY', ilLegacyFormElementsUtil::formSelect(
             $chosen_month,
             'yearly_bymonth_byday',
             $options,

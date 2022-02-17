@@ -86,22 +86,22 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      */
     public static function _getCommands() : array
     {
-        $commands   = array();
+        $commands = array();
         $commands[] = array(
             "permission" => "read",
-            "cmd"        => "sendfile",
-            "lang_var"   => "download",
-            "default"    => true,
+            "cmd" => "sendfile",
+            "lang_var" => "download",
+            "default" => true,
         );
         $commands[] = array(
             "permission" => "write",
-            "cmd"        => "versions",
-            "lang_var"   => "versions",
+            "cmd" => "versions",
+            "lang_var" => "versions",
         );
         $commands[] = array(
             "permission" => "write",
-            "cmd"        => "edit",
-            "lang_var"   => "settings",
+            "cmd" => "edit",
+            "lang_var" => "settings",
         );
         
         return $commands;
@@ -144,8 +144,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         global $DIC;
         $ilDB = $DIC['ilDB'];
         
-        $q   = "SELECT * FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
-        $r   = $ilDB->query($q);
+        $q = "SELECT * FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
+        $r = $ilDB->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
         
         return $row;
@@ -160,8 +160,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         global $DIC;
         $ilDB = $DIC['ilDB'];
         
-        $q   = "SELECT version FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
-        $r   = $ilDB->query($q);
+        $q = "SELECT version FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
+        $r = $ilDB->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         
         $striped = ilUtil::stripSlashes($row->version);
@@ -178,8 +178,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         global $DIC;
         $ilDB = $DIC['ilDB'];
         
-        $q   = "SELECT file_size FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
-        $r   = $ilDB->query($q);
+        $q = "SELECT file_size FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
+        $r = $ilDB->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         
         $size = $row->file_size;
@@ -199,15 +199,15 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         global $DIC;
         $ilDB = $DIC['ilDB'];
         
-        $q    = "SELECT * FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
-        $r    = $ilDB->query($q);
-        $row  = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        $fss  = new ilFSStorageFile($a_id);
+        $q = "SELECT * FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
+        $r = $ilDB->query($q);
+        $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+        $fss = new ilFSStorageFile($a_id);
         $file = $fss->getAbsolutePath() . '/' . $row->file_name;
         
         if (@!is_file($file)) {
             $version_subdir = "/" . sprintf("%03d", ilObjFileAccess::_lookupVersion($a_id));
-            $file           = $fss->getAbsolutePath() . '/' . $version_subdir . '/' . $row->file_name;
+            $file = $fss->getAbsolutePath() . '/' . $version_subdir . '/' . $row->file_name;
         }
         
         if (is_file($file)) {
@@ -226,12 +226,12 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         // BEGIN WebDAV: Filename suffix is determined by file title
-        $q   = "SELECT * FROM object_data WHERE obj_id = " . $ilDB->quote($a_id, 'integer');
-        $r   = $ilDB->query($q);
+        $q = "SELECT * FROM object_data WHERE obj_id = " . $ilDB->quote($a_id, 'integer');
+        $r = $ilDB->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        
+
         return self::_getFileExtension($row->title);
         // END WebDAV: Filename suffix is determined by file title
     }
@@ -244,7 +244,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     public static function _lookupDiskUsage($a_id) : int
     {
         $fileStorage = new ilFSStorageFile($a_id);
-        $dir         = $fileStorage->getAbsolutePath();
+        $dir = $fileStorage->getAbsolutePath();
         
         return ilFileUtils::dirsize($dir);
     }
@@ -259,7 +259,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         if (self::$_inlineFileExtensionsArray
             === null
         ) {
-            $settings                         = new ilSetting('file_access');
+            $settings = new ilSetting('file_access');
             self::$_inlineFileExtensionsArray = preg_split(
                 '/ /',
                 $settings->get('inline_file_extensions'),
@@ -338,7 +338,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             // Get the extension and the filename without the extension
             $extension = ilObjFileAccess::_getFileExtension($a_file_name);
             if (strlen($extension) > 0) {
-                $extension                = '.' . $extension;
+                $extension = '.' . $extension;
                 $filenameWithoutExtension = substr($a_file_name, 0, -strlen($extension));
             }
         }
@@ -425,15 +425,18 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         $set = $DIC->database()->query("SELECT file_size, version, file_id, page_count, rid" . " FROM file_data" . " WHERE "
             . $DIC->database()->in("file_id", $a_obj_ids, "", "integer"));
         while ($row = $DIC->database()->fetchAssoc($set)) {
-            self::$preload_list_gui_data[$row["file_id"]]["size"]       = $row["file_size"];
-            self::$preload_list_gui_data[$row["file_id"]]["version"]    = $row["version"];
+            self::$preload_list_gui_data[$row["file_id"]]["size"] = $row["file_size"];
+            self::$preload_list_gui_data[$row["file_id"]]["version"] = $row["version"];
             self::$preload_list_gui_data[$row["file_id"]]["page_count"] = $row["page_count"];
-            self::$preload_list_gui_data[$row["file_id"]]["rid"]        = $row["rid"];
+            self::$preload_list_gui_data[$row["file_id"]]["rid"] = $row["rid"];
         }
         
-        $res  = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in('file_id',
-                $a_obj_ids, false,
-                'integer'));
+        $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in(
+            'file_id',
+            $a_obj_ids,
+            false,
+            'integer'
+        ));
         $rids = [];
         
         while ($row = $DIC->database()->fetchObject($res)) {
@@ -443,10 +446,10 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         
         foreach ($rids as $file_id => $rid) {
             if ($id = $DIC->resourceStorage()->manage()->find($rid)) {
-                $max                                              = $DIC->resourceStorage()->manage()->getResource($id)->getCurrentRevision();
+                $max = $DIC->resourceStorage()->manage()->getResource($id)->getCurrentRevision();
                 self::$preload_list_gui_data[$file_id]["version"] = $max->getVersionNumber();
-                self::$preload_list_gui_data[$file_id]["size"]    = $max->getInformation()->getSize();
-                self::$preload_list_gui_data[$file_id]["date"]    = $max->getInformation()->getCreationDate()->format(DATE_ATOM);
+                self::$preload_list_gui_data[$file_id]["size"] = $max->getInformation()->getSize();
+                self::$preload_list_gui_data[$file_id]["date"] = $max->getInformation()->getCreationDate()->format(DATE_ATOM);
             }
         }
     }

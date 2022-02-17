@@ -41,7 +41,7 @@ class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
         $client_ini->setVariable("db", "host", $this->config->getHost());
         $client_ini->setVariable("db", "name", $this->config->getDatabase());
         $client_ini->setVariable("db", "user", $this->config->getUser());
-        $client_ini->setVariable("db", "port", $this->config->getPort() ?? "");
+        $client_ini->setVariable("db", "port", (string) ($this->config->getPort() ?? ""));
         $pw = $this->config->getPassword();
         $client_ini->setVariable("db", "pass", $pw !== null ? $pw->toString() : "");
 

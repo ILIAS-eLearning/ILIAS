@@ -107,11 +107,11 @@ class ilObjMediaPool extends ilObject
         return self::_getPoolTree($this->getId());
     }
     
-    public function create() : void
+    public function create() : int
     {
         $ilDB = $this->db;
         
-        parent::create();
+        $id = parent::create();
 
         $ilDB->manipulate("INSERT INTO mep_data " .
             "(id, default_width, default_height, for_translation) VALUES (" .
@@ -122,6 +122,7 @@ class ilObjMediaPool extends ilObject
             ")");
 
         $this->createMepTree();
+        return $id;
     }
 
     public function createMepTree() : void
@@ -488,11 +489,8 @@ class ilObjMediaPool extends ilObject
      * @param int target ref_id
      * @param int copy id
      */
-    public function cloneObject(
-        $a_target_id,
-        $a_copy_id = 0,
-        $a_omit_tree = false
-    ) {
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    {
         /** @var ilObjMediaPool $new_obj */
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         

@@ -53,26 +53,26 @@ class ilObjLinkResource extends ilObject
     *
     * @param bool upload mode (if enabled no meta data will be created)
     */
-    public function create($a_upload = false)
+    public function create($a_upload = false) : int
     {
         $new_id = parent::create();
-        
+
         if (!$a_upload) {
             $this->createMetaData();
         }
-        
+
         return $new_id;
     }
 
     /**
     * update object
     */
-    public function update()
+    public function update() : bool
     {
         $this->updateMetaData();
-        parent::update();
+        return parent::update();
     }
-    
+
     /**
      * Overwriten Metadata update listener for ECS functionalities
      *
@@ -105,7 +105,7 @@ class ilObjLinkResource extends ilObject
                     break;
         }
     }
-    
+
 
 
     /**
@@ -114,7 +114,7 @@ class ilObjLinkResource extends ilObject
     * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -146,7 +146,7 @@ class ilObjLinkResource extends ilObject
 
         return true;
     }
-    
+
     /**
      * Clone
      *
@@ -155,22 +155,22 @@ class ilObjLinkResource extends ilObject
      * @param int copy id
      *
      */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $this->cloneMetaData($new_obj);
-        
+
         // object created now copy other settings
         include_once('Modules/WebResource/classes/class.ilLinkResourceItems.php');
         $links = new ilLinkResourceItems($this->getId());
         $links->cloneItems($new_obj->getId());
-        
+
         // append copy info weblink title
         if (ilLinkResourceItems::_isSingular($new_obj->getId())) {
             $first = ilLinkResourceItems::_getFirstLink($new_obj->getId());
             ilLinkResourceItems::updateTitle($first['link_id'], $new_obj->getTitle());
         }
-        
+
         return $new_obj;
     }
 
@@ -184,7 +184,7 @@ class ilObjLinkResource extends ilObject
         $attribs = array("obj_id" => "il_" . IL_INST_ID . "_webr_" . $this->getId());
 
         $writer->xmlStartTag('WebLinks', $attribs);
-                
+
         // LOM MetaData
         $md2xml = new ilMD2XML($this->getId(), $this->getId(), 'webr');
         $md2xml->startExport();
@@ -198,7 +198,7 @@ class ilObjLinkResource extends ilObject
                     array('type' => 'Manual')
                 );
                 break;
-            
+
             case ilContainer::SORT_TITLE:
             default:
                 $writer->xmlElement(
@@ -207,13 +207,13 @@ class ilObjLinkResource extends ilObject
                 );
                 break;
         }
-        
+
         // All links
         include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         $links = new ilLinkResourceItems($this->getId());
         $links->toXML($writer);
-        
-        
+
+
         $writer->xmlEndTag('WebLinks');
         return true;
     }

@@ -7,6 +7,7 @@ class exQuestionPoolExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity) : array
     {
         /* export schema versions code */
+        return [];
     }
     
     public function init() : void
@@ -28,6 +29,7 @@ class exQuestionPoolExporter extends ilXmlExporter
          * as a tail depency, it still is able to also provide the former qtixml,
          * that contains all questions as a single qti file.
          */
+        return '';
     }
     
     /**

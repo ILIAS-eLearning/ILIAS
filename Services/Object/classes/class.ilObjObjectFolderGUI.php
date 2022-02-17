@@ -100,7 +100,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
         }
         return true;
     }
-    
+
     /**
     * get tabs
     * @access	public

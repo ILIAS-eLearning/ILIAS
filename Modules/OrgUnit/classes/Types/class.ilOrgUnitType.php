@@ -70,10 +70,6 @@ class ilOrgUnitType
      */
     protected $user;
     /**
-     * @var ilPluginAdmin
-     */
-    protected $pluginAdmin;
-    /**
      * @var array
      */
     protected $active_plugins;

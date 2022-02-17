@@ -3,6 +3,8 @@
 
     use Psr\Http\Message\ServerRequestInterface;
     use Psr\Http\Message\ResponseInterface;
+    use GuzzleHttp\Psr7\Response;
+    use GuzzleHttp\Psr7\Request;
 
     /******************************************************************************
      *
@@ -19,17 +21,17 @@
      *****************************************************************************/
     class XapiProxyResponse
     {
-        private $dic;
-        private $xapiproxy;
+//        private $dic;
+        private XapiProxy $xapiproxy;
         //private $xapiProxyRequest;
 
-        public function __construct()
+        public function __construct(XapiProxy $xapiproxy)
         {
-            $this->dic = $GLOBALS['DIC'];
-            $this->xapiproxy = $this->dic['xapiproxy'];
+//            $this->dic = $GLOBALS['DIC'];
+            $this->xapiproxy = $xapiproxy;
         }
 
-        public function checkResponse($response, $endpoint)
+        public function checkResponse(Response $response, string $endpoint) : bool
         {
             if ($response['state'] == 'fulfilled') {
                 $status = $response['value']->getStatusCode();
@@ -49,7 +51,7 @@
             }
         }
         
-        public function handleResponse($request, $response, $fakePostBody = null) : void
+        public function handleResponse(Request $request, Response $response, ?string $fakePostBody = null) : void
         {
             // check transfer encoding bug
             if ($fakePostBody !== null) {
@@ -64,7 +66,7 @@
             $headers = $response->getHeaders();
             if (array_key_exists('Transfer-Encoding', $headers) && $headers['Transfer-Encoding'][0] == "chunked") {
                 $this->xapiproxy->log()->debug($this->msg("sniff response transfer-encoding for unallowed Content-length"));
-                $body = $response->getBody();
+                $body = (string) $response->getBody();
                 unset($headers['Transfer-Encoding']);
                 $headers['Content-Length'] = array(strlen($body));
                 $response2 = new \GuzzleHttp\Psr7\Response($status, $headers, $body);
@@ -74,7 +76,7 @@
             }
         }
 
-        public function fakeResponseBlocked($post = null) : void
+        public function fakeResponseBlocked(?string $post = null) : void
         {
             $this->xapiproxy->log()->debug($this->msg("fakeResponseFromBlockedRequest"));
             if ($post === null) {

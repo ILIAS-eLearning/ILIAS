@@ -55,7 +55,7 @@ class ilObjLearningSequence extends ilContainer
         return ilObjectFactory::getInstanceByRefId($ref_id, false);
     }
 
-    public function read()
+    public function read() : void
     {
         $this->getLSSettings();
         if ($this->getRefId()) {
@@ -113,7 +113,7 @@ class ilObjLearningSequence extends ilContainer
         );
     }
 
-    public function cloneObject($target_id, $copy_id = 0, $omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         /** @var ilObjLearningSequence $new_obj */
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
@@ -412,6 +412,7 @@ class ilObjLearningSequence extends ilContainer
     public static function _goto(int $target, string $add = "")
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
@@ -447,13 +448,10 @@ class ilObjLearningSequence extends ilContainer
                 ilObjectGUI::_gotoRepositoryNode($target, "infoScreenGoto");
             } else {
                 if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                    ilUtil::sendFailure(
-                        sprintf(
-                            $lng->txt("msg_no_perm_read_item"),
-                            ilObject::_lookupTitle(ilObject::_lookupObjId($target))
-                        ),
-                        true
-                    );
+                    $main_tpl->setOnScreenMessage('failure', sprintf(
+                        $lng->txt("msg_no_perm_read_item"),
+                        ilObject::_lookupTitle(ilObject::_lookupObjId($target))
+                    ), true);
                     ilObjectGUI::_gotoRepositoryRoot();
                 }
             }

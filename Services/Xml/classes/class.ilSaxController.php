@@ -25,7 +25,15 @@ class ilSaxController
     protected ?ilSaxSubsetParser $default_handler = null;
     protected array $element_handlers = [];
     protected array $handlers_in_use = [];
-
+    /**
+     * @var resource
+     */
+    protected $handler_in_use = null;
+    /**
+     * @var ?ilSaxSubsetParser
+     */
+    protected $current_handler;
+    
     /**
      * Set handlers
      *
@@ -74,7 +82,8 @@ class ilSaxController
      * @param	string		$a_name				element name
      * @param	array		$a_attribs			element attributes array
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array
+    $a_attribs) :void
     {
         if (isset($this->element_handlers[$a_name]) or $this->handler_in_use) {
             if (!$this->handler_in_use) {
@@ -82,12 +91,13 @@ class ilSaxController
             }
             // Forward to handler
             $this->current_handler = $this->handler_in_use;
-            return $this->current_handler->handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
+            $this->current_handler->handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
+            return;
         }
         // Call default handler
         $this->handler_in_use = false;
         $this->current_handler = $this->default_handler;
-        return $this->default_handler->handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
+        $this->default_handler->handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
     }
 
     /**
@@ -96,19 +106,21 @@ class ilSaxController
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_name				element name
     */
-    public function handlerEndTag($a_xml_parser, string $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         if (isset($this->element_handlers[$a_name])) {
             $this->handler_in_use = false;
             $this->current_handler = $this->element_handlers[$a_name];
-            return $this->element_handlers[$a_name]->handlerEndTag($a_xml_parser, $a_name);
+            $this->element_handlers[$a_name]->handlerEndTag($a_xml_parser, $a_name);
+            return;
         } elseif ($this->handler_in_use) {
             $this->current_handler = $this->handler_in_use;
-            return $this->current_handler->handlerEndTag($a_xml_parser, $a_name);
+            $this->current_handler->handlerEndTag($a_xml_parser, $a_name);
+            return;
         }
         $this->handler_in_use = false;
         $this->current_handler = $this->default_handler;
-        return $this->default_handler->handlerEndTag($a_xml_parser, $a_name);
+        $this->default_handler->handlerEndTag($a_xml_parser, $a_name);
     }
 
     /**
@@ -117,8 +129,13 @@ class ilSaxController
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_data				character data
     */
-    public function handlerCharacterData($a_xml_parser, string $a_data)
-    {
-        return $this->current_handler->handlerCharacterData($a_xml_parser, $a_data);
+    public function handlerCharacterData(
+        $a_xml_parser,
+        string $a_data
+    ) : void {
+        $this->current_handler->handlerCharacterData(
+            $a_xml_parser,
+            $a_data
+        );
     }
 }

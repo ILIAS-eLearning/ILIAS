@@ -21,7 +21,6 @@ class ilObjectListGUIFactory
             return new $full_class($a_context);
         }
 
-        // php7-todo JL: throw exception instead?
-        return new ilObjectListGUI($a_context);
+        throw new ilObjectException("ilObjectListGUI for type $a_type not found.");
     }
 }

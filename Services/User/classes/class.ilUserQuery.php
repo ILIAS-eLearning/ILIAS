@@ -180,7 +180,7 @@ class ilUserQuery
      * Set user folder filter
      * reference id of user folder or category (local user administration)
      */
-    public function setUserFolder(array $a_fold_id) : void
+    public function setUserFolder(?array $a_fold_id) : void
     {
         $this->user_folder = $a_fold_id;
     }
@@ -553,7 +553,7 @@ class ilUserQuery
         array $a_additional_fields = null,
         array $a_user_filter = null,
         string $a_first_letter = "",
-        string $a_authentication_filter = null
+        string $a_authentication_filter = ""
     ) {
         $query = new ilUserQuery();
         $query->setOrderField($a_order_field);

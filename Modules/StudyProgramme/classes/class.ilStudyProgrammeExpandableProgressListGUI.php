@@ -7,6 +7,8 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $setting;
     protected ilAccess $access;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
     protected int $indent = 0;
     protected bool $js_added = false;
@@ -21,6 +23,8 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->setting = $DIC['ilSetting'];
         $this->access = $DIC['ilAccess'];
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC->refinery();
     }
 
     protected function getIndent() : int
@@ -56,9 +60,9 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 
         if (trim($content)) {
             $tpl->setCurrentBlock("expand");
-            $tpl->setVariable("EXP_ALT", $this->il_lng->txt("expand"));
+            $tpl->setVariable("EXP_ALT", $this->lng->txt("expand"));
             $tpl->setVariable("EXP_IMG", $this->getExpandedImageURL());
-            $tpl->setVariable("NOT_EXP_ALT", $this->il_lng->txt("expanded"));
+            $tpl->setVariable("NOT_EXP_ALT", $this->lng->txt("expanded"));
             $tpl->setVariable("NOT_EXP_IMG", $this->getNotExpandedImageURL());
             $tpl->parseCurrentBlock();
         } else {
@@ -226,7 +230,8 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 
     protected function showMyProgress() : bool
     {
-        return $_GET["prg_progress_id"] == $this->progress->getId();
+        $prg_progress_id = $this->request_wrapper->retrieve("prg_progress_id", $this->refinery->kindlyTo()->int());
+        return  $prg_progress_id == $this->progress->getId();
     }
 
     /**

@@ -13,7 +13,6 @@ class ImplementationOfAgentFinder implements AgentFinder
     protected Data\Factory $data_factory;
     protected \ilSetupLanguage $lng;
     protected ImplementationOfInterfaceFinder $interface_finder;
-    protected \ilPluginRawReader $plugin_raw_reader;
 
     protected array $predefined_agents;
 
@@ -25,14 +24,12 @@ class ImplementationOfAgentFinder implements AgentFinder
         Data\Factory $data_factory,
         \ilSetupLanguage $lng,
         ImplementationOfInterfaceFinder $interface_finder,
-        \ilPluginRawReader $plugin_raw_reader,
         array $predefined_agents = []
     ) {
         $this->refinery = $refinery;
         $this->data_factory = $data_factory;
         $this->lng = $lng;
         $this->interface_finder = $interface_finder;
-        $this->plugin_raw_reader = $plugin_raw_reader;
         $this->predefined_agents = $predefined_agents;
     }
 
@@ -46,9 +43,10 @@ class ImplementationOfAgentFinder implements AgentFinder
         $agents = $this->getCoreAgents();
 
         // Get a list of existing plugins in the system.
-        $plugins = $this->plugin_raw_reader->getPluginNames();
+        $plugins = $this->getPluginNames();
 
-        foreach ($plugins as $plugin_name) {
+        foreach ($plugins as $plugin) {
+            $plugin_name = $plugin[3];
             $agents = $agents->withAdditionalAgent(
                 strtolower($plugin_name),
                 $this->getPluginAgent($plugin_name)
@@ -99,12 +97,6 @@ class ImplementationOfAgentFinder implements AgentFinder
      */
     public function getPluginAgent(string $name) : Agent
     {
-        if (!$this->plugin_raw_reader->hasPlugin($name)) {
-            throw new \InvalidArgumentException(
-                "Cannot find plugin with name '$name'"
-            );
-        }
-
         // TODO: This seems to be something that rather belongs to Services/Component/
         // but we put it here anyway for the moment. This seems to be something that
         // could go away when we unify Services/Modules/Plugins to one common concept.
@@ -163,5 +155,22 @@ class ImplementationOfAgentFinder implements AgentFinder
             return strtolower($match[1]);
         }
         return $class_name;
+    }
+
+    /**
+     * @return Generator <string>
+     */
+    protected function getPluginNames() : \Generator 
+    {
+        $directories =
+            new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator(__DIR__ . "/../../Customizing/global/plugins/")
+            );
+        foreach($directories as $dir) {
+            $groups = [];
+            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/Customizing/global/plugins/((Modules)|(Services))/(\\w+)/.$%", (string)$dir, $groups)) {
+                yield $groups[4];
+            }
+        }
     }
 }

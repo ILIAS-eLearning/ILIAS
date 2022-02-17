@@ -10,7 +10,7 @@ class ilLSLP extends ilObjectLP
     /**
      * @ineritdoc
      */
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes(bool $a_lp_active) : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED
@@ -20,7 +20,7 @@ class ilLSLP extends ilObjectLP
     /**
      * @ineritdoc
      */
-    public function getDefaultMode()
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
@@ -28,7 +28,7 @@ class ilLSLP extends ilObjectLP
     /**
      * @ineritdoc
      */
-    public function getValidModes()
+    public function getValidModes() : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,

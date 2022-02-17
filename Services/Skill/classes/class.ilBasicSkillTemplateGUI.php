@@ -254,7 +254,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $this->setTabs("levels");
 
         if ($this->isInUse()) {
-            ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_skill_in_use"));
         } elseif ($this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
             if ($this->tref_id == 0) {
                 $ilToolbar->addButton(

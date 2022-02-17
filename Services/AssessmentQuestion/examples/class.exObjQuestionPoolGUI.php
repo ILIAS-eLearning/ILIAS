@@ -50,19 +50,19 @@ class exObjQuestionPoolGUI
     public function showQuestions()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $parentObjectId = 0; // init with question pool object id
-        
+
         $questionDataArray = $DIC->question()->getQuestionDataArray($parentObjectId);
-        
+
         /**
          * initialise any ilTable2GUI with this data array
          * render initialised ilTable2GUI
          */
-        
+
         $tableGUI = new exQuestionsTableGUI($this, 'showQuestions', '');
         $tableGUI->setData($questionDataArray);
-        
+
         $tableHTML = $tableGUI->getHTML(); // render table
     }
     

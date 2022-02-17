@@ -45,7 +45,7 @@ class ilObjMDSettings extends ilObject
     /**
      * read style folder data
      */
-    public function read()
+    public function read() : void
     {
         parent::read();
     }

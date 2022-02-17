@@ -383,7 +383,7 @@ class ilSurveyParticipantsGUI
             $this->object->openAllAppraisees();
         }
         
-        ilUtil::sendSuccess($this->lng->txt("svy_all_user_data_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("svy_all_user_data_deleted"), true);
         $this->ctrl->redirect($this, "maintenance");
     }
     
@@ -413,7 +413,7 @@ class ilSurveyParticipantsGUI
                 $this->invitation_manager->remove($this->object->getSurveyId(), (int) substr($i, 3));
             }
 
-            ilUtil::sendSuccess($this->lng->txt("svy_selected_user_data_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("svy_selected_user_data_deleted"), true);
         }
         $this->ctrl->redirect($this, "maintenance");
     }
@@ -423,7 +423,7 @@ class ilSurveyParticipantsGUI
      */
     public function cancelDeleteSelectedUserDataObject() : void
     {
-        ilUtil::sendInfo($this->lng->txt('msg_cancel'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_cancel'), true);
         $this->ctrl->redirect($this, "maintenance");
     }
     
@@ -436,11 +436,11 @@ class ilSurveyParticipantsGUI
 
         $user_ids = $this->edit_request->getUserIds();
         if (count($user_ids) == 0) {
-            ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, "maintenance");
         }
 
-        ilUtil::sendQuestion($this->lng->txt("confirm_delete_single_user_data"));
+        $this->tpl->setOnScreenMessage('question', $this->lng->txt("confirm_delete_single_user_data"));
         $table_gui = new ilSurveyMaintenanceTableGUI($this, 'maintenance', true);
         $total = $this->object->getSurveyParticipants(null, false, true);
         $data = array();
@@ -471,7 +471,7 @@ class ilSurveyParticipantsGUI
             $ilUser = $this->user;
             $ilUser->writePref("survey_code_language", $this->edit_request->getLang());
         }
-        ilUtil::sendSuccess($this->lng->txt('language_changed'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('language_changed'), true);
         $this->ctrl->redirect($this, 'codes');
     }
     
@@ -487,7 +487,7 @@ class ilSurveyParticipantsGUI
         $this->setParticipantSubTabs("codes");
         
         if ($this->object->isAccessibleWithoutCode()) {
-            ilUtil::sendInfo($this->lng->txt("survey_codes_no_anonymization"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("survey_codes_no_anonymization"));
             return;
         }
 
@@ -553,7 +553,7 @@ class ilSurveyParticipantsGUI
     {
         $ids = $this->edit_request->getCodeIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'codes');
         }
     
@@ -590,12 +590,12 @@ class ilSurveyParticipantsGUI
             }
         }
         if (empty($errors)) {
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         } else {
             foreach ($errors as $error) {
                 $error_message .= sprintf($this->lng->txt("error_save_code"), $error[0], $error[1], $error[2]);
             }
-            ilUtil::sendFailure($error_message, true);
+            $this->tpl->setOnScreenMessage('failure', $error_message, true);
         }
 
         $this->ctrl->redirect($this, 'codes');
@@ -630,7 +630,7 @@ class ilSurveyParticipantsGUI
 
             $this->tpl->setContent($cgui->getHTML());
         } else {
-            ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'codes');
         }
     }
@@ -645,9 +645,9 @@ class ilSurveyParticipantsGUI
             foreach ($codes as $survey_code) {
                 $this->object->deleteSurveyCode($survey_code);
             }
-            ilUtil::sendSuccess($this->lng->txt('codes_deleted'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('codes_deleted'), true);
         } else {
-            ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
         }
         $this->ctrl->redirect($this, 'codes');
     }
@@ -662,7 +662,7 @@ class ilSurveyParticipantsGUI
             $export = $this->object->getSurveyCodesForExport(null, $codes);
             ilUtil::deliverData($export, ilFileUtils::getASCIIFilename($this->object->getTitle() . ".csv"));
         } else {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'codes');
         }
     }
@@ -738,7 +738,7 @@ class ilSurveyParticipantsGUI
                             }
                             $created = $created->get(IL_CAL_UNIX);
                         } catch (Exception $e) {
-                            ilUtil::sendFailure($e->getMessage(), true);
+                            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
                             $this->ctrl->redirect($this, 'codes');
                         }
 
@@ -752,7 +752,7 @@ class ilSurveyParticipantsGUI
                 }
             }
             
-            ilUtil::sendSuccess($this->lng->txt('codes_created'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('codes_created'), true);
         }
         
         $this->ctrl->redirect($this, 'codes');
@@ -765,11 +765,11 @@ class ilSurveyParticipantsGUI
     {
         if ($this->edit_request->getNrOfCodes() > 0) {
             $ids = $this->code_manager->addCodes($this->edit_request->getNrOfCodes());
-            ilUtil::sendSuccess($this->lng->txt('codes_created'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('codes_created'), true);
             $this->ctrl->setParameter($this, "new_ids", implode(";", $ids));
             $this->ctrl->redirect($this, 'editCodes');
         } else {
-            ilUtil::sendFailure($this->lng->txt("enter_valid_number_of_codes"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("enter_valid_number_of_codes"), true);
             $this->ctrl->redirect($this, 'codes');
         }
     }
@@ -786,9 +786,9 @@ class ilSurveyParticipantsGUI
                 $ilUser = $this->user;
                 $settings = $this->object->getUserSettings($ilUser->getId(), 'savemessage');
                 $form_gui->getMailMessage()->setValue($settings[$form_gui->getSavedMessages()->getValue()]['value']);
-                ilUtil::sendSuccess($this->lng->txt('msg_message_inserted'));
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_message_inserted'));
             } else {
-                ilUtil::sendFailure($this->lng->txt('msg_no_message_inserted'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_message_inserted'));
             }
         } catch (Exception $e) {
             $ilLog = $this->log;
@@ -809,9 +809,9 @@ class ilSurveyParticipantsGUI
                 $this->object->deleteUserSettings($form_gui->getSavedMessages()->getValue());
                 $form_gui = new FormMailCodesGUI($this);
                 $form_gui->setValuesByPost();
-                ilUtil::sendSuccess($this->lng->txt('msg_message_deleted'));
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_message_deleted'));
             } else {
-                ilUtil::sendFailure($this->lng->txt('msg_no_message_deleted'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_message_deleted'));
             }
         } catch (Exception $e) {
             $ilLog = $this->log;
@@ -851,7 +851,7 @@ class ilSurveyParticipantsGUI
         if ($form_gui->checkInput()) {
             $url_exists = strpos($this->edit_request->getCodeMailPart("message"), '[url]') !== false;
             if (!$url_exists) {
-                ilUtil::sendFailure($this->lng->txt('please_enter_mail_url'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('please_enter_mail_url'));
                 $form_gui->setValuesByPost();
             } else {
                 if ($this->edit_request->getSaveMessage() == 1) {
@@ -871,7 +871,7 @@ class ilSurveyParticipantsGUI
                     nl2br($this->edit_request->getCodeMailPart("message")),
                     $lang
                 );
-                ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_sent'), true);
                 $this->ctrl->redirect($this, 'mailCodes');
             }
         } else {
@@ -887,7 +887,7 @@ class ilSurveyParticipantsGUI
             $fields = preg_split("/;/", array_shift($data));
             if (!in_array('email', $fields)) {
                 $this->edit_manager->setExternalText($this->edit_request->getExternalText());
-                ilUtil::sendFailure($this->lng->txt('err_external_rcp_no_email_column'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_external_rcp_no_email_column'), true);
                 $this->ctrl->redirect($this, 'importExternalMailRecipientsFromTextForm');
             }
             $existingdata = $this->object->getExternalCodeRecipients();
@@ -921,7 +921,7 @@ class ilSurveyParticipantsGUI
                     }
                 }
             }
-            ilUtil::sendSuccess($this->lng->txt('external_recipients_imported'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('external_recipients_imported'), true);
             $this->ctrl->redirect($this, 'codes');
         }
         
@@ -982,7 +982,7 @@ class ilSurveyParticipantsGUI
             }
             if (!in_array('email', $fields)) {
                 $reader->close();
-                ilUtil::sendFailure($this->lng->txt('err_external_rcp_no_email'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_external_rcp_no_email'), true);
                 $this->ctrl->redirect($this, 'codes');
             }
             $existingdata = $this->object->getExternalCodeRecipients();
@@ -1023,7 +1023,7 @@ class ilSurveyParticipantsGUI
             $reader->close();
             
             if (sizeof($founddata)) {
-                ilUtil::sendSuccess($this->lng->txt('external_recipients_imported'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('external_recipients_imported'), true);
             }
         }
         
@@ -1159,7 +1159,7 @@ class ilSurveyParticipantsGUI
                 $this->object->addAppraisee($user_id);
             }
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         $this->ctrl->redirect($this, "listAppraisees");
     }
@@ -1170,7 +1170,7 @@ class ilSurveyParticipantsGUI
 
         $appr_ids = $this->edit_request->getAppraiseeIds();
         if (count($appr_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }
         
@@ -1198,7 +1198,7 @@ class ilSurveyParticipantsGUI
         }
         
         if (!$count) {
-            ilUtil::sendFailure($this->lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }
 
@@ -1218,7 +1218,7 @@ class ilSurveyParticipantsGUI
                 }
             }
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         
         $this->ctrl->redirect($this, "listAppraisees");
@@ -1376,7 +1376,7 @@ class ilSurveyParticipantsGUI
 
             $this->object->addRater($appr_id, 0, $code_id);
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $this->ctrl->setParameter($this, "appr_id", $appr_id);
             $this->ctrl->redirect($this, "editRaters");
         }
@@ -1401,9 +1401,9 @@ class ilSurveyParticipantsGUI
                     $user_id != $ilUser->getId()) {
                     if ($appr_id != $user_id) {
                         $this->object->addRater($appr_id, $user_id);
-                        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                     } else {
-                        ilUtil::sendFailure($this->lng->txt("svy_appraisses_cannot_be_raters"), true);
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_appraisses_cannot_be_raters"), true);
                     }
                 }
             }
@@ -1421,7 +1421,7 @@ class ilSurveyParticipantsGUI
         $appr_id = $this->handleRatersAccess();
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
         if (count($rater_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "editRaters");
         }
         
@@ -1472,7 +1472,7 @@ class ilSurveyParticipantsGUI
                 }
             }
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
 
         $this->ctrl->redirect($this, "editRaters");
@@ -1578,7 +1578,7 @@ class ilSurveyParticipantsGUI
             }
         }
         if ($external_rater && count($rec) > 1) {
-            ilUtil::sendFailure($this->lng->txt("svy_only_max_one_external_rater"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_only_max_one_external_rater"), true);
             $this->ctrl->redirect($this, "editRaters");
         }
 
@@ -1616,7 +1616,7 @@ class ilSurveyParticipantsGUI
             $this->ctrl->setParameter($this, "appr_id", $appr_id);
         
             if (count($rater_ids) == 0) {
-                ilUtil::sendFailure($this->lng->txt("select_one"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
                 $this->ctrl->redirect($this, "editRaters");
             }
         
@@ -1696,7 +1696,7 @@ class ilSurveyParticipantsGUI
                 }
             }
             
-            ilUtil::sendSuccess($this->lng->txt("mail_sent"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("mail_sent"), true);
             $this->ctrl->redirect($this, "editRaters");
         }
         
@@ -1744,7 +1744,7 @@ class ilSurveyParticipantsGUI
         }
         
         $this->object->closeAppraisee($ilUser->getId());
-        ilUtil::sendSuccess($this->lng->txt("survey_360_appraisee_close_action_success"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("survey_360_appraisee_close_action_success"), true);
         $this->ctrl->redirect($this->parent_gui, "infoScreen");
     }
    
@@ -1757,7 +1757,7 @@ class ilSurveyParticipantsGUI
         $appr_ids = $this->edit_request->getAppraiseeIds();
 
         if (count($appr_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }
 
@@ -1782,7 +1782,7 @@ class ilSurveyParticipantsGUI
         $appr_ids = $this->edit_request->getAppraiseeIds();
         
         if (count($appr_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }
         
@@ -1793,7 +1793,7 @@ class ilSurveyParticipantsGUI
             }
         }
         
-        ilUtil::sendSuccess($this->lng->txt("survey_360_appraisee_close_action_success_admin"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("survey_360_appraisee_close_action_success_admin"), true);
         $this->ctrl->redirect($this, "listAppraisees");
     }
    
@@ -1830,7 +1830,7 @@ class ilSurveyParticipantsGUI
         foreach ($user_ids as $user_id) {
             $this->invitation_manager->add($this->object->getSurveyId(), $user_id);
         }
-        ilUtil::sendSuccess($lng->txt("svy_users_invited"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("svy_users_invited"), true);
         $ctrl->redirect($this, "maintenance");
     }
 }

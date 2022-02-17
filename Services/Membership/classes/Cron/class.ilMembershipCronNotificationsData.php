@@ -267,7 +267,9 @@ class ilMembershipCronNotificationsData
      */
     protected function ping() : void
     {
-        ilCronManager::ping($this->cron_id);
+        global $DIC;
+
+        $DIC->cron()->manager()->ping($this->cron_id);
     }
 
     /**

@@ -50,6 +50,7 @@ class ilForumProperties
     protected int $styleId = 0;
     private bool $exists = false;
     private ?int $lp_req_num_postings = null;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
 
     protected function __construct(int $a_obj_id = 0)
     {
@@ -58,6 +59,10 @@ class ilForumProperties
         $this->db = $DIC->database();
         $this->obj_id = $a_obj_id;
         $this->read();
+        $this->content_style_service = $DIC
+            ->contentStyle()
+            ->domain()
+            ->styleForObjId($a_obj_id);
     }
 
     private function __clone()
@@ -104,7 +109,6 @@ class ilForumProperties
                 if (is_numeric($row->lp_req_num_postings)) {
                     $this->lp_req_num_postings = (int) $row->lp_req_num_postings;
                 }
-                $this->setStyleSheetId((int) $row->stylesheet);
             }
         }
     }
@@ -128,7 +132,6 @@ class ilForumProperties
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
                     'thread_sorting' => ['integer', $this->thread_sorting],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
-                    'stylesheet' => ['integer', $this->styleId],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
                     'lp_req_num_postings' => ['integer', $this->lp_req_num_postings],
                     'interested_events' => ['integer', $this->interested_events]
@@ -161,7 +164,6 @@ class ilForumProperties
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
                     'thread_sorting' => ['integer', $this->thread_sorting],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
-                    'stylesheet' => ['integer', $this->styleId],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
                     'lp_req_num_postings' => ['integer', (int) $this->lp_req_num_postings],
                     'interested_events' => ['integer', $this->interested_events]
@@ -176,13 +178,7 @@ class ilForumProperties
     public function copy(int $a_new_obj_id) : bool
     {
         if ($a_new_obj_id) {
-            $copy_style_id = 0;
-            if ($this->styleId > 0 && !ilObjStyleSheet::_lookupStandard($this->styleId)) {
-                $style = ilObjectFactory::getInstanceByObjId($this->styleId, false);
-                if ($style) {
-                    $copy_style_id = $style->ilClone();
-                }
-            }
+            $this->content_style_service->cloneTo($a_new_obj_id);
 
             $this->db->update(
                 'frm_settings',
@@ -200,7 +196,6 @@ class ilForumProperties
                     'thread_sorting' => ['integer', $this->thread_sorting],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
-                    'stylesheet' => ['integer', $copy_style_id],
                     'lp_req_num_postings' => ['integer', $this->lp_req_num_postings],
                     'interested_events' => ['integer', $this->interested_events]
                 ],
@@ -213,31 +208,6 @@ class ilForumProperties
         }
 
         return false;
-    }
-
-    public function getStyleSheetId() : int
-    {
-        return $this->styleId;
-    }
-
-    /**
-     * Note: A typehint cannot be be used here, because the consumer passes a string
-     * @param int $styleId
-     */
-    public function setStyleSheetId($styleId) : void
-    {
-        $this->styleId = (int) $styleId;
-    }
-
-    public function writeStyleSheetId(int $styleId) : void
-    {
-        $this->db->manipulateF(
-            'UPDATE frm_settings SET stylesheet = %s WHERE obj_id = %s',
-            ['integer', 'integer'],
-            [$styleId, $this->getObjId()]
-        );
-
-        $this->setStyleSheetId($styleId);
     }
 
     public function isIsThreadRatingEnabled() : bool

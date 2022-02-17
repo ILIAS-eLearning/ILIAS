@@ -88,7 +88,7 @@ class ilPCMapGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         // edit form
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -97,7 +97,7 @@ class ilPCMapGUI extends ilPageContentGUI
         } else {
             $this->form->setTitle($this->lng->txt("cont_update_map"));
         }
-        
+
         // location
         $loc_prop = new ilLocationInputGUI(
             $this->lng->txt("cont_location"),
@@ -105,7 +105,7 @@ class ilPCMapGUI extends ilPageContentGUI
         );
         $loc_prop->setRequired(true);
         $this->form->addItem($loc_prop);
-        
+
         // width
         $width_prop = new ilNumberInputGUI(
             $this->lng->txt("cont_width"),
@@ -116,7 +116,7 @@ class ilPCMapGUI extends ilPageContentGUI
         $width_prop->setRequired(true);
         $width_prop->setMinValue(250);
         $this->form->addItem($width_prop);
-        
+
         // height
         $height_prop = new ilNumberInputGUI(
             $this->lng->txt("cont_height"),
@@ -141,7 +141,7 @@ class ilPCMapGUI extends ilPageContentGUI
             "RightFloat" => $lng->txt("cont_right_float"));
         $align_prop->setOptions($options);
         $this->form->addItem($align_prop);
-        
+
         // caption
         $caption_prop = new ilTextAreaInputGUI(
             $this->lng->txt("cont_caption"),

@@ -1,43 +1,21 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-
-/**
-* Object XML Parser
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @extends ilSaxParser
-*/
-
-include_once './Services/Xml/classes/class.ilSaxParser.php';
-include_once('./webservice/soap/classes/class.ilObjectXMLException.php');
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilObjectXMLParser extends ilSaxParser
 {
-    public $object_data = array();
-    
+    public array $object_data = array();
+
     private $ref_id;
     private $parent_id;
 
@@ -50,9 +28,9 @@ class ilObjectXMLParser extends ilSaxParser
     * @param	string		$a_subdir			subdirectory in import directory
     * @access	public
     */
-    public function __construct($a_xml_data = '', $throwException = false)
+    public function __construct($a_xml_data = '', ?bool $throw_exception = false)
     {
-        parent::__construct('', $throwException);
+        parent::__construct('', $throw_exception);
         $this->setXMLContent($a_xml_data);
     }
 
@@ -60,7 +38,7 @@ class ilObjectXMLParser extends ilSaxParser
     {
         return $this->object_data ? $this->object_data : array();
     }
-    
+
     /**
     * parse xml file
     *
@@ -68,11 +46,11 @@ class ilObjectXMLParser extends ilSaxParser
     * @throws ilSaxParserException
     * @throws ilObjectXMLException
     */
-    public function parse($a_xml_parser, $a_fp = null)
+    public function parse($a_xml_parser, $a_fp = null) : void
     {
         parent::parse($a_xml_parser, $a_fp);
     }
-    
+
 
     /**
     * set event handlers
@@ -80,14 +58,14 @@ class ilObjectXMLParser extends ilSaxParser
     * @param	resource	reference to the xml parser
     * @access	private
     */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    
+
 
 
     /**
@@ -97,7 +75,7 @@ class ilObjectXMLParser extends ilSaxParser
     * @param	string		$a_name				element name
     * @param	array		$a_attribs			element attributes array
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
             case 'Objects':
@@ -106,7 +84,7 @@ class ilObjectXMLParser extends ilSaxParser
 
             case 'Object':
                 ++$this->curr_obj;
-                
+
                 $this->__addProperty('type', $a_attribs['type']);
                 $this->__addProperty('obj_id', is_numeric($a_attribs['obj_id'])?(int) $a_attribs["obj_id"] :  ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID));
                 $this->__addProperty('offline', $a_attribs['offline']);
@@ -126,7 +104,7 @@ class ilObjectXMLParser extends ilSaxParser
 
             case 'LastUpdate':
                 break;
-                
+
             case 'ImportId':
                 break;
 
@@ -135,11 +113,11 @@ class ilObjectXMLParser extends ilSaxParser
                 $this->ref_id = $a_attribs["ref_id"];
                 $this->parent_id = $a_attribs['parent_id'];
                 break;
-                
+
             case 'TimeTarget':
                 $this->time_target['timing_type'] = $a_attribs['type'];
                 break;
-            
+
             case 'Timing':
                 $this->time_target['timing_visibility'] = $a_attribs['visibility'];
                 if (isset($a_attribs['starting_time'])) {
@@ -148,16 +126,16 @@ class ilObjectXMLParser extends ilSaxParser
                 if (isset($a_attribs['ending_time'])) {
                     $this->time_target['ending_time'] = $a_attribs['ending_time'];
                 }
-                    
+
                 if ($a_attribs['ending_time'] < $a_attribs['starting_time']) {
                     throw new ilObjectXMLException('Starting time must be earlier than ending time.');
                 }
                 break;
-                
+
             case 'Suggestion':
                 $this->time_target['changeable'] = $a_attribs['changeable'];
-                
-                
+
+
                 if (isset($a_attribs['starting_time'])) {
                     $this->time_target['suggestion_start'] = $a_attribs['starting_time'];
                 }
@@ -165,7 +143,7 @@ class ilObjectXMLParser extends ilSaxParser
                     $this->time_target['suggestion_end'] = $a_attribs['ending_time'];
                 }
                 break;
-                
+
         }
     }
 
@@ -175,7 +153,7 @@ class ilObjectXMLParser extends ilSaxParser
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_name				element name
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
             case 'Objects':
@@ -203,7 +181,7 @@ class ilObjectXMLParser extends ilSaxParser
             case 'LastUpdate':
                 $this->__addProperty('last_update', trim($this->cdata));
                 break;
-                
+
             case 'ImportId':
                 $this->__addProperty('import_id', trim($this->cdata));
                 break;
@@ -224,7 +202,7 @@ class ilObjectXMLParser extends ilSaxParser
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_data				character data
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {
             // Replace multiple tabs with one space
@@ -235,7 +213,7 @@ class ilObjectXMLParser extends ilSaxParser
     }
 
     // PRIVATE
-    public function __addProperty($a_name, $a_value)
+    public function __addProperty($a_name, $a_value) : void
     {
         $this->object_data[$this->curr_obj][$a_name] = $a_value;
     }
@@ -243,7 +221,7 @@ class ilObjectXMLParser extends ilSaxParser
     /**
      * @throws ilObjectXMLException
      */
-    public function __addReference($a_ref_id, $a_parent_id, $a_time_target)
+    public function __addReference($a_ref_id, $a_parent_id, $a_time_target) : void
     {
         $reference['ref_id'] = $a_ref_id;
         $reference['parent_id'] = $a_parent_id;
@@ -254,7 +232,7 @@ class ilObjectXMLParser extends ilSaxParser
                 throw new ilObjectXMLException('Missing attributes: "starting_time" and "ending_time" required for attribute "changeable"');
             }
         }
-        
+
         $this->object_data[$this->curr_obj]['references'][] = $reference;
     }
 }

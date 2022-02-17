@@ -34,7 +34,7 @@ class ilStr
         }
     }
     
-    public static function strPos(string $a_haystack, string $a_needle, ?int $a_offset = null) : int
+    public static function strPos(string $a_haystack, string $a_needle, ?int $a_offset = null)
     {
         if (function_exists("mb_strpos")) {
             return mb_strpos($a_haystack, $a_needle, $a_offset, "UTF-8");
@@ -166,10 +166,79 @@ class ilStr
      */
     public static function convertUpperCamelCaseToUnderscoreCase(string $value) : string
     {
-        return strtolower(preg_replace(
-            ['#(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])#', '#(?<=(?:[a-z0-9]))([A-Z])#'],
-            ['\1_\2', '_\1'],
-            $value
-        ));
+        return strtolower(
+            preg_replace(
+                ['#(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])#', '#(?<=(?:[a-z0-9]))([A-Z])#'],
+                ['\1_\2', '_\1'],
+                $value
+            )
+        );
+    }
+    
+    /**
+     * @deprecated
+     */
+    public static function shortenTextExtended(
+        string $a_str,
+        int $a_len,
+        bool $a_dots = false,
+        bool $a_next_blank = false,
+        bool $a_keep_extension = false
+    ) {
+        if (ilStr::strLen($a_str) > $a_len) {
+            if ($a_next_blank) {
+                $len = ilStr::strPos($a_str, " ", $a_len);
+            } else {
+                $len = $a_len;
+            }
+            // BEGIN WebDAV
+            //             - Shorten names in the middle, before the filename extension
+            //             Workaround for Windows WebDAV Client:
+            //             Use the unicode ellipsis symbol for shortening instead of
+            //             three full stop characters.
+            $p = false;
+            if ($a_keep_extension) {
+                $p = strrpos($a_str, '.');    // this messes up normal shortening, see bug #6190
+            }
+            if ($p === false || $p == 0 || strlen($a_str) - $p > $a_len) {
+                $a_str = ilStr::subStr($a_str, 0, $len);
+                if ($a_dots) {
+                    $a_str .= "\xe2\x80\xa6"; // UTF-8 encoding for Unicode ellipsis character.
+                }
+            } else {
+                if ($a_dots) {
+                    $a_str = ilStr::subStr($a_str, 0, $len - (strlen($a_str) - $p + 1)) . "\xe2\x80\xa6" . substr(
+                        $a_str,
+                        $p
+                    );
+                } else {
+                    $a_str = ilStr::subStr($a_str, 0, $len - (strlen($a_str) - $p + 1)) . substr($a_str, $p);
+                }
+            }
+        }
+        
+        return $a_str;
+    }
+    
+    /**
+     * Ensure that the maximum word lenght within a text is not longer
+     * than $a_len
+     *
+     * @depends
+     */
+    public static function shortenWords(string $a_str, int $a_len = 30, bool $a_dots = true) : string
+    {
+        $str_arr = explode(" ", $a_str);
+        
+        for ($i = 0; $i < count($str_arr); $i++) {
+            if (ilStr::strLen($str_arr[$i]) > $a_len) {
+                $str_arr[$i] = ilStr::subStr($str_arr[$i], 0, $a_len);
+                if ($a_dots) {
+                    $str_arr[$i] .= "...";
+                }
+            }
+        }
+        
+        return implode(" ", $str_arr);
     }
 }

@@ -60,7 +60,7 @@ class ilChartDataSpider extends ilChartData
                 
         $max_str_len = 0;
         foreach ($a_chart->getLegLabels() as $l) {
-            $l = ilUtil::shortenText($l, 80, true);
+            $l = ilStr::shortenTextExtended($l, 80, true);
             
             $label = new stdClass();
             $label->label = $l;

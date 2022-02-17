@@ -27,7 +27,6 @@ class ilPermissionGUI extends ilPermission2GUI
         $this->toolbar = $DIC->toolbar();
         parent::__construct($a_gui_obj);
         $this->recommended_content_manager = new ilRecommendedContentManager();
-
     }
 
     /**
@@ -115,11 +114,15 @@ class ilPermissionGUI extends ilPermission2GUI
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
 
             if (!$this->isAdminRoleFolder()) {
-                $this->toolbar->addButton($this->lng->txt('rbac_add_new_local_role'),
-                    $this->ctrl->getLinkTarget($this, 'displayAddRoleForm'));
+                $this->toolbar->addButton(
+                    $this->lng->txt('rbac_add_new_local_role'),
+                    $this->ctrl->getLinkTarget($this, 'displayAddRoleForm')
+                );
             }
-            $this->toolbar->addButton($this->lng->txt('rbac_import_role'),
-                $this->ctrl->getLinkTarget($this, 'displayImportRoleForm'));
+            $this->toolbar->addButton(
+                $this->lng->txt('rbac_import_role'),
+                $this->ctrl->getLinkTarget($this, 'displayImportRoleForm')
+            );
         }
         $this->__initSubTabs("perm");
 
@@ -342,7 +345,7 @@ class ilPermissionGUI extends ilPermission2GUI
             $this->showConfirmBlockRole($blocked_info);
             return;
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'perm');
         #$this->perm();
     }
@@ -360,7 +363,7 @@ class ilPermissionGUI extends ilPermission2GUI
             $info .= ('<br />' . $this->lng->txt('role_confirm_unblock_role_info'));
         }
 
-        ilUtil::sendInfo($info);
+        $this->tpl->setOnScreenMessage('info', $info);
 
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
@@ -390,7 +393,7 @@ class ilPermissionGUI extends ilPermission2GUI
         $this->blockRoles((array) $_POST['new_block']);
         $this->unblockRoles((array) $_POST['new_unblock']);
 
-        ilUtil::sendInfo($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'));
         $this->ctrl->redirect($this, 'perm');
     }
 
@@ -487,18 +490,18 @@ class ilPermissionGUI extends ilPermission2GUI
                     $_FILES["importfile"]["name"],
                     'role'
                 );
-                ilUtil::sendSuccess($this->lng->txt('rbac_role_imported'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('rbac_role_imported'), true);
                 $this->ctrl->redirect($this, 'perm');
                 return;
             } catch (Exception $e) {
-                ilUtil::sendFailure($e->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
                 $form->setValuesByPost();
                 $this->displayImportRoleForm($form);
                 return;
             }
         }
         $form->setValuesByPost();
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->displayImportRoleForm($form);
     }
 
@@ -575,8 +578,10 @@ class ilPermissionGUI extends ilPermission2GUI
             foreach ($sorted_ids as $id) {
                 $par = $parent_role_ids[$id];
                 if ($par["obj_id"] != SYSTEM_ROLE_ID) {
-                    $option = new ilRadioOption(($par["type"] == 'role' ? $this->lng->txt('obj_role') : $this->lng->txt('obj_rolt')) . ": " . ilObjRole::_getTranslation($par["title"]),
-                        $par["obj_id"]);
+                    $option = new ilRadioOption(
+                        ($par["type"] == 'role' ? $this->lng->txt('obj_role') : $this->lng->txt('obj_rolt')) . ": " . ilObjRole::_getTranslation($par["title"]),
+                        $par["obj_id"]
+                    );
                     $option->setInfo($par["desc"]);
                     $rights->addOption($option);
                 }
@@ -661,11 +666,13 @@ class ilPermissionGUI extends ilPermission2GUI
 
             // add to desktop items
             if ($form->getInput("desktop")) {
-                $this->recommended_content_manager->addRoleRecommendation($role->getId(),
-                    $this->getCurrentObject()->getRefId());
+                $this->recommended_content_manager->addRoleRecommendation(
+                    $role->getId(),
+                    $this->getCurrentObject()->getRefId()
+                );
             }
 
-            ilUtil::sendSuccess($this->lng->txt("role_added"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("role_added"), true);
             $this->ctrl->redirect($this, 'perm');
         } else {
             $form->setValuesByPost();
@@ -741,7 +748,7 @@ class ilPermissionGUI extends ilPermission2GUI
                 $ilOrgUnitPermission->save();
             }
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::CMD_PERM_POSITIONS);
     }
 }

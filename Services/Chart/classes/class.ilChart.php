@@ -24,15 +24,15 @@ abstract class ilChart
     public const TYPE_SPIDER = 3;
 
     protected ilGlobalTemplateInterface $tpl;
-    protected string $id;
-    protected string $width;
-    protected string $height;
-    protected array $data;
+    protected string $id = "";
+    protected string $width = "";
+    protected string $height = "";
+    protected array $data = [];
     protected ?ilChartLegend $legend = null;
-    protected int $shadow;
-    protected array $colors;
-    protected bool $auto_resize;
-    protected bool $stacked;
+    protected int $shadow = 0;
+    protected array $colors = [];
+    protected bool $auto_resize = false;
+    protected bool $stacked = false;
 
     protected function __construct(string $a_id)
     {

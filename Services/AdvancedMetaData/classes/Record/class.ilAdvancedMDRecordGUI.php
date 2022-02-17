@@ -544,7 +544,7 @@ class ilAdvancedMDRecordGUI
      */
     public function saveSelection() : void
     {
-        $sel = ilUtil::stripSlashesArray($_POST["amet_use_rec"]);
+        $sel = ilArrayUtil::stripSlashesArray($_POST["amet_use_rec"]);
         ilAdvancedMDRecord::saveObjRecSelection($this->obj_id, $this->sub_type, $sel);
     }
 

@@ -22,7 +22,7 @@ class ilAuthProviderShibboleth extends ilAuthProvider implements ilAuthProviderI
     /**
      * Do apache auth
      */
-    public function doAuthentication(\ilAuthStatus $status)
+    public function doAuthentication(\ilAuthStatus $status) : bool
     {
         global $DIC; // for backwards compatibility of hook environment variables
         $ilias = $DIC['ilias'];

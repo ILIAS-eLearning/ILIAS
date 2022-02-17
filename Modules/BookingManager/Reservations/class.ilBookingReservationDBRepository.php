@@ -306,10 +306,10 @@ class ilBookingReservationDBRepository
         $f = new ilBookingReservationDBRepositoryFactory();
         $repo = $f->getRepo();
         $list = $repo->getListByDate(true, null, $filter);
-        $list = ilUtil::sortArray($list, "slot", "asc", true);
-        $list = ilUtil::stableSortArray($list, "date", "asc", true);
-        $list = ilUtil::stableSortArray($list, "object_id", "asc", true);
-        $this->preloaded_by_context_list = ilUtil::stableSortArray($list, "pool_id", "asc", true);
+        $list = ilArrayUtil::sortArray($list, "slot", "asc", true);
+        $list = ilArrayUtil::stableSortArray($list, "date", "asc", true);
+        $list = ilArrayUtil::stableSortArray($list, "object_id", "asc", true);
+        $this->preloaded_by_context_list = ilArrayUtil::stableSortArray($list, "pool_id", "asc", true);
     }
 
     /**

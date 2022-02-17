@@ -22,7 +22,7 @@ use ILIAS\Category\StandardGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilObjUserGUI, ilObjUserFolderGUI
- * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilRepositoryTrashGUI
@@ -157,9 +157,9 @@ class ilObjCategoryGUI extends ilContainerGUI
             case "ilcolumngui":
                 $this->checkPermission("read");
                 $this->prepareOutput();
-                $this->tpl->setVariable(
-                    "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                $this->content_style_gui->addCss(
+                    $this->tpl,
+                    $this->object->getRefId()
                 );
                 $this->renderObject();
                 break;
@@ -194,11 +194,19 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $cp->setType('cat');
                 $this->ctrl->forwardCommand($cp);
                 break;
-                
-            case "ilobjstylesheetgui":
-                $this->forwardToStyleSheet();
+
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->setTitleAndDescription();
+                $this->showContainerPageTabs();
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
-                
+
             case 'ilusertablegui':
                 $u_table = new ilUserTableGUI($this, "listUsers");
                 $u_table->initFilter();
@@ -290,9 +298,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 
                 $this->prepareOutput();
                 if (is_object($this->object)) {
-                    $this->tpl->setVariable(
-                        "LOCATION_CONTENT_STYLESHEET",
-                        ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                    $this->content_style_gui->addCss(
+                        $this->tpl,
+                        $this->object->getRefId()
                     );
                 }
 
@@ -528,17 +536,12 @@ class ilObjCategoryGUI extends ilContainerGUI
         $settings->save();
         
         // inherit parents content style, if not individual
-        $parent_ref_id = $tree->getParentId($a_new_object->getRefId());
-        $parent_id = ilObject::_lookupObjId($parent_ref_id);
-        $style_id = ilObjStyleSheet::lookupObjectStyle($parent_id);
-        if ($style_id > 0) {
-            if (ilObjStyleSheet::_lookupStandard($style_id)) {
-                ilObjStyleSheet::writeStyleUsage($a_new_object->getId(), $style_id);
-            }
-        }
+        $this->content_style_domain
+            ->styleForRefId($a_new_object->getRefId())
+            ->inheritFromParent();
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("cat_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cat_added"), true);
         $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
         $this->redirectToRefId($a_new_object->getRefId(), "");
     }
@@ -637,7 +640,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         if ($this->record_gui->importEditFormPostValues()) {
             $this->record_gui->writeEditForm();
                         
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "editInfo");
         }
 
@@ -939,7 +942,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $this->ctrl->getLinkTargetByClass('ilobjuserfoldergui', 'importUserForm')
             );
         } else {
-            ilUtil::sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_roles_user_can_be_assigned_to'));
         }
 
         if ($show_delete) {
@@ -988,7 +991,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             }
             $tmp_obj->delete();
         }
-        ilUtil::sendSuccess($this->lng->txt('deleted_users'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('deleted_users'));
         $this->listUsersObject();
     }
             
@@ -996,7 +999,7 @@ class ilObjCategoryGUI extends ilContainerGUI
     {
         $this->checkPermission("cat_administrate_users");
         if ($this->cat_request->getIds() == 0) {
-            ilUtil::sendFailure($this->lng->txt('no_users_selected'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_users_selected'));
             $this->listUsersObject();
             return;
         }
@@ -1027,7 +1030,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         $this->checkPermission("cat_administrate_users");
 
         if ($this->cat_request->getObjId() == 0) {
-            ilUtil::sendFailure('no_user_selected');
+            $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->listUsersObject();
             return;
         }
@@ -1058,7 +1061,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             $role_obj = ilObjectFactory::getInstanceByObjId($role['obj_id']);
             
             $disabled = false;
-            $f_result[$counter]['checkbox'] = ilUtil::formCheckbox(
+            $f_result[$counter]['checkbox'] = ilLegacyFormElementsUtil::formCheckbox(
                 in_array($role['obj_id'], $ass_roles) ? 1 : 0,
                 'role_ids[]',
                 $role['obj_id'],
@@ -1091,7 +1094,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         // check hack
         if ($this->cat_request->getObjId() == 0 or
             !in_array($this->cat_request->getObjId(), ilLocalUser::_getAllUserIds())) {
-            ilUtil::sendFailure('no_user_selected');
+            $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->listUsersObject();
             return;
         }
@@ -1099,7 +1102,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
         // check minimum one global role
         if (!$this->__checkGlobalRoles($this->cat_request->getRoleIds())) {
-            ilUtil::sendFailure($this->lng->txt('no_global_role_left'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_global_role_left'));
             $this->assignRolesObject();
             return;
         }
@@ -1114,7 +1117,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $rbacadmin->deassignUser((int) $role['obj_id'], $this->cat_request->getObjId());
             }
         }
-        ilUtil::sendSuccess($this->lng->txt('role_assignment_updated'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('role_assignment_updated'));
         $this->assignRolesObject();
     }
 
@@ -1182,6 +1185,7 @@ class ilObjCategoryGUI extends ilContainerGUI
     public static function _goto($a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $ilErr = $DIC["ilErr"];
@@ -1191,7 +1195,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);

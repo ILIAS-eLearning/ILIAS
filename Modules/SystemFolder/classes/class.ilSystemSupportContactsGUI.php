@@ -91,7 +91,9 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
         if (count($users) > 0) {
             // #17847 - we cannot use a proper GUI on the login screen
             if (!$ilUser->getId() || $ilUser->getId() == ANONYMOUS_USER_ID) {
-                return "mailto:" . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress());
+                return "mailto:" . ilLegacyFormElementsUtil::prepareFormOutput(
+                        ilSystemSupportContacts::getMailsToAddress()
+                    );
             } else {
                 return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "", "", false, false);
             }

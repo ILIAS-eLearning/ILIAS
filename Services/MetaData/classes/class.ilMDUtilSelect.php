@@ -54,9 +54,15 @@ class ilMDUtilSelect
         }
         $options = array_merge($options, $tmp_options);
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 
     /**
@@ -82,9 +88,15 @@ class ilMDUtilSelect
             $options[$item] = $lng->txt('meta_' . strtolower($item));
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta lifecycle status selector
@@ -109,9 +121,15 @@ class ilMDUtilSelect
             $options[$item] = $lng->txt('meta_' . strtolower($item));
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta lifecycle status selector
@@ -154,9 +172,15 @@ class ilMDUtilSelect
             $options[$item] = $lng->txt('meta_' . strtolower($item));
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta technical os selector
@@ -181,9 +205,15 @@ class ilMDUtilSelect
             $options[$item] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta technical browser selector
@@ -208,9 +238,15 @@ class ilMDUtilSelect
             $options[$item] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta technical format selector
@@ -247,9 +283,15 @@ class ilMDUtilSelect
         }
 
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 
     /**
@@ -281,7 +323,7 @@ class ilMDUtilSelect
         foreach ($items as $key => $item) {
             $options[$key] = $item;
         }
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta educational interactivity type
@@ -307,9 +349,15 @@ class ilMDUtilSelect
             $options[$item] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta educational learning resource type
@@ -351,9 +399,15 @@ class ilMDUtilSelect
             $options[$item] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 
     /**
@@ -378,9 +432,15 @@ class ilMDUtilSelect
             $options[$key] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta educational semantic density
@@ -406,9 +466,15 @@ class ilMDUtilSelect
             $options[$key] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta educational intended end user role
@@ -434,9 +500,15 @@ class ilMDUtilSelect
             $options[$item] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta context
@@ -461,9 +533,15 @@ class ilMDUtilSelect
             $options[$item] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 
     /**
@@ -485,7 +563,7 @@ class ilMDUtilSelect
         foreach ($items as $item) {
             $options[$item] = $item;
         }
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta educational difficulty
@@ -511,9 +589,15 @@ class ilMDUtilSelect
             $options[$key] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 
     /**
@@ -538,7 +622,7 @@ class ilMDUtilSelect
         foreach ($items as $key => $item) {
             $options[$key] = $item;
         }
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 
     /**
@@ -569,7 +653,7 @@ class ilMDUtilSelect
         foreach ($items as $key => $item) {
             $options[$key] = $item;
         }
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta rights costs
@@ -595,9 +679,15 @@ class ilMDUtilSelect
             $options[$item] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta rights copyright and other restrictions
@@ -623,9 +713,15 @@ class ilMDUtilSelect
             $options[$item] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta rights copyright and other restrictions
@@ -661,8 +757,14 @@ class ilMDUtilSelect
             $options[$item] = $item;
         }
         // BEGIN PATCH Lucene search
-        return $a_options_only ? $options : ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return $a_options_only ? $options : ilLegacyFormElementsUtil::formSelect(
+            $a_selected,
+            $a_name,
+            $options,
+            false,
+            true
+        );
         // END PATCH Lucene Search
-        return ilUtil::formSelect($a_selected, $a_name, $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 }

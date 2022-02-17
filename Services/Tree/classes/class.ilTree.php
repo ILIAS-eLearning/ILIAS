@@ -564,7 +564,7 @@ class ilTree
     ) : array {
         $filter = ' ';
         if ($a_types) {
-            $filter = 'AND ' . $this->table_obj_data . '.type IN(' . implode(',', ilUtil::quoteArray($a_types)) . ') ';
+            $filter = 'AND ' . $this->table_obj_data . '.type IN(' . implode(',', ilArrayUtil::quoteArray($a_types)) . ') ';
         }
 
         // set order_clause if sort order parameter is given
@@ -1148,7 +1148,7 @@ class ilTree
 
                 if ($row) {
                     $data["title"] = $row->title;
-                    $data["description"] = ilUtil::shortenText($row->description, ilObject::DESC_LENGTH, true);
+                    $data["description"] = ilStr::shortenTextExtended($row->description, ilObject::DESC_LENGTH, true);
                     $data["desc"] = $row->description;
                 }
 

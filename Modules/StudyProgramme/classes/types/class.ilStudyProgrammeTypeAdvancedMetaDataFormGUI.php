@@ -19,7 +19,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
     ) {
         $this->parent_gui = $parent_gui;
         $this->type_repository = $type_repository;
-        $this->tpl = $tpl;
+        $this->global_tpl = $tpl;
         $this->ctrl = $ctrl;
         $this->lng = $lng;
         $this->lng->loadLanguageModule('meta');
@@ -89,7 +89,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
                 $type->deassignAdvancedMdRecord($record_id);
             }
         } catch (ilException $e) {
-            $this->tpl->setOnScreenMessage("failure", $e->getMessage());
+            $this->global_tpl->setOnScreenMessage("failure", $e->getMessage());
             return null;
         }
         return $type;

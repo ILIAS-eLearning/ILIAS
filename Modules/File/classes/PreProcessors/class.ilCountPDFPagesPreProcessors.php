@@ -39,7 +39,7 @@ class ilCountPDFPagesPreProcessors implements PreProcessor
         ) {
             $PATH_TO_PDF = $stream->getMetadata('uri');
             $arg = "-q -dNODISPLAY -c \"($PATH_TO_PDF) (r) file runpdfbegin pdfpagecount = quit\";";
-            $return = ilUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $arg);
+            $return = ilShellUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $arg);
 
             $metadata->additionalMetaData()->put(self::PAGE_COUNT, (string) $return[0]);
         }

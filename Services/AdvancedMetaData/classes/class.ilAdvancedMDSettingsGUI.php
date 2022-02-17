@@ -328,7 +328,7 @@ class ilAdvancedMDSettingsGUI
             return;
         }
         if (!$form->checkInput()) {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'), true);
             $this->ctrl->redirect($this, "showPresentation");
         }
 
@@ -392,7 +392,7 @@ class ilAdvancedMDSettingsGUI
                         $new_sub[$field_id]['pos'] = (int) $form->getInput('position_' . $obj_type . '_' . $field_id);
                     }
                     if ($perm_def["bold"]) {
-                        $new_sub[$field_id]['bold'] = (bool) $form->getInput('bold_' . $obj_type . '_' . $field_id );
+                        $new_sub[$field_id]['bold'] = (bool) $form->getInput('bold_' . $obj_type . '_' . $field_id);
                     }
                     if ($perm_def["newline"]) {
                         $new_sub[$field_id]['newline'] = (bool) $form->getInput('newline_' . $obj_type . '_' . $field_id);
@@ -401,7 +401,7 @@ class ilAdvancedMDSettingsGUI
             }
 
             if (sizeof($new_sub)) {
-                $new_sub = ilUtil::sortArray($new_sub, "pos", "asc", true, true);
+                $new_sub = ilArrayUtil::sortArray($new_sub, "pos", "asc", true, true);
                 foreach ($new_sub as $field_id => $field) {
                     $sub->appendSubstitution($field_id, (bool) $field["bold"], (bool) $field["newline"]);
                 }
@@ -409,7 +409,7 @@ class ilAdvancedMDSettingsGUI
             $sub->update();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, "showPresentation");
     }
 
@@ -421,7 +421,7 @@ class ilAdvancedMDSettingsGUI
     {
         $record_ids = $this->getRecordIdsFromPost();
         if (!count($record_ids)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showRecords();
             return;
         }
@@ -439,7 +439,7 @@ class ilAdvancedMDSettingsGUI
             }
         }
         if ($fail) {
-            ilUtil::sendFailure($this->lng->txt('msg_no_perm_copy') . " " . implode(", ", $fail), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_copy') . " " . implode(", ", $fail), true);
             $this->ctrl->redirect($this, "showRecords");
         }
 
@@ -451,7 +451,7 @@ class ilAdvancedMDSettingsGUI
         );
         $export_files->create($xml_writer->xmlDumpMem());
 
-        ilUtil::sendSuccess($this->lng->txt('md_adv_records_exported'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('md_adv_records_exported'));
         $this->showFiles();
     }
 
@@ -489,7 +489,7 @@ class ilAdvancedMDSettingsGUI
     public function downloadFile() : void
     {
         if (!isset($_POST['file_id']) or count($_POST['file_id']) != 1) {
-            ilUtil::sendFailure($this->lng->txt('md_adv_select_one_file'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('md_adv_select_one_file'));
             $this->showFiles();
             return;
         }
@@ -508,7 +508,7 @@ class ilAdvancedMDSettingsGUI
     public function confirmDeleteFiles() : void
     {
         if (!isset($_POST['file_id'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showFiles();
             return;
         }
@@ -529,8 +529,11 @@ class ilAdvancedMDSettingsGUI
         // add items to delete
         foreach ($_POST["file_id"] as $file_id) {
             $info = $file_data[$file_id];
-            $c_gui->addItem("file_id[]", $file_id,
-                is_array($info['name']) ? implode(',', $info['name']) : 'No Records');
+            $c_gui->addItem(
+                "file_id[]",
+                $file_id,
+                is_array($info['name']) ? implode(',', $info['name']) : 'No Records'
+            );
         }
         $this->tpl->setContent($c_gui->getHTML());
     }
@@ -543,13 +546,13 @@ class ilAdvancedMDSettingsGUI
     public function deleteFiles() : void
     {
         if (!isset($_POST['file_id'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showFiles();
             return;
         }
 
         if (!$GLOBALS['DIC']->access()->checkAccess('write', '', $this->ref_id)) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $GLOBALS['DIC']->ctrl()->redirect($this, 'showFiles');
         }
 
@@ -559,7 +562,7 @@ class ilAdvancedMDSettingsGUI
         foreach ($_POST['file_id'] as $file_id) {
             $files->deleteByFileId((int) $file_id);
         }
-        ilUtil::sendSuccess($this->lng->txt('md_adv_deleted_files'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('md_adv_deleted_files'));
         $this->showFiles();
     }
 
@@ -574,7 +577,7 @@ class ilAdvancedMDSettingsGUI
 
         $record_ids = $this->getRecordIdsFromPost();
         if (!count($record_ids)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showRecords();
             return;
         }
@@ -603,7 +606,7 @@ class ilAdvancedMDSettingsGUI
     {
         $record_ids = $this->getRecordIdsFromPost();
         if (!count($record_ids)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showRecords();
             return;
         }
@@ -629,7 +632,7 @@ class ilAdvancedMDSettingsGUI
             }
         }
         if ($fail) {
-            ilUtil::sendFailure($this->lng->txt('msg_no_perm_delete') . " " . implode(", ", $fail), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_delete') . " " . implode(", ", $fail), true);
             $this->ctrl->redirect($this, "showRecords");
         }
 
@@ -637,7 +640,7 @@ class ilAdvancedMDSettingsGUI
             $record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
             $record->delete();
         }
-        ilUtil::sendSuccess($this->lng->txt('md_adv_deleted_records'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('md_adv_deleted_records'), true);
         $this->ctrl->redirect($this, "showRecords");
     }
 
@@ -724,7 +727,7 @@ class ilAdvancedMDSettingsGUI
             ilAdvancedMDRecord::saveObjRecSelection($this->obj_id, $this->sub_type, $selected_global);
         }
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, "showRecords");
     }
 
@@ -732,7 +735,7 @@ class ilAdvancedMDSettingsGUI
     {
         $field_ids = $this->getFieldIdsFromPost();
         if (!count($field_ids)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->editFields();
             return;
         }
@@ -762,7 +765,7 @@ class ilAdvancedMDSettingsGUI
 
         $field_ids = $this->getFieldIdsFromPost();
         if (!count($field_ids)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->editFields();
             return;
         }
@@ -780,7 +783,7 @@ class ilAdvancedMDSettingsGUI
             }
         }
         if ($fail) {
-            ilUtil::sendFailure($this->lng->txt('msg_no_perm_delete') . " " . implode(", ", $fail), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_delete') . " " . implode(", ", $fail), true);
             $this->ctrl->redirect($this, "editFields");
         }
 
@@ -788,7 +791,7 @@ class ilAdvancedMDSettingsGUI
             $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
             $field->delete();
         }
-        ilUtil::sendSuccess($this->lng->txt('md_adv_deleted_fields'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('md_adv_deleted_fields'), true);
         $this->ctrl->redirect($this, "editFields");
     }
 
@@ -864,12 +867,15 @@ class ilAdvancedMDSettingsGUI
 
         // #17092
         if (sizeof($filter_warn)) {
-            ilUtil::sendInfo(sprintf($this->lng->txt("md_adv_field_filter_warning"), implode(", ", $filter_warn)));
+            $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("md_adv_field_filter_warning"), implode(", ", $filter_warn)));
         }
 
         // show field table
-        $fields = ilAdvancedMDFieldDefinition::getInstancesByRecordId($this->record->getRecordId(), false,
-            $this->active_language);
+        $fields = ilAdvancedMDFieldDefinition::getInstancesByRecordId(
+            $this->record->getRecordId(),
+            false,
+            $this->active_language
+        );
 
         $table_gui = new ilAdvancedMDFieldTableGUI(
             $this,
@@ -901,7 +907,7 @@ class ilAdvancedMDSettingsGUI
         asort($positions, SORT_NUMERIC);
         $record_id = $this->getRecordIdFromQuery();
         if (!$record_id) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->editFields();
             return;
         }
@@ -936,7 +942,7 @@ class ilAdvancedMDSettingsGUI
         if ($language) {
             $this->ctrl->setParameter($this, 'mdlang', $this->request->getQueryParams()['mdlang']);
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, "editFields");
     }
 
@@ -957,7 +963,7 @@ class ilAdvancedMDSettingsGUI
 
         $form = $this->initForm('edit');
         if (!$this->form->checkInput()) {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $this->form->setValuesByPost();
             $this->editRecord($this->form);
             return;
@@ -973,7 +979,7 @@ class ilAdvancedMDSettingsGUI
             $this->form->getInput('desc')
         );
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'editRecord');
     }
 
@@ -1101,10 +1107,10 @@ class ilAdvancedMDSettingsGUI
             // Insert
             $parser->setMode(ilAdvancedMDRecordParser::MODE_INSERT);
             $parser->startParsing();
-            ilUtil::sendSuccess($this->lng->txt('md_adv_added_new_record'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('md_adv_added_new_record'), true);
             $this->ctrl->redirect($this, "showRecords");
         } catch (ilSaxParserException $exc) {
-            ilUtil::sendFailure($exc->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $exc->getMessage(), true);
             $this->ctrl->redirect($this, "importRecords");
         }
 
@@ -1122,7 +1128,7 @@ class ilAdvancedMDSettingsGUI
         $this->initRecordObject();
         $form = $this->initForm('create');
         if (!$this->form->checkInput()) {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $this->createRecord($this->form);
             return;
         }
@@ -1148,7 +1154,7 @@ class ilAdvancedMDSettingsGUI
             $this->form->getInput('title'),
             $this->form->getInput('desc')
         );
-        ilUtil::sendSuccess($this->lng->txt('md_adv_added_new_record'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('md_adv_added_new_record'), true);
         $this->ctrl->redirect($this, 'showRecords');
     }
 
@@ -1213,7 +1219,7 @@ class ilAdvancedMDSettingsGUI
                 $translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($this->record->getRecordId());
                 $translations->updateFromForm($field_id, $this->active_language, $form);
 
-                ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
                 $this->ctrl->redirect($this, 'editField');
             } else {
                 $confirm = true;
@@ -1224,7 +1230,7 @@ class ilAdvancedMDSettingsGUI
 
         // fields needs confirmation of updated settings
         if ($confirm) {
-            ilUtil::sendInfo($this->lng->txt("md_adv_confirm_definition"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("md_adv_confirm_definition"));
             $field_definition->prepareDefinitionFormConfirmation($form);
         }
 
@@ -1282,7 +1288,7 @@ class ilAdvancedMDSettingsGUI
             $translations->read();
             $translations->updateFromForm($field_definition->getFieldId(), $this->active_language, $form);
 
-            ilUtil::sendSuccess($this->lng->txt('save_settings'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('save_settings'), true);
             $this->ctrl->redirect($this, "editFields");
         }
 
@@ -1481,6 +1487,7 @@ class ilAdvancedMDSettingsGUI
                 $this->form->addCommandButton('saveRecord', $this->lng->txt('add'));
                 $this->form->addCommandButton('showRecords', $this->lng->txt('cancel'));
 
+                // no break
             case 'edit':
                 $this->form->setTitle($this->lng->txt('md_adv_edit_record'));
                 $this->form->addCommandButton('updateRecord', $this->lng->txt('save'));
@@ -1842,9 +1849,9 @@ class ilAdvancedMDSettingsGUI
                         $scope = new ilAdvancedMDRecordScope();
                         $scope->setRefId($scope_ref_id);
                         return $scope;
-                    }
-                ,
-                $scopes)
+                    },
+                    $scopes
+                )
             );
         } else {
             $this->record->enableScope(false);
@@ -2021,7 +2028,7 @@ class ilAdvancedMDSettingsGUI
     {
         $field_id = $this->getFieldIdFromQuery();
         if (!$field_id) {
-            ilUtil::sendFailure($this->lng->txt('err_select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_select_one'));
             $this->ctrl->redirect($this, 'showRecords');
         }
 
@@ -2067,7 +2074,7 @@ class ilAdvancedMDSettingsGUI
             if ($form->checkInput() &&
                 $field_definition->updateComplexOption($form, $oid)) {
                 $field_definition->update();
-                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             }
         }
 

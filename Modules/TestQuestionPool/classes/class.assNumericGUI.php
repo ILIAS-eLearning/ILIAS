@@ -110,7 +110,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
                 global $DIC;
                 $lower->setAlert($DIC->language()->txt('qpl_numeric_lower_needs_valid_lower_alert'));
                 $upper->setAlert($DIC->language()->txt('qpl_numeric_upper_needs_valid_upper_alert'));
-                ilUtil::sendFailure($DIC->language()->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt("form_input_not_valid"));
                 $errors = true;
             }
             
@@ -285,7 +285,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
                 array('value1' => $use_post_solutions['numeric_result'])
             );
         } elseif ($active_id) {
-            
+
             // hey: prevPassSolutions - obsolete due to central check
             #include_once "./Modules/Test/classes/class.ilObjTest.php";
             #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))

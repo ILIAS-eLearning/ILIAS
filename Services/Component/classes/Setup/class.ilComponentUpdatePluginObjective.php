@@ -53,7 +53,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             new \ilIniFilesLoadedObjective(),
             new \ilDatabaseInitializedObjective(),
             new \ilComponentPluginAdminInitObjective(),
-            new \ilComponentDatabaseExistsObjective(),
+            new \ilComponentRepositoryExistsObjective(),
             new \ilComponentFactoryExistsObjective()
         ];
     }
@@ -63,7 +63,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
         $info = $component_repository->getPluginByName($this->plugin_name);
 
@@ -93,7 +93,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $plugin = $component_repository->getPluginByName($this->plugin_name);
 
         return $plugin->isUpdateRequired();
@@ -157,7 +157,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function emergency(string $a_message) : void
             {
             }
-            public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
+            public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
             {
             }
             public function writeLanguageLog(string $a_topic, string $a_lang_key) : void
@@ -197,11 +197,11 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public static function getRootLogger()
+            public static function getRootLogger() : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
-            public static function getLogger($a)
+            public static function getLogger($a) : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
@@ -239,7 +239,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             }
         };
         $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
-            public $prefs = [];
+            public array $prefs = [];
 
             public function __construct()
             {

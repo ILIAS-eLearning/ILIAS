@@ -122,7 +122,7 @@ class ilDidacticTemplateGUI
         $new_tpl_id = $this->requested_template_id;
         if ($new_tpl_id == ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId())) {
             $this->logger->debug('Template id: ' . $new_tpl_id);
-            ilUtil::sendInfo($this->lng->txt('didactic_not_changed'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('didactic_not_changed'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -136,8 +136,6 @@ class ilDidacticTemplateGUI
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
 
         if ($new_tpl_id) {
-
-
             $dtpl = new ilDidacticTemplateSetting($new_tpl_id);
 
             $confirm->addItem(
@@ -179,7 +177,7 @@ class ilDidacticTemplateGUI
     {
         $new_tpl_id = $this->requested_template_id;
         ilDidacticTemplateUtils::switchTemplate($this->getParentObject()->object->getRefId(), $new_tpl_id);
-        ilUtil::sendSuccess($this->lng->txt('didactic_template_applied'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_template_applied'), true);
         $this->ctrl->returnToParent($this);
     }
 }

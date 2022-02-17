@@ -129,7 +129,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
                 break;
 
             case "ilobjscorm2004learningmodulegui":
-                $new_gui = new ilObjSCORM2004LearningModuleGUI("", $_GET["ref_id"], true, false);
+                $new_gui = new ilObjSCORM2004LearningModuleGUI([], $_GET["ref_id"], true, false);
                 $this->ctrl->forwardCommand($new_gui);
                 $this->setInfoTabs("cont_tracking_data");
                 $this->tpl->printToStdout();

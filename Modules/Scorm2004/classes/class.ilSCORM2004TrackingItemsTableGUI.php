@@ -38,25 +38,21 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     private array $userSelected = array();
     private bool $allowExportPrivacy = false;
     private string $lmTitle = "";
+    private string $report = "";
 
     /**
      * Constructor
      */
-    public function __construct($a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, $a_userSelected, $a_scosSelected, $a_report)
+    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, string $a_report)
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
+        $lng = $DIC->language();
+        $lng->loadLanguageModule("scormtrac");
+        $this->lng = $lng;
         $this->access = $DIC->access();
         $this->rbacsystem = $DIC->rbac()->system();
-    
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        $rbacsystem = $DIC->rbac()->system();
-        $lng->loadLanguageModule("scormtrac");
     
         $this->obj_id = $a_obj_id;
         $this->report = $a_report;
@@ -71,12 +67,10 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $privacy = ilPrivacySettings::getInstance();
         $this->allowExportPrivacy = $privacy->enabledExportSCORM();
 
-
         // if($a_print_view)
         // {
         // $this->setPrintMode(true);
         // }
-
 
         foreach ($this->getSelectedColumns() as $c) {
             $l = $c;
@@ -99,7 +93,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
 
         $this->setRowTemplate('tpl.scorm2004_tracking_items.html', 'Modules/Scorm2004');
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
 
         $this->setExternalSorting(true);
         //		$this->setExternalSegmentation(true);
@@ -147,7 +141,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
                 $cols = ilSCORM2004TrackingItems::tracInteractionUserAnswersColumns((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
             break;
             case "exportSelectedSuccess":
-                $cols = ilSCORM2004TrackingItems::exportSelectedSuccessColumns($this->allowExportPrivacy);
+                $cols = ilSCORM2004TrackingItems::exportSelectedSuccessColumns();
             break;
         }
         
@@ -162,11 +156,11 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         return $this->obj_id;
     }
 
-
+    /**
+     * @return void
+     */
     public function getItems() : void
     {
-        $lng = $this->lng;
-
         $this->determineOffsetAndOrder(true);
         $this->determineLimit();
         
@@ -199,15 +193,24 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
         // $this->setMaxCount($tr_data["cnt"]);
         if (ilUtil::stripSlashes($this->getOrderField()) != "") {
-            $tr_data = ilUtil::stableSortArray($tr_data, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()));
+            $tr_data = ilArrayUtil::stableSortArray(
+                $tr_data,
+                ilUtil::stripSlashes($this->getOrderField()),
+                ilUtil::stripSlashes($this->getOrderDirection())
+            );
         }
         
         $this->setData($tr_data);
     }
-    protected function parseValue($id, $value, $type)
+
+    /**
+     * @param string                $id
+     * @param string|float|int|null $value
+     * @param string                $type
+     * @return float|int|string|null
+     */
+    protected function parseValue(string $id, $value, string $type)
     {
-        $lng = $this->lng;
-        $lng->loadLanguageModule("trac");
         switch ($id) {
             case "status":
                 $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
@@ -224,13 +227,14 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
         return $value;
     }
+
     /**
-    * Fill table row
-    */
+     * Fill table row
+     * @param array $a_set
+     * @throws ilTemplateException
+     */
     protected function fillRow(array $a_set) : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
         foreach ($this->getSelectedColumns() as $c) {
             $this->tpl->setCurrentBlock("user_field");
             $val = $this->parseValue($c, $a_set[$c], "scormtrac");
@@ -239,6 +243,11 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
+    /**
+     * @param ilExcel $a_excel
+     * @param int     $a_row
+     * @return void
+     */
     protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $labels = $this->getSelectableColumns();
@@ -249,10 +258,16 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
+    /**
+     * @param ilExcel $a_excel
+     * @param int     $a_row
+     * @param array   $a_set
+     * @return void
+     */
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
-        $lng = $this->lng;
-        $lng->loadLanguageModule("trac");
+//        $lng = $this->lng;
+//        $lng->loadLanguageModule("trac");
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
             if ($c != 'status') {
@@ -265,6 +280,10 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
+    /**
+     * @param ilCSVWriter $a_csv
+     * @return void
+     */
     protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         $labels = $this->getSelectableColumns();
@@ -275,10 +294,15 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
+    /**
+     * @param ilCSVWriter $a_csv
+     * @param array       $a_set
+     * @return void
+     */
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
-        $lng = $this->lng;
-        $lng->loadLanguageModule("trac");
+//        $lng = $this->lng;
+//        $lng->loadLanguageModule("trac");
         foreach ($this->getSelectedColumns() as $c) {
             if ($c != 'status') {
                 $val = $this->parseValue($c, $a_set[$c], "user");

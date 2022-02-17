@@ -272,7 +272,7 @@ class ilUserCertificateGUI
 
             $uiComponents[] = $deck;
         } else {
-            ilUtil::sendInfo($this->language->txt('cert_currently_no_certs'));
+            $this->template->setOnScreenMessage('info', $this->language->txt('cert_currently_no_certs'));
         }
 
         $this->template->setContent($this->uiRenderer->render($uiComponents));
@@ -328,7 +328,7 @@ class ilUserCertificateGUI
             }
         } catch (ilException $exception) {
             $this->certificateLogger->warning($exception->getMessage());
-            ilUtil::sendFailure($language->txt('cert_error_no_access'));
+            $this->template->setOnScreenMessage('failure', $language->txt('cert_error_no_access'));
             $this->listCertificates();
             return;
         }

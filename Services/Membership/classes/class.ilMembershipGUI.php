@@ -67,7 +67,9 @@ class ilMembershipGUI
         if ($this->http->wrapper()->post()->has('participants')) {
             return $this->http->wrapper()->post()->retrieve(
                 'participants',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         return [];
@@ -89,7 +91,9 @@ class ilMembershipGUI
         if ($this->http->wrapper()->post()->has('subscribers')) {
             return $this->http->wrapper()->post()->retrieve(
                 'subscribers',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         return [];
@@ -100,11 +104,12 @@ class ilMembershipGUI
         if ($this->http->wrapper()->post()->has('waiting')) {
             return $this->http->wrapper()->post()->retrieve(
                 'waiting',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         return [];
-
     }
 
     protected function getLanguage() : ilLanguage
@@ -175,7 +180,7 @@ class ilMembershipGUI
     protected function checkPermission(string $a_permission, string $a_cmd = "") : void
     {
         if (!$this->checkPermissionBool($a_permission, $a_cmd)) {
-            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $this->ctrl->redirect($this->getParentGUI());
         }
     }
@@ -186,7 +191,7 @@ class ilMembershipGUI
     protected function checkRbacOrPermissionAccess(string $a_rbac_perm, string $a_pos_perm) : void
     {
         if (!$this->checkRbacOrPositionAccessBool($a_rbac_perm, $a_pos_perm)) {
-            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $this->ctrl->redirect($this->getParentGUI());
         }
     }
@@ -255,9 +260,9 @@ class ilMembershipGUI
 
                 $mail = new ilMail($this->user->getId());
                 if (!(
-                        $this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
+                    $this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
                         $this->access->checkAccess('manage_members', "", $this->getParentObject()->getRefId())
-                    ) ||
+                ) ||
                     !$this->rbacsystem->checkAccess(
                         'internal_mail',
                         $mail->getMailObjectReferenceId()
@@ -283,8 +288,10 @@ class ilMembershipGUI
                     $this->getParentObject()->getType() . '_members_gallery'
                 );
                 $is_admin = $this->checkRbacOrPositionAccessBool('manage_members', 'manage_members');
-                $is_participant = ilParticipants::_isParticipant($this->getParentObject()->getRefId(),
-                    $this->user->getId());
+                $is_participant = ilParticipants::_isParticipant(
+                    $this->getParentObject()->getRefId(),
+                    $this->user->getId()
+                );
                 if (
                     !$is_admin &&
                     (
@@ -444,7 +451,7 @@ class ilMembershipGUI
         $participants = array_intersect((array) $post_participants, (array) $real_participants);
 
         if (!count($participants)) {
-            ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
         }
         $table = $this->initEditParticipantTableGUI($participants);
@@ -459,32 +466,40 @@ class ilMembershipGUI
     {
         $participants = $this->initParticipantsFromPost();
         if (!count($participants)) {
-            ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
         }
         $notifications = $passed = $blocked = $contact = [];
         if ($this->http->wrapper()->post()->has('notification')) {
             $notifications = $this->http->wrapper()->post()->retrieve(
                 'notification',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         if ($this->http->wrapper()->post()->has('passed')) {
             $passed = $this->http->wrapper()->post()->retrieve(
                 'passed',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         if ($this->http->wrapper()->post()->has('blocked')) {
             $blocked = $this->http->wrapper()->post()->retrieve(
                 'blocked',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
         if ($this->http->wrapper()->post()->has('contact')) {
             $contact = $this->http->wrapper()->post()->retrieve(
                 'contact',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
             );
         }
 
@@ -519,13 +534,13 @@ class ilMembershipGUI
             // Validate the role ids in the post data
             foreach ((array) $_POST['roles'][$usr_id] as $role_id) {
                 if (!array_key_exists($role_id, $assignableLocalRoles)) {
-                    ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_perm'), true);
                     $this->ctrl->redirect($this, 'participants');
                 }
                 if (!$hasEditPermissionAccess &&
                     $role_id == $adminRoleId &&
                     !$memberIsAdmin) {
-                    ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_perm'));
                     $this->ctrl->redirect($this, 'participants');
                 }
             }
@@ -553,7 +568,7 @@ class ilMembershipGUI
         }
 
         if (!$has_admin) {
-            ilUtil::sendFailure($this->lng->txt($this->getParentObject()->getType() . '_min_one_admin'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt($this->getParentObject()->getType() . '_min_one_admin'), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
@@ -562,14 +577,18 @@ class ilMembershipGUI
 
             // Disable notification for all of them
             $this->getMembersObject()->updateNotification($usr_id, false);
-            if (($this->getMembersObject()->isTutor($usr_id) or $this->getMembersObject()->isAdmin($usr_id)) and in_array($usr_id,
-                    $notifications)) {
+            if (($this->getMembersObject()->isTutor($usr_id) or $this->getMembersObject()->isAdmin($usr_id)) and in_array(
+                $usr_id,
+                $notifications
+            )) {
                 $this->getMembersObject()->updateNotification($usr_id, true);
             }
 
             $this->getMembersObject()->updateBlocked($usr_id, false);
-            if ((!$this->getMembersObject()->isAdmin($usr_id) and !$this->getMembersObject()->isTutor($usr_id)) and in_array($usr_id,
-                    $blocked)) {
+            if ((!$this->getMembersObject()->isAdmin($usr_id) and !$this->getMembersObject()->isTutor($usr_id)) and in_array(
+                $usr_id,
+                $blocked
+            )) {
                 $this->getMembersObject()->updateBlocked($usr_id, true);
             }
 
@@ -592,7 +611,7 @@ class ilMembershipGUI
 
             $this->updateLPFromStatus($usr_id, in_array($usr_id, $passed));
         }
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "participants");
     }
 
@@ -604,20 +623,20 @@ class ilMembershipGUI
         $participants = $this->initParticipantsFromPost();
 
         if (!count($participants)) {
-            ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
         // Check last admin
         if (!$this->getMembersObject()->checkLastAdmin($participants)) {
-            ilUtil::sendFailure($this->lng->txt($this->getParentObject()->getType() . '_at_least_one_admin'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt($this->getParentObject()->getType() . '_at_least_one_admin'), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
         // if only position access is granted, show additional info
         if (!$this->checkPermissionBool('manage_members')) {
             $this->lng->loadLanguageModule('rbac');
-            ilUtil::sendInfo($this->lng->txt('rbac_info_only_position_access'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('rbac_info_only_position_access'));
         }
 
         // Access check for admin deletion
@@ -631,7 +650,7 @@ class ilMembershipGUI
         ) {
             foreach ($participants as $usr_id) {
                 if ($this->getMembersObject()->isAdmin($usr_id)) {
-                    ilUtil::sendFailure($this->lng->txt("msg_no_perm_perm"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_perm"), true);
                     $this->ctrl->redirect($this, 'participants');
                 }
             }
@@ -668,7 +687,7 @@ class ilMembershipGUI
     {
         $participants = $this->initParticipantsFromPost();
         if (!count($participants)) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
@@ -680,14 +699,14 @@ class ilMembershipGUI
         ) {
             foreach ($participants as $part) {
                 if ($this->getMembersObject()->isAdmin($part)) {
-                    ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_perm'), true);
                     $this->ctrl->redirect($this, 'participants');
                 }
             }
         }
 
         if (!$this->getMembersObject()->deleteParticipants($participants)) {
-            ilUtil::sendFailure('Error deleting participants.', true);
+            $this->tpl->setOnScreenMessage('failure', 'Error deleting participants.', true);
             $this->ctrl->redirect($this, 'participants');
         } else {
             foreach ($participants as $usr_id) {
@@ -707,7 +726,7 @@ class ilMembershipGUI
                 $this->getMembersObject()->sendNotification($mail_type, $usr_id);
             }
         }
-        ilUtil::sendSuccess($this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
         $this->ctrl->redirect($this, "participants");
     }
 
@@ -724,7 +743,7 @@ class ilMembershipGUI
             $participants = $this->initWaitingListIdsFromPost();
         }
         if (!count($participants)) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
@@ -960,8 +979,11 @@ class ilMembershipGUI
      */
     protected function setSubTabs(ilTabsGUI $tabs) : void
     {
-        if ($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members',
-            $this->getParentObject()->getRefId())) {
+        if ($this->checkRbacOrPositionAccessBool(
+            'manage_members',
+            'manage_members',
+            $this->getParentObject()->getRefId()
+        )) {
             $tabs->addSubTabTarget(
                 $this->getParentObject()->getType() . "_member_administration",
                 $this->ctrl->getLinkTarget($this, 'participants'),
@@ -979,8 +1001,11 @@ class ilMembershipGUI
                 );
             }
 
-            $children = $this->tree->getSubTree($this->tree->getNodeData($this->getParentObject()->getRefId()), false,
-                ['sess']);
+            $children = $this->tree->getSubTree(
+                $this->tree->getNodeData($this->getParentObject()->getRefId()),
+                false,
+                ['sess']
+            );
             if (count($children)) {
                 $tabs->addSubTabTarget(
                     'events',
@@ -1075,7 +1100,7 @@ class ilMembershipGUI
     {
         $subscribers = $this->initSubscribersFromPost();
         if (!count($subscribers)) {
-            ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_subscribers_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
@@ -1107,7 +1132,7 @@ class ilMembershipGUI
     {
         $subscribers = $this->initSubscribersFromPost();
         if (!count($subscribers)) {
-            ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_subscribers_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
         $this->lng->loadLanguageModule('mmbr');
@@ -1136,18 +1161,20 @@ class ilMembershipGUI
     {
         $subscribers = $this->initSubscribersFromPost();
         if (!count($subscribers)) {
-            ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_subscribers_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
         if (!$this->getMembersObject()->deleteSubscribers($subscribers)) {
-            ilUtil::sendFailure($this->error->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $this->error->getMessage(), true);
             $this->ctrl->redirect($this, 'participants');
         } else {
             foreach ($subscribers as $usr_id) {
                 if ($this instanceof ilCourseMembershipGUI) {
-                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,
-                        $usr_id);
+                    $this->getMembersObject()->sendNotification(
+                        $this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,
+                        $usr_id
+                    );
                 }
                 if ($this instanceof ilGroupMembershipGUI) {
                     $this->getMembersObject()->sendNotification(
@@ -1171,7 +1198,7 @@ class ilMembershipGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt("crs_subscribers_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("crs_subscribers_deleted"), true);
         $this->ctrl->redirect($this, 'participants');
     }
 
@@ -1182,18 +1209,20 @@ class ilMembershipGUI
     {
         $subscribers = $this->initSubscribersFromPost();
         if (!count($subscribers)) {
-            ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_subscribers_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
         if (!$this->getMembersObject()->assignSubscribers($subscribers)) {
-            ilUtil::sendFailure($this->error->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $this->error->getMessage(), true);
             $this->ctrl->redirect($this, 'participants');
         } else {
             foreach ($subscribers as $usr_id) {
                 if ($this instanceof ilCourseMembershipGUI) {
-                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_SUBSCRIBER,
-                        $usr_id);
+                    $this->getMembersObject()->sendNotification(
+                        $this->getMembersObject()->NOTIFY_ACCEPT_SUBSCRIBER,
+                        $usr_id
+                    );
                     $this->getParentObject()->checkLPStatusSync($usr_id);
                 }
                 if ($this instanceof ilGroupMembershipGUI) {
@@ -1212,7 +1241,7 @@ class ilMembershipGUI
                 }
             }
         }
-        ilUtil::sendSuccess($this->lng->txt("crs_subscribers_assigned"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("crs_subscribers_assigned"), true);
         $this->ctrl->redirect($this, 'participants');
     }
 
@@ -1245,7 +1274,7 @@ class ilMembershipGUI
     {
         $waiting_list_ids = $this->initWaitingListIdsFromPost();
         if (!count($waiting_list_ids)) {
-            ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_users_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
         $c_gui = new ilConfirmationGUI();
@@ -1276,7 +1305,7 @@ class ilMembershipGUI
     {
         $waiting_list_ids = $this->initWaitingListIdsFromPost();
         if (!count($waiting_list_ids)) {
-            ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_users_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
@@ -1293,8 +1322,11 @@ class ilMembershipGUI
 
             if ($this instanceof ilCourseMembershipGUI) {
                 $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_MEMBER);
-                $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER, $user_id,
-                    true);
+                $this->getMembersObject()->sendNotification(
+                    $this->getMembersObject()->NOTIFY_ACCEPT_USER,
+                    $user_id,
+                    true
+                );
                 $this->getParentObject()->checkLPStatusSync($user_id);
             }
             if ($this instanceof ilGroupMembershipGUI) {
@@ -1319,9 +1351,9 @@ class ilMembershipGUI
         }
 
         if ($added_users) {
-            ilUtil::sendSuccess($this->lng->txt("crs_users_added"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("crs_users_added"), true);
         } else {
-            ilUtil::sendFailure($this->lng->txt("crs_users_already_assigned"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_users_already_assigned"), true);
         }
         $this->ctrl->redirect($this, 'participants');
     }
@@ -1333,7 +1365,7 @@ class ilMembershipGUI
     {
         $waiting_list_ids = $this->initWaitingListIdsFromPost();
         if (!count($waiting_list_ids)) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
         $this->lng->loadLanguageModule('mmbr');
@@ -1365,7 +1397,7 @@ class ilMembershipGUI
     {
         $waiting_list_ids = $this->initWaitingListIdsFromPost();
         if (!count($waiting_list_ids)) {
-            ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
         }
 
@@ -1375,8 +1407,11 @@ class ilMembershipGUI
             $waiting_list->removeFromList($user_id);
 
             if ($this instanceof ilCourseMembershipGUI) {
-                $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,
-                    $user_id, true);
+                $this->getMembersObject()->sendNotification(
+                    $this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,
+                    $user_id,
+                    true
+                );
             }
             if ($this instanceof ilGroupMembershipGUI) {
                 $this->getMembersObject()->sendNotification(
@@ -1393,7 +1428,7 @@ class ilMembershipGUI
                 $noti->send();
             }
         }
-        ilUtil::sendSuccess($this->lng->txt('crs_users_removed_from_list'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_users_removed_from_list'), true);
         $this->ctrl->redirect($this, 'participants');
     }
 
@@ -1413,7 +1448,7 @@ class ilMembershipGUI
         }
         // end-patch clipboard
         if (!count($users)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'participants');
         }
         $clip = ilUserClipboard::getInstance($this->user->getId());
@@ -1421,7 +1456,7 @@ class ilMembershipGUI
         $clip->save();
 
         $this->lng->loadLanguageModule('user');
-        ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('clipboard_user_added'), true);
         $this->ctrl->redirect($this, 'participants');
     }
 

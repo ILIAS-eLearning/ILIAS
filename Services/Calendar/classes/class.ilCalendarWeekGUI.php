@@ -57,9 +57,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
                 $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
 
                 // initial date for new calendar appointments
-                $idate = new ilDate($_REQUEST['idate'], IL_CAL_DATE);
+                $idate = new ilDate($this->initInitialDateFromQuery(), IL_CAL_DATE);
 
-                $app = new ilCalendarAppointmentGUI($this->seed, $idate, (int) $_GET['app_id']);
+                $app = new ilCalendarAppointmentGUI($this->seed, $idate, $this->initAppointmentIdFromQuery());
                 $this->ctrl->forwardCommand($app);
                 break;
 
@@ -242,9 +242,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
         $this->tpl->setCurrentBlock('day_cell');
 
-        $this->tpl->setVariable('DAY_CELL_NUM', $this->num_appointments);
+        $this->tpl->setVariable('DAY_ID', 'a'.$this->num_appointments);
         $this->tpl->setVariable('TD_ROWSPAN', $a_app['rowspan']);
-        $this->tpl->setVariable('TD_STYLE', $a_app['event']->getPresentationStyle());
+        $this->tpl->setVariable('TD_STYLE',$a_app['event']->getPresentationStyle());
         $this->tpl->setVariable('TD_CLASS', 'calevent il_calevent');
 
         $this->tpl->parseCurrentBlock();
@@ -411,8 +411,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
     protected function setUpCalendar() : void
     {
-        if (isset($_GET["bkid"])) {
-            $this->user_id = (int) $_GET["bkid"];
+        $bkid = $this->initBookingUserFromQuery();
+        if ($bkid) {
+            $this->user_id = $bkid;
             $this->disable_empty = true;
             $this->no_add = true;
         } elseif ($this->user->getId() == ANONYMOUS_USER_ID) {
@@ -467,6 +468,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
     protected function addTimedEvents(array $hours, int $morning_aggr, int $evening_aggr) : void
     {
         $new_link_counter = 0;
+        $day_id_counter = 0;
         foreach ($hours as $num_hour => $hours_per_day) {
             $first = true;
             foreach ($hours_per_day as $num_day => $hour) {
@@ -531,9 +533,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
                     $this->tpl->setVariable('TD_CLASS', 'calempty createhover' . $empty_border);
 
-                    if (!$hour['apps_num']) {
-                        $this->tpl->setVariable('DAY_ID', $new_link_counter);
-                    }
+                    $this->tpl->setVariable('DAY_ID', ++$day_id_counter);
                     $this->tpl->setVariable('TD_ROWSPAN', 1);
                     $this->tpl->parseCurrentBlock();
                 }

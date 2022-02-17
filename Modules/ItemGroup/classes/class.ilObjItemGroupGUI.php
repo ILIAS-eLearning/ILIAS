@@ -19,7 +19,7 @@ use ILIAS\ItemGroup\StandardGUIRequest;
  * User Interface class for item groups
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjItemGroupGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjItemGroupGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjItemGroupGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI
  * @ilCtrl_isCalledBy ilObjItemGroupGUI: ilRepositoryGUI, ilAdministrationGUI
  */
 class ilObjItemGroupGUI extends ilObject2GUI
@@ -82,6 +82,15 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
+            case 'ilobjecttranslationgui':
+                $this->checkPermissionBool("write");
+                $this->prepareOutput();
+                $this->setSettingsSubTabs("settings_trans");
+                $transgui = new ilObjectTranslationGUI($this);
+                $transgui->setTitleDescrOnlyMode(false);
+                $this->ctrl->forwardCommand($transgui);
+                break;
+
             default:
                 $cmd = $this->ctrl->getCmd("listMaterials");
                 $this->prepareOutput();
@@ -119,6 +128,11 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $ta->setInfo($this->lng->txt("itgr_desc_info"));
         $a_form->addItem($ta);
 
+        // presentation
+        $pres = new ilFormSectionHeaderGUI();
+        $pres->setTitle($this->lng->txt('obj_presentation'));
+        $a_form->addItem($pres);
+
         // show title
         $cb = new ilCheckboxInputGUI($this->lng->txt("itgr_show_title"), "show_title");
         $cb->setInfo($this->lng->txt("itgr_show_title_info"));
@@ -130,14 +144,49 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $si->setInfo($this->lng->txt("itgr_behaviour_info"));
         $si->setOptions($options);
         $cb->addSubItem($si);
+
+        // tile/list
+        $lpres = new ilRadioGroupInputGUI($this->lng->txt('itgr_list_presentation'), "list_presentation");
+
+        $std_list = new ilRadioOption($this->lng->txt('itgr_list_default'), "");
+        $std_list->setInfo($this->lng->txt('itgr_list_default_info'));
+        $lpres->addOption($std_list);
+
+        $item_list = new ilRadioOption($this->lng->txt('itgr_list'), "list");
+        $lpres->addOption($item_list);
+
+        $tile_view = new ilRadioOption($this->lng->txt('itgr_tile'), "tile");
+        $lpres->addOption($tile_view);
+
+        // tile size
+        $si = new ilRadioGroupInputGUI($this->lng->txt("itgr_tile_size"), "tile_size");
+        $dummy_container = new ilContainer();
+        $this->lng->loadLanguageModule("cont");
+        foreach ($dummy_container->getTileSizes() as $key => $txt) {
+            $op = new ilRadioOption($txt, $key);
+            $si->addOption($op);
+        }
+        $lpres->addSubItem($si);
+        $si->setValue($this->object->getTileSize());
+
+        $lpres->setValue($this->object->getListPresentation());
+        $a_form->addItem($lpres);
+
+        return $a_form;
     }
 
     protected function afterSave(ilObject $a_new_object)
     {
         $ilCtrl = $this->ctrl;
         
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $ilCtrl->redirect($this, "listMaterials");
+    }
+
+    public function edit()
+    {
+        parent::edit();
+        $this->setSettingsSubTabs("general");
     }
 
     public function listMaterials() : void
@@ -172,7 +221,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $item_group_items->setItems($items);
         $item_group_items->update();
 
-        ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $ilCtrl->redirect($this, "listMaterials");
     }
 
@@ -224,9 +273,27 @@ class ilObjItemGroupGUI extends ilObject2GUI
         }
     }
 
+    protected function setSettingsSubTabs(string $active_tab = "general") : void
+    {
+        $this->tabs_gui->addSubTab(
+            "general",
+            $this->lng->txt("settings"),
+            $this->ctrl->getLinkTarget($this, "edit")
+        );
+
+        $this->tabs_gui->addSubTab(
+            "settings_trans",
+            $this->lng->txt("obj_multilinguality"),
+            $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+        );
+        $this->tabs_gui->activateTab("settings");
+        $this->tabs_gui->activateSubTab($active_tab);
+    }
+
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -240,7 +307,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
             ilUtil::redirect(ilLink::_getLink($par_id));
             exit;
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -282,6 +349,8 @@ class ilObjItemGroupGUI extends ilObject2GUI
     {
         $a_values["show_title"] = !$this->object->getHideTitle();
         $a_values["behaviour"] = $this->object->getBehaviour();
+        $a_values["list_presentation"] = $this->object->getListPresentation();
+        $a_values["tile_size"] = $this->object->getTileSize();
     }
 
     protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -291,6 +360,8 @@ class ilObjItemGroupGUI extends ilObject2GUI
             ? $a_form->getInput("behaviour")
             : ilItemGroupBehaviour::ALWAYS_OPEN;
         $this->object->setBehaviour($behaviour);
+        $this->object->setListPresentation($a_form->getInput("list_presentation"));
+        $this->object->setTileSize($a_form->getInput("tile_size"));
     }
 
     protected function initCreateForm($a_new_type)

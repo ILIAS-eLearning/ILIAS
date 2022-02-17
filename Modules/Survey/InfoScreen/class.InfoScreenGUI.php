@@ -40,6 +40,7 @@ class InfoScreenGUI
     protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
     protected \ilLanguage $lng;
     protected \ilCtrl $ctrl;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         \ilObjSurveyGUI $survey_gui,
@@ -50,6 +51,8 @@ class InfoScreenGUI
         ServerRequestInterface $request,
         InternalDomainService $domain_service
     ) {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->user = $user;
         $this->toolbar = $toolbar;
         $this->survey_gui = $survey_gui;
@@ -93,7 +96,7 @@ class InfoScreenGUI
 
         // completed message
         if ($this->status_manager->cantStartAgain()) {
-            \ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("already_completed_survey"));
         }
 
         $separator = false;
@@ -295,7 +298,7 @@ class InfoScreenGUI
                         }
                     }
                 } elseif (!$status_manager->isAppraisee()) {
-                    \ilUtil::sendFailure($this->lng->txt("survey_360_no_appraisees"));
+                    $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("survey_360_no_appraisees"));
                 }
             }
         }
@@ -380,7 +383,7 @@ class InfoScreenGUI
             if (count($messages) > 0) {
                 $messages[] = "<a href=\"" . $this->ctrl->getLinkTarget($this->survey_gui, "properties") . "\">&raquo; " .
                     $this->lng->txt("survey_edit_settings") . "</a>";
-                \ilUtil::sendInfo(implode("<br />", $messages));
+                $this->main_tpl->setOnScreenMessage('info', implode("<br />", $messages));
             }
         }
     }

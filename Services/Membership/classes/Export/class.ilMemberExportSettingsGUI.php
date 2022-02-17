@@ -188,7 +188,7 @@ class ilMemberExportSettingsGUI
             $settings->importFromForm($form);
             $settings->store();
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'printViewSettings');
         }
     }

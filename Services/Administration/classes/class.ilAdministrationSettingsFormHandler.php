@@ -96,7 +96,7 @@ class ilAdministrationSettingsFormHandler
         if (is_subclass_of($class_name, "ilObject2GUI")) {
             $gui_obj = new $class_name($ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
         } else {
-            $gui_obj = new $class_name("", $ref_id, true, false);
+            $gui_obj = new $class_name([], $ref_id, true, false);
         }
 
         $gui_obj->setCreationMode(true);
@@ -111,7 +111,7 @@ class ilAdministrationSettingsFormHandler
     ) : void {
         switch ($a_form_id) {
             case self::FORM_SECURITY:
-                $types = array(self::SETTINGS_GENERAL, self::SETTINGS_USER, self::SETTINGS_FILE, self::SETTINGS_ROLE);
+                $types = array(self::SETTINGS_USER, self::SETTINGS_FILE, self::SETTINGS_ROLE);
                 break;
             
             case self::FORM_PRIVACY:

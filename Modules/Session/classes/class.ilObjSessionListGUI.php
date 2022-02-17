@@ -80,7 +80,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
     {
         $app_info = $this->getAppointmentInfo();
         $title = strlen($this->title) ? (': ' . $this->title) : '';
-        return ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']) . $title;
+        return ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], (bool) $app_info['fullday']) . $title;
     }
 
     public function getCommandLink($a_cmd) : string

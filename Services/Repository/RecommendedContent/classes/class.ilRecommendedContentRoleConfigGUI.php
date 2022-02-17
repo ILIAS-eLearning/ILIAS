@@ -79,7 +79,7 @@ class ilRecommendedContentRoleConfigGUI
 
         if (!$rbacreview->isAssignable($this->role_id, $this->node_ref_id) &&
             $this->node_ref_id != ROLE_FOLDER_ID) {
-            ilUtil::sendInfo($this->lng->txt('rep_no_assign_rec_content_to_role'));
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('rep_no_assign_rec_content_to_role'));
         } else {
             if ($rbacsystem->checkAccess('push_desktop_items', USER_FOLDER_ID)) {
                 $toolbar->addButton($lng->txt('add'), $ctrl->getLinkTarget(
@@ -104,7 +104,7 @@ class ilRecommendedContentRoleConfigGUI
         $main_tpl = $this->main_tpl;
 
         if (count($this->requested_item_ref_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->listItems();
             return;
         }
@@ -134,7 +134,7 @@ class ilRecommendedContentRoleConfigGUI
             foreach ($this->requested_item_ref_ids as $item_ref_id) {
                 $this->manager->removeRoleRecommendation($this->role_id, $item_ref_id);
             }
-            ilUtil::sendSuccess($this->lng->txt('rep_rec_content_removed'));
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('rep_rec_content_removed'));
         }
         $this->listItems();
     }
@@ -146,7 +146,7 @@ class ilRecommendedContentRoleConfigGUI
 
         if (!$rbacsystem->checkAccess('write', $this->node_ref_id) ||
             !$rbacsystem->checkAccess('push_desktop_items', USER_FOLDER_ID)) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $ctrl->redirect($this, "listItems");
         }
     }
@@ -174,7 +174,7 @@ class ilRecommendedContentRoleConfigGUI
         $this->checkPushPermission();
         if ($this->requested_item_ref_id > 0) {
             $this->manager->addRoleRecommendation($this->role_id, $this->requested_item_ref_id);
-            ilUtil::sendSuccess($this->lng->txt('rep_added_rec_content'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('rep_added_rec_content'), true);
         }
         $ctrl->redirect($this, 'listItems');
     }

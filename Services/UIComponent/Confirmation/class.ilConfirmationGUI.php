@@ -37,11 +37,13 @@ class ilConfirmationGUI
     protected string $confirm_txt = '';
     protected string $confirm_cmd = '';
     protected string $confirm_id = '';
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->lng = $DIC->language();
     }
@@ -147,7 +149,7 @@ class ilConfirmationGUI
             throw new RuntimeException('Please provide a cancel button label and command before rendering the confirmation dialogue');
         }
         
-        ilUtil::sendQuestion($this->getHeaderText());
+        $this->main_tpl->setOnScreenMessage('question', $this->getHeaderText());
         
         // delete/handle items
         if (count($this->item) > 0) {

@@ -3,6 +3,7 @@
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\INode;
 use Sabre\DAV\ICollection;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * @author Raphael Heer <raphael.heer@hslu.ch>
@@ -13,17 +14,20 @@ class ilDAVContainer implements ICollection
     
     protected ilObjUser $current_user;
     protected ilObject $obj;
+    protected RequestInterface $request;
     protected ilWebDAVObjFactory $dav_factory;
     protected ilWebDAVRepositoryHelper $repository_helper;
     
     public function __construct(
         ilContainer $a_obj,
         ilObjUser $current_user,
+        RequestInterface $request,
         ilWebDAVObjFactory $dav_factory,
         ilWebDAVRepositoryHelper $repository_helper
     ) {
         $this->obj = $a_obj;
         $this->current_user = $current_user;
+        $this->request = $request;
         $this->dav_factory = $dav_factory;
         $this->repository_helper = $repository_helper;
     }
@@ -86,6 +90,11 @@ class ilDAVContainer implements ICollection
     {
         if (!$this->repository_helper->checkCreateAccessForType($this->obj->getRefId(), 'file')) {
             throw new Forbidden('Permission denied');
+        }
+        
+        $size = $this->request->getHeader("Content-Length")[0];
+        if ($size > ilFileUploadUtil::getMaxFileSize()) {
+            throw new Forbidden('File is too big');
         }
         
         if ($this->childExists($name)) {

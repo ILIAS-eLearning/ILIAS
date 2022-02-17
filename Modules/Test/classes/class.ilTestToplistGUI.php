@@ -55,7 +55,7 @@ class ilTestToplistGUI
     public function executeCommand() : void
     {
         if (!$this->object->getHighscoreEnabled()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass(ilObjTestGUI::class);
         }
 

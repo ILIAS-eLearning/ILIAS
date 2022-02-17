@@ -160,7 +160,7 @@ class ilTestQuestionSideListGUI
         $tpl = new ilTemplate('tpl.il_as_tst_list_of_questions_short.html', true, true, 'Modules/Test');
 
         foreach ($this->getQuestionSummaryData() as $row) {
-            $title = ilUtil::prepareFormOutput($row['title']);
+            $title = ilLegacyFormElementsUtil::prepareFormOutput($row['title']);
 
             if (strlen($row['description'])) {
                 $description = " title=\"" . htmlspecialchars($row['description']) . "\" ";

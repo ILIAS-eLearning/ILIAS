@@ -138,7 +138,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
             return;
         }
 
-        ilUtil::sendSuccess($lng->txt('msg_obj_modified'), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt('msg_obj_modified'), true);
         $ilCtrl->redirect($this, 'editSettings');
     }
 

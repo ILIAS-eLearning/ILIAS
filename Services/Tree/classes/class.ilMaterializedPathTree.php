@@ -110,8 +110,12 @@ class ilMaterializedPathTree implements ilTreeImplementation
         $type_str = '';
         if (is_array($a_types)) {
             if ($a_types) {
-                $type_str = "AND " . $this->db->in($this->getTree()->getObjectDataTable() . ".type", $a_types, false,
-                        "text");
+                $type_str = "AND " . $this->db->in(
+                    $this->getTree()->getObjectDataTable() . ".type",
+                    $a_types,
+                    false,
+                    "text"
+                );
             }
         }
 
@@ -158,8 +162,12 @@ class ilMaterializedPathTree implements ilTreeImplementation
         $type_str = '';
         if (count($a_types)) {
             if ($a_types) {
-                $type_str = "AND " . $this->db->in($this->getTree()->getObjectDataTable() . ".type", $a_types, false,
-                        "text");
+                $type_str = "AND " . $this->db->in(
+                    $this->getTree()->getObjectDataTable() . ".type",
+                    $a_types,
+                    false,
+                    "text"
+                );
             }
         }
 
@@ -182,8 +190,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
             'BETWEEN ' .
             $this->db->quote($a_node['path'], 'text') . ' AND ' .
             $this->db->quote($a_node['path'] . '.Z', 'text') . ' ' .
-            'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote($this->getTree()->getTreeId(),
-                'integer') . ' ' .
+            'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote(
+                $this->getTree()->getTreeId(),
+                'integer'
+            ) . ' ' .
             $type_str . ' ' .
             'ORDER BY ' . $this->getTree()->getTreeTable() . '.path';
 
@@ -200,7 +210,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
             'WHERE child = ' . $this->db->quote($a_endnode, 'integer') . ' ';
         $res = $this->db->query($query);
 
-        $path = null;
+        $path = "";
         while ($row = $this->db->fetchAssoc($res)) {
             $path = (string) $row['path'];
         }
@@ -249,7 +259,8 @@ class ilMaterializedPathTree implements ilTreeImplementation
             $lft = 0;
             $rgt = 0;
 
-            $this->db->insert($this->getTree()->getTreeTable(),
+            $this->db->insert(
+                $this->getTree()->getTreeTable(),
                 array($this->getTree()->getTreePk() => array('integer', $this->getTree()->getTreeId()),
                       'child' => array('integer', $a_node_id),
                       'parent' => array('integer', $a_parent_id),
@@ -257,7 +268,8 @@ class ilMaterializedPathTree implements ilTreeImplementation
                       'rgt' => array('integer', $rgt),
                       'depth' => array('integer', $depth),
                       'path' => array('text', $parentPath . "." . $a_node_id)
-                ));
+                )
+            );
         };
 
         // use ilAtomQuery to lock tables if tree is main tree
@@ -290,8 +302,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
             $query = 'DELETE FROM ' . $this->getTree()->getTreeTable() . ' ' .
                 'WHERE path BETWEEN ' . $this->db->quote($row['path'], 'text') . ' ' .
                 'AND ' . $this->db->quote($row['path'] . '.Z', 'text') . ' ' .
-                'AND ' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote($this->getTree()->getTreeId(),
-                    'integer');
+                'AND ' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote(
+                    $this->getTree()->getTreeId(),
+                    'integer'
+                );
             $this->db->manipulate($query);
         };
 
@@ -462,8 +476,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
         $db = $DIC->database();
 
         $q = ' UPDATE tree
-			SET path = CONCAT(COALESCE(' . $db->quote($parentPath, 'text') . ', \'\'), COALESCE( ' . $db->cast("child",
-                "text") . ' , \'\'))
+			SET path = CONCAT(COALESCE(' . $db->quote($parentPath, 'text') . ', \'\'), COALESCE( ' . $db->cast(
+            "child",
+            "text"
+        ) . ' , \'\'))
 			WHERE parent = %s';
         $r = $db->manipulateF($q, array('integer'), array($parent));
 
@@ -485,10 +501,14 @@ class ilMaterializedPathTree implements ilTreeImplementation
             $treeClause1 = '';
             $treeClause2 = '';
         } else {
-            $treeClause1 = ' AND t1.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote($this->getTree()->getTreeId(),
-                    'integer');
-            $treeClause2 = ' AND t2.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote($this->getTree()->getTreeId(),
-                    'integer');
+            $treeClause1 = ' AND t1.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote(
+                $this->getTree()->getTreeId(),
+                'integer'
+            );
+            $treeClause2 = ' AND t2.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote(
+                $this->getTree()->getTreeId(),
+                'integer'
+            );
         }
 
         // first query for the path of the given node
@@ -511,8 +531,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
             "FROM " . $this->getTree()->getTreeTable() . " t2 " .
             "JOIN " . $this->getTree()->getTableReference() . " obr ON t2.child = obr.ref_id " .
             "JOIN " . $this->getTree()->getObjectDataTable() . " obd ON obr.obj_id = obd.obj_id " .
-            "WHERE t2.path BETWEEN " . $this->db->quote($path, 'text') . " AND " . $this->db->quote($path . '.Z',
-                'text') .
+            "WHERE t2.path BETWEEN " . $this->db->quote($path, 'text') . " AND " . $this->db->quote(
+                $path . '.Z',
+                'text'
+            ) .
             $treeClause2 . ' ' .
             "ORDER BY t2.path";
 

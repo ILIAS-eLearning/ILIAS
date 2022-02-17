@@ -1,24 +1,29 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\Data;
-use ILIAS\UI;
 
 class ilMathJaxSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
+    protected Refinery\Factory $refinery;
 
-    public function __construct(
-        Refinery\Factory $refinery
-    ) {
+    public function __construct(Refinery\Factory $refinery)
+    {
         $this->refinery = $refinery;
     }
 
@@ -36,9 +41,7 @@ class ilMathJaxSetupAgent implements Setup\Agent
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
-            return new \ilMathJaxSetupConfig(
-                $data["path_to_latex_cgi"] ?? null
-            );
+            return new ilMathJaxSetupConfig((array) $data);
         });
     }
 
@@ -47,6 +50,7 @@ class ilMathJaxSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        /** @var ilMathJaxSetupConfig $config */
         return new ilMathJaxConfigStoredObjective($config);
     }
 
@@ -56,6 +60,7 @@ class ilMathJaxSetupAgent implements Setup\Agent
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         if ($config !== null) {
+            /** @var ilMathJaxSetupConfig $config */
             return new ilMathJaxConfigStoredObjective($config);
         }
         return new Setup\Objective\NullObjective();

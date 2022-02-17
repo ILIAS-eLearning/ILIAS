@@ -100,7 +100,7 @@ abstract class ilUnitConfigurationGUI
     {
         $category = $this->repository->getUnitCategoryById($id);
         if ($for_CRUD && $category->getQuestionFi() != $this->repository->getConsumerId()) {
-            ilUtil::sendFailure($this->lng->txt('change_adm_categories_not_allowed'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('change_adm_categories_not_allowed'), true);
             $this->ctrl->redirect($this, $this->getDefaultCommand());
         }
         return $category;
@@ -201,9 +201,9 @@ abstract class ilUnitConfigurationGUI
                 return '<li>' . $message . '</li>';
             }, $errors);
             if ($num_errors == 1) {
-                ilUtil::sendFailure($this->lng->txt('un_unit_deletion_errors_f_s') . '<ul>' . implode('', $error_message) . '<ul>');
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('un_unit_deletion_errors_f_s') . '<ul>' . implode('', $error_message) . '<ul>');
             } else {
-                ilUtil::sendFailure($this->lng->txt('un_unit_deletion_errors_f') . '<ul>' . implode('', $error_message) . '<ul>');
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('un_unit_deletion_errors_f') . '<ul>' . implode('', $error_message) . '<ul>');
             }
         }
 
@@ -263,17 +263,17 @@ abstract class ilUnitConfigurationGUI
                 return '<li>' . $message . '</li>';
             }, $errors);
             if ($num_errors == 1) {
-                ilUtil::sendFailure($this->lng->txt('un_unit_deletion_errors_p_s') . '<ul>' . implode('', $error_message) . '<ul>');
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('un_unit_deletion_errors_p_s') . '<ul>' . implode('', $error_message) . '<ul>');
             } else {
-                ilUtil::sendFailure($this->lng->txt('un_unit_deletion_errors_p') . '<ul>' . implode('', $error_message) . '<ul>');
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('un_unit_deletion_errors_p') . '<ul>' . implode('', $error_message) . '<ul>');
             }
         }
 
         if ($num_deleted) {
             if ($num_deleted == 1) {
-                ilUtil::sendSuccess($this->lng->txt('un_deleted_units_s'));
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('un_deleted_units_s'));
             } else {
-                ilUtil::sendSuccess($this->lng->txt('un_deleted_units'));
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('un_deleted_units'));
             }
         }
 
@@ -301,7 +301,7 @@ abstract class ilUnitConfigurationGUI
             $this->repository->saveUnitOrder((int) $id, $sorting_value);
         }
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         $this->showUnitsOfCategory();
         return;
     }
@@ -331,7 +331,7 @@ abstract class ilUnitConfigurationGUI
             $unit->setBaseUnit((int) $this->unit_form->getInput('base_unit') != $unit->getId() ? (int) $this->unit_form->getInput('base_unit') : 0);
             $unit->setCategory($category->getId());
             $this->repository->saveUnit($unit);
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
             $this->showUnitsOfCategory();
             return;
         } else {
@@ -389,7 +389,7 @@ abstract class ilUnitConfigurationGUI
 
             $this->repository->saveUnit($unit);
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
             $this->showUnitsOfCategory();
             return;
         }
@@ -633,9 +633,9 @@ abstract class ilUnitConfigurationGUI
                 return '<li>' . $message . '</li>';
             }, $errors);
             if ($num_errors == 1) {
-                ilUtil::sendFailure($this->lng->txt('un_cat_deletion_errors_f_s') . '<ul>' . implode('', $error_message) . '<ul>');
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('un_cat_deletion_errors_f_s') . '<ul>' . implode('', $error_message) . '<ul>');
             } else {
-                ilUtil::sendFailure($this->lng->txt('un_cat_deletion_errors_f') . '<ul>' . implode('', $error_message) . '<ul>');
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('un_cat_deletion_errors_f') . '<ul>' . implode('', $error_message) . '<ul>');
             }
         }
 
@@ -697,17 +697,17 @@ abstract class ilUnitConfigurationGUI
                 return '<li>' . $message . '</li>';
             }, $errors);
             if ($num_errors == 1) {
-                ilUtil::sendFailure($this->lng->txt('un_cat_deletion_errors_p_s') . '<ul>' . implode('', $error_message) . '<ul>');
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('un_cat_deletion_errors_p_s') . '<ul>' . implode('', $error_message) . '<ul>');
             } else {
-                ilUtil::sendFailure($this->lng->txt('un_cat_deletion_errors_p') . '<ul>' . implode('', $error_message) . '<ul>');
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('un_cat_deletion_errors_p') . '<ul>' . implode('', $error_message) . '<ul>');
             }
         }
 
         if ($num_deleted) {
             if ($num_deleted == 1) {
-                ilUtil::sendSuccess($this->lng->txt('un_deleted_categories_s'));
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('un_deleted_categories_s'));
             } else {
-                ilUtil::sendSuccess($this->lng->txt('un_deleted_categories'));
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('un_deleted_categories'));
             }
         }
 
@@ -761,13 +761,13 @@ abstract class ilUnitConfigurationGUI
                 $category = new assFormulaQuestionUnitCategory();
                 $category->setCategory($this->unit_cat_form->getInput('category_name'));
                 $this->repository->saveNewUnitCategory($category);
-                ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
 
                 $this->{$this->getUnitCategoryOverviewCommand()}();
                 return;
             } catch (ilException $e) {
                 $this->unit_cat_form->getItemByPostVar('category_name')->setAlert($this->lng->txt($e->getMessage()));
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
         }
 
@@ -808,13 +808,13 @@ abstract class ilUnitConfigurationGUI
             try {
                 $category->setCategory($this->unit_cat_form->getInput('category_name'));
                 $this->repository->saveCategory($category);
-                ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
 
                 $this->{$this->getUnitCategoryOverviewCommand()}();
                 return;
             } catch (ilException $e) {
                 $this->unit_cat_form->getItemByPostVar('category_name')->setAlert($this->lng->txt($e->getMessage()));
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
         }
 

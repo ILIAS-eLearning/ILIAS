@@ -196,7 +196,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
         $foundvalues = $_POST[$this->getPostVar()];
         $max_points = 0;
@@ -261,17 +261,19 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
             if (is_object($value)) {
                 if (strlen($value->text_wrong)) {
                     $tpl->setCurrentBlock("prop_key_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text_wrong));
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->text_wrong));
                     $tpl->parseCurrentBlock();
                 }
                 if (strlen($value->text_correct)) {
                     $tpl->setCurrentBlock("prop_value_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text_correct));
+                    $tpl->setVariable("PROPERTY_VALUE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->text_correct)
+                    );
                     $tpl->parseCurrentBlock();
                 }
                 if (strlen($value->points)) {
                     $tpl->setCurrentBlock("prop_points_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->points));
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->points));
                     $tpl->parseCurrentBlock();
                 }
             }

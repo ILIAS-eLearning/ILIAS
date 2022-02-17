@@ -136,14 +136,14 @@ class ilObjRole extends ilObject
      * loads "role" from database
      * @access private
      */
-    public function read()
+    public function read() : void
     {
         $query = "SELECT * FROM role_data WHERE role_id= " . $this->db->quote($this->id, 'integer') . " ";
         $res = $this->db->query($query);
         if ($res->numRows() > 0) {
             $row = $this->db->fetchAssoc($res);
             $this->setAllowRegister((bool) $row['allow_register']);
-            $this->toggleAssignUsersStatus((bool) $row['assign_user']);
+            $this->toggleAssignUsersStatus((bool) ($row['assign_user'] ?? false));
         } else {
             $this->logger->logStack(ilLogLevel::ERROR);
             throw new ilObjectException('There is no dataset with id: ' . $this->id);
@@ -151,7 +151,7 @@ class ilObjRole extends ilObject
         parent::read();
     }
 
-    public function update()
+    public function update() : bool
     {
         $query = "UPDATE role_data SET " .
             "allow_register= " . $this->db->quote($this->allow_register, 'integer') . ", " .
@@ -166,7 +166,7 @@ class ilObjRole extends ilObject
         return true;
     }
 
-    public function create()
+    public function create() : int
     {
         global $DIC;
 
@@ -258,7 +258,7 @@ class ilObjRole extends ilObject
      * @access    public
      * @return    bool    true if all object data were removed; false if only a references were removed
      */
-    public function delete()
+    public function delete() : bool
     {
         global $DIC;
 
@@ -364,7 +364,7 @@ class ilObjRole extends ilObject
     {
         $role_title_parts = explode('_', $a_role_title);
 
-        $test2 = (int) $role_title_parts[3];
+        $test2 = (int) ($role_title_parts[3] ?? 0);
         if ($test2 > 0) {
             unset($role_title_parts[3]);
         }
@@ -410,7 +410,7 @@ class ilObjRole extends ilObject
             $sorted[$subtype]['translation'] = $translation;
         }
 
-        return ilUtil::sortArray($sorted, 'translation', 'asc', true, true);
+        return ilArrayUtil::sortArray($sorted, 'translation', 'asc', true, true);
     }
 
     public static function _updateAuthMode(array $a_roles) : void

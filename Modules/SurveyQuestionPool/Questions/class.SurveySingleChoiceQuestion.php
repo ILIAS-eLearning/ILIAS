@@ -376,11 +376,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     public function getWorkingDataFromUserInput(
         array $post_data
     ) : array {
-        $entered_value = $post_data[$this->getId() . "_value"];
+        $entered_value = $post_data[$this->getId() . "_value"] ?? "";
         $data = array();
         if (strlen($entered_value)) {
             $data[] = array("value" => $entered_value,
-                            "textanswer" => $post_data[$this->getId() . '_' . $entered_value . '_other']
+                            "textanswer" => $post_data[$this->getId() . '_' . $entered_value . '_other'] ?? ""
             );
         }
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
@@ -389,7 +389,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
                 if ($i != $entered_value) {
                     if (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
                         $data[] = array("value" => $i,
-                                        "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'],
+                                        "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'] ?? "",
                                         "uncheck" => true
                         );
                     }
@@ -407,7 +407,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         array $post_data,
         int $survey_id
     ) : string {
-        $entered_value = $post_data[$this->getId() . "_value"];
+        $entered_value = $post_data[$this->getId() . "_value"] ?? "";
 
         $this->log->debug("Entered value = " . $entered_value);
         
@@ -448,7 +448,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         
         if ($a_return) {
             return array(array("value" => $entered_value,
-                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"]));
+                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"] ?? ""));
         }
         if (strlen($entered_value) == 0) {
             return null;

@@ -86,7 +86,7 @@ class ilExcCriteriaText extends ilExcCriteria
         $input->setRows(10);
         $input->setInfo($info);
         $input->setRequired($this->isRequired());
-        $input->setValue($a_value);
+        $input->setValue((string) $a_value);
         
         $this->form->addItem($input);
     }

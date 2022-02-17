@@ -17,13 +17,14 @@
 */
 class ilQuestionEditGUI
 {
-    
+    private \ilGlobalTemplateInterface $main_tpl;
     /**
     * Constructor
     */
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         
@@ -169,7 +170,7 @@ class ilQuestionEditGUI
                     global $DIC;
                     $rbacsystem = $DIC['rbacsystem'];
                     if ($rbacsystem->checkAccess("write", $this->pool_ref_id)) {
-                        ilUtil::sendInfo(sprintf($lng->txt("qpl_question_is_in_use"), $count));
+                        $this->main_tpl->setOnScreenMessage('info', sprintf($lng->txt("qpl_question_is_in_use"), $count));
                     }
                 }
                 $ilCtrl->setCmdClass(get_class($q_gui));

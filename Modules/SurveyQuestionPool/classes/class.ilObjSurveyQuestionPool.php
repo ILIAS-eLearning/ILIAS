@@ -24,12 +24,14 @@ class ilObjSurveyQuestionPool extends ilObject
     protected ilObjUser $user;
     public bool $online = false;
     protected ilComponentRepository $component_repository;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
         int $a_id = 0,
         bool $a_call_by_reference = true
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->log = $DIC["ilLog"];
         $this->db = $DIC->database();
@@ -43,15 +45,16 @@ class ilObjSurveyQuestionPool extends ilObject
             ->editing();
     }
 
-    public function create($a_upload = false)
+    public function create($a_upload = false) : int
     {
-        parent::create();
+        $id = parent::create();
         if (!$a_upload) {
             $this->createMetaData();
         }
+        return $id;
     }
 
-    public function update()
+    public function update() : bool
     {
         $this->updateMetaData();
         if (!parent::update()) {
@@ -60,13 +63,13 @@ class ilObjSurveyQuestionPool extends ilObject
         return true;
     }
 
-    public function read()
+    public function read() : void
     {
         parent::read();
         $this->loadFromDb();
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 
@@ -182,7 +185,7 @@ class ilObjSurveyQuestionPool extends ilObject
         }
     }
     
-    public function delete()
+    public function delete() : bool
     {
         $remove = parent::delete();
         // always call parent delete function first!!
@@ -926,7 +929,7 @@ class ilObjSurveyQuestionPool extends ilObject
                                 rename($source_path, $target_path . $question_object["question_id"]);
                             }
                         } else {
-                            ilUtil::sendFailure($this->lng->txt("spl_move_same_pool"), true);
+                            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("spl_move_same_pool"), true);
                             return;
                         }
                     }
@@ -935,7 +938,7 @@ class ilObjSurveyQuestionPool extends ilObject
                 }
             }
         }
-        ilUtil::sendSuccess($this->lng->txt("spl_paste_success"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("spl_paste_success"), true);
         $this->edit_manager->clearClipboardQuestions();
     }
     

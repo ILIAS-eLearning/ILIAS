@@ -157,7 +157,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 
             #20363
             $row_title = ++$row_counter . ". " . $row_title;
-            $labels[$row_idx] = ilUtil::shortenText($row_title, 50, true);
+            $labels[$row_idx] = ilStr::shortenTextExtended($row_title, 50, true);
             if ($labels[$row_idx] != $row_title) {
                 $text_shortened = true;
             }

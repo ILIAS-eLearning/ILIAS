@@ -59,18 +59,18 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
     }
 
 
-    private function initForm(): void
+    private function initForm() : void
     {
         // Buttons and Title
         $this->lng->loadLanguageModule('file');
         switch ($this->save_mode) {
             case self::MODE_REPLACE:
-                ilUtil::sendInfo($this->lng->txt('replace_file_info'));
+                $this->global_tpl->setOnScreenMessage('info', $this->lng->txt('replace_file_info'));
                 $this->setTitle($this->lng->txt('replace_file'));
                 $this->addCommandButton(ilFileVersionsGUI::CMD_CREATE_REPLACING_VERSION, $this->lng->txt('replace_file'));
                 break;
             case self::MODE_ADD:
-                ilUtil::sendInfo($this->lng->txt('file_new_version_info'));
+                $this->global_tpl->setOnScreenMessage('info', $this->lng->txt('file_new_version_info'));
                 $this->setTitle($this->lng->txt('file_new_version'));
                 $this->addCommandButton(ilFileVersionsGUI::CMD_CREATE_NEW_VERSION, $this->lng->txt('file_new_version'));
                 break;
@@ -115,7 +115,7 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
      * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
-    public function saveObject(): bool
+    public function saveObject() : bool
     {
         if (!$this->checkInput()) {
             return false;
@@ -161,7 +161,7 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function fillForm(): void
+    public function fillForm() : void
     {
         $values = [];
         $values[self::F_TITLE] = $this->file->getTitle();

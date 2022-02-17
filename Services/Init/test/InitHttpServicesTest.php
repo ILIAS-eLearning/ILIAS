@@ -27,7 +27,7 @@ class InitHttpServicesTest extends TestCase
         $this->assertFalse(isset($this->dic['http.request_factory']));
         $this->assertFalse(isset($this->dic['http.response_factory']));
         (new \InitHttpServices())->init($this->dic);
-        $this->assertInstanceOf("ILIAS\HTTP\Services",$this->dic->http());
+        $this->assertInstanceOf("ILIAS\HTTP\Services", $this->dic->http());
         $this->assertTrue(isset($this->dic['http']));
         $this->assertTrue(isset($this->dic['http.response_sender_strategy']));
         $this->assertTrue(isset($this->dic['http.cookie_jar_factory']));

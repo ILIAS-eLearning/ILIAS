@@ -238,7 +238,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
 
         if ($this->isInUse()) {
-            ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_skill_in_use"));
         }
 
         if ($this->tree_access_manager->hasManageCompetencesPermission()) {

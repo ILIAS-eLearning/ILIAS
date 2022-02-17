@@ -27,7 +27,9 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
     protected bool $highlight = false;
     protected string $highlight_letter = "";
     protected bool $fix_db_umlauts = false;
-
+    protected ?bool $db_supports_distinct_umlauts = null;
+    protected ilDBInterface $db;
+    
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -36,9 +38,27 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
+        $this->db = $DIC->database();
         parent::__construct($a_title, $a_postvar);
     }
-
+    
+    /**
+     * Only temp fix for #8603, should go to db classes
+     * @deprecated
+     */
+    private function dbSupportsDisctinctUmlauts()
+    {
+        if (!isset($this->db_supports_distinct_umlauts)) {
+            $set = $this->db->query(
+                "SELECT (" . $this->db->quote("A", "text") . " = " . $this->db->quote("Ä", "text") . ") t FROM DUAL "
+            );
+            $rec = $this->db->fetchAssoc($set);
+            $this->db_supports_distinct_umlauts = !(bool) $rec["t"];
+        }
+        
+        return $this->db_supports_distinct_umlauts;
+    }
+    
     public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
@@ -93,7 +113,7 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 
     public function fixDBUmlauts(string $l) : string
     {
-        if ($this->fix_db_umlauts && !ilUtil::dbSupportsDisctinctUmlauts()) {
+        if ($this->fix_db_umlauts && !$this->dbSupportsDisctinctUmlauts()) {
             $l = str_replace(array("Ä", "Ö", "Ü", "ä", "ö", "ü"), array("A", "O", "U", "a", "o", "u"), $l);
         }
         return $l;

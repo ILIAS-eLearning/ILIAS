@@ -31,10 +31,11 @@ class ilDAVContainerTest extends TestCase
         $object->expects($this->once())->method('getTitle')->willReturn('Some random Title');
         
         $user = $this->createStub(ilObjUser::class);
+        $request = $this->createStub('Psr\Http\Message\RequestInterface');
         $dav_factory = $this->createStub(ilWebDAVObjFactory::class);
         $repository_helper = $this->createStub(ilWebDAVRepositoryHelper::class);
         
-        $dav_container = new ilDAVContainer($object, $user, $dav_factory, $repository_helper);
+        $dav_container = new ilDAVContainer($object, $user, $request, $dav_factory, $repository_helper);
         
         $this->assertEquals('Some random Title', $dav_container->getName());
     }
@@ -424,6 +425,7 @@ class ilDAVContainerTest extends TestCase
         $object_folder = $this->createPartialMock(ilObjFolder::class, []);
         $object_folder->setRefId($object_ref_id);
         $user = $this->createStub(ilObjUser::class);
+        $request = $this->createStub('Psr\Http\Message\RequestInterface');
         
         $webdav_test_helper = new ilWebDAVTestHelper();
         $tree = $webdav_test_helper->getTree();
@@ -494,11 +496,11 @@ class ilDAVContainerTest extends TestCase
         if ($for_create) {
             $object_child = $this->createPartialMock(ilObjFolder::class, []);
             $object_child->setType('fold');
-            $dav_container = new ilDAVContainerWithOverridenGetChildCollection($object_folder, $user, $mocked_dav_factory, $mocked_repo_helper);
+            $dav_container = new ilDAVContainerWithOverridenGetChildCollection($object_folder, $user, $request, $mocked_dav_factory, $mocked_repo_helper);
             $dav_container->setChildcollection($object_child);
             return $dav_container;
         }
         
-        return new ilDAVContainer($object_folder, $user, $mocked_dav_factory, $mocked_repo_helper);
+        return new ilDAVContainer($object_folder, $user, $request, $mocked_dav_factory, $mocked_repo_helper);
     }
 }

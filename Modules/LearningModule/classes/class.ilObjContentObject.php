@@ -56,12 +56,15 @@ class ilObjContentObject extends ilObject
     public array $auto_glossaries = array();
     private string $import_dir = '';
     protected ilObjLearningModule $lm;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         int $a_id = 0,
         bool $a_call_by_reference = true
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->user = $DIC->user();
         $this->db = $DIC->database();
@@ -84,6 +87,8 @@ class ilObjContentObject extends ilObject
         $this->mob_ids = array();
         $this->file_ids = array();
         $this->q_ids = array();
+        $cs = $DIC->contentStyle();
+        $this->content_style_domain = $cs->domain();
     }
 
     /**
@@ -91,9 +96,9 @@ class ilObjContentObject extends ilObject
      */
     public function create(
         bool $a_no_meta_data = false
-    ) : void {
+    ) : int {
         $this->setOfflineStatus(true);
-        parent::create();
+        $id = parent::create();
         
         // meta data will be created by
         // import parser
@@ -103,9 +108,10 @@ class ilObjContentObject extends ilObject
 
         $this->createProperties();
         $this->updateAutoGlossaries();
+        return $id;
     }
 
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -185,12 +191,13 @@ class ilObjContentObject extends ilObject
         return $this->lm_tree;
     }
 
-    public function update()
+    public function update() : bool
     {
         $this->updateMetaData();
         parent::update();
         $this->updateProperties();
         $this->updateAutoGlossaries();
+        return true;
     }
 
     public function updateAutoGlossaries() : void
@@ -477,28 +484,6 @@ class ilObjContentObject extends ilObject
     public function setLayout(string $a_layout) : void
     {
         $this->layout = $a_layout;
-    }
-
-    public function getStyleSheetId() : int
-    {
-        return $this->style_id;
-    }
-
-    public function setStyleSheetId(int $a_style_id) : void
-    {
-        $this->style_id = $a_style_id;
-    }
-
-    public function writeStyleSheetId(int $a_style_id) : void
-    {
-        $ilDB = $this->db;
-
-        $q = "UPDATE content_object SET " .
-            " stylesheet = " . $ilDB->quote($a_style_id, "integer") .
-            " WHERE id = " . $ilDB->quote($this->getId(), "integer");
-        $ilDB->manipulate($q);
-
-        $this->style_id = $a_style_id;
     }
 
     public static function writeHeaderPage(
@@ -911,7 +896,6 @@ class ilObjContentObject extends ilObject
         $lm_set = $ilDB->query($q);
         $lm_rec = $ilDB->fetchAssoc($lm_set);
         $this->setLayout($lm_rec["default_layout"]);
-        $this->setStyleSheetId((int) $lm_rec["stylesheet"]);
         $this->setPageHeader($lm_rec["page_header"]);
         $this->setTOCMode($lm_rec["toc_mode"]);
         $this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
@@ -955,7 +939,6 @@ class ilObjContentObject extends ilObject
         
         $q = "UPDATE content_object SET " .
             " default_layout = " . $ilDB->quote($this->getLayout(), "text") . ", " .
-            " stylesheet = " . $ilDB->quote($this->getStyleSheetId(), "integer") . "," .
             " page_header = " . $ilDB->quote($this->getPageHeader(), "text") . "," .
             " toc_mode = " . $ilDB->quote($this->getTOCMode(), "text") . "," .
             " toc_active = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveTOC()), "text") . "," .
@@ -994,13 +977,13 @@ class ilObjContentObject extends ilObject
     public function createProperties() : void
     {
         $ilDB = $this->db;
-        
+
         $q = "INSERT INTO content_object (id) VALUES (" . $ilDB->quote($this->getId(), "integer") . ")";
         $ilDB->manipulate($q);
-        
+
         // #14661
         ilNote::activateComments($this->getId(), 0, $this->getType(), true);
-        
+
         $this->readProperties();		// to get db default values
     }
 
@@ -2012,7 +1995,7 @@ class ilObjContentObject extends ilObject
                 
                 if ($error != "") {
                     $this->lng->loadLanguageModule("content");
-                    ilUtil::sendInfo($this->lng->txt("cont_import_validation_errors"));
+                    $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("cont_import_validation_errors"));
                     $title = ilLMObject::_lookupTitle($page["obj_id"]);
                     $page_obj = new ilLMPageObject($this->lm, $page["obj_id"]);
                     $mess .= $this->lng->txt("obj_pg") . ": " . $title;
@@ -2032,7 +2015,7 @@ class ilObjContentObject extends ilObject
         return $mess;
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         /** @var ilObjLearningModule $new_obj */
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
@@ -2076,15 +2059,9 @@ class ilObjContentObject extends ilObject
         $new_obj->createLMTree();
         
         // copy style
-        $style_id = $this->getStyleSheetId();
-        if ($style_id > 0 &&
-            !ilObjStyleSheet::_lookupStandard($style_id)) {
-            $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-            $new_id = $style_obj->ilClone();
-            $new_obj->setStyleSheetId($new_id);
-        } else {	// or just set the same standard style
-            $new_obj->setStyleSheetId($style_id);
-        }
+        $style = $this->content_style_domain->styleForObjId($this->getId());
+        $style->cloneTo($new_obj->getId());
+
         $new_obj->update();
         
         // copy content
@@ -2353,5 +2330,10 @@ class ilObjContentObject extends ilObject
         }
 
         return $export_files;
+    }
+
+    public function isInfoEnabled() : bool
+    {
+        return ilObjContentObjectAccess::isInfoEnabled($this->getId());
     }
 }

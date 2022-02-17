@@ -176,9 +176,9 @@ class ilAccountRegistrationGUI
         if (sizeof($domains)) {
             $mail_obj = $this->form->getItemByPostVar('usr_email');
             $mail_obj->setInfo(sprintf(
-                    $this->lng->txt("reg_email_domains"),
-                    implode(", ", $domains)
-                ) . "<br />" .
+                $this->lng->txt("reg_email_domains"),
+                implode(", ", $domains)
+            ) . "<br />" .
                 ($this->code_enabled ? $this->lng->txt("reg_email_domains_code") : ""));
         }
 
@@ -207,12 +207,6 @@ class ilAccountRegistrationGUI
             $this->form->addItem($field);
         }
 
-        /** @noinspection PhpUndefinedMethodInspection */
-        if (ilCaptchaUtil::isActiveForRegistration()) {
-            $captcha = new ilCaptchaInputGUI($this->lng->txt("captcha_code"), 'captcha_code');
-            $captcha->setRequired(true);
-            $this->form->addItem($captcha);
-        }
         $this->form->addCommandButton("saveForm", $this->lng->txt("register"));
     }
 
@@ -287,8 +281,11 @@ class ilAccountRegistrationGUI
         $error_lng_var = '';
         if (
             !$this->registration_settings->passwordGenerationEnabled() &&
-            !ilUtil::isPasswordValidForUserContext($this->form->getInput('usr_password'),
-                $this->form->getInput('username'), $error_lng_var)
+            !ilSecuritySettingsChecker::isPasswordValidForUserContext(
+                $this->form->getInput('usr_password'),
+                $this->form->getInput('username'),
+                $error_lng_var
+            )
         ) {
             $passwd_obj = $this->form->getItemByPostVar('usr_password');
             $passwd_obj->setAlert($this->lng->txt($error_lng_var));
@@ -323,7 +320,7 @@ class ilAccountRegistrationGUI
 
         // no valid role could be determined
         if (!$valid_role) {
-            ilUtil::sendInfo($this->lng->txt("registration_no_valid_role"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("registration_no_valid_role"));
             $form_valid = false;
         }
 
@@ -344,12 +341,12 @@ class ilAccountRegistrationGUI
         }
 
         if (!$form_valid) {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         } elseif ($showGlobalTermsOfServieFailure) {
             $this->lng->loadLanguageModule('tos');
-            \ilUtil::sendFailure(sprintf(
+            $this->tpl->setOnScreenMessage('failure', sprintf(
                 $this->lng->txt('tos_account_reg_not_possible'),
-                'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
+                'mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
             ));
         } else {
             $password = $this->__createUser($valid_role);
@@ -409,7 +406,7 @@ class ilAccountRegistrationGUI
         $this->userObj->setDescription($this->userObj->getEmail());
 
         if ($this->registration_settings->passwordGenerationEnabled()) {
-            $password = ilUtil::generatePasswords(1);
+            $password = ilSecuritySettingsChecker::generatePasswords(1);
             $password = $password[0];
         } else {
             $password = $this->form->getInput("usr_password");
@@ -539,10 +536,12 @@ class ilAccountRegistrationGUI
         }
         $this->userObj->setPref("hits_per_page", $hits_per_page);
         if ($this->http->wrapper()->query()->has('target')) {
-            $this->userObj->setPref('reg_target',
+            $this->userObj->setPref(
+                'reg_target',
                 $this->http->wrapper()->query()->retrieve(
                     'target',
-                    $this->refinery->kindlyTo()->string())
+                    $this->refinery->kindlyTo()->string()
+                )
             );
         }
         $this->userObj->setPref('bs_allow_to_contact_me', $this->settings->get('bs_allow_to_contact_me', 'n'));
@@ -598,7 +597,6 @@ class ilAccountRegistrationGUI
         // Send mail to new user
         // Registration with confirmation link ist enabled
         if ($this->registration_settings->getRegistrationType() == ilRegistrationSettings::IL_REG_ACTIVATION && !$this->code_was_used) {
-
             $mail = new ilRegistrationMimeMailNotification();
             $mail->setType(ilRegistrationMimeMailNotification::TYPE_NOTIFICATION_ACTIVATION);
             $mail->setRecipients(array($this->userObj));
@@ -638,7 +636,8 @@ class ilAccountRegistrationGUI
             $login_link = $this->ui_renderer->render(
                 $this->ui_factory->link()->standard(
                     $this->lng->txt('login_to_ilias'),
-                    './login.php?cmd=force_login&lang=' . $this->userObj->getLanguage())
+                    './login.php?cmd=force_login&lang=' . $this->userObj->getLanguage()
+                )
             );
             $tpl->setVariable('LOGIN_LINK', $login_link);
         } elseif ($this->registration_settings->getRegistrationType() == ilRegistrationSettings::IL_REG_APPROVE) {

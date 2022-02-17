@@ -1,6 +1,19 @@
 <?php
 
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilPDFGenerationConstants
 {
     const HEADER_NONE = 0;
@@ -11,7 +24,7 @@ class ilPDFGenerationConstants
     const FOOTER_TEXT = 1;
     const FOOTER_HTML = 2;
 
-    public static function getPageSizesNames()
+    public static function getPageSizesNames() : array
     {
         return array(
             'A4' => 'A4',
@@ -33,7 +46,10 @@ class ilPDFGenerationConstants
     }
 
 
-    public static function getOrientations()
+    /**
+     * @return array<string, string>
+     */
+    public static function getOrientations() : array
     {
         return array(
             'Portrait' => 'Portrait' ,

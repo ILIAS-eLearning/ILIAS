@@ -250,7 +250,7 @@ class ilObjLearningSequenceSettingsGUI
         $this->addCommonFieldsToForm($form);
         if (!$form->checkInput()) {
             $form->setValuesByPost();
-            ilUtil::sendFailure($this->lng->txt("msg_form_save_error"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_form_save_error"));
             return $form->getHTML();
         }
 
@@ -315,7 +315,7 @@ class ilObjLearningSequenceSettingsGUI
         $lso->updateActivation($activation);
         $lso->update();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this);
         return null;
     }

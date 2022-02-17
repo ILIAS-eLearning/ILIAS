@@ -118,9 +118,9 @@ class ilObjGroupListGUI extends ilObjectListGUI
                 'value' => $info['reg_info_list_prop_limit']['value']
             );
         }
-        
-        
-        
+
+
+
         // waiting list
         if (ilGroupWaitingList::_isOnList($this->user->getId(), $this->obj_id)) {
             $props[] = array(
@@ -129,7 +129,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
                 "value" => $this->lng->txt('on_waiting_list')
             );
         }
-        
+
         // course period
         $info = ilObjGroupAccess::lookupPeriodInfo($this->obj_id);
         if (is_array($info)) {
@@ -152,8 +152,8 @@ class ilObjGroupListGUI extends ilObjectListGUI
         return parent::getCommandFrame($a_cmd);
         // end-patch fm
     }
-    
-    
+
+
     /**
      * @inheritDoc
      */

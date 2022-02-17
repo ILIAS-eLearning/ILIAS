@@ -379,7 +379,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         }
         if (trim($start_txt)) {
             $tpl->setVariable('START_LABEL', $start_txt);
-            $tpl->setVariable('START_ARIA_LABEL', ilUtil::prepareFormOutput($start_txt));
+            $tpl->setVariable('START_ARIA_LABEL', ilLegacyFormElementsUtil::prepareFormOutput($start_txt));
             $tpl->touchBlock('start_width_bl');
         }
         
@@ -389,7 +389,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         }
         if (trim($end_txt)) {
             $tpl->setVariable('END_LABEL', $end_txt);
-            $tpl->setVariable('END_ARIA_LABEL', ilUtil::prepareFormOutput($end_txt));
+            $tpl->setVariable('END_ARIA_LABEL', ilLegacyFormElementsUtil::prepareFormOutput($end_txt));
             $tpl->touchBlock('end_width_bl');
         }
         
@@ -406,7 +406,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         // accessibility description
         $tpl->setVariable(
             'DESCRIPTION',
-            ilUtil::prepareFormOutput($lng->txt("form_date_aria_desc") . " " . $pl_format)
+            ilLegacyFormElementsUtil::prepareFormOutput($lng->txt("form_date_aria_desc") . " " . $pl_format)
         );
         
         

@@ -20,7 +20,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
- * @ilCtrl_Calls ilObjPortfolioGUI: ilObjStyleSheetGUI, ilPortfolioExerciseGUI
+ * @ilCtrl_Calls ilObjPortfolioGUI: ilObjectContentStyleSettingsGUI, ilPortfolioExerciseGUI
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 {
@@ -113,7 +113,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             case "ilnotegui":
                 $this->preview();
                 break;
-            
+
+                /*
             case "ilobjstylesheetgui":
                 $this->ctrl->setReturn($this, "editStyleProperties");
                 $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
@@ -136,8 +137,22 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                     $this->object->update();
                     $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
                 }
+                break;*/
+
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->addLocator();
+                $this->setTabs();
+                $this->tabs_gui->activateTab("settings");
+                $this->setSettingsSubTabs("style");
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForObjId(
+                        null,
+                        $this->object->getId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
-                
+
             case "ilportfolioexercisegui":
                 $this->ctrl->setReturn($this, "view");
                 $gui = new ilPortfolioExerciseGUI($this->user_id, $this->object->getId());
@@ -474,7 +489,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         }
         $page->create(false);
 
-        ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_created"), true);
         $this->ctrl->setParameter($this, "prt_id", $a_new_object->getId());
         $this->ctrl->redirect($this, "view");
     }
@@ -710,7 +725,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             }
             $page->create(false);
 
-            ilUtil::sendSuccess($this->lng->txt("prtf_blog_page_created"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_blog_page_created"), true);
             $this->ctrl->redirect($this, "view");
         }
 
@@ -937,7 +952,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         // link portfolio to exercise assignment
         $this->linkPortfolioToAssignment($target_id);
         
-        ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_created_from_template"), true);
         $this->ctrl->setParameter($this, "prt_id", $target_id);
         $this->ctrl->redirect($this, "preview");
     }
@@ -976,7 +991,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         // link portfolio to exercise assignment
         //$this->linkPortfolioToAssignment($target_id);
 
-        ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_created_from_template"), true);
         $this->ctrl->setParameter($this, "prt_id", $target_id);
         $this->ctrl->redirect($this, "preview");
     }
@@ -1064,10 +1079,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
         $this->ctrl->setParameter($this, "prt_id", $target_id);
         if ($prtt_id) {
-            ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_created_from_template"), true);
             $this->ctrl->redirect($this, "preview");
         } else {
-            ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_created"), true);
             $this->ctrl->redirect($this, "view");
         }
     }
@@ -1131,8 +1146,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
      * @param bool $a_dev_mode
      * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
      */
-    public function exportPDF(
-        bool $a_dev_mode = false
+    public function showPrintView(
     ) : void {
         $printview = $this->getPrintView();
         $printview->sendPrintView();
@@ -1173,7 +1187,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         if (ilObjPortfolio::_lookupOwner($this->object->getId()) == $this->user_id) {
             $this->object->setOnline(true);
             $this->object->update();
-            ilUtil::sendSuccess($lng->txt("prtf_has_been_set_online"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("prtf_has_been_set_online"), true);
         }
         $ilCtrl->redirectByClass("ilworkspaceaccessgui", "");
     }

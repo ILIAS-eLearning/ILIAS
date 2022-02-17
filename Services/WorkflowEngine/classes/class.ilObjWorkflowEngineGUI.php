@@ -91,6 +91,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
     public static function _goto($params)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         /** @var ilLanguage $lng */
         $lng = $DIC['lng'];
 
@@ -114,7 +115,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
             $context_id
         );
 
-        ilUtil::sendSuccess($lng->txt('ok'), true);
+        $main_tpl->setOnScreenMessage('success', $lng->txt('ok'), true);
         ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
     }
 

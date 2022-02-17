@@ -79,7 +79,7 @@ class ilWikiPageTemplateGUI
         foreach ($pages as $p) {
             //if (!in_array($p["id"], $ipages_ids))
             //{
-            $options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
+            $options[$p["id"]] = ilStr::shortenTextExtended($p["title"], 60, true);
             //}
         }
 
@@ -111,7 +111,7 @@ class ilWikiPageTemplateGUI
     {
         $wpt = new ilWikiPageTemplate($this->wiki->getId());
         $wpt->save($this->request->getPageTemplateId());
-        ilUtil::sendSuccess($this->lng->txt("wiki_template_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("wiki_template_added"), true);
         $this->ctrl->redirect($this, "listTemplates");
     }
 
@@ -124,7 +124,7 @@ class ilWikiPageTemplateGUI
             foreach ($ids as $id) {
                 $wpt->remove((int) $id);
             }
-            ilUtil::sendSuccess($this->lng->txt("wiki_template_status_removed"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("wiki_template_status_removed"), true);
         }
 
         $this->ctrl->redirect($this, "listTemplates");
@@ -143,7 +143,7 @@ class ilWikiPageTemplateGUI
         $this->wiki->setEmptyPageTemplate($this->request->getEmptyPageTemplate());
         $this->wiki->update();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "listTemplates");
     }
     
@@ -158,7 +158,7 @@ class ilWikiPageTemplateGUI
         if ($page_id) {
             $wpt = new ilWikiPageTemplate($this->wiki->getId());
             $wpt->remove($page_id);
-            ilUtil::sendSuccess($this->lng->txt("wiki_template_status_removed"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("wiki_template_status_removed"), true);
         }
         
         $this->ctrl->redirect($this, "listTemplates");
@@ -170,7 +170,7 @@ class ilWikiPageTemplateGUI
         if ($page_id) {
             $wpt = new ilWikiPageTemplate($this->wiki->getId());
             $wpt->save($page_id);
-            ilUtil::sendSuccess($this->lng->txt("wiki_template_added"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("wiki_template_added"), true);
         }
         
         $this->ctrl->redirect($this, "listTemplates");

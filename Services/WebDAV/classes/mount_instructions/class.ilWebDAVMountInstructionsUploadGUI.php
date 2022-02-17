@@ -179,13 +179,13 @@ class ilWebDAVMountInstructionsUploadGUI
         
         $form = $this->getDocumentForm(new ilWebDAVMountInstructionsDocument());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {
-                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+                $this->tpl->setOnScreenMessage('info', $form->getTranslatedInfo(), true);
             }
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError(), true);
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError(), true);
         }
 
         $html = $form->getHTML();
@@ -203,13 +203,13 @@ class ilWebDAVMountInstructionsUploadGUI
 
         $form = $this->getDocumentForm($this->mount_instructions_repository->getMountInstructionsDocumentById($_REQUEST['webdav_id']));
         if ($form->updateObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {
-                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+                $this->tpl->setOnScreenMessage('info', $form->getTranslatedInfo(), true);
             }
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError(), true);
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError(), true);
         }
             
         $html = $form->getHTML();
@@ -228,7 +228,7 @@ class ilWebDAVMountInstructionsUploadGUI
         } else {
             $webdav_id = $_REQUEST['webdav_id'];
             $this->mount_instructions_repository->deleteMountInstructionsById($webdav_id);
-            ilUtil::sendSuccess($this->lng->txt('deleted_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('deleted_successfully'), true);
             $this->ctrl->redirect($this, 'showDocuments');
         }
     }
@@ -259,7 +259,7 @@ class ilWebDAVMountInstructionsUploadGUI
             $this->mount_instructions_repository->updateSortingValueById((int) $document_id, ++$position);
         }
 
-        ilUtil::sendSuccess($this->lng->txt('webdav_saved_sorting'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('webdav_saved_sorting'), true);
         $this->ctrl->redirect($this);
     }
 }

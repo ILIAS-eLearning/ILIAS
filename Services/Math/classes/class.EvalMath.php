@@ -1,132 +1,54 @@
 <?php
 
-/*
-================================================================================
-
-EvalMath - PHP Class to safely evaluate math expressions
-Copyright (C) 2005 Miles Kaufmann <http://www.twmagic.com/>
-
-================================================================================
-
-NAME
-    EvalMath - safely evaluate math expressions
-
-SYNOPSIS
-    <?
-      include('evalmath.class.php');
-      $m = new EvalMath;
-      // basic evaluation:
-      $result = $m->evaluate('2+2');
-      // supports: order of operation; parentheses; negation; built-in functions
-      $result = $m->evaluate('-8(5/2)^2*(1-sqrt(4))-8');
-      // create your own variables
-      $m->evaluate('a = e^(ln(pi))');
-      // or functions
-      $m->evaluate('f(x,y) = x^2 + y^2 - 2x*y + 1');
-      // and then use them
-      $result = $m->evaluate('3*f(42,a)');
-    ?>
-
-DESCRIPTION
-    Use the EvalMath class when you want to evaluate mathematical expressions
-    from untrusted sources.  You can define your own variables and functions,
-    which are stored in the object.  Try it, it's fun!
-
-METHODS
-    $m->evalute($expr)
-        Evaluates the expression and returns the result.  If an error occurs,
-        prints a warning and returns false.  If $expr is a function assignment,
-        returns true on success.
-
-    $m->e($expr)
-        A synonym for $m->evaluate().
-
-    $m->vars()
-        Returns an associative array of all user-defined variables and values.
-
-    $m->funcs()
-        Returns an array of all user-defined functions.
-
-PARAMETERS
-    $m->suppress_errors
-        Set to true to turn off warnings when evaluating expressions
-
-    $m->last_error
-        If the last evaluation failed, contains a string describing the error.
-        (Useful when suppress_errors is on).
-
-AUTHOR INFORMATION
-    Copyright 2005, Miles Kaufmann.
-
-LICENSE
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are
-    met:
-
-    1   Redistributions of source code must retain the above copyright
-        notice, this list of conditions and the following disclaimer.
-    2.  Redistributions in binary form must reproduce the above copyright
-        notice, this list of conditions and the following disclaimer in the
-        documentation and/or other materials provided with the distribution.
-    3.  The name of the author may not be used to endorse or promote
-        products derived from this software without specific prior written
-        permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
-    IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
-    INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-    STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-    ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-    POSSIBILITY OF SUCH DAMAGE.
-
-*/
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class EvalMath
 {
-    public $suppress_errors = false;
-    public $last_error = null;
+    public bool $suppress_errors = false;
+    public ?string $last_error = null;
     
-    public $v = array('e' => 2.71,'pi' => 3.14); // variables (and constants)
-    public $f = array(); // user-defined functions
-    public $vb = array('e', 'pi'); // constants
-    public $fb = array(  // built-in functions
+    public array $v = array('e' => 2.71,'pi' => 3.14); // variables (and constants)
+    public array $f = []; // user-defined functions
+    public array $vb = array('e', 'pi'); // constants
+    public array $fb = array(  // built-in functions
         'sin','sinh','arcsin','asin','arcsinh','asinh',
         'cos','cosh','arccos','acos','arccosh','acosh',
         'tan','tanh','arctan','atan','arctanh','atanh',
         'sqrt','abs','ln','log');
-    // mjansen-patch: begin
+
     public function __construct()
     {
-        // mjansen-patch: end
         // make the variables a little more accurate
         $this->v['pi'] = pi();
         $this->v['exp'] = exp(1);
-        // PATCH BEGIN
         $this->v['e'] = exp(1); // different result for exp(1) and e
         $this->fb[] = 'exp'; // usage of php exp function in formula
-        // PATCH END
     }
     
-    public function e($expr)
+    public function e(string $expr)
     {
         return $this->evaluate($expr);
     }
     
-    public function evaluate($expr)
+    public function evaluate(string $expr)
     {
         // convert exponential notation
         $expr = preg_replace_callback(
             "/(\\d{0,1})e(-{0,1}\\d+)/is",
-            function ($hit) {
-                return $hit[1] . ((strlen($hit[1])) ? '*' : '') . '10^(' . $hit[2] . ')';
-            },
+            fn ($hit) : string => $hit[1] . ((strlen($hit[1])) ? '*' : '') . '10^(' . $hit[2] . ')',
             $expr
-            );
+        );
         // standard functionality
         $this->last_error = null;
         $expr = trim($expr);
@@ -167,13 +89,12 @@ class EvalMath
             }
             $this->f[$fnn] = array('args' => $args, 'func' => $stack);
             return true;
-        //===============
         } else {
             return $this->pfx($this->nfx($expr)); // straight up evaluation, woo
         }
     }
     
-    public function vars()
+    public function vars() : array
     {
         $output = $this->v;
         unset($output['pi']);
@@ -181,23 +102,23 @@ class EvalMath
         return $output;
     }
     
-    public function funcs()
+    /**
+     * @return string[]
+     */
+    public function funcs() : array
     {
-        $output = array();
+        $output = [];
         foreach ($this->f as $fnn => $dat) {
             $output[] = $fnn . '(' . implode(',', $dat['args']) . ')';
         }
         return $output;
     }
-
-    //===================== HERE BE INTERNAL METHODS ====================\\
-
-    // Convert infix to postfix notation
+    
     public function nfx($expr)
     {
         $index = 0;
         $stack = new EvalMathStack;
-        $output = array(); // postfix form of expression, to be passed to pfx()
+        $output = []; // postfix form of expression, to be passed to pfx()
         $expr = trim(strtolower($expr));
         
         $ops = array('+', '-', '*', '/', '^', '_');
@@ -331,7 +252,7 @@ class EvalMath
     }
 
     // evaluate postfix notation
-    public function pfx($tokens, $vars = array())
+    public function pfx($tokens, $vars = [])
     {
         if ($tokens == false) {
             return false;
@@ -348,21 +269,20 @@ class EvalMath
                 if (is_null($op1 = $stack->pop())) {
                     return $this->trigger("internal error");
                 }
-                include_once "class.ilMath.php";
                 switch ($token) {
                     case '+':
-                                            $stack->push(ilMath::_add($op1, $op2)); break;
-                                        case '-':
-                                            $stack->push(ilMath::_sub($op1, $op2)); break;
-                                        case '*':
-                                            $stack->push(ilMath::_mul($op1, $op2)); break;
-                                        case '/':
-                                            if ($op2 == 0) {
-                                                return $this->trigger("division by zero");
-                                            }
-                                            $stack->push(ilMath::_div($op1, $op2)); break;
-                                        case '^':
-                                            $stack->push(ilMath::_pow($op1, $op2)); break;
+                        $stack->push(ilMath::_add($op1, $op2)); break;
+                    case '-':
+                        $stack->push(ilMath::_sub($op1, $op2)); break;
+                    case '*':
+                        $stack->push(ilMath::_mul($op1, $op2)); break;
+                    case '/':
+                        if ($op2 == 0) {
+                            return $this->trigger("division by zero");
+                        }
+                        $stack->push(ilMath::_div($op1, $op2)); break;
+                    case '^':
+                        $stack->push(ilMath::_pow($op1, $op2)); break;
                 }
                 // if the token is a unary operator, pop one value off the stack, do the operation, and push it back on
             } elseif ($token == "_") {
@@ -380,11 +300,11 @@ class EvalMath
                     } elseif ($fnn == 'ln') {
                         $fnn = 'log';
                     }
-                    
+
                     $stack->push($fnn($op1)); // 'eval()' can be easily avoided here
                 } elseif (array_key_exists($fnn, $this->f)) { // user function
                     // get args
-                    $args = array();
+                    $args = [];
                     for ($i = count($this->f[$fnn]['args']) - 1; $i >= 0; $i--) {
                         if (is_null($args[$this->f[$fnn]['args'][$i]] = $stack->pop())) {
                             return $this->trigger("internal error");
@@ -415,7 +335,7 @@ class EvalMath
     }
     
     // trigger an error, but nicely, if need be
-    public function trigger($msg)
+    public function trigger(string $msg) : bool
     {
         $this->last_error = $msg;
         if (!$this->suppress_errors) {
@@ -438,13 +358,26 @@ class EvalMath
     }
 }
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 // for internal use
 class EvalMathStack
 {
-    public $stack = array();
-    public $count = 0;
+    public array $stack = [];
+    public int $count = 0;
     
-    public function push($val)
+    public function push($val) : void
     {
         $this->stack[$this->count] = $val;
         $this->count++;
@@ -461,11 +394,9 @@ class EvalMathStack
     
     public function last($n = 1)
     {
-        // mjansen-patch: begin
         if (isset($this->stack[$this->count - $n])) {
             return $this->stack[$this->count - $n];
         }
         return null;
-        // mjansen-patch: end
     }
 }

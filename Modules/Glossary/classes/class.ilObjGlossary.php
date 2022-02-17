@@ -34,6 +34,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     public array $auto_glossaries = array();
     protected ilObjUser $user;
     protected array $public_export_file = [];
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
+
 
     public function __construct(
         int $a_id = 0,
@@ -46,11 +48,15 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->user = $DIC->user();
         $this->type = "glo";
         parent::__construct($a_id, $a_call_by_reference);
+        $this->content_style_service = $DIC
+            ->contentStyle()
+            ->domain()
+            ->styleForRefId((int) $this->getRefId());
     }
 
-    public function create($a_upload = false)
+    public function create($a_upload = false) : int
     {
-        parent::create();
+        $id = parent::create();
         
         // meta data will be created by
         // import parser
@@ -73,12 +79,10 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
         $this->updateAutoGlossaries();
 
-        if (($this->getStyleSheetId()) > 0) {
-            ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
-        }
+        return $id;
     }
 
-    public function read()
+    public function read() : void
     {
         parent::read();
         #		echo "Glossary<br>\n";
@@ -100,8 +104,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->setPresentationMode($gl_rec["pres_mode"]);
         $this->setSnippetLength($gl_rec["snippet_length"]);
         $this->setShowTaxonomy($gl_rec["show_tax"]);
-
-        $this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
         // read auto glossaries
         $set = $this->db->query(
@@ -234,17 +236,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $this->downloads_active;
     }
     
-    public function getStyleSheetId() : int
-    {
-        return $this->style_id;
-    }
-
-    public function setStyleSheetId(int $a_style_id) : void
-    {
-        $this->style_id = $a_style_id;
-    }
-
-
     public function setShowTaxonomy(bool $a_val) : void
     {
         $this->show_tax = $a_val;
@@ -295,7 +286,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->setAutoGlossaries($glo_ids);
     }
 
-    public function update() : void
+    public function update() : bool
     {
         $this->updateMetaData();
 
@@ -316,10 +307,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
                 'id' => array('integer', $this->getId())
             )
         );
-        ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
         $this->updateAutoGlossaries();
-        parent::update();
+        return parent::update();
     }
 
     public function updateAutoGlossaries() : void
@@ -704,7 +694,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $glo_exp->buildExportFile();
     }
 
-    public static function getDeletionDependencies($a_obj_id)
+    public static function getDeletionDependencies(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -730,11 +720,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     }
     
     
-    public function cloneObject(
-        $a_target_id,
-        $a_copy_id = 0,
-        $a_omit_tree = false
-    ) {
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $this->cloneMetaData($new_obj);
 
@@ -758,13 +745,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $new_obj->update();
 
         // set/copy stylesheet
-        $style_id = $this->getStyleSheetId();
-        if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
-            $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-            $new_id = $style_obj->ilClone();
-            $new_obj->setStyleSheetId($new_id);
-            $new_obj->update();
-        }
+        $this->content_style_service->cloneTo($new_obj->getId());
         
         // copy taxonomy
         if (($tax_id = $this->getTaxonomyId()) > 0) {

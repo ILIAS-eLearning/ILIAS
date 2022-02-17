@@ -86,10 +86,8 @@ class ilMailAttachmentGUI
             null !== $this->mfile->getAttachmentsTotalSizeLimit() &&
             $sizeOfSelectedFiles > $this->mfile->getAttachmentsTotalSizeLimit()
         ) {
-            ilUtil::sendFailure(
-                $this->lng->txt('mail_max_size_attachments_total_error') . ' ' .
-                ilUtil::formatSize($this->mfile->getAttachmentsTotalSizeLimit())
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_max_size_attachments_total_error') . ' ' .
+            ilUtil::formatSize($this->mfile->getAttachmentsTotalSizeLimit()));
             $this->showAttachments();
             return;
         }
@@ -115,7 +113,7 @@ class ilMailAttachmentGUI
             );
         }
         if ($files === []) {
-            ilUtil::sendFailure($this->lng->txt('mail_select_one_file'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_select_one_file'));
             $this->showAttachments();
             return;
         }
@@ -151,7 +149,7 @@ class ilMailAttachmentGUI
         }
 
         if ($files === []) {
-            ilUtil::sendInfo($this->lng->txt('mail_select_one_mail'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_mail'));
             $this->showAttachments();
             return;
         }
@@ -163,7 +161,7 @@ class ilMailAttachmentGUI
 
         $error = $this->mfile->unlinkFiles($decodedFiles);
         if ($error !== '') {
-            ilUtil::sendFailure($this->lng->txt('mail_error_delete_file') . ' ' . $error);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_error_delete_file') . ' ' . $error);
         } else {
             $mailData = $this->umail->getSavedData();
             if (is_array($mailData['attachments'])) {
@@ -176,7 +174,7 @@ class ilMailAttachmentGUI
                 $this->umail->saveAttachments($tmp);
             }
 
-            ilUtil::sendSuccess($this->lng->txt('mail_files_deleted'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_files_deleted'));
         }
 
         $this->showAttachments();
@@ -200,19 +198,17 @@ class ilMailAttachmentGUI
             $form = $this->getToolbarForm();
             if ($form->checkInput()) {
                 $this->mfile->storeUploadedFile($_FILES['userfile']);
-                ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
             } elseif ($form->getItemByPostVar('userfile')->getAlert() !==
                 $this->lng->txt("form_msg_file_size_exceeds")
             ) {
-                ilUtil::sendFailure($form->getItemByPostVar('userfile')->getAlert());
+                $this->tpl->setOnScreenMessage('failure', $form->getItemByPostVar('userfile')->getAlert());
             } else {
-                ilUtil::sendFailure(
-                    $this->lng->txt('mail_maxsize_attachment_error') . ' ' .
-                    ilUtil::formatSize($this->mfile->getUploadLimit())
-                );
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_maxsize_attachment_error') . ' ' .
+                ilUtil::formatSize($this->mfile->getUploadLimit()));
             }
         } else {
-            ilUtil::sendFailure($this->lng->txt('mail_select_one_file'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_select_one_file'));
         }
 
         $this->showAttachments();

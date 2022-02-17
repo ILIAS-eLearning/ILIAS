@@ -3,7 +3,6 @@
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
-
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -13,7 +12,7 @@ use ILIAS\Refinery\Factory;
  * @author    Sascha Hofmann <saschahofmann@gmx.de>
  *
  * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
@@ -47,7 +46,6 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->lng->loadLanguageModule('obj');
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
     }
 
     protected function initRefIdFromQuery() : int
@@ -68,7 +66,7 @@ class ilObjGroupGUI extends ilContainerGUI
     {
         global $DIC;
 
-        $ilNavigationHistory  = $DIC['ilNavigationHistory'];
+        $ilNavigationHistory = $DIC['ilNavigationHistory'];
 
         $ref_id = $this->initRefIdFromQuery();
 
@@ -107,17 +105,17 @@ class ilObjGroupGUI extends ilContainerGUI
                 $lti_gui->offerLTIRolesForSelection(false);
                 $this->ctrl->forwardCommand($lti_gui);
                 break;
-            
-            
+
+
             case 'ilgroupmembershipgui':
-                
+
                 $this->tabs_gui->activateTab('members');
-                
+
                 $mem_gui = new ilGroupMembershipGUI($this, $this->object);
                 $this->ctrl->forwardCommand($mem_gui);
                 break;
-            
-            
+
+
             case 'ilgroupregistrationgui':
                 $this->ctrl->setReturn($this, '');
                 $this->tabs_gui->setTabActive('join');
@@ -223,10 +221,18 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($cp);
                 break;
 
-            case "ilobjstylesheetgui":
-                $this->forwardToStyleSheet();
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->setTitleAndDescription();
+                $this->showContainerPageTabs();
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
-                
+
             case 'ilobjectcustomuserfieldsgui':
                 $cdf_gui = new ilObjectCustomUserFieldsGUI($this->object->getId());
                 $this->setSubTabs('settings');
@@ -234,7 +240,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->tabs_gui->activateSubTab('grp_custom_user_fields');
                 $this->ctrl->forwardCommand($cdf_gui);
                 break;
-                
+
             case 'ilmemberagreementgui':
                 $this->ctrl->setReturn($this, '');
                 $this->tabs_gui->setTabActive('view_content');
@@ -248,18 +254,18 @@ class ilObjGroupGUI extends ilContainerGUI
                 $exp->addFormat('xml');
                 $this->ctrl->forwardCommand($exp);
                 break;
-                                
+
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
-            
+
             case 'ilobjectservicesettingsgui':
                 $this->ctrl->setReturn($this, 'edit');
                 $this->setSubTabs("settings");
                 $this->tabs_gui->activateTab('settings');
                 $this->tabs_gui->activateSubTab('tool_settings');
-                
+
                 $service = new ilObjectServiceSettingsGUI(
                     $this,
                     $this->object->getId(),
@@ -269,7 +275,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 );
                 $this->ctrl->forwardCommand($service);
                 break;
-            
+
             case 'ilmailmembersearchgui':
                 $mail = new ilMail($this->user->getId());
 
@@ -280,7 +286,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 }
 
                 $this->tabs_gui->setTabActive('members');
-                
+
 
                 $mail_search = new ilMailMemberSearchGUI($this, $this->object->getRefId(), new ilMailMemberGroupRoles());
                 $mail_search->setObjParticipants(ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
@@ -292,7 +298,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $bgui = new ilBadgeManagementGUI($this->object->getRefId(), $this->object->getId(), 'grp');
                 $this->ctrl->forwardCommand($bgui);
                 break;
-                
+
             case "ilcontainernewssettingsgui":
                 $this->setSubTabs("settings");
                 $this->tabs_gui->setTabActive('settings');
@@ -348,14 +354,14 @@ class ilObjGroupGUI extends ilContainerGUI
                 break;
 
             default:
-            
+
                 // check visible permission
                 if (!$this->getCreationMode() and
                         !$this->access->checkAccess('visible', '', $this->object->getRefId(), 'grp') and
                         !$this->access->checkAccess('read', '', $this->object->getRefId(), 'grp')) {
                     $this->error->raiseError($this->lng->txt("msg_no_perm_read"), $this->error->MESSAGE);
                 }
-                
+
                 // #9401 - see also ilStartupGUI::_checkGoto()
                 if ($cmd == 'infoScreenGoto') {
                     if ($this->object->isRegistrationEnabled()) {
@@ -383,7 +389,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->$cmd();
                 break;
         }
-        
+
         $this->addHeaderAction();
     }
 
@@ -418,11 +424,11 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->ctrl->forwardCommand($agreement);
             return;
         }
-        
+
         $this->tabs_gui->setTabActive('view_content');
         $this->renderObject();
     }
-    
+
     public function renderObject() : void
     {
         $this->tabs->activateTab("view_content");
@@ -458,7 +464,7 @@ class ilObjGroupGUI extends ilContainerGUI
     {
         $new_object->setRegistrationType(GRP_REGISTRATION_DIRECT);
         $new_object->update();
-        
+
         // check for parent group or course => SORT_INHERIT
         $sort_mode = ilContainer::SORT_TITLE;
         if (
@@ -467,31 +473,31 @@ class ilObjGroupGUI extends ilContainerGUI
         ) {
             $sort_mode = ilContainer::SORT_INHERIT;
         }
-        
+
         // Save sorting
         $sort = new ilContainerSortingSettings($new_object->getId());
         $sort->setSortMode($sort_mode);
         $sort->update();
-        
-        
+
+
         // Add user as admin and enable notification
         $members_obj = ilGroupParticipants::_getInstanceByObjId($new_object->getId());
         $members_obj->add($this->user->getId(), ilParticipants::IL_GRP_ADMIN);
         $members_obj->updateNotification($this->user->getId(), (bool) $this->settings->get('mail_grp_admin_notification', '1'));
         $members_obj->updateContact($this->user->getId(), true);
-        
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
         $this->ctrl->redirect($this, 'edit');
     }
-    
+
     /**
      * @inheritDoc
      */
     public function editObject(?ilPropertyFormGUI $a_form = null)
     {
         $this->checkPermission("write");
-        
+
         $this->setSubTabs('settings');
         $this->tabs_gui->setTabActive('settings');
         $this->tabs_gui->setSubTabActive('grp_settings');
@@ -501,30 +507,30 @@ class ilObjGroupGUI extends ilContainerGUI
         }
         $this->tpl->setVariable('ADM_CONTENT', $a_form->getHTML());
     }
-    
+
     public function updateGroupTypeObject() : void
     {
         ilDidacticTemplateUtils::switchTemplate(
             $this->object->getRefId(),
             (int) $_REQUEST['grp_type']
         );
-        
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'edit');
     }
-    
-    
+
+
     public function updateObject() : void
     {
         $obj_service = $this->getObjectService();
         $this->checkPermission('write');
-        
+
         $form = $this->initForm();
         $new_type = '';
         if ($form->checkInput()) {
             // handle group type settings
             $old_type = ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
-            
+
             $modified = false;
             $new_type_info = $form->getInput('didactic_type');
             if ($new_type_info) {
@@ -534,13 +540,13 @@ class ilObjGroupGUI extends ilContainerGUI
                 $modified = ($new_type != $old_type);
                 ilLoggerFactory::getLogger('grp')->info('Switched group type from ' . $old_type . ' to ' . $new_type);
             }
-            
+
             // Additional checks: both tile and session limitation activated (not supported)
             if (
                 $form->getInput('sl') == "1" &&
                 $form->getInput('list_presentation') == "tile") {
                 $form->setValuesByPost();
-                ilUtil::sendFailure($this->lng->txt('crs_tile_and_session_limit_not_supported'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_tile_and_session_limit_not_supported'));
                 $this->editObject($form);
                 return;
             }
@@ -549,8 +555,8 @@ class ilObjGroupGUI extends ilContainerGUI
 
             $this->object->setTitle($form->getInput('title'));
             $this->object->setDescription($form->getInput('desc'));
-            $this->object->setGroupType($form->getInput('grp_type'));
-            $this->object->setRegistrationType($form->getInput('registration_type'));
+            $this->object->setGroupType((int) $form->getInput('grp_type'));
+            $this->object->setRegistrationType((int) $form->getInput('registration_type'));
             $this->object->setPassword($form->getInput('password'));
             $this->object->enableUnlimitedRegistration(!$form->getInput('reg_limit_time'));
             $this->object->enableMembershipLimitation((bool) $form->getInput('registration_membership_limited'));
@@ -560,11 +566,11 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->object->setRegistrationAccessCode($form->getInput('reg_code'));
             $this->object->setViewMode((int) $form->getInput('view_mode'));
             $this->object->setMailToMembersType((int) $form->getInput('mail_type'));
-            $this->object->setShowMembers((int) $form->getInput('show_members'));
+            $this->object->setShowMembers((bool) $form->getInput('show_members'));
             $this->object->setAutoNotification((bool) $form->getInput('auto_notification'));
 
             // session limit
-            $this->object->enableSessionLimit((int) $form->getInput('sl'));
+            $this->object->enableSessionLimit((bool) $form->getInput('sl'));
             $session_sp = $form->getInput('sp');
             $this->object->setNumberOfPreviousSessions(is_numeric($session_sp) ? (int) $session_sp : -1);
             $session_sn = $form->getInput('sn');
@@ -670,8 +676,8 @@ class ilObjGroupGUI extends ilContainerGUI
             $ecs = new ilECSGroupSettings($this->object);
             $ecs->handleSettingsUpdate();
         } else {
-            ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input')); // #16975
-            
+            $this->tpl->setOnScreenMessage('failure', $GLOBALS['DIC']->language()->txt('err_check_input')); // #16975
+
             $form->setValuesByPost();
             $this->editObject($form);
             return;
@@ -685,9 +691,9 @@ class ilObjGroupGUI extends ilContainerGUI
                 $dtpl = new ilDidacticTemplateSetting($new_type);
                 $new_type_txt = $dtpl->getPresentationTitle($GLOBALS['DIC']['lng']->getLangKey());
             }
-            
-            
-            ilUtil::sendQuestion($this->lng->txt('grp_warn_grp_type_changed'));
+
+
+            $this->tpl->setOnScreenMessage('question', $this->lng->txt('grp_warn_grp_type_changed'));
             $confirm = new ilConfirmationGUI();
             $confirm->setFormAction($this->ctrl->getFormAction($this));
             $confirm->addItem(
@@ -697,10 +703,10 @@ class ilObjGroupGUI extends ilContainerGUI
             );
             $confirm->addButton($this->lng->txt('grp_change_type'), 'updateGroupType');
             $confirm->setCancel($this->lng->txt('cancel'), 'edit');
-            
+
             $this->tpl->setContent($confirm->getHTML());
         } else {
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, 'edit');
         }
     }
@@ -713,7 +719,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->setSubTabs("settings");
         $this->tabs_gui->setTabActive('settings');
         $this->tabs_gui->setSubTabActive('grp_map_settings');
-        
+
         if (!ilMapUtil::isActivated() ||
             !$this->access->checkAccess("write", "", $this->object->getRefId())) {
             return;
@@ -722,7 +728,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $latitude = $this->object->getLatitude();
         $longitude = $this->object->getLongitude();
         $zoom = $this->object->getLocationZoom();
-        
+
         // Get Default settings, when nothing is set
         if ($latitude == 0 && $longitude == 0 && $zoom == 0) {
             $def = ilMapUtil::getDefaultSettings();
@@ -734,9 +740,9 @@ class ilObjGroupGUI extends ilContainerGUI
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
-        
+
         $form->setTitle($this->lng->txt("grp_map_settings"));
-            
+
         // enable map
         $public = new ilCheckboxInputGUI(
             $this->lng->txt("grp_enable_map"),
@@ -755,9 +761,9 @@ class ilObjGroupGUI extends ilContainerGUI
         $loc_prop->setLongitude($longitude);
         $loc_prop->setZoom($zoom);
         $form->addItem($loc_prop);
-        
+
         $form->addCommandButton("saveMapSettings", $this->lng->txt("save"));
-        
+
         $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
     }
 
@@ -793,21 +799,21 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->object->update();
         $this->ctrl->redirect($this, "editMapSettings");
     }
-    
+
 
 
     public function editInfoObject() : void
     {
         $this->checkPermission('write');
-        
+
         $this->setSubTabs('settings');
         $this->tabs_gui->setTabActive('settings');
         $this->tabs_gui->setSubTabActive('grp_info_settings');
-        
+
         $form = $this->initInfoEditor();
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     protected function initInfoEditor() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -815,17 +821,17 @@ class ilObjGroupGUI extends ilContainerGUI
         $form->setTitle($this->lng->txt('grp_general_informations'));
         $form->addCommandButton('updateInfo', $this->lng->txt('save'));
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
-        
+
         $area = new ilTextAreaInputGUI($this->lng->txt('grp_information'), 'important');
         $area->setInfo($this->lng->txt('grp_information_info'));
         $area->setValue($this->object->getInformation());
         $area->setRows(8);
         $area->setCols(80);
         $form->addItem($area);
-        
+
         return $form;
     }
-    
+
     public function updateInfoObject() : void
     {
         $this->checkPermission('manage_members');
@@ -839,14 +845,14 @@ class ilObjGroupGUI extends ilContainerGUI
         }
         $this->object->setInformation($important);
         $this->object->update();
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         $this->editInfoObject();
     }
-    
+
     public function readMemberData(array $ids, array $selected_columns = null) : array
     {
         $privacy = ilPrivacySettings::getInstance();
-        
+
         $this->show_tracking =
             (
                 ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData()
@@ -857,17 +863,17 @@ class ilObjGroupGUI extends ilContainerGUI
             $olp = ilObjectLP::getInstance($this->object->getId());
             $this->show_tracking = $olp->isActive();
         }
-        
+
         if ($this->show_tracking) {
             $completed = ilLPStatusWrapper::_lookupCompletedForObject($this->object->getId());
             $in_progress = ilLPStatusWrapper::_lookupInProgressForObject($this->object->getId());
             $failed = ilLPStatusWrapper::_lookupFailedForObject($this->object->getId());
         }
-        
+
         if ($privacy->enabledGroupAccessTimes()) {
             $progress = ilLearningProgress::_lookupProgressByObjId($this->object->getId());
         }
-        
+
         $do_prtf = (is_array($selected_columns) &&
             in_array('prtf', $selected_columns) &&
             is_array($ids));
@@ -877,7 +883,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->ctrl->getLinkTarget($this, "members")
             );
         }
-        
+
         $profile_data = ilObjUser::_readUsersProfileData($ids);
         $members = [];
         foreach ($ids as $usr_id) {
@@ -889,7 +895,7 @@ class ilObjGroupGUI extends ilContainerGUI
             $tmp_data['contact'] = $this->object->members_obj->isContact($usr_id) ? 1 : 0;
             $tmp_data['usr_id'] = $usr_id;
             $tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
-            
+
             foreach ((array) $profile_data[$usr_id] as $field => $value) {
                 $tmp_data[$field] = $value;
             }
@@ -917,7 +923,7 @@ class ilObjGroupGUI extends ilContainerGUI
                     $tmp_data['access_time_unix'] = 0;
                 }
             }
-            
+
             if ($do_prtf) {
                 $tmp_data['prtf'] = $all_prtf[$usr_id];
             }
@@ -926,20 +932,20 @@ class ilObjGroupGUI extends ilContainerGUI
         }
         return $members;
     }
-    
+
     public function leaveObject() : void
     {
         $this->checkPermission('leave');
-        
+
         $part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
         if ($part->isLastAdmin($this->user->getId())) {
-            ilUtil::sendFailure($this->lng->txt('grp_err_administrator_required'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('grp_err_administrator_required'));
             $this->viewObject();
             return;
         }
-        
+
         $this->tabs_gui->setTabActive('grp_btn_unsubscribe');
-        
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt('grp_dismiss_myself'));
         $cgui->setFormAction($this->ctrl->getFormAction($this));
@@ -947,13 +953,13 @@ class ilObjGroupGUI extends ilContainerGUI
         $cgui->setConfirm($this->lng->txt("grp_btn_unsubscribe"), "unsubscribe");
         $this->tpl->setContent($cgui->getHTML());
     }
-    
+
     public function unsubscribeObject() : void
     {
         $this->checkPermission('leave');
-        
+
         $this->object->members_obj->delete($this->user->getId());
-        
+
         $this->object->members_obj->sendNotification(
             ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
             $this->user->getId()
@@ -962,8 +968,8 @@ class ilObjGroupGUI extends ilContainerGUI
             ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE,
             $this->user->getId()
         );
-        
-        ilUtil::sendSuccess($this->lng->txt('grp_msg_membership_annulled'), true);
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('grp_msg_membership_annulled'), true);
         $this->ctrl->setParameterByClass(
             "ilrepositorygui",
             "ref_id",
@@ -1038,12 +1044,12 @@ class ilObjGroupGUI extends ilContainerGUI
         }
 
         $is_participant = ilGroupParticipants::_isParticipant($this->ref_id, $this->user->getId());
-            
+
         // Members
         $membership_gui = new ilGroupMembershipGUI($this, $this->object);
         $membership_gui->addMemberTab($this->tabs_gui, $is_participant);
-        
-        
+
+
         // badges
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
             if (ilBadgeHandler::getInstance()->isObjectActive($this->object->getId())) {
@@ -1141,7 +1147,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreen();
     }
-    
+
     public function infoScreen() : void
     {
         $this->tabs_gui->setTabActive('info_short');
@@ -1157,7 +1163,7 @@ class ilObjGroupGUI extends ilContainerGUI
         );
 
         $info = new ilInfoScreenGUI($this);
-        
+
         if (strlen($this->object->getInformation())) {
             $info->addSection($this->lng->txt('grp_general_informations'));
             $info->addProperty($this->lng->txt('grp_information'), nl2br(
@@ -1206,21 +1212,21 @@ class ilObjGroupGUI extends ilContainerGUI
                         $this->lng->txt('grp_reg_direct_info_screen')
                     );
                     break;
-                                                       
+
                 case GRP_REGISTRATION_REQUEST:
                     $info->addProperty(
                         $this->lng->txt('group_registration_mode'),
                         $this->lng->txt('grp_reg_req_info_screen')
                     );
                     break;
-    
+
                 case GRP_REGISTRATION_PASSWORD:
                     $info->addProperty(
                         $this->lng->txt('group_registration_mode'),
                         $this->lng->txt('grp_reg_passwd_info_screen')
                     );
                     break;
-                    
+
             }
             /*
             $info->addProperty($this->lng->txt('group_registration_time'),
@@ -1262,7 +1268,7 @@ class ilObjGroupGUI extends ilContainerGUI
                     );
                 }
             }
-            
+
             if ($this->object->getCancellationEnd()) {
                 $info->addProperty(
                     $this->lng->txt('grp_cancellation_end'),
@@ -1270,7 +1276,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 );
             }
         }
-    
+
         if ($this->object->getStart() instanceof ilDateTime &&
             !$this->object->getStart()->isNull()
         ) {
@@ -1285,20 +1291,19 @@ class ilObjGroupGUI extends ilContainerGUI
 
         // Confirmation
         $privacy = ilPrivacySettings::getInstance();
-        
-        if ($privacy->groupConfirmationRequired() or ilCourseDefinedFieldDefinition::_getFields($this->object->getId()) or $privacy->enabledGroupExport()) {
 
+        if ($privacy->groupConfirmationRequired() or ilCourseDefinedFieldDefinition::_getFields($this->object->getId()) or $privacy->enabledGroupExport()) {
             $field_info = ilExportFieldsInfo::_getInstanceByType($this->object->getType());
-        
+
             $this->lng->loadLanguageModule('ps');
             $info->addSection($this->lng->txt('grp_user_agreement_info'));
             $info->addProperty($this->lng->txt('ps_export_data'), $field_info->exportableFieldsToInfoString());
-            
+
             if ($fields = ilCourseDefinedFieldDefinition::_fieldsToInfoString($this->object->getId())) {
                 $info->addProperty($this->lng->txt('ps_grp_user_fields'), $fields);
             }
         }
-        
+
 
         // forward the command
         $this->ctrl->forwardCommand($info);
@@ -1314,19 +1319,20 @@ class ilObjGroupGUI extends ilContainerGUI
                 $noti->deactivateUser();
             }
         }
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $this->ctrl->redirect($this, "");
     }
-    
+
     protected function membersObject() : void
     {
         $this->ctrl->redirectByClass('ilgroupmembershipgui');
     }
-    
+
 
     public static function _goto(int $a_target, string $a_add = "") : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilUser = $DIC->user();
         $ilAccess = $DIC->access();
@@ -1350,7 +1356,7 @@ class ilObjGroupGUI extends ilContainerGUI
                     $ilUser->getCurrentLanguage()
                 );
             }
-            
+
             // Redirects to target location after assigning user to group
             ilMembershipRegistrationCodeUtils::handleCode(
                 $a_target,
@@ -1375,7 +1381,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreenGoto");
             } else {
                 if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                    ilUtil::sendFailure(sprintf(
+                    $main_tpl->setOnScreenMessage('failure', sprintf(
                         $lng->txt("msg_no_perm_read_item"),
                         ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
                     ), true);
@@ -1386,7 +1392,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
     }
 
-    
+
     public function initForm(string $a_mode = 'edit', bool $a_omit_form_action = false) : ilPropertyFormGUI
     {
         $obj_service = $this->getObjectService();
@@ -1404,12 +1410,12 @@ class ilObjGroupGUI extends ilContainerGUI
                     break;
             }
         }
-        
+
         // title/description
         $this->initFormTitleDescription($form);
 
         $form = $this->initDidacticTemplate($form);
-        
+
         if ($a_mode == 'edit') {
             // group period
             $cdur = new ilDateDurationInputGUI($this->lng->txt('grp_period'), 'period');
@@ -1480,7 +1486,7 @@ class ilObjGroupGUI extends ilContainerGUI
             $dur->setStart($this->object->getRegistrationStart());
             $dur->setEnd($this->object->getRegistrationEnd());
             $form->addItem($dur);
-            
+
             // cancellation limit
             $cancel = new ilDateTimeInputGUI($this->lng->txt('grp_cancellation_end'), 'cancel_end');
             $cancel->setInfo($this->lng->txt('grp_cancellation_end_info'));
@@ -1517,30 +1523,30 @@ class ilObjGroupGUI extends ilContainerGUI
             $lim->addSubItem($wait);
             $form->addItem($lim);
             */
-             
+
             $wait = new ilRadioGroupInputGUI($this->lng->txt('grp_waiting_list'), 'waiting_list');
-            
+
             $option = new ilRadioOption($this->lng->txt('none'), '0');
             $wait->addOption($option);
-            
+
             $option = new ilRadioOption($this->lng->txt('grp_waiting_list_no_autofill'), '1');
             $option->setInfo($this->lng->txt('grp_waiting_list_info'));
             $wait->addOption($option);
-            
+
             $option = new ilRadioOption($this->lng->txt('grp_waiting_list_autofill'), '2');
             $option->setInfo($this->lng->txt('grp_waiting_list_autofill_info'));
             $wait->addOption($option);
-            
+
             if ($this->object->hasWaitingListAutoFill()) {
                 $wait->setValue('2');
             } elseif ($this->object->isWaitingListEnabled()) {
                 $wait->setValue('1');
             }
-            
+
             $lim->addSubItem($wait);
-            
+
             $form->addItem($lim);
-            
+
 
             // Group presentation
             $parent_membership_ref_id = 0;
@@ -1548,7 +1554,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 (
                     $parent_membership_ref_id = $this->tree->checkForParentType($this->object->getRefId(), 'crs', true)
                 );
-            
+
             $pres = new ilFormSectionHeaderGUI();
             $pres->setTitle($this->lng->txt('grp_setting_header_presentation'));
             $form->addItem($pres);
@@ -1603,7 +1609,7 @@ class ilObjGroupGUI extends ilContainerGUI
             $opt = new ilRadioOption($this->lng->txt('cntr_view_sessions'), (string) ilContainer::VIEW_SESSIONS);
             $opt->setInfo($this->lng->txt('cntr_view_info_sessions'));
             $view_type->addOption($opt);
-            
+
             // Limited sessions
             $this->lng->loadLanguageModule('crs');
             $sess = new ilCheckboxInputGUI($this->lng->txt('sess_limit'), 'sl');
@@ -1637,13 +1643,13 @@ class ilObjGroupGUI extends ilContainerGUI
             $opt = new ilRadioOption($this->lng->txt('cntr_view_simple'), (string) ilContainer::VIEW_SIMPLE);
             $opt->setInfo($this->lng->txt('grp_view_info_simple'));
             $view_type->addOption($opt);
-            
+
             $opt = new ilRadioOption($this->lng->txt('cntr_view_by_type'), (string) ilContainer::VIEW_BY_TYPE);
             $opt->setInfo($this->lng->txt('grp_view_info_by_type'));
             $view_type->addOption($opt);
             $form->addItem($view_type);
 
-            
+
             // Sorting
             $sorting_settings = array();
             if ($hasParentMembership) {
@@ -1707,24 +1713,24 @@ class ilObjGroupGUI extends ilContainerGUI
             $not->setChecked($this->object->getAutoNotification());
             $form->addItem($not);
         }
-        
+
         switch ($a_mode) {
             case 'create':
                 $form->setTitle($this->lng->txt('grp_new'));
                 $form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
-        
+
                 $form->addCommandButton('save', $this->lng->txt('grp_new'));
                 $form->addCommandButton('cancel', $this->lng->txt('cancel'));
                 break;
-            
+
             case 'edit':
                 $form->setTitle($this->lng->txt('grp_edit'));
                 $form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
-                
+
                 // Edit ecs export settings
                 $ecs = new ilECSGroupSettings($this->object);
                 $ecs->addSettingsToForm($form, 'grp');
-            
+
                 $form->addCommandButton('update', $this->lng->txt('save'));
                 $form->addCommandButton('cancel', $this->lng->txt('cancel'));
                 break;
@@ -1785,7 +1791,7 @@ class ilObjGroupGUI extends ilContainerGUI
                         $this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui')
                     );
                 }
-                
+
                 $lti_settings = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
                 if ($lti_settings->hasSettingsAccess()) {
                     $this->tabs_gui->addSubTabTarget(
@@ -1805,24 +1811,24 @@ class ilObjGroupGUI extends ilContainerGUI
                 break;
         }
     }
-    
+
     private function checkAgreement() : bool
     {
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
             return true;
         }
-        
+
         // Disable aggrement if is not member of group
         if (!$this->object->members_obj->isAssigned($this->user->getId())) {
             return true;
         }
-        
+
         if (ilMemberViewSettings::getInstance()->isActive()) {
             return true;
         }
-        
+
         $privacy = ilPrivacySettings::getInstance();
-        
+
         // Check agreement
         if (($privacy->groupConfirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId()))
             and !ilMemberAgreement::_hasAccepted($this->user->getId(), $this->object->getId())) {
@@ -1842,7 +1848,7 @@ class ilObjGroupGUI extends ilContainerGUI
     {
         parent::prepareOutput($a_show_subobjects);
     }
-    
+
     public function createMailSignature() : string
     {
         $link = chr(13) . chr(10) . chr(13) . chr(10);
@@ -1861,9 +1867,9 @@ class ilObjGroupGUI extends ilContainerGUI
 
         $ilSetting = $DIC['ilSetting'];
         $ilUser = $DIC['ilUser'];
-        
+
         $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
-                
+
         if (ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId())) {
             if (ilMembershipNotifications::isActiveForRefId($this->ref_id)) {
                 $noti = new ilMembershipNotifications($this->ref_id);
@@ -1897,32 +1903,32 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->ctrl->setParameter($this, "grp_ntf", "");
             }
         }
-        
+
         return $lg;
     }
-    
-    
+
+
     public function addCustomData(array $a_data) : array
     {
         // object defined fields
         $odfs = ilCourseUserData::_getValuesByObjId($this->object->getId());
-        
+
         $res_data = array();
         foreach ($a_data as $usr_id => $user_data) {
             $res_data[$usr_id] = $user_data;
-            
+
             // udf
             $udf_data = new ilUserDefinedData($usr_id);
             foreach ($udf_data->getAll() as $field => $value) {
                 list($f, $field_id) = explode('_', $field);
                 $res_data[$usr_id]['udf_' . $field_id] = (string) $value;
             }
-                
+
             foreach ((array) $odfs[$usr_id] as $cdf_field => $cdf_value) {
                 $res_data[$usr_id]['cdf_' . $cdf_field] = (string) $cdf_value;
             }
         }
-        
+
         return $res_data;
     }
 

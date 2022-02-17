@@ -309,7 +309,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             $this->node_object->setStatus($this->form->getInput("status"));
             $this->node_object->update();
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editProperties");
         }
 
@@ -323,7 +323,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $lng = $this->lng;
 
         if ($this->isInUse()) {
-            ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_skill_in_use"));
         }
 
         $this->setTabs("content");

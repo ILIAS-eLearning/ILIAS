@@ -97,7 +97,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         $ilTabs->activateTab("settings");
         
         if (OH_REF_ID > 0) {
-            ilUtil::sendInfo("This installation is used for online help authoring. Help modules cannot be imported.");
+            $this->tpl->setOnScreenMessage('info', "This installation is used for online help authoring. Help modules cannot be imported.");
             return;
         }
         
@@ -155,7 +155,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         
         if ($this->checkPermissionBool("write")) {
             $this->object->uploadHelpModule($_FILES["help_file"]);
-            ilUtil::sendSuccess($lng->txt("help_module_uploaded"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("help_module_uploaded"), true);
         }
         
         $ilCtrl->redirect($this, "editSettings");
@@ -172,7 +172,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         $ids = $this->help_request->getIds();
 
         if (count($ids) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editSettings");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -212,7 +212,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         $this->checkPermission("write");
         
         $ilSetting->set("help_module", $this->help_request->getHelpModuleId());
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editSettings");
     }
     
@@ -226,7 +226,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         
         if ($ilSetting->get("help_module") == $this->help_request->getHelpModuleId()) {
             $ilSetting->set("help_module", "");
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "editSettings");
     }
@@ -244,7 +244,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
                 "help_mode",
                 $this->help_request->getHelpModule()
             );
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         
         $ilCtrl->redirect($this, "editSettings");

@@ -164,7 +164,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                             $href = "";
                             if (ilUserUtil::hasPublicProfile($target_id)) {
                                 $href = $this->ctrl->getLinkTargetByClass(
-                                    ["ildashboardgui", "ilpublicuserprofilegui"],
+                                    ["ilpublicuserprofilegui"],
                                     "getHTML",
                                     "",
                                     false,

@@ -11,9 +11,9 @@
 class ilTestQuestionNavigationGUI
 {
     const SHOW_DISABLED_COMMANDS = false;
-    
+
     const CSS_CLASS_SUBMIT_BUTTONS = 'ilc_qsubmit_Submit';
-    
+
     /**
      * @var ilLanguage
      */
@@ -102,7 +102,7 @@ class ilTestQuestionNavigationGUI
      * @var bool
      */
     private $anythingRendered = false;
-    
+
     /**
      * @param ilLanguage $lng
      */
@@ -370,7 +370,7 @@ class ilTestQuestionNavigationGUI
     {
         $this->charSelectorEnabled = $charSelectorEnabled;
     }
-    
+
     // fau: testNav - generate question actions menu
     /**
      * Get the HTML of an actions menu below the title
@@ -508,7 +508,7 @@ class ilTestQuestionNavigationGUI
                 $this->getEditSolutionButtonLabel()
             );
         }
-        
+
         // fau: testNav - don't show the standard submit button.
         // fau: testNav - discard answer is moved to the actions menu.
         // fau: testNav - skip question (postpone) is moved to the actions menu.
@@ -540,11 +540,11 @@ class ilTestQuestionNavigationGUI
 
         // fau: testNav - question mark is moved to the actions menu.
         // fau: testNav - char selector is moved to the actions menu.
-        
+
         if ($this->isAnythingRendered()) {
             $this->parseNavigation($tpl);
         }
-        
+
         return $tpl->get();
     }
 
@@ -567,22 +567,22 @@ class ilTestQuestionNavigationGUI
         return 'save';
         // fau.
     }
-    
+
     private function getCheckButtonLabel()
     {
         if ($this->isAnswerFreezingEnabled()) {
             return 'submit_and_check';
         }
-        
+
         return 'check';
     }
-    
+
     private function getRequestHintButtonLabel()
     {
         if ($this->hintRequestsExist()) {
             return 'button_request_next_question_hint';
         }
-        
+
         return 'button_request_question_hint';
     }
 
@@ -689,7 +689,7 @@ class ilTestQuestionNavigationGUI
         $button->setCaption($label);
         $button->setPrimary($primary);
         $button->addCSSClass(self::CSS_CLASS_SUBMIT_BUTTONS);
-        
+
         $this->renderButtonInstance($tpl, $button);
     }
 

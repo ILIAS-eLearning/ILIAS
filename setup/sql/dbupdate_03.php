@@ -8373,7 +8373,7 @@ if (!$ilDB->tableExists('note_settings')) {
 
             // first page has public profile as default
             $xml = "<PageObject>" .
-                "<PageContent PCID=\"" . ilUtil::randomHash() . "\">" .
+                "<PageContent PCID=\"" . ilPageObject::randomHash() . "\">" .
                     "<Profile Mode=\"inherit\" User=\"" . $user_id . "\"/>" .
                 "</PageContent>" .
             "</PageObject>";

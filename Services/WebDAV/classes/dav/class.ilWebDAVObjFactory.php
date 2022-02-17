@@ -4,6 +4,7 @@ use Sabre\DAV\Exception\NotFound;
 use ILIAS\ResourceStorage\Services;
 use Sabre\DAV\INode;
 use Sabre\DAV\Exception\Forbidden;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * @author Stephan Winiker <stephan.winiker@hslu.ch>
@@ -23,6 +24,7 @@ class ilWebDAVObjFactory
     protected ilWebDAVRepositoryHelper $repository_helper;
     protected ilObjUser $current_user;
     protected Services $resource_storage;
+    protected RequestInterface $request;
     protected ilLanguage $language;
     protected string $client_id;
     protected bool $versioning_enabled;
@@ -31,6 +33,7 @@ class ilWebDAVObjFactory
         ilWebDAVRepositoryHelper $repository_helper,
         ilObjUser $current_user,
         Services $resource_storage,
+        RequestInterface $request,
         ilLanguage $language,
         string $client_id,
         bool $versioning_enabled
@@ -38,6 +41,7 @@ class ilWebDAVObjFactory
         $this->repository_helper = $repository_helper;
         $this->current_user = $current_user;
         $this->resource_storage = $resource_storage;
+        $this->request = $request;
         $this->language = $language;
         $this->client_id = $client_id;
         $this->versioning_enabled = $versioning_enabled;
@@ -73,6 +77,7 @@ class ilWebDAVObjFactory
                 $ilias_object,
                 $this->repository_helper,
                 $this->resource_storage,
+                $this->request,
                 $this,
                 $this->versioning_enabled
             );
@@ -81,6 +86,7 @@ class ilWebDAVObjFactory
         return new ilDAVContainer(
             $ilias_object,
             $this->current_user,
+            $this->request,
             $this,
             $this->repository_helper
         );
@@ -108,6 +114,7 @@ class ilWebDAVObjFactory
                 $ilias_object,
                 $this->repository_helper,
                 $this->resource_storage,
+                $this->request,
                 $this,
                 $this->versioning_enabled
             );
@@ -116,6 +123,7 @@ class ilWebDAVObjFactory
         return new ilDAVContainer(
             $ilias_object,
             $this->current_user,
+            $this->request,
             $this,
             $this->repository_helper
         );

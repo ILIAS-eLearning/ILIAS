@@ -1,8 +1,21 @@
-<?php
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Style\Content;
+
+use ILIAS\DI\Container;
 
 /**
  * Content style internal service
@@ -10,88 +23,50 @@ namespace ILIAS\Style\Content;
  */
 class InternalService
 {
-    /**
-     * @var DataFactory
-     */
-    protected $data;
+    protected InternalDataService $data;
+    protected InternalRepoService $repo;
+    protected InternalDomainService $domain;
+    protected InternalGUIService $gui;
 
-    /**
-     * @var RepoFactory
-     */
-    protected $repo;
-
-    /**
-     * @var ManagerFactory
-     */
-    protected $manager;
-
-    /**
-     * @var UIFactory
-     */
-    protected $ui;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function __construct(Container $DIC)
     {
-        /** @var \ILIAS\DI\Container $DIC */
-        global $DIC;
+        $this->data = new InternalDataService();
 
-        $this->data = new DataFactory();
-        $this->repo = new RepoFactory(
+        $this->repo = new InternalRepoService(
+            $this->data(),
             $DIC->database(),
-            $this->data,
             $DIC->filesystem()->web(),
             $DIC->upload()
         );
-        $this->manager = new ManagerFactory(
-            $DIC->rbac()->system(),
+        $this->domain = new InternalDomainService(
+            $DIC,
             $this->repo,
-            $DIC->user()
+            $this->data
         );
-        $this->ui = new UIFactory(
-            $DIC->ui(),
-            $DIC->tabs(),
-            $DIC->toolbar(),
-            $DIC["ilLocator"],
-            $DIC->ctrl(),
-            $DIC->language(),
-            $DIC["ilHelp"],
-            $DIC->http()->request(),
-            $DIC->refinery()
+        $this->gui = new InternalGUIService(
+            $DIC,
+            $this->data,
+            $this->domain
         );
     }
 
-    /**
-     * @return DataFactory
-     */
-    public function data() : DataFactory
+    public function data() : InternalDataService
     {
         return $this->data;
     }
 
-    /**
-     * @return RepoFactory
-     */
-    public function repo() : RepoFactory
+    public function repo() : InternalRepoService
     {
         return $this->repo;
     }
 
-    /**
-     * @return ManagerFactory
-     */
-    public function manager() : ManagerFactory
+    public function domain() : InternalDomainService
     {
-        return $this->manager;
+        return $this->domain;
     }
 
-    /**
-     * @return UIFactory
-     */
-    public function ui() : UIFactory
+    public function gui() : InternalGUIService
     {
-        return $this->ui;
+        return $this->gui;
     }
 }

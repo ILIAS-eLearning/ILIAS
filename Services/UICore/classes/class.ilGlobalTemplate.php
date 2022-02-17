@@ -164,10 +164,14 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
 
         if (DEVMODE && function_exists("tidy_parse_string")) {
             // I think $_SERVER in dev mode is ok.
-            $link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"],
-                "do_dev_validate=xhtml")] = ["Validate", true];
-            $link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"],
-                "do_dev_validate=accessibility")] = ["Accessibility", true];
+            $link_items[ilUtil::appendUrlParameterString(
+                $_SERVER["REQUEST_URI"],
+                "do_dev_validate=xhtml"
+            )] = ["Validate", true];
+            $link_items[ilUtil::appendUrlParameterString(
+                $_SERVER["REQUEST_URI"],
+                "do_dev_validate=accessibility"
+            )] = ["Accessibility", true];
         }
 
         // output translation link
@@ -246,11 +250,13 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
                     ];
                     $total += filesize($f);
                 }
-                $ifiles = ilUtil::sortArray($ifiles, "size", "desc", true);
+                $ifiles = ilArrayUtil::sortArray($ifiles, "size", "desc", true);
                 foreach ($ifiles as $f) {
                     $ftpl->setCurrentBlock("i_entry");
-                    $ftpl->setVariable("I_ENTRY",
-                        $f["file"] . " (" . $f["size"] . " Bytes, " . round(100 / $total * $f["size"], 2) . "%)");
+                    $ftpl->setVariable(
+                        "I_ENTRY",
+                        $f["file"] . " (" . $f["size"] . " Bytes, " . round(100 / $total * $f["size"], 2) . "%)"
+                    );
                     $ftpl->parseCurrentBlock();
                 }
                 $ftpl->setCurrentBlock("i_entry");
@@ -261,41 +267,15 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
             }
         }
 
-        // BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer
-        // The corresponding $ilBench->start invocation is in inc.header.php
-        $ilBench = $DIC["ilBench"];
-        $ilBench->stop("Core", "ElapsedTimeUntilFooter");
-        $ftpl->setVariable(
-            "ELAPSED_TIME",
-            ", " . number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"), 1) . ' seconds'
-        );
-        // END Usability: Non-Delos Skins can display the elapsed time in the footer
-
         $this->setVariable("FOOTER", $ftpl->get());
     }
 
     protected function getMainMenu() : void
     {
-        global $DIC;
-
-        $ilMainMenu = $DIC["ilMainMenu"];
-
-        if ($this->variableExists('MAINMENU')) {
-            $ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-            $this->main_menu = $ilMainMenu->getHTML();
-            $this->main_menu_spacer = $ilMainMenu->getSpacerClass();
-        }
     }
 
     protected function fillMainMenu() : void
     {
-        global $DIC;
-
-        $tpl = $DIC->ui()->mainTemplate();
-        if ($this->variableExists('MAINMENU')) {
-            $tpl->setVariable("MAINMENU", $this->main_menu);
-            $tpl->setVariable("MAINMENU_SPACER", $this->main_menu_spacer);
-        }
     }
 
     protected function initHelp() : void
@@ -382,7 +362,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     {
         $js = "";
         for ($i = 1; $i <= 3; $i++) {
-            if (is_array($this->on_load_code[$i])) {
+            if (isset($this->on_load_code[$i])) {
                 foreach ($this->on_load_code[$i] as $code) {
                     $js .= $code . "\n";
                 }
@@ -445,7 +425,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     public function fillOnLoadCode() : void
     {
         for ($i = 1; $i <= 3; $i++) {
-            if (is_array($this->on_load_code[$i])) {
+            if (isset($this->on_load_code[$i])) {
                 $this->setCurrentBlock("on_load_code");
                 foreach ($this->on_load_code[$i] as $code) {
                     $this->setCurrentBlock("on_load_code_inner");
@@ -823,22 +803,17 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         global $DIC;
 
         $ilLocator = $DIC["ilLocator"];
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
         $html = "";
 
-        if (is_object($ilPluginAdmin)) {
-            $uip = new ilUIHookProcessor(
-                "Services/Locator",
-                "main_locator",
-                ["locator_gui" => $ilLocator]
-            );
-            if (!$uip->replaced()) {
-                $html = $ilLocator->getHTML();
-            }
-            $html = $uip->getHTML($html);
-        } else {
+        $uip = new ilUIHookProcessor(
+            "Services/Locator",
+            "main_locator",
+            ["locator_gui" => $ilLocator]
+        );
+        if (!$uip->replaced()) {
             $html = $ilLocator->getHTML();
         }
+        $html = $uip->getHTML($html);
 
         $this->setVariable("LOCATOR", $html);
     }
@@ -1314,7 +1289,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
 
     protected function fillPermanentLink() : void
     {
-        if (is_array($this->permanent_link)) {
+        if (!empty($this->permanent_link)) {
             $plinkgui = new ilPermanentLinkGUI(
                 $this->permanent_link["type"],
                 $this->permanent_link["id"],

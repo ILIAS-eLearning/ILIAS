@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HttpServices;
+
 /**
  * BlockGUI class calendar selection.
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -23,6 +26,9 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     protected $new_rendering = true;
 
     protected ilTree $tree;
+    protected RefineryFactory $refinery;
+    protected HttpServices $http;
+
 
     protected ilDate $seed;
     protected array $calendar_groups = array();
@@ -50,9 +56,18 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         $this->tree = $DIC->repositoryTree();
         $this->lng->loadLanguageModule('dash');
         $this->lng->loadLanguageModule('dateplaner');
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         $this->ref_id = $a_ref_id;
         $this->obj_id = ilObject::_lookupObjId($this->ref_id);
-        $this->category_id = (int) $_GET['category_id'];
+        $this->category_id = 0;
+        if ($this->http->wrapper()->query()->has('category_id')) {
+            $this->category_id = $this->http->wrapper()->query()->retrieve(
+                'category_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
 
         $this->setLimit(5);
         $this->allow_moving = false;
@@ -208,7 +223,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             }
             $path_categories[] = $cat;
         }
-        $path_categories = ilUtil::sortArray($path_categories, 'title', "asc");
+        $path_categories = ilArrayUtil::sortArray($path_categories, 'title', "asc");
 
         $this->calendars[self::CAL_GRP_CURRENT_CONT_CONS] = array();
         $this->calendars[self::CAL_GRP_CURRENT_CONT] = array();
@@ -353,7 +368,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             $a_tpl->setVariable('VAL_TITLE', $a_set['title']);
             $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $a_set['id']);
             $a_tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTargetByClass("ilcalendarpresentationgui", ''));
-            $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $_GET["category_id"]);
+            $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $this->category_id);
             $a_tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
         }
 

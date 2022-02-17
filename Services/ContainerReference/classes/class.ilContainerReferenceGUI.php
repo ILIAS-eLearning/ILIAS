@@ -134,7 +134,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $ilAccess = $this->access;
         
         if ($this->cont_request->getTargetId() == 0) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->createObject();
             return;
         }
@@ -143,7 +143,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
             '',
             $this->cont_request->getTargetId()
         )) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
             $this->createObject();
             return;
         }
@@ -168,7 +168,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 
         $a_new_object->update();
         
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->setParameter($this, 'ref_id', $a_new_object->getRefId());
         $this->ctrl->setParameter($this, 'creation_mode', 0);
         $this->ctrl->redirect($this, 'firstEdit');
@@ -323,11 +323,11 @@ class ilContainerReferenceGUI extends ilObjectGUI
             $this->loadPropertiesFromSettingsForm($form)
         ) {
             $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'edit');
         }
         $form->setValuesByPost();
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->editObject($form);
         return true;
     }

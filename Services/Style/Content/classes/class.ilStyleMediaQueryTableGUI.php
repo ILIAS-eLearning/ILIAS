@@ -1,38 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-use \ILIAS\Style\Content;
+use ILIAS\Style\Content;
 
 /**
  * TableGUI class for style editor (image list)
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilStyleMediaQueryTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilObjStyleSheet $style_obj;
+    protected ilAccessHandler $access;
+    protected ilRbacSystem $rbacsystem;
+    protected Content\Access\StyleAccessManager $access_manager;
 
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var Content\Access\StyleAccessManager
-     */
-    protected $access_manager;
-
-    /**
-    * Constructor
-    */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_style_obj,
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjStyleSheet $a_style_obj,
         Content\Access\StyleAccessManager $access_manager
     ) {
         global $DIC;
@@ -70,24 +67,16 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
     }
 
-    /**
-    * Get items of current folder
-    */
-    public function getItems()
+    public function getItems() : void
     {
         $this->setData($this->style_obj->getMediaQueries());
     }
     
-    /**
-    * Fill table row
-    */
     protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-        $rbacsystem = $this->rbacsystem;
-        
+
         $this->tpl->setVariable("MQUERY", $a_set["mquery"]);
         $this->tpl->setVariable("MQID", $a_set["id"]);
         $this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);

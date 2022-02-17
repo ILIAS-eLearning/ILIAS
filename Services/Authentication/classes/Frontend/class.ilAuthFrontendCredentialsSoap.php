@@ -1,16 +1,31 @@
-<?php
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 use Psr\Http\Message\ServerRequestInterface;
 
 class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
 {
-    /** @var ServerRequestInterface */
-    private $httpRequest;
+    private ServerRequestInterface $httpRequest;
 
-    /** @var ilCtrl */
-    private $ctrl;
+    private ilCtrl $ctrl;
 
-    /** @var ilSetting */
-    private $settings;
+    private ilSetting $settings;
+    
+    private ilAuthSession $authSession;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilAuthFrontendCredentialsApache constructor.
@@ -20,6 +35,9 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
      */
     public function __construct(ServerRequestInterface $httpRequest, ilCtrl $ctrl, ilSetting $settings)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->authSession = $DIC['ilAuthSession'];
         $this->httpRequest = $httpRequest;
         $this->ctrl = $ctrl;
         $this->settings = $settings;
@@ -29,7 +47,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
     /**
      * Check if an authentication attempt should be done when login page has been called.
      */
-    public function tryAuthenticationOnLoginPage()
+    public function tryAuthenticationOnLoginPage() : void
     {
         $cmd = '';
         if (isset($this->httpRequest->getQueryParams()['cmd']) && is_string($this->httpRequest->getQueryParams()['cmd'])) {
@@ -47,28 +65,27 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
         }
 
         if ('force_login' === $cmd || !empty($passedSso)) {
-            return false;
+            return;
         }
 
-        if (!$this->settings->get('soap_auth_active', false)) {
-            return false;
+        if (!(bool) $this->settings->get('soap_auth_active', (string) false)) {
+            return;
         }
 
         if (empty($this->getUsername()) || empty($this->getPassword())) {
-            return false;
+            return;
         }
 
         $this->getLogger()->debug('Using SOAP authentication.');
 
         $status = ilAuthStatus::getInstance();
 
-        require_once 'Services/SOAPAuth/classes/class.ilAuthProviderSoap.php';
         $provider = new ilAuthProviderSoap($this);
 
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
-            $GLOBALS['DIC']['ilAuthSession'],
+            $this->authSession,
             $status,
             $this,
             [$provider]
@@ -85,7 +102,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
                 break;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                ilUtil::sendFailure($status->getTranslatedReason(), true);
+                $this->main_tpl->setOnScreenMessage('failure', $status->getTranslatedReason(), true);
                 $this->ctrl->redirectToURL(ilUtil::appendUrlParameterString(
                     $this->ctrl->getLinkTargetByClass('ilStartupGUI', 'showLoginPage', '', false, false),
                     'passed_sso=1'

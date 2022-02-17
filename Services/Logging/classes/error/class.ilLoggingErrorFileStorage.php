@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
 
 use Whoops\Exception\Formatter;
@@ -136,6 +136,9 @@ class ilLoggingErrorFileStorage
      */
     private function shortenPHPSessionId(array $server) : array
     {
+        if (!isset($server["HTTP_COOKIE"])) {
+            return $server;
+        }
         $cookie_content = $server["HTTP_COOKIE"];
         $cookie_content = explode(";", $cookie_content);
 

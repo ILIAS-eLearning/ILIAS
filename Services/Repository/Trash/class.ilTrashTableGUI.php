@@ -187,7 +187,7 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         $img = \ilObject::_getIcon(
-            $a_set['obj_id'],
+            (int) $a_set['obj_id'],
             'small',
             $a_set['type']
         );

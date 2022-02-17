@@ -385,7 +385,7 @@ class ilObjectCopyGUI
         $user = $this->user;
         $tpl = $this->tpl;
 
-        ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_source'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_copy_clipboard_source'));
         $this->setTabs(self::TAB_GROUP_SC_SELECTION, self::TAB_SELECTION_MEMBERSHIP);
         
         $cgs = new ilObjectCopyCourseGroupSelectionTableGUI($this, 'showSourceSelectionMembership', 'copy_selection_membership');
@@ -418,9 +418,9 @@ class ilObjectCopyGUI
         $this->tpl = $tpl;
         
         if ($objDefinition->isContainer($this->getType())) {
-            ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_container'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_copy_clipboard_container'));
         } else {
-            ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_copy_clipboard'));
         }
 
         //
@@ -490,7 +490,7 @@ class ilObjectCopyGUI
             "Services/Object"
         );
         
-        ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_source'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_copy_clipboard_source'));
         $exp = new ilPasteIntoMultipleItemsExplorer(
             ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
             'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=goto',
@@ -556,7 +556,7 @@ class ilObjectCopyGUI
         // end-patch multi copy
         else {
             $ilCtrl->setParameter($this, 'selectMode', self::TARGET_SELECTION);
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showTargetSelectionTree();
             return false;
         }
@@ -572,13 +572,11 @@ class ilObjectCopyGUI
                 $source_type = ilObject::_lookupType($source_ref_id, true);
 
                 if (!array_key_exists($source_type, (array) $possible_subtypes)) {
-                    ilUtil::sendFailure(
-                        sprintf(
-                            $this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
-                            $this->lng->txt('obj_' . $target_type),
-                            $this->lng->txt('obj_' . $source_type)
-                        )
-                    );
+                    $this->tpl->setOnScreenMessage('failure', sprintf(
+                        $this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
+                        $this->lng->txt('obj_' . $target_type),
+                        $this->lng->txt('obj_' . $source_type)
+                    ));
                     $this->showTargetSelectionTree();
                     return false;
                 }
@@ -599,7 +597,7 @@ class ilObjectCopyGUI
             }
             // end-patch multi copy
             if (count($is_child) > 0) {
-                ilUtil::sendFailure($this->lng->txt("msg_not_in_itself") . " " . implode(',', $is_child));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_not_in_itself") . " " . implode(',', $is_child));
                 $this->showTargetSelectionTree();
                 return false;
             }
@@ -760,7 +758,7 @@ class ilObjectCopyGUI
      */
     public function keepObjectsInClipboard()
     {
-        ilUtil::sendSuccess($this->lng->txt("obj_inserted_clipboard"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("obj_inserted_clipboard"), true);
         $ilCtrl = $this->ctrl;
         $this->clipboard->setCmd("copy");
         $this->clipboard->setRefIds($this->getSources());
@@ -781,7 +779,7 @@ class ilObjectCopyGUI
         $tpl = $this->tpl;
         
         if (isset($_POST['tit'])) {
-            ilUtil::sendInfo($this->lng->txt('wizard_search_list'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('wizard_search_list'));
             $_SESSION['source_query'] = $_POST['tit'];
         } else {
             $_POST['tit'] = $_SESSION['source_query'];
@@ -791,7 +789,7 @@ class ilObjectCopyGUI
         $this->form->setValuesByPost();
         
         if (!$this->form->checkInput()) {
-            ilUtil::sendFailure($lng->txt('msg_no_search_string'), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt('msg_no_search_string'), true);
             $ilCtrl->returnToParent($this);
             return false;
         }
@@ -801,7 +799,7 @@ class ilObjectCopyGUI
         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {
-            ilUtil::sendFailure($query_parser->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $query_parser->getMessage(), true);
             $ilCtrl->returnToParent($this);
         }
 
@@ -813,7 +811,7 @@ class ilObjectCopyGUI
         $res->filter(ROOT_FOLDER_ID, true);
         
         if (!count($results = $res->getResultsByObjId())) {
-            ilUtil::sendFailure($this->lng->txt('search_no_match'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_no_match'), true);
             $ilCtrl->returnToParent($this);
         }
         
@@ -839,7 +837,7 @@ class ilObjectCopyGUI
             $this->setType(ilObject::_lookupType((int) $_REQUEST['source'], true));
             $ilCtrl->setParameter($this, 'source_id', (int) $_REQUEST['source']);
         } else {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->searchSource();
             return false;
         }
@@ -864,13 +862,11 @@ class ilObjectCopyGUI
                         $this->getSubMode() != self::SUBMODE_CONTENT_ONLY and
                         ($source_type != 'crs' or $target_type != 'crs')
                     ) {
-                        ilUtil::sendFailure(
-                            sprintf(
-                                $this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
-                                $this->lng->txt('obj_' . $target_type),
-                                $this->lng->txt('obj_' . $source_type)
-                            )
-                        );
+                        $this->tpl->setOnScreenMessage('failure', sprintf(
+                            $this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
+                            $this->lng->txt('obj_' . $target_type),
+                            $this->lng->txt('obj_' . $source_type)
+                        ));
                         $this->searchSource();
                         return false;
                     }
@@ -895,7 +891,7 @@ class ilObjectCopyGUI
         $ilCtrl = $this->ctrl;
         
         if (!isset($_REQUEST['source'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $ilCtrl->redirect($this, 'showSourceSelectionMembership');
             return false;
         }
@@ -920,7 +916,7 @@ class ilObjectCopyGUI
         $tpl = $this->tpl;
         
         if (!count($this->getSources())) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->searchSource();
             return false;
         }
@@ -928,7 +924,7 @@ class ilObjectCopyGUI
         ilLoggerFactory::getLogger('obj')->debug('Source(s): ' . print_r($this->getSources(), true));
         ilLoggerFactory::getLogger('obj')->debug('Target(s): ' . print_r($this->getTargets(), true));
 
-        ilUtil::sendInfo($this->lng->txt($this->getType() . '_copy_threads_info'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt($this->getType() . '_copy_threads_info'));
 
         $tpl->addJavaScript('./Services/CopyWizard/js/ilContainer.js');
         $tpl->setVariable('BODY_ATTRIBUTES', 'onload="ilDisableChilds(\'cmd\');"');
@@ -962,7 +958,7 @@ class ilObjectCopyGUI
         $ilCtrl = $this->ctrl;
         // Source defined
         if (!count($this->getSources())) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $ilCtrl->returnToParent($this);
         }
 
@@ -994,7 +990,7 @@ class ilObjectCopyGUI
             foreach ($this->getTargets() as $target_ref_id) {
                 if (!$rbacsystem->checkAccess('create', $target_ref_id, $source_type)) {
                     $this->log->notice('Permission denied for target_id: ' . $target_ref_id . ' source_type: ' . $source_type . ' CREATE');
-                    ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                     $ilCtrl->returnToParent($this);
                 }
             }
@@ -1002,26 +998,26 @@ class ilObjectCopyGUI
             // Copy permission
             if (!$ilAccess->checkAccess('copy', '', $source_ref_id)) {
                 $this->log->notice('Permission denied for source_ref_id: ' . $source_ref_id . ' COPY');
-                ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                 $ilCtrl->returnToParent($this);
             }
 
             // check that these objects are really not containers
             if ($objDefinition->isContainer($source_type) and $this->getSubMode() != self::SUBMODE_CONTENT_ONLY) {
-                ilUtil::sendFailure($this->lng->txt('cntr_container_only_on_their_own'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cntr_container_only_on_their_own'), true);
                 $ilCtrl->returnToParent($this);
             }
         }
 
         reset($a_sources);
-        
-        
+
+
         ilLoggerFactory::getLogger('obj')->debug('Copy multiple non containers. Sources: ' . print_r($a_sources, true));
 
         // clone
         foreach ($a_sources as $source_ref_id) {
             ilLoggerFactory::getLogger('obj')->debug('Copying source ref_id : ' . $source_ref_id);
-            
+
             // begin-patch mc
             foreach ($this->getTargets() as $target_ref_id) {
                 // Save wizard options
@@ -1050,15 +1046,15 @@ class ilObjectCopyGUI
 
         if (count($a_sources) == 1) {
             ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
-            ilUtil::sendSuccess($this->lng->txt("object_duplicated"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_duplicated"), true);
             $ref_id = $new_obj->getRefId();
         } else {
             ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
-            ilUtil::sendSuccess($this->lng->txt("objects_duplicated"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("objects_duplicated"), true);
             $ref_id = $this->getFirstTarget();
         }
 
-        ilUtil::sendSuccess($this->lng->txt("objects_duplicated"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("objects_duplicated"), true);
         ilUtil::redirect(ilLink::_getLink($ref_id));
 
         // see bug discussion 24472
@@ -1092,7 +1088,7 @@ class ilObjectCopyGUI
 
         if (ilCopyWizardOptions::_isFinished($result['copy_id'])) {
             ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
-            ilUtil::sendSuccess($this->lng->txt("object_duplicated"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_duplicated"), true);
             if ($this->getSubMode() == self::SUBMODE_CONTENT_ONLY) {
                 // return to parent container
                 return $this->ctrl->returnToParent($this);
@@ -1165,12 +1161,12 @@ class ilObjectCopyGUI
         if ($this->getSubMode() != self::SUBMODE_CONTENT_ONLY) {
             if (!$rbacsystem->checkAccess('create', $a_target, $this->getType())) {
                 $this->log->notice('Permission denied for target: ' . $a_target . ' type: ' . $this->getType() . ' CREATE');
-                ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                 $ilCtrl->returnToParent($this);
             }
         }
         if (!$this->getFirstSource()) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $ilCtrl->returnToParent($this);
             return false;
         }

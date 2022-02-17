@@ -50,6 +50,7 @@ class ilDclRecordListGUI
      * @var array
      */
     protected static $available_modes = array(self::MODE_VIEW, self::MODE_MANAGE);
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     /**
@@ -59,6 +60,7 @@ class ilDclRecordListGUI
     public function __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $this->ctrl = $ilCtrl;
@@ -98,7 +100,7 @@ class ilDclRecordListGUI
         $ilTabs = $DIC['ilTabs'];
 
         if (!$this->checkAccess()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
 
             return;
         }
@@ -175,7 +177,7 @@ class ilDclRecordListGUI
         }
 
         if (count($this->table_obj->getRecordFields()) == 0) {
-            ilUtil::sendInfo($this->lng->txt("dcl_no_fields_yet") . " "
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("dcl_no_fields_yet") . " "
                 . (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->ref_id, $this->table_id) ? $this->lng->txt("dcl_create_fields") : ""));
         }
 
@@ -446,10 +448,10 @@ class ilDclRecordListGUI
 
         $n_deleted = (count($record_ids) - $n_skipped);
         if ($n_deleted) {
-            ilUtil::sendSuccess(sprintf($this->lng->txt('dcl_deleted_records'), $n_deleted), true);
+            $this->main_tpl->setOnScreenMessage('success', sprintf($this->lng->txt('dcl_deleted_records'), $n_deleted), true);
         }
         if ($n_skipped) {
-            ilUtil::sendInfo(sprintf($this->lng->txt('dcl_skipped_delete_records'), $n_skipped), true);
+            $this->main_tpl->setOnScreenMessage('info', sprintf($this->lng->txt('dcl_skipped_delete_records'), $n_skipped), true);
         }
         $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
     }

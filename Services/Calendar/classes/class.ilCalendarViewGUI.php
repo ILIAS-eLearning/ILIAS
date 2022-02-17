@@ -5,6 +5,8 @@
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\DI\UIServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HttpServices;
 
 /**
  * @author  Jesús López Reyes <lopez@leifos.com>
@@ -36,6 +38,8 @@ class ilCalendarViewGUI
     protected ilGlobalTemplateInterface $main_tpl;
     protected ilComponentFactory $component_factory;
     protected ilTabsGUI $tabs_gui;
+    protected RefineryFactory $refinery;
+    protected HttpServices $http;
 
     public function __construct(ilDate $seed, int $presentation_type)
     {
@@ -75,6 +79,41 @@ class ilCalendarViewGUI
             iljQueryUtil::initjQuery($this->main_tpl);
             $this->main_tpl->addJavaScript('./Services/Calendar/js/calendar_appointment.js');
         }
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+    }
+
+    protected function initAppointmentIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('app_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'app_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initInitialDateFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('dt')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'dt',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initBookingUserFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('bkid')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'bkid',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
     }
 
     /**
@@ -85,7 +124,7 @@ class ilCalendarViewGUI
         // @todo: this needs optimization
         $events = $this->getEvents();
         foreach ($events as $item) {
-            if ($item["event"]->getEntryId() == (int) $_GET["app_id"]) {
+            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery()) {
                 return $item;
             }
         }
@@ -122,8 +161,12 @@ class ilCalendarViewGUI
                         break;
 
                     case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
-                        $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_HALF_YEAR, $user,
-                            true);
+                        $schedule = new ilCalendarSchedule(
+                            $this->seed,
+                            ilCalendarSchedule::TYPE_HALF_YEAR,
+                            $user,
+                            true
+                        );
                         $end_date->increment(IL_CAL_MONTH, 6);
                         break;
                     default:
@@ -193,7 +236,7 @@ class ilCalendarViewGUI
 
         //item => array containing ilcalendary object, dstart of the event , dend etc.
         foreach ($events as $item) {
-            if ($item["event"]->getEntryId() == (int) $_GET["app_id"] && $item['dstart'] == (int) $_GET['dt']) {
+            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery() && $item['dstart'] == (int) $this->initInitialDateFromQuery()) {
                 $dates = $this->getDatesForItem($item);
                 // content of modal
                 $next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);
@@ -202,8 +245,10 @@ class ilCalendarViewGUI
                 //plugins can change the modal title.
                 $modal_title = ilDatePresentation::formatPeriod($dates["start"], $dates["end"]);
                 $modal_title = $this->getModalTitleByPlugins($modal_title);
-                $modal = $this->ui_factory->modal()->roundtrip($modal_title,
-                    $this->ui_factory->legacy($content))->withCancelButtonLabel("close");
+                $modal = $this->ui_factory->modal()->roundtrip(
+                    $modal_title,
+                    $this->ui_factory->legacy($content)
+                )->withCancelButtonLabel("close");
                 echo $this->ui_renderer->renderAsync($modal);
             }
         }
@@ -229,9 +274,9 @@ class ilCalendarViewGUI
         $this->ctrl->setParameter($this, 'dt', $a_dstart);
         $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
         $url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
-        $this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
-        $this->ctrl->setParameter($this, "dt", $_GET["dt"]);
-        $this->ctrl->setParameter($this, 'seed', $_GET["seed"]);
+        $this->ctrl->setParameter($this, "app_id", $this->initAppointmentIdFromQuery());
+        $this->ctrl->setParameter($this, "dt", $this->initInitialDateFromQuery());
+        $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
         $modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
@@ -285,8 +330,10 @@ class ilCalendarViewGUI
             $plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date, IL_CAL_UNIX));
 
             if ($new_title = $plugin->editShyButtonTitle()) {
-                $a_tpl->setVariable('EVENT_CONTENT',
-                    $this->getAppointmentShyButton($a_cal_entry, (string) $a_start_date, $new_title));
+                $a_tpl->setVariable(
+                    'EVENT_CONTENT',
+                    $this->getAppointmentShyButton($a_cal_entry, (string) $a_start_date, $new_title)
+                );
             }
 
             if ($glyph = $plugin->addGlyph()) {
@@ -348,7 +395,7 @@ class ilCalendarViewGUI
         $download_job->setBucketTitle($this->getBucketTitle());
         $download_job->setEvents($this->getEvents());
         if ($download_job->run()) {
-            ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('cal_download_files_started'), true);
         }
         $this->ctrl->redirect($this);
     }

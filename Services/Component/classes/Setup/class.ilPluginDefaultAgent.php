@@ -59,7 +59,7 @@ abstract class ilPluginDefaultAgent implements Setup\Agent
             false,
             new ilComponentUpdatePluginObjective($this->plugin_name),
             new ilComponentActivatePluginsObjective($this->plugin_name),
-            new ilComponentPluginLanguageUpdatedObjective($this->plugin_name)
+            new ilPluginLanguageUpdatedObjective($this->plugin_name)
         );
     }
 

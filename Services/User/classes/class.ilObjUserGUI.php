@@ -255,18 +255,20 @@ class ilObjUserGUI extends ilObjectGUI
             if ($definition['field_type'] == UDF_TYPE_TEXT) {
                 $this->tpl->setCurrentBlock("field_text");
                 $this->tpl->setVariable("FIELD_NAME", 'udf[' . $definition['field_id'] . ']');
-                $this->tpl->setVariable("FIELD_VALUE", ilUtil::prepareFormOutput($old));
+                $this->tpl->setVariable("FIELD_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($old));
             } else {
                 $this->tpl->setCurrentBlock("field_select");
-                $this->tpl->setVariable("SELECT_BOX", ilUtil::formSelect(
-                    $old,
-                    'udf[' . $definition['field_id'] . ']',
-                    $this->user_defined_fields->fieldValuesToSelectArray(
-                        $definition['field_values']
-                    ),
-                    false,
-                    true
-                ));
+                $this->tpl->setVariable("SELECT_BOX",
+                    ilLegacyFormElementsUtil::formSelect(
+                        $old,
+                        'udf[' . $definition['field_id'] . ']',
+                        $this->user_defined_fields->fieldValuesToSelectArray(
+                            $definition['field_values']
+                        ),
+                        false,
+                        true
+                    )
+                );
             }
             $this->tpl->parseCurrentBlock();
             $this->tpl->setCurrentBlock("user_defined");
@@ -513,13 +515,13 @@ class ilObjUserGUI extends ilObjectGUI
 
                 if ($acc_mail->send()) {
                     $msg = $msg . '<br />' . $this->lng->txt('mail_sent');
-                    ilUtil::sendSuccess($msg, true);
+                    $this->tpl->setOnScreenMessage('success', $msg, true);
                 } else {
                     $msg = $msg . '<br />' . $this->lng->txt('mail_not_sent');
-                    ilUtil::sendInfo($msg, true);
+                    $this->tpl->setOnScreenMessage('info', $msg, true);
                 }
             } else {
-                ilUtil::sendSuccess($msg, true);
+                $this->tpl->setOnScreenMessage('success', $msg, true);
             }
 
             if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
@@ -827,7 +829,7 @@ class ilObjUserGUI extends ilObjectGUI
             try {
                 $this->object->updateLogin($this->form_gui->getInput("login"));
             } catch (ilUserException $e) {
-                ilUtil::sendFailure($e->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
                 $this->form_gui->setValuesByPost();
                 $tpl->setContent($this->form_gui->getHTML());
                 return;
@@ -926,7 +928,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
 
             // feedback
-            ilUtil::sendSuccess($msg, true);
+            $this->tpl->setOnScreenMessage('success', $msg, true);
 
             if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
                 $this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
@@ -1123,7 +1125,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($a_mode == "create") {
                 $pw->setRequiredOnAuth(true);
             }
-            $pw->setInfo(ilUtil::getPasswordRequirementsInfo());
+            $pw->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
             $this->form_gui->addItem($pw);
         }
         // @todo: invisible/hidden passwords
@@ -1626,7 +1628,7 @@ class ilObjUserGUI extends ilObjectGUI
             return;
         }
         if ($_FILES["userfile"]["size"] == 0) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_file"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_file"));
         } else {
             $webspace_dir = ilFileUtils::getWebspaceDir();
             $image_dir = $webspace_dir . "/usr_images";
@@ -1645,7 +1647,7 @@ class ilObjUserGUI extends ilObjectGUI
                 $uploaded_file,
                 false
             )) {
-                ilUtil::sendFailure($this->lng->txt("upload_error", true));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
                 $this->ctrl->redirect($this, "showProfile");
             }
             chmod($uploaded_file, 0770);
@@ -1656,22 +1658,30 @@ class ilObjUserGUI extends ilObjectGUI
             $thumb_file = "$image_dir/usr_" . $this->object->getId() . "_small.jpg";
             $xthumb_file = "$image_dir/usr_" . $this->object->getId() . "_xsmall.jpg";
             $xxthumb_file = "$image_dir/usr_" . $this->object->getId() . "_xxsmall.jpg";
-            $uploaded_file = ilUtil::escapeShellArg($uploaded_file);
-            $show_file = ilUtil::escapeShellArg($show_file);
-            $thumb_file = ilUtil::escapeShellArg($thumb_file);
-            $xthumb_file = ilUtil::escapeShellArg($xthumb_file);
-            $xxthumb_file = ilUtil::escapeShellArg($xxthumb_file);
+            $uploaded_file = ilShellUtil::escapeShellArg($uploaded_file);
+            $show_file = ilShellUtil::escapeShellArg($show_file);
+            $thumb_file = ilShellUtil::escapeShellArg($thumb_file);
+            $xthumb_file = ilShellUtil::escapeShellArg($xthumb_file);
+            $xxthumb_file = ilShellUtil::escapeShellArg($xxthumb_file);
 
-            if (ilUtil::isConvertVersionAtLeast("6.3.8-3")) {
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file);
+            if (ilShellUtil::isConvertVersionAtLeast("6.3.8-3")) {
+                ilShellUtil::execConvert(
+                    $uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file
+                );
+                ilShellUtil::execConvert(
+                    $uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file
+                );
+                ilShellUtil::execConvert(
+                    $uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file
+                );
+                ilShellUtil::execConvert(
+                    $uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file
+                );
             } else {
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
-                ilUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
+                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
+                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
+                ilShellUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
             }
         }
     }
@@ -1692,7 +1702,7 @@ class ilObjUserGUI extends ilObjectGUI
         // remove user pref file name
         $this->object->setPref("profile_image", "");
         $this->object->update();
-        ilUtil::sendSuccess($this->lng->txt("user_image_removed"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_image_removed"));
 
         if (is_file($file)) {
             unlink($file);
@@ -1750,10 +1760,7 @@ class ilObjUserGUI extends ilObjectGUI
             or (empty($posted_global_roles) and count($assigned_global_roles_all) == count($assigned_global_roles))) {
             //$this->ilias->raiseError($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
             // workaround. sometimes jumps back to wrong page
-            ilUtil::sendFailure(
-                $this->lng->txt("msg_min_one_role") . "<br/>" . $this->lng->txt("action_aborted"),
-                true
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_min_one_role") . "<br/>" . $this->lng->txt("action_aborted"), true);
             $this->ctrl->redirect($this, 'roleassignment');
         }
 
@@ -1768,7 +1775,7 @@ class ilObjUserGUI extends ilObjectGUI
         // update object data entry (to update last modification date)
         $this->object->update();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_roleassignment_changed"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_roleassignment_changed"), true);
 
         if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
             $this->ctrl->redirect($this, 'roleassignment');
@@ -1857,25 +1864,25 @@ class ilObjUserGUI extends ilObjectGUI
                 for ($i = 0; $i <= 60; $i++) {
                     $days[$i] = $i < 10 ? "0" . $i : $i;
                 }
-                return ilUtil::formSelect($a_selected, $a_varname, $days, false, true);
+                return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $days, false, true);
 
             case "hour":
                 for ($i = 0; $i < 24; $i++) {
                     $days[$i] = $i < 10 ? "0" . $i : $i;
                 }
-                return ilUtil::formSelect($a_selected, $a_varname, $days, false, true);
+                return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $days, false, true);
 
             case "day":
                 for ($i = 1; $i < 32; $i++) {
                     $days[$i] = $i < 10 ? "0" . $i : $i;
                 }
-                return ilUtil::formSelect($a_selected, $a_varname, $days, false, true);
+                return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $days, false, true);
 
             case "month":
                 for ($i = 1; $i < 13; $i++) {
                     $month[$i] = $i < 10 ? "0" . $i : $i;
                 }
-                return ilUtil::formSelect($a_selected, $a_varname, $month, false, true);
+                return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $month, false, true);
 
             case "year":
                 if ($a_selected < date('Y', time())) {
@@ -1887,7 +1894,7 @@ class ilObjUserGUI extends ilObjectGUI
                 for ($i = $start; $i < date("Y", time()) + 11; ++$i) {
                     $year[$i] = $i;
                 }
-                return ilUtil::formSelect($a_selected, $a_varname, $year, false, true);
+                return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $year, false, true);
         }
         return "";
     }
@@ -1918,7 +1925,7 @@ class ilObjUserGUI extends ilObjectGUI
         $action[4] = $this->lng->txt('internal_local_roles_only');
         $action[5] = $this->lng->txt('non_internal_local_roles_only');
 
-        return ilUtil::formSelect(
+        return ilLegacyFormElementsUtil::formSelect(
             ilSession::get("filtered_roles"),
             "filter",
             $action,

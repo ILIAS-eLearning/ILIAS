@@ -26,6 +26,7 @@ class ilTaggingGUI
     protected RequestInterface $request;
     protected string $mess = "";
     protected string $requested_mess = "";
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
@@ -33,6 +34,7 @@ class ilTaggingGUI
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
@@ -139,8 +141,9 @@ class ilTaggingGUI
         );
         $ttpl->setVariable(
             "VAL_TAGS",
-            ilUtil::prepareFormOutput(implode(", ", $tags))
+            ilLegacyFormElementsUtil::prepareFormOutput(implode(", ", $tags))
         );
+        $ttpl->setVariable("TAG_LABEL", $lng->txt("tagging_my_tags"));
         $ttpl->setVariable("TXT_SAVE", $lng->txt("save"));
         $ttpl->setVariable("TXT_COMMA_SEPARATED", $lng->txt("comma_separated"));
         $ttpl->setVariable("CMD_SAVE", $this->savecmd);
@@ -184,7 +187,7 @@ class ilTaggingGUI
             $this->getUserId(),
             $tags
         );
-        ilUtil::sendSuccess($lng->txt('msg_obj_modified'));
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('msg_obj_modified'));
     }
     
     // Check whether a tag is forbiddens
@@ -320,7 +323,7 @@ class ilTaggingGUI
         );
         $tpl->setVariable(
             "VAL_TAGS",
-            ilUtil::prepareFormOutput(implode(", ", $tags))
+            ilLegacyFormElementsUtil::prepareFormOutput(implode(", ", $tags))
         );
         $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
         $tpl->setVariable("TXT_COMMA_SEPARATED", $lng->txt("comma_separated"));

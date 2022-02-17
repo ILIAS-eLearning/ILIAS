@@ -14,9 +14,11 @@ abstract class ilSystemStyleBaseFSTest extends TestCase
     protected ilFileSystemHelper $file_system;
     protected ?ILIAS\DI\Container $save_dic = null;
     protected ilLanguage $lng;
-
+    
     protected function setUp() : void
     {
+        global $DIC;
+        $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
         $this->system_style_config = new ilSystemStyleConfigMock();
 
         if (!file_exists($this->system_style_config->test_skin_temp_path)) {

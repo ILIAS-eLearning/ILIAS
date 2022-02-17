@@ -20,7 +20,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
      */
     private $obj_user;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->iass_object = $this->createMock(ilObjIndividualAssessment::class);
         $this->grading = $this->createMock(ilIndividualAssessmentUserGrading::class);

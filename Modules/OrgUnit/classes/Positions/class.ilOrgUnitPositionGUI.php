@@ -13,13 +13,16 @@ class ilOrgUnitPositionGUI extends BaseCommands
     const SUBTAB_PERMISSIONS = 'obj_orgunit_positions';
     const CMD_CONFIRM_DELETION = 'confirmDeletion';
     const CMD_ASSIGN = 'assign';
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         if (!ilObjOrgUnitAccess::_checkAccessPositions((int) $_GET['ref_id'])) {
-            ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+            $main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
             $DIC->ctrl()->redirectByClass(ilObjOrgUnitGUI::class);
         }
     }
@@ -70,7 +73,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
     {
         $form = new ilOrgUnitPositionFormGUI($this, new ilOrgUnitPosition());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->txt('msg_position_created'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->txt('msg_position_created'), true);
             $this->ctrl()->redirect($this, self::CMD_INDEX);
         }
 
@@ -95,7 +98,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $form = new ilOrgUnitPositionFormGUI($this, $position);
         $form->setValuesByPost();
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->txt('msg_position_updated'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->txt('msg_position_updated'), true);
             $this->ctrl()->redirect($this, self::CMD_INDEX);
         }
 
@@ -119,7 +122,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
             $assignment->delete();
         }
 
-        ilUtil::sendSuccess($this->txt('msg_assignment_to_employee_done'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->txt('msg_assignment_to_employee_done'), true);
     }
 
 
@@ -172,7 +175,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         }
         $position = $this->getPositionFromRequest();
         $position->deleteWithAllDependencies();
-        ilUtil::sendSuccess($this->txt('msg_deleted'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->txt('msg_deleted'), true);
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
 

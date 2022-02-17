@@ -23,10 +23,12 @@ class ilAccountCodesGUI
     protected \ILIAS\User\StandardGUIRequest $request;
     protected int $ref_id;
     protected array $filter;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(int $a_ref_id)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $lng = $DIC['lng'];
 
@@ -182,7 +184,7 @@ class ilAccountCodesGUI
                 ilAccountCode::create($valid, $stamp);
             }
             
-            ilUtil::sendSuccess($lng->txt('saved_successfully'), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt('saved_successfully'), true);
             $ilCtrl->redirect($this, "listCodes");
         } else {
             $this->form_gui->setValuesByPost();
@@ -200,7 +202,7 @@ class ilAccountCodesGUI
         $ids = $this->request->getIds();
         ilAccountCode::deleteCodes($ids);
         
-        ilUtil::sendSuccess($lng->txt('info_deleted'), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('info_deleted'), true);
         $ilCtrl->redirect($this, "listCodes");
     }
 
@@ -214,7 +216,7 @@ class ilAccountCodesGUI
 
         $ids = $this->request->getIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $this->listCodes();
         }
     
@@ -269,7 +271,7 @@ class ilAccountCodesGUI
             // #13497
             ilUtil::deliverData(implode("\r\n", $codes), "ilias_account_codes_" . date("d-m-Y") . ".txt", "text/plain");
         } else {
-            ilUtil::sendFailure($lng->txt("account_export_codes_no_data"));
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("account_export_codes_no_data"));
             $this->listCodes();
         }
     }

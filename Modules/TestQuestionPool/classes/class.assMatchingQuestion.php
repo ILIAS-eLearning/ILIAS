@@ -1044,7 +1044,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             } else {
                 // create thumbnail file
                 $thumbpath = $imagepath . $this->getThumbPrefix() . $savename;
-                ilUtil::convertImage($imagepath . $savename, $thumbpath, "JPEG", $this->getThumbGeometry());
+                ilShellUtil::convertImage($imagepath . $savename, $thumbpath, "JPEG", $this->getThumbGeometry());
             }
             if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename))) {
                 $this->deleteImagefile($previous_filename);
@@ -1086,13 +1086,13 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         foreach ($submittedMatchings as $definition => $terms) {
             if (count($terms) > 1) {
-                ilUtil::sendFailure($this->lng->txt("multiple_matching_values_selected"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("multiple_matching_values_selected"), true);
                 return false;
             }
 
             foreach ($terms as $i => $term) {
                 if (isset($handledTerms[$term])) {
-                    ilUtil::sendFailure($this->lng->txt("duplicate_matching_values_selected"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("duplicate_matching_values_selected"), true);
                     return false;
                 }
 
@@ -1366,7 +1366,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $ext = 'JPEG';
                     break;
             }
-            ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
         }
     }
 

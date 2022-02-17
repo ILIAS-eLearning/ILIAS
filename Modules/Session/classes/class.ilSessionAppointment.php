@@ -35,7 +35,7 @@ class ilSessionAppointment implements ilDatePeriod
     protected ?ilDateTime $end = null;
     protected int $starting_time = 0;
     protected int $ending_time = 0;
-    protected int $fulltime = 0;
+    protected bool $fulltime = false;
     protected int $appointment_id = 0;
     protected int $session_id = 0;
 
@@ -161,7 +161,7 @@ class ilSessionAppointment implements ilDatePeriod
 
     public function isFullday() : bool
     {
-        return (bool) $this->enabledFullTime();
+        return $this->enabledFullTime();
     }
 
     public function getStart() : ?ilDateTime
@@ -224,11 +224,11 @@ class ilSessionAppointment implements ilDatePeriod
         return $this->ending_time ?? mktime(16, 0, 0, (int) date('n', time()), (int) date('j', time()), (int) date('Y', time()));
     }
 
-    public function toggleFullTime(int $a_status) : void
+    public function toggleFullTime(bool $a_status) : void
     {
         $this->fulltime = $a_status;
     }
-    public function enabledFullTime() : int
+    public function enabledFullTime() : bool
     {
         return $this->fulltime;
     }
@@ -299,7 +299,7 @@ class ilSessionAppointment implements ilDatePeriod
             $ilDB->quote($this->getSessionId(), 'integer') . ", " .
             $ilDB->quote($this->getStart()->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') . ", " .
             $ilDB->quote($this->getEnd()->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') . ", " .
-            $ilDB->quote($this->enabledFullTime(), 'integer') . " " .
+            $ilDB->quote((int) $this->enabledFullTime(), 'integer') . " " .
             ")";
         $this->appointment_id = $next_id;
         $res = $ilDB->manipulate($query);
@@ -318,7 +318,7 @@ class ilSessionAppointment implements ilDatePeriod
             "SET event_id = " . $ilDB->quote($this->getSessionId(), 'integer') . ", " .
             "e_start = " . $ilDB->quote($this->getStart()->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') . ", " .
             "e_end = " . $ilDB->quote($this->getEnd()->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') . ", " .
-            "fulltime = " . $ilDB->quote($this->enabledFullTime(), 'integer') . " " .
+            "fulltime = " . $ilDB->quote((int) $this->enabledFullTime(), 'integer') . " " .
             "WHERE appointment_id = " . $ilDB->quote($this->getAppointmentId(), 'integer') . " ";
         $res = $ilDB->manipulate($query);
 
@@ -369,7 +369,7 @@ class ilSessionAppointment implements ilDatePeriod
         $res = $ilDB->query($query);
         $appointments = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $appointments[] = new ilSessionAppointment($row->appointment_id);
+            $appointments[] = new ilSessionAppointment((int) $row->appointment_id);
         }
         return $appointments;
     }
@@ -395,8 +395,8 @@ class ilSessionAppointment implements ilDatePeriod
             "WHERE appointment_id = " . $ilDB->quote($this->getAppointmentId(), 'integer') . " ";
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setSessionId($row->event_id);
-            $this->toggleFullTime($row->fulltime);
+            $this->setSessionId((int) $row->event_id);
+            $this->toggleFullTime((bool) $row->fulltime);
             
             if ($this->isFullday()) {
                 $this->start = new ilDate($row->e_start, IL_CAL_DATETIME);

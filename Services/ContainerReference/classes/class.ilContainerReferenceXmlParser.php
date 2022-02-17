@@ -1,18 +1,18 @@
 <?php
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *****************************************************************************/
 /**
  * Import Parser
  *
@@ -29,7 +29,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
     protected ilImportMapping $import_mapping;
     protected string $cdata = "";
     protected int $mode = 0;
-    
+
     public function __construct(
         string $a_xml,
         int $a_parent_id = 0
@@ -48,27 +48,17 @@ class ilContainerReferenceXmlParser extends ilSaxParser
     {
         $this->import_mapping = $mapping;
     }
-    
+
     public function getParentId() : int
     {
         return $this->parent_id;
     }
-    
-    public function setHandlers($a_xml_parser)
+
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
-    }
-
-    public function startParsing()
-    {
-        parent::startParsing();
-        
-        if ($this->ref instanceof ilContainerReference) {
-            return $this->ref;
-        }
-        return 0;
     }
 
 
@@ -80,7 +70,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
         switch ($a_name) {
             case "ContainerReference":
                 break;
-            
+
             case 'Title':
                 switch ($a_attribs['type']) {
 
@@ -90,7 +80,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
                         break;
                 }
                 break;
-            
+
             case 'Target':
                 $target_id = $this->parseTargetId($a_attribs['id'] ?? '');
                 if ($target_id) {
@@ -130,7 +120,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
             case "ContainerReference":
                 $this->save();
                 break;
-            
+
             case 'Title':
                 if ($this->getReference()->getTitleType() == ilContainerReference::TITLE_TYPE_CUSTOM) {
                     $this->getReference()->setTitle(trim($this->cdata));
@@ -152,7 +142,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
         }
     }
 
-    protected function create()
+    protected function create() : void
     {
     }
 
@@ -173,13 +163,13 @@ class ilContainerReferenceXmlParser extends ilSaxParser
         $this->mode = $mode;
     }
 
-    
+
     public function setReference(ilContainerReference $ref) : void
     {
         $this->ref = $ref;
     }
-    
-    public function getReference() : ilContainerReference
+
+    public function getReference() : ?\ilContainerReference
     {
         return $this->ref;
     }

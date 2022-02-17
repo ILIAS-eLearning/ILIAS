@@ -34,6 +34,7 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
         int $a_tref_id
     ) {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -47,10 +48,8 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
         
         $this->determineMaxScalesAndQuestions();
 
-        ilUtil::sendInfo(
-            $lng->txt("survey_skill_nr_q") . ": " . count($this->question_ids) .
-            ", " . $lng->txt("survey_skill_max_scale_points") . ": " . $this->scale_sum
-        );
+        $main_tpl->setOnScreenMessage('info', $lng->txt("survey_skill_nr_q") . ": " . count($this->question_ids) .
+        ", " . $lng->txt("survey_skill_max_scale_points") . ": " . $this->scale_sum);
         
         $this->skill_thres = new ilSurveySkillThresholds($this->object);
         $this->thresholds = $this->skill_thres->getThresholds();

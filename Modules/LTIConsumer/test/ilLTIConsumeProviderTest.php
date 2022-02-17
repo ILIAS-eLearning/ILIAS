@@ -19,7 +19,7 @@ class ilLTIConsumeProviderTest extends TestCase
         $this->assertEquals($testId, $ltiConsumerProvider->getId());
     }
 
-    public function testSetTitle(): void
+    public function testSetTitle() : void
     {
         $ltiConsumerProvider = new ilLTIConsumeProvider();
         $testTitle = str_shuffle(uniqid('abcdefgh'));

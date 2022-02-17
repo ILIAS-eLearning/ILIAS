@@ -185,7 +185,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             }
             $tpl->setVariable(
                 "SELECT_MONTHS",
-                ilUtil::formSelect(
+                ilLegacyFormElementsUtil::formSelect(
                     $this->getMonths(),
                     $this->getPostVar() . "[MM]",
                     $val,
@@ -208,7 +208,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             }
             $tpl->setVariable(
                 "SELECT_DAYS",
-                ilUtil::formSelect(
+                ilLegacyFormElementsUtil::formSelect(
                     $this->getDays(),
                     $this->getPostVar() . "[dd]",
                     $val,
@@ -231,7 +231,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             }
             $tpl->setVariable(
                 "SELECT_HOURS",
-                ilUtil::formSelect(
+                ilLegacyFormElementsUtil::formSelect(
                     $this->getHours(),
                     $this->getPostVar() . "[hh]",
                     $val,
@@ -254,7 +254,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             }
             $tpl->setVariable(
                 "SELECT_MINUTES",
-                ilUtil::formSelect(
+                ilLegacyFormElementsUtil::formSelect(
                     $this->getMinutes(),
                     $this->getPostVar() . "[mm]",
                     $val,
@@ -277,7 +277,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             }
             $tpl->setVariable(
                 "SELECT_SECONDS",
-                ilUtil::formSelect(
+                ilLegacyFormElementsUtil::formSelect(
                     $this->getSeconds(),
                     $this->getPostVar() . "[ss]",
                     $val,

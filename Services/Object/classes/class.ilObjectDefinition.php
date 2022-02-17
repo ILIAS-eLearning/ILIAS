@@ -511,7 +511,7 @@ class ilObjectDefinition // extends ilSaxParser
                 }
             }
 
-            $subs2 = ilUtil::sortArray($subs, "pos", 'ASC', true, true);
+            $subs2 = ilArrayUtil::sortArray($subs, "pos", 'ASC', true, true);
 
             return $subs2;
         }
@@ -593,7 +593,7 @@ class ilObjectDefinition // extends ilSaxParser
                 $recursivesubs[$a_obj_type]['pos'] = -1;
             }
         }
-        return ilUtil::sortArray($recursivesubs, "pos", 'ASC', true, true);
+        return ilArrayUtil::sortArray($recursivesubs, "pos", 'ASC', true, true);
     }
     
 
@@ -829,6 +829,11 @@ class ilObjectDefinition // extends ilSaxParser
 
     /**
     * Get all repository object types of component
+    *
+    * This is only every called with $a_component_type = "Modules".
+    * This is only used in two locations:
+    *    - Services/Repository/Administration/class.ilModulesTableGUI.php
+    *    - Services/Repository/Administration/class.ilObjRepositorySettings.php
     */
     public static function getRepositoryObjectTypesForComponent(
         $a_component_type,
@@ -907,10 +912,10 @@ class ilObjectDefinition // extends ilSaxParser
             }
         }
         // now get objects from repository plugin
-        $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, IL_COMP_SERVICE, "Repository", "robj");
-        $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, IL_COMP_MODULE, "OrgUnit", "orguext");
+        $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, ilComponentInfo::TYPE_SERVICES, "Repository", "robj");
+        $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, ilComponentInfo::TYPE_MODULES, "OrgUnit", "orguext");
 
-        $ret = ilUtil::sortArray($grouped_obj, "pos", "asc", true, true);
+        $ret = ilArrayUtil::sortArray($grouped_obj, "pos", "asc", true, true);
         return $ret;
     }
 
@@ -1146,18 +1151,16 @@ class ilObjectDefinition // extends ilSaxParser
      */
     protected function readPluginData()
     {
-        $this->parsePluginData(IL_COMP_SERVICE, "Repository", "robj", false);
-        $this->parsePluginData(IL_COMP_MODULE, "OrgUnit", "orguext", true);
+        $this->parsePluginData("robj", false);
+        $this->parsePluginData("orguext", true);
     }
 
     /**
      * loads a single plugin definition into the object definition
-     * @param $component The component e.g. IL_COMP_SERVICE
-     * @param $slotName The Slot name, e.g. Repository
      * @param $slotId the slot id, e.g. robj
      * @param $isInAdministration, can the object be created in the administration?
      */
-    protected function parsePluginData($component, $slotName, $slotId, $isInAdministration)
+    protected function parsePluginData($slotId, $isInAdministration)
     {
         $plugins = $this->component_repository->getPluginSlotById($slotId)->getActivePlugins();
         foreach ($plugins as $plugin) {

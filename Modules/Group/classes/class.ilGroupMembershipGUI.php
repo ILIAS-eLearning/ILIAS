@@ -25,7 +25,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
         global $DIC;
 
         parent::__construct($repository_gui, $repository_obj);
-        $this->refinery  = $DIC->refinery();
+        $this->refinery = $DIC->refinery();
         $this->http = $DIC->http();
     }
 
@@ -63,7 +63,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     {
         if (!count($user_ids)) {
             $this->lng->loadLanguageModule('search');
-            ilUtil::sendFailure($this->lng->txt('search_err_user_not_exist'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_err_user_not_exist'), true);
             return false;
         }
 
@@ -97,7 +97,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
                         $this->getMembersObject()->updateRoleAssignments($new_member, (array) $a_type);
                     } else {
                         ilLoggerFactory::getLogger('crs')->notice('Can not find role with id .' . $a_type . ' to assign users.');
-                        ilUtil::sendFailure($this->lng->txt("crs_cannot_find_role"), true);
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_cannot_find_role"), true);
                         return false;
                     }
                     $this->getMembersObject()->sendNotification(
@@ -110,9 +110,9 @@ class ilGroupMembershipGUI extends ilMembershipGUI
         }
         
         if ($assigned) {
-            ilUtil::sendSuccess($this->lng->txt("grp_msg_member_assigned"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("grp_msg_member_assigned"), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt('grp_users_already_assigned'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('grp_users_already_assigned'), true);
         }
         $this->ctrl->redirect($this, 'participants');
         return true;
@@ -159,7 +159,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
                 $this->getMembersObject()->updateNotification($mem_id, false);
             }
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'participants');
     }
     

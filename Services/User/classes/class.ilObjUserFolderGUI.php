@@ -308,9 +308,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $user_filter = null;
 
         if ($rbacsystem->checkAccess(
-                'create_usr',
-                $this->object->getRefId()
-            ) ||
+            'create_usr',
+            $this->object->getRefId()
+        ) ||
             $rbacsystem->checkAccess(
                 'cat_administrate_users',
                 $this->object->getRefId()
@@ -569,7 +569,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         if (is_array($subobj)) {
             //build form
-            $opts = ilUtil::formSelect(
+            $opts = ilLegacyFormElementsUtil::formSelect(
                 12,
                 "new_type",
                 $subobj
@@ -642,10 +642,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
         }
 
-        ilUtil::sendSuccess(
-            $this->lng->txt("user_activated"),
-            true
-        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_activated"), true);
 
         if ($this->user_request->getFrSearch()) {
             $this->ctrl->redirectByClass(
@@ -691,10 +688,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         // Feedback
-        ilUtil::sendSuccess(
-            $this->lng->txt("user_deactivated"),
-            true
-        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_deactivated"), true);
 
         if ($this->user_request->getFrSearch()) {
             $this->ctrl->redirectByClass(
@@ -733,10 +727,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         // Feedback
-        ilUtil::sendSuccess(
-            $this->lng->txt("access_free_granted"),
-            true
-        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("access_free_granted"), true);
 
         if ($this->user_request->getFrSearch()) {
             $this->ctrl->redirectByClass(
@@ -769,7 +760,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     ) : ?ilPropertyFormGUI {
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->viewObject();
             return null;
         }
@@ -839,7 +830,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $timefrom = $form->getItemByPostVar("from")->getDate()->get(IL_CAL_UNIX);
         $timeuntil = $form->getItemByPostVar("to")->getDate()->get(IL_CAL_UNIX);
         if ($timeuntil <= $timefrom) {
-            ilUtil::sendFailure($this->lng->txt("time_limit_not_valid"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("time_limit_not_valid"));
             return $this->setAccessRestrictionObject($form);
         }
 
@@ -862,10 +853,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $obj->update();
             }
         }
-        ilUtil::sendSuccess(
-            $this->lng->txt("access_restricted"),
-            true
-        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("access_restricted"), true);
 
         if ($this->user_request->getFrSearch()) {
             $this->ctrl->redirectByClass(
@@ -894,10 +882,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'delete',
             $this->object->getRefId()
         )) {
-            ilUtil::sendFailure(
-                $this->lng->txt("msg_no_perm_delete"),
-                true
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_delete"), true);
             $ilCtrl->redirect(
                 $this,
                 "view"
@@ -923,10 +908,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         // Feedback
-        ilUtil::sendSuccess(
-            $this->lng->txt("user_deleted"),
-            true
-        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_deleted"), true);
 
         if ($this->user_request->getFrSearch()) {
             $this->ctrl->redirectByClass(
@@ -960,10 +942,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
 
             if (!$access->checkAccess(
-                    'read_users',
-                    '',
-                    USER_FOLDER_ID
-                ) &&
+                'read_users',
+                '',
+                USER_FOLDER_ID
+            ) &&
                 $access->checkRbacOrPositionPermissionAccess(
                     'read_users',
                     \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
@@ -1035,9 +1017,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         if (strcmp(
-                $action,
-                "accessRestrict"
-            ) == 0) {
+            $action,
+            "accessRestrict"
+        ) == 0) {
             return $this->setAccessRestrictionObject(
                 null,
                 $a_from_search
@@ -1336,9 +1318,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             // check assignment permission if called from local admin
             if ($this->object->getRefId() != USER_FOLDER_ID) {
                 if (!in_array(
-                        SYSTEM_ROLE_ID,
-                        $roles_of_user
-                    ) && !ilObjRole::_getAssignUsersStatus($obj_data['obj_id'])) {
+                    SYSTEM_ROLE_ID,
+                    $roles_of_user
+                ) && !ilObjRole::_getAssignUsersStatus($obj_data['obj_id'])) {
                     continue;
                 }
             }
@@ -1346,9 +1328,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID) {
                 // do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
                 if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(
-                        SYSTEM_ROLE_ID,
-                        $roles_of_user
-                    )) {
+                    SYSTEM_ROLE_ID,
+                    $roles_of_user
+                )) {
                     $gl_roles[$obj_data["obj_id"]] = $obj_data["title"];
                 }
             }
@@ -1456,10 +1438,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 foreach ($roles as $role_id => $role) {
                     if ($role["type"] == "Local") {
                         $searchName = (substr(
-                                $role['name'],
-                                0,
-                                1
-                            ) == '#') ? $role['name'] : '#' . $role['name'];
+                            $role['name'],
+                            0,
+                            1
+                        ) == '#') ? $role['name'] : '#' . $role['name'];
                         $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
                         foreach ($matching_role_ids as $mid) {
                             if (!in_array(
@@ -1549,10 +1531,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     /*$this->tpl->setCurrentBlock("local_role");
                     $this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]);*/
                     $searchName = (substr(
-                            $role['name'],
-                            0,
-                            1
-                        ) == '#') ? $role['name'] : '#' . $role['name'];
+                        $role['name'],
+                        0,
+                        1
+                    ) == '#') ? $role['name'] : '#' . $role['name'];
                     $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
                     $pre_select = count($matching_role_ids) == 1 ? $role_id . "-" . $matching_role_ids[0] : "ignore";
 
@@ -1731,9 +1713,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
                 foreach ($file_list as $key => $a_file) {
                     if (substr(
-                            $a_file->getPath(),
-                            -4
-                        ) == '.xml') {
+                        $a_file->getPath(),
+                        -4
+                    ) == '.xml') {
                         unset($file_list[$key]);
                         $xml_file = $a_file->getPath();
                         break;
@@ -1906,9 +1888,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
                             $roles_of_user
                         )) {
                             if ($role_id == SYSTEM_ROLE_ID && !in_array(
-                                    SYSTEM_ROLE_ID,
-                                    $roles_of_user
-                                )
+                                SYSTEM_ROLE_ID,
+                                $roles_of_user
+                            )
                                 || ($this->object->getRefId() != USER_FOLDER_ID
                                     && !ilObjRole::_getAssignUsersStatus($role_id))
                             ) {
@@ -1953,18 +1935,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         switch ($importParser->getErrorLevel()) {
             case IL_IMPORT_SUCCESS:
-                ilUtil::sendSuccess(
-                    $this->lng->txt("user_imported"),
-                    true
-                );
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_imported"), true);
                 break;
             case IL_IMPORT_WARNING:
-                ilUtil::sendSuccess(
-                    $this->lng->txt("user_imported_with_warnings") . $importParser->getProtocolAsHTML(
-                        $this->lng->txt("import_warning_log")
-                    ),
-                    true
-                );
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_imported_with_warnings") . $importParser->getProtocolAsHTML(
+                    $this->lng->txt("import_warning_log")
+                ), true);
                 break;
             case IL_IMPORT_FAILURE:
                 $this->ilias->raiseError(
@@ -2167,8 +2143,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     (int) $this->form->getInput('reuse_of_loginnames')
                 );
                 $save_blocking_time_in_seconds = (int) ($this->form->getInput(
-                        'loginname_change_blocking_time'
-                    ) * 86400);
+                    'loginname_change_blocking_time'
+                ) * 86400);
                 $ilSetting->set(
                     'loginname_change_blocking_time',
                     $save_blocking_time_in_seconds
@@ -2265,13 +2241,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         'askForUserPasswordReset'
                     );
                 } else {
-                    ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
                 }
             } else {
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
         } else {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         }
         $this->form->setValuesByPost();
         $this->tpl->setContent($this->form->getHTML());
@@ -2282,10 +2258,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         \ilUserPasswordManager::getInstance()->resetLastPasswordChangeForLocalUsers();
         $this->lng->loadLanguageModule('ps');
 
-        \ilUtil::sendSuccess(
-            $this->lng->txt('ps_passwd_policy_change_force_user_reset_succ'),
-            true
-        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('ps_passwd_policy_change_force_user_reset_succ'), true);
         $this->ctrl->redirect(
             $this,
             'generalSettings'
@@ -2770,7 +2743,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             global $DIC;
 
             $lng = $DIC['lng'];
-            ilUtil::sendFailure($lng->txt('invalid_visible_required_options_selected'));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt('invalid_visible_required_options_selected'));
             $this->confirm_change = 1;
             $this->settingsObject();
             return;
@@ -2974,7 +2947,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
         }
 
-        ilUtil::sendSuccess($this->lng->txt("usr_settings_saved"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("usr_settings_saved"));
         $this->settingsObject();
     }
 
@@ -3148,7 +3121,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $action[6] = $this->lng->txt("usr_filter_groupmember");
         $action[7] = $this->lng->txt("usr_filter_role");
 
-        return ilUtil::formSelect(
+        return ilLegacyFormElementsUtil::formSelect(
             ilSession::get("user_filter"),
             "user_filter",
             $action,
@@ -3554,10 +3527,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
         }
 
-        ilUtil::sendSuccess(
-            $this->lng->txt("msg_obj_modified"),
-            true
-        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect(
             $this,
             "newAccountMail"
@@ -3822,8 +3792,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
             if ($valid) {
                 $save_blocking_time_in_seconds = (int) $this->loginSettingsForm->getInput(
-                        'loginname_change_blocking_time'
-                    ) * 86400;
+                    'loginname_change_blocking_time'
+                ) * 86400;
 
                 $ilSetting->set(
                     'allow_change_loginname',
@@ -3842,12 +3812,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     (int) $save_blocking_time_in_seconds
                 );
 
-                ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
             } else {
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
         } else {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         }
         $this->loginSettingsForm->setValuesByPost();
 
@@ -3860,6 +3830,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public static function _goto(int $a_user) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
@@ -3880,13 +3851,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 "",
                 ROOT_FOLDER_ID
             )) {
-                ilUtil::sendFailure(
-                    sprintf(
-                        $lng->txt("msg_no_perm_read_item"),
-                        ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-                    ),
-                    true
-                );
+                $main_tpl->setOnScreenMessage('failure', sprintf(
+                    $lng->txt("msg_no_perm_read_item"),
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ), true);
                 ilObjectGUI::_gotoRepositoryRoot();
             }
         }
@@ -3943,7 +3911,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         string $a_cmd
     ) : bool {
         if (!count($a_usr_ids)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             return false;
         }
 
@@ -4036,10 +4004,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     {
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
-            ilUtil::sendFailure(
-                $this->lng->txt('select_one'),
-                true
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect(
                 $this,
                 'view'
@@ -4078,10 +4043,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     {
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
-            ilUtil::sendFailure(
-                $this->lng->txt('select_one'),
-                true
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect(
                 $this,
                 'view'
@@ -4120,10 +4082,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     {
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
-            ilUtil::sendFailure(
-                $this->lng->txt('select_one'),
-                true
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect(
                 $this,
                 'view'
@@ -4162,10 +4121,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
-            ilUtil::sendFailure(
-                $this->lng->txt('select_one'),
-                true
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect(
                 $this,
                 'view'
@@ -4273,10 +4229,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     [
                         'generalSettings',
                         [
-                            'tos_withdrawal_usr_deletion' => $DIC->settings()->get(
-                                'tos_withdrawal_usr_deletion',
-                                false
-                            ) ? $DIC->language()->txt('enabled') : $DIC->language()->txt('disabled'),
+                            'tos_withdrawal_usr_deletion' => [
+                                (bool) $DIC->settings()->get(
+                                    'tos_withdrawal_usr_deletion',
+                                    '0'
+                                ),
+                                ilAdministrationSettingsFormHandler::VALUE_BOOL
+                            ],
                         ]
                     ],
                 ];
@@ -4291,10 +4250,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     {
         $users = $this->getActionUserIds();
         if (!count($users)) {
-            ilUtil::sendFailure(
-                $this->lng->txt('select_one'),
-                true
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect(
                 $this,
                 'view'
@@ -4304,10 +4260,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $clip->add($users);
         $clip->save();
 
-        ilUtil::sendSuccess(
-            $this->lng->txt('clipboard_user_added'),
-            true
-        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('clipboard_user_added'), true);
         $this->ctrl->redirect(
             $this,
             'view'

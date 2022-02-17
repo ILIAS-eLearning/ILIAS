@@ -365,7 +365,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         ) {
             $wait = new ilSessionWaitingList($this->getCurrentObject()->getId());
             $wait->addToList($ilUser->getId());
-            ilUtil::sendInfo($this->lng->txt('sess_reg_added_to_wl'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('sess_reg_added_to_wl'), true);
             $this->ctrl->redirect($this, 'infoScreen');
         }
         
@@ -377,7 +377,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             
             case ilMembershipRegistrationSettings::TYPE_DIRECT:
                 $part->register($ilUser->getId());
-                ilUtil::sendSuccess($this->lng->txt('event_registered'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('event_registered'), true);
 
                 $ilAppEventHandler->raise(
                     "Modules/Session",
@@ -393,7 +393,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 break;
             
             case ilMembershipRegistrationSettings::TYPE_REQUEST:
-                ilUtil::sendSuccess($this->lng->txt('sess_registered_confirm'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('sess_registered_confirm'), true);
                 $part->addSubscriber($ilUser->getId());
 
                 $ilAppEventHandler->raise(
@@ -424,10 +424,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (ilEventParticipants::_isRegistered($ilUser->getId(), $this->object->getId())) {
             ilSession::set("sess_hide_info", true);
             ilEventParticipants::_unregister($ilUser->getId(), $this->object->getId());
-            ilUtil::sendSuccess($this->lng->txt('event_unregistered'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('event_unregistered'), true);
         } else {
             ilEventParticipants::_register($ilUser->getId(), $this->object->getId());
-            ilUtil::sendSuccess($this->lng->txt('event_registered'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('event_registered'), true);
         }
         
         $this->ctrl->redirect($this, 'infoScreen');
@@ -479,9 +479,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             )
         );
         if ($a_refuse_participation) {
-            \ilUtil::sendInfo($this->lng->txt('sess_participation_refused_info'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('sess_participation_refused_info'), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt('event_unregistered'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('event_unregistered'), true);
         }
         $this->ctrl->returnToParent($this);
     }
@@ -489,6 +489,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -509,13 +510,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($ilAccess->checkAccess('visible', "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(
-                sprintf(
-                    $lng->txt("msg_no_perm_read_item"),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-                ),
-                true
-            );
+            $main_tpl->setOnScreenMessage('failure', sprintf(
+                $lng->txt("msg_no_perm_read_item"),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+            ), true);
             ilObjectGUI::_gotoRepositoryRoot();
         }
     }
@@ -619,7 +617,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             (count($event_part->getRegisteredParticipants()) >= $this->getCurrentObject()->getRegistrationMaxUsers())
         ) {
             if ($this->getCurrentObject()->isRegistrationWaitingListEnabled()) {
-                ilUtil::sendInfo($this->lng->txt('sess_reg_max_users_exceeded_wl'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('sess_reg_max_users_exceeded_wl'));
                 $btn_attend->setCaption($this->lng->txt("mem_add_to_wl"), false);
                 $btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
                 $ilToolbar->addButtonInstance($btn_attend);
@@ -627,12 +625,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $ilToolbar->addButtonInstance($btn_excused);
                 }
             } else {
-                ilUtil::sendInfo($this->lng->txt('sess_reg_max_users_exceeded'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('sess_reg_max_users_exceeded'));
             }
             return true;
         } else {
             if (is_null(ilSession::get("sess_hide_info"))) {
-                ilUtil::sendInfo($this->lng->txt('sess_join_info'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('sess_join_info'));
                 $btn_attend->setCaption($this->lng->txt("join_session"), false);
                 $btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
                 $ilToolbar->addButtonInstance($btn_attend);
@@ -825,7 +823,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->object->getFirstAppointment()->validate();
 
         if (strlen($ilErr->getMessage())) {
-            ilUtil::sendFailure($ilErr->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $ilErr->getMessage());
             $this->form->setValuesByPost();
             $this->createObject();
             return false;
@@ -872,7 +870,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->createRecurringSessions($this->form->getInput("lp_preset"));
 
         if ($a_redirect_on_success) {
-            ilUtil::sendInfo($this->lng->txt('event_add_new_event'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('event_add_new_event'), true);
             $this->ctrl->returnToParent($this);
         }
         return true;
@@ -1040,7 +1038,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->object->getFirstAppointment()->validate();
 
         if (strlen($ilErr->getMessage())) {
-            ilUtil::sendFailure($ilErr->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $ilErr->getMessage());
             $this->editObject();
             return false;
         }
@@ -1068,7 +1066,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->object->handleAutoFill();
         }
         
-        ilUtil::sendSuccess($this->lng->txt('event_updated'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('event_updated'), true);
         $this->ctrl->redirect($this, 'edit');
 
         return true;
@@ -1079,7 +1077,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->tabs_gui->setTabActive('settings');
 
         if (!count($this->requested_file_id)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->editObject();
             return false;
         }
@@ -1096,7 +1094,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         foreach ($this->requested_file_id as $file_id) {
             $file = new ilSessionFile($file_id);
             if ($file->getSessionId() != $this->object->getEventId()) {
-                ilUtil::sendFailure($this->lng->txt('select_one'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
                 $this->editObject();
                 return false;
             }
@@ -1110,7 +1108,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function deleteFilesObject() : bool
     {
         if (!count($this->requested_file_id)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->editObject();
             return false;
         }
@@ -1144,7 +1142,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             }
         }
         if (!$this->container_ref_id) {
-            ilUtil::sendFailure('No container object found. Aborting');
+            $this->tpl->setOnScreenMessage('failure', 'No container object found. Aborting');
             return true;
         }
         $this->container_obj_id = ilObject::_lookupObjId($this->container_ref_id);
@@ -1253,7 +1251,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tbl->setOffset(0);
         $tbl->storeNavParameter();//remove offset and go to page 1
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'materials');
     }
 
@@ -1471,7 +1469,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $dur->setRequired(true);
         $dur->enableToggleFullTime(
             $this->lng->txt('event_fulltime_info'),
-            (bool) $this->object->getFirstAppointment()->enabledFulltime()
+            $this->object->getFirstAppointment()->enabledFulltime()
         );
         $dur->setShowTime(true);
         $dur->setStart($this->object->getFirstAppointment()->getStart());

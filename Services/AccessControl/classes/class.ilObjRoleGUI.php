@@ -61,7 +61,6 @@ class ilObjRoleGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->ctrl->saveParameter($this, array('obj_id', 'rolf_ref_id'));
         $this->lng->loadLanguageModule('rbac');
-
     }
 
     public function executeCommand()
@@ -81,8 +80,10 @@ class ilObjRoleGUI extends ilObjectGUI
             case 'ilrepositorysearchgui':
 
                 if (!$GLOBALS['DIC']['ilAccess']->checkAccess('edit_permission', '', $this->obj_ref_id)) {
-                    $GLOBALS['DIC']['ilErr']->raiseError($GLOBALS['DIC']['lng']->txt('permission_denied'),
-                        $GLOBALS['DIC']['ilErr']->WARNING);
+                    $GLOBALS['DIC']['ilErr']->raiseError(
+                        $GLOBALS['DIC']['lng']->txt('permission_denied'),
+                        $GLOBALS['DIC']['ilErr']->WARNING
+                    );
                 }
                 $rep_search = new ilRepositorySearchGUI();
                 $rep_search->setTitle($this->lng->txt('role_add_user'));
@@ -371,12 +372,12 @@ class ilObjRoleGUI extends ilObjectGUI
                 $role->getId(),
                 $form->getInput('pro') ? 'y' : 'n'
             );
-            ilUtil::sendSuccess($this->lng->txt("role_added"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("role_added"), true);
             $this->ctrl->setParameter($this, 'obj_id', $role->getId());
             $this->ctrl->redirect($this, 'perm');
         }
 
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
         return false;
@@ -397,11 +398,11 @@ class ilObjRoleGUI extends ilObjectGUI
                 $this->object->getId(),
                 $form->getInput('pro') ? 'y' : 'n'
             );
-            ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
             $this->ctrl->redirect($this, 'edit');
         }
 
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
         return false;
@@ -561,7 +562,7 @@ class ilObjRoleGUI extends ilObjectGUI
         if ($this->rbacreview->isAssigned($ilUser->getId(), $this->object->getId())) {
             $question .= ('<br />' . $this->lng->txt('rbac_role_delete_self'));
         }
-        ilUtil::sendQuestion($question);
+        $this->tpl->setOnScreenMessage('question', $question);
 
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
@@ -591,7 +592,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         $this->object->setParent((int) $this->obj_ref_id);
         $this->object->delete();
-        ilUtil::sendSuccess($this->lng->txt('msg_deleted_role'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_deleted_role'), true);
 
         $this->ctrl->returnToParent($this);
     }
@@ -654,8 +655,10 @@ class ilObjRoleGUI extends ilObjectGUI
                 $this->refinery->kindlyTo()->bool()
             );
         }
-        if ($this->obj_ref_id == ROLE_FOLDER_ID or $this->rbacreview->isAssignable($this->object->getId(),
-                $this->obj_ref_id)) {
+        if ($this->obj_ref_id == ROLE_FOLDER_ID or $this->rbacreview->isAssignable(
+            $this->object->getId(),
+            $this->obj_ref_id
+        )) {
             $this->rbacadmin->setProtected($this->obj_ref_id, $this->object->getId(), ilUtil::tf2yn($protected));
         }
         $recursive = false;
@@ -681,7 +684,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         // Redirect if Change existing objects is not chosen
         if (!$recursive && !count($recursive_list)) {
-            ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
             if ($a_show_admin_permissions) {
                 $this->ctrl->redirect($this, 'adminPerm');
             } else {
@@ -720,7 +723,7 @@ class ilObjRoleGUI extends ilObjectGUI
             #$a_show_admin_permissions ? array('adm') : array()
             );
         }
-        ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
 
         if ($a_show_admin_permissions) {
             $this->ctrl->redirect($this, 'adminPerm');
@@ -740,17 +743,17 @@ class ilObjRoleGUI extends ilObjectGUI
         }
 
         if (!$source) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->adoptPermObject();
             return;
         }
 
         $access = $this->checkAccess('visible,write', 'edit_permission');
         if (!$access) {
-            ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_perm'), true);
         }
         if ($this->object->getId() == $source) {
-            ilUtil::sendFailure($this->lng->txt("msg_perm_adopted_from_itself"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_perm_adopted_from_itself"), true);
         } else {
             $this->rbacadmin->deleteRolePermission($this->object->getId(), $this->obj_ref_id);
             $parentRoles = $this->rbacreview->getParentRoleIds($this->obj_ref_id, true);
@@ -767,8 +770,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
             // send info
             $title = ilObject::_lookupTitle($source);
-            ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1") . " '" . $title . "'.<br/>" . $this->lng->txt("msg_perm_adopted_from2"),
-                true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_perm_adopted_from1") . " '" . $title . "'.<br/>" . $this->lng->txt("msg_perm_adopted_from2"), true);
         }
 
         $this->ctrl->redirect($this, "perm");
@@ -781,17 +783,17 @@ class ilObjRoleGUI extends ilObjectGUI
     public function addUserObject(array $a_user_ids) : void
     {
         if (!$this->checkAccess('edit_userassignment', 'edit_permission')) {
-            ilUtil::sendFailure($this->lng->txt('msg_no_perm_assign_user_to_role'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_assign_user_to_role'), true);
             return;
         }
         if (!$this->rbacreview->isAssignable($this->object->getId(), $this->obj_ref_id) &&
             $this->obj_ref_id != ROLE_FOLDER_ID) {
-            ilUtil::sendFailure($this->lng->txt('err_role_not_assignable'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_role_not_assignable'), true);
             return;
         }
         if (!$a_user_ids) {
             $GLOBALS['DIC']['lng']->loadLanguageModule('search');
-            ilUtil::sendFailure($this->lng->txt('search_err_user_not_exist'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_err_user_not_exist'), true);
             return;
         }
 
@@ -802,7 +804,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         // selected users all already assigned. stop
         if (count($assigned_users_new) == 0) {
-            ilUtil::sendInfo($this->lng->txt("rbac_msg_user_already_assigned"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("rbac_msg_user_already_assigned"), true);
             $this->ctrl->redirect($this, 'userassignment');
         }
 
@@ -814,15 +816,17 @@ class ilObjRoleGUI extends ilObjectGUI
         // update object data entry (to update last modification date)
         $this->object->update();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_userassignment_changed"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_userassignment_changed"), true);
         $this->ctrl->redirect($this, 'userassignment');
     }
 
     public function deassignUserObject() : void
     {
         if (!$this->checkAccess('edit_userassignment', 'edit_permission')) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),
-                $this->ilias->error_obj->MESSAGE);
+            $this->ilias->raiseError(
+                $this->lng->txt("msg_no_perm_assign_user_to_role"),
+                $this->ilias->error_obj->MESSAGE
+            );
         }
 
         $selected_users = [];
@@ -860,8 +864,10 @@ class ilObjRoleGUI extends ilObjectGUI
             $assigned_roles = $this->rbacreview->assignedRoles($user);
             $assigned_global_roles = array_intersect($assigned_roles, $global_roles);
 
-            if (count($assigned_roles) == 1 or (count($assigned_global_roles) == 1 and in_array($this->object->getId(),
-                        $assigned_global_roles))) {
+            if (count($assigned_roles) == 1 or (count($assigned_global_roles) == 1 and in_array(
+                $this->object->getId(),
+                $assigned_global_roles
+            ))) {
                 $userObj = $this->ilias->obj_factory->getInstanceByObjId($user);
                 $last_role[$user] = $userObj->getFullName();
                 unset($userObj);
@@ -881,10 +887,9 @@ class ilObjRoleGUI extends ilObjectGUI
         // raise error if last role was taken from a user...
         if (count($last_role)) {
             $user_list = implode(", ", $last_role);
-            ilUtil::sendFailure($this->lng->txt('msg_is_last_role') . ': ' . $user_list . '<br />' . $this->lng->txt('msg_min_one_role'),
-                true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_is_last_role') . ': ' . $user_list . '<br />' . $this->lng->txt('msg_min_one_role'), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt("msg_userassignment_changed"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_userassignment_changed"), true);
         }
         $this->ctrl->redirect($this, 'userassignment');
     }
@@ -899,8 +904,10 @@ class ilObjRoleGUI extends ilObjectGUI
         $ilUser = $DIC['ilUser'];
 
         if (!$this->checkAccess('edit_userassignment', 'edit_permission')) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),
-                $this->ilias->error_obj->MESSAGE);
+            $this->ilias->raiseError(
+                $this->lng->txt("msg_no_perm_assign_user_to_role"),
+                $this->ilias->error_obj->MESSAGE
+            );
         }
 
         $this->tabs_gui->setTabActive('user_assignment');
@@ -979,7 +986,6 @@ class ilObjRoleGUI extends ilObjectGUI
     protected function addAdminLocatorItems($a_do_not_add_object = false)
     {
         if ($this->getAdminMode() === self::ADMIN_MODE_SETTINGS) {
-
             parent::addAdminLocatorItems(true);
 
             $this->locator->addItem(
@@ -1038,8 +1044,10 @@ class ilObjRoleGUI extends ilObjectGUI
             );
         }
 
-        if ($this->checkAccess('write',
-                'edit_permission') && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID) {
+        if ($this->checkAccess(
+            'write',
+            'edit_permission'
+        ) && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID) {
             $this->tabs_gui->addTarget(
                 "user_assignment",
                 $this->ctrl->getLinkTarget($this, "userassignment"),
@@ -1048,8 +1056,10 @@ class ilObjRoleGUI extends ilObjectGUI
             );
         }
 
-        if ($this->checkAccess('write',
-                'edit_permission') && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID) {
+        if ($this->checkAccess(
+            'write',
+            'edit_permission'
+        ) && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID) {
             $this->lng->loadLanguageModule("rep");
             $this->tabs_gui->addTarget(
                 "rep_recommended_content",
@@ -1192,7 +1202,7 @@ class ilObjRoleGUI extends ilObjectGUI
         }
 
         $this->object->changeExistingObjects($start, $mode, $type_filter);
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'perm');
     }
 
@@ -1229,7 +1239,7 @@ class ilObjRoleGUI extends ilObjectGUI
             );
         }
         if (!count($users)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'userassignment');
         }
         $clip = ilUserClipboard::getInstance($GLOBALS['DIC']['ilUser']->getId());
@@ -1237,7 +1247,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $clip->save();
 
         $this->lng->loadLanguageModule('user');
-        ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('clipboard_user_added'), true);
         $this->ctrl->redirect($this, 'userassignment');
     }
 

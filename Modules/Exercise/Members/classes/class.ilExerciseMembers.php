@@ -127,11 +127,11 @@ class ilExerciseMembers
             "AND usr_id = " . $ilDB->quote($a_usr_id, "integer") . " ";
 
         $ilDB->manipulate($query);
-        
+
         $this->read();
-        
+
         ilLPStatusWrapper::_updateStatus($this->getObjId(), $a_usr_id);
-        
+
         // delete all delivered files of the member
         ilExSubmission::deleteUser($this->exc->getId(), $a_usr_id);
 

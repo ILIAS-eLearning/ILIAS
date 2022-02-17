@@ -6,6 +6,7 @@ namespace ILIAS\Wiki;
 
 use \ILIAS\COPage;
 use \ILIAS\Export;
+use ilPropertyFormGUI;
 
 /**
  *
@@ -88,7 +89,7 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         return $print_pages;
     }
 
-    public function getSelectionForm() : \ilPropertyFormGUI
+    public function getSelectionForm() : ?ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

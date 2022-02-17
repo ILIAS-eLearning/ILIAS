@@ -114,7 +114,7 @@ class ilEMailInputGUI extends ilFormPropertyGUI
             $ptpl->setVariable('RPOST_VAR', $this->getPostVar());
 
             $retype_value = $this->getRetypeValue();
-            $ptpl->setVariable('PROPERTY_RETYPE_VALUE', ilUtil::prepareFormOutput($retype_value));
+            $ptpl->setVariable('PROPERTY_RETYPE_VALUE', ilLegacyFormElementsUtil::prepareFormOutput($retype_value));
             if ($this->getDisabled()) {
                 $ptpl->setVariable('RDISABLED', ' disabled="disabled"');
             }
@@ -124,7 +124,7 @@ class ilEMailInputGUI extends ilFormPropertyGUI
 
         $ptpl->setVariable('POST_VAR', $this->getPostVar());
         $ptpl->setVariable('ID', $this->getFieldId());
-        $ptpl->setVariable('PROPERTY_VALUE', ilUtil::prepareFormOutput($this->getValue()));
+        $ptpl->setVariable('PROPERTY_VALUE', ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
         $ptpl->setVariable('SIZE', $this->getSize());
         $ptpl->setVariable('MAXLENGTH', $this->getMaxLength());
         if ($this->getDisabled()) {

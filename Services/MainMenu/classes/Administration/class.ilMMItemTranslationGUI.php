@@ -22,6 +22,7 @@ class ilMMItemTranslationGUI
     private ilMMItemRepository $repository;
     
     private ilMMItemFacadeInterface $item_facade;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilMMItemTranslationGUI constructor.
@@ -29,8 +30,10 @@ class ilMMItemTranslationGUI
      */
     public function __construct(ilMMItemFacadeInterface $item_facade, ilMMItemRepository $repository)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->item_facade = $item_facade;
-        $this->repository  = $repository;
+        $this->repository = $repository;
         $this->lng()->loadLanguageModule("mme");
     }
     
@@ -73,7 +76,7 @@ class ilMMItemTranslationGUI
             $translation->update();
         }
         $this->repository->clearCache();
-        ilUtil::sendInfo($this->lng()->txt('msg_translations_saved'), true);
+        $this->main_tpl->setOnScreenMessage('info', $this->lng()->txt('msg_translations_saved'), true);
         $this->cancel();
     }
     
@@ -84,7 +87,7 @@ class ilMMItemTranslationGUI
             ilMMItemTranslationStorage::find($id)->delete();
         }
         $this->repository->updateItem($this->item_facade);
-        ilUtil::sendInfo($this->lng()->txt('msg_translations_deleted'), true);
+        $this->main_tpl->setOnScreenMessage('info', $this->lng()->txt('msg_translations_deleted'), true);
         $this->cancel();
     }
     
@@ -106,11 +109,11 @@ class ilMMItemTranslationGUI
                 }
             }
             $this->repository->updateItem($this->item_facade);
-            ilUtil::sendInfo($this->lng()->txt("msg_languages_added"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng()->txt("msg_languages_added"), true);
             $this->cancel();
         }
         
-        ilUtil::sendFailure($this->lng()->txt('err_check_input'));
+        $this->main_tpl->setOnScreenMessage('failure', $this->lng()->txt('err_check_input'));
         $form->setValuesByPost();
         $this->tpl()->setContent($form->getHTML());
     }
@@ -126,7 +129,7 @@ class ilMMItemTranslationGUI
         // additional languages
         $options = ilMDLanguageItem::_getLanguages();
         $options = array("" => $this->lng()->txt("please_select")) + $options;
-        $si      = new ilSelectInputGUI($this->lng()->txt("additional_langs"), "additional_langs");
+        $si = new ilSelectInputGUI($this->lng()->txt("additional_langs"), "additional_langs");
         $si->setOptions($options);
         $si->setMulti(true);
         $form->addItem($si);

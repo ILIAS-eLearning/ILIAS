@@ -25,7 +25,7 @@ class ilObjForum extends ilObject
     private static array $forum_last_post_cache = [];
     private ilSetting $settings;
     private \ILIAS\DI\RBACServices $rbac;
-    private ilObjUser $user;
+    protected ilObjUser $user;
     private ilLogger $logger;
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
@@ -357,7 +357,7 @@ class ilObjForum extends ilObject
         return false;
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false) : ilObjForum
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObjForum
     {
         /** @var $new_obj ilObjForum */
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
@@ -585,9 +585,9 @@ class ilObjForum extends ilObject
         }
     }
 
-    public function initDefaultRoles()
+    public function initDefaultRoles() : void
     {
-        return ilObjRole::createDefaultRole(
+        ilObjRole::createDefaultRole(
             'il_frm_moderator_' . $this->getRefId(),
             "Moderator of forum obj_no." . $this->getId(),
             'il_frm_moderator',

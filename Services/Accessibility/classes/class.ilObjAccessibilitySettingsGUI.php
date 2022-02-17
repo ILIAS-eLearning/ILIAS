@@ -127,10 +127,6 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $ti->setInfo($this->lng->txt("adm_accessibility_contacts_info"));
         $this->form->addItem($ti);
 
-        $se = new ilFormSectionHeaderGUI();
-        $se ->setTitle($this->lng->txt('obj_accs_captcha'));
-        $this->form->addItem($se);
-
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY,
             $this->form,
@@ -166,7 +162,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
                 $this->form->getInput("accessibility_support_contacts")
             );
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editAccessibilitySettings");
         } else {
             $this->form->setValuesByPost();

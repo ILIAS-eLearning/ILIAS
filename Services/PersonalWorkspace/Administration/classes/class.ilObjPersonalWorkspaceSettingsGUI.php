@@ -194,7 +194,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
             $ilSetting->set('disable_wsp_links', (int) $link);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "editSettings");
     }
 }

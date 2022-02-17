@@ -10,12 +10,12 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
         return $this->progress->isRelevant();
     }
     
-    public function shouldShowSubProgress(ilStudyProgrammeProgress $progress) : bool
+    protected function shouldShowSubProgress(ilStudyProgrammeProgress $progress) : bool
     {
         return true;
     }
     
-    public function newSubItem(ilStudyProgrammeProgress $progress) : ilStudyProgrammeExpandableProgressListGUI
+    protected function newSubItem(ilStudyProgrammeProgress $progress) : ilStudyProgrammeExpandableProgressListGUI
     {
         return new ilStudyProgrammeIndividualPlanProgressListGUI($progress);
     }
@@ -42,7 +42,7 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
                 "<img src='" .
                 ilUtil::getImagePath("icon_alert.svg") .
                 "' alt='" .
-                $this->il_lng->txt("warning") .
+                $this->lng->txt("warning") .
                 "'>" .
                 $points
             ;

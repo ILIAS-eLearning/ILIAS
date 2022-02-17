@@ -146,7 +146,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             ilSession::set('filename', ilUtil::stripSlashes($fileName));
             $this->ctrl->redirectByClass(ilMailFolderGUI::class, 'deliverFile');
         } elseif ('message_sent' === $type) {
-            ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_message_send'), true);
             $this->ctrl->redirectByClass(ilMailFolderGUI::class);
         } elseif (ilMailFormGUI::MAIL_FORM_TYPE_ROLE === $type) {
             $roles = [];
@@ -266,8 +266,6 @@ class ilMailGUI implements ilCtrlBaseClassInterface
 
         $this->tpl->loadStandardTemplate();
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mail.svg"));
-
-        ilUtil::infoPanel();
 
         $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->currentFolderId);
         $DIC->tabs()->addTarget('fold', $this->ctrl->getLinkTargetByClass(ilMailFolderGUI::class));

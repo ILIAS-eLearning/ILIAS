@@ -158,7 +158,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
             $data = $form->getData();
             if (is_array($data["sec"])) {
                 $setting->set("disable_notes", $data["sec"]["enable_notes"] ? 0 : 1);
-                ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             }
         }
         $ctrl->redirect($this, "editSettings");

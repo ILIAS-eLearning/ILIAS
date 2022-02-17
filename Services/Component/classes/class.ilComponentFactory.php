@@ -36,5 +36,5 @@ interface ilComponentFactory
      *
      * @return \Iterator <ilPlugin>
      */
-    public function getActivePluginsInSlot(string $slot_id) : \Iterator; 
+    public function getActivePluginsInSlot(string $slot_id) : \Iterator;
 }

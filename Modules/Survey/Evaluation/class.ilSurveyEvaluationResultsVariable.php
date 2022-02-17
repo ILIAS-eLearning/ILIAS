@@ -19,13 +19,13 @@
 class ilSurveyEvaluationResultsVariable
 {
     public ilSurveyCategory $cat;
-    public int $abs;
-    public float $perc;
+    public ?int $abs;
+    public ?float $perc;
 
     public function __construct(
         ilSurveyCategory $a_cat,
-        int $a_abs,
-        float $a_perc
+        ?int $a_abs,
+        ?float $a_perc
     ) {
         $this->cat = $a_cat;
         $this->abs = $a_abs;

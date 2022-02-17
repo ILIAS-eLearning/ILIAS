@@ -73,7 +73,6 @@ class ilStudyProgrammeDIC
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $DIC->filesystem()->web(),
                 $DIC['ilUser'],
-                $DIC['ilPluginAdmin'],
                 $DIC['lng'],
                 $DIC['component.factory']
             );
@@ -96,7 +95,8 @@ class ilStudyProgrammeDIC
                 $dic['DataFactory'],
                 $dic['model.Type.ilStudyProgrammeTypeRepository'],
                 $dic['ilStudyProgrammeCommonSettingsGUI'],
-                $DIC['ilTabs']
+                $DIC['ilTabs'],
+                $DIC->http()->wrapper()->query()
             );
         };
 
@@ -123,7 +123,9 @@ class ilStudyProgrammeDIC
                 $dic['ilObjStudyProgrammeIndividualPlanGUI'],
                 $dic['PRGMessages'],
                 $dic['DataFactory'],
-                new ilConfirmationGUI()
+                new ilConfirmationGUI(),
+                $DIC->http()->wrapper(),
+                $DIC->refinery()
             );
         };
         $dic['ilObjStudyProgrammeAutoMembershipsGUI'] = function ($dic) use ($DIC) {
@@ -139,7 +141,7 @@ class ilStudyProgrammeDIC
                 $DIC->http()->request(),
                 $DIC['tree'],
                 $DIC->http()->wrapper()->query(),
-                $DIC->refinery(),
+                $DIC->refinery()
             );
         };
         $dic['ilObjStudyProgrammeTreeGUI'] = function ($dic) use ($DIC) {
@@ -153,7 +155,9 @@ class ilStudyProgrammeDIC
                 $DIC['ilias'],
                 $DIC['ilSetting'],
                 $DIC['tree'],
-                $DIC['rbacadmin']
+                $DIC['rbacadmin'],
+                $DIC->http()->wrapper(),
+                $DIC->refinery()
             );
         };
         $dic['ilStudyProgrammeTypeGUI'] = function ($dic) use ($DIC) {
@@ -171,7 +175,8 @@ class ilStudyProgrammeDIC
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC->refinery(),
-                $DIC->filesystem()->web()
+                $DIC->filesystem()->web(),
+                $DIC->http()->wrapper()->query()
             );
         };
         $dic['ilStudyProgrammeRepositorySearchGUI'] = function ($dic) {
@@ -185,7 +190,9 @@ class ilStudyProgrammeDIC
                 $DIC['ilUser'],
                 $dic['ilStudyProgrammeUserProgressDB'],
                 $dic['ilStudyProgrammeUserAssignmentDB'],
-                $dic['PRGMessages']
+                $dic['PRGMessages'],
+                $DIC->http()->wrapper(),
+                $DIC->refinery()
             );
         };
         $dic['ilObjStudyProgrammeAutoCategoriesGUI'] = function ($dic) use ($DIC) {
@@ -199,7 +206,9 @@ class ilStudyProgrammeDIC
                 $DIC['ui.factory']->button(),
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
-                $DIC['tree']
+                $DIC['tree'],
+                $DIC->http()->wrapper()->query(),
+                $DIC->refinery()
             );
         };
         $dic['DataFactory'] = function ($dic) use ($DIC) {
@@ -222,7 +231,9 @@ class ilStudyProgrammeDIC
                 $DIC['ilCtrl'],
                 $DIC['tpl'],
                 $DIC['lng'],
-                $DIC['ilAccess']
+                $DIC['ilAccess'],
+                $DIC->http()->wrapper()->post(),
+                $DIC->refinery()
             );
         };
         $dic['ilStudyProgrammeChangeExpireDateGUI'] = function ($dic) use ($DIC) {

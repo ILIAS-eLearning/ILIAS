@@ -22,9 +22,12 @@ class ilLearningModuleExporter extends ilXmlExporter
 {
     private ilLearningModuleDataSet $ds;
     private ilExportConfig $config;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
     public function init() : void
     {
+        global $DIC;
+
         $this->ds = new ilLearningModuleDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
@@ -34,6 +37,8 @@ class ilLearningModuleExporter extends ilXmlExporter
             $conf->setMasterLanguageOnly(true, $this->config->getIncludeMedia());
             $this->ds->setMasterLanguageOnly(true);
         }
+        $this->content_style_domain = $DIC->contentStyle()
+            ->domain();
     }
 
     public function getXmlExportTailDependencies(
@@ -105,11 +110,12 @@ class ilLearningModuleExporter extends ilXmlExporter
 
             // style
             foreach ($a_ids as $id) {
-                if (($s = ilObjContentObject::_lookupStyleSheetId($id)) > 0) {
+                $style_id = $this->content_style_domain->styleForObjId($id)->getStyleId();
+                if ($style_id > 0) {
                     $deps[] = array(
                         "component" => "Services/Style",
                         "entity" => "sty",
-                        "ids" => $s
+                        "ids" => $style_id
                     );
                 }
             }

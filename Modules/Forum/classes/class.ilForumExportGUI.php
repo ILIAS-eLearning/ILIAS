@@ -129,8 +129,8 @@ class ilForumExportGUI
         $authorinfo = new ilForumAuthorInformation(
             $post->getPosAuthorId(),
             $post->getDisplayUserId(),
-            $post->getUserAlias(),
-            $post->getImportName()
+            (string) $post->getUserAlias(),
+            (string) $post->getImportName()
         );
 
         if ($authorinfo->hasSuffix()) {
@@ -190,7 +190,7 @@ class ilForumExportGUI
             $authorinfo = new ilForumAuthorInformation(
                 $post->getPosAuthorId(),
                 $post->getDisplayUserId(),
-                $post->getUserAlias(),
+                (string) $post->getUserAlias(),
                 ''
             );
 
@@ -403,8 +403,8 @@ class ilForumExportGUI
                 $authorinfo = new ilForumAuthorInformation(
                     $topic->getThrAuthorId(),
                     $topic->getDisplayUserId(),
-                    $topic->getUserAlias(),
-                    $topic->getImportName()
+                    (string) $topic->getUserAlias(),
+                    (string) $topic->getImportName()
                 );
                 $tpl->setVariable('T_AUTHOR', $authorinfo->getAuthorName());
                 $tpl->setVariable('T_TXT_FORUM', $this->lng->txt('forum') . ': ');

@@ -1,30 +1,21 @@
 <?php declare(strict_types=1);
 
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -45,7 +36,7 @@ class ilMemberExportGUI
 
     protected ?ilMemberExport $export = null;
     protected ?ilExportFieldsInfo $fields_info = null;
-    protected ?ilFileSystemStorage $fss_export = null;
+    protected ?ilFileSystemAbstractionStorage $fss_export = null;
     protected ilUserFormSettings $exportSettings;
 
     /**
@@ -76,7 +67,7 @@ class ilMemberExportGUI
     public function executeCommand() : void
     {
         if (!ilPrivacySettings::getInstance()->checkExportAccess($this->ref_id)) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -254,7 +245,6 @@ class ilMemberExportGUI
 
         $filename = time() . '_participant_export_csv_' . $this->obj_id . '.csv';
         $this->fss_export->addMemberExportFile($this->export->getCSVString(), $filename);
-
         $this->ctrl->redirect($this, 'show');
     }
 
@@ -278,10 +268,14 @@ class ilMemberExportGUI
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
             if ($file['name'] == $_SESSION['member_export_filename']) {
                 $content = $this->fss_export->getMemberExportFile($_SESSION['member_export_filename']);
-                ilUtil::deliverData($content, date('Y_m_d_H-i', $file['timest']) .
+                ilUtil::deliverData(
+                    $content,
+                    date('Y_m_d_H-i', $file['timest']) .
                     '_member_export_' .
                     $this->obj_id .
-                    '.csv', 'text/csv');
+                    '.csv',
+                    'text/csv'
+                );
             }
         }
     }
@@ -336,16 +330,23 @@ class ilMemberExportGUI
                     // no break
                     default:
                     case 'csv':
-                        ilUtil::deliverData($contents, date('Y_m_d_H-i' . $file['timest']) .
+                        ilUtil::deliverData(
+                            $contents,
+                            date('Y_m_d_H-i' . $file['timest']) .
                             '_member_export_' .
                             $this->obj_id .
-                            '.csv', 'text/csv');
+                            '.csv',
+                            'text/csv'
+                        );
                         break;
                 }
             }
         }
     }
 
+    /**
+     * @return mixed[]
+     */
     protected function initFileIdsFromPost() : array
     {
         $ids = [];
@@ -365,7 +366,7 @@ class ilMemberExportGUI
     {
         $file_ids = $this->initFileIdsFromPost();
         if (!count($file_ids)) {
-            ilUtil::sendFailure($this->lng->txt('ps_select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ps_select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
         $confirmation_gui = new ilConfirmationGUI();
@@ -414,7 +415,7 @@ class ilMemberExportGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('ps_files_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('ps_files_deleted'), true);
         $this->ctrl->redirect($this, 'show');
     }
 

@@ -16,6 +16,7 @@
 namespace ILIAS\SurveyQuestionPool\Editing;
 
 use ILIAS\Repository\BaseGUIRequest;
+use ilArrayUtil;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -102,19 +103,19 @@ class EditingGUIRequest
     public function getAnswers() : array
     {
         $ans = $this->arrayArray("answers");
-        return \ilUtil::stripSlashesRecursive($ans);
+        return ilArrayUtil::stripSlashesRecursive($ans);
     }
 
     public function getColumns() : array
     {
         $ans = $this->arrayArray("columns");
-        return \ilUtil::stripSlashesRecursive($ans);
+        return ilArrayUtil::stripSlashesRecursive($ans);
     }
 
     public function getRows() : array
     {
         $ans = $this->arrayArray("rows");
-        return \ilUtil::stripSlashesRecursive($ans);
+        return ilArrayUtil::stripSlashesRecursive($ans);
     }
 
     public function getNeutralScale() : string

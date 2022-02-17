@@ -60,7 +60,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);
     }
 
-    public function getType(): string
+    public function getType() : string
     {
         return ilObjFile::OBJECT_TYPE;
     }
@@ -253,7 +253,7 @@ class ilObjFileGUI extends ilObject2GUI
         $upload->register(new ilCountPDFPagesPreProcessors());
         $post = $DIC->http()->request()->getParsedBody();
         // Sanitize POST
-        array_walk($post, function (&$item): void {
+        array_walk($post, function (&$item) : void {
             if (is_string($item)) {
                 $item = ilUtil::stripSlashes($item);
             }
@@ -298,10 +298,7 @@ class ilObjFileGUI extends ilObject2GUI
 
             $suffixes = array_unique($delegate->getUploadedSuffixes());
             if (count(array_diff($suffixes, $this->file_service_settings->getWhiteListedSuffixes())) > 0) {
-                ilUtil::sendInfo(
-                    $this->lng->txt('file_upload_info_file_with_critical_extension'),
-                    true
-                );
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('file_upload_info_file_with_critical_extension'), true);
             }
             $response->send();
         }
@@ -354,7 +351,7 @@ class ilObjFileGUI extends ilObject2GUI
         $ecs = new ilECSFileSettings($this->object);
         $ecs->handleSettingsUpdate();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         ilUtil::redirect($this->ctrl->getLinkTarget($this, self::CMD_EDIT, '', false, false));
     }
 
@@ -362,7 +359,7 @@ class ilObjFileGUI extends ilObject2GUI
      * edit object
      * @access    public
      */
-    public function edit(): bool
+    public function edit() : bool
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -393,7 +390,7 @@ class ilObjFileGUI extends ilObject2GUI
      * @param
      * @return
      */
-    protected function initPropertiesForm($mode = "create"): \ilPropertyFormGUI
+    protected function initPropertiesForm($mode = "create") : \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'update'));
@@ -449,7 +446,7 @@ class ilObjFileGUI extends ilObject2GUI
         return $form;
     }
 
-    public function sendFile(): bool
+    public function sendFile() : bool
     {
         $hist_entry_id = $this->http->query()->has('hist_id')
             ? $this->http->query()->retrieve('hist_id', $this->refinery->kindlyTo()->int())
@@ -483,7 +480,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      * @deprecated
      */
-    public function versions(): void
+    public function versions() : void
     {
         $this->ctrl->redirectByClass(ilFileVersionsGUI::class);
     }
@@ -493,7 +490,7 @@ class ilObjFileGUI extends ilObject2GUI
      * not very nice to set cmdClass/Cmd manually, if everything
      * works through ilCtrl in the future this may be changed
      */
-    public function infoScreen(): void
+    public function infoScreen() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -503,7 +500,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      * show information screen
      */
-    public function infoScreenForward(): void
+    public function infoScreenForward() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -621,7 +618,7 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
     // get tabs
-    protected function setTabs(): void
+    protected function setTabs() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -690,9 +687,10 @@ class ilObjFileGUI extends ilObject2GUI
         parent::setTabs();
     }
 
-    public static function _goto($a_target, $a_additional = null): void
+    public static function _goto($a_target, $a_additional = null) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
         $ilAccess = $DIC['ilAccess'];
@@ -718,7 +716,7 @@ class ilObjFileGUI extends ilObject2GUI
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } else {
             if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                ilUtil::sendFailure(sprintf(
+                $main_tpl->setOnScreenMessage('failure', sprintf(
                     $lng->txt("msg_no_perm_read_item"),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
                 ), true);
@@ -732,7 +730,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      *
      */
-    protected function addLocatorItems(): void
+    protected function addLocatorItems() : void
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -746,7 +744,7 @@ class ilObjFileGUI extends ilObject2GUI
      * Initializes the upload form for multiple files.
      * @return object The created property form.
      */
-    public function initMultiUploadForm(): \ilPropertyFormGUI
+    public function initMultiUploadForm() : \ilPropertyFormGUI
     {
         $dnd_form_gui = new ilPropertyFormGUI();
         $dnd_form_gui->setMultipart(true);
@@ -770,7 +768,7 @@ class ilObjFileGUI extends ilObject2GUI
         return $dnd_form_gui;
     }
 
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null): ?\ilObjectListGUI
+    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) : ?\ilObjectListGUI
     {
         $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
         if ($lg instanceof ilObjectListGUI && $this->object->hasRating()) {

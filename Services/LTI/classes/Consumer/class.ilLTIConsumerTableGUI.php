@@ -1,6 +1,17 @@
-<?php
-/* Copyright (c) 1998-20016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * TableGUI class for LTI consumer listing
  *
@@ -11,9 +22,9 @@
  */
 class ilObjectConsumerTableGUI extends ilTable2GUI
 {
-    protected $editable = true;
+    protected bool $editable = true;
     
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
         global $ilCtrl, $lng;
 
@@ -44,9 +55,8 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
     /**
      * Set editable. Depends on write access
      * => show/hide actions for consumers.
-     * @param bool $a_status
      */
-    public function setEditable($a_status)
+    public function setEditable(bool $a_status) : void
     {
         $this->editable = $a_status;
     }
@@ -54,7 +64,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
     /**
      * Check if write permission given
      */
-    public function isEditable()
+    public function isEditable() : bool
     {
         return $this->editable;
     }
@@ -62,7 +72,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
     /**
      * Get consumer data
      */
-    public function getItems()
+    public function getItems() : void
     {
         $dataConnector = new ilLTIDataConnector();
         
@@ -126,7 +136,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
         
         if ($this->isEditable()) {
             $list = new ilAdvancedSelectionListGUI();
-            $list->setId($a_set["id"]);
+            $list->setId((string) $a_set["id"]);
             $list->setListTitle($lng->txt("actions"));
 
             $edit_url = $ilCtrl->getLinkTarget($this->getParentObject(), "editConsumer");

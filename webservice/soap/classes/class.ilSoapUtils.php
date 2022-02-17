@@ -95,7 +95,7 @@ class ilSoapUtils extends ilSoapAdministration
             foreach ((array) $mail['attachments'] as $attachment) {
                 // TODO: Error handling
                 $file->storeAsAttachment($attachment['name'], $attachment['content']);
-                $attachments[] = ilUtil::_sanitizeFilemame($attachment['name']);
+                $attachments[] = ilFileUtils::_sanitizeFilemame($attachment['name']);
             }
             
             $mail_obj = new ilMail($ilUser->getId());

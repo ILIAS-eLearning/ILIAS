@@ -72,7 +72,7 @@ class ilAuthShibbolethSettingsGUI
             throw new ilException('Permission denied');
         }
         if (!$this->access->checkAccess('write', '', $this->ref_id) && $cmd != "settings") {
-            ilUtil::sendFailure($this->lng->txt('msg_no_perm_write'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'), true);
             $this->ctrl->redirect($this, "settings");
         }
         $this->setSubTabs();
@@ -98,7 +98,7 @@ class ilAuthShibbolethSettingsGUI
         $form = new ilShibbolethSettingsForm($this->shib_settings, 'save');
         $form->setValuesByPost();
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt("shib_settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("shib_settings_saved"), true);
             $this->ctrl->redirect($this, 'settings');
         }
         $this->tpl->setContent($form->getHTML());
@@ -147,7 +147,7 @@ class ilAuthShibbolethSettingsGUI
     protected function confirmDeleteRules()
     {
         if (!is_array($_POST['rule_ids'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->roleAssignment();
 
             return false;
@@ -179,7 +179,7 @@ class ilAuthShibbolethSettingsGUI
     protected function deleteRules() : bool
     {
         if (!is_array($_POST['rule_ids'])) {
-            ilUtil::sendFailure($this->lng->txt('select_once'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_once'));
             $this->roleAssignment();
 
             return false;
@@ -188,7 +188,7 @@ class ilAuthShibbolethSettingsGUI
             $rule = new ilShibbolethRoleAssignmentRule($rule_id);
             $rule->delete();
         }
-        ilUtil::sendSuccess($this->lng->txt('shib_deleted_rule'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('shib_deleted_rule'));
         $this->roleAssignment();
 
         return true;
@@ -274,7 +274,7 @@ class ilAuthShibbolethSettingsGUI
     protected function addRoleAssignmentRule() : bool
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->roleAssignment();
 
             return false;
@@ -282,7 +282,7 @@ class ilAuthShibbolethSettingsGUI
         $this->initFormRoleAssignment();
         if (!$this->form->checkInput() || ($err = $this->checkInput())) {
             if (isset($err)) {
-                ilUtil::sendFailure($this->lng->txt($err));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt($err));
             }
             $this->tabs_gui->setSubTabActive('shib_role_assignment');
             $this->form->setValuesByPost();
@@ -302,7 +302,7 @@ class ilAuthShibbolethSettingsGUI
         // Redirects if required
         $this->showLocalRoleSelection();
         $this->rule->add();
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->roleAssignment();
 
         return true;
@@ -335,7 +335,7 @@ class ilAuthShibbolethSettingsGUI
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
         if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->roleAssignment();
 
             return false;
@@ -344,7 +344,7 @@ class ilAuthShibbolethSettingsGUI
         $err = false;
         if (!$this->form->checkInput() || ($err = $this->checkInput((int) $_REQUEST[self::PARAM_RULE_ID]))) {
             if ($err) {
-                ilUtil::sendFailure($this->lng->txt($err));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt($err));
             }
             $this->tabs_gui->setSubTabActive('shib_role_assignment');
             $this->form->setValuesByPost();
@@ -360,7 +360,7 @@ class ilAuthShibbolethSettingsGUI
         }
         $this->showLocalRoleSelection();
         $this->rule->update();
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->roleAssignment();
 
         return true;
@@ -485,7 +485,7 @@ class ilAuthShibbolethSettingsGUI
         } else {
             $rule->add();
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         unset($_SESSION['shib_role_ass']);
         $this->roleAssignment();
     }

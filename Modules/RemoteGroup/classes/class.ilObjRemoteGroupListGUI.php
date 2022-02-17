@@ -34,7 +34,7 @@ class ilObjRemoteGroupListGUI extends ilRemoteObjectBaseListGUI
     {
         parent::__construct();
     }
-    
+
     /**
      * init
      *
@@ -51,12 +51,12 @@ class ilObjRemoteGroupListGUI extends ilRemoteObjectBaseListGUI
         $this->info_screen_enabled = true;
         $this->type = 'rgrp';
         $this->gui_class_name = 'ilobjremotegroupgui';
-        
+
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
         }
-        
+
         // general commands array
         $this->commands = ilObjRemoteGroupAccess::_getCommands();
     }
@@ -80,7 +80,7 @@ class ilObjRemoteGroupListGUI extends ilRemoteObjectBaseListGUI
 
         return array();
     }
-    
+
     /**
      * get command frame
      *
@@ -98,7 +98,7 @@ class ilObjRemoteGroupListGUI extends ilRemoteObjectBaseListGUI
                 )) {
                     return '_blank';
                 }
-                
+
                 // no break
             default:
                 return parent::getCommandFrame($a_cmd);

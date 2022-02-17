@@ -241,7 +241,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $a_new_object->update();
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("book_pool_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("book_pool_added"), true);
         $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
         $this->ctrl->redirect($this, "edit");
     }
@@ -257,7 +257,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         // if we have no schedules yet - show info
         if ($this->object->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE &&
             !sizeof(ilBookingSchedule::getList($this->object->getId()))) {
-            ilUtil::sendInfo($this->lng->txt("book_schedule_warning_edit"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("book_schedule_warning_edit"));
         }
     }
 
@@ -501,6 +501,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -510,7 +511,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);

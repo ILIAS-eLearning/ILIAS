@@ -1,9 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-use \ILIAS\Style\Content\Access;
-use \ILIAS\Style\Content;
+use ILIAS\Style\Content\Access;
+use ILIAS\Style\Content;
 
 /**
  * Class ilObjStyleSheetGUI
@@ -13,99 +24,72 @@ use \ILIAS\Style\Content;
  */
 class ilObjStyleSheetGUI extends ilObjectGUI
 {
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
+    protected ilPropertyFormGUI $form_gui;
+    protected ilPropertyFormGUI $form;
+    protected Content\StandardGUIRequest $style_request;
+    protected Content\InternalService $service;
+    protected ilHelpGUI $help;
+    protected ilObjectDefinition $obj_definition;
+    public string $cmd_update;
+    public string $cmd_new_par;
+    public string $cmd_delete;
+    protected bool $enable_write = false;
+    protected string $super_type;
+    protected Access\StyleAccessManager $access_manager;
+    protected Content\CharacteristicManager $characteristic_manager;
+    protected Content\ColorManager $color_manager;
+    protected Content\ImageManager $image_manager;
+    protected Content\InternalGUIService $gui_service;
 
-    /**addImage
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
 
-    public $cmd_update;
-    public $cmd_new_par;
-    public $cmd_delete;
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference
+    ) {
+        global $DIC;
 
-    protected $enable_write = false;
-
-    /**
-     * @var string
-     */
-    protected $super_type;
-
-    /**
-     * @var Access\StyleAccessManager
-     */
-    protected $access_manager;
-
-    /**
-     * @var Content\CharacteristicManager
-     */
-    protected $characteristic_manager;
-
-    /**
-     * @var Content\ColorManager
-     */
-    protected $color_manager;
-
-    /**
-     * @var Content\ImageManager
-     */
-    protected $image_manager;
-
-    /**
-     * @var Content\Service
-     */
-    protected $service;
-
-    /**
-     * @var Content\UIFactory
-     */
-    protected $service_ui;
-
-    /**
-    * Constructor
-    * @access public
-    */
-    public function __construct($a_data, $a_id, $a_call_by_reference, $a_prep = true)
-    {
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
-        $service = new Content\Service();
-        $this->service = $service;
-        $this->service_ui = $service->internal()->ui();
-        $this->help = $this->service_ui->help();
+        $this->service = $DIC->contentStyle()
+            ->internal();
+        $this->gui_service = $this->service->gui();
+        $this->help = $this->gui_service->help();
         $this->lng->loadLanguageModule("style");
         $this->ctrl->saveParameter($this, array("tag", "style_type", "temp_type"));
+        $this->style_request = $DIC->contentStyle()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         $this->super_type = "";
-        if ($_GET["style_type"] != "") {
-            $this->super_type = ilObjStyleSheet::_getStyleSuperTypeForType($_GET["style_type"]);
+        if ($this->style_request->getStyleType() != "") {
+            $this->super_type = ilObjStyleSheet::_getStyleSuperTypeForType(
+                $this->style_request->getStyleType()
+            );
         }
         $this->type = "sty";
 
-
         $ref_id = (is_object($this->object))
-            ? (int) $this->object->getRefId()
+            ? $this->object->getRefId()
             : 0;
         $style_id = (is_object($this->object))
             ? $this->object->getId()
             : 0;
 
-        $this->access_manager = $service->internal()->manager()->access(
+        $this->access_manager = $this->service->domain()->access(
             $ref_id,
             $this->user->getId()
         );
-        $this->characteristic_manager = $service->internal()->manager()->characteristic(
+        $this->characteristic_manager = $this->service->domain()->characteristic(
             $style_id,
             $this->access_manager
         );
-        $this->color_manager = $service->internal()->manager()->color(
+        $this->color_manager = $this->service->domain()->color(
             $style_id,
             $this->access_manager
         );
-        $this->image_manager = $service->internal()->manager()->image(
+        $this->image_manager = $this->service->domain()->image(
             $style_id,
             $this->access_manager
         );
@@ -113,30 +97,25 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
     /**
      * Enable writing
-     * @param bool $a_write
      */
     public function enableWrite(bool $a_write) : void
     {
         $this->access_manager->enableWrite($a_write);
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $tabs = $this->service_ui->tabs();
-        $ctrl = $this->service_ui->ctrl();
+        $tabs = $this->gui_service->tabs();
+        $ctrl = $this->gui_service->ctrl();
 
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("edit");
         
         // #9440/#9489: prepareOutput will fail if not set properly
-        if (!$this->object) {
+        if (!$this->object || $cmd == "create") {
             $this->setCreationMode(true);
         }
 
-        $this->prepareOutput();
         switch ($next_class) {
 
             case "ilexportgui":
@@ -149,8 +128,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 //$this->setTabs();
                 $this->includeCSS();
                 $tabs->activateTab("sty_style_chars");
-                $gui = $this->service->internal()->ui()->characteristic()->ilStyleCharacteristicGUI(
-                    $this->object,
+                $gui = $this->gui_service->characteristic()->ilStyleCharacteristicGUI(
+                    $this->getStyleSheet(),
                     $this->super_type,
                     $this->access_manager,
                     $this->characteristic_manager,
@@ -162,7 +141,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             case "ilcontentstyleimagegui":
                 $this->includeCSS();
                 $tabs->activateTab("sty_images");
-                $gui = $this->service->internal()->ui()->image()->ilContentStyleImageGUI(
+                $gui = $this->gui_service->image()->ilContentStyleImageGUI(
                     $this->access_manager,
                     $this->image_manager
                 );
@@ -170,26 +149,29 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 break;
 
             default:
+                $this->prepareOutput();
                 $cmd .= "Object";
                 $ret = $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
-    
+
+    protected function getStyleSheet() : ilObjStyleSheet
+    {
+        /** @var ilObjStyleSheet $obj */
+        $obj = $this->object;
+        return $obj;
+    }
+
     public function viewObject()
     {
         $this->editObject();
     }
 
-    /**
-    * create
-    */
     public function createObject()
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
-        $ctrl = $this->service_ui->ctrl();
+        $tpl = $this->gui_service->ui()->mainTemplate();
+        $ctrl = $this->gui_service->ctrl();
 
         $ilHelp = $this->help;
         
@@ -199,12 +181,20 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $ilHelp->setScreenIdComponent("sty");
         $ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "create");
 
-        // --- create
+        $forms[] = $this->getCreateForm();
+        $forms[] = $this->getImportForm();
+        $forms[] = $this->getCloneForm();
         
+        $tpl->setContent($this->getCreationFormsHTML($forms));
+    }
+
+    protected function getCreateForm() : ilPropertyFormGUI
+    {
+        $ctrl = $this->ctrl;
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("sty_create_new_stylesheet"));
-        
+
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "style_title");
         $ti->setMaxLength(128);
@@ -220,62 +210,48 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
         $form->addCommandButton("save", $this->lng->txt("save"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-        
-        $forms[] = $form;
-        
-        
-        // --- import
-        
+        return $form;
+    }
+
+    protected function getImportForm() : ilPropertyFormGUI
+    {
+        $ctrl = $this->ctrl;
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("sty_import_stylesheet"));
-        
+
         // title
         $ti = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
         $ti->setRequired(true);
         $form->addItem($ti);
-        
+
         $form->addCommandButton("importStyle", $this->lng->txt("import"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-        
-        $forms[] = $form;
-        
-        
-        // --- clone
-        
+        return $form;
+    }
+
+    protected function getCloneForm() : ilPropertyFormGUI
+    {
+        $ctrl = $this->ctrl;
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("sty_copy_other_stylesheet"));
-        
+
         // source
         $ti = new ilSelectInputGUI($this->lng->txt("sty_source"), "source_style");
         $ti->setRequired(true);
         $ti->setOptions(ilObjStyleSheet::_getClonableContentStyles());
         $form->addItem($ti);
-        
+
         $form->addCommandButton("copyStyle", $this->lng->txt("copy"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-        
-        $forms[] = $form;
-        
-        
-        $tpl->setContent($this->getCreationFormsHTML($forms));
+        return $form;
     }
 
-    /**
-    * Include CSS in output
-    */
-    public function includeCSS()
+    public function includeCSS() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
-
-        // set style sheet
-        $tpl->setCurrentBlock("ContentStyle");
-        $tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->object->getId())
-        );
-        $tpl->parseCurrentBlock();
+        $tpl = $this->gui_service->ui()->mainTemplate();
+        $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->object->getId()));
     }
 
 
@@ -284,16 +260,13 @@ class ilObjStyleSheetGUI extends ilObjectGUI
      */
     public function editObject() : void
     {
-        $ctrl = $this->service_ui->ctrl();
+        $ctrl = $this->gui_service->ctrl();
         $ctrl->redirectByClass("ilStyleCharacteristicGUI", "listCharacteristics");
     }
 
-    /**
-    * Properties
-    */
-    public function propertiesObject()
+    public function propertiesObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->object->getId()));
 
         $this->initPropertiesForm();
@@ -302,10 +275,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
     
     /**
-    * Get current values for properties from
-    *
-    */
-    public function getPropertiesValues()
+     * Get current values for properties from
+     */
+    public function getPropertiesValues() : void
     {
         $values = array();
     
@@ -317,13 +289,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
     
     /**
-    * FORM: Init properties form.
-    *
-    * @param        int        $a_mode        Edit Mode
-    */
-    public function initPropertiesForm($a_mode = "edit")
-    {
-        $ctrl = $this->service_ui->ctrl();
+     * FORM: Init properties form.
+     */
+    public function initPropertiesForm(
+        string $a_mode = "edit"
+    ) : void {
+        $ctrl = $this->gui_service->ctrl();
         $lng = $this->lng;
 
         $this->form = new ilPropertyFormGUI();
@@ -361,14 +332,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $this->form->setFormAction($ctrl->getFormAction($this));
     }
     
-    /**
-    * Update properties
-    */
-    public function updateObject()
+    public function updateObject() : void
     {
         $lng = $this->lng;
-        $ctrl = $this->service_ui->ctrl();
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $ctrl = $this->gui_service->ctrl();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         
         $this->initPropertiesForm("edit");
         if ($this->form->checkInput()) {
@@ -379,28 +347,25 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $this->form->getInput("disable_auto_margins")
             );
             $this->object->update();
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             $ctrl->redirect($this, "properties");
         } else {
             $this->form->setValuesByPost();
-            $tpl->setContent($this->form->getHtml());
+            $tpl->setContent($this->form->getHTML());
         }
     }
 
     /**
      * Switch media query
      */
-    public function switchMQueryObject()
+    public function switchMQueryObject() : void
     {
-        $ctrl = $this->service_ui->ctrl();
-        $ctrl->setParameter($this, "mq_id", (int) $_POST["mq_id"]);
+        $ctrl = $this->gui_service->ctrl();
+        $ctrl->setParameter($this, "mq_id", $this->style_request->getMediaQueryId());
         $ctrl->redirectByClass("ilstylecharacteristicgui", "editTagStyle");
     }
 
-    /**
-    * export style
-    */
-    public function exportStyleObject()
+    public function exportStyleObject() : void
     {
         $exp = new ilExport();
         $r = $exp->exportObject($this->object->getType(), $this->object->getId());
@@ -409,38 +374,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
 
     /**
-    * add style parameter
-    */
-    public function newStyleParameterObject()
+     * display deletion confirmation screen
+     */
+    public function deleteObject($a_error = false) : void
     {
-        $this->object->addParameter($_POST["tag"], $_POST["parameter"]);
-        $this->editObject();
-    }
-
-    /**
-    * refresh style sheet
-    */
-    public function refreshObject()
-    {
-        $this->object->setTitle($_POST["style_title"]);
-        $this->object->setDescription($_POST["style_description"]);
-
-        foreach ($_POST["styval"] as $id => $value) {
-            $this->object->updateStyleParameter($id, $value);
-        }
-        $this->object->update();
-        $this->editObject();
-    }
-    
-    /**
-    * display deletion confirmation screen
-    *
-    * @access	public
-    */
-    public function deleteObject($a_error = false)
-    {
-        $tpl = $this->service_ui->ui()->mainTemplate();
-        $ctrl = $this->service_ui->ctrl();
+        $tpl = $this->gui_service->ui()->mainTemplate();
+        $ctrl = $this->gui_service->ctrl();
 
         // display confirmation message
         $cgui = new ilConfirmationGUI();
@@ -449,55 +388,35 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
         
-        $caption = ilUtil::getImageTagByType("sty", $tpl->tplPath) .
-                    " " . ilObject::_lookupTitle($this->object->getId());
+        $caption = ilObject::_lookupTitle($this->object->getId());
         
         $cgui->addItem("id[]", "", $caption);
 
         $tpl->setContent($cgui->getHTML());
     }
     
-    
-    /**
-    * cancel oobject deletion
-    */
-    public function cancelDeleteObject()
+    public function cancelDeleteObject() : void
     {
-        $this->service_ui->ctrl()->returnToParent($this);
+        $this->gui_service->ctrl()->returnToParent($this);
     }
 
     /**
-    * delete selected style objects
-    */
-    public function confirmedDeleteObject()
+     * delete selected style objects
+     */
+    public function confirmedDeleteObject() : void
     {
         $this->object->delete();
-        $this->service_ui->ctrl()->returnToParent($this);
+        $this->gui_service->ctrl()->returnToParent($this);
     }
 
-    /**
-    * delete style parameters
-    */
-    public function deleteStyleParameterObject()
+    public function saveObject() : int
     {
-        if (is_array($_POST["sty_select"])) {
-            foreach ($_POST["sty_select"] as $id => $dummy) {
-                $this->object->deleteParameter($id);
-            }
-        }
-        $this->object->read();
-        $this->object->writeCSSFile();
-        $this->editObject();
-    }
+        $ctrl = $this->gui_service->ctrl();
 
-    /**
-    * save style sheet
-    */
-    public function saveObject()
-    {
-        $ctrl = $this->service_ui->ctrl();
+        $form = $this->getCreateForm();
+        $form->checkInput();
 
-        if (!trim($_POST["style_title"])) {
+        if (!trim($form->getInput("style_title"))) {
             $ctrl->redirect($this, "create");
         }
 
@@ -522,16 +441,16 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $newObj = new ilObjStyleSheet($style_id);
         }
 
-        $newObj->setTitle(ilUtil::stripSlashes($_POST["style_title"]));
-        $newObj->setDescription(ilUtil::stripSlashes($_POST["style_description"]));
+        $newObj->setTitle($form->getInput("style_title"));
+        $newObj->setDescription($form->getInput("style_description"));
         $newObj->update();
 
         ilObjStyleSheet::_addMissingStyleClassesToStyle($newObj->getId());
 
         // assign style to style sheet folder,
         // if parent is style sheet folder
-        if ($_GET["ref_id"] > 0) {
-            $fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+        if ($this->requested_ref_id > 0) {
+            $fold = ilObjectFactory::getInstanceByRefId($this->requested_ref_id);
             if ($fold->getType() == "stys") {
                 $cont_style_settings = new ilContentStyleSettings();
                 $cont_style_settings->addStyle($newObj->getId());
@@ -545,22 +464,23 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         return $newObj->getId();
     }
 
-    /**
-    * save style sheet
-    */
-    public function copyStyleObject()
+    public function copyStyleObject() : int
     {
-        $ctrl = $this->service_ui->ctrl();
+        $ctrl = $this->gui_service->ctrl();
 
-        if ($_POST["source_style"] > 0) {
-            $style_obj = ilObjectFactory::getInstanceByObjId($_POST["source_style"]);
+        $form = $this->getCloneForm();
+        $form->checkInput();
+        $new_id = null;
+
+        if ($form->getInput("source_style") > 0) {
+            $style_obj = ilObjectFactory::getInstanceByObjId($form->getInput("source_style"));
             $new_id = $style_obj->ilClone();
         }
 
         // assign style to style sheet folder,
         // if parent is style sheet folder
-        if ($_GET["ref_id"] > 0) {
-            $fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+        if ($this->requested_ref_id > 0) {
+            $fold = ilObjectFactory::getInstanceByRefId($this->requested_ref_id);
             if ($fold->getType() == "stys") {
                 $cont_style_settings = new ilContentStyleSettings();
                 $cont_style_settings->addStyle($new_id);
@@ -574,10 +494,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
 
     /**
-    * import style sheet
-    */
-    public function importStyleObject()
+     * Import style sheet
+     */
+    public function importStyleObject() : int
     {
+        $newObj = null;
         // check file
         $source = $_FILES["importfile"]["tmp_name"];
         if (($source == 'none') || (!$source)) {
@@ -610,8 +531,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
         // assign style to style sheet folder,
         // if parent is style sheet folder
-        if ($_GET["ref_id"] > 0) {
-            $fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+        if ($this->requested_ref_id > 0) {
+            $fold = ilObjectFactory::getInstanceByRefId($this->requested_ref_id);
             if ($fold->getType() == "stys") {
                 $cont_style_settings = new ilContentStyleSettings();
                 $cont_style_settings->addStyle($newObj->getId());
@@ -623,47 +544,25 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         return $newObj->getId();
     }
 
-    /**
-     * After import
-     *
-     * @param
-     * @return
-     */
-    public function afterImport(ilObject $a_new_obj)
-    {
-    }
 
-
-    /**
-    * update style sheet
-    */
     public function cancelObject()
     {
         $lng = $this->lng;
 
-        ilUtil::sendInfo($lng->txt("msg_cancel"), true);
+        $this->tpl->setOnScreenMessage('info', $lng->txt("msg_cancel"), true);
         $this->ctrl->returnToParent($this);
     }
     
-    /**
-    * admin and normal tabs are equal for roles
-    */
     public function getAdminTabs()
     {
         $this->getTabs();
     }
 
-
-    /**
-    * adds tabs to tab gui object
-    *
-    * @param	object		$tabs_gui		ilTabsGUI object
-    */
-    public function getTabs()
+    protected function getTabs() : void
     {
         $lng = $this->lng;
         $ilHelp = $this->help;
-        $tabs = $this->service_ui->tabs();
+        $tabs = $this->gui_service->tabs();
         $ilHelp->setScreenIdComponent("sty");
 
         // back to upper context
@@ -730,15 +629,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         );
     }
 
-    /**
-    * adds tabs to tab gui object
-    *
-    * @param	object		$tabs_gui		ilTabsGUI object
-    */
-    public function setTemplatesSubTabs()
+    public function setTemplatesSubTabs() : void
     {
         $lng = $this->lng;
-        $ilTabs = $this->service_ui->tabs();
+        $ilTabs = $this->gui_service->tabs();
         $ilCtrl = $this->ctrl;
         
         $types = ilObjStyleSheet::_getTemplateClassTypes();
@@ -753,18 +647,18 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             );
         }
 
-        $ilCtrl->setParameter($this, "temp_type", $_GET["temp_type"]);
+        $ilCtrl->setParameter($this, "temp_type", $this->style_request->getTempType());
     }
 
     /**
-    * should be overwritten to add object specific items
-    * (repository items are preloaded)
-    */
-    public function addAdminLocatorItems($a_do_not_add_object = false)
+     * should be overwritten to add object specific items
+     * (repository items are preloaded)
+     */
+    protected function addAdminLocatorItems($a_do_not_add_object = false)
     {
-        $ilLocator = $this->service_ui->locator();
+        $ilLocator = $this->gui_service->locator();
 
-        if ($_GET["admin_mode"] == "settings") {	// system settings
+        if ($this->style_request->getAdminMode() == "settings") {	// system settings
             parent::addAdminLocatorItems(true);
                 
             $ilLocator->addItem(
@@ -777,22 +671,22 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass("ilcontentstylesettingsgui", "")
             );
 
-            if ($_GET["obj_id"] > 0) {
+            if ($this->style_request->getObjId() > 0) {
                 $ilLocator->addItem(
                     $this->object->getTitle(),
                     $this->ctrl->getLinkTarget($this, "edit")
                 );
             }
-        } else {							// repository administration
-            //?
         }
     }
     
     /**
-    * Get style example HTML
-    */
-    public static function getStyleExampleHTML($a_type, $a_class)
-    {
+     * Get style example HTML
+     */
+    public static function getStyleExampleHTML(
+        string $a_type,
+        string $a_class
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -829,12 +723,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     //
     
     /**
-    * List colors of style
-    */
-    public function listColorsObject()
+     * List colors of style
+     */
+    public function listColorsObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
-        $ilToolbar = $this->service_ui->toolbar();
+        $tpl = $this->gui_service->ui()->mainTemplate();
+        $ilToolbar = $this->gui_service->toolbar();
         $ilCtrl = $this->ctrl;
         
         if ($this->access_manager->checkWrite()) {
@@ -847,43 +741,35 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $table_gui = new ilStyleColorTableGUI(
             $this,
             "listColors",
-            $this->object,
+            $this->getStyleSheet(),
             $this->access_manager
         );
         $tpl->setContent($table_gui->getHTML());
     }
 
-    /**
-    * Add a color
-    */
-    public function addColorObject()
+    public function addColorObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         
         $this->initColorForm();
         $tpl->setContent($this->form_gui->getHTML());
     }
     
-    /**
-    * Edit color
-    */
-    public function editColorObject()
+    public function editColorObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $ilCtrl = $this->ctrl;
         
-        $ilCtrl->setParameter($this, "c_name", $_GET["c_name"]);
+        $ilCtrl->setParameter($this, "c_name", $this->style_request->getColorName());
         $this->initColorForm("edit");
         $this->getColorFormValues();
         $tpl->setContent($this->form_gui->getHTML());
     }
 
     
-    /**
-    * Init color form
-    */
-    public function initColorForm($a_mode = "create")
-    {
+    public function initColorForm(
+        string $a_mode = "create"
+    ) : void {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
@@ -908,30 +794,30 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         
         if ($a_mode == "create") {
             $this->form_gui->addCommandButton("saveColor", $lng->txt("save"));
-            $this->form_gui->addCommandButton("cancelColorSaving", $lng->txt("cancel"));
         } else {
             $this->form_gui->addCommandButton("updateColor", $lng->txt("save"));
-            $this->form_gui->addCommandButton("cancelColorSaving", $lng->txt("cancel"));
         }
+        $this->form_gui->addCommandButton("cancelColorSaving", $lng->txt("cancel"));
         $this->form_gui->setFormAction($ilCtrl->getFormAction($this));
     }
 
     /**
-    * Set values for color editing
-    */
-    public function getColorFormValues()
+     * Set values for color editing
+     */
+    public function getColorFormValues() : void
     {
-        if ($_GET["c_name"] != "") {
-            $values["color_name"] = $_GET["c_name"];
-            $values["color_code"] = $this->object->getColorCodeForName($_GET["c_name"]);
+        $c_name = $this->style_request->getColorName();
+        if ($c_name != "") {
+            $values["color_name"] = $c_name;
+            $values["color_code"] = $this->object->getColorCodeForName($c_name);
             $this->form_gui->setValuesByArray($values);
         }
     }
     
     /**
-    * Cancel color saving
-    */
-    public function cancelColorSavingObject()
+     * Cancel color saving
+     */
+    public function cancelColorSavingObject() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -939,24 +825,25 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
     
     /**
-    * Save color
-    */
-    public function saveColorObject()
+     * Save color
+     */
+    public function saveColorObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
         $this->initColorForm();
+        $this->form_gui->checkInput();
         
         if ($this->form_gui->checkInput()) {
-            if ($this->color_manager->colorExists($_POST["color_name"])) {
+            if ($this->color_manager->colorExists($this->form_gui->getInput("color_name"))) {
                 $col_input = $this->form_gui->getItemByPostVar("color_name");
                 $col_input->setAlert($lng->txt("sty_color_already_exists"));
             } else {
                 $this->color_manager->addColor(
-                    $_POST["color_name"],
-                    $_POST["color_code"]
+                    $this->form_gui->getInput("color_name"),
+                    $this->form_gui->getInput("color_code")
                 );
                 $ilCtrl->redirect($this, "listColors");
             }
@@ -966,46 +853,48 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
 
     /**
-    * Update color
-    */
-    public function updateColorObject()
+     * Update color
+     */
+    public function updateColorObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
         $this->initColorForm("edit");
-        
+
+        $c_name = $this->style_request->getColorName();
         if ($this->form_gui->checkInput()) {
-            if ($this->color_manager->colorExists($_POST["color_name"]) &&
-                $_POST["color_name"] != $_GET["c_name"]) {
+            if ($this->color_manager->colorExists($this->form_gui->getInput("color_name")) &&
+                $this->form_gui->getInput("color_name") != $c_name) {
                 $col_input = $this->form_gui->getItemByPostVar("color_name");
                 $col_input->setAlert($lng->txt("sty_color_already_exists"));
             } else {
                 $this->color_manager->updateColor(
-                    $_GET["c_name"],
-                    $_POST["color_name"],
-                    $_POST["color_code"]
+                    $c_name,
+                    $this->form_gui->getInput("color_name"),
+                    $this->form_gui->getInput("color_code")
                 );
                 $ilCtrl->redirect($this, "listColors");
             }
         }
-        $ilCtrl->setParameter($this, "c_name", $_GET["c_name"]);
+        $ilCtrl->setParameter($this, "c_name", $c_name);
         $this->form_gui->setValuesByPost();
         $tpl->setContent($this->form_gui->getHTML());
     }
 
     /**
-    * Delete color confirmation
-    */
-    public function deleteColorConfirmationObject()
+     * Delete color confirmation
+     */
+    public function deleteColorConfirmationObject() : void
     {
         $ilCtrl = $this->ctrl;
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $lng = $this->lng;
-        
-        if (!is_array($_POST["color"]) || count($_POST["color"]) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+
+        $colors = $this->style_request->getColors();
+        if (count($colors) == 0) {
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listColors");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -1014,8 +903,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $cgui->setCancel($lng->txt("cancel"), "cancelColorDeletion");
             $cgui->setConfirm($lng->txt("delete"), "deleteColor");
             
-            foreach ($_POST["color"] as $c) {
-                $cgui->addItem("color[]", ilUtil::prepareFormOutput($c), $c);
+            foreach ($colors as $c) {
+                $cgui->addItem("color[]", ilLegacyFormElementsUtil::prepareFormOutput($c), $c);
             }
             
             $tpl->setContent($cgui->getHTML());
@@ -1023,28 +912,23 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
 
     /**
-    * Cancel color deletion
-    */
-    public function cancelColorDeletionObject()
+     * Cancel color deletion
+     */
+    public function cancelColorDeletionObject() : void
     {
         $ilCtrl = $this->ctrl;
-        
         $ilCtrl->redirect($this, "listColors");
     }
 
-    /**
-    * Delete colors
-    */
-    public function deleteColorObject()
+    public function deleteColorObject() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        if (is_array($_POST["color"])) {
-            foreach ($_POST["color"] as $c) {
-                $this->object->removeColor($c);
-            }
+
+        $colors = $this->style_request->getColors();
+        foreach ($colors as $c) {
+            $this->object->removeColor($c);
         }
-            
+
         $ilCtrl->redirect($this, "listColors");
     }
 
@@ -1052,13 +936,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     // Media query management
     //
 
-    /**
-     * List media queries of style
-     */
-    public function listMediaQueriesObject()
+    public function listMediaQueriesObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
-        $ilToolbar = $this->service_ui->toolbar();
+        $tpl = $this->gui_service->ui()->mainTemplate();
+        $ilToolbar = $this->gui_service->toolbar();
         $ilCtrl = $this->ctrl;
 
         if ($this->access_manager->checkWrite()) {
@@ -1071,32 +952,26 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $table_gui = new ilStyleMediaQueryTableGUI(
             $this,
             "listMediaQueries",
-            $this->object,
+            $this->getStyleSheet(),
             $this->access_manager
         );
         $tpl->setContent($table_gui->getHTML());
     }
 
-    /**
-     * Add a media query
-     */
-    public function addMediaQueryObject()
+    public function addMediaQueryObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
 
         $this->initMediaQueryForm();
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    /**
-     * Edit media query
-     */
-    public function editMediaQueryObject()
+    public function editMediaQueryObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $ilCtrl = $this->ctrl;
 
-        $ilCtrl->setParameter($this, "mq_id", $_GET["mq_id"]);
+        $ilCtrl->setParameter($this, "mq_id", $this->style_request->getMediaQueryId());
         $this->initMediaQueryForm("edit");
         $this->getMediaQueryFormValues();
         $tpl->setContent($this->form_gui->getHTML());
@@ -1106,8 +981,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     /**
      * Init media query form
      */
-    public function initMediaQueryForm($a_mode = "create")
-    {
+    public function initMediaQueryForm(
+        string $a_mode = "create"
+    ) : void {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
@@ -1124,22 +1000,22 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
         if ($a_mode == "create") {
             $this->form_gui->addCommandButton("saveMediaQuery", $lng->txt("save"));
-            $this->form_gui->addCommandButton("listMediaQueries", $lng->txt("cancel"));
         } else {
             $this->form_gui->addCommandButton("updateMediaQuery", $lng->txt("save"));
-            $this->form_gui->addCommandButton("listMediaQueries", $lng->txt("cancel"));
         }
+        $this->form_gui->addCommandButton("listMediaQueries", $lng->txt("cancel"));
         $this->form_gui->setFormAction($ilCtrl->getFormAction($this));
     }
 
     /**
      * Set values for media query editing
      */
-    public function getMediaQueryFormValues()
+    public function getMediaQueryFormValues() : void
     {
-        if ($_GET["mq_id"] != "") {
+        $values = [];
+        if ($this->style_request->getMediaQueryId() > 0) {
             foreach ($this->object->getMediaQueries() as $mq) {
-                if ($mq["id"] == (int) $_GET["mq_id"]) {
+                if ($mq["id"] == $this->style_request->getMediaQueryId()) {
                     $values["mquery"] = $mq["mquery"];
                 }
             }
@@ -1150,53 +1026,50 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     /**
      * Save media query
      */
-    public function saveMediaQueryObject()
+    public function saveMediaQueryObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
         $this->initMediaQueryForm();
 
         if ($this->form_gui->checkInput()) {
-            $this->object->addMediaQuery($_POST["mquery"]);
+            $this->object->addMediaQuery($this->form_gui->getInput("mquery"));
             $ilCtrl->redirect($this, "listMediaQueries");
         }
         $this->form_gui->setValuesByPost();
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    /**
-     * Update media query
-     */
-    public function updateMediaQueryObject()
+    public function updateMediaQueryObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
 
         $this->initMediaQueryForm("edit");
 
         if ($this->form_gui->checkInput()) {
-            $this->object->updateMediaQuery((int) $_GET["mq_id"], $_POST["mquery"]);
+            $this->object->updateMediaQuery(
+                $this->style_request->getMediaQueryId(),
+                $this->form_gui->getInput("mquery")
+            );
             $ilCtrl->redirect($this, "listMediaQueries");
         }
-        $ilCtrl->setParameter($this, "mq_id", $_GET["mq_id"]);
+        $ilCtrl->setParameter($this, "mq_id", $this->style_request->getMediaQueryId());
         $this->form_gui->setValuesByPost();
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    /**
-     * Confirm media query deletion
-     */
-    public function deleteMediaQueryConfirmationObject()
+    public function deleteMediaQueryConfirmationObject() : void
     {
         $ilCtrl = $this->ctrl;
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $lng = $this->lng;
-            
-        if (!is_array($_POST["mq_id"]) || count($_POST["mq_id"]) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+
+        $mq_ids = $this->style_request->getMediaQueryIds();
+        if (count($mq_ids) == 0) {
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listMediaQueries");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -1205,7 +1078,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $cgui->setCancel($lng->txt("cancel"), "listMediaQueries");
             $cgui->setConfirm($lng->txt("delete"), "deleteMediaQueries");
             
-            foreach ($_POST["mq_id"] as $i) {
+            foreach ($mq_ids as $i) {
                 $mq = $this->object->getMediaQueryForId($i);
                 $cgui->addItem("mq_id[]", $i, $mq["mquery"]);
             }
@@ -1214,36 +1087,26 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * Delete Media Queries
-     *
-     * @param
-     * @return
-     */
-    public function deleteMediaQueriesObject()
+    public function deleteMediaQueriesObject() : void
     {
         $ilCtrl = $this->ctrl;
 
-        if ($this->access_manager->checkWrite() && is_array($_POST["mq_id"])) {
-            foreach ($_POST["mq_id"] as $id) {
+        $mq_ids = $this->style_request->getMediaQueryIds();
+        if ($this->access_manager->checkWrite()) {
+            foreach ($mq_ids as $id) {
                 $this->object->deleteMediaQuery($id);
             }
         }
         $ilCtrl->redirect($this, "listMediaQueries");
     }
 
-    /**
-     * Save media query order
-     *
-     * @param
-     * @return
-     */
-    public function saveMediaQueryOrderObject()
+    public function saveMediaQueryOrderObject() : void
     {
         $ilCtrl = $this->ctrl;
 
-        if (is_array($_POST["order"])) {
-            $this->object->saveMediaQueryOrder($_POST["order"]);
+        $order = $this->style_request->getOrder();
+        if (count($order) > 0) {
+            $this->getStyleSheet()->saveMediaQueryOrder($order);
         }
         $ilCtrl->redirect($this, "listMediaQueries");
     }
@@ -1254,20 +1117,19 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     //
     
     /**
-    * List templates
-    */
-    public function listTemplatesObject()
+     * List templates
+     */
+    public function listTemplatesObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
-        $ilTabs = $this->service_ui->tabs();
+        $tpl = $this->gui_service->ui()->mainTemplate();
+        $ilTabs = $this->gui_service->tabs();
         $ilCtrl = $this->ctrl;
-        $ilToolbar = $this->service_ui->toolbar();
+        $ilToolbar = $this->gui_service->toolbar();
         
-        $ctype = $_GET["temp_type"];
+        $ctype = $this->style_request->getTempType();
         if ($ctype == "") {
             $ctype = "table";
             $ilCtrl->setParameter($this, "temp_type", $ctype);
-            $_GET["temp_type"] = $ctype;
         }
         
         $this->setTemplatesSubTabs();
@@ -1294,44 +1156,42 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $ctype,
             $this,
             "listTemplates",
-            $this->object,
+            $this->getStyleSheet(),
             $this->access_manager
         );
         $tpl->setContent($table_gui->getHTML());
     }
     
-    /**
-    * Add template
-    */
-    public function addTemplateObject()
+    public function addTemplateObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         
         $this->initTemplateForm();
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    /**
-    * Edit table template
-    */
-    public function editTemplateObject()
+    public function editTemplateObject() : void
     {
         $ilCtrl = $this->ctrl;
 
-        $ilCtrl->setParameter($this, "t_id", $_GET["t_id"]);
+        $ilCtrl->setParameter(
+            $this,
+            "t_id",
+            $this->style_request->getTemplateId()
+        );
         $this->initTemplateForm("edit");
         $this->getTemplateFormValues();
         
         $this->displayTemplateEditForm();
     }
 
-    /**
-    * Get table template preview
-    */
-    public function getTemplatePreview($a_type, $a_t_id, $a_small_mode = false)
-    {
+    public function getTemplatePreview(
+        string $a_type,
+        int $a_t_id,
+        bool $a_small_mode = false
+    ) : string {
         return $this->_getTemplatePreview(
-            $this->object,
+            $this->getStyleSheet(),
             $a_type,
             $a_t_id,
             $a_small_mode
@@ -1339,14 +1199,18 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
 
     /**
-    * Get table template preview
-    */
-    public static function _getTemplatePreview($a_style, $a_type, $a_t_id, $a_small_mode = false)
-    {
+     * Get table template preview
+     */
+    public static function _getTemplatePreview(
+        ilObjStyleSheet $a_style,
+        string $a_type,
+        int $a_t_id,
+        bool $a_small_mode = false
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
-        $tpl = $DIC["tpl"];
+        $p_content = "";
 
         $kr = $kc = 7;
         if ($a_small_mode) {
@@ -1412,12 +1276,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 }
             } elseif ($a_type == "haccordion") {
                 $p_content = '<PageContent><Tabs Type="HorizontalAccordion"';
+                $p_content .= ' ContentHeight="40"';
                 if ($a_small_mode) {
-                    $p_content .= ' ContentHeight="40"';
                     $p_content .= ' ContentWidth="70"';
                     $c = '&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;';
-                } else {
-                    $p_content .= ' ContentHeight="40"';
                 }
             } elseif ($a_type == "carousel") {
                 $p_content = '<PageContent><Tabs HorizontalAlign="Left" Type="Carousel" ';
@@ -1449,9 +1311,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
 
     /**
-    * Init table template form
-    */
-    public function initTemplateForm($a_mode = "create")
+     * Init table template form
+     */
+    public function initTemplateForm(string $a_mode = "create") : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1474,7 +1336,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $this->form_gui->addItem($name_input);
 
         // template style classes
-        $scs = ilObjStyleSheet::_getTemplateClassTypes($_GET["temp_type"]);
+        $scs = ilObjStyleSheet::_getTemplateClassTypes(
+            $this->style_request->getTempType()
+        );
         foreach ($scs as $sc => $st) {
             $sc_input = new ilSelectInputGUI($lng->txt("sty_" . $sc . "_class"), $sc . "_class");
             $chars = $this->object->getCharacteristics($st);
@@ -1488,50 +1352,53 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         
         if ($a_mode == "create") {
             $this->form_gui->addCommandButton("saveTemplate", $lng->txt("save"));
-            $this->form_gui->addCommandButton("cancelTemplateSaving", $lng->txt("cancel"));
         } else {
             $this->form_gui->addCommandButton("refreshTemplate", $lng->txt("save_refresh"));
             $this->form_gui->addCommandButton("updateTemplate", $lng->txt("save_return"));
-            $this->form_gui->addCommandButton("cancelTemplateSaving", $lng->txt("cancel"));
         }
+        $this->form_gui->addCommandButton("cancelTemplateSaving", $lng->txt("cancel"));
         $this->form_gui->setFormAction($ilCtrl->getFormAction($this));
     }
 
     /**
-    * Cancel color saving
-    */
-    public function cancelTemplateSavingObject()
+     * Cancel color saving
+     */
+    public function cancelTemplateSavingObject() : void
     {
         $ilCtrl = $this->ctrl;
-        
         $ilCtrl->redirect($this, "listTemplates");
     }
 
 
     /**
-    * Save table template
-    */
-    public function saveTemplateObject()
+     * Save table template
+     */
+    public function saveTemplateObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
         $this->initTemplateForm();
+        $temp_type = $this->style_request->getTempType();
         
         if ($this->form_gui->checkInput()) {
-            if ($this->object->templateExists($_POST["name"])) {
+            if ($this->object->templateExists($this->form_gui->getInput("name"))) {
                 $name_input = $this->form_gui->getItemByPostVar("name");
                 $name_input->setAlert($lng->txt("sty_table_template_already_exists"));
             } else {
                 $classes = array();
-                foreach (ilObjStyleSheet::_getTemplateClassTypes($_GET["temp_type"]) as $tct => $ct) {
-                    $classes[$tct] = $_POST[$tct . "_class"];
+                foreach (ilObjStyleSheet::_getTemplateClassTypes($temp_type) as $tct => $ct) {
+                    $classes[$tct] = $this->form_gui->getInput($tct . "_class");
                 }
-                $t_id = $this->object->addTemplate($_GET["temp_type"], $_POST["name"], $classes);
+                $t_id = $this->object->addTemplate(
+                    $temp_type,
+                    $this->form_gui->getInput("name"),
+                    $classes
+                );
                 $this->object->writeTemplatePreview(
                     $t_id,
-                    $this->getTemplatePreview($_GET["temp_type"], $t_id, true)
+                    $this->getTemplatePreview($temp_type, $t_id, true)
                 );
                 $ilCtrl->redirect($this, "listTemplates");
             }
@@ -1540,36 +1407,36 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    /**
-    * Update table template
-    */
-    public function updateTemplateObject($a_refresh = false)
-    {
+    public function updateTemplateObject(
+        bool $a_refresh = false
+    ) : void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
-        $ilCtrl->setParameter($this, "t_id", $_GET["t_id"]);
+        $ilCtrl->setParameter($this, "t_id", $this->style_request->getTemplateId());
         $this->initTemplateForm("edit");
-        
+        $temp_type = $this->style_request->getTempType();
+
+        $t_id = $this->style_request->getTemplateId();
         if ($this->form_gui->checkInput()) {
-            if ($this->object->templateExists($_POST["name"]) &&
-                $_POST["name"] != ilObjStyleSheet::_lookupTemplateName($_GET["t_id"])) {
+            if ($this->object->templateExists($this->form_gui->getInput("name")) &&
+                $this->form_gui->getInput("name") != ilObjStyleSheet::_lookupTemplateName($t_id)) {
                 $name_input = $this->form_gui->getItemByPostVar("name");
                 $name_input->setAlert($lng->txt("sty_template_already_exists"));
             } else {
                 $classes = array();
-                foreach (ilObjStyleSheet::_getTemplateClassTypes($_GET["temp_type"]) as $tct => $ct) {
-                    $classes[$tct] = $_POST[$tct . "_class"];
+                foreach (ilObjStyleSheet::_getTemplateClassTypes($temp_type) as $tct => $ct) {
+                    $classes[$tct] = $this->form_gui->getInput($tct . "_class");
                 }
 
                 $this->object->updateTemplate(
-                    $_GET["t_id"],
-                    $_POST["name"],
+                    $t_id,
+                    $this->form_gui->getInput("name"),
                     $classes
                 );
                 $this->object->writeTemplatePreview(
-                    $_GET["t_id"],
-                    $this->getTemplatePreview($_GET["temp_type"], $_GET["t_id"], true)
+                    $t_id,
+                    $this->getTemplatePreview($temp_type, $t_id, true)
                 );
                 if (!$a_refresh) {
                     $ilCtrl->redirect($this, "listTemplates");
@@ -1581,12 +1448,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $this->displayTemplateEditForm();
     }
     
-    /**
-    * Display table tempalte edit form
-    */
-    public function displayTemplateEditForm()
+    public function displayTemplateEditForm() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         
         $a_tpl = new ilTemplate(
             "tpl.template_edit.html",
@@ -1596,28 +1460,34 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         );
         $this->includeCSS();
         $a_tpl->setVariable("FORM", $this->form_gui->getHTML());
-        $a_tpl->setVariable("PREVIEW", $this->getTemplatePreview($_GET["temp_type"], $_GET["t_id"]));
+        $a_tpl->setVariable("PREVIEW", $this->getTemplatePreview(
+            $this->style_request->getTempType(),
+            $this->style_request->getTemplateId()
+        ));
         $tpl->setContent($a_tpl->get());
     }
 
     /**
-    * Refresh table template
-    */
-    public function refreshTemplateObject()
+     * Refresh table template
+     */
+    public function refreshTemplateObject() : void
     {
         $this->updateTemplateObject(true);
     }
 
     /**
-    * Set values for table template editing
-    */
-    public function getTemplateFormValues()
+     * Set values for table template editing
+     */
+    public function getTemplateFormValues() : void
     {
-        if ($_GET["t_id"] > 0) {
-            $t = $this->object->getTemplate($_GET["t_id"]);
+        $t_id = $this->style_request->getTemplateId();
+        if ($t_id > 0) {
+            $t = $this->object->getTemplate($t_id);
 
             $values["name"] = $t["name"];
-            $scs = ilObjStyleSheet::_getTemplateClassTypes($_GET["temp_type"]);
+            $scs = ilObjStyleSheet::_getTemplateClassTypes(
+                $this->style_request->getTempType()
+            );
             foreach ($scs as $k => $type) {
                 $values[$k . "_class"] = $t["classes"][$k];
             }
@@ -1626,16 +1496,17 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
 
     /**
-    * Delete table template confirmation
-    */
-    public function deleteTemplateConfirmationObject()
+     * Delete table template confirmation
+     */
+    public function deleteTemplateConfirmationObject() : void
     {
         $ilCtrl = $this->ctrl;
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $lng = $this->lng;
-        
-        if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+
+        $tids = $this->style_request->getTemplateIds();
+        if (count($tids) == 0) {
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listTemplates");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -1644,7 +1515,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $cgui->setCancel($lng->txt("cancel"), "cancelTemplateDeletion");
             $cgui->setConfirm($lng->txt("sty_del_template"), "deleteTemplate");
             
-            foreach ($_POST["tid"] as $tid) {
+            foreach ($tids as $tid) {
                 $classes = $this->object->getTemplateClasses($tid);
                 $cl_str = "";
                 $listed = array();
@@ -1669,68 +1540,65 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
 
     /**
-    * Cancel table template deletion
-    */
-    public function cancelTemplateDeletionObject()
+     * Cancel table template deletion
+     */
+    public function cancelTemplateDeletionObject() : void
     {
         $ilCtrl = $this->ctrl;
         
         $ilCtrl->redirect($this, "listTemplates");
     }
 
-    /**
-    * Delete table template
-    */
-    public function deleteTemplateKeepClassesObject()
+    public function deleteTemplateKeepClassesObject() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        if (is_array($_POST["tid"])) {
-            foreach ($_POST["tid"] as $tid) {
-                $this->object->removeTemplate($tid);
-            }
+
+        $tids = $this->style_request->getTemplateIds();
+        foreach ($tids as $tid) {
+            $this->object->removeTemplate($tid);
         }
-            
+
         $ilCtrl->redirect($this, "listTemplates");
     }
     
     /**
-     * Delete table template
+     * Delete template
      * @throws Content\ContentStyleNoPermissionException
+     * @throws Content\ContentStyleNoPermissionException
+     * @throws ilCtrlException
      */
-    public function deleteTemplateObject()
+    public function deleteTemplateObject() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        if (is_array($_POST["tid"])) {
-            foreach ($_POST["tid"] as $tid) {
-                $cls = $this->object->getTemplateClasses($tid);
-                foreach ($cls as $k => $cls) {
-                    $ty = $this->object->determineTemplateStyleClassType($_GET["temp_type"], $k);
-                    $this->characteristic_manager->deleteCharacteristic($ty, $cls);
-                }
-                $this->object->removeTemplate($tid);
+
+        $tids = $this->style_request->getTemplateIds();
+        foreach ($tids as $tid) {
+            $cls = $this->object->getTemplateClasses($tid);
+            foreach ($cls as $k => $cls2) {
+                $ty = $this->object->determineTemplateStyleClassType(
+                    $this->style_request->getTempType(),
+                    $k
+                );
+                $this->characteristic_manager->deleteCharacteristic($ty, $cls2);
             }
+            $this->object->removeTemplate($tid);
         }
-            
+
         $ilCtrl->redirect($this, "listTemplates");
     }
 
-    /**
-    * Generate table template
-    */
-    public function generateTemplateObject()
+    public function generateTemplateObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         
         $this->initTemplateGenerationForm();
         $tpl->setContent($this->form_gui->getHTML());
     }
 
     /**
-    * Init table template generation form
-    */
-    public function initTemplateGenerationForm()
+     * Init table template generation form
+     */
+    public function initTemplateGenerationForm() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1799,18 +1667,18 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
 
     /**
-    * Table template generation
-    */
-    public function templateGenerationObject()
+     * Table template generation
+     */
+    public function templateGenerationObject() : void
     {
-        $tpl = $this->service_ui->ui()->mainTemplate();
+        $tpl = $this->gui_service->ui()->mainTemplate();
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
         $this->initTemplateGenerationForm();
         
         if ($this->form_gui->checkInput()) {
-            if ($this->object->templateExists($_POST["name"])) {
+            if ($this->object->templateExists($this->form_gui->getInput("name"))) {
                 $name_input = $this->form_gui->getItemByPostVar("name");
                 $name_input->setAlert($lng->txt("sty_table_template_already_exists"));
             } else {
@@ -1822,10 +1690,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $tb_padding = $tb_p->getValue();
                 $lr_p = $this->form_gui->getItemByPostVar("lr_padding");
                 $lr_padding = $lr_p->getValue();
-                $cell_color = $_POST["base_color"];
+                $cell_color = $this->form_gui->getInput("base_color");
 
                 // use mid gray as cell color for bw zebra
-                if ($_POST["layout"] == "bwZebra") {
+                if ($this->form_gui->getInput("layout") == "bwZebra") {
                     $cell_color = "MidGray";
                     if (!$this->color_manager->colorExists($cell_color)) {
                         $this->color_manager->addColor($cell_color, "7F7F7F");
@@ -1834,23 +1702,23 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 }
 
                 foreach ($cells as $k => $cell) {
-                    $cell_class[$k] = $_POST["name"] . $k;
+                    $cell_class[$k] = $this->form_gui->getInput("name") . $k;
                     if (!$this->object->characteristicExists($cell_class[$k], "table_cell")) {
                         $this->characteristic_manager->addCharacteristic("table_cell", $cell_class[$k], true);
                     }
-                    if ($_POST["layout"] == "bwZebra" && $k == "H") {
+                    if ($this->form_gui->getInput("layout") == "bwZebra" && $k == "H") {
                         $this->characteristic_manager->replaceParameter(
                             "td",
                             $cell_class[$k],
                             "color",
-                            "!" . $_POST["base_color"] . "(" . $_POST["lightness_" . $cell . "_text"] . ")",
+                            "!" . $this->form_gui->getInput("base_color") . "(" . $this->form_gui->getInput("lightness_" . $cell . "_text") . ")",
                             "table_cell"
                         );
                         $this->characteristic_manager->replaceParameter(
                             "td",
                             $cell_class[$k],
                             "background-color",
-                            "!" . $_POST["base_color"] . "(" . $_POST["lightness_" . $cell . "_bg"] . ")",
+                            "!" . $this->form_gui->getInput("base_color") . "(" . $this->form_gui->getInput("lightness_" . $cell . "_bg") . ")",
                             "table_cell"
                         );
                     } else {
@@ -1858,14 +1726,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                             "td",
                             $cell_class[$k],
                             "color",
-                            "!" . $cell_color . "(" . $_POST["lightness_" . $cell . "_text"] . ")",
+                            "!" . $cell_color . "(" . $this->form_gui->getInput("lightness_" . $cell . "_text") . ")",
                             "table_cell"
                         );
                         $this->characteristic_manager->replaceParameter(
                             "td",
                             $cell_class[$k],
                             "background-color",
-                            "!" . $cell_color . "(" . $_POST["lightness_" . $cell . "_bg"] . ")",
+                            "!" . $cell_color . "(" . $this->form_gui->getInput("lightness_" . $cell . "_bg") . ")",
                             "table_cell"
                         );
                     }
@@ -1915,7 +1783,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                         "td",
                         $cell_class[$k],
                         "border-color",
-                        "!" . $cell_color . "(" . $_POST["lightness_border"] . ")",
+                        "!" . $cell_color . "(" . $this->form_gui->getInput("lightness_border") . ")",
                         "table_cell"
                     );
                     $this->characteristic_manager->replaceParameter(
@@ -1928,7 +1796,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 }
                 
                 // table class
-                $classes["table"] = $_POST["name"] . "T";
+                $classes["table"] = $this->form_gui->getInput("name") . "T";
                 if (!$this->object->characteristicExists($classes["table"], "table")) {
                     $this->characteristic_manager->addCharacteristic("table", $classes["table"], true);
                 }
@@ -1960,12 +1828,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                     "5px",
                     "table"
                 );
-                if ($_POST["layout"] == "bwZebra") {
+                if ($this->form_gui->getInput("layout") == "bwZebra") {
                     $this->characteristic_manager->replaceParameter(
                         "table",
                         $classes["table"],
                         "border-bottom-color",
-                        "!" . $_POST["base_color"],
+                        "!" . $this->form_gui->getInput("base_color"),
                         "table"
                     );
                     $this->characteristic_manager->replaceParameter(
@@ -1994,19 +1862,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                     }
                 }
                 
-                switch ($_POST["layout"]) {
+                switch ($this->form_gui->getInput("layout")) {
+                    case "bwZebra":
                     case "coloredZebra":
                         $classes["row_head"] = $cell_class["H"];
                         $classes["odd_row"] = $cell_class["C1"];
                         $classes["even_row"] = $cell_class["C2"];
                         break;
-                        
-                    case "bwZebra":
-                        $classes["row_head"] = $cell_class["H"];
-                        $classes["odd_row"] = $cell_class["C1"];
-                        $classes["even_row"] = $cell_class["C2"];
-                        break;
-                        
+
                     case "noZebra":
                         $classes["row_head"] = $cell_class["H"];
                         $classes["odd_row"] = $cell_class["C1"];
@@ -2017,13 +1880,17 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 
 
                 $t_id = $this->object->addTemplate(
-                    $_GET["temp_type"],
-                    $_POST["name"],
+                    $this->style_request->getTempType(),
+                    $this->form_gui->getInput("name"),
                     $classes
                 );
                 $this->object->writeTemplatePreview(
                     $t_id,
-                    $this->getTemplatePreview($_GET["temp_type"], $t_id, true)
+                    $this->getTemplatePreview(
+                        $this->style_request->getTempType(),
+                        $t_id,
+                        true
+                    )
                 );
                 $ilCtrl->redirect($this, "listTemplates");
             }
@@ -2032,34 +1899,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    public function accordiontestObject()
-    {
-        $tpl = $this->service_ui->ui()->mainTemplate();
-        
-        $acc = new ilAccordionGUI();
-        $acc->addItem("Header 1", str_repeat("bla bla bla bla bla bla", 30));
-        $acc->addItem("Header 2", str_repeat("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx xx x xx x xx", 30));
-        $acc->setOrientation(ilAccordionGUI::HORIZONTAL);
-
-        $ac2 = new ilAccordionGUI();
-        $ac2->addItem("Header 1", str_repeat("bla bla bla bla bla bla", 30));
-        $ac2->addItem("Header 2", $acc->getHTML());
-        $ac2->setOrientation(ilAccordionGUI::VERTICAL);
-        
-        $tpl->setContent($ac2->getHTML());
-    }
-    
-    /**
-    * return to upper context
-    */
-    public function returnToUpperContextObject()
+    public function returnToUpperContextObject() : void
     {
         $ilCtrl = $this->ctrl;
-
-        /*if ($_GET["baseClass"] == "ilAdministrationGUI")
-        {
-            $ilCtrl->redirectByClass("ilcontentstylesettingsgui", "edit");
-        }*/
         $ilCtrl->returnToParent($this);
     }
 }

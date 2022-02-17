@@ -46,10 +46,10 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
         /*
         $ilDB->manipulate("DELETE FROM " . $this->getSubTableName() .
             " WHERE " . $this->buildPrimaryWhere());
-        
+
         foreach ($this->prepareMultiInsert() as $sub_items) {
             $fields = array_merge($this->getPrimary(), $sub_items);
-            
+
             $ilDB->insert($this->getSubTableName(), $fields);
         }
         */
