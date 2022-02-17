@@ -20,6 +20,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -54,12 +55,12 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      * @param ItemInformation|null $information
      * @throws \Throwable
      */
-    public function __construct(array $providers, ItemInformation $information = null)
+    public function __construct(array $providers, MainMenuItemFactory $factory, ItemInformation $information = null)
     {
         $this->information = $information;
         $this->providers = $providers;
         $this->type_information_collection = new TypeInformationCollection();
-        $this->map = new Map();
+        $this->map = new Map($factory);
     }
     
     /**
@@ -110,27 +111,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     
     public function prepareItemsForUIRepresentation() : void
     {
-        /*$this->map->walk(static function (\Iterator $i) {
-            $item = $i->current();
-            if ($item instanceof isParent) {
-                $separators = 0;
-                $children   = [];
-                foreach ($item->getChildren() as $position => $child) {
-                    if ($child instanceof Separator) {
-                        $separators++;
-                    } else {
-                        $separators = 0;
-                    }
-                    if ($separators > 1) {
-                        continue;
-                    }
-                    $children[] = $child;
-                }
-                $item = $item->withChildren($children);
-            }
-            return true;
-        });*/
-        
         $this->map->walk(function (isItem &$item) : isItem {
             if (is_null($item->getTypeInformation())) {
                 $item->setTypeInformation(
