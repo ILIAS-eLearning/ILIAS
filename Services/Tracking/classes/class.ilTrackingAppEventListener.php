@@ -56,7 +56,7 @@ class ilTrackingAppEventListener implements ilAppEventListener
             case 'Modules/LearningSequence':
                 switch ($a_event) {
                     case 'addParticipant':
-                        ilLPStatusWrapper::_refreshStatus($a_params['obj_id'], [$a_params['usr_id']]);
+                        ilLPStatusWrapper::_updateStatus((int) $a_parameter['obj_id'], (int) $a_parameter['usr_id']);
                         break;
                 }
         }
