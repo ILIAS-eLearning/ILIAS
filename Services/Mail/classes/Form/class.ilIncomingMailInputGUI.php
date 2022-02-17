@@ -139,29 +139,33 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
             }
             
             if (!strlen($DIC->user()->getEmail())) {
-                $sub_mail_opt1->setDisabled(true);
                 $sub_mail_opt1->setInfo($DIC->language()->txt('first_email_missing_info'));
-                $sub_mail_opt3->setDisabled(true);
                 $sub_mail_opt3->setInfo($DIC->language()->txt('first_email_missing_info'));
-                $sub_both_opt1->setDisabled(true);
                 $sub_both_opt1->setInfo($DIC->language()->txt('first_email_missing_info'));
-                $sub_both_opt3->setDisabled(true);
                 $sub_both_opt3->setInfo($DIC->language()->txt('first_email_missing_info'));
             } else {
                 $email_info[] = $DIC->user()->getEmail();
             }
+            if($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') == '1' ) {
+                $sub_mail_opt1->setDisabled(true);
+                $sub_mail_opt3->setDisabled(true);
+                $sub_both_opt1->setDisabled(true);
+                $sub_both_opt3->setDisabled(true);
+            }
             
             if (!strlen($DIC->user()->getSecondEmail())) {
-                $sub_mail_opt2->setDisabled(true);
                 $sub_mail_opt2->setInfo($DIC->language()->txt('second_email_missing_info'));
-                $sub_mail_opt3->setDisabled(true);
                 $sub_mail_opt3->setInfo($DIC->language()->txt('second_email_missing_info'));
-                $sub_both_opt2->setDisabled(true);
                 $sub_both_opt2->setInfo($DIC->language()->txt('second_email_missing_info'));
-                $sub_both_opt3->setDisabled(true);
                 $sub_both_opt3->setInfo($DIC->language()->txt('second_email_missing_info'));
             } else {
                 $email_info[] = $DIC->user()->getSecondEmail();
+            }
+            if($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') == '1' ) {
+                $sub_mail_opt2->setDisabled(true);
+                $sub_mail_opt3->setDisabled(true);
+                $sub_both_opt2->setDisabled(true);
+                $sub_both_opt3->setDisabled(true);
             }
             
             if (count($email_info) > 1) {
