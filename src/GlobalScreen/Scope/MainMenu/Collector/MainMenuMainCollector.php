@@ -159,7 +159,17 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             }
             return $item;
         });
-
+    
+        $this->map->walk(static function (isItem &$i) : void {
+            if ($i instanceof isParent && count($i->getChildren()) === 0) {
+                $i = $i->withAvailableCallable(static function () {
+                    return false;
+                })->withVisibilityCallable(static function () {
+                    return false;
+                });
+            }
+        });
+        
         // filter empty slates
         $this->map->filter(static function (isItem $i) : bool {
             if ($i instanceof isParent) {
@@ -168,6 +178,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
             return true;
         });
+     
     }
 
     public function sortItemsForUIRepresentation() : void
@@ -213,10 +224,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
     {
-        $item = $this->map->getSingleItemFromFilter($identification);
-        $this->map->add($item);
-
-        return $item;
+        return $this->map->getSingleItemFromFilter($identification);
     }
 
     /**
@@ -226,10 +234,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function getSingleItemFromRaw(IdentificationInterface $identification) : isItem
     {
-        $item = $this->map->getSingleItemFromRaw($identification);
-        $this->map->add($item);
-
-        return $item;
+        return $this->map->getSingleItemFromRaw($identification);
     }
 
     /**

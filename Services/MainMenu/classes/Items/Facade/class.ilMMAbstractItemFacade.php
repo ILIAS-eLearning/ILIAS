@@ -15,6 +15,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\UI\Component\Link\Link;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 
 /**
  * Class ilMMAbstractItemFacade
@@ -161,8 +162,8 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 
     public function getAmountOfChildren() : int
     {
-        if ($this->raw_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent) {
-            return count($this->raw_item->getChildren());
+        if ($this->filtered_item instanceof isParent) {
+            return count($this->filtered_item->getChildren());
         }
 
         return 0;
@@ -170,7 +171,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 
     public function isAvailable() : bool
     {
-        return (bool) ($this->raw_item->isAvailable() || $this->raw_item->isAlwaysAvailable());
+        return (bool) ($this->filtered_item->isAvailable() || $this->filtered_item->isAlwaysAvailable());
     }
 
     /**
