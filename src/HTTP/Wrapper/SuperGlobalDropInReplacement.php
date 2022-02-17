@@ -41,6 +41,8 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
         if ($this->throwOnValueAssignment) {
             throw new \OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
         }
+
+        parent::offsetSet($offset, $value);
     }
 
     /**
