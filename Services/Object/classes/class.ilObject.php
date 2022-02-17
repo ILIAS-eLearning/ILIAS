@@ -564,7 +564,7 @@ class ilObject
         $values = [
             "title" => ["text", $this->getTitle()],
             "description" => ["text", $this->getDescription()],
-            "last_update" => ["text", $this->db->now()],
+            "last_update" => ["date", $this->db->now()],
             "import_id" => ["text", $this->getImportId()],
             "offline" => ["integer", $this->supportsOfflineHandling() ? $this->getOfflineStatus() : null]
         ];
@@ -761,11 +761,9 @@ class ilObject
      */
     final public function updateOwner() : void
     {
-        $this->last_update = $this->db->now();
-
         $values = [
             "owner" => ["integer", $this->getOwner()],
-            "last_update" => ["text", $this->last_update]
+            "last_update" => ["date", $this->db->now()]
         ];
 
         $where = [
@@ -773,6 +771,9 @@ class ilObject
         ];
 
         $this->db->update(self::TABLE_OBJECT_DATA, $values, $where);
+
+        // get current values from database so last_update is updated as well
+        $this->read();
     }
 
     final public static function _getIdForImportId(string $import_id) : int
