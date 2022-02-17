@@ -265,7 +265,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($this->object->isOrderingTypeNested()) {
             $tabs->addSubTab(
                 self::TAB_EDIT_NESTING,
-                $this->lng->txt('tab_nest_anwers'),
+                $this->lng->txt('tab_nest_answers'),
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_NESTING)
             );
         }

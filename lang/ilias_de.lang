@@ -16639,3 +16639,7 @@ prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link
 common#:#actions_for#:#Aktionen für %s
 common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beiträge angehängt werden.
+assessment#:#qst_use_nested_answers#:#Einrückung in Anworten verwenden
+assessment#:#qst_nested_nested_answers_on#:#Mit Einrückung
+assessment#:#qst_nested_nested_answers_off#:#Ohne Einrückung
+assessment#:#tab_nest_answers#:#Einrückung
