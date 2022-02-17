@@ -23,18 +23,9 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class MapTest extends TestCase
 {
-    /**
-     * @var IdentificationFactory
-     */
-    protected $identification;
-    /**
-     * @var MainMenuItemFactory
-     */
-    protected $factory;
-    /**
-     * @var StaticMainMenuProvider
-     */
-    protected $provider;
+    protected IdentificationFactory $identification;
+    protected MainMenuItemFactory $factory;
+    protected StaticMainMenuProvider $provider;
     
     private function getMap() : Map
     {
@@ -61,7 +52,7 @@ class MapTest extends TestCase
     public function testAddItem() : void
     {
         $map = $this->getMap();
-        
+
         $p1 = $this->getId('parent_1');
         $p2 = $this->getId('parent_2');
         $p3 = $this->getId('parent_3');
@@ -87,7 +78,7 @@ class MapTest extends TestCase
     public function testFilterItems() : void
     {
         $map = $this->getMap();
-        
+
         $p1 = $this->getId('parent_1');
         $p2 = $this->getId('parent_2');
         $p3 = $this->getId('parent_3');
@@ -132,7 +123,7 @@ class MapTest extends TestCase
     public function testSortingTopItems() : void
     {
         $map = $this->getMap();
-        
+
         for ($x = 1; $x <= 10; $x++) {
             $map->add($this->factory->topParentItem($this->getId((string) $x))->withPosition(11 - $x));
         }
