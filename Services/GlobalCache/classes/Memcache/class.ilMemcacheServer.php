@@ -51,7 +51,7 @@ class ilMemcacheServer extends ActiveRecord
      */
     protected ?int $id = 0;
     /**
-     * @var string
+     * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
@@ -93,12 +93,12 @@ class ilMemcacheServer extends ActiveRecord
         $this->id = $id;
     }
 
-    public function getStatus() : string
+    public function getStatus() : int
     {
         return $this->status;
     }
 
-    public function setStatus(string $status) : void
+    public function setStatus(int $status) : void
     {
         $this->status = $status;
     }
