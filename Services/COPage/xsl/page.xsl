@@ -1369,17 +1369,7 @@
 		<br/>
 	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
-	<xsl:choose>
-		<xsl:when test="@HorizontalAlign = 'Left'">
-			<div style="margin-right:auto; margin-left:0; display: table;"><xsl:call-template name="TableTag" /></div>
-		</xsl:when>
-		<xsl:when test="@HorizontalAlign = 'Right'">
-			<div style="margin-right:0; margin-left:auto; display: table;"><xsl:call-template name="TableTag" /></div>
-		</xsl:when>
-		<xsl:otherwise>
-			<xsl:call-template name="TableTag" />
-		</xsl:otherwise>
-	</xsl:choose>
+	<xsl:call-template name="TableTag" />
 </xsl:template>
 
 <!-- Table Tag -->
@@ -1438,6 +1428,14 @@
 			</xsl:if>
 		</xsl:attribute>
 	</xsl:if>
+	<xsl:choose>
+		<xsl:when test="@HorizontalAlign = 'Left'">
+			<xsl:attribute name="style">margin-right:auto; margin-left:0;</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@HorizontalAlign = 'Right'">
+			<xsl:attribute name="style">margin-right:0; margin-left:auto;</xsl:attribute>
+		</xsl:when>
+	</xsl:choose>
 	<xsl:for-each select="Caption">
 		<caption>
 		<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='caption']/@Value">
