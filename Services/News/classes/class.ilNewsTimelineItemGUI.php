@@ -266,7 +266,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $i->getContextObjId(),
             $i->getContextObjType(),
             $i->getContextSubObjId(),
-            $i->getContextSubObjType(),
+            (string) $i->getContextSubObjType(),
             $i->getId()
         );
         $html = $this->ctrl->getHTML($this->like_gui);

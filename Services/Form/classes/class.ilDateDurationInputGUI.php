@@ -454,8 +454,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     public function getValue() : array
     {
         return array(
-            'start' => $this->getStart()->get(IL_CAL_UNIX),
-            'end' => $this->getEnd()->get(IL_CAL_UNIX)
+            'start' => $this->getStart() ? $this->getStart()->get(IL_CAL_UNIX) : null,
+            'end' => $this->getEnd() ? $this->getEnd()->get(IL_CAL_UNIX) : null
         );
     }
 
