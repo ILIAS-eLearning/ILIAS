@@ -99,7 +99,7 @@ abstract class ilPageContent
 
     public function getCssFiles(string $a_mode) : array
     {
-        return array();
+        return [];
     }
 
     public function getOnloadCode(string $a_mode) : array
