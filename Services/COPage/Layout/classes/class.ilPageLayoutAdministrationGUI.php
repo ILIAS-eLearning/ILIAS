@@ -103,7 +103,9 @@ class ilPageLayoutAdministrationGUI
                 $layout_gui->setEditPreview(true);
                 $this->ctrl->saveParameter($this, "obj_id");
                 $ret = $this->ctrl->forwardCommand($layout_gui);
-                $this->tpl->setContent($ret);
+                if ($ret != "") {
+                    $this->tpl->setContent($ret);
+                }
                 break;
 
             default:
