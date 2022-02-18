@@ -199,7 +199,7 @@ class ilPCPlaceHolder extends ilPageContent
      */
     public function getCssFiles($a_mode)
     {
-        return array();
+        return [ilObjStyleSheet::getPlaceHolderStylePath()];
     }
 
 }
