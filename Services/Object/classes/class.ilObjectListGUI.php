@@ -3882,10 +3882,17 @@ class ilObjectListGUI
         $this->insertCommands();
         $actions = [];
 
-        foreach ($this->current_selection_list->getItems() as $action_item) {
-            $actions[] = $ui->factory()
-                            ->button()
-                            ->shy($action_item['title'], $action_item['link']);
+        foreach ($this->current_selection_list->getItems() as $item) {
+            if (!isset($item["onclick"]) || $item["onclick"] == "") {
+                $actions[] =
+                    $ui->factory()->button()->shy($item["title"], $item["link"]);
+            } else {
+                $actions[] =
+                    $ui->factory()->button()->shy($item["title"], "")->withAdditionalOnLoadCode(function ($id) use ($item) {
+                        return
+                            "$('#$id').click(function(e) { " . $item["onclick"] . "});";
+                    });
+            }
         }
 
         $def_command = $this->getDefaultCommand();
