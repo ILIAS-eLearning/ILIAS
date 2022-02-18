@@ -933,6 +933,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
     public function finishEditing()
     {
-        $this->ctrl->redirectByClass("ilobjbloggui", "");
+        $this->ctrl->setParameterByClass("ilobjbloggui", "bmn", "");
+        $this->ctrl->redirectByClass("ilobjbloggui", "render");
     }
 }
