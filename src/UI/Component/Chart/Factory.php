@@ -92,12 +92,7 @@ interface Factory
      *        distinguishable.
      *   responsiveness:
      *     1: >
-     *        On smaller screens, the Bar Chart SHOULD shrink until it reaches its minimum
-     *        height and width. The minimum height and width MUST be determined by the
-     *        consumer.
-     *     2: >
-     *        A fixed height and width for the Bar Chart SHOULD NOT be determined if a
-     *        non-responsive chart is not absolutely necessary.
+     *        On smaller screens, the Bar Chart MUST shrink until it reaches its minimum size.
      *   accessibility:
      *     1: >
      *        For each type of formation, the measurement-item-value-pairs MUST be presented

@@ -18,63 +18,71 @@ namespace ILIAS\UI\Component\Chart\Bar;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\Data\Chart\Dataset;
 
 interface Bar extends Component, JavaScriptBindable
 {
+    public const AXIS_X = "x";
+    public const AXIS_Y = "y";
+    public const POSITION_LEFT = "left";
+    public const POSITION_RIGHT = "right";
+    public const POSITION_TOP = "top";
+    public const POSITION_BOTTOM = "bottom";
+    public const TYPE_LINEAR = "linear";
+
     public function getId() : string;
 
     /**
      * Replace the given title at creation with a new title.
      */
-    public function withTitle(string $title) : Bar;
+    public function withTitle(string $title) : self;
 
     public function getTitle() : string;
 
-    public function getMinimumWidth() : string;
-
-    public function getMinimumHeight() : string;
+    /**
+     * Replace the given dataset at creation with a new one.
+     */
+    public function withDataset(Dataset $dataset) : self;
 
     /**
-     * Set a fixed width and height for the chart. Makes the chart also non-responsive to make this work correctly.
-     *
-     * @param string $width  width and unit (e.g. 300px, 40vw, 50%)
-     * @param string $height height and unit (e.g. 300px, 40vh, 50%)
-     * @return Bar
+     * @return Dataset
      */
-    public function withFixedSize(string $width, string $height) : Bar;
+    public function getDataset() : Dataset;
 
-    public function getWidth() : string;
+    /**
+     * Replace the given bars at creation with new ones.
+     *
+     * @param \ILIAS\Data\Chart\Bar[] $bars
+     */
+    public function withBars(array $bars) : self;
 
-    public function getHeight() : string;
+    /**
+     * @return \ILIAS\Data\Chart\Bar[]
+     */
+    public function getBars() : array;
 
-    public function isResponsive() : bool;
-
-    public function withTitleVisible(bool $title_visible) : Bar;
+    public function withTitleVisible(bool $title_visible) : self;
 
     public function isTitleVisible() : bool;
 
-    public function withLegendVisible(bool $legend_visible) : Bar;
+    public function withLegendVisible(bool $legend_visible) : self;
 
     public function isLegendVisible() : bool;
 
     /**
-     * On which side next to the chart should the legend be placed? Default is "top".
+     * On which side next to the chart should the legend be placed? Default is POSITION_TOP.
      *
-     * @param string $legend_position "left", "right", "bottom" or "top"
+     * @param string $legend_position Bar::POSITION_XYZ
      * @return Bar
      */
-    public function withLegendPosition(string $legend_position) : Bar;
+    public function withLegendPosition(string $legend_position) : self;
 
     public function getLegendPosition() : string;
 
-    public function withTooltipsVisible(bool $tooltips_visible) : Bar;
+    /**
+     * Should the tooltips pop up when hovering over the bars in the chart?
+     */
+    public function withTooltipsVisible(bool $tooltips_visible) : self;
 
     public function isTooltipsVisible() : bool;
-
-    /**
-     * Make the chart empty with no bars.
-     */
-    public function withResetData() : Bar;
-
-    public function getData() : array;
 }

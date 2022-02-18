@@ -387,3 +387,108 @@ assert($order2->get() === ['subject1' => 'ASC', 'subject2' => 'DESC']);
 assert($join === 'sort subject1 ASC, subject2 DESC,');
 ?>
 ```
+
+## Dimension
+
+### OrdinalDimension
+Object representing a rank order, where the distances of the categories are not known.
+Construct an ordinal dimension object with textual variables representing 
+the natural, ordered categories.
+
+#### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+// construct dimension
+$ordinal = $f->dimension()->ordinal("low", "medium", "high");
+
+assert($ordinal->getType() === "ordinal");
+?>
+```
+
+### RangeDimension
+Object representing a range on an ordinal dimension.
+Construct an ordinal dimension object with an existing ordinal dimension.
+
+#### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+// construct dimensions
+$ordinal = $f->dimension()->ordinal("low", "medium", "high");
+$range = $f->dimension()->range($ordinal);
+
+assert($range->getType() === "range");
+assert($range->getLabels() === $ordinal->getLabels());
+?>
+```
+
+## Dataset
+Object representing a dataset for one or more dimensions.
+Construct a dataset with an amount of named dimensions.
+Extend a dataset with one or more items by determining e.g. points for each
+dimension of the dataset.
+
+### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+// construct dimensions and dataset
+$ordinal = $f->dimension()->ordinal("very low", "low", "medium", "high", "very high");
+$range = $f->dimension()->range($ordinal);
+$dataset = $f->dataset(
+    "Measurement 1" => $ordinal,
+    "Measurement 2" => $ordinal,
+    "Target" => $range
+);
+$dataset = $dataset->withPoints(
+    "Item 1",
+    [
+        "Measurement 1" => 1,
+        "Measurement 2" => 0,
+        "Target" => [0, 1.5],
+    ]
+);
+$dataset = $dataset->withPoints(
+    "Item 2",
+    [
+        "Measurement 1" => -1,
+        "Measurement 2" => 1.75,
+        "Target" => [0.95, 1.05],
+    ]
+);
+
+assert($dataset->getMinValue() === -1);
+assert($dataset->getMaxValue() === 1.75);
+?>
+```
+
+## Bar
+Object representing a bar for a chart.
+Constructed bars can be extended with properties like color and size.
+
+### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+// construct ordinal dimension
+$bar = $f->bar();
+$bar = $bar->withColor($f->color("#333333"));
+$bar = $bar->withSize(0.7);
+
+assert($bar->getColor() === "#333333");
+assert($bar->getSize() === 0.7);
+?>
+```

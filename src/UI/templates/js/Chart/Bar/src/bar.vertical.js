@@ -33,12 +33,12 @@ function determineToolTipYLabels(preferences, axisLabels, tooltips) {
   preferences.plugins.tooltip.callbacks.label = function(context) {
     var label = context.dataset.label + ": ";
     // Replace tooltip labels with custom values if defined
-    if (tooltips[context.datasetIndex] && tooltips[context.datasetIndex][context.dataIndex]) {
-      label = label + tooltips[context.datasetIndex][context.dataIndex];
+    if (tooltips[context.label] && tooltips[context.label][context.dataset.label]) {
+      label = label + tooltips[context.label][context.dataset.label];
     }
     // If no custom tooltips are defined and no range is used as data point, use axis label
-    else if (axisLabels[context.raw - context.chart.scales.y.start]) {
-      label = label + axisLabels[context.raw - context.chart.scales.y.min];
+    else if (axisLabels[context.raw.y - context.chart.scales.y.start]) {
+      label = label + axisLabels[context.raw.y - context.chart.scales.y.min];
     }
     // Use default tooltip value as fallback
     else {

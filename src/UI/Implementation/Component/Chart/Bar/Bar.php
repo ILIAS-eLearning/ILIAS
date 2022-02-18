@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\Data\Chart\Dataset;
 
 class Bar implements C\Chart\Bar\Bar
 {
@@ -30,24 +31,30 @@ class Bar implements C\Chart\Bar\Bar
 
     protected string $id;
     protected string $title;
-    protected string $min_width;
-    protected string $min_height;
-    protected string $width = "";
-    protected string $height = "";
-    protected bool $responsive = true;
+    protected Dataset $dataset;
+    /**
+     * @var \ILIAS\Data\Chart\Bar[]
+     */
+    protected array $bars;
     protected bool $title_visible = true;
     protected bool $legend_visible = true;
-    protected string $legend_position = "top";
+    protected string $legend_position = self::POSITION_TOP;
     protected bool $tooltips_visible = true;
-    protected array $data = [];
-    protected ?array $tooltips = null;
 
-    public function __construct(string $id, string $title, string $min_width, string $min_height)
+    public function __construct(string $id, string $title, Dataset $dataset, array $bars)
     {
         $this->id = $id;
         $this->title = $title;
-        $this->min_width = $min_width;
-        $this->min_height = $min_height;
+        $this->dataset = $dataset;
+        $this->bars = $bars;
+
+        if (array_diff_key($this->dataset->getDimensions(), $this->bars)
+            || array_diff_key($this->bars, $this->dataset->getDimensions())
+        ) {
+            throw new \InvalidArgumentException(
+                "Dimensions in Dataset and keys of Bars do not match."
+            );
+        }
     }
 
     public function getId() : string
@@ -55,7 +62,7 @@ class Bar implements C\Chart\Bar\Bar
         return $this->id;
     }
 
-    public function withTitle(string $title) : Bar
+    public function withTitle(string $title) : self
     {
         $clone = clone $this;
         $clone->title = $title;
@@ -67,43 +74,31 @@ class Bar implements C\Chart\Bar\Bar
         return $this->title;
     }
 
-    public function getMinimumWidth() : string
-    {
-        return $this->min_width;
-    }
-
-    public function getMinimumHeight() : string
-    {
-        return $this->min_height;
-    }
-
-    public function withFixedSize(string $width, string $height) : Bar
+    public function withDataset(Dataset $dataset) : self
     {
         $clone = clone $this;
-        $clone->width = $width;
-        $clone->min_width = $width;
-        $clone->height = $height;
-        $clone->min_height = $height;
-        $clone->responsive = false;
+        $clone->dataset = $dataset;
         return $clone;
     }
 
-    public function getWidth() : string
+    public function getDataset() : Dataset
     {
-        return $this->width;
+        return $this->dataset;
     }
 
-    public function getHeight() : string
+    public function withBars(array $bars) : self
     {
-        return $this->height;
+        $clone = clone $this;
+        $clone->bars = $bars;
+        return $clone;
     }
 
-    public function isResponsive() : bool
+    public function getBars() : array
     {
-        return $this->responsive;
+        return $this->bars;
     }
 
-    public function withTitleVisible(bool $title_visible) : Bar
+    public function withTitleVisible(bool $title_visible) : self
     {
         $clone = clone $this;
         $clone->title_visible = $title_visible;
@@ -115,7 +110,7 @@ class Bar implements C\Chart\Bar\Bar
         return $this->title_visible;
     }
 
-    public function withLegendVisible(bool $legend_visible) : Bar
+    public function withLegendVisible(bool $legend_visible) : self
     {
         $clone = clone $this;
         $clone->legend_visible = $legend_visible;
@@ -127,7 +122,7 @@ class Bar implements C\Chart\Bar\Bar
         return $this->legend_visible;
     }
 
-    public function withLegendPosition(string $legend_position) : Bar
+    public function withLegendPosition(string $legend_position) : self
     {
         $clone = clone $this;
         $clone->legend_position = $legend_position;
@@ -139,7 +134,7 @@ class Bar implements C\Chart\Bar\Bar
         return $this->legend_position;
     }
 
-    public function withTooltipsVisible(bool $tooltips_visible) : Bar
+    public function withTooltipsVisible(bool $tooltips_visible) : self
     {
         $clone = clone $this;
         $clone->tooltips_visible = $tooltips_visible;
@@ -149,22 +144,5 @@ class Bar implements C\Chart\Bar\Bar
     public function isTooltipsVisible() : bool
     {
         return $this->tooltips_visible;
-    }
-
-    public function withResetData() : Bar
-    {
-        $clone = clone $this;
-        $clone->data = [];
-        return $clone;
-    }
-
-    public function getData() : array
-    {
-        return $this->data;
-    }
-
-    public function getTooltips() : ?array
-    {
-        return $this->tooltips;
     }
 }

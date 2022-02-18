@@ -3,38 +3,36 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  ********************************************************************
  */
 
-namespace ILIAS\UI\Implementation\Component\Chart\Bar;
+namespace ILIAS\Data\Dimension;
 
-use ILIAS\Data\Chart\Dataset;
+use ILIAS\Data\Dimension;
 
-class Factory implements \ILIAS\UI\Component\Chart\Bar\Factory
+/**
+ * @author Thomas Famula <famula@leifos.de>
+ */
+class Factory
 {
-    public function vertical(
-        string $id,
-        string $title,
-        Dataset $dataset,
-        array $bars
-    ) : Vertical {
-        return new Vertical($id, $title, $dataset, $bars);
+    public function ordinal(array $value_labels = []) : OrdinalDimension
+    {
+        return new OrdinalDimension($value_labels);
     }
 
-    public function horizontal(
-        string $id,
-        string $title,
-        Dataset $dataset,
-        array $bars
-    ) : Horizontal {
-        return new Horizontal($id, $title, $dataset, $bars);
+    public function range(OrdinalDimension $ord_dimension) : RangeDimension
+    {
+        return new RangeDimension($ord_dimension);
     }
 }

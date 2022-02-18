@@ -16,6 +16,9 @@
 
 namespace ILIAS\UI\Component\Chart\Bar;
 
+use ILIAS\Data\Chart\Dataset;
+use ILIAS\Data\Chart\Bar;
+
 interface Factory
 {
     /**
@@ -25,30 +28,27 @@ interface Factory
      *      Vertical Bar Charts work well with visualizing statistics with rather many
      *      value labels and rather few meassurement items.
      *   composition: >
-     *      Vertical Bar Charts have one or more x-axes, which show the messeaurement
-     *      item labels. Vertical Bar Charts have one y-axis, which shows the value
-     *      labels. By default, value labels are numerical, but can customized to be
-     *      textual. The bars in Vertical Bar Charts run from the bottom up.
+     *      Vertical Bar Charts have one x-axis, which shows the messeaurement
+     *      item labels and one y-axis, which shows the value labels. By default,
+     *      value labels are numerical, but can be customized to be textual. The bars
+     *      in Vertical Bar Charts run from the bottom up for positive values and
+     *      from top to bottom for negative values.
      *   rivals:
      *     Horizontal Bar Charts: >
      *       Horizontal Bar Charts work well with visualizing statistics with rather few
      *       value labels and rather many meassurement items.
      * ---
-     * @param string   $id         Id of the chart to distinguish multiple charts rendered on one site
-     * @param string   $title      Title which is shown above the chart. Also used as aria-label.
-     * @param string[] $x_labels   The messeaurement item labels which should be shown on the x-axis
-     * @param string   $min_width  Minimum width of the chart on the screen which will not be undercut
-     *                             (e.g. 300px, 40vw, 50%)
-     * @param string   $min_height Minimum height of the chart on the screen which will not be undercut
-     *                             (e.g. 300px, 40vh, 50%)
+     * @param string    $id         Id of the chart to distinguish multiple charts rendered on one site
+     * @param string    $title      Title which is shown above the chart. Also used as aria-label.
+     * @param Dataset   $dataset    Dataset with points for each defined Dimension. Will be shown as bars in the chart.
+     * @param Bar[]     $bars       Customized Bars for each defined Dimension
      * @return Vertical
      */
     public function vertical(
         string $id,
         string $title,
-        array $x_labels,
-        string $min_width,
-        string $min_height
+        Dataset $dataset,
+        array $bars
     ) : Vertical;
 
     /**
@@ -58,29 +58,26 @@ interface Factory
      *      Horizontal Bar Charts work well with visualizing statistics with rather few
      *      value labels and rather many meassurement items.
      *   composition: >
-     *      Horizontal Bar Charts have one or more y-axes, which show the messeaurement
-     *      item labels. Horizontal Bar Charts have one x-axis, which shows the value
-     *      labels. By default, value labels are numerical, but can customized to be
-     *      textual. The bars in Horizontal Bar Charts run from left to right.
+     *      Horizontal Bar Charts have one y-axis, which shows the messeaurement
+     *      item labels and one x-axis, which shows the value labels. By default,
+     *      value labels are numerical, but can be customized to be textual. The bars
+     *      in Horizontal Bar Charts run from left to right for positive values and
+     *      from right to left for negative values.
      *   rivals:
      *     Vertical Bar Charts: >
      *       Vertical Bar Charts work well with visualizing statistics with rather many
      *       value labels and rather few meassurement items.
      * ---
-     * @param string   $id         Id of the chart to distinguish multiple charts rendered on one site
-     * @param string   $title      Title which is shown above the chart. Also used as aria-label.
-     * @param string[] $y_labels   The messeaurement item labels which should be shown on the y-axis
-     * @param string   $min_width  Minimum width of the chart on the screen which will not be undercut
-     *                             (e.g. 300px, 40vw, 50%)
-     * @param string   $min_height Minimum height of the chart on the screen which will not be undercut
-     *                             (e.g. 300px, 40vh, 50%)
+     * @param string    $id         Id of the chart to distinguish multiple charts rendered on one site
+     * @param string    $title      Title which is shown above the chart. Also used as aria-label.
+     * @param Dataset   $dataset    Dataset with points for each defined Dimension. Will be shown as bars in the chart.
+     * @param Bar[]     $bars       Customized Bars for each defined Dimension
      * @return Horizontal
      */
     public function horizontal(
         string $id,
         string $title,
-        array $y_labels,
-        string $min_width,
-        string $min_height
+        Dataset $dataset,
+        array $bars
     ) : Horizontal;
 }
