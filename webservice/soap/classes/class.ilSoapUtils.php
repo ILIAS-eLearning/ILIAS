@@ -315,7 +315,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
         if (
             array_key_exists('child', $node) &&
-            $cpo->isRootNode($node)
+            $cpo->isRootNode($node['child'])
         ) {
             return $default_mode;
         }

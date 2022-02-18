@@ -30,11 +30,11 @@ class ilSoapClient
     {
         global $DIC;
 
-        $ilSetting = $DIC->settings();
+        $this->settings = $DIC->settings();
         $this->log = $DIC->logger()->wsrv();
         $this->uri = $a_uri;
         $this->use_wsdl = true;
-        $timeout = (int) $ilSetting->get('soap_connect_timeout', (string) self::DEFAULT_CONNECT_TIMEOUT);
+        $timeout = (int) $this->settings->get('soap_connect_timeout', (string) self::DEFAULT_CONNECT_TIMEOUT);
         if ($timeout) {
             $this->connect_timeout = $timeout;
         }

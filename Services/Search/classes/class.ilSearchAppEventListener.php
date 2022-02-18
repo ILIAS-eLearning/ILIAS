@@ -38,6 +38,10 @@ class ilSearchAppEventListener implements ilAppEventListener
      */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
+        if (!isset($a_parameter['obj_id'])) {
+            return;
+        }
+        
         // only for files in the moment
         if (!isset($a_parameter['obj_type'])) {
             $type = ilObject::_lookupType($a_parameter['obj_id']);

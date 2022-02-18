@@ -422,7 +422,7 @@ class ilCopyWizardOptions
 
         $this->options = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->options[$row->source_id] = unserialize($row->options);
+            $this->options[$row->source_id] = unserialize((string) $row->options);
         }
     }
 
