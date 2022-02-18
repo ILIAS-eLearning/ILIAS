@@ -111,11 +111,9 @@ class ilMMSubItemTableGUI extends ilTable2GUI
                 $parent_identification_string !== $item_facade->getParentIdentificationString()) {
                 $parent_identification_string = $item_facade->getParentIdentificationString();
                 $current_parent_identification = $this->item_repository->resolveIdentificationFromString($parent_identification_string);
-                $current_parent_item = $this->item_repository->getSingleItem($current_parent_identification);
-                $this->tpl->setVariable(
-                    "PARENT_TITLE",
-                    $current_parent_item instanceof hasTitle ? $current_parent_item->getTitle() : "-"
-                );
+                $current_parent_item = $this->item_repository->getSingleItemFromFilter($current_parent_identification);
+                $this->tpl->setVariable("PARENT_TITLE",
+                    $current_parent_item instanceof hasTitle ? $current_parent_item->getTitle() : "-");
                 $position = 1;
             }
         }

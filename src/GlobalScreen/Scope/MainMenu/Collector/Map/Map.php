@@ -193,13 +193,15 @@ class Map implements Filterable, Walkable
         };
         
         $this->filtered->uasort($sorter);
-        $replace_children_sorted = static function (isItem &$item) use ($sorter) : isItem {
+        $replace_children_sorted = static function (isItem &$item) use ($sorter)  {
             if ($item instanceof isParent) {
-                $children = $item->getChildren();
-                uasort($children, $sorter);
+                $children = [];
+                foreach ($item->getChildren() as $child) {
+                    $children[$child->getPosition()] = $child;
+                }
+                ksort($children);
                 $item = $item->withChildren($children);
             }
-            return $item;
         };
         $this->walk($replace_children_sorted);
     }
