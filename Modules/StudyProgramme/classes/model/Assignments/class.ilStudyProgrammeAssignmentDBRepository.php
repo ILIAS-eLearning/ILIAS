@@ -389,6 +389,19 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     }
 
 
+    public function deleteAllAssignmentsForProgrammeId(int $prg_obj_id) : void
+    {
+        $query = 'DELETE FROM ' . self::TABLE . PHP_EOL
+            . 'WHERE ' . self::FIELD_ROOT_PRG_ID . '=' . $this->db->quote($prg_obj_id, 'integer');
+        $this->db->manipulate($query);
+    }
+
+    public function getTableAndFieldOfAssignmentIds() : array
+    {
+        return  [self::TABLE, self::FIELD_ID];
+    }
+
+
     /**
       * ------------------------------------------------------------------------
       * Backport ilStudyProgrammeUserAssignmentDB
