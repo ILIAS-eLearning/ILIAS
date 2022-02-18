@@ -196,9 +196,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $ilTabs->setBackTarget(
             $lng->txt("back"),
-            "./goto.php?target=" . $this->object->getType() . "_" .
-            $this->object->getRefId(),
-            "_top"
+            $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit")
         );
 
         // page object

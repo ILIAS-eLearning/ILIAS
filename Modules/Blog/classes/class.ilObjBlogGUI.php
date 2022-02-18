@@ -585,10 +585,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 } else {
                     //ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
                 }
-                $ilTabs->setBackTarget(
-                    $lng->txt("back"),
-                    $ilCtrl->getLinkTarget($this, "")
-                );
 
                 $style_sheet_id = $this->content_style_domain->getEffectiveStyleId();
 
@@ -647,6 +643,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->renderToolbarNavigation($this->items, true);
                 }
                 $ret = $ilCtrl->forwardCommand($bpost_gui);
+                if (!$ilTabs->back_target) {
+                    $ilCtrl->setParameter($this, "bmn", "");
+                    $ilTabs->setBackTarget(
+                        $lng->txt("back"),
+                        $ilCtrl->getLinkTarget($this, "")
+                    );
+                }
+
                 if ($ret != "") {
 
                     // $is_owner = $this->object->getOwner() == $ilUser->getId();
