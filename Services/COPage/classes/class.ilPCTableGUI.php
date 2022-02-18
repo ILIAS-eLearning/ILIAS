@@ -178,8 +178,6 @@ class ilPCTableGUI extends ilPageContentGUI
     */
     public function editProperties()
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
         $tpl = $this->tpl;
         
         $this->displayValidationError();
@@ -464,7 +462,8 @@ class ilPCTableGUI extends ilPageContentGUI
             $a_mode,
             $a_submode,
             $this->content_obj,
-            !$this->pg_obj->getPageConfig()->getPreventHTMLUnmasking()
+            !$this->pg_obj->getPageConfig()->getPreventHTMLUnmasking(),
+            $this->getPage()
         );
     }
         
@@ -476,7 +475,8 @@ class ilPCTableGUI extends ilPageContentGUI
         $a_mode = "table_edit",
         $a_submode = "",
         $a_table_obj = null,
-        $unmask = true
+        $unmask = true,
+        $page_object = null
     ) {
         global $DIC;
 
@@ -525,9 +525,22 @@ class ilPCTableGUI extends ilPageContentGUI
                     break;
             }
         }
-        
-        
-        return '<div class="ilFloatLeft">' . $output . '</div>';
+
+        // for all page components...
+        if (isset($page_object)) {
+            $defs = ilCOPagePCDef::getPCDefinitions();
+            foreach ($defs as $def) {
+                ilCOPagePCDef::requirePCClassByName($def["name"]);
+                $pc_class = $def["pc_class"];
+                $pc_obj = new $pc_class($page_object);
+
+                // post xsl page content modification by pc elements
+                $output = $pc_obj->modifyPageContentPostXsl($output, "presentation", false);
+            }
+        }
+
+
+        return $output;
     }
     
     /**
