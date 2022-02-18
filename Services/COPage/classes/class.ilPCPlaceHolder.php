@@ -193,4 +193,13 @@ class ilPCPlaceHolder extends ilPageContent
         }
         return $a_html;
     }
+
+    /**
+     * Get css files
+     */
+    public function getCssFiles($a_mode)
+    {
+        return array();
+    }
+
 }
