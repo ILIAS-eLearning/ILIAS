@@ -27,7 +27,6 @@ use ILIAS\HTTP\GlobalHttpState;
 /**
  * Meta Data Settings.
  * @author       Stefan Meyer <meyer@leifos.com>
- * @version      $Id$
  * @ilCtrl_Calls ilObjMDSettingsGUI: ilPermissionGUI, ilAdvancedMDSettingsGUI, ilMDCopyrightUsageGUI
  * @ingroup      ServicesMetaData
  */
@@ -177,7 +176,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initGeneralSettingsForm();
         }
-        $this->tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
     public function initGeneralSettingsForm(string $a_mode = "edit") : ilPropertyFormGUI
@@ -231,7 +230,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initSettingsForm();
         }
-        $this->tpl->setVariable('SETTINGS_TABLE', $this->form->getHTML());
+        $this->tpl->setVariable('SETTINGS_TABLE', $form->getHTML());
 
         $has_write = $this->access->checkAccess('write', '', $this->object->getRefId());
         $table_gui = new ilMDCopyrightTableGUI($this, 'showCopyrightSettings', $has_write);
@@ -470,6 +469,8 @@ class ilObjMDSettingsGUI extends ilObjectGUI
                 $this->refinery->kindlyTo()->int()
             )
         );
+        ilLoggerFactory::getLogger('root')->dump($positions, ilLogLevel::ERROR);
+        ilLoggerFactory::getLogger('root')->dump($_POST['order'], ilLogLevel::ERROR);
         asort($positions);
         $position = 0;
         foreach ($positions as $entry_id => $position_ignored) {

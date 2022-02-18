@@ -178,7 +178,7 @@ class ilAdministrationSettingsFormHandler
     }
     
     protected static function parseFieldValue(
-        string $a_field_type,
+        ?string $a_field_type,
         string &$a_field_value
     ) : bool {
         global $DIC;
@@ -227,6 +227,8 @@ class ilAdministrationSettingsFormHandler
         if (!is_array($a_data)) {
             return;
         }
+
+        ilLoggerFactory::getLogger('root')->dump($a_data, ilLogLevel::ERROR);
         
         // write permission for current gui?
         $has_write = $ilAccess->checkAccess(
@@ -249,6 +251,8 @@ class ilAdministrationSettingsFormHandler
                         
                     $stack = array();
                     foreach ($fields as $field_caption_id => $field_value) {
+                        ilLoggerFactory::getLogger('root')->dump($field_caption_id, ilLogLevel::ERROR);
+                        ilLoggerFactory::getLogger('root')->dump($field_value, ilLogLevel::ERROR);
                         $field_type = $subitems = null;
                         if (is_array($field_value)) {
                             $field_type = $field_value[1];
