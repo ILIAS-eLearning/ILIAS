@@ -49,7 +49,7 @@ class ilObjUser extends ilObject
     // in the methods that perform SQL statements. All other
     // methods work exclusively with the $passwd and $passwd_type
     // variables.
-    protected string $password_encoding_type = ""; // The encoding algorithm of the user's password stored in the database
+    protected ?string $password_encoding_type = null; // The encoding algorithm of the user's password stored in the database
     // A salt used to encrypt the user's password
     protected ?string $password_salt = null;
     public string $gender = "";	// 'm' or 'f'
@@ -202,12 +202,12 @@ class ilObjUser extends ilObject
         parent::read();
     }
 
-    public function getPasswordEncodingType() : string
+    public function getPasswordEncodingType() : ?string
     {
         return $this->password_encoding_type;
     }
 
-    public function setPasswordEncodingType(string $password_encryption_type) : void
+    public function setPasswordEncodingType(?string $password_encryption_type) : void
     {
         $this->password_encoding_type = $password_encryption_type;
     }
