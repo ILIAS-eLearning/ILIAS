@@ -482,7 +482,6 @@ class ilUserProfile
         $ilSetting = $DIC['ilSetting'];
         $lng = $DIC['lng'];
         $rbacreview = $DIC['rbacreview'];
-        $ilias = $DIC['ilias'];
 
         $registration_settings = null;
 
@@ -656,7 +655,7 @@ class ilUserProfile
                             $global_roles = $rbacreview->getGlobalRoles();
                             foreach ($global_roles as $role_id) {
                                 if (in_array($role_id, $rbacreview->assignedRoles($a_user->getId()))) {
-                                    $roleObj = $ilias->obj_factory->getInstanceByObjId($role_id);
+                                    $roleObj = ilObjectFactory::getInstanceByObjId($role_id);
                                     $role_names .= $roleObj->getTitle() . ", ";
                                     unset($roleObj);
                                 }

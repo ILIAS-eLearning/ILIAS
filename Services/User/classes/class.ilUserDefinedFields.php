@@ -26,19 +26,19 @@ define('UDF_DUPLICATE_VALUES', 2);
  */
 class ilUserDefinedFields
 {
-    protected bool $field_certificate;
-    protected bool $field_group_export;
-    protected bool $field_course_export;
-    protected bool $field_export;
-    protected bool $field_searchable;
-    protected bool $field_required;
-    protected bool $field_changeable_lua;
-    protected bool $field_changeable;
-    protected bool $field_visib_lua;
-    protected array $field_values;
-    protected int $field_type;
-    protected string $field_name;
-    protected bool $field_visible;
+    protected bool $field_certificate = false;
+    protected bool $field_group_export = false;
+    protected bool $field_course_export = false;
+    protected bool $field_export = false;
+    protected bool $field_searchable = false;
+    protected bool $field_required = false;
+    protected bool $field_changeable_lua = false;
+    protected bool $field_changeable = false;
+    protected bool $field_visib_lua = false;
+    protected array $field_values = [];
+    protected int $field_type = 0;
+    protected string $field_name = "";
+    protected bool $field_visible = false;
     public ?ilDBInterface $db = null;
     public array $definitions = array();
     private int $field_visible_registration = 0;

@@ -20,7 +20,7 @@
  */
 class ilTextWizardInputGUI extends ilTextInputGUI
 {
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected array $values = array();
     protected bool $allowMove = false;
     

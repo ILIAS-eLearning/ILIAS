@@ -26,16 +26,16 @@ class ilObjUser extends ilObject
     public const PASSWD_PLAIN = "plain";
     public const PASSWD_CRYPTED = "crypted";
     protected ?string $ext_account = null;
-    protected string $time_limit_message;
-    protected bool $time_limit_unlimited;
+    protected string $time_limit_message = "";
+    protected bool $time_limit_unlimited = false;
     protected ?int $time_limit_until = null;
     protected ?int $time_limit_from = null;
     protected ?int $time_limit_owner = null;
-    protected string $last_login;
+    protected string $last_login = "";
 
     public string $login = '';
-    protected string $passwd; // password encoded in the format specified by $passwd_type
-    protected string $passwd_type;
+    protected string $passwd = ""; // password encoded in the format specified by $passwd_type
+    protected string $passwd_type = "";
     // specifies the password format.
     // value: ilObjUser::PASSWD_PLAIN or ilObjUser::PASSWD_CRYPTED.
     // Differences between password format in class ilObjUser and
@@ -49,7 +49,7 @@ class ilObjUser extends ilObject
     // in the methods that perform SQL statements. All other
     // methods work exclusively with the $passwd and $passwd_type
     // variables.
-    protected string $password_encoding_type; // The encoding algorithm of the user's password stored in the database
+    protected string $password_encoding_type = ""; // The encoding algorithm of the user's password stored in the database
     // A salt used to encrypt the user's password
     protected ?string $password_salt = null;
     public string $gender = "";	// 'm' or 'f'
@@ -94,9 +94,9 @@ class ilObjUser extends ilObject
     protected ?string $inactivation_date = null;
     private bool $is_self_registered = false; // flag for self registered users
     protected string $org_units = "";    // ids of assigned org-units, comma seperated
-    protected ?array $interests_general = null;
-    protected ?array $interests_help_offered = null;
-    protected ?array $interests_help_looking = null;
+    protected array $interests_general = [];
+    protected array $interests_help_offered = [];
+    protected array $interests_help_looking = [];
     protected string $last_profile_prompt = "";	// timestamp
     protected string $first_login = "";	// timestamp
     protected bool $profile_incomplete = false;
@@ -4212,10 +4212,10 @@ class ilObjUser extends ilObject
         
     public function setGeneralInterests(?array $value = null) : void
     {
-        $this->interests_general = $value;
+        $this->interests_general = $value ?? [];
     }
     
-    public function getGeneralInterests() : ?array
+    public function getGeneralInterests() : array
     {
         return $this->interests_general;
     }
@@ -4230,10 +4230,10 @@ class ilObjUser extends ilObject
     
     public function setOfferingHelp(?array $value = null) : void
     {
-        $this->interests_help_offered = $value;
+        $this->interests_help_offered = $value ?? [];
     }
     
-    public function getOfferingHelp() : ?array
+    public function getOfferingHelp() : array
     {
         return $this->interests_help_offered;
     }
@@ -4248,10 +4248,10 @@ class ilObjUser extends ilObject
     
     public function setLookingForHelp(?array $value = null) : void
     {
-        $this->interests_help_looking = $value;
+        $this->interests_help_looking = $value ?? [];
     }
     
-    public function getLookingForHelp() : ?array
+    public function getLookingForHelp() : array
     {
         return $this->interests_help_looking;
     }
