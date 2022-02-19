@@ -208,11 +208,11 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "user_administration" =>
                 array("usrf", 'tos', "rolf", "otpl", "auth", "ps"),
             "personal_workspace" =>
-                array("dshs", "tags", "cals", "prfa", "prss", "nots", "awra"),
+                array("dshs", "tags", "cals", "prfa", "prss", "nots"),
             "achievements" =>
                 array("lhts", "skmg", "trac", "bdga", "cert"),
             "communication" =>
-                array("mail", "cadm", "nwss", "coms", "adn"),
+                array("mail", "cadm", "nwss", "coms", "adn", "awra"),
             "search_and_find" =>
                 array("seas", "mds", "taxs"),
             "extending_ilias" =>
