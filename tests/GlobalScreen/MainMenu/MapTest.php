@@ -12,8 +12,9 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
+use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopParentItem;
 
-require_once('./libs/composer/vendor/autoload.php');
+// require_once('./libs/composer/vendor/autoload.php');
 
 /**
  * Class FactoryImplTest
@@ -190,7 +191,90 @@ class MapTest extends TestCase
         $this->assertSame(10, $i->getPosition());
 
     }
-
+    
+    public function testSortingNestedItems()
+    {
+        $map = new Map($this->factory);
+        /** @var TopParentItem $tp_1 */
+        $tp_1 = $this->factory->topParentItem($this->getId('tp_1'))
+                              ->withPosition(1);
+        $tp_1_1 = $this->factory->link($this->getId('tp_1_1'))
+                                ->withParent($tp_1->getProviderIdentification())
+                                ->withPosition(1);
+        $tp_1_2 = $this->factory->link($this->getId('tp_1_2'))
+                                ->withParent($tp_1->getProviderIdentification())
+                                ->withPosition(2);
+        $tp_1 = $tp_1->withChildren([
+            $tp_1_2,
+            $tp_1_1,
+        ]);
+        $map->add($tp_1);
+        $map->add($tp_1_2);
+        $map->add($tp_1_1);
+        
+        $tp_2 = $this->factory->topParentItem($this->getId('tp_2'))
+                              ->withPosition(2);
+        $tp_2_1 = $this->factory->link($this->getId('tp_2_1'))
+                                ->withParent($tp_2->getProviderIdentification())
+                                ->withPosition(1);
+        $tp_2_2 = $this->factory->link($this->getId('tp_2_2'))
+                                ->withParent($tp_2->getProviderIdentification())
+                                ->withPosition(2);
+        $tp_2 = $tp_2->withChildren([
+            $tp_2_2,
+            $tp_2_1,
+        ]);
+        $map->add($tp_2);
+        $map->add($tp_2_1);
+        $map->add($tp_2_2);
+        
+        $map->sort();
+        
+        $this->assertEquals(1, $map->getSingleItemFromRaw($this->getId('tp_1'))->getPosition());
+        $this->assertEquals(1, $map->getSingleItemFromRaw($this->getId('tp_1_1'))->getPosition());
+        $this->assertEquals(2, $map->getSingleItemFromRaw($this->getId('tp_1_2'))->getPosition());
+        $this->assertEquals(2, $map->getSingleItemFromRaw($this->getId('tp_2'))->getPosition());
+        $this->assertEquals(1, $map->getSingleItemFromRaw($this->getId('tp_2_1'))->getPosition());
+        $this->assertEquals(2, $map->getSingleItemFromRaw($this->getId('tp_2_2'))->getPosition());
+        
+        // check position in parent
+        $get_tp_1 = $map->getSingleItemFromFilter($this->getId('tp_1'));
+        $children_of_tp_1 = $get_tp_1->getChildren();
+        $first = reset($children_of_tp_1);
+        $this->assertEquals($tp_1_1, $first);
+        $this->assertEquals(1, $first->getPosition());
+        
+        $get_tp_2 = $map->getSingleItemFromFilter($this->getId('tp_2'));
+        $children_of_tp_2 = $get_tp_2->getChildren();
+        $first = reset($children_of_tp_2);
+        $this->assertEquals($tp_2_1, $first);
+        $this->assertEquals(1, $first->getPosition());
+    }
+    
+    public function testSamePositionResolution()
+    {
+        $map = new Map($this->factory);
+        /** @var TopParentItem $tp_1 */
+        $tp_1 = $this->factory->topParentItem($this->getId('tp_1'))
+                              ->withPosition(1);
+        $tp_1_1 = $this->factory->link($this->getId('tp_1_1'))
+                                ->withParent($tp_1->getProviderIdentification())
+                                ->withPosition(1);
+        $tp_1_2 = $this->factory->link($this->getId('tp_1_2'))
+                                ->withParent($tp_1->getProviderIdentification())
+                                ->withPosition(1);
+        $tp_1 = $tp_1->withChildren([
+            $tp_1_2,
+            $tp_1_1,
+        ]);
+        $map->add($tp_1);
+        $map->add($tp_1_2);
+        $map->add($tp_1_1);
+        $map->sort();
+        $item = $map->getSingleItemFromFilter($this->getId('tp_1'));
+        $this->assertEquals(2, count($item->getChildren()));
+    }
+    
     private function getDummyProvider()
     {
         return new class implements StaticMainMenuProvider {
