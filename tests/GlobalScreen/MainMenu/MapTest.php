@@ -14,7 +14,7 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 
-require_once('./libs/composer/vendor/autoload.php');
+// require_once('./libs/composer/vendor/autoload.php');
 
 /**
  * Class FactoryImplTest
@@ -251,6 +251,30 @@ class MapTest extends TestCase
         $first = reset($children_of_tp_2);
         $this->assertEquals($tp_2_1, $first);
         $this->assertEquals(1, $first->getPosition());
+    }
+    
+    public function testSamePositionResolution()
+    {
+        $map = $this->getMap();
+        /** @var TopParentItem $tp_1 */
+        $tp_1 = $this->factory->topParentItem($this->getId('tp_1'))
+                              ->withPosition(1);
+        $tp_1_1 = $this->factory->link($this->getId('tp_1_1'))
+                                ->withParent($tp_1->getProviderIdentification())
+                                ->withPosition(1);
+        $tp_1_2 = $this->factory->link($this->getId('tp_1_2'))
+                                ->withParent($tp_1->getProviderIdentification())
+                                ->withPosition(1);
+        $tp_1 = $tp_1->withChildren([
+            $tp_1_2,
+            $tp_1_1,
+        ]);
+        $map->add($tp_1);
+        $map->add($tp_1_2);
+        $map->add($tp_1_1);
+        $map->sort();
+        $item = $map->getSingleItemFromFilter($this->getId('tp_1'));
+        $this->assertEquals(2, count($item->getChildren()));
     }
     
     private function getDummyProvider()
