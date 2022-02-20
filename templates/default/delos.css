@@ -7905,8 +7905,8 @@ ul.dropdown-menu > li > .btn:focus {
   margin: 0;
   font-weight: 600;
   font-size: 12px;
-  padding: 3px;
-  padding-left: 100px;
+  padding: 6px;
+  padding-left: 20px;
 }
 .breadcrumb_wrapper .breadcrumb span.crumb a {
   color: #4c6586;
@@ -8942,13 +8942,10 @@ grid-based layout
 }
 .il-layout-page {
   background: #f0f0f0;
-  display: -ms-grid;
   display: grid;
   grid-gap: 0px;
-  -ms-grid-columns: auto 1fr;
   grid-template-columns: auto 1fr;
-  -ms-grid-rows: 60px auto 33px 1fr;
-  grid-template-rows: 60px auto 33px 1fr;
+  grid-template-rows: auto 60px 1fr;
   height: 100%;
   overflow: hidden;
   width: 100%;
@@ -8961,16 +8958,13 @@ grid-based layout
   display: none;
 }
 .il-layout-page.with-mainbar-slates-engaged {
-  -ms-grid-columns: auto 1fr;
   grid-template-columns: auto 1fr;
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar {
   width: 409px;
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-slates {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: column;
   flex-direction: column;
   z-index: 995;
 }
@@ -8980,58 +8974,38 @@ grid-based layout
   min-height: 0;
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-close-slates {
-  display: -ms-flexbox;
   display: flex;
 }
 header {
-  -ms-grid-column: 1;
-  -ms-grid-column-span: 2;
-  -ms-grid-row: 1;
   grid-column-start: 1;
   grid-column-end: 3;
-  grid-row: 1;
+  grid-row: 2;
   z-index: 999;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 .breadcrumbs {
-  -ms-flex-align: center;
   align-items: center;
   background-color: white;
-  border-top: 1px solid #dddddd;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: row;
   flex-direction: row;
-  -ms-grid-column: 1;
-  -ms-grid-column-span: 2;
-  -ms-grid-row: 3;
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row: 3;
   z-index: 998;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 div.il-system-infos {
-  -ms-grid-column: 1;
-  -ms-grid-column-span: 2;
-  -ms-grid-row: 2;
   grid-column-start: 1;
   grid-column-end: 3;
-  grid-row: 2;
+  grid-row: 1;
   z-index: 998;
 }
 .header-inner {
-  -ms-flex-align: center;
   align-items: center;
   background: white;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: row;
   flex-direction: row;
   height: 60px;
   padding: 0 15px;
   position: fixed;
   width: 100%;
-  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 .il-logo {
@@ -9052,36 +9026,27 @@ div.il-system-infos {
   display: none;
 }
 nav.il-maincontrols {
-  -ms-grid-column: 1;
-  -ms-grid-row: 4;
   grid-column: 1;
   grid-row: 4;
   z-index: 997;
 }
 .il-maincontrols-mainbar {
   background-color: white;
-  display: -ms-grid;
   display: grid;
   height: 100%;
-  -ms-grid-colums: 80px 329px;
   grid-template-columns: 80px 329px;
-  -ms-grid-rows: 1fr;
   grid-template-rows: 1fr;
   width: 80px;
 }
 .il-mainbar {
   background-color: #2c2c2c;
-  -ms-grid-column: 1;
-  -ms-grid-row: 1;
   grid-column: 1;
   grid-row: 1;
-  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   z-index: 996;
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
 }
 .il-mainbar-tools-button {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: row;
   flex-direction: row;
 }
 .il-mainbar-tools-button button {
@@ -9093,14 +9058,10 @@ nav.il-maincontrols {
   width: 80px;
 }
 .il-mainbar-tools-entries.engaged {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: row;
   flex-direction: row;
 }
 .il-mainbar-slates {
-  -ms-grid-column: 2;
-  -ms-grid-row: 1;
   grid-column: 2;
   grid-row: 1;
 }
@@ -9108,15 +9069,19 @@ main {
   display: block;
 }
 .il-layout-page-content {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-rows: 1fr auto;
   grid-template-rows: 1fr auto;
-  -ms-grid-column: 2;
-  -ms-grid-row: 4;
   grid-column: 2;
-  grid-row: 4;
+  grid-row: 3;
   overflow: auto;
+}
+.il-layout-page-content > div {
+  display: flex;
+  flex-flow: column;
+}
+.il-layout-page-content #mainspacekeeper {
+  flex-grow: 1;
+  width: 100%;
 }
 /* Footer */
 footer {
@@ -9153,13 +9118,10 @@ footer {
 @media only screen and (max-width: 768px) {
   .il-layout-page {
     background: #f0f0f0;
-    display: -ms-grid;
     display: grid;
     grid-gap: 0px;
-    -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
-    -ms-grid-rows: 45px auto 1fr;
-    grid-template-rows: 45px auto 1fr;
+    grid-template-rows: auto 45px 1fr auto;
     height: 100%;
     overflow: hidden;
     width: 100%;
@@ -9235,7 +9197,7 @@ footer {
     -ms-grid-column: 1;
     -ms-grid-row: 1;
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 2;
     z-index: 999;
   }
   .header-inner {
