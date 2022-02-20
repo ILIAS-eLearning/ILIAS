@@ -93,7 +93,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                     ->withTitle($title)
                     ->withSymbol($this->getIconForGroup($group, $title))
                     ->withParent($top)
-                    ->withPosition($position)
+                    ->withPosition($position * 10)
                     ->withAlwaysAvailable(true)
                     ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
                     ->withVisibilityCallable(
