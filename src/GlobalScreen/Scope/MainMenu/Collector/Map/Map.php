@@ -44,6 +44,13 @@ class Map implements Filterable, Walkable
         $this->factory = $factory;
     }
     
+    private function getSorter() : Closure
+    {
+        return function (isItem $item_one, isItem $item_two) : int {
+            return $item_one->getPosition() - $item_two->getPosition();
+        };
+    }
+    
     /**
      * @param isItem $item
      */
@@ -172,34 +179,13 @@ class Map implements Filterable, Walkable
     public function sort() : void
     {
         $this->applyFilters();
-        $sorter = function (isItem $item_one, isItem $item_two) : int {
-            /**
-             * @var $parent isParent
-             */
-            if ($item_one instanceof isChild) {
-                $parent = $this->getSingleItemFromFilter($item_one->getParent());
-                $position_item_one = ($parent->getPosition() * 1000) + $item_one->getPosition();
-            } else {
-                $position_item_one = $item_one->getPosition();
-            }
-            
-            if ($item_two instanceof isChild) {
-                $parent = $this->getSingleItemFromFilter($item_two->getParent());
-                $position_item_two = ($parent->getPosition() * 1000) + $item_two->getPosition();
-            } else {
-                $position_item_two = $item_two->getPosition();
-            }
-            return $position_item_one - $position_item_two;
-        };
         
-        $this->filtered->uasort($sorter);
-        $replace_children_sorted = static function (isItem &$item) use ($sorter)  {
+        $this->filtered->uasort($this->getSorter());
+        
+        $replace_children_sorted = function (isItem &$item) {
             if ($item instanceof isParent) {
-                $children = [];
-                foreach ($item->getChildren() as $child) {
-                    $children[$child->getPosition()] = $child;
-                }
-                ksort($children);
+                $children = $item->getChildren();
+                uasort($children, $this->getSorter());
                 $item = $item->withChildren($children);
             }
         };
