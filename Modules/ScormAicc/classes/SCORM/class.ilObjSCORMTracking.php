@@ -25,7 +25,9 @@ class ilObjSCORMTracking
      */
     public static function storeJsApi() : void
     {
-        $obj_id = (int) $_GET["package_id"];
+        global $DIC;
+        $obj_id = $DIC->http()->wrapper()->query()->retrieve('package_id',$DIC->refinery()->kindlyTo()->int());
+        $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
         $in = file_get_contents("php://input");
         $data = json_decode($in);
         $user_id = (int) $data->p;
@@ -36,7 +38,7 @@ class ilObjSCORMTracking
         if ($rval != true) {
             print("storeJsApiCmi failed");
         } else {
-            $rval = self::syncGlobalStatus($user_id, $obj_id, $data, $data->now_global_status);
+            $rval = self::syncGlobalStatus($user_id, $obj_id, $refId, $data, $data->now_global_status);
             if ($rval != true) {
                 print("syncGlobalStatus failed");
             }
@@ -155,11 +157,12 @@ class ilObjSCORMTracking
     /**
      * @param int      $userId
      * @param int      $packageId
+     * @param int      $refId
      * @param object   $data
      * @param int|null $new_global_status
      * @return bool
      */
-    public static function syncGlobalStatus(int $userId, int $packageId, object $data, ?int $new_global_status) : bool
+    public static function syncGlobalStatus(int $userId, int $packageId, int $refId, object $data, ?int $new_global_status) : bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -205,7 +208,7 @@ class ilObjSCORMTracking
         $ilObjDataCache = $DIC['ilObjDataCache'];
         ilChangeEvent::_recordReadEvent(
             "sahs",
-            (int) $_GET['ref_id'],
+            $refId,
             $packageId,
             $userId,
             false,
@@ -614,13 +617,17 @@ class ilObjSCORMTracking
     {
         global $DIC;
         $ilDB = $DIC->database();
-        $user_id = (int) $_GET["p"];
-        $ref_id = (int) $_GET["ref_id"];
-        $obj_id = (int) $_GET["package_id"];
+        $user_id = $DIC->http()->wrapper()->query()->retrieve('p',$DIC->refinery()->kindlyTo()->int());
+        $ref_id = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
+        $obj_id = $DIC->http()->wrapper()->query()->retrieve('package_id',$DIC->refinery()->kindlyTo()->int());
         if ($obj_id <= 1) {
             $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' no valid obj_id');
         } else {
-            $last_visited = (string) $_GET['last_visited'];
+            $last_visited = "";
+            if ($DIC->http()->wrapper()->query()->has('last_visited')) {
+                $last_visited = $DIC->http()->wrapper()->query()->retrieve('last_visited',$DIC->refinery()->kindlyTo()->string());
+            }
+
             $endDate = date(
                 'Y-m-d H:i:s',
                 mktime((int) date('H'), (int) date('i') + 5, (int) date('s'), (int) date('m'), (int) date('d'), (int) date('Y'))
@@ -658,137 +665,12 @@ class ilObjSCORMTracking
         $rowtmp = $ilDB->fetchAssoc($res);
         if ($rowtmp['hash'] == $hash) {
             //ok - do nothing
+//            die("allowed");
         } else {
             //output used by api
             die("not allowed");
         }
     }
-
-//    public function store(int $obj_id = 0, int $sahs_id = 0, $extractData = 1) : void
-//    {
-//        global $DIC;
-//        $ilDB = $DIC->database();
-//        $ilUser = $DIC->user();
-//
-//        $ref_id = (int) $_GET["ref_id"];
-//        if (empty($obj_id)) {
-//            $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
-//        }
-//
-//        // writing to scorm test log
-//        $f = fopen("./Modules/ScormAicc/log/scorm.log", "a");
-//        fwrite($f, "\nCALLING SCORM store()\n");
-//        fwrite($f, 'POST: ' . print_r($_POST, true));
-//
-//        if (empty($sahs_id)) {
-//            $sahs_id = ($_GET["sahs_id"] != "") ? $_GET["sahs_id"] : $_POST["sahs_id"];
-//        }
-//
-//        if ($extractData == 1) {
-//            $this->extractData();
-//        }
-//
-//        if (is_object($ilUser)) {
-//            $user_id = $ilUser->getId();
-//        }
-//
-//        if ($obj_id <= 1) {
-//            fwrite($f, "Error: No obj_id given.\n");
-//        } else {
-//            foreach ($this->insert as $insert) {
-//                $set = $ilDB->queryF(
-//                    '
-    //				SELECT * FROM scorm_tracking
-    //				WHERE user_id = %s
-    //				AND sco_id =  %s
-    //				AND lvalue =  %s
-    //				AND obj_id = %s',
-//                    array('integer', 'integer', 'text', 'integer'),
-//                    array($user_id, $sahs_id, $insert["left"], $obj_id)
-//                );
-//                if ($rec = $ilDB->fetchAssoc($set)) {
-//                    fwrite($f, "Error Insert, left value already exists. L:" . $insert["left"] . ",R:" .
-//                        $insert["right"] . ",sahs_id:" . $sahs_id . ",user_id:" . $user_id . "\n");
-//                } else {
-//                    $ilDB->insert('scorm_tracking', array(
-//                        'obj_id' => array('integer', $obj_id),
-//                        'user_id' => array('integer', $user_id),
-//                        'sco_id' => array('integer', $sahs_id),
-//                        'lvalue' => array('text', $insert["left"]),
-//                        'rvalue' => array('clob', $insert["right"]),
-//                        'c_timestamp' => array('timestamp', ilUtil::now())
-//                    ));
-//
-//                    fwrite($f, "Insert - L:" . $insert["left"] . ",R:" .
-//                        $insert["right"] . ",sahs_id:" . $sahs_id . ",user_id:" . $user_id . "\n");
-//                }
-//            }
-//            foreach ($this->update as $update) {
-//                $set = $ilDB->queryF(
-//                    '
-    //				SELECT * FROM scorm_tracking
-    //				WHERE user_id = %s
-    //				AND sco_id =  %s
-    //				AND lvalue =  %s
-    //				AND obj_id = %s',
-//                    array('integer', 'integer', 'text', 'integer'),
-//                    array($user_id, $sahs_id, $update["left"], $obj_id)
-//                );
-//
-//                if ($rec = $ilDB->fetchAssoc($set)) {
-//                    $ilDB->update(
-//                        'scorm_tracking',
-//                        array(
-//                            'rvalue' => array('clob', $update["right"]),
-//                            'c_timestamp' => array('timestamp', ilUtil::now())
-//                        ),
-//                        array(
-//                            'user_id' => array('integer', $user_id),
-//                            'sco_id' => array('integer', $sahs_id),
-//                            'lvalue' => array('text', $update["left"]),
-//                            'obj_id' => array('integer', $obj_id)
-//                        )
-//                    );
-//                } else {
-//                    fwrite($f, "ERROR Update, left value does not exist. L:" . $update["left"] . ",R:" .
-//                        $update["right"] . ",sahs_id:" . $sahs_id . ",user_id:" . $user_id . "\n");
-//                }
-//            }
-//        }
-//        fclose($f);
-//        ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
-//
-//        // update time and numbers of attempts in change event
-//        //NOTE: is possibly not correct (it is count of commit with changed values); be careful to performance issues
-//        ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
-//    }
-//
-//    public function extractData() : void
-//    {
-//        $this->insert = array();
-//        if (is_array($_GET["iL"])) {
-//            foreach ($_GET["iL"] as $key => $value) {
-//                $this->insert[] = array("left" => $value, "right" => $_GET["iR"][$key]);
-//            }
-//        }
-//        if (is_array($_POST["iL"])) {
-//            foreach ($_POST["iL"] as $key => $value) {
-//                $this->insert[] = array("left" => $value, "right" => $_POST["iR"][$key]);
-//            }
-//        }
-//
-//        $this->update = array();
-//        if (is_array($_GET["uL"])) {
-//            foreach ($_GET["uL"] as $key => $value) {
-//                $this->update[] = array("left" => $value, "right" => $_GET["uR"][$key]);
-//            }
-//        }
-//        if (is_array($_POST["uL"])) {
-//            foreach ($_POST["uL"] as $key => $value) {
-//                $this->update[] = array("left" => $value, "right" => $_POST["uR"][$key]);
-//            }
-//        }
-//    }
 
     /**
      * @param int    $a_obj_id

@@ -26,9 +26,9 @@
 */
 class ilSAHSEditGUI implements ilCtrlBaseClassInterface
 {
-    protected $tpl;
-    protected $lng;
-    protected $ctrl;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
     protected int $refId;
 
     /**
@@ -40,7 +40,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $this->tpl = $DIC['tpl'];
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
-        $this->refId = (int) $_GET["ref_id"];
+        $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
         
         $this->ctrl->saveParameter($this, "ref_id");
     }
@@ -62,7 +62,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $ilCtrl = $DIC->ctrl();
         $ilErr = $DIC["ilErr"];
         $ilLog = ilLoggerFactory::getLogger('sahs');
-        $ilLog->debug("bc:" . $_GET["baseClass"] . "; nc:" . $this->ctrl->getNextClass($this) . "; cmd:" . $this->ctrl->getCmd());
+        $ilLog->debug("bc:" . $DIC->http()->wrapper()->query()->retrieve('baseClass',$DIC->refinery()->kindlyTo()->string()) . "; nc:" . $this->ctrl->getNextClass($this) . "; cmd:" . $this->ctrl->getCmd());
 
         $lng->loadLanguageModule("content");
 
@@ -81,7 +81,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        $obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
+        $obj_id = ilObject::_lookupObjectId($this->refId);
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
         switch ($type) {
@@ -129,7 +129,10 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                 ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName, "zip");
             } elseif ($cmd == "confirmDeletion") {
                 $exportDir = ilExport::_getExportDirectory($obj_id);
-                foreach ($_POST["file"] as $file) {
+                //not possible - no array
+//                $files = $report = $DIC->http()->wrapper()->post()->retrieve('file',$DIC->refinery()->kindlyTo()->string());
+                $files = $_POST['file'];
+                foreach ($files as $file) {
                     $file = explode(":", $file);
                     $file[1] = basename($file[1]);
                     $exp_file = $exportDir . "/" . str_replace("..", "", $file[1]);

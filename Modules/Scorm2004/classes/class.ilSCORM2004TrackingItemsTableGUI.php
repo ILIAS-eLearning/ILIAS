@@ -211,15 +211,13 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
      */
     protected function parseValue(string $id, $value, string $type)
     {
-        switch ($id) {
-            case "status":
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
-                $text = ilLearningProgressBaseGUI::_getStatusText($value);
-                $value = ilUtil::img($path, $text);
-                break;
+        if ($id == "status") {
+            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
+            $text = ilLearningProgressBaseGUI::_getStatusText((integer) $value);
+            $value = ilUtil::img($path, $text);
         }
         //BLUM round
-        if ($id == "launch_data" || $id == "suspend_data") {
+        else if ($id == "launch_data" || $id == "suspend_data") {
             return $value;
         }
         if (is_numeric($value)) {

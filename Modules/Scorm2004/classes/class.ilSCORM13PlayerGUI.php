@@ -127,44 +127,31 @@ class ilSCORM13PlayerGUI
     public bool $jsMode;
 
     public ilObjSCORM2004LearningModule $slm;
-    public \ilGlobalTemplate $tpl;
+    public ilGlobalTemplate $tpl;
     public int $ref_id;
     public ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected string $page;
 
     public function __construct()
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC->ctrl();
-        $ilUser = $DIC->user();
-        $lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->userId = $DIC->user()->getId();
+        $this->lng = $DIC->language();
 
-        //erase next?
-        // if ($_REQUEST['learnerId']) {
-        // $this->userId = $_REQUEST['learnerId'];
-        // } else {
-        // $this->userId = $GLOBALS['DIC']['USER']['usr_id'];
-        // }
-        $this->packageId = (int) $_REQUEST['packageId'];
+//        $this->packageId = (int) $_REQUEST['packageId'];
         $this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript') !== false;
 
-        $this->page = $_REQUEST['page'];
+        if ($DIC->http()->wrapper()->query()->has('page')) {
+            $this->page = $DIC->http()->wrapper()->query()->retrieve('page',$DIC->refinery()->kindlyTo()->string());
+        }
 
-        $this->ref_id = (int) $_GET['ref_id'];
+            $this->ref_id = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
         $this->slm = new ilObjSCORM2004LearningModule($this->ref_id, true);
 
+        $this->packageId = ilObject::_lookupObjectId($this->ref_id);
 
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-
-        $this->packageId = ilObject::_lookupObjectId($_GET['ref_id']);
-        $this->userId = $ilUser->getID();
-
-//        if ($_GET['envEditor'] != null) {
-//            $this->envEditor = $_GET['envEditor'];
-//        } else {
-//            $this->envEditor = 0;
-//        }
     }
 
     /**
@@ -183,6 +170,12 @@ class ilSCORM13PlayerGUI
         if (!$ilAccess->checkAccess("read", "", $this->ref_id)) {
             $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
         }
+
+        $nodeId = 0;
+        if ($DIC->http()->wrapper()->query()->has('node_id')) {
+            $nodeId = $DIC->http()->wrapper()->query()->retrieve('node_id',$DIC->refinery()->kindlyTo()->int());
+        }
+
 
         //$ilLog->write("SCORM2004 Player cmd: ".$cmd);
 
@@ -217,11 +210,11 @@ class ilSCORM13PlayerGUI
                 break;
 
             case 'getSharedData':
-                $this->readSharedData($_GET['node_id']);
+                $this->readSharedData($nodeId);
                 break;
 
             case 'setSharedData':
-                $this->writeSharedData($_GET['node_id']);
+                $this->writeSharedData($nodeId);
                 break;
 
             case 'cmi':
@@ -229,12 +222,13 @@ class ilSCORM13PlayerGUI
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ilSCORM2004StoreData::persistCMIData(
                         $this->packageId,
+                        $this->ref_id,
                         $this->slm->getDefaultLessonMode(),
                         $this->slm->getComments(),
                         $this->slm->getInteractions(),
                         $this->slm->getObjectives(),
                         $this->slm->getTime_from_lms(),
-                        null,//ToDo Check
+                        null,
                         $this->userId
                     );
                 //error_log("Saved CMI Data");
@@ -267,7 +261,7 @@ class ilSCORM13PlayerGUI
                 $this->pingSession();
                 break;
             case 'scormPlayerUnload':
-                ilSCORM2004StoreData::scormPlayerUnload($this->packageId, $this->slm->getTime_from_lms(), $this->userId);
+                ilSCORM2004StoreData::scormPlayerUnload($this->packageId, $this->ref_id, $this->slm->getTime_from_lms(), $this->userId);
                 break;
 
             // case 'getConfigForPlayer':
@@ -1574,7 +1568,8 @@ class ilSCORM13PlayerGUI
 
     public function openLog() : void
     {
-        $filename = $_GET['logFile'];
+        global $DIC;
+        $filename = ilUtil::stripSlashes($DIC->http()->wrapper()->query()->retrieve('logFile',$DIC->refinery()->kindlyTo()->string()));
         //Header
         header('Content-Type: text/html; charset=UTF-8');
         echo file_get_contents($this->logDirectory() . "/" . $filename);
@@ -1583,7 +1578,8 @@ class ilSCORM13PlayerGUI
 
     public function downloadLog() : void
     {
-        $filename = $_GET['logFile'];
+        global $DIC;
+        $filename = ilUtil::stripSlashes($DIC->http()->wrapper()->query()->retrieve('logFile',$DIC->refinery()->kindlyTo()->string()));
         //Header
         header("Expires: 0");
         header("Cache-Control: private");
