@@ -40,7 +40,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $this->tpl = $DIC['tpl'];
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
-        $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
+        $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         
         $this->ctrl->saveParameter($this, "ref_id");
     }
@@ -62,7 +62,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $ilCtrl = $DIC->ctrl();
         $ilErr = $DIC["ilErr"];
         $ilLog = ilLoggerFactory::getLogger('sahs');
-        $ilLog->debug("bc:" . $DIC->http()->wrapper()->query()->retrieve('baseClass',$DIC->refinery()->kindlyTo()->string()) . "; nc:" . $this->ctrl->getNextClass($this) . "; cmd:" . $this->ctrl->getCmd());
+        $ilLog->debug("bc:" . $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string()) . "; nc:" . $this->ctrl->getNextClass($this) . "; cmd:" . $this->ctrl->getCmd());
 
         $lng->loadLanguageModule("content");
 

@@ -52,7 +52,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $ilTabs = $DIC->tabs();
         $ilErr = $DIC['ilErr'];
 
-        $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass',$DIC->refinery()->kindlyTo()->string());
+        $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string());
         $ilLog = ilLoggerFactory::getLogger('sahs');
         $ilLog->debug("bc:" . $baseClass . "; nc:" . $this->ctrl->getNextClass($this) . "; cmd:" . $this->ctrl->getCmd());
         if (strtolower($baseClass) == "iladministrationgui" ||
@@ -335,7 +335,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         global $DIC;
         $rbacsystem = $DIC->access();
         $ilErr = $DIC['ilErr'];
-        $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
+        $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
 
         // check create permission
         if (!$rbacsystem->checkAccess("create", '', $refId, "sahs")) {
@@ -364,7 +364,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
             $file = pathinfo($_FILES["scormfile"]["name"]);
         } elseif ($DIC->http()->wrapper()->post()->has('uploaded_file')) {
-            $uploadedFile = $DIC->http()->wrapper()->post()->retrieve('uploaded_file',$DIC->refinery()->kindlyTo()->string());
+            $uploadedFile = $DIC->http()->wrapper()->post()->retrieve('uploaded_file', $DIC->refinery()->kindlyTo()->string());
             // check if the file is in the upload directory and readable
             if (!ilUploadFiles::_checkUploadFile($uploadedFile)) {
                 $ilErr->raiseError($this->lng->txt("upload_error_file_not_found"), $ilErr->MESSAGE);
@@ -382,7 +382,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         $subType = "scorm2004";
         if ($DIC->http()->wrapper()->post()->has('sub_type')) {
-            $subType = $DIC->http()->wrapper()->post()->retrieve('sub_type',$DIC->refinery()->kindlyTo()->string());
+            $subType = $DIC->http()->wrapper()->post()->retrieve('sub_type', $DIC->refinery()->kindlyTo()->string());
         }
 
         // always import authoring packages as scorm2004, see bug #27801
@@ -472,7 +472,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             }
         } else {
             // copy uploaded file to data directory
-            $uploadedFile = $DIC->http()->wrapper()->post()->retrieve('uploaded_file',$DIC->refinery()->kindlyTo()->string());
+            $uploadedFile = $DIC->http()->wrapper()->post()->retrieve('uploaded_file', $DIC->refinery()->kindlyTo()->string());
             $file_path = $newObj->getDataDirectory() . "/" . $uploadedFile;
             ilUploadFiles::_copyUploadFile($uploadedFile, $file_path);
             ilFileUtils::unzip($file_path);
@@ -575,7 +575,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     protected function setTabs() : void
     {
         global $DIC;
-        $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass',$DIC->refinery()->kindlyTo()->string());
+        $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
         $this->tpl->setTitle($this->object->getTitle());
         if (strtolower($baseClass) == "ilsahseditgui") {
@@ -776,7 +776,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $this->object->getTitle(),
                 $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"),
                 "",
-                $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int())
+                $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
             );
         }
     }
@@ -872,7 +872,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         global $DIC;
 //        $ilDB = $DIC->database();
 //
-        $moduleId = ilObject::_lookupObjectId($DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int()));
+        $moduleId = ilObject::_lookupObjectId($DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()));
         $exporter = new ilScormAiccExporter();
 //        $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $moduleId);
     }

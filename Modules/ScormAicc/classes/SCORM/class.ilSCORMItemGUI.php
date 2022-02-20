@@ -45,8 +45,8 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
             $resource = new ilSCORMResource();
             $resource->readByIdRef($id_ref, $this->sc_object->getSLMId());
 
-            $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
-            $objId = $DIC->http()->wrapper()->query()->retrieve('obj_id',$DIC->refinery()->kindlyTo()->int());
+            $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
+            $objId = $DIC->http()->wrapper()->query()->retrieve('obj_id', $DIC->refinery()->kindlyTo()->int());
 
             $slm_obj = new ilObjSCORMLearningModule($refId);
 

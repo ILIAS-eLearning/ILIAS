@@ -46,7 +46,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->ctrl->saveParameter($this, "ref_id");
-        $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
+        $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
     }
 
     /**

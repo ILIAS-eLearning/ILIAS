@@ -26,8 +26,8 @@ class ilObjSCORMTracking
     public static function storeJsApi() : void
     {
         global $DIC;
-        $obj_id = $DIC->http()->wrapper()->query()->retrieve('package_id',$DIC->refinery()->kindlyTo()->int());
-        $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
+        $obj_id = $DIC->http()->wrapper()->query()->retrieve('package_id', $DIC->refinery()->kindlyTo()->int());
+        $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $in = file_get_contents("php://input");
         $data = json_decode($in);
         $user_id = (int) $data->p;
@@ -617,15 +617,15 @@ class ilObjSCORMTracking
     {
         global $DIC;
         $ilDB = $DIC->database();
-        $user_id = $DIC->http()->wrapper()->query()->retrieve('p',$DIC->refinery()->kindlyTo()->int());
-        $ref_id = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
-        $obj_id = $DIC->http()->wrapper()->query()->retrieve('package_id',$DIC->refinery()->kindlyTo()->int());
+        $user_id = $DIC->http()->wrapper()->query()->retrieve('p', $DIC->refinery()->kindlyTo()->int());
+        $ref_id = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
+        $obj_id = $DIC->http()->wrapper()->query()->retrieve('package_id', $DIC->refinery()->kindlyTo()->int());
         if ($obj_id <= 1) {
             $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' no valid obj_id');
         } else {
             $last_visited = "";
             if ($DIC->http()->wrapper()->query()->has('last_visited')) {
-                $last_visited = $DIC->http()->wrapper()->query()->retrieve('last_visited',$DIC->refinery()->kindlyTo()->string());
+                $last_visited = $DIC->http()->wrapper()->query()->retrieve('last_visited', $DIC->refinery()->kindlyTo()->string());
             }
 
             $endDate = date(

@@ -476,11 +476,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->form->checkInput();
 
         if ($this->dic->http()->wrapper()->post()->has('mastery_score')) {
-            $this->object->setMasteryScore($this->dic->http()->wrapper()->post()->retrieve('mastery_score',$this->dic->refinery()->kindlyTo()->int()));
+            $this->object->setMasteryScore($this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->int()));
             // $this->object->updateMasteryScoreValues();
         }
 
-        $t_auto_review = $this->dic->http()->wrapper()->post()->retrieve('auto_review',$this->dic->refinery()->kindlyTo()->string());
+        $t_auto_review = $this->dic->http()->wrapper()->post()->retrieve('auto_review', $this->dic->refinery()->kindlyTo()->string());
         $t_auto_suspend = $this->dic->http()->wrapper()->post()->has('cobj_auto_suspend');
         $t_session = $this->dic->http()->wrapper()->post()->has('cobj_session');
         if ($t_auto_review == "s") {
@@ -490,29 +490,29 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         }
 
         $t_height = $this->object->getHeight();
-        if ($this->dic->http()->wrapper()->post()->retrieve('height_0',$this->dic->refinery()->kindlyTo()->int()) != $this->object->getHeight()) {
-            $t_height = $this->dic->http()->wrapper()->post()->retrieve('height_0',$this->dic->refinery()->kindlyTo()->int());
+        if ($this->dic->http()->wrapper()->post()->retrieve('height_0', $this->dic->refinery()->kindlyTo()->int()) != $this->object->getHeight()) {
+            $t_height = $this->dic->http()->wrapper()->post()->retrieve('height_0', $this->dic->refinery()->kindlyTo()->int());
         }
-        if ($this->dic->http()->wrapper()->post()->retrieve('height_1',$this->dic->refinery()->kindlyTo()->int()) != $this->object->getHeight()) {
-            $t_height = $this->dic->http()->wrapper()->post()->retrieve('height_1',$this->dic->refinery()->kindlyTo()->int());
+        if ($this->dic->http()->wrapper()->post()->retrieve('height_1', $this->dic->refinery()->kindlyTo()->int()) != $this->object->getHeight()) {
+            $t_height = $this->dic->http()->wrapper()->post()->retrieve('height_1', $this->dic->refinery()->kindlyTo()->int());
         }
 
         $t_width = $this->object->getWidth();
-        if ($this->dic->http()->wrapper()->post()->retrieve('width_0',$this->dic->refinery()->kindlyTo()->int()) != $this->object->getWidth()) {
-            $t_width = $this->dic->http()->wrapper()->post()->retrieve('width_0',$this->dic->refinery()->kindlyTo()->int());
+        if ($this->dic->http()->wrapper()->post()->retrieve('width_0', $this->dic->refinery()->kindlyTo()->int()) != $this->object->getWidth()) {
+            $t_width = $this->dic->http()->wrapper()->post()->retrieve('width_0', $this->dic->refinery()->kindlyTo()->int());
         }
-        if ($this->dic->http()->wrapper()->post()->retrieve('width_1',$this->dic->refinery()->kindlyTo()->int()) != $this->object->getWidth()) {
-            $t_width = $this->dic->http()->wrapper()->post()->retrieve('width_1',$this->dic->refinery()->kindlyTo()->int());
+        if ($this->dic->http()->wrapper()->post()->retrieve('width_1', $this->dic->refinery()->kindlyTo()->int()) != $this->object->getWidth()) {
+            $t_width = $this->dic->http()->wrapper()->post()->retrieve('width_1', $this->dic->refinery()->kindlyTo()->int());
         }
 
         $this->object->setOfflineStatus(!($this->dic->http()->wrapper()->post()->has('cobj_online')));
-        $this->object->setOpenMode($this->dic->http()->wrapper()->post()->retrieve('open_mode',$this->dic->refinery()->kindlyTo()->int()));
+        $this->object->setOpenMode($this->dic->http()->wrapper()->post()->retrieve('open_mode', $this->dic->refinery()->kindlyTo()->int()));
         $this->object->setWidth($t_width);
         $this->object->setHeight($t_height);
-        $this->object->setCreditMode($this->dic->http()->wrapper()->post()->retrieve('credit_mode',$this->dic->refinery()->kindlyTo()->string()));
+        $this->object->setCreditMode($this->dic->http()->wrapper()->post()->retrieve('credit_mode', $this->dic->refinery()->kindlyTo()->string()));
 //        $this->object->setMaxAttempt($this->dic->http()->wrapper()->post()->retrieve('max_attempt',$this->dic->refinery()->kindlyTo()->int()));
         $this->object->setAutoReviewChar($t_auto_review);
-        $this->object->setDefaultLessonMode($this->dic->http()->wrapper()->post()->retrieve('lesson_mode',$this->dic->refinery()->kindlyTo()->string()));
+        $this->object->setDefaultLessonMode($this->dic->http()->wrapper()->post()->retrieve('lesson_mode', $this->dic->refinery()->kindlyTo()->string()));
         $this->object->setSession($t_session);
         $this->object->setNoMenu($this->dic->http()->wrapper()->post()->has('cobj_nomenu'));
         $this->object->setHideNavig($this->dic->http()->wrapper()->post()->has('cobj_hidenavig'));
@@ -528,10 +528,10 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->object->setAutoSuspend($t_auto_suspend);
 //            $this->object->setOfflineMode($tmpOfflineMode);
         $this->object->setDebug($this->dic->http()->wrapper()->post()->has('cobj_debug'));//ilUtil::yn2tf($this->dic->http()->wrapper()->post()->retrieve('cobj_debug',$this->dic->refinery()->kindlyTo()->string())));
-        $this->object->setIdSetting($this->dic->http()->wrapper()->post()->retrieve('id_setting',$this->dic->refinery()->kindlyTo()->int()));
-        $this->object->setNameSetting($this->dic->http()->wrapper()->post()->retrieve('name_setting',$this->dic->refinery()->kindlyTo()->int()));
-        $this->object->setTitle($this->dic->http()->wrapper()->post()->retrieve('Fobject_title',$this->dic->refinery()->kindlyTo()->string()));
-        $this->object->setDescription($this->dic->http()->wrapper()->post()->retrieve('Fobject_description',$this->dic->refinery()->kindlyTo()->string()));
+        $this->object->setIdSetting($this->dic->http()->wrapper()->post()->retrieve('id_setting', $this->dic->refinery()->kindlyTo()->int()));
+        $this->object->setNameSetting($this->dic->http()->wrapper()->post()->retrieve('name_setting', $this->dic->refinery()->kindlyTo()->int()));
+        $this->object->setTitle($this->dic->http()->wrapper()->post()->retrieve('Fobject_title', $this->dic->refinery()->kindlyTo()->string()));
+        $this->object->setDescription($this->dic->http()->wrapper()->post()->retrieve('Fobject_description', $this->dic->refinery()->kindlyTo()->string()));
 
         // tile image
         $obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
@@ -556,14 +556,14 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         $scoSelected = "all";
         if ($this->dic->http()->wrapper()->post()->has('scoSelected')) {
-            $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('scoSelected',$this->dic->refinery()->kindlyTo()->string()));
+            $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
         }
 
         $this->ctrl->setParameter($this, 'scoSelected', $scoSelected);
 
         $report = "choose";
         if ($this->dic->http()->wrapper()->post()->has('report')) {
-            $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report',$this->dic->refinery()->kindlyTo()->string()));
+            $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
         }
         $this->ctrl->setParameter($this, 'report', $report);
         $filter = new ilSCORM2004TrackingItemsPerScoFilterGUI($this, 'showTrackingItemsBySco');
@@ -602,13 +602,13 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
             $userSelected = "all";
             if ($this->dic->http()->wrapper()->post()->has('userSelected')) {
-                $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('userSelected',$this->dic->refinery()->kindlyTo()->string()));
+                $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
             }
             $this->ctrl->setParameter($this, 'userSelected', $userSelected);
 
             $report = "choose";
             if ($this->dic->http()->wrapper()->post()->has('report')) {
-                $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report',$this->dic->refinery()->kindlyTo()->string()));
+                $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
             }
             $this->ctrl->setParameter($this, 'report', $report);
             $filter = new ilSCORM2004TrackingItemsPerUserFilterGUI($this, 'showTrackingItems');

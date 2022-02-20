@@ -217,7 +217,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
             $value = ilUtil::img($path, $text);
         }
         //BLUM round
-        else if ($id == "launch_data" || $id == "suspend_data") {
+        elseif ($id == "launch_data" || $id == "suspend_data") {
             return $value;
         }
         if (is_numeric($value)) {

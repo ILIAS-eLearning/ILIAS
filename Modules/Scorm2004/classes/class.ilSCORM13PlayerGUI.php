@@ -144,14 +144,13 @@ class ilSCORM13PlayerGUI
         $this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript') !== false;
 
         if ($DIC->http()->wrapper()->query()->has('page')) {
-            $this->page = $DIC->http()->wrapper()->query()->retrieve('page',$DIC->refinery()->kindlyTo()->string());
+            $this->page = $DIC->http()->wrapper()->query()->retrieve('page', $DIC->refinery()->kindlyTo()->string());
         }
 
-            $this->ref_id = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
+        $this->ref_id = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $this->slm = new ilObjSCORM2004LearningModule($this->ref_id, true);
 
         $this->packageId = ilObject::_lookupObjectId($this->ref_id);
-
     }
 
     /**
@@ -173,7 +172,7 @@ class ilSCORM13PlayerGUI
 
         $nodeId = 0;
         if ($DIC->http()->wrapper()->query()->has('node_id')) {
-            $nodeId = $DIC->http()->wrapper()->query()->retrieve('node_id',$DIC->refinery()->kindlyTo()->int());
+            $nodeId = $DIC->http()->wrapper()->query()->retrieve('node_id', $DIC->refinery()->kindlyTo()->int());
         }
 
 
@@ -1569,7 +1568,7 @@ class ilSCORM13PlayerGUI
     public function openLog() : void
     {
         global $DIC;
-        $filename = ilUtil::stripSlashes($DIC->http()->wrapper()->query()->retrieve('logFile',$DIC->refinery()->kindlyTo()->string()));
+        $filename = ilUtil::stripSlashes($DIC->http()->wrapper()->query()->retrieve('logFile', $DIC->refinery()->kindlyTo()->string()));
         //Header
         header('Content-Type: text/html; charset=UTF-8');
         echo file_get_contents($this->logDirectory() . "/" . $filename);
@@ -1579,7 +1578,7 @@ class ilSCORM13PlayerGUI
     public function downloadLog() : void
     {
         global $DIC;
-        $filename = ilUtil::stripSlashes($DIC->http()->wrapper()->query()->retrieve('logFile',$DIC->refinery()->kindlyTo()->string()));
+        $filename = ilUtil::stripSlashes($DIC->http()->wrapper()->query()->retrieve('logFile', $DIC->refinery()->kindlyTo()->string()));
         //Header
         header("Expires: 0");
         header("Cache-Control: private");

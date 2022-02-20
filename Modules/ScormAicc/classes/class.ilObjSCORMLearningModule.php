@@ -804,7 +804,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 'sco_total_time_sec' => array('integer', $sco_total_time_sec)
             ));
         }
-        ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id, false, $attempts, $sco_total_time_sec);
+        ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id, false, $attempts, $sco_total_time_sec);
     }
 
     /**

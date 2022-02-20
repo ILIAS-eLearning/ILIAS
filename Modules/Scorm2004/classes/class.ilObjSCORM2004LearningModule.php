@@ -1040,5 +1040,4 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         }
         return $retAr;
     }
-
 }

@@ -73,8 +73,8 @@ class ilObjSCORMInitData
 //        }
         $launchId = '0';
         if ($DIC->http()->wrapper()->query()->has('autolaunch')) {
-            $autoLaunch = $DIC->http()->wrapper()->query()->retrieve('autolaunch',$DIC->refinery()->kindlyTo()->string());
-            if ($autoLaunch != ""){
+            $autoLaunch = $DIC->http()->wrapper()->query()->retrieve('autolaunch', $DIC->refinery()->kindlyTo()->string());
+            if ($autoLaunch != "") {
                 $launchId = $autoLaunch;
             }
         }
@@ -163,7 +163,7 @@ class ilObjSCORMInitData
         }
 
         $s_out = '{'
-            . '"refId":' . $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->string()) . ','
+            . '"refId":' . $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->string()) . ','
             . '"objId":' . $slm_obj->getId() . ','
             . '"clientId":"' . CLIENT_ID . '",'
             . '"launchId":' . $launchId . ','

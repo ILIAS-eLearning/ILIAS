@@ -6,11 +6,11 @@ ilInitialisation::initILIAS();
 global $DIC;
 $ilDB = $DIC->database();
 
-$packageId = $DIC->http()->wrapper()->query()->retrieve('package_id',$DIC->refinery()->kindlyTo()->int());//(int) $_GET['package_id'];
-$refId = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
+$packageId = $DIC->http()->wrapper()->query()->retrieve('package_id', $DIC->refinery()->kindlyTo()->int());//(int) $_GET['package_id'];
+$refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
 $doUnload = false;
 if ($DIC->http()->wrapper()->query()->has('do')) {
-    if ($DIC->http()->wrapper()->query()->retrieve('do',$DIC->refinery()->kindlyTo()->string()) == "unload") {
+    if ($DIC->http()->wrapper()->query()->retrieve('do', $DIC->refinery()->kindlyTo()->string()) == "unload") {
         $doUnload = true;
     }
 }

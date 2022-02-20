@@ -3,18 +3,18 @@ ilContext::init(ilContext::CONTEXT_SCORM);
 ilInitialisation::initILIAS();
 
 global $DIC;
-$packageId = $DIC->http()->wrapper()->query()->retrieve('package_id',$DIC->refinery()->kindlyTo()->int());
+$packageId = $DIC->http()->wrapper()->query()->retrieve('package_id', $DIC->refinery()->kindlyTo()->int());
 
 $doUnload = false;
 if ($DIC->http()->wrapper()->query()->has('do')) {
-    if ($DIC->http()->wrapper()->query()->retrieve('do',$DIC->refinery()->kindlyTo()->string()) == "unload") {
+    if ($DIC->http()->wrapper()->query()->retrieve('do', $DIC->refinery()->kindlyTo()->string()) == "unload") {
         $doUnload = true;
     }
 }
 
 if ($doUnload) {
-    $p = $DIC->http()->wrapper()->query()->retrieve('p',$DIC->refinery()->kindlyTo()->int());
-    $hash = $DIC->http()->wrapper()->query()->retrieve('hash',$DIC->refinery()->kindlyTo()->int());
+    $p = $DIC->http()->wrapper()->query()->retrieve('p', $DIC->refinery()->kindlyTo()->int());
+    $hash = $DIC->http()->wrapper()->query()->retrieve('hash', $DIC->refinery()->kindlyTo()->int());
     ilObjSCORMTracking::checkIfAllowed($packageId, $p, $hash);
     ilObjSCORMTracking::scorm12PlayerUnload();
 } else {

@@ -45,7 +45,7 @@ class ilSCORMPresentationGUI
         $this->lng->loadLanguageModule('cert');
 
         // Todo: check lm id
-        $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
+        $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $this->slm = new ilObjSCORMLearningModule($this->refId, true);
     }
 
@@ -379,7 +379,7 @@ class ilSCORMPresentationGUI
 
         $expanded = "";
         if ($DIC->http()->wrapper()->query()->has('scexpand')) {
-            $expanded = $DIC->http()->wrapper()->query()->retrieve('scexpand',$DIC->refinery()->kindlyTo()->string());
+            $expanded = $DIC->http()->wrapper()->query()->retrieve('scexpand', $DIC->refinery()->kindlyTo()->string());
         }
         if ($expanded == "") {
             $mtree = new ilSCORMTree($this->slm->getId());
@@ -407,14 +407,14 @@ class ilSCORMPresentationGUI
 
         $cmd = "";
         if ($DIC->http()->wrapper()->query()->has('cmd')) {
-            $cmd = $DIC->http()->wrapper()->query()->retrieve('cmd',$DIC->refinery()->kindlyTo()->string());
+            $cmd = $DIC->http()->wrapper()->query()->retrieve('cmd', $DIC->refinery()->kindlyTo()->string());
         }
         $frame = "";
         if ($DIC->http()->wrapper()->query()->has('frame')) {
-            $frame = $DIC->http()->wrapper()->query()->retrieve('frame',$DIC->refinery()->kindlyTo()->string());
+            $frame = $DIC->http()->wrapper()->query()->retrieve('frame', $DIC->refinery()->kindlyTo()->string());
         }
         $this->tpl->setVariable("ACTION", "ilias.php?baseClass=ilSAHSPresentationGUI&cmd=" . $cmd . "&frame=" . $frame .
-            "&ref_id=" . $this->slm->getRefId() . "&scexpand=" .  $expanded);
+            "&ref_id=" . $this->slm->getRefId() . "&scexpand=" . $expanded);
         $this->tpl->parseCurrentBlock();
         //BUG 16794? $this->tpl->show();
 //        $this->tpl->show();
@@ -429,7 +429,7 @@ class ilSCORMPresentationGUI
     public function view() : void
     {
         global $DIC;
-        $objId = $DIC->http()->wrapper()->query()->retrieve('obj_id',$DIC->refinery()->kindlyTo()->int());
+        $objId = $DIC->http()->wrapper()->query()->retrieve('obj_id', $DIC->refinery()->kindlyTo()->int());
         $sc_gui_object = ilSCORMObjectGUI::getInstance($objId);
 
         if (is_object($sc_gui_object)) {
@@ -514,7 +514,7 @@ class ilSCORMPresentationGUI
         $ilUser = $DIC->user();
         $tree = $DIC['tree'];
         $ilCtrl = $DIC->ctrl();
-        $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id',$DIC->refinery()->kindlyTo()->int());
+        $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $obj_id = ilObject::_lookupObjId($refId);
 
         $certValidator = new ilCertificateDownloadValidator();
