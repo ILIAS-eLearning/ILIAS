@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\GlobalScreen\Media;
+namespace ILIAS\GlobalScreen\Scope\Layout;
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
