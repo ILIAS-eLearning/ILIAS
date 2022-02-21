@@ -40,8 +40,8 @@ class ilTraceProcessor
         array_shift($trace);
         array_shift($trace);
         array_shift($trace);
-        
-        $trace_info = $trace[0]['class'] . '::' . $trace[0]['function'] . ':' . $trace[0]['line'];
+        $classname = isset($trace[0]['class']) ? $trace[0]['class'] . '::' : '';
+        $trace_info = $classname . $trace[0]['function'] . ':' . $trace[0]['line'];
         
         $record['extra'] = array_merge(
             $record['extra'],
