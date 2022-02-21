@@ -68,7 +68,13 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
 
     private function getTreeRecursion() : TreeRecursion
     {
-        $tree = new ilOrgUnitExplorerGUI("orgu_explorer", ilObjOrgUnitGUI::class, "showTree", new ilTree(1));
+        $tree = new ilOrgUnitExplorerGUI(
+            "orgu_explorer",
+            ilObjOrgUnitGUI::class,
+            "showTree",
+            new ilTree(1),
+            $this->dic["ilAccess"]
+        );
         $tree->setTypeWhiteList($this->getTreeWhiteList());
         $tree->setRootId(ilObjOrgUnit::getRootOrgRefId());
         $tree->setPathOpen($_GET['item_ref_id'] ?? $_GET['ref_id'] ?? '');
