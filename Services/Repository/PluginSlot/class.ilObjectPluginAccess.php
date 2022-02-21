@@ -31,13 +31,8 @@ class ilObjectPluginAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public function _checkAccess(
-        $a_cmd,
-        $a_permission,
-        $a_ref_id,
-        $a_obj_id,
-        $a_user_id = ""
-    ) {
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    {
         return true;
     }
 
@@ -54,13 +49,13 @@ class ilObjectPluginAccess extends ilObjectAccess
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($ilAccess->checkAccess("read", "", $t_arr[1])) {
             return true;
@@ -69,7 +64,7 @@ class ilObjectPluginAccess extends ilObjectAccess
     }
 
     // this is called by permission -> check permissions of user screen
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         return array();
     }

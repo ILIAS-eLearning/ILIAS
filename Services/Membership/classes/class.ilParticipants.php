@@ -868,7 +868,7 @@ abstract class ilParticipants
         $additional_roles = [];
         $auto_generated_roles = [];
         foreach ($this->roles as $role_id) {
-            $title = $this->objectDataCache->lookupTitle($role_id);
+            $title = $this->objectDataCache->lookupTitle((int) $role_id);
             switch (substr($title, 0, 8)) {
                 case 'il_crs_m':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;

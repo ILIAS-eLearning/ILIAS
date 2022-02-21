@@ -177,20 +177,25 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
     }
 
     /**
-     * @param string $a_cmd
-     * @return string
      * @throws ilCtrlException
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        $cmd = explode('::', $a_cmd);
+        $commands = explode('::', $cmd);
         
-        if (count($cmd) == 2) {
-            $cmd_link = $DIC->ctrl()->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjLTIConsumerGUI', $cmd[0]), $cmd[1]);
+        if (count($commands) == 2) {
+            $cmd_link = $DIC->ctrl()->getLinkTargetByClass(
+                [
+                    'ilRepositoryGUI',
+                    'ilObjLTIConsumerGUI',
+                    $commands[0]
+                ],
+                $commands[1]
+            );
         } else {
-            $cmd_link = $DIC->ctrl()->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjLTIConsumerGUI'), $cmd[0]);
+            $cmd_link = $DIC->ctrl()->getLinkTargetByClass(['ilRepositoryGUI', 'ilObjLTIConsumerGUI'], $commands[0]);
         }
         
         return $cmd_link;

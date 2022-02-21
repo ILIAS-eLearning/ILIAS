@@ -50,7 +50,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         );
     }
 
-    public function getType() : ?string
+    public function getType() : string
     {
         return "hlps";
     }

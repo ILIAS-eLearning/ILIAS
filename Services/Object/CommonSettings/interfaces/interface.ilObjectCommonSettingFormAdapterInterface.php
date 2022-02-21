@@ -12,8 +12,6 @@ interface ilObjectCommonSettingFormAdapterInterface
 {
     /**
      * Add icon setting to form
-     *
-     * @return null|ilPropertyFormGUI
      */
     public function addIcon() : ?ilPropertyFormGUI;
 
@@ -24,8 +22,6 @@ interface ilObjectCommonSettingFormAdapterInterface
 
     /**
      * Add tile image setting to form
-     *
-     * @return null|ilPropertyFormGUI
      */
     public function addTileImage() : ?ilPropertyFormGUI;
 
@@ -36,8 +32,6 @@ interface ilObjectCommonSettingFormAdapterInterface
 
     /**
      * Add title icon visibility setting to form
-     *
-     * @return ilPropertyFormGUI
      */
     public function addTitleIconVisibility() : ilPropertyFormGUI;
 
@@ -48,8 +42,6 @@ interface ilObjectCommonSettingFormAdapterInterface
 
     /**
      * Add top actions visibility setting to form
-     *
-     * @return ilPropertyFormGUI
      */
     public function addTopActionsVisibility() : ilPropertyFormGUI;
 

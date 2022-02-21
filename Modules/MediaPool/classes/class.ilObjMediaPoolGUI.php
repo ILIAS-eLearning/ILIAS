@@ -96,7 +96,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $lng->loadLanguageModule("content");
     }
 
-    final public function getType() : ?string
+    final public function getType() : string
     {
         return "mep";
     }

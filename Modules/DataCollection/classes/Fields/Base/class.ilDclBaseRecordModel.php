@@ -664,7 +664,7 @@ class ilDclBaseRecordModel
                 $nComments = count($this->getComments());
                 $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
                     1,
-                    $_GET['ref_id'],
+                    (int) $_GET['ref_id'],
                     'dcl',
                     $this->table->getCollectionObject()
                                 ->getId(),

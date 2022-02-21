@@ -22,15 +22,15 @@ class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObje
         return $commands;
     }
 
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
-        $targetAttributes = explode('_', $a_target);
+        $targetAttributes = explode('_', $target);
 
         if (2 !== count($targetAttributes) || $targetAttributes[0] !== self::OBJ_TYPE || ((int) $targetAttributes[1]) <= 0) {
             return false;
         }
 
-        return parent::_checkGoto($a_target);
+        return parent::_checkGoto($target);
     }
 
     public static function getConditionOperators() : array

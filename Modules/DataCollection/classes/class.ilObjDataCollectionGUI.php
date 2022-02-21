@@ -124,7 +124,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         return "render";
     }
 
-    public function getType() : ?string
+    public function getType() : string
     {
         return "dcl";
     }

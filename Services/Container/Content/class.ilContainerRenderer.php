@@ -474,7 +474,7 @@ class ilContainerRenderer
                 $cards = [];
 
                 $order_id = (!$a_is_single && $this->active_block_ordering)
-                    ? $a_block_id
+                    ? (int) $a_block_id
                     : 0;
                 $this->addHeaderRow(
                     $a_block_tpl,

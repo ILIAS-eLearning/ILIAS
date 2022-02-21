@@ -18,7 +18,7 @@ class ilObjGroupAccess extends ilObjectAccess
     /**
      * @inheritDoc
      */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         global $DIC;
 
@@ -27,14 +27,14 @@ class ilObjGroupAccess extends ilObjectAccess
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
         
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "info":
             
-                if (ilGroupParticipants::_isParticipant($a_ref_id, $a_user_id)) {
+                if (ilGroupParticipants::_isParticipant($ref_id, $user_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_INFO, $lng->txt("info_is_member"));
                 } else {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_INFO, $lng->txt("info_is_not_member"));
@@ -43,15 +43,15 @@ class ilObjGroupAccess extends ilObjectAccess
                 
             case "join":
             
-                if (!self::_registrationEnabled($a_obj_id)) {
+                if (!self::_registrationEnabled($obj_id)) {
                     return false;
                 }
 
-                if (ilGroupWaitingList::_isOnList($ilUser->getId(), $a_obj_id)) {
+                if (ilGroupWaitingList::_isOnList($ilUser->getId(), $obj_id)) {
                     return false;
                 }
 
-                if (ilGroupParticipants::_isParticipant($a_ref_id, $a_user_id)) {
+                if (ilGroupParticipants::_isParticipant($ref_id, $user_id)) {
                     return false;
                 }
                 break;
@@ -59,9 +59,9 @@ class ilObjGroupAccess extends ilObjectAccess
             case 'leave':
 
                 // Regular member
-                if ($a_permission == 'leave') {
+                if ($permission == 'leave') {
                     $limit = null;
-                    if (!ilObjGroup::mayLeave($a_obj_id, $a_user_id, $limit)) {
+                    if (!ilObjGroup::mayLeave($obj_id, $user_id, $limit)) {
                         $ilAccess->addInfoItem(
                             ilAccessInfo::IL_STATUS_INFO,
                             sprintf($lng->txt("grp_cancellation_end_rbac_info"), ilDatePresentation::formatDate($limit))
@@ -69,13 +69,13 @@ class ilObjGroupAccess extends ilObjectAccess
                         return false;
                     }
                     
-                    if (!ilGroupParticipants::_isParticipant($a_ref_id, $a_user_id)) {
+                    if (!ilGroupParticipants::_isParticipant($ref_id, $user_id)) {
                         return false;
                     }
                 }
                 // Waiting list
-                if ($a_permission == 'join') {
-                    if (!ilGroupWaitingList::_isOnList($ilUser->getId(), $a_obj_id)) {
+                if ($permission == 'join') {
+                    if (!ilGroupWaitingList::_isOnList($ilUser->getId(), $obj_id)) {
                         return false;
                     }
                 }
@@ -83,9 +83,9 @@ class ilObjGroupAccess extends ilObjectAccess
                 
         }
 
-        switch ($a_permission) {
+        switch ($permission) {
             case 'leave':
-                return ilObjGroup::mayLeave($a_obj_id, $a_user_id);
+                return ilObjGroup::mayLeave($obj_id, $user_id);
         }
         return true;
     }
@@ -93,7 +93,7 @@ class ilObjGroupAccess extends ilObjectAccess
     /**
      * @inheritDoc
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array();
         $commands[] = array("permission" => "grp_linked", "cmd" => "", "lang_var" => "show", "default" => true);
@@ -120,14 +120,14 @@ class ilObjGroupAccess extends ilObjectAccess
     /**
      * @inheritDoc
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         $ilUser = $DIC->user();
 
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
         // registration codes
         if (substr((string) $t_arr[2], 0, 5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID) {
             self::$using_code = true;
@@ -180,14 +180,14 @@ class ilObjGroupAccess extends ilObjectAccess
     /**
      * @inheritDoc
      */
-    public static function _preloadData($a_obj_ids, $a_ref_ids)
+    public static function _preloadData(array $obj_ids, array $ref_ids) : void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
         
-        ilGroupWaitingList::_preloadOnListInfo([$ilUser->getId()], $a_obj_ids);
+        ilGroupWaitingList::_preloadOnListInfo([$ilUser->getId()], $obj_ids);
     }
     
     public static function lookupRegistrationInfo(int $a_obj_id) : array

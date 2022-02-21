@@ -35,7 +35,7 @@ class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCla
         $this->lng->loadLanguageModule('grp');
     }
     
-    public function getType() : ?string
+    public function getType() : string
     {
         return 'rgrp';
     }

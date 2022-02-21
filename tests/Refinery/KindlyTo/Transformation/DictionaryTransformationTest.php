@@ -31,7 +31,7 @@ class DictionaryTransformationTest extends TestCase
     {
         $this->expectException(ConstraintViolationException::class);
         $transformation = new DictionaryTransformation(new StringTransformation());
-        $result = $transformation->transform($failingVal);
+        $transformation->transform($failingVal);
     }
 
     public function TransformationFailingDataProvider()
@@ -47,6 +47,8 @@ class DictionaryTransformationTest extends TestCase
         return [
             'first_arr' => [['hello' => 'world'], ['hello' => 'world'] ],
             'second_arr' => [['hi' => 'earth', 'goodbye' => 'world'], ['hi' => 'earth', 'goodbye' => 'world']],
+            'third_arr' => [[22 => "earth", 33 => "world"], [22 => "earth", 33 => "world"]],
+            'fourth_arr' => [[22.33 => "earth", 33.44 => "world"], [22 => "earth", 33 => "world"]],
             'empty_array' => [[], []]
         ];
     }

@@ -62,7 +62,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $DIC->language()->loadLanguageModule("rep");
     }
 
-    public function getType() : ?string
+    public function getType() : string
     {
         return 'lti';
     }

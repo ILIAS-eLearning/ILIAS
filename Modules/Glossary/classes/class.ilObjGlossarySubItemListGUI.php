@@ -30,7 +30,7 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
         $this->user = $DIC->user();
     }
 
-    public function getHTML()
+    public function getHTML() : string
     {
         $lng = $this->lng;
         $ilUser = $this->user;

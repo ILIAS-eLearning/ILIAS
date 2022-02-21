@@ -1889,7 +1889,7 @@ class ilUserImportParser extends ilSaxParser
                         $this->userObj->getLogin(),
                         sprintf($lng->txt("usrimport_xml_element_content_illegal"), "TimeLimitOwner", $this->cdata)
                     );
-                } elseif ($ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($this->cdata)) != 'cat' && !(int) $this->cdata == USER_FOLDER_ID) {
+                } elseif ($ilObjDataCache->lookupType($ilObjDataCache->lookupObjId((int) $this->cdata)) != 'cat' && !(int) $this->cdata == USER_FOLDER_ID) {
                     $this->logFailure(
                         $this->userObj->getLogin(),
                         sprintf($lng->txt("usrimport_xml_element_content_illegal"), "TimeLimitOwner", $this->cdata)

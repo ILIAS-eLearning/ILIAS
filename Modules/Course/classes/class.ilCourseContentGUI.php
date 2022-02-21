@@ -120,7 +120,7 @@ class ilCourseContentGUI
 
         $counter = 0;
         foreach ($start_obj->getStartObjects() as $start) {
-            $obj_id = $this->objectDataCache->lookupObjId($start['item_ref_id']);
+            $obj_id = $this->objectDataCache->lookupObjId((int) $start['item_ref_id']);
             $ref_id = $start['item_ref_id'];
             $type = $this->objectDataCache->lookupType($obj_id);
 

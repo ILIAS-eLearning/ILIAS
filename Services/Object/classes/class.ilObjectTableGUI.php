@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -9,65 +9,42 @@
  */
 class ilObjectTableGUI extends ilTable2GUI
 {
-    protected $objects = array();
-    protected $show_path = false;
-    protected $row_selection_input = false;
+    protected array $objects = array();
+    protected bool $show_path = false;
+    protected bool $row_selection_input = false;
     
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_id)
+    public function __construct(?object $parent_obj, string $parent_cmd, string $id)
     {
-        $this->setId('obj_table_' . $a_id);
-        parent::__construct($a_parent_obj, $a_parent_cmd, '');
+        $this->setId('obj_table_' . $id);
+        parent::__construct($parent_obj, $parent_cmd);
     }
     
-    /**
-     *
-     * @param type $a_status
-     */
-    public function enableObjectPath($a_status)
+    public function enableObjectPath(bool $status) : void
     {
-        $this->show_path = $a_status;
+        $this->show_path = $status;
     }
     
-    /**
-     *
-     * @return type
-     */
-    public function enabledObjectPath()
+    public function enabledObjectPath() : bool
     {
         return $this->show_path;
     }
     
-    /**
-     * Customize path instance
-     * @param ilPathGUI $path
-     * @return \ilPathGUI
-     */
-    public function customizePath(ilPathGUI $path)
+    public function customizePath(ilPathGUI $path) : ilPathGUI
     {
         return $path;
     }
     
-    public function enableRowSelectionInput($a_stat)
+    public function enableRowSelectionInput(bool $stat) : void
     {
-        $this->row_selection_input = $a_stat;
+        $this->row_selection_input = $stat;
     }
     
-    /**
-     * @return type
-     */
-    public function enabledRowSelectionInput()
+    public function enabledRowSelectionInput() : bool
     {
         return $this->row_selection_input;
     }
     
-    /**
-     * Fill row selection input
-     * @param type $set
-     */
-    public function fillRowSelectionInput($set)
+    public function fillRowSelectionInput(array $set) : void
     {
         $this->tpl->setCurrentBlock('row_selection_input');
         $this->tpl->setVariable('OBJ_INPUT_TYPE', 'checkbox');
@@ -75,30 +52,23 @@ class ilObjectTableGUI extends ilTable2GUI
         $this->tpl->setVariable('OBJ_INPUT_VALUE', $set['ref_id']);
     }
 
-
-    
     /**
      * set table content objects
-     * @param array $a_ref_ids
      */
-    public function setObjects($a_ref_ids)
+    public function setObjects(array $ref_ids) : void
     {
-        $this->objects = $a_ref_ids;
+        $this->objects = $ref_ids;
     }
     
     /**
      * get object ref_ids
-     * @return type
      */
-    public function getObjects()
+    public function getObjects() : array
     {
         return $this->objects;
     }
     
-    /**
-     * init table
-     */
-    public function init()
+    public function init() : void
     {
         if ($this->enabledRowSelectionInput()) {
             $this->addColumn('', 'id', '5px');
@@ -111,36 +81,28 @@ class ilObjectTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.object_table_row.html', 'Services/Object');
     }
     
-    /**
-     * fill table rows
-     * @param array $a_set
-     */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $set) : void
     {
         if ($this->enabledRowSelectionInput()) {
-            $this->fillRowSelectionInput($a_set);
+            $this->fillRowSelectionInput($set);
         }
         
-        $this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
-        $this->tpl->setVariable('OBJ_LINKED_TITLE', $a_set['title']);
-        $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon($a_set['obj_id'], "small", $a_set['type']));
-        $this->tpl->setVariable('TYPE_STR', $this->lng->txt('obj_' . $a_set['type']));
-        
-        
+        $this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($set['ref_id'], $set['type']));
+        $this->tpl->setVariable('OBJ_LINKED_TITLE', $set['title']);
+        $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon($set['obj_id'], "small", $set['type']));
+        $this->tpl->setVariable('TYPE_STR', $this->lng->txt('obj_' . $set['type']));
+
         if ($this->enabledObjectPath()) {
             $path_gui = new ilPathGUI();
             $path_gui = $this->customizePath($path_gui);
             
             $this->tpl->setCurrentBlock('path');
-            $this->tpl->setVariable('OBJ_PATH', $path_gui->getPath(ROOT_FOLDER_ID, (int) $a_set['ref_id']));
+            $this->tpl->setVariable('OBJ_PATH', $path_gui->getPath(ROOT_FOLDER_ID, (int) $set['ref_id']));
             $this->tpl->parseCurrentBlock();
         }
     }
     
-    /**
-     * Parse objects
-     */
-    public function parse()
+    public function parse() : void
     {
         $counter = 0;
         $set = array();

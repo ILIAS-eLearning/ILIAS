@@ -60,23 +60,23 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         }
     }
     
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
         $ilAccess = $this->access;
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
         
-        $is_admin = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+        $is_admin = $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
         
-        switch ($a_permission) {
+        switch ($permission) {
             case "visible":
             case "read":
-                if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id) &&
+                if (!ilObjSurveyAccess::_lookupCreationComplete($obj_id) &&
                     !$is_admin) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
@@ -84,20 +84,20 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                 break;
         }
 
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "run":
-                if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id)) {
+                if (!ilObjSurveyAccess::_lookupCreationComplete($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
                 }
                 break;
 
             case "evaluation":
-                if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id)) {
+                if (!ilObjSurveyAccess::_lookupCreationComplete($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
                 }
-                if ($rbacsystem->checkAccess("write", $a_ref_id) || ilObjSurveyAccess::_hasEvaluationAccess($a_obj_id, $a_user_id)) {
+                if ($rbacsystem->checkAccess("write", $ref_id) || ilObjSurveyAccess::_hasEvaluationAccess($obj_id, $user_id)) {
                     return true;
                 } else {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("status_no_permission"));
@@ -109,7 +109,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     }
     
     
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "svy_run", "default" => true),
@@ -409,7 +409,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
@@ -421,7 +421,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "svy" || ((int) $t_arr[1]) <= 0) {
             return false;

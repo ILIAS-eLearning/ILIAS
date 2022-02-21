@@ -58,10 +58,10 @@ class ilCourseObjectiveMaterials
             if (!isset($mappings[$material['ref_id']]) or !$mappings[$material['ref_id']]) {
                 continue;
             }
-            $material_ref_id = $material['ref_id'];
+            $material_ref_id = (int) $material['ref_id'];
             $material_rbac_obj_id = $this->objectDataCache->lookupObjId($material_ref_id);
             $material_obj_id = $material['obj_id'];
-            $new_ref_id = $mappings[$material_ref_id];
+            $new_ref_id = (int) $mappings[$material_ref_id];
             $new_rbac_obj_id = $this->objectDataCache->lookupObjId($new_ref_id);
 
             if ($new_rbac_obj_id == $material_rbac_obj_id) {
@@ -78,7 +78,7 @@ class ilCourseObjectiveMaterials
                 $new_obj_id = $new_material_arr[1];
                 $this->logger->debug('New material id is: ' . $new_obj_id);
             } else {
-                $new_obj_id = $this->objectDataCache->lookupObjId($mappings[$material_ref_id]);
+                $new_obj_id = $this->objectDataCache->lookupObjId((int) $mappings[$material_ref_id]);
             }
 
             $new_material = new ilCourseObjectiveMaterials($a_new_objective);

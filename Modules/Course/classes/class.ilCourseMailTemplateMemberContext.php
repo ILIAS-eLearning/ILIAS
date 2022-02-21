@@ -113,12 +113,12 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
         if ('crs_title' == $placeholder_id) {
-            return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+            return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
         } else {
             if ('crs_link' == $placeholder_id) {
                 return ilLink::_getLink($context_parameters['ref_id'], 'crs');
             } elseif ('crs_period_start' == $placeholder_id) {
-                $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+                $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
                 if ($periodInfo) {
                     $useRelativeDates = ilDatePresentation::useRelativeDates();
                     ilDatePresentation::setUseRelativeDates(false);
@@ -130,7 +130,7 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 
                 return '';
             } elseif ('crs_period_end' == $placeholder_id) {
-                $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+                $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
                 if ($periodInfo) {
                     $useRelativeDates = ilDatePresentation::useRelativeDates();
                     ilDatePresentation::setUseRelativeDates(false);
