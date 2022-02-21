@@ -20,7 +20,7 @@
  */
 class ilTextWizardInputGUI extends ilTextInputGUI
 {
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected array $values = array();
     protected bool $allowMove = false;
     
@@ -108,7 +108,7 @@ class ilTextWizardInputGUI extends ilTextInputGUI
         foreach ($this->values as $value) {
             if (strlen($value)) {
                 $tpl->setCurrentBlock("prop_text_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value));
                 $tpl->parseCurrentBlock();
             }
             if ($this->getAllowMove()) {

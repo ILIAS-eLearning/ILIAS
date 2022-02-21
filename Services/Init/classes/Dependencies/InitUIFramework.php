@@ -33,6 +33,7 @@ class InitUIFramework
                 $c["ui.factory.tree"],
                 $c["ui.factory.menu"],
                 $c["ui.factory.symbol"],
+                $c["ui.factory.toast"],
                 $c["ui.factory.legacy"]
             );
         };
@@ -74,6 +75,9 @@ class InitUIFramework
         };
         $c["ui.factory.item"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Item\Factory();
+        };
+        $c["ui.factory.toast"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Toast\Factory($c["ui.signal_generator"]);
         };
         $c["ui.factory.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\ViewControl\Factory(

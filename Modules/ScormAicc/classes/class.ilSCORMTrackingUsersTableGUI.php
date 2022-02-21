@@ -21,6 +21,7 @@
 class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 {
     private int $obj_id = 0;
+    private array $filter;
 
     /**
      * Constructor
@@ -55,7 +56,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
     {
         $this->initTable();
 
-        $users = $this->getParentObject()->object->getTrackedUsers($this->filter['lastname']);
+        $users = $this->getParentObject()->object->getTrackedUsers((string) $this->filter['lastname']);
         $attempts = $this->getParentObject()->object->getAttemptsForUsers();
         $versions = $this->getParentObject()->object->getModuleVersionForUsers();
         
@@ -76,7 +77,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
         $orderDirection = $this->getOrderDirection();
         if (in_array(ilUtil::stripSlashes($orderField), ['user', 'attempts', 'version'])) {
             $this->setExternalSorting(true);
-            $data = ilUtil::sortArray(
+            $data = ilArrayUtil::sortArray(
                 $data,
                 $orderField,
                 $orderDirection,

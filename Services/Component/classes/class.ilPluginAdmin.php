@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Component/classes/class.ilComponent.php");
-
 /**
  * Administration class for plugins. Handles basic data from plugin.php files.
  *
@@ -20,18 +18,13 @@ class ilPluginAdmin
 {
     protected ilComponentRepository $component_repository;
 
-
-    /**
-     * ilPluginAdmin constructor.
-     */
-    public function __construct()
+    public function __construct(ilComponentRepository $component_repository)
     {
-        global $DIC;
-        $this->component_repository = $DIC["component.repository"];
+        $this->component_repository = $component_repository;
     }
 
-
-    protected function getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname) {
+    protected function getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)
+    {
         return $this->component_repository
             ->getComponentByTypeAndName(
                 $a_ctype,
@@ -71,8 +64,7 @@ class ilPluginAdmin
         trigger_error("DEPRECATED: ilPluginAdmin::isActive is deprecated. Remove your usages of the method.");
         try {
             return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->isActive();
-        }
-        catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             return false;
         }
     }

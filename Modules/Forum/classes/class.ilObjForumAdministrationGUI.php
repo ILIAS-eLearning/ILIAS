@@ -13,6 +13,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 {
     private \ILIAS\DI\RBACServices $rbac;
     private ilErrorHandling $error;
+    private ilCronManager $cronManager;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
@@ -23,6 +24,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
         $this->rbac = $DIC->rbac();
         $this->error = $DIC['ilErr'];
+        $this->cronManager = $DIC->cron()->manager();
 
         $this->type = 'frma';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -108,7 +110,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->settings->set('enable_fora_statistics', (string) $form->getInput('fora_statistics'));
         $this->settings->set('enable_anonymous_fora', (string) $form->getInput('anonymous_fora'));
 
-        if (!ilCronManager::isJobActive('frm_notification')) {
+        if (!$this->cronManager->isJobActive('frm_notification')) {
             $this->settings->set('forum_notification', (string) $form->getInput('forum_notification'));
         }
 
@@ -116,7 +118,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->settings->set('autosave_drafts', (string) $form->getInput('autosave_drafts'));
         $this->settings->set('autosave_drafts_ival', (string) $form->getInput('autosave_drafts_ival'));
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $form->setValuesByPost();
         $this->editSettings($form);
     }
@@ -184,7 +186,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
         $form->addItem($file_upload);
 
-        if (ilCronManager::isJobActive('frm_notification')) {
+        if ($this->cronManager->isJobActive('frm_notification')) {
             ilAdministrationSettingsFormHandler::addFieldsToForm(
                 ilAdministrationSettingsFormHandler::FORM_FORUM,
                 $form,

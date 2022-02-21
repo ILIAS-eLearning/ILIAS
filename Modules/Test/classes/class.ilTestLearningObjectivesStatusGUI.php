@@ -105,7 +105,7 @@ class ilTestLearningObjectivesStatusGUI
             $tpl->setVariable("OBJECTIVE_NOLINK_TITLE", $objtv["title"]);
             $tpl->parseCurrentBlock();
 
-            $objtv_icon = ilUtil::getTypeIconPath("lobj", $objtv["id"]);
+            $objtv_icon = ilObject::_getIcon($objtv["id"], "small", "lobj");
 
             $tpl->setCurrentBlock("objective_bl");
             $tpl->setVariable("OBJTV_ICON_URL", $objtv_icon);

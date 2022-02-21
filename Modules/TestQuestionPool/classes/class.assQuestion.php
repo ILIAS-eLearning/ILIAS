@@ -693,8 +693,8 @@ abstract class assQuestion
                     break;
                 case "file":
                     $possible_texts = array_values(array_filter(array(
-                        ilUtil::prepareFormOutput($solution['value']['filename']),
-                        ilUtil::prepareFormOutput($solution['value']['name']),
+                        ilLegacyFormElementsUtil::prepareFormOutput($solution['value']['filename']),
+                        ilLegacyFormElementsUtil::prepareFormOutput($solution['value']['name']),
                         $this->lng->txt('tst_show_solution_suggested')
                     )));
 
@@ -1259,15 +1259,19 @@ abstract class assQuestion
     public function getJavaPathWeb() : string
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
+        return str_replace(
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
     }
 
     public function getSuggestedSolutionPathWeb() : string
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/solution/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/solution/";
+        return str_replace(
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
     }
 
     /**
@@ -1279,8 +1283,10 @@ abstract class assQuestion
     {
         if (!$this->export_image_path) {
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/images/";
-            return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+            $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/images/";
+            return str_replace(
+                ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+                ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
         }
         return $this->export_image_path;
     }
@@ -1886,7 +1892,7 @@ abstract class assQuestion
             $needleReplacementMap = array();
             
             foreach ($sources as $src) {
-                $file = ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . DIRECTORY_SEPARATOR . $src;
+                $file = ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . DIRECTORY_SEPARATOR . $src;
                 
                 if (file_exists($file)) {
                     continue;
@@ -2820,7 +2826,11 @@ abstract class assQuestion
     public function prepareTextareaOutput(string $txt_output, bool $prepare_for_latex_output = false, bool $omitNl2BrWhenTextArea = false)
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output, $omitNl2BrWhenTextArea);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput(
+            $txt_output,
+            $prepare_for_latex_output,
+            $omitNl2BrWhenTextArea
+        );
     }
 
     /**
@@ -3153,8 +3163,6 @@ abstract class assQuestion
     {
         if (self::isCoreQuestionType($question_type)) {
             self::includeCoreClass($question_type, $gui);
-        } else {
-            self::includePluginClass($question_type, $gui);
         }
     }
 
@@ -3179,30 +3187,6 @@ abstract class assQuestion
 
         $feedbackClassName = self::getFeedbackClassNameByQuestionType($questionType);
         require_once "Modules/TestQuestionPool/classes/feedback/class.{$feedbackClassName}.php";
-    }
-
-    public static function includePluginClass($questionType, $withGuiClass)
-    {
-        global $DIC;
-        $component_factory = $DIC["component.factory"];
-
-        $classes = array(
-            $questionType,
-            self::getFeedbackClassNameByQuestionType($questionType)
-        );
-
-        if ($withGuiClass) {
-            $classes[] = $questionType . 'GUI';
-        }
-
-        foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
-            if (strcmp($pl->getQuestionType(), $questionType) == 0) {
-                foreach ($classes as $class) {
-                    $pl->includeClass("class.{$class}.php");
-                }
-                break;
-            }
-        }
     }
 
     public static function _getQuestionTypeName($type_tag) : string

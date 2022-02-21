@@ -16,6 +16,9 @@ class ilObjStudyProgrammeIndividualPlanGUI
     protected ilStudyProgrammeProgressRepository $progress_repository;
     protected ilStudyProgrammeAssignmentRepository $assignment_repository;
     protected ilPRGMessagePrinter $messages;
+    protected ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
+
     protected ?ilStudyProgrammeAssignment $assignment_object;
     public ?ilObjStudyProgramme $object;
     protected ?ilPRGPermissionsHelper $permissions;
@@ -29,7 +32,9 @@ class ilObjStudyProgrammeIndividualPlanGUI
         ilObjUser $ilUser,
         ilStudyProgrammeProgressRepository $progress_repository,
         ilStudyProgrammeAssignmentRepository $assignment_repository,
-        ilPRGMessagePrinter $messages
+        ilPRGMessagePrinter $messages,
+        ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
+        ILIAS\Refinery\Factory $refinery
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -38,6 +43,8 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->progress_repository = $progress_repository;
         $this->assignment_repository = $assignment_repository;
         $this->messages = $messages;
+        $this->http_wrapper = $http_wrapper;
+        $this->refinery = $refinery;
 
         $this->assignment_object = null;
         $this->object = null;
@@ -84,10 +91,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
 
     protected function getAssignmentId() : int
     {
-        if (!is_numeric($_GET["ass_id"])) {
-            throw new ilException("Expected integer 'ass_id'");
-        }
-        return (int) $_GET["ass_id"];
+        return $this->http_wrapper->query()->retrieve("ass_id", $this->refinery->kindlyTo()->int());
     }
 
     protected function getAssignmentObject() : ?ilStudyProgrammeAssignment
@@ -169,33 +173,25 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->showSuccessMessage("update_from_plan_successful");
         $this->ctrl->redirect($this, "manage");
     }
-
-    protected function digestInput(array $post) : array
-    {
-        $params = [
-            self::POST_VAR_STATUS,
-            self::POST_VAR_DEADLINE,
-            self::POST_VAR_REQUIRED_POINTS
-        ];
-
-        $ret = [];
-        foreach ($params as $postvar) {
-            $ret[$postvar] = [];
-            if (array_key_exists($postvar, $post)) {
-                $ret[$postvar] = $post[$postvar];
-                krsort($ret[$postvar], SORT_NUMERIC);
-            }
-        }
-        return $ret;
-    }
     
     protected function updateFromInput() : void
     {
-        $values = $this->digestInput($_POST);
+        $retrieve =
+            $this->refinery->logical()->sequential([
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->string()
+                ),
+                $this->refinery->custom()->transformation(function($a) {
+                    krsort($a, SORT_NUMERIC);
+                    return $a;
+                })
+            ]);
+
+
         $msgs = $this->messages->getMessageCollection('msg_update_individual_plan');
-        $this->updateStatus($values[self::POST_VAR_STATUS], $msgs);
-        $this->updateDeadlines($values[self::POST_VAR_DEADLINE], $msgs);
-        $this->updateRequiredPoints($values[self::POST_VAR_REQUIRED_POINTS], $msgs);
+        $this->updateStatus($this->http_wrapper->post()->retrieve(self::POST_VAR_STATUS, $retrieve), $msgs);
+        $this->updateDeadlines($this->http_wrapper->post()->retrieve(self::POST_VAR_DEADLINE, $retrieve), $msgs);
+        $this->updateRequiredPoints($this->http_wrapper->post()->retrieve(self::POST_VAR_REQUIRED_POINTS, $retrieve), $msgs);
 
         if ($msgs->hasAnyMessages()) {
             $this->messages->showMessages($msgs);

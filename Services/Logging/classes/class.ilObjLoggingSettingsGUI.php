@@ -156,12 +156,12 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
             
             $this->getSettings()->update();
             
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
             return;
         }
         
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->settings($form);
     }
@@ -249,7 +249,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
             $level = new ilLogComponentLevel($component_id, $value);
             $level->update();
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'components');
     }
     
@@ -260,7 +260,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
             $component->setLevel(null);
             $component->update();
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'components');
     }
 
@@ -284,10 +284,10 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
             $this->getErrorSettings()->setMail($form->getInput('error_mail'));
             $this->getErrorSettings()->update();
 
-            ilUtil::sendSuccess($this->lng->txt('error_settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('error_settings_saved'), true);
             $this->ctrl->redirect($this, 'errorSettings');
         }
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->errorSettings($form);
     }

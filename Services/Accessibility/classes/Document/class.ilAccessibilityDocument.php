@@ -21,14 +21,14 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
     public const TABLE_NAME = 'acc_documents';
 
     /**
-     * @var string
+     * @var int
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           4
      * @db_is_primary       true
      * @con_sequence        true
      */
-    protected string $id;
+    protected ?int $id;
 
     /**
      * @var int
@@ -36,7 +36,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected int $creation_ts = 0;
+    protected ?int $creation_ts = 0;
 
     /**
      * @var int
@@ -44,7 +44,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected int $modification_ts = 0;
+    protected ?int $modification_ts = 0;
 
     /**
      * @var int
@@ -52,7 +52,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected int $owner_usr_id = 0;
+    protected ?int $owner_usr_id = 0;
 
     /**
      * @var int
@@ -60,7 +60,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected int $last_modified_usr_id = 0;
+    protected ?int $last_modified_usr_id = 0;
 
     /**
      * @var int
@@ -68,7 +68,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected int $sorting = 0;
+    protected ?int $sorting = 0;
 
     /**
      * @var string
@@ -76,14 +76,14 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
      * @db_fieldtype        text
      * @db_length           255
      */
-    protected string $title = '';
+    protected ?string $title = '';
 
     /**
      * @var string
      * @db_has_field        true
      * @db_fieldtype        clob
      */
-    protected string $text = '';
+    protected ?string $text = '';
 
     /**
      * @var ilAccessibilityDocumentCriterionAssignment[]
@@ -117,7 +117,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         return (int) $this->id;
     }
 
-    public function read()
+    public function read() : void
     {
         parent::read();
 

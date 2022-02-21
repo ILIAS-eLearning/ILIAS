@@ -342,7 +342,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
             $skmg_set->setLocalAssignmentOfProfiles($result["section_settings"]["check_loc_ass_prof"]);
             $skmg_set->setAllowLocalProfiles($result["section_settings"]["check_create_loc_prof"]);
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
 
@@ -368,7 +368,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 }
             }
             if ($a_succ_mess) {
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             }
         }
         $ilCtrl->redirect($this, "editSkills");
@@ -388,7 +388,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 }
             }
             if ($a_succ_mess) {
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             }
         }
         $ilCtrl->redirect($this, "editSkillTemplates");
@@ -487,7 +487,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                     $lng->txt("back"),
                     $ilCtrl->getLinkTarget($a_gui, "cancelDelete")
                 );
-                ilUtil::sendFailure($lng->txt("skmg_cannot_delete_nodes_in_use"));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("skmg_cannot_delete_nodes_in_use"));
                 return;
             }
         } else {
@@ -547,7 +547,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         }
 
         // feedback
-        ilUtil::sendInfo($this->lng->txt("info_deleted"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("info_deleted"), true);
     }
 
     //

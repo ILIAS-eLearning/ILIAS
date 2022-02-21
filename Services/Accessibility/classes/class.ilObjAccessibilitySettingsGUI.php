@@ -162,7 +162,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
                 $this->form->getInput("accessibility_support_contacts")
             );
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editAccessibilitySettings");
         } else {
             $this->form->setValuesByPost();

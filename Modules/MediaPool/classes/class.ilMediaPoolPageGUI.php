@@ -39,7 +39,10 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         
         parent::__construct("mep", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
-        $this->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));
+        $cs = $DIC->contentStyle()
+            ->domain()
+            ->styleForObjId($this->getPageObject()->getParentId());
+        $this->setStyleId($cs->getEffectiveStyleId());
 
         $this->setEditPreview(true);
     }

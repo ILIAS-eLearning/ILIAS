@@ -1,8 +1,17 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Math/interfaces/interface.ilMathAdapter.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilMathBaseAdapter
  * @author Michael Jansen <mjansen@databay.de>
@@ -11,44 +20,44 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
 {
     /**
      * This method adapts the behaviour of bcscale()
-     * @param mixed   $number
-     * @param integer $scale
+     * @param mixed   $left_operand
+     * @param integer|null $scale
      * @return mixed
      */
-    public function applyScale($number, $scale = null)
+    public function applyScale($left_operand, int $scale = null) : string
     {
-        if (is_numeric($number)) {
+        if (is_numeric($left_operand)) {
             $scale = (int) $scale;
 
-            $number = $this->exp2dec($number);
-            if (strpos($number, '.') === false) {
+            $left_operand = $this->exp2dec($left_operand);
+            if (strpos($left_operand, '.') === false) {
                 $number_of_decimals = 0;
             } else {
-                $number_of_decimals = strlen(substr($number, strpos($number, '.') + 1));
+                $number_of_decimals = strlen(substr($left_operand, strpos($left_operand, '.') + 1));
             }
 
             if ($number_of_decimals > 0 && $number_of_decimals < $scale) {
-                $number = str_pad($number, $scale - $number_of_decimals, '0');
+                $left_operand = str_pad($left_operand, $scale - $number_of_decimals, '0');
             } elseif ($number_of_decimals > $scale) {
-                $number = substr($number, 0, -($number_of_decimals - $scale));
+                $left_operand = substr($left_operand, 0, -($number_of_decimals - $scale));
             }
         }
 
-        return $number;
+        return $left_operand;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function round($value, $precision = 0)
+    public function round($value, int $precision = 0) : string
     {
         return number_format($value, $precision, '.', '');
     }
 
     /**
-     * {@inheritdoc}
+     * @param int|float $left_operand
+     * @param int|float  $right_operand
+     * @param int|null $scale
+     * @return bool
      */
-    public function equals($left_operand, $right_operand, $scale = null)
+    public function equals($left_operand, $right_operand, int $scale = null) : bool
     {
         return $this->comp($left_operand, $right_operand, $scale) === 0;
     }
@@ -59,10 +68,10 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
      * @param mixed $number
      * @return string
      */
-    protected function normalize($number)
+    protected function normalize($number) : ?string
     {
         if (null === $number) {
-            return $number;
+            return null;
         }
 
         $number = str_replace(' ', '', (string) $number);
@@ -84,12 +93,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
         return $number;
     }
 
-    /**
-     * Moved from ilMath...
-     * Converts numbers in the form "1.5e4" into decimal notation
-     * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
-     */
-    protected function exp2dec($float_str)
+    protected function exp2dec($float_str) : string
     {
         // make sure its a standard php float string (i.e. change 0.2e+2 to 20)
         // php will automatically format floats decimally if they are within a certain range

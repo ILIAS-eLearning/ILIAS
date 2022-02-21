@@ -222,7 +222,7 @@ class ilPollBlockGUI extends ilBlockGUI
                     if ($total) {
                         // sort results by votes / original position
                         if ($this->poll_block->getPoll()->getSortResultByVotes()) {
-                            $order = array_keys(ilUtil::sortArray($perc, "abs", "desc", true, true));
+                            $order = array_keys(ilArrayUtil::sortArray($perc, "abs", "desc", true, true));
 
                             foreach (array_keys($answers) as $answer_id) {
                                 if (!in_array($answer_id, $order)) {

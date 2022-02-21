@@ -101,7 +101,7 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
 
             return true;
         } catch (ilException $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->global_tpl->setOnScreenMessage('failure', $e->getMessage());
 
             return false;
         }

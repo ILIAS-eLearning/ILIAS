@@ -108,6 +108,17 @@ main directory and execute:
 libs/composer/vendor/bin/captainhook install -c captainhook.local.json
 ```
 
+The installation of the local file might respond with the following error:
+
+```bash
+In Builder.php line 55:
+                                                                        
+  bootstrap file not found: '/var/www/ilias/trunk/vendor/autoload.php'  
+                                                                        
+```
+
+In this case, you have to include the `"bootstrap": "libs/composer/vendor/autoload.php"` setting,
+similar to [captainhook.json](../../captainhook.json).
 
 #### The Manual Way: Creating Git Hooks
 

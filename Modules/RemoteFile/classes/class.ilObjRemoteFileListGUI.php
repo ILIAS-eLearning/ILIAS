@@ -34,7 +34,7 @@ class ilObjRemoteFileListGUI extends ilRemoteObjectBaseListGUI
     {
         parent::__construct();
     }
-    
+
     /**
      * init
      *
@@ -51,12 +51,12 @@ class ilObjRemoteFileListGUI extends ilRemoteObjectBaseListGUI
         $this->info_screen_enabled = true;
         $this->type = 'rwik';
         $this->gui_class_name = 'ilobjremotefilegui';
-        
+
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
         }
-        
+
         // general commands array
         $this->commands = ilObjRemoteFileAccess::_getCommands();
     }
@@ -73,11 +73,11 @@ class ilObjRemoteFileListGUI extends ilRemoteObjectBaseListGUI
     public function getProperties()
     {
         global $lng;
-                
+
         if ($org = $this->_lookupOrganization(ilObjRemoteFile::DB_TABLE_NAME, $this->obj_id)) {
             $this->addCustomProperty($lng->txt('organization'), $org, false, true);
         }
-        
+
         $version = ilObjRemoteFile::_lookupVersionInfo($this->obj_id);
         if ($version) {
             $this->addCustomProperty($lng->txt('version'), $version, false, true);
@@ -85,7 +85,7 @@ class ilObjRemoteFileListGUI extends ilRemoteObjectBaseListGUI
 
         return array();
     }
-    
+
     /**
      * get command frame
      *
@@ -103,7 +103,7 @@ class ilObjRemoteFileListGUI extends ilRemoteObjectBaseListGUI
                 )) {
                     return '_blank';
                 }
-                
+
                 // no break
             default:
                 return parent::getCommandFrame($a_cmd);

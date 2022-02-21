@@ -14,7 +14,7 @@
      *****************************************************************************/
     class SeqObjectiveMap
     {
-        public $mGlobalObjID = null;
+        public ?string $mGlobalObjID = null;
         
         public bool $mReadStatus = true;
         

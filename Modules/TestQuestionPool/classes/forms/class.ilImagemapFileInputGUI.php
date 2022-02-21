@@ -136,7 +136,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $lng = $DIC['lng'];
 
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
         // remove trailing '/'
         $_FILES[$this->getPostVar()]["name"] = rtrim($_FILES[$this->getPostVar()]["name"], '/');
@@ -200,7 +200,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         
         // virus handling
         if ($_FILES[$this->getPostVar()]["tmp_name"] != "") {
-            $vir = ilUtil::virusHandling($temp_name, $filename);
+            $vir = ilVirusScanner::virusHandling($temp_name, $filename);
             if ($vir[0] == false) {
                 $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                 return false;

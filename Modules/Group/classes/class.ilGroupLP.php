@@ -10,7 +10,7 @@
  */
 class ilGroupLP extends ilObjectLP
 {
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes(bool $a_lp_active) : array
     {
         if (!$a_lp_active) {
             return array(
@@ -24,12 +24,12 @@ class ilGroupLP extends ilObjectLP
         }
     }
     
-    public function getDefaultMode()
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
     
-    public function getValidModes()
+    public function getValidModes() : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -38,13 +38,13 @@ class ilGroupLP extends ilObjectLP
         );
     }
     
-    public function getMembers($a_search = true)
+    public function getMembers(bool $a_search = true) : array
     {
         $member_obj = ilGroupParticipants::_getInstanceByObjId($this->obj_id);
         return $member_obj->getMembers();
     }
     
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
+    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids) : bool
     {
         global $DIC;
 

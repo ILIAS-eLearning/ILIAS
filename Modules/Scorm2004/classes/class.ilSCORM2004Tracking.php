@@ -20,17 +20,35 @@
  */
 class ilSCORM2004Tracking
 {
-    public static function _getInProgress($scorm_item_id, $a_obj_id) : void
+    /**
+     * @param int $scorm_item_id
+     * @param int $a_obj_id
+     * @return void
+     * @throws Exception
+     */
+    public static function _getInProgress(int $scorm_item_id, int $a_obj_id) : void
     {
         throw new Exception("Not Implemented: ilSCORM2004Tracking_getInProgress");
     }
 
-    public static function _getCompleted($scorm_item_id, $a_obj_id) : void
+    /**
+     * @param int $scorm_item_id
+     * @param int $a_obj_id
+     * @return void
+     * @throws Exception
+     */
+    public static function _getCompleted(int $scorm_item_id, int $a_obj_id) : void
     {
         throw new Exception("Not Implemented: ilSCORM2004Tracking_getCompleted");
     }
 
-    public static function _getFailed($scorm_item_id, $a_obj_id) : void
+    /**
+     * @param int $scorm_item_id
+     * @param int $a_obj_id
+     * @return void
+     * @throws Exception
+     */
+    public static function _getFailed(int $scorm_item_id, int $a_obj_id) : void
     {
         throw new Exception("Not Implemented: ilSCORM2004Tracking_getFailed");
     }
@@ -74,12 +92,12 @@ class ilSCORM2004Tracking
         return $users ? $users : array();
     }
 
-
     /**
      * Get overall scorm status
-     * @return
+     * @param int $a_obj_id
+     * @return array
      */
-    public static function _getProgressInfo(object $a_obj_id) : array
+    public static function _getProgressInfo(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -100,13 +118,13 @@ class ilSCORM2004Tracking
 
         while ($row = $ilDB->fetchAssoc($res)) {
             if (self::_isCompleted($row["status"], $row["satisfied"])) {
-                $info['completed'][] = $row["user_id"];
+                $info['completed'][] = (int) $row["user_id"];
             }
             if (self::_isInProgress($row["status"], $row["satisfied"])) {
-                $info['in_progress'][] = $row["user_id"];
+                $info['in_progress'][] = (int) $row["user_id"];
             }
             if (self::_isFailed($row["status"], $row["satisfied"])) {
-                $info['failed'][] = $row["user_id"];
+                $info['failed'][] = (int) $row["user_id"];
             }
         }
 
@@ -115,9 +133,11 @@ class ilSCORM2004Tracking
 
     /**
      * Get overall scorm status
-     * @return
+     * @param int $a_obj_id
+     * @param int $a_user_id
+     * @return string
      */
-    public static function _getProgressInfoOfUser(object $a_obj_id, $a_user_id) : string
+    public static function _getProgressInfoOfUser(int $a_obj_id, int $a_user_id) : string
     {
         global $DIC;
 
@@ -150,9 +170,10 @@ class ilSCORM2004Tracking
 
     /**
      * Get all tracked users
-     * @return
+     * @param int $a_obj_id
+     * @return array
      */
-    public static function _getTrackedUsers(object $a_obj_id) : array
+    public static function _getTrackedUsers(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -170,15 +191,18 @@ class ilSCORM2004Tracking
 
         $users = array();
         while ($row = $ilDB->fetchAssoc($res)) {
-            $users[] = $row["user_id"];
+            $users[] = (int) $row["user_id"];
         }
         return $users;
     }
 
     /**
+     * @param array $a_scorm_item_ids
+     * @param int   $a_obj_id
+     * @param bool  $a_omit_failed
      * @return array<string, array<int|string, mixed[]>>
      */
-    public static function _getItemProgressInfo($a_scorm_item_ids, $a_obj_id, $a_omit_failed = false) : array
+    public static function _getItemProgressInfo(array $a_scorm_item_ids, int $a_obj_id, bool $a_omit_failed) : array
     {
         global $DIC;
 
@@ -219,7 +243,13 @@ class ilSCORM2004Tracking
         return $info;
     }
 
-    public static function _getCollectionStatus($a_scos, $a_obj_id, $a_user_id) : string
+    /**
+     * @param array $a_scos
+     * @param int   $a_obj_id
+     * @param int   $a_user_id
+     * @return string
+     */
+    public static function _getCollectionStatus(array $a_scos, int $a_obj_id, int $a_user_id) : string
     {
         global $DIC;
 
@@ -267,11 +297,18 @@ class ilSCORM2004Tracking
         return $status;
     }
 
+    /**
+     * @param array $a_scos
+     * @param int   $a_obj_id
+     * @param int   $a_user_id
+     * @param bool  $a_omit_failed
+     * @return int
+     */
     public static function _countCompleted(
-        $a_scos,
-        $a_obj_id,
-        $a_user_id,
-        $a_omit_failed = false
+        array $a_scos,
+        int $a_obj_id,
+        int $a_user_id,
+        bool $a_omit_failed
     ) {
         global $DIC;
 
@@ -310,11 +347,13 @@ class ilSCORM2004Tracking
 
     /**
      * Synch read event table
-     *
-     * @param
-     * @return
+     * @param int       $a_obj_id
+     * @param int       $a_user_id
+     * @param string    $a_type
+     * @param int       $a_ref_id
+     * @param bool|null $time_from_lms
      */
-    public static function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id, $time_from_lms = null) : void
+    public static function _syncReadEvent(int $a_obj_id, int $a_user_id, string $a_type, int $a_ref_id, ?bool $time_from_lms = null) : void
     {
         global $DIC;
 
@@ -364,45 +403,52 @@ class ilSCORM2004Tracking
     }
 
     /**
-     *
+     * @param string $a_status
+     * @param string $a_satisfied
+     * @return bool
      */
-    public static function _isCompleted($a_status, $a_satisfied) : bool
+    public static function _isCompleted(string $a_status, string $a_satisfied) : bool
     {
         if ($a_status == "completed" || $a_satisfied == "satisfied") {
             return true;
         }
-
         return false;
     }
 
     /**
-    *
-    */
-    public static function _isInProgress($a_status, $a_satisfied) : bool
+     * @param string $a_status
+     * @param string $a_satisfied
+     * @return bool
+     */
+    public static function _isInProgress(string $a_status, string $a_satisfied) : bool
     {
         if ($a_status != "completed") {
             return true;
         }
-
         return false;
     }
 
     /**
-    *
-    */
-    public static function _isFailed($a_status, $a_satisfied) : bool
+     * @param string $a_status
+     * @param string $a_satisfied
+     * @return bool
+     */
+    public static function _isFailed(string $a_status, string $a_satisfied) : bool
     {
         if ($a_status == "completed" && $a_satisfied == "notSatisfied") {
             return true;
         }
-
         return false;
     }
 
     /**
      * should be avoided; store value to increase performance for further requests
+     * @param int  $a_obj_id
+     * @param int  $a_user_id
+     * @param bool $a_write
+     * @return int
      */
-    public static function getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id, $a_write = false) : int
+    public static function getSumTotalTimeSecondsFromScos(int $a_obj_id, int $a_user_id, bool $a_write = false) : int
     {
         global $DIC;
 

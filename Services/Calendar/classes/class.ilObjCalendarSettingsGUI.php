@@ -149,10 +149,10 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
             $this->calendar_settings->setDefaultCal((int) $form->getInput('default_calendar_view'));
             $this->calendar_settings->setDefaultPeriod((int) $form->getInput('default_period'));
             $this->calendar_settings->save();
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
         }
-        ilUtil::sendFailure($this->lng->txt('err_check_input'), true);
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'), true);
         $this->settings($form);
     }
 

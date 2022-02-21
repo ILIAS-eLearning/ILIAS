@@ -34,11 +34,11 @@ class ilObjRoleTemplate extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete()
+    public function delete() : bool
     {
         // put here role template specific stuff
         // delete rbac permissions
-        $this->rbacadmin->deleteTemplate($this->getId());
+        $this->rbac_admin->deleteTemplate($this->getId());
 
         // always call parent delete function at the end!!
         return parent::delete();
@@ -61,7 +61,7 @@ class ilObjRoleTemplate extends ilObject
             case "il_grp_member":
             case "il_grp_status_closed":
             case "il_grp_status_open":
-                $obj_data = $this->objDefinition->getSubObjects('grp', false);
+                $obj_data = $this->obj_definition->getSubObjects('grp', false);
                 unset($obj_data["rolf"]);
                 $filter = array_keys($obj_data);
                 $filter[] = 'grp';
@@ -71,7 +71,7 @@ class ilObjRoleTemplate extends ilObject
             case "il_crs_tutor":
             case "il_crs_member":
             case "il_crs_non_member":
-                $obj_data = $this->objDefinition->getSubObjects('crs', false);
+                $obj_data = $this->obj_definition->getSubObjects('crs', false);
                 unset($obj_data["rolf"]);
                 $filter = array_keys($obj_data);
                 $filter[] = 'crs';

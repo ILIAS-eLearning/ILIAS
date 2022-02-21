@@ -71,7 +71,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
                     //$data = $this->tree->getParentNodeData($object["child"]);
                     $parent_index = $this->getIndex($object);
                 }
-                
+
                 $this->format_options["$counter"]["parent"] = $object["parent"];
                 $this->format_options["$counter"]["child"] = $object["child"];
                 $this->format_options["$counter"]["title"] = $object["title"];

@@ -162,7 +162,7 @@ class ilRatingCategoryGUI
             $cat->setDescription($form->getInput("desc"));
             $cat->save();
             
-            ilUtil::sendSuccess($lng->txt("rating_category_created"));
+            $this->tpl->setOnScreenMessage('success', $lng->txt("rating_category_created"));
             $ilCtrl->redirect($this, "listCategories");
         }
         
@@ -196,7 +196,7 @@ class ilRatingCategoryGUI
             $cat->setDescription($form->getInput("desc"));
             $cat->update();
             
-            ilUtil::sendSuccess($lng->txt("rating_category_updated"));
+            $this->tpl->setOnScreenMessage('success', $lng->txt("rating_category_updated"));
             $ilCtrl->redirect($this, "listCategories");
         }
         
@@ -223,7 +223,7 @@ class ilRatingCategoryGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listCategories");
     }
     
@@ -259,7 +259,7 @@ class ilRatingCategoryGUI
         
         if ($this->cat_id) {
             ilRatingCategory::delete($this->cat_id);
-            ilUtil::sendSuccess($lng->txt("rating_category_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("rating_category_deleted"), true);
         }
         
         // fix order

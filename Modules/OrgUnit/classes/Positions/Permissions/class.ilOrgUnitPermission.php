@@ -105,7 +105,7 @@ class ilOrgUnitPermission extends ActiveRecord
     }
 
 
-    public function afterObjectLoad()
+    public function afterObjectLoad() : void
     {
         $this->possible_operations = ilOrgUnitOperationQueries::getOperationsForContextId($this->getContextId());
         $this->operations = is_array($this->operations) ? $this->operations : array();

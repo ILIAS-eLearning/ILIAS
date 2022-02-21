@@ -20,14 +20,14 @@ class ilDatabaseException extends ilException
     public function __construct($a_message, $a_code = self::DB_GENERAL)
     {
         $a_message = $this->tranlateException($a_code) . $a_message;
-        parent::__construct($a_message, $a_code);
+        parent::__construct($a_message, (int) $a_code);
     }
 
 
     /**
      * @param $code
      */
-    protected function tranlateException($code): string
+    protected function tranlateException($code) : string
     {
         $message = 'An undefined Database Exception occured';
         if ($code === static::DB_GENERAL) {

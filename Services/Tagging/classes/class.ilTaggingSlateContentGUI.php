@@ -24,6 +24,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
     protected string $requested_tag;
     protected ilSessionIStorage $store;
     protected array $tags;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
@@ -32,6 +33,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
@@ -165,7 +167,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
                 $title = ilObject::_lookupTitle($obj["obj_id"]);
                 $items[] = $f->item()->standard(
                     $f->link()->standard($title, ilLink::_getLink($ref_id))
-                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj["obj_id"]), $title));
+                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon((int) $obj["obj_id"]), $title));
             }
         }
         $item_groups[] = $f->item()->group(sprintf(
@@ -233,7 +235,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
             }
         }
 
-        ilUtil::sendSuccess($lng->txt("tag_tags_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("tag_tags_deleted"), true);
 
         $ilCtrl->returnToParent($this);
     }

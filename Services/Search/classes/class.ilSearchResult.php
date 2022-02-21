@@ -83,8 +83,6 @@ class ilSearchResult
         }
         $this->__initSearchSettingsObject();
         $this->initUserSearchCache();
-
-
     }
 
     /**
@@ -94,7 +92,7 @@ class ilSearchResult
     {
         $this->permission = $a_permission;
     }
-    
+
     public function getRequiredPermission() : string
     {
         return $this->permission;
@@ -128,7 +126,7 @@ class ilSearchResult
     {
         return $this->max_hits;
     }
-    
+
     /**
      * Check if offset is reached
      */
@@ -136,7 +134,7 @@ class ilSearchResult
     {
         return !($a_counter < $this->offset);
     }
-    
+
     /**
      *
      * add search result entry
@@ -271,7 +269,7 @@ class ilSearchResult
     {
         return $this->results;
     }
-    
+
     /**
      * get result ids
      * @return int[] result ids
@@ -284,7 +282,7 @@ class ilSearchResult
         }
         return $ids;
     }
-    
+
     public function getResultsByObjId() : array
     {
         $tmp_res = [];
@@ -330,9 +328,9 @@ class ilSearchResult
         }
         return $res;
     }
-    
-    
-    
+
+
+
     /**
      * Filter search result.
      * Do RBAC checks.
@@ -377,13 +375,13 @@ class ilSearchResult
                     ++$offset_counter;
                     continue;
                 }
-                
+
                 if (!$this->callListeners($ref_id, $entry)) {
                     continue;
                 }
-                
-                
-                
+
+
+
                 // RBAC check
                 $type = ilObject::_lookupType($ref_id, true);
                 if ($this->ilAccess->checkAccessOfUser(
@@ -405,7 +403,7 @@ class ilSearchResult
                             $counter++;
                             $offset_counter++;
                             // Stop if maximum of hits is reached
-                            
+
                             if ($counter >= $this->getMaxHits()) {
                                 $this->limit_reached = true;
                                 $this->search_cache->setResults($this->results);
@@ -421,7 +419,7 @@ class ilSearchResult
         $this->search_cache->setResults($this->results);
         return false;
     }
-    
+
     /**
      *
      * Filter search area of result set
@@ -507,7 +505,7 @@ class ilSearchResult
             $this->setMaxHits($this->search_settings->getMaxHits());
         }
     }
-    
+
     /**
      * Init user search cache
      *
@@ -519,7 +517,7 @@ class ilSearchResult
         $this->search_cache = ilUserSearchCache::_getInstance($this->getUserId());
         $this->offset = $this->getMaxHits() * ($this->search_cache->getResultPageNumber() - 1) ;
     }
-    
+
     /**
      * If you call this function and pass "true" the maxhits setting will not be overwritten
      * in __initSearchSettingsObject()
@@ -532,9 +530,9 @@ class ilSearchResult
         if (null === $a_flag) {
             return $this->preventOverwritingMaxhits;
         }
-        
+
         $this->preventOverwritingMaxhits = $a_flag;
-        
+
         return $this;
     }
 

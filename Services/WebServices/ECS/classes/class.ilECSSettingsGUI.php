@@ -138,7 +138,7 @@ class ilECSSettingsGUI
         $this->initSettings(intval($_REQUEST['server_id']));
         $this->settings->setEnabledStatus(true);
         $this->settings->update();
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'overview');
     }
     
@@ -150,7 +150,7 @@ class ilECSSettingsGUI
         $this->initSettings(intval($_REQUEST['server_id']));
         $this->settings->setEnabledStatus(false);
         $this->settings->update();
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'overview');
     }
     
@@ -166,16 +166,16 @@ class ilECSSettingsGUI
 
                 ilECSTaskScheduler::_getInstanceByServerId($server->getServerId())->startTaskExecution();
 
-                ilUtil::sendInfo($this->lng->txt('ecs_remote_imported'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('ecs_remote_imported'));
                 $this->imported();
                 return true;
             }
         } catch (ilECSConnectorException $e1) {
-            ilUtil::sendInfo('Cannot connect to ECS server: ' . $e1->getMessage());
+            $this->tpl->setOnScreenMessage('info', 'Cannot connect to ECS server: ' . $e1->getMessage());
             $this->imported();
             return false;
         } catch (ilException $e2) {
-            ilUtil::sendInfo('Update failed: ' . $e2->getMessage());
+            $this->tpl->setOnScreenMessage('info', 'Update failed: ' . $e2->getMessage());
             $this->imported();
             return false;
         }
@@ -224,7 +224,7 @@ class ilECSSettingsGUI
         $copy->save();
 
         $this->ctrl->setParameter($this, 'server_id', $copy->getServerId());
-        ilUtil::sendSuccess($this->lng->txt('ecs_settings_cloned'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('ecs_settings_cloned'), true);
         $this->ctrl->redirect($this, 'edit');
     }
 
@@ -258,7 +258,7 @@ class ilECSSettingsGUI
     {
         $this->initSettings($_REQUEST['server_id']);
         $this->settings->delete();
-        ilUtil::sendSuccess($this->lng->txt('ecs_setting_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('ecs_setting_deleted'), true);
         $this->ctrl->redirect($this, 'overview');
     }
 
@@ -463,9 +463,9 @@ class ilECSSettingsGUI
         
         if (!$error = $this->settings->validate()) {
             $this->settings->update();
-            ilUtil::sendInfo($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
         } else {
-            ilUtil::sendInfo($this->lng->txt($error));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt($error));
             $this->edit();
         }
         
@@ -484,9 +484,9 @@ class ilECSSettingsGUI
             $this->settings->save();
 
             #$this->updateTitle();
-            ilUtil::sendInfo($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
         } else {
-            ilUtil::sendInfo($this->lng->txt($error));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt($error));
         }
         $this->ctrl->redirect($this, 'overview');
     }
@@ -510,7 +510,7 @@ class ilECSSettingsGUI
                 }
             }
         } catch (ilECSConnectorException $exc) {
-            ilUtil::sendFailure($exc->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $exc->getMessage());
         }
         $this->settings->setTitle('');
         $this->settings->update();
@@ -562,10 +562,10 @@ class ilECSSettingsGUI
                     }
                 }
             } catch (ilECSConnectorException $e) {
-                ilUtil::sendFailure($server->getServer() . ': ' . $e->getMessage(), true);
+                $this->tpl->setOnScreenMessage('failure', $server->getServer() . ': ' . $e->getMessage(), true);
             }
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'communities');
     }
     
@@ -717,9 +717,9 @@ class ilECSSettingsGUI
             }
         }
         if ($invalidImportTypes) {
-            ilUtil::sendFailure($this->lng->txt('ecs_invalid_import_type_cms'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ecs_invalid_import_type_cms'), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         }
         $this->ctrl->redirect($this, 'communities');
         // TODO: Do update of remote courses and ...
@@ -773,7 +773,7 @@ class ilECSSettingsGUI
 
         $fields = ilAdvancedMDFieldDefinition::getInstancesByObjType('crs');
         if (!count($fields)) {
-            ilUtil::sendInfo($this->lng->txt('ecs_no_adv_md'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('ecs_no_adv_md'));
             return;
         }
 
@@ -819,7 +819,7 @@ class ilECSSettingsGUI
 
         $fields = ilAdvancedMDFieldDefinition::getInstancesByObjType('crs');
         if (!count($fields)) {
-            ilUtil::sendInfo($this->lng->txt('ecs_no_adv_md'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('ecs_no_adv_md'));
             return;
         }
 
@@ -873,7 +873,7 @@ class ilECSSettingsGUI
             }
         }
         
-        ilUtil::sendInfo($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
         $this->ctrl->setParameter($this, "ecs_mapping_server", (int) $_POST['ecs_mapping_server']);
         $this->ctrl->redirect($this, 'importMappings');
     }
@@ -895,7 +895,7 @@ class ilECSSettingsGUI
             }
         }
 
-        ilUtil::sendInfo($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
         $this->ctrl->setParameter($this, "ecs_mapping_server", (int) $_POST['ecs_mapping_server']);
         $this->ctrl->redirect($this, 'exportMappings');
     }
@@ -1047,19 +1047,19 @@ class ilECSSettingsGUI
             }
             
             if ($err = $this->rule->validate()) {
-                ilUtil::sendInfo($this->lng->txt($err));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt($err));
                 $this->form->setValuesByPost();
                 $this->categoryMapping();
                 return false;
             }
             
             $this->rule->save();
-            ilUtil::sendInfo($this->lng->txt('settings_saved'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'));
             unset($this->rule);
             $this->categoryMapping();
             return true;
         }
-        ilUtil::sendInfo($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('err_check_input'));
         $this->form->setValuesByPost();
         $this->categoryMapping();
         return false;
@@ -1071,7 +1071,7 @@ class ilECSSettingsGUI
     protected function editCategoryMapping() : bool
     {
         if (!$_REQUEST['rule_id']) {
-            ilUtil::sendInfo($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'));
             $this->categoryMapping();
             return false;
         }
@@ -1091,7 +1091,7 @@ class ilECSSettingsGUI
     protected function updateCategoryMapping() : bool
     {
         if (!$_REQUEST['rule_id']) {
-            ilUtil::sendInfo($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'));
             $this->categoryMapping();
             return false;
         }
@@ -1120,18 +1120,18 @@ class ilECSSettingsGUI
             }
             
             if ($err = $this->rule->validate()) {
-                ilUtil::sendInfo($this->lng->txt($err));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt($err));
                 $this->form->setValuesByPost();
                 $this->editCategoryMapping();
                 return false;
             }
             
             $this->rule->update();
-            ilUtil::sendInfo($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'categoryMapping');
             return true;
         }
-        ilUtil::sendInfo($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('err_check_input'));
         $this->form->setValuesByPost();
         $this->editCategoryMapping();
         return false;
@@ -1143,7 +1143,7 @@ class ilECSSettingsGUI
     protected function deleteCategoryMappings() : bool
     {
         if (!is_array($_POST['rules']) or !$_POST['rules']) {
-            ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'));
             $this->categoryMapping();
             return false;
         }
@@ -1151,7 +1151,7 @@ class ilECSSettingsGUI
             $rule = new ilECSCategoryMappingRule($rule_id);
             $rule->delete();
         }
-        ilUtil::sendInfo($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'));
         $this->categoryMapping();
         return true;
     }

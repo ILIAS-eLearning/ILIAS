@@ -69,7 +69,7 @@ class ilUserActionAdminGUI
 
     public function show() : void
     {
-        ilUtil::sendInfo($this->lng->txt("user_actions_activation_info"));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("user_actions_activation_info"));
 
         $tab = new ilUserActionAdminTableGUI(
             $this,
@@ -99,7 +99,7 @@ class ilUserActionAdminGUI
                 (bool) $active[$a["action_comp_id"] . ":" . $a["action_type_id"]]
             );
         }
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "show");
     }
 

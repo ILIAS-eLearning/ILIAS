@@ -96,7 +96,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
     {
         $triggers = $this->pc_media_object->getTriggers();
         
-        $triggers = ilUtil::sortArray($triggers, "Title", "asc", false, true);
+        $triggers = ilArrayUtil::sortArray($triggers, "Title", "asc", false, true);
         $this->setData($triggers);
     }
     
@@ -161,7 +161,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 
         $this->tpl->setVariable(
             "CHECKBOX",
-            ilUtil::formCheckbox("", "tr[]", $i)
+            ilLegacyFormElementsUtil::formCheckbox("", "tr[]", $i)
         );
         $this->tpl->setVariable("VAR_NAME", "title[" . $i . "]");
         $this->tpl->setVariable("VAL_NAME", $a_set["Title"]);
@@ -183,11 +183,11 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
         $this->tpl->setVariable("TXT_HEIGHT", $lng->txt("cont_height"));
         $this->tpl->setVariable(
             "OVERLAY_IMAGE",
-            ilUtil::formSelect($a_set["Overlay"], "ov[" . $i . "]", $this->ov_options, false, true)
+            ilLegacyFormElementsUtil::formSelect($a_set["Overlay"], "ov[" . $i . "]", $this->ov_options, false, true)
         );
         $this->tpl->setVariable(
             "CONTENT_POPUP",
-            ilUtil::formSelect($a_set["PopupNr"], "pop[" . $i . "]", $this->pop_options, false, true)
+            ilLegacyFormElementsUtil::formSelect($a_set["PopupNr"], "pop[" . $i . "]", $this->pop_options, false, true)
         );
     }
 }

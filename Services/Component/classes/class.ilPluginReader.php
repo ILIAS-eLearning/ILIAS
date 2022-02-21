@@ -1,10 +1,23 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Xml/classes/class.ilSaxParser.php");
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Class ilPluginReader
+*
+* This is only used in ilPlugin.
+*
+* @deprecate as of ILIAS 9
 *
 * Reads plugin information of plugin.xml files into db
 *
@@ -14,7 +27,12 @@ include_once("./Services/Xml/classes/class.ilSaxParser.php");
 */
 class ilPluginReader extends ilSaxParser
 {
-    public function __construct($a_path, $a_ctype, $a_cname, $a_slot_id, $a_pname)
+    protected $ctype;
+    protected $cname;
+    protected $slot_id;
+    protected $pname;
+
+    public function __construct(?string $a_path, $a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
         parent::__construct($a_path);
 
@@ -27,7 +45,7 @@ class ilPluginReader extends ilSaxParser
     /**
      * Delete the event listeneing information
      */
-    public function clearEvents()
+    public function clearEvents() : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -36,8 +54,8 @@ class ilPluginReader extends ilSaxParser
         $ilDB->manipulate("DELETE FROM il_event_handling WHERE component = " . $ilDB->quote($component, 'text'));
     }
 
-    
-    public function startParsing()
+
+    public function startParsing() : void
     {
         if ($this->getInputType() == 'file') {
             if (!file_exists($this->xml_file)) {
@@ -47,8 +65,8 @@ class ilPluginReader extends ilSaxParser
         }
         parent::startParsing();
     }
-    
-    public function setHandlers($a_xml_parser)
+
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -58,48 +76,46 @@ class ilPluginReader extends ilSaxParser
     /**
     * start tag handler
     *
-    * @param	ressouce	internal xml_parser_handler
+    * @param	mixed	    internal xml_parser_handler
     * @param	string		element tag name
     * @param	array		element attributes
     * @access	private
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
 
-        switch ($a_name) {
-            case "event":
-                $component = "Plugins/" . $this->pname;
-                $q = "INSERT INTO il_event_handling (component, type, id) VALUES (" .
-                    $ilDB->quote($component, "text") . "," .
-                    $ilDB->quote($a_attribs["type"], "text") . "," .
-                    $ilDB->quote($a_attribs["id"], "text") . ")";
-                $ilDB->manipulate($q);
-                break;
+        if ($a_name == "event") {
+            $component = "Plugins/" . $this->pname;
+            $q = "INSERT INTO il_event_handling (component, type, id) VALUES (" .
+                $ilDB->quote($component, "text") . "," .
+                $ilDB->quote($a_attribs["type"], "text") . "," .
+                $ilDB->quote($a_attribs["id"], "text") . ")";
+            $ilDB->manipulate($q);
         }
     }
-            
+
     /**
     * end tag handler
     *
-    * @param	ressouce	internal xml_parser_handler
+    * @param	mixed   	internal xml_parser_handler
     * @param	string		element tag name
     * @access	private
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, $a_name) : void
     {
     }
 
-            
+
     /**
     * end tag handler
     *
-    * @param	ressouce	internal xml_parser_handler
+    * @param	mixed   	internal xml_parser_handler
     * @param	string		data
     * @access	private
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, $a_data) : void
     {
         // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
         $a_data = preg_replace("/\n/", "", $a_data);

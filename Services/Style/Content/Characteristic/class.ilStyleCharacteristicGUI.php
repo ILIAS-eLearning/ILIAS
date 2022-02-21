@@ -39,6 +39,7 @@ class ilStyleCharacteristicGUI
     protected Content\ImageManager $image_manager;
     protected Content\InternalGUIService $gui_service;
     protected Content\InternalDomainService $domain_service;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         Content\InternalDomainService $domain_service,
@@ -49,6 +50,8 @@ class ilStyleCharacteristicGUI
         Content\CharacteristicManager $manager,
         Content\ImageManager $image_manager
     ) {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->gui_service = $gui_service;
         $this->domain_service = $domain_service;
         $this->access_manager = $access_manager;
@@ -214,7 +217,7 @@ class ilStyleCharacteristicGUI
                 $char_input->setAlert($lng->txt("sty_characteristic_already_exists"));
             } else {
                 $this->object->addCharacteristic($type, $new_characteristic);
-                ilUtil::sendInfo($lng->txt("sty_added_characteristic"), true);
+                $this->main_tpl->setOnScreenMessage('info', $lng->txt("sty_added_characteristic"), true);
                 $ilCtrl->setParameter(
                     $this,
                     "tag",
@@ -238,7 +241,7 @@ class ilStyleCharacteristicGUI
 
         $chars = $this->request->getCharacteristics();
         if (count($chars) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "edit");
         } else {
             // check whether there are any core style classes included
@@ -308,7 +311,7 @@ class ilStyleCharacteristicGUI
         $ilCtrl = $this->gui_service->ctrl();
         $lng = $this->domain_service->lng();
 
-        ilUtil::sendInfo($lng->txt("action_aborted"), true);
+        $this->main_tpl->setOnScreenMessage('info', $lng->txt("action_aborted"), true);
         $ilCtrl->redirect($this, "listCharacteristics");
     }
 
@@ -915,7 +918,7 @@ class ilStyleCharacteristicGUI
                     $titles
                 );
 
-                ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             }
         }
         $ctrl->redirect($this, "editTagTitles");
@@ -960,7 +963,7 @@ class ilStyleCharacteristicGUI
             }
         }
 
-        ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+        $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "listCharacteristics");
     }
 
@@ -979,7 +982,7 @@ class ilStyleCharacteristicGUI
                         $c_parts[2],
                         true
                     );
-                    ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                    $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
                 }
             }
         } else {
@@ -988,7 +991,7 @@ class ilStyleCharacteristicGUI
                 $this->requested_char,
                 true
             );
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
         }
 
         $ctrl->redirect($this, "listCharacteristics");
@@ -1009,7 +1012,7 @@ class ilStyleCharacteristicGUI
                         $c_parts[2],
                         false
                     );
-                    ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                    $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
                 }
             }
         } else {
@@ -1018,7 +1021,7 @@ class ilStyleCharacteristicGUI
                 $this->requested_char,
                 false
             );
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
         }
 
         $ctrl->redirect($this, "listCharacteristics");
@@ -1032,13 +1035,13 @@ class ilStyleCharacteristicGUI
         $chars = $this->request->getCharacteristics();
 
         if (count($chars) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
         } else {
             $this->manager->setCopyCharacteristics(
                 $this->style_type,
                 $chars
             );
-            ilUtil::sendSuccess($lng->txt("sty_copied_please_select_target"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("sty_copied_please_select_target"), true);
         }
         $ilCtrl->redirect($this, "listCharacteristics");
     }
@@ -1208,7 +1211,7 @@ class ilStyleCharacteristicGUI
                     );
                 }
             }
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
         }
         $ctrl->redirect($this, "listCharacteristics");
     }
@@ -1268,7 +1271,7 @@ class ilStyleCharacteristicGUI
                     }
                 }
             }
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
         }
         $ctrl->redirect($this, "listCharacteristics");
     }
@@ -1298,7 +1301,7 @@ class ilStyleCharacteristicGUI
             }
             ilObjStyleSheet::_writeUpToDate($this->object->getId(), false);
             $this->manager->clearCopyCharacteristics();
-            ilUtil::sendSuccess($lng->txt("sty_style_classes_copied"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("sty_style_classes_copied"), true);
         }
 
         $ilCtrl->redirect($this, "listCharacteristics");

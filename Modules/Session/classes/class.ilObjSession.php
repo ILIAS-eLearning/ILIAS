@@ -128,7 +128,7 @@ class ilObjSession extends ilObject
     /**
      * Create local session participant role
      */
-    public function initDefaultRoles() : array
+    public function initDefaultRoles() : void
     {
         $role = ilObjRole::createDefaultRole(
             self::LOCAL_ROLE_PARTICIPANT_PREFIX . '_' . $this->getRefId(),
@@ -141,7 +141,6 @@ class ilObjSession extends ilObject
             $this->session_logger->warning('Could not create default session role.');
             $this->session_logger->logStack(ilLogLevel::WARNING);
         }
-        return parent::initDefaultRoles();
     }
 
     public function getEventId() : int
@@ -370,7 +369,7 @@ class ilObjSession extends ilObject
         return true;
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false) : ilObjSession
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObjSession
     {
         /**
          * @var ilObjSession $new_obj
@@ -641,7 +640,7 @@ class ilObjSession extends ilObject
             case 'update':
 
                 $app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
-                $app->setTranslationType(IL_CAL_TRANSLATION_NONE);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_NONE);
                 $app->setTitle($this->getTitle() ? $this->getTitle() : $this->lng->txt('obj_sess'));
                 $app->setDescription($this->getLongDescription());
                 $app->setLocation($this->getLocation());

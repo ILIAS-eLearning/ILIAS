@@ -467,7 +467,7 @@ class ilExAssignmentGUI
         if ($a_deadline - time() <= 0) {
             $time_str = $lng->txt("exc_time_over_short");
         } else {
-            $time_str = ilUtil::period2String(new ilDateTime($a_deadline, IL_CAL_UNIX));
+            $time_str = ilLegacyFormElementsUtil::period2String(new ilDateTime($a_deadline, IL_CAL_UNIX));
         }
 
         return $time_str;

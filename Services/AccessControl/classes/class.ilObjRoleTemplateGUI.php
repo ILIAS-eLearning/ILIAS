@@ -161,7 +161,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
                 $form->getInput('protected') ? 'y' : 'n'
             );
             $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -187,7 +187,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
                 $form->getInput('protected') ? 'y' : 'n'
             );
 
-            ilUtil::sendSuccess($this->lng->txt("rolt_added"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("rolt_added"), true);
             // redirect to permission screen
             $this->ctrl->setParameter($this, 'obj_id', $roltObj->getId());
             $this->ctrl->redirect($this, 'perm');
@@ -292,7 +292,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         // update object data entry (to update last modification date)
         $this->object->update();
 
-        ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
         $this->ctrl->redirect($this, "perm");
     }
 
@@ -307,9 +307,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         }
 
         if (!$this->rbacsystem->checkAccess('write', $this->rolf_ref_id)) {
-            ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_perm'), true);
         } elseif ($this->obj_id == $source) {
-            ilUtil::sendFailure($this->lng->txt("msg_perm_adopted_from_itself"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_perm_adopted_from_itself"), true);
         } else {
             $this->rbacadmin->deleteRolePermission($this->obj_id, $this->rolf_ref_id);
             $parentRoles = $this->rbacreview->getParentRoleIds($this->rolf_ref_id, true);
@@ -324,8 +324,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
             // send info
             $title = ilObject::_lookupTitle($source);
-            ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1") . " '" . $title . "'.<br/>" . $this->lng->txt("msg_perm_adopted_from2"),
-                true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_perm_adopted_from1") . " '" . $title . "'.<br/>" . $this->lng->txt("msg_perm_adopted_from2"), true);
         }
         $this->ctrl->redirect($this, "perm");
     }

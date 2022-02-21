@@ -18,10 +18,12 @@ class ilMembershipMailGUI
 
     protected GlobalHttpState $http;
     protected Factory $refinery;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(ilObjectGUI $object)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -89,7 +91,7 @@ class ilMembershipMailGUI
         }
 
         if (!count($particpants)) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->returnToParent($this);
             return;
         }

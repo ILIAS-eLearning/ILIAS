@@ -38,15 +38,11 @@ class ilMDContribute extends ilMDBase
      */
     public function getEntityIds() : array
     {
-
-
         return ilMDEntity::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_contribute');
     }
 
     public function getEntity(int $a_entity_id) : ?ilMDEntity
     {
-
-
         if (!$a_entity_id) {
             return null;
         }
@@ -58,8 +54,6 @@ class ilMDContribute extends ilMDBase
 
     public function addEntity() : ilMDEntity
     {
-
-
         $ent = new ilMDEntity($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $ent->setParentId($this->getMetaId());
         $ent->setParentType('meta_contribute');
@@ -113,8 +107,7 @@ class ilMDContribute extends ilMDBase
 
     public function save() : int
     {
-
-        $fields                       = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_contribute_id'] = array('integer', $next_id = $this->db->nextId('il_meta_contribute'));
 
         if ($this->db->insert('il_meta_contribute', $fields)) {
@@ -126,7 +119,6 @@ class ilMDContribute extends ilMDBase
 
     public function update() : bool
     {
-
         if ($this->getMetaId()) {
             if ($this->db->update(
                 'il_meta_contribute',
@@ -141,11 +133,10 @@ class ilMDContribute extends ilMDBase
 
     public function delete() : bool
     {
-
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_contribute " .
                 "WHERE meta_contribute_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res   = $this->db->manipulate($query);
+            $res = $this->db->manipulate($query);
 
             foreach ($this->getEntityIds() as $id) {
                 $ent = $this->getEntity($id);
@@ -162,20 +153,18 @@ class ilMDContribute extends ilMDBase
     public function __getFields() : array
     {
         return array(
-            'rbac_id'     => array('integer', $this->getRBACId()),
-            'obj_id'      => array('integer', $this->getObjId()),
-            'obj_type'    => array('text', $this->getObjType()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
             'parent_type' => array('text', $this->getParentType()),
-            'parent_id'   => array('integer', $this->getParentId()),
-            'role'        => array('text', $this->getRole()),
-            'c_date'      => array('text', $this->getDate())
+            'parent_id' => array('integer', $this->getParentId()),
+            'role' => array('text', $this->getRole()),
+            'c_date' => array('text', $this->getDate())
         );
     }
 
     public function read() : bool
     {
-
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_contribute " .
                 "WHERE meta_contribute_id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -184,11 +173,11 @@ class ilMDContribute extends ilMDBase
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
-                $this->setObjType($row->obj_type);
+                $this->setObjType((string) $row->obj_type);
                 $this->setParentId((int) $row->parent_id);
-                $this->setParentType($row->parent_type);
-                $this->setRole($row->role);
-                $this->setDate($row->c_date);
+                $this->setParentType((string) $row->parent_type);
+                $this->setRole((string) $row->role);
+                $this->setDate((string) $row->c_date);
             }
         }
         return true;
@@ -209,7 +198,6 @@ class ilMDContribute extends ilMDBase
             $ent->toXML($writer);
         }
         if (!count($entities)) {
-
             $ent = new ilMDEntity($this->getRBACId(), $this->getObjId());
             $ent->toXML($writer);
         }
@@ -259,7 +247,7 @@ class ilMDContribute extends ilMDBase
             "JOIN il_meta_contribute con ON ent.parent_id = con.meta_contribute_id " .
             "WHERE  ent.rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .
             "AND ent.obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
-        $res   = $ilDB->query($query);
+        $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if ($row->role == 'Author' and $row->parent_type == 'meta_contribute') {
                 $authors[] = trim($row->entity);

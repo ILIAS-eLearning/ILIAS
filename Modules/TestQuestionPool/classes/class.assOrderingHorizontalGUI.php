@@ -147,7 +147,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             foreach ($elements as $id => $element) {
                 $template->setCurrentBlock("element");
                 $template->setVariable("ELEMENT_ID", "sol_e_" . $this->object->getId() . "_$id");
-                $template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+                $template->setVariable("ELEMENT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
                 $template->parseCurrentBlock();
             }
         } else {
@@ -155,7 +155,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             foreach ($elements as $id => $element) {
                 $template->setCurrentBlock("element");
                 $template->setVariable("ELEMENT_ID", "sol_e_" . $this->object->getId() . "_$id");
-                $template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+                $template->setVariable("ELEMENT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
                 $template->parseCurrentBlock();
             }
         }
@@ -246,8 +246,8 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         foreach ($elements as $id => $element) {
             $template->setCurrentBlock("element");
             $template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
-            $template->setVariable("ORDERING_VALUE", ilUtil::prepareFormOutput($element));
-            $template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+            $template->setVariable("ORDERING_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
+            $template->setVariable("ELEMENT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
             $template->parseCurrentBlock();
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());
@@ -302,8 +302,8 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         foreach ($elements as $id => $element) {
             $template->setCurrentBlock("element");
             $template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
-            $template->setVariable("ORDERING_VALUE", ilUtil::prepareFormOutput($element));
-            $template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+            $template->setVariable("ORDERING_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
+            $template->setVariable("ELEMENT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
             $template->parseCurrentBlock();
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());

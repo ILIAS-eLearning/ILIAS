@@ -14,7 +14,7 @@ class ilComponentInfo
     protected string $type;
     protected string $name;
     /**
-     * @var ilPluginSlot[]
+     * @var ilPluginSlotInfo[]
      */
     protected array $pluginslots;
 

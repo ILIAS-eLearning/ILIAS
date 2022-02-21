@@ -127,7 +127,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TXT_OBJ_IINFO', $this->lng->txt('disabled'));
         }
         // :TODO: what types are to be supported?
-        $sel = ilUtil::formSelect(
+        $sel = ilLegacyFormElementsUtil::formSelect(
             $part->getImportType(),
             'import_type[' . $this->getServer()->getServerId() . '][' . $a_set['mid'] . ']',
             array(

@@ -85,9 +85,12 @@ class ilCmiXapiContentUploadImporter
     
     protected function sanitizeObjectDirectory() : void
     {
-        ilUtil::renameExecutables(implode(DIRECTORY_SEPARATOR, [
-            ilFileUtils::getWebspaceDir(), $this->getWebDataDirRelativeObjectDirectory()
-        ]));
+        ilFileUtils::renameExecutables(
+            implode(DIRECTORY_SEPARATOR, [
+                ilFileUtils::getWebspaceDir(),
+                $this->getWebDataDirRelativeObjectDirectory()
+            ])
+        );
     }
     
     /**

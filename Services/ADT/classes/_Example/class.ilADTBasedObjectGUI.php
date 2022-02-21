@@ -24,8 +24,8 @@ abstract class ilADTBasedObjectGUI
     public function __construct(ilObjectGUI $a_parent_gui)
     {
         global $DIC;
-        $this->tpl  = $DIC->ui()->mainTemplate();
-        $this->lng  = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
 
         $this->gui = $a_parent_gui;
@@ -102,14 +102,14 @@ abstract class ilADTBasedObjectGUI
 
         // validation errors have top priority
         if (!$valid) {
-            ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
             return $this->editAction($adt_form);
         }
 
         // :TODO: experimental, update only if necessary
         if ($changed) {
             if ($this->object->update()) {
-                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             } else {
                 // error occured in db-layer (primary/unique)
                 foreach ($this->object->getDBErrors() as $element_id => $codes) {
@@ -119,7 +119,7 @@ abstract class ilADTBasedObjectGUI
                     }
                 }
 
-                ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
                 return $this->editAction($adt_form);
             }
         }

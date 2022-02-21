@@ -46,34 +46,34 @@ class ilExAssignment
     protected ilAppEventHandler $app_event_handler;
     protected ilAccessHandler $access;
 
-    protected int $id;
-    protected int $exc_id;
-    protected int $type;
-    protected ?int $start_time;
-    protected ?int $deadline;
-    protected ?int $deadline2;
-    protected string $instruction;
-    protected string $title;
-    protected bool $mandatory;
-    protected int $order_nr;
-    protected bool $peer;       // peer review activated
-    protected int $peer_min;
-    protected bool $peer_unlock;
-    protected int $peer_dl;
+    protected int $id = 0;
+    protected int $exc_id = 0;
+    protected int $type = 0;
+    protected ?int $start_time = null;
+    protected ?int $deadline = null;
+    protected ?int $deadline2 = null;
+    protected string $instruction = "";
+    protected string $title = "";
+    protected bool $mandatory = false;
+    protected int $order_nr = 0;
+    protected bool $peer = false;       // peer review activated
+    protected int $peer_min = 0;
+    protected bool $peer_unlock = false;
+    protected int $peer_dl = 0;
     protected int $peer_valid;  // passed after submission, one or all peer feedbacks
-    protected bool $peer_file;
-    protected bool $peer_personal;   // personalised peer review
-    protected ?int $peer_char;           // minimun number of characters for peer review
-    protected bool $peer_text;
-    protected bool $peer_rating;
-    protected int $peer_crit_cat;
-    protected ?string $feedback_file;
+    protected bool $peer_file = false;
+    protected bool $peer_personal = false;   // personalised peer review
+    protected ?int $peer_char = null;           // minimun number of characters for peer review
+    protected bool $peer_text = false;
+    protected bool $peer_rating = false;
+    protected int $peer_crit_cat = 0;
+    protected ?string $feedback_file = null;
     protected bool $feedback_cron = false;
-    protected int $feedback_date;
-    protected int $feedback_date_custom;
+    protected int $feedback_date = 0;
+    protected int $feedback_date_custom = 0;
     protected bool $team_tutor = false;
-    protected ?int $max_file;
-    protected int $portfolio_template;
+    protected ?int $max_file = null;
+    protected int $portfolio_template = 0;
     protected int $min_char_limit = 0;
     protected int $max_char_limit = 0;
     protected ilExAssignmentTypes $types;
@@ -1517,7 +1517,7 @@ class ilExAssignment
             // deadline or relative deadline given
             if ($this->getDeadline() || $this->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE) {
                 $app = new ilCalendarAppointmentTemplate($dl_id);
-                $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $app->setSubtitle("cal_exc_deadline");
                 $app->setTitle($this->getTitle());
                 $app->setFullday(false);
@@ -1531,7 +1531,7 @@ class ilExAssignment
             if ($this->getPeerReview() &&
                 $this->getPeerReviewDeadline()) {
                 $app = new ilCalendarAppointmentTemplate($fbdl_id);
-                $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $app->setSubtitle("cal_exc_peer_review_deadline");
                 $app->setTitle($this->getTitle());
                 $app->setFullday(false);

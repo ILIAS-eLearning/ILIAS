@@ -288,7 +288,7 @@ class ilAssQuestionPreviewGUI
         $this->previewSession->resetRequestedHints();
         $this->previewSession->setInstantResponseActive(false);
 
-        ilUtil::sendInfo($this->lng->txt('qst_preview_reset_msg'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('qst_preview_reset_msg'), true);
         
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }

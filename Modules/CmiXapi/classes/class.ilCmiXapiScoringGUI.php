@@ -45,6 +45,7 @@ class ilCmiXapiScoringGUI
     private array $tableData;
     private string $tableHtml = '';
     private ?int $userRank;
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     /**
@@ -52,6 +53,8 @@ class ilCmiXapiScoringGUI
      */
     public function __construct(ilObjCmiXapi $object)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
 
         $this->access = ilCmiXapiAccess::getInstance($this->object);
@@ -102,7 +105,7 @@ class ilCmiXapiScoringGUI
             ;
             //$table->setData($this->tableData);
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
             $table = $this->buildTableGUI('fallback');
             $table->setData(array());
             $table->setMaxCount(0);

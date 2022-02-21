@@ -154,8 +154,10 @@ class ilInitialisation
             }
 
             if ($ilIliasIniFile->variableExists('error', 'editor_path_translations')) {
-                define("ERROR_EDITOR_PATH_TRANSLATIONS",
-                    $ilIliasIniFile->readVariable('error', 'editor_path_translations'));
+                define(
+                    "ERROR_EDITOR_PATH_TRANSLATIONS",
+                    $ilIliasIniFile->readVariable('error', 'editor_path_translations')
+                );
             }
         }
 
@@ -342,17 +344,22 @@ class ilInitialisation
         };
 
         $dic['upload'] = function (\ILIAS\DI\Container $c) {
-            $fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl($c['upload.processor-manager'], $c['filesystem'],
-                $c['http']);
+            $fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl(
+                $c['upload.processor-manager'],
+                $c['filesystem'],
+                $c['http']
+            );
             if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER != "None") || (defined('IL_SCANNER_TYPE') && IL_SCANNER_TYPE == "1")) {
                 $fileUploadImpl->register(new ilVirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
             }
 
             $fileUploadImpl->register(new FilenameSanitizerPreProcessor());
-            $fileUploadImpl->register(new ilFileServicesPreProcessor(
+            $fileUploadImpl->register(
+                new ilFileServicesPreProcessor(
                     $c->rbac()->system(),
                     $c->fileServiceSettings(),
-                    $c->language()->txt("msg_info_blacklisted"))
+                    $c->language()->txt("msg_info_blacklisted")
+                )
             );
 
             return $fileUploadImpl;
@@ -393,7 +400,7 @@ class ilInitialisation
             $path = dirname($rq_uri);
 
             // dirname cuts the last directory from a directory path e.g content/classes return content
-            $module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
+            $module = ilFileUtils::removeTrailingPathSeparators(ILIAS_MODULE);
 
             $dirs = explode('/', $module);
             $uri = $path;
@@ -405,7 +412,7 @@ class ilInitialisation
         $iliasHttpPath = ilContext::modifyHttpPath(implode('', [$protocol, $host, $uri]));
 
         $f = new \ILIAS\Data\Factory();
-        $uri = $f->uri(ilUtil::removeTrailingPathSeparators($iliasHttpPath));
+        $uri = $f->uri(ilFileUtils::removeTrailingPathSeparators($iliasHttpPath));
 
         return define('ILIAS_HTTP_PATH', $uri->getBaseURI());
     }
@@ -416,36 +423,42 @@ class ilInitialisation
      */
     protected static function determineClient() : void
     {
-        global $ilIliasIniFile, $DIC;
+        global $DIC;
+        $df = new \ILIAS\Data\Factory;
 
         // check whether ini file object exists
-        if (!is_object($ilIliasIniFile)) {
+        if (!$DIC->isDependencyAvailable('iliasIni')) {
             self::abortAndDie('Fatal Error: ilInitialisation::determineClient called without initialisation of ILIAS ini file object.');
         }
-
-        $client_id = '';
-        if ($DIC->http()->wrapper()->query()->has('client_id')) {
+        $in_unit_tests = defined('IL_PHPUNIT_TEST');
+        $context_supports_persitent_session = (bool) ilContext::supportsPersistentSessions();
+        $can_set_cookie = !$in_unit_tests && $context_supports_persitent_session;
+        $has_request_client_id = $DIC->http()->wrapper()->query()->has('client_id');
+        $has_cookie_client_id = $DIC->http()->cookieJar()->has('ilClientId');
+        $default_client_id = $DIC->iliasIni()->readVariable('clients', 'default');
+        
+        // determintaion of client_id:
+        $client_id_to_use = '';
+        // first we try to get the client_id from request
+        if ($has_request_client_id) {
             // @todo refinerey undefined
-            $client_id = (string) $_GET['client_id'];
+            $client_id_from_get = (string) $_GET['client_id'];
         }
-        if (strlen($client_id) > 0) {
-            $client_id = $_GET['client_id'] = \ilUtil::getClientIdByString($client_id)->toString();
-            if (!defined('IL_PHPUNIT_TEST')) {
-                if (ilContext::supportsPersistentSessions()) {
-                    ilUtil::setCookie('ilClientId', $client_id);
-                }
+        // we found a client_id in $GET
+        if (isset($client_id_from_get) && strlen($client_id_from_get) > 0) {
+            $client_id_to_use = $_GET['client_id'] = $df->clientId($client_id_from_get)->toString();
+            if ($can_set_cookie) {
+                ilUtil::setCookie('ilClientId', $client_id_to_use);
             }
-        } elseif (!isset($_COOKIE['ilClientId'])) {
-            ilUtil::setCookie('ilClientId', $ilIliasIniFile->readVariable('clients', 'default'));
-        }
-
-        if (!defined('IL_PHPUNIT_TEST') && ilContext::supportsPersistentSessions()) {
-            $clientId = $_COOKIE['ilClientId'];
         } else {
-            $clientId = $client_id;
+            $client_id_to_use = $default_client_id;
+            if (!isset($_COOKIE['ilClientId'])) {
+                ilUtil::setCookie('ilClientId', $client_id_to_use);
+            }
         }
-
-        define('CLIENT_ID', \ilUtil::getClientIdByString((string) $clientId)->toString());
+        $client_id_to_use = strlen($client_id_to_use) > 0 ? $client_id_to_use : $default_client_id;
+        
+        define('CLIENT_ID', $df->clientId($client_id_to_use)->toString());
     }
 
     /**
@@ -486,14 +499,13 @@ class ilInitialisation
                 $mess = array("en" => "Client does not exist.",
                               "de" => "Mandant ist ungültig."
                 );
-                self::redirect("index.php?client_id=" . $default_client, null, $mess);
+                self::redirect("index.php?client_id=" . $default_client, '', $mess);
             } else {
                 self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile initializing client ini file abborted with: " . $ilClientIniFile->ERROR);
             }
         }
 
         self::initGlobal("ilClientIniFile", $ilClientIniFile);
-
         // set constants
         define("SESSION_REMINDER_LEADTIME", 30);
         define("DEBUG", $ilClientIniFile->readVariable("system", "DEBUG"));
@@ -646,19 +658,38 @@ class ilInitialisation
         }
     }
 
-    /**
-     * @param \ILIAS\DI\Container $c
-     */
     protected static function initMail(\ILIAS\DI\Container $c) : void
     {
-        $c["mail.mime.transport.factory"] = function (\ILIAS\DI\Container $c) {
+        $c["mail.mime.transport.factory"] = static function (\ILIAS\DI\Container $c) {
             return new \ilMailMimeTransportFactory($c->settings(), $c->event());
         };
-        $c["mail.mime.sender.factory"] = function (\ILIAS\DI\Container $c) {
+        $c["mail.mime.sender.factory"] = static function (\ILIAS\DI\Container $c) {
             return new \ilMailMimeSenderFactory($c->settings());
         };
-        $c["mail.texttemplates.service"] = function (\ILIAS\DI\Container $c) {
+        $c["mail.texttemplates.service"] = static function (\ILIAS\DI\Container $c) {
             return new \ilMailTemplateService(new \ilMailTemplateRepository($c->database()));
+        };
+    }
+
+    protected static function initCron(\ILIAS\DI\Container $c) : void
+    {
+        $c['cron.repository'] = static function (\ILIAS\DI\Container $c) : ilCronJobRepository {
+            return new ilCronJobRepositoryImpl(
+                $c->database(),
+                $c->settings(),
+                $c->logger()->cron(),
+                $c['component.repository'],
+                $c['component.factory']
+            );
+        };
+
+        $c['cron.manager'] = static function (\ILIAS\DI\Container $c) : ilCronManager {
+            return new ilCronManagerImpl(
+                $c['cron.repository'],
+                $c->database(),
+                $c->settings(),
+                $c->logger()->cron()
+            );
         };
     }
 
@@ -937,18 +968,23 @@ class ilInitialisation
         if (!$DIC['ilAuthSession']->isAuthenticated()) {
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
         }
-
-        $target = '';
-        if ($DIC->http()->wrapper()->query()->has('target')) {
-            $target = $DIC->http()->wrapper()->query()->retrieve(
+        
+        $target = $DIC->http()->wrapper()->query()->has('target')
+            ? $DIC->http()->wrapper()->query()->retrieve(
                 'target',
                 $DIC->refinery()->kindlyTo()->string()
-            );
-        }
+            )
+            : '';
+        
         if (strlen($target)) {
             $target = "target=" . $target . "&";
         }
-        $script = "login.php?" . $target . "client_id=" . $_COOKIE["ilClientId"] .
+        
+        $client_id = $DIC->http()->wrapper()->cookie()->has('ilClientId')
+            ? $DIC->http()->wrapper()->cookie()->retrieve('ilClientId', $DIC->refinery()->kindlyTo()->string())
+            : '';
+        
+        $script = "login.php?" . $target . "client_id=" . $client_id .
             "&auth_stat=" . $a_auth_stat;
 
         self::redirect(
@@ -1045,7 +1081,7 @@ class ilInitialisation
 
     protected static function abortAndDie(string $a_message) : void
     {
-        if (is_object($GLOBALS['ilLog'])) {
+        if (isset($GLOBALS['ilLog'])) {
             $GLOBALS['ilLog']->write("Fatal Error: ilInitialisation - " . $a_message);
             $GLOBALS['ilLog']->logStack();
         }
@@ -1143,7 +1179,7 @@ class ilInitialisation
     public static function handleErrorReporting() : void
     {
         // push the error level as high as possible / sane
-        error_reporting(E_ALL&~E_NOTICE);
+        error_reporting(E_ALL & ~E_NOTICE);
 
         // see handleDevMode() - error reporting might be overwritten again
         // but we need the client ini first
@@ -1234,7 +1270,7 @@ class ilInitialisation
         if (!isset($DIC["ilPluginAdmin"]) || !$DIC["ilPluginAdmin"] instanceof ilPluginAdmin) {
             self::initGlobal(
                 "ilPluginAdmin",
-                "ilPluginAdmin",
+                new ilPluginAdmin($DIC["component.repository"]),
                 "./Services/Component/classes/class.ilPluginAdmin.php"
             );
         }
@@ -1242,6 +1278,7 @@ class ilInitialisation
         self::initSettings();
         self::setSessionHandler();
         self::initMail($GLOBALS['DIC']);
+        self::initCron($GLOBALS['DIC']);
         self::initAvatar($GLOBALS['DIC']);
         self::initCustomObjectIcons($GLOBALS['DIC']);
         self::initTermsOfService($GLOBALS['DIC']);
@@ -1692,11 +1729,13 @@ class ilInitialisation
         }
 
         foreach (['ext_uid', 'soap_pw'] as $param) {
-            if (false === strpos($a_target,
-                    $param . '=') && isset($GLOBALS['DIC']->http()->request()->getQueryParams()[$param])) {
+            if (false === strpos(
+                $a_target,
+                $param . '='
+            ) && isset($GLOBALS['DIC']->http()->request()->getQueryParams()[$param])) {
                 $a_target = \ilUtil::appendUrlParameterString($a_target, $param . '=' . \ilUtil::stripSlashes(
-                        $GLOBALS['DIC']->http()->request()->getQueryParams()[$param]
-                    ));
+                    $GLOBALS['DIC']->http()->request()->getQueryParams()[$param]
+                ));
             }
         }
 
@@ -1722,11 +1761,11 @@ class ilInitialisation
 
                 if (!trim($mess)) {
                     $mess = self::translateMessage(
-                            "init_error_redirect_info",
-                            array("en" => 'Redirect not supported by context.',
+                        "init_error_redirect_info",
+                        array("en" => 'Redirect not supported by context.',
                                   "de" => 'Weiterleitungen werden durch Kontext nicht unterstützt.'
                             )
-                        ) .
+                    ) .
                         ' (' . $a_target . ')';
                 }
             }

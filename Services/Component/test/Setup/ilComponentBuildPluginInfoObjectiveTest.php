@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilComponentBuildPluginInfoObjectiveTest extends TestCase
 {
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->scanned = [];
         $this->dirs = [];
@@ -15,6 +15,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
         $this->added = [];
         $this->builder = new class($this) extends ilComponentBuildPluginInfoObjective {
             const BASE_PATH = "";
+            protected ilComponentBuildPluginInfoObjectiveTest $test;
             public function __construct($test)
             {
                 $this->test = $test;
@@ -106,7 +107,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     public function testScanDir() : void
     {
         // Use the component directory without artifacts, because this should be mostly stable.
-        $expected = ["ROADMAP.md", "classes", "exceptions", "maintenance.json", "service.xml", "templates", "test"];
+        $expected = ["ROADMAP.md", "classes", "exceptions", "maintenance.json", "service.xml", "test"];
         $actual = array_values(array_diff($this->builder->_scanDir(__DIR__ . "/../.."), ["artifacts"]));
         $this->assertEquals($expected, $actual);
     }

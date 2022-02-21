@@ -1,15 +1,14 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Handles course mail placeholders
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @package ModulesCourse
  */
 class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 {
-    const ID = 'crs_context_tutor_manual';
+    public const ID = 'crs_context_tutor_manual';
 
     /** @var array */
     protected static $periodInfoByObjIdCache = [];
@@ -69,9 +68,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         // tracking settings
         $tracking = new ilObjUserTracking();
 
-
         $placeholders = array();
-
 
         $placeholders['crs_title'] = array(
             'placeholder' => 'COURSE_TITLE',
@@ -116,7 +113,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 'label' => $lng->txt('trac_last_access')
             );
         }
-
 
         $placeholders['crs_link'] = array(
             'placeholder' => 'COURSE_LINK',

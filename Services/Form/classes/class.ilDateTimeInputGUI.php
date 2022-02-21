@@ -239,7 +239,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
         // accessibility description
         $tpl->setVariable(
             'DESCRIPTION',
-            ilUtil::prepareFormOutput($lng->txt("form_date_aria_desc") . " " . $pl_format)
+            ilLegacyFormElementsUtil::prepareFormOutput($lng->txt("form_date_aria_desc") . " " . $pl_format)
         );
         
         // current value

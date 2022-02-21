@@ -51,7 +51,7 @@ class ilCalendarSubscriptionGUI
      */
     protected function show() : void
     {
-        ilUtil::sendInfo($this->lng->txt('cal_subscription_info'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('cal_subscription_info'));
 
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this));

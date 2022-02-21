@@ -54,10 +54,10 @@ class ilInstallationInformationStoredObjective implements Setup\Objective
 
         $settings->set("inst_name", (string) $this->config->getClientName());
         $ini->setVariable("client", "name", $this->config->getClientName() ?? $common_config->getClientId());
-        $ini->setVariable("client", "description", $this->config->getClientDescription());
+        $ini->setVariable("client", "description", (string) $this->config->getClientDescription());
         $settings->set("inst_institution", (string) $this->config->getClientInstitution());
-        $settings->set("admin_firstname", $this->config->getContactFirstname());
-        $settings->set("admin_lastname", $this->config->getContactLastname());
+        $settings->set("admin_firstname", (string) $this->config->getContactFirstname());
+        $settings->set("admin_lastname", (string) $this->config->getContactLastname());
         $settings->set("admin_title", (string) $this->config->getContactTitle());
         $settings->set("admin_position", (string) $this->config->getContactPosition());
         $settings->set("admin_institution", (string) $this->config->getContactInstitution());
@@ -66,7 +66,7 @@ class ilInstallationInformationStoredObjective implements Setup\Objective
         $settings->set("admin_city", (string) $this->config->getContactCity());
         $settings->set("admin_country", (string) $this->config->getContactCountry());
         $settings->set("admin_phone", (string) $this->config->getContactPhone());
-        $settings->set("admin_email", $this->config->getContactEMail());
+        $settings->set("admin_email", (string) $this->config->getContactEMail());
 
         if (!$ini->write()) {
             throw new Setup\UnachievableException("Could not write client.ini.php");

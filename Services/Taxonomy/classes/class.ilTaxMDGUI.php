@@ -95,7 +95,7 @@ class ilTaxMDGUI
         $form = $this->initForm();
         if ($form->checkInput()) {
             $this->updateFromMDForm();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $ctrl->redirect($this, "show");
         } else {
             $form->setValuesByPost();

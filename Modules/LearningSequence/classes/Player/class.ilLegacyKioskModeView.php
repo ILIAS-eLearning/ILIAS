@@ -68,9 +68,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 
         $url = \ilLink::_getStaticLink(
             $ref_id,
-            $type,
-            true,
-            false
+            $type
         );
 
         $obj_id = $this->object->getId();
@@ -83,7 +81,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             $url = $view_link;
         }
 
-        $builder->start($label, $url, (int) $obj_id);
+        $builder->start($label, $url, $obj_id);
 
         return $builder;
     }

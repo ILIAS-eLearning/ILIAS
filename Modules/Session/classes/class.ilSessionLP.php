@@ -26,7 +26,7 @@
  */
 class ilSessionLP extends ilObjectLP
 {
-    public static function getDefaultModes($a_lp_active) : array
+    public static function getDefaultModes(bool $a_lp_active) : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,

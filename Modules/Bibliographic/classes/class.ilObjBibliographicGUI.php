@@ -112,8 +112,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         }
 
         // general Access Check, especially for single entries not matching the object
-        if ($this->object instanceof ilObjBibliographic && !$DIC->access()->checkAccess('read', "",
-                $this->object->getRefId())) {
+        if ($this->object instanceof ilObjBibliographic && !$DIC->access()->checkAccess(
+            'read',
+            "",
+            $this->object->getRefId()
+        )) {
             $this->handleNonAccess();
         }
 
@@ -204,7 +207,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
          */
 
         if (!$this->checkPermissionBoolAndReturn("visible") && !$this->checkPermissionBoolAndReturn('read')) {
-            ilUtil::sendFailure($DIC['lng']->txt("msg_no_perm_read"), true);
+            $this->tpl->setOnScreenMessage('failure', $DIC['lng']->txt("msg_no_perm_read"), true);
             $this->ctrl->redirectByClass('ilDashboardGUI', '');
         }
         $DIC->tabs()->activateTab(self::TAB_ID_INFO);
@@ -503,14 +506,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             $DIC->ui()->mainTemplate()->setPermanentLink("bibl", $this->object->getRefId());
         } else {
             $object_title = ilObject::_lookupTitle(ilObject::_lookupObjId($this->ref_id));
-            ilUtil::sendFailure(
-                sprintf(
-                    $DIC->language()
-                        ->txt("msg_no_perm_read_item"),
-                    $object_title
-                ),
-                true
-            );
+            $this->tpl->setOnScreenMessage('failure', sprintf(
+                $DIC->language()
+                    ->txt("msg_no_perm_read_item"),
+                $object_title
+            ), true);
             //redirect to repository without any parameters
             $this->handleNonAccess();
         }
@@ -544,10 +544,13 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
                 $file_path = $this->object->getLegacyAbsolutePath();
                 if ($file_path) {
                     if (is_file($file_path)) {
-                        ilFileDelivery::deliverFileAttached($file_path, $this->object->getFilename(),
-                            'application/octet-stream');
+                        ilFileDelivery::deliverFileAttached(
+                            $file_path,
+                            $this->object->getFilename(),
+                            'application/octet-stream'
+                        );
                     } else {
-                        ilUtil::sendFailure($DIC['lng']->txt("file_not_found"));
+                        $this->tpl->setOnScreenMessage('failure', $DIC['lng']->txt("file_not_found"));
                         $this->showContent();
                     }
                 }
@@ -682,7 +685,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     {
         global $DIC;
 
-        ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);
+        $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt("no_permission"), true);
         ilObjectGUI::_gotoRepositoryRoot();
     }
 }

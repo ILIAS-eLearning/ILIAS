@@ -1,6 +1,17 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -12,9 +23,9 @@ class ilTestProcessLockFileStorage extends ilFileSystemAbstractionStorage
     /**
      * @param integer $activeId
      */
-    public function __construct($activeId)
+    public function __construct(int $activeId)
     {
-        parent::__construct(ilFileSystemStorage::STORAGE_DATA, true, $activeId);
+        parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $activeId);
     }
 
     /**
@@ -25,7 +36,7 @@ class ilTestProcessLockFileStorage extends ilFileSystemAbstractionStorage
      *
      * @return string path prefix e.g files
      */
-    protected function getPathPrefix(): string
+    protected function getPathPrefix() : string
     {
         return 'ilTestProcessLocks';
     }
@@ -39,14 +50,14 @@ class ilTestProcessLockFileStorage extends ilFileSystemAbstractionStorage
      *
      * @return string directory name
      */
-    protected function getPathPostfix(): string
+    protected function getPathPostfix() : string
     {
         return 'active';
     }
 
-    public function create(): void
+    public function create() : void
     {
-        set_error_handler(function ($severity, $message, $file, $line) {
+        set_error_handler(function ($severity, $message, $file, $line) : void {
             throw new ErrorException($message, $severity, 0, $file, $line);
         });
 

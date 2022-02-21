@@ -65,7 +65,7 @@ class ilObjPollGUI extends ilObject2GUI
     
     protected function afterSave(ilObject $a_new_object) : void
     {
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirect($this, "render");
     }
 
@@ -178,7 +178,7 @@ class ilObjPollGUI extends ilObject2GUI
         #20594
         if (!$a_form->getInput("voting_period") &&
             (int) $a_form->getInput("results") == ilObjPoll::VIEW_RESULTS_AFTER_PERIOD) {
-            ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
             $a_form->getItemByPostVar("results")->setAlert($this->lng->txt("poll_view_results_after_period_impossible"));
             return false;
         }
@@ -301,7 +301,7 @@ class ilObjPollGUI extends ilObject2GUI
     public function render(?ilPropertyFormGUI $a_form = null) : void
     {
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"));
             return;
         }
         
@@ -418,7 +418,7 @@ class ilObjPollGUI extends ilObject2GUI
             $this->object->setMaxNumberOfAnswers(min((int) $form->getInput("nanswers"), $nr_of_anwers));
             
             if ($this->object->update()) {
-                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "render");
             }
         }
@@ -450,7 +450,7 @@ class ilObjPollGUI extends ilObject2GUI
     public function showParticipants() : void
     {
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"));
             return;
         }
         
@@ -465,7 +465,7 @@ class ilObjPollGUI extends ilObject2GUI
     {
         if (!$this->checkPermissionBool("write") ||
             !$this->object->getNonAnonymous()) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"));
             return;
         }
         
@@ -479,7 +479,7 @@ class ilObjPollGUI extends ilObject2GUI
     public function confirmDeleteAllVotes() : void
     {
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"));
             return;
         }
         
@@ -498,7 +498,7 @@ class ilObjPollGUI extends ilObject2GUI
     public function deleteAllVotes() : void
     {
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"));
             return;
         }
         
@@ -545,7 +545,7 @@ class ilObjPollGUI extends ilObject2GUI
     {
         ilNotification::setNotification(ilNotification::TYPE_POLL, $this->user->getId(), $this->object->getId(), true);
         
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         ilUtil::redirect(ilLink::_getLink($this->tree->getParentId($this->ref_id)));
     }
     
@@ -553,7 +553,7 @@ class ilObjPollGUI extends ilObject2GUI
     {
         ilNotification::setNotification(ilNotification::TYPE_POLL, $this->user->getId(), $this->object->getId(), false);
         
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         ilUtil::redirect(ilLink::_getLink($this->tree->getParentId($this->ref_id)));
     }
     

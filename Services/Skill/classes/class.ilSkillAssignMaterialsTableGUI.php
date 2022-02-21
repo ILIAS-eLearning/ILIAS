@@ -67,18 +67,18 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $this->setData($this->getLevels());
         $this->setTitle($title);
         $this->setLimit(9999);
-        
+
         $this->addColumn($this->lng->txt("skmg_skill_level"));
         $this->addColumn($this->lng->txt("description"));
         $this->addColumn($this->lng->txt("skmg_materials"));
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setEnableHeader(true);
         //		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_materials_row.html", "Services/Skill");
         $this->disable("footer");
         $this->setEnableTitle(true);
-        
+
         //		$this->addMultiCommand("", $lng->txt(""));
 //		$this->addCommandButton("", $lng->txt(""));
     }

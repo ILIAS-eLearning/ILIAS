@@ -78,7 +78,7 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
 
         // USED BY
         $this->tpl->setCurrentBlock('used_by');
-        $tree = $this->buildLinkToUsedBy($a_set['usedByObjId'], $a_set['usedByRefId'], (string) $a_set['usedByTitle'], (bool) $usagesTrashed);
+        $tree = $this->buildLinkToUsedBy($a_set['usedByObjId'], (int) $a_set['usedByRefId'], (string) $a_set['usedByTitle'], (bool) $usagesTrashed);
         $this->tpl->setVariable('TREE_TO_USED_BY', $tree['tree']);
         $this->tpl->parseCurrentBlock();
 
@@ -87,7 +87,7 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
             $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
             $this->tpl->setVariable('ICON_ALT', basename($a_set['icon']));
         } else {
-            $icon = ilObject::_getIcon("", "small", "lti");
+            $icon = ilObject::_getIcon(0, "small", "lti");
             $this->tpl->setVariable('ICON_SRC', $icon);
             $this->tpl->setVariable('ICON_ALT', 'lti');
         }
@@ -121,6 +121,6 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
     protected static function isTrashEnabled() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        return (bool) $DIC->settings()->get('enable_trash', 0);
+        return (bool) ((int) $DIC->settings()->get('enable_trash', "0"));
     }
 } // EOF class

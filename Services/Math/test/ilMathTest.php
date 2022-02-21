@@ -1,8 +1,19 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 use PHPUnit\Framework\TestCase;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
@@ -19,23 +30,21 @@ class ilMathTest extends TestCase
      */
     protected function setUp() : void
     {
-        require_once 'Services/Math/classes/class.ilMath.php';
-        require_once 'Services/Math/classes/class.EvalMath.php';
         $this->eval_math = new EvalMath();
     }
 
     /**
      * @dataProvider gcdData
      */
-    public function testGcd($a, $b, $result)
+    public function testGcd(string $a, string $b, string $result) : void
     {
         $this->assertEquals($result, ilMath::getGreatestCommonDivisor($a, $b));
     }
 
     /**
-     * @return array
+     * @return array<int, array<string>>
      */
-    public function gcdData()
+    public function gcdData() : array
     {
         return [
             ['1254', '5298', '6'],

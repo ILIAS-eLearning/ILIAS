@@ -1,65 +1,56 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Description of class
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesTracking
  */
 class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 {
-    private $node_id;
-    private $mode;
+    private int $node_id;
+    private int $mode;
 
     protected ilObjectDefinition $obj_definition;
 
-    /**
-     * Constructor
-     * @param ilObject $a_parent_obj
-     * @param string   $a_parent_cmd
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_node_id, $a_mode)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd, int $a_node_id, int $a_mode)
     {
         global $DIC;
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setId('lpobjs_' . $this->getNode());
-
-        $this->setShowRowsSelector(false);
 
         $this->obj_definition = $DIC["objDefinition"];
         $this->node_id = $a_node_id;
         $this->mode = $a_mode;
+
+        $this->setId('lpobjs_' . $this->getNode());
+        parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->setShowRowsSelector(false);
+
     }
 
-    /**
-     * Get node id of current learning progress item
-     * @return int $node_id
-     */
-    public function getNode()
+    public function getNode() : int
     {
         return $this->node_id;
     }
-    
-    public function getMode()
+
+    public function getMode() : int
     {
         return $this->mode;
     }
-    
+
     /**
      * Read and parse items
      */
-    public function parse(ilLPCollection $a_collection)
+    public function parse(ilLPCollection $a_collection) : void
     {
         $this->setData($a_collection->getTableGUIData($this->getNode()));
         $this->initTable();
-        
+
         // grouping actions
         if ($this->getMode() == ilLPObjSettings::LP_MODE_COLLECTION &&
             ilLPCollectionOfRepositoryObjects::hasGroupedItems(ilObject::_lookupObjId($this->getNode()))) {
             $this->addMultiCommand('releaseMaterials', $this->lng->txt('trac_release_materials'));
-            
+
             foreach ($this->row_data as $item) {
                 if ($item["grouped"]) {
                     $this->addCommandButton('saveObligatoryMaterials', $this->lng->txt('trac_group_materials_save'));
@@ -69,25 +60,15 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * Fill template row
-     * @param array $a_set
-     */
     protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $objDefinition = $DIC['objDefinition'];
-        $ilAccess = $DIC['ilAccess'];
-        
-        include_once './Services/Link/classes/class.ilLink.php';
 
         $this->tpl->setCurrentBlock('item_row');
         $this->tpl->setVariable('ITEM_ID', $a_set['id']);
         $this->tpl->setVariable('COLL_TITLE', $a_set['title']);
         $this->tpl->setVariable('COLL_DESC', $a_set['description']);
-            
-        if ($objDefinition->isPluginTypeName($a_set["type"])) {
+
+        if ($this->obj_definition->isPluginTypeName($a_set["type"])) {
             $alt = ilObjectPlugin::lookupTxtById($a_set['type'], "obj_" . $a_set['type']);
         } else {
             $alt = $this->lng->txt('obj_' . $a_set['type']);
@@ -96,7 +77,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'TYPE_IMG',
             ilObject::_getIcon(
-                $a_set['obj_id'],
+                (int) $a_set['obj_id'],
                 'tiny',
                 $a_set['type']
             )
@@ -107,11 +88,11 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
             $this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_TLT) {
             if ($a_set['ref_id']) {
                 $this->tpl->setVariable('COLL_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
-                $this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent', $a_set['type']));
+                $this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent'));
 
-                include_once './Services/Tree/classes/class.ilPathGUI.php';
                 $path = new ilPathGUI();
-                $this->tpl->setVariable('COLL_PATH', $this->lng->txt('path') . ': ' . $path->getPath($this->getNode(), $a_set['ref_id']));
+                $this->tpl->setVariable('COLL_PATH',
+                    $this->lng->txt('path') . ': ' . $path->getPath($this->getNode(), $a_set['ref_id']));
 
                 $mode_suffix = '';
                 if (
@@ -124,7 +105,6 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                         $this->tpl->setVariable("COLL_MODE", "");
                     }
                 }
-                include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
                 if (ilLearningProgressAccess::checkPermission('edit_learning_progress', $a_set['ref_id'])) {
                     $gui_class = "ilObj" . $this->obj_definition->getClassName($a_set['type']) . "GUI";
                     $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'ref_id', $a_set['ref_id']);
@@ -203,30 +183,32 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 $min = floor($tlt / 60);
 
                 $options = array();
-                for ($i = 0;$i <= 24;$i++) {
+                for ($i = 0; $i <= 24; $i++) {
                     $options[$i] = sprintf('%02d', $i);
                 }
                 $this->tpl->setVariable(
                     "SEL_MONTHS",
-                    ilUtil::formSelect($mon, 'tlt[' . $a_set['id'] . '][mo]', $options, false, true)
+                    ilLegacyFormElementsUtil::formSelect($mon, 'tlt[' . $a_set['id'] . '][mo]', $options, false, true)
                 );
 
-                for ($i = 0;$i <= 31;$i++) {
+                for ($i = 0; $i <= 31; $i++) {
                     $options[$i] = sprintf('%02d', $i);
                 }
                 $this->tpl->setVariable(
                     "SEL_DAYS",
-                    ilUtil::formSelect($day, 'tlt[' . $a_set['id'] . '][d]', $options, false, true)
+                    ilLegacyFormElementsUtil::formSelect($day, 'tlt[' . $a_set['id'] . '][d]', $options, false, true)
                 );
 
-                $this->tpl->setVariable("SEL_TLT", ilUtil::makeTimeSelect(
-                    'tlt[' . $a_set['id'] . ']',
-                    true,
-                    $hr,
-                    $min,
-                    null,
-                    false
-                ));
+                $this->tpl->setVariable("SEL_TLT",
+                    ilLegacyFormElementsUtil::makeTimeSelect(
+                        'tlt[' . $a_set['id'] . ']',
+                        true,
+                        $hr,
+                        $min,
+                        null,
+                        false
+                    )
+                );
 
                 $this->tpl->parseCurrentBlock();
             }
@@ -246,7 +228,6 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 : $this->lng->txt('trac_not_assigned')
         );
         $this->tpl->parseCurrentBlock();
-
 
         // Parse grouped items
         foreach ((array) $a_set['grouped'] as $item) {
@@ -268,13 +249,9 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function initTable()
+    protected function initTable() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         switch ($this->getMode()) {
             case ilLPObjSettings::LP_MODE_COLLECTION:
             case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
@@ -294,16 +271,16 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 $this->setTitle($this->lng->txt('trac_lp_determination'));
                 $this->setDescription($this->lng->txt('trac_lp_determination_info_sco'));
                 break;
-            
+
             case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
                 $this->setRowTemplate('tpl.lp_collection_subitem_row.html', 'Services/Tracking');
                 $this->setTitle($this->lng->txt('trac_lp_determination'));
                 $this->setDescription($this->lng->txt('trac_lp_determination_info_crs'));
                 $this->lng->loadLanguageModule("meta");
-                
+
                 $this->addCommandButton('updateTLT', $this->lng->txt('save'));
                 break;
-            
+
             case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
                 $this->setRowTemplate('tpl.lp_collection_subitem_row.html', 'Services/Tracking');
                 $this->setTitle($this->lng->txt('trac_lp_determination'));
@@ -313,7 +290,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
         $this->addColumn('', '', '1px');
         $this->addColumn($this->lng->txt('item'), 'title', '50%');
-        
+
         if ($this->getMode() != ilLPObjSettings::LP_MODE_SCORM &&
             $this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MOBS &&
             $this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MANUAL &&
@@ -322,7 +299,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         } elseif ($this->getMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT) {
             $this->addColumn($this->lng->txt('meta_typical_learning_time'), 'tlt');
         }
-        
+
         if ($this->getMode() != ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR) {
             $this->addMultiCommand('assign', $this->lng->txt('trac_collection_assign'));
             $this->addMultiCommand('deassign', $this->lng->txt('trac_collection_deassign'));

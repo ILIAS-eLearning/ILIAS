@@ -55,6 +55,7 @@ class ilUserSearchFilter
     protected ilDBInterface $db;
     protected ILIAS $ilias;
     protected ilSearchResult $result_obj;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilUserSearchFilter constructor.
@@ -63,6 +64,7 @@ class ilUserSearchFilter
     public function __construct(int $a_usr_id)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->usr_id = $a_usr_id;
         $this->db = $DIC->database();
@@ -147,7 +149,7 @@ class ilUserSearchFilter
                 continue;
             }
             if (!is_object($query_parser = $this->__parseQueryString($query_string))) {
-                ilUtil::sendInfo($query_parser);
+                $this->main_tpl->setOnScreenMessage('info', $query_parser);
                 return [];
             }
             $user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);

@@ -194,7 +194,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                     $ext = 'JPEG';
                     break;
             }
-            ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbSize());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbSize());
         }
     }
 
@@ -594,7 +594,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                     $this->getAnswerCount()
                 );
                 
-                ilUtil::sendFailure($failureMsg, true);
+                $this->tpl->setOnScreenMessage('failure', $failureMsg, true);
                 return false;
             }
         }

@@ -84,7 +84,7 @@ class ilBookingScheduleGUI
             // if we have schedules but no objects - show info
             if (sizeof($table->getData())) {
                 if (!sizeof(ilBookingObject::getList(ilObject::_lookupObjId($this->ref_id)))) {
-                    ilUtil::sendInfo($lng->txt("book_type_warning"));
+                    $this->tpl->setOnScreenMessage('info', $lng->txt("book_type_warning"));
                 }
             }
             
@@ -249,7 +249,7 @@ class ilBookingScheduleGUI
             $this->formToObject($form, $obj);
             $obj->save();
 
-            ilUtil::sendSuccess($lng->txt("book_schedule_added"));
+            $this->tpl->setOnScreenMessage('success', $lng->txt("book_schedule_added"));
             $this->render();
         } else {
             $form->setValuesByPost();
@@ -269,7 +269,7 @@ class ilBookingScheduleGUI
             $this->formToObject($form, $obj);
             $obj->update();
 
-            ilUtil::sendSuccess($lng->txt("book_schedule_updated"));
+            $this->tpl->setOnScreenMessage('success', $lng->txt("book_schedule_updated"));
             $this->render();
         } else {
             $form->setValuesByPost();
@@ -395,7 +395,7 @@ class ilBookingScheduleGUI
         $obj = new ilBookingSchedule($this->schedule_id);
         $obj->delete();
 
-        ilUtil::sendSuccess($lng->txt('book_schedule_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt('book_schedule_deleted'), true);
         $ilCtrl->redirect($this, 'render');
     }
 }

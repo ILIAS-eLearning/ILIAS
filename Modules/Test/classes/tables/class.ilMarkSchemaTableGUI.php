@@ -119,10 +119,19 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $percentage->setMaxValue(100);
 
         $this->tpl->setVariable('VAL_MARK_ID', $a_set['mark_id']);
-        $this->tpl->setVariable('VAL_CHECKBOX', ilUtil::formCheckbox(false, 'marks[]', $a_set['mark_id'], !$this->is_editable));
+        $this->tpl->setVariable('VAL_CHECKBOX',
+            ilLegacyFormElementsUtil::formCheckbox(false, 'marks[]', $a_set['mark_id'], !$this->is_editable)
+        );
         $this->tpl->setVariable('VAL_SHORT_NAME', $short_name->render());
         $this->tpl->setVariable('VAL_OFFICIAL_NAME', $official_name->render());
         $this->tpl->setVariable('VAL_PERCENTAGE', $percentage->render());
-        $this->tpl->setVariable('VAL_PASSED_CHECKBOX', ilUtil::formCheckbox((bool) $a_set['mark_passed'], 'passed_' . $a_set['mark_id'], '1', !$this->is_editable));
+        $this->tpl->setVariable('VAL_PASSED_CHECKBOX',
+            ilLegacyFormElementsUtil::formCheckbox(
+                (bool) $a_set['mark_passed'],
+                'passed_' . $a_set['mark_id'],
+                '1',
+                !$this->is_editable
+            )
+        );
     }
 }

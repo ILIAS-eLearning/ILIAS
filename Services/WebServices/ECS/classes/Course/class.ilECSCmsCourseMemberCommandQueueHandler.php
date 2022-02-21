@@ -449,7 +449,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 
         if (
             $this->getMappingSettings()->getAuthMode() ==
-            ilAuthUtils::_getAuthModeName(AUTH_SHIBBOLETH)
+            ilAuthUtils::_getAuthModeName(ilAuthUtils::AUTH_SHIBBOLETH)
         ) {
             $this->log->info('Not handling direct user creation for auth mode: ' . $auth_mode);
             return false;
@@ -464,7 +464,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
             $server->doConnectionCheck();
 
             $query = new ilLDAPQuery($server);
-            $query->bind(IL_LDAP_BIND_DEFAULT);
+            $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
             
             $users = $query->fetchUser($a_person_id, true);
             if ($users) {

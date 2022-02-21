@@ -3,6 +3,7 @@
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Button\Standard;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory;
@@ -50,6 +51,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
     protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
     /** @var MockObject|ilHtmlPurifierInterface */
     protected ilHtmlPurifierInterface $documentPurifier;
+    protected Refinery $refinery;
 
     protected function setUp() : void
     {
@@ -72,6 +74,10 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $this->fileUpload = $this->getMockBuilder(FileUpload::class)->getMock();
         $this->tableDataProviderFactory = $this->getMockBuilder(ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
         $this->documentPurifier = $this->getMockBuilder(ilHtmlPurifierInterface::class)->getMock();
+        $this->refinery = new ILIAS\Refinery\Factory(
+            new \ILIAS\Data\Factory,
+            $this->lng
+        );
     }
 
     public function commandProvider() : array
@@ -139,7 +145,8 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             $this->fileSystems,
             $this->fileUpload,
             $this->tableDataProviderFactory,
-            $this->documentPurifier
+            $this->documentPurifier,
+            $this->refinery
         );
 
         $this->expectException(ilException::class);
@@ -266,7 +273,8 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             $this->fileSystems,
             $this->fileUpload,
             $this->tableDataProviderFactory,
-            $this->documentPurifier
+            $this->documentPurifier,
+            $this->refinery
         );
 
         $gui->executeCommand();
@@ -374,7 +382,8 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             $this->fileSystems,
             $this->fileUpload,
             $this->tableDataProviderFactory,
-            $this->documentPurifier
+            $this->documentPurifier,
+            $this->refinery
         );
 
         $gui->executeCommand();

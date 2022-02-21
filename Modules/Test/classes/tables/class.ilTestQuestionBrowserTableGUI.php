@@ -193,7 +193,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     {
         $selected_array = (is_array($_POST['q_id'])) ? $_POST['q_id'] : array();
         if (!count($selected_array)) {
-            ilUtil::sendInfo($this->lng->txt("tst_insert_missing_question"), true);
+            $this->mainTpl->setOnScreenMessage('info', $this->lng->txt("tst_insert_missing_question"), true);
             $this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
         }
         
@@ -214,9 +214,9 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->testOBJ->saveCompleteStatus($testQuestionSetConfig);
         
         if ($manscoring) {
-            ilUtil::sendInfo($this->lng->txt("manscoring_hint"), true);
+            $this->mainTpl->setOnScreenMessage('info', $this->lng->txt("manscoring_hint"), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt("tst_questions_inserted"), true);
+            $this->mainTpl->setOnScreenMessage('success', $this->lng->txt("tst_questions_inserted"), true);
         }
 
         //$this->ctrl->setParameter($this, 'q_id', $last_question_id); // for page view ?

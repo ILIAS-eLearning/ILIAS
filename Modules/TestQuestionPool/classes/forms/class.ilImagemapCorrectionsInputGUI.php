@@ -38,7 +38,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
         
         $max = 0;
@@ -69,9 +69,9 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $template = new ilTemplate("tpl.prop_imagemapquestioncorrection_input.html", true, true, "Modules/TestQuestionPool");
-        
+
         if ($this->getImage() != "") {
             $template->setCurrentBlock("image");
             if (count($this->getAreas())) {
@@ -90,7 +90,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
             $template->setVariable("POST_VAR_D", $this->getPostVar());
             $template->parseCurrentBlock();
         }
-        
+
         if (is_array($this->getAreas()) && $this->getAreas()) {
             $counter = 0;
             foreach ($this->getAreas() as $area) {
@@ -105,7 +105,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
                         $template->setVariable('VALUE_POINTS_UNCHECKED', $area->getPointsUnchecked());
                         $template->parseCurrentBlock();
                     }
-                    
+
                     $template->setCurrentBlock('area_points_unchecked_field');
                     $template->parseCurrentBlock();
                 }
@@ -127,7 +127,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
             $template->setVariable("TEXT_NAME", $lng->txt("ass_imap_hint"));
             if ($this->getPointsUncheckedFieldEnabled()) {
                 $template->setVariable("TEXT_POINTS", $lng->txt("points_checked"));
-                
+
                 $template->setCurrentBlock('area_points_unchecked_head');
                 $template->setVariable("TEXT_POINTS_UNCHECKED", $lng->txt("points_unchecked"));
                 $template->parseCurrentBlock();
@@ -139,17 +139,17 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
             $template->setVariable("TEXT_COMMANDS", $lng->txt("actions"));
             $template->parseCurrentBlock();
         }
-        
+
         $template->setVariable("POST_VAR", $this->getPostVar());
         $template->setVariable("ID", $this->getFieldId());
         $template->setVariable("TXT_BROWSE", $lng->txt("select_file"));
         $template->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " .
             $this->getMaxFileSizeString());
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $template->get());
         $a_tpl->parseCurrentBlock();
-        
+
         global $DIC;
         $tpl = $DIC['tpl'];
         #$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");

@@ -210,13 +210,12 @@ class OAuthSignatureMethod_PLAINTEXT extends OAuthSignatureMethod
      * Token Secret, separated by a '&' character (ASCII code 38), even if either secret is
      * empty. The result MUST be encoded again.
      *   - Chapter 9.4.1 ("Generating Signatures")
-     *
      * Please note that the second encoding MUST NOT happen in the SignatureMethod, as
      * OAuthRequest handles this!
-     *
-     * @param OAuthRequest $request
-     * @param OAuthConsumer $consumer
+     * @param OAuthRequest    $request
+     * @param OAuthConsumer   $consumer
      * @param OAuthToken|null $token
+     * @return string
      */
     public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token) : string
     {

@@ -26,7 +26,17 @@ class ilBlogDataSet extends ilDataSet
 {
     protected ilObjBlog $current_blog;
     public static array $style_map = array();
-    
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain();
+    }
+
     public function getSupportedVersions() : array
     {
         return array("4.3.0", "5.0.0", "5.3.0");
@@ -231,10 +241,12 @@ class ilBlogDataSet extends ilDataSet
         array $a_set
     ) : array {
         if ($a_entity == "blog") {
+            $style = $this->content_style_domain->styleForObjId((int) $a_set["Id"]);
+
             $dir = ilObjBlog::initStorage($a_set["Id"]);
             $a_set["Dir"] = $dir;
             
-            $a_set["Style"] = ilObjStyleSheet::lookupObjectStyle($a_set["Id"]);
+            $a_set["Style"] = $style->getStyleId();
             
             // #14734
             $a_set["Notes"] = ilNote::commentsActivated($a_set["Id"], 0, "blog");

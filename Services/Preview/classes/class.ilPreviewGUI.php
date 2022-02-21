@@ -372,7 +372,9 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
         $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.texts.preview = \"" . self::jsonSafeString($DIC->language()->txt("preview")) . "\";");
         $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.texts.showPreview = \"" . self::jsonSafeString($DIC->language()->txt("preview_show"))
                                                   . "\";");
-        $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.texts.close = \"" . ilUtil::prepareFormOutput($DIC->language()->txt("close")) . "\";");
+        $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.texts.close = \"" . ilLegacyFormElementsUtil::prepareFormOutput(
+                $DIC->language()->txt("close")
+            ) . "\";");
         $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.previewSize = " . ilPreviewSettings::getImageSize() . ";");
         $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.initialHtml = " . json_encode($initialHtml) . ";");
         $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.highlightClass = \"ilContainerListItemOuterHighlight\";");

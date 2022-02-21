@@ -125,8 +125,10 @@ class ilCmiXapiVerbList
         
         return $options;
     }
-    
+
     /**
+     * @param ilLanguage $lng
+     * @param string     $verb
      * @return string
      */
     public static function getVerbTranslation(ilLanguage $lng, string $verb) : string

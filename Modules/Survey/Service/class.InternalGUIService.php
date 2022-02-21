@@ -116,9 +116,17 @@ class InternalGUIService
         return $mode_provider->getUIModifier();
     }
 
-
     public function lng() : \ilLanguage
     {
         return $this->lng;
+    }
+
+    public function print() : PrintView\GUIService
+    {
+        return new PrintView\GUIService(
+            $this,
+            $this->object_service,
+            $this->domain_service
+        );
     }
 }

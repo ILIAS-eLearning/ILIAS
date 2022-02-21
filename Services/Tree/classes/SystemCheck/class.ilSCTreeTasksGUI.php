@@ -186,15 +186,14 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 
     public function analyzeStructure() : void
     {
-
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->validateStructure();
 
         if ($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED) {
             // error message
-            ilUtil::sendFailure($this->getLang()->txt('sysc_tree_structure_failures') . ' ' . $num_failures, true);
+            $this->tpl->setOnScreenMessage('failure', $this->getLang()->txt('sysc_tree_structure_failures') . ' ' . $num_failures, true);
         } else {
-            ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->getLang()->txt('sysc_message_success'), true);
         }
         $this->getCtrl()->returnToParent($this);
     }
@@ -210,7 +209,6 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 
     protected function repairStructure() : void
     {
-
         $tasks = new ilSCTreeTasks($this->getTask());
 
         if ($this->tree->getTreeImplementation() instanceof ilMaterializedPathTree) {
@@ -223,7 +221,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getTask()->setLastUpdate(new ilDateTime(time(), IL_CAL_UNIX));
         $this->getTask()->update();
 
-        ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'), true);
+        $this->tpl->setOnScreenMessage('success', $this->getLang()->txt('sysc_message_success'), true);
         $this->getCtrl()->returnToParent($this);
     }
 
@@ -234,10 +232,10 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 
         if ($errors_count) {
             $this->getTask()->setStatus(ilSCTask::STATUS_FAILED);
-            ilUtil::sendFailure($this->getLang()->txt('sysc_tree_list_failures') . ' ' . $errors_count, true);
+            $this->tpl->setOnScreenMessage('failure', $this->getLang()->txt('sysc_tree_list_failures') . ' ' . $errors_count, true);
         } else {
             $this->getTask()->setStatus(ilSCTask::STATUS_COMPLETED);
-            ilUtil::sendFailure($this->getLang()->txt('sysc_message_success'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->getLang()->txt('sysc_message_success'), true);
         }
 
         $this->getTask()->setLastUpdate(new ilDateTime(time(), IL_CAL_UNIX));
@@ -259,23 +257,20 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 
     public function validateDuplicates() : void
     {
-
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->validateDuplicates();
 
         if ($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED) {
             // error message
-            ilUtil::sendFailure($this->getLang()->txt('sysc_tree_duplicate_failures') . ' ' . $num_failures, true);
+            $this->tpl->setOnScreenMessage('failure', $this->getLang()->txt('sysc_tree_duplicate_failures') . ' ' . $num_failures, true);
         } else {
-            ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->getLang()->txt('sysc_message_success'), true);
         }
         $this->getCtrl()->returnToParent($this);
     }
 
     protected function repairDuplicates() : void
     {
-
-
         $deepest_duplicate = ilSCTreeTasks::findDeepestDuplicate();
 
         $table = new ilSCTreeDuplicatesTableGUI($this, 'repairTask');
@@ -294,7 +289,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
             ilSCTreeTasks::repairPK();
         }
 
-        ilUtil::sendSuccess($this->getLang()->txt('sysc_deleted_duplicate'), true);
+        $this->tpl->setOnScreenMessage('success', $this->getLang()->txt('sysc_deleted_duplicate'), true);
         $this->getCtrl()->returnToParent($this);
     }
 
@@ -307,21 +302,20 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
             ilSCTreeTasks::repairPK();
         }
 
-        ilUtil::sendSuccess($this->getLang()->txt('sysc_deleted_duplicate'), true);
+        $this->tpl->setOnScreenMessage('success', $this->getLang()->txt('sysc_deleted_duplicate'), true);
         $this->getCtrl()->returnToParent($this);
     }
 
     protected function findMissing() : void
     {
-
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->findMissing();
 
         if ($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED) {
             // error message
-            ilUtil::sendFailure($this->getLang()->txt('sysc_tree_missing_failures') . ' ' . $num_failures, true);
+            $this->tpl->setOnScreenMessage('failure', $this->getLang()->txt('sysc_tree_missing_failures') . ' ' . $num_failures, true);
         } else {
-            ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->getLang()->txt('sysc_message_success'), true);
         }
         $this->getCtrl()->returnToParent($this);
     }
@@ -337,7 +331,6 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 
     protected function repairMissing() : void
     {
-
         $tasks = new ilSCTreeTasks($this->getTask());
         $tasks->repairMissing();
 
@@ -345,21 +338,20 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getTask()->setLastUpdate(new ilDateTime(time(), IL_CAL_UNIX));
         $this->getTask()->update();
 
-        ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'), true);
+        $this->tpl->setOnScreenMessage('success', $this->getLang()->txt('sysc_message_success'), true);
         $this->getCtrl()->returnToParent($this);
     }
 
     protected function findMissingTreeEntries() : void
     {
-
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->findMissingTreeEntries();
 
         if ($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED) {
             // error message
-            ilUtil::sendFailure($this->getLang()->txt('sysc_tree_missing_tree_failures') . ' ' . $num_failures, true);
+            $this->tpl->setOnScreenMessage('failure', $this->getLang()->txt('sysc_tree_missing_tree_failures') . ' ' . $num_failures, true);
         } else {
-            ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->getLang()->txt('sysc_message_success'), true);
         }
         $this->getCtrl()->returnToParent($this);
     }
@@ -375,7 +367,6 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 
     protected function repairMissingTreeEntries() : void
     {
-
         $tasks = new ilSCTreeTasks($this->getTask());
         $tasks->repairMissingTreeEntries();
 
@@ -383,7 +374,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getTask()->setLastUpdate(new ilDateTime(time(), IL_CAL_UNIX));
         $this->getTask()->update();
 
-        ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'), true);
+        $this->tpl->setOnScreenMessage('success', $this->getLang()->txt('sysc_message_success'), true);
         $this->getCtrl()->returnToParent($this);
     }
 }

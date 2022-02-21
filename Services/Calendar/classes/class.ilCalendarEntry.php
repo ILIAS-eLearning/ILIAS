@@ -12,6 +12,9 @@ define('IL_CAL_TRANSLATION_SYSTEM', 1);
  */
 class ilCalendarEntry implements ilDatePeriod
 {
+    public const TRANSLATION_NONE = 0;
+    public const TRANSLATION_SYSTEM = 1;
+
     protected ilLogger $log;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
@@ -31,7 +34,7 @@ class ilCalendarEntry implements ilDatePeriod
     protected bool $is_auto_generated = false;
     protected int $context_id = 0;
     protected string $context_info = '';
-    protected int $translation_type = IL_CAL_TRANSLATION_NONE;
+    protected int $translation_type = ilCalendarEntry::TRANSLATION_NONE;
     protected bool $is_milestone = false;
     protected int $completion = 0;
     protected bool $notification = false;
@@ -128,7 +131,7 @@ class ilCalendarEntry implements ilDatePeriod
 
     public function getPresentationTitle(bool $a_shorten = true) : string
     {
-        if ($this->getTranslationType() == IL_CAL_TRANSLATION_NONE) {
+        if ($this->getTranslationType() == ilCalendarEntry::TRANSLATION_NONE) {
             $title = $this->getTitle();
         } elseif (strlen($this->getSubtitle())) {
             // parse dynamic title?
@@ -146,7 +149,7 @@ class ilCalendarEntry implements ilDatePeriod
         }
 
         if ($a_shorten) {
-            return ilUtil::shortenText(ilUtil::shortenWords($title, 20), 40, true);
+            return ilStr::shortenTextExtended(ilStr::shortenWords($title, 20), 40, true);
         }
         return $title;
     }

@@ -136,7 +136,8 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         
         $next_class = $this->ctrl->getNextClass($this);
         $this->ctrl->setReturn($this, "properties");
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "Modules/Survey"), "screen");
+        // deprecated, moved for less file
+        //$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "Modules/Survey"), "screen");
         $this->prepareOutput();
 
         $this->log->debug("next_class= $next_class");
@@ -359,7 +360,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $a_new_object->saveToDB();
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" .
             $a_new_object->getRefId() . "&cmd=properties");
     }
@@ -385,7 +386,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->tabs_gui->addTab(
                 "survey_questions",
                 $this->lng->txt("survey_questions"),
-                $this->ctrl->getLinkTargetByClass(array("ilsurveyeditorgui", "ilsurveypagegui"), "renderPage")
+                $this->ctrl->getLinkTargetByClass(array("ilsurveyeditorgui", "ilSurveyPageEditGUI"), "renderPage")
             );
         }
         
@@ -414,7 +415,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->lng->txt("survey_360_edit_raters"),
                     $this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'editRaters')
                 );
-                
+
                 // :TODO: mail to raters
             }
         }
@@ -523,11 +524,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             // this is adopted from ILIAS 7, unsure if or when this is necessary
             $this->run_manager->clearCode();
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "properties");
         }
 
-        ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
         $form->setValuesByPost();
         $this->propertiesObject($form);
     }
@@ -660,11 +661,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $error = $newObj->importObject($_FILES["importfile"], $form->getInput("spl"));
             if (strlen($error)) {
                 $newObj->delete();
-                ilUtil::sendFailure($error);
+                $this->tpl->setOnScreenMessage('failure', $error);
                 return;
             }
 
-            ilUtil::sendSuccess($this->lng->txt("object_imported"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
             ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
                 "&baseClass=ilObjSurveyGUI");
 
@@ -792,6 +793,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         string $a_access_code = ""
     ) : void {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -816,7 +818,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $a_target);
             $ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -1057,7 +1059,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         
         $this->sendUserResultsMail($active_id, $recipient);
         
-        ilUtil::sendSuccess($this->lng->txt("mail_sent"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("mail_sent"), true);
         $this->ctrl->redirect($this, "infoScreen");
     }
     

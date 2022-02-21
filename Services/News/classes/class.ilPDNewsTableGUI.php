@@ -279,7 +279,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         );
         $this->tpl->setVariable(
             "IMG_CONTEXT_TITLE",
-            ilObject::_getIcon($a_set["context_obj_id"])
+            ilObject::_getIcon((int) $a_set["context_obj_id"])
         );
         $this->tpl->parseCurrentBlock();
 

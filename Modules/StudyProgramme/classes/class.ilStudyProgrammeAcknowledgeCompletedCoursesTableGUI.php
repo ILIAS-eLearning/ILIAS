@@ -18,7 +18,7 @@ class ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI extends ilTable2GUI
         parent::__construct($parent_obj);
         $this->user_id = $user_id;
 
-        $this->addColumn("", "", "1", 1);
+        $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("title"));
 
         $this->setRowTemplate("tpl.acknowledge_completed_courses_row.html", "Modules/StudyProgramme");

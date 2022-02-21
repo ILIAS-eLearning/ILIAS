@@ -86,7 +86,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable(
             "SCREEN_IDS",
-            ilUtil::prepareFormOutput(implode("\n", $screen_ids))
+            ilLegacyFormElementsUtil::prepareFormOutput(implode("\n", $screen_ids))
         );
     }
 }

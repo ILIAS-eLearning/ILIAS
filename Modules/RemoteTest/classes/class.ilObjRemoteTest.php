@@ -166,7 +166,7 @@ class ilObjRemoteTest extends ilRemoteObjectBase
     {
         // add custom values
         // $this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);
-        
+
         // :TODO: ACTIVATION_LIMITED is currently not supported in ECS yet
     }
 }

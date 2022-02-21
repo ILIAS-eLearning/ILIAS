@@ -109,4 +109,19 @@ class EvaluationGUIRequest
     {
         return $this->str("export_format");
     }
+
+    public function getPrintSelection() : string
+    {
+        return $this->str("print_selection");
+    }
+
+    public function getQuestionIds() : array
+    {
+        return $this->intArray("qids");
+    }
+
+    public function getActiveIds() : array
+    {
+        return $this->intArray("active_ids");
+    }
 }

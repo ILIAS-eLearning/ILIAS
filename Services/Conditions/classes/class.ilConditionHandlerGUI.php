@@ -301,7 +301,7 @@ class ilConditionHandlerGUI
             $this->getTargetRefId() > 0 &&
             $this->conditionUtil->isUnderParentControl($this->getTargetRefId())
         ) {
-            ilUtil::sendInfo($this->lng->txt("cond_under_parent_control"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cond_under_parent_control"));
             return;
         }
 
@@ -395,12 +395,12 @@ class ilConditionHandlerGUI
             $cond->setTargetRefId($this->getTargetRefId());
             $cond->updateHiddenStatus((bool) $form->getInput('hidden'));
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'listConditions');
         }
 
         $form->setValuesByPost();
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -417,7 +417,7 @@ class ilConditionHandlerGUI
 
         $obligatory_ids = $this->initObligatoryItemsFromPost();
         if (count($obligatory_ids) > count($all_conditions) - 2) {
-            ilUtil::sendFailure($this->lng->txt("rbac_precondition_minimum_optional"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("rbac_precondition_minimum_optional"), true);
             $this->ctrl->redirect($this, 'listConditions');
         }
 
@@ -437,7 +437,7 @@ class ilConditionHandlerGUI
             true
         );
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'listConditions');
     }
 
@@ -512,7 +512,7 @@ class ilConditionHandlerGUI
     {
         $condition_id = $this->initConditionIdFromQuery();
         if (!$condition_id) {
-            ilUtil::sendFailure("Missing id: condition_id");
+            $this->tpl->setOnScreenMessage('failure', "Missing id: condition_id");
             $this->listConditions();
             return;
         }
@@ -529,7 +529,7 @@ class ilConditionHandlerGUI
     {
         $condition_id = $this->initConditionIdFromQuery();
         if (!$condition_id) {
-            ilUtil::sendFailure("Missing id: condition_id");
+            $this->tpl->setOnScreenMessage('failure', "Missing id: condition_id");
             $this->listConditions();
             return;
         }
@@ -544,7 +544,7 @@ class ilConditionHandlerGUI
         );
 
         if (!$form->checkInput()) {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $this->edit($form);
             return;
         }
@@ -577,7 +577,7 @@ class ilConditionHandlerGUI
             }
             ilLPStatusWrapper::_refreshStatus($condition['trigger_obj_id']);
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'listConditions');
     }
 
@@ -585,7 +585,7 @@ class ilConditionHandlerGUI
     {
         $condition_ids = $this->initConditionsIdsFromPost();
         if (!count($condition_ids)) {
-            ilUtil::sendFailure($this->lng->txt('no_condition_selected'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_condition_selected'));
             $this->listConditions();
             return;
         }
@@ -617,7 +617,7 @@ class ilConditionHandlerGUI
     {
         $condition_ids = $this->initConditionsIdsFromPost();
         if (!count($condition_ids)) {
-            ilUtil::sendFailure($this->lng->txt('no_condition_selected'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_condition_selected'));
             $this->listConditions();
             return;
         }
@@ -625,13 +625,13 @@ class ilConditionHandlerGUI
         foreach ($condition_ids as $condition_id) {
             $this->ch_obj->deleteCondition($condition_id);
         }
-        ilUtil::sendSuccess($this->lng->txt('condition_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('condition_deleted'), true);
         $this->ctrl->redirect($this, 'listConditions');
     }
 
     public function selector() : void
     {
-        ilUtil::sendInfo($this->lng->txt("condition_select_object"));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("condition_select_object"));
 
         $exp = new ilConditionSelector($this, "selector");
         $exp->setTypeWhiteList(array_merge(
@@ -651,7 +651,7 @@ class ilConditionHandlerGUI
     {
         $source_id = $this->initSourceIdFromQuery();
         if (!$source_id) {
-            ilUtil::sendFailure("Missing id: condition_id");
+            $this->tpl->setOnScreenMessage('failure', "Missing id: condition_id");
             $this->selector();
             return;
         }
@@ -668,14 +668,14 @@ class ilConditionHandlerGUI
     {
         $source_id = $this->initSourceIdFromQuery();
         if (!$source_id) {
-            ilUtil::sendFailure($this->lng->txt('no_condition_selected'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_condition_selected'));
             $this->selector();
             return;
         }
 
         $form = $this->initFormCondition($source_id, 0, 'add');
         if (!$form->checkInput()) {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $this->add($form);
             return;
         }
@@ -717,9 +717,9 @@ class ilConditionHandlerGUI
         }
         $this->ch_obj->enableAutomaticValidation($this->getAutomaticValidation());
         if (!$this->ch_obj->storeCondition()) {
-            ilUtil::sendFailure($this->ch_obj->getErrorMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $this->ch_obj->getErrorMessage(), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt('added_new_condition'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('added_new_condition'), true);
         }
         $this->ctrl->redirect($this, 'listConditions');
     }

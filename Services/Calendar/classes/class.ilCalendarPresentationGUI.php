@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HttpServices;
+
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @version      $Id$
@@ -22,6 +25,9 @@ class ilCalendarPresentationGUI
     protected \ILIAS\DI\UIServices $ui;
     protected ilToolbarGUI $toolbar;
     protected ilAccessHandler $access;
+    protected HttpServices $http;
+    protected RefineryFactory $refinery;
+
 
     protected ilCalendarSettings $cal_settings;
     protected ilCalendarActions $actions;
@@ -42,6 +48,8 @@ class ilCalendarPresentationGUI
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('dateplaner');
 
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs_gui = $DIC->tabs();
         $this->user = $DIC->user();
@@ -51,8 +59,14 @@ class ilCalendarPresentationGUI
         $this->ui = $DIC->ui();
         $this->toolbar = $DIC->toolbar();
         $this->ref_id = $a_ref_id;
-        $this->category_id = (int) $_GET["category_id"];
-        $this->ctrl->setParameter($this, 'category_id', (int) $_REQUEST['category_id']);
+        $this->category_id = 0;
+        if ($this->http->wrapper()->query()->has('category_id')) {
+            $this->category_id = $this->http->wrapper()->query()->retrieve(
+                'category_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $this->ctrl->setParameter($this, 'category_id', $this->category_id);
         $this->cal_settings = ilCalendarSettings::_getInstance();
 
         // show back to pd
@@ -88,16 +102,46 @@ class ilCalendarPresentationGUI
         return $this->repository_mode;
     }
 
+    protected function initAppointmentIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('app_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'app_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initCategoryIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('category_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'category_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+
     /**
      * Init and redirect to consultation hours
      */
     protected function initAndRedirectToConsultationHours() : void
     {
+        $ch_user_id = 0;
+        if ($this->http->wrapper()->query()->has('ch_user_id')) {
+            $ch_user_id = $this->http->wrapper()->query()->retrieve(
+                'ch_user_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
         $visibility = ilCalendarVisibility::_getInstanceByUserId($this->user->getId(), $this->ref_id);
         foreach ($this->cats->getCategoriesInfo() as $info) {
             if (
                 $info["type"] == ilCalendarCategory::TYPE_CH &&
-                $info["obj_id"] == $_GET["ch_user_id"]
+                $info["obj_id"] == $ch_user_id
             ) {
                 $v = $visibility->getVisible();
                 if (!in_array($info["cat_id"], $v)) {
@@ -135,7 +179,7 @@ class ilCalendarPresentationGUI
         $next_class = $this->getNextClass();
 
         if (!ilCalendarSettings::_getInstance()->isEnabled()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
         }
 
@@ -225,7 +269,7 @@ class ilCalendarPresentationGUI
                 $this->ctrl->setReturn($this, '');
                 $this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
 
-                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, (int) $_GET['app_id']);
+                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, $this->initAppointmentIdFromQuery());
                 $this->ctrl->forwardCommand($app);
                 break;
 
@@ -233,7 +277,15 @@ class ilCalendarPresentationGUI
                 $this->ctrl->setReturn($this, '');
                 //$this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
                 $this->tabs_gui->activateTab("cal_agenda");
-                $sub = new ilCalendarSubscriptionGUI((int) $_REQUEST['category_id'], (int) $_GET["ref_id"]);
+
+                $ref_id = 0;
+                if ($this->http->wrapper()->query()->has('ref_id')) {
+                    $ref_id = $this->http->wrapper()->query()->retrieve(
+                        'ref_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+                $sub = new ilCalendarSubscriptionGUI($this->category_id, $ref_id);
                 $this->ctrl->forwardCommand($sub);
                 if ($this->showToolbarAndSidebar()) {
                     $this->showSideBlocks();
@@ -276,7 +328,14 @@ class ilCalendarPresentationGUI
                 break;
 
             case 'ilpublicuserprofilegui':
-                $user_profile = new ilPublicUserProfileGUI($_GET["user_id"]);
+                $user_id = $this->user->getId();
+                if ($this->http->wrapper()->query()->has('user_id')) {
+                    $user_id = $this->http->wrapper()->query()->retrieve(
+                        'user_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+                $user_profile = new ilPublicUserProfileGUI($user_id);
                 $html = $this->ctrl->forwardCommand($user_profile);
                 $this->tpl->setContent($html);
                 break;
@@ -418,7 +477,7 @@ class ilCalendarPresentationGUI
                 $this->user->writePref('cal_last_class', $a_class);
                 $_SESSION['cal_last_tab'] = 'cal_upcoming_events_header';
                 $this->setCmdClass('ilcalendarinboxgui');
-                $inbox_gui = new ilCalendarinboxGUI($this->seed);
+                $inbox_gui = new ilCalendarInboxGUI($this->seed);
                 $this->ctrl->forwardCommand($inbox_gui);
                 return $inbox_gui;
         }
@@ -452,10 +511,9 @@ class ilCalendarPresentationGUI
     {
         $ctrl = $this->ctrl;
         $this->tabs_gui->clearTargets();
-        $ctrl->setParameterByClass(ilCalendarCategoryGUI::class, "category_id", $_REQUEST["category_id"]);
+        $ctrl->setParameterByClass(ilCalendarCategoryGUI::class, "category_id", $this->initCategoryIdFromQuery());
         if ($this->getRepositoryMode()) {
-            $came_from_pd = $_REQUEST['backpd'];
-            if ($came_from_pd) {
+            if ($this->http->wrapper()->query()->has('backpd')) {
                 $this->tabs_gui->setBack2Target(
                     $this->lng->txt('back_to_pd'),
                     $this->ctrl->getLinkTargetByClass(ilDashboardGUI::class, 'jumpToCalendar')
@@ -466,21 +524,20 @@ class ilCalendarPresentationGUI
                 $label,
                 $this->ctrl->getParentReturn($this)
             );
-        } else {
+        } elseif ($this->http->wrapper()->query()->has('backvm')) {
+
             // no object calendar => back is back to manage view
-            if (array_key_exists('backvm', $_REQUEST)) {
-                $this->tabs_gui->setBackTarget(
-                    $this->lng->txt("back"),
-                    $ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, 'manage')
-                );
-            } else {
-                $ctrl->clearParameterByClass(ilCalendarPresentationGUI::class, 'category_id');
-                $this->tabs_gui->setBackTarget(
-                    $this->lng->txt("back"),
-                    $ctrl->getLinkTargetByClass('ilcalendarpresentationgui', '')
-                );
-            }
-            $ctrl->setParameterByClass(ilCalendarPresentationGUI::class, "category_id", $_REQUEST["category_id"]);
+            $this->tabs_gui->setBackTarget(
+                $this->lng->txt("back"),
+                $ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, 'manage')
+            );
+        } else {
+            $ctrl->clearParameterByClass(ilCalendarPresentationGUI::class, 'category_id');
+            $this->tabs_gui->setBackTarget(
+                $this->lng->txt("back"),
+                $ctrl->getLinkTargetByClass('ilcalendarpresentationgui', '')
+            );
+            $ctrl->setParameterByClass(ilCalendarPresentationGUI::class, "category_id", $this->initCategoryIdFromQuery());
         }
 
         $this->tabs_gui->addTab(
@@ -514,11 +571,9 @@ class ilCalendarPresentationGUI
         $access = $this->access;
         $rbacsystem = $this->rbacsystem;
 
-        $came_from_pd = $_REQUEST['backpd'];
-
         $this->tabs_gui->clearTargets();
         if ($this->getRepositoryMode()) {
-            if ($came_from_pd) {
+            if ($this->http->wrapper()->query()->has('back_tp_pd')) {
                 $this->tabs_gui->setBack2Target(
                     $this->lng->txt('back_to_pd'),
                     $this->ctrl->getLinkTargetByClass(ilDashboardGUI::class, 'jumpToCalendar')
@@ -571,8 +626,10 @@ class ilCalendarPresentationGUI
                     $this->ctrl->getLinkTargetByClass(ilConsultationHoursGUI::class, '')
                 );
             }
-            $this->tabs_gui->addTarget('cal_manage',
-                $this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI', 'manage'));
+            $this->tabs_gui->addTarget(
+                'cal_manage',
+                $this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI', 'manage')
+            );
             $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI', ''));
         }
     }
@@ -610,8 +667,11 @@ class ilCalendarPresentationGUI
                     break;
 
                 case ilCalendarCategory::TYPE_CH:
-                    $header = str_replace("%1", ilObjUser::_lookupFullname($category->getObjId()),
-                        $this->lng->txt("cal_consultation_hours_for_user"));
+                    $header = str_replace(
+                        "%1",
+                        ilObjUser::_lookupFullname($category->getObjId()),
+                        $this->lng->txt("cal_consultation_hours_for_user")
+                    );
                     break;
 
                 case ilCalendarCategory::TYPE_BOOK:
@@ -634,14 +694,20 @@ class ilCalendarPresentationGUI
 
             // iCal-Url
             $ctrl->setParameterByClass("ilcalendarsubscriptiongui", "category_id", $this->category_id);
-            $action_menu->addItem($this->lng->txt("cal_ical_url"), "",
-                $ctrl->getLinkTargetByClass("ilcalendarsubscriptiongui", ""));
+            $action_menu->addItem(
+                $this->lng->txt("cal_ical_url"),
+                "",
+                $ctrl->getLinkTargetByClass("ilcalendarsubscriptiongui", "")
+            );
 
             // delete action
             if ($this->actions->checkDeleteCal($this->category_id)) {
                 $ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
-                $action_menu->addItem($this->lng->txt("cal_delete_cal"), "",
-                    $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete"));
+                $action_menu->addItem(
+                    $this->lng->txt("cal_delete_cal"),
+                    "",
+                    $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete")
+                );
             }
             $tpl->setHeaderActionMenu($action_menu->getHTML());
         }
@@ -652,11 +718,19 @@ class ilCalendarPresentationGUI
      */
     public function initSeed() : void
     {
+        $seed = '';
+        if ($this->http->wrapper()->query()->has('seed')) {
+            $seed = $this->http->wrapper()->query()->retrieve(
+                'seed',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
         // default to today
         $now = new \ilDate(time(), IL_CAL_UNIX);
         $this->seed = new \ilDate($now->get(IL_CAL_DATE), IL_CAL_DATE);
-        if (isset($_REQUEST['seed'])) {
-            $this->seed = new ilDate($_GET['seed'], IL_CAL_DATE);
+        if ($seed) {
+            $this->seed = new ilDate($seed, IL_CAL_DATE);
         } elseif (!$this->getRepositoryMode()) {
             $session_seed = ilSession::get('cal_seed');
             if ($session_seed) {

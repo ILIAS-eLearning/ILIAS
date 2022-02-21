@@ -1,12 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2022 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/bootstrap.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilServicesLTISuite
  * @author Uwe Kohnle <support@internetlehrer-gmbh.de>
@@ -28,8 +37,6 @@ class ilServicesLTISuite extends TestSuite
             ),
             '/BaseTest\.php$/'
         ) as $file) {
-            /** @var SplFileInfo $file */
-            require_once $file->getPathname();
         }
 
         foreach (new RegExIterator(
@@ -39,9 +46,6 @@ class ilServicesLTISuite extends TestSuite
             ),
             '/(?<!Base)Test\.php$/'
         ) as $file) {
-            /** @var SplFileInfo $file */
-            require_once $file->getPathname();
-
             $className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
             if (class_exists($className)) {
                 $reflection = new ReflectionClass($className);

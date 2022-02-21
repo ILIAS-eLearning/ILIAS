@@ -135,14 +135,19 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
 
         if ($this->order_field != "") {
             foreach ($this->childs as $k => $childs) {
-                $this->childs[$k] = ilUtil::sortArray($childs, $this->order_field, "asc", $this->order_field_numeric);
+                $this->childs[$k] = ilArrayUtil::sortArray(
+                    $childs,
+                    $this->order_field,
+                    "asc",
+                    $this->order_field_numeric
+                );
             }
         }
 
         // sort childs and store prev/next reference
         if ($this->order_field == "") {
             $this->all_childs =
-                ilUtil::sortArray($this->all_childs, "lft", "asc", true, true);
+                ilArrayUtil::sortArray($this->all_childs, "lft", "asc", true, true);
             $prev = false;
             foreach ($this->all_childs as $k => $c) {
                 if ($prev) {

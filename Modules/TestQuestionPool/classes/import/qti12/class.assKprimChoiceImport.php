@@ -74,7 +74,7 @@ class assKprimChoiceImport extends assQuestionImport
                                         $answertext = $this->object->QTIMaterialToString($mat);
                                     }
                                 }
-                                
+
                                 $answers[$ident] = array(
                                     "answertext" => $answertext,
                                     "imagefile" => $answerimage,
@@ -86,10 +86,10 @@ class assKprimChoiceImport extends assQuestionImport
                     break;
             }
         }
-        
+
         $feedbacks = array();
         $feedbacksgeneric = array();
-        
+
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->outcomes->decvar as $decvar) {
                 if ($decvar->getVarname() == 'SCORE') {
@@ -102,13 +102,13 @@ class assKprimChoiceImport extends assQuestionImport
                     }
                 }
             }
-            
+
             foreach ($resprocessing->respcondition as $respcondition) {
                 if (!count($respcondition->setvar)) {
                     foreach ($respcondition->getConditionvar()->varequal as $varequal) {
                         $ident = $varequal->respident;
                         $answers[$ident]['correctness'] = (bool) $varequal->getContent();
-                        
+
                         break;
                     }
 
@@ -178,9 +178,9 @@ class assKprimChoiceImport extends assQuestionImport
                 }
             }
         }
-        
+
         $this->addGeneralMetadata($item);
-        
+
         $this->object->setTitle($item->getTitle());
         $this->object->setNrOfTries($item->getMaxattempts());
         $this->object->setComment($item->getComment());
@@ -197,20 +197,20 @@ class assKprimChoiceImport extends assQuestionImport
         $this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
 
         $this->object->saveToDb();
-        
+
         foreach ($answers as $answerData) {
             $answer = new ilAssKprimChoiceAnswer();
             $answer->setImageFsDir($this->object->getImagePath());
             $answer->setImageWebDir($this->object->getImagePathWeb());
-            
+
             $answer->setPosition($answerData['answerorder']);
             $answer->setAnswertext($answerData['answertext']);
             $answer->setCorrectness($answerData['correctness']);
-            
+
             if (isset($answerData['imagefile']['label'])) {
                 $answer->setImageFile($answerData['imagefile']['label']);
             }
-            
+
             $this->object->addAnswer($answer);
         }
         // additional content editing mode information
@@ -261,7 +261,7 @@ class assKprimChoiceImport extends assQuestionImport
                 } else {
                     $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
                 }
-                
+
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
 

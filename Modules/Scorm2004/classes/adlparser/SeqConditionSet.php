@@ -69,10 +69,10 @@
      *****************************************************************************/
     class SeqConditionSet
     {
-        public $mCombination = null;
+        public ?string $mCombination = null;
         
         //convert vector to array
-        public $mConditions = null;
+        public ?array $mConditions = null;
         public bool $mRetry = false;
         public bool $mRollup = false;
         

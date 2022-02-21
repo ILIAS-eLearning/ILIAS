@@ -1,18 +1,18 @@
 <?php
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *****************************************************************************/
 /**
  * Legacy Content Object Parser
  *
@@ -44,7 +44,7 @@ class ilContObjParser extends ilMDSaxParser
     public ?ilLMPageObject $lm_page_object = null;
     public array $structure_objects = [];	// array of current structure objects
     public ?ilObjMediaObject $media_object = null;
-    public ?object $current_object;	// at the time a LearningModule, PageObject or StructureObject
+    public ?object $current_object = null;	// at the time a LearningModule, PageObject or StructureObject
     public ?ilLMTree $lm_tree = null;
     public array $pg_into_tree = [];
     public array $st_into_tree = [];
@@ -122,7 +122,7 @@ class ilContObjParser extends ilMDSaxParser
         }
     }
 
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -134,7 +134,7 @@ class ilContObjParser extends ilMDSaxParser
         $this->mapping = $mapping;
     }
 
-    public function startParsing()
+    public function startParsing() : void
     {
         $this->log->debug("start");
 
@@ -203,11 +203,11 @@ class ilContObjParser extends ilMDSaxParser
                         case "lm":
                             $page_obj = new ilLMPage($page_arr[1]);
                             break;
-                            
+
                         default:
                             die("Unknown content type " . $this->content_object->getType());
                     }
-                    
+
                     break;
 
                 case "gdf":
@@ -321,7 +321,7 @@ class ilContObjParser extends ilMDSaxParser
             }
             $obj_dir = $origin_id;
             $source_dir = $imp_dir . "/" . $this->subdir . "/objects/" . $obj_dir;
-            
+
             $file_obj = new ilObjFile($file_id, false);
             $target_dir = $file_obj->getDirectory();
             if (is_dir($source_dir)) {
@@ -334,10 +334,11 @@ class ilContObjParser extends ilMDSaxParser
             $file_obj->update();
         }
     }
-    
+
     /**
-     * set question import ident to pool/test question id mapping
-     */
+                 * set question import ident to pool/test question id mapping
+                 * @param mixed[] $a_map
+                 */
     public function setQuestionMapping(array $a_map) : void
     {
         $this->qst_mapping = $a_map;
@@ -549,7 +550,7 @@ class ilContObjParser extends ilMDSaxParser
             case "Properties":
                 $this->in_properties = true;
                 break;
-                
+
             case "Property":
                 if ($this->content_object->getType() == "lm") {
                     switch ($a_attribs["Name"]) {
@@ -560,65 +561,65 @@ class ilContObjParser extends ilMDSaxParser
                         case "PageHeader":
                             $this->content_object->setPageHeader($a_attribs["Value"]);
                             break;
-                            
+
                         case "TOCMode":
                             $this->content_object->setTOCMode($a_attribs["Value"]);
                             break;
-                            
+
                         case "ActiveLMMenu":
                             $this->content_object->setActiveLMMenu(
                                 ilUtil::yn2tf($a_attribs["Value"])
                             );
                             break;
-                            
+
                         case "ActiveNumbering":
                             $this->content_object->setActiveNumbering(
                                 ilUtil::yn2tf($a_attribs["Value"])
                             );
                             break;
-                        
+
                         case "ActiveTOC":
                             $this->content_object->setActiveTOC(
                                 ilUtil::yn2tf($a_attribs["Value"])
                             );
                             break;
-                            
+
                         case "ActivePrintView":
                             $this->content_object->setActivePrintView(
                                 ilUtil::yn2tf($a_attribs["Value"])
                             );
                             break;
-                            
+
                         case "CleanFrames":
                             $this->content_object->setCleanFrames(
                                 ilUtil::yn2tf($a_attribs["Value"])
                             );
                             break;
-                            
+
                         case "PublicNotes":
                             $this->content_object->setPublicNotes(
                                 ilUtil::yn2tf($a_attribs["Value"])
                             );
                             break;
-                            
+
                         case "HistoryUserComments":
                             $this->content_object->setHistoryUserComments(
                                 ilUtil::yn2tf($a_attribs["Value"])
                             );
                             break;
-                        
+
                         case "Rating":
                             $this->content_object->setRating(
                                 ilUtil::yn2tf($a_attribs["Value"])
                             );
                             break;
-                        
+
                         case "RatingPages":
                             $this->content_object->setRatingPages(
                                 ilUtil::yn2tf($a_attribs["Value"])
                             );
                             break;
-                            
+
                         case "HeaderPage":
                             if ($a_attribs["Value"] != "") {
                                 if ($this->pg_mapping[$a_attribs["Value"]] > 0) {
@@ -721,7 +722,7 @@ class ilContObjParser extends ilMDSaxParser
 
             // Identifier
             case "Identifier":
-                
+
                 // begin-patch optes_lok_export
                 if ($this->in_meta_data && $this->current_object instanceof ilStructureObject) {
                     if ($this->mapping instanceof ilImportMapping) {
@@ -737,7 +738,7 @@ class ilContObjParser extends ilMDSaxParser
                     }
                 }
                 // end-patch optes_lok_export
-            
+
                 // please note: Meta-Metadata and MetaData are different tags!
                 if (!$this->in_meta_meta_data) {
                     if ($this->in_meta_data && !$this->in_glossary_definition) {
@@ -757,7 +758,7 @@ class ilContObjParser extends ilMDSaxParser
                         //echo "looking for -".$a_attribs["Entry"]."-<br>";
 
                         $mob_id = $this->mob_mapping[$a_attribs["Entry"]];
-                    
+
                         // within learning module import, usually a media object
                         // has already been created with a media alias tag
                         if ($mob_id > 0) {
@@ -810,7 +811,7 @@ class ilContObjParser extends ilMDSaxParser
                     $this->map_area->setExtTitle($a_attribs["Title"]);
                 }
                 break;
-                
+
             // Question
             case "Question":
                 $this->cur_qid = $a_attribs["QRef"];
@@ -881,7 +882,7 @@ class ilContObjParser extends ilMDSaxParser
             && !$this->in_glossary_definition) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -923,7 +924,7 @@ class ilContObjParser extends ilMDSaxParser
                     $this->page_object->updateFromXML();
                     $this->pg_mapping[$this->lm_page_object->getImportId()]
                             = $this->lm_page_object->getId();
-                        
+
                     if ($this->mapping instanceof ilImportMapping) {
                         $import_id_parsed = ilUtil::parseImportId($this->lm_page_object->getImportId());
                         if ($import_id_parsed['type'] == 'pg') {
@@ -935,12 +936,12 @@ class ilContObjParser extends ilMDSaxParser
                             );
                         }
                     }
-    
+
                     // collect pages with internal links
                     if ($this->page_object->containsIntLink()) {
                         $this->pages_to_parse["lm:" . $this->page_object->getId()] = "lm:" . $this->page_object->getId();
                     }
-                        
+
                     // collect pages with mobs or files
                     if ($this->page_object->needsImportParsing()) {
                         $this->pages_to_parse["lm:" . $this->page_object->getId()] = "lm:" . $this->page_object->getId();
@@ -1036,7 +1037,7 @@ class ilContObjParser extends ilMDSaxParser
                     if (!$this->media_object->isAlias()) {
                         // now the media items are saved within the db
                         $this->media_object->update();
-                        
+
                         //echo "<br>update media object :".$this->media_object->getId().":";
 
                         // collect mobs with internal links
@@ -1165,12 +1166,12 @@ class ilContObjParser extends ilMDSaxParser
                     }
                     */
                 }
-                
+
                 if ($this->in_media_object) {
                     //echo "<br>call media object update listener";
                     $this->media_object->MDUpdateListener('General');
                 }
-                
+
                 if ($this->in_glossary_definition) {
                     $this->glossary_definition->MDUpdateListener('General');
                 }
@@ -1273,7 +1274,7 @@ class ilContObjParser extends ilMDSaxParser
                 if ($this->in_file_item) {
                     // set file name from xml file
                     $this->file_item->setFileName(trim($this->chr_data));
-                    
+
                     // special handling for file names with special characters
                     // (e.g. "&gt;")
                     if ($this->file_item->getType() == "file" &&
@@ -1282,7 +1283,7 @@ class ilContObjParser extends ilMDSaxParser
                         $imp_dir = $this->import_dir;
                         $source_dir = $imp_dir . "/" . $this->subdir . "/objects/" .
                             $this->file_item->getImportId();
-                        
+
                         // read "physical" file name from directory
                         if ($dir = opendir($source_dir)) {
                             while (false !== ($file = readdir($dir))) {
@@ -1293,7 +1294,7 @@ class ilContObjParser extends ilMDSaxParser
                             closedir($dir);
                         }
                     }
-                    
+
                     // set file item title
                     $this->file_item->setTitle(trim($this->chr_data));
                 }
@@ -1355,7 +1356,7 @@ class ilContObjParser extends ilMDSaxParser
             }
         }
     }
-    
+
     public function emptyMediaMetaCache($a_xml_parser) : void
     {
         foreach ($this->media_meta_cache as $cache_entry) {
@@ -1367,14 +1368,14 @@ class ilContObjParser extends ilMDSaxParser
                         $cache_entry["par2"]
                     );
                     break;
-                    
+
                 case "handlerEndTag":
                     parent::handlerEndTag(
                         $a_xml_parser,
                         $cache_entry["par1"]
                     );
                     break;
-                    
+
                 case "handlerCharacterData":
                     parent::handlerCharacterData(
                         $a_xml_parser,
@@ -1388,6 +1389,9 @@ class ilContObjParser extends ilMDSaxParser
         $this->media_meta_cache[] = array();
     }
 
+    /**
+                 * @return mixed[]
+                 */
     public function getGlossaryTermMap() : array
     {
         return $this->glossary_term_map;

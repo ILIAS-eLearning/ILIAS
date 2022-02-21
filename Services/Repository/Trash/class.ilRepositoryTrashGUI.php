@@ -94,14 +94,14 @@ class ilRepositoryTrashGUI
         $this->ctrl->setParameter($this, 'trash_ids', implode(',', $trash_ids));
 
         if (!count($trash_ids)) {
-            \ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
 
         if (!$form instanceof \ilPropertyFormGUI) {
             $form = $this->initFormTrashTargetLocation();
         }
-        \ilUtil::sendInfo($this->lng->txt('rep_target_location_info'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('rep_target_location_info'));
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -116,16 +116,16 @@ class ilRepositoryTrashGUI
         $form = $this->initFormTrashTargetLocation();
         if (!$form->checkInput() && count($trash_ids)) {
             $this->lng->loadLanguageModule('search');
-            \ilUtil::sendFailure($this->lng->txt('search_no_selection'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_no_selection'), true);
             $this->ctrl->returnToParent($this);
         }
 
         try {
             \ilRepUtil::restoreObjects($form->getInput('target_id'), $trash_ids);
-            \ilUtil::sendSuccess($this->lng->txt('msg_undeleted'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_undeleted'), true);
             $this->ctrl->returnToParent($this);
         } catch (\ilRepositoryException $e) {
-            \ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             $this->ctrl->returnToParent($this);
         }
     }
@@ -179,7 +179,7 @@ class ilRepositoryTrashGUI
         $objDefinition = $this->obj_definition;
 
         if (!is_array($a_ids) || count($a_ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             return false;
         }
         
@@ -344,7 +344,7 @@ class ilRepositoryTrashGUI
         $objects = $tree->getSavedNodeData($a_ref_id);
         
         if (count($objects) == 0) {
-            ilUtil::sendInfo($lng->txt("msg_trash_empty"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("msg_trash_empty"));
             return;
         }
         $ttab = new ilTrashTableGUI($this->parent_gui, "trash", $a_ref_id);
@@ -367,13 +367,13 @@ class ilRepositoryTrashGUI
         $lng->loadLanguageModule('rep');
         
         if (!is_array($a_ref_ids) || count($a_ref_ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             return false;
         }
 
         $tree_trash_queries = new \ilTreeTrashQueries();
         if ($tree_trash_queries->isTrashedTrash($a_ref_ids)) {
-            \ilUtil::sendFailure($this->lng->txt('rep_failure_trashed_trash'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('rep_failure_trashed_trash'), true);
             return false;
         }
         try {
@@ -389,9 +389,9 @@ class ilRepositoryTrashGUI
             foreach ($by_location as $target_id => $deleted_node_ids) {
                 \ilRepUtil::restoreObjects($target_id, $deleted_node_ids);
             }
-            ilUtil::sendSuccess($lng->txt("msg_undeleted"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_undeleted"), true);
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             return false;
         }
         return true;
@@ -405,17 +405,17 @@ class ilRepositoryTrashGUI
         $lng = $this->lng;
 
         if (!is_array($a_ref_ids) || count($a_ref_ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
         } else {
             try {
                 ilRepUtil::deleteObjects($a_cur_ref_id, $a_ref_ids);
                 if ($ilSetting->get('enable_trash')) {
-                    ilUtil::sendSuccess($lng->txt("info_deleted"), true);
+                    $this->tpl->setOnScreenMessage('success', $lng->txt("info_deleted"), true);
                 } else {
-                    ilUtil::sendSuccess($lng->txt("msg_removed"), true);
+                    $this->tpl->setOnScreenMessage('success', $lng->txt("msg_removed"), true);
                 }
             } catch (Exception $e) {
-                ilUtil::sendFailure($e->getMessage(), true);
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             }
         }
     }
@@ -427,14 +427,14 @@ class ilRepositoryTrashGUI
         $lng = $this->lng;
         
         if (!is_array($a_ref_ids) || count($a_ref_ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             return false;
         } else {
             try {
                 ilRepUtil::removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder);
-                ilUtil::sendSuccess($lng->txt("msg_removed"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("msg_removed"), true);
             } catch (Exception $e) {
-                ilUtil::sendFailure($e->getMessage(), true);
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
                 return false;
             }
         }

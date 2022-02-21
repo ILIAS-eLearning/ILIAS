@@ -60,7 +60,7 @@ class ilObjLanguage extends ilObject
         $objects = array();
         $languages = ilObject::_getObjectsByType("lng");
         foreach ($languages as $lang) {
-            $langObj = new ilObjLanguage($lang["obj_id"], false);
+            $langObj = new ilObjLanguage((int) $lang["obj_id"], false);
             if ($langObj->isInstalled()) {
                 $objects[] = $langObj;
             } else {
@@ -262,39 +262,16 @@ class ilObjLanguage extends ilObject
         global $DIC;
 
         $component_repository = $DIC["component.repository"];
-        $component_factory = $DIC["component.factory"];
-
-        foreach ($component_repository->getPluginSlots() as $slot) {
-            foreach ($component_factory->getActivePluginsInSlot($slot->getId()) as $plugin) {
-                $plugin->updateLanguages($a_lang_keys);
-                $ilPluginAdmin = $DIC["ilPluginAdmin"];
-
-                // refresh languages of activated plugins
-                $slots = ilPluginSlot::getAllSlots();
-                foreach ($slots as $slot) {
-                    $act_plugins = $ilPluginAdmin->getActivePluginsForSlot(
-                        $slot["component_type"],
-                        $slot["component_name"],
-                        $slot["slot_id"]
-                    );
-                    foreach ($act_plugins as $plugin) {
-                        include_once "./Services/Component/classes/class.ilPlugin.php";
-                        $pl = ilPlugin::getPluginObject(
-                            $slot["component_type"],
-                            $slot["component_name"],
-                            $slot["slot_id"],
-                            $plugin
-                        );
-                        if (is_object($pl)) {
-                            $pl->updateLanguages($a_lang_keys);
-                        }
-                    }
-                }
+        foreach ($component_repository->getPlugins() as $plugin) {
+            if (!$plugin->isActive()) {
+                continue;
             }
+            $handler = new ilPluginLanguage($plugin);
+            $handler->updateLanguages($a_lang_keys);
         }
     }
 
-                    
+
     /**
     * Delete languge data
     ** $a_lang_key    lang key
@@ -322,7 +299,7 @@ class ilObjLanguage extends ilObject
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         ilObjLanguage::_deleteLangData($this->key, ($a_mode == "keep_local"));
 
         if ($a_mode == "all") {
@@ -342,14 +319,14 @@ class ilObjLanguage extends ilObject
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         if ($a_min_date == "") {
             $a_min_date = "1980-01-01 00:00:00";
         }
         if ($a_max_date == "") {
             $a_max_date = "2200-01-01 00:00:00";
         }
-        
+
         $q = sprintf(
             "SELECT * FROM lng_data WHERE lang_key = %s " .
             "AND local_change >= %s AND local_change <= %s",
@@ -358,7 +335,7 @@ class ilObjLanguage extends ilObject
             $ilDB->quote($a_max_date, "timestamp")
         );
         $result = $ilDB->query($q);
-        
+
         $changes = array();
         while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $changes[$row["module"]][$row["identifier"]] = $row["value"];
@@ -434,7 +411,7 @@ class ilObjLanguage extends ilObject
                 $scopeExtension = "." . $scope;
             }
         }
-        
+
         $path = $this->lang_path;
         if ($scope == "local") {
             $path = $this->cust_lang_path;
@@ -494,7 +471,7 @@ class ilObjLanguage extends ilObject
                                 );
                             }
                             $double_checker[$separated[0]][$separated[1]][$this->key] = true;
-                            
+
                             // insert a new value if no local value exists
                             // reset local change date if the values are equal
                             ilObjLanguage::replaceLangEntry(
@@ -547,7 +524,7 @@ class ilObjLanguage extends ilObject
                     $ilDB->manipulate($query);
                 }
             }
-            
+
             foreach ($lang_array as $module => $lang_arr) {
                 if ($scope == "local") {
                     $q = "SELECT * FROM lng_modules WHERE " .
@@ -659,7 +636,7 @@ class ilObjLanguage extends ilObject
         );
         return true;
     }
-    
+
     /**
     * Replace lang entry
     */
@@ -721,7 +698,7 @@ class ilObjLanguage extends ilObject
         return true;
     }
 
-    
+
     /**
      * search ILIAS for users which have selected '$lang_key' as their prefered language and
      * reset them to default language (english). A message is sent to all affected users
@@ -732,7 +709,7 @@ class ilObjLanguage extends ilObject
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $query = "UPDATE usr_pref SET " .
                 "value = " . $ilDB->quote($this->lang_default, "text") . " " .
                 "WHERE keyword = " . $ilDB->quote('language', "text") . " " .
@@ -797,9 +774,9 @@ class ilObjLanguage extends ilObject
         if ($scope == "local") {
             $path = $this->cust_lang_path;
         }
-        
+
         $tmpPath = getcwd();
-        
+
         // dir check
         if (!is_dir($path)) {
             $this->ilias->raiseError("Directory not found: " . $path, $this->ilias->error_obj->MESSAGE);
@@ -820,7 +797,7 @@ class ilObjLanguage extends ilObject
         if ($content === false) {
             $this->ilias->raiseError("Wrong Header in " . $lang_file, $this->ilias->error_obj->MESSAGE);
         }
-        
+
         // check (counting) elements of each lang-entry
         $line = 0;
         $n = 0;
@@ -842,7 +819,7 @@ class ilObjLanguage extends ilObject
         // no error occured
         return true;
     }
-    
+
     /**
     * Count number of users that use a language
     */
@@ -851,13 +828,13 @@ class ilObjLanguage extends ilObject
         global $DIC;
         $ilDB = $DIC->database();
         $lng = $DIC->language();
-        
+
         $set = $ilDB->query("SELECT COUNT(*) cnt FROM usr_data ud JOIN usr_pref up" .
             " ON ud.usr_id = up.usr_id " .
             " WHERE up.value = " . $ilDB->quote($a_lang, "text") .
             " AND up.keyword = " . $ilDB->quote("language", "text"));
         $rec = $ilDB->fetchAssoc($set);
-        
+
         // add users with no usr_pref set to default language
         if ($a_lang == $lng->lang_default) {
             $set2 = $ilDB->query("SELECT COUNT(*) cnt FROM usr_data ud LEFT JOIN usr_pref up" .
@@ -865,7 +842,7 @@ class ilObjLanguage extends ilObject
                 " WHERE up.value IS NULL ");
             $rec2 = $ilDB->fetchAssoc($set2);
         }
-        
+
         return (int) $rec["cnt"] + (int) ($rec2["cnt"] ?? 0);
     }
 } // END class.LanguageObject

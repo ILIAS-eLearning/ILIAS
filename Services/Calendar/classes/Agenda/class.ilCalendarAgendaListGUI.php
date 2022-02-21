@@ -46,7 +46,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         } else {
             $this->period = $cal_setting->getDefaultPeriod();
         }
-        $this->user->writePref('cal_list_view', $this->period);
+        $this->user->writePref('cal_list_view', (string) $this->period);
     }
 
     /**
@@ -108,7 +108,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
         // get events
         $events = $this->getEvents();
-        $events = ilUtil::sortArray($events, "dstart", "asc", true);
+        $events = ilArrayUtil::sortArray($events, "dstart", "asc", true);
 
         $df = new \ILIAS\Data\Factory();
         $items = array();
@@ -188,9 +188,17 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
             $url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
-            $this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
-            $this->ctrl->setParameter($this, "dt", $_GET["dt"]);
-            $this->ctrl->setParameter($this, 'modal_title', $_GET["modal_title"]);
+            $this->ctrl->setParameter($this, "app_id", $this->initAppointmentIdFromQuery());
+            $this->ctrl->setParameter($this, "dt", $this->initInitialDateFromQuery());
+
+            $modal_title = '';
+            if ($this->http->wrapper()->query()->has('modal_title')) {
+                $modal_title = $this->http->wrapper()->query()->retrieve(
+                    'modal_title',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
+            $this->ctrl->setParameter($this, 'modal_title', $modal_title);
             $modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
             $shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(false),
                 "")->withOnClick($modal->getShowSignal());
@@ -228,7 +236,15 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
         // list actions
         $images = array_fill(1, 4, "<span class=\"ilAdvNoImg\"></span>");
-        if ($cal_agenda_per = (int) $_GET['cal_agenda_per']) {
+
+        $cal_agenda_per = 0;
+        if ($this->http->wrapper()->query()->has('cal_agenda_per')) {
+            $cal_agenda_per = $this->http->wrapper()->query()->retrieve(
+                'cal_agenda_per',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($cal_agenda_per = (int) $cal_agenda_per) {
             $images[$cal_agenda_per] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
         } else {
             $images[$this->period] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
@@ -304,7 +320,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
             return $qp["cal_agenda_per"];
         } elseif ($period = $user->getPref('cal_list_view')) {
-            return $period;
+            return (int) $period;
         } else {
             return $settings->getDefaultPeriod();
         }

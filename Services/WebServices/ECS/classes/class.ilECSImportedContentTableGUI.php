@@ -82,7 +82,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
             $p_title = ilObject::_lookupTitle($p_obj_id);
             $p_type = ilObject::_lookupType($p_obj_id);
             $this->tpl->setCurrentBlock('link');
-            $this->tpl->setVariable('LINK_IMG', ilUtil::getTypeIconPath($p_type, $p_obj_id, 'tiny'));
+            $this->tpl->setVariable('LINK_IMG', ilObject::_getIcon('tiny', $p_type, $p_obj_id));
             $this->tpl->setVariable('LINK_CONTAINER', $p_title);
             $this->tpl->setVariable('LINK_LINK', ilLink::_getLink($parent, $p_type));
             $this->tpl->parseCurrentBlock();

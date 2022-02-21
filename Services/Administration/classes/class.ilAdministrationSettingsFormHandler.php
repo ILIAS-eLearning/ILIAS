@@ -96,7 +96,7 @@ class ilAdministrationSettingsFormHandler
         if (is_subclass_of($class_name, "ilObject2GUI")) {
             $gui_obj = new $class_name($ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
         } else {
-            $gui_obj = new $class_name("", $ref_id, true, false);
+            $gui_obj = new $class_name([], $ref_id, true, false);
         }
 
         $gui_obj->setCreationMode(true);
@@ -111,7 +111,7 @@ class ilAdministrationSettingsFormHandler
     ) : void {
         switch ($a_form_id) {
             case self::FORM_SECURITY:
-                $types = array(self::SETTINGS_GENERAL, self::SETTINGS_USER, self::SETTINGS_FILE, self::SETTINGS_ROLE);
+                $types = array(self::SETTINGS_USER, self::SETTINGS_FILE, self::SETTINGS_ROLE);
                 break;
             
             case self::FORM_PRIVACY:
@@ -178,7 +178,7 @@ class ilAdministrationSettingsFormHandler
     }
     
     protected static function parseFieldValue(
-        string $a_field_type,
+        ?string $a_field_type,
         string &$a_field_value
     ) : bool {
         global $DIC;
@@ -227,6 +227,8 @@ class ilAdministrationSettingsFormHandler
         if (!is_array($a_data)) {
             return;
         }
+
+        ilLoggerFactory::getLogger('root')->dump($a_data, ilLogLevel::ERROR);
         
         // write permission for current gui?
         $has_write = $ilAccess->checkAccess(
@@ -249,6 +251,8 @@ class ilAdministrationSettingsFormHandler
                         
                     $stack = array();
                     foreach ($fields as $field_caption_id => $field_value) {
+                        ilLoggerFactory::getLogger('root')->dump($field_caption_id, ilLogLevel::ERROR);
+                        ilLoggerFactory::getLogger('root')->dump($field_value, ilLogLevel::ERROR);
                         $field_type = $subitems = null;
                         if (is_array($field_value)) {
                             $field_type = $field_value[1];

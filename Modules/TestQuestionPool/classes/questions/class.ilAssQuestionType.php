@@ -118,7 +118,7 @@ class ilAssQuestionType
 
         require_once 'Modules/TestQuestionPool/classes/class.ilQuestionsPlugin.php';
         return $this->pluginAdmin->isActive(
-            IL_COMP_MODULE,
+            ilComponentInfo::TYPE_MODULES,
             ilQuestionsPlugin::COMP_NAME,
             ilQuestionsPlugin::SLOT_ID,
             $this->getPluginName()

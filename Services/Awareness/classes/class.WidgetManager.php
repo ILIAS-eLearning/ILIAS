@@ -15,6 +15,8 @@
 
 namespace ILIAS\Awareness;
 
+use ilArrayUtil;
+
 /**
  * High level business class, interface to front ends
  *
@@ -236,7 +238,7 @@ class WidgetManager
             $names[$k]["sort_str"] = $sort_str;
         }
 
-        $names = \ilUtil::sortArray($names, "sort_str", "asc", false, true);
+        $names = ilArrayUtil::sortArray($names, "sort_str", "asc", false, true);
 
         foreach ($names as $n) {
             $obj = new \stdClass();
@@ -331,7 +333,7 @@ class WidgetManager
                     $names[$k]["sort_str"] = $sort_str;
                 }
 
-                $names = \ilUtil::sortArray($names, "sort_str", "asc", false, true);
+                $names = ilArrayUtil::sortArray($names, "sort_str", "asc", false, true);
 
                 foreach ($names as $n) {
                     // limit part 2

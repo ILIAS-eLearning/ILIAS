@@ -52,7 +52,7 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
         $this->requested_ref_id = $this->admin_gui_request->getRefId();
 
         $this->skill_tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->requested_ref_id);
-        
+
         $this->profile = $a_profile;
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->profile->getAssignments());
@@ -66,7 +66,7 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("name"), "name");
         $this->addColumn($this->lng->txt("object"), "object");
         //		$this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.profile_user_row.html", "Services/Skill");
 

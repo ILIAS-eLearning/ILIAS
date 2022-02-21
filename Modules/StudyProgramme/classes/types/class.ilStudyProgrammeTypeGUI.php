@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\UI\Component\Input;
 use ILIAS\UI\Component\Input\Field\Input as InputField;
 use ILIAS\UI\Renderer;
 use ILIAS\Refinery;
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
@@ -27,11 +27,12 @@ class ilStudyProgrammeTypeGUI
     protected ilStudyProgrammeTypeRepository $type_repository;
     protected Input\Factory $input_factory;
     protected Renderer $renderer;
-    protected ServerRequest $request;
+    protected Psr\Http\Message\ServerRequestInterface $request;
     protected Refinery\Factory $refinery_factory;
     protected ilObjStudyProgrammeGUI $parent_gui;
     protected array $installed_languages;
     protected Filesystem $web_dir;
+    protected RequestWrapper $request_wrapper;
 
     public function __construct(
         ilGlobalTemplateInterface $tpl,
@@ -45,9 +46,10 @@ class ilStudyProgrammeTypeGUI
         ilStudyProgrammeTypeRepository $type_repository,
         Input\Factory $input_factory,
         Renderer $renderer,
-        ServerRequest $request,
+        Psr\Http\Message\ServerRequestInterface $request,
         Refinery\Factory $refinery_factory,
-        Filesystem $web_dir
+        Filesystem $web_dir,
+        RequestWrapper $request_wrapper
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -63,6 +65,7 @@ class ilStudyProgrammeTypeGUI
         $this->request = $request;
         $this->refinery_factory = $refinery_factory;
         $this->web_dir = $web_dir;
+        $this->request_wrapper = $request_wrapper;
 
         $this->lng->loadLanguageModule('prg');
         $this->ctrl->saveParameter($this, 'type_id');
@@ -171,7 +174,9 @@ class ilStudyProgrammeTypeGUI
             $this->user,
             $this->web_dir
         );
-        $form->fillForm($this->type_repository->getType((int) $_GET['type_id']));
+        $form->fillForm($this->type_repository->getType(
+            $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int())
+        ));
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -186,7 +191,8 @@ class ilStudyProgrammeTypeGUI
             $this->user,
             $this->web_dir
         );
-        if ($form->saveObject($this->type_repository->getType((int) $_GET['type_id']))) {
+        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
+        if ($form->saveObject($this->type_repository->getType($type_id))) {
             $this->tpl->setOnScreenMessage("success", $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this, 'editCustomIcons');
         } else {
@@ -203,7 +209,8 @@ class ilStudyProgrammeTypeGUI
             $this->tpl,
             $this->lng
         );
-        $form->fillForm($this->type_repository->getType((int) $_GET['type_id']));
+        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
+        $form->fillForm($this->type_repository->getType($type_id));
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -216,7 +223,8 @@ class ilStudyProgrammeTypeGUI
             $this->tpl,
             $this->lng
         );
-        if ($form->saveObject($this->type_repository->getType((int) $_GET['type_id']))) {
+        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
+        if ($form->saveObject($this->type_repository->getType($type_id))) {
             $this->tpl->setOnScreenMessage("success", $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this, 'editAMD');
         } else {
@@ -261,7 +269,8 @@ class ilStudyProgrammeTypeGUI
 
     protected function edit() : void
     {
-        $type = $this->type_repository->getType((int) $_GET['type_id']);
+        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
+        $type = $this->type_repository->getType($type_id);
 
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
@@ -299,7 +308,8 @@ class ilStudyProgrammeTypeGUI
 
     protected function update() : void
     {
-        $type = $this->type_repository->getType((int) $_GET['type_id']);
+        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
+        $type = $this->type_repository->getType($type_id);
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
                 ilStudyProgrammeTypeGUI::class,
@@ -338,7 +348,8 @@ class ilStudyProgrammeTypeGUI
 
     protected function delete() : void
     {
-        $type = $this->type_repository->getType((int) $_GET['type_id']);
+        $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
+        $type = $this->type_repository->getType($type_id);
         try {
             $this->type_repository->deleteType($type);
             $this->tpl->setOnScreenMessage("success", $this->lng->txt('prg_type_msg_deleted'), true);

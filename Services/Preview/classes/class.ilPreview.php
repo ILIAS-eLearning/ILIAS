@@ -429,7 +429,7 @@ class ilPreview
      */
     public function getFilePathFormat() : string
     {
-        $path = ilUtil::removeTrailingPathSeparators($this->getAbsoluteStoragePath());
+        $path = ilFileUtils::removeTrailingPathSeparators($this->getAbsoluteStoragePath());
         return $path . "/" . self::FILENAME_FORMAT;
     }
 

@@ -59,6 +59,7 @@ class ilChatroomSmilies
     public static function _checkSetup() : bool
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         /** @var $lng ilLanguage */
         $lng = $DIC->language();
@@ -66,11 +67,11 @@ class ilChatroomSmilies
         $path = self::_getSmileyDir();
 
         if (!is_dir($path)) {
-            ilUtil::sendInfo($lng->txt('chatroom_smilies_dir_not_exists'));
+            $main_tpl->setOnScreenMessage('info', $lng->txt('chatroom_smilies_dir_not_exists'));
             ilFileUtils::makeDirParents($path);
 
             if (!is_dir($path)) {
-                ilUtil::sendFailure($lng->txt('chatroom_smilies_dir_not_available'));
+                $main_tpl->setOnScreenMessage('failure', $lng->txt('chatroom_smilies_dir_not_available'));
                 return false;
             }
 
@@ -95,11 +96,11 @@ class ilChatroomSmilies
             }
 
             self::_insertDefaultValues();
-            ilUtil::sendSuccess($lng->txt('chatroom_smilies_initialized'));
+            $main_tpl->setOnScreenMessage('success', $lng->txt('chatroom_smilies_initialized'));
         }
 
         if (!is_writable($path)) {
-            ilUtil::sendInfo($lng->txt('chatroom_smilies_dir_not_writable'));
+            $main_tpl->setOnScreenMessage('info', $lng->txt('chatroom_smilies_dir_not_writable'));
         }
 
         return true;

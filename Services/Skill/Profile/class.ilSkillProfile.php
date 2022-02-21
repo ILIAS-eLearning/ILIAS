@@ -230,7 +230,7 @@ class ilSkillProfile implements ilSkillUsageInfo
                       "level_id" => array("integer", (int) $level["level_id"])
                 )
             );
-            
+
             /*$ilDB->manipulate("INSERT INTO skl_profile_level ".
                 "(profile_id, base_skill_id, tref_id, level_id) VALUES (".
                 $ilDB->quote($this->getId(), "integer").",".

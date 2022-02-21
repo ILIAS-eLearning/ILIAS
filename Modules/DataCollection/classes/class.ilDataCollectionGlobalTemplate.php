@@ -201,7 +201,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                     $ifiles[] = array("file" => $f, "size" => filesize($f));
                     $total += filesize($f);
                 }
-                $ifiles = ilUtil::sortArray($ifiles, "size", "desc", true);
+                $ifiles = ilArrayUtil::sortArray($ifiles, "size", "desc", true);
                 foreach ($ifiles as $f) {
                     $ftpl->setCurrentBlock("i_entry");
                     $ftpl->setVariable("I_ENTRY",
@@ -824,27 +824,18 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
         $ilLocator = $DIC["ilLocator"];
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-
         $html = "";
-        if (is_object($ilPluginAdmin)) {
-            include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
-            $uip = new ilUIHookProcessor(
-                "Services/Locator",
-                "main_locator",
-                array("locator_gui" => $ilLocator)
-            );
-            if (!$uip->replaced()) {
-                $html = $ilLocator->getHTML();
-            }
-            $html = $uip->getHTML($html);
-        } else {
+        $uip = new ilUIHookProcessor(
+            "Services/Locator",
+            "main_locator",
+            array("locator_gui" => $ilLocator)
+        );
+        if (!$uip->replaced()) {
             $html = $ilLocator->getHTML();
         }
-
+        $html = $uip->getHTML($html);
         $this->setVariable("LOCATOR", $html);
     }
-
 
     //***********************************
     //

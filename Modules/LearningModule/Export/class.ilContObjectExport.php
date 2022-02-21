@@ -136,6 +136,7 @@ class ilContObjectExport
         );
 
         // export style
+        /*
         if ($this->cont_obj->getStyleSheetId() > 0) {
             $style_obj = new ilObjStyleSheet($this->cont_obj->getStyleSheetId(), false);
             $style_obj->setExportSubDir("style");
@@ -143,7 +144,7 @@ class ilContObjectExport
             if (is_file($style_file)) {
                 copy($style_file, $this->export_dir . "/" . $this->subdir . "/style.zip");
             }
-        }
+        }*/
 
         // dump xml document to file
         $this->xml->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->filename, false);

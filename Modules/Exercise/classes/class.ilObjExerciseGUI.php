@@ -64,8 +64,8 @@ class ilObjExerciseGUI extends ilObjectGUI
         $this->requested_ass_id = $this->exercise_request->getAssId();
 
         if ($this->requested_ass_id > 0 && is_object($this->object) && ilExAssignment::lookupExerciseId(
-                $this->requested_ass_id
-            ) == $this->object->getId()) {
+            $this->requested_ass_id
+        ) == $this->object->getId()) {
             $this->ass = $this->exercise_request->getAssignment();
         } elseif ($this->requested_ass_id > 0) {
             throw new ilExerciseException("Assignment ID does not match Exercise.");
@@ -249,7 +249,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
         $a_new_object->saveData();
 
-        ilUtil::sendSuccess($this->lng->txt("exc_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_added"), true);
 
         $ilCtrl->setParameterByClass("ilExAssignmentEditorGUI", "ref_id", $a_new_object->getRefId());
         $ilCtrl->redirectByClass("ilExAssignmentEditorGUI", "addAssignment");
@@ -817,11 +817,12 @@ class ilObjExerciseGUI extends ilObjectGUI
     ) : void {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ass_id = $DIC->http()->wrapper()->query()->retrieve(
-                "ass_id",
-                $DIC->refinery()->kindlyTo()->int()
-            ) ?? 0;
+            "ass_id",
+            $DIC->refinery()->kindlyTo()->int()
+        ) ?? 0;
 
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
@@ -901,13 +902,10 @@ class ilObjExerciseGUI extends ilObjectGUI
                 "infoScreen"
             );
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(
-                sprintf(
-                    $lng->txt("msg_no_perm_read_item"),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-                ),
-                true
-            );
+            $main_tpl->setOnScreenMessage('failure', sprintf(
+                $lng->txt("msg_no_perm_read_item"),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+            ), true);
             ilObjectGUI::_gotoRepositoryRoot();
         }
     }
@@ -1044,7 +1042,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         $objectId = $this->object->getId();
 
         if (false === $this->certificateDownloadValidator->isCertificateDownloadable($ilUser->getId(), $objectId)) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this);
         }
 

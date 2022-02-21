@@ -15,10 +15,12 @@ class ilFileDataForum extends ilFileData
     private int $pos_id;
     private string $forum_path;
     private ilErrorHandling $error;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $a_obj_id = 0, int $a_pos_id = 0)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->error = $DIC['ilErr'];
 
@@ -165,7 +167,7 @@ class ilFileDataForum extends ilFileData
         if (isset($files['name']) && is_array($files['name'])) {
             foreach ($files['name'] as $index => $name) {
                 $name = rtrim($name, '/');
-                $filename = ilUtil::_sanitizeFilemame($name);
+                $filename = ilFileUtils::_sanitizeFilemame($name);
                 $temp_name = $files['tmp_name'][$index];
                 $error = $files['error'][$index];
 
@@ -182,7 +184,7 @@ class ilFileDataForum extends ilFileData
 
         if (isset($files['name']) && is_string($files['name'])) {
             $files['name'] = rtrim($files['name'], '/');
-            $filename = ilUtil::_sanitizeFilemame($files['name']);
+            $filename = ilFileUtils::_sanitizeFilemame($files['name']);
             $temp_name = $files['tmp_name'];
 
             $path = $this->getForumPath() . '/' . $this->obj_id . '_' . $this->pos_id . '_' . $filename;
@@ -293,7 +295,7 @@ class ilFileDataForum extends ilFileData
         if (($path = $this->getFileDataByMD5Filename($file)) !== null) {
             ilFileDelivery::deliverFileLegacy($path['path'], $path['clean_filename']);
         } else {
-            ilUtil::sendFailure($DIC->lanuage()->txt('error_reading_file'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->lanuage()->txt('error_reading_file'), true);
         }
     }
 
@@ -303,7 +305,7 @@ class ilFileDataForum extends ilFileData
 
         $zip_file = $this->createZipFile();
         if (!$zip_file) {
-            ilUtil::sendFailure($DIC->language()->txt('error_reading_file'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('error_reading_file'), true);
             return false;
         }
 

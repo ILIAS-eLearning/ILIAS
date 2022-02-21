@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+
 class ilObjLearningSequenceLPPollingGUI
 {
     const PARAM_LSO_LP_OBJID = LSUrlBuilder::PARAM_LSO_PARAMETER;
@@ -8,6 +10,7 @@ class ilObjLearningSequenceLPPollingGUI
     protected int $current_user_id;
     protected ilObjectDataCache $obj_data_cache;
     protected ILIAS\Refinery\Factory $refinery;
+    protected RequestWrapper $request_wrapper;
 
     public function __construct(
         ilCtrl $ctrl,

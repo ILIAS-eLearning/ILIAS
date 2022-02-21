@@ -3,6 +3,8 @@
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Component\ViewControl\Section as Section;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HttpServices;
 
 /**
  * Calendar blocks, displayed in different contexts, e.g. groups and courses
@@ -14,6 +16,8 @@ use ILIAS\UI\Component\ViewControl\Section as Section;
  */
 class ilCalendarBlockGUI extends ilBlockGUI
 {
+    protected RefineryFactory $refinery;
+    protected HttpServices $http;
     protected int $mode = ilCalendarCategories::MODE_UNDEFINED;
     protected string $display_mode = '';
 
@@ -22,6 +26,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
     protected ilTabsGUI $tabs;
     protected ilObjectDataCache $obj_data_cache;
     protected ilHelpGUI $help;
+
 
     protected ilDate $seed;
     protected ilCalendarSettings $settings;
@@ -46,6 +51,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->ui = $DIC->ui();
         $this->help = $DIC->help();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->lng->loadLanguageModule("dateplaner");
         $this->help->addHelpSection("cal_block");
@@ -61,26 +68,15 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $params = $DIC->http()->request()->getQueryParams();
         $this->requested_cal_agenda_per = (int) ($params['cal_agenda_per'] ?? null);
 
-        $seed_str = "";
-        if ((!isset($_GET["seed"]) || $_GET["seed"] == "") &&
-            isset($_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"])) {
-            $seed_str = $_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"];
-        } elseif (isset($_GET["seed"])) {
-            $seed_str = $_GET["seed"];
-        }
-
-        if (isset($_GET["seed"]) && $_GET["seed"] != "") {
-            $_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"]
-                = $_GET["seed"];
-        }
-
-        if ($seed_str == "") {
-            $now = new \ilDate(time(), IL_CAL_UNIX);
-            $this->seed = new \ilDate($now->get(IL_CAL_DATE), IL_CAL_DATE);
+        $seed_str = $this->initSeedFromQuery();
+        if (!strlen($seed_str) && ilSession::has("il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed")) {
+            $seed_str = ilSession::get("il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed");
+        } elseif (strlen($seed_str)){
+            ilSession::set("il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed", $seed_str);
         } else {
-            $this->seed = new ilDate($seed_str, IL_CAL_DATE);
+            $seed_str = date('Y-m-d', time());
         }
-
+        $this->seed = new ilDate($seed_str, IL_CAL_DATE);
         $this->settings = ilCalendarSettings::_getInstance();
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($DIC->user()->getId());
 
@@ -90,6 +86,50 @@ class ilCalendarBlockGUI extends ilBlockGUI
         if ($this->display_mode !== "mmon") {
             $this->setPresentation(self::PRES_SEC_LIST);
         }
+    }
+
+    protected function initBookingUserFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('bkid')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'bkid',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initSeedFromQuery() : string
+    {
+        if ($this->http->wrapper()->query()->has('seed')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'seed',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        return '';
+    }
+
+    protected function initAppointmentIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('app_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'app_id',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        return 0;
+    }
+
+    protected function initInitialDateQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('dt')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'dt',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        return 0;
     }
 
     /**
@@ -150,9 +190,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $ilCtrl = $DIC->ctrl();
         $cmd_class = $ilCtrl->getCmdClass();
 
+        $cmd  = $ilCtrl->getCmd();
+
         if ($cmd_class == "ilcalendarappointmentgui" ||
             $cmd_class == "ilconsultationhoursgui" ||
-            $_GET['cmd'] == 'showCalendarSubscription') {
+            $cmd == 'showCalendarSubscription') {
             return IL_SCREEN_CENTER;
         }
         return '';
@@ -254,8 +296,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $a_tpl->parseCurrentBlock();
         }
 
-        if (isset($_GET["bkid"])) {
-            $user_id = $_GET["bkid"];
+        $bkid = $this->initBookingUserFromQuery();
+        if ($bkid) {
+            $user_id = $bkid;
             $disable_empty = true;
         } else {
             $user_id = $this->user->getId();
@@ -422,55 +465,54 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $user = $this->user;
 
         if ($this->mode == ilCalendarCategories::MODE_REPOSITORY) {
-            if (!isset($_GET["bkid"])) {
+            $bkid = $this->initBookingUserFromQuery();
+            if (!$bkid) {
                 $obj_id = $ilObjDataCache->lookupObjId((int) $this->requested_ref_id);
                 $participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
                 $users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
                 //$users = $participants->getParticipants();
                 $users = ilBookingEntry::lookupBookableUsersForObject($obj_id, $users);
                 foreach ($users as $user_id) {
-                    if (!isset($_GET["bkid"])) {
-                        $now = new ilDateTime(time(), IL_CAL_UNIX);
+                    $now = new ilDateTime(time(), IL_CAL_UNIX);
 
-                        // default to last booking entry
-                        $appointments = ilConsultationHourAppointments::getAppointments($user_id);
-                        $next_app = end($appointments);
-                        reset($appointments);
+                    // default to last booking entry
+                    $appointments = ilConsultationHourAppointments::getAppointments($user_id);
+                    $next_app = end($appointments);
+                    reset($appointments);
 
-                        foreach ($appointments as $entry) {
-                            // find next entry
-                            if (ilDateTime::_before($entry->getStart(), $now, IL_CAL_DAY)) {
-                                continue;
-                            }
-                            $booking_entry = new ilBookingEntry($entry->getContextId());
-                            if (!in_array($obj_id, $booking_entry->getTargetObjIds())) {
-                                continue;
-                            }
-
-                            if (!$booking_entry->isAppointmentBookableForUser($entry->getEntryId(), $user->getId())) {
-                                continue;
-                            }
-                            $next_app = $entry;
-                            break;
+                    foreach ($appointments as $entry) {
+                        // find next entry
+                        if (ilDateTime::_before($entry->getStart(), $now, IL_CAL_DAY)) {
+                            continue;
+                        }
+                        $booking_entry = new ilBookingEntry($entry->getContextId());
+                        if (!in_array($obj_id, $booking_entry->getTargetObjIds())) {
+                            continue;
                         }
 
-                        $path = $this->getTargetGUIClassPath();
-                        $this->ctrl->setParameterByClass(end($path), "ch_user_id", $user_id);
-
-                        if (!$this->getForceMonthView()) {
-                            $this->cal_footer[] = array(
-                                'link' => $this->ctrl->getLinkTargetByClass($this->getTargetGUIClassPath(),
-                                    'selectCHCalendarOfUser'),
-                                'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id),
-                                    $this->lng->txt("cal_consultation_hours_for_user"))
-                            );
+                        if (!$booking_entry->isAppointmentBookableForUser($entry->getEntryId(), $user->getId())) {
+                            continue;
                         }
-                        $path = $this->getTargetGUIClassPath();
-                        $last_gui = end($path);
-                        $this->ctrl->setParameterByClass($last_gui, "ch_user_id", "");
-                        $this->ctrl->setParameterByClass($last_gui, "bkid", $_GET["bkid"] ?? "");
-                        $this->ctrl->setParameterByClass($last_gui, "seed", $_GET["seed"] ?? "");
+                        $next_app = $entry;
+                        break;
                     }
+
+                    $path = $this->getTargetGUIClassPath();
+                    $this->ctrl->setParameterByClass(end($path), "ch_user_id", $user_id);
+
+                    if (!$this->getForceMonthView()) {
+                        $this->cal_footer[] = array(
+                            'link' => $this->ctrl->getLinkTargetByClass($this->getTargetGUIClassPath(),
+                                'selectCHCalendarOfUser'),
+                            'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id),
+                                $this->lng->txt("cal_consultation_hours_for_user"))
+                        );
+                    }
+                    $path = $this->getTargetGUIClassPath();
+                    $last_gui = end($path);
+                    $this->ctrl->setParameterByClass($last_gui, "ch_user_id", "");
+                    $this->ctrl->setParameterByClass($last_gui, "bkid", $bkid);
+                    $this->ctrl->setParameterByClass($last_gui, "seed", $this->seed->get(IL_CAL_DATE));
                 }
                 $this->ctrl->setParameter($this, "bkid", "");
                 $this->ctrl->setParameter($this, 'seed', '');
@@ -480,7 +522,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                     $this->ctrl->getLinkTarget($this),
                     $this->lng->txt("back")
                 );
-                $this->ctrl->setParameter($this, "bkid", (int) $_GET["bkid"]);
+                $this->ctrl->setParameter($this, "bkid", $this->initBookingUserFromQuery());
             }
         }
 
@@ -491,7 +533,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             );
         }
 
-        $this->ctrl->setParameterByClass($this->getParentGUI(), "seed", $_GET["seed"] ?? "");
+        $this->ctrl->setParameterByClass($this->getParentGUI(), "seed", $this->seed->get(IL_CAL_DATE));
         $ret = parent::getHTML();
         $this->ctrl->setParameterByClass($this->getParentGUI(), "seed", "");
 
@@ -542,7 +584,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
     public function setSeed() : void
     {
-        $_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"] = $_GET["seed"];
+        $_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"] = $this->initSeedFromQuery();
         if ($this->ctrl->isAsynch()) {
             echo $this->getHTML();
             exit;
@@ -650,8 +692,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 $this->ctrl->setParameter($this, "app_id", $item["event"]->getEntryId());
                 $this->ctrl->setParameter($this, 'dt', $item['dstart']);
                 $url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
-                $this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
-                $this->ctrl->setParameter($this, "dt", $_GET["dt"]);
+                $this->ctrl->setParameter($this, "app_id", $this->initAppointmentIdFromQuery());
+                $this->ctrl->setParameter($this, "dt", $this->initInitialDateQuery());
                 $modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
                 $dates = $this->getDatesForItem($item);
@@ -719,7 +761,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         // @todo: this needs optimization
         $events = $this->getEvents();
         foreach ($events as $item) {
-            if ($item["event"]->getEntryId() == (int) $_GET["app_id"] && $item['dstart'] == (int) $_GET['dt']) {
+            if ($item["event"]->getEntryId() == (int) $this->initAppointmentIdFromQuery() && $item['dstart'] == $this->initInitialDateQuery()) {
                 $dates = $this->getDatesForItem($item);
 
                 // content of modal

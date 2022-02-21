@@ -67,10 +67,12 @@ class ilNewsItem
     private static bool $privFeedId = false;
     private bool $limitation = false;
     protected bool $content_text_is_lang_var = false;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $a_id = 0)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
@@ -355,7 +357,7 @@ class ilNewsItem
         $this->setUserId($rec["user_id"]);
         $this->setUpdateUserId($rec["update_user_id"]);
         $this->setVisibility($rec["visibility"]);
-        $this->setContentLong($rec["content_long"]);
+        $this->setContentLong((string) $rec["content_long"]);
         $this->setPriority($rec["priority"]);
         $this->setContentIsLangVar($rec["content_is_lang_var"]);
         $this->setContentTextIsLangVar((int) $rec["content_text_is_lang_var"]);
@@ -519,7 +521,7 @@ class ilNewsItem
             }
             
             // get all memberships
-            $crs_mbs = ilParticipants::_getMembershipByType($a_user_id,['crs']);
+            $crs_mbs = ilParticipants::_getMembershipByType($a_user_id, ['crs']);
             $grp_mbs = ilParticipants::_getMembershipByType($a_user_id, ['grp']);
             $items = array_merge($crs_mbs, $grp_mbs);
             foreach ($items as $i) {
@@ -578,7 +580,7 @@ class ilNewsItem
             $data = ilNewsItem::mergeNews($data, $news);
         }
 
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
 
         return $data;
     }
@@ -801,7 +803,7 @@ class ilNewsItem
         }
         
         $data = ilNewsItem::mergeNews($data, $news);
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
         
         if (!$a_prevent_aggregation) {
             $data = $this->aggregateFiles($data, $a_ref_id);
@@ -960,7 +962,7 @@ class ilNewsItem
         $data = ilNewsItem::mergeNews($data, $news);
         
         // sort and return
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
         
         if (!$a_prevent_aggregation) {
             $data = $this->aggregateFiles($data, $a_ref_id);
@@ -1883,7 +1885,7 @@ class ilNewsItem
                 ilFileDelivery::deliverFileLegacy($file, $m_item->getLocation(), "", false, false, false);
                 return true;
             } else {
-                ilUtil::sendFailure("File not found!", true);
+                $this->main_tpl->setOnScreenMessage('failure', "File not found!", true);
                 return false;
             }
         } else {

@@ -21,6 +21,7 @@ class ilDownloadFilesBackgroundTask
     private array $events = [];
     private string $bucket_title;
     private bool $has_files = false;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilDownloadFilesBackgroundTask constructor.
@@ -30,6 +31,7 @@ class ilDownloadFilesBackgroundTask
     public function __construct($a_usr_id)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->logger = $DIC->logger()->cal();
         $this->user_id = $a_usr_id;
@@ -82,7 +84,7 @@ class ilDownloadFilesBackgroundTask
         $this->collectFiles($definition);
 
         if (!$this->has_files) {
-            ilUtil::sendInfo($this->lng->txt("cal_down_no_files"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("cal_down_no_files"), true);
             return false;
         }
 
@@ -98,8 +100,10 @@ class ilDownloadFilesBackgroundTask
         $this->logger->debug("Normalized name = " . $normalized_name);
         $download_name->setValue($normalized_name . '.zip');
 
-        $download_interaction = $this->task_factory->createTask(ilCalendarDownloadZipInteraction::class,
-            [$zip_job, $download_name]);
+        $download_interaction = $this->task_factory->createTask(
+            ilCalendarDownloadZipInteraction::class,
+            [$zip_job, $download_name]
+        );
 
         // last task to bucket
         $bucket->setTask($download_interaction);

@@ -163,13 +163,13 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
 
         $form = $this->getDocumentForm(new ilAccessibilityDocument());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {
-                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+                $this->tpl->setOnScreenMessage('info', $form->getTranslatedInfo(), true);
             }
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -207,13 +207,13 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
 
         $form = $this->getDocumentForm($document);
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {
-                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+                $this->tpl->setOnScreenMessage('info', $form->getTranslatedInfo(), true);
             }
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -315,9 +315,9 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
             $document->delete();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('acc_deleted_documents_p'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_deleted_documents_p'), true);
         if (1 === count($documents)) {
-            ilUtil::sendSuccess($this->lng->txt('acc_deleted_documents_s'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_deleted_documents_s'), true);
         }
     }
 
@@ -363,7 +363,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('acc_saved_sorting'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_saved_sorting'), true);
         $this->ctrl->redirect($this);
     }
 
@@ -411,10 +411,10 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
 
         $form = $this->getCriterionForm($document, new ilAccessibilityDocumentCriterionAssignment());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('acc_doc_crit_attached'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_doc_crit_attached'), true);
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -480,10 +480,10 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
 
         $form = $this->getCriterionForm($document, $criterionAssignment);
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('acc_doc_crit_changed'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_doc_crit_changed'), true);
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -513,7 +513,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $document->detachCriterion($criterionAssignment);
         $document->update();
 
-        ilUtil::sendSuccess($this->lng->txt('acc_doc_crit_detached'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_doc_crit_detached'), true);
         $this->ctrl->redirect($this, 'showDocuments');
     }
 }

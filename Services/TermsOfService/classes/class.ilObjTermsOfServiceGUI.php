@@ -65,7 +65,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                     $this->dic->filesystem(),
                     $this->dic->upload(),
                     $tableDataProviderFactory,
-                    new ilTermsOfServiceTrimmedDocumentPurifier(new ilTermsOfServiceDocumentHtmlPurifier())
+                    new ilTermsOfServiceTrimmedDocumentPurifier(new ilTermsOfServiceDocumentHtmlPurifier()),
+                    $this->dic->refinery()
                 );
                 $this->ctrl->forwardCommand($documentGui);
                 break;
@@ -83,7 +84,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                     $this->dic->refinery(),
                     $this->dic->ui()->factory(),
                     $this->dic->ui()->renderer(),
-                    $tableDataProviderFactory
+                    $tableDataProviderFactory,
                 );
                 $this->ctrl->forwardCommand($documentGui);
                 break;
@@ -170,10 +171,10 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
         $form = $this->getSettingsForm();
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this, 'settings');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -186,7 +187,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
 
         if (0 === ilTermsOfServiceDocument::where([])->count()) {
-            ilUtil::sendInfo($this->lng->txt('tos_no_documents_exist'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tos_no_documents_exist'));
         }
     }
 

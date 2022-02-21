@@ -1,14 +1,21 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Style\Content\DomainService;
+
 class ilContentPageExporter extends ilXmlExporter implements ilContentPageObjectConstants
 {
     protected ilContentPageDataSet $ds;
+    protected DomainService $content_style_domain;
 
     public function init() : void
     {
+        global $DIC;
+
         $this->ds = new ilContentPageDataSet();
         $this->ds->setDSPrefix('ds');
+        $this->content_style_domain = $DIC->contentStyle()
+                                          ->domain();
     }
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
@@ -48,8 +55,11 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
                 $pageObjectIds[] = self::OBJ_TYPE . ':' . $copaPageObjId;
             }
 
-            if ($copa->getStyleSheetId() > 0) {
-                $styleIds[$copa->getStyleSheetId()] = $copa->getStyleSheetId();
+            $style_id = $this->content_style_domain
+                ->styleForObjId($copa->getId())
+                ->getStyleId();
+            if ($style_id > 0) {
+                $styleIds[$style_id] = $style_id;
             }
         }
 

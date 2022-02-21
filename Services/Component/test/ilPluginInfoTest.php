@@ -7,6 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class ilPluginInfoTest extends TestCase
 {
+    protected ?Data\Factory $data_factory = null;
+    protected ?ilComponentInfo $component = null;
+    protected ?ilPluginSlotInfo $pluginslot = null;
+    protected ?ilPluginInfo $plugin = null;
+
     protected function setUp() : void
     {
         $this->data_factory = new Data\Factory;
@@ -49,7 +54,6 @@ class ilPluginInfoTest extends TestCase
 
     public function testGetter()
     {
-        $slots = [];
         $this->assertEquals($this->pluginslot, $this->plugin->getPluginSlot());
         $this->assertEquals($this->component, $this->plugin->getComponent());
         $this->assertEquals("plg1", $this->plugin->getId());
@@ -240,14 +244,36 @@ class ilPluginInfoTest extends TestCase
         );
     }
 
+    public function testGetConfigureClassName()
+    {
+        $this->assertEquals(
+            "ilPlugin1ConfigGUI",
+            $this->plugin->getConfigGUIClassName()
+        );
+    }
+
     /**
      * @dataProvider isActivationPossibleTruthTable
      */
-    public function testIsActivationPossible($is_installed, $supports_current_ilias, $needs_update, $is_version_to_old, $is_activation_possible)
-    {
+    public function testIsActivationPossible(
+        bool $is_installed,
+        bool $supports_current_ilias,
+        bool $needs_update,
+        bool $is_version_to_old,
+        bool $is_activation_possible
+    ) : void {
         $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_version_to_old) extends ilPluginInfo {
-            public function __construct($is_installed, $supports_current_ilias, $needs_update, $is_version_to_old)
-            {
+            protected bool $is_installed;
+            protected bool $supports_current_ilias;
+            protected bool $needs_update;
+            protected bool $is_version_to_old;
+
+            public function __construct(
+                bool $is_installed,
+                bool $supports_current_ilias,
+                bool $needs_update,
+                bool $is_version_to_old
+            ) {
                 $this->is_installed = $is_installed;
                 $this->supports_current_ilias = $supports_current_ilias;
                 $this->needs_update = $needs_update;
@@ -304,11 +330,34 @@ class ilPluginInfoTest extends TestCase
     /**
      * @dataProvider isActiveTruthTable
      */
-    public function testIsActive($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old, $is_activation_possible)
-    {
-        $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old) extends ilPluginInfo {
-            public function __construct($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old)
-            {
+    public function testIsActive(
+        bool $is_installed,
+        bool $supports_current_ilias,
+        bool $needs_update,
+        bool $is_activated,
+        bool $is_version_to_old,
+        bool $is_activation_possible
+    ) : void {
+        $plugin = new class(
+            $is_installed,
+            $supports_current_ilias,
+            $needs_update,
+            $is_activated,
+            $is_version_to_old
+        ) extends ilPluginInfo {
+            protected bool $is_installed;
+            protected bool $supports_current_ilias;
+            protected bool $needs_update;
+            protected bool $is_activated;
+            protected bool $is_version_to_old;
+
+            public function __construct(
+                bool $is_installed,
+                bool $supports_current_ilias,
+                bool $needs_update,
+                bool $is_activated,
+                bool $is_version_to_old
+            ) {
                 $this->is_installed = $is_installed;
                 $this->supports_current_ilias = $supports_current_ilias;
                 $this->needs_update = $needs_update;
@@ -389,12 +438,34 @@ class ilPluginInfoTest extends TestCase
     /**
      * @dataProvider inactivityReasonTable
      */
-    public function testGetReasonForInactivity($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old, $inactivity_reason)
-    {
-        $version = $this->createMock(Data\Version::class);
-        $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old) extends ilPluginInfo {
-            public function __construct($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old)
-            {
+    public function testGetReasonForInactivity(
+        bool $is_installed,
+        bool $supports_current_ilias,
+        bool $needs_update,
+        bool $is_activated,
+        bool $is_version_to_old,
+        string $inactivity_reason
+    ) : void {
+        $plugin = new class(
+            $is_installed,
+            $supports_current_ilias,
+            $needs_update,
+            $is_activated,
+            $is_version_to_old
+        ) extends ilPluginInfo {
+            protected bool $is_installed;
+            protected bool $supports_current_ilias;
+            protected bool $needs_update;
+            protected bool $is_activated;
+            protected bool $is_version_to_old;
+
+            public function __construct(
+                bool $is_installed,
+                bool $supports_current_ilias,
+                bool $needs_update,
+                bool $is_activated,
+                bool $is_version_to_old
+            ) {
                 $this->is_installed = $is_installed;
                 $this->supports_current_ilias = $supports_current_ilias;
                 $this->needs_update = $needs_update;
@@ -433,14 +504,13 @@ class ilPluginInfoTest extends TestCase
             }
         };
 
-        $this->assertEquals($inactivity_reason, $plugin->getReasonForInactivity($version));
+        $this->assertEquals($inactivity_reason, $plugin->getReasonForInactivity());
     }
 
     public function testGetReasonForInactivityThrowsOnActivePlugin()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
 
-        $version = $this->createMock(Data\Version::class);
         $plugin = new class() extends ilPluginInfo {
             public function __construct()
             {
@@ -452,7 +522,7 @@ class ilPluginInfoTest extends TestCase
             }
         };
 
-        $plugin->getReasonForInactivity($version);
+        $plugin->getReasonForInactivity();
     }
 
     public function inactivityReasonTable() : array

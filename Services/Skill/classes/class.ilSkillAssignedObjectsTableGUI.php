@@ -61,7 +61,7 @@ class ilSkillAssignedObjectsTableGUI extends ilTable2GUI
             "OBJECT_IMG",
             ilUtil::img(
                 ilObject::_getIcon(
-                    $a_set["obj_id"]
+                    (int) $a_set["obj_id"]
                 ),
                 $this->lng->txt("icon") . " " . $this->lng->txt($obj_type)
             )

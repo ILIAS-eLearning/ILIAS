@@ -1,9 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
-include_once './Services/Authentication/interfaces/interface.ilAuthCredentials.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * HTTP auth credentials
@@ -13,17 +22,6 @@ include_once './Services/Authentication/interfaces/interface.ilAuthCredentials.p
  */
 class ilAuthFrontendCredentialsHTTP extends ilAuthFrontendCredentials implements ilAuthCredentials
 {
-    private $settings = null;
-    
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-    
     /**
      * Init credentials from request
      */

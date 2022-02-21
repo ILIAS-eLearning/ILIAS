@@ -134,7 +134,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
             $this->ctrl->redirectToURL($link);
             return true;
         } else {
-            ilUtil::sendFailure('Cannot call remote object.');
+            $this->tpl->setOnScreenMessage('failure', 'Cannot call remote object.');
             $this->infoScreenObject();
             return false;
         }
@@ -314,7 +314,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
             $record_gui->loadFromPost();
             $record_gui->saveValues();
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
             $this->editObject();
         }
         

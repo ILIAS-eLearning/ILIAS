@@ -178,7 +178,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         if (!stristr($a_set['target'], '|')) {
             $this->tpl->setCurrentBlock('external');
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
-            $this->tpl->setVariable('VAL_TARGET', ilUtil::prepareFormOutput($a_set['target']));
+            $this->tpl->setVariable('VAL_TARGET', ilLegacyFormElementsUtil::prepareFormOutput($a_set['target']));
             $this->tpl->parseCurrentBlock();
         } else {
             $ilCtrl->setParameterByClass('ilinternallinkgui', 'postvar', 'tar_' . $a_set['id']);
@@ -218,19 +218,19 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         // Valid
         $this->tpl->setVariable(
             'VAL_VALID',
-            ilUtil::formCheckbox($a_set['valid'], 'links[' . $a_set['id'] . '][vali]', 1)
+            ilLegacyFormElementsUtil::formCheckbox($a_set['valid'], 'links[' . $a_set['id'] . '][vali]', 1)
         );
         
         // Active
         $this->tpl->setVariable(
             'VAL_ACTIVE',
-            ilUtil::formCheckbox($a_set['active'], 'links[' . $a_set['id'] . '][act]', 1)
+            ilLegacyFormElementsUtil::formCheckbox($a_set['active'], 'links[' . $a_set['id'] . '][act]', 1)
         );
 
         // Valid
         $this->tpl->setVariable(
             'VAL_CHECK',
-            ilUtil::formCheckbox($a_set['disable_check'], 'links[' . $a_set['id'] . '][che]', 1)
+            ilLegacyFormElementsUtil::formCheckbox($a_set['disable_check'], 'links[' . $a_set['id'] . '][che]', 1)
         );
         
         // Dynamic parameters
@@ -258,7 +258,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $this->tpl->setVariable('DYN_ID', $a_set['id']);
             $this->tpl->setVariable(
                 'SEL_DYN_VAL',
-                ilUtil::formSelect(
+                ilLegacyFormElementsUtil::formSelect(
                     $a_set['value'] ? $a_set['value'] : 0,
                     'links[' . $a_set['id'] . '][val]',
                     ilParameterAppender::_getOptionSelect(),
@@ -277,19 +277,19 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable(
             'VAL_CHECKBOX',
-            ilUtil::formCheckbox(false, 'link_ids[]', $a_set['id'])
+            ilLegacyFormElementsUtil::formCheckbox(false, 'link_ids[]', $a_set['id'])
         );
         
         // Column title
         $this->tpl->setVariable('TXT_TITLE', $this->lng->txt('title'));
-        $this->tpl->setVariable('VAL_TITLE', ilUtil::prepareFormOutput($a_set['title']));
+        $this->tpl->setVariable('VAL_TITLE', ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
         $this->tpl->setVariable('TXT_DESC', $this->lng->txt('description'));
-        $this->tpl->setVariable('VAL_DESC', ilUtil::prepareFormOutput($a_set['description']));
+        $this->tpl->setVariable('VAL_DESC', ilLegacyFormElementsUtil::prepareFormOutput($a_set['description']));
         
         // Column Target
         $this->tpl->setVariable('TXT_TARGET', $this->lng->txt('target'));
     }
-        
+    
     /**
      * Get Web resource items object
      * @return object	ilLinkResourceItems

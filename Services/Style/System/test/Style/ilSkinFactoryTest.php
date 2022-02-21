@@ -43,6 +43,7 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
         global $DIC;
 
         $DIC = new ilSystemStyleDICMock();
+        $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
     }
 
     public function testSkinFromXML() : void

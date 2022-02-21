@@ -63,7 +63,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
                 $this->ctrl->setReturn($this, '');
                 $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
 
-                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, (int) $_GET['app_id']);
+                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, $this->initAppointmentIdFromQuery());
                 $this->ctrl->forwardCommand($app);
                 break;
 

@@ -1,20 +1,20 @@
 <?php
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
+use ILIAS\Style\Content;
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
-use ILIAS\Style\Content;
-
+ *
+ *****************************************************************************/
 /**
  * Style Import Parser
  *
@@ -59,14 +59,22 @@ class ilStyleImportParser extends ilSaxParser
     }
 
 
-    public function setHandlers($a_xml_parser)
+    /**
+    * set event handler
+    * should be overwritten by inherited class
+    * @access	private
+    */
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function startParsing()
+    /**
+    * start the parser
+    */
+    public function startParsing() : void
     {
         $this->styles = array();
         parent::startParsing();
@@ -103,7 +111,7 @@ class ilStyleImportParser extends ilSaxParser
                 $this->chars[] = array("type" => $this->current_type,
                     "class" => $this->current_class);
                 break;
-                
+
             case "StyleParameter":
                 $this->current_tags[] = array(
                     "tag" => $this->current_tag,
@@ -113,7 +121,7 @@ class ilStyleImportParser extends ilSaxParser
                     "value" => $a_attribs["Value"],
                     "custom" => $a_attribs["Custom"]);
                 break;
-                
+
             case "StyleColor":
                 $this->color_manager->addColor($a_attribs["Name"], $a_attribs["Code"]);
                 break;
@@ -123,7 +131,7 @@ class ilStyleImportParser extends ilSaxParser
                     "name" => $a_attribs["Name"]);
                 $this->cur_template_classes = array();
                 break;
-                
+
             case "StyleTemplateClass":
                 $this->cur_template_classes[$a_attribs["ClassType"]] =
                     $a_attribs["Class"];
@@ -141,15 +149,15 @@ class ilStyleImportParser extends ilSaxParser
             case "Title":
                 $this->style_obj->setTitle($this->cdata);
                 break;
-                
+
             case "Description":
                 $this->style_obj->setDescription($this->cdata);
                 break;
-                
+
             case "Style":
                 $this->styles[] = $this->current_tags;
                 break;
-                
+
             case "StyleTemplate":
                 $this->style_obj->addTemplate(
                     $this->cur_template["type"],

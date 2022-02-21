@@ -48,6 +48,13 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
      * @var bool
      */
     protected $perm_folders_visible = false;
+    private \ilGlobalTemplateInterface $main_tpl;
+    public function __construct($plugin_service_class)
+    {
+        parent::__construct($plugin_service_class);
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+    }
 
 
     /**
@@ -326,7 +333,7 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
                 $this->getGUIClass()->object->setAuthComplete(false);
                 $this->getGUIClass()->object->doUpdate();
             }
-            ilUtil::sendFailure($e->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
         }
     }
 

@@ -91,9 +91,9 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
         $this->tabs_gui->setTabActive('settings');
         
         if (!$ilSetting->get("disable_wsp_blogs")) {
-            ilUtil::sendInfo($lng->txt("blog_admin_toggle_info"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("blog_admin_toggle_info"));
         } else {
-            ilUtil::sendInfo($lng->txt("blog_admin_inactive_info"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("blog_admin_inactive_info"));
         }
         
         if (!$a_form) {
@@ -118,7 +118,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
             $blga_set->set("banner_height", (int) $form->getInput("height"));
             $blga_set->set("mask", (bool) $form->getInput("mask"));
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
         

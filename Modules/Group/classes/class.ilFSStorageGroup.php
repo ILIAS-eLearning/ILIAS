@@ -1,7 +1,17 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
@@ -16,12 +26,12 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
 
     private ilLogger $logger;
 
-    public function __construct($a_container_id = 0)
+    public function __construct(int $a_container_id = 0)
     {
         global $DIC;
 
         $this->logger = $DIC->logger()->grp();
-        parent::__construct(ilFileSystemStorage::STORAGE_DATA, true, $a_container_id);
+        parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $a_container_id);
     }
 
     /**
@@ -100,7 +110,7 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
     /**
      * @inheritDoc
      */
-    protected function getPathPostfix():string
+    protected function getPathPostfix() : string
     {
         return 'grp';
     }
@@ -108,7 +118,7 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
     /**
      * @inheritDoc
      */
-    protected function getPathPrefix():string
+    protected function getPathPrefix() : string
     {
         return 'ilGroup';
     }

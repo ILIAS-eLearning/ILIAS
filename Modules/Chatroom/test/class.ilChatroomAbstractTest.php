@@ -19,8 +19,10 @@ abstract class ilChatroomAbstractTest extends TestCase
 
     protected function setUp() : void
     {
-        $GLOBALS['DIC'] = new Container();
-
+        global $DIC;
+        $GLOBALS['DIC'] = $DIC = new Container();
+        $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
+        
         parent::setUp();
     }
 

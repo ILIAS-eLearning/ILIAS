@@ -15,8 +15,8 @@ use ILIAS\FileDelivery\ilFileDeliveryService;
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
 /**
@@ -56,7 +56,6 @@ final class ilFileDelivery implements ilFileDeliveryService
         ?string $mime_type = null,
         bool $delete_file = false
     ) : void {
-
         $obj = new Delivery($path_to_file, self::http());
 
         if ($download_file_name !== null) {
@@ -136,7 +135,7 @@ final class ilFileDelivery implements ilFileDeliveryService
             $delivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
         }
 
-        if (strlen($a_mime)) {
+        if ($a_mime !== null && strlen($a_mime)) {
             $delivery->setMimeType($a_mime);
         }
 
@@ -146,5 +145,4 @@ final class ilFileDelivery implements ilFileDeliveryService
         $delivery->setExitAfter($a_exit_after);
         $delivery->deliver();
     }
-
 }

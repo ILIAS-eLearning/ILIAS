@@ -28,17 +28,17 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->lng->loadLanguageModule('notification');
     }
-    
+
     public static function _forwards()
     {
         return array();
     }
-    
+
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-    
+
         $this->prepareOutput();
 
         switch ($next_class) {
@@ -51,7 +51,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                         default:
                 $this->__initSubTabs();
                 $this->tabs_gui->activateTab("view");
-                            
+
                 if (empty($cmd) || $cmd == 'view') {
                     $cmd = 'showTypes';
                 }
@@ -99,7 +99,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                 "id_permissions",
                 $this->lng->txt("perm_settings"),
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
-                );
+            );
         }
     }
 
@@ -171,7 +171,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
              * settings per channel
              */
             $values = $form->store_values;//array('enable_osd', 'osd_polling_intervall', 'enable_mail');
-                
+
             // handle custom channel settings
             foreach ($values as $v) {
                 $settings->set($v, $_POST[$v]);
@@ -191,7 +191,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
         require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
         require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
-            
+
         $form = ilNotificationAdminSettingsForm::getTypeForm(ilNotificationDatabaseHandler::getAvailableTypes());
         $form->setFormAction($this->ctrl->getFormAction($this, 'showTypes'));
         $form->addCommandButton('saveTypes', $this->lng->txt('save'));

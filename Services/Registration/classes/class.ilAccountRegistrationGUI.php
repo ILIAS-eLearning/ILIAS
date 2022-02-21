@@ -281,7 +281,7 @@ class ilAccountRegistrationGUI
         $error_lng_var = '';
         if (
             !$this->registration_settings->passwordGenerationEnabled() &&
-            !ilUtil::isPasswordValidForUserContext(
+            !ilSecuritySettingsChecker::isPasswordValidForUserContext(
                 $this->form->getInput('usr_password'),
                 $this->form->getInput('username'),
                 $error_lng_var
@@ -320,7 +320,7 @@ class ilAccountRegistrationGUI
 
         // no valid role could be determined
         if (!$valid_role) {
-            ilUtil::sendInfo($this->lng->txt("registration_no_valid_role"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("registration_no_valid_role"));
             $form_valid = false;
         }
 
@@ -341,12 +341,12 @@ class ilAccountRegistrationGUI
         }
 
         if (!$form_valid) {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         } elseif ($showGlobalTermsOfServieFailure) {
             $this->lng->loadLanguageModule('tos');
-            \ilUtil::sendFailure(sprintf(
+            $this->tpl->setOnScreenMessage('failure', sprintf(
                 $this->lng->txt('tos_account_reg_not_possible'),
-                'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
+                'mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
             ));
         } else {
             $password = $this->__createUser($valid_role);
@@ -406,7 +406,7 @@ class ilAccountRegistrationGUI
         $this->userObj->setDescription($this->userObj->getEmail());
 
         if ($this->registration_settings->passwordGenerationEnabled()) {
-            $password = ilUtil::generatePasswords(1);
+            $password = ilSecuritySettingsChecker::generatePasswords(1);
             $password = $password[0];
         } else {
             $password = $this->form->getInput("usr_password");

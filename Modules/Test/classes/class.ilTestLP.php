@@ -17,7 +17,7 @@ class ilTestLP extends ilObjectLP
      */
     protected $testObj;
 
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes(bool $a_lp_active) : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -26,12 +26,12 @@ class ilTestLP extends ilObjectLP
         );
     }
     
-    public function getDefaultMode()
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_TEST_PASSED;
     }
     
-    public function getValidModes()
+    public function getValidModes() : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -40,7 +40,7 @@ class ilTestLP extends ilObjectLP
         );
     }
     
-    public function isAnonymized()
+    public function isAnonymized() : bool
     {
         include_once './Modules/Test/classes/class.ilObjTest.php';
         return (bool) ilObjTest::_lookupAnonymity($this->obj_id);
@@ -54,7 +54,7 @@ class ilTestLP extends ilObjectLP
         $this->testObj = $test;
     }
 
-    protected function resetCustomLPDataForUserIds(array $a_user_ids, $a_recursive = true)
+    protected function resetCustomLPDataForUserIds(array $a_user_ids, bool $a_recursive = true) : void
     {
         /* @var ilObjTest $testOBJ */
         if ($this->testObj) {
@@ -100,7 +100,7 @@ class ilTestLP extends ilObjectLP
         }
     }
     
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
+    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

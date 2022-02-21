@@ -90,7 +90,7 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
             $exc_set = new ilSetting("excs");
             $exc_set->set("add_to_pd", (bool) $form->getInput("pd"));
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
         

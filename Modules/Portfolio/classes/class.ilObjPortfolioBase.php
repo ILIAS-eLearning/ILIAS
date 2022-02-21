@@ -28,6 +28,7 @@ abstract class ilObjPortfolioBase extends ilObject2
     protected string $img;
     protected string $ppic;
     protected bool $style;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         int $a_id = 0,
@@ -39,6 +40,10 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->setting = $DIC->settings();
 
         $this->db = $DIC->database();
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain()
+            ->styleForObjId($this->getId());
     }
 
 
@@ -134,17 +139,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->img = $a_value;
     }
     
-    public function getStyleSheetId() : int
-    {
-        return (int) $this->style;
-    }
-
-    public function setStyleSheetId(int $a_style) : void
-    {
-        $this->style = $a_style;
-    }
-    
-    
     //
     // CRUD
     //
@@ -165,8 +159,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         
         // #14661
         $this->setPublicComments(ilNote::commentsActivated($this->id, 0, $this->getType()));
-        
-        $this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
         
         $this->doReadCustom($row);
     }
@@ -200,8 +192,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         // #14661
         ilNote::activateComments($this->id, 0, $this->getType(), $this->hasPublicComments());
         
-        ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
-                
         $ilDB->update(
             "usr_portfolio",
             $fields,
@@ -316,11 +306,13 @@ abstract class ilObjPortfolioBase extends ilObject2
 
             // take quality 100 to avoid jpeg artefacts when uploading jpeg files
             // taking only frame [0] to avoid problems with animated gifs
-            $original_file = ilUtil::escapeShellArg($path . $original);
-            $thumb_file = ilUtil::escapeShellArg($path . $thumb);
-            $processed_file = ilUtil::escapeShellArg($path . $processed);
-            ilUtil::execConvert($original_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-            ilUtil::execConvert($original_file . "[0] -geometry " . $dimensions . " -quality 100 JPEG:" . $processed_file);
+            $original_file = ilShellUtil::escapeShellArg($path . $original);
+            $thumb_file = ilShellUtil::escapeShellArg($path . $thumb);
+            $processed_file = ilShellUtil::escapeShellArg($path . $processed);
+            ilShellUtil::execConvert($original_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+            ilShellUtil::execConvert(
+                $original_file . "[0] -geometry " . $dimensions . " -quality 100 JPEG:" . $processed_file
+            );
             
             $this->setImage($processed);
             
@@ -357,19 +349,17 @@ abstract class ilObjPortfolioBase extends ilObject2
         $target_dir = $a_target->initStorage($a_target->getId());
         ilFSStoragePortfolio::_copyDirectory($source_dir, $target_dir);
         
-        // set/copy stylesheet
-        $style_id = $a_source->getStyleSheetId();
-        if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
-            $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-            $new_id = $style_obj->ilClone();
-            $a_target->setStyleSheetId($new_id);
-            $a_target->update();
-        }
-
         // container settings
         foreach (ilContainer::_getContainerSettings($a_source->getId()) as $keyword => $value) {
             ilContainer::_writeContainerSetting($a_target->getId(), $keyword, $value);
         }
+
+        // style
+        $content_style_domain = $DIC
+            ->contentStyle()
+            ->domain()
+            ->styleForObjId($a_source->getId());
+        $content_style_domain->cloneTo($a_target->getId());
     }
 
     /**

@@ -50,7 +50,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
             $this->showRoom($room, $chat_user);
         } else {
-            ilUtil::sendFailure($this->ilLng->txt('no_username_given'));
+            $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('no_username_given'));
             $this->showNameSelection($chat_user);
         }
     }
@@ -96,7 +96,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $response = $connector->connect($scope, $user_id);
 
         if (!$response) {
-            ilUtil::sendFailure($this->ilLng->txt('unable_to_connect'), true);
+            $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('unable_to_connect'), true);
             $this->ilCtrl->redirectByClass(ilInfoScreenGUI::class, 'info');
         }
 
@@ -107,7 +107,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $subScope = 0;
         $response = $connector->sendEnterPrivateRoom($scope, $subScope, $user_id);
         if (!$response) {
-            ilUtil::sendFailure($this->ilLng->txt('unable_to_connect'), true);
+            $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('unable_to_connect'), true);
             $this->ilCtrl->redirectByClass('ilinfoscreengui', 'info');
         }
 
@@ -331,7 +331,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
      */
     private function cancelJoin(string $message) : void
     {
-        ilUtil::sendFailure($message);
+        $this->mainTpl->setOnScreenMessage('failure', $message);
     }
 
     protected function renderSendMessageBox(ilTemplate $roomTpl) : void
@@ -502,19 +502,19 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         if ($this->http->wrapper()->query()->has('msg')) {
             switch ($this->http->wrapper()->query()->retrieve('msg', $this->refinery->kindlyTo()->string())) {
                 case 'kicked':
-                    ilUtil::sendFailure($this->ilLng->txt('kicked'), true);
+                    $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('kicked'), true);
                     break;
 
                 case 'banned':
-                    ilUtil::sendFailure($this->ilLng->txt('banned'), true);
+                    $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('banned'), true);
                     break;
 
                 default:
-                    ilUtil::sendFailure($this->ilLng->txt('lost_connection'), true);
+                    $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('lost_connection'), true);
                     break;
             }
         } else {
-            ilUtil::sendFailure($this->ilLng->txt('lost_connection'), true);
+            $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('lost_connection'), true);
         }
 
         $this->ilCtrl->redirectByClass(ilInfoScreenGUI::class, 'info');

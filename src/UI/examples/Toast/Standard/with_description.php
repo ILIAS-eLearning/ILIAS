@@ -2,7 +2,7 @@
 
 namespace ILIAS\UI\examples\Toast\Standard;
 
-function with_description()
+function with_description() : string
 {
     global $DIC;
     $toast = $DIC->ui()->factory()->toast()->standard(

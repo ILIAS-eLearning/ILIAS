@@ -628,6 +628,18 @@ class ilObjStyleSheet extends ilObject
         $ilDB->manipulate($q);
     }
 
+    public static function writeOwner($obj_id, $style_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $q = "UPDATE style_data SET owner_obj = " .
+            $ilDB->quote((int) $obj_id, "integer") .
+            " WHERE id = " . $ilDB->quote($style_id, "integer");
+        $ilDB->manipulate($q);
+    }
+
     public static function _lookupUpToDate(int $a_id) : bool
     {
         global $DIC;
@@ -685,7 +697,7 @@ class ilObjStyleSheet extends ilObject
         $res = $ilDB->query($q);
         $sty = $ilDB->fetchAssoc($res);
         
-        return (bool) $sty["standard"];
+        return (bool) ($sty["standard"] ?? false);
     }
 
     public static function _writeActive(int $a_id, bool $a_active) : void
@@ -832,12 +844,12 @@ class ilObjStyleSheet extends ilObject
     public function create(
         int $a_from_style = 0,
         bool $a_import_mode = false
-    ) : void {
+    ) : int {
         global $DIC;
 
         $ilDB = $this->db;
 
-        parent::create();
+        $id = parent::create();
 
         $service = $DIC->contentStyle()
             ->internal();
@@ -960,6 +972,8 @@ class ilObjStyleSheet extends ilObject
         if (!$a_import_mode) {
             $this->writeCSSFile();
         }
+
+        return $id;
     }
     
     /**
@@ -1274,7 +1288,7 @@ class ilObjStyleSheet extends ilObject
     }
 
 
-    public function delete()
+    public function delete() : bool
     {
         $ilDB = $this->db;
         
@@ -1317,6 +1331,8 @@ class ilObjStyleSheet extends ilObject
         $q = "DELETE FROM style_data WHERE id = " .
             $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($q);
+
+        return true;
     }
 
 
@@ -1326,7 +1342,7 @@ class ilObjStyleSheet extends ilObject
     public function read() : void
     {
         $ilDB = $this->db;
-        
+
         parent::read();
 
         $q = "SELECT * FROM style_parameter WHERE style_id = " .
@@ -1402,6 +1418,10 @@ class ilObjStyleSheet extends ilObject
         string $a_image_dir = ""
     ) : void {
         $style = $this->getStyle();
+
+        if (!is_dir(ilFileUtils::getWebspaceDir() . "/css")) {
+            ilFileUtils::makeDirParents(ilFileUtils::getWebspaceDir() . "/css");
+        }
 
         if ($a_target_file == "") {
             $css_file_name = ilFileUtils::getWebspaceDir() . "/css/style_" . $this->getId() . ".css";
@@ -1655,7 +1675,7 @@ class ilObjStyleSheet extends ilObject
         return "./Services/COPage/css/placeholder.css";
     }
 
-    public function update()
+    public function update() : bool
     {
         $ilDB = $this->db;
         
@@ -1667,6 +1687,8 @@ class ilObjStyleSheet extends ilObject
             "SET category = " . $ilDB->quote($this->getScope(), "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($q);
+
+        return true;
     }
 
     /**
@@ -1974,20 +1996,20 @@ class ilObjStyleSheet extends ilObject
         bool $a_skip_parent_create = false
     ) : void {
         $ilDB = $this->db;
-        
+
         $this->is_3_10_skin = false;
-        
+
         if (!$a_skip_parent_create) {
             parent::create();
         }
         $importParser = new ilStyleImportParser($a_file, $this);
         $importParser->startParsing();
-        
+
         // store style parameter
         foreach ($this->style as $style) {
             foreach ($style as $tag) {
                 $id = $ilDB->nextId("style_parameter");
-                
+
                 // migrate old table PageFrame/PageContainer to div
                 if (in_array($tag["class"], array("PageFrame", "PageContainer")) &&
                     $tag["tag"] == "table") {
@@ -1996,7 +2018,7 @@ class ilObjStyleSheet extends ilObject
                         continue;
                     }
                 }
-                
+
                 $q = "INSERT INTO style_parameter (id,style_id, tag, class, parameter, type, value, custom) VALUES " .
                     "(" .
                     $ilDB->quote($id, "integer") . "," .
@@ -2011,7 +2033,7 @@ class ilObjStyleSheet extends ilObject
                 $ilDB->manipulate($q);
             }
         }
-        
+
         // store characteristics
         $this->is_3_10_skin = true;
         foreach ($this->chars as $char) {
@@ -2886,7 +2908,7 @@ class ilObjStyleSheet extends ilObject
             foreach ($mqueries as $k => $mq) {
                 $mqueries[$k]["order_nr"] = $a_order_nr[$mq["id"]];
             }
-            $mqueries = ilUtil::sortArray($mqueries, "order_nr", "", true);
+            $mqueries = ilArrayUtil::sortArray($mqueries, "order_nr", "", true);
         }
         $cnt = 10;
         foreach ($mqueries as $mq) {
