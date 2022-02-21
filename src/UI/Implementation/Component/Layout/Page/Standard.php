@@ -38,7 +38,8 @@ class Standard implements Page\Standard
     private bool $ui_demo = false;
     protected array $system_infos = [];
     protected string $text_direction = "ltr";
-
+    protected array $meta_data = [];
+    
     public function __construct(
         array $content,
         ?MetaBar $metabar = null,
@@ -267,7 +268,19 @@ class Standard implements Page\Standard
         $clone->footer = null;
         return $clone;
     }
-
+    
+    public function withAdditionalMetaDatum(string $key, string $value) : Page\Standard
+    {
+        $clone = clone $this;
+        $clone->meta_data[$key] = $value;
+        return $clone;
+    }
+    
+    public function getMetaData() : array
+    {
+        return $this->meta_data;
+    }
+    
     public function withSystemInfos(array $system_infos) : Page\Standard
     {
         $this->checkArgListElements("system_infos", $system_infos, [SystemInfo::class]);
