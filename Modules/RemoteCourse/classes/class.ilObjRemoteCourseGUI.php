@@ -35,7 +35,7 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCl
         $this->lng->loadLanguageModule('crs');
     }
     
-    public function getType() : ?string
+    public function getType() : string
     {
         return 'rcrs';
     }

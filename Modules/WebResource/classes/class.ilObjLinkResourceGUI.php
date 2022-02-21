@@ -31,7 +31,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     const LINK_MOD_SET_LIST = 4;
     const LINK_MOD_EDIT_LIST = 5;
     
-    public function getType() : ?string
+    public function getType() : string
     {
         return "webr";
     }

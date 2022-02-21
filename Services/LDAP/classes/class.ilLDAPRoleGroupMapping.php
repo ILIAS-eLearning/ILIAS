@@ -398,7 +398,7 @@ class ilLDAPRoleGroupMapping
                     continue;
                 }
                 if ($rbacreview->isAssigned($a_usr_id, $role_id)) {
-                    return $ilObjDataCache->lookupTitle($role_id);
+                    return $ilObjDataCache->lookupTitle((int) $role_id);
                 }
             }
         }

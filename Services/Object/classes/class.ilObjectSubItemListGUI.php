@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -9,11 +9,7 @@
  */
 class ilObjectSubItemListGUI extends ilSubItemListGUI
 {
-    /**
-     * get html
-     * @return
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         return '';
     }

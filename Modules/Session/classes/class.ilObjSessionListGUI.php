@@ -27,17 +27,11 @@
 */
 class ilObjSessionListGUI extends ilObjectListGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    public ilCtrl $ctrl;
+    protected ilLanguage $lng;
     protected array $app_info = [];
     protected bool $subitems_enabled = false;
-    protected $title = "";
+    protected string $title = "";
 
     public function __construct()
     {

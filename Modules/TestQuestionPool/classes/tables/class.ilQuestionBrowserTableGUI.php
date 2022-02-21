@@ -579,7 +579,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     
     protected function getCommentsAjaxLink($questionId)
     {
-        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $_GET['ref_id'], 'quest', $this->parent_obj->object->getId(), 'quest', $questionId);
+        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, (int) $_GET['ref_id'], 'quest', $this->parent_obj->object->getId(), 'quest', $questionId);
         return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
     }
 }

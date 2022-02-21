@@ -89,7 +89,7 @@ class ilObjMainMenuGUI extends ilObject2GUI
     /**
      * @inheritDoc
      */
-    public function getType() : ?string
+    public function getType() : string
     {
         return null;
     }

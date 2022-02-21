@@ -40,7 +40,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return false;
     }
 
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") : bool
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = null) : bool
     {
         if (!$a_user_id) {
             $a_user_id = $GLOBALS['DIC']->user()->getId();

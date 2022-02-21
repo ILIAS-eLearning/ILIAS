@@ -54,7 +54,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $this->requested_move_ids = (string) ($params["move_ids"] ?? "");
     }
     
-    public function getType() : ?string
+    public function getType() : string
     {
         return "tax";
     }

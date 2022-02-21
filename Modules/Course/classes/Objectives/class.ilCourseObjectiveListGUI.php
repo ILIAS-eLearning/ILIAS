@@ -31,7 +31,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = false;
@@ -86,7 +86,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function insertTitle()
+    public function insertTitle() : void
     {
         if (
             ilCourseObjectiveResultCache::getStatus($this->user->getId(),
@@ -120,7 +120,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function insertProgressInfo()
+    public function insertProgressInfo() : void
     {
         $this->lng->loadLanguageModule('trac');
         $this->tpl->setCurrentBlock('item_progress');

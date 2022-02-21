@@ -25,7 +25,7 @@ class ilLTIProviderReleasedObjectsTableGUI extends ilObjectTableGUI
     public function __construct($a_parent_obj, $a_parent_cmd, $a_id)
     {
         $this->setId('obj_table_' . $a_id);
-        parent::__construct($a_parent_obj, $a_parent_cmd, null);
+        parent::__construct($a_parent_obj, $a_parent_cmd, "");
     }
 
     /**

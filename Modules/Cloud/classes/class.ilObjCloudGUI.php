@@ -31,7 +31,7 @@ class ilObjCloudGUI extends ilObject2GUI
         $lng->loadLanguageModule("cld");
     }
 
-    final public function getType() : ?string
+    final public function getType() : string
     {
         return "cld";
     }

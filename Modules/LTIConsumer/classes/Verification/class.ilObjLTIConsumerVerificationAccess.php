@@ -34,15 +34,11 @@ class ilObjLTIConsumerVerificationAccess extends ilObjectAccess
         return $commands;
     }
 
-    /**
-     * @param string $a_target
-     * @return bool
-     */
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
         
         // #11021
         // personal workspace context: do not force normal login

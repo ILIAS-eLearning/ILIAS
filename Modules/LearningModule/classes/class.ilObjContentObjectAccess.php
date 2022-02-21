@@ -35,17 +35,13 @@ class ilObjContentObjectAccess extends ilObjectAccess
 
     public static array $lo_access;
     
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $ilAccess = $this->access;
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
-        }
-
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "continue":
 
                 // continue is now default and works all the time
@@ -56,7 +52,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("lm_no_continue_for_anonym"));
                     return false;
                 }
-                if (ilObjContentObjectAccess::_getLastAccessedPage($a_ref_id,$a_user_id) <= 0)
+                if (ilObjContentObjectAccess::_getLastAccessedPage($ref_id,$user_id) <= 0)
                 {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("not_accessed_yet"));
                     return false;
@@ -66,7 +62,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
                 
             // for permission query feature
             case "info":
-                if (!ilObject::lookupOfflineStatus($a_obj_id)) {
+                if (!ilObject::lookupOfflineStatus($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
@@ -117,13 +113,13 @@ class ilObjContentObjectAccess extends ilObjectAccess
         return 0;
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if (($t_arr[0] != "lm" && $t_arr[0] != "st"
             && $t_arr[0] != "pg")
@@ -155,12 +151,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
         return false;
     }
     
-    /**
-     * Preload data
-     *
-     * @param array $a_obj_ids array of object ids
-     */
-    public static function _preloadData($a_obj_ids, $a_ref_ids)
+    public static function _preloadData(array $obj_ids, array $ref_ids) : void
     {
         global $DIC;
 
@@ -169,9 +160,9 @@ class ilObjContentObjectAccess extends ilObjectAccess
         
         $q = "SELECT obj_id, lm_id FROM lo_access WHERE " .
             "usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . " AND " .
-            $ilDB->in("lm_id", $a_ref_ids, false, "integer");
+            $ilDB->in("lm_id", $ref_ids, false, "integer");
         $set = $ilDB->query($q);
-        foreach ($a_ref_ids as $r) {
+        foreach ($ref_ids as $r) {
             self::$lo_access[$r] = 0;
         }
         while ($rec = $ilDB->fetchAssoc($set)) {

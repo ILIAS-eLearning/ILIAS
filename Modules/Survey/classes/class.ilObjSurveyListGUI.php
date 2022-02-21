@@ -35,7 +35,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
     }
 
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -51,7 +51,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
     }
 
 
-    public function getProperties()
+    public function getProperties() : array
     {
         $lng = $this->lng;
         $ilUser = $this->user;
@@ -83,7 +83,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
                         $props[] = array("alert" => false, "property" => $lng->txt("type"),
                                          "value" => $lng->txt("survey_360_self_evaluation"), 'propertyNameVisible' => true);
                     } else {
-                        $finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->id);
+                        $finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->getId());
 
                         // finished
                         if ($finished === 1) {
@@ -108,9 +108,9 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         return "ilias.php?baseClass=ilObjSurveyGUI&amp;ref_id=" . $this->ref_id .
-            "&amp;cmd=$a_cmd";
+            "&amp;cmd=$cmd";
     }
 }

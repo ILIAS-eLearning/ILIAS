@@ -24,7 +24,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     protected ilObjectDataCache $ilObjDataCache;
     protected ilObjectDefinition $objDefinition;
     protected ilTree $tree;
-    private \ilGlobalTemplateInterface $main_tpl;
+    protected \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(?object $a_parent_obj, string $a_parent_cmd = "", string $a_template_context = "")
     {
@@ -304,8 +304,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $type = array($type);
             }
             foreach ($this->filter["hide"] as $obj_id) {
-                if (in_array($this->ilObjDataCache->lookupType($obj_id), $type)) {
-                    $options[$obj_id] = $this->ilObjDataCache->lookupTitle($obj_id);
+                if (in_array($this->ilObjDataCache->lookupType((int) $obj_id), $type)) {
+                    $options[$obj_id] = $this->ilObjDataCache->lookupTitle((int) $obj_id);
                 }
             }
             $msi->setOptions($options);
@@ -654,7 +654,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $data[$this->lng->txt("trac_name_of_installation")] = $ilClientIniFile->readVariable('client', 'name');
 
         if ($this->obj_id) {
-            $data[$this->lng->txt("trac_object_name")] = $this->ilObjDataCache->lookupTitle($this->obj_id);
+            $data[$this->lng->txt("trac_object_name")] = $this->ilObjDataCache->lookupTitle((int) $this->obj_id);
             if ($this->ref_id) {
                 $data[$this->lng->txt("trac_object_link")] = ilLink::_getLink(
                     $this->ref_id,

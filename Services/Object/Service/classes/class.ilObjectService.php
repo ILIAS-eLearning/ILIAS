@@ -2,18 +2,21 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Filesystems;
+use ILIAS\FileUpload\FileUpload;
+
 class ilObjectService implements ilObjectServiceInterface
 {
     protected ilLanguage $lng;
     protected ilSetting $settings;
-    protected \ILIAS\Filesystem\Filesystems $filesystem;
-    protected \ILIAS\FileUpload\FileUpload $upload;
+    protected Filesystems $filesystem;
+    protected FileUpload $upload;
 
     public function __construct(
         ilLanguage $lng,
         ilSetting $settings,
-        \ILIAS\Filesystem\Filesystems $filesystem,
-        \ILIAS\FileUpload\FileUpload $upload
+        Filesystems $filesystem,
+        FileUpload $upload
     ) {
         $this->lng = $lng;
         $this->settings = $settings;
@@ -31,12 +34,12 @@ class ilObjectService implements ilObjectServiceInterface
         return $this->settings;
     }
 
-    public function filesystem() : \ILIAS\Filesystem\Filesystems
+    public function filesystem() : Filesystems
     {
         return $this->filesystem;
     }
 
-    public function upload() : \ILIAS\FileUpload\FileUpload
+    public function upload() : FileUpload
     {
         return $this->upload;
     }

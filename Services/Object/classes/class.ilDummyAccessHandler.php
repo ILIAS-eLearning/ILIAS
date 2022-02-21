@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -13,14 +13,8 @@ class ilDummyAccessHandler
 {
     /**
      * check access for an object
-     *
-     * @param	string		$a_permission
-     * @param	string		$a_cmd
-     * @param	int			$a_node_id
-     * @param	string		$a_type (optional)
-     * @return	bool
      */
-    public function checkAccess($a_permission, $a_cmd, $a_node_id, $a_type = "")
+    public function checkAccess(string $permission, string $cmd, int $node_id, string $type = "") : bool
     {
         return true;
     }

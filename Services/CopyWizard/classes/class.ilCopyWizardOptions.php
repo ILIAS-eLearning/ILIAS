@@ -435,7 +435,7 @@ class ilCopyWizardOptions
     {
         $this->tmp_tree[] = $this->tree->getNodeData($a_source_id);
         foreach ($this->tree->getChilds($a_source_id) as $sub_nodes) {
-            $sub_node_ref_id = $sub_nodes['child'];
+            $sub_node_ref_id = (int) $sub_nodes['child'];
             // check ommited, linked ...
             $options = $this->options[$sub_node_ref_id];
             if ($options['type'] == self::COPY_WIZARD_COPY or

@@ -56,20 +56,20 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * @inheritDoc
      */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
-        if ($a_user_id == "") {
-            $a_user_id = $this->user->getId();
+        if (is_null($user_id)) {
+            $user_id = $this->user->getId();
         }
-        if ($this->user->getId() == $a_user_id) {
-            $participants = ilCourseParticipant::_getInstanceByObjId($a_obj_id, $a_user_id);
+        if ($this->user->getId() == $user_id) {
+            $participants = ilCourseParticipant::_getInstanceByObjId($obj_id, $user_id);
         } else {
-            $participants = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+            $participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
         }
 
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "view":
-                if ($participants->isBlocked($a_user_id) and $participants->isAssigned($a_user_id)) {
+                if ($participants->isBlocked($user_id) and $participants->isAssigned($user_id)) {
                     $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS,
                         $this->lng->txt("crs_status_blocked"));
                     return false;
@@ -79,9 +79,9 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
             case 'leave':
 
                 // Regular member
-                if ($a_permission == 'leave') {
+                if ($permission == 'leave') {
                     $limit = null;
-                    if (!ilObjCourse::mayLeave($a_obj_id, $a_user_id, $limit)) {
+                    if (!ilObjCourse::mayLeave($obj_id, $user_id, $limit)) {
                         $this->access->addInfoItem(
                             ilAccessInfo::IL_STATUS_INFO,
                             sprintf($this->lng->txt("crs_cancellation_end_rbac_info"),
@@ -90,13 +90,13 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                         return false;
                     }
 
-                    if (!$participants->isAssigned($a_user_id)) {
+                    if (!$participants->isAssigned($user_id)) {
                         return false;
                     }
                 }
                 // Waiting list
-                if ($a_permission == 'join') {
-                    if (!ilCourseWaitingList::_isOnList($a_user_id, $a_obj_id)) {
+                if ($permission == 'join') {
+                    if (!ilCourseWaitingList::_isOnList($user_id, $obj_id)) {
                         return false;
                     }
                     return true;
@@ -105,17 +105,17 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
             case 'join':
 
-                if (ilCourseWaitingList::_isOnList($a_user_id, $a_obj_id)) {
+                if (ilCourseWaitingList::_isOnList($user_id, $obj_id)) {
                     return false;
                 }
                 break;
         }
 
-        switch ($a_permission) {
+        switch ($permission) {
             case 'visible':
                 $visible = null;
-                $active = self::_isActivated($a_obj_id, $visible);
-                $tutor = $this->rbacSystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+                $active = self::_isActivated($obj_id, $visible);
+                $tutor = $this->rbacSystem->checkAccessOfUser($user_id, 'write', $ref_id);
                 if (!$active) {
                     $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("offline"));
                 }
@@ -125,16 +125,16 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                 break;
 
             case 'read':
-                $tutor = $this->rbacSystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+                $tutor = $this->rbacSystem->checkAccessOfUser($user_id, 'write', $ref_id);
                 if ($tutor) {
                     return true;
                 }
-                $active = self::_isActivated($a_obj_id);
+                $active = self::_isActivated($obj_id);
                 if (!$active) {
                     $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("offline"));
                     return false;
                 }
-                if ($participants->isBlocked($a_user_id) and $participants->isAssigned($a_user_id)) {
+                if ($participants->isBlocked($user_id) and $participants->isAssigned($user_id)) {
                     $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS,
                         $this->lng->txt("crs_status_blocked"));
                     return false;
@@ -142,17 +142,17 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                 break;
 
             case 'join':
-                if (!self::_registrationEnabled($a_obj_id)) {
+                if (!self::_registrationEnabled($obj_id)) {
                     return false;
                 }
 
-                if ($participants->isAssigned($a_user_id)) {
+                if ($participants->isAssigned($user_id)) {
                     return false;
                 }
                 break;
 
             case 'leave':
-                return ilObjCourse::mayLeave($a_obj_id, $a_user_id);
+                return ilObjCourse::mayLeave($obj_id, $user_id);
         }
         return true;
     }
@@ -160,7 +160,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * @inheritDoc
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array();
         $commands[] = array("permission" => "crs_linked", "cmd" => "", "lang_var" => "view", "default" => true);
@@ -189,14 +189,14 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * @inheritDoc
      */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];
         $ilUser = $DIC['ilUser'];
 
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         // registration codes
         if (isset($t_arr[2]) && substr($t_arr[2], 0, 5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID) {
@@ -364,16 +364,16 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         return $info;
     }
 
-    public static function _isOffline($a_obj_id)
+    public static function _isOffline(int $obj_id) : bool
     {
         $dummy = null;
-        return !self::_isActivated($a_obj_id, $dummy, false);
+        return !self::_isActivated($obj_id, $dummy, false);
     }
 
     /**
      * Preload data
      */
-    public static function _preloadData($a_obj_ids, $a_ref_ids)
+    public static function _preloadData(array $obj_ids, array $ref_ids) : void
     {
         global $DIC;
 
@@ -382,14 +382,14 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
         $lng->loadLanguageModule("crs");
 
-        ilCourseWaitingList::_preloadOnListInfo([$ilUser->getId()], $a_obj_ids);
+        ilCourseWaitingList::_preloadOnListInfo([$ilUser->getId()], $obj_ids);
 
         $repository = new ilUserCertificateRepository();
         $coursePreload = new ilCertificateObjectsForUserPreloader($repository);
-        $coursePreload->preLoad($ilUser->getId(), $a_obj_ids);
+        $coursePreload->preLoad($ilUser->getId(), $obj_ids);
 
         $f = new ilBookingReservationDBRepositoryFactory();
-        self::$booking_repo = $f->getRepoWithContextObjCache($a_obj_ids);
+        self::$booking_repo = $f->getRepoWithContextObjCache($obj_ids);
     }
 
     public static function getBookingInfoRepo() : ?ilBookingReservationDBRepository

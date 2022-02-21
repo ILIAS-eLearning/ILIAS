@@ -19,7 +19,7 @@
  */
 class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
 {
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "questions", "lang_var" => "edit_questions",
@@ -31,13 +31,13 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
         return $commands;
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($ilAccess->checkAccess("visible", "", $t_arr[1]) ||
             $ilAccess->checkAccess("read", "", $t_arr[1])) {

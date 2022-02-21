@@ -16,7 +16,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -40,11 +40,16 @@ class ilObjCourseListGUI extends ilObjectListGUI
     /**
      * @inheritdoc
      */
-    public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
-    {
-        parent::initItem($a_ref_id, $a_obj_id, $type, $a_title, $a_description);
+    public function initItem(
+        int $ref_id,
+        int $obj_id,
+        string $type,
+        string $title = "",
+        string $description = ""
+    ) : void {
+        parent::initItem($ref_id, $obj_id, $type, $title, $description);
 
-        $this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id, $this->obj_id);
+        $this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($ref_id, $this->obj_id);
     }
 
     protected function getCertificatePreloader() : ilCertificateObjectsForUserPreloader
@@ -59,7 +64,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function getProperties()
+    public function getProperties() : array
     {
         global $DIC;
 
@@ -160,18 +165,24 @@ class ilObjCourseListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
+    public function checkCommandAccess(
+        string $permission,
+        string $cmd,
+        int $ref_id,
+        string $type,
+        ?int $obj_id = null
+    ) : bool
     {
         // Only check cmd access for cmd 'register' and 'unregister'
-        if ($a_cmd != 'view' and $a_cmd != 'leave' and $a_cmd != 'join') {
-            $a_cmd = '';
+        if ($cmd != 'view' and $cmd != 'leave' and $cmd != 'join') {
+            $cmd = '';
         }
 
-        if ($a_permission == 'crs_linked') {
+        if ($permission == 'crs_linked') {
             return
-                parent::checkCommandAccess('read', $a_cmd, $a_ref_id, $a_type, $a_obj_id) ||
-                parent::checkCommandAccess('join', $a_cmd, $a_ref_id, $a_type, $a_obj_id);
+                parent::checkCommandAccess('read', $cmd, $ref_id, $type, $obj_id) ||
+                parent::checkCommandAccess('join', $cmd, $ref_id, $type, $obj_id);
         }
-        return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
+        return parent::checkCommandAccess($permission, $cmd, $ref_id, $type, $obj_id);
     }
 } // END class.ilObjCategoryGUI

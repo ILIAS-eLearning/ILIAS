@@ -34,7 +34,7 @@ class ilObjItemGroupAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "gotoParent", "lang_var" => "", "default" => true),
@@ -45,18 +45,18 @@ class ilObjItemGroupAccess extends ilObjectAccess
         return $commands;
     }
 
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         return true;
     }
     
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "itgr" || ((int) $t_arr[1]) <= 0) {
             return false;

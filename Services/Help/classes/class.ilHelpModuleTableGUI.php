@@ -60,7 +60,7 @@ class ilHelpModuleTableGUI extends ilTable2GUI
     
     public function getHelpModules() : void
     {
-        $this->setData($this->parent_obj->object->getHelpModules());
+        $this->setData($this->parent_obj->getObject()->getHelpModules());
     }
     
     /**

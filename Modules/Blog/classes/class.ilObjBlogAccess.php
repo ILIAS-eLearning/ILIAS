@@ -30,7 +30,7 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
         $this->access = $DIC->access();
     }
 
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         return array(
             array("permission" => "read", "cmd" => "preview", "lang_var" => "show", "default" => true),
@@ -41,15 +41,15 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
         );
     }
     
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
         
-        if (substr($a_target, -3) == "wsp") {
+        if (substr($target, -3) == "wsp") {
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
         
@@ -65,7 +65,7 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
         return false;
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath)
+    public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
         $ilUser = $this->user;
         $ilAccess = $this->access;
