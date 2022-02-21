@@ -44,7 +44,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         }
 
         $instance = ilObjectFactory::getInstanceByRefId($ref_id, false);
-        if (!$instance || (!$instance instanceof ilObjChatroom)) {
+        if (!($instance instanceof ilObjChatroom)) {
             $this->createPublicRoom();
             return;
         }
@@ -66,7 +66,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
     public function createPublicRoom() : void
     {
         ilChatroomInstaller::createDefaultPublicRoom(true);
-        ilUtil::sendSuccess($this->ilLng->txt('public_chat_created'), true);
+        $this->mainTpl->setOnScreenMessage('success', $this->ilLng->txt('public_chat_created'), true);
     }
 
     protected function checkServerConnection(array $serverSettings) : void
@@ -75,7 +75,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
             isset($serverSettings['port'], $serverSettings['address']) &&
             !ilChatroomServerConnector::checkServerConnection(false)
         ) {
-            ilUtil::sendInfo($this->ilLng->txt('chat_cannot_connect_to_server'));
+            $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('chat_cannot_connect_to_server'));
         }
     }
 
@@ -143,7 +143,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $fileHandler = new ilChatroomConfigFileHandler();
         $fileHandler->createClientConfigFile($settings);
 
-        ilUtil::sendSuccess($this->ilLng->txt('settings_has_been_saved'), true);
+        $this->mainTpl->setOnScreenMessage('success', $this->ilLng->txt('settings_has_been_saved'), true);
         $this->ilCtrl->redirect($this->gui, 'view-clientsettings');
     }
 

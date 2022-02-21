@@ -48,7 +48,7 @@ class ilObjAssessmentFolder extends ilObject
     * @access	public
     * @return	boolean
     */
-    public function update()
+    public function update() : bool
     {
         if (!parent::update()) {
             return false;
@@ -76,7 +76,7 @@ class ilObjAssessmentFolder extends ilObject
     * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -455,10 +455,10 @@ class ilObjAssessmentFolder extends ilObject
         $pathelements = array();
         foreach ($path as $id => $data) {
             if ($id == 0) {
-                array_push($pathelements, ilUtil::prepareFormOutput($this->lng->txt("repository")));
+                array_push($pathelements, ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("repository")));
             } else {
                 array_push($pathelements, "<a href=\"./goto.php?target=" . $data["type"] . "_" . $data["ref_id"] . "&amp;client=" . CLIENT_ID . "\">" .
-                    ilUtil::prepareFormOutput($data["title"]) . "</a>");
+                    ilLegacyFormElementsUtil::prepareFormOutput($data["title"]) . "</a>");
             }
         }
         return implode("&nbsp;&gt;&nbsp;", $pathelements);

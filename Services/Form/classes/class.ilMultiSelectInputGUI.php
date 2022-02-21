@@ -155,7 +155,7 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
                 // enable select all toggle
                 $tpl->setCurrentBlock("item");
                 $tpl->setVariable("VAL", "");
-                $tpl->setVariable("ID_VAL", ilUtil::prepareFormOutput("all__toggle"));
+                $tpl->setVariable("ID_VAL", ilLegacyFormElementsUtil::prepareFormOutput("all__toggle"));
                 $tpl->setVariable("IID", $this->getFieldId());
                 $tpl->setVariable("TXT_OPTION", "<em>" . $lng->txt("select_all") . "</em>");
                 $tpl->setVariable("POST_VAR", $this->getPostVar());
@@ -196,8 +196,8 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
                     );
                 }
 
-                $tpl->setVariable("VAL", ilUtil::prepareFormOutput($option_value));
-                $tpl->setVariable("ID_VAL", ilUtil::prepareFormOutput($option_value));
+                $tpl->setVariable("VAL", ilLegacyFormElementsUtil::prepareFormOutput($option_value));
+                $tpl->setVariable("ID_VAL", ilLegacyFormElementsUtil::prepareFormOutput($option_value));
                 $tpl->setVariable("IID", $this->getFieldId());
                 $tpl->setVariable("TXT_OPTION", $option_text);
                 $tpl->setVariable("POST_VAR", $this->getPostVar());

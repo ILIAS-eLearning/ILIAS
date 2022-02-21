@@ -125,25 +125,25 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         if (count($availableTaxonomyIds)) {
             // fau: taxFilter/typeFilter  - edit multiple taxonomy and node selections
             require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-            
+
             // this is needed by ilTaxSelectInputGUI in some cases
             require_once 'Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php';
             ilOverlayGUI::initJavaScript();
-            
+
             $filter = $sourcePool->getOriginalTaxonomyFilter();
             foreach ($availableTaxonomyIds as $taxId) {
                 $taxonomy = new ilObjTaxonomy($taxId);
                 $taxLabel = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
-                
+
                 $taxCheckbox = new ilCheckboxInputGUI($taxLabel, "filter_tax_id_$taxId");
-                
-                
-                
+
+
+
                 $this->ctrl->setParameterByClass('iltaxselectinputgui', 'src_pool_def_id', $sourcePool->getId());
                 $this->ctrl->setParameterByClass('iltaxselectinputgui', 'quest_pool_id', $sourcePool->getPoolId());
                 $taxSelect = new ilTaxSelectInputGUI($taxId, "filter_tax_nodes_$taxId", true);
                 $taxSelect->setRequired(true);
-                
+
                 if (isset($filter[$taxId])) {
                     $taxCheckbox->setChecked(true);
                     $taxSelect->setValue($filter[$taxId]);
@@ -151,41 +151,41 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
                 $taxCheckbox->addSubItem($taxSelect);
                 $this->addItem($taxCheckbox);
             }
-            
+
             #$taxRadio = new ilRadioGroupInputGUI(
             #		$this->lng->txt('tst_inp_source_pool_filter_tax'), 'filter_tax'
             #);
-            
+
             #$taxRadio->setRequired(true);
-            
+
             #$taxRadio->addOption(new ilRadioOption(
             #		$this->lng->txt('tst_inp_source_pool_no_tax_filter'), 0
             #));
-            
+
             #$taxRadio->setValue(0);
-            
+
             #require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-            
+
             #foreach($availableTaxonomyIds as $taxId)
             #{
             #	$taxonomy = new ilObjTaxonomy($taxId);
             #	$label = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
-            
+
             #	$taxRadioOption = new ilRadioOption($label, $taxId);
-            
+
             #	$taxRadio->addOption($taxRadioOption);
-            
+
             #	$taxSelect = new ilTaxSelectInputGUI($taxId, "filter_tax_$taxId", false);
             #	$taxSelect->setRequired(true);
             #	$taxRadioOption->addSubItem($taxSelect);
-            
+
             #	if( $taxId == $sourcePool->getOriginalFilterTaxId() )
             #	{
             #		$taxRadio->setValue( $sourcePool->getOriginalFilterTaxId() );
             #		$taxSelect->setValue( $sourcePool->getOriginalFilterTaxNodeId() );
             #	}
             #}
-            
+
             #$this->addItem($taxRadio);
             // fau.
         } else {

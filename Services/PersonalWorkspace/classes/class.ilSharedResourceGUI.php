@@ -23,7 +23,7 @@ use ILIAS\PersonalWorkspace\StandardGUIRequest;
  * @ilCtrl_Calls ilSharedResourceGUI: ilObjExerciseVerificationGUI, ilObjLinkResourceGUI
  * @ilCtrl_Calls ilSharedResourceGUI: ilObjPortfolioGUI
  */
-class ilSharedResourceGUI
+class ilSharedResourceGUI implements ilCtrlBaseClassInterface
 {
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -371,7 +371,7 @@ class ilSharedResourceGUI
             } else {
                 $item = $form->getItemByPostVar("password");
                 $item->setAlert($lng->txt("wsp_invalid_password"));
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
         }
         

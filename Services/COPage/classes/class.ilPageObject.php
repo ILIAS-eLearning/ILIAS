@@ -60,11 +60,11 @@ abstract class ilPageObject
     protected ilLanguage $lng;
     protected ilTree $tree;
     protected int $id;
-    public php4DOMDocument $dom;
+    public ?php4DOMDocument $dom = null;
     public string $xml = "";
     public string $encoding = "";
     public php4DOMElement $node;
-    public string $cur_dtd = "ilias_pg_5_4.dtd";
+    public string $cur_dtd = "ilias_pg_8.dtd";
     public bool $contains_int_link = false;
     public bool $needs_parsing = false;
     public string $parent_type = "";
@@ -177,7 +177,13 @@ abstract class ilPageObject
     {
         return $this->page_config;
     }
-
+    
+    public static function randomhash()
+    {
+        $random = new \ilRandom();
+        return md5($random->int(1, 9999999) + str_replace(" ", "", (string) microtime()));
+    }
+    
     public function setRenderMd5(string $a_rendermd5) : void
     {
         $this->rendermd5 = $a_rendermd5;
@@ -270,7 +276,7 @@ abstract class ilPageObject
         }
 
         $this->xml = $this->page_record["content"];
-        $this->setParentId($this->page_record["parent_id"]);
+        $this->setParentId((int) $this->page_record["parent_id"]);
         $this->last_change_user = $this->page_record["last_change_user"];
         $this->create_user = $this->page_record["create_user"];
         $this->setRenderedContent((string) $this->page_record["rendered_content"]);
@@ -363,7 +369,7 @@ abstract class ilPageObject
     /**
      * @depracated
      */
-    public function getDom() : php4DOMDocument
+    public function getDom() : ?php4DOMDocument
     {
         return $this->dom;
     }
@@ -864,9 +870,13 @@ s     */
     /**
      * Copy content of page; replace page components with copies
      * where necessary (e.g. questions)
+     * @return string|string[]|null
      */
-    public function copyXmlContent(bool $a_clone_mobs = false) : string
-    {
+    public function copyXmlContent(
+        bool $a_clone_mobs = false,
+        int $a_new_parent_id = 0,
+        int $obj_copy_id = 0
+    ) : string {
         $xml = $this->getXMLContent();
         $temp_dom = domxml_open_mem(
             '<?xml version="1.0" encoding="UTF-8"?>' . $xml,
@@ -874,7 +884,7 @@ s     */
             $error
         );
         if (empty($error)) {
-            $this->handleCopiedContent($temp_dom, true, $a_clone_mobs);
+            $this->handleCopiedContent($temp_dom, true, $a_clone_mobs, $a_new_parent_id, $obj_copy_id);
         }
         $xml = $temp_dom->dump_mem(0, $this->encoding);
         $xml = preg_replace('/<\?xml[^>]*>/i', "", $xml);
@@ -897,7 +907,9 @@ s     */
     public function handleCopiedContent(
         php4DOMDocument $a_dom,
         bool $a_self_ass = true,
-        bool $a_clone_mobs = false
+        bool $a_clone_mobs = false,
+        int $new_parent_id = 0,
+        int $obj_copy_id = 0
     ) : void {
         $defs = ilCOPagePCDef::getPCDefinitions();
 
@@ -928,7 +940,7 @@ s     */
                 // the page object is provided for ilPageComponentPlugin
                 ilPCPlugged::handleCopiedPluggedContent($this, $dom);
             } else {
-                $cl::handleCopiedContent($dom, $a_self_ass, $a_clone_mobs);
+                $cl::handleCopiedContent($a_dom, $a_self_ass, $a_clone_mobs, $new_parent_id, $obj_copy_id);
             }
         }
     }
@@ -3737,7 +3749,7 @@ s     */
 
     public function generatePcId() : string
     {
-        $id = ilUtil::randomhash();
+        $id = self::randomhash();
         return $id;
     }
 
@@ -3761,7 +3773,7 @@ s     */
         $res = xpath_eval($xpc, $path);
 
         for ($i = 0; $i < count($res->nodeset); $i++) {
-            $id = ilUtil::randomhash();
+            $id = self::randomhash();
             $res->nodeset[$i]->set_attribute("PCID", $id);
         }
     }
@@ -4217,7 +4229,7 @@ s     */
             );
         }
 
-        $page_changes = ilUtil::sortArray($page_changes, "date", "desc");
+        $page_changes = ilArrayUtil::sortArray($page_changes, "date", "desc");
 
         return $page_changes;
     }
@@ -4632,21 +4644,23 @@ s     */
 
     /**
      * Copy page
-     * @param int    $a_id          target page id
-     * @param string $a_parent_type target parent type
-     * @param int    $a_parent_id   target parent id
-     * @throws ilDateTimeException
+     * @param int    $a_id              target page id (new page)
+     * @param string $a_parent_type
+     * @param int    $a_new_parent_id
+     * @param false  $a_clone_mobs
+     * @param int    $obj_copy_id       copy wizard id
      */
     public function copy(
         int $a_id,
         string $a_parent_type = "",
-        int $a_parent_id = 0,
-        bool $a_clone_mobs = false
+        int $a_new_parent_id = 0,
+        bool $a_clone_mobs = false,
+        int $obj_copy_id = 0
     ) : void {
         if ($a_parent_type == "") {
             $a_parent_type = $this->getParentType();
-            if ($a_parent_id == 0) {
-                $a_parent_id = $this->getParentId();
+            if ($a_new_parent_id == 0) {
+                $a_new_parent_id = $this->getParentId();
             }
         }
 
@@ -4658,10 +4672,10 @@ s     */
                 $existed = true;
             } else {
                 $new_page_object = ilPageObjectFactory::getInstance($a_parent_type, 0, 0, $l);
-                $new_page_object->setParentId($a_parent_id);
+                $new_page_object->setParentId($a_new_parent_id);
                 $new_page_object->setId($a_id);
             }
-            $new_page_object->setXMLContent($orig_page->copyXmlContent($a_clone_mobs));
+            $new_page_object->setXMLContent($orig_page->copyXMLContent($a_clone_mobs, $a_new_parent_id, $obj_copy_id));
             $new_page_object->setActive($orig_page->getActive());
             $new_page_object->setActivationStart($orig_page->getActivationStart());
             $new_page_object->setActivationEnd($orig_page->getActivationEnd());

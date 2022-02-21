@@ -1,21 +1,28 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/WebServices/ECS/interfaces/interface.ilECSCommandQueueHandler.php';
-include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
-include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- * Description of class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 {
-    private $server = null;
-    private $mid = 0;
+    private ilLogger $logger;
+    
+    private ilECSSetting $server;
+    private int $mid = 0;
     
     
     /**
@@ -23,23 +30,25 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
      */
     public function __construct(ilECSSetting $server)
     {
+        global $DIC;
+        
+        $this->logger = $DIC->logger()->wsrv();
+        
         $this->server = $server;
     }
     
     /**
      * Get server
-     * @return ilECSServerSetting
      */
-    public function getServer()
+    public function getServer() : ilECSSetting
     {
         return $this->server;
     }
     
     /**
      * Get mid
-     * @return type
      */
-    public function getMid()
+    public function getMid() : int
     {
         return $this->mid;
     }
@@ -47,36 +56,33 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
     /**
      * Check if course allocation is activated for one recipient of the
      * @param ilECSSetting $server
-     * @param type $a_content_id
+     * @param $a_content_id
      */
     public function checkAllocationActivation(ilECSSetting $server, $a_content_id)
     {
         try {
-            include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
             $crs_reader = new ilECSCourseConnector($server);
             $details = $crs_reader->getCourse($a_content_id, true);
             $this->mid = $details->getMySender();
             
             // Check if import is enabled
-            include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
             $part = ilECSParticipantSetting::getInstance($this->getServer()->getServerId(), $this->getMid());
             if (!$part->isImportEnabled()) {
-                $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Import disabled for mid ' . $this->getMid());
+                $this->logger->info(__METHOD__ . ': Import disabled for mid ' . $this->getMid());
                 return false;
             }
             // Check course allocation setting
-            include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
             $gl_settings = ilECSNodeMappingSettings::getInstanceByServerMid(
                 $this->getServer()->getServerId(),
                 $this->getMid()
-                );
+            );
             $enabled = $gl_settings->isCourseAllocationEnabled();
             if (!$enabled) {
-                $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Course allocation disabled for ' . $this->getMid());
+                $this->logger->info(__METHOD__ . ': Course allocation disabled for ' . $this->getMid());
             }
             return $enabled;
         } catch (ilECSConnectorException $e) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Reading course details failed with message ' . $e->getMessage());
+            $this->logger->error(__METHOD__ . ': Reading course details failed with message ' . $e->getMessage());
             return false;
         }
     }
@@ -89,20 +95,16 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
      */
     public function handleCreate(ilECSSetting $server, $a_content_id)
     {
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
-        include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
-
         if (!$this->checkAllocationActivation($server, $a_content_id)) {
             return true;
         }
         try {
             $course = $this->readCourse($server, $a_content_id);
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . print_r($course, true));
+            $this->logger->info(__METHOD__ . ': ' . print_r($course, true));
             $this->doUpdate($a_content_id, $course);
             return true;
         } catch (ilECSConnectorException $e) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Course creation failed  with mesage ' . $e->getMessage());
+            $this->logger->error(__METHOD__ . ': Course creation failed  with mesage ' . $e->getMessage());
             return false;
         }
         return true;
@@ -135,7 +137,7 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
             $this->doUpdate($a_content_id, $course);
             return true;
         } catch (ilECSConnectorException $e) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Course creation failed  with mesage ' . $e->getMessage());
+            $this->logger->error(__METHOD__ . ': Course creation failed  with mesage ' . $e->getMessage());
             return false;
         }
         return true;
@@ -149,14 +151,12 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
      */
     protected function doUpdate($a_content_id, $course)
     {
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Starting course creation/update');
+        $this->logger->info(__METHOD__ . ': Starting course creation/update');
         
-        include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseCreationHandler.php';
         $creation_handler = new ilECSCourseCreationHandler($this->getServer(), $this->mid);
         $creation_handler->handle($a_content_id, $course);
     }
     
-
     /**
      * Read course from ecs
      * @return boolean
@@ -164,7 +164,6 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
     private function readCourse(ilECSSetting $server, $a_content_id, $a_details = false)
     {
         try {
-            include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
             $crs_reader = new ilECSCourseConnector($server);
             return $crs_reader->getCourse($a_content_id, $a_details);
         } catch (ilECSConnectorException $e) {

@@ -25,7 +25,6 @@ class ilWikiExportOrderTableGUI extends ilTable2GUI
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
-        bool $a_pdf_export,
         array $a_all_pages,
         array $a_page_ids
     ) {
@@ -38,14 +37,9 @@ class ilWikiExportOrderTableGUI extends ilTable2GUI
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
-        if (!$a_pdf_export) {
-            $title = "wiki_show_print_view";
-            $cmd = "printView";
-        } else {
-            $title = "wiki_show_pdf_export";
-            $cmd = "pdfExport";
-        }
-        
+        $title = "wiki_show_print_view";
+        $cmd = "printView";
+
         $this->setTitle($lng->txt($title));
         
         $this->addColumn($lng->txt("wiki_ordering"), "", "1");
@@ -55,7 +49,6 @@ class ilWikiExportOrderTableGUI extends ilTable2GUI
         $this->addCommandButton($this->getParentCmd(), $lng->txt("refresh"));
 
         $button = ilSubmitButton::getInstance();
-        $button->setOmitPreventDoubleSubmission($a_pdf_export);
         $button->setCaption("continue");
         $button->setCommand($cmd);
         $this->addCommandButtonInstance($button);
@@ -82,7 +75,7 @@ class ilWikiExportOrderTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->order += 10;
         

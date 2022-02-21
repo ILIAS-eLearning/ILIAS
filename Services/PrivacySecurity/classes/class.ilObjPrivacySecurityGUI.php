@@ -126,7 +126,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $form->setTitle($this->lng->txt('ps_privacy_protection'));
 
         if (ilMemberAgreement::_hasAgreements()) {
-            ilUtil::sendInfo($this->lng->txt('ps_warning_modify'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('ps_warning_modify'));
         }
 
         $value = [];
@@ -267,12 +267,12 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         // if error code != 0, display error and do not save
         if ($code !== 0) {
             $msg = $this->getErrorMessage($code);
-            \ilUtil::sendFailure($msg);
+            $this->tpl->setOnScreenMessage('failure', $msg);
             $form->setValuesByPost();
             $this->showPrivacy($form);
             return;
         } elseif (!$valid) {
-            \ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $form->setValuesByPost();
             $this->showPrivacy($form);
             return;
@@ -301,7 +301,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             if ($do_reset) {
                 ilMemberAgreement::_reset();
             }
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         }
         $this->ctrl->redirect($this, 'showPrivacy');
     }

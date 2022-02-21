@@ -49,7 +49,7 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
     public function getIntroductionHtml() : string
     {
         $tpl = new ilTemplate('tpl.dashboard_my_memberships_intro.html', true, true, 'Services/Dashboard');
-        $tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon('', 'big', 'pd'));
+        $tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon(0, 'big', 'pd'));
         $tpl->setVariable('TXT_WELCOME', $this->lng->txt('pd_my_memberships_intro'));
         $tpl->setVariable('TXT_INTRO_1', $this->lng->txt('pd_my_memberships_intro2'));
 

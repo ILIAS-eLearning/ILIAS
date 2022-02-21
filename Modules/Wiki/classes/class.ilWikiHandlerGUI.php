@@ -18,8 +18,10 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilWikiHandlerGUI: ilObjWikiGUI
  */
-class ilWikiHandlerGUI
+class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 {
+    protected string $requested_page;
+    protected int $requested_ref_id;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilAccessHandler $access;
@@ -40,6 +42,15 @@ class ilWikiHandlerGUI
         // initialisation stuff
         $this->ctrl = $ilCtrl;
 
+        $request = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+        $this->requested_ref_id = $request->getRefId();
+        $this->requested_page = $request->getPage();
+
         $DIC->globalScreen()->tool()->context()->claim()->repository();
     }
     
@@ -56,12 +67,12 @@ class ilWikiHandlerGUI
         }
 
         // add entry to navigation history
-        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
-            $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+        if ($ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
+            $obj_id = ilObject::_lookupObjId($this->requested_ref_id);
             $title = ilObject::_lookupTitle($obj_id);
 
-            if ($_GET["page"] != "") {
-                $page = $_GET["page"];
+            if ($this->requested_page != "") {
+                $page = $this->requested_page;
             } else {
                 $page = ilObjWiki::_lookupStartPage($obj_id);
             }
@@ -74,19 +85,19 @@ class ilWikiHandlerGUI
                 
                 $title .= ": " . $ptitle;
                 
-                $append = ($_GET["page"] != "")
+                $append = ($this->requested_page != "")
                     ? "_" . ilWikiUtil::makeUrlTitle($page)
                     : "";
                 $goto = ilLink::_getStaticLink(
-                    $_GET["ref_id"],
+                    $this->requested_ref_id,
                     "wiki",
                     true,
                     $append
                 );
                 //var_dump($goto);
                 $ilNavigationHistory->addItem(
-                    $_GET["ref_id"],
-                    "./goto.php?target=wiki_" . $_GET["ref_id"] . $add,
+                    $this->requested_ref_id,
+                    "./goto.php?target=wiki_" . $this->requested_ref_id . $add,
                     "wiki",
                     $title,
                     $page_id,
@@ -97,7 +108,12 @@ class ilWikiHandlerGUI
 
         switch ($next_class) {
             case 'ilobjwikigui':
-                $mc_gui = new ilObjWikiGUI("", (int) $_GET["ref_id"], true, false);
+                $mc_gui = new ilObjWikiGUI(
+                    "",
+                    $this->requested_ref_id,
+                    true,
+                    false
+                );
                 $this->ctrl->forwardCommand($mc_gui);
                 break;
         }

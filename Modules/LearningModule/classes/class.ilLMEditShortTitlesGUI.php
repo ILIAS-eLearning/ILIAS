@@ -66,7 +66,7 @@ class ilLMEditShortTitlesGUI
 
     public function listShortTitles() : void
     {
-        ilUtil::sendInfo($this->lng->txt("cont_short_title_info"));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_short_title_info"));
         $ml_head = ilObjContentObjectGUI::getMultiLangHeader($this->lm->getId(), $this->lm_gui, "short_titles");
         $tab = new ilLMEditShortTitlesTableGUI($this, "listShortTitles", $this->lm, $this->lang);
         $this->tpl->setContent($ml_head . $tab->getHTML());
@@ -81,7 +81,7 @@ class ilLMEditShortTitlesGUI
                 ilLMObject::writeShortTitle($id, ilUtil::stripSlashes($title), $this->lang);
             }
         }
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "listShortTitles");
     }
 }

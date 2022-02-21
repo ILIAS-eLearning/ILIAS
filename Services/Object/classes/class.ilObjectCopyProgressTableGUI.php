@@ -62,9 +62,9 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
 
     /**
      * Fill row
-     * @param type $set
+     * @param array $a_set
      */
-    protected function fillRow($set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -72,25 +72,25 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
         $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        $this->tpl->setVariable('VAL_ID', $set['ref_id']);
-        $this->tpl->setVariable('OBJ_TITLE', $set['title']);
+        $this->tpl->setVariable('VAL_ID', $a_set['ref_id']);
+        $this->tpl->setVariable('OBJ_TITLE', $a_set['title']);
 
-        if (strlen($set['description'])) {
-            $this->tpl->setVariable('VAL_DESC', $set['description']);
+        if (strlen($a_set['description'])) {
+            $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
 
-        $this->tpl->setVariable('TYPE_IMG', ilUtil::getTypeIconPath($set['type'], $set['obj_id']));
-        $this->tpl->setVariable('TYPE_STR', $this->lng->txt('obj_' . $set['type']));
+        $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon($a_set['obj_id'], "small", $a_set['type']));
+        $this->tpl->setVariable('TYPE_STR', $this->lng->txt('obj_' . $a_set['type']));
 
         $progress = ilProgressBar::getInstance();
         $progress->setType(ilProgressBar::TYPE_SUCCESS);
         $progress->setMin(0);
-        $progress->setMax($set['max_steps']);
+        $progress->setMax($a_set['max_steps']);
         $progress->setCurrent(0);
         $progress->setAnimated(true);
-        $progress->setId($set['copy_id']);
+        $progress->setId($a_set['copy_id']);
 
-        $ctrl->setParameter($this->getParentObject(), 'copy_id', $set['copy_id']);
+        $ctrl->setParameter($this->getParentObject(), 'copy_id', $a_set['copy_id']);
         $progress->setAsyncStatusUrl(
             $ctrl->getLinkTarget(
                 $this->getParentObject(),

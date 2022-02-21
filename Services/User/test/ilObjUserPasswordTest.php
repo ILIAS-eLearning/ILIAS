@@ -138,7 +138,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $user_mock->expects($this->once())->method('setPasswordEncodingType')->with($this->equalTo('mockencoder'));
         $user_mock->expects($this->once())->method('setPasswd')->with(
             $this->equalTo(self::ENCODED_PASSWORD),
-            $this->equalTo(IL_PASSWD_CRYPTED)
+            $this->equalTo(ilObjUser::PASSWD_CRYPTED)
         );
 
         $encoder->expects($this->once())->method('getName')->willReturn('mockencoder');
@@ -175,7 +175,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $user_mock->expects($this->once())->method('setPasswordEncodingType')->with($this->equalTo('mockencoder'));
         $user_mock->expects($this->once())->method('setPasswd')->with(
             $this->equalTo(self::ENCODED_PASSWORD),
-            $this->equalTo(IL_PASSWD_CRYPTED)
+            $this->equalTo(ilObjUser::PASSWD_CRYPTED)
         );
 
         $encoder->expects($this->once())->method('getName')->willReturn('mockencoder');
@@ -392,6 +392,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilPasswordException
      * @throws ilUserException
      */
+    /*
     public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderWasInjected() : void
     {
         $this->assertException(ilUserException::class);
@@ -399,7 +400,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
         $factory->setEncoders(['phpunit']);
-    }
+    }*/
 
     /**
      * @throws ilPasswordException

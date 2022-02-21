@@ -206,7 +206,7 @@ abstract class ilMailNotification
         }
         $txt = ilObject::_lookupTitle($this->getObjId());
         if ($a_shorten) {
-            $txt = ilUtil::shortenText($txt, self::SUBJECT_TITLE_LENGTH, true);
+            $txt = ilStr::shortenTextExtended($txt, self::SUBJECT_TITLE_LENGTH, true);
         }
         return $txt;
     }

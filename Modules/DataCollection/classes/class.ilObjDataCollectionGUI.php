@@ -356,6 +356,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     public static function _goto($a_target)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -376,13 +377,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         }
 
-        ilUtil::sendFailure(
-            sprintf(
-                $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-            ),
-            true
-        );
+        $main_tpl->setOnScreenMessage('failure', sprintf(
+            $lng->txt("msg_no_perm_read_item"),
+            ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+        ), true);
         ilObjectGUI::_gotoRepositoryRoot();
     }
 
@@ -405,7 +403,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
      */
     protected function afterSave(ilObject $a_new_object)
     {
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
     }
 
@@ -608,7 +606,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         if (count($tables) == 1 and count($this->table->getRecordFields()) == 0 and count($this->table->getRecords()) == 0
             and $this->object->getOnline()
         ) {
-            ilUtil::sendInfo($lng->txt("dcl_no_content_warning"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("dcl_no_content_warning"), true);
         }
     }
 

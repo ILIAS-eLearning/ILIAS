@@ -20,8 +20,7 @@
  */
 class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 {
-    public static $block_type = "wikiimppages";
-    public static $st_data;
+    public static string $block_type = "wikiimppages";
     protected bool $export = false;
     
     public function __construct()
@@ -80,7 +79,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 
         $this->export = $a_export;
 
-        if (!$this->export && ilWikiPerm::check("edit_wiki_navigation", $_GET["ref_id"])) {
+        if (!$this->export && ilWikiPerm::check("edit_wiki_navigation", $this->requested_ref_id)) {
             $this->addBlockCommand(
                 $ilCtrl->getLinkTargetByClass("ilobjwikigui", "editImportantPages"),
                 $lng->txt("edit")
@@ -113,7 +112,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         $list->setListClass("ilWikiBlockListNoIndent", 1);
         
         $cnt = 1;
-        $title = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($_GET["ref_id"]));
+        $title = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($this->requested_ref_id));
         if (!$this->export) {
             $list->addListNode("<p class='small'><a href='" .
                 $ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage")
@@ -125,13 +124,13 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         }
         $cpar[0] = 1;
         
-        $ipages = ilObjWiki::_lookupImportantPagesList(ilObject::_lookupObjId($_GET["ref_id"]));
+        $ipages = ilObjWiki::_lookupImportantPagesList(ilObject::_lookupObjId($this->requested_ref_id));
         foreach ($ipages as $p) {
             $cnt++;
             $title = ilWikiPage::lookupTitle($p["page_id"]);
             if (!$this->export) {
                 $list->addListNode("<p class='small'><a href='" .
-                    ilObjWikiGUI::getGotoLink($_GET["ref_id"], $title)
+                    ilObjWikiGUI::getGotoLink($this->requested_ref_id, $title)
                     . "'>" . $title . "</a></p>", $cnt, (int) $cpar[$p["indent"] - 1]);
             } else {
                 $list->addListNode("<p class='small'><a href='" .

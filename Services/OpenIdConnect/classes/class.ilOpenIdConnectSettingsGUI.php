@@ -1,5 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class ilOpenIdConnectSettingsGUI
@@ -204,7 +217,9 @@ class ilOpenIdConnectSettingsGUI
         );
         $scopes->setMulti(true);
         $scopeValues = $this->settings->getAdditionalScopes();
-        $scopes->setValue($scopeValues[0]);
+        if (isset($scopeValues[0])) {
+            $scopes->setValue($scopeValues[0]);
+        }
         $scopes->setMultiValues($scopeValues);
         $form->addItem($scopes);
 
@@ -214,13 +229,13 @@ class ilOpenIdConnectSettingsGUI
             'le'
         );
         $login_element->setRequired(true);
-        $login_element->setValue($this->settings->getLoginElementType());
+        $login_element->setValue((string) $this->settings->getLoginElementType());
         $form->addItem($login_element);
 
         // le -> type text
         $text_option = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_txt'),
-            ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_TXT
+            (string) ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_TXT
         );
         $login_element->addOption($text_option);
 
@@ -237,7 +252,7 @@ class ilOpenIdConnectSettingsGUI
         // le -> type img
         $img_option = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_img'),
-            ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_IMG
+            (string) ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_IMG
         );
         $login_element->addOption($img_option);
 
@@ -258,12 +273,12 @@ class ilOpenIdConnectSettingsGUI
             $this->lng->txt('auth_oidc_settings_login_options'),
             'login_prompt'
         );
-        $login_options->setValue($this->settings->getLoginPromptType());
+        $login_options->setValue((string) $this->settings->getLoginPromptType());
 
         // enforce login
         $enforce = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_login_option_enforce'),
-            ilOpenIdConnectSettings::LOGIN_ENFORCE
+            (string) ilOpenIdConnectSettings::LOGIN_ENFORCE
         );
         $enforce->setInfo($this->lng->txt('auth_oidc_settings_login_option_enforce_info'));
         $login_options->addOption($enforce);
@@ -271,7 +286,7 @@ class ilOpenIdConnectSettingsGUI
         // default login
         $default = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_login_option_default'),
-            ilOpenIdConnectSettings::LOGIN_STANDARD
+            (string) ilOpenIdConnectSettings::LOGIN_STANDARD
         );
         $default->setInfo($this->lng->txt('auth_oidc_settings_login_option_default_info'));
         $login_options->addOption($default);
@@ -283,12 +298,12 @@ class ilOpenIdConnectSettingsGUI
             $this->lng->txt('auth_oidc_settings_logout_scope'),
             'logout_scope'
         );
-        $logout_scope->setValue($this->settings->getLogoutScope());
+        $logout_scope->setValue((string) $this->settings->getLogoutScope());
 
         // scope global
         $global_scope = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_logout_scope_global'),
-            ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL
+            (string) ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL
         );
         $global_scope->setInfo($this->lng->txt('auth_oidc_settings_logout_scope_global_info'));
         $logout_scope->addOption($global_scope);
@@ -296,7 +311,7 @@ class ilOpenIdConnectSettingsGUI
         // ilias scope
         $ilias_scope = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_logout_scope_local'),
-            ilOpenIdConnectSettings::LOGOUT_SCOPE_LOCAL
+            (string) ilOpenIdConnectSettings::LOGOUT_SCOPE_LOCAL
         );
         $logout_scope->addOption($ilias_scope);
 
@@ -317,7 +332,7 @@ class ilOpenIdConnectSettingsGUI
             $this->lng->txt('auth_oidc_settings_session_duration'),
             'session_duration'
         );
-        $session->setValue($this->settings->getSessionDuration());
+        $session->setValue((string) $this->settings->getSessionDuration());
         $session->setSuffix($this->lng->txt('minutes'));
         $session->setMinValue(5);
         $session->setMaxValue(1440);
@@ -341,7 +356,7 @@ class ilOpenIdConnectSettingsGUI
         );
         $sync->setChecked($this->settings->isSyncAllowed());
         $sync->setInfo($this->lng->txt('auth_oidc_settings_user_sync_info'));
-        $sync->setValue(1);
+        $sync->setValue("1");
         $form->addItem($sync);
 
         $roles = new ilSelectInputGUI(
@@ -374,9 +389,7 @@ class ilOpenIdConnectSettingsGUI
 
         $form = $this->initSettingsForm();
         if (!$form->checkInput()) {
-            ilUtil::sendFailure(
-                $this->lng->txt('err_check_input')
-            );
+            $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $form->setValuesByPost();
             $this->settings($form);
             return;
@@ -393,9 +406,7 @@ class ilOpenIdConnectSettingsGUI
 
         $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
         if (!empty($invalid_scopes)) {
-            ilUtil::sendFailure(
-                sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes))
-            );
+            $this->mainTemplate->setOnScreenMessage('failure', sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes)));
             $form->setValuesByPost();
             $this->settings($form);
             return;
@@ -426,7 +437,7 @@ class ilOpenIdConnectSettingsGUI
 
         $this->settings->save();
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'settings');
     }
 
@@ -478,7 +489,7 @@ class ilOpenIdConnectSettingsGUI
             if ($role_id == ANONYMOUS_ROLE_ID) {
                 continue;
             }
-            $select[$role_id] = ilObject::_lookupTitle($role_id);
+            $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
         }
         return $select;
     }
@@ -536,7 +547,7 @@ class ilOpenIdConnectSettingsGUI
 
         $form = $this->initProfileForm();
         if (!$form->checkInput()) {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $form->setValuesByPost();
             $this->profile($form);
             return false;
@@ -553,7 +564,7 @@ class ilOpenIdConnectSettingsGUI
             );
         }
         $this->settings->save();
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::STAB_PROFILE);
     }
 
@@ -637,19 +648,19 @@ class ilOpenIdConnectSettingsGUI
 
             if (!$role_valid) {
                 $form->setValuesByPost();
-                \ilUtil::sendFailure($this->lng->txt('err_check_input'));
+                $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
                 $this->roles($form);
                 return;
             }
 
             $this->settings->setRoleMappings($role_settings);
             $this->settings->save();
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'roles');
         }
 
         $form->setValuesByPost();
-        \ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->roles($form);
     }
 

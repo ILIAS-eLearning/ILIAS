@@ -36,6 +36,7 @@ trait GlobalDICDomainServices
     protected Filesystems $filesystem;
     protected ResourceStorage\Services $resource_storage;
     protected LoggingServices $logger;
+    protected \ilSetting $settings;
 
     protected function initDomainServices(\ILIAS\DI\Container $DIC)
     {
@@ -49,6 +50,7 @@ trait GlobalDICDomainServices
         $this->filesystem = $DIC->filesystem();
         $this->resource_storage = $DIC->resourceStorage();
         $this->event = $DIC->event();
+        $this->settings = $DIC->settings();
     }
 
     public function repositoryTree() : \ilTree
@@ -99,5 +101,10 @@ trait GlobalDICDomainServices
     public function event() : \ilAppEventHandler
     {
         return $this->event;
+    }
+
+    public function settings() : \ilSetting
+    {
+        return $this->settings;
     }
 }

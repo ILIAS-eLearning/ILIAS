@@ -1,29 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 
-include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
-include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
-
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- * Description of class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilECSCourseCreationHandler
 {
-    /**
-     * @var ilLogger
-     */
-    protected $log;
+    private ilLogger $log;
+    private ilLanguage $lng;
+    private ilTree $tree;
 
 
-    private $server = null;
-    private $mapping = null;
-    private $course_url = null;
-    private $object_created = false;
-    private $courses_created = array();
+    private ?\ilECSSetting $server = null;
+    private ?\ilECSNodeMappingSettings $mapping = null;
+    private ?\ilECSCourseUrl $course_url = null;
+    private bool $object_created = false;
+    private array $courses_created = array();
     
     private $mid;
     
@@ -34,13 +39,16 @@ class ilECSCourseCreationHandler
      */
     public function __construct(ilECSSetting $server, $a_mid)
     {
-        $this->log = $GLOBALS['DIC']->logger()->wsrv();
+        global $DIC;
+        
+        $this->log = $DIC->logger()->wsrv();
+        $this->lng = $DIC->language();
+        $this->tree = $DIC->repositoryTree();
         
         $this->server = $server;
         $this->mid = $a_mid;
         $this->mapping = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->getMid());
         
-        include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseUrl.php';
         $this->course_url = new ilECSCourseUrl();
     }
     
@@ -165,14 +173,13 @@ class ilECSCourseCreationHandler
             $this->doSync(
                 $a_content_id,
                 $course,
-                ilObject::_lookupObjId($GLOBALS['DIC']['tree']->getParentId($ref))
+                ilObject::_lookupObjId($this->tree->getParentId($ref))
             );
             return true;
         }
         
         // Get all rules
         $matching_rules = [];
-        include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMappingRule.php';
         foreach (ilECSCourseMappingRule::getRuleRefIds($this->getServer()->getServerId(), $this->getMid()) as $ref_id) {
             $matching_index = ilECSCourseMappingRule::isMatching(
                 $course,
@@ -237,7 +244,6 @@ class ilECSCourseCreationHandler
     protected function createCourseReferenceObjects($a_parent_ref_id)
     {
         foreach ($this->getCreatedCourses() as $ref_id) {
-            include_once './Modules/CourseReference/classes/class.ilObjCourseReference.php';
             $crsr = new ilObjCourseReference();
             $crsr->setOwner(SYSTEM_USER_ID);
             $crsr->setTargetRefId($ref_id);
@@ -261,16 +267,15 @@ class ilECSCourseCreationHandler
     protected function syncParentContainer($a_content_id, $course)
     {
         if (!is_array($course->allocations)) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': No allocation in course defined.');
+            $this->logger->debug('No allocation in course defined.');
             return 0;
         }
         if (!$course->allocations[0]->parentID) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': No allocation parent in course defined.');
+            $$this->logger->debug('No allocation parent in course defined.');
             return 0;
         }
         $parent_id = $course->allocations[0]->parentID;
         
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
         $parent_tid = ilECSCmsData::lookupFirstTreeOfNode($this->getServer()->getServerId(), $this->getMid(), $parent_id);
         return $this->syncNodetoTop($parent_tid, $parent_id);
     }
@@ -297,10 +302,9 @@ class ilECSCourseCreationHandler
         );
         
         // node is not imported
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ecs node with id ' . $cms_id . ' is not imported for mid ' . $this->getMid() . ' tree_id ' . $tree_id);
+        $this->logger->debug('ecs node with id ' . $cms_id . ' is not imported for mid ' . $this->getMid() . ' tree_id ' . $tree_id);
         
         // check for mapping: if mapping is available create category
-        include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignment.php';
         $ass = new ilECSNodeMappingAssignment(
             $this->getServer()->getServerId(),
             $this->getMid(),
@@ -309,12 +313,11 @@ class ilECSCourseCreationHandler
         );
         
         if ($ass->isMapped()) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': node is mapped');
+            $this->logger->debug('node is mapped');
             return $this->syncCategory($tobj_id, $ass->getRefId());
         }
         
         // Start recursion to top
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
         $tree = new ilECSCmsTree($tree_id);
         $parent_tobj_id = $tree->getParentId($tobj_id);
         if ($parent_tobj_id) {
@@ -337,10 +340,8 @@ class ilECSCourseCreationHandler
      */
     protected function syncCategory($tobj_id, $parent_ref_id)
     {
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
         $data = new ilECSCmsData($tobj_id);
         
-        include_once './Modules/Category/classes/class.ilObjCategory.php';
         $cat = new ilObjCategory();
         $cat->setOwner(SYSTEM_USER_ID);
         $cat->setTitle($data->getTitle());
@@ -348,11 +349,11 @@ class ilECSCourseCreationHandler
         $cat->createReference();
         $cat->putInTree($parent_ref_id);
         $cat->setPermissions($parent_ref_id);
-        $cat->deleteTranslation($GLOBALS['DIC']['lng']->getDefaultLanguage());
+        $cat->deleteTranslation($this->lng->getDefaultLanguage());
         $cat->addTranslation(
             $data->getTitle(),
             $cat->getLongDescription(),
-            $GLOBALS['DIC']['lng']->getDefaultLanguage(),
+            $this->lng->getDefaultLanguage(),
             1
         );
             
@@ -389,7 +390,6 @@ class ilECSCourseCreationHandler
         if ($obj_id) {
             // update multiple courses/groups according to parallel scenario
             $this->log->debug('Group scenario ' . $course->groupScenario);
-            include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
             switch ((int) $course->groupScenario) {
                 case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
                     $this->log->debug('Performing update for parallel groups in course.');
@@ -411,7 +411,6 @@ class ilECSCourseCreationHandler
             // do update
             $this->updateCourseData($course, $obj_id);
         } else {
-            include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
             switch ((int) $course->groupScenario) {
                 case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
                     $this->log->debug('Parallel scenario "groups in courses".');
@@ -483,7 +482,6 @@ class ilECSCourseCreationHandler
             return false;
         }
         
-        include_once './Modules/Course/classes/class.ilObjCourse.php';
         $course_obj = new ilObjCourse();
         $course_obj->setOwner(SYSTEM_USER_ID);
         $title = $course->title;
@@ -558,7 +556,6 @@ class ilECSCourseCreationHandler
      */
     protected function createParallelGroup($a_content_id, $course, $group, $parent_ref)
     {
-        include_once './Modules/Group/classes/class.ilObjGroup.php';
         $group_obj = new ilObjGroup();
         $group_obj->setOwner(SYSTEM_USER_ID);
         $title = strlen($group->title) ? $group->title : $course->title;
@@ -593,7 +590,7 @@ class ilECSCourseCreationHandler
                 $group_obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
                 if ($group_obj instanceof ilObjGroup) {
                     $title = strlen($group->title) ? $group->title : $course->title;
-                    $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': New title is ' . $title);
+                    $this->log->debug('New title is ' . $title);
                     $group_obj->setTitle($title);
                     $group_obj->setMaxMembers((int) $group->maxParticipants);
                     $group_obj->update();
@@ -612,8 +609,7 @@ class ilECSCourseCreationHandler
      */
     protected function getImportId($a_content_id, $a_sub_id = null)
     {
-        include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-        return ilECSImport::lookupObjIdByContentId(
+        return ilECSImportManager::getInstance()->lookupObjIdByContentId(
             $this->getServer()->getServerId(),
             $this->getMid(),
             $a_content_id,
@@ -632,13 +628,13 @@ class ilECSCourseCreationHandler
         $ref_id = end($refs);
         $crs_obj = ilObjectFactory::getInstanceByRefId($ref_id, false);
         if (!$crs_obj instanceof ilObject) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Cannot instantiate course instance');
+            $this->log->debug('Cannot instantiate course instance');
             return true;
         }
             
         // Update title
         $title = $course->title;
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': new title is : ' . $title);
+        $this->log->debug('new title is : ' . $title);
             
         $crs_obj->setTitle($title);
         $crs_obj->update();
@@ -651,11 +647,10 @@ class ilECSCourseCreationHandler
      */
     protected function createCourseData($course)
     {
-        include_once './Modules/Course/classes/class.ilObjCourse.php';
         $course_obj = new ilObjCourse();
         $course_obj->setOwner(SYSTEM_USER_ID);
         $title = $course->title;
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Creating new course instance from ecs : ' . $title);
+        $this->log->debug('Creating new course instance from ecs : ' . $title);
         $course_obj->setTitle($title);
         $course_obj->setOfflineStatus(true);
         $course_obj->create();
@@ -692,7 +687,6 @@ class ilECSCourseCreationHandler
      */
     protected function setImported($a_content_id, $object, $a_ecs_id = 0, $a_sub_id = null)
     {
-        include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
         $import = new ilECSImport(
             $this->getServer()->getServerId(),
             is_object($object) ? $object->getId() : 0
@@ -720,11 +714,9 @@ class ilECSCourseCreationHandler
         if (!$ref_id) {
             return false;
         }
-        include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseLmsUrl.php';
         $lms_url = new ilECSCourseLmsUrl();
         $lms_url->setTitle(ilObject::_lookupTitle($a_obj_id));
         
-        include_once './Services/Link/classes/class.ilLink.php';
         $lms_url->setUrl(ilLink::_getLink($ref_id));
         $this->getCourseUrl()->addLmsCourseUrls($lms_url);
     }
@@ -734,12 +726,12 @@ class ilECSCourseCreationHandler
      */
     protected function handleCourseUrlUpdate()
     {
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Starting course url update');
+        $this->log->debug('Starting course url update');
         if ($this->isObjectCreated()) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Sending new course group url');
+            $this->log->debug('Sending new course group url');
             $this->getCourseUrl()->send($this->getServer(), $this->getMid());
         } else {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': No courses groups created. Aborting');
+            $this->log->debug('No courses groups created. Aborting');
         }
     }
 }

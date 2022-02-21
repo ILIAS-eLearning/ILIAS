@@ -24,6 +24,7 @@ abstract class ilBlockGUI
     public const PRES_SEC_LEG = 1;			// secondary legacy panel
     public const PRES_SEC_LIST = 2;		// secondary list panel
     public const PRES_MAIN_LIST = 3;		// main standard list panel
+    public const PRES_MAIN_TILE = 4;		// main standard list panel
     private int $offset;
     private int $limit;
     private bool $enableedit;
@@ -31,6 +32,9 @@ abstract class ilBlockGUI
     private int $refid;
     private string $rowtemplatename;
     private string $rowtemplatedir;
+    protected object $gui_object;
+    protected \ILIAS\Block\StandardGUIRequest $request;
+    protected \ILIAS\Block\BlockManager $block_manager;
 
     protected bool $repositorymode = false;
     protected \ILIAS\DI\UIServices $ui;
@@ -64,6 +68,16 @@ abstract class ilBlockGUI
     {
         global $DIC;
 
+
+        $block_service = new ILIAS\Block\Service($DIC);
+        $this->block_manager = $block_service->internal()
+            ->domain()
+            ->block();
+        $this->request = $block_service->internal()
+            ->gui()
+            ->standardRequest();
+
+
         // default presentation
         $this->presentation = self::PRES_SEC_LEG;
 
@@ -80,7 +94,7 @@ abstract class ilBlockGUI
 
         $this->setLimit($this->user->getPref("hits_per_page"));
 
-        $this->requested_ref_id = (int) ($_GET["ref_id"] ?? null);
+        $this->requested_ref_id = $this->request->getRefId();
     }
 
     abstract public function getBlockType() : string;
@@ -401,17 +415,8 @@ abstract class ilBlockGUI
         $this->fillFooter();
 
 
-        // for screen readers we first output the title and the commands
-        // (e.g. close icon afterwards), otherwise we first output the
-        // header commands, since we want to have the close icon top right
-        // and not floated after the title
-        if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization")) {
-            $this->fillHeaderTitleBlock();
-            $this->fillHeaderCommands();
-        } else {
-            $this->fillHeaderCommands();
-            $this->fillHeaderTitleBlock();
-        }
+        $this->fillHeaderCommands();
+        $this->fillHeaderTitleBlock();
 
         if ($this->getPresentation() === self::PRES_MAIN_LEG) {
             $this->tpl->touchBlock("hclassb");
@@ -508,14 +513,18 @@ abstract class ilBlockGUI
      */
     public function fillDataSection() : void
     {
-        $this->nav_value = (isset($_POST[$this->getNavParameter()]) && $_POST[$this->getNavParameter()] != "")
-            ? $_POST[$this->getNavParameter()]
-            : (isset($_GET[$this->getNavParameter()]) ? $_GET[$this->getNavParameter()] : $this->nav_value);
-        $this->nav_value = ($this->nav_value == "" && isset($_SESSION[$this->getNavParameter()]))
-            ? $_SESSION[$this->getNavParameter()]
-            : $this->nav_value;
+        $req_nav_par = $this->request->getNavPar($this->getNavParameter());
+        if ($req_nav_par != "") {
+            $this->nav_value = $req_nav_par;
+        }
+        $this->nav_value = ($this->nav_value != "")
+            ? $this->nav_value
+            : $this->block_manager->getNavPar($this->getNavParameter());
 
-        $_SESSION[$this->getNavParameter()] = $this->nav_value;
+        $this->block_manager->setNavPar(
+            $this->getNavParameter(),
+            $this->nav_value
+        );
 
         $nav = explode(":", $this->nav_value);
         if (isset($nav[2])) {
@@ -661,16 +670,19 @@ abstract class ilBlockGUI
      */
     protected function handleNavigation() : void
     {
-        $reg_page = $_REQUEST[$this->getNavParameter() . "page"] ?? '';
+        $reg_page = $this->request->getNavPage($this->getNavParameter());
         if ($reg_page !== "") {
             $this->nav_value = "::" . ($reg_page * $this->getLimit());
         }
 
-        if ($this->nav_value == "" && isset($_SESSION[$this->getNavParameter()])) {
-            $this->nav_value = $_SESSION[$this->getNavParameter()];
+        if ($this->nav_value == "") {
+            $this->nav_value = $this->block_manager->getNavPar($this->getNavParameter());
         }
 
-        $_SESSION[$this->getNavParameter()] = $this->nav_value;
+        $this->block_manager->setNavPar(
+            $this->getNavParameter(),
+            $this->nav_value
+        );
 
         $nav = explode(":", $this->nav_value);
         if (isset($nav[2])) {
@@ -769,7 +781,7 @@ abstract class ilBlockGUI
             ->withTotalEntries($this->max_count)
             ->withPageSize($this->getLimit())
             ->withMaxPaginationButtons(5)
-            ->withCurrentPage((int) $this->getOffset() / $this->getLimit());
+            ->withCurrentPage($this->getOffset() / $this->getLimit());
     }
 
     /**
@@ -833,6 +845,7 @@ abstract class ilBlockGUI
         $factory = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
         $access = $this->access;
+        $panel = null;
 
         $ctrl = $this->ctrl;
 
@@ -867,6 +880,7 @@ abstract class ilBlockGUI
                 );
                 break;
 
+            case self::PRES_MAIN_TILE:
             case self::PRES_MAIN_LIST:
                 $this->handleNavigation();
                 $panel = $factory->panel()->listing()->standard(
@@ -875,13 +889,6 @@ abstract class ilBlockGUI
                 );
                 break;
 
-            case self::PRES_MAIN_TILE:
-                $this->handleNavigation();
-                $panel = $factory->panel()->listing()->standard(
-                    $this->getTitle(),
-                    $this->getListItemGroups()
-                );
-                break;
         }
 
         // actions
@@ -920,7 +927,11 @@ abstract class ilBlockGUI
 
 
         if (count($actions) > 0) {
-            $actions = $factory->dropdown()->standard($actions);
+            $actions = $factory->dropdown()->standard($actions)
+                ->withAriaLabel(sprintf(
+                    $this->lng->txt('actions_for'),
+                    htmlspecialchars($this->getTitle())
+                ));
             $panel = $panel->withActions($actions);
         }
 

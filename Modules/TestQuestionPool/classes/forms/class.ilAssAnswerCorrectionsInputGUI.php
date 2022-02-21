@@ -111,12 +111,12 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
                 $tpl->setVariable("POST_VAR", $this->getPostVar());
                 $tpl->setVariable("ROW_NUMBER", $i);
                 $tpl->setVariable("POINTS_ID", $this->getPostVar() . "[points][$i]");
-                $tpl->setVariable("POINTS", ilUtil::prepareFormOutput($value->getPoints()));
+                $tpl->setVariable("POINTS", ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints()));
                 $tpl->parseCurrentBlock();
             }
             
             $tpl->setCurrentBlock("row");
-            $tpl->setVariable("ANSWER", ilUtil::prepareFormOutput($value->getAnswertext()));
+            $tpl->setVariable("ANSWER", ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext()));
             $tpl->parseCurrentBlock();
             $i++;
         }

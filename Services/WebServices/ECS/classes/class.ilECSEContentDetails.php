@@ -1,25 +1,18 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Presentation of ecs content details (http://...campusconnect/courselinks/id/details)
@@ -31,17 +24,24 @@
  */
 class ilECSEContentDetails
 {
-    public $senders = array();
-    public $sender_index = null;
-    public $receivers = array();
-    public $url = array();
-    public $content_type = array();
-    public $owner = 0;
+    private array $senders = array();
+    private ?int $sender_index = null;
+    private array $receivers = array();
+    private $url = array();
+    private string $content_type = "";
+    private int $owner = 0;
 
-    private $receiver_info = array();
+    private array $receiver_info = array();
+    private ilLogger $logger;
 
-    public function __construct()
+    public function __construct($a_server_id, $a_econtent_id, $a_resource_type)
     {
+        global $DIC;
+
+        $this->logger = $DIC->logger()->wsrv();
+
+        $resource = $this->loadFromServer($a_server_id, $a_econtent_id, $a_resource_type);
+        $this->loadFromJson($resource);
     }
     
     /**
@@ -52,35 +52,30 @@ class ilECSEContentDetails
      * @param string $a_resource_type
      * @return ilECSEContentDetails
      */
-    public static function getInstance($a_server_id, $a_econtent_id, $a_resource_type)
+    public static function getInstance($a_server_id, $a_econtent_id, $a_resource_type) : ilECSEContentDetails
     {
-        global $DIC;
+        return new self($a_server_id, $a_econtent_id, $a_resource_type);
+    }
 
-        $ilLog = $DIC['ilLog'];
-        
+
+    private function loadFromServer($a_server_id, $a_econtent_id, $a_resource_type) : object
+    {
         try {
-            include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
-            include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
             $connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($a_server_id));
             $res = $connector->getResource($a_resource_type, $a_econtent_id, true);
             if ($res->getHTTPCode() == ilECSConnector::HTTP_CODE_NOT_FOUND) {
-                return;
+                return null;
             }
             if (!is_object($res->getResult())) {
-                $ilLog->write(__METHOD__ . ': Error parsing result. Expected result of type array.');
-                $ilLog->logStack();
+                $this->logger->error(__METHOD__ . ': Error parsing result. Expected result of type array.');
+                $this->logger->logStack();
                 throw new ilECSConnectorException('error parsing json');
             }
         } catch (ilECSConnectorException $exc) {
-            return;
+            return null;
         }
-
-        include_once './Services/WebServices/ECS/classes/class.ilECSEContentDetails.php';
-        $details = new self();
-        $details->loadFromJSON($res->getResult());
-        return $details;
+        return $res->getResult();
     }
-
     /**
      * Get senders
      * @return array
@@ -160,15 +155,11 @@ class ilECSEContentDetails
      */
     public function loadFromJson($json)
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
         if (!is_object($json)) {
-            $ilLog->write(__METHOD__ . ': Cannot load from JSON. No object given.');
+            $this->logger->info(__METHOD__ . ': Cannot load from JSON. No object given.');
             throw new ilException('Cannot parse ECS content details.');
         }
-
+        $this->logger->info(print_r($json, true));
         foreach ((array) $json->senders as $sender) {
             $this->senders[] = $sender->mid;
         }
@@ -184,7 +175,7 @@ class ilECSEContentDetails
 
         // Collect in one array
         for ($i = 0; $i < count($this->getReceivers()); ++$i) {
-            $this->receiver_info[$this->sender[$i]] = $this->receivers[$i];
+            $this->receiver_info[$this->senders[$i]] = $this->receivers[$i];
         }
 
         if (is_object($json->owner)) {

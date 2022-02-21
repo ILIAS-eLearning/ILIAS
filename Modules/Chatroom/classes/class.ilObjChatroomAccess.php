@@ -71,7 +71,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 
                 if (!$active) {
                     $DIC->access()->addInfoItem(
-                        IL_NO_OBJECT_ACCESS,
+                        ilAccessInfo::IL_NO_OBJECT_ACCESS,
                         $DIC->language()->txt('offline')
                     );
                 }
@@ -90,7 +90,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
                 $active = self::isActivated($a_ref_id, $a_obj_id);
                 if (!$active) {
                     $DIC->access()->addInfoItem(
-                        IL_NO_OBJECT_ACCESS,
+                        ilAccessInfo::IL_NO_OBJECT_ACCESS,
                         $DIC->language()->txt('offline')
                     );
                     return false;
@@ -135,7 +135,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return (bool) ($row['online_status'] ?? false);
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath)
+    public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
         if (preg_match("/chatroom\\/smilies\\//ui", $ilWACPath->getPath())) {
             return true;

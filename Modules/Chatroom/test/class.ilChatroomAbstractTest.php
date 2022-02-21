@@ -19,8 +19,10 @@ abstract class ilChatroomAbstractTest extends TestCase
 
     protected function setUp() : void
     {
-        $GLOBALS['DIC'] = new Container();
-
+        global $DIC;
+        $GLOBALS['DIC'] = $DIC = new Container();
+        $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
+        
         parent::setUp();
     }
 
@@ -45,7 +47,7 @@ abstract class ilChatroomAbstractTest extends TestCase
     protected function createGlobalIlDBMock() : ilDBInterface
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $db->expects($this->any())->method('quote')->willReturnCallback(static function ($arg) : string {
+        $db->method('quote')->willReturnCallback(static function ($arg) : string {
             return "'" . $arg . "'";
         });
 

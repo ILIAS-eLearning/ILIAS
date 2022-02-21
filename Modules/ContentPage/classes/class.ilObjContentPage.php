@@ -4,12 +4,14 @@
 use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
+use ILIAS\Style\Content\DomainService;
 
 class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 {
     protected int $styleId = 0;
     protected ?ilObjectTranslation $objTrans = null;
     private PageMetricsService $pageMetricsService;
+    protected DomainService $content_style_domain;
 
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
@@ -18,6 +20,8 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         parent::__construct($a_id, $a_reference);
         $this->initTranslationService();
         $this->initPageMetricsService($DIC->refinery());
+        $this->content_style_domain = $DIC->contentStyle()
+            ->domain();
     }
 
     private function initTranslationService() : void
@@ -43,31 +47,6 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     protected function initType() : void
     {
         $this->type = self::OBJ_TYPE;
-    }
-
-    public function getStyleSheetId() : int
-    {
-        return $this->styleId;
-    }
-
-    /**
-     * Note: A typehint cannot be be used here, because the consumer passes a string
-     * @param int $styleId
-     */
-    public function setStyleSheetId($styleId) : void
-    {
-        $this->styleId = (int) $styleId;
-    }
-
-    public function writeStyleSheetId(int $styleId) : void
-    {
-        $this->db->manipulateF(
-            'UPDATE content_object SET stylesheet = %s WHERE id = %s',
-            ['integer', 'integer'],
-            [$styleId, $this->getId()]
-        );
-
-        $this->setStyleSheetId($styleId);
     }
 
     protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null) : void
@@ -100,15 +79,8 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
             }
         }
 
-        $styleId = $this->getStyleSheetId();
-        if ($styleId > 0 && !ilObjStyleSheet::_lookupStandard($styleId)) {
-            $style = ilObjectFactory::getInstanceByObjId($styleId, false);
-            if ($style) {
-                $new_id = $style->ilClone();
-                $new_obj->setStyleSheetId($new_id);
-                $new_obj->update();
-            }
-        }
+        $style = $this->content_style_domain->styleForObjId($this->getId());
+        $style->cloneTo($new_obj->getId());
 
         ilContainer::_writeContainerSetting(
             $new_obj->getId(),
@@ -122,6 +94,15 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 
         $lpSettings = new ilLPObjSettings($this->getId());
         $lpSettings->cloneSettings($new_obj->getId());
+
+        $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+        //copy online status if object is not the root copy object
+        if (!$cwo->isRootNode($this->getRefId())) {
+            $new_obj->setOfflineStatus($this->getOfflineStatus());
+        } else {
+            $new_obj->setOfflineStatus(true);
+        }
+        $new_obj->update();
     }
 
     protected function doRead() : void
@@ -129,16 +110,6 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         parent::doRead();
 
         $this->initTranslationService();
-
-        $res = $this->db->queryF(
-            'SELECT * FROM content_page_data WHERE content_page_id = %s',
-            ['integer'],
-            [$this->getId()]
-        );
-
-        while ($data = $this->db->fetchAssoc($res)) {
-            $this->setStyleSheetId((int) $data['stylesheet']);
-        }
     }
 
     protected function doCreate() : void
@@ -152,6 +123,9 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
             ['integer', 'integer'],
             [$this->getId(), 0]
         );
+
+        $this->setOfflineStatus(true);
+        $this->update();
     }
 
     protected function doUpdate() : void
@@ -164,12 +138,6 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $trans->setDefaultTitle($this->getTitle());
         $trans->setDefaultDescription($this->getLongDescription());
         $trans->save();
-
-        $this->db->manipulateF(
-            'UPDATE content_page_data SET stylesheet = %s WHERE content_page_id = %s',
-            ['integer', 'integer'],
-            [$this->getStyleSheetId(), $this->getId()]
-        );
     }
 
     protected function doDelete() : void

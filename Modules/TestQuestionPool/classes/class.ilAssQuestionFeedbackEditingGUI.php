@@ -194,15 +194,15 @@ class ilAssQuestionFeedbackEditingGUI
             $this->questionOBJ->updateTimestamp();
 
             if ($this->isSyncAfterSaveRequired()) {
-                ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
                 $this->ctrl->redirect($this, self::CMD_SHOW_SYNC);
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this, self::CMD_SHOW);
         }
         
-        ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         $this->tpl->setContent($this->ctrl->getHTML($form));
     }
 

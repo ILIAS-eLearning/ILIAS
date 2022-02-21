@@ -178,8 +178,6 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             $durationForm->addItem($select);
         }
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
-
         $prevUseRelDates = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
 
@@ -217,7 +215,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         if ($export) {
             ilUtil::deliverData(
                 $roomTpl->get(),
-                ilUtil::getASCIIFilename($scopes[$requestScope] . '.html'),
+                ilFileUtils::getASCIIFilename($scopes[$requestScope] . '.html'),
                 'text/html'
             );
         }
@@ -284,6 +282,9 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             );
         }
 
+        $from = new ilDateTime();
+        $to = new ilDateTime();
+        $psessions = [];
         if ($from && $to) {
             $psessions = $room->getPrivateRoomSessions(
                 $from,
@@ -291,18 +292,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                 $chat_user->getUserId(),
                 $scope
             );
-        } else {
-            $from = new ilDateTime();
-            $to = new ilDateTime();
-            $psessions = array();
         }
-
-        $psessions = $room->getPrivateRoomSessions(
-            $from,
-            $to,
-            $chat_user->getUserId(),
-            $scope
-        );
 
         $this->showMessages($messages, $durationForm, $export, $psessions, $from, $to);
     }

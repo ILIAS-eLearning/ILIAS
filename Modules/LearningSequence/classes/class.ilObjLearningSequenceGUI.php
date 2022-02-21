@@ -1,39 +1,40 @@
 <?php declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 /* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\Data;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 /**
  * Class ilObjLearningSequenceGUI
- *
  * @ilCtrl_isCalledBy ilObjLearningSequenceGUI: ilRepositoryGUI
  * @ilCtrl_isCalledBy ilObjLearningSequenceGUI: ilAdministrationGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilInfoScreenGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilColumnGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilExportGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceSettingsGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceContentGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceLearnerGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilLearningSequenceMembershipGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilLearningProgressGUI
- *
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningModuleGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjFileBasedLMGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjSAHSLearningModuleGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjContentPageGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjExerciseGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjFileGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjIndividualAssessmentGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilIndividualAssessmentSettingsGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjTestGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjSurveyGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilPermissionGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilColumnGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjectCopyGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilExportGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceSettingsGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceContentGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceLearnerGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceLPPollingGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilLearningSequenceMembershipGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilLearningProgressGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningModuleGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjFileBasedLMGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjSAHSLearningModuleGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjContentPageGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjExerciseGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjFileGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjIndividualAssessmentGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilIndividualAssessmentSettingsGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjTestGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjSurveyGUI
  */
-class ilObjLearningSequenceGUI extends ilContainerGUI
+class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
 {
     const CMD_VIEW = "view";
     const CMD_LEARNER_VIEW = "learnerView";
@@ -94,10 +95,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
     protected ILIAS\UI\Factory $ui_factory;
     protected ILIAS\UI\Renderer $ui_renderer;
     protected Data\Factory $data_factory;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ArrayBasedRequestWrapper $post_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
     public static function _goto(string $target)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $request = $DIC->http()->request();
         $lng = $DIC->language();
@@ -130,7 +135,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         }
 
         if (self::hasAccess(self::ACCESS_READ, ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(sprintf(
+            $main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt('msg_no_perm_read_item'),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($id))
             ), true);
@@ -161,20 +166,17 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         $target_class = end($classes);
 
         $ctrl->setTargetScript('ilias.php');
-        $ctrl->initBaseClass($base_class);
-
         foreach ($params as $key => $value) {
             $ctrl->setParameterByClass($target_class, $key, $value);
         }
 
+        // insert the baseclass to the first position.
+        array_splice($classes, 0, 0, $base_class);
         $ctrl->redirectByClass($classes, $cmd);
     }
 
     public function __construct()
     {
-        $this->ref_id = (int) $_GET['ref_id'];
-        parent::__construct([], $this->ref_id, true, false);
-
         $this->obj_type = ilObjLearningSequence::OBJ_TYPE;
 
         global $DIC;
@@ -197,11 +199,17 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         $this->tpl = $DIC["tpl"];
         $this->obj_service = $DIC->object();
         $this->toolbar = $DIC['ilToolbar'];
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->post_wrapper = $DIC->http()->wrapper()->post();
+        $this->refinery = $DIC->refinery();
 
         $this->help->setScreenIdComponent($this->obj_type);
         $this->lng->loadLanguageModule($this->obj_type);
 
         $this->data_factory = new Data\Factory();
+
+        $this->ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+        parent::__construct([], $this->ref_id, true, false);
     }
 
     protected function recordLearningSequenceRead() : void
@@ -268,15 +276,20 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($cp);
                 break;
             case 'ilobjindividualassessmentgui':
-                $struct = ['ilrepositorygui','ilobjindividualassessmentgui'];
+                $struct = ['ilrepositorygui', 'ilobjindividualassessmentgui'];
                 if ($cmd === 'edit') {
                     $struct[] = 'ilindividualassessmentsettingsgui';
                 }
                 $this->ctrl->redirectByClass($struct, $cmd);
                 break;
             case 'ilobjtestgui':
-                $struct = ['ilrepositorygui','ilobjtestgui'];
+                $struct = ['ilrepositorygui', 'ilobjtestgui'];
                 $this->ctrl->redirectByClass($struct, $cmd);
+                break;
+            case 'ilobjlearningsequencelppollinggui':
+                $gui = $this->object->getLocalDI()["gui.learner.lp"];
+                $this->ctrl->setCmd($cmd);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case false:
@@ -400,7 +413,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
             $this->ctrl,
             $this->lng,
             $this->tpl,
-            $this->obj_service
+            $this->obj_service,
+            $this->post_wrapper,
+            $this->refinery
         );
         $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($gui);
@@ -435,7 +450,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
             $this->lng,
             $this->access,
             new ilConfirmationGUI(),
-            new LSItemOnlineStatus()
+            new LSItemOnlineStatus(),
+            $this->post_wrapper,
+            $this->refinery
         );
         $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($gui);
@@ -475,7 +492,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
             ilPrivacySettings::getInstance(),
             $this->rbac_review,
             $this->settings,
-            $this->toolbar
+            $this->toolbar,
+            $this->request_wrapper,
+            $this->post_wrapper,
+            $this->refinery
         );
 
         $this->ctrl->setCmd($cmd);
@@ -488,12 +508,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 
         $for_user = $this->user->getId();
 
-        if ($_GET['user_id']) {
-            $for_user = $_GET['user_id'];
+        if ($this->request_wrapper->has("user_id")) {
+            $for_user = $this->request_wrapper->retrieve("user_id", $this->refinery->kindlyTo()->int());
         }
 
         $lp_gui = new ilLearningProgressGUI(
-            ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+            ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
             $this->getObject()->getRefId(),
             $for_user
         );
@@ -539,9 +559,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
             $this->settings
         );
 
-        $participant->add($this->user->getId(), IL_LSO_ADMIN);
-        $participant->updateNotification($this->user->getId(), $this->settings->get('mail_lso_admin_notification', true));
-
+        $participant->add($this->user->getId(), ilParticipants::IL_LSO_ADMIN);
+        $participant->updateNotification(
+            $this->user->getId(),
+            (bool) $this->settings->get('mail_lso_admin_notification', "1")
+        );
 
         $settings = new ilContainerSortingSettings($new_object->getId());
         $settings->setSortMode(ilContainer::SORT_MANUAL);
@@ -550,7 +572,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         $settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
         $settings->save();
 
-        ilUtil::sendSuccess($this->lng->txt('object_added'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
         $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
         ilUtil::redirect(
             $this->getReturnLocation(
@@ -569,7 +591,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         }
     }
 
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         if ($this->checkAccess("read")) {
             $this->tabs->addTab(
@@ -717,7 +739,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
     public function getObject() : ilObjLearningSequence
     {
         if ($this->object === null) {
-            $this->object = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
+            /** @var ilObjLearningSequence $obj */
+            $obj = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
+            $this->object = $obj;
         }
 
         return $this->object;
@@ -779,5 +803,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         }
 
         return $res_data;
+    }
+
+    public function showPossibleSubObjects()
+    {
+        parent::showPossibleSubObjects();
     }
 }

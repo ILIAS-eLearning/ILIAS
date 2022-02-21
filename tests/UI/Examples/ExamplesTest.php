@@ -40,12 +40,8 @@ class ExamplesTest extends ILIAS_UI_TestBase
 
         $this->dic["ui.template_factory"] = $this->getTemplateFactory();
 
-        $this->dic["ilCtrl"] = $this->getMockBuilder(ilCtrl::class)->onlyMethods([
-            "getFormActionByClass",
-            "setParameterByClass",
-            "saveParameterByClass",
-            "initBaseClass",
-            "getLinkTargetByClass"
+        $this->dic["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
+            "getFormActionByClass","setParameterByClass","saveParameterByClass","getLinkTargetByClass"
         ])->getMock();
         $this->dic["ilCtrl"]->method("getFormActionByClass")->willReturn("Testing");
         $this->dic["ilCtrl"]->method("getLinkTargetByClass")->willReturn("2");
@@ -62,9 +58,9 @@ class ExamplesTest extends ILIAS_UI_TestBase
             "type" => "crs"
         ]);
 
-        //ilPluginAdmin is still mocked with mockery due to static call of getActivePluginsForSlot
-        $this->dic["ilPluginAdmin"] = Mockery::mock("\ilPluginAdmin");
-        $this->dic["ilPluginAdmin"]->shouldReceive("getActivePluginsForSlot")->andReturn([]);
+        $component_factory = $this->createMock(ilComponentFactory::class);
+        $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
+        $this->dic["component.factory"] = $component_factory;
 
         (new InitHttpServices())->init($this->dic);
     }

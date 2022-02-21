@@ -1,22 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-declare(strict_types = 1);
-
 class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRepository
 {
-    /**
-     * @var array
-     */
-    protected static $cache = [];
-
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
     const TABLE = 'prg_settings';
 
     const FIELD_OBJ_ID = 'obj_id';
@@ -36,6 +24,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     const FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
     const FIELD_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
 
+    protected static array $cache = [];
+    protected ilDBInterface $db;
+
     public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
@@ -47,18 +38,18 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      */
     public function createFor(int $obj_id) : ilStudyProgrammeSettings
     {
-        $type_settings = new \ilStudyProgrammeTypeSettings(
+        $type_settings = new ilStudyProgrammeTypeSettings(
             ilStudyProgrammeSettings::DEFAULT_SUBTYPE
         );
-        $assessment_settings = new \ilStudyProgrammeAssessmentSettings(
+        $assessment_settings = new ilStudyProgrammeAssessmentSettings(
             ilStudyProgrammeSettings::DEFAULT_POINTS,
             ilStudyProgrammeSettings::STATUS_DRAFT
         );
-        $deadline_settings = new \ilStudyProgrammeDeadlineSettings(null, null);
+        $deadline_settings = new ilStudyProgrammeDeadlineSettings(null, null);
         $validity_of_achieved_qualification_settings =
-            new \ilStudyProgrammeValidityOfAchievedQualificationSettings(null, null, null)
+            new ilStudyProgrammeValidityOfAchievedQualificationSettings(null, null, null)
         ;
-        $automail = new \ilStudyProgrammeAutoMailSettings(false, null, null);
+        $automail = new ilStudyProgrammeAutoMailSettings(false, null, null);
 
         $prg = new ilStudyProgrammeSettings(
             $obj_id,
@@ -78,11 +69,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             (new DateTime())->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT),
             0,
             ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD,
-            ilStudyProgrammeSettings::NO_RESTART,
-            null,
-            null,
-            null,
-            null
+            ilStudyProgrammeSettings::NO_RESTART
         );
 
         $prg = $prg->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED);
@@ -147,8 +134,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             $settings->getAutoMailSettings()->getReminderNotRestartedByUserDays(),
             $settings->getAutoMailSettings()->getProcessingEndsNotSuccessfulDays(),
             $settings->getAutoMailSettings()->getSendReAssignedMail(),
-            false,
-            false
         );
         self::$cache[$settings->getObjId()] = $settings;
     }
@@ -215,7 +200,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         bool $send_re_assigned_mail = false,
         bool $send_info_to_re_assign_mail = false,
         bool $send_risky_to_fail_mail = false
-    ) {
+    ) : void {
         $this->db->insert(
             self::TABLE,
             [
@@ -268,7 +253,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             )
         );
         if (!$rec) {
-            throw new LogicException('invaid obj_id to load: ' . $obj_id);
+            throw new LogicException('invalid obj_id to load: ' . $obj_id);
         }
         return $this->createByRow($rec);
     }
@@ -278,18 +263,18 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      */
     protected function createByRow(array $row) : ilStudyProgrammeSettings
     {
-        $type_settings = new \ilStudyProgrammeTypeSettings(
+        $type_settings = new ilStudyProgrammeTypeSettings(
             ilStudyProgrammeSettings::DEFAULT_SUBTYPE
         );
-        $assessment_settings = new \ilStudyProgrammeAssessmentSettings(
+        $assessment_settings = new ilStudyProgrammeAssessmentSettings(
             ilStudyProgrammeSettings::DEFAULT_POINTS,
             ilStudyProgrammeSettings::STATUS_DRAFT
         );
-        $deadline_settings = new \ilStudyProgrammeDeadlineSettings(null, null);
+        $deadline_settings = new ilStudyProgrammeDeadlineSettings(null, null);
         $validity_of_achieved_qualification_settings =
-            new \ilStudyProgrammeValidityOfAchievedQualificationSettings(null, null, null)
+            new ilStudyProgrammeValidityOfAchievedQualificationSettings(null, null, null)
         ;
-        $automail = new \ilStudyProgrammeAutoMailSettings(false, null, null);
+        $automail = new ilStudyProgrammeAutoMailSettings(false, null, null);
 
         $prg = new ilStudyProgrammeSettings(
             (int) $row[self::FIELD_OBJ_ID],
@@ -364,7 +349,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         }
 
         return $return->withAutoMailSettings(
-            new \ilStudyProgrammeAutoMailSettings(
+            new ilStudyProgrammeAutoMailSettings(
                 (bool) $row[self::FIELD_SEND_RE_ASSIGNED_MAIL],
                 $rm_nr_by_usr_days,
                 $proc_end_no_success
@@ -375,7 +360,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     /**
      * @throws LogicException
      */
-    protected function deleteDB(int $obj_id)
+    protected function deleteDB(int $obj_id) : void
     {
         if (!$this->checkExists($obj_id)) {
             throw new LogicException('invaid obj_id to delete: ' . $obj_id);
@@ -406,7 +391,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         bool $send_re_assigned_mail = false,
         bool $send_info_to_re_assign_mail = false,
         bool $send_risky_to_fail_mail = false
-    ) {
+    ) : void {
         if (!$this->checkExists($obj_id)) {
             throw new LogicException('invalid obj_id to update: ' . $obj_id);
         }
@@ -483,7 +468,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         $this->db->update(self::TABLE, $values, $where);
     }
 
-    protected function checkExists(int $obj_id)
+    protected function checkExists(int $obj_id) : bool
     {
         $rec = $this->db->fetchAssoc(
             $this->db->query(
@@ -498,7 +483,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         return false;
     }
 
-    public static function clearCache()
+    public static function clearCache() : void
     {
         self::$cache = [];
     }

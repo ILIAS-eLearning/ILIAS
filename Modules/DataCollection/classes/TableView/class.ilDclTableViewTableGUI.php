@@ -12,18 +12,9 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 {
 
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
      * @var ilDclTable
      */
     protected $table;
-    /**
-     * @var ilDclTableViewGUI
-     */
-    protected $parent_obj;
-
 
     /**
      * ilDclTableViewTableGUI constructor.
@@ -87,9 +78,9 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilDclTableView $a_set
+     * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         if ($this->parent_obj instanceof ilDclTableViewGUI) {
             $this->tpl->setVariable("ID", $a_set->getId());

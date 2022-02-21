@@ -21,6 +21,7 @@
 class ilNewItemGroupTableGUI extends ilTable2GUI
 {
     protected bool $has_write;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
         object $a_parent_obj,
@@ -28,6 +29,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
         bool $a_has_write = false
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -76,7 +78,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
         $subitems = ilObjRepositorySettings::getNewItemGroupSubItems();
         
         if ($subitems[0]) {
-            ilUtil::sendInfo(sprintf(
+            $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt("rep_new_item_group_unassigned_subitems"),
                 is_array($subitems[0]) ? sizeof($subitems[0]) : 0
             ));
@@ -93,12 +95,12 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
             );
         }
         
-        $data = ilUtil::sortArray($data, "pos", "asc", true);
+        $data = ilArrayUtil::sortArray($data, "pos", "asc", true);
         
         $this->setData($data);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

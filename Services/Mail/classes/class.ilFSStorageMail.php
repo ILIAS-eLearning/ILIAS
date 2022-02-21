@@ -4,12 +4,12 @@
 /**
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilFSStorageMail extends ilFileSystemStorage
+class ilFSStorageMail extends ilFileSystemAbstractionStorage
 {
     public function __construct(int $a_container_id, int $a_usr_id)
     {
         parent::__construct(self::STORAGE_DATA, true, $a_container_id);
-    
+
         $this->appendToPath('_' . $a_usr_id);
     }
 
@@ -22,24 +22,24 @@ class ilFSStorageMail extends ilFileSystemStorage
     {
         return 'mail';
     }
-    
+
     public function getRelativePathExMailDirectory() : string
     {
         $path = '';
         switch ($this->getStorageType()) {
             case self::STORAGE_DATA:
-                $path = ilUtil::getDataDir();
+                $path = ilFileUtils::getDataDir();
                 break;
-                
+
             case self::STORAGE_WEB:
-                $path = ilUtil::getWebspaceDir();
+                $path = ilFileUtils::getWebspaceDir();
                 break;
         }
-        $path = ilUtil::removeTrailingPathSeparators($path);
+        $path = ilFileUtils::removeTrailingPathSeparators($path);
         $path .= '/';
-        
+
         $path .= ($this->getPathPrefix() . '/');
-        
+
         return str_replace($path, '', $this->getAbsolutePath());
     }
 }

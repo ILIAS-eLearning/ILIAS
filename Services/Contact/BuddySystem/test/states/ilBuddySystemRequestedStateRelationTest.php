@@ -59,4 +59,17 @@ class ilBuddySystemRequestedStateRelationTest extends ilBuddySystemBaseStateTest
         $this->relation->ignore();
         $this->assertTrue($this->relation->isIgnored());
     }
+
+    public function testPossibleTargetStates() : void
+    {
+        $this->assertTrue(
+            $this->relation->getState()
+                ->getPossibleTargetStates()
+                ->equals(new ilBuddySystemRelationStateCollection([
+                    new ilBuddySystemLinkedRelationState(),
+                    new ilBuddySystemIgnoredRequestRelationState(),
+                    new ilBuddySystemUnlinkedRelationState(),
+                ]))
+        );
+    }
 }

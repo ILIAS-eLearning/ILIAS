@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -20,9 +20,9 @@ class ilObjCourseVerificationAccess extends ilObjectAccess
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode('_', $a_target);
-        
+
         // #11021
         // personal workspace context: do not force normal login
         if (isset($t_arr[2]) && $t_arr[2] === 'wsp') {

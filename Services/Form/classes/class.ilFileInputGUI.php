@@ -164,7 +164,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
         $_FILES[$this->getPostVar()]["name"] = ilUtil::stripSlashes($_FILES[$this->getPostVar()]["name"]);
 
-        $_FILES[$this->getPostVar()]["name"] = ilStr::normalizeUtf8String($_FILES[$this->getPostVar()]["name"]);
+        $_FILES[$this->getPostVar()]["name"] = utf8_encode($_FILES[$this->getPostVar()]["name"]);
 
         // remove trailing '/'
         $_FILES[$this->getPostVar()]["name"] = rtrim($_FILES[$this->getPostVar()]["name"], '/');
@@ -226,7 +226,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         
         // virus handling
         if ($_FILES[$this->getPostVar()]["tmp_name"] != "") {
-            $vir = ilUtil::virusHandling($temp_name, $filename);
+            $vir = ilVirusScanner::virusHandling($temp_name, $filename);
             if ($vir[0] == false) {
                 $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                 return false;

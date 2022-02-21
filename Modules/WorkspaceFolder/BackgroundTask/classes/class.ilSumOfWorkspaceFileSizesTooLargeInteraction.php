@@ -18,6 +18,7 @@ use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
 class ilSumOfWorkspaceFileSizesTooLargeInteraction extends AbstractUserInteraction
@@ -40,12 +41,12 @@ class ilSumOfWorkspaceFileSizesTooLargeInteraction extends AbstractUserInteracti
         ];
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(ilWorkspaceCopyDefinition::class);
     }
 
-    public function getRemoveOption() : UserInteractionOption
+    public function getRemoveOption() : Option
     {
         return new UserInteractionOption('ok', self::OPTION_OK);
     }
@@ -54,7 +55,7 @@ class ilSumOfWorkspaceFileSizesTooLargeInteraction extends AbstractUserInteracti
         array $input,
         Option $user_selected_option,
         Bucket $bucket
-    ) {
+    ) : Value {
         if ($user_selected_option->getValue() == self::OPTION_OK) {
             // Set state to finished to stop the BackgroundTask and remove it from the popover.
             $bucket->setState(3);

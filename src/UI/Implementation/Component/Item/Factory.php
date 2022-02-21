@@ -20,10 +20,19 @@ class Factory implements Item\Factory
     /**
      * @inheritdoc
      */
+    public function shy(string $title) : Item\Shy
+    {
+        return new Shy($title);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function group(string $title, array $items) : Item\Group
     {
         return new Group($title, $items);
     }
+
     /**
      * @inheritdoc
      */

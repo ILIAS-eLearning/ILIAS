@@ -26,7 +26,7 @@ class PositionIds extends Base
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "getPositionIds";
     }
@@ -44,7 +44,7 @@ class PositionIds extends Base
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return array('position_ids' => Base::TYPE_INT_ARRAY);
     }
@@ -53,7 +53,7 @@ class PositionIds extends Base
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Returns an array of all existing position ids";
     }

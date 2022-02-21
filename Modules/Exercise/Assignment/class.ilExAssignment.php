@@ -38,7 +38,7 @@ class ilExAssignment
 
     public const DEADLINE_ABSOLUTE = 0;
     public const DEADLINE_RELATIVE = 1;
-
+    protected \ILIAS\Refinery\String\Group $string_transform;
 
     protected ilDBInterface $db;
     protected ilLanguage $lng;
@@ -46,34 +46,34 @@ class ilExAssignment
     protected ilAppEventHandler $app_event_handler;
     protected ilAccessHandler $access;
 
-    protected int $id;
-    protected int $exc_id;
-    protected int $type;
-    protected ?int $start_time;
-    protected ?int $deadline;
-    protected ?int $deadline2;
-    protected string $instruction;
-    protected string $title;
-    protected bool $mandatory;
-    protected int $order_nr;
-    protected bool $peer;       // peer review activated
-    protected int $peer_min;
-    protected bool $peer_unlock;
-    protected int $peer_dl;
+    protected int $id = 0;
+    protected int $exc_id = 0;
+    protected int $type = 0;
+    protected ?int $start_time = null;
+    protected ?int $deadline = null;
+    protected ?int $deadline2 = null;
+    protected string $instruction = "";
+    protected string $title = "";
+    protected bool $mandatory = false;
+    protected int $order_nr = 0;
+    protected bool $peer = false;       // peer review activated
+    protected int $peer_min = 0;
+    protected bool $peer_unlock = false;
+    protected int $peer_dl = 0;
     protected int $peer_valid;  // passed after submission, one or all peer feedbacks
-    protected bool $peer_file;
-    protected bool $peer_personal;   // personalised peer review
-    protected ?int $peer_char;           // minimun number of characters for peer review
-    protected bool $peer_text;
-    protected bool $peer_rating;
-    protected int $peer_crit_cat;
-    protected ?string $feedback_file;
+    protected bool $peer_file = false;
+    protected bool $peer_personal = false;   // personalised peer review
+    protected ?int $peer_char = null;           // minimun number of characters for peer review
+    protected bool $peer_text = false;
+    protected bool $peer_rating = false;
+    protected int $peer_crit_cat = 0;
+    protected ?string $feedback_file = null;
     protected bool $feedback_cron = false;
-    protected int $feedback_date;
-    protected int $feedback_date_custom;
+    protected int $feedback_date = 0;
+    protected int $feedback_date_custom = 0;
     protected bool $team_tutor = false;
-    protected ?int $max_file;
-    protected int $portfolio_template;
+    protected ?int $max_file = null;
+    protected int $portfolio_template = 0;
     protected int $min_char_limit = 0;
     protected int $max_char_limit = 0;
     protected ilExAssignmentTypes $types;
@@ -108,6 +108,8 @@ class ilExAssignment
             $this->setId($a_id);
             $this->read();
         }
+        $this->string_transform = $DIC->refinery()
+            ->string();
     }
 
     /**
@@ -315,7 +317,9 @@ class ilExAssignment
         if (trim($inst)) {
             $is_html = (strlen($inst) != strlen(strip_tags($inst)));
             if (!$is_html) {
-                $inst = nl2br(ilUtil::makeClickable($inst, true));
+                $inst = nl2br(
+                    $this->string_transform->makeClickable()->transform($inst)
+                );
             }
         }
         return $inst;
@@ -921,7 +925,7 @@ class ilExAssignment
             $new_web_storage = new ilFSWebStorageExercise($a_new_exc_id, $new_ass->getId());
             $new_web_storage->create();
             if (is_dir($old_web_storage->getPath())) {
-                ilUtil::rCopy($old_web_storage->getPath(), $new_web_storage->getPath());
+                ilFileUtils::rCopy($old_web_storage->getPath(), $new_web_storage->getPath());
             }
             $order = $d->getInstructionFilesOrder();
             foreach ($order as $file) {
@@ -933,7 +937,7 @@ class ilExAssignment
             $new_storage = new ilFSStorageExercise($a_new_exc_id, $new_ass->getId());
             $new_storage->create();
             if (is_dir($old_storage->getGlobalFeedbackPath())) {
-                ilUtil::rCopy($old_storage->getGlobalFeedbackPath(), $new_storage->getGlobalFeedbackPath());
+                ilFileUtils::rCopy($old_storage->getGlobalFeedbackPath(), $new_storage->getGlobalFeedbackPath());
             }
 
             // clone reminders
@@ -1297,7 +1301,7 @@ class ilExAssignment
 
         // send and delete the zip file
         $deliverFilename = trim(str_replace(" ", "_", $this->getTitle() . "_" . $this->getId()));
-        $deliverFilename = ilUtil::getASCIIFilename($deliverFilename);
+        $deliverFilename = ilFileUtils::getASCIIFilename($deliverFilename);
         $deliverFilename = "multi_feedback_" . $deliverFilename;
 
         $exc = new ilObjExercise($this->getExerciseId(), false);
@@ -1305,10 +1309,10 @@ class ilExAssignment
         $cdir = getcwd();
         
         // create temporary directoy
-        $tmpdir = ilUtil::ilTempnam();
-        ilUtil::makeDir($tmpdir);
+        $tmpdir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDir($tmpdir);
         $mfdir = $tmpdir . "/" . $deliverFilename;
-        ilUtil::makeDir($mfdir);
+        ilFileUtils::makeDir($mfdir);
         
         // create subfolders <lastname>_<firstname>_<id> for each participant
         $exmem = new ilExerciseMembers($exc);
@@ -1323,18 +1327,18 @@ class ilExAssignment
         foreach ($mems as $mem) {
             $name = ilObjUser::_lookupName($mem);
             $subdir = $name["lastname"] . "_" . $name["firstname"] . "_" . $name["login"] . "_" . $name["user_id"];
-            $subdir = ilUtil::getASCIIFilename($subdir);
-            ilUtil::makeDir($mfdir . "/" . $subdir);
+            $subdir = ilFileUtils::getASCIIFilename($subdir);
+            ilFileUtils::makeDir($mfdir . "/" . $subdir);
         }
         
         // create the zip file
         chdir($tmpdir);
         $tmpzipfile = $tmpdir . "/multi_feedback.zip";
-        ilUtil::zip($tmpdir, $tmpzipfile, true);
+        ilFileUtils::zip($tmpdir, $tmpzipfile, true);
         chdir($cdir);
         
 
-        ilUtil::deliverFile($tmpzipfile, $deliverFilename . ".zip", "", false, true);
+        ilFileDelivery::deliverFileLegacy($tmpzipfile, $deliverFilename . ".zip", "", false, true);
     }
 
     /**
@@ -1352,10 +1356,10 @@ class ilExAssignment
         
         $storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
         $mfu = $storage->getMultiFeedbackUploadPath($ilUser->getId());
-        ilUtil::delDir($mfu, true);
-        ilUtil::moveUploadedFile($a_file["tmp_name"], "multi_feedback.zip", $mfu . "/" . "multi_feedback.zip");
-        ilUtil::unzip($mfu . "/multi_feedback.zip", true);
-        $subdirs = ilUtil::getDir($mfu);
+        ilFileUtils::delDir($mfu, true);
+        ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_feedback.zip", $mfu . "/" . "multi_feedback.zip");
+        ilFileUtils::unzip($mfu . "/multi_feedback.zip", true);
+        $subdirs = ilFileUtils::getDir($mfu);
         $subdir = "notfound";
         foreach ($subdirs as $s => $j) {
             if ($j["type"] == "dir" && substr($s, 0, 14) == "multi_feedback") {
@@ -1394,7 +1398,7 @@ class ilExAssignment
         $mfu = $storage->getMultiFeedbackUploadPath($a_user_id);
 
         // get subdir that starts with multi_feedback
-        $subdirs = ilUtil::getDir($mfu);
+        $subdirs = ilFileUtils::getDir($mfu);
         $subdir = "notfound";
         foreach ($subdirs as $s => $j) {
             if ($j["type"] == "dir" && substr($s, 0, 14) == "multi_feedback") {
@@ -1402,7 +1406,7 @@ class ilExAssignment
             }
         }
         
-        $items = ilUtil::getDir($mfu . "/" . $subdir);
+        $items = ilFileUtils::getDir($mfu . "/" . $subdir);
         foreach ($items as $k => $i) {
             // check directory
             if ($i["type"] == "dir" && !in_array($k, array(".", ".."))) {
@@ -1412,7 +1416,7 @@ class ilExAssignment
                 if (in_array($user_id, $mems)) {
                     // read dir of user
                     $name = ilObjUser::_lookupName($user_id);
-                    $files = ilUtil::getDir($mfu . "/" . $subdir . "/" . $k);
+                    $files = ilFileUtils::getDir($mfu . "/" . $subdir . "/" . $k);
                     foreach ($files as $k2 => $f) {
                         // append files to array
                         if ($f["type"] == "file" && substr($k2, 0, 1) != ".") {
@@ -1440,7 +1444,7 @@ class ilExAssignment
         
         $storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
         $mfu = $storage->getMultiFeedbackUploadPath($ilUser->getId());
-        ilUtil::delDir($mfu);
+        ilFileUtils::delDir($mfu);
     }
     
     public function saveMultiFeedbackFiles(
@@ -1513,7 +1517,7 @@ class ilExAssignment
             // deadline or relative deadline given
             if ($this->getDeadline() || $this->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE) {
                 $app = new ilCalendarAppointmentTemplate($dl_id);
-                $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $app->setSubtitle("cal_exc_deadline");
                 $app->setTitle($this->getTitle());
                 $app->setFullday(false);
@@ -1527,7 +1531,7 @@ class ilExAssignment
             if ($this->getPeerReview() &&
                 $this->getPeerReviewDeadline()) {
                 $app = new ilCalendarAppointmentTemplate($fbdl_id);
-                $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $app->setSubtitle("cal_exc_peer_review_deadline");
                 $app->setTitle($this->getTitle());
                 $app->setFullday(false);
@@ -1717,7 +1721,7 @@ class ilExAssignment
     
     public function deleteGlobalFeedbackFile() : void
     {
-        ilUtil::delDir($this->getGlobalFeedbackFileStoragePath());
+        ilFileUtils::delDir($this->getGlobalFeedbackFileStoragePath());
     }
 
     /**
@@ -1726,8 +1730,8 @@ class ilExAssignment
     public function handleGlobalFeedbackFileUpload(array $a_file) : bool
     {
         $path = $this->getGlobalFeedbackFileStoragePath();
-        ilUtil::delDir($path, true);
-        if (ilUtil::moveUploadedFile($a_file["tmp_name"], $a_file["name"], $path . "/" . $a_file["name"])) {
+        ilFileUtils::delDir($path, true);
+        if (ilFileUtils::moveUploadedFile($a_file["tmp_name"], $a_file["name"], $path . "/" . $a_file["name"])) {
             $this->setFeedbackFile($a_file["name"]);
             return true;
         }
@@ -1913,7 +1917,7 @@ class ilExAssignment
 
         if ($a_ass_id) {
             //first of all check the suffix and change if necessary
-            $filename = ilUtil::getSafeFilename($a_filename);
+            $filename = ilFileUtils::getSafeFilename($a_filename);
 
             if (self::instructionFileExistsInDb($filename, $a_ass_id) == 0) {
                 if ($a_order_nr == 0) {

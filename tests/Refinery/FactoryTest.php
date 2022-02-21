@@ -111,4 +111,10 @@ class FactoryTest extends TestCase
         ]);
         $this->assertInstanceOf(\ILIAS\Refinery\ByTrying::class, $instance);
     }
+
+    public function testIdentity()
+    {
+        $instance = $this->basicFactory->identity();
+        $this->assertInstanceOf(\ILIAS\Refinery\IdentityTransformation::class, $instance);
+    }
 }

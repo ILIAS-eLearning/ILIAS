@@ -43,13 +43,22 @@ class ilObjForumListGUI extends ilObjectListGUI
 
     public function getProperties() : array
     {
-        if (!$this->access->checkAccess('read', '', (int) $this->ref_id)) {
-            return [];
+        $props = [];
+
+        $maySee = $this->rbacsystem->checkAccess('visible', $this->ref_id);
+        $mayRead = $this->rbacsystem->checkAccess('read', $this->ref_id);
+
+        if (!$maySee && !$mayRead) {
+            return $props;
+        }
+
+        $props = parent::getProperties();
+
+        if (!$mayRead || ilObject::lookupOfflineStatus($this->obj_id)) {
+            return $props;
         }
 
         $this->lng->loadLanguageModule('forum');
-
-        $props = [];
 
         $properties = ilObjForumAccess::getStatisticsByRefId((int) $this->ref_id);
         $num_posts_total = $properties['num_posts'];
@@ -76,15 +85,12 @@ class ilObjForumListGUI extends ilObjectListGUI
                     'property' => $this->lng->txt('forums_articles') . ' (' . $this->lng->txt('unread') . ')',
                     'value' => $num_posts_total . ' (' . $num_unread_total . ')'
                 ];
-                if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
-                    if ($num_new_total > 0) {
-                        // New
-                        $props[] = [
-                            'alert' => false,
-                            'property' => $this->lng->txt('forums_new_articles'),
-                            'value' => $num_new_total
-                        ];
-                    }
+                if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS && $num_new_total > 0) {
+                    $props[] = [
+                        'alert' => false,
+                        'property' => $this->lng->txt('forums_new_articles'),
+                        'value' => $num_new_total
+                    ];
                 }
             }
 
@@ -168,7 +174,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 
             case 'posting':
                 $thread_post = $this->getChildId();
-                // TODO PHP 8 This cannot be correct, a id which is used as an array ...
+                // TODO PHP 8 This cannot be correct, an id which is used as an array (don't know what is the correct code here) ...
                 return (
                     'ilias.php?baseClass=' . ilRepositoryGUI::class . '&amp;cmd=viewThread&amp;cmdClass=' .
                     ilObjForumGUI::class . '&amp;target=1&amp;ref_id=' . (int) $this->ref_id . '&amp;thr_pk=' .

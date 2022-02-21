@@ -22,13 +22,13 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
     
     /**
      * check condition
-     * @param int $a_trigger_obj_id
+     * @param int    $a_trigger_obj_id
      * @param string $a_operator
      * @param string $a_value
-     * @param int $a_usr_id
+     * @param int    $a_usr_id
      * @return bool
      */
-    public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id) : bool
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
@@ -111,7 +111,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
         // :TODO: mind personal deadline?
         
         if ($dl) {
-            $dl = ilUtil::period2String(new ilDateTime($dl, IL_CAL_UNIX));
+            $dl = ilLegacyFormElementsUtil::period2String(new ilDateTime($dl, IL_CAL_UNIX));
         }
         
         return array(

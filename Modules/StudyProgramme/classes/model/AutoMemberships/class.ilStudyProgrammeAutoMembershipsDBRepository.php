@@ -1,6 +1,4 @@
-<?php
-
- declare(strict_types = 1);
+<?php declare(strict_types=1);
 
  /**
  * Class ilStudyProgrammeAutoMembershipsDBRepository
@@ -17,19 +15,11 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
     const FIELD_EDITOR_ID = 'last_usr_id';
     const FIELD_LAST_EDITED = 'last_edited';
 
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected int$current_usr_id;
 
-    /**
-     * @var int
-     */
-    protected $current_usr_id;
-    public function __construct(
-        ilDBInterface $db,
-        int $current_usr_id
-    ) {
+    public function __construct(ilDBInterface $db, int $current_usr_id)
+    {
         $this->db = $db;
         $this->current_usr_id = $current_usr_id;
     }
@@ -58,7 +48,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
                 (int) $rec[self::FIELD_SOURCE_ID],
                 (bool) $rec[self::FIELD_ENABLED],
                 (int) $rec[self::FIELD_EDITOR_ID],
-                new \DateTimeImmutable($rec[self::FIELD_LAST_EDITED])
+                new DateTimeImmutable($rec[self::FIELD_LAST_EDITED])
             );
         }
         return $ret;
@@ -70,13 +60,13 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
         int $source_id,
         bool $enabled,
         int $last_edited_usr_id = null,
-        \DateTimeImmutable $last_edited = null
+        DateTimeImmutable $last_edited = null
     ) : ilStudyProgrammeAutoMembershipSource {
         if (is_null($last_edited_usr_id)) {
             $last_edited_usr_id = $this->current_usr_id;
         }
         if (is_null($last_edited)) {
-            $last_edited = new \DateTimeImmutable();
+            $last_edited = new DateTimeImmutable();
         }
         return new ilStudyProgrammeAutoMembershipSource(
             $prg_obj_id,
@@ -91,7 +81,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
     /**
      * @inheritdoc
      */
-    public function update(ilStudyProgrammeAutoMembershipSource $ams)
+    public function update(ilStudyProgrammeAutoMembershipSource $ams) : void
     {
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(self::TABLE);
@@ -103,7 +93,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
                     . PHP_EOL . 'AND ' . self::FIELD_SOURCE_TYPE . ' = ' . $this->db->quote($ams->getSourceType(), 'string')
                     . PHP_EOL . 'AND ' . self::FIELD_SOURCE_ID . ' = ' . $ams->getSourceId();
                 $db->manipulate($query);
-                $now = new \DateTimeImmutable();
+                $now = new DateTimeImmutable();
                 $now = $now->format('Y-m-d H:i:s');
                 $db->insert(
                     self::TABLE,
@@ -124,7 +114,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
     /**
      * @inheritdoc
      */
-    public function delete(int $prg_obj_id, string $source_type, int $source_id)
+    public function delete(int $prg_obj_id, string $source_type, int $source_id) : void
     {
         $query = 'DELETE FROM ' . self::TABLE
             . PHP_EOL . 'WHERE prg_obj_id = ' . $this->db->quote($prg_obj_id, 'integer')
@@ -137,7 +127,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
     /**
      * @inheritdoc
      */
-    public function deleteFor(int $prg_obj_id)
+    public function deleteFor(int $prg_obj_id) : void
     {
         $query = 'DELETE FROM ' . self::TABLE
             . PHP_EOL . 'WHERE prg_obj_id = ' . $this->db->quote($prg_obj_id, 'integer');
@@ -160,7 +150,6 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
             . PHP_EOL . 'AND oref.deleted IS NULL';
 
         $res = $ilDB->query($query);
-        $ret = $ilDB->fetchAll($res);
-        return $ret;
+        return $ilDB->fetchAll($res);
     }
 }

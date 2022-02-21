@@ -77,7 +77,7 @@ class ilMarkSchemaGUI
     protected function ensureMarkSchemaCanBeEdited()
     {
         if (!$this->object->canEditMarks()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirect($this, 'showMarkSchema');
         }
     }
@@ -88,7 +88,7 @@ class ilMarkSchemaGUI
     protected function ensureEctsGradesCanBeEdited()
     {
         if (!$this->object->canEditEctsGrades()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirect($this, 'showMarkSchema');
         }
     }
@@ -164,7 +164,7 @@ class ilMarkSchemaGUI
         if (count($delete_mark_steps)) {
             $this->object->getMarkSchema()->deleteMarkSteps($delete_mark_steps);
         } else {
-            ilUtil::sendInfo($this->lng->txt('tst_delete_missing_mark'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_delete_missing_mark'));
         }
 
         $this->showMarkSchema();
@@ -185,11 +185,11 @@ class ilMarkSchemaGUI
         }
 
         if (is_string($result)) {
-            ilUtil::sendFailure($this->lng->txt($result), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt($result), true);
         } else {
             $this->object->getMarkSchema()->saveToDb($this->object->getMarkSchemaForeignId());
             $this->object->onMarkSchemaSaved();
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         }
 
         $this->ctrl->redirect($this);
@@ -211,7 +211,7 @@ class ilMarkSchemaGUI
     protected function showMarkSchema(ilPropertyFormGUI $ects_form = null)
     {
         if (!$this->object->canEditMarks()) {
-            ilUtil::sendInfo($this->lng->txt('cannot_edit_marks'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_marks'));
         }
 
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showMarkSchema'));
@@ -366,7 +366,7 @@ class ilMarkSchemaGUI
 
         $this->object->saveECTSStatus();
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         $ects_form->setValuesByPost();
         $this->showMarkSchema($ects_form);
     }

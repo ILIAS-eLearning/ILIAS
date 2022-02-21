@@ -1,18 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
-
-require_once("Services/Style/System/classes/Documentation/class.ilSystemStyleDocumentationGUI.php");
-require_once("Services/Style/System/classes/Documentation/class.ilKSDocumentationExplorerGUI.php");
+use  ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
+use ILIAS\UI\Component\Tree\Tree;
+use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
+use ILIAS\Data\URI;
 
 /**
- * Class SystemStylesGlobalScreenToolProvider
- * @author Timon Amstutz
+ * Provider for the Tree in the Main Bar Slate showing the UI Components
  */
 class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
 {
-    const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
-
     /**
      * @inheritDoc
      */
@@ -24,28 +24,66 @@ class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
     /**
      * @inheritDoc
      */
-    public function getToolsForContextStack(\ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(
+        \ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts
+    ) : array {
+        $last_context = $called_contexts->getLast();
+
+        if ($last_context) {
+            $additional_data = $last_context->getAdditionalData();
+            if ($additional_data->is(ilSystemStyleDocumentationGUI::SHOW_TREE, true)) {
+                return [$this->buildTreeAsTool()];
+            }
+        }
+
+        return [];
+    }
+
+    protected function buildTreeAsTool() : Tool
     {
-        $identification = function ($id) {
+        $id_generator = function ($id) {
             return $this->identification_provider->contextAwareIdentifier($id);
         };
 
-        $tools = [];
+        $title = $this->dic->language()->txt('documentation');
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('stys', $title)->withIsOutlined(true);
 
-        $additional_data = $called_contexts->getLast()->getAdditionalData();
-        if ($additional_data->is(ilSystemStyleDocumentationGUI::SHOW_TREE, true)) {
-            $exp = new ilKSDocumentationExplorerGUI();
+        /**
+         * @Todo, replace this with a proper Tree Slate
+         */
+        return $this->factory
+            ->tool($id_generator('system_styles_tree'))
+            ->withTitle($title)
+            ->withSymbol($icon)
+            ->withContent($this->dic->ui()->factory()->legacy($this->dic->ui()->renderer()->render($this->getUITree())));
+    }
 
-            $title = $this->dic->language()->txt('documentation');
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('stys', $title)->withIsOutlined(true);
+    protected function getUITree() : Tree
+    {
+        $entries = new Entries();
+        $entries->addEntriesFromArray(include ilSystemStyleDocumentationGUI::DATA_PATH);
 
-            $tools[] = $this->factory
-                ->tool($identification('system_styles_tree'))
-                ->withTitle($title)
-                ->withSymbol($icon)
-                ->withContent($this->dic->ui()->factory()->legacy($exp->getHTML(true)));
+        $parent_class_hierarchy = ['ilAdministrationGUI',
+                                   'ilObjStyleSettingsGUI',
+                                   'ilSystemStyleMainGUI',
+                                   'ilSystemStyleDocumentationGUI'
+        ];
+
+        $parent_link = $this->dic->ctrl()->getLinkTargetByClass($parent_class_hierarchy, 'entries');
+        $parent_uri = new URI(ILIAS_HTTP_PATH . '/' . $parent_link);
+
+        $refinery = $this->dic->refinery();
+        $request_wrapper = $this->dic->http()->wrapper()->query();
+        $current_opened_node_id = '';
+        if ($request_wrapper->has('node_id')) {
+            $current_opened_node_id = $request_wrapper->retrieve('node_id', $refinery->kindlyTo()->string());
         }
 
-        return $tools;
+        $recursion = new KSDocumentationTreeRecursion($entries, $parent_uri, $current_opened_node_id);
+        $f = $this->dic->ui()->factory();
+
+        return $f->tree()->expandable('Label', $recursion)
+                 ->withData([$entries->getRootEntry()])
+                 ->withHighlightOnNodeClick(true);
     }
 }

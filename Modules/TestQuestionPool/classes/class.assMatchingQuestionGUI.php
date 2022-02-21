@@ -264,7 +264,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $errors = true;
                 $terms = $form->getItemByPostVar('terms');
                 $terms->setAlert($this->lng->txt("msg_number_of_terms_too_low"));
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
             if ($errors) {
                 $checkonly = false;
@@ -480,7 +480,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 if (strlen($definition->picture)) {
                     if (strlen($definition->text)) {
                         $template->setCurrentBlock('definition_image_text');
-                        $template->setVariable("TEXT_DEFINITION", ilUtil::prepareFormOutput($definition->text));
+                        $template->setVariable("TEXT_DEFINITION",
+                            ilLegacyFormElementsUtil::prepareFormOutput($definition->text)
+                        );
                         $template->parseCurrentBlock();
                     }
                     
@@ -490,8 +492,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     
                     $template->setCurrentBlock('definition_image');
                     $template->setVariable('ANSWER_IMAGE_URL', $answerImageSrc);
-                    $template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
-                    $template->setVariable('ANSWER_IMAGE_TITLE', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
+                    $template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                        $definition->text
+                    ) : ilLegacyFormElementsUtil::prepareFormOutput($definition->picture)
+                    );
+                    $template->setVariable('ANSWER_IMAGE_TITLE', (strlen($definition->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                        $definition->text
+                    ) : ilLegacyFormElementsUtil::prepareFormOutput($definition->picture)
+                    );
                     $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                     $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
@@ -506,7 +514,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 if (strlen($term->picture)) {
                     if (strlen($term->text)) {
                         $template->setCurrentBlock('term_image_text');
-                        $template->setVariable("TEXT_TERM", ilUtil::prepareFormOutput($term->text));
+                        $template->setVariable("TEXT_TERM", ilLegacyFormElementsUtil::prepareFormOutput($term->text));
                         $template->parseCurrentBlock();
                     }
 
@@ -516,8 +524,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     
                     $template->setCurrentBlock('term_image');
                     $template->setVariable('ANSWER_IMAGE_URL', $answerImageSrc);
-                    $template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
-                    $template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
+                    $template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                        $term->text
+                    ) : ilLegacyFormElementsUtil::prepareFormOutput($term->picture)
+                    );
+                    $template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                        $term->text
+                    ) : ilLegacyFormElementsUtil::prepareFormOutput($term->picture)
+                    );
                     $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                     $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
@@ -607,7 +621,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $solutions = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
         
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
@@ -632,18 +646,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $definitions = $this->object->getDefinitions();
         switch ($this->object->getShuffle()) {
             case 1:
-                $seed = $this->object->getShuffler()->getSeed();
-                $this->object->getShuffler()->setSeed($seed . '1');
-                $terms = $this->object->getShuffler()->shuffle($terms);
-                $this->object->getShuffler()->setSeed($seed . '2');
-                $definitions = $this->object->getShuffler()->shuffle($definitions);
-                $this->object->getShuffler()->setSeed($seed);
+                $terms = $this->object->getShuffler()->transform($terms);
+                $definitions = $this->object->getShuffler()->transform($definitions);
                 break;
             case 2:
-                $terms = $this->object->getShuffler()->shuffle($terms);
+                $terms = $this->object->getShuffler()->transform($terms);
                 break;
             case 3:
-                $definitions = $this->object->getShuffler()->shuffle($definitions);
+                $definitions = $this->object->getShuffler()->transform($definitions);
                 break;
         }
 
@@ -766,7 +776,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         
         $files = array();
         
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
         
@@ -780,7 +790,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     // hey.
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
@@ -828,25 +838,21 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $definitions = $this->object->getDefinitions();
         switch ($this->object->getShuffle()) {
             case 1:
-                $seed = $this->object->getShuffler()->getSeed();
-                $this->object->getShuffler()->setSeed($seed . '1');
-                $terms = $this->object->getShuffler()->shuffle($terms);
+                $terms = $this->object->getShuffler()->transform($terms);
                 if (count($solutions)) {
                     $definitions = $this->sortDefinitionsBySolution($solutions, $definitions);
                 } else {
-                    $this->object->getShuffler()->setSeed($seed . '2');
-                    $definitions = $this->object->getShuffler()->shuffle($definitions);
+                    $definitions = $this->object->getShuffler()->transform($definitions);
                 }
-                $this->object->getShuffler()->setSeed($seed);
                 break;
             case 2:
-                $terms = $this->object->getShuffler()->shuffle($terms);
+                $terms = $this->object->getShuffler()->transform($terms);
                 break;
             case 3:
                 if (count($solutions)) {
                     $definitions = $this->sortDefinitionsBySolution($solutions, $definitions);
                 } else {
-                    $definitions = $this->object->getShuffler()->shuffle($definitions);
+                    $definitions = $this->object->getShuffler()->transform($definitions);
                 }
                 break;
         }

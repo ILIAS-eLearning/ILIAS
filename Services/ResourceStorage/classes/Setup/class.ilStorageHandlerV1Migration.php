@@ -20,35 +20,36 @@ use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
 use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilStorageHandlerV1Migration
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilStorageHandlerV1Migration implements Migration
 {
-    /**
-     * @var \DirectoryIterator
-     */
-    protected $iterator;
+    protected \DirectoryIterator $iterator;
     /**
      * @var \ilDBInterface
      */
     protected $database;
-    /**
-     * @var Migrator
-     */
-    protected $migrator;
-    /**
-     * @var ResourceBuilder
-     */
-    protected $resource_builder;
-    /**
-     * @var string
-     */
-    protected $data_dir;
+    protected ?\ILIAS\ResourceStorage\StorageHandler\Migrator $migrator = null;
+    protected ?\ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder = null;
+    protected ?string $data_dir = null;
 
-    protected $from = 'fsv1';
-    protected $to = 'fsv2';
+    protected string $from = 'fsv1';
+    protected string $to = 'fsv2';
 
     public function getLabel() : string
     {
@@ -60,6 +61,9 @@ class ilStorageHandlerV1Migration implements Migration
         return 10000;
     }
 
+    /**
+     * @return \ilDatabaseUpdatedObjective[]|\ilIniFilesLoadedObjective[]|\ilStorageContainersExistingObjective[]
+     */
     public function getPreconditions(Environment $environment) : array
     {
         return [
@@ -82,11 +86,12 @@ class ilStorageHandlerV1Migration implements Migration
         $filesystem = $f->getLocal($configuration);
 
         $this->database = $environment->getResource(Environment::RESOURCE_DATABASE);
-
+        /** @noRector  $DIC */
         // ATTENTION: This is a total abomination. It only exists to allow the db-
         // update to run. This is a memento to the fact, that dependency injection
         // is something we want. Currently, every component could just service
         // locate the whole world via the global $DIC.
+        /** @noRector  $DIC */
         $DIC = $GLOBALS["DIC"] ?? [];
         $GLOBALS["DIC"] = new Container();
         $GLOBALS["DIC"]["ilDB"] = $this->database;

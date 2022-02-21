@@ -266,7 +266,7 @@ class ilInfoScreenGUI
     ) : void {
         $input = "<span class=\"form-inline\"><input class=\"form-control\" type=\"text\" name=\"$a_input_name\" id=\"$a_input_name\"";
         if (strlen($a_input_value)) {
-            $input .= " value=\"" . ilUtil::prepareFormOutput($a_input_value) . "\"";
+            $input .= " value=\"" . ilLegacyFormElementsUtil::prepareFormOutput($a_input_value) . "\"";
         }
         if (strlen($a_input_size)) {
             $input .= " size=\"" . $a_input_size . "\"";
@@ -330,8 +330,8 @@ class ilInfoScreenGUI
 
         $md = new ilMD($a_rep_obj_id, $a_obj_id, $a_type);
         $description = "";
-        $langs = [];
-        $keywords = [];
+        $langs = '';
+        $keywords = "";
         if ($md_gen = $md->getGeneral()) {
             // get first descrption
             // The description is shown on the top of the page.
@@ -343,20 +343,22 @@ class ilInfoScreenGUI
             }
 
             // get language(s)
+            $language_arr = [];
             foreach ($md_gen->getLanguageIds() as $id) {
                 $md_lan = $md_gen->getLanguage($id);
                 if ($md_lan->getLanguageCode() != "") {
-                    $langs[] = $lng->txt("meta_l_" . $md_lan->getLanguageCode());
+                    $language_arr[] = $lng->txt("meta_l_" . $md_lan->getLanguageCode());
                 }
             }
-            $langs = implode(", ", $langs);
+            $langs = implode(", ", $language_arr);
 
             // keywords
+            $keyword_arr = [];
             foreach ($md_gen->getKeywordIds() as $id) {
                 $md_key = $md_gen->getKeyword($id);
-                $keywords[] = $md_key->getKeyword();
+                $keyword_arr[] = $md_key->getKeyword();
             }
-            $keywords = implode(", ", $keywords);
+            $keywords = implode(", ", $keyword_arr);
         }
 
         // authors
@@ -472,14 +474,8 @@ class ilInfoScreenGUI
                     );
                 }
 
-                $pm = new ilPermanentLinkGUI($type, $ref_id);
-                $pm->setIncludePermanentLinkText(false);
-                $this->addProperty(
-                    $lng->txt("perma_link"),
-                    $pm->getHTML(),
-                    ""
-                );
-            
+                $this->tpl->setPermanentLink($type, $ref_id);
+
                 // links to resource
                 if ($ilAccess->checkAccess("write", "", $ref_id) ||
                     $ilAccess->checkAccess("edit_permissions", "", $ref_id)) {
@@ -511,27 +507,33 @@ class ilInfoScreenGUI
                 
                 
         // creation date
-        $this->addProperty(
-            $lng->txt("create_date"),
-            ilDatePresentation::formatDate(new ilDateTime($a_obj->getCreateDate(), IL_CAL_DATETIME))
-        );
+        if ($ilAccess->checkAccess("edit_permissions", "", $ref_id)) {
+            $this->addProperty(
+                $lng->txt("create_date"),
+                ilDatePresentation::formatDate(new ilDateTime($a_obj->getCreateDate(), IL_CAL_DATETIME))
+            );
 
-        // owner
-        if ($ilUser->getId() != ANONYMOUS_USER_ID and $a_obj->getOwner()) {
-            if (ilObjUser::userExists(array($a_obj->getOwner()))) {
-                /** @var  $ownerObj ilObjUser */
-                $ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(), false);
-            } else {
-                $ownerObj = ilObjectFactory::getInstanceByObjId(6, false);
-            }
+            // owner
+            if ($ilUser->getId() != ANONYMOUS_USER_ID and $a_obj->getOwner()) {
+                if (ilObjUser::userExists(array($a_obj->getOwner()))) {
+                    /** @var  $ownerObj ilObjUser */
+                    $ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(), false);
+                } else {
+                    $ownerObj = ilObjectFactory::getInstanceByObjId(6, false);
+                }
 
-            if (!is_object($ownerObj) || $ownerObj->getType() != "usr") {		// root user deleted
-                $this->addProperty($lng->txt("owner"), $lng->txt("no_owner"));
-            } elseif ($ownerObj->hasPublicProfile()) {
-                $ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());
-                $this->addProperty($lng->txt("owner"), $ownerObj->getPublicName(), $ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
-            } else {
-                $this->addProperty($lng->txt("owner"), $ownerObj->getPublicName());
+                if (!is_object($ownerObj) || $ownerObj->getType() != "usr") {        // root user deleted
+                    $this->addProperty($lng->txt("owner"), $lng->txt("no_owner"));
+                } elseif ($ownerObj->hasPublicProfile()) {
+                    $ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());
+                    $this->addProperty(
+                        $lng->txt("owner"),
+                        $ownerObj->getPublicName(),
+                        $ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML")
+                    );
+                } else {
+                    $this->addProperty($lng->txt("owner"), $ownerObj->getPublicName());
+                }
             }
         }
 
@@ -570,8 +572,9 @@ class ilInfoScreenGUI
         // WebDAV: Display locking information
         if (ilDAVActivationChecker::_isActive()) {
             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                $webdav_lock_backend = new ilWebDAVLockBackend();
-
+                $webdav_dic = new ilWebDAVDIC();
+                $webdav_dic->initWithoutDIC();
+                $webdav_lock_backend = $webdav_dic->locksbackend();
                 // Show lock info
                 if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                     if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->gui_object->object->getId())) {
@@ -788,14 +791,14 @@ class ilInfoScreenGUI
         }
 
         // tagging
-        if (isset($this->gui_object) && is_object($this->gui_object->object)) {
+        if (isset($this->gui_object) && isset($this->gui_object->object)) {
             $tags_set = new ilSetting("tags");
             if ($tags_set->get("enable") && $ilUser->getId() != ANONYMOUS_USER_ID) {
                 $this->addTagging();
             }
         }
 
-        if (isset($this->gui_object) && is_object($this->gui_object->object)) {
+        if (isset($this->gui_object) && isset($this->gui_object->object)) {
             $this->addObjectSections();
         }
 
@@ -888,6 +891,8 @@ class ilInfoScreenGUI
      */
     public function showLearningProgress(ilTemplate $a_tpl) : void
     {
+        return;
+
         $ilUser = $this->user;
         $rbacsystem = $this->rbacsystem;
 
@@ -916,86 +921,6 @@ class ilInfoScreenGUI
             $this->lng->txt('learning_progress')
         );
         $a_tpl->parseCurrentBlock();
-        // $a_tpl->touchBlock("row");
-
-        // status
-        $i_tpl = new ilTemplate("tpl.lp_edit_manual_info_page.html", true, true, "Services/Tracking");
-        $i_tpl->setVariable("INFO_EDITED", $this->lng->txt("trac_info_edited"));
-        $i_tpl->setVariable("SELECT_STATUS", ilUtil::formSelect(
-            (int) ilLPMarks::_hasCompleted(
-                $ilUser->getId(),
-                $this->getContextObjId()
-            ),
-            'lp_edit',
-            array(0 => $this->lng->txt('trac_not_completed'),
-                      1 => $this->lng->txt('trac_completed')),
-            false,
-            true
-        ));
-        $i_tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-        $a_tpl->setCurrentBlock("pv");
-        $a_tpl->setVariable("TXT_PROPERTY_VALUE", $i_tpl->get());
-        $a_tpl->parseCurrentBlock();
-        $a_tpl->setCurrentBlock("property_row");
-        $a_tpl->setVariable("TXT_PROPERTY", $this->lng->txt('trac_status'));
-        $a_tpl->parseCurrentBlock();
-        // $a_tpl->touchBlock("row");
-
-
-        // More infos for lm's
-        if ($this->getContentObjType() == 'lm' ||
-            $this->getContentObjType() == 'htlm') {
-            $a_tpl->setCurrentBlock("pv");
-
-            $progress = ilLearningProgress::_getProgress($ilUser->getId(), $this->getContextObjId());
-            if ($progress['access_time']) {
-                $a_tpl->setVariable(
-                    "TXT_PROPERTY_VALUE",
-                    ilDatePresentation::formatDate(new ilDateTime($progress['access_time'], IL_CAL_UNIX))
-                );
-            } else {
-                $a_tpl->setVariable(
-                    "TXT_PROPERTY_VALUE",
-                    $this->lng->txt('trac_not_accessed')
-                );
-            }
-
-            $a_tpl->parseCurrentBlock();
-            $a_tpl->setCurrentBlock("property_row");
-            $a_tpl->setVariable("TXT_PROPERTY", $this->lng->txt('trac_last_access'));
-            $a_tpl->parseCurrentBlock();
-            // $a_tpl->touchBlock("row");
-
-            // tags of all users
-            $a_tpl->setCurrentBlock("pv");
-            $a_tpl->setVariable(
-                "TXT_PROPERTY_VALUE",
-                (int) $progress['visits']
-            );
-            $a_tpl->parseCurrentBlock();
-            $a_tpl->setCurrentBlock("property_row");
-            $a_tpl->setVariable("TXT_PROPERTY", $this->lng->txt('trac_visits'));
-            $a_tpl->parseCurrentBlock();
-            // $a_tpl->touchBlock("row");
-
-
-            if ($this->getContentObjType() == 'lm') {
-                // tags of all users
-                $a_tpl->setCurrentBlock("pv");
-                $a_tpl->setVariable(
-                    "TXT_PROPERTY_VALUE",
-                    ilDatePresentation::secondsToString($progress['spent_seconds'])
-                );
-                $a_tpl->parseCurrentBlock();
-                $a_tpl->setCurrentBlock("property_row");
-                $a_tpl->setVariable("TXT_PROPERTY", $this->lng->txt('trac_spent_time'));
-                $a_tpl->parseCurrentBlock();
-                // $a_tpl->touchBlock("row");
-            }
-        }
-        
-        // #10493
-        $a_tpl->touchBlock("row");
     }
 
     public function saveProgress(bool $redirect = true) : void
@@ -1009,7 +934,7 @@ class ilInfoScreenGUI
         ilLPStatusWrapper::_updateStatus($this->getContextObjId(), $ilUser->getId());
 
         $this->lng->loadLanguageModule('trac');
-        ilUtil::sendSuccess($this->lng->txt('trac_updated_status'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('trac_updated_status'), true);
 
         if ($redirect) {
             $this->ctrl->redirect($this, ""); // #14993
@@ -1147,8 +1072,8 @@ class ilInfoScreenGUI
             $this->gui_object->object->getType()
         );
         $tagging_gui->saveInput();
-        
-        ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, ""); // #14993
     }
 
@@ -1172,7 +1097,7 @@ class ilInfoScreenGUI
      */
     protected function addAvailability() : void
     {
-        if (!is_object($this->gui_object) || !is_object($this->gui_object->object)) {
+        if (!is_object($this->gui_object) || !isset($this->gui_object->object)) {
             return;
         }
 
@@ -1195,7 +1120,7 @@ class ilInfoScreenGUI
      */
     protected function addPreconditions() : void
     {
-        if (!is_object($this->gui_object) || !is_object($this->gui_object->object)) {
+        if (!is_object($this->gui_object) || !isset($this->gui_object->object)) {
             return;
         }
 
@@ -1210,7 +1135,7 @@ class ilInfoScreenGUI
             for ($i = 0; $i < count($conditions); $i++) {
                 $conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
             }
-            $conditions = ilUtil::sortArray($conditions, 'title', 'DESC');
+            $conditions = ilArrayUtil::sortArray($conditions, 'title', 'DESC');
 
             // Show obligatory and optional preconditions seperated
             $this->addPreconditionSection($obj, $conditions, true);

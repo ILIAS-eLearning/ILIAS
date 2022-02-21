@@ -380,7 +380,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
                 case $is_hidden:
                     $tpl->setCurrentBlock('hidden');
                     $tpl->setVariable('NAME', $post_var);
-                    $tpl->setVariable('VALUE', \ilUtil::prepareFormOutput($input->getValue()));
+                    $tpl->setVariable('VALUE', ilLegacyFormElementsUtil::prepareFormOutput($input->getValue()));
                     break;
                 case $is_ta:
                     if ($this->isShowLabel() || ($this->isShowLabelOnce() && $first_label)) {

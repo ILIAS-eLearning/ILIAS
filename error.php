@@ -16,15 +16,8 @@ try {
     $local_tpl->SetVariable("LINK", ilUtil::secureUrl(ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilRepositoryGUI&amp;client_id=' . CLIENT_ID));
     $local_tpl->ParseCurrentBlock();
 
-    $local_tpl->setCurrentBlock("content");
-    $local_tpl->setVariable("ERROR_MESSAGE", ($_SESSION["failure"]));
-    $tpl->setTitle($lng->txt('error_sry_error'));
-
-    //$tpl->parseCurrentBlock();
-
     ilSession::clear("referer");
     ilSession::clear("message");
-    //$local_tpl->printToStdout();
     $tpl->setContent($local_tpl->get());
     $tpl->printToStdout();
 } catch (Exception $e) {

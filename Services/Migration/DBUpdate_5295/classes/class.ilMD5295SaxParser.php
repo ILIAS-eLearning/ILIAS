@@ -1,45 +1,21 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-
-/**
-* Abstract meta data sax parser
-* This class should be inherited by all classes that want to parse meta data. E.g ContObjParser, CourseXMLParser ...
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* Inserts Meta data from XML into ILIAS db
-*
-* @extends ilSaxParser
-* @package ilias-core
-*/
-include_once './Services/Xml/classes/class.ilSaxParser.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilMD5295SaxParser extends ilSaxParser
 {
-    public $md_in_md = false;
-    public $md_chr_data = '';
+    public bool $md_in_md = false;
+    public string $md_chr_data = '';
 
     public $md_cur_el = null;
 
@@ -67,7 +43,7 @@ class ilMD5295SaxParser extends ilSaxParser
     *
     * @access	public
     */
-    public function __construct($a_xml_file = '')
+    public function __construct(?string $a_xml_file = '')
     {
         global $DIC;
 
@@ -83,25 +59,25 @@ class ilMD5295SaxParser extends ilSaxParser
         parent::__construct($a_xml_file);
     }
 
-    public function enableMDParsing($a_status)
+    public function enableMDParsing($a_status) : void
     {
         $this->md_parsing_enabled = (bool) $a_status;
     }
-    public function getMDParsingStatus()
+    public function getMDParsingStatus() : bool
     {
         return (bool) $this->md_parsing_enabled;
     }
 
-    public function setMDObject(&$md)
+    public function setMDObject(&$md) : void
     {
         $this->md = &$md;
     }
-    public function &getMDObject()
+    public function getMDObject()
     {
         return is_object($this->md) ? $this->md : false;
     }
 
-    public function inMetaData()
+    public function inMetaData() : bool
     {
         return $this->md_in_md;
     }
@@ -112,7 +88,7 @@ class ilMD5295SaxParser extends ilSaxParser
     * @param	resource	reference to the xml parser
     * @access	private
     */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -124,10 +100,8 @@ class ilMD5295SaxParser extends ilSaxParser
     /**
     * handler for begin of element
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
-        include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
-
         if (!$this->getMDParsingStatus()) {
             return;
         }
@@ -169,7 +143,7 @@ class ilMD5295SaxParser extends ilSaxParser
 
             case 'Description':
                 $par = &$this->__getParent();
-                
+
                 if (strtolower(get_class($par)) == 'ilmdrights' or
                    strtolower(get_class($par)) == 'ilmdannotation' or
                    strtolower(get_class($par)) == 'ilmdclassification') {
@@ -242,7 +216,7 @@ class ilMD5295SaxParser extends ilSaxParser
                 $this->md_met->save();
                 $this->__pushParent($this->md_met);
                 break;
-                
+
             case 'Technical':
                 $par = &$this->__getParent();
                 $this->md_tec = &$par->addTechnical();
@@ -355,7 +329,7 @@ class ilMD5295SaxParser extends ilSaxParser
 
             case 'Resource':
                 break;
-                
+
             case 'Identifier_':
                 $par = &$this->__getParent();
                 $this->md_ide_ = &$par->addIdentifier_();
@@ -406,7 +380,7 @@ class ilMD5295SaxParser extends ilSaxParser
     /**
     * handler for end of element
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         if (!$this->getMDParsingStatus()) {
             return;
@@ -501,7 +475,7 @@ class ilMD5295SaxParser extends ilSaxParser
                 $par = &$this->__getParent();
                 $par->setDate($this->__getCharacterData());
                 break;
-                
+
             case 'Meta-Metadata':
                 $par = &$this->__getParent();
                 $par->update();
@@ -599,7 +573,7 @@ class ilMD5295SaxParser extends ilSaxParser
 
             case 'Resource':
                 break;
-                
+
             case 'Identifier_':
                 $par = &$this->__getParent();
                 $par->update();
@@ -611,7 +585,7 @@ class ilMD5295SaxParser extends ilSaxParser
                 $par->update();
                 $this->__popParent();
                 break;
-                
+
             case 'Classification':
                 $par = &$this->__getParent();
                 $par->update();
@@ -635,7 +609,7 @@ class ilMD5295SaxParser extends ilSaxParser
                 $par = &$this->__getParent();
                 $par->setSource($this->__getCharacterData());
                 break;
-                
+
         }
         $this->md_chr_data = '';
     }
@@ -643,7 +617,7 @@ class ilMD5295SaxParser extends ilSaxParser
     /**
     * handler for character data
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if (!$this->getMDParsingStatus()) {
             return;
@@ -657,15 +631,15 @@ class ilMD5295SaxParser extends ilSaxParser
         }
     }
 
-        
+
 
     // PRIVATE
-    public function __getCharacterData()
+    public function __getCharacterData() : string
     {
         return trim($this->md_chr_data);
     }
 
-    public function __pushParent(&$md_obj)
+    public function __pushParent(&$md_obj) : void
     {
         $this->md_parent[] = &$md_obj;
         #echo '<br />';
@@ -673,7 +647,7 @@ class ilMD5295SaxParser extends ilSaxParser
             #echo get_class($class).' -> ';
         }
     }
-    public function &__popParent()
+    public function &__popParent() : void
     {
         $class = array_pop($this->md_parent);
         unset($class);

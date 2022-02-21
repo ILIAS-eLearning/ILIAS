@@ -725,10 +725,9 @@ class ilWikiPage extends ilPageObject
                 if ($s["type"] == "wpg:pg" && ilPageObject::_exists("wpg", $s["id"])) {
                     $wpage = new ilWikiPage($s["id"]);
                     
-                    $col = ilWikiUtil::processInternalLinks(
+                    $col = ilWikiUtil::collectInternalLinks(
                         $wpage->getXMLContent(),
-                        0,
-                        IL_WIKI_MODE_EXT_COLLECT
+                        0
                     );
                     $new_content = $wpage->getXMLContent();
                     foreach ($col as $c) {

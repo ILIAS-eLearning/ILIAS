@@ -1,28 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Mail/classes/class.ilMimeMailNotification.php';
-require_once 'Services/Mail/classes/class.ilMail.php';
 
 /**
  * Class for mime mail registration notifications
- * @version $Id$
  * @author  Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesMail
  */
 class ilRegistrationMimeMailNotification extends ilMimeMailNotification
 {
-    const TYPE_NOTIFICATION_ACTIVATION = 32;
+    public const TYPE_NOTIFICATION_ACTIVATION = 32;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function send()
+    public function send() : void
     {
         switch ($this->getType()) {
             case self::TYPE_NOTIFICATION_ACTIVATION:
@@ -33,7 +21,7 @@ class ilRegistrationMimeMailNotification extends ilMimeMailNotification
                  */
                 $user = $additional_information['usr'];
                 $this->getLanguage()->loadLanguageModule("registration");
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     try {
                         $this->handleCurrentRecipient($rcp);
@@ -42,9 +30,7 @@ class ilRegistrationMimeMailNotification extends ilMimeMailNotification
                     }
 
                     $this->initMimeMail();
-
                     $this->setSubject($this->getLanguage()->txt('reg_mail_subject_confirmation'));
-
                     $this->setBody($this->getLanguage()->txt('reg_mail_body_salutation') . ' ' . $user->getFullname() . ',');
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguage()->txt('reg_mail_body_activation'));
@@ -53,7 +39,8 @@ class ilRegistrationMimeMailNotification extends ilMimeMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody(sprintf(
                         $this->getLanguage()->txt('reg_mail_body_2_confirmation'),
-                        ilDatePresentation::secondsToString($additional_information['hash_lifetime'], false, $this->getLanguage())
+                        ilDatePresentation::secondsToString($additional_information['hash_lifetime'], false,
+                            $this->getLanguage())
                     ));
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguage()->txt('reg_mail_body_3_confirmation'));
@@ -61,7 +48,6 @@ class ilRegistrationMimeMailNotification extends ilMimeMailNotification
 
                     $this->sendMimeMail($this->getCurrentRecipient());
                 }
-
                 break;
         }
     }

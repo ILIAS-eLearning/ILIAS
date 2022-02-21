@@ -30,7 +30,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('draft_ids');
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -42,11 +42,14 @@ class ilForumDraftsTableGUI extends ilTable2GUI
             );
         }
 
-        $this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
-            in_array($a_set['draft_id'], $selected_draft_ids, true),
-            'draft_ids[]',
-            $a_set['draft_id']
-        ));
+        $this->tpl->setVariable(
+            'VAL_CHECK',
+            ilLegacyFormElementsUtil::formCheckbox(
+                in_array($a_set['draft_id'], $selected_draft_ids, true),
+                'draft_ids[]',
+                (string) $a_set['draft_id']
+            )
+        );
 
         if ($this->mayEdit) {
             $this->ctrl->setParameter($this->getParentObject(), 'draft_id', $a_set['draft_id']);

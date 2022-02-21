@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Media Pool Data set class
@@ -9,107 +20,73 @@
  * - mep_data: data from table mep_data
  * - mep_tree: data from a join on mep_tree and mep_item
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaPoolDataSet extends ilDataSet
 {
-    protected $master_lang_only = false;
-    protected $transl_into = false;
-    protected $transl_into_lm = null;
-    protected $transl_lang = "";
-
     /**
-     * Get supported versions
-     * @param
-     * @return array
+     * @var bool|ilObject|ilObjMediaPool
      */
+    protected ?ilObjMediaPool $current_obj = null;
+    protected bool $master_lang_only = false;
+    protected bool $transl_into = false;
+    protected ?ilObjMediaPool $transl_into_mep = null;
+    protected string $transl_lang = "";
+
     public function getSupportedVersions() : array
     {
         return array("5.1.0", "4.1.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Modules/MediaPool/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/MediaPool/" . $a_entity;
     }
 
     /**
      * Set master language only (export)
-     *
-     * @param bool $a_val export only master language
      */
-    public function setMasterLanguageOnly($a_val)
+    public function setMasterLanguageOnly(bool $a_val) : void
     {
         $this->master_lang_only = $a_val;
     }
 
-    /**
-     * Get master language only (export)
-     *
-     * @return bool export only master language
-     */
-    public function getMasterLanguageOnly()
+    public function getMasterLanguageOnly() : bool
     {
         return $this->master_lang_only;
     }
 
-    /**
-     * Set translation import mode
-     *
-     * @param ilObjLearningModule $a_lm learning module
-     * @param string $a_lang language
-     */
-    public function setTranslationImportMode($a_lm, $a_lang = "")
-    {
-        if ($a_lm != null) {
+    public function setTranslationImportMode(
+        ?ilObjMediaPool $a_mep,
+        string $a_lang = ""
+    ) : void {
+        if ($a_mep != null) {
             $this->transl_into = true;
-            $this->transl_into_lm = $a_lm;
+            $this->transl_into_mep = $a_mep;
             $this->transl_lang = $a_lang;
         } else {
             $this->transl_into = false;
         }
     }
 
-    /**
-     * Get translation import mode
-     *
-     * @return bool check if translation import is activated
-     */
-    public function getTranslationImportMode()
+    public function getTranslationImportMode() : bool
     {
         return $this->transl_into;
     }
 
     /**
-     * Get translation lm (import
-     *
-     * @return ilObjLearningModule learning module
+     * Get translation pool (import)
      */
-    public function getTranslationLM()
+    public function getTranslationMep() : ?ilObjMediaPool
     {
-        return $this->transl_into_lm;
+        return $this->transl_into_mep;
     }
 
-    /**
-     * Get translation language (import
-     *
-     * @return string language
-     */
-    public function getTranslationLang()
+    public function getTranslationLang() : string
     {
         return $this->transl_lang;
     }
 
-    /**
-     * Get field types for entity
-     * @param
-     * @return array
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         // mep
@@ -152,20 +129,12 @@ class ilMediaPoolDataSet extends ilDataSet
                         );
             }
         }
+        return [];
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
-
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
 
         // mep_data
         if ($a_entity == "mep") {
@@ -254,9 +223,6 @@ class ilMediaPoolDataSet extends ilDataSet
         }
     }
     
-    /**
-     * Determine the dependent sets of data
-     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -272,18 +238,13 @@ class ilMediaPoolDataSet extends ilDataSet
         return [];
     }
     
-    ////
-    //// Needs abstraction (interface?) and version handling
-    ////
-    
-    
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         //echo $a_entity;
         //var_dump($a_rec);
 
@@ -299,7 +260,7 @@ class ilMediaPoolDataSet extends ilDataSet
                 } else {
                     $newObj = new ilObjMediaPool();
                     $newObj->setType("mep");
-                    $newObj->create(true);
+                    $newObj->create();
                 }
                 
                 $newObj->setTitle($a_rec["Title"]);
@@ -374,7 +335,7 @@ class ilMediaPoolDataSet extends ilDataSet
                             $pg_id = $imp_id[3];
                             $pool = ilMediaPoolItem::getPoolForItemId($pg_id);
                             $pool = current($pool);
-                            if ($pool == $this->getTranslationLM()->getId()) {
+                            if ($pool == $this->getTranslationMep()->getId()) {
                                 $a_mapping->addMapping("Modules/MediaPool", "pg", $a_rec["Child"], $pg_id);
                                 $a_mapping->addMapping(
                                     "Services/COPage",

@@ -66,7 +66,7 @@ class ilSamlIdp
     public function persist() : void
     {
         if (!$this->getIdpId()) {
-            $this->setIdpId((int) $this->db->nextId('saml_idp_settings'));
+            $this->setIdpId($this->db->nextId('saml_idp_settings'));
         }
 
         $this->db->replace(
@@ -99,7 +99,7 @@ class ilSamlIdp
         $this->db->manipulateF(
             'UPDATE usr_data SET auth_mode = %s WHERE auth_mode = %s',
             array('text', 'text'),
-            array('default', AUTH_SAML . '_' . $this->getIdpId())
+            array('default', ilAuthUtils::AUTH_SAML . '_' . $this->getIdpId())
         );
 
         $this->db->manipulate('DELETE FROM saml_idp_settings WHERE idp_id = ' . $this->db->quote(
@@ -153,7 +153,7 @@ class ilSamlIdp
 
         /** @var $metadata ilSamlIdpMetadataInputGUI */
         $metadata = $form->getItemByPostVar('metadata');
-        $this->setEntityId($metadata->getIdpMetadataParser()->getEntityId());
+        $this->setEntityId($metadata->getValue());
     }
 
     public static function isAuthModeSaml(string $a_auth_mode) : bool
@@ -166,7 +166,7 @@ class ilSamlIdp
         $auth_arr = explode('_', $a_auth_mode);
         return (
             count($auth_arr) === 2 &&
-            (int) $auth_arr[0] === AUTH_SAML &&
+            (int) $auth_arr[0] === ilAuthUtils::AUTH_SAML &&
             is_string($auth_arr[1]) && $auth_arr[1] !== ''
         );
     }
@@ -242,10 +242,10 @@ class ilSamlIdp
     {
         $auth_arr = explode('_', $a_auth_mode);
         if (count((array) $auth_arr) > 1) {
-            return AUTH_SAML . '_' . $auth_arr[1];
+            return ilAuthUtils::AUTH_SAML . '_' . $auth_arr[1];
         }
 
-        return (string) AUTH_SAML;
+        return (string) ilAuthUtils::AUTH_SAML;
     }
 
     public function getEntityId() : string

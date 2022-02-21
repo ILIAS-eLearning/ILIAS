@@ -113,7 +113,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
     /**
      *
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -149,7 +149,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
     /**
      * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $arr_fields_without_table_sort = array(
             'org_units',
@@ -199,21 +199,21 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilMStListUser $my_staff_user
+     * @param array $a_set
      */
-    public function fillRow($my_staff_user)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
-        }, $my_staff_user, $my_staff_user);
+        }, $a_set, $a_set);
 
         //Avatar
         $this->tpl->setCurrentBlock('user_profile_picture');
         $f = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
-        $il_obj_user = $my_staff_user->returnIlUserObj();
+        $il_obj_user = $a_set->returnIlUserObj();
         $avatar = $f->image()->standard($il_obj_user->getPersonalPicturePath('small'), $il_obj_user->getPublicName());
         $this->tpl->setVariable('user_profile_picture', $renderer->render($avatar));
         $this->tpl->parseCurrentBlock();
@@ -223,30 +223,30 @@ class ilMStListUsersTableGUI extends ilTable2GUI
                 switch ($k) {
                     case 'org_units':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_user->getUsrId())));
+                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set->getUsrId())));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'gender':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $DIC->language()->txt('gender_' . $my_staff_user->getGender()));
+                        $this->tpl->setVariable('VALUE', $DIC->language()->txt('gender_' . $a_set->getGender()));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'interests_general':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
-                            ->getGeneralInterestsAsText() ? $my_staff_user->returnIlUserObj()->getGeneralInterestsAsText() : '&nbsp;'));
+                        $this->tpl->setVariable('VALUE', ($a_set->returnIlUserObj()
+                                                                ->getGeneralInterestsAsText() ? $a_set->returnIlUserObj()->getGeneralInterestsAsText() : '&nbsp;'));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'interests_help_offered':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
-                            ->getOfferingHelpAsText() ? $my_staff_user->returnIlUserObj()->getOfferingHelpAsText() : '&nbsp;'));
+                        $this->tpl->setVariable('VALUE', ($a_set->returnIlUserObj()
+                                                                ->getOfferingHelpAsText() ? $a_set->returnIlUserObj()->getOfferingHelpAsText() : '&nbsp;'));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'interests_help_looking':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
-                            ->getLookingForHelpAsText() ? $my_staff_user->returnIlUserObj()->getLookingForHelpAsText() : '&nbsp;'));
+                        $this->tpl->setVariable('VALUE', ($a_set->returnIlUserObj()
+                                                                ->getLookingForHelpAsText() ? $a_set->returnIlUserObj()->getLookingForHelpAsText() : '&nbsp;'));
                         $this->tpl->parseCurrentBlock();
                         break;
                     default:
@@ -267,9 +267,9 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($DIC->language()->txt("actions"));
         $actions->setAsynch(true);
-        $actions->setId($my_staff_user->getUsrId());
+        $actions->setId($a_set->getUsrId());
 
-        $DIC->ctrl()->setParameterByClass(ilMStListUsersGUI::class, 'mst_lus_usr_id', $my_staff_user->getUsrId());
+        $DIC->ctrl()->setParameterByClass(ilMStListUsersGUI::class, 'mst_lus_usr_id', $a_set->getUsrId());
 
         $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
             ->getLinkTarget($this->parent_obj, ilMStListUsersGUI::CMD_GET_ACTIONS, "", true)));
@@ -292,14 +292,14 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilExcel       $a_excel excel wrapper
-     * @param int           $a_row
-     * @param ilMStListUser $my_staff_user
+     * @param ilExcel $a_excel excel wrapper
+     * @param int     $a_row
+     * @param array   $a_set
      */
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $my_staff_user)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $col = 0;
-        foreach ($this->getFieldValuesForExport($my_staff_user) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
@@ -307,12 +307,12 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilCSVWriter   $a_csv
-     * @param ilMStListUser $my_staff_user
+     * @param ilCSVWriter $a_csv
+     * @param array       $a_set
      */
-    protected function fillRowCSV($a_csv, $my_staff_user)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
-        foreach ($this->getFieldValuesForExport($my_staff_user) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Class ilStudyProgrammeAutoCategoryDBRepository
@@ -15,15 +13,8 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     const FIELD_EDITOR_ID = 'last_usr_id';
     const FIELD_LAST_EDITED = 'last_edited';
 
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var int
-     */
-    protected $current_usr_id;
+    protected ilDBInterface $db;
+    protected int $current_usr_id;
 
     public function __construct(
         ilDBInterface $db,
@@ -54,7 +45,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
                 (int) $rec[self::FIELD_PRG_OBJ_ID],
                 (int) $rec[self::FIELD_CAT_REF_ID],
                 (int) $rec[self::FIELD_EDITOR_ID],
-                new \DateTimeImmutable($rec[self::FIELD_LAST_EDITED])
+                new DateTimeImmutable($rec[self::FIELD_LAST_EDITED])
             );
         }
         return $ret;
@@ -67,13 +58,13 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
         int $prg_obj_id,
         int $category_ref_id,
         int $last_edited_usr_id = null,
-        \DateTimeImmutable $last_edited = null
+        DateTimeImmutable $last_edited = null
     ) : ilStudyProgrammeAutoCategory {
         if (is_null($last_edited_usr_id)) {
             $last_edited_usr_id = $this->current_usr_id;
         }
         if (is_null($last_edited)) {
-            $last_edited = new \DateTimeImmutable();
+            $last_edited = new DateTimeImmutable();
         }
 
         return new ilStudyProgrammeAutoCategory(
@@ -87,7 +78,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public function update(ilStudyProgrammeAutoCategory $ac)
+    public function update(ilStudyProgrammeAutoCategory $ac) : void
     {
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(self::TABLE);
@@ -95,12 +86,15 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
         $current_usr_id = $this->current_usr_id;
         $ilAtomQuery->addQueryCallable(
             function (ilDBInterface $db) use ($ac, $current_usr_id) {
-                $query = 'DELETE FROM ' . self::TABLE
-                    . PHP_EOL . 'WHERE prg_obj_id = ' . $ac->getPrgObjId()
-                    . PHP_EOL . 'AND cat_ref_id = ' . $ac->getCategoryRefId();
+                $query =
+                      'DELETE FROM ' . self::TABLE . PHP_EOL
+                     . 'WHERE prg_obj_id = ' . $ac->getPrgObjId() . PHP_EOL
+                     . 'AND cat_ref_id = ' . $ac->getCategoryRefId()
+                ;
+
                 $db->manipulate($query);
 
-                $now = new \DateTimeImmutable();
+                $now = new DateTimeImmutable();
                 $now = $now->format('Y-m-d H:i:s');
                 $db->insert(
                     self::TABLE,
@@ -119,7 +113,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public function delete(int $prg_obj_id, array $cat_ref_ids)
+    public function delete(int $prg_obj_id, array $cat_ref_ids) : void
     {
         $ids = array_map(
             function ($id) {
@@ -129,19 +123,23 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
         );
         $ids = implode(',', $ids);
 
-        $query = 'DELETE FROM ' . self::TABLE
-            . PHP_EOL . 'WHERE prg_obj_id = ' . $this->db->quote($prg_obj_id, 'integer')
-            . PHP_EOL . 'AND cat_ref_id IN (' . $ids . ')';
+        $query =
+             'DELETE FROM ' . self::TABLE . PHP_EOL
+            . 'WHERE prg_obj_id = ' . $this->db->quote($prg_obj_id, 'integer') . PHP_EOL
+            . 'AND cat_ref_id IN (' . $ids . ')'
+        ;
         $this->db->manipulate($query);
     }
 
     /**
      * @inheritdoc
      */
-    public function deleteFor(int $prg_obj_id)
+    public function deleteFor(int $prg_obj_id) : void
     {
-        $query = 'DELETE FROM ' . self::TABLE
-            . PHP_EOL . 'WHERE prg_obj_id = ' . $this->db->quote($prg_obj_id, 'integer');
+        $query =
+             'DELETE FROM ' . self::TABLE . PHP_EOL
+            . 'WHERE prg_obj_id = ' . $this->db->quote($prg_obj_id, 'integer')
+        ;
         $this->db->manipulate($query);
     }
 
@@ -160,7 +158,6 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
             . PHP_EOL . 'AND oref.deleted IS NULL';
 
         $res = $ilDB->query($query);
-        $ret = $ilDB->fetchAll($res);
-        return $ret;
+        return $ilDB->fetchAll($res);
     }
 }

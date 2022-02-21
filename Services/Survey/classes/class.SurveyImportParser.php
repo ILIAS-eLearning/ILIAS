@@ -1,7 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Survey Question Import Parser
  *
@@ -57,7 +68,7 @@ class SurveyImportParser extends ilSaxParser
     *
     * @access	public
     */
-    public function __construct($a_spl_id, $a_xml_file = '', $spl_exists = false, $a_mapping = null)
+    public function __construct($a_spl_id, ?string $a_xml_file = '', $spl_exists = false, $a_mapping = null)
     {
         parent::__construct($a_xml_file);
         $this->spl_id = $a_spl_id;
@@ -92,12 +103,12 @@ class SurveyImportParser extends ilSaxParser
         $this->questionblocktitle = "";
         $this->mapping = $a_mapping;
     }
-    
+
     /**
     * Sets a reference to a survey object
     * @access	public
     */
-    public function setSurveyObject($a_svy)
+    public function setSurveyObject($a_svy) : void
     {
         $this->survey = $a_svy;
     }
@@ -107,7 +118,7 @@ class SurveyImportParser extends ilSaxParser
     * should be overwritten by inherited class
     * @access	private
     */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -117,7 +128,7 @@ class SurveyImportParser extends ilSaxParser
     /**
     * start the parser
     */
-    public function startParsing()
+    public function startParsing() : void
     {
         parent::startParsing();
     }
@@ -127,7 +138,7 @@ class SurveyImportParser extends ilSaxParser
     *
     * @access	private
     */
-    public function parse($a_xml_parser, $a_fp = null)
+    public function parse($a_xml_parser, $a_fp = null) : void
     {
         switch ($this->getInputType()) {
             case 'file':
@@ -136,7 +147,7 @@ class SurveyImportParser extends ilSaxParser
                     $parseOk = xml_parse($a_xml_parser, $data, feof($a_fp));
                 }
                 break;
-                
+
             case 'string':
                 $parseOk = xml_parse($a_xml_parser, $this->getXMLContent());
                 break;
@@ -148,11 +159,9 @@ class SurveyImportParser extends ilSaxParser
             $this->error_col = xml_get_current_column_number($a_xml_parser);
             $this->error_msg = xml_error_string($a_xml_parser);
             $this->has_error = true;
-            return false;
         }
-        return true;
     }
-    
+
     public function getParent($a_xml_parser)
     {
         if ($this->depth[$a_xml_parser] > 0) {
@@ -161,11 +170,11 @@ class SurveyImportParser extends ilSaxParser
             return "";
         }
     }
-    
+
     /**
     * handler for begin of element
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
     {
         $this->depth[$a_xml_parser]++;
         $this->path[$this->depth[$a_xml_parser]] = strtolower($a_name);
@@ -239,7 +248,7 @@ class SurveyImportParser extends ilSaxParser
                         "destref" => $a_attribs["destref"],
                         "relation" => $a_attribs["relation"],
                         "value" => $a_attribs["value"],
-                                            
+
                         // might be missing in old export files
                         "conjunction" => (int) $a_attribs["conjuction"]
                     )
@@ -271,13 +280,13 @@ class SurveyImportParser extends ilSaxParser
                 if (strlen($type)) {
                     if (SurveyQuestion::_includeClass($type)) {
                         $this->activequestion = new $type();
-                        
+
                         // if no pool is given, question will reference survey
                         $q_obj_id = $this->spl_id;
                         if ($this->spl_id < 0) {
                             $q_obj_id = $this->survey->getId();
                         }
-                        
+
                         $this->activequestion->setObjId($q_obj_id);
                     }
                 } else {
@@ -383,7 +392,7 @@ class SurveyImportParser extends ilSaxParser
     /**
     * handler for character data
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, $a_data) : void
     {
         $this->texts++;
         $this->text_size += strlen($a_data);
@@ -394,7 +403,7 @@ class SurveyImportParser extends ilSaxParser
     /**
     * handler for end of element
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, $a_name) : void
     {
         switch ($a_name) {
             case "surveyobject":
@@ -414,7 +423,7 @@ class SurveyImportParser extends ilSaxParser
                             $this->survey->createQuestionblock($title, $this->showQuestiontext, false, $qblock);
                         }
                     }
-                    
+
                     // #13878 - write constraints
                     if (count($this->constraints)) {
                         $relations = $this->survey->getAllRelations(true);
@@ -423,7 +432,7 @@ class SurveyImportParser extends ilSaxParser
                             $this->survey->addConstraintToQuestion($this->questions[$constraint["sourceref"]], $constraint_id);
                         }
                     }
-                    
+
                     // write textblocks
                     if (count($this->textblocks)) {
                         foreach ($this->textblocks as $original_id => $textblock) {
@@ -573,9 +582,9 @@ class SurveyImportParser extends ilSaxParser
                                 break;
                             case "display_question_titles":
                                 if ($value["entry"] == 1) {
-                                    $this->survey->showQuestionTitles();
+                                    $this->survey->setShowQuestionTitles(true);
                                 } else {
-                                    $this->survey->hideQuestionTitles();
+                                    $this->survey->setShowQuestionTitles(false);
                                 }
                                 break;
                             case "status":
@@ -698,57 +707,57 @@ class SurveyImportParser extends ilSaxParser
         $this->depth[$a_xml_parser]--;
     }
 
-    public function getErrorCode()
+    public function getErrorCode() : ?int
     {
         return $this->error_code;
     }
-  
-    public function getErrorLine()
+
+    public function getErrorLine() : ?int
     {
         return $this->error_line;
     }
-  
-    public function getErrorColumn()
+
+    public function getErrorColumn() : ?int
     {
         return $this->error_col;
     }
-  
-    public function getErrorMessage()
+
+    public function getErrorMessage() : ?string
     {
         return $this->error_msg;
     }
-  
-    public function getFullError()
+
+    public function getFullError() : string
     {
         return "Error: " . $this->error_msg . " at line:" . $this->error_line . " column:" . $this->error_col;
     }
-  
+
     public function getXMLSize()
     {
         return $this->size;
     }
-  
+
     public function getXMLElements()
     {
         return $this->elements;
     }
-  
+
     public function getXMLAttributes()
     {
         return $this->attributes;
     }
-  
+
     public function getXMLTextSections()
     {
         return $this->texts;
     }
-  
+
     public function getXMLTextSize()
     {
         return $this->text_size;
     }
-  
-    public function hasError()
+
+    public function hasError() : bool
     {
         return $this->has_error;
     }

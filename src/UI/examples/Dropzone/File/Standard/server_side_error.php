@@ -7,8 +7,10 @@ function server_side_error()
     global $DIC;
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
-    if (isset($_GET['example']) && $_GET['example'] == 4) {
+    if ($request_wrapper->has('example') && $request_wrapper->retrieve('example', $refinery->kindlyTo()->int()) == 4) {
         // The File-Dropzones will expect a valid json-Status (success true or false).
         echo json_encode(['success' => false, 'message' => 'Unable to store file on server']);
         exit(0);

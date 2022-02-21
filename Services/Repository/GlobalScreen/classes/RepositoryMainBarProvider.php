@@ -27,6 +27,7 @@ use InvalidArgumentException;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\DI\Container;
 use ILIAS\Repository\StandardGUIRequest;
+use ilStr;
 
 /**
  * Repository related main menu items
@@ -161,7 +162,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             if (!isset($nav_item["ref_id"]) || $this->request->getRefId() == 0
                 || ($nav_item["ref_id"] != $this->request->getRefId() || !$first)
             ) {            // do not list current item
-                $ititle = ilUtil::shortenText(strip_tags($nav_item["title"]), 50, true); // #11023
+                $ititle = ilStr::shortenTextExtended(strip_tags($nav_item["title"]), 50, true); // #11023
                 $obj_id = ilObject::_lookupObjectId($nav_item["ref_id"]);
                 $items[] = $f->item()->standard(
                     $f->link()->standard($ititle, $nav_item["link"])
@@ -196,7 +197,6 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     protected function renderRepoTree() : string
     {
         global $DIC;
-
         $tree = $DIC->repositoryTree();
         $ref_id = $this->request->getRefId();
         if ($this->request->getBaseClass() == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {

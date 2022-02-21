@@ -3,8 +3,19 @@
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-require_once('./libs/composer/vendor/autoload.php');
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilWACSecurePathTest extends PHPUnit
  *
@@ -24,18 +35,12 @@ class ilWACSecurePathTest //extends MockeryTestCase
     protected $backupGlobals = false;
 
 
-    protected function setUp()
+    protected function setUp() : void
     {
-        parent::setUp();
-        //require_once('./Services/PHPUnit/classes/class.ilUnitUtil.php');
-        //ilUnitUtil::performInitialisation();
-        require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
-        require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
-        require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
     }
 
 
-    public function testPath()
+    public function testPath() : void
     {
         /**
          * @var $obj ilWACSecurePath

@@ -5,7 +5,8 @@
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Data;
-use ILIAS\UI;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Config;
 
 /**
  * Contains common objectives for the setup. Do not make additions here, in
@@ -68,13 +69,13 @@ class ilSetupAgent implements Setup\Agent
                 $this->getPHPMemoryLimitCondition(),
                 new ilSetupConfigStoredObjective($config),
                 $config->getRegisterNIC()
-                        ? new ilNICKeyRegisteredObjective($config)
-                        : new Setup\ObjectiveCollection(
-                            "",
-                            false,
-                            new ilNICKeyStoredObjective($config),
-                            new ilInstIdDefaultStoredObjective($config)
-                        )
+                    ? new ilNICKeyRegisteredObjective($config)
+                    : new Setup\ObjectiveCollection(
+                        "",
+                        false,
+                        new ilNICKeyStoredObjective($config),
+                        new ilInstIdDefaultStoredObjective($config)
+                    )
             )
         );
     }
@@ -131,19 +132,21 @@ class ilSetupAgent implements Setup\Agent
         return [];
     }
 
-
-    public function getNamedObjective(string $name, Setup\Config $config = null) : Setup\Objective
+    public function getNamedObjectives(?Config $config = null) : array
     {
-        if ($name == "registerNICKey") {
-            if (is_null($config)) {
-                throw new \RuntimeException(
-                    "Missing Config for objective '$name'."
-                );
-            }
-            return new ilNICKeyRegisteredObjective($config);
-        }
-        throw new \InvalidArgumentException(
-            "There is no named objective '$name'"
-        );
+        return [
+            "registerNICKey" => new Setup\ObjectiveConstructor(
+                "Register NIC key",
+                static function () use ($config) : Setup\Objective {
+                    if (is_null($config)) {
+                        throw new \RuntimeException(
+                            "Missing Config for objective 'registerNICKey'."
+                        );
+                    }
+
+                    return new ilNICKeyRegisteredObjective($config);
+                }
+            )
+        ];
     }
 }

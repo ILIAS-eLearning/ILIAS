@@ -12,15 +12,6 @@ require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
  */
 class ilMarkSchemaTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilMarkSchemaAware
-     */
-    protected $object;
 
     /**
      * @var bool
@@ -105,33 +96,42 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $row
+     * @param array $a_set
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
-        $short_name = new ilTextInputGUI('', 'mark_short_' . $row['mark_id']);
-        $short_name->setValue($row['mark_short']);
+        $short_name = new ilTextInputGUI('', 'mark_short_' . $a_set['mark_id']);
+        $short_name->setValue($a_set['mark_short']);
         $short_name->setDisabled(!$this->is_editable);
         $short_name->setSize(10);
 
-        $official_name = new ilTextInputGUI('', 'mark_official_' . $row['mark_id']);
+        $official_name = new ilTextInputGUI('', 'mark_official_' . $a_set['mark_id']);
         $official_name->setSize(20);
         $official_name->setDisabled(!$this->object->canEditMarks());
-        $official_name->setValue($row['mark_official']);
+        $official_name->setValue($a_set['mark_official']);
 
-        $percentage = new ilNumberInputGUI('', 'mark_percentage_' . $row['mark_id']);
+        $percentage = new ilNumberInputGUI('', 'mark_percentage_' . $a_set['mark_id']);
         $percentage->allowDecimals(true);
-        $percentage->setValue($row['mark_percentage']);
+        $percentage->setValue($a_set['mark_percentage']);
         $percentage->setSize(10);
         $percentage->setDisabled(!$this->is_editable);
         $percentage->setMinValue(0);
         $percentage->setMaxValue(100);
 
-        $this->tpl->setVariable('VAL_MARK_ID', $row['mark_id']);
-        $this->tpl->setVariable('VAL_CHECKBOX', ilUtil::formCheckbox(false, 'marks[]', $row['mark_id'], !$this->is_editable));
+        $this->tpl->setVariable('VAL_MARK_ID', $a_set['mark_id']);
+        $this->tpl->setVariable('VAL_CHECKBOX',
+            ilLegacyFormElementsUtil::formCheckbox(false, 'marks[]', $a_set['mark_id'], !$this->is_editable)
+        );
         $this->tpl->setVariable('VAL_SHORT_NAME', $short_name->render());
         $this->tpl->setVariable('VAL_OFFICIAL_NAME', $official_name->render());
         $this->tpl->setVariable('VAL_PERCENTAGE', $percentage->render());
-        $this->tpl->setVariable('VAL_PASSED_CHECKBOX', ilUtil::formCheckbox((bool) $row['mark_passed'], 'passed_' . $row['mark_id'], '1', !$this->is_editable));
+        $this->tpl->setVariable('VAL_PASSED_CHECKBOX',
+            ilLegacyFormElementsUtil::formCheckbox(
+                (bool) $a_set['mark_passed'],
+                'passed_' . $a_set['mark_id'],
+                '1',
+                !$this->is_editable
+            )
+        );
     }
 }

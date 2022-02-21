@@ -196,7 +196,7 @@ class ilUserCertificateGUI
 
             foreach ($data['items'] as $certificateData) {
                 $thumbnailImagePath = $certificateData['thumbnail_image_path'];
-                $imagePath = ilUtil::getWebspaceDir() . $thumbnailImagePath;
+                $imagePath = ilFileUtils::getWebspaceDir() . $thumbnailImagePath;
                 if ($thumbnailImagePath === null
                     || $thumbnailImagePath === ''
                     || !$this->filesystem->has($thumbnailImagePath)
@@ -272,7 +272,7 @@ class ilUserCertificateGUI
 
             $uiComponents[] = $deck;
         } else {
-            ilUtil::sendInfo($this->language->txt('cert_currently_no_certs'));
+            $this->template->setOnScreenMessage('info', $this->language->txt('cert_currently_no_certs'));
         }
 
         $this->template->setContent($this->uiRenderer->render($uiComponents));
@@ -319,7 +319,7 @@ class ilUserCertificateGUI
 
         try {
             $userCertificate = $this->userCertificateRepository->fetchCertificate($userCertificateId);
-            if ($userCertificate->getUserId() !== (int) $user->getId()) {
+            if ($userCertificate->getUserId() !== $user->getId()) {
                 throw new ilException(sprintf(
                     'User "%s" tried to access certificate: "%s"',
                     $user->getLogin(),
@@ -328,7 +328,7 @@ class ilUserCertificateGUI
             }
         } catch (ilException $exception) {
             $this->certificateLogger->warning($exception->getMessage());
-            ilUtil::sendFailure($language->txt('cert_error_no_access'));
+            $this->template->setOnScreenMessage('failure', $language->txt('cert_error_no_access'));
             $this->listCertificates();
             return;
         }

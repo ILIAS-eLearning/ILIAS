@@ -182,7 +182,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
             <span id="3"></span>
         </div>
         <div class="il-filter-input-section row collapse ">
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
@@ -193,7 +193,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
@@ -209,7 +209,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
@@ -221,7 +221,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                     </span>
                 </div>
             </div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
         				<span class="glyph" aria-label="add" role="img">
@@ -316,7 +316,7 @@ EOT;
             <span id="3"></span>
         </div>
         <div class="il-filter-input-section row collapse ">
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
@@ -327,7 +327,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
@@ -343,7 +343,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
@@ -355,7 +355,7 @@ EOT;
                     </span>
                 </div>
             </div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
         				<span class="glyph" aria-label="add" role="img">
@@ -450,7 +450,7 @@ EOT;
             <span id="3"></span>
         </div>
         <div class="il-filter-input-section row collapse in">
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
@@ -461,7 +461,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
@@ -477,7 +477,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
@@ -489,7 +489,7 @@ EOT;
                     </span>
                 </div>
             </div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
         				<span class="glyph" aria-label="add" role="img">
@@ -584,7 +584,7 @@ EOT;
             <span id="3"></span>
         </div>
         <div class="il-filter-input-section row collapse in">
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
@@ -595,7 +595,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
@@ -611,7 +611,7 @@ EOT;
 					</span>
 				</div>
 			</div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
@@ -623,7 +623,7 @@ EOT;
                     </span>
                 </div>
             </div>
-			<div class="col-md-4 il-popover-container">
+			<div class="col-md-6 col-lg-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
         				<span class="glyph" aria-label="add" role="img">

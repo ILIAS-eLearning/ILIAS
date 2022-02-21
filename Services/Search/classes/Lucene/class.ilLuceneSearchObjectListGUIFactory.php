@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,23 +25,15 @@
 * List GUI factory for lucene search results
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
 */
 class ilLuceneSearchObjectListGUIFactory
 {
-    private static $item_list_gui = array();
+    private static array $item_list_gui = [];
     
-    /**
-     * Get list gui by type
-     * This method caches all the returned list guis
-     * @param string $a_type object type
-     * @return object item_list_gui
-     * @static
-     */
-    public static function factory($a_type)
+    public static function factory(string $a_type) : ilObjectListGUI
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -58,10 +50,7 @@ class ilLuceneSearchObjectListGUIFactory
         if (isset(self::$item_list_gui[$a_type])) {
             return self::$item_list_gui[$a_type];
         }
-        
-        if (!$a_type) {
-            return self::$item_list_gui[$a_type] = $item_list_gui;
-        }
+
 
         $class = $objDefinition->getClassName($a_type);
         $location = $objDefinition->getLocation($a_type);

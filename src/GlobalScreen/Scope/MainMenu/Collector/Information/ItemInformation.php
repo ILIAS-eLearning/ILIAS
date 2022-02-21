@@ -8,47 +8,37 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 
 /**
  * Class ItemInformation
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ItemInformation
 {
-
+    
     /**
      * @param isItem $item
-     *
      * @return bool
      */
     public function isItemActive(isItem $item) : bool;
-
-
+    
     /**
      * @param isItem $item
-     *
      * @return isItem
      */
     public function customPosition(isItem $item) : isItem;
-
-
+    
     /**
      * @param hasTitle $item
-     *
      * @return hasTitle
      */
     public function customTranslationForUser(hasTitle $item) : hasTitle;
-
-
+    
     /**
      * @param isChild $item
-     *
      * @return IdentificationInterface
      */
     public function getParent(isChild $item) : IdentificationInterface;
-
-
+    
     /**
      * @param hasSymbol $item
-     *
      * @return hasSymbol
      */
     public function customSymbol(hasSymbol $item) : hasSymbol;

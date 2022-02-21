@@ -92,7 +92,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         // allow only write access
         
         if (!$this->access->checkAccess('write', '', $this->poolGUI->ref_id)) {
-            ilUtil::sendInfo($this->lng->txt('cannot_edit_question_pool'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_question_pool'), true);
             $this->ctrl->redirectByClass('ilObjQuestionPoolGUI', 'infoScreen');
         }
         
@@ -132,7 +132,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         // return to form when any form validation errors exist
         
         if ($errors) {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             return $this->showFormCmd($form);
         }
         
@@ -142,7 +142,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         
         // redirect to form output
         
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }
 

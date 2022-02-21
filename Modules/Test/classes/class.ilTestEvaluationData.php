@@ -54,7 +54,7 @@ class ilTestEvaluationData
     * @var integer
     */
     public $datasets;
-    
+
     /**
      * @var ilTestParticipantList
      */
@@ -76,17 +76,17 @@ class ilTestEvaluationData
         $this->questionTitles = array();
         if ($test !== null) {
             $this->test = $test;
-            
+
             if ($this->getTest()->getAccessFilteredParticipantList()) {
                 $this->setAccessFilteredParticipantList(
                     $this->getTest()->getAccessFilteredParticipantList()
                 );
             }
-            
+
             $this->generateOverview();
         }
     }
-    
+
     /**
      * @return ilTestParticipantList
      */
@@ -94,7 +94,7 @@ class ilTestEvaluationData
     {
         return $this->accessFilteredParticipantList;
     }
-    
+
     /**
      * @param ilTestParticipantList $accessFilteredParticipantList
      */
@@ -102,16 +102,16 @@ class ilTestEvaluationData
     {
         $this->accessFilteredParticipantList = $accessFilteredParticipantList;
     }
-    
+
     protected function checkParticipantAccess($activeId)
     {
         if ($this->getAccessFilteredParticipantList() === null) {
             return true;
         }
-        
+
         return $this->getAccessFilteredParticipantList()->isActiveIdInList($activeId);
     }
-    
+
     protected function loadRows()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -135,65 +135,65 @@ class ilTestEvaluationData
 							tst_pass_result.pass,
 							tst_pass_result.tstamp
 		";
-        
+
         $result = $DIC->database()->queryF(
             $query,
             array('integer'),
             array($this->getTest()->getTestId())
         );
-        
+
         $rows = array();
-        
+
         while ($row = $DIC->database()->fetchAssoc($result)) {
             if (!$this->checkParticipantAccess($row['active_fi'])) {
                 continue;
             }
-            
+
             $rows[] = $row;
         }
-        
+
         return $rows;
     }
-    
+
     public function generateOverview()
     {
         include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
         include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
-        
+
         $this->participants = array();
-        
+
         $pass = null;
         $checked = array();
         $thissets = 0;
-        
+
         foreach ($this->loadRows() as $row) {
             $thissets++;
-            
+
             $remove = false;
-            
+
             if (!$this->participantExists($row["active_fi"])) {
                 $this->addParticipant($row["active_fi"], new ilTestEvaluationUserData($this->getTest()->getPassScoring()));
-                
+
                 $this->getParticipant($row["active_fi"])->setName(
                     $this->getTest()->buildName($row["usr_id"], $row["firstname"], $row["lastname"], $row["title"])
                 );
-                
+
                 $this->getParticipant($row["active_fi"])->setLogin($row["login"]);
-                
+
                 $this->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
-                
+
                 $this->getParticipant($row["active_fi"])->setSubmitted($row['submitted']);
             }
-            
+
             if (!is_object($this->getParticipant($row["active_fi"])->getPass($row["pass"]))) {
                 $pass = new ilTestEvaluationPassData();
                 $pass->setPass($row["pass"]);
                 $this->getParticipant($row["active_fi"])->addPass($row["pass"], $pass);
             }
-            
+
             $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setReachedPoints($row["points"]);
             $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setObligationsAnswered($row["obligations_answered"]);
-            
+
             if ($row["questioncount"] == 0) {
                 $data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($row['active_fi'], $row['pass']);
                 $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setMaxPoints($data['points']);
@@ -202,7 +202,7 @@ class ilTestEvaluationData
                 $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setMaxPoints($row["maxpoints"]);
                 $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setQuestionCount($row["questioncount"]);
             }
-            
+
             $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setNrOfAnsweredQuestions($row["answeredquestions"]);
             $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setWorkingTime($row["workingtime"]);
             $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setExamId((string) $row["exam_id"]);
@@ -211,37 +211,37 @@ class ilTestEvaluationData
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setDeductedHintPoints($row['hint_points']);
         }
     }
-    
+
     public function getTest()
     {
         return $this->test;
     }
-    
+
     public function setTest($test)
     {
         $this->test = &$test;
     }
-    
+
     public function setDatasets($datasets)
     {
         $this->datasets = $datasets;
     }
-    
+
     public function getDatasets()
     {
         return $this->datasets;
     }
-    
+
     public function addQuestionTitle($question_id, $question_title)
     {
         $this->questionTitles[$question_id] = $question_title;
     }
-    
+
     public function getQuestionTitles()
     {
         return $this->questionTitles;
     }
-    
+
     public function getQuestionTitle($question_id)
     {
         if (array_key_exists($question_id, $this->questionTitles)) {
@@ -250,25 +250,25 @@ class ilTestEvaluationData
             return "";
         }
     }
-    
+
     public function calculateStatistics()
     {
         include_once "./Modules/Test/classes/class.ilTestStatistics.php";
         $this->statistics = new ilTestStatistics($this);
     }
-    
+
     public function getTotalFinishedParticipants()
     {
         $finishedParticipants = 0;
-        
+
         foreach ($this->participants as $active_id => $participant) {
             if (!$participant->isSubmitted()) {
                 continue;
             }
-            
+
             $finishedParticipants++;
         }
-        
+
         return $finishedParticipants;
     }
 
@@ -298,7 +298,7 @@ class ilTestEvaluationData
                 if (!$remove) {
                     if (array_key_exists('group', $this->arrFilter)) {
                         include_once "./Services/Membership/classes/class.ilParticipants.php";
-                        $groups = ilParticipants::_getMembershipByType($participant->getUserID(), "grp");
+                        $groups = ilParticipants::_getMembershipByType($participant->getUserID(), ["grp"]);
                         $foundfilter = false;
                         if (count(array_intersect($groupids, $groups))) {
                             $foundfilter = true;
@@ -311,7 +311,7 @@ class ilTestEvaluationData
                 if (!$remove) {
                     if (array_key_exists('course', $this->arrFilter)) {
                         include_once "./Services/Membership/classes/class.ilParticipants.php";
-                        $courses = ilParticipants::_getMembershipByType($participant->getUserID(), "crs");
+                        $courses = ilParticipants::_getMembershipByType($participant->getUserID(), ["crs"]);
                         $foundfilter = false;
                         if (count(array_intersect($courseids, $courses))) {
                             $foundfilter = true;
@@ -337,12 +337,12 @@ class ilTestEvaluationData
             return $this->participants;
         }
     }
-    
+
     public function resetFilter()
     {
         $this->arrFilter = array();
     }
-    
+
     /*
     * Set an output filter for getParticipants
     *
@@ -353,7 +353,7 @@ class ilTestEvaluationData
     {
         $this->arrFilter = array($by => $text);
     }
-    
+
     /*
     * Set an output filter for getParticipants
     *
@@ -363,12 +363,12 @@ class ilTestEvaluationData
     {
         $this->arrFilter = $arrFilter;
     }
-    
+
     public function addParticipant($active_id, $participant)
     {
         $this->participants[$active_id] = $participant;
     }
-    
+
     /**
      * @param integer $active_id
      * @return ilTestEvaluationUserData
@@ -377,17 +377,17 @@ class ilTestEvaluationData
     {
         return $this->participants[$active_id];
     }
-    
+
     public function participantExists($active_id)
     {
         return array_key_exists($active_id, $this->participants);
     }
-    
+
     public function removeParticipant($active_id)
     {
         unset($this->participants[$active_id]);
     }
-    
+
     public function getStatistics()
     {
         return $this->statistics;

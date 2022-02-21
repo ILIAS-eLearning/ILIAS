@@ -26,7 +26,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
             !ilLinkResourceList::checkListStatus($this->obj_id)) {
             $this->__readLink();
-            
+
             return $this->link_data['title'];
         }
         return parent::getTitle();
@@ -39,22 +39,22 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-    
+
         if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
             !ilLinkResourceList::checkListStatus($this->obj_id)) {
             $this->__readLink();
-            
+
             $desc = $this->link_data['description'];
-            
+
             // #10682
             if ($ilSetting->get("rep_shorten_description")) {
-                $desc = ilUtil::shortenText(
+                $desc = ilStr::shortenTextExtended(
                     $desc,
                     $ilSetting->get("rep_shorten_description_length"),
                     true
                 );
             }
-            
+
             return $desc;
         }
         return parent::getDescription();
@@ -73,7 +73,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         $this->type = "webr";
         $this->gui_class_name = "ilobjlinkresourcegui";
         $this->info_screen_enabled = true;
-        
+
         // general commands array
         $this->commands = ilObjLinkResourceAccess::_getCommands();
     }
@@ -92,7 +92,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
             ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
             !ilLinkResourceList::checkListStatus($this->obj_id)) {
             $link = ilObjLinkResourceAccess::_getFirstLink($this->obj_id);
-            
+
             // we could use the "internal" flag, but it would not work for "old" links
             include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
             include_once "Services/Form/classes/class.ilLinkInputGUI.php";
@@ -101,7 +101,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
             }
         }
     }
-            
+
     /**
     * Get item properties
     *

@@ -15,7 +15,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      * @var ilDBInterface
      */
     protected $db = null;
-    
+
     /**
      * object instance of current test
      *
@@ -24,37 +24,37 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     protected $testOBJ = null;
 
     private $id = null;
-    
+
     private $poolId = null;
 
     /** @var null|int */
     private $poolRefId = null;
-    
+
     private $poolTitle = null;
-    
+
     private $poolPath = null;
-    
+
     private $poolQuestionCount = null;
-    
+
     // fau: taxFilter/typeFilter - new class variables
     #private $originalFilterTaxId = null;
-    
+
     #private $originalFilterTaxNodeId = null;
 
     #private $mappedFilterTaxId = null;
 
     #private $mappedFilterTaxNodeId = null;
-    
+
     /**
      * @var array taxId => [nodeId, ...]
      */
     private $originalTaxonomyFilter = array();
-    
+
     /**
      * @var array taxId => [nodeId, ...]
      */
     private $mappedTaxonomyFilter = array();
-    
+
     /**
      * @var array
      */
@@ -66,11 +66,11 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      * @var array
      */
     private $lifecycleFilter = array();
-    
+
     private $questionAmount = null;
-    
+
     private $sequencePosition = null;
-    
+
     public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
     {
         $this->db = $db;
@@ -86,12 +86,12 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         return $this->id;
     }
-    
+
     public function setPoolId($poolId)
     {
         $this->poolId = $poolId;
     }
-    
+
     public function getPoolId()
     {
         return $this->poolId;
@@ -106,37 +106,37 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->poolRefId = $poolRefId;
     }
-    
+
     public function setPoolTitle($poolTitle)
     {
         $this->poolTitle = $poolTitle;
     }
-    
+
     public function getPoolTitle()
     {
         return $this->poolTitle;
     }
-    
+
     public function setPoolPath($poolPath)
     {
         $this->poolPath = $poolPath;
     }
-    
+
     public function getPoolPath()
     {
         return $this->poolPath;
     }
-    
+
     public function setPoolQuestionCount($poolQuestionCount)
     {
         $this->poolQuestionCount = $poolQuestionCount;
     }
-    
+
     public function getPoolQuestionCount()
     {
         return $this->poolQuestionCount;
     }
-    
+
     // fau: taxFilter/typeFilter - new setters/getters
     /**
      * get the original taxonomy filter conditions
@@ -146,7 +146,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         return $this->originalTaxonomyFilter;
     }
-    
+
     /**
      * set the original taxonomy filter condition
      * @param  array taxId => [nodeId, ...]
@@ -155,7 +155,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->originalTaxonomyFilter = $filter;
     }
-    
+
     /**
      * get the original taxonomy filter for insert into the database
      * @return null|string		serialized taxonomy filter
@@ -165,7 +165,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         // TODO-RND2017: migrate to separate table for common selections by e.g. statistics
         return empty($this->originalTaxonomyFilter) ? null : serialize($this->originalTaxonomyFilter);
     }
-    
+
     /**
      * get the original taxonomy filter from database value
      * @param null|string		serialized taxonomy filter
@@ -175,7 +175,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         // TODO-RND2017: migrate to separate table for common selections by e.g. statistics
         $this->originalTaxonomyFilter = empty($value) ? array() : unserialize($value);
     }
-    
+
     /**
      * get the mapped taxonomy filter conditions
      * @return 	array	taxId => [nodeId, ...]
@@ -184,7 +184,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         return $this->mappedTaxonomyFilter;
     }
-    
+
     /**
      * set the original taxonomy filter condition
      * @param array 	taxId => [nodeId, ...]
@@ -193,7 +193,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->mappedTaxonomyFilter = $filter;
     }
-    
+
     /**
      * get the original taxonomy filter for insert into the database
      * @return null|string		serialized taxonomy filter
@@ -202,7 +202,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         return empty($this->mappedTaxonomyFilter) ? null : serialize($this->mappedTaxonomyFilter);
     }
-    
+
     /**
      * get the original taxonomy filter from database value
      * @param null|string		serialized taxonomy filter
@@ -211,8 +211,8 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->mappedTaxonomyFilter = empty($value) ? array() : unserialize($value);
     }
-    
-    
+
+
     /**
      * set the mapped taxonomy filter from original by applying a keys map
      * @param ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxonomiesKeysMap
@@ -228,17 +228,17 @@ class ilTestRandomQuestionSetSourcePoolDefinition
             $this->mappedTaxonomyFilter[$taxonomiesKeysMap->getMappedTaxonomyId($taxId)] = $mappedNodeIds;
         }
     }
-    
+
     public function setTypeFilter($typeFilter = array())
     {
         $this->typeFilter = $typeFilter;
     }
-    
+
     public function getTypeFilter()
     {
         return $this->typeFilter;
     }
-    
+
     /**
      * get the question type filter for insert into the database
      * @return null|string		serialized type filter
@@ -247,7 +247,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         return empty($this->typeFilter) ? null : serialize($this->typeFilter);
     }
-    
+
     /**
      * get the question type filter from database value
      * @param null|string		serialized type filter
@@ -256,7 +256,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->typeFilter = empty($value) ? array() : unserialize($value);
     }
-    
+
     /**
      * @return array
      */
@@ -264,7 +264,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         return $this->lifecycleFilter;
     }
-    
+
     /**
      * @param array $lifecycleFilter
      */
@@ -272,7 +272,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->lifecycleFilter = $lifecycleFilter;
     }
-    
+
     /**
      * @return null|string		serialized lifecycle filter
      */
@@ -280,7 +280,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         return empty($this->lifecycleFilter) ? null : serialize($this->lifecycleFilter);
     }
-    
+
     /**
      * @param null|string		serialized lifecycle filter
      */
@@ -288,7 +288,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->lifecycleFilter = empty($dbValue) ? array() : unserialize($dbValue);
     }
-    
+
     /*
     public function setOriginalFilterTaxId($originalFilterTaxId)
     {
@@ -336,24 +336,24 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->questionAmount = $questionAmount;
     }
-    
+
     public function getQuestionAmount()
     {
         return $this->questionAmount;
     }
-    
+
     public function setSequencePosition($sequencePosition)
     {
         $this->sequencePosition = $sequencePosition;
     }
-    
+
     public function getSequencePosition()
     {
         return $this->sequencePosition;
     }
-    
+
     // -----------------------------------------------------------------------------------------------------------------
-    
+
     /**
      * @param array $dataArray
      */
@@ -382,7 +382,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
             }
         }
     }
-    
+
     /**
      * @param integer $poolId
      * @return boolean
@@ -394,13 +394,13 @@ class ilTestRandomQuestionSetSourcePoolDefinition
             array('integer'),
             array($id)
         );
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             $this->initFromArray($row);
-            
+
             return true;
         }
-        
+
         return false;
     }
 
@@ -491,16 +491,16 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 
         $this->setId($nextId);
     }
-    
+
     // -----------------------------------------------------------------------------------------------------------------
-    
+
     public function getPoolInfoLabel(ilLanguage $lng)
     {
         $pool_path = $this->getPoolPath();
         if (is_int($this->getPoolRefId()) && ilObject::_lookupObjId($this->getPoolRefId())) {
             $path = new ilPathGUI();
             $path->enableTextOnly(true);
-            $pool_path = $path->getPath(ROOT_FOLDER_ID, $this->getPoolRefId());
+            $pool_path = $path->getPath(ROOT_FOLDER_ID, (int) $this->getPoolRefId());
         }
 
         $poolInfoLabel = sprintf(
@@ -509,7 +509,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
             $pool_path,
             $this->getPoolQuestionCount()
         );
-        
+
         return $poolInfoLabel;
     }
 

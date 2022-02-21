@@ -120,7 +120,7 @@ class ilRepUtil
                 $subnodes = $tree->getSubtree($tree->getNodeData($id));
 
                 foreach ($subnodes as $subnode) {
-                    $rbacadmin->revokePermission($subnode["child"]);
+                    $rbacadmin->revokePermission((int) $subnode["child"]);
 
                     $affected_ids[$subnode["child"]] = $subnode["child"];
                     $affected_parents[$subnode["child"]] = $subnode["parent"];
@@ -376,7 +376,7 @@ class ilRepUtil
         
         foreach ($a_ref_ids as $id) {
             $affected_ids[$id] = $id;
-            
+
             // INSERT AND SET PERMISSIONS
             try {
                 $tree_ids = \ilTree::lookupTreesForNode($id);
@@ -386,13 +386,13 @@ class ilRepUtil
                 throw new ilRepositoryException('Restore from trash failed with message: ' . $e->getMessage());
             }
 
-            
+
             // BEGIN ChangeEvent: Record undelete.
             global $DIC;
 
             $ilUser = $DIC->user();
 
-            
+
             ilChangeEvent::_recordWriteEvent(
                 ilObject::_lookupObjId($id),
                 $ilUser->getId(),
@@ -511,7 +511,7 @@ class ilRepUtil
         
         // delete object instances (repository/trash)
         
-        $ref_ids_in_tree = $tree->getSubTree($tree->getNodeData(ROOT_FOLDER_ID), false, $a_type);
+        $ref_ids_in_tree = $tree->getSubTree($tree->getNodeData(ROOT_FOLDER_ID), false, [$a_type]);
         if ($ref_ids_in_tree) {
             $this->deleteObjects(null, $ref_ids_in_tree);
         }

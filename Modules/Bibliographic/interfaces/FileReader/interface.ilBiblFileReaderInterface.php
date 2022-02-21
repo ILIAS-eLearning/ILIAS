@@ -4,41 +4,21 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Interface ilBiblFileReaderInterface
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblFileReaderInterface
 {
-
+    
+    public function readContent(ResourceIdentification $identification) : bool;
+    
     /**
-     * @param ResourceIdentification $identification
-     *
-     * @return bool
-     */
-    public function readContent(ResourceIdentification $identification);
-
-
-    /**
-     * @return array
      * @deprecated REFACTOR Implementierungen mit Objekten statt mit Arrays
      */
-    public function parseContent();
-
-
-    /**
-     * @return ilBiblEntryFactoryInterface
-     */
-    public function getEntryFactory();
-
-
-    /**
-     * @return ilBiblFieldFactoryInterface
-     */
-    public function getFieldFactory();
-
-
-    /**
-     * @return ilBiblAttributeFactoryInterface
-     */
-    public function getAttributeFactory();
+    public function parseContent() : array;
+    
+    public function getEntryFactory() : ilBiblEntryFactoryInterface;
+    
+    public function getFieldFactory() : ilBiblFieldFactoryInterface;
+    
+    public function getAttributeFactory() : ilBiblAttributeFactoryInterface;
 }

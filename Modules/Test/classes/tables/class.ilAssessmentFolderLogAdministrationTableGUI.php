@@ -63,24 +63,23 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
-        $this->tpl->setVariable("NR", $data['nr']);
-        $this->tpl->setVariable("TEST_ID", $data['id']);
-        $this->tpl->setVariable("LOCATION_HREF", $data['location_href']);
-        $this->tpl->setVariable("LOCATION_TXT", $data['location_txt']);
+        $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
+        $this->tpl->setVariable("NR", $a_set['nr']);
+        $this->tpl->setVariable("TEST_ID", $a_set['id']);
+        $this->tpl->setVariable("LOCATION_HREF", $a_set['location_href']);
+        $this->tpl->setVariable("LOCATION_TXT", $a_set['location_txt']);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         return 'nr' == $a_field;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -14,19 +14,17 @@
  */
 class ilTraceProcessor
 {
-    private $level = 0;
+    private int $level = 0;
     
-    public function __construct($a_level)
+    public function __construct(int $a_level)
     {
         $this->level = $a_level;
     }
-    
+
     /**
-     *
-     * @param array $record
-     * @return array
+     * @todo fix shifting calls
      */
-    public function __invoke(array $record)
+    public function __invoke(array $record) : array
     {
         if ($record['level'] < $this->level) {
             return $record;

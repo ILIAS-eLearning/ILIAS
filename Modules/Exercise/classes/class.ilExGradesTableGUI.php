@@ -111,7 +111,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         }
     }
     
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         if (in_array($a_field, array("order_val"))) {
             return true;
@@ -119,7 +119,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         return false;
     }
     
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -159,7 +159,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         $mark = ilLPMarks::_lookupMark($user_id, $this->exc_id);
         $this->tpl->setVariable(
             "VAL_MARK",
-            ilUtil::prepareFormOutput($mark)
+            ilLegacyFormElementsUtil::prepareFormOutput($mark)
         );
         $this->tpl->parseCurrentBlock();
         
@@ -203,7 +203,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         $c = ilLPMarks::_lookupComment($user_id, $this->exc_id);
         $this->tpl->setVariable(
             "VAL_COMMENT",
-            ilUtil::prepareFormOutput($c)
+            ilLegacyFormElementsUtil::prepareFormOutput($c)
         );
     }
 }

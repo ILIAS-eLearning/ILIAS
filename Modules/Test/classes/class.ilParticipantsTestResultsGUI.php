@@ -42,6 +42,12 @@ class ilParticipantsTestResultsGUI
      * @var ilTestObjectiveOrientedContainer
      */
     protected $objectiveParent;
+    private \ilGlobalTemplateInterface $main_tpl;
+    public function __construct()
+    {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+    }
     
     /**
      * @return ilObjTest
@@ -159,13 +165,9 @@ class ilParticipantsTestResultsGUI
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
         if ($this->getQuestionSetConfig()->areDepenciesBroken()) {
-            ilUtil::sendFailure(
-                $this->getQuestionSetConfig()->getDepenciesBrokenMessage($DIC->language())
-            );
+            $this->main_tpl->setOnScreenMessage('failure', $this->getQuestionSetConfig()->getDepenciesBrokenMessage($DIC->language()));
         } elseif ($this->getQuestionSetConfig()->areDepenciesInVulnerableState()) {
-            ilUtil::sendInfo(
-                $this->questionSetConfig->getDepenciesInVulnerableStateMessage($DIC->language())
-            );
+            $this->main_tpl->setOnScreenMessage('info', $this->questionSetConfig->getDepenciesInVulnerableStateMessage($DIC->language()));
         }
         
         $manageParticipantFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
@@ -255,7 +257,7 @@ class ilParticipantsTestResultsGUI
         
         $this->getTestObj()->removeTestResults($participantData);
         
-        ilUtil::sendSuccess($DIC->language()->txt("tst_all_user_data_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt("tst_all_user_data_deleted"), true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_PARTICIPANTS);
     }
     
@@ -267,7 +269,7 @@ class ilParticipantsTestResultsGUI
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
         if (!is_array($_POST["chbUser"]) || count($_POST["chbUser"]) == 0) {
-            ilUtil::sendInfo($DIC->language()->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("select_one_user"), true);
             $DIC->ctrl()->redirect($this);
         }
         
@@ -330,7 +332,7 @@ class ilParticipantsTestResultsGUI
             
             $this->getTestObj()->removeTestResults($participantData);
             
-            ilUtil::sendSuccess($DIC->language()->txt("tst_selected_user_data_deleted"), true);
+            $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt("tst_selected_user_data_deleted"), true);
         }
         
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_PARTICIPANTS);
@@ -384,7 +386,7 @@ class ilParticipantsTestResultsGUI
         $show_user_results = $_SESSION["show_user_results"];
         
         if (!is_array($show_user_results) || count($show_user_results) == 0) {
-            ilUtil::sendInfo($DIC->language()->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("select_one_user"), true);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_PARTICIPANTS);
         }
         

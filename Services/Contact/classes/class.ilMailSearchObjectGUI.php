@@ -115,7 +115,7 @@ abstract class ilMailSearchObjectGUI
         }
 
         if ($added) {
-            ilUtil::sendSuccess($this->lng->txt('wsp_share_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('wsp_share_success'), true);
         }
         $this->ctrl->redirectByClass(ilWorkspaceAccessGUI::class, 'share');
     }
@@ -146,7 +146,7 @@ abstract class ilMailSearchObjectGUI
             if ($obj_ids !== []) {
                 $this->addPermission($obj_ids);
             } else {
-                ilUtil::sendInfo($this->lng->txt('mail_select_course'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
                 $this->showMyObjects();
             }
         } elseif ($view === $this->getObjectType() . '_members') {
@@ -168,7 +168,7 @@ abstract class ilMailSearchObjectGUI
             if ($usr_ids !== []) {
                 $this->addPermission($usr_ids);
             } else {
-                ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
                 $this->showMembers();
             }
         } else {
@@ -202,7 +202,7 @@ abstract class ilMailSearchObjectGUI
             if ($obj_ids !== []) {
                 $this->mailObjects();
             } else {
-                ilUtil::sendInfo($this->lng->txt('mail_select_course'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
                 $this->showMyObjects();
             }
         } elseif ($view === $this->getObjectType() . '_members') {
@@ -224,7 +224,7 @@ abstract class ilMailSearchObjectGUI
             if ($usr_ids !== []) {
                 $this->mailMembers();
             } else {
-                ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
                 $this->showMembers();
             }
         } else {
@@ -395,7 +395,7 @@ abstract class ilMailSearchObjectGUI
         }
 
         if ($obj_ids === []) {
-            ilUtil::sendInfo($this->lng->txt('mail_select_course'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
             $this->showMyObjects();
             return;
         }
@@ -404,7 +404,7 @@ abstract class ilMailSearchObjectGUI
             /** @var ilObjGroup|ilObjCourse $object */
             $object = ilObjectFactory::getInstanceByObjId($obj_id);
             if ((int) $object->getShowMembers() === $object->SHOW_MEMBERS_DISABLED) {
-                ilUtil::sendInfo($this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
                 $this->showMyObjects();
                 return;
             }
@@ -501,7 +501,7 @@ abstract class ilMailSearchObjectGUI
         );
         $table->setId('search_' . $this->getObjectType() . '_tbl');
 
-        $objs_ids = ilParticipants::_getMembershipByType($this->user->getId(), $this->getObjectType());
+        $objs_ids = ilParticipants::_getMembershipByType($this->user->getId(), [$this->getObjectType()]);
         $counter = 0;
         $tableData = [];
         if ($objs_ids !== []) {

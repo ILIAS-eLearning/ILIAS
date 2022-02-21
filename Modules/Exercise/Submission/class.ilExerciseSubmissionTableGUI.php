@@ -228,7 +228,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
     ) : void {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
-        
+
         $has_no_team_yet = ($a_ass->hasTeam() &&
             !ilExAssignmentTeam::getTeamId($a_ass->getId(), $a_user_id));
         
@@ -317,7 +317,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
             $lcomment = new ilTextAreaInputGUI($this->lng->txt("exc_comment_for_learner"), "lcomment_" . $a_ass->getId() . "_" . $a_user_id);
             $lcomment->setInfo($this->lng->txt("exc_comment_for_learner_info"));
-            $lcomment->setValue($a_row["comment"]);
+            $lcomment->setValue((string) $a_row["comment"]);
             $lcomment->setRows(10);
             $lcomment_form->addItem($lcomment);
 
@@ -334,6 +334,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         // selectable columns
             
         foreach ($this->getSelectedColumns() as $col) {
+            $include_seconds = false;
             switch ($col) {
                 case "image":
                     if (!$a_ass->hasTeam()) {
@@ -382,13 +383,19 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
                 case "mark":
                     if (!$has_no_team_yet) {
-                        $this->tpl->setVariable("VAL_" . strtoupper($col), ilUtil::prepareFormOutput(trim($a_row[$col])));
+                        $this->tpl->setVariable(
+                            "VAL_" . strtoupper($col),
+                            ilLegacyFormElementsUtil::prepareFormOutput(trim($a_row[$col]))
+                        );
                     }
                     break;
 
                 case "notice":
                     // see #22076
-                    $this->tpl->setVariable("VAL_" . strtoupper($col), ilUtil::prepareFormOutput(trim($a_row[$col])));
+                    $this->tpl->setVariable(
+                        "VAL_" . strtoupper($col),
+                        ilLegacyFormElementsUtil::prepareFormOutput(trim($a_row[$col]))
+                    );
                     break;
                     
                 case "comment":
@@ -406,6 +413,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 case "sent_time":
                 case "submission":
                     if ($col == "submission" && $a_row["submission_obj"]) {
+                        $include_seconds = true;
                         foreach ($a_row["submission_obj"]->getFiles() as $file) {
                             if ($file["late"]) {
                                 $this->tpl->setVariable("TXT_LATE", $this->lng->txt("exc_late_submission"));
@@ -416,7 +424,12 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     $this->tpl->setVariable(
                         "VAL_" . strtoupper($col),
                         $a_row[$col]
-                            ? ilDatePresentation::formatDate(new ilDateTime($a_row[$col], IL_CAL_DATETIME))
+                            ? ilDatePresentation::formatDate(
+                                new ilDateTime($a_row[$col], IL_CAL_DATETIME),
+                                false,
+                                false,
+                                $include_seconds
+                            )
                             : "&nbsp;"
                     );
                     break;
@@ -464,6 +477,10 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         if ($this->ass_type != null && $this->ass_type->supportsWebDirAccess() && $a_row['submission_obj']->hasSubmitted()) {
             $url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionView");
             $items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_tbl_action_open_submission"), $url)->withOpenInNewViewport(true);
+            if (true || $a_row['submission_obj']->hasPrintView()) {
+                $url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionPrintView");
+                $items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_print_pdf"), $url)->withOpenInNewViewport(true);
+            }
         }
 
         if (!$has_no_team_yet &&

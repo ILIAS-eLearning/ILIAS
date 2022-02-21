@@ -35,8 +35,8 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
     }
 
     public function getTable(
-        $a_dir,
-        $a_subdir
+        string $a_dir,
+        string $a_subdir
     ) : ilExAssignmentFileSystemTableGUI {
         return new ilExAssignmentFileSystemTableGUI(
             $this,

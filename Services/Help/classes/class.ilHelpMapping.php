@@ -1,25 +1,26 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Help mapping
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilHelpMapping
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDBInterface $db;
 
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -27,64 +28,52 @@ class ilHelpMapping
         $this->db = $DIC->database();
     }
 
-    /**
-     * Save screen ids for chapter
-     *
-     * @param
-     * @return
-     */
-    public static function saveScreenIdsForChapter($a_chap, $a_ids)
-    {
+    public static function saveScreenIdsForChapter(
+        int $a_chap,
+        array $a_ids
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
         
         self::removeScreenIdsOfChapter($a_chap);
-        if (is_array($a_ids)) {
-            foreach ($a_ids as $id) {
-                $id = trim($id);
-                $id = explode("/", $id);
-                if ($id[0] != "") {
-                    if ($id[1] == "") {
-                        $id[1] = "-";
-                    }
-                    $id2 = explode("#", $id[2]);
-                    if ($id2[0] == "") {
-                        $id2[0] = "-";
-                    }
-                    if ($id2[1] == "") {
-                        $id2[1] = "-";
-                    }
-                    $ilDB->replace(
-                        "help_map",
-                        array("chap" => array("integer", $a_chap),
-                            "component" => array("text", $id[0]),
-                            "screen_id" => array("text", $id[1]),
-                            "screen_sub_id" => array("text", $id2[0]),
-                            "perm" => array("text", $id2[1]),
-                            "module_id" => array("integer", 0)
-                            ),
-                        array()
-                    );
+        foreach ($a_ids as $id) {
+            $id = trim($id);
+            $id = explode("/", $id);
+            if ($id[0] != "") {
+                if ($id[1] == "") {
+                    $id[1] = "-";
                 }
+                $id2 = explode("#", $id[2]);
+                if ($id2[0] == "") {
+                    $id2[0] = "-";
+                }
+                if ($id2[1] == "") {
+                    $id2[1] = "-";
+                }
+                $ilDB->replace(
+                    "help_map",
+                    array("chap" => array("integer", $a_chap),
+                        "component" => array("text", $id[0]),
+                        "screen_id" => array("text", $id[1]),
+                        "screen_sub_id" => array("text", $id2[0]),
+                        "perm" => array("text", $id2[1]),
+                        "module_id" => array("integer", 0)
+                        ),
+                    array()
+                );
             }
         }
     }
     
-    /**
-     * Save mapping entry
-     *
-     * @param
-     * @return
-     */
     public static function saveMappingEntry(
-        $a_chap,
-        $a_comp,
-        $a_screen_id,
-        $a_screen_sub_id,
-        $a_perm,
-        $a_module_id = 0
-    ) {
+        int $a_chap,
+        string $a_comp,
+        string $a_screen_id,
+        string $a_screen_sub_id,
+        string $a_perm,
+        int $a_module_id = 0
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -102,15 +91,10 @@ class ilHelpMapping
         );
     }
     
-    
-    /**
-     * Remove screen ids of chapter
-     *
-     * @param
-     * @return
-     */
-    public static function removeScreenIdsOfChapter($a_chap, $a_module_id = 0)
-    {
+    public static function removeScreenIdsOfChapter(
+        int $a_chap,
+        int $a_module_id = 0
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -122,14 +106,10 @@ class ilHelpMapping
         );
     }
     
-    /**
-     * Get screen ids of chapter
-     *
-     * @param
-     * @return
-     */
-    public static function getScreenIdsOfChapter($a_chap, $a_module_id = 0)
-    {
+    public static function getScreenIdsOfChapter(
+        int $a_chap,
+        int $a_module_id = 0
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -157,14 +137,10 @@ class ilHelpMapping
         return $screen_ids;
     }
     
-    /**
-     * Get help sections for screen id
-     *
-     * @param
-     * @return
-     */
-    public static function getHelpSectionsForId($a_screen_id, $a_ref_id)
-    {
+    public static function getHelpSectionsForId(
+        string $a_screen_id,
+        int $a_ref_id
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -213,8 +189,8 @@ class ilHelpMapping
                             $has_create_perm = true;
                         } elseif ($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID)) { // check admin
                             $has_create_perm = true;
-                        } elseif ($ilAccess->checkAccess("read", "", (int) $a_ref_id)) {
-                            $perm = $rbacreview->getUserPermissionsOnObject($ilUser->getId(), (int) $a_ref_id);
+                        } elseif ($ilAccess->checkAccess("read", "", $a_ref_id)) {
+                            $perm = $rbacreview->getUserPermissionsOnObject($ilUser->getId(), $a_ref_id);
                             foreach ($perm as $p) {
                                 if (substr($p, 0, 7) == "create_") {
                                     $has_create_perm = true;
@@ -224,7 +200,7 @@ class ilHelpMapping
                         if ($has_create_perm) {
                             $chaps[] = $rec["chap"];
                         }
-                    } elseif ($ilAccess->checkAccess($rec["perm"], "", (int) $a_ref_id)) {
+                    } elseif ($ilAccess->checkAccess($rec["perm"], "", $a_ref_id)) {
                         $chaps[] = $rec["chap"];
                     }
                 } else {
@@ -237,21 +213,17 @@ class ilHelpMapping
     
     /**
      * Has given screen Id any sections?
-     *
      * Note: We removed the "ref_id" parameter here, since this method
      * should be fast. It is used to decide whether the help button should
      * appear or not. We assume that there is at least one section for
      * users with the "read" permission.
-     *
-     * @param
-     * @return
      */
-    public static function hasScreenIdSections($a_screen_id)
-    {
+    public static function hasScreenIdSections(
+        string $a_screen_id
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
-        $ilAccess = $DIC->access();
         $ilSetting = $DIC->settings();
         $ilUser = $DIC->user();
         
@@ -290,7 +262,7 @@ class ilHelpMapping
             );
             while ($rec = $ilDB->fetchAssoc($set)) {
                 return true;
-                
+
                 // no permission check, since it takes to much performance
                 // getHelpSectionsForId() does the permission checks.
                 /*if ($rec["perm"] != "" && $rec["perm"] != "-")
@@ -309,14 +281,9 @@ class ilHelpMapping
         return false;
     }
     
-    /**
-     * Delete entries of module
-     *
-     * @param
-     * @return
-     */
-    public static function deleteEntriesOfModule($a_id)
-    {
+    public static function deleteEntriesOfModule(
+        int $a_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();

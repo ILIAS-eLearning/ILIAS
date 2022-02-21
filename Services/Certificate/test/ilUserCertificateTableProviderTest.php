@@ -36,7 +36,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
@@ -117,7 +117,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
@@ -198,7 +198,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
@@ -281,7 +281,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
@@ -348,7 +348,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
@@ -415,7 +415,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
@@ -487,7 +487,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
@@ -559,7 +559,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')

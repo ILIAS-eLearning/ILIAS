@@ -33,41 +33,45 @@ class ilSkillManagementSettings extends ilSetting
 
     public function activate(bool $a_active) : void
     {
-        $this->set("enable_skmg", (int) $a_active);
+        $value = $a_active ? "1" : "0";
+        $this->set("enable_skmg", $value);
     }
 
     public function isActivated() : bool
     {
-        return $this->get("enable_skmg");
+        return (bool) $this->get("enable_skmg", "0");
     }
 
     public function setHideProfileBeforeSelfEval(bool $a_val) : void
     {
-        $this->set("hide_profile_self_eval", (int) $a_val);
+        $value = $a_val ? "1" : "0";
+        $this->set("hide_profile_self_eval", $value);
     }
 
     public function getHideProfileBeforeSelfEval() : bool
     {
-        return $this->get("hide_profile_self_eval");
+        return (bool) $this->get("hide_profile_self_eval", "0");
     }
 
     public function setLocalAssignmentOfProfiles(bool $a_val) : void
     {
-        $this->set("local_assignment_profiles", (int) $a_val);
+        $value = $a_val ? "1" : "0";
+        $this->set("local_assignment_profiles", $value);
     }
 
     public function getLocalAssignmentOfProfiles() : bool
     {
-        return $this->get("local_assignment_profiles");
+        return (bool) $this->get("local_assignment_profiles", "0");
     }
 
     public function setAllowLocalProfiles(bool $a_val) : void
     {
-        $this->set("allow_local_profiles", (int) $a_val);
+        $value = $a_val ? "1" : "0";
+        $this->set("allow_local_profiles", $value);
     }
 
     public function getAllowLocalProfiles() : bool
     {
-        return $this->get("allow_local_profiles");
+        return (bool) $this->get("allow_local_profiles", "0");
     }
 }

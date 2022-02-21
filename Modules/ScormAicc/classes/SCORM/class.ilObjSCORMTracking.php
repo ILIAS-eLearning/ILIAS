@@ -1,161 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
-* Class ilObjSCORMTracking
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @ingroup ModulesScormAicc
-*/
+ * Class ilObjSCORMTracking
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @ingroup ModulesScormAicc
+ */
 class ilObjSCORMTracking
 {
-    public function extractData()
-    {
-        $this->insert = array();
-        if (is_array($_GET["iL"])) {
-            foreach ($_GET["iL"] as $key => $value) {
-                $this->insert[] = array("left" => $value, "right" => $_GET["iR"][$key]);
-            }
-        }
-        if (is_array($_POST["iL"])) {
-            foreach ($_POST["iL"] as $key => $value) {
-                $this->insert[] = array("left" => $value, "right" => $_POST["iR"][$key]);
-            }
-        }
-
-        $this->update = array();
-        if (is_array($_GET["uL"])) {
-            foreach ($_GET["uL"] as $key => $value) {
-                $this->update[] = array("left" => $value, "right" => $_GET["uR"][$key]);
-            }
-        }
-        if (is_array($_POST["uL"])) {
-            foreach ($_POST["uL"] as $key => $value) {
-                $this->update[] = array("left" => $value, "right" => $_POST["uR"][$key]);
-            }
-        }
-    }
-
-    public function store($obj_id = 0, $sahs_id = 0, $extractData = 1)
+    /**
+     * @return void
+     */
+    public static function storeJsApi() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-
-        $ref_id = $_GET["ref_id"];
-        if (empty($obj_id)) {
-            $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
-        }
-        
-        // writing to scorm test log
-        $f = fopen("./Modules/ScormAicc/log/scorm.log", "a");
-        fwrite($f, "\nCALLING SCORM store()\n");
-        fwrite($f, 'POST: ' . print_r($_POST, true));
-        
-        
-        if (empty($sahs_id)) {
-            $sahs_id = ($_GET["sahs_id"] != "")	? $_GET["sahs_id"] : $_POST["sahs_id"];
-        }
-            
-        if ($extractData == 1) {
-            $this->extractData();
-        }
-
-        if (is_object($ilUser)) {
-            $user_id = $ilUser->getId();
-        }
-
-        
-
-        if ($obj_id <= 1) {
-            fwrite($f, "Error: No obj_id given.\n");
-        } else {
-            foreach ($this->insert as $insert) {
-                $set = $ilDB->queryF(
-                    '
-				SELECT * FROM scorm_tracking 
-				WHERE user_id = %s
-				AND sco_id =  %s
-				AND lvalue =  %s
-				AND obj_id = %s',
-                    array('integer','integer','text','integer'),
-                    array($user_id,$sahs_id,$insert["left"],$obj_id)
-                );
-                if ($rec = $ilDB->fetchAssoc($set)) {
-                    fwrite($f, "Error Insert, left value already exists. L:" . $insert["left"] . ",R:" .
-                        $insert["right"] . ",sahs_id:" . $sahs_id . ",user_id:" . $user_id . "\n");
-                } else {
-                    $ilDB->insert('scorm_tracking', array(
-                        'obj_id' => array('integer', $obj_id),
-                        'user_id' => array('integer', $user_id),
-                        'sco_id' => array('integer', $sahs_id),
-                        'lvalue' => array('text', $insert["left"]),
-                        'rvalue' => array('clob', $insert["right"]),
-                        'c_timestamp' => array('timestamp', ilUtil::now())
-                    ));
-                                        
-                    fwrite($f, "Insert - L:" . $insert["left"] . ",R:" .
-                        $insert["right"] . ",sahs_id:" . $sahs_id . ",user_id:" . $user_id . "\n");
-                }
-            }
-            foreach ($this->update as $update) {
-                $set = $ilDB->queryF(
-                    '
-				SELECT * FROM scorm_tracking 
-				WHERE user_id = %s
-				AND sco_id =  %s
-				AND lvalue =  %s
-				AND obj_id = %s',
-                    array('integer','integer','text','integer'),
-                    array($user_id,$sahs_id,$update["left"],$obj_id)
-                );
-                
-                if ($rec = $ilDB->fetchAssoc($set)) {
-                    $ilDB->update(
-                        'scorm_tracking',
-                        array(
-                            'rvalue' => array('clob', $update["right"]),
-                            'c_timestamp' => array('timestamp', ilUtil::now())
-                        ),
-                        array(
-                            'user_id' => array('integer', $user_id),
-                            'sco_id' => array('integer', $sahs_id),
-                            'lvalue' => array('text', $update["left"]),
-                            'obj_id' => array('integer', $obj_id)
-                        )
-                    );
-                } else {
-                    fwrite($f, "ERROR Update, left value does not exist. L:" . $update["left"] . ",R:" .
-                        $update["right"] . ",sahs_id:" . $sahs_id . ",user_id:" . $user_id . "\n");
-                }
-            }
-        }
-        fclose($f);
-        
-        // update status
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-        ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
-        
-        // update time and numbers of attempts in change event
-        //NOTE: is possibly not correct (it is count of commit with changed values); be careful to performance issues
-        ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
-    }
-    
-    public static function storeJsApi($obj_id = 0)
-    {
-        // global $DIC;
-        // $ilLog = $DIC['ilLog'];
-        // $ilUser = $DIC['ilUser'];
-
-        // if (is_object($ilUser)) {
-        // $user_id = $ilUser->getId();
-        // }
-        // if (empty($obj_id)) $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
-        $obj_id = (int) $_GET["package_id"];
+        $obj_id = $DIC->http()->wrapper()->query()->retrieve('package_id', $DIC->refinery()->kindlyTo()->int());
+        $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $in = file_get_contents("php://input");
-        // $ilLog->write($in);
         $data = json_decode($in);
         $user_id = (int) $data->p;
 
@@ -165,7 +38,7 @@ class ilObjSCORMTracking
         if ($rval != true) {
             print("storeJsApiCmi failed");
         } else {
-            $rval = self::syncGlobalStatus($user_id, $obj_id, $data, $data->now_global_status);
+            $rval = self::syncGlobalStatus($user_id, $obj_id, $refId, $data, $data->now_global_status);
             if ($rval != true) {
                 print("syncGlobalStatus failed");
             }
@@ -175,25 +48,21 @@ class ilObjSCORMTracking
         }
     }
 
-    public static function storeJsApiCmi($user_id, $obj_id, $data)
+    /**
+     * @param int    $user_id
+     * @param int    $obj_id
+     * @param object $data
+     * @return bool
+     */
+    public static function storeJsApiCmi(int $user_id, int $obj_id, object $data) : bool
     {
         global $DIC;
-        $ilLog = $DIC['ilLog'];
-        $ilDB = $DIC['ilDB'];
-        
+        $ilLog = ilLoggerFactory::getLogger('sahs');
+        $ilDB = $DIC->database();
+
         $b_updateStatus = false;
         $i_score_max = 0;
         $i_score_raw = 0;
-        
-        $b_messageLog = false;
-        if ($ilLog->current_log_level == 30) {
-            $b_messageLog = true;
-        }
-
-        if ($b_messageLog) {
-            $ilLog->write("ScormAicc: CALLING SCORM storeJsApi() " . $_POST);
-        }
-
 
         $aa_data = array();
         // if (is_array($_POST["S"])) {
@@ -201,8 +70,11 @@ class ilObjSCORMTracking
         // $aa_data[] = array("sco_id" => $value, "left" => $_POST["L"][$key], "right" => $_POST["R"][$key]);
         // }
         // }
-        for ($i = 0;$i < count($data->cmi);$i++) {
-            $aa_data[] = array("sco_id" => (int) $data->cmi[$i][0], "left" => $data->cmi[$i][1], "right" => $data->cmi[$i][2]);
+        for ($i = 0; $i < count($data->cmi); $i++) {
+            $aa_data[] = array("sco_id" => (int) $data->cmi[$i][0],
+                               "left" => $data->cmi[$i][1],
+                               "right" => $data->cmi[$i][2]
+            );
             //			$aa_data[] = array("sco_id" => (int) $data->cmi[$i][0], "left" => $data->cmi[$i][1], "right" => rawurldecode($data->cmi[$i][2]));
         }
 
@@ -217,8 +89,8 @@ class ilObjSCORMTracking
 				AND sco_id =  %s
 				AND lvalue =  %s
 				AND obj_id = %s',
-                    array('integer','integer','text','integer'),
-                    array($user_id,$a_data["sco_id"],$a_data["left"],$obj_id)
+                    array('integer', 'integer', 'text', 'integer'),
+                    array($user_id, $a_data["sco_id"], $a_data["left"], $obj_id)
                 );
                 if ($rec = $ilDB->fetchAssoc($set)) {
                     if ($a_data["left"] == 'cmi.core.lesson_status' && $a_data["right"] != $rec["rvalue"]) {
@@ -237,10 +109,8 @@ class ilObjSCORMTracking
                             'obj_id' => array('integer', $obj_id)
                         )
                     );
-                    if ($b_messageLog) {
-                        $ilLog->write("ScormAicc: storeJsApi Updated - L:" . $a_data["left"] . ",R:" .
+                    $ilLog->debug("ScormAicc: storeJsApi Updated - L:" . $a_data["left"] . ",R:" .
                         $a_data["right"] . " for obj_id:" . $obj_id . ",sco_id:" . $a_data["sco_id"] . ",user_id:" . $user_id);
-                    }
                 } else {
                     if ($a_data["left"] == 'cmi.core.lesson_status') {
                         $b_updateStatus = true;
@@ -253,10 +123,8 @@ class ilObjSCORMTracking
                         'rvalue' => array('clob', $a_data["right"]),
                         'c_timestamp' => array('timestamp', ilUtil::now())
                     ));
-                    if ($b_messageLog) {
-                        $ilLog->write("ScormAicc: storeJsApi Inserted - L:" . $a_data["left"] . ",R:" .
+                    $ilLog->debug("ScormAicc: storeJsApi Inserted - L:" . $a_data["left"] . ",R:" .
                         $a_data["right"] . " for obj_id:" . $obj_id . ",sco_id:" . $a_data["sco_id"] . ",user_id:" . $user_id);
-                    }
                 }
                 if ($a_data["left"] == 'cmi.core.score.max') {
                     $i_score_max = $a_data["right"];
@@ -276,7 +144,7 @@ class ilObjSCORMTracking
                 }
             }
         }
-        
+
         // update status
         // if ($b_updateStatus == true) {
         // include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -286,12 +154,19 @@ class ilObjSCORMTracking
         return true;
     }
 
-    //erase later see ilSCORM2004StoreData
-    public static function syncGlobalStatus($userId, $packageId, $data, $new_global_status)
+    /**
+     * @param int      $userId
+     * @param int      $packageId
+     * @param int      $refId
+     * @param object   $data
+     * @param int|null $new_global_status
+     * @return bool
+     */
+    public static function syncGlobalStatus(int $userId, int $packageId, int $refId, object $data, ?int $new_global_status) : bool
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
         $saved_global_status = $data->saved_global_status;
         $ilLog->write("saved_global_status=" . $saved_global_status);
 
@@ -299,8 +174,8 @@ class ilObjSCORMTracking
         if (!$data->packageAttempts) {
             $val_set = $ilDB->queryF(
                 'SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
-                array('integer','integer'),
-                array($packageId,$userId)
+                array('integer', 'integer'),
+                array($packageId, $userId)
             );
             $val_rec = $ilDB->fetchAssoc($val_set);
             $attempts = $val_rec["package_attempts"];
@@ -317,21 +192,34 @@ class ilObjSCORMTracking
         $ilDB->queryF(
             'UPDATE sahs_user SET last_visited=%s, last_access = %s, sco_total_time_sec=%s, status=%s, percentage_completed=%s, package_attempts=%s WHERE obj_id = %s AND user_id = %s',
             array('text', 'timestamp', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
-            array($data->last_visited, date('Y-m-d H:i:s'), $totalTime, $new_global_status, $data->percentageCompleted, $attempts, $packageId, $userId)
+            array($data->last_visited,
+                  date('Y-m-d H:i:s'),
+                  $totalTime,
+                  $new_global_status,
+                  $data->percentageCompleted,
+                  $attempts,
+                  $packageId,
+                  $userId
+            )
         );
-        
+
         //		self::ensureObjectDataCacheExistence();
         global $DIC;
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
-        ilChangeEvent::_recordReadEvent("sahs", (int) $_GET['ref_id'], $packageId, $userId, false, $attempts, $totalTime);
+        ilChangeEvent::_recordReadEvent(
+            "sahs",
+            $refId,
+            $packageId,
+            $userId,
+            false,
+            $attempts,
+            $totalTime
+        );
 
         //end sync access number and time in read event table
 
         // update learning progress
-        if ($new_global_status != null) {//could only happen when synchronising from SCORM Offline Player
-            include_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
-            include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+        if ($new_global_status != null) {
             ilLPStatus::writeStatus($packageId, $userId, $new_global_status, $data->percentageCompleted);
 
             //			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
@@ -339,69 +227,18 @@ class ilObjSCORMTracking
         return true;
     }
 
-
     /**
-     * Synch read event table
-     *
-     * @param
-     * @return
+     * @param int    $a_sahs_id
+     * @param string $a_lval
+     * @param string $a_rval
+     * @param int    $a_obj_id
+     * @return void
      */
-    public static function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
+    public static function _insertTrackData(int $a_sahs_id, string $a_lval, string $a_rval, int $a_obj_id) : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-        $val_set = $ilDB->queryF(
-            'SELECT package_attempts, total_time_sec, sco_total_time_sec, time_from_lms FROM sahs_user, sahs_lm '
-                                . 'WHERE sahs_user.obj_id = %s AND sahs_user.user_id = %s AND sahs_user.obj_id = sahs_lm.id',
-            array('integer','integer'),
-            array($a_obj_id,$a_user_id)
-        );
-        
-        $val_rec = $ilDB->fetchAssoc($val_set);
-        
-        if ($val_rec["package_attempts"] == null) {
-            $val_rec["package_attempts"] = "";
-        }
-        $attempts = $val_rec["package_attempts"];
-        
-        $time = 0;
-        // if ($val_rec["time_from_lms"] == "y") {
-        // $time = (int)$val_rec["total_time_sec"];
-        // } else {
-        $time = (int) $val_rec["sco_total_time_sec"];
-        // }
-
-        // get learning time for old ILIAS-Versions
-        if ($time == 0) {
-            $sco_set = $ilDB->queryF(
-                '
-			SELECT sco_id, rvalue FROM scorm_tracking 
-			WHERE obj_id = %s
-			AND user_id = %s
-			AND lvalue = %s
-			AND sco_id <> %s',
-                array('integer','integer','text','integer'),
-                array($a_obj_id,$a_user_id, 'cmi.core.total_time',0)
-            );
-
-            while ($sco_rec = $ilDB->fetchAssoc($sco_set)) {
-                $tarr = explode(":", $sco_rec["rvalue"]);
-                $sec = (int) $tarr[2] + (int) $tarr[1] * 60 +
-                    (int) substr($tarr[0], strlen($tarr[0]) - 3) * 60 * 60;
-                $time += $sec;
-            }
-        }
-        
-        include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
-        ilChangeEvent::_recordReadEvent($a_type, $a_ref_id, $a_obj_id, $a_user_id, false, $attempts, $time);
-    }
-
-    public static function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
 
         $ilDB->insert('scorm_tracking', array(
             'obj_id' => array('integer', $a_obj_id),
@@ -411,81 +248,42 @@ class ilObjSCORMTracking
             'rvalue' => array('clob', $a_rval),
             'c_timestamp' => array('timestamp', ilUtil::now())
         ));
-        
+
         if ($a_lval == "cmi.core.lesson_status") {
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_updateStatus($a_obj_id, $ilUser->getId());
         }
     }
 
-
-    /**
-     * @param object $scorm_item_id
-     * @param object $a_obj_id
-     * @param array $a_blocked_user_ids
-     * @return
-     */
-    public static function _getInProgress($scorm_item_id, $a_obj_id, $a_blocked_user_ids = null)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
-        if (is_array($scorm_item_id)) {
-            $in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer');
-            
-            $res = $ilDB->queryF(
-                'SELECT user_id,sco_id FROM scorm_tracking
-			WHERE ' . $in . '
-			AND obj_id = %s 
-			GROUP BY user_id, sco_id',
-                array('integer'),
-                array($a_obj_id)
-            );
-        } else {
-            $res = $ilDB->queryF(
-                'SELECT user_id,sco_id FROM scorm_tracking			
-			WHERE sco_id = %s 
-			AND obj_id = %s',
-                array('integer','integer'),
-                array($scorm_item_id,$a_obj_id)
-            );
-        }
-        
-        $in_progress = array();
-        
-        while ($row = $ilDB->fetchObject($res)) {
-            // #15061 - see _getProgressInfo()
-            if (!($a_blocked_user_ids &&
-                is_array($a_blocked_user_ids[$row->sco_id]) &&
-                in_array($row->user_id, $a_blocked_user_ids[$row->sco_id]))) {
-                $in_progress[$row->sco_id][] = $row->user_id;
-            }
-        }
-        return $in_progress;
-    }
+    //erase later see ilSCORM2004StoreData
 
     /**
      * like necessary because of Oracle
      * @param object $scorm_item_id
-     * @param object $a_obj_id
-     * @return
+     * @param int    $a_obj_id
+     * @return array
      */
-    public static function _getCompleted($scorm_item_id, $a_obj_id)
+    public static function _getCompleted(object $scorm_item_id, int $a_obj_id) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
+
+        $user_ids = [];
 
         if (is_array($scorm_item_id)) {
             $in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer');
-            
+
             $res = $ilDB->queryF(
                 'SELECT DISTINCT(user_id) FROM scorm_tracking 
 			WHERE ' . $in . '
 			AND obj_id = %s
 			AND lvalue = %s 
-			AND (' . $ilDB->like('rvalue', 'clob', 'completed') . ' OR ' . $ilDB->like('rvalue', 'clob', 'passed') . ')',
-                array('integer','text'),
-                array($a_obj_id,'cmi.core.lesson_status')
+			AND (' . $ilDB->like('rvalue', 'clob', 'completed') . ' OR ' . $ilDB->like(
+                    'rvalue',
+                    'clob',
+                    'passed'
+                ) . ')',
+                array('integer', 'text'),
+                array($a_obj_id, 'cmi.core.lesson_status')
             );
         } else {
             $res = $ilDB->queryF(
@@ -493,39 +291,48 @@ class ilObjSCORMTracking
 			WHERE sco_id = %s
 			AND obj_id = %s
 			AND lvalue = %s 
-			AND (' . $ilDB->like('rvalue', 'clob', 'completed') . ' OR ' . $ilDB->like('rvalue', 'clob', 'passed') . ')',
-                array('integer','integer','text'),
-                array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status')
+			AND (' . $ilDB->like('rvalue', 'clob', 'completed') . ' OR ' . $ilDB->like(
+                    'rvalue',
+                    'clob',
+                    'passed'
+                ) . ')',
+                array('integer', 'integer', 'text'),
+                array($scorm_item_id, $a_obj_id, 'cmi.core.lesson_status')
             );
         }
-        
+
         while ($row = $ilDB->fetchObject($res)) {
             $user_ids[] = $row->user_id;
         }
-        return $user_ids ? $user_ids : array();
+        return $user_ids;
     }
 
-    public static function _getCollectionStatus($a_scos, $a_obj_id, $a_user_id)
+    /**
+     * @param array|null $a_scos
+     * @param int        $a_obj_id
+     * @param int        $a_user_id
+     * @return string
+     */
+    public static function _getCollectionStatus(?array $a_scos, int $a_obj_id, int $a_user_id) : string
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
 
         $status = "not_attempted";
-        
+
         if (is_array($a_scos)) {
             $in = $ilDB->in('sco_id', $a_scos, false, 'integer');
-            
+
             $res = $ilDB->queryF(
                 'SELECT sco_id, rvalue FROM scorm_tracking 
 			WHERE ' . $in . '
 			AND obj_id = %s
 			AND lvalue = %s
 			AND user_id = %s',
-                array('integer','text', 'integer'),
-                array($a_obj_id,'cmi.core.lesson_status', $a_user_id)
+                array('integer', 'text', 'integer'),
+                array($a_obj_id, 'cmi.core.lesson_status', $a_user_id)
             );
-            
+
             $cnt = 0;
             $completed = true;
             $failed = false;
@@ -550,27 +357,32 @@ class ilObjSCORMTracking
         }
         return $status;
     }
-    
 
-    public static function _countCompleted($a_scos, $a_obj_id, $a_user_id)
+    /**
+     * @param array|null $a_scos
+     * @param int        $a_obj_id
+     * @param int        $a_user_id
+     * @return int
+     */
+    public static function _countCompleted(?array $a_scos, int $a_obj_id, int $a_user_id) : int
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
+        $cnt = 0;
 
         if (is_array($a_scos)) {
             $in = $ilDB->in('sco_id', $a_scos, false, 'integer');
-            
+
             $res = $ilDB->queryF(
                 'SELECT sco_id, rvalue FROM scorm_tracking 
 			WHERE ' . $in . '
 			AND obj_id = %s
 			AND lvalue = %s
 			AND user_id = %s',
-                array('integer','text', 'integer'),
-                array($a_obj_id,'cmi.core.lesson_status', $a_user_id)
+                array('integer', 'text', 'integer'),
+                array($a_obj_id, 'cmi.core.lesson_status', $a_user_id)
             );
-            
-            $cnt = 0;
+
             while ($rec = $ilDB->fetchAssoc($res)) {
                 if ($rec["rvalue"] == "completed" || $rec["rvalue"] == "passed") {
                     $cnt++;
@@ -579,17 +391,17 @@ class ilObjSCORMTracking
         }
         return $cnt;
     }
-    //not correct because of assets!
+
     /**
      * Lookup last acccess time for all users of a scorm module
-     * @global ilDB $ilDB
      * @param int $a_obj_id
-     * @return array
+     * @return array<int|string, mixed>
      */
-    public static function lookupLastAccessTimes($a_obj_id)
+    public static function lookupLastAccessTimes(int $a_obj_id) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
+        $users = array();
 
         $query = 'SELECT user_id, MAX(c_timestamp) tst ' .
             'FROM scorm_tracking ' .
@@ -597,33 +409,31 @@ class ilObjSCORMTracking
             'GROUP BY user_id';
         $res = $ilDB->query($query);
 
-        $users = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $users[$row->user_id] = $row->tst;
         }
         return $users;
     }
 
-
     /**
      * Get all tracked users
-     * @param object $a_obj_id
-     * @return
+     * @param int $a_obj_id
+     * @return array
      */
-    public static function _getTrackedUsers($a_obj_id)
+    public static function _getTrackedUsers(int $a_obj_id) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+//        $ilLog = ilLoggerFactory::getLogger('sahs');
 
         $res = $ilDB->queryF(
             'SELECT DISTINCT user_id FROM scorm_tracking 
 			WHERE obj_id = %s
 			AND lvalue = %s',
-            array('integer','text'),
-            array($a_obj_id,'cmi.core.lesson_status')
+            array('integer', 'text'),
+            array($a_obj_id, 'cmi.core.lesson_status')
         );
-        
+
         $users = array();
         while ($row = $ilDB->fetchAssoc($res)) {
             $users[] = $row["user_id"];
@@ -634,17 +444,18 @@ class ilObjSCORMTracking
     /**
      * like necessary because of Oracle
      * @param object $scorm_item_id
-     * @param object $a_obj_id
-     * @return
+     * @param int    $a_obj_id
+     * @return array
      */
-    public static function _getFailed($scorm_item_id, $a_obj_id)
+    public static function _getFailed(object $scorm_item_id, int $a_obj_id) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
+        $user_ids = [];
 
         if (is_array($scorm_item_id)) {
             $in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer');
-            
+
             $res = $ilDB->queryF(
                 '
 				SELECT DISTINCT(user_id) FROM scorm_tracking 
@@ -652,8 +463,8 @@ class ilObjSCORMTracking
 				AND obj_id = %s
 				AND lvalue =  %s
 				AND ' . $ilDB->like('rvalue', 'clob', 'failed') . ' ',
-                array('integer','text'),
-                array($a_obj_id,'cmi.core.lesson_status')
+                array('integer', 'text'),
+                array($a_obj_id, 'cmi.core.lesson_status')
             );
         } else {
             $res = $ilDB->queryF(
@@ -663,28 +474,29 @@ class ilObjSCORMTracking
 				AND obj_id = %s
 				AND lvalue =  %s
 				AND ' . $ilDB->like('rvalue', 'clob', 'failed') . ' ',
-                array('integer','integer','text'),
-                array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status')
+                array('integer', 'integer', 'text'),
+                array($scorm_item_id, $a_obj_id, 'cmi.core.lesson_status')
             );
         }
 
         while ($row = $ilDB->fetchObject($res)) {
             $user_ids[] = $row->user_id;
         }
-        return $user_ids ? $user_ids : array();
+        return $user_ids;
     }
 
     /**
      * Get users who have status completed or passed.
-     * @param object $a_scorm_item_ids
-     * @param object $a_obj_id
-     * @return
+     * @param array $a_scorm_item_ids
+     * @param int   $a_obj_id
+     * @return array
      */
-    public static function _getCountCompletedPerUser($a_scorm_item_ids, $a_obj_id)
+    public static function _getCountCompletedPerUser(array $a_scorm_item_ids, int $a_obj_id) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
+        $users = [];
+
         $in = $ilDB->in('sco_id', $a_scorm_item_ids, false, 'integer');
 
         // Why does this query use a like search against "passed" and "failed"
@@ -703,20 +515,21 @@ class ilObjSCORMTracking
         while ($row = $ilDB->fetchObject($res)) {
             $users[$row->user_id] = $row->completed;
         }
-        return $users ? $users : array();
+        return $users;
     }
+    //not correct because of assets!
 
     /**
      * Get info about
-     * @param object $sco_item_ids
-     * @param object $a_obj_id
-     * @return
+     * @param array $sco_item_ids
+     * @param int   $a_obj_id
+     * @return array
      */
-    public static function _getProgressInfo($sco_item_ids, $a_obj_id)
+    public static function _getProgressInfo(array $sco_item_ids, int $a_obj_id) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
+
         $in = $ilDB->in('sco_id', $sco_item_ids, false, 'integer');
 
         $res = $ilDB->queryF(
@@ -725,13 +538,13 @@ class ilObjSCORMTracking
 		WHERE ' . $in . '
 		AND obj_id = %s 
 		AND lvalue = %s ',
-            array('integer','text'),
-            array($a_obj_id,'cmi.core.lesson_status')
+            array('integer', 'text'),
+            array($a_obj_id, 'cmi.core.lesson_status')
         );
-        
+
         $info['completed'] = array();
         $info['failed'] = array();
-        
+
         $user_ids = array();
         while ($row = $ilDB->fetchObject($res)) {
             switch ($row->rvalue) {
@@ -752,19 +565,73 @@ class ilObjSCORMTracking
         return $info;
     }
 
-    public static function scorm12PlayerUnload()
+    /**
+     * @param array|int  $scorm_item_id
+     * @param int        $a_obj_id
+     * @param array|null $a_blocked_user_ids
+     * @return array
+     */
+    public static function _getInProgress($scorm_item_id, int $a_obj_id, ?array $a_blocked_user_ids = null) : array
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilDB = $DIC['ilDB'];
-        $user_id = (int) $_GET["p"];
-        $ref_id = (int) $_GET["ref_id"];
-        $obj_id = (int) $_GET["package_id"];
+        $ilDB = $DIC->database();
+
+        if (is_array($scorm_item_id)) {
+            $in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer');
+
+            $res = $ilDB->queryF(
+                'SELECT user_id,sco_id FROM scorm_tracking
+			WHERE ' . $in . '
+			AND obj_id = %s 
+			GROUP BY user_id, sco_id',
+                array('integer'),
+                array($a_obj_id)
+            );
+        } else {
+            $res = $ilDB->queryF(
+                'SELECT user_id,sco_id FROM scorm_tracking			
+			WHERE sco_id = %s 
+			AND obj_id = %s',
+                array('integer', 'integer'),
+                array($scorm_item_id, $a_obj_id)
+            );
+        }
+
+        $in_progress = array();
+
+        while ($row = $ilDB->fetchObject($res)) {
+            // #15061 - see _getProgressInfo()
+            if (!($a_blocked_user_ids &&
+                is_array($a_blocked_user_ids[$row->sco_id]) &&
+                in_array($row->user_id, $a_blocked_user_ids[$row->sco_id]))) {
+                $in_progress[$row->sco_id][] = $row->user_id;
+            }
+        }
+        return $in_progress;
+    }
+
+    /**
+     * @return void
+     */
+    public static function scorm12PlayerUnload() : void
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+        $user_id = $DIC->http()->wrapper()->query()->retrieve('p', $DIC->refinery()->kindlyTo()->int());
+        $ref_id = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
+        $obj_id = $DIC->http()->wrapper()->query()->retrieve('package_id', $DIC->refinery()->kindlyTo()->int());
         if ($obj_id <= 1) {
             $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' no valid obj_id');
         } else {
-            $last_visited = (string) $_GET['last_visited'];
-            $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i') + 5, date('s'), date('m'), date('d'), date('Y')));
+            $last_visited = "";
+            if ($DIC->http()->wrapper()->query()->has('last_visited')) {
+                $last_visited = $DIC->http()->wrapper()->query()->retrieve('last_visited', $DIC->refinery()->kindlyTo()->string());
+            }
+
+            $endDate = date(
+                'Y-m-d H:i:s',
+                mktime((int) date('H'), (int) date('i') + 5, (int) date('s'), (int) date('m'), (int) date('d'), (int) date('Y'))
+            );
             $ilDB->manipulateF(
                 'UPDATE sahs_user 
 				SET last_visited = %s, hash_end =%s, last_access = %s
@@ -779,21 +646,85 @@ class ilObjSCORMTracking
         header('Content-Type: text/plain; charset=UTF-8');
         print("");
     }
-    
-    public static function checkIfAllowed($packageId, $userId, $hash)
+
+    /**
+     * @param int $packageId
+     * @param int $userId
+     * @param int $hash
+     * @return void
+     */
+    public static function checkIfAllowed(int $packageId, int $userId, int $hash) : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         $res = $ilDB->queryF(
             'select hash from sahs_user where obj_id=%s AND user_id=%s AND hash_end>%s',
-            array('integer','integer','timestamp'),
-            array($packageId,$userId,date('Y-m-d H:i:s'))
+            array('integer', 'integer', 'timestamp'),
+            array($packageId, $userId, date('Y-m-d H:i:s'))
         );
         $rowtmp = $ilDB->fetchAssoc($res);
         if ($rowtmp['hash'] == $hash) {
-            return;
+            //ok - do nothing
+//            die("allowed");
         } else {
+            //output used by api
             die("not allowed");
         }
+    }
+
+    /**
+     * @param int    $a_obj_id
+     * @param int    $a_user_id
+     * @param string $a_type
+     * @param int    $a_ref_id
+     * @return void
+     */
+    public static function _syncReadEvent(int $a_obj_id, int $a_user_id, string $a_type, int $a_ref_id) : void
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
+        $val_set = $ilDB->queryF(
+            'SELECT package_attempts, total_time_sec, sco_total_time_sec, time_from_lms FROM sahs_user, sahs_lm '
+            . 'WHERE sahs_user.obj_id = %s AND sahs_user.user_id = %s AND sahs_user.obj_id = sahs_lm.id',
+            array('integer', 'integer'),
+            array($a_obj_id, $a_user_id)
+        );
+
+        $val_rec = $ilDB->fetchAssoc($val_set);
+
+        if ($val_rec["package_attempts"] == null) {
+            $val_rec["package_attempts"] = "";
+        }
+        $attempts = $val_rec["package_attempts"];
+
+        $time = 0;
+        // if ($val_rec["time_from_lms"] == "y") {
+        // $time = (int)$val_rec["total_time_sec"];
+        // } else {
+        $time = (int) $val_rec["sco_total_time_sec"];
+        // }
+
+        // get learning time for old ILIAS-Versions
+        if ($time == 0) {
+            $sco_set = $ilDB->queryF(
+                '
+			SELECT sco_id, rvalue FROM scorm_tracking 
+			WHERE obj_id = %s
+			AND user_id = %s
+			AND lvalue = %s
+			AND sco_id <> %s',
+                array('integer', 'integer', 'text', 'integer'),
+                array($a_obj_id, $a_user_id, 'cmi.core.total_time', 0)
+            );
+
+            while ($sco_rec = $ilDB->fetchAssoc($sco_set)) {
+                $tarr = explode(":", $sco_rec["rvalue"]);
+                $sec = (int) $tarr[2] + (int) $tarr[1] * 60 +
+                    (int) substr($tarr[0], strlen($tarr[0]) - 3) * 60 * 60;
+                $time += $sec;
+            }
+        }
+        ilChangeEvent::_recordReadEvent($a_type, $a_ref_id, $a_obj_id, $a_user_id, false, $attempts, $time);
     }
 } // END class.ilObjSCORMTracking

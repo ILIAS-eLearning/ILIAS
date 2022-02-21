@@ -54,7 +54,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     protected int $style = 0;
     private bool $dd_pullright = true;
 
-    protected string $listtitle;
+    protected string $listtitle = "";
     protected string $aria_listtitle = "";
     protected bool $useimages = false;
     protected string $itemlinkclass = '';
@@ -321,19 +321,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         return $this->useimages;
     }
 
-    /**
-     * @param int $a_val access function id
-     */
-    public function setAccessKey(int $a_val) : void
-    {
-        $this->access_key = $a_val;
-    }
-    
-    public function getAccessKey() : int
-    {
-        return $this->access_key;
-    }
-
     public function setTriggerEvent(string $a_val) : void
     {
         $this->trigger_event = $a_val;
@@ -545,7 +532,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                             foreach ($item["data"] as $k => $v) {
                                 $tpl->setCurrentBlock("f_data");
                                 $tpl->setVariable("DATA_KEY", $k);
-                                $tpl->setVariable("DATA_VAL", ilUtil::prepareFormOutput($v));
+                                $tpl->setVariable("DATA_VAL", ilLegacyFormElementsUtil::prepareFormOutput($v));
                                 $tpl->parseCurrentBlock();
                             }
                         }
@@ -709,9 +696,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     
         // js section
         $tpl->setCurrentBlock("js_section");
-        if ($this->getAccessKey() > 0) {
-            $tpl->setVariable("ACCKEY", ilAccessKeyGUI::getAttribute($this->getAccessKey()));
-        }
 
         $cfg["trigger_event"] = $this->getTriggerEvent();
         $cfg["auto_hide"] = $this->getAutoHide();
@@ -735,7 +719,8 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
         if ($this->getListTitle() == "" || $this->getAriaListTitle() != "") {
             $aria_title = ($this->getAriaListTitle() != "")
-                ?: $this->lng->txt("actions");
+                ? $this->getAriaListTitle()
+                : $this->lng->txt("actions");
             $tpl->setVariable("TXT_ARIA_TOP", $aria_title);
         }
         $tpl->setVariable("ID", $this->getId());

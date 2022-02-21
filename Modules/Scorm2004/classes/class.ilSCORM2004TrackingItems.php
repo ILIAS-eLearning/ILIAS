@@ -1,26 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItems.php';
-include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
+
 /**
-* Class ilSCORM2004TrackingItems
-*
-* @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
-*
-* @ingroup ModulesScorm2004
-*/
+ * Class ilSCORM2004TrackingItems
+ *
+ * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
+ *
+ * @ingroup ModulesScorm2004
+ */
 class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 {
     /**
-     * @var ilDB
+     * @var ilDBInterface
      */
-    protected $db;
+    protected ilDBInterface $db;
 
     /**
      * @var ilLanguage
      */
-    protected $lng;
+    protected ilLanguage $lng;
 
 
     /**
@@ -34,8 +33,11 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $this->lng = $DIC->language();
     }
 
-
-    public function scoTitlesForExportSelected($obj_id)
+    /**
+     * @param int $obj_id
+     * @return array
+     */
+    public function scoTitlesForExportSelected(int $obj_id) : array
     {
         $ilDB = $this->db;
         $scoTitles = array();
@@ -56,7 +58,12 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $scoTitles;
     }
 
-    public static function exportSelectedCoreColumns($b_orderBySCO, $b_allowExportPrivacy)
+    /**
+     * @param bool $b_orderBySCO
+     * @param bool $b_allowExportPrivacy
+     * @return array|mixed[][]
+     */
+    public static function exportSelectedCoreColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy) : array
     {
         global $DIC;
 
@@ -73,17 +80,32 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             . ',scaled_passing_score,session_time,session_time_seconds,success_status,total_time,total_time_seconds,c_timestamp,suspend_data,launch_data'
         );
         $a_true = explode(',', $udh["default"] . ",sco_title,success_status,completion_status");
-        for ($i = 0;$i < count($a_cols);$i++) {
-            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
+            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]), "default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
-    {
+    /**
+     * @param array  $a_user
+     * @param array  $a_sco
+     * @param bool   $b_orderBySCO
+     * @param bool   $allowExportPrivacy
+     * @param int    $obj_id
+     * @param string $lmTitle
+     * @return array
+     */
+    public function exportSelectedCore(
+        array $a_user,
+        array $a_sco,
+        bool $b_orderBySCO,
+        bool $allowExportPrivacy,
+        int $obj_id,
+        string $lmTitle
+    ) : array {
         $ilDB = $this->db;
         $lng = $this->lng;
         $lng->loadLanguageModule("scormtrac");
@@ -161,11 +183,14 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             // }
             $returnData[] = $data;
         }
-        
+
         return $returnData;
     }
-    
-    public static function exportSelectedInteractionsColumns()
+
+    /**
+     * @return array|array[]
+     */
+    public static function exportSelectedInteractionsColumns() : array
     {
         global $DIC;
 
@@ -178,18 +203,36 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             'lm_id,lm_title,cp_node_id,sco_marked_for_learning_progress,sco_title,' . $udh["cols"]
             . ',id,description,weighting,c_type,result,latency,latency_seconds,c_timestamp,learner_response'
         );
-        $a_true = explode(',', $udh["default"] . ",sco_title,id,result,learner_response");//note for trunk: id instead of description
-        for ($i = 0;$i < count($a_cols);$i++) {
-            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
+        $a_true = explode(
+            ',',
+            $udh["default"] . ",sco_title,id,result,learner_response"
+        );//note for trunk: id instead of description
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
+            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]), "default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
-    {
+    /**
+     * @param array  $a_user
+     * @param array  $a_sco
+     * @param bool   $b_orderBySCO
+     * @param bool   $allowExportPrivacy
+     * @param int    $obj_id
+     * @param string $lmTitle
+     * @return array|array[]
+     */
+    public function exportSelectedInteractions(
+        array $a_user,
+        array $a_sco,
+        bool $b_orderBySCO,
+        bool $allowExportPrivacy,
+        int $obj_id,
+        string $lmTitle
+    ) : array {
         $ilDB = $this->db;
         $lng = $this->lng;
         $lng->loadLanguageModule("scormtrac");
@@ -251,7 +294,10 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
-    public static function exportSelectedObjectivesColumns()
+    /**
+     * @return array|array[]
+     */
+    public static function exportSelectedObjectivesColumns() : array
     {
         global $DIC;
 
@@ -265,17 +311,32 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             . ',id,description,completion_status,progress_measure,success_status,scaled,c_max,c_min,c_raw,scope'
         );
         $a_true = explode(',', $udh["default"] . ",sco_title,id,completion_status,success_status");
-        for ($i = 0;$i < count($a_cols);$i++) {
-            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
+            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]), "default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
-    {
+    /**
+     * @param array  $a_user
+     * @param array  $a_sco
+     * @param bool   $b_orderBySCO
+     * @param bool   $allowExportPrivacy
+     * @param int    $obj_id
+     * @param string $lmTitle
+     * @return array|array[]
+     */
+    public function exportSelectedObjectives(
+        array $a_user,
+        array $a_sco,
+        bool $b_orderBySCO,
+        bool $allowExportPrivacy,
+        int $obj_id,
+        string $lmTitle
+    ) : array {
         $ilDB = $this->db;
         $lng = $this->lng;
         $lng->loadLanguageModule("scormtrac");
@@ -336,7 +397,10 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
-    public static function exportObjGlobalToSystemColumns()
+    /**
+     * @return array
+     */
+    public static function exportObjGlobalToSystemColumns() : array
     {
         global $DIC;
 
@@ -350,16 +414,23 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             . ',Status,satisfied,measure,c_raw,c_min,c_max,completion_status,progress_measure'
         );
         $a_true = explode(',', $udh["default"] . ",lm_title,Status,satisfied,completion_status");
-        for ($i = 0;$i < count($a_cols);$i++) {
-            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
+            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]), "default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function exportObjGlobalToSystem($a_user = array(), $allowExportPrivacy = false, $obj_id, $lmTitle)
+    /**
+     * @param array  $a_user
+     * @param bool   $allowExportPrivacy
+     * @param int    $obj_id
+     * @param string $lmTitle
+     * @return array
+     */
+    public function exportObjGlobalToSystem(array $a_user, bool $allowExportPrivacy, int $obj_id, string $lmTitle) : array
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -386,7 +457,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $data["scope_id"];
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport((integer) $data["user_id"], $allowExportPrivacy));
             $data["Status"] = "" . $data["status"];
             $data["satisfied"] = "" . $data["satisfied"];
             $data["measure"] = "" . $data["measure"];
@@ -401,8 +472,12 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
-    
-    public static function tracInteractionItemColumns($b_orderBySCO, $b_allowExportPrivacy)
+    /**
+     * @param bool $b_orderBySCO
+     * @param bool $b_allowExportPrivacy
+     * @return array
+     */
+    public static function tracInteractionItemColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy) : array
     {
         global $DIC;
 
@@ -418,17 +493,32 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             . ',counter_other,counter_other_percent'
         );
         $a_true = explode(',', "sco_title,description,counter_correct,counter_incorrect");
-        for ($i = 0;$i < count($a_cols);$i++) {
-            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
+            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]), "default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function tracInteractionItem($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
-    {
+    /**
+     * @param array  $a_user
+     * @param array  $a_sco
+     * @param bool   $b_orderBySCO
+     * @param bool   $allowExportPrivacy
+     * @param int    $obj_id
+     * @param string $lmTitle
+     * @return array
+     */
+    public function tracInteractionItem(
+        array $a_user,
+        array $a_sco,
+        bool $b_orderBySCO,
+        bool $allowExportPrivacy,
+        int $obj_id,
+        string $lmTitle
+    ) : array {
         $ilDB = $this->db;
         $lng = $this->lng;
         $lng->loadLanguageModule("scormtrac");
@@ -499,8 +589,13 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         }
         return $returnData;
     }
-    
-    public static function tracInteractionUserColumns($b_orderBySCO, $b_allowExportPrivacy)
+
+    /**
+     * @param bool $b_orderBySCO
+     * @param bool $b_allowExportPrivacy
+     * @return array
+     */
+    public static function tracInteractionUserColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy) : array
     {
         global $DIC;
 
@@ -524,17 +619,32 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             . ',counter_i_incorrect,counter_i_incorrect_percent'
             . ',counter_i_other,counter_i_other_percent'
             . ',c_raw,scaled');
-        for ($i = 0;$i < count($a_cols);$i++) {
-            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
+            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]), "default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function tracInteractionUser($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
-    {
+    /**
+     * @param array  $a_user
+     * @param array  $a_sco
+     * @param bool   $b_orderBySCO
+     * @param bool   $allowExportPrivacy
+     * @param int    $obj_id
+     * @param string $lmTitle
+     * @return array
+     */
+    public function tracInteractionUser(
+        array $a_user,
+        array $a_sco,
+        bool $b_orderBySCO,
+        bool $allowExportPrivacy,
+        int $obj_id,
+        string $lmTitle
+    ) : array {
         $ilDB = $this->db;
         $lng = $this->lng;
         $lng->loadLanguageModule("scormtrac");
@@ -573,7 +683,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 				AND cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
 				AND cmi_interaction.result <> %s AND  cmi_interaction.result <> %s
 				GROUP BY cmi_node.user_id,cmi_node.cp_node_id';
-        $res = $ilDB->queryF($query, array('text','text'), array('correct','incorrect'));
+        $res = $ilDB->queryF($query, array('text', 'text'), array('correct', 'incorrect'));
         while ($row = $ilDB->fetchAssoc($res)) {
             $a_other[$row['user_id'] . ':' . $row['cp_node_id']] = $row['counter'];
         }
@@ -679,9 +789,19 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
-
-    public static function tracInteractionUserAnswersColumns($a_user = array(), $a_sco = array(), $b_orderBySCO, $b_allowExportPrivacy)
-    {
+    /**
+     * @param array $a_user
+     * @param array $a_sco
+     * @param bool  $b_orderBySCO
+     * @param bool  $b_allowExportPrivacy
+     * @return array
+     */
+    public static function tracInteractionUserAnswersColumns(
+        array $a_user,
+        array $a_sco,
+        bool $b_orderBySCO,
+        bool $b_allowExportPrivacy
+    ) : array {
         global $DIC;
 
         $lng = $DIC->language();
@@ -715,7 +835,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $key = $data["cp_node_id"] . ':' . $data["id"];
             $exist = false;
-            for ($i = 0;$i < count($a_interaction);$i++) {
+            for ($i = 0, $iMax = count($a_interaction); $i < $iMax; $i++) {
                 if ($a_interaction[$i] == $key) {
                     $exist = true;
                 }
@@ -730,25 +850,46 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $udh = self::userDataHeaderForExport();
         $a_cols = explode(',', 'lm_id,lm_title,cp_node_id,sco_marked_for_learning_progress,sco_title,' . $udh["cols"]);
         $a_true = explode(',', $udh["default"] . ",sco_title");
-        for ($i = 0;$i < count($a_cols);$i++) {
-            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
+            $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]), "default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
-        for ($i = 0;$i < count($a_interaction);$i++) {
+        for ($i = 0, $iMax = count($a_interaction); $i < $iMax; $i++) {
             //			$cols["interaction_id".$i] = array("txt" => $lng->txt("interaction_id").' '.$i,"default" => false);
             //			if ($a_interactionDescription[$a_interaction[$i]] != "") {
             //				$cols["interaction_description".$i] = array("txt" => $lng->txt("interaction_description").' '.$i,"default" => false);
             //			}
             //			$cols["interaction_value".$i] = array("txt" => $lng->txt("interaction_value").' '.$i,"default" => true);//$a_interactionDescription[$a_interaction[$i]]
-            $cols["interaction_value" . $i . " " . $a_interactionDescription[$a_interaction[$i]]] = array("txt" => sprintf($lng->txt("interaction_value"), $i) . " " . $a_interactionDescription[$a_interaction[$i]],"default" => true);
+            $cols["interaction_value" . $i . " " . $a_interactionDescription[$a_interaction[$i]]] = array(
+                "txt" => sprintf(
+                    $lng->txt("interaction_value"),
+                    $i
+                ) . " " . $a_interactionDescription[$a_interaction[$i]],
+                "default" => true
+            );
         }
         return $cols;
     }
 
-    public function tracInteractionUserAnswers($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
-    {
+    /**
+     * @param array  $a_user
+     * @param array  $a_sco
+     * @param bool   $b_orderBySCO
+     * @param bool   $allowExportPrivacy
+     * @param int    $obj_id
+     * @param string $lmTitle
+     * @return array
+     */
+    public function tracInteractionUserAnswers(
+        array $a_user,
+        array $a_sco,
+        bool $b_orderBySCO,
+        bool $allowExportPrivacy,
+        int $obj_id,
+        string $lmTitle
+    ) : array {
         $ilDB = $this->db;
         $lng = $this->lng;
         $lng->loadLanguageModule("scormtrac");
@@ -787,7 +928,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $key = $data["cp_node_id"] . ':' . $data["id"];
             $exist = false;
-            for ($i = 0;$i < count($a_interaction);$i++) {
+            for ($i = 0, $iMax = count($a_interaction); $i < $iMax; $i++) {
                 if ($a_interaction[$i] == $key) {
                     $exist = true;
                 }
@@ -822,7 +963,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $dbdata[] = $row;
         }
         foreach ($dbdata as $data) {
-            for ($i = 0;$i < count($a_interaction);$i++) {
+            for ($i = 0, $iMax = count($a_interaction); $i < $iMax; $i++) {
                 // $data["interaction_id".$i] = $a_interactionId[$a_interaction[$i]];
                 // $data["interaction_description".$i] = $a_interactionDescription[$a_interaction[$i]];
                 // $data["interaction_value".$i] = "";
@@ -845,9 +986,15 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         //		var_dump($returnData);
         return $returnData;
     }
-    
 
-    public function exportSelectedSuccess($a_user = array(), $allowExportPrivacy = false, $obj_id, $lmTitle)
+    /**
+     * @param array  $a_user
+     * @param bool   $allowExportPrivacy
+     * @param int    $obj_id
+     * @param string $lmTitle
+     * @return array|array[]
+     */
+    public function exportSelectedSuccess(array $a_user, bool $allowExportPrivacy, int $obj_id, string $lmTitle) : array
     {
         $ilDB = $this->db;
 
@@ -863,13 +1010,13 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             array('sco', 'item', $obj_id)
         );
         while ($row = $ilDB->fetchAssoc($res)) {
-            $scoCounter = $row['counter'];
+            $scoCounter = (int) $row['counter'];
         }
 
         $u_startedSCO = array();
         $u_completedSCO = array();
         $u_passedSCO = array();
-        for ($i = 0; $i < count($a_user); $i++) {
+        for ($i = 0, $iMax = count($a_user); $i < $iMax; $i++) {
             $u_startedSCO[$a_user[$i]] = 0;
             $u_completedSCO[$a_user[$i]] = 0;
             $u_passedSCO[$a_user[$i]] = 0;
@@ -931,8 +1078,18 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         while ($row = $ilDB->fetchAssoc($res)) {
             $dbdata[] = $row;
         }
-        
-        return self::exportSelectedSuccessRows($a_user, $allowExportPrivacy, $dbdata, $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO, $obj_id, $lmTitle);
+
+        return self::exportSelectedSuccessRows(
+            $a_user,
+            $allowExportPrivacy,
+            $dbdata,
+            $scoCounter,
+            $u_startedSCO,
+            $u_completedSCO,
+            $u_passedSCO,
+            $obj_id,
+            $lmTitle
+        );
         //CertificateDate?
     }
 }

@@ -31,7 +31,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data): \ilGlobalCacheSettings {
+        return $this->refinery->custom()->transformation(function ($data) : \ilGlobalCacheSettings {
             $settings = new \ilGlobalCacheSettings();
             if (
                 $data === null ||
@@ -52,7 +52,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                         $settings->setService(\ilGlobalCache::TYPE_STATIC);
                         break;
                     case "memcached":
-                        array_walk($data["memcached_nodes"], function (array $node) use ($settings): void {
+                        array_walk($data["memcached_nodes"], function (array $node) use ($settings) : void {
                             $settings->addMemcachedNode($this->getMemcachedServer($node));
                         });
                         $settings->setService(\ilGlobalCache::TYPE_MEMCACHED);
@@ -69,8 +69,10 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                 if ($data["components"] === "all") {
                     $settings->activateAll();
                 } else {
-                    foreach ($data["components"] as $cmp) {
-                        $settings->addActivatedComponent($cmp);
+                    foreach ($data["components"] as $cmp => $active) {
+                        if ($active) {
+                            $settings->addActivatedComponent($cmp);
+                        }
                     }
                 }
             }
@@ -95,6 +97,9 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        if (!$config instanceof ilGlobalCacheSettings) {
+            throw new Setup\UnachievableException('wrong config type, expected ilGlobalCacheSettings');
+        }
         return new ilGlobalCacheConfigStoredObjective($config);
     }
 
@@ -103,7 +108,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        if ($config !== null) {
+        if ($config instanceof ilGlobalCacheSettings) {
             return new ilGlobalCacheConfigStoredObjective($config);
         }
         return new Setup\Objective\NullObjective();

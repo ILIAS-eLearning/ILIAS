@@ -35,10 +35,4 @@ class NullAgentTest extends TestCase
         $this->expectException(\LogicException::class);
         $this->agent->getArrayToConfigTransformation();
     }
-
-    public function testGetNamedObjectiveThrows() : void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->agent->getNamedObjective("objective");
-    }
 }

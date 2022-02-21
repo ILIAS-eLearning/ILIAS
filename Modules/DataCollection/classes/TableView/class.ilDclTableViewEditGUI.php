@@ -281,7 +281,7 @@ class ilDclTableViewEditGUI
             $view->save();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_updated'), true);
         $this->ctrl->saveParameter($this->parent_obj, 'tableview_id');
         $this->ctrl->redirect($this, 'editFieldSettings');
     }
@@ -332,7 +332,7 @@ class ilDclTableViewEditGUI
     {
         $this->tableview->delete();
         $this->table->sortTableViews();
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_deleted'), true);
         $this->cancel();
     }
 
@@ -342,7 +342,7 @@ class ilDclTableViewEditGUI
      */
     public function permissionDenied()
     {
-        ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
         $this->ctrl->redirectByClass([ilObjDataCollectionGUI::class, ilDclRecordListGUI::class], ilDclRecordListGUI::CMD_LIST_RECORDS);
     }
 
@@ -375,7 +375,7 @@ class ilDclTableViewEditGUI
         $new_tableview->setTableId($this->table->getId());
         $new_tableview->cloneStructure($this->tableview, array());
         $this->table->sortTableViews();
-        ilUtil::sendSuccess($this->lng->txt("dcl_tableview_copy"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_tableview_copy"), true);
         $this->cancel();
     }
 }

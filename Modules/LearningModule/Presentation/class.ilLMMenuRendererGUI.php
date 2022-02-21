@@ -124,7 +124,7 @@ class ilLMMenuRendererGUI
         }
 
         // info button
-        if ($this->export_format != "scorm" && !$this->offline) {
+        if ($this->lm->isInfoEnabled() && $this->export_format != "scorm" && !$this->offline) {
             if (!$this->offline) {
                 $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
                 $link = $this->ctrl->getLinkTargetByClass(

@@ -284,7 +284,9 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setCurrentBlock("textsubset_row");
             foreach ($solutions as $idx => $solution_value) {
                 if ($idx == $i) {
-                    $template->setVariable("TEXTFIELD_VALUE", " value=\"" . ilUtil::prepareFormOutput($solution_value["value1"]) . "\"");
+                    $template->setVariable("TEXTFIELD_VALUE", " value=\"" . ilLegacyFormElementsUtil::prepareFormOutput(
+                            $solution_value["value1"]
+                        ) . "\"");
                 }
             }
             $template->setVariable("COUNTER", $i + 1);

@@ -10,7 +10,7 @@ use ILIAS\HTTP\Response\Sender\ResponseSendingException;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilTaggingSlateContentGUI
+class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
 {
     public const CURRENT_TAG_KEY = "tag_current_tag";
 
@@ -24,6 +24,7 @@ class ilTaggingSlateContentGUI
     protected string $requested_tag;
     protected ilSessionIStorage $store;
     protected array $tags;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
@@ -32,6 +33,7 @@ class ilTaggingSlateContentGUI
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
@@ -165,7 +167,7 @@ class ilTaggingSlateContentGUI
                 $title = ilObject::_lookupTitle($obj["obj_id"]);
                 $items[] = $f->item()->standard(
                     $f->link()->standard($title, ilLink::_getLink($ref_id))
-                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj["obj_id"]), $title));
+                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon((int) $obj["obj_id"]), $title));
             }
         }
         $item_groups[] = $f->item()->group(sprintf(
@@ -233,7 +235,7 @@ class ilTaggingSlateContentGUI
             }
         }
 
-        ilUtil::sendSuccess($lng->txt("tag_tags_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("tag_tags_deleted"), true);
 
         $ilCtrl->returnToParent($this);
     }

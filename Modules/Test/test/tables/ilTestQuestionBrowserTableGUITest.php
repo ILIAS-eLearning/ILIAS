@@ -39,7 +39,11 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("ilDB", $db_mock);
         $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
         $this->setGlobalVariable("ilObjDataCache", $this->createMock(ilObjectDataCache::class));
-        $pluginAdmin = new ilPluginAdmin();
+        $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
+        $component_factory = $this->createMock(ilComponentFactory::class);
+        $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
+        $this->setGlobalVariable("component.factory", $component_factory);
+        $pluginAdmin = new ilPluginAdmin($this->createMock(ilComponentRepository::class));
         $this->setGlobalVariable("ilPluginAdmin", $pluginAdmin);
 
         $this->parentObj_mock = $this->createMock(ilObjTestGUI::class);

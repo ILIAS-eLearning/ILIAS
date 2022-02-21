@@ -29,14 +29,15 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     /**
      * @var object|string
      */
-    protected $select_gui;
-    protected string $select_cmd;
-    protected string $select_par;
+    protected $select_gui = "";
+    protected string $select_cmd = "";
+    protected string $select_par = "";
     protected bool $select_multi = false;
     protected SkillAdminGUIRequest $admin_gui_request;
-    protected array $requested_selected_ids;
+    protected array $requested_selected_ids = [];
 
     public function __construct(
+        int $a_skill_tree_id,
         $a_parent_obj,
         string $a_parent_cmd,
         $a_select_gui,
@@ -47,7 +48,7 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 
         $this->ctrl = $DIC->ctrl();
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
-        parent::__construct("skill_sel", $a_parent_obj, $a_parent_cmd);
+        parent::__construct("skill_sel", $a_parent_obj, $a_parent_cmd, $a_skill_tree_id);
         $this->select_gui = (is_object($a_select_gui))
             ? strtolower(get_class($a_select_gui))
             : $a_select_gui;

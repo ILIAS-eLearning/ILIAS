@@ -1,13 +1,27 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjSCORMVerificationListGUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilObjSCORMVerificationListGUI extends ilObjectListGUI
 {
+    /**
+     * @return void
+     */
     public function init() : void
     {
         $this->delete_enabled = true;
@@ -22,10 +36,13 @@ class ilObjSCORMVerificationListGUI extends ilObjectListGUI
         $this->commands = ilObjSCORMVerificationAccess::_getCommands();
     }
     
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function getProperties() : array
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         
         return [
             [

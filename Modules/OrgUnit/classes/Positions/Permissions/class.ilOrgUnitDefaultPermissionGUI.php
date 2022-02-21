@@ -11,6 +11,12 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitDefaultPermissionGUI extends BaseCommands
 {
+    private \ilGlobalTemplateInterface $main_tpl;
+    public function __construct()
+    {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+    }
     protected function index()
     {
         $this->getParentGui()->addSubTabs();
@@ -29,7 +35,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
         $ilOrgUnitPermissions = ilOrgUnitPermissionQueries::getAllTemplateSetsForAllActivedContexts($this->getCurrentPositionId(), true);
         $ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI($this, $ilOrgUnitPermissions);
         if ($ilOrgUnitDefaultPermissionFormGUI->saveObject()) {
-            ilUtil::sendSuccess($this->txt('msg_success_permission_saved'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->txt('msg_success_permission_saved'), true);
             $this->cancel();
         }
 

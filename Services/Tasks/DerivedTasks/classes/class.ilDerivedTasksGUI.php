@@ -7,7 +7,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilDerivedTasksGUI
+class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var \ILIAS\DI\Container
@@ -171,7 +171,7 @@ class ilDerivedTasksGUI
 
             $main_tpl->setContent($renderer->render($panels));
         } else {
-            ilUtil::sendInfo($lng->txt("task_no_tasks"));
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("task_no_tasks"));
         }
     }
 }

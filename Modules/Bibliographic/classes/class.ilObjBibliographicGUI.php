@@ -7,13 +7,11 @@ use ILIAS\DI\Container;
 
 /**
  * Class ilObjBibliographicGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Gabriel Comte <gc@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  * @author            Thibeau Fuhrer <thf@studer-raimann.ch>
- *
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilInfoScreenGUI, ilNoteGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
@@ -25,6 +23,7 @@ use ILIAS\DI\Container;
 class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+
     const P_ENTRY_ID = 'entry_id';
     const CMD_SHOW_CONTENT = 'showContent';
     const CMD_SEND_FILE = "sendFile";
@@ -45,39 +44,17 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
      * @var ilObjBibliographic
      */
     public $object;
-    /**
-     * @var \ilBiblFactoryFacade
-     */
-    protected $facade;
-    /**
-     * @var \ilBiblTranslationFactory
-     */
-    protected $translation_factory;
-    /**
-     * @var \ilBiblFieldFactory
-     */
-    protected $field_factory;
-    /**
-     * @var \ilBiblFieldFilterFactory
-     */
-    protected $filter_factory;
-    /**
-     * @var \ilBiblTypeFactory
-     */
-    protected $type_factory;
+    protected ?\ilBiblFactoryFacade $facade = null;
+    protected \ilBiblTranslationFactory $translation_factory;
+    protected \ilBiblFieldFactory $field_factory;
+    protected \ilBiblFieldFilterFactory $filter_factory;
+    protected \ilBiblTypeFactory $type_factory;
     /**
      * @var Services
      */
     protected $storage;
-    /**
-     * @var ilObjBibliographicStakeholder
-     */
-    protected $stakeholder;
-    /**
-     * @var string
-     */
-    protected $cmd = self::CMD_SHOW_CONTENT;
-
+    protected \ilObjBibliographicStakeholder $stakeholder;
+    protected ?string $cmd = self::CMD_SHOW_CONTENT;
 
     /**
      * @param int $a_id
@@ -104,32 +81,25 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
     /**
      * getStandardCmd
-     *
-     * @return String
      */
-    public function getStandardCmd()
+    public function getStandardCmd() : string
     {
         return self::CMD_VIEW;
     }
 
-
     /**
      * getType
-     *
-     * @return String
      * @deprecated REFACTOR use type factory via Facade
-     *
      */
-    public function getType()
+    public function getType() : string
     {
         return "bibl";
     }
 
-
     /**
      * executeCommand
      */
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         global $DIC;
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
@@ -142,7 +112,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         }
 
         // general Access Check, especially for single entries not matching the object
-        if ($this->object instanceof ilObjBibliographic && !$DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
+        if ($this->object instanceof ilObjBibliographic && !$DIC->access()->checkAccess(
+            'read',
+            "",
+            $this->object->getRefId()
+        )) {
             $this->handleNonAccess();
         }
 
@@ -210,24 +184,22 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         return true;
     }
 
-
     /**
      * this one is called from the info button in the repository
      * not very nice to set cmdClass/Cmd manually, if everything
      * works through ilCtrl in the future this may be changed
      */
-    public function infoScreen()
+    public function infoScreen() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
         $this->infoScreenForward();
     }
 
-
     /**
      * show information screen
      */
-    public function infoScreenForward()
+    public function infoScreenForward() : void
     {
         global $DIC;
         /**
@@ -235,7 +207,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
          */
 
         if (!$this->checkPermissionBoolAndReturn("visible") && !$this->checkPermissionBoolAndReturn('read')) {
-            ilUtil::sendFailure($DIC['lng']->txt("msg_no_perm_read"), true);
+            $this->tpl->setOnScreenMessage('failure', $DIC['lng']->txt("msg_no_perm_read"), true);
             $this->ctrl->redirectByClass('ilDashboardGUI', '');
         }
         $DIC->tabs()->activateTab(self::TAB_ID_INFO);
@@ -251,11 +223,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $this->ctrl->forwardCommand($info);
     }
 
-
     /*
      * addLocatorItems
      */
-    public function addLocatorItems()
+    public function addLocatorItems() : void
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -264,19 +235,16 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         }
     }
 
-
     /**
      * _goto
      * Deep link
-     *
-     * @param string $a_target
      */
-    public static function _goto($a_target)
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
 
         $id = explode("_", $a_target);
-        $DIC->ctrl()->initBaseClass(ilRepositoryGUI::class);
+        $DIC->ctrl()->setTargetScript('ilias.php');
         $DIC->ctrl()->setParameterByClass(ilObjBibliographicGUI::class, "ref_id", $id[0]);
         // Detail-View
         if ($id[1]) {
@@ -300,13 +268,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         }
     }
 
-
     /**
      * @param string $a_new_type
-     *
-     * @return array
+     * @return mixed[]
      */
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms($a_new_type) : array
     {
         global $DIC;
 
@@ -322,8 +288,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         return $forms;
     }
 
-
-    public function save()
+    public function save() : void
     {
         global $DIC;
 
@@ -337,29 +302,21 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         }
     }
 
-
     /**
      * @param \ilObject $a_new_object
      */
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $a_new_object) : void
     {
-        /**
-         * @var $a_new_object ilObjBibliographic
-         */
-        assert($a_new_object instanceof ilObjBibliographic);
-        $a_new_object->doUpdate();
         $this->addNews($a_new_object->getId(), 'created');
         $this->ctrl->redirect($this, self::CMD_EDIT);
     }
 
-
     /**
      * setTabs
      * create tabs (repository/workspace switch)
-     *
      * this had to be moved here because of the context-specific permission tab
      */
-    public function setTabs()
+    public function setTabs() : void
     {
         global $DIC;
 
@@ -373,7 +330,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             $DIC->tabs()->addTab(
                 self::TAB_CONTENT,
                 $DIC->language()
-                ->txt(self::TAB_CONTENT),
+                    ->txt(self::TAB_CONTENT),
                 $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT)
             );
         }
@@ -384,7 +341,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             $DIC->tabs()->addTab(
                 self::TAB_ID_INFO,
                 $DIC->language()
-                ->txt("info_short"),
+                    ->txt("info_short"),
                 $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary")
             );
         }
@@ -393,7 +350,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             $DIC->tabs()->addTab(
                 self::SUBTAB_SETTINGS,
                 $DIC->language()
-                ->txt(self::SUBTAB_SETTINGS),
+                    ->txt(self::SUBTAB_SETTINGS),
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT)
             );
         }
@@ -402,7 +359,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             $DIC->tabs()->addTab(
                 self::TAB_EXPORT,
                 $DIC->language()
-                ->txt(self::TAB_EXPORT),
+                    ->txt(self::TAB_EXPORT),
                 $this->ctrl->getLinkTargetByClass("ilexportgui", "")
             );
         }
@@ -411,37 +368,34 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             $DIC->tabs()->addTab(
                 self::TAB_ID_PERMISSIONS,
                 $DIC->language()
-                ->txt("perm_settings"),
+                    ->txt("perm_settings"),
                 $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm")
             );
         }
     }
 
-
-    protected function initSubTabs()
+    protected function initSubTabs() : void
     {
         global $DIC;
         $DIC->tabs()->addSubTab(
             self::SUBTAB_SETTINGS,
             $DIC->language()
-            ->txt(self::SUBTAB_SETTINGS),
+                ->txt(self::SUBTAB_SETTINGS),
             $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT)
         );
         $DIC->tabs()->addSubTab(
             self::SUB_TAB_FILTER,
             $DIC->language()
-            ->txt("bibl_filter"),
+                ->txt("bibl_filter"),
             $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD)
         );
     }
 
-
     /**
      * edit object
-     *
      * @access    public
      */
-    public function editObject()
+    public function editObject() : void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs_gui;
@@ -464,8 +418,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $tpl->setContent($form->getHTML());
     }
 
-
-    public function initEditForm()
+    public function initEditForm() : \ilPropertyFormGUI
     {
         global $DIC;
 
@@ -497,11 +450,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         return $form;
     }
 
-
     /**
      * @param ilPropertyFormGUI $a_form
      */
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form)
+    protected function initEditCustomForm(ilPropertyFormGUI $a_form) : void
     {
         global $DIC;
 
@@ -511,30 +463,25 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $a_form->addItem($cb);
     }
 
-
     /**
-     * @param array $a_values
-     *
-     * @return array
+     * @return mixed[]
      */
-    public function getEditFormCustomValues(array &$a_values)
+    public function getEditFormCustomValues(array &$a_values) : array
     {
         $a_values["is_online"] = $this->object->getOnline();
 
         return $a_values;
     }
 
-
-    public function render()
+    public function render() : void
     {
         $this->showContent();
     }
 
-
     /**
      * shows the overview page with all entries in a table
      */
-    public function showContent()
+    public function showContent() : void
     {
         global $DIC;
 
@@ -558,22 +505,18 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             //Permanent Link
             $DIC->ui()->mainTemplate()->setPermanentLink("bibl", $this->object->getRefId());
         } else {
-            $object_title = ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"]));
-            ilUtil::sendFailure(
-                sprintf(
-                    $DIC->language()
-                        ->txt("msg_no_perm_read_item"),
-                    $object_title
-                ),
-                true
-            );
+            $object_title = ilObject::_lookupTitle(ilObject::_lookupObjId($this->ref_id));
+            $this->tpl->setOnScreenMessage('failure', sprintf(
+                $DIC->language()
+                    ->txt("msg_no_perm_read_item"),
+                $object_title
+            ), true);
             //redirect to repository without any parameters
             $this->handleNonAccess();
         }
     }
 
-
-    protected function applyFilter()
+    protected function applyFilter() : void
     {
         $table = new ilBiblEntryTableGUI($this, $this->facade);
         $table->writeFilterToSession();
@@ -581,8 +524,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $this->ctrl->redirect($this, self::CMD_SHOW_CONTENT);
     }
 
-
-    protected function resetFilter()
+    protected function resetFilter() : void
     {
         $table = new ilBiblEntryTableGUI($this, $this->facade);
         $table->resetFilter();
@@ -590,11 +532,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $this->ctrl->redirect($this, self::CMD_SHOW_CONTENT);
     }
 
-
     /**
      * provide file as a download
      */
-    public function sendFile()
+    public function sendFile() : void
     {
         global $DIC;
 
@@ -603,9 +544,13 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
                 $file_path = $this->object->getLegacyAbsolutePath();
                 if ($file_path) {
                     if (is_file($file_path)) {
-                        ilFileDelivery::deliverFileAttached($file_path, $this->object->getFilename(), 'application/octet-stream');
+                        ilFileDelivery::deliverFileAttached(
+                            $file_path,
+                            $this->object->getFilename(),
+                            'application/octet-stream'
+                        );
                     } else {
-                        ilUtil::sendFailure($DIC['lng']->txt("file_not_found"));
+                        $this->tpl->setOnScreenMessage('failure', $DIC['lng']->txt("file_not_found"));
                         $this->showContent();
                     }
                 }
@@ -617,15 +562,14 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         }
     }
 
-
-    public function showDetails()
+    public function showDetails() : void
     {
         global $DIC;
 
         if ($DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
             $id = $DIC->http()->request()->getQueryParams()[self::P_ENTRY_ID];
             $entry = $this->facade->entryFactory()
-                ->findByIdAndTypeString($id, $this->object->getFileTypeAsString());
+                                  ->findByIdAndTypeString($id, $this->object->getFileTypeAsString());
             $bibGUI = new ilBiblEntryDetailPresentationGUI($entry, $this->facade);
 
             $DIC->ui()->mainTemplate()->setContent($bibGUI->getHTML());
@@ -634,17 +578,15 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         }
     }
 
-
-    public function view()
+    public function view() : void
     {
         $this->showContent();
     }
 
-
     /**
      * updateSettings
      */
-    public function updateCustom(ilPropertyFormGUI $a_form)
+    public function updateCustom(ilPropertyFormGUI $a_form) : void
     {
         global $DIC;
 
@@ -663,17 +605,20 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         }
     }
 
-
-    public function toggleNotification()
+    public function toggleNotification() : void
     {
         global $DIC;
+        $ntf = $DIC->http()->wrapper()->query()->retrieve(
+            "ntf",
+            $DIC->refinery()->to()->int()
+        );
 
-        switch ($_GET["ntf"]) {
+        switch ($ntf) {
             case 1:
                 ilNotification::setNotification(
                     ilNotification::TYPE_DATA_COLLECTION,
                     $DIC->user()
-                    ->getId(),
+                        ->getId(),
                     $this->obj_id,
                     false
                 );
@@ -682,7 +627,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
                 ilNotification::setNotification(
                     ilNotification::TYPE_DATA_COLLECTION,
                     $DIC->user()
-                    ->getId(),
+                        ->getId(),
                     $this->obj_id,
                     true
                 );
@@ -691,11 +636,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $DIC->ctrl()->redirect($this, "");
     }
 
-
-    /**
-     * @param string $change
-     */
-    public function addNews($obj_id, $change = 'created')
+    public function addNews($obj_id, string $change = 'created') : void
     {
         global $DIC;
 
@@ -709,34 +650,28 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $ilNewsItem->create();
     }
 
-
-
     /**
      * Add desktop item. Alias for addToDeskObject.
-     *
      * @access public
      */
-    public function addToDesk()
+    public function addToDesk() : void
     {
         $this->addToDeskObject();
     }
 
-
     /**
      * Remove from desktop. Alias for removeFromDeskObject.
-     *
      * @access public
      */
-    public function removeFromDesk()
+    public function removeFromDesk() : void
     {
         $this->removeFromDeskObject();
     }
 
-
     /**
      * @param \ilObject $a_new_object
      */
-    protected function afterImport(ilObject $a_new_object)
+    protected function afterImport(ilObject $a_new_object) : void
     {
         /**
          * @var $a_new_object ilObjBibliographic
@@ -746,13 +681,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         parent::afterImport($a_new_object);
     }
 
-
-    private function handleNonAccess()
+    private function handleNonAccess() : void
     {
         global $DIC;
 
-        unset($_GET);
-        ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);
+        $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt("no_permission"), true);
         ilObjectGUI::_gotoRepositoryRoot();
     }
 }

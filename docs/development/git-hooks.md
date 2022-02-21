@@ -78,7 +78,7 @@ just checked out.
 
 ##### Additional Custom Actions
 You can merge some additional custom actions with the standard actions of the captainhook.json:
-Create your own config-file and add actions or settings you to merge with the default. Make sure, 
+Create your own config-file and add actions or settings you want to merge with the default. Make sure, 
 you have the config option `includes` defined to include the standard-configuration `captainhook.json`, 
 e.g a file `captainhook.local.json` (which will be ignored in the repo):
 
@@ -108,6 +108,17 @@ main directory and execute:
 libs/composer/vendor/bin/captainhook install -c captainhook.local.json
 ```
 
+The installation of the local file might respond with the following error:
+
+```bash
+In Builder.php line 55:
+                                                                        
+  bootstrap file not found: '/var/www/ilias/trunk/vendor/autoload.php'  
+                                                                        
+```
+
+In this case, you have to include the `"bootstrap": "libs/composer/vendor/autoload.php"` setting,
+similar to [captainhook.json](../../captainhook.json).
 
 #### The Manual Way: Creating Git Hooks
 

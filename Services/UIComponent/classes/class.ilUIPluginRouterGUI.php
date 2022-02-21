@@ -21,13 +21,15 @@
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>, Oskar Truffer <ot@studer-raimann.ch>
  */
-class ilUIPluginRouterGUI
+class ilUIPluginRouterGUI implements ilCtrlBaseClassInterface
 {
     protected ilCtrl $ctrl;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
     }
 
@@ -42,7 +44,7 @@ class ilUIPluginRouterGUI
                     $gui = new $next_class();
                     $this->ctrl->forwardCommand($gui);
                 } else {
-                    ilUtil::sendFailure('Plugin GUI-Class not found! (' . $next_class . ')');
+                    $this->main_tpl->setOnScreenMessage('failure', 'Plugin GUI-Class not found! (' . $next_class . ')');
                 }
                 break;
         }

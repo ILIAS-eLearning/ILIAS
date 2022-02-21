@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
 use ILIAS\BackgroundTasks\Value;
@@ -7,43 +7,39 @@ use ILIAS\BackgroundTasks\Value;
 
 /**
  * Description of class class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilCalendarCopyDefinition extends AbstractValue
 {
-    const COPY_SOURCE_DIR = 'source';
-    const COPY_TARGET_DIR = 'target';
-    
+    public const COPY_SOURCE_DIR = 'source';
+    public const COPY_TARGET_DIR = 'target';
+
     /**
      * Copy Jobs: source file => relative target file in zip directory.
-     * @param string[]
+     * @param ilCalendarCopyDefinition[]
      */
-    private $copy_definitions = [];
+    private array $copy_definitions = [];
 
     /**
      * Temporary directory using the normalized title of the bucket.
      * @var string
      */
-    private $temp_dir;
+    private string $temp_dir;
 
-    
-    
     /**
      * Get copy definitions
-     * @return string[]
+     * @return ilCalendarCopyDefinition[]
      */
-    public function getCopyDefinitions()
+    public function getCopyDefinitions() : array
     {
         return $this->copy_definitions;
     }
-    
+
     /**
      * Set copy definitions
-     * @param string[] $a_definitions
+     * @param ilCalendarCopyDefinition[] $a_definitions
      */
-    public function setCopyDefinitions($a_definitions)
+    public function setCopyDefinitions(array $a_definitions) : void
     {
         $this->copy_definitions = $a_definitions;
     }
@@ -52,26 +48,24 @@ class ilCalendarCopyDefinition extends AbstractValue
      * Get directory name located in /temp/ directory.
      * @return string
      */
-    public function getTempDir()
+    public function getTempDir() : string
     {
         return $this->temp_dir;
     }
 
     /**
      * Set directory name located in /temp/ directory.
-     * @param $temp_dir
+     * @param string $temp_dir
      */
-    public function setTempDir($temp_dir)
+    public function setTempDir(string $temp_dir) : void
     {
         $this->temp_dir = $temp_dir;
     }
-    
+
     /**
      * Add copy definition
-     * @param string $a_source
-     * @param string $a_target
      */
-    public function addCopyDefinition($a_source, $a_target)
+    public function addCopyDefinition(string $a_source, string $a_target) : void
     {
         $this->copy_definitions[] =
             [
@@ -79,30 +73,25 @@ class ilCalendarCopyDefinition extends AbstractValue
                 self::COPY_TARGET_DIR => $a_target
             ];
     }
-    
 
     /**
-     * Check equality
-     * @param Value $other
-     * @return bool
+     * @inheritDoc
      */
-    public function equals(Value $other)
+    public function equals(Value $other) : bool
     {
-        return strcmp($this->getHash(), $other->getHash());
+        return strcmp($this->getHash(), $other->getHash()) === 0;
     }
 
-    
     /**
-     * Get hash
-     * @return string
+     * @inheritDoc
      */
-    public function getHash()
+    public function getHash() : string
     {
         return md5($this->serialize());
     }
 
     /**
-     * Serialize content
+     * @inheritDoc
      */
     public function serialize()
     {
@@ -115,17 +104,15 @@ class ilCalendarCopyDefinition extends AbstractValue
     }
 
     /**
-     * Set value
-     * @param string[] $value
+     * @inheritDoc
      */
-    public function setValue($value)
+    public function setValue($value) : void
     {
         $this->copy_definitions = $value;
     }
 
     /**
-     * Unserialize definitions
-     * @param string $serialized
+     * @inheritDoc
      */
     public function unserialize($serialized)
     {

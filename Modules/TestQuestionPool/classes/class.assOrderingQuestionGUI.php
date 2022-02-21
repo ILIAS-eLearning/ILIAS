@@ -176,7 +176,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form->setValuesByPost();
         
         if (!$orderingInput->checkInput()) {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         }
         
         $this->writeAnswerSpecificPostData($form);
@@ -330,37 +330,37 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     protected function writePostData(bool $always = false) : int
     {
         $savingAllowed = true; // assume saving allowed first
-        
+
         if (!$always) {
             // this case seems to be a regular save call, so we consider
             // the validation result for the decision of saving as well
-            
+
             // inits {this->editForm} and performs validation
             $form = $this->buildEditForm();
             $form->setValuesByPost(); // manipulation and distribution of values
-            
+
             if (!$form->checkInput()) { // manipulations regular style input propeties
                 $form->prepareValuesReprintable($this->object);
                 $this->renderEditForm($form);
-                
+
                 // consequence of vaidation
                 $savingAllowed = false;
             }
         } elseif (!$this->isSaveCommand()) {
             // this case handles form workflow actions like the mode/view switching requests,
             // so saving must not be skipped, even for inputs invalid by business rules
-            
+
             $form = $this->buildEditForm();
             $form->setValuesByPost(); // manipulation and distribution of values
             $form->checkInput(); // manipulations regular style input propeties
         }
-        
+
         if ($savingAllowed) {
             $this->persistAuthoringForm($form);
-            
+
             return 0; // return 0 = all fine, was saved either forced or validated
         }
-        
+
         return 1; // return 1 = something went wrong, no saving happened
     }
     
@@ -432,50 +432,50 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         );
 
         $answers_gui = $this->object->buildNestedOrderingElementInputGui();
-        
+
         if ($forceCorrectSolution) {
             $answers_gui->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_CORRECT_SOLUTION_PRESENTATION);
         } else {
             $answers_gui->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_USER_SOLUTION_PRESENTATION);
         }
-        
+
         $answers_gui->setInteractionEnabled(false);
-        
+
         $answers_gui->setElementList($solutionOrderingList);
-        
+
         $answers_gui->setCorrectnessTrueElementList(
             $solutionOrderingList->getParityTrueElementList($this->object->getOrderingElementList())
         );
-        
+
         $solution_html = $answers_gui->getHTML();
-    
+
         $template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", true, true, "Modules/TestQuestionPool");
         $template->setVariable('SOLUTION_OUTPUT', $solution_html);
         if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
         }
         $questionoutput = $template->get();
-    
+
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
         if ($show_feedback) {
             $feedback = '';
-            
+
             if (!$this->isTestPresentationContext()) {
                 $fb = $this->getGenericFeedbackOutput($active_id, $pass);
                 $feedback .= strlen($fb) ? $fb : '';
             }
-            
+
             $fb = $this->getSpecificFeedbackOutput(array());
             $feedback .= strlen($fb) ? $fb : '';
-            
+
             if (strlen($feedback)) {
                 $cssClass = (
                     $this->hasCorrectSolution($active_id, $pass) ?
                     ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
                 );
-                
+
                 $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
                 $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
             }
@@ -484,9 +484,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($show_question_only) {
             return $solutiontemplate->get();
         }
-    
+
         return $this->getILIASPage($solutiontemplate->get());
-        
+
         // is this template still in use? it is not used at this point any longer!
         // $template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
     }
@@ -500,27 +500,27 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         } else {
             $solutionOrderingElementList = $this->object->getShuffledOrderingElementList();
         }
-        
+
         $answers = $this->object->buildNestedOrderingElementInputGui();
         $answers->setNestingEnabled($this->object->isOrderingTypeNested());
         $answers->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_QUESTION_PREVIEW);
         $answers->setInteractionEnabled($this->isInteractivePresentation());
         $answers->setElementList($solutionOrderingElementList);
-        
+
         $template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", true, true, "Modules/TestQuestionPool");
-        
+
         $template->setCurrentBlock('nested_ordering_output');
         $template->setVariable('NESTED_ORDERING', $answers->getHTML());
         $template->parseCurrentBlock();
-        
+
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
-        
+
         if ($show_question_only) {
             return $template->get();
         }
-        
+
         return $this->getILIASPage($template->get());
-        
+
         //$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
     }
     
@@ -530,7 +530,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         
         $files = array();
         
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
         

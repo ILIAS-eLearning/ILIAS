@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use \ILIAS\Style;
+
 /**
  * Class ilPCParagraphGUI
  * User Interface for Paragraph Editing
@@ -73,26 +75,45 @@ class ilPCParagraphGUI extends ilPageContentGUI
      */
     public static function _getCharacteristics(int $a_style_id) : array
     {
+        global $DIC;
+
+        $service = $DIC->contentStyle()->internal();
+
         $st_chars = ilPCParagraphGUI::_getStandardCharacteristics();
         $chars = ilPCParagraphGUI::_getStandardCharacteristics();
-
-
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
-            $style = new ilObjStyleSheet($a_style_id);
-            $types = array("heading1", "heading2", "heading3", "text_block");
-            $chars = array();
-            foreach ($types as $t) {
-                $chars = array_merge($chars, $style->getCharacteristics($t));
-            }
+            $access_manager = $service->domain()->access(
+                (int) $_GET["ref_id"],
+                $DIC->user()->getId()
+            );
+            $char_manager = $service->domain()->characteristic(
+                $a_style_id,
+                $access_manager
+            );
+
+            $chars = $char_manager->getByTypes(
+                ["text_block", "heading1", "heading2", "heading3"],
+                false,
+                false
+            );
             $new_chars = array();
             foreach ($chars as $char) {
-                if ($st_chars[$char] != "") {	// keep lang vars for standard chars
-                    $new_chars[$char] = $st_chars[$char];
+                if ($st_chars[$char->getCharacteristic()] != "") {	// keep lang vars for standard chars
+                    $title = $char_manager->getPresentationTitle(
+                        $char->getType(),
+                        $char->getCharacteristic()
+                    );
+                    if ($title == "") {
+                        $title = $st_chars[$char->getCharacteristic()];
+                    }
+                    $new_chars[$char->getCharacteristic()] = $title;
                 } else {
-                    $new_chars[$char] = $char;
+                    $new_chars[$char->getCharacteristic()] = $char_manager->getPresentationTitle(
+                        $char->getType(),
+                        $char->getCharacteristic()
+                    );
                 }
-//                asort($new_chars);
             }
             $chars = $new_chars;
         }
@@ -234,7 +255,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         $tpl->setVariable("TXT_ANCHOR", $this->lng->txt("cont_anchor"));
 
         $lang = ilMDLanguageItem::_getLanguages();
-        $select_lang = ilUtil::formSelect($s_lang, "par_language", $lang, false, true);
+        $select_lang = ilLegacyFormElementsUtil::formSelect($s_lang, "par_language", $lang, false, true);
         $tpl->setVariable("SELECT_LANGUAGE", $select_lang);
         
         $tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
@@ -376,7 +397,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         // marked text spans
         $ws = "[ \t\r\f\v\n]*";
         while (preg_match("~\[(marked$ws(class$ws=$ws\"([^\"])*\")$ws)\]~i", $s_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
+            $attribs = ilPCParagraph::attribsToArray($found[2]);
             if (isset($attribs["class"])) {
                 $s_text = str_replace("[" . $found[1] . "]", "<span class=\"ilc_text_inline_" . $attribs["class"] . "\">", $s_text);
             } else {

@@ -121,6 +121,9 @@ run `php setup/setup.php achieve $AGENT_NAME.$OBJECTIVE_NAME`, e.g.
 control structure. The agent might need to a config file to work, which may be added
 as last parameter: `php setup/setup.php achieve uicore.reloadCtrlStructure config.json`
 
+## List available objectives
+Calling `php setup/setup.php achieve` without any arguments and options  
+or calling `php setup/setup.php achieve --list` will list all available objectives.
 
 # Migrations
 
@@ -318,11 +321,32 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *errorlog_dir* (type: string) to put error logs in
 * *mathjax* (type: object) contains settings for Services/MathJax
     ```
-	"mathjax" : {
-		"path_to_latex_cgi" : "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+	"mathjax": {
+		"client_enabled": true,
+		"client_polyfill_url": "https://polyfill.io/v3/polyfill.min.js?features=es6",
+		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js",
+		"client_limiter": 0,
+		"server_enabled": true,
+		"server_address": "http://your.mathjax.server:8003",
+		"server_timeout": 5,
+		"server_for_browser": true,
+		"server_for_export": true,
+		"server_for_pdf": true
 	},
     ```
-  * *path_to_latex_cgi* (type: string) executable
+  * *client_enabled* (type: boolean) client-side rendering in the browser is enabled
+  * *client_polyfill_url* (type: string) url of a polyfill script for MathJax 3 to support older browsers
+  * *client_script_url* (type: string) url of the MathJax script to be included on the browser page
+  * *client_limiter* (type: integer) type of delimiters expected by the included MathJax script
+    * 0: \\( ... \\)
+    * 1: [tex] ... [/tex]
+    * 2: \<span class="math"\> ... \</span\>
+  * *server_enabled* (type: boolean) server-side rendering is enabled
+  * *server_address* (type: string) address of the rendering server
+  * *server_timeout* (type: integer) timeout in seconds to wait for a server response
+  * *server_for_browser* (type: boolean) use the server for rendering in the browser
+  * *server_for_export* (type: boolean) use the server for HTML exports
+  * *server_for_pdf* (type: boolean) use the server for PDF generation
 * *pdfgeneration* (type: object) contains settings for Services/PDFGeneration
     ```
 	"pdfgeneration" : {

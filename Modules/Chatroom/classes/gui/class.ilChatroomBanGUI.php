@@ -40,9 +40,6 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         parent::__construct($gui);
     }
 
-    /**
-     * Unbans users fetched from $_REQUEST['banned_user_id'].
-     */
     public function delete() : void
     {
         $userTrafo = $this->refinery->kindlyTo()->listOf(
@@ -51,7 +48,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         
         $users = $this->getRequestValue('banned_user_id', $userTrafo, []);
         if ($users === []) {
-            ilUtil::sendInfo($this->ilLng->txt('no_checkbox'), true);
+            $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('no_checkbox'), true);
             $this->ilCtrl->redirect($this->gui, 'ban-show');
         }
 
@@ -106,9 +103,6 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         $this->gui->tpl->setVariable('ADM_CONTENT', $table->getHTML());
     }
 
-    /**
-     * Kicks and bans user, fetched from $_REQUEST['user'] and adds history entry.
-     */
     public function active() : void
     {
         $this->redirectIfNoPermission(['read', 'moderate']);

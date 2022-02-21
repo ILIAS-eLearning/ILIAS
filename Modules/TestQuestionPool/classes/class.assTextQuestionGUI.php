@@ -453,9 +453,11 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
 
         if (is_object($this->getPreviewSession())) {
-            $template->setVariable("ESSAY", ilUtil::prepareFormOutput(
-                $this->getPreviewSession()->getParticipantsSolution()
-            ));
+            $template->setVariable("ESSAY",
+                ilLegacyFormElementsUtil::prepareFormOutput(
+                    $this->getPreviewSession()->getParticipantsSolution()
+                )
+            );
         }
         
         $questiontext = $this->object->getQuestion();
@@ -518,7 +520,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
         
         $template->setVariable("QID", $this->object->getId());
-        $template->setVariable("ESSAY", ilUtil::prepareFormOutput($user_solution));
+        $template->setVariable("ESSAY", ilLegacyFormElementsUtil::prepareFormOutput($user_solution));
         $questiontext = $this->object->getQuestion();
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
@@ -563,12 +565,12 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $_SESSION["subquestion_index"] = 0;
         if ($_POST["cmd"]["addSuggestedSolution"]) {
             if ($this->writePostData()) {
-                ilUtil::sendInfo($this->getErrorMessage());
+                $this->tpl->setOnScreenMessage('info', $this->getErrorMessage());
                 $this->editQuestion();
                 return;
             }
             if (!$this->checkInput()) {
-                ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("fill_out_all_required_fields_add_answer"));
                 $this->editQuestion();
                 return;
             }

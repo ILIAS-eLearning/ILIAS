@@ -133,20 +133,20 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         }
     }
     
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setCurrentBlock('answer');
-        $this->tpl->setVariable('ANSWER', \ilUtil::prepareFormOutput($data['answer']));
+        $this->tpl->setVariable('ANSWER', ilLegacyFormElementsUtil::prepareFormOutput($a_set['answer']));
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock('frequency');
-        $this->tpl->setVariable('FREQUENCY', $data['frequency']);
+        $this->tpl->setVariable('FREQUENCY', $a_set['frequency']);
         $this->tpl->parseCurrentBlock();
         
         if ($this->isActionsColumnEnabled()) {
-            if (isset($data['addable'])) {
+            if (isset($a_set['addable'])) {
                 $this->tpl->setCurrentBlock('actions');
-                $this->tpl->setVariable('ACTIONS', $this->buildAddAnswerAction($data));
+                $this->tpl->setVariable('ACTIONS', $this->buildAddAnswerAction($a_set));
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setCurrentBlock('actions');

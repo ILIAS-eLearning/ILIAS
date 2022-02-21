@@ -24,7 +24,7 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
     {
         $data = [];
         for ($i = 4; $i <= 31; ++$i) {
-            $data[sprintf('Costs: %s', (string) $i)] = [(string) $i];
+            $data[sprintf('Costs: %s', $i)] = [(string) $i];
         }
 
         return $data;

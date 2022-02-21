@@ -2,8 +2,12 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+namespace ILIAS\ContentPage;
+
 use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
 use PHPUnit\Framework\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Class PageReadingTimeTest

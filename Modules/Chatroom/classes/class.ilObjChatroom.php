@@ -65,7 +65,7 @@ class ilObjChatroom extends ilObject
         $this->access_end = $access_end;
     }
 
-    public function update()
+    public function update() : bool
     {
         if ($this->ref_id) {
             $activation = new ilObjectActivation();
@@ -86,7 +86,7 @@ class ilObjChatroom extends ilObject
         return parent::update();
     }
 
-    public function read()
+    public function read() : void
     {
         if ($this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
@@ -131,11 +131,9 @@ class ilObjChatroom extends ilObject
         return $userInfo;
     }
 
-    public function initDefaultRoles()
+    public function initDefaultRoles() : void
     {
-        $role = $this->createDefaultRole();
-
-        return [];
+        $this->createDefaultRole();
     }
 
     protected function createDefaultRole() : ilObjRole
@@ -148,7 +146,7 @@ class ilObjChatroom extends ilObject
         );
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $original_room = ilChatroom::byObjectId($this->getId());
 
@@ -175,7 +173,7 @@ class ilObjChatroom extends ilObject
         return $newObj;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         $this->db->manipulateF(
             'DELETE FROM chatroom_users WHERE chatroom_users.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',

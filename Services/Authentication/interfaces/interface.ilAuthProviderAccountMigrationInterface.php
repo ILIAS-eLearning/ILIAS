@@ -1,9 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- * Description of class interface
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
@@ -17,35 +28,31 @@ interface ilAuthProviderAccountMigrationInterface
      * 11 for apache auth
      *
      * @see ilAuthUtils
-     * @return string
      */
-    public function getTriggerAuthMode();
+    public function getTriggerAuthMode() : string;
     
     /**
      * Get user auth mode name
      * ldap_1 for ldap account migration with server id 1
      * apache for apache auth
      */
-    public function getUserAuthModeName();
+    public function getUserAuthModeName() : string;
     
     /**
      * Get external account name
-     * @return string
      */
-    public function getExternalAccountName();
+    public function getExternalAccountName() : string;
     
     
     
     /**
      * Create new account
-     * @param ilAuthStatus
      */
-    public function migrateAccount(ilAuthStatus $status);
+    public function migrateAccount(ilAuthStatus $status) : void;
     
     
     /**
      * Create new ILIAS account for external_account
-     * @param ilAuthStatus
      */
-    public function createNewAccount(ilAuthStatus $status);
+    public function createNewAccount(ilAuthStatus $status) : void;
 }

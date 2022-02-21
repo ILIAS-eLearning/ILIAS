@@ -290,7 +290,7 @@ class ilExPeerReviewGUI
         
         $peer_items = $this->submission->getPeerReview()->getPeerReviewsByGiver($this->submission->getUserId());
         if (!sizeof($peer_items)) {
-            ilUtil::sendFailure($this->lng->txt("exc_peer_review_no_peers"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_peer_review_no_peers"), true);
             $this->returnToParentObject();
         }
                 
@@ -327,7 +327,7 @@ class ilExPeerReviewGUI
         $peer_items = $this->submission->getPeerReview()->getPeerReviewsByPeerId($this->submission->getUserId(), !$this->submission->isTutor());
         if (!sizeof($peer_items)) {
             // #11373
-            ilUtil::sendFailure($this->lng->txt("exc_peer_review_no_peers_reviewed_yet"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_peer_review_no_peers_reviewed_yet"), true);
             $ilCtrl->redirect($this, "returnToParent");
         }
         
@@ -472,7 +472,7 @@ class ilExPeerReviewGUI
         
         $peer_items = $this->submission->getPeerReview()->getPeerReviewsByGiver($this->submission->getUserId());
         if (!sizeof($peer_items)) {
-            ilUtil::sendFailure($this->lng->txt("exc_peer_review_no_peers"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_peer_review_no_peers"), true);
             $this->returnToParentObject();
         }
                         
@@ -480,9 +480,9 @@ class ilExPeerReviewGUI
         if ($missing) {
             $dl = $this->ass->getPeerReviewDeadline();
             if (!$dl || $dl < time()) {
-                ilUtil::sendInfo(sprintf($this->lng->txt("exc_peer_review_missing_info"), $missing));
+                $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("exc_peer_review_missing_info"), $missing));
             } else {
-                ilUtil::sendInfo(sprintf(
+                $this->tpl->setOnScreenMessage('info', sprintf(
                     $this->lng->txt("exc_peer_review_missing_info_deadline"),
                     $missing,
                     ilDatePresentation::formatDate(new ilDateTime($dl, IL_CAL_UNIX))
@@ -704,10 +704,10 @@ class ilExPeerReviewGUI
 
                 $this->handlePeerReviewChange();
 
-                ilUtil::sendSuccess($this->lng->txt("exc_peer_review_updated"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_peer_review_updated"), true);
                 $ilCtrl->redirect($this, "editPeerReview");
             } else {
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
         }
         
@@ -749,7 +749,7 @@ class ilExPeerReviewGUI
         $crit->setPeerReviewContext($this->ass, $giver_id, $peer_id);
         $file = $crit->getFileByHash();
         if ($file) {
-            ilUtil::deliverFile($file, basename($file));
+            ilFileDelivery::deliverFileLegacy($file, basename($file));
         }
         
         $ilCtrl->redirect($this, "returnToParent");
@@ -848,7 +848,7 @@ class ilExPeerReviewGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt("exc_peer_review_reset_done"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_peer_review_reset_done"), true);
         $ilCtrl->redirect($this, "showPeerReviewOverview");
     }
 }

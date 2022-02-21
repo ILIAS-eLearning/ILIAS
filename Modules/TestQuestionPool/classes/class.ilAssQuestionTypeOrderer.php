@@ -75,20 +75,20 @@ class ilAssQuestionTypeOrderer
         self::$flippedQuestionTypeOrder = array_flip(self::$fixQuestionTypeOrder);
         #vd($unOrderedTypes);
         $this->types = $unOrderedTypes;
-        
+
         switch ($orderMode) {
             case self::ORDER_MODE_FIX:
-                
+
                 uasort($this->types, array($this, 'fixQuestionTypeOrderSortCallback'));
                 break;
-            
+
             case self::ORDER_MODE_ALPHA:
-                
+
                 ksort($this->types);
                 break;
-            
+
             default:
-                
+
                 throw new ilTestQuestionPoolException('invalid order mode given: ' . $orderMode);
         }
 

@@ -45,23 +45,23 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $row
+     * @param array $a_set
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
         parent::fillRow(array(
-            'name' => $row['name'],
-            'checkbox' => ilUtil::formCheckbox(false, 'chb_defaults[]', $row['test_defaults_id']),
-            'tstamp' => ilDatePresentation::formatDate(new ilDateTime($row['tstamp'], IL_CAL_UNIX))
+            'name' => $a_set['name'],
+            'checkbox' => ilLegacyFormElementsUtil::formCheckbox(false, 'chb_defaults[]', $a_set['test_defaults_id']),
+            'tstamp' => ilDatePresentation::formatDate(new ilDateTime($a_set['tstamp'], IL_CAL_UNIX))
         ));
     }
 
     /**
      * @return bool
      */
-    public function numericOrdering($field)
+    public function numericOrdering(string $a_field) : bool
     {
-        return in_array($field, array(
+        return in_array($a_field, array(
             'tstamp'
         ));
     }

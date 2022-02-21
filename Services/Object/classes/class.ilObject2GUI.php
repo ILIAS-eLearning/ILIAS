@@ -58,14 +58,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         $ilAccess = $DIC["ilAccess"];
         $this->object_service = $DIC->object();
         $this->favourites = new ilFavouritesManager();
-
-        if (!isset($ilErr)) {
-            $ilErr = new ilErrorHandling();
-            $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
-        } else {
-            $this->ilErr = $ilErr;
-        }
-
+        $this->ilErr = $DIC['ilErr'];
         $this->id_type = $a_id_type;
         $this->parent_id = $a_parent_node_id;
         $this->type = $this->getType();
@@ -167,7 +160,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         
         // set context
         if (is_object($this->object)) {
-            $this->ctrl->setContext($this->object->getId(), $this->object->getType());
+            $this->ctrl->setContextObject($this->object->getId(), $this->object->getType());
         }
         
         $this->afterConstructor();
@@ -212,6 +205,11 @@ abstract class ilObject2GUI extends ilObjectGUI
         }
 
         return true;
+    }
+
+    public function getIdType() : int
+    {
+        return $this->id_type;
     }
 
     /**
@@ -384,9 +382,9 @@ abstract class ilObject2GUI extends ilObjectGUI
                 }
             }
 
-            ilUtil::sendSuccess($lng->txt("msg_removed"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_removed"), true);
         } else {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
         }
 
         $this->ctrl->redirect($this, "");

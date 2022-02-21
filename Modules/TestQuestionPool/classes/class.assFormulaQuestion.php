@@ -349,7 +349,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 }
 
                 if ($forsolution) {
-                    $input = '<span class="ilc_qinput_TextInput solutionbox">' . ilUtil::prepareFormOutput($value) . '</span>';
+                    $input = '<span class="ilc_qinput_TextInput solutionbox">' . ilLegacyFormElementsUtil::prepareFormOutput(
+                            $value
+                        ) . '</span>';
                 } else {
                     $input = '<input class="ilc_qinput_TextInput" type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" name="result_' . $result . '"' . $value . ' />';
                 }
@@ -1293,11 +1295,14 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     $user_solution[$result->getResult()]["frac_helper"] = null;
                 }
             } else {
+                $user_solution[$result->getResult()]["value"] = round($user_solution[$result->getResult()]["value"], $result->getPrecision());
+                /*
                 $user_solution[$result->getResult()]["value"] = ilMath::_div(
                     $user_solution[$result->getResult()]["value"],
                     1,
                     $result->getPrecision()
                 );
+                */
             }
         }
         return $user_solution;
@@ -1361,7 +1366,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         foreach ($this->getSolutionSubmit() as $key => $value) {
             if (preg_match("/^result_(\\\$r\\d+)$/", $key)) {
                 if (strlen($value) && !$this->isValidSolutionResultValue($value)) {
-                    ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_no_numeric_value"), true);
                     return false;
                 }
             } elseif (preg_match("/^result_(\\\$r\\d+)_unit$/", $key)) {

@@ -1,7 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/UIComponent/Explorer/classes/class.ilExplorer.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Explorer for ILIAS tree
@@ -18,17 +29,13 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     private $mid;
     private $tree_id;
 
-    private $checked_items = array();
-    private $post_var = '';
-    private $form_items = array();
-    private $type = 0;
+    private array $checked_items = array();
+    private string $post_var = '';
+    private array $form_items = array();
+    private int $type = 0;
 
     public function __construct($a_target, $a_server_id, $a_mid, $a_tree_id)
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-        
         parent::__construct($a_target);
 
         $this->type = self::SEL_TYPE_CHECK;
@@ -102,7 +109,6 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
             return '';
         }
         
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
         $status = ilECSCmsData::lookupStatusByObjId(
             $this->server_id,
             $this->mid,
@@ -111,25 +117,34 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
         );
         
         if ($status == ilECSCmsData::MAPPING_DELETED) {
-            return ilUtil::formCheckbox((int) $this->isItemChecked($a_node_id), $this->post_var, $a_node_id, true);
+            return ilLegacyFormElementsUtil::formCheckbox(
+                (int) $this->isItemChecked($a_node_id),
+                $this->post_var,
+                $a_node_id,
+                true
+            );
         }
         switch ($this->type) {
             case self::SEL_TYPE_CHECK:
-                return ilUtil::formCheckbox((int) $this->isItemChecked($a_node_id), $this->post_var, $a_node_id);
+                return ilLegacyFormElementsUtil::formCheckbox(
+                    (int) $this->isItemChecked($a_node_id),
+                    $this->post_var,
+                    $a_node_id
+                );
                 break;
 
             case self::SEL_TYPE_RADIO:
-                return ilUtil::formRadioButton((int) $this->isItemChecked($a_node_id), $this->post_var, $a_node_id);
+                return ilLegacyFormElementsUtil::formRadioButton(
+                    (int) $this->isItemChecked($a_node_id),
+                    $this->post_var,
+                    $a_node_id
+                );
                 break;
         }
     }
 
     public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         if (!isset($a_node_id) or !is_array($a_option)) {
             $this->ilias->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
                                     "node_id: " . $a_node_id . " options:" . var_dump($a_option), $this->ilias->error_obj->WARNING);
@@ -139,7 +154,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
         foreach ($a_option["tab"] as $picture) {
             if ($picture == 'plus') {
                 $tpl->setCurrentBlock("expander");
-                $tpl->setVariable("EXP_DESC", $lng->txt("expand"));
+                $tpl->setVariable("EXP_DESC", $this->lng->txt("expand"));
                 $target = $this->createTarget('+', $a_node_id);
                 $tpl->setVariable("LINK_NAME", $a_node_id);
                 $tpl->setVariable("LINK_TARGET_EXPANDER", $target);
@@ -150,7 +165,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
             if ($picture == 'minus' && $this->show_minus) {
                 $tpl->setCurrentBlock("expander");
-                $tpl->setVariable("EXP_DESC", $lng->txt("collapse"));
+                $tpl->setVariable("EXP_DESC", $this->lng->txt("collapse"));
                 $target = $this->createTarget('-', $a_node_id);
                 $tpl->setVariable("LINK_NAME", $a_node_id);
                 $tpl->setVariable("LINK_TARGET_EXPANDER", $target);
@@ -172,7 +187,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
             $tpl->setVariable("TARGET_ID", "iconid_" . $a_node_id);
             $this->iconList[] = "iconid_" . $a_node_id;
-            $tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
+            $tpl->setVariable("TXT_ALT_IMG", $this->lng->txt($a_option["desc"]));
             $tpl->parseCurrentBlock();
         }
 
@@ -200,16 +215,20 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
             }
 
             $tpl->setVariable("LINK_NAME", $a_node_id);
-            $tpl->setVariable("TITLE", ilUtil::shortenText(
-                $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
-                $this->textwidth,
-                true
-            ));
-            $tpl->setVariable("DESC", ilUtil::shortenText(
-                $this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]),
-                $this->textwidth,
-                true
-            ));
+            $tpl->setVariable("TITLE",
+                ilStr::shortenTextExtended(
+                    $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
+                    $this->textwidth,
+                    true
+                )
+            );
+            $tpl->setVariable("DESC",
+                ilStr::shortenTextExtended(
+                    $this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]),
+                    $this->textwidth,
+                    true
+                )
+            );
             $frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
             if ($frame_target != "") {
                 $tpl->setVariable("TARGET", " target=\"" . $frame_target . "\"");
@@ -217,16 +236,20 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
             $tpl->parseCurrentBlock();
         } else {			// output text only
             $tpl->setCurrentBlock("text");
-            $tpl->setVariable("OBJ_TITLE", ilUtil::shortenText(
-                $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
-                $this->textwidth,
-                true
-            ));
-            $tpl->setVariable("OBJ_DESC", ilUtil::shortenText(
-                $this->buildDescription($a_option["desc"], $a_node_id, $a_option["type"]),
-                $this->textwidth,
-                true
-            ));
+            $tpl->setVariable("OBJ_TITLE",
+                ilStr::shortenTextExtended(
+                    $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
+                    $this->textwidth,
+                    true
+                )
+            );
+            $tpl->setVariable("OBJ_DESC",
+                ilStr::shortenTextExtended(
+                    $this->buildDescription($a_option["desc"], $a_node_id, $a_option["type"]),
+                    $this->textwidth,
+                    true
+                )
+            );
             $tpl->parseCurrentBlock();
         }
 
@@ -246,13 +269,8 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     */
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilias = $DIC['ilias'];
-
         // custom icons
-        $path = ilObject::_getIcon($a_obj_id, "tiny", "root");
+        $path = ilObject::_getIcon((int) $a_obj_id, "tiny", "root");
 
 
         $tpl->setCurrentBlock("icon");
@@ -279,7 +297,6 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
             #$title = substr($title, 0,22).'...';
         }
         
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
         $status = ilECSCmsData::lookupStatusByObjId(
             $this->server_id,
             $this->mid,

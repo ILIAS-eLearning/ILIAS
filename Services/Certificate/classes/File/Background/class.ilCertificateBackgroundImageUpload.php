@@ -98,7 +98,7 @@ class ilCertificateBackgroundImageUpload
         $imagepath = $this->rootDirectory . $this->certificatePath;
 
         if (!$this->fileSystem->hasDir($imagepath)) {
-            ilUtil::makeDirParents($imagepath);
+            ilFileUtils::makeDirParents($imagepath);
         }
 
         $backgroundImageTempFilePath = $this->createBackgroundImageTempfilePath();
@@ -119,13 +119,13 @@ class ilCertificateBackgroundImageUpload
             $backgroundImageTempFilePath,
             $backgroundImageThumbnailPath,
             'JPEG',
-            (string) 100
+            "100"
         );
 
         $convert_filename = self::BACKGROUND_IMAGE_NAME;
 
         // something went wrong converting the file. use the original file and hope, that PDF can work with it
-        if (!$this->fileSystem->has($backgroundImagePath) && !ilUtil::moveUploadedFile(
+        if (!$this->fileSystem->has($backgroundImagePath) && !ilFileUtils::moveUploadedFile(
             $backgroundImageTempFilePath,
             $convert_filename,
             $this->rootDirectory . $backgroundImagePath

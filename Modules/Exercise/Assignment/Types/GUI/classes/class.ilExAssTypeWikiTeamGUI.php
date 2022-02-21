@@ -33,6 +33,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
      * @var ilAccessHandler
      */
     protected $access;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
@@ -40,6 +41,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
@@ -140,13 +142,14 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
      *
      * @param array $par parameter
      */
-    public function getHTML($par)
+    public function getHTML($par) : string
     {
         switch ($par["mode"]) {
             case self::MODE_OVERVIEW:
                 $this->renderOverviewContent($par["info"], $par["submission"]);
                 break;
         }
+        return "";
     }
 
     /**
@@ -232,21 +235,21 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
         $team_available = (sizeof($team_members));
         if (!$team_available) {
             $lng->loadLanguageModule("exc");
-            ilUtil::sendInfo($lng->txt("exc_team_needed_first"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("exc_team_needed_first"), true);
             $this->ctrl->returnToParent($this);
         }
 
         // check if submission is possible
         if (!$this->submission->canSubmit()) {
             $lng->loadLanguageModule("exc");
-            ilUtil::sendInfo($lng->txt("exercise_time_over"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("exercise_time_over"), true);
             $this->ctrl->returnToParent($this);
         }
 
         // check create permission of exercise owner
         if (!$access->checkAccessOfUser($this->exercise->getOwner(), "create", "", $container_ref_id, "wiki")) {
             $lng->loadLanguageModule("exc");
-            ilUtil::sendInfo($lng->txt("exc_owner_has_no_permission_to_create_wiki"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("exc_owner_has_no_permission_to_create_wiki"), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -276,7 +279,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
         $this->submission->addResourceObject($wiki->getRefId());
 
         $lng->loadLanguageModule("wiki");
-        ilUtil::sendSuccess($lng->txt("wiki_exc_wiki_created"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("wiki_exc_wiki_created"), true);
         $this->ctrl->returnToParent($this);
     }
 }

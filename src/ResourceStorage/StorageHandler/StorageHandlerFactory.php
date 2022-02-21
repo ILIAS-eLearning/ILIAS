@@ -4,6 +4,19 @@ namespace ILIAS\ResourceStorage\StorageHandler;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class StorageHandlerFactory
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -14,11 +27,8 @@ class StorageHandlerFactory
     /**
      * @var StorageHandler[]
      */
-    protected $handlers = [];
-    /**
-     * @var StorageHandler
-     */
-    protected $primary;
+    protected array $handlers = [];
+    protected ?\ILIAS\ResourceStorage\StorageHandler\StorageHandler $primary = null;
 
     /**
      * StorageHandlerFactory constructor.
@@ -40,10 +50,6 @@ class StorageHandlerFactory
         }
     }
 
-    /**
-     * @param StorableResource $resource
-     * @return StorageHandler
-     */
     public function getHandlerForResource(StorableResource $resource) : StorageHandler
     {
         return $this->getHandlerForStorageId($resource->getStorageID());
@@ -58,7 +64,7 @@ class StorageHandlerFactory
         throw new \LogicException("no other StorageHandler possible at the moment");
     }
 
-    public function getPrimary() : StorageHandler
+    public function getPrimary() : ?\ILIAS\ResourceStorage\StorageHandler\StorageHandler
     {
         return $this->primary;
     }

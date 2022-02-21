@@ -734,9 +734,9 @@ class ilObjectActivation
                 $active[] = $item;
             }
         }
-        $active = \ilUtil::sortArray($active, 'suggestion_start', 'asc');
-        $availability = \ilUtil::sortArray($availability, 'timing_start', 'asc');
-        $inactive = \ilUtil::sortArray($inactive, 'title', 'asc');
+        $active = ilArrayUtil::sortArray($active, 'suggestion_start', 'asc');
+        $availability = ilArrayUtil::sortArray($availability, 'timing_start', 'asc');
+        $inactive = ilArrayUtil::sortArray($inactive, 'title', 'asc');
 
         $items = array_merge($active, $availability, $inactive);
         return $items;
@@ -787,8 +787,8 @@ class ilObjectActivation
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setSuggestionStart($row->suggestion_start);
             $this->setSuggestionEnd($row->suggestion_end);
-            $this->setSuggestionStartRelative($row->suggestion_start_rel);
-            $this->setSuggestionEndRelative($row->suggestion_end_rel);
+            $this->setSuggestionStartRelative((int) $row->suggestion_start_rel);
+            $this->setSuggestionEndRelative((int) $row->suggestion_end_rel);
             $this->toggleVisible($row->visible);
             $this->toggleChangeable($row->changeable);
             $this->setTimingType($row->timing_type);

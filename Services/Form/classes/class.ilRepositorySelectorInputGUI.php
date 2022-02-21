@@ -56,9 +56,9 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         $this->setSelectText($lng->txt("select"));
     }
 
-    public function setValue(int $a_value) : void
+    public function setValue(string $a_value) : void
     {
-        $this->value = $a_value;
+        $this->value = (int) $a_value;
     }
 
     public function getValue() : int
@@ -124,7 +124,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 
         $ilCtrl->setParameter($this, "postvar", $this->getPostVar());
 
-        ilUtil::sendInfo($this->getHeaderMessage());
+        $this->tpl->setOnScreenMessage('info', $this->getHeaderMessage());
 
         $exp = new ilRepositorySelectorExplorerGUI(
             $this,
@@ -151,16 +151,11 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
     public function selectRepositoryItem() : void
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        $anchor = $ilUser->prefs["screen_reader_optimization"]
-            ? $this->getFieldId() . "_anchor"
-            : "";
 
         $this->setValue($this->int("root_id"));
         $this->writeToSession();
 
-        $ilCtrl->returnToParent($this, $anchor);
+        $ilCtrl->returnToParent($this);
     }
     
     public function reset() : void
@@ -168,14 +163,10 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
-        $anchor = $ilUser->prefs["screen_reader_optimization"]
-            ? $this->getFieldId() . "_anchor"
-            : "";
-
         $this->setValue("");
         $this->writeToSession();
 
-        $ilCtrl->returnToParent($this, $anchor);
+        $ilCtrl->returnToParent($this);
     }
     
     public function render($a_mode = "property_form") : string
@@ -190,7 +181,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("ID", $this->getFieldId());
-        $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+        $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
         $tpl->setVariable("TXT_SELECT", $this->getSelectText());
         $tpl->setVariable("TXT_RESET", $lng->txt("reset"));
         switch ($a_mode) {
@@ -199,7 +190,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
                 break;
                 
             case "table_filter":
-                $parent_gui = get_class($this->getParent());
+                $parent_gui = get_class($this->getParentTable());
                 break;
         }
 

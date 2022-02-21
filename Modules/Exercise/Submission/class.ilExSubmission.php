@@ -29,6 +29,7 @@ class ilExSubmission
     protected ilExAssignmentTypeInterface $ass_type;
     protected ilExAssignmentTypes $ass_types;
     protected ilExcAssMemberState $state;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
         ilExAssignment $a_ass,
@@ -38,6 +39,7 @@ class ilExSubmission
         bool $a_public_submissions = false
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->user = $DIC->user();
         $this->db = $DIC->database();
@@ -321,8 +323,8 @@ class ilExSubmission
         $lng = $this->lng;
         
         // Create unzip-directory
-        $newDir = ilUtil::ilTempnam();
-        ilUtil::makeDir($newDir);
+        $newDir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDir($newDir);
 
         $success = true;
         
@@ -337,7 +339,7 @@ class ilExSubmission
                 $zip_num = sizeof($filearray["file"]);
                 if ($current_num + $zip_num > $max_num) {
                     $success = false;
-                    ilUtil::sendFailure($lng->txt("exc_upload_error") . " [Zip1]", true);
+                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("exc_upload_error") . " [Zip1]", true);
                 }
             }
             
@@ -351,16 +353,16 @@ class ilExSubmission
 
                     if (!$this->uploadFile($a_http_post_files, true)) {
                         $success = false;
-                        ilUtil::sendFailure($lng->txt("exc_upload_error") . " [Zip2]", true);
+                        $this->main_tpl->setOnScreenMessage('failure', $lng->txt("exc_upload_error") . " [Zip2]", true);
                     }
                 }
             }
         } catch (ilFileUtilsException $e) {
             $success = false;
-            ilUtil::sendFailure($e->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
         }
         
-        ilUtil::delDir($newDir);
+        ilFileUtils::delDir($newDir);
         return $success;
     }
 
@@ -445,7 +447,8 @@ class ilExSubmission
     public function getFiles(
         array $a_file_ids = null,
         bool $a_only_valid = false,
-        string $a_min_timestamp = null
+        string $a_min_timestamp = null,
+        bool $print_versions = false
     ) : array {
         $ilDB = $this->db;
         
@@ -500,7 +503,18 @@ class ilExSubmission
                 }
             }
         }
-                
+
+        // filter print versions
+        if (in_array($this->assignment->getType(), [
+            ilExAssignment::TYPE_BLOG,
+            ilExAssignment::TYPE_PORTFOLIO,
+            ilExAssignment::TYPE_WIKI_TEAM
+        ])) {
+            $delivered_files = array_filter($delivered_files, function ($i) use ($print_versions) {
+                return ((substr($i["filetitle"], strlen($i["filetitle"]) - 5) == "print") == $print_versions);
+            });
+        }
+
         return $delivered_files;
     }
         
@@ -731,6 +745,7 @@ class ilExSubmission
         }
     
         $files = $this->getFiles($a_file_ids, false, $download_time);
+
         if ($files) {
             if (sizeof($files) == 1) {
                 $file = array_pop($files);
@@ -848,7 +863,7 @@ class ilExSubmission
         $filename = $this->initStorage()->getAbsoluteSubmissionPath() .
             "/" . $storage_id . "/" . basename($filename);
 
-        ilUtil::deliverFile($filename, $filetitle);
+        ilFileDelivery::deliverFileLegacy($filename, $filetitle);
     }
 
     protected function downloadMultipleFiles(
@@ -863,11 +878,11 @@ class ilExSubmission
         $cdir = getcwd();
 
         $zip = PATH_TO_ZIP;
-        $tmpdir = ilUtil::ilTempnam();
-        $tmpfile = ilUtil::ilTempnam();
+        $tmpdir = ilFileUtils::ilTempnam();
+        $tmpfile = ilFileUtils::ilTempnam();
         $tmpzipfile = $tmpfile . ".zip";
 
-        ilUtil::makeDir($tmpdir);
+        ilFileUtils::makeDir($tmpdir);
         chdir($tmpdir);
 
         $assTitle = ilExAssignment::lookupTitle($this->assignment->getId());
@@ -879,10 +894,10 @@ class ilExSubmission
             $deliverFilename .= "_files";
         }
         $orgDeliverFilename = trim($deliverFilename);
-        $deliverFilename = ilUtil::getASCIIFilename($orgDeliverFilename);
-        ilUtil::makeDir($tmpdir . "/" . $deliverFilename);
+        $deliverFilename = ilFileUtils::getASCIIFilename($orgDeliverFilename);
+        ilFileUtils::makeDir($tmpdir . "/" . $deliverFilename);
         chdir($tmpdir . "/" . $deliverFilename);
-            
+        
         //copy all files to a temporary directory and remove them afterwards
         $parsed_files = $duplicates = array();
         foreach ($a_filenames as $storage_id => $files) {
@@ -920,7 +935,7 @@ class ilExSubmission
                     }
                 }
                 
-                $newFilename = ilUtil::getASCIIFilename($newFilename);
+                $newFilename = ilFileUtils::getASCIIFilename($newFilename);
                 $newFilename = $tmpdir . DIRECTORY_SEPARATOR . $deliverFilename . DIRECTORY_SEPARATOR . $newFilename;
                 // copy to temporal directory
                 $oldFilename = $pathname . DIRECTORY_SEPARATOR . $filename;
@@ -928,18 +943,20 @@ class ilExSubmission
                     echo 'Could not copy ' . $oldFilename . ' to ' . $newFilename;
                 }
                 touch($newFilename, filectime($oldFilename));
-                $parsed_files[] = ilUtil::escapeShellArg($deliverFilename . DIRECTORY_SEPARATOR . basename($newFilename));
+                $parsed_files[] = ilShellUtil::escapeShellArg(
+                    $deliverFilename . DIRECTORY_SEPARATOR . basename($newFilename)
+                );
             }
         }
         
         chdir($tmpdir);
-        $zipcmd = $zip . " " . ilUtil::escapeShellArg($tmpzipfile) . " " . join(" ", $parsed_files);
+        $zipcmd = $zip . " " . ilShellUtil::escapeShellArg($tmpzipfile) . " " . join(" ", $parsed_files);
 
         exec($zipcmd);
-        ilUtil::delDir($tmpdir);
+        ilFileUtils::delDir($tmpdir);
         
         chdir($cdir);
-        ilUtil::deliverFile($tmpzipfile, $orgDeliverFilename . ".zip", "", false, true);
+        ilFileDelivery::deliverFileLegacy($tmpzipfile, $orgDeliverFilename . ".zip", "", false, true);
         exit;
     }
 
@@ -983,7 +1000,7 @@ class ilExSubmission
         $dirsize = 0;
         foreach (array_keys($members) as $id) {
             $directory = $savepath . DIRECTORY_SEPARATOR . $id;
-            $dirsize += ilUtil::dirsize($directory);
+            $dirsize += ilFileUtils::dirsize($directory);
         }
         if ($dirsize > disk_free_space($tmpdir)) {
             return;
@@ -1015,14 +1032,14 @@ class ilExSubmission
                 $team_id = $team_map[$id];
                 if (!array_key_exists($team_id, $team_dirs)) {
                     $team_dir = $lng->txt("exc_team") . " " . $team_id;
-                    ilUtil::makeDir($team_dir);
+                    ilFileUtils::makeDir($team_dir);
                     $team_dirs[$team_id] = $team_dir;
                 }
                 $team_dir = $team_dirs[$team_id] . DIRECTORY_SEPARATOR;
             }
 
             if ($a_ass->getAssignmentType()->isSubmissionAssignedToTeam()) {
-                $targetdir = $team_dir . ilUtil::getASCIIFilename(
+                $targetdir = $team_dir . ilFileUtils::getASCIIFilename(
                     $item["name"]
                 );
                 if ($targetdir == "") {
@@ -1034,8 +1051,8 @@ class ilExSubmission
                     $targetdir = $team_dir . $targetdir;
                 }
             }
-            ilUtil::makeDir($targetdir);
-                        
+            ilFileUtils::makeDir($targetdir);
+            
             $sourcefiles = scandir($sourcedir);
             $duplicates = array();
             foreach ($sourcefiles as $sourcefile) {
@@ -1079,7 +1096,7 @@ class ilExSubmission
                     }
                 }
                 
-                $targetfile = ilUtil::getASCIIFilename($targetfile);
+                $targetfile = ilFileUtils::getASCIIFilename($targetfile);
                 $targetfile = $targetdir . DIRECTORY_SEPARATOR . $targetfile;
                 $sourcefile = $sourcedir . DIRECTORY_SEPARATOR . $sourcefile;
 
@@ -1092,28 +1109,28 @@ class ilExSubmission
                     // blogs and portfolios are stored as zip and have to be unzipped
                     if ($ass_type == ilExAssignment::TYPE_PORTFOLIO ||
                         $ass_type == ilExAssignment::TYPE_BLOG) {
-                        ilUtil::unzip($targetfile);
+                        ilFileUtils::unzip($targetfile);
                         unlink($targetfile);
                     }
                 }
             }
         }
-        $tmpzipfile = ilUtil::getASCIIFilename($lng->txt("exc_ass_submission_zip")) . ".zip";
+        $tmpzipfile = ilFileUtils::getASCIIFilename($lng->txt("exc_ass_submission_zip")) . ".zip";
         // Safe mode fix
-        $zipcmd = $zip . " -r " . ilUtil::escapeShellArg($tmpzipfile) . " .";
+        $zipcmd = $zip . " -r " . ilShellUtil::escapeShellArg($tmpzipfile) . " .";
         exec($zipcmd);
         //$path_final_zip_file = $to_path.DIRECTORY_SEPARATOR."Submissions/".$tmpzipfile;
         $path_final_zip_file = $to_path . DIRECTORY_SEPARATOR . $tmpzipfile;
 
         if (file_exists($tmpdir . DIRECTORY_SEPARATOR . $tmpzipfile)) {
             copy($tmpzipfile, $path_final_zip_file);
-            ilUtil::delDir($tmpdir);
+            ilFileUtils::delDir($tmpdir);
 
             //unzip the submissions zip file.(decided to unzip to allow the excel link the files more obvious when blog/portfolio)
             chdir($to_path);
             //TODO Bug in ilUtil -> if flat unzip fails. We can get rid of creating Submissions directory
             //ilUtil::unzip($path_final_zip_file,FALSE, TRUE);
-            ilUtil::unzip($path_final_zip_file);
+            ilFileUtils::unzip($path_final_zip_file);
             unlink($path_final_zip_file);
         }
 
@@ -1482,7 +1499,7 @@ class ilExSubmission
     public static function getDirectoryNameFromUserData(int $a_user_id) : string
     {
         $userName = ilObjUser::_lookupName($a_user_id);
-        return ilUtil::getASCIIFilename(
+        return ilFileUtils::getASCIIFilename(
             trim($userName["lastname"]) . "_" .
             trim($userName["firstname"]) . "_" .
             trim($userName["login"]) . "_" .

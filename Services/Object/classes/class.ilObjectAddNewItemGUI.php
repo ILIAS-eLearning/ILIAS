@@ -147,7 +147,7 @@ class ilObjectAddNewItemGUI
             }
         }
         
-        $this->sub_objects = ilUtil::sortArray($this->sub_objects, "title", 1);
+        $this->sub_objects = ilArrayUtil::sortArray($this->sub_objects, "title", 1);
         
         return (bool) sizeof($this->sub_objects);
     }
@@ -204,7 +204,7 @@ class ilObjectAddNewItemGUI
                 }
                 
                 // sort by default positions
-                $subtypes = ilUtil::sortArray($subtypes, "pos", "asc", true, true);
+                $subtypes = ilArrayUtil::sortArray($subtypes, "pos", "asc", true, true);
             }
             // use group assignment
             else {
@@ -291,7 +291,9 @@ class ilObjectAddNewItemGUI
         } else {
             $base_url = $this->url_creation;
         }
-        $base_url = $ilCtrl->appendRequestTokenParameterString($base_url);
+        // I removed the token statement because you can now
+        // generate links with ilCtrl::getLinkTargetByClass()
+        // which automatically appends one.
         
         if ($this->url_creation_callback) {
             $base_url .= "&crtcb=" . $this->url_creation_callback;
@@ -319,7 +321,7 @@ class ilObjectAddNewItemGUI
                 case "object":
                     $type = $item["value"];
 
-                    $path = ilObject::_getIcon('', 'tiny', $type);
+                    $path = ilObject::_getIcon(0, 'tiny', $type);
                     $icon = ($path != "")
                         ? ilUtil::img($path, "") . " "
                         : "";

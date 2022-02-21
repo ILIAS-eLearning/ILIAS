@@ -1,105 +1,65 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
 *
 * @ingroup ServicesWebServicesECS
 */
 class ilECSParticipantSettingsGUI
 {
-    private $server_id = 0;
-    private $mid = 0;
+    private int $server_id = 0;
+    private int $mid = 0;
     
-    private $participant = null;
+    private ilECSParticipantSetting $participant;
     
-    protected $tpl;
-    protected $lng;
-    protected $ctrl;
-    protected $tabs;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs;
     
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct($a_server_id, $a_mid)
+    public function __construct(int $a_server_id, int $a_mid)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->tabs = $DIC->tabs();
         
         $this->server_id = $a_server_id;
         $this->mid = $a_mid;
         
-        $this->tpl = $tpl;
-        $this->lng = $lng;
         $this->lng->loadLanguageModule('ecs');
-        $this->ctrl = $ilCtrl;
-        $this->tabs = $ilTabs;
 
-        $this->initSettings();
-        $this->initParticipant();
+        $this->participant = new ilECSParticipantSetting($this->getServerId(), $this->getMid());
     }
     
-    /**
-     *
-     * @return int
-     */
-    public function getServerId()
+    public function getServerId() : int
     {
         return $this->server_id;
     }
     
-    /**
-     *
-     * @return int
-     */
-    public function getMid()
+    public function getMid() : int
     {
         return $this->mid;
     }
     
-    /**
-     *
-     * @return ilTemplate
-     */
-    public function getTemplate()
-    {
-        return $this->tpl;
-    }
-    
-    /**
-     *
-     * @return ilCtrl
-     */
-    public function getCtrl()
-    {
-        return $this->ctrl;
-    }
-    
-    /**
-     * return ilLanguage
-     */
-    public function getLang()
-    {
-        return $this->lng;
-    }
-    
-    /**
-     *
-     * @return ilECSParticipantSetting
-     */
-    public function getParticipant()
+    private function getParticipant() : ilECSParticipantSetting
     {
         return $this->participant;
     }
@@ -114,20 +74,20 @@ class ilECSParticipantSettingsGUI
      */
     public function executeCommand()
     {
-        $this->getCtrl()->saveParameter($this, 'server_id');
-        $this->getCtrl()->saveParameter($this, 'mid');
+        $this->ctrl->saveParameter($this, 'server_id');
+        $this->ctrl->saveParameter($this, 'mid');
         
         
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd('settings');
 
         $this->setTabs();
+        //TODO check if this is needed
         switch ($next_class) {
             default:
                 $this->$cmd();
                 break;
         }
-        
         
         return true;
     }
@@ -135,9 +95,9 @@ class ilECSParticipantSettingsGUI
     /**
      * Abort editing
      */
-    protected function abort()
+    private function abort()
     {
-        $this->getCtrl()->returnToParent($this);
+        $this->ctrl->returnToParent($this);
     }
 
 
@@ -145,12 +105,12 @@ class ilECSParticipantSettingsGUI
      * Settings
      * @param ilPropertyFormGUI $form
      */
-    protected function settings(ilPropertyFormGUI $form = null)
+    private function settings(ilPropertyFormGUI $form = null)
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initFormSettings();
         }
-        $this->getTemplate()->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
     
     /**
@@ -160,58 +120,56 @@ class ilECSParticipantSettingsGUI
     {
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
-            $this->getParticipant()->enableToken($form->getInput('token'));
-            $this->getParticipant()->enableDeprecatedToken($form->getInput('dtoken'));
-            $this->getParticipant()->enableExport($form->getInput('export'));
+            $this->getParticipant()->enableToken(boolval($form->getInput('token')));
+            $this->getParticipant()->enableDeprecatedToken(boolval($form->getInput('dtoken')));
+            $this->getParticipant()->enableExport(boolval($form->getInput('export')));
             $this->getParticipant()->setExportTypes($form->getInput('export_types'));
-            $this->getParticipant()->enableImport($form->getInput('import'));
+            $this->getParticipant()->enableImport(boolval($form->getInput('import')));
             $this->getParticipant()->setImportTypes($form->getInput('import_types'));
             $this->getParticipant()->update();
             
-            ilUtil::sendSuccess($this->getLang()->txt('settings_saved'), true);
-            $this->getCtrl()->redirect($this, 'settings');
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+            $this->ctrl->redirect($this, 'settings');
             return true;
         }
         $form->setValuesByPost();
-        ilUtil::sendFailure($this->getLang()->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->settings($form);
     }
     
     /**
      * Init settings form
      */
-    protected function initFormSettings()
+    protected function initFormSettings() : ilPropertyFormGUI
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->getCtrl()->getFormAction($this));
-        $form->setTitle($this->getLang()->txt('ecs_part_settings') . ' ' . $this->getParticipant()->getTitle());
+        $form->setFormAction($this->ctrl->getFormAction($this));
+        $form->setTitle($this->lng->txt('ecs_part_settings') . ' ' . $this->getParticipant()->getTitle());
         
         
-        $token = new ilCheckboxInputGUI($this->getLang()->txt('ecs_token_mechanism'), 'token');
-        $token->setInfo($this->getLang()->txt('ecs_token_mechanism_info'));
-        $token->setValue(1);
+        $token = new ilCheckboxInputGUI($this->lng->txt('ecs_token_mechanism'), 'token');
+        $token->setInfo($this->lng->txt('ecs_token_mechanism_info'));
+        $token->setValue("1");
         $token->setChecked($this->getParticipant()->isTokenEnabled());
         $form->addItem($token);
         
-        $dtoken = new ilCheckboxInputGUI($this->getLang()->txt('ecs_deprecated_token'), 'dtoken');
-        $dtoken->setInfo($this->getLang()->txt('ecs_deprecated_token_info'));
-        $dtoken->setValue(1);
+        $dtoken = new ilCheckboxInputGUI($this->lng->txt('ecs_deprecated_token'), 'dtoken');
+        $dtoken->setInfo($this->lng->txt('ecs_deprecated_token_info'));
+        $dtoken->setValue("1");
         $dtoken->setChecked($this->getParticipant()->isDeprecatedTokenEnabled());
         $form->addItem($dtoken);
         
         // Export
-        $export = new ilCheckboxInputGUI($this->getLang()->txt('ecs_tbl_export'), 'export');
-        $export->setValue(1);
+        $export = new ilCheckboxInputGUI($this->lng->txt('ecs_tbl_export'), 'export');
+        $export->setValue("1");
         $export->setChecked($this->getParticipant()->isExportEnabled());
         $form->addItem($export);
         
         // Export types
-        $obj_types = new ilCheckboxGroupInputGUI($this->getLang()->txt('ecs_export_types'), 'export_types');
+        $obj_types = new ilCheckboxGroupInputGUI($this->lng->txt('ecs_export_types'), 'export_types');
         $obj_types->setValue($this->getParticipant()->getExportTypes());
         
         
-        include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';
         foreach (ilECSUtils::getPossibleReleaseTypes(true) as $type => $trans) {
             $obj_types->addOption(new ilCheckboxOption($trans, $type));
         }
@@ -219,24 +177,23 @@ class ilECSParticipantSettingsGUI
         
 
         // Import
-        $import = new ilCheckboxInputGUI($this->getLang()->txt('ecs_tbl_import'), 'import');
-        $import->setValue(1);
+        $import = new ilCheckboxInputGUI($this->lng->txt('ecs_tbl_import'), 'import');
+        $import->setValue("1");
         $import->setChecked($this->getParticipant()->isImportEnabled());
         $form->addItem($import);
         
-        // Export types
-        $imp_types = new ilCheckboxGroupInputGUI($this->getLang()->txt('ecs_import_types'), 'import_types');
+        // Import types
+        $imp_types = new ilCheckboxGroupInputGUI($this->lng->txt('ecs_import_types'), 'import_types');
         $imp_types->setValue($this->getParticipant()->getImportTypes());
         
         
-        include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';
         foreach (ilECSUtils::getPossibleRemoteTypes(true) as $type => $trans) {
             $imp_types->addOption(new ilCheckboxOption($trans, $type));
         }
         $import->addSubItem($imp_types);
 
-        $form->addCommandButton('saveSettings', $this->getLang()->txt('save'));
-        $form->addCommandButton('abort', $this->getLang()->txt('cancel'));
+        $form->addCommandButton('saveSettings', $this->lng->txt('save'));
+        $form->addCommandButton('abort', $this->lng->txt('cancel'));
         return $form;
     }
 
@@ -244,32 +201,12 @@ class ilECSParticipantSettingsGUI
     /**
      * Set tabs
      */
-    protected function setTabs()
+    private function setTabs()
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
             $this->lng->txt('back'),
-            $this->ctrl->getParentReturn($this)
+            $this->ctrl->getParentReturnByClass(self::class)
         );
-    }
-
-    /**
-     * Init settings
-     *
-     * @access protected
-     */
-    protected function initSettings()
-    {
-        include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-        $this->settings = ilECSSetting::getInstanceByServerId($this->getServerId());
-    }
-    
-    /**
-     * init participant
-     */
-    protected function initParticipant()
-    {
-        include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
-        $this->participant = new ilECSParticipantSetting($this->getServerId(), $this->getMid());
     }
 }

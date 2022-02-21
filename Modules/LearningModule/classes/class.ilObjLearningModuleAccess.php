@@ -31,7 +31,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
     /**
      * Get possible conditions operators
      */
-    public static function getConditionOperators()
+    public static function getConditionOperators() : array
     {
         // currently only one mode "ilConditionHandler::OPERATOR_LP"
         // which is automatically added by condition handling, if lp is activated
@@ -39,7 +39,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
     }
 
 
-    public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id)
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         return true;
     }

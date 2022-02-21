@@ -156,8 +156,7 @@ class ilSetting implements \ILIAS\Administration\Setting
 
         if (self::$value_type == 'text' and strlen($a_val) >= 4000) {
             global $DIC;
-            $lng = $DIC["lng"];
-            ilUtil::sendFailure($lng->txt('setting_value_truncated'), true);
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $DIC->language()->txt('setting_value_truncated'), true);
             $a_val = substr($a_val, 0, 4000);
         }
 

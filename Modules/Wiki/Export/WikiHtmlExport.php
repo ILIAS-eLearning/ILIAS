@@ -16,6 +16,7 @@
 namespace ILIAS\Wiki\Export;
 
 use ILIAS\User\Export\UserHtmlExport;
+use ilFileUtils;
 
 /**
  * Wiki HTML exporter class
@@ -41,6 +42,10 @@ class WikiHtmlExport
     protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ilGlobalTemplateInterface $main_tpl;
     protected \ilWikiUserHTMLExport $user_html_exp;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+
+    // has global context been initialized?
+    protected static $context_init = false;
 
     public function __construct(\ilObjWiki $a_wiki)
     {
@@ -54,6 +59,10 @@ class WikiHtmlExport
         $this->log = \ilLoggerFactory::getLogger('wiki');
         $this->global_screen = $DIC->globalScreen();
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain()
+            ->styleForRefId($a_wiki->getRefId());
     }
     
     public function setMode(
@@ -72,7 +81,7 @@ class WikiHtmlExport
      * @throws \ilTemplateException
      * @throws \ilWikiExportException
      */
-    public function buildExportFile() : string
+    public function buildExportFile($print_version = false)
     {
         $global_screen = $this->global_screen;
         $ilDB = $this->db;
@@ -86,7 +95,7 @@ class WikiHtmlExport
             $this->user_html_exp = new \ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser, ($this->getMode() == self::MODE_USER_COMMENTS));
         }
 
-        $ascii_name = str_replace(" ", "_", \ilUtil::getASCIIFilename($this->wiki->getTitle()));
+        $ascii_name = str_replace(" ", "_", ilFileUtils::getASCIIFilename($this->wiki->getTitle()));
 
         // create export file
         \ilExport::_createExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
@@ -94,7 +103,7 @@ class WikiHtmlExport
             \ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
 
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
-            \ilUtil::delDir($exp_dir, true);
+            ilFileUtils::delDir($exp_dir, true);
         }
 
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
@@ -102,30 +111,42 @@ class WikiHtmlExport
         } else {
             $subdir = $this->wiki->getType() . "_" . $this->wiki->getId();
         }
+
+        if ($print_version) {
+            $subdir .= "print";
+        }
+
         $this->export_dir = $exp_dir . "/" . $subdir;
 
         $this->export_util = new \ILIAS\Services\Export\HTML\Util($exp_dir, $subdir);
 
         // initialize temporary target directory
-        \ilUtil::delDir($this->export_dir);
-        \ilUtil::makeDir($this->export_dir);
+        ilFileUtils::delDir($this->export_dir);
+        ilFileUtils::makeDir($this->export_dir);
 
         $this->log->debug("export directory: " . $this->export_dir);
 
 
         $this->export_util->exportSystemStyle();
-        $this->export_util->exportCOPageFiles($this->wiki->getStyleSheetId(), "wiki");
-
+        $eff_style_id = $this->content_style_domain->getEffectiveStyleId();
+        $this->export_util->exportCOPageFiles($eff_style_id, "wiki");
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->export_dir);
-        $this->co_page_html_export->setContentStyleId(\ilObjStyleSheet::getEffectiveContentStyleId(
-            $this->wiki->getStyleSheetId(),
-            "wiki"
-        ));
+        $this->co_page_html_export->setContentStyleId($eff_style_id);
 
         // export pages
         $this->log->debug("export pages");
-        $global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
-        $this->exportHTMLPages();
+        if (!self::$context_init) {
+            $global_screen->tool()->context()->current()->addAdditionalData(
+                \ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
+                true
+            );
+            self::$context_init = true;
+        }
+        if ($print_version) {
+            $this->exportHTMLPagesPrint();
+        } else {
+            $this->exportHTMLPages();
+        }
         $this->exportUserImages();
 
         $this->export_util->exportResourceFiles();
@@ -145,8 +166,8 @@ class WikiHtmlExport
             //exit;
             $this->log->debug("zip, export dir: " . $this->export_dir);
             $this->log->debug("zip, export file: " . $zip_file);
-            \ilUtil::zip($this->export_dir, $zip_file);
-            \ilUtil::delDir($this->export_dir);
+            ilFileUtils::zip($this->export_dir, $zip_file);
+            ilFileUtils::delDir($this->export_dir);
         }
         return $zip_file;
     }
@@ -186,6 +207,28 @@ class WikiHtmlExport
                 $this->updateUserHTMLStatusForPageElements($total, $cnt);
             }
         );
+    }
+
+    /**
+     * Export all pages as one print version
+     */
+    public function exportHTMLPagesPrint()
+    {
+        // collect page elements
+        $pages = \ilWikiPage::getAllWikiPages($this->wiki->getId());
+        foreach ($pages as $page) {
+            if (\ilWikiPage::_exists("wpg", $page["id"])) {
+                $this->co_page_html_export->collectPageElements("wpg:pg", $page["id"]);
+            }
+        }
+        $this->co_page_html_export->exportPageElements();
+
+        // render print view
+        $wiki_gui = new \ilObjWikiGUI([], $this->wiki->getRefId(), true);
+        $print_view = $wiki_gui->getPrintView();
+        $print_view->setOffline(true);
+        $html = $print_view->renderPrintView();
+        file_put_contents($this->export_dir . "/index.html", $html);
     }
 
     /**

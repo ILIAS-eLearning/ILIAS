@@ -2,7 +2,7 @@
 
 namespace ILIAS\UI\examples\Toast\Standard;
 
-function with_link_title()
+function with_link_title() : string
 {
     global $DIC;
     $toast = $DIC->ui()->factory()->toast()->standard(

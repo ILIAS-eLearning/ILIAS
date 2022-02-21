@@ -1,24 +1,40 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- * Description of class class
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
+//TODO check why authfront does not include frontendInterface
 class ilAuthFrontend
 {
     const MIG_EXTERNAL_ACCOUNT = 'mig_ext_account';
     const MIG_TRIGGER_AUTHMODE = 'mig_trigger_auth_mode';
     const MIG_DESIRED_AUTHMODE = 'mig_desired_auth_mode';
     
-    private $logger = null;
-    private $credentials = null;
-    private $status = null;
-    private $providers = array();
-    private $auth_session = null;
+    private ilLogger $logger;
+    private ilSetting $settings;
+    private ilLanguage $lng;
+
+    private ilAuthCredentials $credentials;
+    private ilAuthStatus $status;
+    private array $providers;
+    private ilAuthSession $auth_session;
+    private ilAppEventHandler $ilAppEventHandler;
     
     private $authenticated = false;
     
@@ -29,7 +45,11 @@ class ilAuthFrontend
      */
     public function __construct(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers)
     {
-        $this->logger = ilLoggerFactory::getLogger('auth');
+        global $DIC;
+        $this->logger = $DIC->logger()->auth();
+        $this->settings = $DIC->settings();
+        $this->lng = $DIC->language();
+        $this->ilAppEventHandler = $DIC->event();
         
         $this->auth_session = $session;
         $this->credentials = $credentials;
@@ -39,18 +59,16 @@ class ilAuthFrontend
     
     /**
      * Get auth session
-     * @return ilAuthSession
      */
-    public function getAuthSession()
+    public function getAuthSession() : ilAuthSession
     {
         return $this->auth_session;
     }
     
     /**
      * Get auth credentials
-     * @return ilAuthCredentials
      */
-    public function getCredentials()
+    public function getCredentials() : ilAuthCredentials
     {
         return $this->credentials;
     }
@@ -59,7 +77,7 @@ class ilAuthFrontend
      * Get providers
      * @return ilAuthProviderInterface[] $provider
      */
-    public function getProviders()
+    public function getProviders() : array
     {
         return $this->providers;
     }
@@ -67,7 +85,7 @@ class ilAuthFrontend
     /**
      * @return \ilAuthStatus
      */
-    public function getStatus()
+    public function getStatus() : ilAuthStatus
     {
         return $this->status;
     }
@@ -75,7 +93,7 @@ class ilAuthFrontend
     /**
      * Reset status
      */
-    public function resetStatus()
+    public function resetStatus() : void
     {
         $this->getStatus()->setStatus(ilAuthStatus::STATUS_UNDEFINED);
         $this->getStatus()->setReason('');
@@ -83,40 +101,27 @@ class ilAuthFrontend
     }
     
     /**
-     * Get logger
-     * @return ilLogger
-     */
-    public function getLogger()
-    {
-        return $this->logger;
-    }
-    
-    /**
      * Migrate Account to existing user account
      * @param ilAuthSession $session
-     * @param type $a_username
-     * @param type $a_auth_mode
-     * @param type $a_desired_authmode
      * @throws \InvalidArgumentException if current auth provider does not support account migration
      */
-    public function migrateAccount(ilAuthSession $session)
+    public function migrateAccount(ilAuthSession $session) : bool
     {
         if (!$session->isAuthenticated()) {
-            $this->getLogger()->warning('Desired user account is not authenticated');
+            $this->logger->warning('Desired user account is not authenticated');
             return false;
         }
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
         $user_factory = new ilObjectFactory();
         $user = $user_factory->getInstanceByObjId($session->getUserId(), false);
         
         if (!$user instanceof ilObjUser) {
-            $this->getLogger()->info('Cannot instantiate user account for account migration: ' . $session->getUserId());
+            $this->logger->info('Cannot instantiate user account for account migration: ' . $session->getUserId());
             return false;
         }
         
         $user->setAuthMode(ilSession::get(static::MIG_DESIRED_AUTHMODE));
         
-        $this->getLogger()->debug('new auth mode is: ' . ilSession::get(self::MIG_DESIRED_AUTHMODE));
+        $this->logger->debug('new auth mode is: ' . ilSession::get(self::MIG_DESIRED_AUTHMODE));
         
         $user->setExternalAccount(ilSession::get(static::MIG_EXTERNAL_ACCOUNT));
         $user->update();
@@ -140,7 +145,7 @@ class ilAuthFrontend
     /**
      * Create new user account
      */
-    public function migrateAccountNew()
+    public function migrateAccountNew() : bool
     {
         foreach ($this->providers as $provider) {
             if (!$provider instanceof ilAuthProviderAccountMigrationInterface) {
@@ -163,28 +168,28 @@ class ilAuthFrontend
     /**
      * Try to authenticate user
      */
-    public function authenticate()
+    public function authenticate() : bool
     {
         foreach ($this->getProviders() as $provider) {
             $this->resetStatus();
             
-            $this->getLogger()->debug('Trying authentication against: ' . get_class($provider));
+            $this->logger->debug('Trying authentication against: ' . get_class($provider));
             
             $provider->doAuthentication($this->getStatus());
             
-            $this->getLogger()->debug('Authentication user id: ' . $this->getStatus()->getAuthenticatedUserId());
+            $this->logger->debug('Authentication user id: ' . $this->getStatus()->getAuthenticatedUserId());
             
             switch ($this->getStatus()->getStatus()) {
                 case ilAuthStatus::STATUS_AUTHENTICATED:
                     return $this->handleAuthenticationSuccess($provider);
                     
                 case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-                    $this->getLogger()->notice("Account migration required.");
+                    $this->logger->notice("Account migration required.");
                     return $this->handleAccountMigration($provider);
                     
                 case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                 default:
-                    $this->getLogger()->debug('Authentication failed against: ' . get_class($provider));
+                    $this->logger->debug('Authentication failed against: ' . get_class($provider));
                     break;
             }
         }
@@ -195,11 +200,11 @@ class ilAuthFrontend
      * Handle account migration
      * @param ilAuthProvider $provider
      */
-    protected function handleAccountMigration(ilAuthProviderAccountMigrationInterface $provider)
+    protected function handleAccountMigration(ilAuthProviderAccountMigrationInterface $provider) : bool
     {
-        $this->getLogger()->debug('Trigger auth mode: ' . $provider->getTriggerAuthMode());
-        $this->getLogger()->debug('Desired auth mode: ' . $provider->getUserAuthModeName());
-        $this->getLogger()->debug('External account: ' . $provider->getExternalAccountName());
+        $this->logger->debug('Trigger auth mode: ' . $provider->getTriggerAuthMode());
+        $this->logger->debug('Desired auth mode: ' . $provider->getUserAuthModeName());
+        $this->logger->debug('External account: ' . $provider->getExternalAccountName());
         
         $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
         #$this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
@@ -208,7 +213,7 @@ class ilAuthFrontend
         ilSession::set(static::MIG_DESIRED_AUTHMODE, $provider->getUserAuthModeName());
         ilSession::set(static::MIG_EXTERNAL_ACCOUNT, $provider->getExternalAccountName());
         
-        $this->getLogger()->dump($_SESSION, ilLogLevel::DEBUG);
+        $this->logger->dump($_SESSION, ilLogLevel::DEBUG);
         
         return true;
     }
@@ -217,9 +222,8 @@ class ilAuthFrontend
      * Handle successful authentication
      * @param ilAuthProviderInterface $provider
      */
-    protected function handleAuthenticationSuccess(ilAuthProviderInterface $provider)
+    protected function handleAuthenticationSuccess(ilAuthProviderInterface $provider) : bool
     {
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
         $factory = new ilObjectFactory();
         $user = $factory->getInstanceByObjId($this->getStatus()->getAuthenticatedUserId(), false);
         
@@ -227,7 +231,7 @@ class ilAuthFrontend
         $this->getAuthSession()->setExpired(false);
         
         if (!$user instanceof ilObjUser) {
-            $this->getLogger()->error('Cannot instantiate user account with id: ' . $this->getStatus()->getAuthenticatedUserId());
+            $this->logger->error('Cannot instantiate user account with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             $this->getStatus()->setReason('auth_err_invalid_user_account');
@@ -235,7 +239,7 @@ class ilAuthFrontend
         }
 
         if (!$this->checkExceededLoginAttempts($user)) {
-            $this->getLogger()->info('Authentication failed for inactive user with id and too may login attempts: ' . $this->getStatus()->getAuthenticatedUserId());
+            $this->logger->info('Authentication failed for inactive user with id and too may login attempts: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             $this->getStatus()->setReason('auth_err_login_attempts_deactivation');
@@ -243,7 +247,7 @@ class ilAuthFrontend
         }
 
         if (!$this->checkActivation($user)) {
-            $this->getLogger()->info('Authentication failed for inactive user with id: ' . $this->getStatus()->getAuthenticatedUserId());
+            $this->logger->info('Authentication failed for inactive user with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             $this->getStatus()->setReason('err_inactive');
@@ -252,13 +256,13 @@ class ilAuthFrontend
         
         // time limit
         if (!$this->checkTimeLimit($user)) {
-            $this->getLogger()->info('Authentication failed (time limit restriction) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
+            $this->logger->info('Authentication failed (time limit restriction) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
 
-            if ($GLOBALS['DIC']['ilSetting']->get('user_reactivate_code')) {
-                $this->getLogger()->debug('Accout reactivation codes are active');
+            if ($this->settings->get('user_reactivate_code')) {
+                $this->logger->debug('Accout reactivation codes are active');
                 $this->getStatus()->setStatus(ilAuthStatus::STATUS_CODE_ACTIVATION_REQUIRED);
             } else {
-                $this->getLogger()->debug('Accout reactivation codes are inactive');
+                $this->logger->debug('Accout reactivation codes are inactive');
                 $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
                 $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             }
@@ -268,13 +272,13 @@ class ilAuthFrontend
         
         // ip check
         if (!$this->checkIp($user)) {
-            $this->getLogger()->info('Authentication failed (wrong ip) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
+            $this->logger->info('Authentication failed (wrong ip) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             
             $this->getStatus()->setTranslatedReason(
                 sprintf(
-                    $GLOBALS['DIC']->language()->txt('wrong_ip_detected'),
+                    $this->lng->txt('wrong_ip_detected'),
                     $_SERVER['REMOTE_ADDR']
                 )
             );
@@ -282,9 +286,9 @@ class ilAuthFrontend
         }
         
         // check simultaneos logins
-        $this->getLogger()->debug('Check simutaneous login');
+        $this->logger->debug('Check simutaneous login');
         if (!$this->checkSimultaneousLogins($user)) {
-            $this->getLogger()->info('Authentication failed: simultaneous logins forbidden for user: ' . $this->getStatus()->getAuthenticatedUserId());
+            $this->logger->info('Authentication failed: simultaneous logins forbidden for user: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             $this->getStatus()->setReason('simultaneous_login_detected');
@@ -292,8 +296,6 @@ class ilAuthFrontend
         }
         
         // check if profile is complete
-        include_once "Services/User/classes/class.ilUserProfile.php";
-        include_once './Services/Context/classes/class.ilContext.php';
         if (
             ilUserProfile::isProfileIncomplete($user) &&
             ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_ECS &&
@@ -309,14 +311,11 @@ class ilAuthFrontend
         
 
         // @todo move to event handling
-        include_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
         ilOnlineTracking::addUser($user->getId());
 
         // @todo move to event handling
-        include_once 'Modules/Forum/classes/class.ilObjForum.php';
         ilObjForum::_updateOldAccess($user->getId());
 
-        require_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
         $security_settings = ilSecuritySettings::_getInstance();
 
         // determine first login of user for setting an indicator
@@ -334,10 +333,9 @@ class ilAuthFrontend
         ilObjUser::_resetLoginAttempts($user->getId());
 
 
-        $this->getLogger()->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
+        $this->logger->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
         $this->getAuthSession()->setAuthenticated(true, $this->getStatus()->getAuthenticatedUserId());
         
-        include_once './Services/Init/classes/class.ilInitialisation.php';
         ilInitialisation::initUserAccount();
         
         ilSession::set('orig_request_target', '');
@@ -345,22 +343,19 @@ class ilAuthFrontend
         
         
         // --- anonymous/registered user
-        $this->getLogger()->info(
+        $this->logger->info(
             'logged in as ' . $user->getLogin() .
             ', remote:' . $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] .
             ', server:' . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT']
         );
 
         // finally raise event
-        global $DIC;
-
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
-        $ilAppEventHandler->raise(
+        $this->ilAppEventHandler->raise(
             'Services/Authentication',
             'afterLogin',
             array(
                 'username' => $user->getLogin())
-            );
+        );
         
         return true;
     }
@@ -369,16 +364,15 @@ class ilAuthFrontend
      * Check activation
      * @param ilObjUser $user
      */
-    protected function checkActivation(ilObjUser $user)
+    protected function checkActivation(ilObjUser $user) : bool
     {
         return $user->getActive();
     }
 
     /**
      * @param \ilObjUser $user
-     * @return bool
      */
-    protected function checkExceededLoginAttempts(\ilObjUser $user)
+    protected function checkExceededLoginAttempts(\ilObjUser $user) : bool
     {
         if (in_array($user->getId(), array(ANONYMOUS_USER_ID))) {
             return true;
@@ -389,7 +383,6 @@ class ilAuthFrontend
             return true;
         }
 
-        require_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
         $security = ilSecuritySettings::_getInstance();
         $maxLoginAttempts = $security->getLoginMaxAttempts();
 
@@ -405,9 +398,8 @@ class ilAuthFrontend
     /**
      * Check time limit
      * @param ilObjUser $user
-     * @return type
      */
-    protected function checkTimeLimit(ilObjUser $user)
+    protected function checkTimeLimit(ilObjUser $user) : bool
     {
         return $user->checkTimeLimit();
     }
@@ -415,7 +407,7 @@ class ilAuthFrontend
     /**
      * Check ip
      */
-    protected function checkIp(ilObjUser $user)
+    protected function checkIp(ilObjUser $user) : bool
     {
         $clientip = $user->getClientIP();
         if (trim($clientip) != "") {
@@ -436,11 +428,11 @@ class ilAuthFrontend
      * Check simultaneous logins
      * @param ilObjUser $user
      */
-    protected function checkSimultaneousLogins(ilObjUser $user)
+    protected function checkSimultaneousLogins(ilObjUser $user) : bool
     {
-        $this->getLogger()->debug('Setting prevent simultaneous session is: ' . (string) $GLOBALS['DIC']['ilSetting']->get('ps_prevent_simultaneous_logins'));
+        $this->logger->debug('Setting prevent simultaneous session is: ' . (string) $this->settings->get('ps_prevent_simultaneous_logins'));
         if (
-            $GLOBALS['DIC']['ilSetting']->get('ps_prevent_simultaneous_logins') &&
+            $this->settings->get('ps_prevent_simultaneous_logins') &&
             ilObjUser::hasActiveSession($user->getId(), $this->getAuthSession()->getId())
         ) {
             return false;
@@ -451,26 +443,26 @@ class ilAuthFrontend
     /**
      * Handle failed authenication
      */
-    protected function handleAuthenticationFail()
+    protected function handleAuthenticationFail() : bool
     {
-        $this->getLogger()->debug('Authentication failed for all authentication methods.');
+        $this->logger->debug('Authentication failed for all authentication methods.');
 
         $user_id = ilObjUser::_lookupId($this->getCredentials()->getUsername());
-        if (!in_array($user_id, array(ANONYMOUS_USER_ID))) {
+        if (is_int($user_id) && $user_id !== ANONYMOUS_USER_ID) {
             ilObjUser::_incrementLoginAttempts($user_id);
             $login_attempts = ilObjUser::_getLoginAttempts($user_id);
             
-            $this->getLogger()->notice('Increased login attempts for user: ' . $this->getCredentials()->getUsername());
+            $this->logger->notice('Increased login attempts for user: ' . $this->getCredentials()->getUsername());
             
-            include_once './Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
             $security = ilSecuritySettings::_getInstance();
             $max_attempts = $security->getLoginMaxAttempts();
             
             if ((int) $max_attempts && $login_attempts >= $max_attempts) {
                 $this->getStatus()->setReason('auth_err_login_attempts_deactivation');
-                $this->getLogger()->warning('User account set to inactive due to exceeded login attempts.');
+                $this->logger->warning('User account set to inactive due to exceeded login attempts.');
                 ilObjUser::_setUserInactive($user_id);
             }
         }
+        return false;
     }
 }

@@ -25,6 +25,7 @@ class ilMStListCoursesGUI
      * @var ilMyStaffAccess
      */
     protected $access;
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     /**
@@ -32,6 +33,8 @@ class ilMStListCoursesGUI
      */
     public function __construct()
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->access = ilMyStaffAccess::getInstance();
     }
 
@@ -46,7 +49,7 @@ class ilMStListCoursesGUI
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
         } else {
-            ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
             $DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }

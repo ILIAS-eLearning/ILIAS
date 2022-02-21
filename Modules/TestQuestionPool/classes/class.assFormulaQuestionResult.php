@@ -31,6 +31,7 @@ class assFormulaQuestionResult
     private $range_max_txt;
     
     private $available_units = array();
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * assFormulaQuestionResult constructor
@@ -50,6 +51,8 @@ class assFormulaQuestionResult
      */
     public function __construct($result, $range_min, $range_max, $tolerance, $unit, $formula, $points, $precision, $rating_simple = true, $rating_sign = 33, $rating_value = 34, $rating_unit = 33, $result_type = 0)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->result = $result;
         #	$this->setRangeMin((is_numeric($range_min)) ? $range_min : NULL);
         #	$this->setRangeMax((is_numeric($range_max)) ? $range_max : NULL);
@@ -81,14 +84,14 @@ class assFormulaQuestionResult
         if (preg_match_all("/(\\\$r\\d+)/ims", $formula, $matches)) {
             foreach ($matches[1] as $result) {
                 if (strcmp($result, $this->getResult()) == 0) {
-                    ilUtil::sendFailure($lng->txt("errRecursionInResult"));
+                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("errRecursionInResult"));
                     return false;
                 }
 
                 if (is_object($results[$result])) {
                     $formula = str_replace($result, $results[$result]->substituteFormula($variables, $results), $formula);
                 } else {
-                    ilUtil::sendFailure($lng->txt("errFormulaQuestion"));
+                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("errFormulaQuestion"));
                     return false;
                 }
             }
@@ -327,7 +330,11 @@ class assFormulaQuestionResult
                     try {
                         $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
                     } catch (ilMathDivisionByZeroException $ex) {
-                        $frac_value = 0;
+                        if ($result) {
+                            return false;
+                        } else {
+                            return true;
+                        }
                     }
                     $frac_value = str_replace(',', '.', $frac_value);
 
@@ -353,7 +360,15 @@ class assFormulaQuestionResult
                     $frac_value = str_replace(',', '.', $value);
                 } elseif (substr_count($value, '/') == 1) {
                     $exp_val = explode('/', $value);
-                    $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+                    try {
+                        $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+                    } catch (ilMathDivisionByZeroException $ex) {
+                        if ($result) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
                 } else {
                     $frac_value = $value;
                 }

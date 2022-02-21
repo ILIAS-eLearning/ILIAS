@@ -59,7 +59,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
             try {
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (Exception $exception) {
-                ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
                 $this->create();
                 return;
             }
@@ -71,10 +71,10 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 
                 $this->afterSave($newObj);
             } else {
-                ilUtil::sendFailure($this->lng->txt("msg_failed"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_failed"));
             }
         } else {
-            ilUtil::sendFailure($this->lng->txt("select_one"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
         }
         $this->create();
     }
@@ -83,7 +83,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
     {
         $file = $this->object->getFilePath();
         if ($file) {
-            ilUtil::deliverFile($file, $this->object->getTitle() . ".pdf");
+            ilFileDelivery::deliverFileLegacy($file, $this->object->getTitle() . ".pdf");
         }
     }
 

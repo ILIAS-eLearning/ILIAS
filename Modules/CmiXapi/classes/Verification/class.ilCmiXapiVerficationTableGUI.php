@@ -1,6 +1,17 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * List all completed course for current user
  *
@@ -18,7 +29,7 @@ class ilCmiXapiVerificationTableGUI extends ilTable2GUI
      * @param ilObject $a_parent_obj
      * @param string $a_parent_cmd
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "")
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd = "")
     {
         global $ilCtrl;
         
@@ -40,7 +51,7 @@ class ilCmiXapiVerificationTableGUI extends ilTable2GUI
     /**
      * Get all completed tests
      */
-    protected function getItems()
+    protected function getItems() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -69,10 +80,9 @@ class ilCmiXapiVerificationTableGUI extends ilTable2GUI
     
     /**
      * Fill template row
-     *
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $ilCtrl;
         

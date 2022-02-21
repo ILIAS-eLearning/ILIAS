@@ -513,9 +513,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         
         if (!$this->testSession->getCurrentQuestionId()) {
             $upComingQuestionId = $this->testSequence->getUpcomingQuestionId();
-            
+
             $this->testSession->setCurrentQuestionId($upComingQuestionId);
-            
+
             // seems to be a first try of freezing answers not too hard
             /*if( $this->testSequence->isQuestionChecked($upComingQuestionId) )
             {
@@ -589,11 +589,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                 $this->testSession->getCurrentQuestionId(),
                 $this->testSession->getCurrentQuestionId()
             );
-            
+
             $this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());
             $this->ctrl->setParameter($this, 'pmode', $presentationMode);
             $formAction = $this->ctrl->getFormAction($this, ilTestPlayerCommands::SUBMIT_INTERMEDIATE_SOLUTION);
-            
+
             switch ($presentationMode) {
                 case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
@@ -601,13 +601,13 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                     $navigationToolbarGUI->setDisabledStateEnabled(false);
 // fau.
                     $this->showQuestionEditable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
-                    
+
                     break;
 
                 case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
 
                     $this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
-                    
+
                     break;
 
                 default:
@@ -615,7 +615,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                     require_once 'Modules/Test/exceptions/class.ilTestException.php';
                     throw new ilTestException('no presentation mode given');
             }
-            
+
             $navigationToolbarGUI->build();
             $this->populateTestNavigationToolbar($navigationToolbarGUI);
 

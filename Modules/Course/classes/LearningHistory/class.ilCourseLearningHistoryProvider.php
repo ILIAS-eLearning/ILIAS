@@ -4,8 +4,7 @@
 
 /**
  * Learning history provider: Course learning objectives
- *
- * @author killing@leifos.de
+ * @author  killing@leifos.de
  * @ingroup ServicesTracking
  */
 class ilCourseLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
@@ -14,7 +13,7 @@ class ilCourseLearningHistoryProvider extends ilAbstractLearningHistoryProvider 
     /**
      * @inheritdoc
      */
-    public function isActive()
+    public function isActive() : bool
     {
         return true;
     }
@@ -22,7 +21,7 @@ class ilCourseLearningHistoryProvider extends ilAbstractLearningHistoryProvider 
     /**
      * @inheritdoc
      */
-    public function getEntries($ts_start, $ts_end)
+    public function getEntries(int $ts_start, int $ts_end) : array
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("crs");
@@ -30,7 +29,8 @@ class ilCourseLearningHistoryProvider extends ilAbstractLearningHistoryProvider 
 
         $entries = [];
         foreach ($completions as $c) {
-            $text = str_replace("$3$", $this->getEmphasizedTitle($c["title"]), $lng->txt("crs_lhist_objective_completed"));
+            $text = str_replace("$3$", $this->getEmphasizedTitle($c["title"]),
+                $lng->txt("crs_lhist_objective_completed"));
             $entries[] = $this->getFactory()->entry(
                 $text,
                 $text,

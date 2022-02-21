@@ -44,14 +44,15 @@ class ilObjectServiceSettingsGUI
     private $gui = null;
     private $modes = array();
     private $obj_id = 0;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * Constructor
-     * @param type $a_parent_gui
      */
     public function __construct($a_parent_gui, $a_obj_id, $a_modes)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->gui = $a_parent_gui;
@@ -507,11 +508,11 @@ class ilObjectServiceSettingsGUI
                     ilContainer::_writeContainerSetting($this->getObjId(), 'show_calendar', (int) $form->getInput('calendar'));
                 }
             }
-            ilUtil::sendSuccess($lng->txt('settings_saved'), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
             $ctrl->redirect($this);
         }
         
-        ilUtil::sendFailure($lng->txt('err_check_input'));
+        $this->main_tpl->setOnScreenMessage('failure', $lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->editSettings($form);
     }

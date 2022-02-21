@@ -32,7 +32,7 @@ class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
         $foundvalues = $_POST[$this->getPostVar()];
         
@@ -77,13 +77,13 @@ class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
         $i = 0;
         foreach ($this->values as $value) {
             $tpl->setCurrentBlock("prop_points_propval");
-            $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->points));
+            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->points));
             $tpl->parseCurrentBlock();
 
             $tpl->setCurrentBlock("row");
             
-            $tpl->setVariable("TEXT_WRONG", ilUtil::prepareFormOutput($value->text_wrong));
-            $tpl->setVariable("TEXT_CORRECT", ilUtil::prepareFormOutput($value->text_correct));
+            $tpl->setVariable("TEXT_WRONG", ilLegacyFormElementsUtil::prepareFormOutput($value->text_wrong));
+            $tpl->setVariable("TEXT_CORRECT", ilLegacyFormElementsUtil::prepareFormOutput($value->text_correct));
             
             $class = ($i % 2 == 0) ? "even" : "odd";
             if ($i == 0) {

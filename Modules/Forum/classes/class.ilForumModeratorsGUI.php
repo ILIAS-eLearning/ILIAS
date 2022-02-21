@@ -80,7 +80,7 @@ class ilForumModeratorsGUI
     public function addModerator($users = []) : void
     {
         if (!$users) {
-            ilUtil::sendFailure($this->lng->txt('frm_moderators_select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_moderators_select_one'));
             return;
         }
 
@@ -101,7 +101,7 @@ class ilForumModeratorsGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('frm_moderator_role_added_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('frm_moderator_role_added_successfully'), true);
         $this->ctrl->redirect($this, 'showModerators');
     }
 
@@ -116,13 +116,13 @@ class ilForumModeratorsGUI
         }
 
         if (!isset($usr_ids) || !is_array($usr_ids)) {
-            ilUtil::sendFailure($this->lng->txt('frm_moderators_select_at_least_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_moderators_select_at_least_one'));
             $this->ctrl->redirect($this, 'showModerators');
         }
 
         $entries = $this->oForumModerators->getCurrentModerators();
         if (count($usr_ids) === count($entries)) {
-            ilUtil::sendFailure($this->lng->txt('frm_at_least_one_moderator'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_at_least_one_moderator'));
             $this->ctrl->redirect($this, 'showModerators');
         }
 
@@ -143,7 +143,7 @@ class ilForumModeratorsGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('frm_moderators_detached_role_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('frm_moderators_detached_role_successfully'), true);
         $this->ctrl->redirect($this, 'showModerators');
     }
 
@@ -181,7 +181,7 @@ class ilForumModeratorsGUI
             }
 
             if ($num > 1) {
-                $result[$i]['check'] = ilUtil::formCheckbox(false, 'usr_id[]', $user->getId());
+                $result[$i]['check'] = ilLegacyFormElementsUtil::formCheckbox(false, 'usr_id[]', (string) $user->getId());
             } else {
                 $result[$i]['check'] = '';
             }

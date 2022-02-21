@@ -23,7 +23,6 @@
 class ilPCAMDPageList extends ilPageContent
 {
     protected php4DOMElement $amdpl_node;
-    protected int $ref_id = 0;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
@@ -34,11 +33,6 @@ class ilPCAMDPageList extends ilPageContent
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->setType("amdpl");
-
-        $this->ref_id = 0;
-        if (isset($_GET["ref_id"])) {
-            $this->ref_id = (int) $_GET["ref_id"];
-        }
     }
     
     public static function getLangVars() : array
@@ -123,11 +117,12 @@ class ilPCAMDPageList extends ilPageContent
         }
         return $res;
     }
-    
     public static function handleCopiedContent(
         DOMDocument $a_domdoc,
         bool $a_self_ass = true,
-        bool $a_clone_mobs = false
+        bool $a_clone_mobs = false,
+        int $new_parent_id = 0,
+        int $obj_copy_id = 0
     ) : void {
         global $DIC;
 
@@ -173,13 +168,17 @@ class ilPCAMDPageList extends ilPageContent
         $ilDB = $this->db;
         
         $list_values = $this->getFieldValues($a_list_id);
-        $wiki_id = $this->getPage()->getWikiId();
+
+        /** @var ilWikiPage $wpage */
+        $wpage = $this->getPage();
+        $wiki_id = $wpage->getWikiId();
+        $wiki_ref_id = $wpage->getWikiRefId();
 
         $found_result = array();
 
         // only search in active fields
         $found_ids = null;
-        $recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg");
+        $recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $wiki_ref_id, "wpg");
         foreach ($recs as $record) {
             foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $field) {
                 if (isset($list_values[$field->getFieldId()])) {

@@ -1,5 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use Jumbojett\OpenIDConnectClient;
 
@@ -40,7 +53,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
         $auth_token = ilSession::get('oidc_auth_token');
         $this->getLogger()->debug('Using token: ' . $auth_token);
 
-        if (strlen($auth_token)) {
+        if (isset($auth_token) && strlen($auth_token)) {
             ilSession::set('oidc_auth_token', '');
             $oidc = $this->initClient();
             $oidc->signOut(
@@ -55,7 +68,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
      * @param \ilAuthStatus $status Authentication status
      * @return bool
      */
-    public function doAuthentication(\ilAuthStatus $status)
+    public function doAuthentication(\ilAuthStatus $status) : bool
     {
         try {
             $oidc = $this->initClient();

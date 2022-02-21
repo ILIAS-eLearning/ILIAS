@@ -1,36 +1,16 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 class ilStudyProgrammeCommonSettingsGUI
 {
     const CMD_EDIT = 'editSettings';
     const CMD_SAVE = 'saveSettings';
 
-    /**
-     * @var ilObjIndividualAssessment
-     */
-    protected $object;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilObjectService $object_service;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjectService
-     */
-    protected $object_service;
+    protected ?ilObjStudyProgramme $object = null;
 
     public function __construct(
         ilCtrl $ctrl,
@@ -44,17 +24,20 @@ class ilStudyProgrammeCommonSettingsGUI
         $this->object_service = $object_service;
     }
 
+    /**
+     * @return string|void
+     * @throws Exception
+     */
     public function executeCommand()
     {
         if (is_null($this->object)) {
-            throw new ilException('Object of ilObjStudyProgramme is not set');
+            throw new Exception('Object of ilObjStudyProgramme is not set');
         }
 
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
             case self::CMD_EDIT:
                 return $this->editSettings();
-                break;
             case self::CMD_SAVE:
                 $this->saveSettings();
                 break;
@@ -63,12 +46,12 @@ class ilStudyProgrammeCommonSettingsGUI
         }
     }
 
-    public function setObject(ilObjStudyProgramme $object)
+    public function setObject(ilObjStudyProgramme $object) : void
     {
         $this->object = $object;
     }
 
-    protected function editSettings(ilPropertyFormGUI $form = null)
+    protected function editSettings(ilPropertyFormGUI $form = null) : string
     {
         if (is_null($form)) {
             $form = $this->buildForm();
@@ -89,7 +72,7 @@ class ilStudyProgrammeCommonSettingsGUI
         return $form;
     }
 
-    protected function addServiceSettingsToForm(ilPropertyFormGUI $form)
+    protected function addServiceSettingsToForm(ilPropertyFormGUI $form) : void
     {
         ilObjectServiceSettingsGUI::initServiceSettingsForm(
             $this->object->getId(),
@@ -100,7 +83,7 @@ class ilStudyProgrammeCommonSettingsGUI
         );
     }
 
-    protected function saveSettings()
+    protected function saveSettings() : void
     {
         $form = $this->buildForm();
 
@@ -118,7 +101,7 @@ class ilStudyProgrammeCommonSettingsGUI
             ]
         );
 
-        ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, self::CMD_EDIT);
     }
 

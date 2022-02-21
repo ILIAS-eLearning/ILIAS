@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Holds information about multi-actions,
@@ -6,9 +6,9 @@
  */
 class ilPRGMessageCollection
 {
-    protected $success = [];
-    protected $error = [];
-    protected $description = '';
+    protected array $success = [];
+    protected array $error = [];
+    protected string $description = '';
 
     public function withNewTopic(string $description) : ilPRGMessageCollection
     {

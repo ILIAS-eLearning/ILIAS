@@ -90,20 +90,20 @@ class ilCOPageHTMLExport
     
     public function createDirectories() : void
     {
-        ilUtil::makeDir($this->mobs_dir);
-        ilUtil::makeDir($this->files_dir);
-        ilUtil::makeDir($this->tex_dir);
-        ilUtil::makeDir($this->content_style_dir);
-        ilUtil::makeDir($this->content_style_img_dir);
-        ilUtil::makeDir($this->services_dir);
-        ilUtil::makeDir($this->media_service_dir);
-        ilUtil::makeDir($this->flv_dir);
-        ilUtil::makeDir($this->mp3_dir);
+        ilFileUtils::makeDir($this->mobs_dir);
+        ilFileUtils::makeDir($this->files_dir);
+        ilFileUtils::makeDir($this->tex_dir);
+        ilFileUtils::makeDir($this->content_style_dir);
+        ilFileUtils::makeDir($this->content_style_img_dir);
+        ilFileUtils::makeDir($this->services_dir);
+        ilFileUtils::makeDir($this->media_service_dir);
+        ilFileUtils::makeDir($this->flv_dir);
+        ilFileUtils::makeDir($this->mp3_dir);
 
-        ilUtil::makeDir($this->js_dir);
-        ilUtil::makeDir($this->js_yahoo_dir);
-        ilUtil::makeDir($this->css_dir);
-        ilUtil::makeDir($this->css_dir . "/yahoo");
+        ilFileUtils::makeDir($this->js_dir);
+        ilFileUtils::makeDir($this->js_yahoo_dir);
+        ilFileUtils::makeDir($this->css_dir);
+        ilFileUtils::makeDir($this->css_dir . "/yahoo");
     }
     
     /**
@@ -118,8 +118,9 @@ class ilCOPageHTMLExport
 
         // export content style sheet
         if ($this->getContentStyleId() < 1) {     // basic style
-            ilUtil::rCopy(ilObjStyleSheet::getBasicImageDir(), $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir());
-            ilUtil::makeDirParents($this->exp_dir . "/Services/COPage/css");
+            ilFileUtils::rCopy(ilObjStyleSheet::getBasicImageDir(),
+                $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir());
+            ilFileUtils::makeDirParents($this->exp_dir . "/Services/COPage/css");
             copy("Services/COPage/css/content.css", $this->exp_dir . "/Services/COPage/css/content.css");
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
@@ -133,6 +134,10 @@ class ilCOPageHTMLExport
         // export syntax highlighting style
         $syn_stylesheet = ilObjStyleSheet::getSyntaxStylePath();
         $this->exportResourceFile($this->exp_dir, $syn_stylesheet);
+
+        // export print style
+        $print_stylesheet = ilObjStyleSheet::getContentPrintStyle();
+        $this->exportResourceFile($this->exp_dir, $print_stylesheet);
     }
     
     /**
@@ -166,7 +171,7 @@ class ilCOPageHTMLExport
         }
         if (is_file($file)) {
             $dir = dirname($file);
-            \ilUtil::makeDirParents($target_dir . "/" . $dir);
+            ilFileUtils::makeDirParents($target_dir . "/" . $dir);
             if (!is_file($target_dir . "/" . $file)) {
                 copy($file, $target_dir . "/" . $file);
             }
@@ -461,10 +466,10 @@ class ilCOPageHTMLExport
     ) : void {
         $this->log->debug("export html mobs");
 
-        $source_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $a_mob_id;
+        $source_dir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $a_mob_id;
         if (is_dir($source_dir)) {
-            ilUtil::makeDir($this->mobs_dir . "/mm_" . $a_mob_id);
-            ilUtil::rCopy($source_dir, $this->mobs_dir . "/mm_" . $a_mob_id);
+            ilFileUtils::makeDir($this->mobs_dir . "/mm_" . $a_mob_id);
+            ilFileUtils::rCopy($source_dir, $this->mobs_dir . "/mm_" . $a_mob_id);
         }
 
         $mob_obj = new ilObjMediaObject($a_mob_id);
@@ -545,7 +550,7 @@ class ilCOPageHTMLExport
     public function exportHTMLFile(string $a_file_id) : void
     {
         $file_dir = $this->files_dir . "/file_" . $a_file_id;
-        ilUtil::makeDir($file_dir);
+        ilFileUtils::makeDir($file_dir);
         
         $file_obj = new ilObjFile($a_file_id, false);
         $source_file = $file_obj->getFile($file_obj->getVersion());
@@ -566,12 +571,12 @@ class ilCOPageHTMLExport
         string $a_file_name
     ) : void {
         $file_dir = $this->files_dir . "/file_" . $a_file_id;
-        ilUtil::makeDir($file_dir);
-                                
+        ilFileUtils::makeDir($file_dir);
+        
         if (is_file($a_source_file)) {
             copy(
                 $a_source_file,
-                $file_dir . "/" . ilUtil::getASCIIFilename($a_file_name)
+                $file_dir . "/" . ilFileUtils::getASCIIFilename($a_file_name)
             );
         }
     }
@@ -584,9 +589,9 @@ class ilCOPageHTMLExport
         // export questions (images)
         if (count($this->q_ids) > 0) {
             foreach ($this->q_ids as $q_id) {
-                \ilUtil::makeDirParents($this->exp_dir . "/assessment/0/" . $q_id . "/images");
-                \ilUtil::rCopy(
-                    \ilUtil::getWebspaceDir() . "/assessment/0/" . $q_id . "/images",
+                ilFileUtils::makeDirParents($this->exp_dir . "/assessment/0/" . $q_id . "/images");
+                ilFileUtils::rCopy(
+                    ilFileUtils::getWebspaceDir() . "/assessment/0/" . $q_id . "/images",
                     $this->exp_dir . "/assessment/0/" . $q_id . "/images"
                 );
             }

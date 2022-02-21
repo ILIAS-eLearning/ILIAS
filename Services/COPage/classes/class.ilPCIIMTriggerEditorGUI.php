@@ -106,10 +106,10 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
-        if ($this->request->getString("shape") == "Marker") {
+        if ($this->edit_request->getString("shape") == "Marker") {
             $this->content_obj->addTriggerMarker();
             $this->page->update();
-            ilUtil::sendSuccess($lng->txt("cont_saved_map_data"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_saved_map_data"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         } else {
             return parent::addNewArea();
@@ -151,7 +151,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
     /**
      * Save new or updated map area
      */
-    public function saveArea() : void
+    public function saveArea() : string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -175,15 +175,16 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
                     $this->std_alias_item,
                     $area_type,
                     $coords,
-                    $this->request->getString("area_name")
+                    $this->edit_request->getString("area_name")
                 );
                 $this->page->update();
                 break;
         }
 
         //$this->initMapParameters();
-        ilUtil::sendSuccess($lng->txt("cont_saved_map_area"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_saved_map_area"), true);
         $ilCtrl->redirect($this, "editMapAreas");
+        return "";
     }
     
     /**
@@ -195,28 +196,28 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $ilCtrl = $this->ctrl;
 
         $this->content_obj->setTriggerOverlays(
-            $this->request->getStringArray("ov")
+            $this->edit_request->getStringArray("ov")
         );
         $this->content_obj->setTriggerPopups(
-            $this->request->getStringArray("pop")
+            $this->edit_request->getStringArray("pop")
         );
         $this->content_obj->setTriggerOverlayPositions(
-            $this->request->getStringArray("ovpos")
+            $this->edit_request->getStringArray("ovpos")
         );
         $this->content_obj->setTriggerMarkerPositions(
-            $this->request->getStringArray("markpos")
+            $this->edit_request->getStringArray("markpos")
         );
         $this->content_obj->setTriggerPopupPositions(
-            $this->request->getStringArray("poppos")
+            $this->edit_request->getStringArray("poppos")
         );
         $this->content_obj->setTriggerPopupSize(
-            $this->request->getStringArray("popsize")
+            $this->edit_request->getStringArray("popsize")
         );
         $this->content_obj->setTriggerTitles(
-            $this->request->getStringArray("title")
+            $this->edit_request->getStringArray("title")
         );
         $this->page->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editMapAreas");
     }
     
@@ -229,11 +230,11 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $main_tpl = $this->main_tpl;
         $lng = $this->lng;
 
-        $trigger = $this->request->getStringArray("tr");
-        $titles = $this->request->getStringArray("title");
+        $trigger = $this->edit_request->getStringArray("tr");
+        $titles = $this->edit_request->getStringArray("title");
 
         if (count($trigger) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -258,14 +259,14 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $trigger = $this->request->getStringArray("tr");
+        $trigger = $this->edit_request->getStringArray("tr");
 
         if (count($trigger) > 0) {
             foreach ($trigger as $tr_nr) {
                 $this->content_obj->deleteTrigger($this->std_alias_item, $tr_nr);
             }
             $this->page->update();
-            ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_areas_deleted"), true);
         }
 
         $ilCtrl->redirect($this, "editMapAreas");

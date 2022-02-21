@@ -74,7 +74,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 
         foreach ($sourcePoolDefinitionList as $definition) {
             /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-            
+
             // hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
             $questions = $this->getSrcPoolDefRelatedQuestCollection($definition);
             // hey.
@@ -83,7 +83,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 
         return $questionStage;
     }
-    
+
     // hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
     /**
      * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
@@ -97,7 +97,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 
         return $questionStage;
     }
-    
+
     // hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
     /**
      * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
@@ -128,11 +128,11 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
             #);
             // fau.
         }
-        
+
         if (count($definition->getLifecycleFilter())) {
             $this->stagingPoolQuestionList->setLifecycleFilter($definition->getLifecycleFilter());
         }
-        
+
         // fau: taxFilter/typeFilter - use type filter
         if ($this->hasTypeFilter($definition)) {
             $this->stagingPoolQuestionList->setTypeFilter($definition->getTypeFilter());
@@ -178,14 +178,14 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
         // fau.
         return true;
     }
-    
+
     //	fau: typeFilter - check for existing type filter
     private function hasTypeFilter(ilTestRandomQuestionSetSourcePoolDefinition $definition)
     {
         if (count($definition->getTypeFilter())) {
             return true;
         }
-        
+
         return false;
     }
     //	fau.
@@ -263,7 +263,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
             $stagingPoolQuestionList
         );
     }
-    
+
     //fau: fixRandomTestBuildable - function to get messages
     /**
      * @return array

@@ -22,10 +22,12 @@ class ilBuddySystemGUI
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected Services $http;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->http = $DIC->http();
         $this->ctrl = $DIC['ilCtrl'];
@@ -57,12 +59,12 @@ class ilBuddySystemGUI
                 self::class
             ], '', '', true, false);
             $config->transition_state_cmd = 'transitionAsync';
-            $page->addOnLoadCode('il.BuddySystem.setConfig(' . json_encode($config) . ');');
+            $page->addOnLoadCode('il.BuddySystem.setConfig(' . json_encode($config, JSON_THROW_ON_ERROR) . ');');
 
             $btn_config = new stdClass();
             $btn_config->bnt_class = 'ilBuddySystemLinkWidget';
 
-            $page->addOnLoadCode('il.BuddySystemButton.setConfig(' . json_encode($btn_config) . ');');
+            $page->addOnLoadCode('il.BuddySystemButton.setConfig(' . json_encode($btn_config, JSON_THROW_ON_ERROR) . ');');
             $page->addOnLoadCode('il.BuddySystemButton.init();');
 
             self::$isFrontendInitialized = true;
@@ -140,7 +142,7 @@ class ilBuddySystemGUI
         callable $onBeforeExecute = null
     ) : void {
         if (!$this->isRequestParameterGiven('user_id', self::BS_REQUEST_HTTP_GET)) {
-            ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -153,14 +155,14 @@ class ilBuddySystemGUI
             }
 
             ilBuddyList::getInstanceByGlobalUser()->{$cmd}($relation);
-            ilUtil::sendSuccess($this->lng->txt($positiveFeedbackLanguageId), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt($positiveFeedbackLanguageId), true);
         } catch (ilBuddySystemRelationStateAlreadyGivenException | ilBuddySystemRelationStateTransitionException $e) {
-            ilUtil::sendInfo(sprintf(
+            $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $this->lng->txt($e->getMessage()),
                 (string) ilObjUser::_lookupLogin($usrId)
             ), true);
         } catch (ilException $e) {
-            ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);
         }
 
         $this->redirectToReferer();
@@ -236,7 +238,7 @@ class ilBuddySystemGUI
         $this->http->saveResponse(
             $this->http->response()
                 ->withAddedHeader('Content-Type', 'application/json')
-                ->withBody(ILIAS\Filesystem\Stream\Streams::ofString(json_encode($response)))
+                ->withBody(ILIAS\Filesystem\Stream\Streams::ofString(json_encode($response, JSON_THROW_ON_ERROR)))
         );
         $this->http->sendResponse();
         $this->http->close();
@@ -259,7 +261,10 @@ class ilBuddySystemGUI
                     }
                 }
             }
-            $this->ctrl->redirectToURL($redirectUrl);
+
+            if ($redirectUrl !== '') {
+                $this->ctrl->redirectToURL($redirectUrl);
+            }
         }
 
         $this->ctrl->returnToParent($this);

@@ -12,7 +12,7 @@ class ChangedUserFieldAttributeTest extends ilUserBaseTest
 {
     private ChangedUserFieldAttribute $changedUserFieldAttribute;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->changedUserFieldAttribute = new ChangedUserFieldAttribute(
             "AttributeName",

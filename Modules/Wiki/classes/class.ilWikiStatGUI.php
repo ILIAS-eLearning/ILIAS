@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Wiki\Editing\EditingGUIRequest;
+
 /**
  * Wiki statistics GUI class
  *
@@ -20,6 +22,7 @@
  */
 class ilWikiStatGUI
 {
+    protected EditingGUIRequest $request;
     protected ilCtrl $ctrl;
     protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
@@ -39,6 +42,12 @@ class ilWikiStatGUI
         $this->tpl = $DIC["tpl"];
         $this->wiki_id = $a_wiki_id;
         $this->page_id = (int) $a_page_id;
+        $this->request = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
     }
     
     public function executeCommand() : void
@@ -62,9 +71,9 @@ class ilWikiStatGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
-        $current_figure = (int) $_POST["fig"];
-        $current_time_frame = (string) $_POST["tfr"];
-        $current_scope = (int) $_POST["scp"];
+        $current_figure = $this->request->getStatFig();
+        $current_time_frame = $this->request->getStatTfr();
+        $current_scope = $this->request->getStatScp();
 
         $view = new ilSelectInputGUI($lng->txt("wiki_stat_figure"), "fig");
         $view->setOptions($this->page_id

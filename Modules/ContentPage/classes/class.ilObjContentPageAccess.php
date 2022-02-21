@@ -38,7 +38,7 @@ class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObje
         return [];
     }
 
-    public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id) : bool
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         return false;
     }

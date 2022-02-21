@@ -236,7 +236,7 @@ class ilDclRecordEditGUI
         }
 
         $record->doDelete();
-        ilUtil::sendSuccess($this->lng->txt("dcl_record_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_record_deleted"), true);
         $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
     }
 
@@ -648,7 +648,7 @@ class ilDclRecordEditGUI
             $this->ctrl->setParameter($this, "record_id", $this->record_id);
 
             if (!$this->ctrl->isAsynch()) {
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             }
 
             $this->checkAndPerformRedirect();
@@ -703,7 +703,7 @@ class ilDclRecordEditGUI
     protected function accessDenied()
     {
         if (!$this->ctrl->isAsynch()) {
-            ilUtil::sendFailure($this->lng->txt('dcl_msg_no_perm_edit'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_no_perm_edit'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         } else {
             echo $this->lng->txt('dcl_msg_no_perm_edit');
@@ -723,7 +723,7 @@ class ilDclRecordEditGUI
             echo ilUtil::getSystemMessageHTML($message, 'failure') . $this->form->getHTML();
             exit();
         } else {
-            ilUtil::sendFailure($message, $keep);
+            $this->tpl->setOnScreenMessage('failure', $message, $keep);
 
             // Fill locked fields on edit mode - otherwise they are empty (workaround)
             if (isset($this->record_id)) {
@@ -758,7 +758,7 @@ class ilDclRecordEditGUI
         $html = "";
         $query_parser = new ilQueryParser($search);
         $query_parser->setMinWordLength(1);
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {
             $html .= $query_parser->getMessage() . "<br />";
@@ -780,7 +780,7 @@ class ilDclRecordEditGUI
             foreach ((array) $entry['refs'] as $reference) {
                 $path = new ilPathGUI();
                 $tpl->setCurrentBlock('result');
-                $tpl->setVariable('RESULT_PATH', $path->getPath(ROOT_FOLDER_ID, $reference) . " » " . $entry['title']);
+                $tpl->setVariable('RESULT_PATH', $path->getPath(ROOT_FOLDER_ID, (int) $reference) . " » " . $entry['title']);
                 $tpl->setVariable('RESULT_REF', $reference);
                 $tpl->setVariable('FIELD_ID', $dest);
                 $tpl->parseCurrentBlock();

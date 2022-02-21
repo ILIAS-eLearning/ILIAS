@@ -10,11 +10,6 @@
 class ilObjectCopySelectionTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var ilObjUser
      */
     protected $user;
@@ -148,9 +143,9 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
     /**
      * @see ilTable2GUI::fillRow()
      */
-    protected function fillRow($s)
+    protected function fillRow(array $a_set) : void
     {
-        if ($s['last']) {
+        if ($a_set['last']) {
             $this->tpl->setCurrentBlock('footer_copy');
             $this->tpl->setVariable('TXT_COPY_ALL', $this->lng->txt('copy_all'));
             $this->tpl->parseCurrentBlock();
@@ -160,32 +155,32 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('footer_omit');
             $this->tpl->setVariable('TXT_OMIT_ALL', $this->lng->txt('omit_all'));
             $this->tpl->parseCurrentBlock();
-            return true;
+            return;
         }
         
         
-        for ($i = 0; $i < $s['depth']; $i++) {
+        for ($i = 0; $i < $a_set['depth']; $i++) {
             $this->tpl->touchBlock('padding');
             $this->tpl->touchBlock('end_padding');
         }
-        $this->tpl->setVariable('TREE_IMG', ilObject::_getIcon(ilObject::_lookupObjId($s['ref_id']), "tiny", $s['type']));
-        $this->tpl->setVariable('TREE_ALT_IMG', $this->lng->txt('obj_' . $s['type']));
-        $this->tpl->setVariable('TREE_TITLE', $s['title']);
+        $this->tpl->setVariable('TREE_IMG', ilObject::_getIcon(ilObject::_lookupObjId((int) $a_set['ref_id']), "tiny", $a_set['type']));
+        $this->tpl->setVariable('TREE_ALT_IMG', $this->lng->txt('obj_' . $a_set['type']));
+        $this->tpl->setVariable('TREE_TITLE', $a_set['title']);
         
-        if ($s['source']) {
-            return true;
+        if ($a_set['source']) {
+            return;
         }
 
         // Copy
-        if ($s['perm_copy'] and $s['copy']) {
+        if ($a_set['perm_copy'] and $a_set['copy']) {
             $this->tpl->setCurrentBlock('radio_copy');
             $this->tpl->setVariable('TXT_COPY', $this->lng->txt('copy'));
-            $this->tpl->setVariable('NAME_COPY', 'cp_options[' . $s['ref_id'] . '][type]');
+            $this->tpl->setVariable('NAME_COPY', 'cp_options[' . $a_set['ref_id'] . '][type]');
             $this->tpl->setVariable('VALUE_COPY', ilCopyWizardOptions::COPY_WIZARD_COPY);
-            $this->tpl->setVariable('ID_COPY', $s['depth'] . '_' . $s['type'] . '_' . $s['ref_id'] . '_copy');
+            $this->tpl->setVariable('ID_COPY', $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_copy');
             $this->tpl->setVariable('COPY_CHECKED', 'checked="checked"');
             $this->tpl->parseCurrentBlock();
-        } elseif ($s['copy']) {
+        } elseif ($a_set['copy']) {
             $this->tpl->setCurrentBlock('missing_copy_perm');
             $this->tpl->setVariable('TXT_MISSING_COPY_PERM', $this->lng->txt('missing_perm'));
             $this->tpl->parseCurrentBlock();
@@ -193,17 +188,17 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
 
         
         // Link
-        if ($s['perm_link'] and $s['link']) {
+        if ($a_set['perm_link'] and $a_set['link']) {
             $this->tpl->setCurrentBlock('radio_link');
             $this->tpl->setVariable('TXT_LINK', $this->lng->txt('link'));
-            $this->tpl->setVariable('NAME_LINK', 'cp_options[' . $s['ref_id'] . '][type]');
+            $this->tpl->setVariable('NAME_LINK', 'cp_options[' . $a_set['ref_id'] . '][type]');
             $this->tpl->setVariable('VALUE_LINK', ilCopyWizardOptions::COPY_WIZARD_LINK);
-            $this->tpl->setVariable('ID_LINK', $s['depth'] . '_' . $s['type'] . '_' . $s['ref_id'] . '_link');
-            if (!$s['copy'] or !$s['perm_copy']) {
+            $this->tpl->setVariable('ID_LINK', $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_link');
+            if (!$a_set['copy'] or !$a_set['perm_copy']) {
                 $this->tpl->setVariable('LINK_CHECKED', 'checked="checked"');
             }
             $this->tpl->parseCurrentBlock();
-        } elseif ($s['link']) {
+        } elseif ($a_set['link']) {
             $this->tpl->setCurrentBlock('missing_link_perm');
             $this->tpl->setVariable('TXT_MISSING_LINK_PERM', $this->lng->txt('missing_perm'));
             $this->tpl->parseCurrentBlock();
@@ -212,10 +207,10 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
         // Omit
         $this->tpl->setCurrentBlock('omit_radio');
         $this->tpl->setVariable('TXT_OMIT', $this->lng->txt('omit'));
-        $this->tpl->setVariable('NAME_OMIT', 'cp_options[' . $s['ref_id'] . '][type]');
+        $this->tpl->setVariable('NAME_OMIT', 'cp_options[' . $a_set['ref_id'] . '][type]');
         $this->tpl->setVariable('VALUE_OMIT', ilCopyWizardOptions::COPY_WIZARD_OMIT);
-        $this->tpl->setVariable('ID_OMIT', $s['depth'] . '_' . $s['type'] . '_' . $s['ref_id'] . '_omit');
-        if ((!$s['copy'] or !$s['perm_copy']) and (!$s['link'])) {
+        $this->tpl->setVariable('ID_OMIT', $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_omit');
+        if ((!$a_set['copy'] or !$a_set['perm_copy']) and (!$a_set['link'])) {
             $this->tpl->setVariable('OMIT_CHECKED', 'checked="checked"');
         }
         $this->tpl->parseCurrentBlock();

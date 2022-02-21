@@ -5,7 +5,7 @@ namespace ILIAS\UI\examples\Toast\Standard;
 /**
  * With a action on vanishing. (Does not provide any visual representation by itself)
  */
-function with_action()
+function with_action() : string
 {
     global $DIC;
     $toast = $DIC->ui()->factory()->toast()->standard(

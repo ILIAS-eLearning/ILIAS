@@ -66,7 +66,7 @@ class ilObjectGUI
 
     /**
     * object Definition Object
-    * @var		object ilias
+    * @var		ilObjectDefinition ilias
     * @access	private
     */
     public $objDefinition;
@@ -152,9 +152,6 @@ class ilObjectGUI
      */
     protected $request;
 
-    /**
-     * @var int
-     */
     protected $admin_mode = self::ADMIN_MODE_NONE;
 
     protected int $requested_ref_id = 0;
@@ -198,14 +195,7 @@ class ilObjectGUI
          * @var ilTab
          */
         $this->tabs_gui = $ilTabs;
-
-        if (!isset($ilErr)) {
-            $ilErr = new ilErrorHandling();
-            $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
-        } else {
-            $this->ilErr = $ilErr;
-        }
-
+        $this->ilErr = $DIC['ilErr'];
         $this->objDefinition = $objDefinition;
         $this->tpl = $tpl;
         $this->html = "";
@@ -253,7 +243,7 @@ class ilObjectGUI
         // set context
         if (is_object($this->object)) {
             if ($this->call_by_reference && $this->ref_id == $this->requested_ref_id) {
-                $this->ctrl->setContext(
+                $this->ctrl->setContextObject(
                     $this->object->getId(),
                     $this->object->getType()
                 );
@@ -282,6 +272,11 @@ class ilObjectGUI
             throw new ilObjectException("Unknown Admin Mode $mode.");
         }
         $this->admin_mode = $mode;
+    }
+
+    public function getAdminMode() : string
+    {
+        return $this->admin_mode;
     }
     
     /**
@@ -363,18 +358,13 @@ class ilObjectGUI
     */
     public function prepareOutput($a_show_subobjects = true)
     {
-        $ilLocator = $this->locator;
         $tpl = $this->tpl;
-        $ilUser = $this->user;
 
         $this->tpl->loadStandardTemplate();
         // administration prepare output
         if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
             $this->addAdminLocatorItems();
             $tpl->setLocator();
-
-            //			ilUtil::sendInfo();
-            ilUtil::infoPanel();
 
             $this->setTitleAndDescription();
 
@@ -386,9 +376,6 @@ class ilObjectGUI
         }
         // set locator
         $this->setLocator();
-        // catch feedback message
-        //		ilUtil::sendInfo();
-        ilUtil::infoPanel();
 
         // in creation mode (parent) object and gui object
         // do not fit
@@ -418,7 +405,7 @@ class ilObjectGUI
 
             // fileupload support
             if (ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->object->getType())) {
-                $this->enableDragDropFileUpload();
+//                $this->enableDragDropFileUpload(); // curently disbaled due to refactoring
             }
         }
         
@@ -443,17 +430,18 @@ class ilObjectGUI
             
         if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
             // alt text would be same as heading -> empty alt text
-            $this->tpl->setTitleIcon(ilObject::_getIcon("", "big", $this->object->getType()));
+            $this->tpl->setTitleIcon(ilObject::_getIcon(0, "big", $this->object->getType()));
         } else {
             $this->tpl->setTitleIcon(
-                ilObject::_getIcon("", "big", $this->object->getType()),
+                ilObject::_getIcon(0, "big", $this->object->getType()),
                 $this->lng->txt("obj_" . $this->object->getType())
             );
         }
-
-        $lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
-        $lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
-        $this->tpl->setAlertProperties($lgui->getAlertProperties());
+        if (!$this->objDefinition->isAdministrationObject($this->object->getType())) {
+            $lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
+            $lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
+            $this->tpl->setAlertProperties($lgui->getAlertProperties());
+        }
     }
     
     /**
@@ -1140,7 +1128,7 @@ class ilObjectGUI
      */
     protected function afterSave(ilObject $a_new_object)
     {
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -1300,7 +1288,7 @@ class ilObjectGUI
      */
     protected function afterUpdate()
     {
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "edit");
     }
 
@@ -1437,7 +1425,7 @@ class ilObjectGUI
                     throw $e;
                 }
                 // display message and form again
-                ilUtil::sendFailure($this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage());
                 $form->setValuesByPost();
                 $tpl->setContent($form->getHTML());
                 return;
@@ -1458,7 +1446,7 @@ class ilObjectGUI
             // import failed
             else {
                 if ($objDefinition->isContainer($new_type)) {
-                    ilUtil::sendFailure($this->lng->txt("container_import_zip_file_invalid"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("container_import_zip_file_invalid"));
                 } else {
                     // not enough information here...
                     return;
@@ -1478,7 +1466,7 @@ class ilObjectGUI
      */
     protected function afterImport(ilObject $a_new_object)
     {
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -1698,7 +1686,7 @@ class ilObjectGUI
         if (is_array($subobj)) {
 
             //build form
-            $opts = ilUtil::formSelect(12, "new_type", $subobj);
+            $opts = ilLegacyFormElementsUtil::formSelect(12, "new_type", $subobj);
             $this->tpl->setCurrentBlock("add_object");
             $this->tpl->setVariable("SELECT_OBJTYPE", $opts);
             $this->tpl->setVariable("BTN_NAME", "create");
@@ -1839,7 +1827,7 @@ class ilObjectGUI
             $ilErr->raiseError($this->lng->txt('permission_denied'));
         }
         if (!(int) $_REQUEST['clone_source']) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->createObject();
             return false;
         }
@@ -1865,7 +1853,7 @@ class ilObjectGUI
         // Delete wizard options
         $wizard_options->deleteAll();
 
-        ilUtil::sendSuccess($this->lng->txt("object_duplicated"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_duplicated"), true);
         ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
     }
     
@@ -2144,7 +2132,7 @@ class ilObjectGUI
         $user = $this->user;
         $this->favourites->add($user->getId(), (int) $_GET["item_ref_id"]);
         $lng->loadLanguageModule("rep");
-        ilUtil::sendSuccess($lng->txt("rep_added_to_favourites"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("rep_added_to_favourites"), true);
         $ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 
@@ -2158,7 +2146,7 @@ class ilObjectGUI
         $user = $this->user;
         $lng->loadLanguageModule("rep");
         $this->favourites->remove($user->getId(), (int) $_GET["item_ref_id"]);
-        ilUtil::sendSuccess($lng->txt("rep_removed_from_favourites"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("rep_removed_from_favourites"), true);
         $ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 }

@@ -179,7 +179,7 @@ class ilContainerFilterAdminGUI
                     }
                 }
             }
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             $service->data()->saveFilterSetForRefId($this->ref_id, $service->set($fields));
         }
         $ctrl->redirect($this, "");

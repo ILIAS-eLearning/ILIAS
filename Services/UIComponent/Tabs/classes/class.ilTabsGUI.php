@@ -343,17 +343,14 @@ class ilTabsGUI
         if (isset($DIC["ilUser"])) {
             $ilUser = $DIC->user();
         }
-        $ilPluginAdmin = null;
-        if (isset($DIC["ilPluginAdmin"])) {
-            $ilPluginAdmin = $DIC["ilPluginAdmin"];
+        if (isset($DIC["component.factory"])) {
+            $component_factory = $DIC["component.factory"];
         }
 
         // user interface hook [uihk]
-        if (!$this->getSetupMode()) {
-            $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-            foreach ($pl_names as $pl) {
-                $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-                $gui_class = $ui_plugin->getUIClassInstance();
+        if (!$this->getSetupMode() && $component_factory) {
+            foreach ($component_factory->getActivePluginsInSlot("uihk") as $plugin) {
+                $gui_class = $plugin->getUIClassInstance();
                 $resp = $gui_class->modifyGUI(
                     "",
                     $a_get_sub_tabs ? "sub_tabs" : "tabs",
@@ -425,15 +422,13 @@ class ilTabsGUI
                     $target['cmd'] = [];
                 }
 
-                if (!($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) &&
-                    (in_array($cmd, $target["cmd"]) || (count($target["cmd"]) === 1 && $target["cmd"][0] === '')) &&
-                    (in_array($cmdClass, $target["cmdClass"]) || !$target["cmdClass"])) {
+                if ($this->isTabActive($a_get_sub_tabs, $target, $cmd, $cmdClass)) {
                     $tabtype = $pre . "tabactive";
                 } else {
                     $tabtype = $pre . "tabinactive";
                 }
                 
-                if (($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) && $target["activate"]) {
+                if (($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) && ($target["activate"] ?? false)) {
                     $tabtype = $pre . "tabactive";
                 }
 
@@ -477,12 +472,7 @@ class ilTabsGUI
                 // bs-patch: end
 
                 $tpl->setVariable($pre2 . "TAB_TYPE", $tabtype);
-                if (!$this->getSetupMode()) {
-                    $hash = ($ilUser->getPref("screen_reader_optimization"))
-                        ? "#after_" . $sr_pre . "tabs"
-                        : "";
-                }
-                
+                $hash = "";
                 $tpl->setVariable($pre2 . "TAB_LINK", $target["link"] . $hash);
                 if ($target["dir_text"]) {
                     $tpl->setVariable($pre2 . "TAB_TEXT", $target["text"]);
@@ -546,6 +536,28 @@ class ilTabsGUI
     
     public function hasTabs() : bool
     {
-        return (bool) sizeof($this->target);
+        return $this->target !== [];
+    }
+
+    private function isTabActive(bool $isSubTabsContext, array $target, ?string $cmd, ?string $cmdClass) : bool
+    {
+        if (($isSubTabsContext && $this->subtab_manual_activation) || (!$isSubTabsContext && $this->manual_activation)) {
+            return false;
+        }
+
+        $cmdClass = (string) $cmdClass;
+        $cmd = (string) $cmd;
+
+        $targetMatchesCmdClass = (
+            !$target['cmdClass'] ||
+            in_array(strtolower($cmdClass), array_map('strtolower', $target['cmdClass']), true)
+        );
+        
+        $targetMatchesCmd = (
+            in_array(strtolower($cmd), array_map('strtolower', $target['cmd']), true) ||
+            (count($target['cmd']) === 1 && $target['cmd'][0] === '')
+        );
+
+        return $targetMatchesCmd && $targetMatchesCmdClass;
     }
 }

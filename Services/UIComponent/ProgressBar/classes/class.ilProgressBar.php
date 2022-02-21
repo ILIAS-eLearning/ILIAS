@@ -24,18 +24,18 @@ class ilProgressBar
     public const TYPE_WARNING = 3;
     public const TYPE_DANGER = 4;
 
-    protected int $min;
-    protected int $max;
-    protected int $current;
-    protected bool $show_caption;
-    protected int $type;
-    protected string $caption;
-    protected bool $striped;
-    protected bool $animated;
+    protected int $min = 0;
+    protected int $max = 0;
+    protected int $current = 0;
+    protected bool $show_caption = false;
+    protected int $type = 0;
+    protected string $caption = "";
+    protected bool $striped = false;
+    protected bool $animated = false;
     protected string $ajax_url = '';
     protected int $ajax_timeout = 5;
     protected string $unique_id = '';
-    protected int $async_timeout;
+    protected int $async_timeout = 0;
 
     protected function __construct()
     {

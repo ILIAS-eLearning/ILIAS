@@ -1,4 +1,17 @@
 <?php
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * File to lp connector
  *
@@ -7,7 +20,10 @@
  */
 class ilFileLP extends ilObjectLP
 {
-    public static function getDefaultModes($a_lp_active)
+    /**
+     * @return int[]
+     */
+    public static function getDefaultModes(bool $a_lp_active): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -16,13 +32,16 @@ class ilFileLP extends ilObjectLP
     }
 
 
-    public function getDefaultMode()
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
 
-    public function getValidModes()
+    /**
+     * @return array
+     */
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,

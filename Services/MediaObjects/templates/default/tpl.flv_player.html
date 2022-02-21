@@ -9,8 +9,8 @@
 		<div class="ilPlayerPreviewPlayButton"></div>
 	</div>
 	<!-- END preview -->
-	<!-- preload none is currently not working in IE: http://www.longtailvideo.com/html5 (April 2012) -->
-	<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
+	<!-- preload none is currently not working in IE: https://www.longtailvideo.com/html5 (April 2012) -->
+	<!-- info on video preload attribute: https://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
 	<div id="player_{PLAYER_NR}_vtwrap" {STYLE} class="{WRAP_CLASS}">
 		<div>
 			<video src="{FILE}" id="player_{PLAYER_NR}" style="max-width: 100%;" controls="controls" preload="none" class="{CLASS}"></video>
@@ -79,7 +79,8 @@
 			success: function (mediaElement, domObject) {
 				// add event listener
 				mediaElement.addEventListener('play', function(e) {
-					il.MediaObjects.playerStarted('player_{APLAYER_NR}');
+					il.MediaObjects.current_player_id = 'player_{APLAYER_NR}';
+					il.MediaObjects.playerStarted('');
 					}, false);		
 				}
 		});

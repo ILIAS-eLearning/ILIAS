@@ -53,12 +53,12 @@ class ilObjContentObjectAccess extends ilObjectAccess
                 /*
                 if ($ilUser->getId() == ANONYMOUS_USER_ID)
                 {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("lm_no_continue_for_anonym"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("lm_no_continue_for_anonym"));
                     return false;
                 }
                 if (ilObjContentObjectAccess::_getLastAccessedPage($a_ref_id,$a_user_id) <= 0)
                 {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("not_accessed_yet"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("not_accessed_yet"));
                     return false;
                 }
                 */
@@ -67,7 +67,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
             // for permission query feature
             case "info":
                 if (!ilObject::lookupOfflineStatus($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
 
@@ -177,5 +177,14 @@ class ilObjContentObjectAccess extends ilObjectAccess
         while ($rec = $ilDB->fetchAssoc($set)) {
             self::$lo_access[$rec["lm_id"]] = $rec["obj_id"];
         }
+    }
+
+    public static function isInfoEnabled(int $obj_id) : bool
+    {
+        return ilContainer::_lookupContainerSetting(
+            $obj_id,
+            ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+            true
+        );
     }
 }

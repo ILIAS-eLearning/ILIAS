@@ -8,7 +8,7 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
  * @ilCtrl_Calls ilObjGroupReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
  * @ingroup ModulesGroupReference
  */
-class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
+class ilObjGroupReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface
 {
 
     /**

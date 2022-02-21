@@ -1,13 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-
 /**
- * Class ilObjGroupAdministration
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
  *
  * @package ModulesGroup
  */
@@ -19,9 +14,8 @@ class ilObjGroupAdministration extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete()
+    public function delete() : bool
     {
-        // DISABLED
         return false;
     }
 }

@@ -249,7 +249,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
         $a_new_object->saveData();
 
-        ilUtil::sendSuccess($this->lng->txt("exc_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_added"), true);
 
         $ilCtrl->setParameterByClass("ilExAssignmentEditorGUI", "ref_id", $a_new_object->getRefId());
         $ilCtrl->redirectByClass("ilExAssignmentEditorGUI", "addAssignment");
@@ -817,6 +817,7 @@ class ilObjExerciseGUI extends ilObjectGUI
     ) : void {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ass_id = $DIC->http()->wrapper()->query()->retrieve(
             "ass_id",
@@ -829,7 +830,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 
         //we don't have baseClass here...
         $ilCtrl->setTargetScript("ilias.php");
-        $ilCtrl->initBaseClass("ilRepositoryGUI");
 
         //ilExerciseMailNotification has links to:
         // "Assignments", "Submission and Grades" and Downnoad the NEW files if the assignment type is "File Upload".
@@ -902,13 +902,10 @@ class ilObjExerciseGUI extends ilObjectGUI
                 "infoScreen"
             );
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(
-                sprintf(
-                    $lng->txt("msg_no_perm_read_item"),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-                ),
-                true
-            );
+            $main_tpl->setOnScreenMessage('failure', sprintf(
+                $lng->txt("msg_no_perm_read_item"),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+            ), true);
             ilObjectGUI::_gotoRepositoryRoot();
         }
     }
@@ -1045,7 +1042,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         $objectId = $this->object->getId();
 
         if (false === $this->certificateDownloadValidator->isCertificateDownloadable($ilUser->getId(), $objectId)) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this);
         }
 

@@ -1,19 +1,13 @@
-<?php
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
+<?php declare(strict_types=1);
 
 /**
- *
- * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
- *
+ * @author            Jesús López Reyes <lopez@leifos.com>
  * @ilCtrl_IsCalledBy ilAppointmentPresentationBookingPoolGUI: ilCalendarAppointmentPresentationGUI
- *
- * @ingroup ServicesCalendar
+ * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions()
+    public function collectPropertiesAndActions() : void
     {
         $a_app = $this->appointment;
         $cat_info = $this->getCatInfo();
@@ -60,7 +54,10 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
             // info file
             if ($b_obj->getFile()) {
                 $this->has_files = true;
-                $link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjBookingPoolGUI", "ilbookingobjectgui"), "deliverInfo");
+                $link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI",
+                                                                "ilObjBookingPoolGUI",
+                                                                "ilbookingobjectgui"
+                ), "deliverInfo");
 
                 $link = $this->ui->renderer()->render(
                     $this->ui->factory()->button()->shy($b_obj->getFile(), $link)
@@ -77,7 +74,10 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
             if ($b_obj->getPostFile()) {
                 $this->has_files = true;
 
-                $link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjBookingPoolGUI", "ilbookingobjectgui"), "deliverPostFile");
+                $link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI",
+                                                                "ilObjBookingPoolGUI",
+                                                                "ilbookingobjectgui"
+                ), "deliverPostFile");
 
                 $array_info[] = $this->ui->renderer()->render(
                     $this->ui->factory()->button()->shy($b_obj->getPostFile(), $link)

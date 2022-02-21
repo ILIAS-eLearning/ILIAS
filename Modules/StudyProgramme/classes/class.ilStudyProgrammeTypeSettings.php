@@ -1,18 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-declare(strict_types=1);
-
-use \ILIAS\UI\Component\Input\Field;
-use \ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Input\Field;
+use ILIAS\Refinery\Factory as Refinery;
 
 class ilStudyProgrammeTypeSettings
 {
-    /**
-     * @var int
-     */
-    protected $type_id;
+    protected int $type_id;
 
     public function __construct(int $type_id)
     {
@@ -33,7 +28,7 @@ class ilStudyProgrammeTypeSettings
 
     public function toFormInput(
         Field\Factory $input,
-        \ilLanguage $lng,
+        ilLanguage $lng,
         Refinery $refinery,
         array $sp_types
     ) : Field\Input {

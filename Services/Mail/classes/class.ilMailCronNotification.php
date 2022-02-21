@@ -36,13 +36,20 @@ class ilMailCronNotification extends ilCronJob
     public function getTitle() : string
     {
         $this->init();
+
         return $this->lng->txt('cron_mail_notification');
     }
 
     public function getDescription() : string
     {
         $this->init();
-        return  $this->lng->txt('cron_mail_notification_desc');
+
+        $this->lng->loadLanguageModule('mail');
+
+        return  sprintf(
+            $this->lng->txt('cron_mail_notification_desc'),
+            $this->lng->txt('mail_allow_external')
+        );
     }
 
     public function getDefaultScheduleType() : int
@@ -102,9 +109,8 @@ class ilMailCronNotification extends ilCronJob
         return true;
     }
 
-    public function activationWasToggled(bool $a_currently_active) : void
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active) : void
     {
-        $this->init();
-        $this->settings->set('mail_notification', (string) ((int) $a_currently_active));
+        $setting->set('mail_notification', (string) ((int) $a_currently_active));
     }
 }

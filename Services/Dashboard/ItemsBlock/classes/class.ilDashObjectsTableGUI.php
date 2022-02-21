@@ -65,11 +65,11 @@ class ilDashObjectsTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $tpl = $this->tpl;
         $tpl->setVariable("ID", $a_set["ref_id"]);
-        $tpl->setVariable("ICON", ilObject::_getIcon($a_set["obj_id"]));
+        $tpl->setVariable("ICON", ilObject::_getIcon((int) $a_set["obj_id"]));
         $tpl->setVariable("TITLE", $a_set["title"]);
     }
 }

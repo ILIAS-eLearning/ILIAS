@@ -212,7 +212,7 @@ class ilMailFormGUI
             $this->ctrl->setParameterByClass(ilMailGUI::class, 'type', 'message_sent');
 
             if (ilMailFormCall::isRefererStored()) {
-                ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_message_send'), true);
                 $this->ctrl->redirectToURL(ilMailFormCall::getRefererRedirectUrl());
             } else {
                 $this->ctrl->redirectByClass(ilMailGUI::class);
@@ -253,7 +253,7 @@ class ilMailFormGUI
             $draftId = (int) ilSession::get('draft');
             ilSession::clear('draft');
         } else {
-            $draftId = $this->umail->getNewDraftId($this->user->getId(), $draftFolderId);
+            $draftId = $this->umail->getNewDraftId($draftFolderId);
         }
 
         $this->umail->updateDraft(
@@ -272,7 +272,7 @@ class ilMailFormGUI
             ilMailFormCall::getContextParameters()
         );
 
-        ilUtil::sendInfo($this->lng->txt('mail_saved'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_saved'), true);
 
         if (ilMailFormCall::isRefererStored()) {
             ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
@@ -327,7 +327,7 @@ class ilMailFormGUI
 
         $searchQuery = trim((string) ilSession::get('mail_search_search'));
         if ($searchQuery !== '') {
-            $inp->setValue(ilUtil::prepareFormOutput($searchQuery, true));
+            $inp->setValue(ilLegacyFormElementsUtil::prepareFormOutput($searchQuery, true));
         }
         $form->addItem($inp);
 
@@ -366,11 +366,11 @@ class ilMailFormGUI
         );
 
         if (trim(ilSession::get('mail_search_search')) === '') {
-            ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("mail_insert_query"));
             $this->searchUsers(false);
         } elseif (strlen(trim(ilSession::get('mail_search_search'))) < 3) {
             $this->lng->loadLanguageModule('search');
-            ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_minimum_three'));
             $this->searchUsers(false);
         } else {
             $this->ctrl->setParameterByClass(
@@ -465,7 +465,7 @@ class ilMailFormGUI
             $template = $this->templateService->loadTemplateForId(
                 $this->http->wrapper()->query()->retrieve('template_id', $this->refinery->kindlyTo()->int())
             );
-            $context = ilMailTemplateContextService::getTemplateContextById((string) $template->getContext());
+            $context = ilMailTemplateContextService::getTemplateContextById($template->getContext());
 
             $this->http->saveResponse(
                 $this->http->response()
@@ -579,13 +579,11 @@ class ilMailFormGUI
                 $mailData['rcp_to'] = $mailData['rcp_cc'] = $mailData['rcp_bcc'] = '';
                 $mailData['m_subject'] = $this->umail->formatForwardSubject();
                 $mailData['m_message'] = $this->umail->prependSignature();
-                if (is_array($mailData['attachments']) && count($mailData['attachments'])) {
-                    if ($error = $this->mfile->adoptAttachments(
-                        $mailData['attachments'],
-                        $mailId
-                    )) {
-                        ilUtil::sendInfo($error);
-                    }
+                if (is_array($mailData['attachments']) && count($mailData['attachments']) && $error = $this->mfile->adoptAttachments(
+                    $mailData['attachments'],
+                    $mailId
+                )) {
+                    $this->tpl->setOnScreenMessage('info', $error);
                 }
                 break;
         
@@ -954,7 +952,7 @@ class ilMailFormGUI
         $formattedErrors = $formatter->format($errors);
 
         if ($formattedErrors !== '') {
-            ilUtil::sendFailure($formattedErrors);
+            $this->tpl->setOnScreenMessage('failure', $formattedErrors);
         }
     }
 }

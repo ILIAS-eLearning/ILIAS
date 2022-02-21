@@ -78,7 +78,7 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         $tpl->setVariable("UPLOAD_ID", $this->uniqueId);
         
         // input
-        $tpl->setVariable("FILE_SELECT_ICON", ilObject::_getIcon("", "", "fold"));
+        $tpl->setVariable("FILE_SELECT_ICON", ilObject::_getIcon(0, "", "fold"));
         $tpl->setVariable("TXT_SHOW_ALL_DETAILS", $lng->txt('show_all_details'));
         $tpl->setVariable("TXT_HIDE_ALL_DETAILS", $lng->txt('hide_all_details'));
         $tpl->setVariable("TXT_SELECTED_FILES", $lng->txt('selected_files'));
@@ -135,8 +135,8 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         $val = $this->strArray($this->getPostVar());
         $val["extract"] = (bool) $val["extract"];
         $val["keep_structure"] = (bool) $val["keep_structure"];
-        $val["name"] = ilStr::normalizeUtf8String($val["name"]);
-        $val["title"] = ilStr::normalizeUtf8String($val["title"]);
+        $val["name"] = utf8_encode($val["name"]);
+        $val["title"] = utf8_encode($val["title"]);
         return $val;
     }
     

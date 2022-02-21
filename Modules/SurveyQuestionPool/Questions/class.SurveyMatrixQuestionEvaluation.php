@@ -1,10 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Survey matrix evaluation
- *
  * @author	Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
@@ -12,7 +22,10 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
     //
     // RESULTS
     //
-    
+
+    /**
+     * @return ilSurveyEvaluationResults|array
+     */
     public function getResults()
     {
         $results = array();
@@ -42,12 +55,15 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
     //
     // DETAILS
     //
-    
-    
-    public function getGrid($a_results, $a_abs = true, $a_perc = true)
-    {
-        $lng = $this->lng;
-        
+
+    /**
+     * @param array|ilSurveyEvaluationResults $a_results
+     */
+    public function getGrid(
+        $a_results,
+        bool $a_abs = true,
+        bool $a_perc = true
+    ) : array {
         $res = array(
             "cols" => array(),
             "rows" => array()
@@ -75,9 +91,9 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
                         ? sprintf("%.2f", $var->perc * 100) . "%"
                         : "0%";
                     
-                    if ((bool) $a_abs && (bool) $a_perc) {
+                    if ($a_abs && $a_perc) {
                         $parsed_row[] = $var->abs . " / " . $perc;
-                    } elseif ((bool) $a_abs) {
+                    } elseif ($a_abs) {
                         $parsed_row[] = $var->abs;
                     } else {
                         $parsed_row[] = $perc;
@@ -89,8 +105,11 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
         }
         return $res;
     }
-    
-    public function getTextAnswers($a_results)
+
+    /**
+     * @param array|ilSurveyEvaluationResults $a_results
+     */
+    public function getTextAnswers($a_results) : array
     {
         $res = array();
         
@@ -108,11 +127,12 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
         
         return $res;
     }
-    
-    public function getChart($a_results)
+
+    /**
+     * @param array|ilSurveyEvaluationResults $a_results
+     */
+    public function getChart($a_results) : ?array
     {
-        $lng = $this->lng;
-        
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results[0][1]->getQuestion()->getId());
         $chart->setXAxisToInteger(true);
         $chart->setStacked(true);
@@ -137,7 +157,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 
             #20363
             $row_title = ++$row_counter . ". " . $row_title;
-            $labels[$row_idx] = ilUtil::shortenText($row_title, 50, true);
+            $labels[$row_idx] = ilStr::shortenTextExtended($row_title, 50, true);
             if ($labels[$row_idx] != $row_title) {
                 $text_shortened = true;
             }
@@ -188,9 +208,15 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
     //
     // EXPORT
     //
-    
-    public function exportResults($a_results, $a_do_title, $a_do_label)
-    {
+
+    /**
+     * @param array|ilSurveyEvaluationResults $a_results
+     */
+    public function exportResults(
+        $a_results,
+        bool $a_do_title,
+        bool $a_do_label
+    ) : array {
         $question = $a_results[0][1]->getQuestion();
         
         $rows = array();
@@ -253,8 +279,12 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
         return $rows;
     }
     
-    public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_label)
-    {
+    public function getUserSpecificVariableTitles(
+        array &$a_title_row,
+        array &$a_title_row2,
+        bool $a_do_title,
+        bool $a_do_label
+    ) : void {
         $lng = $this->lng;
         
         for ($i = 0; $i < $this->question->getRowCount(); $i++) {
@@ -313,9 +343,15 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
             }
         }
     }
-    
-    public function addUserSpecificResults(array &$a_row, $a_user_id, $a_results)
-    {
+
+    /**
+     * @param array|ilSurveyEvaluationResults $a_results
+     */
+    public function addUserSpecificResults(
+        array &$a_row,
+        int $a_user_id,
+        $a_results
+    ) : void {
         $answer_map = array();
         foreach ($a_results as $row_results) {
             $row_title = $row_results[0];
@@ -367,17 +403,11 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function supportsSumScore() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function isSumScoreValid(int $nr_answer_records) : bool
     {
         if ($nr_answer_records == $this->question->getRowCount()) {

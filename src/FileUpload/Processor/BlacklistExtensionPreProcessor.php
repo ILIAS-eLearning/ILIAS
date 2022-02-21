@@ -6,6 +6,19 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class BlacklistExtensionPreProcessor
  * PreProcessor which denies all blacklisted file extensions.
@@ -13,17 +26,13 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  * @since   5.3
  * @version 1.0.0
  */
-final class BlacklistExtensionPreProcessor implements PreProcessor
+class BlacklistExtensionPreProcessor implements PreProcessor
 {
-
-    /**
-     * @var string
-     */
-    private $reason;
+    private string $reason;
     /**
      * @var string[]
      */
-    private $blacklist;
+    private array $blacklist;
 
     /**
      * BlacklistExtensionPreProcessor constructor.
@@ -39,9 +48,8 @@ final class BlacklistExtensionPreProcessor implements PreProcessor
      * example.png.exe
      * ...
      * @param \string[] $blacklist The file extensions which should be blacklisted.
-     * @param string    $reason
      */
-    public function __construct(array $blacklist, $reason = 'Extension is blacklisted.')
+    public function __construct(array $blacklist, string $reason = 'Extension is blacklisted.')
     {
         $this->blacklist = $blacklist;
         $this->reason = $reason;
@@ -50,7 +58,7 @@ final class BlacklistExtensionPreProcessor implements PreProcessor
     /**
      * @inheritDoc
      */
-    public function process(FileStream $stream, Metadata $metadata)
+    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus
     {
         if ($this->isBlacklisted($metadata, $stream)) {
             return new ProcessingStatus(ProcessingStatus::REJECTED, $this->reason);
@@ -61,11 +69,9 @@ final class BlacklistExtensionPreProcessor implements PreProcessor
 
     /**
      * Checks if the current filename has a listed extension. (*.png, *.mp4 etc ...)
-     * @param Metadata   $metadata
-     * @param FileStream $stream
      * @return bool True if the extension is listed, otherwise false.
      */
-    private function isBlacklisted(Metadata $metadata, FileStream $stream)
+    private function isBlacklisted(Metadata $metadata, FileStream $stream) : bool
     {
         $filename = $metadata->getFilename();
         $extension = $this->getExtensionForFilename($filename);
@@ -102,17 +108,10 @@ final class BlacklistExtensionPreProcessor implements PreProcessor
      * @param $filename
      * @return null|string
      */
-    private function getExtensionForFilename($filename)
+    private function getExtensionForFilename($filename) : string
     {
         $extensions = explode('.', $filename);
-        $extension = null;
 
-        if (count($extensions) <= 1) {
-            $extension = '';
-        } else {
-            $extension = strtolower(end($extensions));
-        }
-
-        return $extension;
+        return count($extensions) <= 1 ? '' : strtolower(end($extensions));
     }
 }

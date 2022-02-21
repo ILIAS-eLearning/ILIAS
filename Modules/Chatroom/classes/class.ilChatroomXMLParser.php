@@ -58,10 +58,7 @@ class ilChatroomXMLParser extends ilSaxParser
         return defined('IL_INST_ID') && IL_INST_ID > 0 && $this->getImportInstallId() == IL_INST_ID;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');

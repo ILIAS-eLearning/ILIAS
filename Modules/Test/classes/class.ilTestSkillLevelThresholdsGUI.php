@@ -124,7 +124,7 @@ class ilTestSkillLevelThresholdsGUI
             }
 
             if (!$valid) {
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
                 return $this->showSkillThresholdsCmd($table);
             }
 
@@ -167,7 +167,7 @@ class ilTestSkillLevelThresholdsGUI
                     $sorted_thresholds_by_level != $thresholds_by_level ||
                     count($thresholds_by_level) != count(array_unique($thresholds_by_level))
                 ) {
-                    ilUtil::sendFailure($this->lng->txt('ass_competence_respect_level_ordering'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ass_competence_respect_level_ordering'));
                     return $this->showSkillThresholdsCmd($table);
                 }
             }
@@ -176,7 +176,7 @@ class ilTestSkillLevelThresholdsGUI
                 $skillLevelThreshold->saveToDb();
             }
 
-            ilUtil::sendSuccess($this->lng->txt('tst_msg_skl_lvl_thresholds_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('tst_msg_skl_lvl_thresholds_saved'), true);
         }
 
         $this->ctrl->redirect($this, self::CMD_SHOW_SKILL_THRESHOLDS);

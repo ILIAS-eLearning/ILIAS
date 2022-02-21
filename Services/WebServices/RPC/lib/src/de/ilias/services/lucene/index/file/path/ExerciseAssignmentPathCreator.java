@@ -4,7 +4,8 @@ import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.CommandQueueElement;
@@ -21,7 +22,7 @@ import de.ilias.services.settings.LocalSettings;
 
 public class ExerciseAssignmentPathCreator implements PathCreator {
 
-	protected Logger logger = Logger.getLogger(ExerciseAssignmentPathCreator.class);
+	protected Logger logger = LogManager.getLogger(ExerciseAssignmentPathCreator.class);
 	
 	
 	public File buildFile(CommandQueueElement el, ResultSet res)

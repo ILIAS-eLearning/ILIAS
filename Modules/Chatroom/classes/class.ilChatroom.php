@@ -51,6 +51,7 @@ class ilChatroom
     public static function checkUserPermissions($permissions, int $ref_id, bool $send_info = true) : bool
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         if (!is_array($permissions)) {
             $permissions = [$permissions];
@@ -58,7 +59,7 @@ class ilChatroom
 
         $hasPermissions = self::checkPermissions($DIC->user()->getId(), $ref_id, $permissions);
         if (!$hasPermissions && $send_info) {
-            ilUtil::sendFailure($DIC->language()->txt('permission_denied'), true);
+            $main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('permission_denied'), true);
 
             return false;
         }
@@ -112,7 +113,7 @@ class ilChatroom
                         case 'visible':
                             if (!$active) {
                                 $DIC->access()->addInfoItem(
-                                    IL_NO_OBJECT_ACCESS,
+                                    ilAccessInfo::IL_NO_OBJECT_ACCESS,
                                     $DIC->language()->txt('offline')
                                 );
                             }
@@ -125,7 +126,7 @@ class ilChatroom
                         case 'read':
                             if (!$active) {
                                 $DIC->access()->addInfoItem(
-                                    IL_NO_OBJECT_ACCESS,
+                                    ilAccessInfo::IL_NO_OBJECT_ACCESS,
                                     $DIC->language()->txt('offline')
                                 );
                                 return false;
@@ -305,7 +306,7 @@ class ilChatroom
                 ['room_id' => ['integer', $this->roomId]]
             );
         } else {
-            $this->roomId = (int) $DIC->database()->nextId(self::$settingsTable);
+            $this->roomId = $DIC->database()->nextId(self::$settingsTable);
 
             $localSettings['room_id'] = [
                 'integer', $this->roomId
@@ -765,7 +766,7 @@ class ilChatroom
     {
         global $DIC;
 
-        $nextId = (int) $DIC->database()->nextId(self::$privateRoomsTable);
+        $nextId = $DIC->database()->nextId(self::$privateRoomsTable);
         $DIC->database()->insert(
             self::$privateRoomsTable,
             [
@@ -824,13 +825,11 @@ class ilChatroom
         int $subScope = 0,
         string $invitationLink = ''
     ) : void {
-        global $DIC;
-
         if ($gui && $invitationLink === '') {
             $invitationLink = $this->getChatURL($gui, $subScope);
         }
 
-        if ($recipient_id > 0 && (int) ANONYMOUS_USER_ID !== $recipient_id) {
+        if ($recipient_id > 0 && ANONYMOUS_USER_ID !== $recipient_id) {
             if (is_numeric($sender) && $sender > 0) {
                 $sender_id = $sender;
                 /** @var $usr ilObjUser */
@@ -914,7 +913,7 @@ class ilChatroom
             return $row['title'];
         }
 
-        return 'unkown';
+        return 'unknown';
     }
 
     public function inviteUserToPrivateRoomByLogin(string $login, int $proom_id) : void
@@ -1283,7 +1282,7 @@ class ilChatroom
         $DIC->database()->queryF(
             'DELETE FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = %s',
             ['integer', 'integer'],
-            [$this->roomId, (int) $sub_room]
+            [$this->roomId, $sub_room]
         );
 
         if ($sub_room) {

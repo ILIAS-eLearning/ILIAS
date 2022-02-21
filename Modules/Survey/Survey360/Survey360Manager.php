@@ -1,63 +1,51 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Survey360;
 
 use ILIAS\Survey\Execution\RunDBRepository;
 use ILIAS\Survey\Settings\SettingsDBRepository;
+use ILIAS\Survey\InternalRepoService;
 
 /**
- * Survey 360
- *
- * @author killing@leifos.de
+ * @todo this should be moved to a general appraisee/appraisal manager
+ * @author Alexander Killing <killing@leifos.de>
  */
 class Survey360Manager
 {
-    /**
-     * @var RunDBRepository
-     */
-    protected $run_repo;
+    protected RunDBRepository $run_repo;
+    protected AppraiseeDBRepository $appr_repo;
+    protected SettingsDBRepository $set_repo;
 
-    /**
-     * @var AppraiseeDBRepository
-     */
-    protected $appr_repo;
-
-    /**
-     * @var SettingsDBRepository
-     */
-    protected $set_repo;
-
-    /**
-     * Constructor
-     */
     public function __construct(
-        AppraiseeDBRepository $appr_repo = null,
-        RunDBRepository $run_rep = null,
-        SettingsDBRepository $set_repo = null
+        InternalRepoService $repo_service
     ) {
-        $this->run_repo = (is_null($run_rep))
-            ? new RunDBRepository()
-            : $run_rep;
+        $this->run_repo = $repo_service->execution()->run();
 
-        $this->appr_repo = (is_null($appr_repo))
-            ? new AppraiseeDBRepository()
-            : $appr_repo;
-
-        $this->set_repo = (is_null($set_repo))
-            ? new SettingsDBRepository()
-            : $set_repo;
+        $this->appr_repo = new AppraiseeDBRepository();
+        $this->set_repo = $repo_service->settings();
     }
 
     /**
      * Get open surveys for rater
-     *
      * @param int $rater_user_id
      * @return int[]
      */
-    public function getOpenSurveysForRater(int $rater_user_id)
-    {
+    public function getOpenSurveysForRater(
+        int $rater_user_id
+    ) : array {
         // get all appraisees of the ratier
         $appraisees = $this->appr_repo->getAppraiseesForRater($rater_user_id);
 
@@ -94,12 +82,10 @@ class Survey360Manager
 
     /**
      * Get open surveys for rater
-     *
-     * @param int $rater_user_id
-     * @return int[]
      */
-    public function getOpenSurveysForAppraisee(int $appr_user_id)
-    {
+    public function getOpenSurveysForAppraisee(
+        int $appr_user_id
+    ) : array {
         // open surveys
         $open_surveys = $this->appr_repo->getUnclosedSurveysForAppraisee($appr_user_id);
 

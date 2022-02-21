@@ -49,7 +49,7 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
 
             return true;
         } catch (ilException $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->global_tpl->setOnScreenMessage('failure', $e->getMessage());
 
             return false;
         }
@@ -109,7 +109,7 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
                 $this->type->setDescription($description, $lang_code);
             }
         } catch (ilOrgUnitTypePluginException $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->global_tpl->setOnScreenMessage('failure', $e->getMessage());
             $success = false;
         }
 

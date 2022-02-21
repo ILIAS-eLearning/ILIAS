@@ -115,7 +115,7 @@ class ilDclNReferenceFieldGUI
                 $is_numeric = true;
                 break;
         }
-        $elements = ilUtil::sortArray($elements, 'sort', 'asc', $is_numeric);
+        $elements = ilArrayUtil::sortArray($elements, 'sort', 'asc', $is_numeric);
 
         //concat
         foreach ($elements as $element) {

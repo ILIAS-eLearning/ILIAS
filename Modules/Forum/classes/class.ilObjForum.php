@@ -12,7 +12,7 @@
  */
 class ilObjForum extends ilObject
 {
-    private const NEWS_NEW_CONSIDERATION_WEEKS = 8;
+    public const NEWS_NEW_CONSIDERATION_WEEKS = 8;
     
     public ilForum $Forum;
     /** @var array<int, int>  */
@@ -25,7 +25,7 @@ class ilObjForum extends ilObject
     private static array $forum_last_post_cache = [];
     private ilSetting $settings;
     private \ILIAS\DI\RBACServices $rbac;
-    private ilObjUser $user;
+    protected ilObjUser $user;
     private ilLogger $logger;
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
@@ -64,6 +64,8 @@ class ilObjForum extends ilObject
 
         $this->createSettings();
 
+        $this->setOfflineStatus(true);
+        $this->update();
         $this->saveData();
 
         return $id;
@@ -164,7 +166,7 @@ class ilObjForum extends ilObject
         }
         $unread = $num_posts - $count_read;
 
-        return $unread > 0 ? $unread : 0;
+        return max($unread, 0);
     }
 
     public function markThreadRead(int $a_usr_id, int $a_thread_id) : bool
@@ -230,7 +232,7 @@ class ilObjForum extends ilObject
 
     public function isRead($a_usr_id, $a_post_id) : bool
     {
-        $res = $this->db->query(
+        $res = $this->db->queryF(
             'SELECT * FROM frm_user_read WHERE usr_id = %s AND post_id = %s',
             ['integer', 'integer'],
             [$a_usr_id, $a_post_id]
@@ -355,7 +357,7 @@ class ilObjForum extends ilObject
         return false;
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false) : ilObjForum
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObjForum
     {
         /** @var $new_obj ilObjForum */
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
@@ -451,6 +453,15 @@ class ilObjForum extends ilObject
                 $duplicatePageObject->createFromXML();
             }
         }
+
+        $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+        //copy online status if object is not the root copy object
+        if (!$cwo->isRootNode($this->getRefId())) {
+            $new_obj->setOfflineStatus($this->getOfflineStatus());
+        } else {
+            $new_obj->setOfflineStatus(true);
+        }
+        $new_obj->update();
 
         return $new_obj;
     }
@@ -574,9 +585,9 @@ class ilObjForum extends ilObject
         }
     }
 
-    public function initDefaultRoles()
+    public function initDefaultRoles() : void
     {
-        return ilObjRole::createDefaultRole(
+        ilObjRole::createDefaultRole(
             'il_frm_moderator_' . $this->getRefId(),
             "Moderator of forum obj_no." . $this->getId(),
             'il_frm_moderator',
@@ -615,7 +626,7 @@ class ilObjForum extends ilObject
         // news settings (public notifications yes/no)
         $default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($ref_id);
         if ($default_visibility === 'public') {
-            ilBlockSetting::_write('news', 'public_notifications', 1, 0, $this->getId());
+            ilBlockSetting::_write('news', 'public_notifications', '1', 0, $this->getId());
         }
     }
 

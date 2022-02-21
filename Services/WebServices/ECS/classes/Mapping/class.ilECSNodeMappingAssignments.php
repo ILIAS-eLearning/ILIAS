@@ -1,7 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignment.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  *
@@ -71,7 +82,6 @@ class ilECSNodeMappingAssignments
     
     /**
      * Lookup assignments
-     * @global  $ilDB
      * @param <type> $a_server_id
      * @param <type> $a_mid
      * @param <type> $a_tree_id
@@ -169,7 +179,6 @@ class ilECSNodeMappingAssignments
 
     /**
      * Get cs ids for ref_id
-     * @global <type> $ilDB
      * @param <type> $a_server_id
      * @param <type> $a_mid
      * @param <type> $a_tree_id
@@ -198,7 +207,6 @@ class ilECSNodeMappingAssignments
 
     /**
      * Delete mappings
-     * @global  $ilDB
      * @param <type> $a_server_id
      * @param <type> $a_mid
      * @param <type> $a_tree_id
@@ -223,7 +231,6 @@ class ilECSNodeMappingAssignments
 
     /**
      * Delete mappings
-     * @global $ilDB $ilDB
      * @param <type> $a_server_id
      * @param <type> $a_mid
      * @param <type> $a_tree_id
@@ -251,13 +258,6 @@ class ilECSNodeMappingAssignments
      */
     public static function deleteDisconnectableMappings($a_server_id, $a_mid, $a_tree_id, $a_ref_id)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
-
         $toDelete = array();
         foreach (self::lookupAssignmentsByRefId($a_server_id, $a_mid, $a_tree_id, $a_ref_id) as $assignment) {
             $status = ilECSCmsData::lookupStatusByCmsId($a_server_id, $a_mid, $a_tree_id, $assignment);

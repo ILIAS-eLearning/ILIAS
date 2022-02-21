@@ -147,7 +147,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             foreach ($elements as $id => $element) {
                 $template->setCurrentBlock("element");
                 $template->setVariable("ELEMENT_ID", "sol_e_" . $this->object->getId() . "_$id");
-                $template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+                $template->setVariable("ELEMENT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
                 $template->parseCurrentBlock();
             }
         } else {
@@ -155,7 +155,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             foreach ($elements as $id => $element) {
                 $template->setCurrentBlock("element");
                 $template->setVariable("ELEMENT_ID", "sol_e_" . $this->object->getId() . "_$id");
-                $template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+                $template->setVariable("ELEMENT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
                 $template->parseCurrentBlock();
             }
         }
@@ -246,8 +246,8 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         foreach ($elements as $id => $element) {
             $template->setCurrentBlock("element");
             $template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
-            $template->setVariable("ORDERING_VALUE", ilUtil::prepareFormOutput($element));
-            $template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+            $template->setVariable("ORDERING_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
+            $template->setVariable("ELEMENT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
             $template->parseCurrentBlock();
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());
@@ -262,7 +262,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $questionoutput = $this->getILIASPage($questionoutput);
         }
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
@@ -302,8 +302,8 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         foreach ($elements as $id => $element) {
             $template->setCurrentBlock("element");
             $template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
-            $template->setVariable("ORDERING_VALUE", ilUtil::prepareFormOutput($element));
-            $template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+            $template->setVariable("ORDERING_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
+            $template->setVariable("ELEMENT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
             $template->parseCurrentBlock();
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());
@@ -318,7 +318,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $questionoutput = $this->getILIASPage($questionoutput);
         }
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
@@ -351,7 +351,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         
         $files = array();
         
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
         

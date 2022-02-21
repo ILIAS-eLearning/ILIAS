@@ -77,7 +77,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $custom_check = $this->object->checkQuestionCustomPart($form);
         if (!$form->checkInput() || !$custom_check) {
             if (!$custom_check) {
-                ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
             }
             $this->editQuestion($form);
             return 1;
@@ -88,10 +88,12 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
     {
-        $this->object->setLongMenuTextValue(ilUtil::stripSlashesRecursive($_POST['longmenu_text']));
-        $this->object->setAnswers(json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_text_files'])));
-        $this->object->setCorrectAnswers(json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_correct_answers'])));
-        $this->object->setAnswerType(ilUtil::stripSlashesRecursive($_POST['long_menu_type']));
+        $this->object->setLongMenuTextValue(ilArrayUtil::stripSlashesRecursive($_POST['longmenu_text']));
+        $this->object->setAnswers(json_decode(ilArrayUtil::stripSlashesRecursive($_POST['hidden_text_files'])));
+        $this->object->setCorrectAnswers(json_decode(
+            ilArrayUtil::stripSlashesRecursive($_POST['hidden_correct_answers'])
+        ));
+        $this->object->setAnswerType(ilArrayUtil::stripSlashesRecursive($_POST['long_menu_type']));
         $this->object->setQuestion($_POST['question']);
         $this->object->setLongMenuTextValue($_POST["longmenu_text"]);
         $this->object->setMinAutoComplete((int) $_POST["min_auto_complete"]);
@@ -676,10 +678,12 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $questionIndex
         );
         
-        $table->setTitle(sprintf(
-            $DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
-            $DIC->language()->txt('longmenu') . ' ' . ($questionIndex + 1)
-        ));
+        $table->setTitle(
+            sprintf(
+                $DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
+                $DIC->language()->txt('longmenu') . ' ' . ($questionIndex + 1)
+            )
+        );
         
         return $table;
     }

@@ -13,8 +13,6 @@
  */
 interface ilComponentDefinitionProcessor
 {
-    public function __construct(\ilDBInterface $db);
-
     /**
      * This methods is supposed to purge existing data in the provider of the
      * component, so new components can be added to a clean slate.

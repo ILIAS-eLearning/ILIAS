@@ -5,7 +5,7 @@
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilFSStorageExercise extends ilFileSystemStorage
+class ilFSStorageExercise extends ilFileSystemAbstractionStorage
 {
     protected int $ass_id;
     protected string $submission_path;
@@ -21,11 +21,11 @@ class ilFSStorageExercise extends ilFileSystemStorage
         $this->ass_id = $a_ass_id;
         parent::__construct(self::STORAGE_DATA, true, $a_container_id);
     }
-    
+
     /**
      * Append ass_<ass_id> to path (assignment id)
      */
-    protected function init() : bool
+    public function init() : bool
     {
         if (parent::init()) {
             if ($this->ass_id > 0) {
@@ -41,22 +41,22 @@ class ilFSStorageExercise extends ilFileSystemStorage
         }
         return true;
     }
-    
+
     protected function getPathPostfix() : string
     {
         return 'exc';
     }
-    
+
     protected function getPathPrefix() : string
     {
         return 'ilExercise';
     }
-    
+
     public function getAbsoluteSubmissionPath() : string
     {
         return $this->submission_path;
     }
-    
+
     public function getTempPath() : string
     {
         return $this->tmp_path;
@@ -67,16 +67,16 @@ class ilFSStorageExercise extends ilFileSystemStorage
     ) : string {
         $path = $this->feedb_path . "/" . $a_user_id;
         if (!file_exists($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         return $path;
     }
-    
+
     public function getGlobalFeedbackPath() : string
     {
         $path = $this->feedb_path . "/0";
         if (!file_exists($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         return $path;
     }
@@ -90,11 +90,11 @@ class ilFSStorageExercise extends ilFileSystemStorage
     ) : string {
         $path = $this->multi_feedback_upload_path . "/" . $a_user_id;
         if (!file_exists($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         return $path;
     }
-    
+
     /**
      * Get pear review upload path
      * (each peer handled in a separate path)
@@ -110,27 +110,26 @@ class ilFSStorageExercise extends ilFileSystemStorage
             $path .= (int) $a_crit_id . "/";
         }
         if (!file_exists($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         return $path;
     }
-        
+
     /**
      * Create directory
      */
-    public function create() : bool
+    public function create() : void
     {
         parent::create();
         if (!file_exists($this->submission_path)) {
-            ilUtil::makeDirParents($this->submission_path);
+            ilFileUtils::makeDirParents($this->submission_path);
         }
         if (!file_exists($this->tmp_path)) {
-            ilUtil::makeDirParents($this->tmp_path);
+            ilFileUtils::makeDirParents($this->tmp_path);
         }
         if (!file_exists($this->feedb_path)) {
-            ilUtil::makeDirParents($this->feedb_path);
+            ilFileUtils::makeDirParents($this->feedb_path);
         }
-        return true;
     }
 
     public function getFiles() : array
@@ -151,14 +150,14 @@ class ilFSStorageExercise extends ilFileSystemStorage
             }
         }
         closedir($dp);
-        return ilUtil::sortArray($files, "name", "asc");
+        return ilArrayUtil::sortArray($files, "name", "asc");
     }
-    
-    
+
+
     ////
     //// Handle submitted files
     ////
-    
+
     /**
      * store delivered file in filesystem
      * @param array $a_http_post_file
@@ -189,16 +188,16 @@ class ilFSStorageExercise extends ilFileSystemStorage
             $filename = preg_replace("/[^_a-zA-Z0-9\.]/", "", $filename);
 
             if (!is_dir($savepath = $this->getAbsoluteSubmissionPath())) {
-                ilUtil::makeDir($savepath);
+                ilFileUtils::makeDir($savepath);
             }
             $savepath .= '/' . $user_id;
             if (!is_dir($savepath)) {
-                ilUtil::makeDir($savepath);
+                ilFileUtils::makeDir($savepath);
             }
 
             // CHECK IF FILE PATH EXISTS
             if (!is_dir($savepath)) {
-                ilUtil::makeDir($savepath);
+                ilFileUtils::makeDir($savepath);
             }
             $now = getdate();
             $prefix = sprintf(
@@ -212,7 +211,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
             );
 
             if (!$is_unziped) {
-                ilUtil::moveUploadedFile(
+                ilFileUtils::moveUploadedFile(
                     $a_http_post_file["tmp_name"],
                     $prefix . "_" . $filename,
                     $savepath . "/" . $prefix . "_" . $filename
@@ -239,7 +238,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
         string $a_user_id
     ) : array {
         $files = array();
-    
+
         $dir = $this->getFeedbackPath($a_user_id);
         if (is_dir($dir)) {
             $dp = opendir($dir);
@@ -249,22 +248,22 @@ class ilFSStorageExercise extends ilFileSystemStorage
                 }
             }
         }
-        
+
         return $files;
     }
-    
+
     public function countFeedbackFiles(
         string $a_user_id
     ) : int {
         $fbf = $this->getFeedbackFiles($a_user_id);
         return count($fbf);
     }
-    
+
     public function getAssignmentFilePath(string $a_file) : string
     {
         return $this->getAbsolutePath() . "/" . $a_file;
     }
-    
+
     public function getFeedbackFilePath(
         string $a_user_id,
         string $a_file

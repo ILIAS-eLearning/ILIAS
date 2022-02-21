@@ -117,7 +117,7 @@ class ilObjectActivationGUI
 
         // Check if item id is given and valid
         if (!$this->item_id) {
-            ilUtil::sendFailure($this->lng->txt("crs_no_item_id_given"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_item_id_given"), true);
             $this->ctrl->returnToParent($this);
         }
         
@@ -127,7 +127,7 @@ class ilObjectActivationGUI
             case 'ilconditionhandlergui':
                 // preconditions for single course items
                 $this->ctrl->saveParameter($this, 'item_id');
-                $new_gui = new ilConditionHandlerGUI($this, (int) $_GET['item_id']);
+                $new_gui = new ilConditionHandlerGUI((int) $_GET['item_id']);
                 $this->ctrl->forwardCommand($new_gui);
                 $this->tabs_gui->setTabActive('preconditions');
                 break;
@@ -211,7 +211,7 @@ class ilObjectActivationGUI
             // show edit warning if timings are on
             if ($GLOBALS['tree']->checkForParentType($this->getParentId(), 'crs')) {
                 if ($this->getActivation()->getTimingType() == ilObjectActivation::TIMINGS_PRESETTING) {
-                    ilUtil::sendInfo($this->lng->txt('crs_timings_warning_timing_exists'));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('crs_timings_warning_timing_exists'));
                 }
             }
 
@@ -314,10 +314,10 @@ class ilObjectActivationGUI
 
             if ($valid) {
                 $this->getActivation()->update($this->getItemId(), $this->getParentId());
-                ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
                 $this->ctrl->redirect($this, "edit");
             } else {
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
         }
 

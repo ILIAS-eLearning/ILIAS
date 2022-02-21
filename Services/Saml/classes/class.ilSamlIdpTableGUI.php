@@ -7,17 +7,18 @@
  */
 class ilSamlIdpTableGUI extends ilTable2GUI
 {
-    /** @var ILIAS\DI\Container */
-    protected $dic;
+    private ILIAS\DI\Container $dic;
+    private bool $hasWriteAccess;
 
-    public function __construct(object $parent_gui, string $parent_cmd)
+    public function __construct(object $parent_gui, string $parent_cmd, bool $hasWriteAccess)
     {
         global $DIC;
 
         $this->dic = $DIC;
+        $this->hasWriteAccess = $hasWriteAccess;
 
-        $f = $DIC->ui()->factory();
-        $renderer = $DIC->ui()->renderer();
+        $f = $this->dic->ui()->factory();
+        $renderer = $this->dic->ui()->renderer();
 
         $this->setId('saml_idp_list');
         parent::__construct($parent_gui, $parent_cmd);
@@ -56,10 +57,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
         $this->setData($idp_data);
     }
 
-    /**
-     * @param array $a_set
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($a_set['is_active']) {
             $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_ok.svg'));
@@ -71,7 +69,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable('NAME', $a_set['entity_id']);
 
-        if ($this->dic->rbac()->system()->checkAccess('write', $_GET['ref_id'])) {
+        if ($this->hasWriteAccess) {
             $list = new ilAdvancedSelectionListGUI();
             $list->setSelectionHeaderClass('small');
             $list->setItemLinkClass('small');

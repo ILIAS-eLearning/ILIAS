@@ -94,12 +94,12 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     }
     
     /**
-     * @param string $field
+     * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($field)
+    public function numericOrdering(string $a_field) : bool
     {
-        return in_array($field, array(
+        return in_array($a_field, array(
             'scored_pass', 'answered_questions', 'points', 'percent_result'
         ));
     }
@@ -152,43 +152,43 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         }
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
-        
+
         // no filter at all
     }
     
     /**
-     * @param array $data
+     * @param array $a_set
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         if ($this->isMultiRowSelectionRequired()) {
             $this->tpl->setCurrentBlock('checkbox_column');
-            $this->tpl->setVariable("CHB_ROW_KEY", $data['active_id']);
+            $this->tpl->setVariable("CHB_ROW_KEY", $a_set['active_id']);
             $this->tpl->parseCurrentBlock();
         }
         
         if ($this->isActionsColumnRequired()) {
             $this->tpl->setCurrentBlock('actions_column');
-            $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($data)->getHTML());
+            $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($a_set)->getHTML());
             $this->tpl->parseCurrentBlock();
         }
         
-        $this->tpl->setVariable("ROW_KEY", $data['active_id']);
-        $this->tpl->setVariable("LOGIN", $data['login']);
-        $this->tpl->setVariable("FULLNAME", $data['name']);
+        $this->tpl->setVariable("ROW_KEY", $a_set['active_id']);
+        $this->tpl->setVariable("LOGIN", $a_set['login']);
+        $this->tpl->setVariable("FULLNAME", $a_set['name']);
         
-        $this->tpl->setVariable("SCORED_PASS", $this->buildScoredPassString($data));
-        $this->tpl->setVariable("PASS_FINISHED", $this->buildPassFinishedString($data));
+        $this->tpl->setVariable("SCORED_PASS", $this->buildScoredPassString($a_set));
+        $this->tpl->setVariable("PASS_FINISHED", $this->buildPassFinishedString($a_set));
 
-        $this->tpl->setVariable("ANSWERED_QUESTIONS", $this->buildAnsweredQuestionsString($data));
-        $this->tpl->setVariable("REACHED_POINTS", $this->buildReachedPointsString($data));
-        $this->tpl->setVariable("PERCENT_RESULT", $this->buildPercentResultString($data));
+        $this->tpl->setVariable("ANSWERED_QUESTIONS", $this->buildAnsweredQuestionsString($a_set));
+        $this->tpl->setVariable("REACHED_POINTS", $this->buildReachedPointsString($a_set));
+        $this->tpl->setVariable("PERCENT_RESULT", $this->buildPercentResultString($a_set));
         
-        $this->tpl->setVariable("PASSED_STATUS", $this->buildPassedStatusString($data));
-        $this->tpl->setVariable("FINAL_MARK", $data['final_mark']);
+        $this->tpl->setVariable("PASSED_STATUS", $this->buildPassedStatusString($a_set));
+        $this->tpl->setVariable("FINAL_MARK", $a_set['final_mark']);
     }
     
     /**

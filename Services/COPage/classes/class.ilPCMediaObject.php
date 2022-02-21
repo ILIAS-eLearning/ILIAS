@@ -26,6 +26,7 @@ class ilPCMediaObject extends ilPageContent
     protected \ILIAS\DI\UIServices $ui;
     protected ilObjMediaObject $mediaobject;
     protected ilLanguage $lng;
+    protected ilGlobalPageTemplate $global_tpl;
 
     public function init() : void
     {
@@ -35,6 +36,7 @@ class ilPCMediaObject extends ilPageContent
         $this->setType("media");
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
+        $this->global_tpl = $DIC['tpl'];
     }
 
     public function readMediaObject(int $a_mob_id = 0) : void
@@ -226,7 +228,38 @@ class ilPCMediaObject extends ilPageContent
         }
         return "";
     }
-    
+
+    /**
+     * Set caption style class of media object
+     */
+    public function setCaptionClass(string $a_class) : void
+    {
+        if (is_object($this->mob_node)) {
+            $mal_node = $this->mob_node->first_child();
+            if (is_object($mal_node)) {
+                if (!empty($a_class)) {
+                    $mal_node->set_attribute("CaptionClass", $a_class);
+                } else {
+                    if ($mal_node->has_attribute("CaptionClass")) {
+                        $mal_node->remove_attribute("CaptionClass");
+                    }
+                }
+            }
+        }
+    }
+
+    public function getCaptionClass() : string
+    {
+        if (is_object($this->mob_node)) {
+            $mal_node = $this->mob_node->first_child();
+            if (is_object($mal_node)) {
+                $class = $mal_node->get_attribute("CaptionClass");
+                return $class;
+            }
+        }
+        return "";
+    }
+
     public static function getLangVars() : array
     {
         return array("pc_mob");
@@ -417,8 +450,15 @@ class ilPCMediaObject extends ilPageContent
         );
         $show_signal = $modal->getShowSignal();
 
-        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $this->ui->renderer()->render($modal) . "</div><script>$(function () { il.COPagePres.setFullscreenModalShowSignal('" .
-            $show_signal . "', '" . $suffix . "'); });</script>";
+        $js = "
+            $(function () {
+                il.COPagePres.setFullscreenModalShowSignal('$show_signal', '$suffix');
+            });
+        ";
+
+        $this->global_tpl->addOnloadCode($js);
+
+        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $this->ui->renderer()->render($modal) . "</div>";
     }
 
     public function getJavascriptFiles(

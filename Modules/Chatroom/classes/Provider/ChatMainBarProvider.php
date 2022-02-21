@@ -36,18 +36,18 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withTitle($this->dic->language()->txt('public_room'))
                 ->withAction('ilias.php?baseClass=ilRepositoryGUI&cmd=view&ref_id=' . $publicChatRefId)
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
-                ->withPosition(10)
+                ->withPosition(30)
                 ->withSymbol($icon)
                 ->withNonAvailableReason(
                     $this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active'))
                 )
                 ->withAvailableCallable(
-                    function () use ($publicChatObjId) : bool {
+                    static function () use ($publicChatObjId) : bool {
                         return $publicChatObjId > 0;
                     }
                 )
                 ->withVisibilityCallable(
-                    function () use ($dic, $publicChatRefId) : bool {
+                    static function () use ($dic, $publicChatRefId) : bool {
                         if (0 === $dic->user()->getId() || $dic->user()->isAnonymous()) {
                             return false;
                         }

@@ -241,7 +241,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         array $a_items = null
     ) : void {
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
             $this->returnToParentObject();
         }
 
@@ -266,7 +266,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
                 
 
-        ilUtil::sendInfo($this->lng->txt($a_info));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt($a_info));
         
         $title = $this->lng->txt($a_title) . ": " . $this->assignment->getTitle();
         
@@ -313,12 +313,12 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
     protected function saveBlogObject() : void
     {
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
             $this->returnToParentObject();
         }
 
         if ($this->selected_wsp_obj_id == 0) {
-            ilUtil::sendFailure($this->lng->txt("select_one"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
             $this->createBlogObject();
             return;
         }
@@ -341,7 +341,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         
         $this->submission->addResourceObject($node_id);
         
-        ilUtil::sendSuccess($this->lng->txt("exc_blog_created"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_blog_created"), true);
         $this->returnToParentObject();
     }
 
@@ -352,7 +352,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
     protected function setSelectedBlogObject() : void
     {
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
             $this->returnToParentObject();
         }
         
@@ -365,7 +365,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 
                 $this->submission->addResourceObject($node["wsp_id"]);
                 
-                ilUtil::sendSuccess($this->lng->txt("exc_blog_selected"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_blog_selected"), true);
                 $this->ctrl->setParameter($this, "blog_id", $node["wsp_id"]);
                 $this->ctrl->redirect($this, "askDirectSubmission");
             }
@@ -480,7 +480,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         ilPropertyFormGUI $a_form = null
     ) : void {
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
             $this->returnToParentObject();
         }
         
@@ -503,7 +503,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
     protected function setSelectedPortfolioTemplateObject() : void
     {
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
             $this->returnToParentObject();
         }
         
@@ -541,7 +541,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
     protected function createPortfolioObject() : void
     {
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
             $this->returnToParentObject();
         }
         
@@ -554,7 +554,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             
         $this->submission->addResourceObject($portfolio->getId());
         
-        ilUtil::sendSuccess($this->lng->txt("exc_portfolio_created"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_portfolio_created"), true);
         $this->returnToParentObject();
     }
 
@@ -565,7 +565,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
     protected function setSelectedPortfolioObject() : void
     {
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
             $this->returnToParentObject();
         }
 
@@ -576,12 +576,12 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             
             $this->submission->addResourceObject($prtf_id);
                         
-            ilUtil::sendSuccess($this->lng->txt("exc_portfolio_selected"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_portfolio_selected"), true);
             $this->ctrl->setParameter($this, "prtf_id", $prtf_id);
             $this->ctrl->redirect($this, "askDirectSubmission");
         }
         
-        ilUtil::sendFailure($this->lng->txt("select_one"));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
         $this->selectPortfolioObject();
     }
 
@@ -615,7 +615,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $ilsub = new ilExSubmission($this->assignment, $user->getId());
         $ilsub->deleteResourceObject($port_id);
 
-        ilUtil::sendSuccess($this->lng->txt("exc_portfolio_unlinked_from_assignment"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_portfolio_unlinked_from_assignment"), true);
 
         $this->ctrl->redirect($this, "returnToParent");
     }
@@ -629,7 +629,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $tpl = $this->tpl;
         
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
             $this->returnToParentObject();
         }
         
@@ -658,7 +658,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
     protected function directSubmitObject() : void
     {
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
             $this->returnToParentObject();
         }
         
@@ -676,9 +676,9 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
                 
         if ($success) {
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         } else {
-            ilUtil::sendFailure($this->lng->txt("msg_failed"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_failed"), true);
         }
         $this->ctrl->redirect($this, "returnToParent");
     }
@@ -710,6 +710,18 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                     "size" => $size
                     );
                 $this->submission->uploadFile($meta, true);
+
+                // print version
+                $file = $file = $blog_gui->buildExportFile(false, true);
+                $size = filesize($file);
+                if ($size) {
+                    $meta = array(
+                        "name" => $blog_id . "print",
+                        "tmp_name" => $file,
+                        "size" => $size
+                    );
+                    $this->submission->uploadFile($meta, true);
+                }
 
                 $this->handleNewUpload();
                 return true;
@@ -747,6 +759,19 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                     "size" => $size
                     );
                 $this->submission->uploadFile($meta, true);
+
+                // print version
+                $port_export->setPrintVersion(true);
+                $file = $port_export->exportHtml();
+                $size = filesize($file);
+                if ($size) {
+                    $meta = array(
+                        "name" => $prtf_id . "print",
+                        "tmp_name" => $file,
+                        "size" => $size
+                    );
+                    $this->submission->uploadFile($meta, true);
+                }
 
                 $this->handleNewUpload();
                 return true;

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -9,7 +9,6 @@
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  * @author: Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-
 class ilStudyProgrammeAssignment
 {
     const NO_RESTARTED_ASSIGNMENT = -1;
@@ -22,41 +21,13 @@ class ilStudyProgrammeAssignment
     const AUTO_ASSIGNED_BY_COURSE = -3;
     const AUTO_ASSIGNED_BY_GROUP = -4;
 
-    /**
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * @var int
-     */
-    protected $usr_id;
-
-    /**
-     * @var int
-     */
-    protected $root_prg_id;
-
-    /**
-     * @var DateTimeImmutable | null
-     */
-    protected $last_change;
-
-    /**
-     * @var int | null
-     */
-    protected $last_change_by;
-
-    /**
-     * @var DateTimeImmutable | null
-     */
-    protected $restart_date;
-
-    /**
-     * @var int | null
-     */
-    protected $restarted_asssignment_id = self::NO_RESTARTED_ASSIGNMENT;
-
+    protected int $id;
+    protected int $usr_id;
+    protected int $root_prg_id;
+    protected ?string $last_change = null;
+    protected ?int $last_change_by;
+    protected ?DateTimeImmutable $restart_date;
+    protected ?int $restarted_asssignment_id = self::NO_RESTARTED_ASSIGNMENT;
 
     public function __construct(int $id)
     {
@@ -102,7 +73,7 @@ class ilStudyProgrammeAssignment
         if ($this->last_change) {
             return DateTimeImmutable::createFromFormat(self::DATE_TIME_FORMAT, $this->last_change);
         }
-        return $this->last_change;
+        return null;
     }
 
     /**

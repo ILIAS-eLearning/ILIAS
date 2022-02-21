@@ -1,31 +1,25 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Services/Membership/classes/class.ilMembershipAdministrationGUI.php" ;
 
 /**
  * Course Administration Settings
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
+ * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjCourseAdministrationGUI: ilPermissionGUI, ilMemberExportSettingsGUI, ilUserActionadminGUI
- *
- * @ingroup ModulesCourse
+ * @ingroup      ModulesCourse
  */
 class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI
 {
-    protected function getType()
+    protected function getType() : string
     {
         return "crss";
     }
-    
-    protected function getParentObjType()
+
+    protected function getParentObjType() : string
     {
         return "crs";
     }
-    
-    protected function getAdministrationFormId()
+
+    protected function getAdministrationFormId() : int
     {
         return ilAdministrationSettingsFormHandler::FORM_COURSE;
     }

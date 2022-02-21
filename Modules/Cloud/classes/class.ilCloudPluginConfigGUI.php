@@ -49,7 +49,7 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
      */
     public function getTableName()
     {
-        return $this->getPluginObject()->getPrefix() . "_config";
+        return $this->getPluginObject()->getPluginConfigTableName();
     }
 
 

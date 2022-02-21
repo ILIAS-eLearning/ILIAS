@@ -5,164 +5,136 @@
 include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 
 /**
-* XML writer class
-*
-* Class to simplify manual writing of xml documents.
-* It only supports writing xml sequentially, because the xml document
-* is saved in a string with no additional structure information.
-* The author is responsible for well-formedness and validity
-* of the xml document.
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*/
+ * XML writer class
+ * Class to simplify manual writing of xml documents.
+ * It only supports writing xml sequentially, because the xml document
+ * is saved in a string with no additional structure information.
+ * The author is responsible for well-formedness and validity
+ * of the xml document.
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilObjectXMLWriter extends ilXmlWriter
 {
-    // begin-patch fm
-    const MODE_SEARCH_RESULT = 1;
+    public const MODE_SEARCH_RESULT = 1;
 
-    private $mode = 0;
-    private $highlighter = null;
-    // end-patch fm
+    private int $mode = 0;
+    private ?ilLuceneHighlighterResultParser $highlighter = null;
 
+    public const TIMING_DEACTIVATED = 0;
+    public const TIMING_TEMPORARILY_AVAILABLE = 1;
+    public const TIMING_PRESETTING = 2;
 
-    const TIMING_DEACTIVATED = 0;
-    const TIMING_TEMPORARILY_AVAILABLE = 1;
-    const TIMING_PRESETTING = 2;
-    
-    const TIMING_VISIBILITY_OFF = 0;
-    const TIMING_VISIBILITY_ON = 1;
-    
-    
-    public $ilias;
+    public const TIMING_VISIBILITY_OFF = 0;
+    public const TIMING_VISIBILITY_ON = 1;
 
-    public $xml;
-    public $enable_operations = false;
-    // begin-patch filemanager
-    private $enable_references = true;
-    // end-patch filemanager
-    public $objects = array();
-    public $user_id = 0;
-    
-    protected $check_permission = false;
+    protected string $xml;
+    protected bool $enable_operations = false;
+    protected bool $enable_references = true;
+    protected array $objects = array();
+    protected int $user_id = 0;
+    protected bool $check_permission = false;
 
-    /**
-    * constructor
-    * @param	string	xml version
-    * @param	string	output encoding
-    * @param	string	input encoding
-    * @access	public
-    */
     public function __construct()
     {
         global $DIC;
 
-        $ilias = $DIC['ilias'];
         $ilUser = $DIC['ilUser'];
 
         parent::__construct();
-
-        $this->ilias =&$ilias;
         $this->user_id = $ilUser->getId();
     }
 
-    // begin-patch fm
-    public function setMode($a_mode)
+    public function setMode(int $a_mode) : void
     {
         $this->mode = $a_mode;
     }
 
-    public function setHighlighter($a_highlighter)
+    public function setHighlighter(ilLuceneHighlighterResultParser $a_highlighter) : void
     {
         $this->highlighter = $a_highlighter;
     }
-    // end-patch fm
 
-    
-    public function enablePermissionCheck($a_status)
+    public function enablePermissionCheck(bool $a_status) : void
     {
         $this->check_permission = $a_status;
     }
-    
-    public function isPermissionCheckEnabled()
+
+    public function isPermissionCheckEnabled() : bool
     {
         return $this->check_permission;
     }
 
-    public function setUserId($a_id)
+    public function setUserId(int $a_id) : void
     {
         $this->user_id = $a_id;
     }
-    public function getUserId()
+
+    public function getUserId() : int
     {
         return $this->user_id;
     }
 
-    public function enableOperations($a_status)
+    public function enableOperations(bool $a_status) : void
     {
         $this->enable_operations = $a_status;
-
-        return true;
     }
 
-    public function enabledOperations()
+    public function enabledOperations() : bool
     {
         return $this->enable_operations;
     }
 
     // begin-patch filemanager
-    public function enableReferences($a_stat)
+    public function enableReferences(bool $a_stat) : void
     {
         $this->enable_references = $a_stat;
     }
 
-    public function enabledReferences()
+    public function enabledReferences() : bool
     {
         return $this->enable_references;
     }
+
     // end-patch filemanager
 
-
-    public function setObjects($objects)
+    public function setObjects(array $objects) : void
     {
         $this->objects = $objects;
     }
 
-    public function __getObjects()
+    public function __getObjects() : array
     {
-        return $this->objects ? $this->objects : array();
+        return $this->objects;
     }
 
-    public function start()
+    public function start() : bool
     {
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];
         $objDefinition = $DIC['objDefinition'];
-        
-        $this->__buildHeader();
 
+        $this->__buildHeader();
         foreach ($this->__getObjects() as $object) {
             if (method_exists($object, 'getType') and $objDefinition->isRBACObject($object->getType())) {
-                if ($this->isPermissionCheckEnabled() and !$ilAccess->checkAccessOfUser($this->getUserId(), 'read', '', $object->getRefId())) {
+                if ($this->isPermissionCheckEnabled() and !$ilAccess->checkAccessOfUser($this->getUserId(), 'read', '',
+                        $object->getRefId())) {
                     continue;
                 }
             }
             $this->__appendObject($object);
         }
         $this->__buildFooter();
-
         return true;
     }
 
-    public function getXML()
+    public function getXML() : string
     {
         return $this->xmlDumpMem(false);
     }
 
-
     // PRIVATE
-    public function __appendObject(ilObject $object)
+    public function __appendObject(ilObject $object) : void
     {
         global $DIC;
 
@@ -235,10 +207,10 @@ class ilObjectXMLWriter extends ilXmlWriter
             if (!$tree->isInTree($ref_id)) {
                 continue;
             }
-            
+
             $attr = array(
                 'ref_id' => $ref_id,
-                'parent_id'=> $tree->getParentId(intval($ref_id))
+                'parent_id' => $tree->getParentId(intval($ref_id))
             );
             $attr['accessInfo'] = $this->__getAccessInfo($object, $ref_id);
             $this->xmlStartTag('References', $attr);
@@ -249,24 +221,24 @@ class ilObjectXMLWriter extends ilXmlWriter
         }
         $this->xmlEndTag('Object');
     }
-    
+
     /**
      * Append time target settings for items inside of courses
      * @param int $ref_id Reference id of object
      * @return void
      */
-    public function __appendTimeTargets($a_ref_id)
+    public function __appendTimeTargets(int $a_ref_id) : void
     {
         global $DIC;
 
         $tree = $DIC['tree'];
-        
+
         if (!$tree->checkForParentType($a_ref_id, 'crs')) {
             return;
         }
         include_once('./Services/Object/classes/class.ilObjectActivation.php');
         $time_targets = ilObjectActivation::getItem($a_ref_id);
-        
+
         switch ($time_targets['timing_type']) {
             case ilObjectActivation::TIMINGS_DEACTIVATED:
                 $type = self::TIMING_DEACTIVATED;
@@ -281,40 +253,30 @@ class ilObjectXMLWriter extends ilXmlWriter
                 $type = self::TIMING_DEACTIVATED;
                 break;
         }
-        
+
         $this->xmlStartTag('TimeTarget', array('type' => $type));
-        
-        #		if($type == self::TIMING_TEMPORARILY_AVAILABLE)
-        {
-            $vis = $time_targets['visible'] == 0 ? self::TIMING_VISIBILITY_OFF : self::TIMING_VISIBILITY_ON;
-            $this->xmlElement(
-                'Timing',
-                array('starting_time' => $time_targets['timing_start'],
-                    'ending_time' => $time_targets['timing_end'],
-                    'visibility' => $vis)
-            );
-                
-        }
-        #		if($type == self::TIMING_PRESETTING)
-        {
-                $this->xmlElement(
-                    'Suggestion',
-                    array(
-                    'starting_time' => $time_targets['suggestion_start'],
-                        'ending_time' => $time_targets['suggestion_end'],
-                    'changeable' => $time_targets['changeable'])
-            );
-        }
+
+        $vis = $time_targets['visible'] == 0 ? self::TIMING_VISIBILITY_OFF : self::TIMING_VISIBILITY_ON;
+        $this->xmlElement(
+            'Timing',
+            array('starting_time' => $time_targets['timing_start'],
+                  'ending_time' => $time_targets['timing_end'],
+                  'visibility' => $vis
+            )
+        );
+
+        $this->xmlElement(
+            'Suggestion',
+            array(
+                'starting_time' => $time_targets['suggestion_start'],
+                'ending_time' => $time_targets['suggestion_end'],
+                'changeable' => $time_targets['changeable']
+            )
+        );
         $this->xmlEndTag('TimeTarget');
-        return;
     }
 
-
-    /**
-     * Append object properties
-     * @param ilObject $obj
-     */
-    public function __appendObjectProperties(ilObject $obj)
+    public function __appendObjectProperties(ilObject $obj) : void
     {
         switch ($obj->getType()) {
 
@@ -326,15 +288,15 @@ class ilObjectXMLWriter extends ilXmlWriter
                 $this->xmlElement("Property", array('name' => 'fileSize'), (int) $size);
                 $this->xmlElement("Property", array('name' => 'fileExtension'), (string) $extension);
                 // begin-patch fm
-                $this->xmlElement('Property', array('name' => 'fileVersion'), (string) ilObjFileAccess::_lookupVersion($obj->getId()));
+                $this->xmlElement('Property', array('name' => 'fileVersion'),
+                    (string) ilObjFileAccess::_lookupVersion($obj->getId()));
                 // end-patch fm
                 $this->xmlEndTag('Properties');
                 break;
         }
     }
-    
 
-    public function __appendOperations($a_ref_id, $a_type)
+    public function __appendOperations(int $a_ref_id, string $a_type) : void
     {
         global $DIC;
 
@@ -347,8 +309,9 @@ class ilObjectXMLWriter extends ilXmlWriter
             if (is_array($ops)) {
                 foreach ($ops as $ops_id) {
                     $operation = $rbacreview->getOperation($ops_id);
-                    
-                    if (count($operation) && $ilAccess->checkAccessOfUser($this->getUserId(), $operation['operation'], 'view', $a_ref_id)) {
+
+                    if (count($operation) && $ilAccess->checkAccessOfUser($this->getUserId(), $operation['operation'],
+                            'view', $a_ref_id)) {
                         $this->xmlElement('Operation', null, $operation['operation']);
                     }
                 }
@@ -368,35 +331,33 @@ class ilObjectXMLWriter extends ilXmlWriter
 
                 $operation = $rbacreview->getOperation($ops_id);
 
-                if (count($operation) && $ilAccess->checkAccessOfUser($this->getUserId(), $operation['operation'], 'view', $a_ref_id)) {
+                if (count($operation) && $ilAccess->checkAccessOfUser($this->getUserId(), $operation['operation'],
+                        'view', $a_ref_id)) {
                     $this->xmlElement('Operation', null, $operation['operation']);
                 }
             }
         }
-        return true;
     }
 
-
-    public function __appendPath($refid)
+    public function __appendPath(int $refid) : void
     {
         ilObjectXMLWriter::appendPathToObject($this, $refid);
     }
-    
-    public function __buildHeader()
+
+    public function __buildHeader() : void
     {
         $this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_object_4_0.dtd\">");
         $this->xmlSetGenCmt("Export of ILIAS objects");
         $this->xmlHeader();
         $this->xmlStartTag("Objects");
-        return true;
     }
 
-    public function __buildFooter()
+    public function __buildFooter() : void
     {
         $this->xmlEndTag('Objects');
     }
 
-    public function __getAccessInfo(&$object, $ref_id)
+    public function __getAccessInfo(ilObject $object, int $ref_id) : string
     {
         global $DIC;
 
@@ -413,8 +374,7 @@ class ilObjectXMLWriter extends ilXmlWriter
         }
     }
 
-    
-    public static function appendPathToObject($writer, $refid)
+    public static function appendPathToObject(ilXmlWriter $writer, int $refid) : void
     {
         global $DIC;
 

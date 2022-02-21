@@ -95,7 +95,13 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         $mode->setRequired(true);
         $form->addItem($mode);
 
-        $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_SEARCH, 'wiki', $this->getPage()->getWikiId(), 'wpg', $this->getPage()->getId());
+        $this->record_gui = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_SEARCH,
+            'wiki',
+            $this->getPage()->getWikiId(),
+            'wpg',
+            $this->getPage()->getId()
+        );
         $this->record_gui->setPropertyForm($form);
         
         if (!$a_insert) {
@@ -107,7 +113,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 
         $no_fields = (count($form->getItems()) == 1);
         if ($no_fields) {
-            ilUtil::sendFailure($this->lng->txt("wiki_pg_list_no_search_fields"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("wiki_pg_list_no_search_fields"));
         }
 
         if ($a_insert) {

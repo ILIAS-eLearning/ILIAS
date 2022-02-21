@@ -22,22 +22,22 @@ use ILIAS\Administration\AdminGUIRequest;
  */
 class ilAdministrationCommandGUI
 {
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilSetting $settings;
     protected ilErrorHandling $error;
     protected ilTree $tree;
     protected ilObjectDefinition$obj_definition;
     protected ?ilCtrl $ctrl = null;
     protected ?ilLanguage $lng = null;
-    private ?ilContainer $container = null;
+    private ilAdministrationCommandHandling $container;
     protected AdminGUIRequest $request;
 
-    public function __construct(ilContainer $a_container)
+    public function __construct(ilAdministrationCommandHandling $a_container)
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->settings = $DIC->settings();
         $this->error = $DIC["ilErr"];
         $this->tree = $DIC->repositoryTree();
@@ -55,7 +55,7 @@ class ilAdministrationCommandGUI
         );
     }
 
-    public function getContainer() : ilContainer
+    public function getContainer() : ilAdministrationCommandHandling
     {
         return $this->container;
     }
@@ -81,23 +81,23 @@ class ilAdministrationCommandGUI
         $confirm->setConfirm($this->lng->txt('delete'), 'performDelete');
 
         foreach ($to_delete as $delete) {
-            $obj_id = ilObject :: _lookupObjId($delete);
-            $type = ilObject :: _lookupType($obj_id);
+            $obj_id = ilObject::_lookupObjId($delete);
+            $type = ilObject::_lookupType($obj_id);
             
             $confirm->addItem(
                 'id[]',
                 $delete,
                 call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'), $obj_id),
-                ilUtil :: getTypeIconPath($type, $obj_id)
+                ilObject::_getIcon($obj_id, 'small', $type)
             );
         }
 
         $msg = $this->lng->txt("info_delete_sure");
-            
+        
         if (!$ilSetting->get('enable_trash')) {
             $msg .= "<br/>" . $this->lng->txt("info_delete_warning_no_trash");
         }
-        ilUtil::sendQuestion($msg);
+        $this->tpl->setOnScreenMessage('question', $msg);
 
         $tpl->setContent($confirm->getHTML());
     }
@@ -131,8 +131,8 @@ class ilAdministrationCommandGUI
 
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
-        $obj_id = ilObject :: _lookupObjId($this->request->getRefId());
-        $type = ilObject :: _lookupType($obj_id);
+        $obj_id = ilObject::_lookupObjId($this->request->getRefId());
+        $type = ilObject::_lookupType($obj_id);
 
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
@@ -148,8 +148,8 @@ class ilAdministrationCommandGUI
 
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
-        $obj_id = ilObject :: _lookupObjId($this->request->getRefId());
-        $type = ilObject :: _lookupType($obj_id);
+        $obj_id = ilObject::_lookupObjId($this->request->getRefId());
+        $type = ilObject::_lookupType($obj_id);
 
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
@@ -179,8 +179,8 @@ class ilAdministrationCommandGUI
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 //        $_GET['ref_id'] = (int) $_GET['item_ref_id'];
 
-        $obj_id = ilObject :: _lookupObjId($this->request->getItemRefId());
-        $type = ilObject :: _lookupType($obj_id);
+        $obj_id = ilObject::_lookupObjId($this->request->getItemRefId());
+        $type = ilObject::_lookupType($obj_id);
 
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
@@ -195,8 +195,8 @@ class ilAdministrationCommandGUI
 
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
-        $obj_id = ilObject :: _lookupObjId($this->request->getRefId());
-        $type = ilObject :: _lookupType($obj_id);
+        $obj_id = ilObject::_lookupObjId($this->request->getRefId());
+        $type = ilObject::_lookupType($obj_id);
 
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 

@@ -1115,7 +1115,7 @@ class ilValidator
             // put in tree under RecoveryFolder if not on exclude list
             #if (!in_array($missing_obj["type"],$this->object_types_exclude))
             if (!$this->isExcludedFromRecovery($missing_obj['type'], $missing_obj['obj_id'])) {
-                $rbacadmin->revokePermission($missing_obj["ref_id"]);
+                $rbacadmin->revokePermission((int) $missing_obj["ref_id"]);
                 $obj_data = ilObjectFactory::getInstanceByRefId($missing_obj["ref_id"]);
                 $obj_data->putInTree(RECOVERY_FOLDER_ID);
                 $obj_data->setPermissions(RECOVERY_FOLDER_ID);
@@ -1124,7 +1124,7 @@ class ilValidator
                 $restored = true;
                 $this->writeScanLogLine("Restored object '" . $missing_obj["title"] . "' (id=" . $missing_obj["obj_id"] . ",ref=" . $missing_obj["ref_id"] . ") in 'Restored objects folder'");
             }
-            
+
             // TODO: process rolefolders
         }
         
@@ -1302,7 +1302,7 @@ class ilValidator
             // delete old tree entries
             $tree->deleteTree($node);
             
-            $rbacadmin->revokePermission($node["child"]);
+            $rbacadmin->revokePermission((int) $node["child"]);
             $obj_data = ilObjectFactory::getInstanceByRefId($node["child"]);
             $obj_data->putInTree(RECOVERY_FOLDER_ID);
             $obj_data->setPermissions(RECOVERY_FOLDER_ID);
@@ -1375,7 +1375,7 @@ class ilValidator
         foreach ($subnodes as $key => $subnode) {
 
             // first paste top_node ...
-            $rbacadmin->revokePermission($key);
+            $rbacadmin->revokePermission((int) $key);
             $obj_data = ilObjectFactory::getInstanceByRefId($key);
             $obj_data->putInTree(RECOVERY_FOLDER_ID);
             $obj_data->setPermissions(RECOVERY_FOLDER_ID);
@@ -1388,7 +1388,7 @@ class ilValidator
             // ... insert subtree of top_node if any subnodes exist
             if (count($subnode) > 0) {
                 foreach ($subnode as $node) {
-                    $rbacadmin->revokePermission($node["child"]);
+                    $rbacadmin->revokePermission((int) $node["child"]);
                     $obj_data = ilObjectFactory::getInstanceByRefId($node["child"]);
                     $obj_data->putInTree($node["parent"]);
                     $obj_data->setPermissions($node["parent"]);

@@ -84,25 +84,25 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('tst_threshold'), '', '10%');
     }
 
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $skill = $data['skill'];
+        $skill = $a_set['skill'];
         $levels = $skill->getLevelData();
 
         if ($this->areQuestionAssignmentColumnsEnabled()) {
             $this->tpl->setCurrentBlock('quest_assign_info');
             $this->tpl->setVariable('ROWSPAN', $this->getRowspan(count($levels)));
-            $this->tpl->setVariable('NUM_QUESTIONS', $data['num_assigns']);
-            $this->tpl->setVariable('MAX_COMP_POINTS', $data['max_points']);
+            $this->tpl->setVariable('NUM_QUESTIONS', $a_set['num_assigns']);
+            $this->tpl->setVariable('MAX_COMP_POINTS', $a_set['max_points']);
             $this->tpl->parseCurrentBlock();
         }
 
         $this->tpl->setCurrentBlock('competence');
         $this->tpl->setVariable('ROWSPAN', $this->getRowspan(count($levels)));
-        $this->tpl->setVariable('COMPETENCE', $data['competence']);
+        $this->tpl->setVariable('COMPETENCE', $a_set['competence']);
         $this->tpl->parseCurrentBlock();
 
-        $this->addHiddenInput('rendered[]', $this->buildUniqueRecordIdentifier($data));
+        $this->addHiddenInput('rendered[]', $this->buildUniqueRecordIdentifier($a_set));
 
         $this->tpl->setCurrentBlock('tbl_content');
 
@@ -112,8 +112,8 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('LEVEL', $level['title']);
 
             $this->tpl->setVariable('THRESHOLD', $this->buildThresholdInput(
-                $data['skill_base_id'],
-                $data['skill_tref_id'],
+                $a_set['skill_base_id'],
+                $a_set['skill_tref_id'],
                 $level['id']
             )->render());
 

@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Responsible for loading the UI Framework into the dependency injection container of ILIAS
  */
 class InitUIFramework
 {
-    public function init(\ILIAS\DI\Container $c)
+    public function init(\ILIAS\DI\Container $c) : void
     {
         $c["ui.factory"] = function ($c) {
             $c["lng"]->loadLanguageModule("ui");
@@ -32,11 +33,12 @@ class InitUIFramework
                 $c["ui.factory.tree"],
                 $c["ui.factory.menu"],
                 $c["ui.factory.symbol"],
+                $c["ui.factory.toast"],
                 $c["ui.factory.legacy"]
             );
         };
         $c["ui.signal_generator"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\SignalGenerator;
+            return new ILIAS\UI\Implementation\Component\SignalGenerator();
         };
         $c["ui.factory.counter"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Counter\Factory();
@@ -73,6 +75,9 @@ class InitUIFramework
         };
         $c["ui.factory.item"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Item\Factory();
+        };
+        $c["ui.factory.toast"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Toast\Factory($c["ui.signal_generator"]);
         };
         $c["ui.factory.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\ViewControl\Factory(
@@ -163,7 +168,8 @@ class InitUIFramework
         };
         $c["ui.factory.input.container.form"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory(
-                $c["ui.factory.input.field"]
+                $c["ui.factory.input.field"],
+                new \ILIAS\UI\Implementation\Component\Input\FormInputNameSource()
             );
         };
         $c["ui.factory.input.container.filter"] = function ($c) {

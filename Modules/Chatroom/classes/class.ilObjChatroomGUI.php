@@ -13,10 +13,11 @@ use ILIAS\HTTP\Response\ResponseHeader;
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomGUI extends ilChatroomObjectGUI
+class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
     public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
     {
+        // TODO: PHP 8 This will be removed with another ILIAS 8 feature, please ignore this on review
         if (isset($_REQUEST['cmd']) && in_array($_REQUEST['cmd'], array('getOSDNotifications', 'removeOSDNotifications'))) {
             require_once 'Services/Notifications/classes/class.ilNotificationGUI.php';
             $notifications = new ilNotificationGUI();
@@ -31,23 +32,30 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
     }
 
     /**
-     * Overwrites $_GET['ref_id'] with given $ref_id.
-     * @param string $params
+     * @ineritdoc
      */
-    public static function _goto($params)
+    public static function _goto($params) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $parts = array_filter(explode('_', $params));
         $ref_id = (int) $parts[0];
         $sub = (int) ($parts[1] ?? 0);
 
         if (ilChatroom::checkUserPermissions('read', $ref_id, false)) {
-            // TODO PHP 8: Remove this code fragment if possible (seems not to be used)
             if ($sub) {
-                $_REQUEST['sub'] = $_GET['sub'] = (int) $sub;
+                $DIC->ctrl()->setParameterByClass(self::class, 'sub', $sub);
             }
-            ilObjectGUI::_gotoRepositoryNode($ref_id, 'view');
+
+            $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', $ref_id);
+            $DIC->ctrl()->redirectByClass(
+                [
+                    ilRepositoryGUI::class,
+                    self::class,
+                ],
+                'view'
+            );
         } elseif (ilChatroom::checkUserPermissions('visible', $ref_id, false)) {
             $DIC->ctrl()->setParameterByClass(ilInfoScreenGUI::class, 'ref_id', $ref_id);
             $DIC->ctrl()->redirectByClass(
@@ -59,13 +67,10 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
                 'info'
             );
         } elseif ($DIC->rbac()->system()->checkAccess('read', ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(
-                sprintf(
-                    $DIC->language()->txt('msg_no_perm_read_item'),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
-                ),
-                true
-            );
+            $main_tpl->setOnScreenMessage('info', sprintf(
+                $DIC->language()->txt('msg_no_perm_read_item'),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
+            ), true);
             ilObjectGUI::_gotoRepositoryNode(ROOT_FOLDER_ID, '');
         }
 
@@ -83,7 +88,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         return ilChatroomObjectDefinition::getDefaultDefinition('Chatroom');
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms($a_new_type) : array
     {
         $forms = parent::initCreationForms($a_new_type);
 
@@ -94,7 +99,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         return $forms;
     }
 
-    protected function addLocatorItems()
+    protected function addLocatorItems() : void
     {
         if (is_object($this->object)) {
             $this->locator->addItem(
@@ -109,6 +114,24 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
     public function getRefId() : int
     {
         return $this->object->getRefId();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUnsafeGetCommands() : array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSafePostCommands() : array
+    {
+        return [
+            'view-toggleAutoMessageDisplayState',
+        ];
     }
 
     public function executeCommand()
@@ -197,9 +220,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 
             default:
                 try {
-                    $res = explode('-', $this->ctrl->getCmd('', [
-                        'view-toggleAutoMessageDisplayState'
-                    ]), 2);
+                    $res = explode('-', $this->ctrl->getCmd(''), 2);
                     $result = $this->dispatchCall($res[0], $res[1] ?? '');
                     if (!$result && method_exists($this, $this->ctrl->getCmd() . 'Object')) {
                         $this->prepareOutput();
@@ -248,13 +269,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         $this->prepareOutput();
     }
 
-    /**
-     * Instantiates, prepares and returns object.
-     * $class_name = 'ilObj' . $objDefinition->getClassName( $new_type ).
-     * Fetches title from $_POST['title'], description from $_POST['desc']
-     * and RefID from $_GET['ref_id'].
-     * @return ilObject
-     */
     public function insertObject() : ilObjChatroom
     {
         $new_type = $this->type;

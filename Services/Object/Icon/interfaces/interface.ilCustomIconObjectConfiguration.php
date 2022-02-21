@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 interface ilCustomIconObjectConfiguration
@@ -8,19 +9,10 @@ interface ilCustomIconObjectConfiguration
      */
     public function getSupportedFileExtensions() : array;
 
-    /**
-     * @return string
-     */
     public function getTargetFileExtension() : string;
 
-    /**
-     * @return string
-     */
     public function getBaseDirectory() : string;
 
-    /**
-     * @return string
-     */
     public function getSubDirectoryPrefix() : string;
 
     /**

@@ -1,7 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Used for container export with tests
@@ -12,9 +22,6 @@ class ilSurveyExporter extends ilXmlExporter
 {
     private ilSurveyDataSet $ds;
 
-    /**
-     * Initialisation
-     */
     public function init() : void
     {
         $this->ds = new ilSurveyDataSet();
@@ -22,8 +29,11 @@ class ilSurveyExporter extends ilXmlExporter
         $this->ds->setDSPrefix("ds");
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
-    {
+    public function getXmlRepresentation(
+        string $a_entity,
+        string $a_schema_version,
+        string $a_id
+    ) : string {
         if ($a_entity == "svy") {
             $svy = new ilObjSurvey($a_id, false);
             $svy->loadFromDb();
@@ -32,7 +42,7 @@ class ilSurveyExporter extends ilXmlExporter
             $zip = $svy_exp->buildExportFile();
 
             // Unzip, since survey deletes this dir
-            ilUtil::unzip($zip);
+            ilFileUtils::unzip($zip);
 
             $GLOBALS['ilLog']->write(__METHOD__ . ': Created zip file ' . $zip);
             return "";
@@ -41,15 +51,11 @@ class ilSurveyExporter extends ilXmlExporter
         }
     }
 
-    /**
-     * Get tail dependencies
-     * @param string $a_enitity        entity
-     * @param string $a_target_release target release
-     * @param array  $a_ids            ids
-     * @return array array of array with keys "component", entity", "ids"
-     */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
-    {
+    public function getXmlExportTailDependencies(
+        string $a_entity,
+        string $a_target_release,
+        array $a_ids
+    ) : array {
         if ($a_entity == "svy") {
             return array(
                     array(
@@ -69,18 +75,13 @@ class ilSurveyExporter extends ilXmlExporter
         return array();
     }
 
-    /**
-     * Returns schema versions that the component can export to.
-     * ILIAS chooses the first one, that has min/max constraints which
-     * fit to the target release. Please put the newest on top.
-     * @return array
-     */
-    public function getValidSchemaVersions(string $a_entity) : array
-    {
+    public function getValidSchemaVersions(
+        string $a_entity
+    ) : array {
         if ($a_entity == "svy") {
             return array(
                     "4.1.0" => array(
-                            "namespace" => "http://www.ilias.de/Modules/Survey/htlm/4_1",
+                            "namespace" => "https://www.ilias.de/Modules/Survey/htlm/4_1",
                             "xsd_file" => "ilias_svy_4_1.xsd",
                             "uses_dataset" => false,
                             "min" => "4.1.0",
@@ -89,7 +90,7 @@ class ilSurveyExporter extends ilXmlExporter
         } else {
             return array(
                     "5.1.0" => array(
-                            "namespace" => "http://www.ilias.de/Modules/Survey/svy/5_1",
+                            "namespace" => "https://www.ilias.de/Modules/Survey/svy/5_1",
                             "xsd_file" => "ilias_svy_5_1.xsd",
                             "uses_dataset" => true,
                             "min" => "5.1.0",

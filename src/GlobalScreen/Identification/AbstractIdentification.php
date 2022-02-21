@@ -3,35 +3,29 @@
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
 use ILIAS\GlobalScreen\Provider\Provider;
 
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+
 /**
  * Class AbstractIdentification
- *
  * @package ILIAS\GlobalScreen\Identification
  */
 abstract class AbstractIdentification implements IdentificationInterface
 {
-
-    /**
-     * @var string
-     */
-    protected $provider_presentation_name;
-    /**
-     * @var SerializerInterface
-     */
-    protected $serializer;
-    /**
-     * @var string
-     */
-    protected $internal_identifier = '';
-    /**
-     * @var string
-     */
-    protected $classname = '';
-
-
+    protected SerializerInterface $serializer;
+    protected string $provider_presentation_name;
+    protected string $internal_identifier = '';
+    protected string $classname = '';
+    
     /**
      * CoreIdentification constructor.
-     *
      * @param string              $internal_identifier
      * @param string              $classname
      * @param SerializerInterface $serializer
@@ -44,8 +38,7 @@ abstract class AbstractIdentification implements IdentificationInterface
         $this->internal_identifier = $internal_identifier;
         $this->classname = $classname;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -53,8 +46,7 @@ abstract class AbstractIdentification implements IdentificationInterface
     {
         return $this->serializer->serialize($this);
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -62,8 +54,7 @@ abstract class AbstractIdentification implements IdentificationInterface
     {
         throw new \LogicException("Please use the identification factory to unserialize");
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -71,8 +62,7 @@ abstract class AbstractIdentification implements IdentificationInterface
     {
         return $this->classname;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -80,8 +70,7 @@ abstract class AbstractIdentification implements IdentificationInterface
     {
         return $this->internal_identifier;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -92,7 +81,7 @@ abstract class AbstractIdentification implements IdentificationInterface
          * @var $provider Provider
          */
         $provider = new $this->classname($DIC);
-
+        
         return $provider->getProviderNameForPresentation();
     }
 }

@@ -11,7 +11,6 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
     public const MESSAGE_INPUT = 'message';
     public const FILE_UPLOAD_INPUT = 'file_upload';
     public const ALLOW_NOTIFICATION_INPUT = 'allow_notification';
-    public const CAPTCHA_INPUT = 'captcha';
 
     /** @var string[] */
     private array $input_items = [];
@@ -114,9 +113,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
                             'del_file'
                         );
                         foreach ($draftFileData->getFilesOfPost() as $file) {
-                            $currentAttachment = new ilCheckboxInputGUI($file['name'], 'del_file');
-                            $currentAttachment->setValue($file['md5']);
-                            $existingFileSelection->addOption($currentAttachment);
+                            $existingFileSelection->addOption(new ilCheckboxOption($file['name'], $file['md5']));
                         }
                         $this->addItem($existingFileSelection);
                     }
@@ -132,15 +129,6 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
             $notifyOnAnswer->setInfo($this->lng->txt('forum_notify_me'));
             $notifyOnAnswer->setValue('1');
             $this->addItem($notifyOnAnswer);
-        }
-    }
-
-    private function addCaptchaInput() : void
-    {
-        if ($this->user->isAnonymous() && !$this->user->isCaptchaVerified() && ilCaptchaUtil::isActiveForForum()) {
-            $captcha = new ilCaptchaInputGUI($this->lng->txt('cont_captcha_code'), 'captcha_code');
-            $captcha->setRequired(true);
-            $this->addItem($captcha);
         }
     }
 
@@ -173,10 +161,6 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
 
                 case self::ALLOW_NOTIFICATION_INPUT:
                     $this->addAllowNotificationInput();
-                    break;
-
-                case self::CAPTCHA_INPUT:
-                    $this->addCaptchaInput();
                     break;
             }
         }

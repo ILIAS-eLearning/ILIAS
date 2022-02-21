@@ -8,18 +8,14 @@
 class ilBiblOverviewModelFactory implements ilBiblOverviewModelFactoryInterface
 {
 
-    /**
-     * @var array
-     */
-    protected static $models = [];
+    protected static array $models = [];
 
 
     /**
-     * @return array
      * @deprecated REFACTOR use active record. Create ilBiblOverviewModel AR, Factory and Interface
-     *
+     * @return mixed[]
      */
-    private function getAllOverviewModels()
+    private function getAllOverviewModels(): array
     {
         if (count(self::$models) > 0) {
             return self::$models;
@@ -45,7 +41,7 @@ class ilBiblOverviewModelFactory implements ilBiblOverviewModelFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getAllOverviewModelsByType(ilBiblTypeInterface $type)
+    public function getAllOverviewModelsByType(ilBiblTypeInterface $type) : array
     {
         $models = $this->getAllOverviewModels();
 

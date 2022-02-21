@@ -122,7 +122,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
             }
             asort($options);
         } else {
-            ilUtil::sendFailure("cont_no_skills");
+            $this->tpl->setOnScreenMessage('failure', "cont_no_skills");
         }
         $obj = new ilSelectInputGUI($this->lng->txt("cont_pc_skills"), "skill_id");
         $obj->setRequired(true);

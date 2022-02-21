@@ -7,19 +7,9 @@
  */
 abstract class ilOrgUnitExtension extends ilObjectPlugin
 {
-
-    /**
-     * @var ilObjOrgUnitTree
-     */
-    protected $ilObjOrgUnitTree;
-    /**
-     * @var int
-     */
-    protected $parent_ref_id;
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected ilObjOrgUnitTree $ilObjOrgUnitTree;
+    protected int $parent_ref_id;
+    protected ilTree $tree;
 
 
     /**
@@ -46,39 +36,22 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
      */
     public static function getActivePluginIdsForTree()
     {
+        global $DIC;
+        $component_factory = $DIC["component.factory"];
+
         /**
          * @var $plugin ilOrgUnitExtensionPlugin
          */
         $list = array();
 
-        $plugin_ids = ilPlugin::getActivePluginIdsForSlot(IL_COMP_MODULE, "OrgUnit", "orguext");
-        foreach ($plugin_ids as $plugin_id) {
-            $plugin = ilObjectPlugin::getPluginObjectByType($plugin_id);
+        foreach ($component_factory->getActivePluginsInSlot("orguext") as $plugin) {
             if ($plugin->showInTree()) {
-                $list[] = $plugin_id;
+                $list[] = $plugin->getId();
             }
         }
 
         return $list;
     }
-
-
-    /**
-     * @return ilOrgUnitExtensionPlugin
-     * @throws ilPluginException
-     */
-    protected function getPlugin() : ilPlugin
-    {
-        if (!$this->plugin) {
-            $this->plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext", ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $this->getType()));
-            if (!$this->plugin instanceof ilOrgUnitExtensionPlugin) {
-                throw new ilPluginException("ilOrgUnitExtension: Could not instantiate plugin object for type " . $this->getType() . ".");
-            }
-        }
-
-        return $this->plugin;
-    }
-
 
     /**
      * Get all user ids of employees of the underlying OrgUnit.
@@ -166,6 +139,6 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
     {
         $node = $this->tree->getNodeData($this->parent_ref_id);
 
-        return $this->tree->getSubTree($node, $with_data, $type);
+        return $this->tree->getSubTree($node, $with_data, [$type]);
     }
 }

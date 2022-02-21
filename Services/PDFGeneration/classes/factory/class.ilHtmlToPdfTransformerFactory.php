@@ -1,43 +1,36 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once __DIR__ . '/../class.ilAbstractHtmlToPdfTransformer.php';
-require_once './Services/PDFGeneration/classes/class.ilPDFGenerationJob.php';
-
-/**
- * Class ilHtmlToPdfTransformerFactory
- * @author Michael Jansen <mjansen@databay.de>
- */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilHtmlToPdfTransformerFactory
 {
     const PDF_OUTPUT_DOWNLOAD = 'D';
     const PDF_OUTPUT_INLINE = 'I';
     const PDF_OUTPUT_FILE = 'F';
 
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLanguage $lng
-     */
-    protected $lng;
-
-    /**
-     * ilHtmlToPdfTransformerFactory constructor.
-     * @param $component
-     */
-    public function __construct($component = '')
+    public function __construct(string $component = '')
     {
         global $lng;
         $this->lng = $lng;
     }
 
-    /**
-     * @param $output
-     * @return string
-     */
-    protected function generateTempPath($output)
+    protected function generateTempPath(string $output) : string
     {
-        $dir = ilUtil::ilTempnam();
+        $dir = ilFileUtils::ilTempnam();
         if (!is_dir($dir)) {
-            ilUtil::makeDirParents($dir);
+            ilFileUtils::makeDirParents($dir);
         }
 
         $output = preg_replace('#[\\\\/:*?"<>|]#', '-', $output);
@@ -46,14 +39,9 @@ class ilHtmlToPdfTransformerFactory
     }
 
     /**
-     * @param $src
-     * @param $output
-     * @param $delivery_type
-     * @param $service
-     * @param $purpose
      * @throws Exception
      */
-    public function deliverPDFFromHTMLString($src, $output, $delivery_type, $service, $purpose)
+    public function deliverPDFFromHTMLString(array $src, string $output, string $delivery_type, string $service, string $purpose)
     {
         $map = ilPDFGeneratorUtils::getRendererMapForPurpose($service, $purpose);
         $renderer = ilPDFGeneratorUtils::getRendererInstance($map['selected']);
@@ -73,19 +61,13 @@ class ilHtmlToPdfTransformerFactory
         return $this->deliverPDF($output, $delivery_type);
     }
 
-
-    /**
-     * @param $file
-     * @param $delivery_type
-     * @return mixed
-     */
-    protected function deliverPDF($file, $delivery_type)
+    protected function deliverPDF(string $file, string $delivery_type)
     {
         if (file_exists($file)) {
             if (strtoupper($delivery_type) === self::PDF_OUTPUT_DOWNLOAD) {
-                ilUtil::deliverFile($file, basename($file), '', false, true);
+                ilFileDelivery::deliverFileLegacy($file, basename($file), '', false, true);
             } elseif (strtoupper($delivery_type) === self::PDF_OUTPUT_INLINE) {
-                ilUtil::deliverFile($file, basename($file), '', true, true);
+                ilFileDelivery::deliverFileLegacy($file, basename($file), '', true, true);
             } elseif (strtoupper($delivery_type) === self::PDF_OUTPUT_FILE) {
                 return $file;
             }
@@ -93,11 +75,7 @@ class ilHtmlToPdfTransformerFactory
         }
         return false;
     }
-    /**
-     * @param array $src
-     * @return string
-     */
-    protected function createOneFileFromArray(array $src)
+    protected function createOneFileFromArray(array $src) : string
     {
         $tmp_file = dirname(reset($src)) . '/complete_pages_overview.html';
         $html_content = '';

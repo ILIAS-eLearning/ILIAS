@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\MainControls\MetaBar;
 
 use ILIAS\UI\examples\Layout\Page\Standard as PageStandardExample;
+use GuzzleHttp\Psr7\ServerRequest;
 
 function base_metabar()
 {
@@ -47,12 +48,14 @@ function buildMetabar($f)
     return $metabar;
 }
 
-if (is_array($_GET) && array_key_exists('new_metabar_ui',$_GET) && $_GET['new_metabar_ui'] == '1') {
+global $DIC;
+$refinery = $DIC->refinery();
+$request_wrapper = $DIC->http()->wrapper()->query();
+
+if ($request_wrapper->has('new_metabar_ui') && $request_wrapper->retrieve('new_metabar_ui', $refinery->kindlyTo()->string()) == '1') {
     chdir('../../../../../');
     require_once('src/UI/examples/Layout/Page/Standard/ui.php');
     PageStandardExample\_initIliasForPreview();
-
-    global $DIC;
 
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
@@ -101,7 +104,7 @@ function pageMetabarDemoCrumbs($f)
 
 function pageMetabarDemoMainbar($f, $r)
 {
-    return $f->mainControls()->mainbar();;
+    return $f->mainControls()->mainbar();
 }
 
 function pageMetabarDemoFooter($f)

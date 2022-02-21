@@ -59,6 +59,7 @@ class ilChatroomSmilies
     public static function _checkSetup() : bool
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         /** @var $lng ilLanguage */
         $lng = $DIC->language();
@@ -66,11 +67,11 @@ class ilChatroomSmilies
         $path = self::_getSmileyDir();
 
         if (!is_dir($path)) {
-            ilUtil::sendInfo($lng->txt('chatroom_smilies_dir_not_exists'));
-            ilUtil::makeDirParents($path);
+            $main_tpl->setOnScreenMessage('info', $lng->txt('chatroom_smilies_dir_not_exists'));
+            ilFileUtils::makeDirParents($path);
 
             if (!is_dir($path)) {
-                ilUtil::sendFailure($lng->txt('chatroom_smilies_dir_not_available'));
+                $main_tpl->setOnScreenMessage('failure', $lng->txt('chatroom_smilies_dir_not_available'));
                 return false;
             }
 
@@ -95,11 +96,11 @@ class ilChatroomSmilies
             }
 
             self::_insertDefaultValues();
-            ilUtil::sendSuccess($lng->txt('chatroom_smilies_initialized'));
+            $main_tpl->setOnScreenMessage('success', $lng->txt('chatroom_smilies_initialized'));
         }
 
         if (!is_writable($path)) {
-            ilUtil::sendInfo($lng->txt('chatroom_smilies_dir_not_writable'));
+            $main_tpl->setOnScreenMessage('info', $lng->txt('chatroom_smilies_dir_not_writable'));
         }
 
         return true;
@@ -107,7 +108,7 @@ class ilChatroomSmilies
 
     public static function _getSmileyDir() : string
     {
-        return ilUtil::getWebspaceDir() . '/chatroom/smilies';
+        return ilFileUtils::getWebspaceDir() . '/chatroom/smilies';
     }
 
     /**
@@ -128,7 +129,7 @@ class ilChatroomSmilies
                 'smiley_id' => (int) $row['smiley_id'],
                 'smiley_keywords' => $row['smiley_keywords'],
                 'smiley_path' => $row['smiley_path'],
-                'smiley_fullpath' => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
+                'smiley_fullpath' => ilFileUtils::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
             ];
         }
 
@@ -192,7 +193,7 @@ class ilChatroomSmilies
                 'smiley_id' => (int) $row['smiley_id'],
                 'smiley_keywords' => $row['smiley_keywords'],
                 'smiley_path' => $row['smiley_path'],
-                'smiley_fullpath' => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
+                'smiley_fullpath' => ilFileUtils::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
             ];
         }
 
@@ -250,7 +251,7 @@ class ilChatroomSmilies
                 'smiley_id' => (int) $row['smiley_id'],
                 'smiley_keywords' => $row['smiley_keywords'],
                 'smiley_path' => $row['smiley_path'],
-                'smiley_fullpath' => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
+                'smiley_fullpath' => ilFileUtils::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
             ];
         }
 
@@ -271,7 +272,7 @@ class ilChatroomSmilies
 
         try {
             $smiley = self::_getSmiley($a_id);
-            $path = ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $smiley['smiley_path'];
+            $path = ilFileUtils::getWebspaceDir() . '/chatroom/smilies/' . $smiley['smiley_path'];
 
             if (is_file($path)) {
                 unlink($path);

@@ -49,6 +49,7 @@ class ilLocalUserGUI
     public function __construct($parent_gui)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilTabs = $DIC['ilTabs'];
@@ -66,7 +67,7 @@ class ilLocalUserGUI
         $this->ilAccess = $ilAccess;
         $this->lng->loadLanguageModule('user');
         if (!$rbacsystem->checkAccess("cat_administrate_users", $this->parent_gui->object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_perm_admin_users"), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_admin_users"), true);
         }
     }
 
@@ -144,7 +145,7 @@ class ilLocalUserGUI
                 $this->ctrl->getLinkTargetByClass('ilobjuserfoldergui', 'importUserForm')
             );
         } else {
-            ilUtil::sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_roles_user_can_be_assigned_to'));
         }
         if ($show_delete) {
             $this->tpl->setCurrentBlock("confirm_delete");
@@ -191,14 +192,14 @@ class ilLocalUserGUI
         foreach ($_POST['user_ids'] as $user_id) {
             if (!in_array($user_id, ilLocalUser::_getAllUserIds($_GET['ref_id']))) {
                 $ilLog->write(__FILE__ . ":" . __LINE__ . " User with id $user_id could not be found.");
-                ilUtil::sendFailure($this->lng->txt('user_not_found_to_delete'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_found_to_delete'));
             }
             if (!$tmp_obj = &ilObjectFactory::getInstanceByObjId($user_id, false)) {
                 continue;
             }
             $tmp_obj->delete();
         }
-        ilUtil::sendSuccess($this->lng->txt('deleted_users'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('deleted_users'), true);
         $this->ctrl->redirect($this, 'index');
 
         return true;
@@ -209,7 +210,7 @@ class ilLocalUserGUI
     {
         $this->checkPermission("cat_administrate_users");
         if (!count($_POST['id'])) {
-            ilUtil::sendFailure($this->lng->txt('no_users_selected'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_users_selected'));
             $this->index();
 
             return true;
@@ -236,7 +237,7 @@ class ilLocalUserGUI
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
         if (!$this->ilAccess->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
         $offset = $_GET["offset"];
@@ -247,7 +248,7 @@ class ilLocalUserGUI
         $order = $_GET["sort_by"];
         $direction = $_GET["sort_order"];
         if (!isset($_GET['obj_id'])) {
-            ilUtil::sendFailure('no_user_selected');
+            $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->index();
 
             return true;
@@ -264,7 +265,7 @@ class ilLocalUserGUI
         foreach ($roles as $role) {
             $role_obj = &ilObjectFactory::getInstanceByObjId($role['obj_id']);
             $disabled = false;
-            $f_result[$counter][] = ilUtil::formCheckbox(
+            $f_result[$counter][] = ilLegacyFormElementsUtil::formCheckbox(
                 in_array($role['obj_id'], $ass_roles) ? 1 : 0,
                 'role_ids[]',
                 $role['obj_id'],
@@ -290,12 +291,12 @@ class ilLocalUserGUI
         $rbacreview = $DIC['rbacreview'];
         $rbacadmin = $DIC['rbacadmin'];
         if (!$this->ilAccess->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
         // check hack
         if (!isset($_GET['obj_id']) or !in_array($_REQUEST['obj_id'], ilLocalUser::_getAllUserIds())) {
-            ilUtil::sendFailure('no_user_selected');
+            $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->index();
 
             return true;
@@ -303,7 +304,7 @@ class ilLocalUserGUI
         $roles = $this->__getAssignableRoles();
         // check minimum one global role
         if (!$this->__checkGlobalRoles($_POST['role_ids'])) {
-            ilUtil::sendFailure($this->lng->txt('no_global_role_left'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_global_role_left'));
             $this->assignRolesObject();
 
             return false;
@@ -318,7 +319,7 @@ class ilLocalUserGUI
                 $rbacadmin->deassignUser($role['obj_id'], (int) $_REQUEST['obj_id']);
             }
         }
-        ilUtil::sendSuccess($this->lng->txt('role_assignment_updated'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('role_assignment_updated'));
         $this->assignRoles();
 
         return true;
@@ -331,7 +332,7 @@ class ilLocalUserGUI
         $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
         if (!$this->ilAccess->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
         // return true if it's not a local user
@@ -388,7 +389,7 @@ class ilLocalUserGUI
     public function __showRolesTable($a_result_set, $a_from = "")
     {
         if (!$this->ilAccess->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
         $tbl = &$this->parent_gui->__initTableGUI();
@@ -452,7 +453,7 @@ class ilLocalUserGUI
     protected function checkPermission($permission)
     {
         if (!$this->ilAccess->checkAccess($permission, "", $_GET["ref_id"])) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
     }

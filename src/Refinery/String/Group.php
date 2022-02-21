@@ -8,6 +8,7 @@ use ILIAS\Data\Factory;
 use ILIAS\Refinery\String\HasMaxLength;
 use ILIAS\Refinery\String\HasMinLength;
 use ILIAS\Refinery\String\SplitString;
+use ILIAS\Refinery\Transformation;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -90,5 +91,14 @@ class Group
     public function estimatedReadingTime(bool $withImages = false) : EstimatedReadingTime
     {
         return new EstimatedReadingTime($withImages);
+    }
+
+    /**
+     * Creates a transformation to replace URL's like www.ilias.de to <a href="www.ilias.de">www.ilias.de</a>. But does not replace URL's already in anchor tags.
+     * Expects a string of mixed HTML and plain text.
+     */
+    public function makeClickable() : Transformation
+    {
+        return new MakeClickable();
     }
 }

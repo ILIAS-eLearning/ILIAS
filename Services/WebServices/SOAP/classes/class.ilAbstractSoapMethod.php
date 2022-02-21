@@ -1,7 +1,4 @@
-<?php
-require_once(__DIR__ . '/ilSoapMethod.php');
-require_once(__DIR__ . '/class.ilSoapPluginException.php');
-require_once('./webservice/soap/classes/class.ilSoapAdministration.php');
+<?php declare(strict_types=1);
 
 /**
  * Class ilAbstractSoapMethod
@@ -22,7 +19,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
     /**
      * @inheritdoc
      */
-    public function getServiceStyle()
+    public function getServiceStyle() : string
     {
         return 'rpc';
     }
@@ -30,7 +27,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
     /**
      * @inheritdoc
      */
-    public function getServiceUse()
+    public function getServiceUse() : string
     {
         return 'encoded';
     }
@@ -43,7 +40,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
      * @param string $session_id
      * @throws ilSoapPluginException
      */
-    protected function initIliasAndCheckSession($session_id)
+    protected function initIliasAndCheckSession(string $session_id) : void
     {
         $this->initAuth($session_id);
         $this->initIlias();
@@ -58,7 +55,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
      * @param array $params
      * @throws ilSoapPluginException
      */
-    protected function checkParameters(array $params)
+    protected function checkParameters(array $params) : void
     {
         for ($i = 0; $i < count($this->getInputParams()); $i++) {
             if (!isset($params[$i])) {
@@ -72,13 +69,12 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
      * Overwrites the __raiseError method and transforms any raised errors into ilPluginExceptions.
      * Note: These exceptions will be caught by the plugin slot and and the exception message
      * is returned to the SOAP caller.
-     *
      * @param string $a_message
-     * @param int $a_code
-     * @throws ilSoapPluginException
+     * @param int    $a_code
      * @return void
+     *@throws ilSoapPluginException
      */
-    public function __raiseError($a_message, $a_code)
+    protected function __raiseError(string $a_message, $a_code)
     {
         throw new ilSoapPluginException($a_message, $a_code);
     }

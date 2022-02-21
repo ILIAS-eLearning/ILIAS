@@ -31,6 +31,7 @@ class ilMStListCompetencesGUI
      * @var Container
      */
     private $dic;
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     /**
@@ -38,6 +39,7 @@ class ilMStListCompetencesGUI
      */
     public function __construct(Container $dic = null)
     {
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         if (is_null($dic)) {
             global $DIC;
             $dic = $DIC;
@@ -55,7 +57,7 @@ class ilMStListCompetencesGUI
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
         } else {
-            ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
             $this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }

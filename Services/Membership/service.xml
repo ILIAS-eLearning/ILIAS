@@ -4,8 +4,8 @@
 		<baseclass name="ilMembershipOverviewGUI" dir="classes" />
 	</baseclasses>
 	<crons>
-		<cron id="mem_notification" class="ilMembershipCronNotifications" />
-		<cron id="mem_min_members" class="ilMembershipCronMinMembers" />
+		<cron id="mem_notification" class="ilMembershipCronNotifications" path="Services/Membership/classes/Cron" />
+		<cron id="mem_min_members" class="ilMembershipCronMinMembers" path="Services/Membership/classes/Cron" />
 	</crons>
 	<logging />
 </service>

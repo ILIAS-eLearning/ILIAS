@@ -56,20 +56,19 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
 
-        $username = $this->tstObject->userLookupFullName($data["user_fi"], true);
-        $this->tpl->setVariable("DATETIME", ilDatePresentation::formatDate(new ilDateTime($data["tstamp"], IL_CAL_UNIX)));
+        $username = $this->tstObject->userLookupFullName($a_set["user_fi"], true);
+        $this->tpl->setVariable("DATETIME", ilDatePresentation::formatDate(new ilDateTime($a_set["tstamp"], IL_CAL_UNIX)));
         $this->tpl->setVariable("USER", $username);
-        $this->tpl->setVariable("LOG", trim(ilUtil::prepareFormOutput($data["logtext"])));
+        $this->tpl->setVariable("LOG", trim(ilLegacyFormElementsUtil::prepareFormOutput($a_set["logtext"])));
     }
 }

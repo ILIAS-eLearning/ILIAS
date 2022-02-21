@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\Agent\AgentDetermination;
+
 /**
  * Rich Text Editor base class
  * This class provides access methods to a Rich Text Editor (RTE)
@@ -15,7 +17,7 @@ class ilRTE
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
     protected ilLanguage $lng;
-    protected ilBrowser $browser;
+    protected AgentDetermination $browser;
     protected ilIniFile $client_init;
     protected ?int $initialWidth = null;
 
@@ -44,7 +46,7 @@ class ilRTE
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
-        $this->browser = $DIC['ilBrowser'];
+        $this->browser = $DIC->http()->agent();
         $this->client_init = $DIC['ilClientIniFile'];
         $this->user = $DIC['ilUser'];
     }
@@ -111,10 +113,10 @@ class ilRTE
     {
         $editor = ilObjAdvancedEditing::_getRichTextEditor();
         if (strtolower($editor) === 'tinymce') {
-            return 'ilTinyMCE';
+            return ilTinyMCE::class;
         }
 
-        return 'ilRTE';
+        return self::class;
     }
 
     /**
@@ -128,12 +130,14 @@ class ilRTE
         $mobs = ilObjMediaObject::_getMobsOfObject($a_usage_type, $a_usage_id);
         while (preg_match("/data\/" . CLIENT_ID . "\/mobs\/mm_([0-9]+)/i", $a_text, $found)) {
             $a_text = str_replace($found[0], '', $a_text);
-            if (!in_array($found[1], $mobs)) {
+            $found_mob_id = (int) $found[1];
+
+            if (!in_array($found_mob_id, $mobs, true)) {
                 // save usage if missing
-                ilObjMediaObject::_saveUsage($found[1], $a_usage_type, $a_usage_id);
+                ilObjMediaObject::_saveUsage($found_mob_id, $a_usage_type, $a_usage_id);
             } else {
                 // if already saved everything ok -> take mob out of mobs array
-                unset($mobs[$found[1]]);
+                unset($mobs[$found_mob_id]);
             }
         }
         // remaining usages are not in text anymore -> delete them
@@ -174,7 +178,7 @@ class ilRTE
             if (preg_match_all('/src="il_([0-9]+)_mob_([0-9]+)"/', $a_text, $matches)) {
                 foreach ($matches[2] as $idx => $mob) {
                     if (ilObject::_lookupType($mob) === 'mob') {
-                        $mob_obj = new ilObjMediaObject($mob);
+                        $mob_obj = new ilObjMediaObject((int) $mob);
                         $replace = 'il_' . $matches[1][$idx] . '_mob_' . $mob;
                         $path_to_file = ilWACSignedPath::signFile(
                             ILIAS_HTTP_PATH . '/data/' . CLIENT_ID . '/mobs/mm_' . $mob . '/' . $mob_obj->getTitle()
@@ -270,13 +274,5 @@ class ilRTE
     public function setInitialWidth(?int $initialWidth) : void
     {
         $this->initialWidth = $initialWidth;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getPlugins() : array
-    {
-        return $this->plugins;
     }
 }

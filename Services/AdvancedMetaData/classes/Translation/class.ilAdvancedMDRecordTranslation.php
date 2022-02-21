@@ -1,46 +1,31 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilAdvancedMDRecordTranslation
  * @ingroup ServicesAdvancedMetaData
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilAdvancedMDRecordTranslation
 {
     public const TABLE_NAME = 'adv_md_record_int';
 
-    /**
-     * @var int
-     */
-    private $record_id;
+    private int $record_id;
+    private string $title;
+    private string $description;
+    private string $lang_key;
+    private bool $lang_default = false;
 
-    /**
-     * @var string
-     */
-    private $title;
+    private ilDBInterface $db;
 
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var string
-     */
-    private $lang_key;
-
-
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
-
-    /**
-     * ilAdvancedMDRecordTranslation constructor.
-     */
-    public function __construct(int $record_id, string $title, string $description, string $lang_key)
-    {
+    public function __construct(
+        int $record_id,
+        string $title,
+        string $description,
+        string $lang_key,
+        bool $lang_default = false
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -49,39 +34,37 @@ class ilAdvancedMDRecordTranslation
         $this->title = $title;
         $this->description = $description;
         $this->lang_key = $lang_key;
+        $this->lang_default = $lang_default;
     }
 
-    /**
-     * @param string $title
-     */
     public function setTitle(string $title) : void
     {
         $this->title = $title;
     }
 
-    /**
-     * @param string $description
-     */
     public function setDescription(string $description) : void
     {
         $this->description = $description;
     }
 
-    /**
-     * @param bool $lang_default
-     */
     public function setLangDefault(bool $lang_default) : void
     {
         $this->lang_default = $lang_default;
     }
 
+    public function getLangDefault() : bool
+    {
+        return $this->lang_default;
+    }
 
-    /**
-     * @return int
-     */
     public function getRecordId() : int
     {
         return $this->record_id;
+    }
+
+    public function setRecordId(int $record_id) : void
+    {
+        $this->record_id = $record_id;
     }
 
     /**
@@ -108,8 +91,7 @@ class ilAdvancedMDRecordTranslation
         return $this->lang_key;
     }
 
-
-    public function update()
+    public function update() : void
     {
         $query = 'update ' . self::TABLE_NAME . ' ' .
             'set title = ' . $this->db->quote($this->getTitle(), ilDBConstants::T_TEXT) . ', ' .
@@ -120,7 +102,7 @@ class ilAdvancedMDRecordTranslation
         $this->db->manipulate($query);
     }
 
-    public function delete()
+    public function delete() : void
     {
         $query = 'delete from ' . self::TABLE_NAME . ' ' .
             'where record_id = ' . $this->db->quote($this->getRecordId(), ilDBConstants::T_INTEGER) . ' and ' .
@@ -128,7 +110,7 @@ class ilAdvancedMDRecordTranslation
         $this->db->manipulate($query);
     }
 
-    public function insert()
+    public function insert() : void
     {
         $query = 'insert into ' . self::TABLE_NAME . ' (record_id, title, lang_code, description) ' .
             'values (  ' .

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 // often used content types taken from "apache/conf/mime.types"
 

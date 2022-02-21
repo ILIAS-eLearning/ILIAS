@@ -31,3 +31,5 @@ Careful: This also means migrating!
 * "Individual" rather belongs to Assignemnt and says: there are modifications to progresses
 in terms of points or relevance. This is not a static flag but a result of querying progresses.
 
+# ilObjStudyProgrammeTreeGUI
+# we'll remove this feature 

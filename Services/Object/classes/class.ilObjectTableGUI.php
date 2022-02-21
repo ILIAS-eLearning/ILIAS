@@ -15,9 +15,6 @@ class ilObjectTableGUI extends ilTable2GUI
     
     /**
      * Constructor
-     * @param type $a_parent_obj
-     * @param type $a_parent_cmd
-     * @param type $a_id
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_id)
     {
@@ -116,18 +113,18 @@ class ilObjectTableGUI extends ilTable2GUI
     
     /**
      * fill table rows
-     * @param type $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
         if ($this->enabledRowSelectionInput()) {
-            $this->fillRowSelectionInput($set);
+            $this->fillRowSelectionInput($a_set);
         }
         
-        $this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($set['ref_id'], $set['type']));
-        $this->tpl->setVariable('OBJ_LINKED_TITLE', $set['title']);
-        $this->tpl->setVariable('TYPE_IMG', ilUtil::getTypeIconPath($set['type'], $set['obj_id']));
-        $this->tpl->setVariable('TYPE_STR', $this->lng->txt('obj_' . $set['type']));
+        $this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
+        $this->tpl->setVariable('OBJ_LINKED_TITLE', $a_set['title']);
+        $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon($a_set['obj_id'], "small", $a_set['type']));
+        $this->tpl->setVariable('TYPE_STR', $this->lng->txt('obj_' . $a_set['type']));
         
         
         if ($this->enabledObjectPath()) {
@@ -135,7 +132,7 @@ class ilObjectTableGUI extends ilTable2GUI
             $path_gui = $this->customizePath($path_gui);
             
             $this->tpl->setCurrentBlock('path');
-            $this->tpl->setVariable('OBJ_PATH', $path_gui->getPath(ROOT_FOLDER_ID, $set['ref_id']));
+            $this->tpl->setVariable('OBJ_PATH', $path_gui->getPath(ROOT_FOLDER_ID, (int) $a_set['ref_id']));
             $this->tpl->parseCurrentBlock();
         }
     }

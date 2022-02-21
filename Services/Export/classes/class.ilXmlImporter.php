@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,6 @@
 
 /**
  * Xml importer class
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilXmlImporter
@@ -84,12 +83,12 @@ abstract class ilXmlImporter
     {
         return $this->import_directory;
     }
-    
+
     public function setSkipEntities(array $a_val) : void
     {
         $this->skip_entities = $a_val;
     }
-    
+
     public function getSkipEntities() : array
     {
         return $this->skip_entities;
@@ -114,7 +113,7 @@ abstract class ilXmlImporter
     public function finalProcessing(ilImportMapping $a_mapping) : void
     {
     }
-    
+
     // Called after all container objects have been imported.
     public function afterContainerImportProcessing(ilImportMapping $mapping) : void
     {

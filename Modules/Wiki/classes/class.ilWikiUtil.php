@@ -73,6 +73,7 @@ class ilWikiUtil
     
     /**
      * Process internal links
+     * (internal)
      * @return array|false|string
      */
     public static function processInternalLinks(
@@ -82,6 +83,7 @@ class ilWikiUtil
         bool $a_collect_non_ex = false,
         bool $a_offline = false
     ) {
+        include_once("./Modules/Wiki/libs/Sanitizer.php");
         $collect = array();
         // both from mediawiki DefaulSettings.php
         $wgLegalTitleChars = " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+";
@@ -293,6 +295,13 @@ class ilWikiUtil
     ) : string {
         global $DIC;
 
+        $request = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
         $ilCtrl = $DIC->ctrl();
 
         if (!is_object($nt)) {
@@ -337,7 +346,11 @@ class ilWikiUtil
                     $retVal = '<a ' . $wiki_link_class . ' href="' .
                         $ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoPage") . $anc .
                         '">' . $text . '</a>' . $trail;
-                    $ilCtrl->setParameterByClass("ilobjwikigui", "page", $_GET["page"]);
+                    $ilCtrl->setParameterByClass(
+                        "ilobjwikigui",
+                        "page",
+                        $request->getPage()
+                    );
                 } else {
                     $retVal = '<a ' . $wiki_link_class . ' href="' .
                         $anc .

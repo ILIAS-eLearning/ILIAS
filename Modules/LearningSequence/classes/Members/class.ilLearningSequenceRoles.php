@@ -77,7 +77,7 @@ class ilLearningSequenceRoles
 
             foreach ($role_ids as $role_id) {
                 if ($this->rbacreview->isAssignable($role_id, $this->ref_id) == true) {
-                    $role = $this->getRoleObject((int) $role_id);
+                    $role = $this->getRoleObject($role_id);
 
                     if ($translate) {
                         $role_name = ilObjRole::_getTranslation($role->getTitle());
@@ -137,7 +137,7 @@ class ilLearningSequenceRoles
     {
         $users = array();
         foreach ($this->rbacreview->assignedUsers($this->getDefaultAdminRole()) as $admin_id) {
-            array_push($users, (int) $admin_id);
+            $users[] = (int) $admin_id;
         }
 
         return $users;
@@ -156,7 +156,7 @@ class ilLearningSequenceRoles
 
         $default_roles = array();
         foreach ($roles as $role) {
-            $object = $this->getRoleObject((int) $role);
+            $object = $this->getRoleObject($role);
 
             $member = self::ROLE_LS_MEMBER . "_" . $lso_id;
             $admin = self::ROLE_LS_ADMIN . "_" . $lso_id;
@@ -184,7 +184,7 @@ class ilLearningSequenceRoles
     /**
      * @param array<int|string> $user_ids
      * @param string[] $columns
-     * @return array<int|string, array<mixed>>
+     * @return array<int|string, array>
      */
     public function readMemberData(array $user_ids, array $selected_columns = null) : array
     {

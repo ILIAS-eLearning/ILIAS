@@ -58,17 +58,9 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         );
         $tpl->parseCurrentBlock();
         
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
-        );
-        $tpl->setVariable(
-            "LOCATION_ADDITIONAL_STYLESHEET",
-            ilObjStyleSheet::getPlaceHolderStylePath()
-        );
-        $tpl->parseCurrentBlock();
-        
+        $tpl->addCss(ilObjStyleSheet::getPlaceHolderStylePath());
+        $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+
         $this->setStyleId($this->layout_object->getStyleId());
     }
 
@@ -189,7 +181,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $this->layout_object->setModules($form->getInput('module'));
         $this->layout_object->update();
         
-        ilUtil::sendInfo($lng->txt("saved_successfully"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("saved_successfully"));
         $this->properties();
     }
     

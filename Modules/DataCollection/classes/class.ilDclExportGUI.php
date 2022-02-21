@@ -12,7 +12,7 @@ class ilDclExportGUI extends ilExportGUI
     /**
      * @return ilTestExportTableGUI
      */
-    protected function buildExportTableGUI()
+    protected function buildExportTableGUI() : ilExportTableGUI
     {
         $table = new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
 
@@ -29,7 +29,7 @@ class ilDclExportGUI extends ilExportGUI
             $this->checkForExportableFields();
         }
 
-        return parent::createExportFile();
+        parent::createExportFile();
     }
 
 
@@ -52,7 +52,7 @@ class ilDclExportGUI extends ilExportGUI
             }
         }
 
-        ilUtil::sendFailure($lng->txt('dcl_no_export_data_available'), true);
+        $this->tpl->setOnScreenMessage('failure', $lng->txt('dcl_no_export_data_available'), true);
         $ilCtrl->redirect($this, "listExportFiles");
     }
 }

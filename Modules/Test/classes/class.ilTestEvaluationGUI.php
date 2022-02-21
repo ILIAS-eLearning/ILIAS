@@ -378,7 +378,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         
         if (strlen($active_id) == 0) {
-            ilUtil::sendInfo($this->lng->txt('detailed_evaluation_missing_active_id'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('detailed_evaluation_missing_active_id'), true);
             $this->ctrl->redirect($this, 'outEvaluation');
         }
         
@@ -857,7 +857,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
                 $pdf = $pdfAction->createPDF($user_id, $objectId);
                 if (strlen($pdf)) {
-                    $zipAction->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
+                    $zipAction->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(
+                        " ",
+                        "_",
+                        ilFileUtils::getASCIIFilename($name)
+                    ) . ".pdf");
                 }
             }
             $zipArchive = $zipAction->zipCertificatesInArchiveDirectory($archive_dir, true);
@@ -1521,7 +1525,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
         if (!$this->object->getShowSolutionPrintview()) {
-            ilUtil::sendInfo($this->lng->txt("no_permission"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"), true);
             $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
         }
 
@@ -1665,7 +1669,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_single_answers.html", "Modules/Test");
         $foundParticipants = $data->getParticipants();
         if (count($foundParticipants) == 0) {
-            ilUtil::sendInfo($this->lng->txt("tst_no_evaluation_data"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_no_evaluation_data"));
             return;
         } else {
             $rows = array();

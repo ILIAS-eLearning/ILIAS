@@ -145,9 +145,9 @@ class ilColorPickerInputGUI extends ilTextInputGUI
         $a_value = trim(strtolower($a_value));
         
         // expand three digit hex numbers
-        if (preg_match("/^[0-9a-f]3/", $a_value) && strlen($a_value == 3)) {
+        if (preg_match("/^[a-f0-9]{3}/", $a_value) && strlen($a_value) == 3) {
             $a_value = "" . $a_value;
-            $a_value = "0" . $a_value[0] . "0" . $a_value[1] . "0" . $a_value[2];
+            $a_value = $a_value[0] . $a_value[0] . $a_value[1] . $a_value[1] . $a_value[2] . $a_value[2];
         }
         
         if (!preg_match("/^[a-f0-9]{6}/", $a_value)) {
@@ -176,9 +176,11 @@ class ilColorPickerInputGUI extends ilTextInputGUI
         $tpl->setVariable("PROP_COLOR_ID", $this->getFieldId());
 
         if (substr(trim($this->getValue()), 0, 1) == "!" && $this->getAcceptNamedColors()) {
-            $tpl->setVariable("PROPERTY_VALUE_COLOR", ilUtil::prepareFormOutput(trim($this->getValue())));
+            $tpl->setVariable("PROPERTY_VALUE_COLOR",
+                ilLegacyFormElementsUtil::prepareFormOutput(trim($this->getValue()))
+            );
         } else {
-            $tpl->setVariable("PROPERTY_VALUE_COLOR", ilUtil::prepareFormOutput($this->getHexcode()));
+            $tpl->setVariable("PROPERTY_VALUE_COLOR", ilLegacyFormElementsUtil::prepareFormOutput($this->getHexcode()));
             $tpl->setVariable('INIT_COLOR', '#' . $this->getHexcode());
         }
 

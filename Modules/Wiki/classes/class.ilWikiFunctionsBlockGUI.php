@@ -19,6 +19,13 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
     {
         global $DIC;
 
+        $request = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
@@ -33,7 +40,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         $this->setTitle($lng->txt("wiki_functions"));
         $this->allow_moving = false;
 
-        $this->ref_id = (int) $_GET["ref_id"];
+        $this->ref_id = $request->getRefId();
 
         $this->wiki = new ilObjWiki($this->ref_id);
 

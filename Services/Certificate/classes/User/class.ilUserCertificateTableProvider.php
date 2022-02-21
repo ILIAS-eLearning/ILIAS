@@ -8,14 +8,14 @@ class ilUserCertificateTableProvider
 {
     private ilDBInterface $database;
     private ilLogger $logger;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilCertificateObjectHelper $objectHelper;
     private string $defaultTitle;
 
     public function __construct(
         ilDBInterface $database,
         ilLogger $logger,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         string $defaultTitle,
         ilCertificateObjectHelper $objectHelper = null
     ) {

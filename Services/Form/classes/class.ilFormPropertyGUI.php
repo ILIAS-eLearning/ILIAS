@@ -25,7 +25,7 @@ use ILIAS\Refinery;
 class ilFormPropertyGUI
 {
     protected ?ilTable2GUI $parent_table = null;
-    protected ilFormPropertyGUI $parent_gui;
+    protected ?ilFormPropertyGUI $parent_gui = null;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected string $type = "";
@@ -185,7 +185,7 @@ class ilFormPropertyGUI
         $this->parent_gui = $a_val;
     }
     
-    public function getParent() : ilFormPropertyGUI
+    public function getParent() : ?ilFormPropertyGUI
     {
         return $this->parent_gui;
     }
@@ -309,7 +309,9 @@ class ilFormPropertyGUI
         string $a_post_var,
         string $a_value
     ) : string {
-        return '<input type="hidden" name="' . $a_post_var . '" value="' . ilUtil::prepareFormOutput($a_value) . '" />';
+        return '<input type="hidden" name="' . $a_post_var . '" value="' . ilLegacyFormElementsUtil::prepareFormOutput(
+                $a_value
+            ) . '" />';
     }
     
     public function setMulti(
@@ -491,6 +493,9 @@ class ilFormPropertyGUI
                 return array_column(
                     array_map(
                         function ($k, $v) {
+                            if (is_array($v)) {
+                                $v = "";
+                            }
                             return [$k, $this->stripSlashesAddSpaceFallback((string) $v)];
                         },
                         array_keys($arr),

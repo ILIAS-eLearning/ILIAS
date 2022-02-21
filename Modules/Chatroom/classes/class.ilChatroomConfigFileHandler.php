@@ -85,12 +85,10 @@ class ilChatroomConfigFileHandler
      */
     protected function createDataDirIfNotExists() : string
     {
-        $path = ilUtil::getDataDir() . self::CHATROOM_DATA_DIR;
+        $path = ilFileUtils::getDataDir() . self::CHATROOM_DATA_DIR;
 
-        if (!is_dir($path)) {
-            if (!ilUtil::makeDir($path)) {
-                throw new Exception('Directory cannot be created');
-            }
+        if (!is_dir($path) && !ilFileUtils::makeDir($path)) {
+            throw new Exception('Directory cannot be created');
         }
 
         return $path;

@@ -1,14 +1,22 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
 use ILIAS\UI\Factory;
 
-/**
- * Class ilCronManagerTableFilterMediator
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilCronManagerTableFilterMediator
 {
     private const FILTER_PROPERTY_NAME_TITLE = 'title';

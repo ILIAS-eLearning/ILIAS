@@ -28,7 +28,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
     const CMD_CANCEL = 'cancel';
 
-    private function dispatchCommand($cmd)
+    private function dispatchCommand($cmd) : string
     {
         global $DIC;
         switch ($cmd) {
@@ -100,7 +100,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         global $DIC;
         $r = $DIC->http()->request()->getParsedBody();
         foreach ($r[self::IDENTIFIER] as $identification_string => $data) {
-            $item     = $this->repository->getItemFacadeForIdentificationString($this->unhash($identification_string));
+            $item = $this->repository->getItemFacadeForIdentificationString($this->unhash($identification_string));
             $position = (int) $data['position'];
             $item->setPosition($position);
             $item->setActiveStatus(isset($data['active']) && (bool) $data['active']);
@@ -123,7 +123,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
 
         switch ($next_class) {
             case strtolower(ilMMItemTranslationGUI::class):
-                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_SUB_ITEMS, true, $this->ctrl->getCallHistory()[2]['class'] ? $this->ctrl->getCallHistory()[2]['class'] : "");
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_SUB_ITEMS, true, $this->ctrl->getCallHistory()[2][ilCtrlInterface::PARAM_CMD_CLASS] ? $this->ctrl->getCallHistory()[2]['class'] : "");
                 $g = new ilMMItemTranslationGUI($this->getMMItemFromRequest(), $this->repository);
                 $this->ctrl->forwardCommand($g);
                 break;
@@ -231,7 +231,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
             $this->repository->deleteItem($item);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_subitem_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_subitem_deleted"), true);
         $this->cancel();
     }
 
@@ -284,7 +284,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
             $this->repository->updateItem($item);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_moved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_moved"), true);
         $this->cancel();
     }
 }

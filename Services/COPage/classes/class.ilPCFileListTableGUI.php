@@ -68,20 +68,22 @@ class ilPCFileListTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("cont_files"));
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($this->getParentObject()->checkStyleSelection()) {
             $this->tpl->setCurrentBlock("class_sel");
             $sel = ($a_set["class"] == "")
                 ? "FileListItem"
                 : $a_set["class"];
-            $this->tpl->setVariable("CLASS_SEL", ilUtil::formSelect(
-                $sel,
-                "class[" . $a_set["hier_id"] . ":" . $a_set["pc_id"] . "]",
-                $this->getParentObject()->getCharacteristics(),
-                false,
-                true
-            ));
+            $this->tpl->setVariable("CLASS_SEL",
+                ilLegacyFormElementsUtil::formSelect(
+                    $sel,
+                    "class[" . $a_set["hier_id"] . ":" . $a_set["pc_id"] . "]",
+                    $this->getParentObject()->getCharacteristics(),
+                    false,
+                    true
+                )
+            );
             $this->tpl->parseCurrentBlock();
         }
 

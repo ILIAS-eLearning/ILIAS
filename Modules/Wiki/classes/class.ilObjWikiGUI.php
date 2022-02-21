@@ -15,13 +15,14 @@
 
 use ILIAS\Wiki\Export;
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
+use ILIAS\Wiki\Editing\EditingGUIRequest;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjWikiGUI: ilPermissionGUI, ilInfoScreenGUI, ilWikiPageGUI
  * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
@@ -30,6 +31,8 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  */
 class ilObjWikiGUI extends ilObjectGUI
 {
+    protected \ILIAS\HTTP\Services $http;
+    protected string $requested_page;
     protected ilPropertyFormGUI $form_gui;
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;
@@ -37,6 +40,9 @@ class ilObjWikiGUI extends ilObjectGUI
     protected ContextServices $tool_context;
     protected \ILIAS\DI\UIServices $ui;
     protected bool $req_with_comments = false;
+    protected EditingGUIRequest $edit_request;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         $a_data,
@@ -53,6 +59,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->locator = $DIC["ilLocator"];
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->http = $DIC->http();
         
         $this->type = "wiki";
 
@@ -61,15 +68,28 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->ui = $DIC->ui();
 
+        $this->edit_request = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $lng->loadLanguageModule("obj");
         $lng->loadLanguageModule("wiki");
-        
-        if ($_GET["page"] != "") {
-            $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($_GET["page"]));
+
+        $this->requested_page = $this->edit_request->getPage();
+        if ($this->requested_page != "") {
+            $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($this->requested_page));
         }
 
-        $this->req_with_comments = (bool) $_GET["with_comments"];
+        $this->req_with_comments = $this->edit_request->getWithComments();
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
+        if (is_object($this->object)) {
+            $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
+        }
     }
     
     public function executeCommand() : string
@@ -88,8 +108,8 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->prepareOutput();
         
         // see ilWikiPageGUI::printViewOrderList()
-        // printView() and pdfExport() cannot be in ilWikiPageGUI because of stylesheet confusion
-        if ($cmd == "printView" || $cmd == "pdfExport") {
+        // printView() cannot be in ilWikiPageGUI because of stylesheet confusion
+        if ($cmd == "printView") {
             $next_class = null;
         }
     
@@ -124,14 +144,11 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->checkPermission("read");
                 $wpage_gui = ilWikiPageGUI::getGUIForTitle(
                     $this->object->getId(),
-                    ilWikiUtil::makeDbTitle($_GET["page"]),
-                    (int) $_GET["old_nr"],
+                    ilWikiUtil::makeDbTitle($this->requested_page),
+                    $this->edit_request->getOldNr(),
                     $this->object->getRefId()
                 );
-                $wpage_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-                    $this->object->getStyleSheetId(),
-                    "wiki"
-                ));
+                $wpage_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
                 $this->setContentStyleSheet();
                 if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
                     (
@@ -161,34 +178,27 @@ class ilObjWikiGUI extends ilObjectGUI
                 break;
 
             case 'ilpublicuserprofilegui':
-                $profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+                $profile_gui = new ilPublicUserProfileGUI(
+                    $this->edit_request->getUserId()
+                );
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 $tpl->setContent($ret);
                 break;
-                
-            case "ilobjstylesheetgui":
-                $this->ctrl->setReturn($this, "editStyleProperties");
-                $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
-                $style_gui->omitLocator();
-                if ($cmd == "create" || $_GET["new_type"] == "sty") {
-                    $style_gui->setCreationMode(true);
-                }
 
-                if ($cmd == "confirmedDelete") {
-                    $this->object->setStyleSheetId(0);
-                    $this->object->update();
-                }
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->addHeaderAction();
+                $ilTabs->activateTab("settings");
+                $this->setSettingsSubTabs("style");
 
-                $ret = $this->ctrl->forwardCommand($style_gui);
-
-                if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
-                    $style_id = $ret;
-                    $this->object->setStyleSheetId($style_id);
-                    $this->object->update();
-                    $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-                }
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
-                
+
             case "ilexportgui":
                 $this->addHeaderAction();
                 $ilTabs->activateTab("export");
@@ -310,7 +320,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        if (!$this->checkPermissionBool("create", "", "wiki", $_GET["ref_id"])) {
+        if (!$this->checkPermissionBool("create", "", "wiki", $this->requested_ref_id)) {
             throw new ilPermissionException($this->lng->txt("permission_denied"));
         }
 
@@ -320,9 +330,6 @@ class ilObjWikiGUI extends ilObjectGUI
                 $short_item = $this->form_gui->getItemByPostVar("shorttitle");
                 $short_item->setAlert($lng->txt("wiki_short_title_already_in_use"));
             } else {
-                // create and insert forum in objecttree
-                $_POST["title"] = $this->form_gui->getInput("title");
-                $_POST["desc"] = $this->form_gui->getInput("description");
                 parent::saveObject();
                 return;
             }
@@ -358,7 +365,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $a_new_object->update();
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         ilUtil::redirect(ilObjWikiGUI::getGotoLink($a_new_object->getRefId()));
     }
 
@@ -453,9 +460,9 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilCtrl->setParameter(
             $this,
             "wpg_id",
-            ilWikiPage::getPageIdForTitle($this->object->getId(), ilWikiUtil::makeDbTitle($_GET["page"]))
+            ilWikiPage::getPageIdForTitle($this->object->getId(), ilWikiUtil::makeDbTitle($this->requested_page))
         );
-        $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($_GET["page"]));
+        $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($this->requested_page));
         $ilTabs->addTarget(
             "wiki_what_links_here",
             $this->ctrl->getLinkTargetByClass(
@@ -486,10 +493,10 @@ class ilObjWikiGUI extends ilObjectGUI
             "wpg_id",
             ilWikiPage::getPageIdForTitle(
                 $this->object->getId(),
-                ilWikiUtil::makeDbTitle($_GET["page"])
+                ilWikiUtil::makeDbTitle($this->requested_page)
             )
         );
-        $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($_GET["page"]));
+        $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($this->requested_page));
         $ilTabs->addSubTabTarget(
             "wiki_all_pages",
             $this->ctrl->getLinkTarget($this, "allPages"),
@@ -527,16 +534,16 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilHelp->setScreenIdComponent("wiki");
         
         // wiki tabs
-        if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
+        if (in_array($ilCtrl->getCmdClass(), array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
             "ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
             "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui'
             )) || (in_array($ilCtrl->getNextClass(), array("ilpermissiongui")))) {
-            if ($_GET["page"] != "") {
+            if ($this->requested_page != "") {
                 $this->tabs_gui->setBackTarget(
                     $lng->txt("wiki_last_visited_page"),
                     $this->getGotoLink(
-                        $_GET["ref_id"],
-                        ilWikiUtil::makeDbTitle($_GET["page"])
+                        $this->requested_ref_id,
+                        ilWikiUtil::makeDbTitle($this->requested_page)
                     )
                 );
             }
@@ -647,7 +654,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 $ilTabs->addSubTab(
                     "style",
                     $lng->txt("wiki_style"),
-                    $ilCtrl->getLinkTarget($this, 'editStyleProperties')
+                    $ilCtrl->getLinkTargetByClass("ilObjectContentStyleSettingsGUI", "")
                 );
             }
 
@@ -741,7 +748,7 @@ class ilObjWikiGUI extends ilObjectGUI
         if ($a_mode == "edit") {
             $pages = ilWikiPage::getAllWikiPages($this->object->getId());
             foreach ($pages as $p) {
-                $options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
+                $options[$p["id"]] = ilStr::shortenTextExtended($p["title"], 60, true);
             }
             $si = new ilSelectInputGUI($lng->txt("wiki_start_page"), "startpage_id");
             $si->setOptions($options);
@@ -856,7 +863,7 @@ class ilObjWikiGUI extends ilObjectGUI
         if ($a_mode == "create") {
             $values["rating_new"] = true;
             
-            $values["rating_overall"] = ilObject::hasAutoRating("wiki", $_GET["ref_id"]);
+            $values["rating_overall"] = ilObject::hasAutoRating("wiki", $this->requested_ref_id);
         } else {
             $values["online"] = $this->object->getOnline();
             $values["title"] = $this->object->getTitle();
@@ -872,7 +879,7 @@ class ilObjWikiGUI extends ilObjectGUI
             $values["intro"] = $this->object->getIntroduction();
             $values["page_toc"] = $this->object->getPageToc();
             $values["link_md_values"] = $this->object->getLinkMetadataValues();
-                        
+
             // only set given values (because of adv. metadata)
         }
         $this->form_gui->setValuesByArray($values, true);
@@ -929,7 +936,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 // Update ecs export settings
                 $ecs = new ilECSWikiSettings($this->object);
                 if ($ecs->handleSettingsUpdate()) {
-                    ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                     $ilCtrl->redirect($this, "editSettings");
                 }
             }
@@ -964,18 +971,19 @@ class ilObjWikiGUI extends ilObjectGUI
         $lng = $this->lng;
         
         $this->checkPermission("write");
-        
-        $users = (is_array($_POST["user_id"])
-                ? $_POST["user_id"]
-                : array());
-        
+
+        $users = $this->edit_request->getUserIds();
+        $marks = $this->edit_request->getMarks();
+        $comments = $this->edit_request->getComments();
+        $status = $this->edit_request->getStatus();
+
         $saved = false;
         foreach ($users as $user_id) {
             if ($user_id != "") {
                 $marks_obj = new ilLPMarks($this->object->getId(), $user_id);
-                $new_mark = ilUtil::stripSlashes($_POST['mark'][$user_id]);
-                $new_comment = ilUtil::stripSlashes($_POST['lcomment'][$user_id]);
-                $new_status = ilUtil::stripSlashes($_POST["status"][$user_id]);
+                $new_mark = ilUtil::stripSlashes($marks[$user_id]);
+                $new_comment = ilUtil::stripSlashes($comments[$user_id]);
+                $new_status = ilUtil::stripSlashes($status[$user_id]);
 
                 if ($marks_obj->getMark() != $new_mark ||
                     $marks_obj->getComment() != $new_comment ||
@@ -989,7 +997,7 @@ class ilObjWikiGUI extends ilObjectGUI
             }
         }
         if ($saved) {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         
         $ilCtrl->redirect($this, "listContributors");
@@ -1005,7 +1013,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->object->getTitle(),
                 $this->getGotoLink($this->object->getRefId()),
                 "",
-                $_GET["ref_id"]
+                $this->requested_ref_id
             );
         }
     }
@@ -1013,6 +1021,7 @@ class ilObjWikiGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -1061,7 +1070,7 @@ class ilObjWikiGUI extends ilObjectGUI
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -1096,19 +1105,18 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->checkPermission("read");
 
         $ilTabs->clearTargets();
-        $tpl->setHeaderActionMenu(null);
+        $tpl->setHeaderActionMenu("");
 
-        $page = ($_GET["page"] != "")
-            ? $_GET["page"]
+        $page = ($this->requested_page != "")
+            ? $this->requested_page
             : $this->object->getStartPage();
-        $_GET["page"] = $page;
-            
+
         if (!ilWikiPage::exists($this->object->getId(), $page)) {
             $page = $this->object->getStartPage();
         }
         
         if (!ilWikiPage::exists($this->object->getId(), $page)) {
-            ilUtil::sendInfo($lng->txt("wiki_no_start_page"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("wiki_no_start_page"), true);
             $ilCtrl->redirect($this, "infoScreen");
             return;
         }
@@ -1122,10 +1130,7 @@ class ilObjWikiGUI extends ilObjectGUI
             0,
             $this->object->getRefId()
         );
-        $wpage_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-            $this->object->getStyleSheetId(),
-            "wiki"
-        ));
+        $wpage_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
         $this->setContentStyleSheet();
 
@@ -1222,7 +1227,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         
         if ($a_page == "") {
-            $a_page = $_GET["page"];
+            $a_page = $this->requested_page;
         }
         
         if (ilWikiPage::_wikiPageExists(
@@ -1235,8 +1240,12 @@ class ilObjWikiGUI extends ilObjectGUI
             if (!$this->object->getTemplateSelectionOnCreation()) {
                 // check length
                 if (ilStr::strLen(ilWikiUtil::makeDbTitle($a_page)) > 200) {
-                    ilUtil::sendFailure($this->lng->txt("wiki_page_title_too_long") . " (" . $a_page . ")", true);
-                    $ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle($_GET["from_page"]));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("wiki_page_title_too_long") . " (" . $a_page . ")", true);
+                    $ilCtrl->setParameterByClass(
+                        "ilwikipagegui",
+                        "page",
+                        ilWikiUtil::makeUrlTitle($this->edit_request->getFromPage())
+                    );
                     $ilCtrl->redirectByClass("ilwikipagegui", "preview");
                 }
                 $this->object->createWikiPage($a_page);
@@ -1245,8 +1254,12 @@ class ilObjWikiGUI extends ilObjectGUI
                 $ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($a_page)));
                 $ilCtrl->redirectByClass("ilwikipagegui", "edit");
             } else {
-                $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($_GET["page"]));
-                $ilCtrl->setParameter($this, "from_page", ilWikiUtil::makeUrlTitle($_GET["from_page"]));
+                $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($this->requested_page));
+                $ilCtrl->setParameter(
+                    $this,
+                    "from_page",
+                    ilWikiUtil::makeUrlTitle($this->edit_request->getFromPage())
+                );
                 $ilCtrl->redirect($this, "showTemplateSelection");
             }
         }
@@ -1378,53 +1391,42 @@ class ilObjWikiGUI extends ilObjectGUI
     protected function getPrintPageIds() : array
     {
         $page_ids = [];
+        $ordering = $this->edit_request->getPrintOrdering();
+
         // multiple ordered page ids
-        if (is_array($_POST["wordr"])) {
-            asort($_POST["wordr"]);
-            $page_ids = array_keys($_POST["wordr"]);
+        if (count($ordering) > 0) {
+            asort($ordering);
+            $page_ids = array_keys($ordering);
         }
         // single page
-        elseif ((int) $_GET["wpg_id"]) {
-            $page_ids = array((int) $_GET["wpg_id"]);
+        elseif ($this->edit_request->getWikiPageId()) {
+            $page_ids = array($this->edit_request->getWikiPageId());
         }
         
         return $page_ids;
     }
-    
-    public function printViewObject() : void
+
+    public function getPrintView() : \ILIAS\Export\PrintProcessGUI
     {
-        global $tpl;
-        $tpl = $this->tpl;
-
-        $tabs = $this->tabs_gui;
-
-        $tabs->clearTargets();
-        $tabs->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTargetByClass("ilwikipagegui", "printViewSelection")
+        $provider = new \ILIAS\Wiki\WikiPrintViewProviderGUI(
+            $this->lng,
+            $this->ctrl,
+            $this->object->getRefId(),
+            $this->getPrintPageIds()
         );
-        
-        $page_ids = $this->getPrintPageIds();
-        if (!$page_ids) {
-            $this->ctrl->redirect($this, "");
-        }
-                                
-        $this->setContentStyleSheet();
 
-        $page_content = "";
-        foreach ($page_ids as $p_id) {
-            $page_gui = new ilWikiPageGUI($p_id);
-            /** @var ilObjWiki $wiki */
-            $wiki = $this->object;
-            $page_gui->setWiki($wiki);
-            $page_gui->setOutputMode("print");
-            $page_content .= $page_gui->showPage();
-            
-            $page_content .= '<p style="page-break-after:always;"></p>';
-        }
-        
-        $tpl->addOnLoadCode("il.Util.print();");
-        $tpl->setContent($page_content);
+        return new \ILIAS\Export\PrintProcessGUI(
+            $provider,
+            $this->http,
+            $this->ui,
+            $this->lng
+        );
+    }
+
+    public function printViewObject()
+    {
+        $print_view = $this->getPrintView();
+        $print_view->sendPrintView();
     }
 
     public function performSearchObject() : void
@@ -1438,21 +1440,21 @@ class ilObjWikiGUI extends ilObjectGUI
         
         $ilTabs->setTabActive("wiki_search_results");
         
-        if (trim($_POST["search_term"]) == "") {
-            ilUtil::sendFailure($lng->txt("wiki_please_enter_search_term"), true);
+        if ($this->edit_request->getSearchTerm() == "") {
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("wiki_please_enter_search_term"), true);
             $ilCtrl->redirectByClass("ilwikipagegui", "preview");
         }
         
         $search_results = ilObjWiki::_performSearch(
             $this->object->getId(),
-            ilUtil::stripSlashes($_POST["search_term"])
+            $this->edit_request->getSearchTerm()
         );
         $table_gui = new ilWikiSearchResultsTableGUI(
             $this,
             "performSearch",
             $this->object->getId(),
             $search_results,
-            $_POST["search_term"]
+            $this->edit_request->getSearchTerm()
         );
             
         $this->setSideBlock();
@@ -1462,141 +1464,16 @@ class ilObjWikiGUI extends ilObjectGUI
     public function setContentStyleSheet() : void
     {
         $tpl = $this->tpl;
-        $tpl->addCss(ilObjStyleSheet::getContentStylePath(
-            ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->object->getStyleSheetId(),
-                "wiki"
-            )
-        ));
+
+        if ($tpl == null) {
+            $tpl = $this->tpl;
+        }
+
+        $this->content_style_gui->addCss($tpl, $this->object->getRefId());
         $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
     
-    public function editStylePropertiesObject() : void
-    {
-        $ilTabs = $this->tabs;
-        $tpl = $this->tpl;
-        
-        $this->checkPermission("write");
-        
-        $this->initStylePropertiesForm();
-        $tpl->setContent($this->form_gui->getHTML());
-        
-        $ilTabs->activateTab("settings");
-        $this->setSettingsSubTabs("style");
-        
-        $this->setSideBlock();
-    }
     
-    public function initStylePropertiesForm() : void
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilSetting = $this->settings;
-        
-        $lng->loadLanguageModule("style");
-
-        $this->form_gui = new ilPropertyFormGUI();
-        
-        $fixed_style = $ilSetting->get("fixed_content_style_id");
-        $style_id = $this->object->getStyleSheetId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")");
-            $this->form_gui->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $_GET["ref_id"]
-            );
-
-            $st_styles[0] = $this->lng->txt("default");
-            ksort($st_styles);
-
-            if ($style_id > 0) {
-                // individual style
-                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
-                    $st->setValue(ilObject::_lookupTitle($style_id));
-                    $this->form_gui->addItem($st);
-
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
-
-                    // delete command
-                    $this->form_gui->addCommandButton(
-                        "editStyle",
-                        $lng->txt("style_edit_style")
-                    );
-                    $this->form_gui->addCommandButton(
-                        "deleteStyle",
-                        $lng->txt("style_delete_style")
-                    );
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
-                }
-            }
-
-            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_sel = ilUtil::formSelect(
-                    $style_id,
-                    "style_id",
-                    $st_styles,
-                    false,
-                    true
-                );
-                $style_sel = new ilSelectInputGUI($lng->txt("style_current_style"), "style_id");
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($style_id);
-                $this->form_gui->addItem($style_sel);
-                //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
-                $this->form_gui->addCommandButton(
-                    "saveStyleSettings",
-                    $lng->txt("save")
-                );
-                $this->form_gui->addCommandButton(
-                    "createStyle",
-                    $lng->txt("sty_create_ind_style")
-                );
-            }
-        }
-        $this->form_gui->setTitle($lng->txt("wiki_style"));
-        $this->form_gui->setFormAction($ilCtrl->getFormAction($this));
-    }
-
-    public function createStyleObject() : void
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
-    }
-    
-    public function editStyleObject() : void
-    {
-        $ilCtrl = $this->ctrl;
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
-    }
-
-    public function deleteStyleObject() : void
-    {
-        $ilCtrl = $this->ctrl;
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
-    }
-
-    public function saveStyleSettingsObject() : void
-    {
-        $ilSetting = $this->settings;
-    
-        if ($ilSetting->get("fixed_content_style_id") <= 0 &&
-            (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-            || $this->object->getStyleSheetId() == 0)) {
-            $this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
-            $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        }
-        $this->ctrl->redirect($this, "editStyleProperties");
-    }
-
     //
     // Important pages
     //
@@ -1611,7 +1488,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->checkPermission("edit_wiki_navigation");
 
-        ilUtil::sendInfo($lng->txt("wiki_navigation_info"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("wiki_navigation_info"));
         
         $ipages = ilObjWiki::_lookupImportantPagesList($this->object->getId());
         $ipages_ids = array();
@@ -1624,7 +1501,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $options = array("" => $lng->txt("please_select"));
         foreach ($pages as $p) {
             if (!in_array($p["id"], $ipages_ids)) {
-                $options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
+                $options[$p["id"]] = ilStr::shortenTextExtended($p["title"], 60, true);
             }
         }
         if (count($options) > 0) {
@@ -1652,9 +1529,10 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->checkPermission("edit_wiki_navigation");
 
-        if ($_POST["imp_page_id"] > 0) {
-            $this->object->addImportantPage((int) $_POST["imp_page_id"]);
-            ilUtil::sendSuccess($lng->txt("wiki_imp_page_added"), true);
+        $imp_page_id = $this->edit_request->getImportantPageId();
+        if ($imp_page_id > 0) {
+            $this->object->addImportantPage($imp_page_id);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("wiki_imp_page_added"), true);
         }
         $ilCtrl->redirect($this, "editImportantPages");
     }
@@ -1665,8 +1543,9 @@ class ilObjWikiGUI extends ilObjectGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        if (!is_array($_POST["imp_page_id"]) || count($_POST["imp_page_id"]) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+        $imp_page_ids = $this->edit_request->getImportantPageIds();
+        if (count($imp_page_ids) == 0) {
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editImportantPages");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -1675,7 +1554,7 @@ class ilObjWikiGUI extends ilObjectGUI
             $cgui->setCancel($lng->txt("cancel"), "editImportantPages");
             $cgui->setConfirm($lng->txt("remove"), "removeImportantPages");
 
-            foreach ($_POST["imp_page_id"] as $i) {
+            foreach ($imp_page_ids as $i) {
                 $cgui->addItem("imp_page_id[]", $i, ilWikiPage::lookupTitle((int) $i));
             }
 
@@ -1690,12 +1569,11 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->checkPermission("edit_wiki_navigation");
 
-        if (is_array($_POST["imp_page_id"])) {
-            foreach ($_POST["imp_page_id"] as $i) {
-                $this->object->removeImportantPage((int) $i);
-            }
+        $imp_page_ids = $this->edit_request->getImportantPageIds();
+        foreach ($imp_page_ids as $i) {
+            $this->object->removeImportantPage((int) $i);
         }
-        ilUtil::sendSuccess($lng->txt("wiki_removed_imp_pages"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("wiki_removed_imp_pages"), true);
         $ilCtrl->redirect($this, "editImportantPages");
     }
 
@@ -1706,8 +1584,10 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->checkPermission("edit_wiki_navigation");
 
-        $this->object->saveOrderingAndIndentation($_POST["ord"], $_POST["indent"]);
-        ilUtil::sendSuccess($lng->txt("wiki_ordering_and_indent_saved"), true);
+        $ordering = $this->edit_request->getImportantPageOrdering();
+        $indentation = $this->edit_request->getImportantPageIndentation();
+        $this->object->saveOrderingAndIndentation($ordering, $indentation);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("wiki_ordering_and_indent_saved"), true);
         $ilCtrl->redirect($this, "editImportantPages");
     }
 
@@ -1718,13 +1598,14 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $this->checkPermission("edit_wiki_navigation");
 
-        if (!is_array($_POST["imp_page_id"]) || count($_POST["imp_page_id"]) != 1) {
-            ilUtil::sendInfo($lng->txt("wiki_select_one_item"), true);
+        $imp_page_ids = $this->edit_request->getImportantPageIds();
+        if (count($imp_page_ids) != 1) {
+            $this->tpl->setOnScreenMessage('info', $lng->txt("wiki_select_one_item"), true);
         } else {
-            $this->object->removeImportantPage((int) $_POST["imp_page_id"][0]);
-            $this->object->setStartPage(ilWikiPage::lookupTitle((int) $_POST["imp_page_id"][0]));
+            $this->object->removeImportantPage($imp_page_ids[0]);
+            $this->object->setStartPage(ilWikiPage::lookupTitle($imp_page_ids[0]));
             $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "editImportantPages");
     }
@@ -1741,7 +1622,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $wiki = $this->object;
         $cont_exp = new Export\WikiHtmlExport($wiki);
 
-        $format = explode("_", $_POST["format"]);
+        $format = explode("_", $this->edit_request->getFormat());
         if ($format[1] == "comments") {
             $cont_exp->setMode(Export\WikiHtmlExport::MODE_COMMENTS);
         }
@@ -1780,9 +1661,13 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
 
-        $ilCtrl->setParameterByClass("ilobjwikigui", "from_page", ilWikiUtil::makeUrlTitle($_GET["from_page"]));
+        $ilCtrl->setParameterByClass(
+            "ilobjwikigui",
+            "from_page",
+            ilWikiUtil::makeUrlTitle($this->edit_request->getFromPage())
+        );
         $ilTabs->clearTargets();
-        ilUtil::sendInfo($lng->txt("wiki_page_not_exist_select_templ"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("wiki_page_not_exist_select_templ"));
 
         $form = $this->initTemplateSelectionForm();
         $tpl->setContent($form->getHTML());
@@ -1797,7 +1682,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
         // page name
         $hi = new ilHiddenInputGUI("page");
-        $hi->setValue($_GET["page"]);
+        $hi->setValue($this->requested_page);
         $form->addItem($hi);
 
         // page template
@@ -1822,7 +1707,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $form->addCommandButton("createPageUsingTemplate", $lng->txt("wiki_create_page"));
         $form->addCommandButton("cancelCreationPageUsingTemplate", $lng->txt("cancel"));
 
-        $form->setTitle($lng->txt("wiki_new_page") . ": " . $_GET["page"]);
+        $form->setTitle($lng->txt("wiki_new_page") . ": " . $this->requested_page);
         $form->setFormAction($ilCtrl->getFormAction($this));
 
         return $form;
@@ -1836,14 +1721,17 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $form = $this->initTemplateSelectionForm();
         if ($form->checkInput()) {
-            $a_page = $_POST["page"];
-            $this->object->createWikiPage($a_page, (int) $_POST["page_templ"]);
+            $a_page = $this->edit_request->getPage();
+            $this->object->createWikiPage(
+                $a_page,
+                $this->edit_request->getPageTemplateId()
+            );
 
             // redirect to newly created page
             $ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($a_page)));
             $ilCtrl->redirectByClass("ilwikipagegui", "edit");
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "");
         } else {
             $form->setValuesByPost();
@@ -1856,7 +1744,11 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
 
         // redirect to newly created page
-        $ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($_GET["from_page"])));
+        $ilCtrl->setParameterByClass(
+            "ilwikipagegui",
+            "page",
+            ilWikiUtil::makeUrlTitle($this->edit_request->getFromPage())
+        );
         $ilCtrl->redirectByClass("ilwikipagegui", "preview");
     }
 
