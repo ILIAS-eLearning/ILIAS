@@ -41,7 +41,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
         $title = $lng->txt("mm_favorites");
         $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fav.svg"), $title);
 
-        return [
+        $items = [
             $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))
                 ->withSupportsAsynchronousLoading(true)
                 ->withTitle($title)
@@ -71,5 +71,32 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
                     ))
                 ),
         ];
+
+        $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
+
+        $title = $this->dic->language()->txt("obj_dshs");
+        $objects_by_type = \ilObject2::_getObjectsByType('dshs');
+        $id = (int) reset($objects_by_type)['obj_id'];
+        $references = \ilObject2::_getAllReferences($id);
+        $admin_ref_id = (int) reset($references);
+
+        if ($admin_ref_id > 0) {
+            $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $admin_ref_id . "&cmd=jump";
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("dshs", $title)
+                              ->withIsOutlined(true);
+
+            $items[] = $this->mainmenu->link($this->if->identifier('mm_adm_dshs'))
+                                      ->withAction($action)
+                                      ->withParent($top)
+                                      ->withTitle($title)
+                                      ->withSymbol($icon)
+                                      ->withPosition(25)
+                                        ->withVisibilityCallable(function () use ($admin_ref_id) {
+                                            return $this->dic->rbac()->system()->checkAccess('visible,read', $ref_id);
+                                        });
+        }
+
+
+        return $items;
     }
 }
