@@ -16636,3 +16636,6 @@ forum#:#sticky_threads_sorting#:#Sticky Threads Sorting
 common#:#actions_for#:#Actions for %s
 forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.
 exc#:#exc_fullscreen#:#Fullscreen
+rating#:#rating_avg_rating#:#Average Rating
+rating#:#rating_personal_rating#:#Your Rating
+rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars
