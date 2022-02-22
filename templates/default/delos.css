@@ -17759,7 +17759,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #awareness-content .media-body h4,
 #awareness-content .media-body p {
-  color: #7c7c7c;
+  color: #161616;
   font-size: 12px;
   padding: 5px 3px 0 3px;
   line-height: 1em;
@@ -17767,7 +17767,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #awareness-content .media-body h4 {
   padding-top: 0px;
-  color: #161616;
+  font-size: bold;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
