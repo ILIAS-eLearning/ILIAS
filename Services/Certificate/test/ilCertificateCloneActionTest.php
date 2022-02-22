@@ -64,7 +64,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         '<xml> Some Content </xml>',
                         md5('<xml> Some Content </xml>'),
                         '[]',
-                        '3',
+                        3,
                         'v5.3.0',
                         123456789,
                         true,
