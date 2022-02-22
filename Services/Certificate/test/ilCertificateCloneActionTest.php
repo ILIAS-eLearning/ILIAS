@@ -61,12 +61,26 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         '/some/where/background.jpg',
                         '/some/where/card_thumb.jpg',
                         $id = null
+                    ),
+                    new ilCertificateTemplate(
+                        30,
+                        'crs',
+                        '<xml> Some Content </xml>',
+                        md5('<xml> Some Content </xml>'),
+                        '[]',
+                        '3',
+                        'v5.3.0',
+                        123456789,
+                        true,
+                        '/certificates/default/background.jpg',
+                        '/some/where/card_thumb.jpg',
+                        $id = null
                     )
                 )
             );
 
         $templateRepository
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('save');
 
         $fileSystem = $this->getMockBuilder('\ILIAS\Filesystem\Filesystem')
@@ -76,7 +90,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             ->willReturn(true);
 
         $fileSystem
-            ->expects($this->exactly(6))
+            ->expects($this->exactly(7))
             ->method('copy');
 
         $logger = $this->getMockBuilder('ilLogger')
@@ -96,7 +110,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             $fileSystem,
             $logger,
             $objectHelper,
-            'some/web/directory'
+            'some/web/directory',
+            '/certificates/default/background.jpg'
         );
 
         $oldObject = $this->getMockBuilder('ilObject')

@@ -40,6 +40,7 @@ class ilCertificateCloneAction
      * @var string
      */
     private $webDirectory;
+    private ?string $global_certificate_path;
 
     /**
      * @param ilDBInterface $database
@@ -57,7 +58,8 @@ class ilCertificateCloneAction
         \ILIAS\Filesystem\Filesystem $fileSystem = null,
         ilLogger $logger = null,
         ilCertificateObjectHelper $objectHelper = null,
-        string $webDirectory = CLIENT_WEB_DIR
+        string $webDirectory = CLIENT_WEB_DIR,
+        string $global_certificate_path = null
     ) {
         $this->database = $database;
         $this->pathFactory = $pathFactory;
@@ -79,6 +81,15 @@ class ilCertificateCloneAction
             $objectHelper = new ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
+
+        if (null === $global_certificate_path) {
+            $global_certificate_path = str_replace(
+                '[CLIENT_WEB_DIR]',
+                '',
+                ilObjCertificateSettingsAccess::getBackgroundImagePath(true)
+            );
+        }
+        $this->global_certificate_path = $global_certificate_path;
 
         $this->webDirectory = $webDirectory;
     }
@@ -114,8 +125,6 @@ class ilCertificateCloneAction
 
         $templates = $this->templateRepository->fetchCertificateTemplatesByObjId($oldObject->getId());
 
-        $globalCertificateBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
-
         /** @var ilCertificateTemplate $template */
         foreach ($templates as $template) {
             $backgroundImagePath = $template->getBackgroundImagePath();
@@ -124,7 +133,7 @@ class ilCertificateCloneAction
 
             $newBackgroundImage = '';
             $newBackgroundImageThumbnail = '';
-            if ($globalCertificateBackgroundImagePath !== $backgroundImagePath) {
+            if ($this->global_certificate_path !== $backgroundImagePath) {
                 if ($this->fileSystem->has($backgroundImagePath) &&
                     !$this->fileSystem->hasDir($backgroundImagePath)
                 ) {
@@ -162,7 +171,7 @@ class ilCertificateCloneAction
                     );
                 }
             } else {
-                $newBackgroundImage = $globalCertificateBackgroundImagePath;
+                $newBackgroundImage = $this->global_certificate_path;
             }
 
             $newCardThumbImage = '';
