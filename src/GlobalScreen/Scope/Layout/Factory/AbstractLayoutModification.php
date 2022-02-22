@@ -45,7 +45,7 @@ abstract class AbstractLayoutModification implements LayoutModification
      */
     final public function withPriority(int $priority) : LayoutModification
     {
-        if ((self::PRIORITY_LOW <= $priority) && ($priority <= self::PRIORITY_HIGH)) {
+        if ((self::PRIORITY_LOW > $priority) || ($priority > self::PRIORITY_HIGH)) {
             throw new LogicException("\$priority MUST be between LayoutModification::PRIORITY_LOW, LayoutModification::PRIORITY_MEDIUM or LayoutModification::PRIORITY_HIGH");
         }
         $clone = clone $this;
