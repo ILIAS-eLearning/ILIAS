@@ -199,7 +199,10 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 
             // Add link to objector local Rores
             if ($role["role_type"] == "local") {
-                $result_set[$counter][] = $context = "<a href='" . ilLink::_getLink($ref_id, ilObject::_lookupType($ref_id)) . "' target='_top'>" . $path . "</a>";
+                $result_set[$counter][] = $context = "<a href='" . ilLink::_getLink(
+                    $ref_id,
+                    ilObject::_lookupType(ilObject::_lookupObjId($ref_id))
+                ) . "' target='_top'>" . $path . "</a>";
             } else {
                 $result_set[$counter][] = $path;
                 $context = $path;
