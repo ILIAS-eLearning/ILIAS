@@ -12973,6 +12973,9 @@ form.form-inline {
   box-shadow: none;
   outline: 3px solid #0078D7;
 }
+.btn-file:focus-within {
+  outline: 3px solid #0078D7;
+}
 textarea.form-control {
   max-width: 100%;
 }
