@@ -17,20 +17,12 @@
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
 *
 * @ilCtrl_Calls ilObjECSSettingsGUI: ilPermissionGUI, ilECSSettingsGUI
 */
 class ilObjECSSettingsGUI extends ilObjectGUI
 {
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         $this->type = 'cals';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);

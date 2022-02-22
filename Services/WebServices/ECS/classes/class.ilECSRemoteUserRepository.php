@@ -15,10 +15,7 @@
  *****************************************************************************/
 
 /**
- *
  * @author Per Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de>
- *
- * @ingroup ServicesWebServicesECS
  */
 class ilECSRemoteUserRepository
 {
@@ -26,9 +23,6 @@ class ilECSRemoteUserRepository
 
     /**
      * Constructor (Singleton)
-     *
-     * @access private
-     *
      */
     private function __construct()
     {

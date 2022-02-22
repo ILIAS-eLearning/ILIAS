@@ -40,12 +40,12 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
         $this->type = "rcrs";
     }
     
-    protected function getTableName()
+    protected function getTableName() : string
     {
         return self::DB_TABLE_NAME;
     }
     
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return "/campusconnect/courselinks";
     }
@@ -141,7 +141,7 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
         return false;
     }
     
-    protected function doCreateCustomFields(array &$a_fields)
+    protected function doCreateCustomFields(array &$a_fields) : void
     {
         $a_fields["availability_type"] = array("integer", 0);
         $a_fields["r_start"] = array("integer", 0);

@@ -15,10 +15,7 @@
  *****************************************************************************/
 
 /**
- *
  * @author Per Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de>
- *
- * @ingroup ServicesWebServicesECS
  */
 class ilECSParticipantSettingsRepository
 {

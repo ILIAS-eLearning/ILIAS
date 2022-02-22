@@ -15,11 +15,7 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesWebServicesECS
 */
 abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 {

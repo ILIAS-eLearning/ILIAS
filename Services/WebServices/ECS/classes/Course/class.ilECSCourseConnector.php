@@ -15,18 +15,10 @@
  *****************************************************************************/
 
 /**
- *
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCourseConnector extends ilECSConnector
 {
-
-    /**
-     * Constructor
-     * @param ilECSSetting $settings
-     */
     public function __construct(ilECSSetting $settings = null)
     {
         parent::__construct($settings);

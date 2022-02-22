@@ -19,19 +19,12 @@
 * This class contains mainly helper functions to work with imported objects.
 *
 * @author Per Pascal Seeland<pascal.seeland@tik.uni-stuttgart.de>
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSImportManager
 {
     protected ilDBInterface $db;
     private static ilECSImportManager $instance;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     */
     private function __construct()
     {
         global $DIC;
@@ -40,7 +33,7 @@ class ilECSImportManager
     }
 
     /**
-     * Get the singelton instance of this ilECSImportManager
+     * Get the singleton instance of this ilECSImportManager
      * @return ilECSImportManager
      */
     public static function getInstance() : ilECSImportManager
