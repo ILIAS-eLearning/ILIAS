@@ -2339,6 +2339,7 @@ rbac#:#cat_copy#:#User can copy category
 rbac#:#cat_delete#:#User can move or delete category
 rbac#:#cat_edit_permission#:#User can change permission settings
 common#:#cat_edit#:#Category Settings
+common#:#catr_edit#:#Category Link Settings
 common#:#cat_new#:#New Category
 rbac#:#cat_read_users#:#User can read local user accounts created in this category
 rbac#:#cat_read#:#User has read access to category

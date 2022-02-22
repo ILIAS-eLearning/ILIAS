@@ -2751,6 +2751,7 @@ rbac#:#cat_copy#:#Kategorie kopieren
 common#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 rbac#:#cat_delete#:#Kategorie löschen oder verschieben
 common#:#cat_edit#:#Einstellungen der Kategorie
+common#:#cat_edit#:#Einstellungen des Kategorielinks
 rbac#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_new#:#Neue Kategorie anlegen
 rbac#:#cat_read#:#Seiteninhalt der Kategorie kann gelesen werden
