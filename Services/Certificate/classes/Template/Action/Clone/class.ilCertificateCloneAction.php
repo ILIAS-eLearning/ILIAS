@@ -114,6 +114,8 @@ class ilCertificateCloneAction
 
         $templates = $this->templateRepository->fetchCertificateTemplatesByObjId($oldObject->getId());
 
+        $globalCertificateBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
+
         /** @var ilCertificateTemplate $template */
         foreach ($templates as $template) {
             $backgroundImagePath = $template->getBackgroundImagePath();
@@ -122,43 +124,49 @@ class ilCertificateCloneAction
 
             $newBackgroundImage = '';
             $newBackgroundImageThumbnail = '';
-            if ($this->fileSystem->has($backgroundImagePath) &&
-                !$this->fileSystem->hasDir($backgroundImagePath)
-            ) {
-                $newBackgroundImage = $certificatePath . $backgroundImageFile;
-                $newBackgroundImageThumbnail = str_replace($webDir, '', $this->getBackgroundImageThumbPath($certificatePath));
-                if ($this->fileSystem->has($newBackgroundImage) &&
-                    !$this->fileSystem->hasDir($newBackgroundImage)
+            if ($globalCertificateBackgroundImagePath !== $backgroundImagePath) {
+                if ($this->fileSystem->has($backgroundImagePath) &&
+                    !$this->fileSystem->hasDir($backgroundImagePath)
                 ) {
-                    $this->fileSystem->delete($newBackgroundImage);
+                    $newBackgroundImage = $certificatePath . $backgroundImageFile;
+                    $newBackgroundImageThumbnail = str_replace(
+                        $webDir, '',
+                        $this->getBackgroundImageThumbPath($certificatePath)
+                    );
+                    if ($this->fileSystem->has($newBackgroundImage) &&
+                        !$this->fileSystem->hasDir($newBackgroundImage)
+                    ) {
+                        $this->fileSystem->delete($newBackgroundImage);
+                    }
+
+                    $this->fileSystem->copy(
+                        $backgroundImagePath,
+                        $newBackgroundImage
+                    );
                 }
 
-                $this->fileSystem->copy(
-                    $backgroundImagePath,
-                    $newBackgroundImage
-                );
-            }
-
-            if (
-                strlen($newBackgroundImageThumbnail) > 0 &&
-                $this->fileSystem->has($backgroundImageThumbnail) &&
-                !$this->fileSystem->hasDir($backgroundImageThumbnail)
-            ) {
-                if ($this->fileSystem->has($newBackgroundImageThumbnail) &&
-                    !$this->fileSystem->hasDir($newBackgroundImageThumbnail)
+                if (
+                    $newBackgroundImageThumbnail !== '' &&
+                    $this->fileSystem->has($backgroundImageThumbnail) &&
+                    !$this->fileSystem->hasDir($backgroundImageThumbnail)
                 ) {
-                    $this->fileSystem->delete($newBackgroundImageThumbnail);
-                }
+                    if ($this->fileSystem->has($newBackgroundImageThumbnail) &&
+                        !$this->fileSystem->hasDir($newBackgroundImageThumbnail)
+                    ) {
+                        $this->fileSystem->delete($newBackgroundImageThumbnail);
+                    }
 
-                $this->fileSystem->copy(
-                    $backgroundImageThumbnail,
-                    $newBackgroundImageThumbnail
-                );
+                    $this->fileSystem->copy(
+                        $backgroundImageThumbnail,
+                        $newBackgroundImageThumbnail
+                    );
+                }
+            } else {
+                $newBackgroundImage = $globalCertificateBackgroundImagePath;
             }
 
             $newCardThumbImage = '';
-            $cardThumbImagePath = (string) $template->getThumbnailImagePath();
-
+            $cardThumbImagePath = $template->getThumbnailImagePath();
             if ($this->fileSystem->has($cardThumbImagePath) && !$this->fileSystem->hasDir($cardThumbImagePath)) {
                 $newCardThumbImage = $certificatePath . basename($cardThumbImagePath);
                 if ($this->fileSystem->has($newCardThumbImage) && !$this->fileSystem->hasDir($newCardThumbImage)) {
