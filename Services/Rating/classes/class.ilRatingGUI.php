@@ -549,7 +549,7 @@ class ilRatingGUI
                     ilUtil::getImagePath("icon_rate_$nr.svg")
                 );
             }
-            $ttpl->setVariable("ALT_ICON", "(" . $i . "/5)");
+            $ttpl->setVariable("ALT_ICON", "");
             $ttpl->parseCurrentBlock();
         }
         $ttpl->setCurrentBlock("rating_icon");
@@ -578,6 +578,7 @@ class ilRatingGUI
             
             $ttpl->setCurrentBlock("act_rat_start");
             $ttpl->setVariable("ID", $unique_id);
+            $ttpl->setVariable("TXT_OPEN_DIALOG", $lng->txt("rating_open_dialog"));
             $ttpl->parseCurrentBlock();
 
             $ttpl->touchBlock("act_rat_end");
