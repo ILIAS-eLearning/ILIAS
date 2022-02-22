@@ -40,7 +40,7 @@ class ilCertificateCloneAction
      * @var string
      */
     private $webDirectory;
-    private ?string $global_certificate_path;
+    private $global_certificate_path;
 
     /**
      * @param ilDBInterface $database
