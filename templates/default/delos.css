@@ -7197,7 +7197,7 @@ button.list-group-item-danger.active:focus {
 }
 .il-upload-file-item.standard {
   background: white;
-  border: 1px solid #A8A8A8;
+  border: 1px solid #757575;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -7221,7 +7221,7 @@ button.list-group-item-danger.active:focus {
 }
 .il-dropzone.standard {
   background: white;
-  border: 1px dashed #A8A8A8;
+  border: 1px dashed #757575;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -7233,7 +7233,7 @@ button.list-group-item-danger.active:focus {
   border-radius: 0;
   font-size: 12px;
   border: 1px solid transparent;
-  color: #A8A8A8;
+  color: #757575;
   display: inline-block;
 }
 .il-dropzone.wrapper {
@@ -7242,21 +7242,21 @@ button.list-group-item-danger.active:focus {
 .il-dropzone.darkened-highlight {
   z-index: 1100;
   position: relative;
-  border: 1px dashed #A8A8A8;
+  border: 1px dashed #757575;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
   background: #FFFFD6;
 }
 .il-dropzone.default-highlight {
-  border: 1px dashed #A8A8A8;
+  border: 1px dashed #757575;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
   background: #FFFFD6;
 }
 .il-dropzone.drag-hover {
-  border: 1px dashed #8f8f8f;
+  border: 1px dashed #5b5b5b;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -8253,7 +8253,7 @@ ul.dropdown-menu > li > .btn:focus {
 .il-filter .input-group select {
   width: 100%;
   height: 25px;
-  border: 1px solid #A8A8A8;
+  border: 1px solid #757575;
   background-color: white;
 }
 .il-filter .leftaddon {
@@ -8373,7 +8373,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-input-file .il-input-file-dropzone {
   background: white;
-  border: 1px dashed #A8A8A8;
+  border: 1px dashed #757575;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -8390,7 +8390,7 @@ ul.dropdown-menu > li > .btn:focus {
   color: #757575;
 }
 .il-input-file .il-input-file-dropzone.dz-drag-hover {
-  border: 1px dashed #8f8f8f;
+  border: 1px dashed #5b5b5b;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -12040,7 +12040,7 @@ html.il-no-tiny-bg body#tinymce {
   width: 100%;
 }
 div.input {
-  border: 1px solid #A8A8A8;
+  border: 1px solid #757575;
   padding: 3px;
   text-decoration: none;
   font-size: 90%;
@@ -12922,7 +12922,7 @@ select {
 .form-control {
   font-size: 12px;
   color: #161616;
-  border: 1px solid #A8A8A8;
+  border: 1px solid #757575;
 }
 .form-control[disabled],
 .form-control[readonly],
@@ -13171,7 +13171,7 @@ div.ilHFormFooter .ilFormCmds {
 }
 input:invalid {
   background-color: #ffebeb;
-  border-color: #d08080;
+  border-color: #d00;
 }
 .bootstrap-datetimepicker-widget {
   z-index: 2000;
@@ -15259,7 +15259,7 @@ img.ilPollQuestionImage {
 }
 .ilPollQuestionResultBar {
   width: 100%;
-  border: 1px solid #A8A8A8;
+  border: 1px solid #757575;
   float: left;
   height: 18px;
 }
@@ -16776,7 +16776,7 @@ span.ilNewsRssIcon:hover {
   position: absolute;
   content: " ";
   width: 3px;
-  background-color: #A8A8A8;
+  background-color: #757575;
   left: 50%;
   margin-left: -1.5px;
 }
@@ -18221,6 +18221,10 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .input-group.date .input-group-addon {
   cursor: pointer;
+  border: 1px solid #757575;
+}
+.input-group.date .input-group-addon:last-child {
+  border-left: 0;
 }
 .il-orgunit .multi_icons_wrapper {
   display: inline-block;
@@ -18744,7 +18748,7 @@ table.mceToolbar td {
   }
   pre,
   blockquote {
-    border: 1px solid #A8A8A8;
+    border: 1px solid #757575;
     page-break-inside: avoid;
   }
   thead {
