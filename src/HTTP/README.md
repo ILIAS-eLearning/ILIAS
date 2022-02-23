@@ -217,8 +217,8 @@ The http-message package contains the specified interfaces of the php-fig which 
 # DropInReplacements
 With ILIAS 8, the Technical Board has decided to replace the [Superglobals](https://www.php.net/manual/en/language.variables.superglobals.php)
 `$_GET`, `$_POST`, `$_COOKIE` and `$_REQUEST` with so called `SuperGlobalDropInReplacement` instances.
-These are `ArrayAccess` wrappers for the respective `Superglobals`. These contain the refinery and run values on
-readout through the `->kindlyTo()->string()` `transformation` respectively.
+These are `ArrayAccess` wrappers for the respective `Superglobals`. They contain the [`Refinery`](../Refinery/README.md)
+and run values on readout through the `->kindlyTo()->string()` `transformation` respectively.
 Furthermore, the `SuperGlobalDropInReplacement` should prevent that values in the `Superglobals` are manually
 assigned or modified/overwritten, because this violates the immutability of these values in the HTTP request.
 The general replacement of the `Superglobals` for some 3rd-Party-Libraries however leads to problems, because these
@@ -230,5 +230,6 @@ possibility to override the `Superglobals` via an ini setting in the `client.ini
 prevent_super_global_replacement = 1
 ```
 
-Furthermore, the `SuperGlobalDropInReplacement` behave in such a way when `DEVMODE` is enabled that overwriting a value in one of the SuperGlobals leads to a `\OutOfBoundsException`.
+Furthermore, the `SuperGlobalDropInReplacement` behave in such a way when `DEVMODE` is enabled that overwriting a value
+in one of the `Superglobals` leads to a `\OutOfBoundsException`.
 
