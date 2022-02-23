@@ -45,7 +45,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
      * @param array $types
      * @return array array of objects
      */
-    protected function getObjectsByMembership($types = array())
+    protected function getObjectsByMembership(array $types = []) : array
     {
         $items = array();
 
