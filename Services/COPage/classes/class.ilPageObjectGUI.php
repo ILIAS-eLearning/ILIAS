@@ -2275,6 +2275,7 @@ class ilPageObjectGUI
         if ($ptype == "cont" && $this->requested_ref_id > 0) {
             $ptype = ilObject::_lookupType($this->requested_ref_id, true);
         }
+        $this->setScreenIdComponent();
         $this->help->setScreenId("edit_" . $ptype);
 
         // edit lock
