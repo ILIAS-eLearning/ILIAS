@@ -68,7 +68,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
             $items = array_merge($crs_mbs, $grp_mbs);
         }
 
-        $references = array();
+        $references = [];
 
         $this->objectDataCache->preloadObjectCache($items);
         
