@@ -496,7 +496,21 @@ class ilObjTestGUI extends ilObjectGUI
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfigGUI.php';
-                $gui = new ilTestRandomQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $ilPluginAdmin, $this->object);
+                $gui = new ilTestRandomQuestionSetConfigGUI(
+                    $this->ctrl,
+                    $ilAccess,
+                    $ilTabs,
+                    $this->lng,
+                    $this->tpl,
+                    $ilDB,
+                    $tree,
+                    $ilPluginAdmin,
+                    $this->object,
+                    (new ilTestProcessLockerFactory(
+                        new ilSetting('assessment'),
+                        $ilDB
+                    ))->withContextId($this->object->getId())
+                );
                 $this->ctrl->forwardCommand($gui);
                 break;
             
