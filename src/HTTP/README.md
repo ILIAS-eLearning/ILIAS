@@ -215,9 +215,15 @@ The project is also actively maintained.
 The http-message package contains the specified interfaces of the php-fig which defined psr-7.
 
 # DropInReplacements
-With ILIAS 8, the Technical Board has decided to replace the SuperGlobals $_GET, $_POST, $_COOKIE and $_REQUEST with so called `SuperGlobalDropInReplacement`. These are ArrayAccess wrappers for the respective SuperGlobals. These contain the refinery and and run values on readout through the `->kindlyTo()->string()` `transformation` respectively.
-Further the `SuperGlobalDropInReplacement` should prevent that further values in the SuperGlobals are manually overwritten or changed, because this violates the immutability of these values in the request.
-The general replacement of the SuperGlobals for some 3rd-Prty-Libraries however leads to problems, because these require an `array` and no `ArrayAccess` object (currently known for SimpleSAML-PHP). Therefore there is the possibility to override the SuperGlobals via an ini setting in ilias.ini:
+With ILIAS 8, the Technical Board has decided to replace the [Superglobals](https://www.php.net/manual/en/language.variables.superglobals.php)
+`$_GET`, `$_POST`, `$_COOKIE` and `$_REQUEST` with so called `SuperGlobalDropInReplacement` instances.
+These are `ArrayAccess` wrappers for the respective `Superglobals`. These contain the refinery and run values on
+readout through the `->kindlyTo()->string()` `transformation` respectively.
+Furthermore, the `SuperGlobalDropInReplacement` should prevent that values in the `Superglobals` are manually
+assigned or modified/overwritten, because this violates the immutability of these values in the HTTP request.
+The general replacement of the `Superglobals` for some 3rd-Party-Libraries however leads to problems, because these
+require an `array` and no `ArrayAccess` object (currently known for `SimpleSAMLphp`). Therefore, there is the
+possibility to override the `Superglobals` via an ini setting in the `client.ini.php` file:
 
 ```
 [server]
