@@ -62,7 +62,7 @@ class ilPageObjectGUI
     protected $user;
 
     /**
-     * @var ilHelp
+     * @var ilHelpGUI
      */
     protected $help;
 
@@ -2670,6 +2670,7 @@ class ilPageObjectGUI
         if ($ptype == "cont" && $_GET["ref_id"] > 0) {
             $ptype = ilObject::_lookupType((int) $_GET["ref_id"], true);
         }
+        $this->setScreenIdComponent();
         $this->help->setScreenId("edit_" . $ptype);
 
         require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
