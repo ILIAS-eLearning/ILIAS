@@ -16514,6 +16514,9 @@ div.ilStartupSection form.form-horizontal {
   border: 0 none;
   background-color: white;
 }
+.ilToolbar .navbar-toggle:focus-visible {
+  outline: 3px solid #0078D7;
+}
 .ilToolbar .ilToolbarItems {
   padding: 0;
 }
