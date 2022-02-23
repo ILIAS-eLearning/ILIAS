@@ -15349,7 +15349,7 @@ rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
 rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
 rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
-dateplaner#:#btn_ical#:#iCal
+dateplaner#:#btn_ical#:#Subscribe
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d

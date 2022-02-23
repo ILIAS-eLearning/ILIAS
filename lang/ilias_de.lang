@@ -15340,7 +15340,7 @@ rbac#:#lso_participate#:#An der Lernsequenz anmelden
 rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
 rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
-dateplaner#:#btn_ical#:#iCal
+dateplaner#:#btn_ical#:#Abonnieren
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Seite %1$d von %2$d
