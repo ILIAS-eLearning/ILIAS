@@ -130,7 +130,15 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         if ($this->isShowMarkerEnabled()) {
             if ($data['marked']) {
                 $this->tpl->setCurrentBlock('marked_img');
-                $this->tpl->setVariable("HREF_MARKED", ilUtil::img('./templates/default/images/marked.svg', $this->lng->txt("tst_question_marked"), '24px', '24px'));
+                $this->tpl->setVariable(
+                    "HREF_MARKED",
+                    ilUtil::img(
+                        ilUtil::getImagePath('marked.svg'),
+                        $this->lng->txt("tst_question_marked"),
+                        '24px',
+                        '24px'
+                    )
+                );
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->touchBlock('marker');
