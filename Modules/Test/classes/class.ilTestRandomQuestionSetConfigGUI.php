@@ -117,7 +117,11 @@ class ilTestRandomQuestionSetConfigGUI
      * @var ilTestRandomQuestionSetConfigStateMessageHandler
      */
     protected $configStateMessageHandler;
-    
+    /**
+     * @var ilTestProcessLockerFactory
+     */
+    private $processLockerFactory;
+
     public function __construct(
         ilCtrl $ctrl,
         ilAccessHandler $access,
@@ -127,7 +131,8 @@ class ilTestRandomQuestionSetConfigGUI
         ilDBInterface $db,
         ilTree $tree,
         ilPluginAdmin $pluginAdmin,
-        ilObjTest $testOBJ
+        ilObjTest $testOBJ,
+        ilTestProcessLockerFactory $processLockerFactory
     ) {
         $this->ctrl = $ctrl;
         $this->access = $access;
@@ -174,6 +179,7 @@ class ilTestRandomQuestionSetConfigGUI
         $this->configStateMessageHandler->setQuestionSetConfig($this->questionSetConfig);
         $this->configStateMessageHandler->setParticipantDataExists($this->testOBJ->participantDataExist());
         $this->configStateMessageHandler->setLostPools($this->sourcePoolDefinitionList->getLostPools());
+        $this->processLockerFactory = $processLockerFactory;
     }
     
     public function executeCommand()
@@ -295,19 +301,22 @@ class ilTestRandomQuestionSetConfigGUI
         }
     }
     
-    private function buildQuestionStageCmd()
+    private function buildQuestionStageCmd() : void
     {
         if ($this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
-            $this->stagingPool->rebuild($this->sourcePoolDefinitionList);
-            $this->sourcePoolDefinitionList->saveDefinitions();
-    
-            $this->questionSetConfig->loadFromDb();
-            $this->questionSetConfig->setLastQuestionSyncTimestamp(time());
-            $this->questionSetConfig->saveToDb();
-    
-            $this->testOBJ->saveCompleteStatus($this->questionSetConfig);
-            
-            ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_synced"), true);
+            $locker = $this->processLockerFactory->retrieveLockerForNamedOperation();
+            $locker->executeNamedOperation(__FUNCTION__, function() : void {
+                $this->stagingPool->rebuild($this->sourcePoolDefinitionList);
+                $this->sourcePoolDefinitionList->saveDefinitions();
+
+                $this->questionSetConfig->loadFromDb();
+                $this->questionSetConfig->setLastQuestionSyncTimestamp(time());
+                $this->questionSetConfig->saveToDb();
+
+                $this->testOBJ->saveCompleteStatus($this->questionSetConfig);
+
+                ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_synced"), true);
+            });
         }
         
         $this->ctrl->redirect($this, $this->fetchAfterRebuildQuestionStageCmdParameter());
