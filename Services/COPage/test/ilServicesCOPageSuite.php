@@ -32,6 +32,9 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/PCMapEditorSessionRepositoryTest.php");
         $suite->addTestSuite("PCMapEditorSessionRepositoryTest");
 
+        require_once("./Services/COPage/test/PCParagraphTest.php");
+        $suite->addTestSuite("PCParagraphTest");
+
         return $suite;
     }
 }

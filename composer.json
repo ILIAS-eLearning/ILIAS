@@ -38,6 +38,8 @@
 		"ext-xsl": "*",
 		"ext-curl": "*",
 		"ext-json": "*",
+		"ext-simplexml": "*",
+		"ext-libxml": "*",
 		"cweagans/composer-patches": "^1.7",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^2.3.5",

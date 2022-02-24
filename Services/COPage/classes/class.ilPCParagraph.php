@@ -524,7 +524,9 @@ class ilPCParagraph extends ilPageContent
     }
 
     /**
-     * converts user input to xml
+     * Converts user input to xml
+     * User input comes as bb code information, e.g.
+     * "Hello [str]world[/str]."
      */
     public static function _input2xml(
         string $a_text,
@@ -533,10 +535,14 @@ class ilPCParagraph extends ilPageContent
         bool $a_handle_lists = true
     ) : string {
         $log = null;
-        if (!defined('IL_PHPUNIT_TEST')) {
+        if (!defined('COPAGE_TEST')) {
             $log = ilLoggerFactory::getLogger('copg');
             $log->debug("_input2xml");
-            $log->debug("...start: " . substr($a_text, 0, 1000));
+            $log->debug("...start ");
+            $log->debug("...text: " . substr($a_text, 0, 1000));
+            $log->debug("...lang: " . $a_lang);
+            $log->debug("...wysiwyg: " . $a_wysiwyg);
+            $log->debug("...handle_lists: " . $a_handle_lists);
         }
 
         if (!$a_wysiwyg) {
@@ -560,18 +566,13 @@ class ilPCParagraph extends ilPageContent
         $a_text = str_replace("<", "&lt;", $a_text);
         $a_text = str_replace(">", "&gt;", $a_text);
 
-        // Reconvert PageTurn and BibItemIdentifier
-        $a_text = preg_replace('/&lt;([\s\/]*?PageTurn.*?)&gt;/i', "<$1>", $a_text);
-        $a_text = preg_replace('/&lt;([\s\/]*?BibItemIdentifier.*?)&gt;/i', "<$1>", $a_text);
-
-        //echo "<br>second:".htmlentities($a_text);
-
         // mask curly brackets
         /*
         echo htmlentities($a_text);
                 $a_text = str_replace("{", "&#123;", $a_text);
                 $a_text = str_replace("}", "&#125;", $a_text);
         echo htmlentities($a_text);*/
+
         // linefeed to br
         $a_text = str_replace(chr(13) . chr(10), "<br />", $a_text);
         $a_text = str_replace(chr(13), "<br />", $a_text);
@@ -661,7 +662,6 @@ class ilPCParagraph extends ilPageContent
 
         $objDefinition = $DIC["objDefinition"];
         $obj_id = 0;
-
         $rtypes = $objDefinition->getAllRepositoryTypes();
 
         // internal links
@@ -683,11 +683,11 @@ class ilPCParagraph extends ilPageContent
             if (isset($attribs["page"])) {
                 $tframestr = "";
                 if (!empty($found[10])) {
-                    $tframestr = " TargetFrame=\"" . $found[10] . "\" ";
+                    $tframestr = " TargetFrame=\"" . $found[10] . "\"";
                 }
                 $ancstr = "";
-                if ($attribs["anchor"] != "") {
-                    $ancstr = ' Anchor="' . $attribs["anchor"] . '" ';
+                if (($attribs["anchor"] ?? "") != "") {
+                    $ancstr = ' Anchor="' . $attribs["anchor"] . '"';
                 }
                 // see 26066 for addcslashes
                 $a_text = preg_replace(
@@ -711,13 +711,13 @@ class ilPCParagraph extends ilPageContent
             }
             // glossary terms
             elseif (isset($attribs["term"])) {
-                switch ($found[10]) {
+                switch ($found[10] ?? "") {
                     case "New":
-                        $tframestr = " TargetFrame=\"New\" ";
+                        $tframestr = "TargetFrame=\"New\"";
                         break;
 
                     default:
-                        $tframestr = " TargetFrame=\"Glossary\" ";
+                        $tframestr = "TargetFrame=\"Glossary\"";
                         break;
                 }
                 $a_text = preg_replace(
@@ -728,26 +728,24 @@ class ilPCParagraph extends ilPageContent
             }
             // wiki pages
             elseif (isset($attribs["wpage"])) {
-                $tframestr = "";
                 $a_text = preg_replace(
                     '/\[' . $found[1] . '\]/i',
-                    "<IntLink Target=\"il_" . $inst_str . "_wpage_" . $attribs['wpage'] . "\" Type=\"WikiPage\" $tframestr>",
+                    "<IntLink Target=\"il_" . $inst_str . "_wpage_" . $attribs['wpage'] . "\" Type=\"WikiPage\">",
                     $a_text
                 );
             }
             // portfolio pages
             elseif (isset($attribs["ppage"])) {
-                $tframestr = "";
                 $a_text = preg_replace(
                     '/\[' . $found[1] . '\]/i',
-                    "<IntLink Target=\"il_" . $inst_str . "_ppage_" . $attribs['ppage'] . "\" Type=\"PortfolioPage\" $tframestr>",
+                    "<IntLink Target=\"il_" . $inst_str . "_ppage_" . $attribs['ppage'] . "\" Type=\"PortfolioPage\">",
                     $a_text
                 );
             }
             // media object
             elseif (isset($attribs["media"])) {
                 if (!empty($found[10])) {
-                    $tframestr = " TargetFrame=\"" . $found[10] . "\" ";
+                    $tframestr = " TargetFrame=\"" . $found[10] . "\"";
                     $a_text = preg_replace(
                         '/\[' . $found[1] . '\]/i',
                         "<IntLink Target=\"il_" . $inst_str . "_mob_" . $attribs['media'] . "\" Type=\"MediaObject\"" . $tframestr . ">",
