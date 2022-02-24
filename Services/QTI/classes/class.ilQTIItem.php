@@ -55,24 +55,44 @@ class ilQTIItem
     public $xmllang;
     
     public $comment;
+
+    /** @var string|null */
     public $ilias_version;
+
+    /** @var string|null */
     public $author;
+
+    /** @var string|null */
     public $questiontype;
     public $duration;
     public $questiontext;
+
+    /** @var array */
     public $resprocessing;
+
+    /** @var array */
     public $itemfeedback;
 
-    /**
-     * @var ilQTIPresentation|null
-     */
+    /** @var ilQTIPresentation|null */
     public $presentation;
+
+    /** @var array */
     public $presentationitem;
+
+    /**
+     * @var array [['solution' => string, 'gap_index' => string]] // @todo Check if really strings.
+     */
     public $suggested_solutions;
+
+    /**
+     * @var array [['label' => string]]
+     */
     public $itemmetadata;
-    
+
+    /** @var string|null */
     protected $iliasSourceVersion;
     protected $iliasSourceNic;
+
     protected array $response;
 
     public function __construct()
@@ -117,15 +137,12 @@ class ilQTIItem
                 case "ILIAS Version":
                     $this->ilias_version = $matches[2];
                     return;
-                    break;
                 case "Questiontype":
                     $this->questiontype = $matches[2];
                     return;
-                    break;
                 case "Author":
                     $this->author = $matches[2];
                     return;
-                    break;
             }
         }
         $this->comment = $a_comment;
@@ -218,12 +235,18 @@ class ilQTIItem
     public function collectResponses() : void
     {
     }
-    
+
+    /**
+     * @param string $a_questiontype
+     */
     public function setQuestiontype($a_questiontype) : void
     {
         $this->questiontype = $a_questiontype;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getQuestiontype()
     {
         return $this->questiontype;
@@ -234,6 +257,9 @@ class ilQTIItem
         $this->presentationitem[] = $a_presentationitem;
     }
 
+    /**
+     * @return string|null
+     */
     public function determineQuestionType()
     {
         switch ($this->questiontype) {
@@ -277,19 +303,25 @@ class ilQTIItem
 
         return $this->questiontype;
     }
-    
+
+    /**
+     * @param string $a_author
+     */
     public function setAuthor($a_author) : void
     {
         $this->author = $a_author;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getAuthor()
     {
         return $this->author;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getIliasSourceVersion()
     {
@@ -334,7 +366,10 @@ class ilQTIItem
     {
         return $this->itemmetadata;
     }
-    
+
+    /**
+     * @return null|string
+     */
     public function getMetadataEntry($a_label)
     {
         foreach ($this->itemmetadata as $metadata) {

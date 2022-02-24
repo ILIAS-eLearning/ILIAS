@@ -48,14 +48,24 @@ const NUMTYPE_SCIENTIFIC = "3";
 */
 class ilQTIResponse
 {
+    /** @var int */
     public $flow;
+
+    /** @var int */
     public $response_type;
     public $ident;
+
+    /** @var string */
     public $rcardinality;
+
     public $render_type;
     public $material1;
     public $material2;
+
+    /** @var string|null */
     public $rtiming;
+
+    /** @var string|null */
     public $numtype;
     
     public function __construct($a_response_type = 0)
@@ -64,12 +74,18 @@ class ilQTIResponse
         $this->render_type = null;
         $this->response_type = $a_response_type;
     }
-    
+
+    /**
+     * @param int
+     */
     public function setResponsetype($a_responsetype) : void
     {
         $this->response_type = $a_responsetype;
     }
-    
+
+    /**
+     * @return int
+     */
     public function getResponsetype()
     {
         return $this->response_type;
@@ -84,7 +100,10 @@ class ilQTIResponse
     {
         return $this->ident;
     }
-    
+
+    /**
+     * @param string
+     */
     public function setRCardinality($a_rcardinality) : void
     {
         switch (strtolower($a_rcardinality)) {
@@ -102,12 +121,18 @@ class ilQTIResponse
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getRCardinality()
     {
         return $this->rcardinality;
     }
-    
+
+    /**
+     * @param string
+     */
     public function setRTiming($a_rtiming) : void
     {
         switch (strtolower($a_rtiming)) {
@@ -121,12 +146,18 @@ class ilQTIResponse
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getRTiming()
     {
         return $this->rtiming;
     }
-    
+
+    /**
+     * @param string $a_numtype
+     */
     public function setNumtype($a_numtype) : void
     {
         switch (strtolower($a_numtype)) {
@@ -144,7 +175,10 @@ class ilQTIResponse
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getNumtype()
     {
         return $this->numtype;
@@ -159,12 +193,18 @@ class ilQTIResponse
     {
         return $this->render_type;
     }
-    
+
+    /**
+     * @param int $a_flow
+     */
     public function setFlow($a_flow) : void
     {
         $this->flow = $a_flow;
     }
-    
+
+    /**
+     * @return int
+     */
     public function getFlow()
     {
         return $this->flow;

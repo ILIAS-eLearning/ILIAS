@@ -38,6 +38,8 @@ class ilQTIMattext
     public $label;
     public $charset;
     public $uri;
+
+    /** @var string|null */
     public $xmlspace;
     public $xmllang;
     public $entityref;
@@ -120,7 +122,10 @@ class ilQTIMattext
     {
         return $this->xmllang;
     }
-    
+
+    /**
+     * @param string $a_xmlspace
+     */
     public function setXmlspace($a_xmlspace) : void
     {
         switch (strtolower($a_xmlspace)) {
@@ -134,7 +139,10 @@ class ilQTIMattext
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getXmlspace()
     {
         return $this->xmlspace;

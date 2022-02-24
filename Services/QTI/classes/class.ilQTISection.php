@@ -35,22 +35,50 @@ class ilQTISection
     public $title;
     public $xmllang;
     public $comment;
+
+    /**
+     * @var array|null ['h' => string, 'm' => string, 's' => string]
+     */
     public $duration;
+
+    /** @var array */
     public $qtimetadata;
+
+    /** @var array */
     public $objectives;
+
+    /** @var array */
     public $sectioncontrol;
+
+    /** @var array */
     public $sectionprecondition;
+
+    /** @var array */
     public $sectionpostcondition;
+
+    /** @var array */
     public $rubric;
     public $presentation_material;
+
+    /** @var array */
     public $outcomes_processing;
     public $sectionproc_extension;
+
+    /** @var array */
     public $sectionfeedback;
     public $selection_ordering;
     public $reference;
+
+    /** @var array */
     public $itemref;
+
+    /** @var array */
     public $item;
+
+    /** @var array */
     public $sectionref;
+
+    /** @var array */
     public $section;
     
     public function __construct()
@@ -98,7 +126,10 @@ class ilQTISection
     {
         return $this->comment;
     }
-    
+
+    /**
+     * @param string $a_duration
+     */
     public function setDuration($a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
@@ -109,7 +140,10 @@ class ilQTISection
             );
         }
     }
-    
+
+    /**
+     * @return null|array ['h' => string, 'm' => string, 's' => string]
+     */
     public function getDuration()
     {
         return $this->duration;

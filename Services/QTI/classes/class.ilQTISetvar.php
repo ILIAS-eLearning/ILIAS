@@ -38,6 +38,8 @@ const ACTION_DIVIDE = "5";
 class ilQTISetvar
 {
     public $varname;
+
+    /** @var string|null */
     public $action;
     public $content;
     
@@ -54,7 +56,10 @@ class ilQTISetvar
     {
         return $this->varname;
     }
-    
+
+    /**
+     * @param string $a_action
+     */
     public function setAction($a_action) : void
     {
         switch (strtolower($a_action)) {
@@ -80,7 +85,10 @@ class ilQTISetvar
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getAction()
     {
         return $this->action;

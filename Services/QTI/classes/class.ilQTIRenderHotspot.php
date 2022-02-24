@@ -34,10 +34,15 @@ const SHOWDRAW_YES = "2";
 */
 class ilQTIRenderHotspot
 {
+    /** @var string */
     public $showdraw;
     public $minnumber;
     public $maxnumber;
+
+    /** @var array */
     public $response_labels;
+
+    /** @var array */
     public $material;
 
     public function __construct()
@@ -46,7 +51,10 @@ class ilQTIRenderHotspot
         $this->response_labels = array();
         $this->material = array();
     }
-    
+
+    /**
+     * @param string $a_showdraw
+     */
     public function setShowdraw($a_showdraw) : void
     {
         switch (strtolower($a_showdraw)) {
@@ -60,7 +68,10 @@ class ilQTIRenderHotspot
                 break;
         }
     }
-    
+
+    /**
+     * @return string
+     */
     public function getShowdraw()
     {
         return $this->showdraw;

@@ -34,11 +34,16 @@ const CONTINUE_NO = "2";
 */
 class ilQTIRespcondition
 {
+    /** @var string|null */
     public $continue;
     public $title;
     public $comment;
     public $conditionvar;
+
+    /** @var array */
     public $setvar;
+
+    /** @var array */
     public $displayfeedback;
     public $respcond_extension;
     
@@ -47,7 +52,10 @@ class ilQTIRespcondition
         $this->setvar = array();
         $this->displayfeedback = array();
     }
-    
+
+    /**
+     * @param string
+     */
     public function setContinue($a_continue) : void
     {
         switch (strtolower($a_continue)) {
@@ -61,7 +69,10 @@ class ilQTIRespcondition
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getContinue()
     {
         return $this->continue;

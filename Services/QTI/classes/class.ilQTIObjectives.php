@@ -32,6 +32,8 @@
 class ilQTIObjectives
 {
     public $materials;
+
+    /** @var string */
     public $view;
     
     public function __construct()
@@ -44,7 +46,10 @@ class ilQTIObjectives
     {
         $this->materials[] = $a_material;
     }
-    
+
+    /**
+     * @param string
+     */
     public function setView($a_view) : void
     {
         switch ($a_view) {
@@ -64,7 +69,10 @@ class ilQTIObjectives
                 break;
         }
     }
-    
+
+    /**
+     * @return string
+     */
     public function getView()
     {
         return $this->view;

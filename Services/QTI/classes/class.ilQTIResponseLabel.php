@@ -41,14 +41,23 @@ const RRANGE_RANGE = "2";
 */
 class ilQTIResponseLabel
 {
+    /** @var string|null */
     public $rshuffle;
+
+    /** @var string|null */
     public $rarea;
+
+    /** @var string|null */
     public $rrange;
     public $labelrefid;
     public $ident;
     public $match_group;
     public $match_max;
+
+    /** @var array */
     public $material;
+
+    /** @var array */
     public $flow_mat;
     public $content;
 
@@ -57,7 +66,10 @@ class ilQTIResponseLabel
         $this->material = array();
         $this->flow_mat = array();
     }
-    
+
+    /**
+     * @param string $a_rshuffle
+     */
     public function setRshuffle($a_rshuffle) : void
     {
         switch (strtolower($a_rshuffle)) {
@@ -71,12 +83,18 @@ class ilQTIResponseLabel
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getRshuffle()
     {
         return $this->rshuffle;
     }
-    
+
+    /**
+     * @param string
+     */
     public function setRarea($a_rarea) : void
     {
         switch (strtolower($a_rarea)) {
@@ -94,18 +112,24 @@ class ilQTIResponseLabel
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getRarea()
     {
         return $this->rarea;
     }
-    
+
+    /**
+     * @param string $a_rrange
+     */
     public function setRrange($a_rrange) : void
     {
         switch (strtolower($a_rrange)) {
             case "1":
             case "excact":
-                $this->rshuffle = RRANGE_EXACT;
+                $this->rshuffle = RRANGE_EXACT; // @todo Ask if this should't be $this->rrange.
                 break;
             case "2":
             case "range":
@@ -113,7 +137,10 @@ class ilQTIResponseLabel
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getRrange()
     {
         return $this->rrange;

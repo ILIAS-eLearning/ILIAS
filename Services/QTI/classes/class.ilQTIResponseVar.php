@@ -51,10 +51,16 @@ const AREATYPE_BOUNDED = "3";
 class ilQTIResponseVar
 {
     public $vartype;
+
+    /** @var string|null */
     public $case;
     public $respident;
     public $index;
+
+    /** @var string|null */
     public $setmatch;
+
+    /** @var string|null */
     public $areatype;
     public $content;
     
@@ -72,7 +78,10 @@ class ilQTIResponseVar
     {
         return $this->vartype;
     }
-    
+
+    /**
+     * @param string $a_case
+     */
     public function setCase($a_case) : void
     {
         switch (strtolower($a_case)) {
@@ -86,7 +95,10 @@ class ilQTIResponseVar
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getCase()
     {
         return $this->case;
@@ -111,7 +123,10 @@ class ilQTIResponseVar
     {
         return $this->index;
     }
-    
+
+    /**
+     * @param string $a_setmatch
+     */
     public function setSetmatch($a_setmatch) : void
     {
         switch (strtolower($a_setmatch)) {
@@ -125,12 +140,18 @@ class ilQTIResponseVar
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getSetmatch()
     {
         return $this->setmatch;
     }
-    
+
+    /**
+     * @param string $a_areatype
+     */
     public function setAreatype($a_areatype) : void
     {
         switch (strtolower($a_areatype)) {
@@ -148,7 +169,10 @@ class ilQTIResponseVar
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getAreatype()
     {
         return $this->areatype;

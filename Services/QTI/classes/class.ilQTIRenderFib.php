@@ -43,9 +43,15 @@ class ilQTIRenderFib
 {
     public $minnumber;
     public $maxnumber;
+
+    /** @var array */
     public $response_labels;
+
+    /** @var array */
     public $material;
     public $prompt;
+
+    /** @var string */
     public $encoding;
     public $fibtype;
     public $rows;
@@ -59,7 +65,10 @@ class ilQTIRenderFib
         $this->material = array();
         $this->encoding = "UTF-8";
     }
-    
+
+    /**
+     * @param string $a_prompt
+     */
     public function setPrompt($a_prompt) : void
     {
         switch (strtolower($a_prompt)) {
@@ -86,7 +95,10 @@ class ilQTIRenderFib
     {
         return $this->prompt;
     }
-    
+
+    /**
+     * @param string $a_fibtype
+     */
     public function setFibtype($a_fibtype) : void
     {
         switch (strtolower($a_fibtype)) {
@@ -143,12 +155,18 @@ class ilQTIRenderFib
     {
         $this->material[] = $a_material;
     }
-    
+
+    /**
+     * @param string $a_encoding
+     */
     public function setEncoding($a_encoding) : void
     {
         $this->encoding = $a_encoding;
     }
-    
+
+    /**
+     * @return string
+     */
     public function getEncoding()
     {
         return $this->encoding;

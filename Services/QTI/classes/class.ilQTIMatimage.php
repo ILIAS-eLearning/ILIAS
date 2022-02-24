@@ -42,6 +42,10 @@ class ilQTIMatimage
     public $x0;
     public $y0;
     public $entityref;
+
+    /**
+     * @var string|null
+     */
     public $content;
     
     public function __construct()
@@ -137,17 +141,26 @@ class ilQTIMatimage
     {
         return $this->entityref;
     }
-    
+
+    /**
+     * @param string|null $a_content
+     */
     public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getContent()
     {
         return $this->content;
     }
 
+    /**
+     * @return string|null|false
+     */
     public function getRawContent()
     {
         switch ($this->getEmbedded()) {

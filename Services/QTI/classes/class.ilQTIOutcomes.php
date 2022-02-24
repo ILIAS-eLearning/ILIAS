@@ -32,6 +32,8 @@
 class ilQTIOutcomes
 {
     public $comment;
+
+    /** @var array */
     public $decvar;
     
     public function __construct()

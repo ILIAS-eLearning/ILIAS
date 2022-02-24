@@ -37,13 +37,20 @@ class ilQTIPresentation
     public $y0;
     public $width;
     public $height;
-    
+
+    /**
+     * @var array
+     */
     public $material;
 
     /**
      * @var ilQTIResponse[]
      */
     public $response;
+
+    /**
+     * @var array [['type' => string, 'index' => int]]
+     */
     public $order;
     
     public function __construct()
@@ -120,7 +127,7 @@ class ilQTIPresentation
     }
 
     /**
-     * @param ilQTIResponse
+     * @param ilQTIResponse $a_response
      */
     public function addResponse($a_response) : void
     {

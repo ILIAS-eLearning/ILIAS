@@ -42,12 +42,23 @@ const VIEW_TUTOR = "10";
 */
 class ilQTIItemfeedback
 {
+    /** @var string|null */
     public $view;
     public $ident;
+
+    /** @var string|null @todo check */
     public $title;
+
+    /** @var array */
     public $flow_mat;
+
+    /** @var array */
     public $material;
+
+    /** @var array */
     public $solution;
+
+    /** @var array */
     public $hint;
     
     public function __construct()
@@ -57,7 +68,10 @@ class ilQTIItemfeedback
         $this->solution = array();
         $this->hint = array();
     }
-    
+
+    /**
+     * @param string
+     */
     public function setView($a_view) : void
     {
         switch (strtolower($a_view)) {
@@ -103,7 +117,10 @@ class ilQTIItemfeedback
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getView()
     {
         return $this->view;
@@ -118,12 +135,18 @@ class ilQTIItemfeedback
     {
         return $this->ident;
     }
-    
+
+    /**
+     * @param string|null $a_title
+     */
     public function setTitle($a_title) : void
     {
         $this->title = $a_title;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getTitle()
     {
         return $this->title;

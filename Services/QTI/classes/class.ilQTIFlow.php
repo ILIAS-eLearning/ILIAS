@@ -32,9 +32,17 @@
 class ilQTIFlow
 {
     public $comment;
+
+    /** @var array */
     public $flow;
+
+    /** @var array */
     public $material;
+
+    /** @var array */
     public $material_ref;
+
+    /** @var array */
     public $response;
     
     public function __construct()

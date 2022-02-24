@@ -33,7 +33,11 @@ class ilQTIResprocessing
 {
     public $comment;
     public $outcomes;
+
+    /** @var array */
     public $respcondition;
+
+    /** @var array */
     public $itemproc_extension;
     public $scoremodel;
     

@@ -34,10 +34,15 @@ const SHUFFLE_YES = "1";
 */
 class ilQTIRenderChoice
 {
+    /** @var string */
     public $shuffle;
     public $minnumber;
     public $maxnumber;
+
+    /** @var array */
     public $response_labels;
+
+    /** @var array */
     public $material;
     
     public function __construct()
@@ -48,7 +53,10 @@ class ilQTIRenderChoice
         $this->response_labels = array();
         $this->material = array();
     }
-    
+
+    /**
+     * @param string $a_shuffle
+     */
     public function setShuffle($a_shuffle) : void
     {
         switch (strtolower($a_shuffle)) {
