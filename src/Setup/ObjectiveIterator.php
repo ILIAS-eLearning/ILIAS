@@ -4,10 +4,6 @@
 
 namespace ILIAS\Setup;
 
-use ILIAS\Setup\Environment;
-use ILIAS\Setup\Objective;
-use ILIAS\Setup\UnachievableException;
-
 /**
  * Tries to enumerate all preconditions for the given objective, where the ones that
  * can be achieved (i.e. have no further preconditions on their own) will be
@@ -115,27 +111,33 @@ class ObjectiveIterator implements \Iterator
             return;
         }
 
-        $preconditions = array_filter(
-            $cur->getPreconditions($this->environment),
-            function ($p) {
-                $h = $p->getHash();
-                return !isset($this->returned[$h]) || isset($this->failed[$h]);
+        $preconditions = [];
+        $failed_preconditions = [];
+        foreach ($cur->getPreconditions($this->environment) as $p) {
+            $h = $p->getHash();
+            if (!isset($this->returned[$h]) || isset($this->failed[$h])) {
+                $preconditions[] = $p;
             }
-        );
 
-        $failed_preconditions = array_filter(
-            $preconditions,
-            function ($p) {
-                return isset($this->failed[$p->getHash()]);
+            if (isset($this->failed[$h])) {
+                $failed_preconditions[] = $p;
             }
-        );
+        }
 
         // We only have preconditions left that we know to have failed.
-        if (count($preconditions) !== 0
-        && count($preconditions) === count($failed_preconditions)) {
-            throw new UnachievableException(
-                "Objective only has failed preconditions."
-            );
+        if (
+            count($preconditions) !== 0 &&
+            count($preconditions) === count($failed_preconditions)
+        ) {
+            $this->returned[$hash] = true;
+            $this->markAsFailed($cur);
+            if (count($this->stack) === 0) {
+                throw new UnachievableException(
+                    "Objective had failed preconditions."
+                );
+            }
+            $this->next();
+            return;
         }
 
         // No preconditions open, we can proceed with the objective.

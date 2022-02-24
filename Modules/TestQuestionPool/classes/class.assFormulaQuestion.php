@@ -1285,11 +1285,14 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     $user_solution[$result->getResult()]["frac_helper"] = null;
                 }
             } else {
+                $user_solution[$result->getResult()]["value"] = round($user_solution[$result->getResult()]["value"], $result->getPrecision());
+                /*
                 $user_solution[$result->getResult()]["value"] = ilMath::_div(
                     $user_solution[$result->getResult()]["value"],
                     1,
                     $result->getPrecision()
                 );
+                */
             }
         }
         return $user_solution;

@@ -209,7 +209,7 @@ systemctl restart httpd.service
 ### PHP Installation and Configuration
 
 Refer to the to documentation of your installation to install either PHP 7.3 to
-PHP 7.4 including packages for gd, mysq, mbstring, curl, dom, zip and xml.
+PHP 7.4 including packages for gd, mysql, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:

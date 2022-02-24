@@ -222,4 +222,73 @@ class ObjectiveIteratorTest extends TestCase
 
         return $objective;
     }
+
+    public function testFailedPreconditionWithOtherOnStack() : void
+    {
+        $this->expectException(Setup\UnachievableException::class);
+
+        $env = new Setup\ArrayEnvironment([]);
+
+        $objective_fail = $this->newObjective();
+        $objective_1 = $this->newObjective();
+        $objective_2 = $this->newObjective();
+        $objective_3 = $this->newObjective();
+
+        $objective_1
+            ->method("getPreconditions")
+            ->willReturn([$objective_fail]);
+        $objective_2
+            ->method("getPreconditions")
+            ->willReturn([]);
+        $objective_3
+            ->method("getPreconditions")
+            ->willReturn([$objective_1, $objective_2]);
+
+        $iterator = new class($env, $objective_3, $objective_fail) extends Setup\ObjectiveIterator {
+            public function __construct(
+                Setup\Environment $environment,
+                Setup\Objective $objective,
+                MockObject $objective_fail
+            ) {
+                parent::__construct($environment, $objective);
+                $this->failed[$objective_fail->getHash()] = true;
+            }
+        };
+
+        $this->assertEquals($objective_fail, $iterator->current());
+        $iterator->next();
+        $iterator->next();
+    }
+
+    public function testFailedPreconditionLastOnStack() : void
+    {
+        $this->expectException(Setup\UnachievableException::class);
+
+        $env = new Setup\ArrayEnvironment([]);
+
+        $objective_fail = $this->newObjective();
+        $objective_1 = $this->newObjective();
+        $objective_2 = $this->newObjective();
+
+        $objective_1
+            ->method("getPreconditions")
+            ->willReturn([$objective_fail]);
+        $objective_2
+            ->method("getPreconditions")
+            ->willReturn([$objective_1]);
+
+        $iterator = new class($env, $objective_2, $objective_fail) extends Setup\ObjectiveIterator {
+            public function __construct(
+                Setup\Environment $environment,
+                Setup\Objective $objective,
+                MockObject $objective_fail
+            ) {
+                parent::__construct($environment, $objective);
+                $this->failed[$objective_fail->getHash()] = true;
+            }
+        };
+
+        $this->assertEquals($objective_fail, $iterator->current());
+        $iterator->next();
+    }
 }

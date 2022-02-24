@@ -60,6 +60,11 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     public function createFile($name, $data = null)
     {
         if ($this->repo_helper->checkCreateAccessForType($this->obj->getRefId(), 'file')) {
+            $size = $this->request->getHeader("Content-Length")[0];
+            if ($size > ilUtil::getUploadSizeLimitBytes()) {
+                throw new Exception\Forbidden('File is too big');
+            }
+            
             // Check if file has valid extension
             if ($this->dav_helper->isValidFileNameWithValidFileExtension($name)) {
                 if ($this->childExists($name)) {
@@ -77,7 +82,6 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                     $file_obj->createReference();
                     $file_obj->putInTree($this->obj->getRefId());
                     $file_obj->setPermissions($this->ref_id);
-                    $file_obj->update();
 
                     $file_dav = new ilObjFileDAV($file_obj, $this->repo_helper, $this->dav_helper);
                     return $file_dav->handleFileUpload($data, "create");

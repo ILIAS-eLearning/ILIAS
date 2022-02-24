@@ -314,8 +314,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 "_top"
             );
         } else {
-            $ilTabs->setBackTarget($lng->txt("back"), "./goto.php?target=" . $this->object->getType() . "_" .
-                $this->object->getRefId(), "_top");
+            $ilTabs->setBackTarget($lng->txt("back"),
+                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit"));
         }
 
         // page object
@@ -2882,8 +2882,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 "_top"
             );
         } else {
-            $ilTabs->setBackTarget($lng->txt("back"), "./goto.php?target=" . $this->object->getType() . "_" .
-                $this->object->getRefId(), "_top");
+            $ilTabs->setBackTarget($lng->txt("back"),
+                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit"));
         }
 
         include_once("./Services/Container/classes/class.ilContainerPageGUI.php");

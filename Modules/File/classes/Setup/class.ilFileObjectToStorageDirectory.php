@@ -34,21 +34,26 @@ class ilFileObjectToStorageDirectory
     private function initVersions() : void
     {
         $history_data = $this->getHistoryData();
-
-        $g = new RegexIterator(
-            new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator(
-                    $this->path,
-                    FilesystemIterator::KEY_AS_PATHNAME
-                    | FilesystemIterator::CURRENT_AS_FILEINFO
-                    | FilesystemIterator::SKIP_DOTS
+        try {
+            $g = new RegexIterator(
+                new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator(
+                        $this->path,
+                        FilesystemIterator::KEY_AS_PATHNAME
+                        |FilesystemIterator::CURRENT_AS_FILEINFO
+                        |FilesystemIterator::SKIP_DOTS
+                    ),
+                    RecursiveIteratorIterator::LEAVES_ONLY
                 ),
-                RecursiveIteratorIterator::LEAVES_ONLY
-            ),
-            '/.*\/file_[\d]*\/([\d]*)\/(.*)/',
-            RegexIterator::GET_MATCH
-        );
-
+                '/.*\/file_[\d]*\/([\d]*)\/(.*)/',
+                RegexIterator::GET_MATCH
+            );
+        } catch (Throwable $t) {
+            // there was an error reading the directory, there will be no versions
+            $g = [];
+        }
+        
+        
         $this->versions = [];
 
         foreach ($g as $item) {
@@ -113,6 +118,8 @@ class ilFileObjectToStorageDirectory
 
     public function tearDown() : void
     {
-        touch(rtrim($this->path, "/") . "/" . ilFileObjectToStorageMigrationHelper::MIGRATED);
+        if (is_writable($this->path)) {
+            touch(rtrim($this->path, "/") . "/" . ilFileObjectToStorageMigrationHelper::MIGRATED);
+        }
     }
 }

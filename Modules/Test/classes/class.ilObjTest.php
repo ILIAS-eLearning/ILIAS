@@ -4267,12 +4267,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $found["test"]["result_pass"] = $results['pass'];
         $found['test']['result_tstamp'] = $results['tstamp'];
         $found['test']['obligations_answered'] = $results['obligations_answered'];
-        
-        if ((!$total_reached_points) or (!$total_max_points)) {
+
+        if ((!$found['pass']['total_reached_points']) or (! $found['pass']['total_max_points'])) {
             $percentage = 0.0;
         } else {
-            $percentage = ($total_reached_points / $total_max_points) * 100.0;
-            
+            $percentage = ($found['pass']['total_reached_points'] /  $found['pass']['total_max_points']) * 100.0;
+
             if ($percentage < 0) {
                 $percentage = 0.0;
             }

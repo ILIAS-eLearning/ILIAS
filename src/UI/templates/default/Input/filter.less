@@ -90,9 +90,6 @@
 .il-filter-inputs-active {
 	background-color: @il-main-dark-bg;
 	padding: @padding-small-vertical @padding-base-horizontal;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
 
 	span {
 		display: inline-block;
@@ -101,6 +98,10 @@
 		float: left;
 		background-color: @il-main-bg;
 		font-size: @il-standard-filter-active-inputs-font-size;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		max-width: 90vw;
 	}
 }
 

@@ -10,19 +10,12 @@ interface ilMMItemFacadeInterface
     //
     // Access to related objects
     //
-    /**
-     * @return ilMMItemStorage
-     */
     public function itemStorage() : ilMMItemStorage;
-
-    /**
-     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
-     */
-    public function item() : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-
-    /**
-     * @return \ILIAS\GlobalScreen\Identification\IdentificationInterface
-     */
+    
+    public function getRawItem() : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+    
+    public function getFilteredItem() : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+    
     public function identification() : \ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 

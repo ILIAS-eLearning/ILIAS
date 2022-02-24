@@ -65,10 +65,13 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         }
         if (class_exists('finfo')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            $this->mime_type = finfo_buffer($finfo, $this->file_stream->getContents());
+            //We only need the first few bytes to determine the mime-type this helps to reduce RAM-Usage
+            $this->mime_type = finfo_buffer($finfo, $this->file_stream->read(100));
+            if ($this->file_stream->isSeekable()) {
+                $this->file_stream->rewind();
+            }
             return;
         }
-
     }
 
     protected function initSize() : void
@@ -77,10 +80,18 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         try {
             $this->size = $this->file_stream->getSize();
         } catch (\Throwable $t) {
-            if (function_exists('mb_strlen')) {
-                $this->size = mb_strlen($this->file_stream->getContents(), '8bit');
-            } else {
-                $this->size = strlen($this->file_stream->getContents());
+            $mb_strlen_exists = function_exists('mb_strlen');
+            //We only read one MB at a time as this radically reduces RAM-Usage
+            while ($content = $this->file_stream->read(1048576)) {
+                if ($mb_strlen_exists) {
+                    $this->size += mb_strlen($content, '8bit');
+                } else {
+                    $this->size += strlen($content);
+                }
+            }
+            
+            if ($this->file_stream->isSeekable()) {
+                $this->file_stream->rewind();
             }
         }
     }

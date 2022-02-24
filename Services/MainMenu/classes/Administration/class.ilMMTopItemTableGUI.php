@@ -68,11 +68,14 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         $item_facade = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($a_set['identification']));
 
         $this->tpl->setVariable('IDENTIFIER', ilMMTopItemGUI::IDENTIFIER);
-        $this->tpl->setVariable('ID', $item_facade->getId());
+        $this->tpl->setVariable('ID', $this->hash($item_facade->getId()));
+        $this->tpl->setVariable('NATIVE_ID', $item_facade->getId());
         $this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
         $this->tpl->setVariable('SUBENTRIES', $item_facade->getAmountOfChildren());
         $this->tpl->setVariable('TYPE', $item_facade->getTypeForPresentation());
         $this->tpl->setVariable('POSITION', $position * 10);
+        $this->tpl->setVariable('NATIVE_POSITION', $item_facade->getRawItem()->getPosition());
+        $this->tpl->setVariable('SAVED_POSITION', $item_facade->getFilteredItem()->getPosition());
         if ($item_facade->isActivated()) {
             $this->tpl->touchBlock('is_active');
         }

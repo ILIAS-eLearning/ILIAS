@@ -97,6 +97,9 @@ class ilFileObjectToStorageMigration implements Setup\Migration
             // if dir doesn't exists there are no steps to do,
             // so don't initialize ilFileObjectToStorageMigrationHelper
             if (!is_dir($legacy_files_dir)) {
+                /** @var Setup\CLI\IOWrapper $io */
+                $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
+                $io->inform("The legacy ilFile-directory ($legacy_files_dir) cannot be found, we cant perform a migration.");
                 return;
             }
 
@@ -127,6 +130,9 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function step(Environment $environment) : void
     {
+        if ($this->helper === null) {
+            return;
+        }
         $item = $this->helper->getNext();
         $this->runner->migrate($item);
     }
