@@ -88,7 +88,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         if (is_array($this->items["sess"]) ||
             isset($this->items['sess_link']['prev']['value']) ||
             isset($this->items['sess_link']['next']['value'])) {
-            $this->items['sess'] = ilUtil::sortArray($this->items['sess'], 'start', 'asc', true, false);
+            $this->items['sess'] = ilArrayUtil::sortArray($this->items['sess'], 'start', 'asc', true, false);
 
             $prefix = $postfix = "";
             if (isset($this->items['sess_link']['prev']['value'])) {
@@ -285,7 +285,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
                 $session_rbac_checked[] = $session_tree_info;
             }
         }
-        $sessions = ilUtil::sortArray($session_rbac_checked, 'start', 'ASC', true, false);
+        $sessions = ilArrayUtil::sortArray($session_rbac_checked, 'start', 'ASC', true, false);
         //$sessions = ilUtil::sortArray($this->items['sess'],'start','ASC',true,false);
         $today = new ilDate(date('Ymd', time()), IL_CAL_DATE);
         $previous = $current = $next = array();

@@ -25,14 +25,15 @@
  */
 class ilLTIRouterGUI implements ilCtrlBaseClassInterface
 {
-
-    /** @var  ilCtrl */
+    
     protected ilCtrl $ilCtrl;
-
+    protected ilGlobalTemplateInterface $main_tpl;
+    
     public function __construct()
     {
-        global $ilCtrl;
-        $this->ilCtrl = $ilCtrl;
+        global $DIC;
+        $this->ilCtrl = $DIC->ctrl();
+        $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
     /**
@@ -47,7 +48,7 @@ class ilLTIRouterGUI implements ilCtrlBaseClassInterface
             $gui = $next_class::getInstance(); // Singleton!
             $this->ilCtrl->forwardCommand($gui);
         } else {
-            ilUtil::sendFailure('GUI-Class not found! (' . $next_class . ')');
+            $this->main_tpl->setOnScreenMessage('failure', 'GUI-Class not found! (' . $next_class . ')');
         }
     }
 }

@@ -1,44 +1,29 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Calendar schedule filter for individual timings
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ModulesCourse
  */
 class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
 {
-    const CAL_TIMING_START = 1;
-    const CAL_TIMING_END = 2;
+    protected const CAL_TIMING_START = 1;
+    protected const CAL_TIMING_END = 2;
 
-    /**
-     * @var int
-     */
-    private $user_id = 0;
+    private int $user_id = 0;
 
+    private ilLogger $logger;
 
-    /**
-     * @var \ilLogger
-     */
-    private $logger;
-
-    /**
-     * ilCalendarScheduleFilterTimings constructor.
-     * @param int a_usr_id
-     */
-    public function __construct($a_usr_id)
+    public function __construct(int $a_usr_id)
     {
+        global $DIC;
+
         $this->user_id = $a_usr_id;
-        $this->logger = ilLoggerFactory::getLogger('crs');
+        $this->logger = $DIC->logger()->crs();
     }
 
-    /**
-     * Get logger
-     * @return \ilLogger
-     */
-    public function getLogger()
+    public function getLogger() : ilLogger
     {
         return $this->logger;
     }
@@ -128,7 +113,6 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
         return $a_event;
     }
 
-
     /**
      * Add custom events: relative timings, modified timings
      * @inheritDoc
@@ -138,7 +122,6 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
         // @fixme
         // @todo categories can appear more than once
         $a_categories = array_unique($a_categories);
-
 
         $all_events = [];
         foreach ($a_categories as $cat_id) {
@@ -164,7 +147,7 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
                     !$item['changeable'] &&
                     $course_timing_mode == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE
                 ) {
-                    $this->getLogger('cal')->debug('Not creating new event since item is unchangeable and absolute');
+                    $this->getLogger()->debug('Not creating new event since item is unchangeable and absolute');
                     continue;
                 }
 
@@ -200,11 +183,11 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
     }
 
     /**
-     * @param $category_id
-     * @param $item_ref_id
-     * @return ilCalendarEntry[]
+     * @param int $category_id
+     * @param int $item_ref_id
+     * @return ilCalendarEntry
      */
-    protected function findCalendarEntriesForItem($category_id, $item_ref_id)
+    protected function findCalendarEntriesForItem(int $category_id, int $item_ref_id) : array
     {
         $app_ids = ilCalendarCategoryAssignments::_getAssignedAppointments([$category_id]);
         $entries = [];
@@ -224,32 +207,22 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
         return $entries;
     }
 
-
-    /**
-     * @param int $a_category_id
-     * @return bool|ilCalendarCategory
-     */
-    protected function isCourseCategory($a_category_id)
+    protected function isCourseCategory(int $a_category_id) : ?ilCalendarCategory
     {
         $category = ilCalendarCategory::getInstanceByCategoryId($a_category_id);
 
         if ($category->getType() != ilCalendarCategory::TYPE_OBJ) {
             $this->getLogger()->debug('No object calendar => not modifying event.');
-            return false;
+            return null;
         }
         if ($category->getObjType() != 'crs') {
             $this->getLogger()->debug('Category object type is != crs => not modifying event');
-            return false;
+            return null;
         }
         return $category;
     }
 
-    /**
-     * Check if timings enabled for ref_id
-     * @param int $a_course_ref
-     * @return bool
-     */
-    protected function enabledCourseTimings($a_course_ref)
+    protected function enabledCourseTimings(int $a_course_ref) : bool
     {
         if (ilObjCourse::_lookupViewMode(ilObject::_lookupObjId($a_course_ref)) != ilContainer::VIEW_TIMING) {
             $this->getLogger()->debug('Parent course has other view mode than timings. course ref_id = ' . $a_course_ref);

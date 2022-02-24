@@ -12,7 +12,7 @@ use ILIAS\UI\Component\Button\Shy;
 
 class ilPluginsOverviewTableTest extends TestCase
 {
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->parent_gui = $this->createMock(ilObjComponentSettingsGUI::class);
         $this->ctrl = $this->createMock(ilCtrl::class);

@@ -398,7 +398,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         foreach ($user_ids as $user_id) {
             $forced_events = $this->forumNotificationObj->getForcedEventsObjectByUserId($user_id);
 
-            $users[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
+            $users[$counter]['user_id'] = ilLegacyFormElementsUtil::formCheckbox(false, 'user_id[]', (string) $user_id);
             $users[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
             $name = ilObjUser::_lookupName($user_id);
             $users[$counter]['firstname'] = $name['firstname'];
@@ -513,7 +513,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'), true);
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
@@ -528,7 +528,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -552,7 +552,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
@@ -565,7 +565,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -589,7 +589,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
@@ -606,7 +606,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -630,7 +630,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
@@ -646,7 +646,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -814,7 +814,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
             $this->parent_obj->objProperties->update();
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
         $this->notificationSettingsForm->setValuesByPost();
 

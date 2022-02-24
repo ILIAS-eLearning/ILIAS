@@ -28,7 +28,6 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         global $DIC;
         $this->db = $DIC->database();
         parent::__construct($this->db, $DIC["component.repository"], "xtst");
-
     }
 
     /**
@@ -72,7 +71,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         global $DIC;
         $component_repository = $DIC["component.repository"];
         return self::_getImagePath(
-            IL_COMP_SERVICE,
+            ilComponentInfo::TYPE_SERVICES,
             "Repository",
             "robj",
             $component_repository->getPluginById($a_type)->getName(),

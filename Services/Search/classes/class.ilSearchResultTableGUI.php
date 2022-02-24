@@ -147,10 +147,10 @@ class ilSearchResultTableGUI extends ilTable2GUI
 
         if (!$this->objDefinition->isPlugin($type)) {
             $type_txt = $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $type);
-            $icon = ilObject::_getIcon($obj_id, 'small', $type);
+            $icon = ilObject::_getIcon((int) $obj_id, 'small', $type);
         } else {
             $type_txt = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
-            $icon = ilObject::_getIcon($obj_id, 'small', $type);
+            $icon = ilObject::_getIcon((int) $obj_id, 'small', $type);
         }
 
         $this->tpl->setVariable(

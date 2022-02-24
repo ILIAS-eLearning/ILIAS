@@ -95,6 +95,7 @@ class PrintProcessGUI
         $tpl = new \ilTemplate("tpl.print_view_selection.html", true, true, "Services/Export/Print");
         $form->setTarget("print_view");
         $tpl->setVariable("FORM", $form->getHTML());
+        $tpl->setVariable("ON_SUBMIT_CODE", $this->provider->getOnSubmitCode());
         $modal = $this->ui->factory()->modal()->roundtrip(
             $this->lng->txt("exp_print_pdf"),
             $this->ui->factory()->legacy(
@@ -116,6 +117,8 @@ class PrintProcessGUI
             "Services/Export/Print"
         );
 
+        \iljQueryUtil::initjQuery($tpl);
+
         foreach ($this->provider->getTemplateInjectors() as $f) {
             $f($tpl);
         }
@@ -131,8 +134,12 @@ class PrintProcessGUI
         $tpl->addCss(\ilObjStyleSheet::getContentPrintStyle());
         $tpl->addCss(\ilObjStyleSheet::getSyntaxStylePath());
 
+        $pb = ($this->provider->autoPageBreak())
+            ? '<div style="page-break-after:always;"></div>'
+            : "";
+
         $content = implode(
-            '<p style="page-break-after:always;"></p>',
+            $pb,
             $pages
         );
 

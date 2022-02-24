@@ -1,50 +1,38 @@
 <?php
-  /*
-   +-----------------------------------------------------------------------------+
-   | ILIAS open source                                                           |
-   +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-   |                                                                             |
-   | This program is free software; you can redistribute it and/or               |
-   | modify it under the terms of the GNU General Public License                 |
-   | as published by the Free Software Foundation; either version 2              |
-   | of the License, or (at your option) any later version.                      |
-   |                                                                             |
-   | This program is distributed in the hope that it will be useful,             |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-   | GNU General Public License for more details.                                |
-   |                                                                             |
-   | You should have received a copy of the GNU General Public License           |
-   | along with this program; if not, write to the Free Software                 |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-   +-----------------------------------------------------------------------------+
-  */
+/*
+ +-----------------------------------------------------------------------------+
+ | ILIAS open source                                                           |
+ +-----------------------------------------------------------------------------+
+ | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+ |                                                                             |
+ | This program is free software; you can redistribute it and/or               |
+ | modify it under the terms of the GNU General Public License                 |
+ | as published by the Free Software Foundation; either version 2              |
+ | of the License, or (at your option) any later version.                      |
+ |                                                                             |
+ | This program is distributed in the hope that it will be useful,             |
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+ | GNU General Public License for more details.                                |
+ |                                                                             |
+ | You should have received a copy of the GNU General Public License           |
+ | along with this program; if not, write to the Free Software                 |
+ | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+ +-----------------------------------------------------------------------------+
+*/
 
-
-  /**
-   * Soap file administration methods
-   *
-   * @author Roland Küstermann <roland@kuestermann.com>
-   * @version $Id: class.ilSoapFileAdministration.php 12992 2007-01-25 10:04:26Z rkuester $
-   *
-   * @package ilias
-   */
+/**
+ * Soap file administration methods
+ * @author Roland Küstermann <roland@kuestermann.com>
+ */
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapFileAdministration extends ilSoapAdministration
 {
-
     /**
      * add an File with id.
-     *
-     * @param string $session_id    current session
-     * @param int $target_id refid of parent in repository
-     * @param string $file_xml   qti xml description of test
-     *
-     * @return int reference id in the tree, 0 if not successful
      */
-    public function addFile($sid, $target_id, $file_xml)
+    public function addFile(string $sid, int $target_id, string $file_xml)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -54,7 +42,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
         }
         global $DIC;
 
-        $ilAccess   = $DIC['ilAccess'];
+        $ilAccess = $DIC['ilAccess'];
 
         if (!$target_obj = ilObjectFactory::getInstanceByRefId($target_id, false)) {
             return $this->__raiseError('No valid target given.', 'Client');
@@ -67,7 +55,8 @@ class ilSoapFileAdministration extends ilSoapAdministration
         // Check access
         $allowed_types = array('cat', 'grp', 'crs', 'fold', 'root');
         if (!in_array($target_obj->getType(), $allowed_types)) {
-            return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"', 'Client');
+            return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"',
+                'Client');
         }
 
         if (!$ilAccess->checkAccess('create', '', $target_id, "file")) {
@@ -104,21 +93,12 @@ class ilSoapFileAdministration extends ilSoapAdministration
                 return $this->__raiseError("Could not add file", "Server");
             }
         } catch (ilFileException $exception) {
-            return $this->__raiseError($exception->getMessage(), $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server");
+            return $this->__raiseError($exception->getMessage(),
+                $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server");
         }
     }
 
-
-    /**
-     * update a File with id.
-     *
-     * @param string $session_id    current session
-     * @param int $ref_id   refid id of File in repository
-     * @param string $file_xml   qti xml description of test
-     *
-     * @return boolean true, if update successful, false otherwise
-     */
-    public function updateFile($sid, $ref_id, $file_xml)
+    public function updateFile(string $sid, int $ref_id, string $file_xml)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -160,10 +140,9 @@ class ilSoapFileAdministration extends ilSoapAdministration
             );
         }
 
-
         $file = ilObjectFactory::getInstanceByObjId($obj_id, false);
 
-        if (!is_object($file) || $file->getType()!= "file") {
+        if (!is_object($file) || $file->getType() != "file") {
             return $this->__raiseError(
                 'Wrong obj id or type for File with id ' . $ref_id,
                 'Server'
@@ -178,28 +157,18 @@ class ilSoapFileAdministration extends ilSoapAdministration
             if ($fileXMLParser->start()) {
                 $fileXMLParser->updateFileContents();
 
-                return  $file->update();
+                return $file->update();
             }
         } catch (ilFileException $exception) {
             return $this->__raiseError(
-               $exception->getMessage(),
-               $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server"
-           );
+                $exception->getMessage(),
+                $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server"
+            );
         }
         return false;
     }
 
-    /**
-     * get File xml
-     *
-     * @param string $sid
-     * @param int $ref_id
-     * @param boolean $attachFileContentsMode
-     *
-     * @return xml following ilias_file_x.dtd
-     */
-
-    public function getFileXML($sid, $ref_id, $attachFileContentsMode)
+    public function getFileXML(string $sid, int $ref_id, int $attachFileContentsMode)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -219,7 +188,6 @@ class ilSoapFileAdministration extends ilSoapAdministration
         $tree = $DIC['tree'];
         $ilLog = $DIC['ilLog'];
         $ilAccess = $DIC['ilAccess'];
-
 
         // get obj_id
         if (!$obj_id = ilObject::_lookupObjectId($ref_id)) {
@@ -251,7 +219,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 
         $file = ilObjectFactory::getInstanceByObjId($obj_id, false);
 
-        if (!is_object($file) || $file->getType()!= "file") {
+        if (!is_object($file) || $file->getType() != "file") {
             return $this->__raiseError(
                 'Wrong obj id or type for File with id ' . $ref_id,
                 'Server'

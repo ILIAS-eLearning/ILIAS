@@ -1014,7 +1014,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 if ($row["type"] != "pg") {
                     if ($row["child"] != $this->lm_tree->getRootId()) {
                         $ilLocator->addItem(
-                            ilUtil::shortenText(
+                            ilStr::shortenTextExtended(
                                 ilStructureObject::_getPresentationTitle(
                                     $row["child"],
                                     ilLMObject::CHAPTER_TITLE,
@@ -1032,7 +1032,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                         );
                     } else {
                         $ilLocator->addItem(
-                            ilUtil::shortenText($this->getLMPresentationTitle(), 50, true),
+                            ilStr::shortenTextExtended($this->getLMPresentationTitle(), 50, true),
                             $this->linker->getLink("layout", 0, $frame_param),
                             $frame_target,
                             $this->requested_ref_id
@@ -1734,7 +1734,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 }
             }
         } else {
-            ilUtil::sendFailure($lng->txt("cont_print_no_page_selected"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_print_no_page_selected"), true);
             $ilCtrl->redirect($this, "showPrintViewSelection");
         }
 
@@ -1952,7 +1952,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 $term = ilGlossaryTerm::_lookGlossaryTerm($link["id"]);
                 $terms[$term . ":" . $key] = array("key" => $key, "link" => $link, "term" => $term);
             }
-            $terms = ilUtil::sortArray($terms, "term", "asc");
+            $terms = ilArrayUtil::sortArray($terms, "term", "asc");
             //ksort($terms);
 
             foreach ($terms as $t) {

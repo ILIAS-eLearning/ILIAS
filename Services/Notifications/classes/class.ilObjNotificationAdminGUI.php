@@ -28,30 +28,30 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->lng->loadLanguageModule('notification');
     }
-    
+
     public static function _forwards()
     {
         return array();
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-    
+
         $this->prepareOutput();
 
         switch ($next_class) {
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
                         default:
                 $this->__initSubTabs();
                 $this->tabs_gui->activateTab("view");
-                            
+
                 if (empty($cmd) || $cmd == 'view') {
                     $cmd = 'showTypes';
                 }
@@ -82,7 +82,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                 // upload file to filesystem
     }
 
-    public function setTabs()
+    public function setTabs() : void
     {
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
 
@@ -99,7 +99,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                 "id_permissions",
                 $this->lng->txt("perm_settings"),
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
-                );
+            );
         }
     }
 
@@ -122,7 +122,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
         );
     }
 
-    public function addLocatorItems()
+    public function addLocatorItems() : void
     {
         if (is_object($this->object)) {
             $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
@@ -171,7 +171,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
              * settings per channel
              */
             $values = $form->store_values;//array('enable_osd', 'osd_polling_intervall', 'enable_mail');
-                
+
             // handle custom channel settings
             foreach ($values as $v) {
                 $settings->set($v, $_POST[$v]);
@@ -191,7 +191,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
         require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
         require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
-            
+
         $form = ilNotificationAdminSettingsForm::getTypeForm(ilNotificationDatabaseHandler::getAvailableTypes());
         $form->setFormAction($this->ctrl->getFormAction($this, 'showTypes'));
         $form->addCommandButton('saveTypes', $this->lng->txt('save'));

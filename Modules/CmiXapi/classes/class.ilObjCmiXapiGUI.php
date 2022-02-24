@@ -50,10 +50,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
     const NEW_OBJ_TITLE = "";
 
-    /**
-     * @var ilObjCmiXapi
-     */
-    public $object;
+    public ?ilObject $object;
 
     /**
      * @var ilCmiXapiAccess
@@ -202,7 +199,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                         $newObject->setSourceType(ilObjCmiXapi::SRC_TYPE_LOCAL);
                     } catch (ilCmiXapiInvalidUploadContentException $e) {
                         $form->getItemByPostVar('uploadfile')->setAlert($e->getMessage());
-                        ilUtil::sendFailure('something went wrong!', true);
+                        $this->tpl->setOnScreenMessage('failure', 'something went wrong!', true);
                         $DIC->ctrl()->redirectByClass(self::class, 'create');
                     }
 
@@ -267,18 +264,12 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $id->save();
     }
 
-    /**
-     * @param string|null $a_sub_type
-     * @param int|null    $a_sub_id
-     * @return null|ilObjectListGUI
-     * @throws ilCtrlException
-     */
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null) : ?ilObjectListGUI
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        $return = parent::initHeaderAction($a_sub_type, $a_sub_id);
+        $return = parent::initHeaderAction($sub_type, $sub_id);
 
         if ($this->creation_mode) {
             return $return;
@@ -311,6 +302,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         /* @var \ILIAS\DI\Container $DIC */
         $err = $DIC['ilErr'];
         /* @var ilErrorHandling $err */
@@ -333,13 +325,10 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         } elseif ($access->checkAccess('visible', '', $id)) {
             ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
         } elseif ($access->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(
-                sprintf(
-                    $DIC->language()->txt('msg_no_perm_read_item'),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($id))
-                ),
-                true
-            );
+            $main_tpl->setOnScreenMessage('info', sprintf(
+                $DIC->language()->txt('msg_no_perm_read_item'),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($id))
+            ), true);
 
             ilObjectGUI::_gotoRepositoryRoot();
         }
@@ -579,10 +568,10 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 $report->getResponseDebug()
             );
             //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
-            ilUtil::sendInfo($linkBuilder->getPipelineDebug());
-            ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), true) . '</pre>');
+            $this->tpl->setOnScreenMessage('info', $linkBuilder->getPipelineDebug());
+            $this->tpl->setOnScreenMessage('question', '<pre>' . print_r($report->getTableData(), true) . '</pre>');
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
         }
     }
 
@@ -806,7 +795,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         /* @var \ILIAS\DI\Container $DIC */
 
         if ($this->object->getLrsType()->getAvailability() == ilCmiXapiLrsType::AVAILABILITY_NONE) {
-            ilUtil::sendFailure($DIC->language()->txt('cmix_lrstype_not_avail_msg'));
+            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('cmix_lrstype_not_avail_msg'));
         }
     }
 
@@ -841,7 +830,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             );
         }
 
-        ilUtil::sendInfo($info);
+        $this->tpl->setOnScreenMessage('info', $info);
     }
 
     protected function fetchXapiStatements() : void
@@ -872,7 +861,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $cmixUser->setFetchUntil($now);
         $cmixUser->save();
 
-        ilUtil::sendSuccess($DIC->language()->txt('xapi_statements_fetched_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $DIC->language()->txt('xapi_statements_fetched_successfully'), true);
         $DIC->ctrl()->redirect($this, self::CMD_INFO_SCREEN);
     }
 

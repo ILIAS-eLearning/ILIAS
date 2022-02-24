@@ -798,7 +798,7 @@ class ilPageObjectGUI
                 $this->setEditorToolContext();
 
                 if (!$this->getEnableEditing()) {
-                    ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirect($this, "preview");
                 }
                 $page_editor = new ilPageEditorGUI($this->getPageObject(), $this);
@@ -1177,7 +1177,7 @@ class ilPageObjectGUI
                 $tpl->setVariable("TXT_LINKED_MOBS", $this->lng->txt("cont_linked_mobs"));
                 $tpl->setVariable(
                     "SEL_MED_LINKS",
-                    ilUtil::formSelect(0, "mob_id", $mob_links, false, true)
+                    ilLegacyFormElementsUtil::formSelect(0, "mob_id", $mob_links, false, true)
                 );
                 $tpl->setVariable("TXT_EDIT_MEDIA", $this->lng->txt("cont_edit_mob"));
                 $tpl->setVariable("TXT_COPY_TO_CLIPBOARD", $this->lng->txt("cont_copy_to_clipboard"));
@@ -1199,7 +1199,7 @@ class ilPageObjectGUI
                 $tpl->setVariable("TXT_CONTENT_SNIPPETS_USED", $this->lng->txt("cont_snippets_used"));
                 $tpl->setVariable(
                     "SEL_SNIPPETS",
-                    ilUtil::formSelect(0, "ci_id", $sn_arr, false, true)
+                    ilLegacyFormElementsUtil::formSelect(0, "ci_id", $sn_arr, false, true)
                 );
                 $tpl->setVariable("TXT_SHOW_INFO", $this->lng->txt("cont_show_info"));
                 $tpl->parseCurrentBlock();
@@ -2264,7 +2264,7 @@ class ilPageObjectGUI
     {
         // editing allowed?
         if (!$this->getEnableEditing()) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "preview");
         }
 
@@ -2275,6 +2275,7 @@ class ilPageObjectGUI
         if ($ptype == "cont" && $this->requested_ref_id > 0) {
             $ptype = ilObject::_lookupType($this->requested_ref_id, true);
         }
+        $this->setScreenIdComponent();
         $this->help->setScreenId("edit_" . $ptype);
 
         // edit lock
@@ -2286,7 +2287,7 @@ class ilPageObjectGUI
             $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
                 ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
             if (!$this->ctrl->isAsynch()) {
-                ilUtil::sendInfo($info);
+                $this->tpl->setOnScreenMessage('info', $info);
                 return;
             } else {
                 echo ilUtil::getSystemMessageHTML($info);
@@ -2751,7 +2752,7 @@ class ilPageObjectGUI
                 );
             }
             $this->getPageObject()->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editActivation");
         }
         $this->form->setValuesByPost();
@@ -2877,7 +2878,7 @@ class ilPageObjectGUI
             $this->request->getString("opened_content_ajax_target")
         );
         
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"));
         $this->ctrl->redirect($this, "edit");
     }
     
@@ -2952,7 +2953,7 @@ class ilPageObjectGUI
     public function releasePageLock() : void
     {
         $this->getPageObject()->releasePageLock();
-        ilUtil::sendSuccess($this->lng->txt("cont_page_lock_released"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_page_lock_released"), true);
         $this->finishEditing();
     }
 

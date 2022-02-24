@@ -33,12 +33,15 @@ class ilLTIConsumerXapiStatementsGUI
      * @var ilLTIConsumerAccess
      */
     protected ilLTIConsumerAccess $access;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * @param ilObjLTIConsumer $object
      */
     public function __construct(ilObjLTIConsumer $object)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
         
         $this->access = ilLTIConsumerAccess::getInstance($this->object);
@@ -95,7 +98,7 @@ class ilLTIConsumerXapiStatementsGUI
             $this->initPeriodFilter($statementsFilter, $table);
             $this->initTableData($table, $statementsFilter);
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
             $table->setData(array());
             $table->setMaxCount(0);
             $table->resetOffset();

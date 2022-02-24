@@ -21,6 +21,8 @@ class ilObjStudyProgrammeTreeGUI
     protected ilSetting $ilSetting;
     protected ilTree $ilTree;
     protected ilRbacAdmin $rbacadmin;
+    protected ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * CSS-ID of the modal windows
@@ -45,7 +47,9 @@ class ilObjStudyProgrammeTreeGUI
         ILIAS $ilias,
         ilSetting $ilSetting,
         ilTree $ilTree,
-        ilRbacAdmin $rbacadmin
+        ilRbacAdmin $rbacadmin,
+        ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
+        ILIAS\Refinery\Factory $refinery
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -57,6 +61,8 @@ class ilObjStudyProgrammeTreeGUI
         $this->ilSetting = $ilSetting;
         $this->ilTree = $ilTree;
         $this->rbacadmin = $rbacadmin;
+        $this->http_wrapper = $http_wrapper;
+        $this->refinery = $refinery;
 
         $this->modal_id = "tree_modal";
         $this->async_output_handler = new ilAsyncOutputHandler();
@@ -156,7 +162,11 @@ class ilObjStudyProgrammeTreeGUI
     {
         $this->checkAccessOrFail('write');
 
-        $treeAsJson = ilUtil::stripSlashes($_POST['tree'] ?? '');
+        $tree = "";
+        if ($this->http_wrapper->post()->has("tree")) {
+            $tree = $this->http_wrapper->post()->retrieve("tree", $this->refinery->kindlyTo()->string());
+        }
+        $treeAsJson = ilUtil::stripSlashes($tree);
         $treeData = json_decode($treeAsJson);
 
         if (!is_array($treeData) || [] === $treeData) {
@@ -231,11 +241,15 @@ class ilObjStudyProgrammeTreeGUI
      */
     protected function createNewLeaf() : string
     {
-        $this->checkAccessOrFail('create', (int) $_POST['parent_id']);
+        $this->checkAccessOrFail('create', $this->http_wrapper->post()->retrieve("parent_id", $this->refinery->kindlyTo()->int()));
 
-        if (isset($_POST['target_id'], $_POST['type'], $_POST['parent_id'])) {
-            $target_id = (int) $_POST['target_id'];
-            $parent_id = (int) $_POST['parent_id'];
+        if (
+            $this->http_wrapper->post()->has("target_id") &&
+            $this->http_wrapper->post()->has("type") &&
+            $this->http_wrapper->post()->has("parent_id")
+        ) {
+            $target_id = $this->http_wrapper->post()->retrieve("target_id", $this->refinery->kindlyTo()->int());
+            $parent_id = $this->http_wrapper->post()->retrieve("parent_id", $this->refinery->kindlyTo()->int());
 
             // TODO: more generic way for implementing different type of leafs
             $course_ref = new ilObjCourseReference();
@@ -267,13 +281,15 @@ class ilObjStudyProgrammeTreeGUI
     protected function getContainerSelectionExplorer(bool $convert_to_string = true)
     {
         $create_leaf_form = new ilAsyncContainerSelectionExplorer(
-            rawurldecode($this->ctrl->getLinkTarget($this, 'createNewLeaf', '', true))
+            rawurldecode($this->ctrl->getLinkTarget($this, 'createNewLeaf', '', true)),
+            $this->refinery,
+            $this->http_wrapper->query()
         );
         $create_leaf_form->setId("select_course_explorer");
 
         $ref_expand = ROOT_FOLDER_ID;
-        if (isset($_GET['ref_repexpand'])) {
-            $ref_expand = (int) $_GET['ref_repexpand'];
+        if ($this->http_wrapper->post()->has("ref_repexpand")) {
+            $ref_expand = $this->http_wrapper->query()->retrieve("ref_repexpand", $this->refinery->kindlyTo()->int());
         }
 
         $create_leaf_form->setExpand($ref_expand);
@@ -315,7 +331,10 @@ class ilObjStudyProgrammeTreeGUI
      */
     protected function create() : void
     {
-        $parent_id = (isset($_GET['ref_id']))? (int) $_GET['ref_id'] : null;
+        $parent_id = null;
+        if ($this->http_wrapper->query()->has("ref_id")) {
+            $this->http_wrapper->query()->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+        }
         $this->checkAccessOrFail('create', $parent_id);
 
         $parent = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($parent_id);
@@ -366,11 +385,11 @@ class ilObjStudyProgrammeTreeGUI
     {
         $this->checkAccessOrFail("delete");
 
-        if (!isset($_GET['ref_id'], $_GET['item_ref_id'])) {
+        if (!$this->http_wrapper->query()->has("ref_id") || !$this->http_wrapper->query()->has("item_ref_id")) {
             throw new ilException("Nothing to delete!");
         }
 
-        $element_ref_id = $_GET['ref_id'];
+        $element_ref_id = $this->http_wrapper->query()->retrieve("ref_id", $this->refinery->kindlyTo()->int());
 
         $cgui = new ilConfirmationGUI();
 
@@ -396,7 +415,10 @@ class ilObjStudyProgrammeTreeGUI
             ilObject::_getIcon($obj_id, "small", $type),
             $alt
         );
-        $cgui->addHiddenItem('item_ref_id', $_GET['item_ref_id']);
+        $cgui->addHiddenItem(
+            'item_ref_id',
+            $this->http_wrapper->query()->retrieve("item_ref_id", $this->refinery->kindlyTo()->int())
+        );
 
         $content = $cgui->getHTML();
 
@@ -415,13 +437,23 @@ class ilObjStudyProgrammeTreeGUI
     {
         $this->checkAccessOrFail("delete");
 
-        if (!isset($_POST['id'], $_POST['item_ref_id']) && is_array($_POST['id'])) {
+        if (
+            (!$this->http_wrapper->post()->has("id") || !$this->http_wrapper->post()->has("item_ref_id")) &&
+            is_array($this->http_wrapper->post()->retrieve(
+                "id",
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            ))
+        ) {
             throw new ilException("No item select for deletion!");
         }
 
-        $ids = $_POST['id'];
-        $current_node = (int) $_POST['item_ref_id'];
+        $ids = $this->http_wrapper->post()->retrieve(
+            "id",
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
+        $current_node = $this->http_wrapper->post()->retrieve("item_ref_id", $this->refinery->kindlyTo()->int());
         $result = true;
+        $msg = '';
 
         foreach ($ids as $id) {
             $obj = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($id);
@@ -505,7 +537,9 @@ class ilObjStudyProgrammeTreeGUI
 
         // init tree selection explorer
         $async_explorer = new ilAsyncContainerSelectionExplorer(
-            rawurldecode($this->ctrl->getLinkTarget($this, 'createNewLeaf', '', true))
+            rawurldecode($this->ctrl->getLinkTarget($this, 'createNewLeaf', '', true)),
+            $this->refinery,
+            $this->http_wrapper->query()
         );
         $async_explorer->initJs();
 

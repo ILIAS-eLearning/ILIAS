@@ -8,15 +8,24 @@
 class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 {
     private ilTestInfoScreenToolbarGUI $testInfoScreenToolbarGUI;
-
+    
+    
     protected function setUp() : void
     {
+        parent::setUp();
+        global $DIC;
+        
+        $this->backup_dic = $DIC;
+        $DIC = new ILIAS\DI\Container([
+            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
+                          ->getMock()
+        ]);
         $db_mock = $this->createMock(ilDBInterface::class);
         $access_mock = $this->createMock(ilAccessHandler::class);
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $lng_mock = $this->createMock(ilLanguage::class);
         $pluginAdmin_mock = $this->createMock(ilPluginAdmin::class);
-
+    
         $this->testInfoScreenToolbarGUI = new ilTestInfoScreenToolbarGUI(
             $db_mock,
             $access_mock,
@@ -25,7 +34,13 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
             $pluginAdmin_mock
         );
     }
-
+    
+    protected function tearDown() : void
+    {
+        global $DIC;
+        $DIC = $this->backup_dic;
+    }
+    
     public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestInfoScreenToolbarGUI::class, $this->testInfoScreenToolbarGUI);

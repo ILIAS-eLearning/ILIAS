@@ -54,7 +54,7 @@ class ilPluginSlotInfoTest extends TestCase
     public function testGetPlugins()
     {
         $plugins = iterator_to_array($this->pluginslot->getPlugins());
-        $this->assertEquals(2, count($plugins));
+        $this->assertCount(2, $plugins);
         $this->assertEquals($this->plugin1, $plugins["plg1"]);
         $this->assertEquals($this->plugin2, $plugins["plg2"]);
     }
@@ -108,7 +108,7 @@ class ilPluginSlotInfoTest extends TestCase
     public function testGetActivePlugins()
     {
         $plugins = iterator_to_array($this->pluginslot->getActivePlugins());
-        $this->assertEquals(1, count($plugins));
+        $this->assertCount(1, $plugins);
         $this->assertEquals($this->plugin1, $plugins["plg1"]);
     }
 

@@ -11,6 +11,7 @@
 class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
 {
     protected int $exc_id;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         object $a_parent_obj,
@@ -18,6 +19,7 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
         int $a_exc_id
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -76,7 +78,7 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
         }
         
         if (sizeof($protected)) {
-            ilUtil::sendInfo($lng->txt("exc_crit_cat_protected_assignment_info"));
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("exc_crit_cat_protected_assignment_info"));
         }
         
         $pos = 0;

@@ -55,9 +55,15 @@ class ilCmiXapiPlaceholderDescription implements ilCertificatePlaceholderDescrip
 
         $this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
-        $this->placeholder['OBJECT_TITLE'] = ilUtil::prepareFormOutput($this->language->txt('cmix_cert_ph_object_title'));
-        $this->placeholder['OBJECT_DESCRIPTION'] = ilUtil::prepareFormOutput($this->language->txt('cmix_cert_ph_object_description'));
-        $this->placeholder['REACHED_SCORE'] = ilUtil::prepareFormOutput($this->language->txt('cmix_cert_ph_reached_score'));
+        $this->placeholder['OBJECT_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('cmix_cert_ph_object_title')
+        );
+        $this->placeholder['OBJECT_DESCRIPTION'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('cmix_cert_ph_object_description')
+        );
+        $this->placeholder['REACHED_SCORE'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('cmix_cert_ph_reached_score')
+        );
     }
 
     /**

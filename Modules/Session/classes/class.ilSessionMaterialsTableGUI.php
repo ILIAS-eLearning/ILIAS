@@ -122,7 +122,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
             $materials[] = $node;
         }
 
-        $materials = ilUtil::sortArray($materials, "sorthash", "ASC");
+        $materials = ilArrayUtil::sortArray($materials, "sorthash", "ASC");
 
         if (!empty($this->filter)) {
             $materials = $this->filterData($materials);
@@ -186,7 +186,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon('', 'tiny', $a_set['type']));
+        $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon(0, 'tiny', $a_set['type']));
         $this->tpl->setVariable('IMG_ALT', $this->lng->txt('obj_' . $a_set['type']));
 
         $this->tpl->setVariable("VAL_POSTNAME", "items");

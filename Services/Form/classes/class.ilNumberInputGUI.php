@@ -258,7 +258,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 
         if (strlen($this->getValue())) {
             $tpl->setCurrentBlock("prop_number_propval");
-            $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
             $tpl->parseCurrentBlock();
         }
         $tpl->setCurrentBlock("prop_number");

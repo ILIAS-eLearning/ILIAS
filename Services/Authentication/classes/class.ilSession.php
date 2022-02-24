@@ -18,7 +18,6 @@
 * @author Alex Killing <alex.killing@gmx.de>
 *
 * @externalTableAccess ilObjUser on usr_session
-* @ingroup ServicesAuthentication
 */
 class ilSession
 {
@@ -359,7 +358,8 @@ class ilSession
             return time() + self::getIdleValue($fixedMode);
         } elseif ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) == (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
             // load dependent session settings
-            return time() + (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
+            $max_idle = $ilSetting->get('session_max_idle') ?? ilSessionControl::DEFAULT_MAX_IDLE;
+            return time() + (int) $max_idle * 60;
         }
     }
 

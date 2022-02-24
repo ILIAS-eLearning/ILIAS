@@ -312,7 +312,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         }
 
         if (!$ok) {
-            ilUtil::sendFailure($this->lng->txt("mob_no_fixed_size_map_editing"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("mob_no_fixed_size_map_editing"));
         }
     }
 
@@ -493,7 +493,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             $this->content_obj->updateObjectReference();
             $this->updated = $this->pg_obj->update();
         } else {
-            ilUtil::sendInfo($lng->txt("cont_select_max_one_item"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("cont_select_max_one_item"), true);
             $ilCtrl->redirect($this, "changeObjectReference");
         }
         $ilCtrl->redirect($this, "editAlias");
@@ -558,7 +558,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $this->content_obj->setHierId($this->content_obj->readHierId());
                 $this->setHierId($this->content_obj->readHierId());
                 $this->content_obj->setPcId($this->content_obj->readPCId());
-                ilUtil::sendSuccess($lng->txt("saved_media_object"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("saved_media_object"), true);
                 $this->ctrl->redirectByClass("ilobjmediaobjectgui", "edit");
 
             //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -1100,7 +1100,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editAlias");
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
         } else {
@@ -1117,7 +1117,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $ilUser = $this->user;
 
         $ilUser->addObjectToClipboard($this->content_obj->getMediaObject()->getId(), $this->content_obj->getMediaObject()->getType(), $this->content_obj->getMediaObject()->getTitle());
-        ilUtil::sendSuccess($this->lng->txt("copied_to_clipboard"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("copied_to_clipboard"), true);
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 

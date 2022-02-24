@@ -73,7 +73,7 @@ class ilLearningModuleNotification
         // #11138  //only comment implemented so always true.
         $ignore_threshold = ($this->action == self::ACTION_COMMENT);
 
-        $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_LM, $lm_id, "", $ignore_threshold);
+        $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_LM, $lm_id, null, $ignore_threshold);
 
         if ($this->type == ilNotification::TYPE_LM_PAGE) {
             $page_users = ilNotification::getNotificationsForObject($this->type, $this->page_id, null, $ignore_threshold);
@@ -117,7 +117,7 @@ class ilLearningModuleNotification
         // #15192 - should always be present
         if ($this->page_id) {
             // #18804 - see ilWikiPageGUI::preview()
-            return ilLink::_getLink("", "pg", null, $this->page_id . "_" . $this->lm_ref_id);
+            return ilLink::_getLink(null, "pg", [], $this->page_id . "_" . $this->lm_ref_id);
         }
 
         return ilLink::_getLink($this->lm_ref_id);

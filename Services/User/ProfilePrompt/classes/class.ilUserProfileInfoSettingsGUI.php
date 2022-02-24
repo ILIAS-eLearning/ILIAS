@@ -182,7 +182,7 @@ class ilUserProfileInfoSettingsGUI
                 $setting->set("user_profile_info_".$l, $form->getInput("user_profile_info_text_".$l));
             }*/
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ctrl->redirect($this, "show");
         } else {
             $form->setValuesByPost();

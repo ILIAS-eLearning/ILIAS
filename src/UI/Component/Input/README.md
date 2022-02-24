@@ -12,9 +12,9 @@ blocks:
   the fields are displayed together.
 * A *constraint* puts some restriction on the values supplied by the user.
   Constraints can also be used independently from the UI-framework, as they are
-  [implemented in their own library](src/Validation/README.md).
+  [implemented in the Refinery](src/Refinery/README.md).
 * A *transformation* defines, how a value supplied by the user should be processed.
-  Like constraints, transformations are [implemented in their own library](src/Transformation/README.md)
+  Like constraints, transformations are [implemented in the Refinery](src/Refinery/README.md)
   and can thus be used independently from the UI-framework.
 
 To create a form, the developer uses fields from the UI-framework. She may then

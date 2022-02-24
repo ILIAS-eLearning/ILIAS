@@ -161,8 +161,12 @@ class ilCalendarViewGUI
                         break;
 
                     case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
-                        $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_HALF_YEAR, $user,
-                            true);
+                        $schedule = new ilCalendarSchedule(
+                            $this->seed,
+                            ilCalendarSchedule::TYPE_HALF_YEAR,
+                            $user,
+                            true
+                        );
                         $end_date->increment(IL_CAL_MONTH, 6);
                         break;
                     default:
@@ -241,8 +245,10 @@ class ilCalendarViewGUI
                 //plugins can change the modal title.
                 $modal_title = ilDatePresentation::formatPeriod($dates["start"], $dates["end"]);
                 $modal_title = $this->getModalTitleByPlugins($modal_title);
-                $modal = $this->ui_factory->modal()->roundtrip($modal_title,
-                    $this->ui_factory->legacy($content))->withCancelButtonLabel("close");
+                $modal = $this->ui_factory->modal()->roundtrip(
+                    $modal_title,
+                    $this->ui_factory->legacy($content)
+                )->withCancelButtonLabel("close");
                 echo $this->ui_renderer->renderAsync($modal);
             }
         }
@@ -324,8 +330,10 @@ class ilCalendarViewGUI
             $plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date, IL_CAL_UNIX));
 
             if ($new_title = $plugin->editShyButtonTitle()) {
-                $a_tpl->setVariable('EVENT_CONTENT',
-                    $this->getAppointmentShyButton($a_cal_entry, (string) $a_start_date, $new_title));
+                $a_tpl->setVariable(
+                    'EVENT_CONTENT',
+                    $this->getAppointmentShyButton($a_cal_entry, (string) $a_start_date, $new_title)
+                );
             }
 
             if ($glyph = $plugin->addGlyph()) {
@@ -387,7 +395,7 @@ class ilCalendarViewGUI
         $download_job->setBucketTitle($this->getBucketTitle());
         $download_job->setEvents($this->getEvents());
         if ($download_job->run()) {
-            ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('cal_download_files_started'), true);
         }
         $this->ctrl->redirect($this);
     }

@@ -850,10 +850,10 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             if ($ilUser && $ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID) {
                 $user_id = $ilUser->getId();
             }
-                        
+
             $result = array();
             $cnt = 0;
-            
+
             // term is searched in ALL interest fields, no distinction
             foreach (ilObjUser::findInterests($a_term, $ilUser->getId()) as $item) {
                 $result[$cnt] = new stdClass();
@@ -861,7 +861,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 $result[$cnt]->label = $item;
                 $cnt++;
             }
-            
+
             // :TODO: search in skill data
             /*
             foreach (ilSkillTreeNode::findSkills($a_term) as $skill) {

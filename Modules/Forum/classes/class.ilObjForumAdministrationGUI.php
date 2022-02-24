@@ -12,7 +12,7 @@
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
     private \ILIAS\DI\RBACServices $rbac;
-    private ilErrorHandling $error;
+    protected ilErrorHandling $error;
     private ilCronManager $cronManager;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
@@ -31,7 +31,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('forum');
     }
 
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         if (!$this->rbac->system()->checkAccess('visible,read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -56,8 +56,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
     public function getAdminTabs() : void
@@ -118,7 +116,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->settings->set('autosave_drafts', (string) $form->getInput('autosave_drafts'));
         $this->settings->set('autosave_drafts_ival', (string) $form->getInput('autosave_drafts_ival'));
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $form->setValuesByPost();
         $this->editSettings($form);
     }

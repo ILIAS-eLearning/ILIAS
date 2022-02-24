@@ -133,7 +133,7 @@ class ilBookingProcessGUI
     protected function checkPermission(string $a_perm) : void
     {
         if (!$this->checkPermissionBool($a_perm)) {
-            ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
             $this->back();
         }
     }
@@ -273,8 +273,8 @@ class ilBookingProcessGUI
                 $date_info = $date->get(IL_CAL_FKT_GETDATE, '', 'UTC');
 
                 $mytpl->setCurrentBlock('weekdays');
-                $mytpl->setVariable('TXT_WEEKDAY', ilCalendarUtil:: _numericDayToString((int) $date_info['wday']));
-                $mytpl->setVariable('TXT_DATE', $date_info['mday'] . ' ' . ilCalendarUtil:: _numericMonthToString($date_info['mon']));
+                $mytpl->setVariable('TXT_WEEKDAY', ilCalendarUtil::_numericDayToString((int) $date_info['wday']));
+                $mytpl->setVariable('TXT_DATE', $date_info['mday'] . ' ' . ilCalendarUtil::_numericMonthToString($date_info['mon']));
                 $mytpl->parseCurrentBlock();
             }
 
@@ -562,9 +562,9 @@ class ilBookingProcessGUI
         }
 
         if (sizeof($rsv_ids)) {
-            ilUtil::sendSuccess("booking_multiple_succesfully");
+            $this->tpl->setOnScreenMessage('success', "booking_multiple_succesfully");
         } else {
-            ilUtil::sendFailure($this->lng->txt('book_reservation_failed_overbooked'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('book_reservation_failed_overbooked'), true);
         }
         $this->back();
     }
@@ -590,7 +590,7 @@ class ilBookingProcessGUI
                         $success = $object_id;
                     } else {
                         // #11852
-                        ilUtil::sendFailure($this->lng->txt('book_reservation_failed_overbooked'), true);
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('book_reservation_failed_overbooked'), true);
                         $this->ctrl->redirect($this, 'back');
                     }
                 }
@@ -598,7 +598,7 @@ class ilBookingProcessGUI
         } else {
             $dates = $this->book_request->getDates();
             if (count($dates) == 0) {
-                ilUtil::sendFailure($this->lng->txt('select_one'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
                 $this->book();
                 return false;
             }
@@ -639,7 +639,7 @@ class ilBookingProcessGUI
             $this->saveParticipant();
             $this->handleBookingSuccess($success, $rsv_ids);
         } else {
-            ilUtil::sendFailure($this->lng->txt('book_reservation_failed'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('book_reservation_failed'), true);
             $this->ctrl->redirect($this, 'book');
         }
         return true;
@@ -909,7 +909,7 @@ class ilBookingProcessGUI
                 $this->saveParticipant();
                 $this->handleBookingSuccess($success, $rsv_ids);
             } else {
-                ilUtil::sendFailure($this->lng->txt('book_reservation_failed'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('book_reservation_failed'), true);
                 $this->back();
             }
         } else {
@@ -971,7 +971,7 @@ class ilBookingProcessGUI
         int $a_obj_id,
         array $a_rsv_ids = null
     ) : void {
-        ilUtil::sendSuccess($this->lng->txt('book_reservation_confirmed'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('book_reservation_confirmed'), true);
 
         // show post booking information?
         $obj = new ilBookingObject($a_obj_id);

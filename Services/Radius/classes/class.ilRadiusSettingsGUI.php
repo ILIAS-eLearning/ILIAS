@@ -67,7 +67,7 @@ class ilRadiusSettingsGUI
         
         if (!$this->rbacsystem->checkAccess("visible,read", $this->ref_id)) {
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->WARNING);
-            $this->ctrl()->redirect($this, "settings");
+            $this->ctrl->redirect($this, "settings");
         }
 
         switch ($next_class) {
@@ -233,17 +233,17 @@ class ilRadiusSettingsGUI
         $this->settings->enableCreation($_POST['sync'] == ilRadiusSettings::SYNC_RADIUS ? true : false);
 
         if (!$this->settings->validateRequired()) {
-            ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("fill_out_all_required_fields"));
             $this->settings();
             return false;
         }
         if (!$this->settings->validatePort()) {
-            ilUtil::sendFailure($this->lng->txt("err_invalid_port"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_invalid_port"));
             $this->settings();
             return false;
         }
         if (!$this->settings->validateServers()) {
-            ilUtil::sendFailure($this->lng->txt("err_invalid_server"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_invalid_server"));
             $this->settings();
             return false;
         }
@@ -259,7 +259,7 @@ class ilRadiusSettingsGUI
 
             case ilRadiusSettings::SYNC_LDAP:
                 if (!(int) $_REQUEST['ldap_sid']) {
-                    ilUtil::sendFailure($this->lng->txt('err_check_input'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
                     $this->settings();
                     return false;
                 }
@@ -269,7 +269,7 @@ class ilRadiusSettingsGUI
         }
 
         $this->settings->save();
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->settings();
         return true;
     }

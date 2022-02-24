@@ -162,7 +162,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
                     $tpl->setContent($this->ui->renderer()->render($form));
                     return;
                 }
-                ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             }
         }
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
@@ -219,7 +219,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
                     $tpl->setContent($this->ui->renderer()->render($form));
                     return;
                 }
-                ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             }
         }
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
@@ -303,7 +303,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         }
 
         if ($this->record_gui->writeEditForm()) {
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }

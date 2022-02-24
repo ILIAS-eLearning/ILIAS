@@ -86,7 +86,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         for ($i = 0; $i <= 24; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }
-        return ilUtil::formSelect($sel_month, $this->getPostVar() . '[mo]', $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($sel_month, $this->getPostVar() . '[mo]', $options, false, true);
     }
 
     public function __buildDaysSelect(string $sel_day) : string
@@ -95,7 +95,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         for ($i = 0; $i <= 31; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }
-        return ilUtil::formSelect($sel_day, $this->getPostVar() . '[d]', $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($sel_day, $this->getPostVar() . '[d]', $options, false, true);
     }
 
     public function insert(ilTemplate $a_tpl) : void
@@ -110,14 +110,16 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         $ttpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
         $ttpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
 
-        $ttpl->setVariable("SEL_TLT", ilUtil::makeTimeSelect(
-            $this->getPostVar(),
-            $val[4] ? false : true,
-            $val[2],
-            $val[3],
-            $val[4],
-            false
-        ));
+        $ttpl->setVariable("SEL_TLT",
+            ilLegacyFormElementsUtil::makeTimeSelect(
+                $this->getPostVar(),
+                $val[4] ? false : true,
+                $val[2],
+                $val[3],
+                $val[4],
+                false
+            )
+        );
         $ttpl->setVariable("TLT_HINT", $val[4] ? '(hh:mm:ss)' : '(hh:mm)');
 
         if (!$this->valid) {

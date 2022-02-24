@@ -389,9 +389,7 @@ class ilOpenIdConnectSettingsGUI
 
         $form = $this->initSettingsForm();
         if (!$form->checkInput()) {
-            ilUtil::sendFailure(
-                $this->lng->txt('err_check_input')
-            );
+            $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $form->setValuesByPost();
             $this->settings($form);
             return;
@@ -408,9 +406,7 @@ class ilOpenIdConnectSettingsGUI
 
         $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
         if (!empty($invalid_scopes)) {
-            ilUtil::sendFailure(
-                sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes))
-            );
+            $this->mainTemplate->setOnScreenMessage('failure', sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes)));
             $form->setValuesByPost();
             $this->settings($form);
             return;
@@ -441,7 +437,7 @@ class ilOpenIdConnectSettingsGUI
 
         $this->settings->save();
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'settings');
     }
 
@@ -551,7 +547,7 @@ class ilOpenIdConnectSettingsGUI
 
         $form = $this->initProfileForm();
         if (!$form->checkInput()) {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $form->setValuesByPost();
             $this->profile($form);
             return false;
@@ -568,7 +564,7 @@ class ilOpenIdConnectSettingsGUI
             );
         }
         $this->settings->save();
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::STAB_PROFILE);
     }
 
@@ -652,19 +648,19 @@ class ilOpenIdConnectSettingsGUI
 
             if (!$role_valid) {
                 $form->setValuesByPost();
-                \ilUtil::sendFailure($this->lng->txt('err_check_input'));
+                $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
                 $this->roles($form);
                 return;
             }
 
             $this->settings->setRoleMappings($role_settings);
             $this->settings->save();
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'roles');
         }
 
         $form->setValuesByPost();
-        \ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->roles($form);
     }
 

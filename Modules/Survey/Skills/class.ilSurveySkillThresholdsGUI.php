@@ -118,7 +118,7 @@ class ilSurveySkillThresholdsGUI
                     (int) $t
                 );
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), 1);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), 1);
         }
         
         $ilCtrl->redirect($this, "listSkillThresholds");

@@ -19,11 +19,7 @@
  */
 abstract class ilUDFDefinitionPlugin extends ilPlugin
 {
-    public const UDF_SLOT = 'UDFDefinition';
     public const UDF_SLOT_ID = 'udfd';
-    public const UDF_C_NAME = 'User';
-    public const UDF_C_TYPE = IL_COMP_SERVICE;
-
     abstract public function getDefinitionType() : int;
     
     abstract public function getDefinitionTypeName() : string;

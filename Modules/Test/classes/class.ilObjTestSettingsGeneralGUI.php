@@ -117,7 +117,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         // allow only write access
 
         if (!$this->access->checkAccess("write", "", $this->testGUI->ref_id)) {
-            ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
             $this->ctrl->redirect($this->testGUI, "infoScreen");
         }
         
@@ -213,7 +213,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $_FILES['tile_image'] = array(
                 'name' => '', 'type' => '', 'size' => '', 'tmp_name' => '', 'error' => ''
             );
-            
+
             // TODO: get rid of question selection mode setting in settings form (move to creation screen)
         }
 
@@ -225,7 +225,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         // return to form when any form validation errors exist
 
         if ($errors) {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             return $this->showFormCmd($form);
         }
         
@@ -237,7 +237,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
                 $this->lng->txt("cannot_switch_to_online_no_questions_andor_no_mark_steps")
             );
 
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             return $this->showFormCmd($form);
         }
         
@@ -250,7 +250,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $qstSetSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             $qTitleSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             
-            ilUtil::sendFailure($this->lng->txt('tst_settings_conflict_message'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_conflict_message'));
             return $this->showFormCmd($form);
         }
         
@@ -263,7 +263,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $obligationsSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             $answerFixationSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             
-            ilUtil::sendFailure($this->lng->txt('tst_settings_conflict_message'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_conflict_message'));
             return $this->showFormCmd($form);
         }
         
@@ -277,7 +277,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $postponeSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             $answerFixationSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             
-            ilUtil::sendFailure($this->lng->txt('tst_settings_conflict_message'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_conflict_message'));
             return $this->showFormCmd($form);
         }
         
@@ -291,7 +291,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $shuffleSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             $answerFixationSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             
-            ilUtil::sendFailure($this->lng->txt('tst_settings_conflict_message'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_conflict_message'));
             return $this->showFormCmd($form);
         }
 
@@ -374,10 +374,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         // redirect to form output
 
         if (count($infoMsg)) {
-            ilUtil::sendInfo(implode('<br />', $infoMsg), true);
+            $this->tpl->setOnScreenMessage('info', implode('<br />', $infoMsg), true);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }
 
@@ -404,7 +404,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $this->testOBJ->setTemplate(null);
         $this->testOBJ->saveToDB();
 
-        ilUtil::sendSuccess($this->lng->txt("test_template_reset"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("test_template_reset"), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }
 

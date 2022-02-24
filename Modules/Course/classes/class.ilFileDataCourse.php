@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,49 +21,39 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* This class handles all operations of archive files for the course object
-*
-* @author	Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*/
-                
+ * This class handles all operations of archive files for the course object
+ * @author    Stefan Meyer <meyer@leifos.com>
+ */
 class ilFileDataCourse extends ilFileData
 {
-    /**
-    * path of exercise directory
-    * @var string path
-    * @access private
-    */
-    public $course_path;
+    private string $course_path;
+    private int $course_id;
 
-    private $course_id;
+    protected ilErrorHandling $error;
 
     /**
-     * Constructor
-     * call base constructors
-     * checks if directory is writable and sets the optional obj_id
-     * @param int obj_id
-     * @access	public
+     * @inheritDoc
      */
-    public function __construct($a_course_id)
+    public function __construct(int $a_course_id)
     {
+        global $DIC;
+
+        $this->error = $DIC['ilErr'];
+
         define('COURSE_PATH', 'course');
+
         parent::__construct();
         $this->course_path = parent::getPath() . "/" . COURSE_PATH;
         $this->course_id = $a_course_id;
-    
-        // IF DIRECTORY ISN'T CREATED CREATE IT
+
         if (!$this->__checkPath()) {
             $this->__initDirectory();
         }
-        // Check import dir
         $this->__checkImportPath();
     }
-    
-    public function getArchiveFile($a_rel_name)
+
+    public function getArchiveFile($a_rel_name) : string
     {
         if (@file_exists($this->course_path . '/' . $a_rel_name . '.zip')) {
             return $this->course_path . '/' . $a_rel_name . '.zip';
@@ -71,16 +61,10 @@ class ilFileDataCourse extends ilFileData
         if (@file_exists($this->course_path . '/' . $a_rel_name . '.pdf')) {
             return $this->course_path . '/' . $a_rel_name . '.pdf';
         }
-        return false;
+        return '';
     }
-    
-    /**
-     * Get all member export files
-     *
-     * @access public
-     *
-     */
-    public function getMemberExportFiles()
+
+    public function getMemberExportFiles() : array
     {
         $files = array();
         $dp = opendir($this->course_path);
@@ -89,23 +73,24 @@ class ilFileDataCourse extends ilFileData
             if (is_dir($file)) {
                 continue;
             }
-            
-            if (preg_match("/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/", $file, $matches) and $matches[3] == $this->course_id) {
+
+            if (preg_match("/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/", $file,
+                    $matches) and $matches[3] == $this->course_id) {
                 $timest = $matches[1];
                 $file_info['name'] = $matches[0];
                 $file_info['timest'] = $matches[1];
                 $file_info['type'] = $matches[2];
                 $file_info['id'] = $matches[3];
                 $file_info['size'] = filesize($this->course_path . '/' . $file);
-                
+
                 $files[$timest] = $file_info;
             }
         }
         closedir($dp);
-        return $files ? $files : array();
+        return $files;
     }
-    
-    public function deleteMemberExportFile($a_name)
+
+    public function deleteMemberExportFile(string $a_name) : void
     {
         $file_name = $this->course_path . '/' . $a_name;
         if (@file_exists($file_name)) {
@@ -113,43 +98,43 @@ class ilFileDataCourse extends ilFileData
         }
     }
 
-    public function getMemberExportFile($a_name)
+    public function getMemberExportFile(string $a_name) : string
     {
         $file_name = $this->course_path . '/' . $a_name;
         if (@file_exists($file_name)) {
             return file_get_contents($file_name);
         }
+        return '';
     }
 
-
-    public function deleteArchive($a_rel_name)
+    public function deleteArchive(string $a_rel_name) : void
     {
         $this->deleteZipFile($this->course_path . '/' . $a_rel_name . '.zip');
         $this->deleteDirectory($this->course_path . '/' . $a_rel_name);
         $this->deleteDirectory(CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
         $this->deletePdf($this->course_path . '/' . $a_rel_name . '.pdf');
-
-        return true;
     }
-    public function deleteZipFile($a_abs_name)
+
+    public function deleteZipFile(string $a_abs_name) : bool
     {
         if (@file_exists($a_abs_name)) {
             @unlink($a_abs_name);
-
             return true;
         }
         return false;
     }
-    public function deleteDirectory($a_abs_name)
+
+    public function deleteDirectory(string $a_abs_name) : bool
     {
         if (file_exists($a_abs_name)) {
             ilFileUtils::delDir($a_abs_name);
-            
+
             return true;
         }
         return false;
     }
-    public function deletePdf($a_abs_name)
+
+    public function deletePdf(string $a_abs_name) : bool
     {
         if (@file_exists($a_abs_name)) {
             @unlink($a_abs_name);
@@ -159,7 +144,7 @@ class ilFileDataCourse extends ilFileData
         return false;
     }
 
-    public function copy($a_from, $a_to)
+    public function copy(string $a_from, string $a_to) : bool
     {
         if (@file_exists($a_from)) {
             @copy($a_from, $this->getCoursePath() . '/' . $a_to);
@@ -169,106 +154,52 @@ class ilFileDataCourse extends ilFileData
         return false;
     }
 
-    public function rCopy($a_from, $a_to)
+    public function rCopy(string $a_from, string $a_to) : bool
     {
         ilFileUtils::rCopy($a_from, $this->getCoursePath() . '/' . $a_to);
-
         return true;
     }
 
-
-    public function addDirectory($a_rel_name)
+    public function addDirectory(string $a_rel_name) : bool
     {
         ilFileUtils::makeDir($this->getCoursePath() . '/' . $a_rel_name);
-
         return true;
     }
 
-    public function writeToFile($a_data, $a_rel_name)
+    public function writeToFile(string $a_data, string $a_rel_name) : bool
     {
         if (!$fp = @fopen($this->getCoursePath() . '/' . $a_rel_name, 'w+')) {
             die("Cannot open file: " . $this->getCoursePath() . '/' . $a_rel_name);
         }
         @fwrite($fp, $a_data);
-
         return true;
     }
 
-    public function zipFile($a_rel_name, $a_zip_name)
+    public function zipFile(string $a_rel_name, string $a_zip_name) : int
     {
         ilFileUtils::zip($this->getCoursePath() . '/' . $a_rel_name, $this->getCoursePath() . '/' . $a_zip_name);
 
         // RETURN filesize
-        return filesize($this->getCoursePath() . '/' . $a_zip_name);
+        return (int) filesize($this->getCoursePath() . '/' . $a_zip_name);
     }
 
-
-    /**
-    * get exercise path
-    * @access	public
-    * @return string path
-    */
-    public function getCoursePath()
+    public function getCoursePath() : string
     {
         return $this->course_path;
     }
 
-    public function createOnlineVersion($a_rel_name)
+    public function createOnlineVersion(string $a_rel_name) : bool
     {
         ilFileUtils::makeDir(CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
         ilFileUtils::rCopy($this->getCoursePath() . '/' . $a_rel_name, CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
-
         return true;
     }
 
-    public function getOnlineLink($a_rel_name)
+    public function getOnlineLink(string $a_rel_name) : string
     {
         return ilFileUtils::getWebspaceDir('filesystem') . '/courses/' . $a_rel_name . '/index.html';
     }
 
-
-    // METHODS FOR XML IMPORT OF COURSE
-    public function createImportFile($a_tmp_name, $a_name)
-    {
-        ilFileUtils::makeDir($this->getCoursePath() . '/import/crs_' . $this->course_id);
-
-        ilFileUtils::moveUploadedFile(
-            $a_tmp_name,
-            $a_name,
-            $this->getCoursePath() . '/import/crs_' . $this->course_id . '/' . $a_name
-        );
-        $this->import_file_info = pathinfo($this->getCoursePath() . '/import/crs_' . $this->course_id . '/' . $a_name);
-    }
-
-    public function unpackImportFile()
-    {
-        return ilFileUtils::unzip($this->getCoursePath() . '/import/crs_' . $this->course_id . '/' . $this->import_file_info['basename']);
-    }
-
-    public function validateImportFile()
-    {
-        if (!is_dir($this->getCoursePath() . '/import/crs_' . $this->course_id) . '/' .
-           basename($this->import_file_info['basename'], '.zip')) {
-            return false;
-        }
-        if (!file_exists($this->getCoursePath() . '/import/crs_' . $this->course_id
-                        . '/' . basename($this->import_file_info['basename'], '.zip')
-                        . '/' . basename($this->import_file_info['basename'], '.zip') . '.xml')) {
-            return false;
-        }
-    }
-
-    public function getImportFile()
-    {
-        return $this->getCoursePath() . '/import/crs_' . $this->course_id
-            . '/' . basename($this->import_file_info['basename'], '.zip')
-            . '/' . basename($this->import_file_info['basename'], '.zip') . '.xml';
-    }
-    
-
-
-
-    // PRIVATE METHODS
     public function __checkPath()
     {
         if (!@file_exists($this->getCoursePath())) {
@@ -278,12 +209,11 @@ class ilFileDataCourse extends ilFileData
             ilFileUtils::makeDir(CLIENT_WEB_DIR . '/courses');
         }
 
-            
         $this->__checkReadWrite();
 
         return true;
     }
-    
+
     public function __checkImportPath()
     {
         if (!@file_exists($this->getCoursePath() . '/import')) {
@@ -291,36 +221,25 @@ class ilFileDataCourse extends ilFileData
         }
 
         if (!is_writable($this->getCoursePath() . '/import') or !is_readable($this->getCoursePath() . '/import')) {
-            $this->ilias->raiseError("Course import path is not readable/writable by webserver", $this->ilias->error_obj->FATAL);
+            $this->error->raiseError("Course import path is not readable/writable by webserver", $this->error->FATAL);
         }
     }
 
-    /**
-    * check if directory is writable
-    * overwritten method from base class
-    * @access	private
-    * @return bool
-    */
     public function __checkReadWrite()
     {
         if (is_writable($this->course_path) && is_readable($this->course_path)) {
             return true;
         } else {
-            $this->ilias->raiseError("Course directory is not readable/writable by webserver", $this->ilias->error_obj->FATAL);
+            $this->error->raiseError("Course directory is not readable/writable by webserver", $this->error->FATAL);
         }
+        return false;
     }
-    /**
-    * init directory
-    * overwritten method
-    * @access	public
-    * @return string path
-    */
-    public function __initDirectory()
+
+    public function __initDirectory() : bool
     {
         if (is_writable($this->getPath())) {
             ilFileUtils::makeDir($this->getPath() . '/' . COURSE_PATH);
             $this->course_path = $this->getPath() . '/' . COURSE_PATH;
-            
             return true;
         }
         return false;

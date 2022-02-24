@@ -32,12 +32,14 @@ class ilPortfolioExerciseGUI
     protected string $file;
     protected ilPortfolioExercise $pe;
     protected \ILIAS\DI\UIServices $ui;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
         int $a_user_id,
         int $a_obj_id
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -285,7 +287,7 @@ class ilPortfolioExerciseGUI
         $exc_gui = ilExSubmissionObjectGUI::initGUIForSubmit($this->ass_id);
         $exc_gui->submitPortfolio($this->obj_id);
         
-        ilUtil::sendSuccess($lng->txt("prtf_finalized"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("prtf_finalized"), true);
         $ilCtrl->returnToParent($this);
     }
 

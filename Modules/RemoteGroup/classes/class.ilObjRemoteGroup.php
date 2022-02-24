@@ -41,12 +41,12 @@ class ilObjRemoteGroup extends ilRemoteObjectBase
         $this->type = "rgrp";
     }
     
-    protected function getTableName()
+    protected function getTableName() : string
     {
         return self::DB_TABLE_NAME;
     }
     
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return "/campusconnect/groups";
     }
@@ -142,7 +142,7 @@ class ilObjRemoteGroup extends ilRemoteObjectBase
         return false;
     }
     
-    protected function doCreateCustomFields(array &$a_fields)
+    protected function doCreateCustomFields(array &$a_fields) : void
     {
         $a_fields["availability_type"] = array("integer", 0);
         $a_fields["availability_start"] = array("integer", 0);
@@ -167,7 +167,7 @@ class ilObjRemoteGroup extends ilRemoteObjectBase
     {
         // add custom values
         // $this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);
-        
+
         // :TODO: ACTIVATION_LIMITED is currently not supported in ECS yet
     }
 }

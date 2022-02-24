@@ -78,6 +78,7 @@ abstract class AbstractUIModifier implements UIModifier
         );
 
         $this->addExportAndPrintButton(
+            $survey,
             $toolbar,
             false
         );
@@ -142,12 +143,14 @@ abstract class AbstractUIModifier implements UIModifier
         $toolbar->addSeparator();
 
         $this->addExportAndPrintButton(
+            $survey,
             $toolbar,
             true
         );
     }
 
     protected function addExportAndPrintButton(
+        \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         bool $details
     ) : void {
@@ -163,11 +166,33 @@ abstract class AbstractUIModifier implements UIModifier
 
         $toolbar->addSeparator();
 
+        if ($details) {
+            $pv = $this->service->gui()->print()->resultsDetails($survey->getRefId());
+            $modal_elements = $pv->getModalElements(
+                $this->service->gui()->ctrl()->getLinkTargetByClass(
+                    "ilSurveyEvaluationGUI",
+                    "printResultsDetailsSelection"
+                )
+            );
+        } else {
+            $pv = $this->service->gui()->print()->resultsOverview($survey->getRefId());
+            $modal_elements = $pv->getModalElements(
+                $this->service->gui()->ctrl()->getLinkTargetByClass(
+                    "ilSurveyEvaluationGUI",
+                    "printResultsOverviewSelection"
+                )
+            );
+        }
+
+        $toolbar->addComponent($modal_elements->button);
+        $toolbar->addComponent($modal_elements->modal);
+
+        /*
         $button = \ilLinkButton::getInstance();
         $button->setCaption("print");
         $button->setOnClick("if(il.Accordion) { il.Accordion.preparePrint(); } window.print(); return false;");
         $button->setOmitPreventDoubleSubmission(true);
-        $toolbar->addButtonInstance($button);
+        $toolbar->addButtonInstance($button);*/
 
         $toolbar->addText($modal);
     }
@@ -425,11 +450,6 @@ abstract class AbstractUIModifier implements UIModifier
                 }
             } else {
                 $acc = new \ilAccordionGUI();
-                // patch BGHW: fixed accordion in pdf output
-                /*
-                if ($_GET["pdf"] == 1) {
-                    $acc->setBehaviour(\ilAccordionGUI::FORCE_ALL_OPEN);
-                }*/
                 $acc->setId("svyevaltxt" . $question->getId());
 
                 $a_tpl->setVariable("TEXT_HEADING", $lng->txt("freetext_answers"));

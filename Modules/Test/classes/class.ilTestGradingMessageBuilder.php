@@ -94,11 +94,11 @@ class ilTestGradingMessageBuilder
     public function sendMessage()
     {
         if (!$this->testOBJ->isShowGradingStatusEnabled()) {
-            ilUtil::sendInfo($this->getFullMessage());
+            $this->tpl->setOnScreenMessage('info', $this->getFullMessage());
         } elseif ($this->isPassed()) {
-            ilUtil::sendSuccess($this->getFullMessage());
+            $this->tpl->setOnScreenMessage('success', $this->getFullMessage());
         } else {
-            ilUtil::sendFailure($this->getFullMessage());
+            $this->tpl->setOnScreenMessage('failure', $this->getFullMessage());
         }
     }
     

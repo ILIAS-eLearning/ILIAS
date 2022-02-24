@@ -22,6 +22,7 @@ abstract class ilBiblAdminFieldGUI
     const CMD_RESET_FILTER = 'resetFilter';
     const CMD_SAVE = 'save';
     protected \ilBiblAdminFactoryFacadeInterface $facade;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilBiblAdminFieldGUI constructor.
@@ -29,6 +30,8 @@ abstract class ilBiblAdminFieldGUI
      */
     public function __construct(ilBiblAdminFactoryFacadeInterface $facade)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->facade = $facade;
     }
     
@@ -137,7 +140,7 @@ abstract class ilBiblAdminFieldGUI
             $ilBiblField->store();
         }
         
-        ilUtil::sendSuccess($this->lng()->txt('changes_successfully_saved'));
+        $this->main_tpl->setOnScreenMessage('success', $this->lng()->txt('changes_successfully_saved'));
         $this->ctrl()->redirect($this, self::CMD_STANDARD);
     }
     

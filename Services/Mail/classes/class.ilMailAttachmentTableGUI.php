@@ -48,7 +48,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
          */
         $this->tpl->setVariable(
             'VAL_CHECKBOX',
-            ilUtil::formCheckbox($a_set['checked'], 'filename[]', urlencode($a_set['filename']))
+            ilLegacyFormElementsUtil::formCheckbox($a_set['checked'], 'filename[]', urlencode($a_set['filename']))
         );
         $this->tpl->setVariable(
             'VAL_FILENAME',

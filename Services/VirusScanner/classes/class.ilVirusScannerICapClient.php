@@ -32,7 +32,7 @@ class ilVirusScannerICapClient extends ilVirusScanner
         $return_string = '';
         if (is_readable($file_path)) {
             $cmd = $this->buildScanCommand($file_path) . " 2>&1";
-            $out = ilUtil::execQuoted($cmd);
+            $out = ilShellUtil::execQuoted($cmd);
             $timeout = preg_grep('/failed\/timedout.*/', $out);
             $virus_detected = preg_grep('/' . self::HEADER_INFECTION_FOUND . '.*/', $out);
             if (is_array($virus_detected) && count($virus_detected) > 0) {

@@ -234,7 +234,7 @@ class ilGlossaryTermGUI
             }
 
             $this->record_gui->writeEditForm();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editTerm");
         }
             
@@ -485,7 +485,7 @@ class ilGlossaryTermGUI
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 
         $dtpl = new ilTemplate("tpl.glossary_definition_delete.html", true, true, "Modules/Glossary");
-        ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
+        $this->tpl->setOnScreenMessage('question', $this->lng->txt("info_delete_sure"));
 
         $this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
@@ -636,6 +636,7 @@ class ilGlossaryTermGUI
         int $a_ref_id = 0
     ) : void {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -660,7 +661,7 @@ class ilGlossaryTermGUI
             }
         }
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle($glo_id)
             ), true);

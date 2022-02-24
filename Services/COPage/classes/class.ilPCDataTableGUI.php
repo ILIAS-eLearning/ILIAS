@@ -273,7 +273,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $this->updated = $this->pg_obj->update();
 
         if ($a_redirect) {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editData");
         }
     }
@@ -349,14 +349,14 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 $cell_obj->$tab_cmd();
                 $ret = $this->pg_obj->update();
                 if ($ret !== true) {
-                    ilUtil::sendFailure($ret[0][1], true);
+                    $this->main_tpl->setOnScreenMessage('failure', $ret[0][1], true);
                     $failed = true;
                 }
             }
         }
 
         if (!$failed) {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         if ($this->request->getString("save_return") != "") {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);

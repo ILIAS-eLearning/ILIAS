@@ -51,7 +51,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         return $this->log;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -61,7 +61,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
@@ -75,7 +75,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
     }
     
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->access->checkAccess("read", '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -123,8 +123,8 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 
     public function settings(ilPropertyFormGUI $form = null)
     {
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
         
         $this->tabs_gui->setTabActive(static::SECTION_SETTINGS);
@@ -140,7 +140,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 
     public function updateSettings() : void
     {
-        if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('write', $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
         $form = $this->initFormSettings();
@@ -156,12 +156,12 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
             
             $this->getSettings()->update();
             
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
             return;
         }
         
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->settings($form);
     }
@@ -249,7 +249,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
             $level = new ilLogComponentLevel($component_id, $value);
             $level->update();
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'components');
     }
     
@@ -260,7 +260,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
             $component->setLevel(null);
             $component->update();
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'components');
     }
 
@@ -284,10 +284,10 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
             $this->getErrorSettings()->setMail($form->getInput('error_mail'));
             $this->getErrorSettings()->update();
 
-            ilUtil::sendSuccess($this->lng->txt('error_settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('error_settings_saved'), true);
             $this->ctrl->redirect($this, 'errorSettings');
         }
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->errorSettings($form);
     }

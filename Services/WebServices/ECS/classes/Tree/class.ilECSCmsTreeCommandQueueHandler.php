@@ -15,8 +15,6 @@
  *****************************************************************************/
 
 /**
- * Description of class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
@@ -26,10 +24,6 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
     private ?\ilECSSetting $server = null;
     private int $mid = 0;
     
-    
-    /**
-     * Constructor
-     */
     public function __construct(ilECSSetting $server)
     {
         global $DIC;
@@ -41,9 +35,8 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
     
     /**
      * Get server
-     * @return ilECSServerSetting
      */
-    public function getServer()
+    public function getServer() : ilECSSetting
     {
         return $this->server;
     }
@@ -51,7 +44,6 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 
     /**
      * Handle create
-     * @param ilECSSetting $server
      * @param type $a_content_id
      */
     public function handleCreate(ilECSSetting $server, $a_content_id)
@@ -268,7 +260,7 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
         
         foreach ((array) $deleted as $obj_id) {
             $parent = 0;
-            foreach ((array) $old_nodes as $tmp_id => $node) {
+            foreach (array_values($old_nodes) as $node) {
                 if ($node['child'] == $obj_id) {
                     $parent = $node['parent'];
                     break;

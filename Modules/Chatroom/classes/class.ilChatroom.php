@@ -51,6 +51,7 @@ class ilChatroom
     public static function checkUserPermissions($permissions, int $ref_id, bool $send_info = true) : bool
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         if (!is_array($permissions)) {
             $permissions = [$permissions];
@@ -58,7 +59,7 @@ class ilChatroom
 
         $hasPermissions = self::checkPermissions($DIC->user()->getId(), $ref_id, $permissions);
         if (!$hasPermissions && $send_info) {
-            ilUtil::sendFailure($DIC->language()->txt('permission_denied'), true);
+            $main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('permission_denied'), true);
 
             return false;
         }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -21,13 +21,13 @@ class ilObjCourseVerificationListGUI extends ilObjectListGUI
 
         $this->commands = ilObjCourseVerificationAccess::_getCommands();
     }
-    
+
     public function getProperties() : array
     {
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         return [
             [
                 'alert' => false,

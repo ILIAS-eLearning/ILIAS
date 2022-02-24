@@ -22,6 +22,7 @@ class ilImagemapPreview
     public $linewidth_outer;
     public $linewidth_inner;
     public $lng;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
     * ilImagemapPreview constructor
@@ -34,6 +35,7 @@ class ilImagemapPreview
     public function __construct($imagemap_filename = "")
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $lng = $DIC['lng'];
         $this->lng = &$lng;
         $this->imagemap_filename = $imagemap_filename;
@@ -194,8 +196,10 @@ class ilImagemapPreview
 
         $source = ilUtil::escapeShellCmd($this->imagemap_filename);
         $target = ilUtil::escapeShellCmd($this->preview_filename);
+        $convert_cmd = ilUtil::escapeShellCmd($convert_cmd);
+        $convert_cmd = preg_replace('/\\\\(#([a-fA-F0-9]{3}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8}))/', '${1}', $convert_cmd);
         $convert_cmd = $source . "[0] " . $convert_cmd . " " . $target;
-        ilUtil::execConvert($convert_cmd);
+        ilUtil::execQuoted(PATH_TO_CONVERT, $convert_cmd);
     }
 
     public function getPreviewFilename($imagePath, $baseFileName)
@@ -213,12 +217,12 @@ class ilImagemapPreview
                 }
                 @unlink($pfile);
                 if (strlen($pfile) == 0) {
-                    ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+                    $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("qpl_imagemap_preview_missing"));
                 } else {
                     $filename = basename($previewfile);
                 }
             } else {
-                ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("qpl_imagemap_preview_missing"));
             }
         }
         return $filename;

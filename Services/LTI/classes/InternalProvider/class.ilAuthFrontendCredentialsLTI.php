@@ -25,7 +25,7 @@ class ilAuthFrontendCredentialsLTI extends ilAuthFrontendCredentials implements 
     {
         parent::__construct();
         // overwrite default lti logger
-        $this->setLogger($GLOBALS['DIC']->logger()->lti());
+//        $this->setLogger($GLOBALS['DIC']->logger()->lti());
     }
 
 
@@ -35,8 +35,9 @@ class ilAuthFrontendCredentialsLTI extends ilAuthFrontendCredentials implements 
      */
     public function initFromRequest() : void
     {
-        $this->getLogger()->debug('New lti authentication request...');
-        $this->getLogger()->dump($_REQUEST, ilLogLevel::DEBUG);
+        $logger = ilLoggerFactory::getLogger('lti');
+        $logger->debug('New lti authentication request...');
+        $logger->dump($_REQUEST, ilLogLevel::DEBUG);
         
         $this->setUsername($_POST['user_id']);
     }

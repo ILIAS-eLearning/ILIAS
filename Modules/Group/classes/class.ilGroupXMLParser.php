@@ -25,6 +25,8 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     public static int $CREATE = 1;
     public static int $UPDATE = 2;
 
+    private $after_parsing_status = null;
+
     /**
      * @var ilLogger
      */
@@ -136,6 +138,12 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         } else {
             $status = is_object($this->group_obj) ? $this->group_obj->update() : false;
         }
+        $this->after_parsing_status = $status;
+    }
+
+    public function getObjectRefId()
+    {
+        return $this->after_parsing_status;
     }
 
 

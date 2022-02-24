@@ -17,10 +17,6 @@
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesAuthentication
 */
 
 class ilAuthModeDetermination
@@ -109,7 +105,7 @@ class ilAuthModeDetermination
         $sorted = array();
         
         foreach ($this->position as $auth_key) {
-            $sid = ilLDAPServer::getServerIdByAuthMode($auth_key);
+            $sid = ilLDAPServer::getServerIdByAuthMode((string) $auth_key);
             if ($sid) {
                 $server = ilLDAPServer::getInstanceByServerId($sid);
                 $this->logger->debug('Validating username filter for ' . $server->getName());
@@ -172,7 +168,7 @@ class ilAuthModeDetermination
     private function read()
     {
         $this->kind = (int) $this->settings->get('kind', (string) self::TYPE_MANUAL);
-        
+
         $rad_settings = ilRadiusSettings::_getInstance();
         $rad_active = $rad_settings->isActive();
 
@@ -183,7 +179,6 @@ class ilAuthModeDetermination
         $apache_active = $apache_settings->get('apache_enable_auth');
 
         // Check if active
-        // begin-patch ldap_multiple
         $i = 0;
         while (true) {
             $auth_mode = $this->settings->get((string) $i++, null);
@@ -191,40 +186,37 @@ class ilAuthModeDetermination
                 break;
             }
             if ($auth_mode) {
-                // begin-patch ldap_multiple
+                //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
                 switch ((int) $auth_mode) {
-                    case AUTH_LOCAL:
+                    case ilAuthUtils::AUTH_LOCAL:
                         $this->position[] = $auth_mode;
                         break;
-                    
-                    case AUTH_LDAP:
+                    case ilAuthUtils::AUTH_LDAP:
                         $auth_id = ilLDAPServer::getServerIdByAuthMode($auth_mode);
                         $server = ilLDAPServer::getInstanceByServerId($auth_id);
-                        
+
                         if ($server->isActive()) {
                             $this->position[] = $auth_mode;
                         }
                         break;
-                        
+
                     case ilAuthUtils::AUTH_RADIUS:
                         if ($rad_active) {
                             $this->position[] = $auth_mode;
                         }
                         break;
-                    
-                    case AUTH_SOAP:
+                    case ilAuthUtils::AUTH_SOAP:
                         if ($soap_active) {
                             $this->position[] = $auth_mode;
                         }
                         break;
 
-                    case AUTH_APACHE:
+                    case ilAuthUtils::AUTH_APACHE:
                         if ($apache_active) {
                             $this->position[] = $auth_mode;
                         }
                         break;
-                        
-                    // begin-patch auth_plugin
+
                     default:
                         foreach (ilAuthUtils::getAuthPlugins() as $pl) {
                             if ($pl->isAuthActive($auth_mode)) {
@@ -232,23 +224,20 @@ class ilAuthModeDetermination
                             }
                         }
                         break;
-                    // end-patch auth_plugin
-                        
                 }
             }
         }
-        // end-patch ldap_multiple
 
         // Append missing active auth modes
-        if (!in_array(AUTH_LOCAL, $this->position)) {
-            $this->position[] = AUTH_LOCAL;
+        if (!in_array(ilAuthUtils::AUTH_LOCAL, $this->position)) {
+            $this->position[] = ilAuthUtils::AUTH_LOCAL;
         }
         // begin-patch ldap_multiple
         foreach (ilLDAPServer::_getActiveServerList() as $sid) {
             $server = ilLDAPServer::getInstanceByServerId($sid);
             if ($server->isActive()) {
-                if (!in_array(AUTH_LDAP . '_' . $sid, $this->position)) {
-                    $this->position[] = (AUTH_LDAP . '_' . $sid);
+                if (!in_array(ilAuthUtils::AUTH_LDAP . '_' . $sid, $this->position)) {
+                    $this->position[] = (ilAuthUtils::AUTH_LDAP . '_' . $sid);
                 }
             }
         }
@@ -259,13 +248,13 @@ class ilAuthModeDetermination
             }
         }
         if ($soap_active) {
-            if (!in_array(AUTH_SOAP, $this->position)) {
-                $this->position[] = AUTH_SOAP;
+            if (!in_array(ilAuthUtils::AUTH_SOAP, $this->position)) {
+                $this->position[] = ilAuthUtils::AUTH_SOAP;
             }
         }
         if ($apache_active) {
-            if (!in_array(AUTH_APACHE, $this->position)) {
-                $this->position[] = AUTH_APACHE;
+            if (!in_array(ilAuthUtils::AUTH_APACHE, $this->position)) {
+                $this->position[] = ilAuthUtils::AUTH_APACHE;
             }
         }
         // begin-patch auth_plugin

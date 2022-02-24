@@ -43,7 +43,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $this->setLimit(9999);
 
         /** @var ilObjPortfolio $portfolio */
-        $portfolio = $a_parent_obj->object;
+        $portfolio = $a_parent_obj->getObject();
         $this->portfolio = $portfolio;
         $this->page_gui = $this->parent_obj->getPageGUIClassName();
         $this->is_template = ($this->portfolio->getType() == "prtt");
@@ -104,7 +104,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
             case ilPortfolioPage::TYPE_PAGE:
                 $this->tpl->setCurrentBlock("title_field");
                 $this->tpl->setVariable("ID", $a_set["id"]);
-                $this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+                $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
                 $this->tpl->parseCurrentBlock();
 
                 $ilCtrl->setParameterByClass(
@@ -153,7 +153,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
                 if ($this->is_template) {
                     $this->tpl->setCurrentBlock("title_field");
                     $this->tpl->setVariable("ID", $a_set["id"]);
-                    $this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+                    $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
                     $this->tpl->parseCurrentBlock();
                     
                     $this->tpl->setCurrentBlock("title_static");

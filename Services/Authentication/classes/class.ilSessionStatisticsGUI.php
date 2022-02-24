@@ -15,13 +15,8 @@
  *****************************************************************************/
 
 /**
-* Class ilSessionStatisticsGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilLPListOfObjectsGUI.php 27489 2011-01-19 16:58:09Z jluetzen $
-*
-* @ingroup ServicesAuthentication
-*/
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilSessionStatisticsGUI
 {
     const MODE_TODAY = 1;
@@ -532,7 +527,7 @@ class ilSessionStatisticsGUI
         if ($a_data["active"]) {
             $center->setVariable("CHART", $this->getChart($a_data["active"], $a_data["title"], $a_scale, $a_measure));
         } else {
-            ilUtil::sendInfo($this->lng->txt("trac_session_statistics_no_data"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("trac_session_statistics_no_data"));
         }
                 
         return $center->get();
@@ -729,7 +724,7 @@ class ilSessionStatisticsGUI
         ilSession::_destroyExpiredSessions();
         ilSessionStatistics::aggretateRaw($now);
         
-        ilUtil::sendSuccess($this->lng->txt("trac_sync_session_stats_success"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("trac_sync_session_stats_success"), true);
         $this->ilCtrl->redirect($this);
     }
     

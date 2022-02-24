@@ -18,22 +18,18 @@
 * Handles object exports to ECS
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @ingroup ServicesWebServicesECS
 */
 abstract class ilECSObjectSettings
 {
     protected \ilObject $content_obj; // [ilObj]
     
-    /**
-     * @var ilLogger
-     */
     private ilLogger $logger;
     private ilLanguage $lng;
     private ilTree $tree;
     private ilRbacAdmin $rbacAdmin;
     
     const MAIL_SENDER = 6;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * Constructor
@@ -43,6 +39,7 @@ abstract class ilECSObjectSettings
     public function __construct(ilObject $a_content_object)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->lng = $DIC->language();
         $this->logger = $DIC->logger()->obj();
@@ -259,7 +256,7 @@ abstract class ilECSObjectSettings
                 }
             }
         } catch (ilECSConnectorException $exc) {
-            ilUtil::sendFailure('Error exporting to ECS server: ' . $exc->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', 'Error exporting to ECS server: ' . $exc->getMessage());
             return false;
         }
         return true;

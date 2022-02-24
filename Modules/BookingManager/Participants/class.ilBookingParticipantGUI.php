@@ -51,8 +51,8 @@ class ilBookingParticipantGUI
                                   ->standardRequest();
 
 
-        $this->ref_id = $a_parent_obj->ref_id;
-        $this->pool_id = $a_parent_obj->object->getId();
+        $this->ref_id = $a_parent_obj->getRefId();
+        $this->pool_id = $a_parent_obj->getObject()->getId();
 
         $this->lng->loadLanguageModule("book");
     }
@@ -115,7 +115,7 @@ class ilBookingParticipantGUI
     public function addUserFromAutoCompleteObject() : bool
     {
         if (!strlen(trim($this->book_request->getUserLogin()))) {
-            ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'));
             $this->render();
             return false;
         }
@@ -127,7 +127,7 @@ class ilBookingParticipantGUI
             $user_id = ilObjUser::_lookupId($user);
 
             if (!$user_id) {
-                ilUtil::sendFailure($this->lng->txt('user_not_known'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_known'));
                 $this->render();
             }
             $user_ids[] = $user_id;
@@ -149,13 +149,13 @@ class ilBookingParticipantGUI
             if (ilObject::_lookupType($user_id) === "usr") {
                 $participant_obj = new ilBookingParticipant($user_id, $this->pool_id);
                 if ($participant_obj->getIsNew()) {
-                    ilUtil::sendSuccess($this->lng->txt("book_participant_assigned"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("book_participant_assigned"), true);
                 } else {
-                    ilUtil::sendFailure($this->lng->txt("book_participant_already_assigned"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("book_participant_already_assigned"));
                     return false;
                 }
             } else {
-                ilUtil::sendFailure("dummy error message, change me");
+                $this->tpl->setOnScreenMessage('failure', "dummy error message, change me");
                 return false;
             }
         }

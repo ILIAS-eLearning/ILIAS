@@ -164,10 +164,14 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
 
         if (DEVMODE && function_exists("tidy_parse_string")) {
             // I think $_SERVER in dev mode is ok.
-            $link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"],
-                "do_dev_validate=xhtml")] = ["Validate", true];
-            $link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"],
-                "do_dev_validate=accessibility")] = ["Accessibility", true];
+            $link_items[ilUtil::appendUrlParameterString(
+                $_SERVER["REQUEST_URI"],
+                "do_dev_validate=xhtml"
+            )] = ["Validate", true];
+            $link_items[ilUtil::appendUrlParameterString(
+                $_SERVER["REQUEST_URI"],
+                "do_dev_validate=accessibility"
+            )] = ["Accessibility", true];
         }
 
         // output translation link
@@ -246,11 +250,13 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
                     ];
                     $total += filesize($f);
                 }
-                $ifiles = ilUtil::sortArray($ifiles, "size", "desc", true);
+                $ifiles = ilArrayUtil::sortArray($ifiles, "size", "desc", true);
                 foreach ($ifiles as $f) {
                     $ftpl->setCurrentBlock("i_entry");
-                    $ftpl->setVariable("I_ENTRY",
-                        $f["file"] . " (" . $f["size"] . " Bytes, " . round(100 / $total * $f["size"], 2) . "%)");
+                    $ftpl->setVariable(
+                        "I_ENTRY",
+                        $f["file"] . " (" . $f["size"] . " Bytes, " . round(100 / $total * $f["size"], 2) . "%)"
+                    );
                     $ftpl->parseCurrentBlock();
                 }
                 $ftpl->setCurrentBlock("i_entry");
@@ -356,7 +362,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     {
         $js = "";
         for ($i = 1; $i <= 3; $i++) {
-            if (is_array($this->on_load_code[$i])) {
+            if (isset($this->on_load_code[$i])) {
                 foreach ($this->on_load_code[$i] as $code) {
                     $js .= $code . "\n";
                 }
@@ -419,7 +425,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     public function fillOnLoadCode() : void
     {
         for ($i = 1; $i <= 3; $i++) {
-            if (is_array($this->on_load_code[$i])) {
+            if (isset($this->on_load_code[$i])) {
                 $this->setCurrentBlock("on_load_code");
                 foreach ($this->on_load_code[$i] as $code) {
                     $this->setCurrentBlock("on_load_code_inner");

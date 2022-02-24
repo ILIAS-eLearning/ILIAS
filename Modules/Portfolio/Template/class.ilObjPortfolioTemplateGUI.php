@@ -128,7 +128,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         }
     }
         
-    protected function setTabs()
+    protected function setTabs() : void
     {
         $ilHelp = $this->help;
         
@@ -275,7 +275,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             ilObjPortfolio::clonePagesAndSettings($source, $obj);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("prtt_portfolio_created"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtt_portfolio_created"), true);
         $this->ctrl->setParameter($this, "prt_id", $a_new_object->getId());
         $this->ctrl->redirect($this, "view");
     }
@@ -477,7 +477,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             $page->setTitle($form->getInput("blog"));
             $page->create(false);
 
-            ilUtil::sendSuccess($this->lng->txt("prtf_blog_page_created"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_blog_page_created"), true);
             $this->ctrl->redirect($this, "view");
         }
 

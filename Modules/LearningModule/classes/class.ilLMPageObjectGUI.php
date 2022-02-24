@@ -359,6 +359,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilErr = $DIC["ilErr"];
         $lng = $DIC->language();
@@ -405,13 +406,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             if ($lm_id > 0) {
-                ilUtil::sendFailure(sprintf(
+                $main_tpl->setOnScreenMessage('failure', sprintf(
                     $lng->txt("msg_no_perm_read_item"),
                     ilObject::_lookupTitle($lm_id)
                 ), true);
             } else {
                 $lng->loadLanguageModule("content");
-                ilUtil::sendFailure($lng->txt("page_does_not_exist"), true);
+                $main_tpl->setOnScreenMessage('failure', $lng->txt("page_does_not_exist"), true);
             }
             ilObjectGUI::_gotoRepositoryRoot();
         }
@@ -495,7 +496,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         $this->initEditLayoutForm();
         if ($this->form->checkInput()) {
             ilLMObject::writeLayout($this->obj->getId(), $this->form->getInput("layout"));
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editLayout");
         }
         $this->form->setValuesByPost();
@@ -602,7 +603,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
             } else {
                 $this->obj->create();
             }
-            ilUtil::sendSuccess($lng->txt("cont_page_created"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_page_created"), true);
         }
         $this->cancel();
     }

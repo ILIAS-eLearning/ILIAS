@@ -216,7 +216,9 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         if (($t = ilSession::get("help_search_term")) != "") {
             $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) use ($t) {
                 return
-                    "$(\"#$id\").click(function() { return il.Help.search('" . ilUtil::prepareFormOutput($t) . "'); return false;});";
+                    "$(\"#$id\").click(function() { return il.Help.search('" . ilLegacyFormElementsUtil::prepareFormOutput(
+                        $t
+                    ) . "'); return false;});";
             });
         } else {
             $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) {
@@ -420,7 +422,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $h_tpl->setCurrentBlock("search");
         $h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
         $h_tpl->setVariable("HELP_SEARCH_LABEL", $this->lng->txt("help_search_label"));
-        $h_tpl->setVariable("VAL_SEARCH", ilUtil::prepareFormOutput($term));
+        $h_tpl->setVariable("VAL_SEARCH", ilLegacyFormElementsUtil::prepareFormOutput($term));
         $h_tpl->parseCurrentBlock();
 
         $h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));

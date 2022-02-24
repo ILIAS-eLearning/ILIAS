@@ -67,7 +67,7 @@ class ilMemberExportGUI
     public function executeCommand() : void
     {
         if (!ilPrivacySettings::getInstance()->checkExportAccess($this->ref_id)) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -245,7 +245,6 @@ class ilMemberExportGUI
 
         $filename = time() . '_participant_export_csv_' . $this->obj_id . '.csv';
         $this->fss_export->addMemberExportFile($this->export->getCSVString(), $filename);
-
         $this->ctrl->redirect($this, 'show');
     }
 
@@ -269,10 +268,14 @@ class ilMemberExportGUI
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
             if ($file['name'] == $_SESSION['member_export_filename']) {
                 $content = $this->fss_export->getMemberExportFile($_SESSION['member_export_filename']);
-                ilUtil::deliverData($content, date('Y_m_d_H-i', $file['timest']) .
+                ilUtil::deliverData(
+                    $content,
+                    date('Y_m_d_H-i', $file['timest']) .
                     '_member_export_' .
                     $this->obj_id .
-                    '.csv', 'text/csv');
+                    '.csv',
+                    'text/csv'
+                );
             }
         }
     }
@@ -327,10 +330,14 @@ class ilMemberExportGUI
                     // no break
                     default:
                     case 'csv':
-                        ilUtil::deliverData($contents, date('Y_m_d_H-i' . $file['timest']) .
+                        ilUtil::deliverData(
+                            $contents,
+                            date('Y_m_d_H-i' . $file['timest']) .
                             '_member_export_' .
                             $this->obj_id .
-                            '.csv', 'text/csv');
+                            '.csv',
+                            'text/csv'
+                        );
                         break;
                 }
             }
@@ -359,7 +366,7 @@ class ilMemberExportGUI
     {
         $file_ids = $this->initFileIdsFromPost();
         if (!count($file_ids)) {
-            ilUtil::sendFailure($this->lng->txt('ps_select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ps_select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
         $confirmation_gui = new ilConfirmationGUI();
@@ -408,7 +415,7 @@ class ilMemberExportGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('ps_files_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('ps_files_deleted'), true);
         $this->ctrl->redirect($this, 'show');
     }
 

@@ -139,7 +139,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
                 $prfa_set->set("mask", (bool) $form->getInput("mask"));
                 $prfa_set->set("mycrs", (bool) $form->getInput("mycrs"));
 
-                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $ilCtrl->redirect($this, "editSettings");
             }
             $form->setValuesByPost();
@@ -219,7 +219,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $form->addItem($mask);*/
         $gui = ilAdministrationSettingsFormHandler::getSettingsGUIInstance("adve");
         $ne = new ilNonEditableValueGUI($lng->txt("prtf_allow_html"), "", true);
-        $this->ctrl->setParameter($gui, "ref_id", $gui->object->getRefId());
+        $this->ctrl->setParameter($gui, "ref_id", $gui->getObject()->getRefId());
         $link = $this->ctrl->getLinkTarget($gui);
         $ne->setValue("<a href='$link'> >> " . $this->lng->txt("settings") . "</a>");
         $form->addItem($ne);
@@ -304,11 +304,11 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
                         $this->declaration_authorship->setForLanguage($l, $data["sec"]["decl_" . $l]);
                     }
 
-                    ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                    $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
                 }
             }
         } else {
-            ilUtil::sendFailure($lng->txt("msg_no_perm_write"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_no_perm_write"), true);
         }
         $ctrl->redirect($this, "editDeclarationOfAuthorship");
     }

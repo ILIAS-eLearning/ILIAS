@@ -160,7 +160,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                     $title = $this->ilObjDataCache->lookupTitle($obj_id);
                     $type = $this->ilObjDataCache->lookupType($obj_id);
-                    $icon = ilObject::_getIcon($obj_id, "tiny", $type);
+                    $icon = ilObject::_getIcon((int) $obj_id, "tiny", $type);
                     if ($type == "sess") {
                         $sess = new ilObjSession($obj_id, false);
                         $title = $sess->getPresentationTitle();
@@ -191,7 +191,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             }
             if (sizeof($this->sco_ids)) {
                 foreach ($this->sco_ids as $obj_id => $title) {
-                    $icon = ilUtil::getTypeIconPath("sco", $obj_id, "tiny");
+                    $icon = ilObject::_getIcon($obj_id, "tiny", "sco");
                     $tmp_cols[strtolower($title) . "#~#objsco_" . $obj_id] = array("txt" => $title,
                                                                                    "icon" => $icon,
                                                                                    "default" => true
@@ -200,7 +200,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             }
             if (sizeof($this->subitem_ids)) {
                 foreach ($this->subitem_ids as $obj_id => $title) {
-                    $icon = ilUtil::getTypeIconPath(ilTrQuery::getSubItemType($this->obj_id), $obj_id, "tiny");
+                    $icon = ilObject::_getIcon($obj_id, "tiny", ilTrQuery::getSubItemType($this->obj_id));
                     $tmp_cols[strtolower($title) . "#~#objsub_" . $obj_id] = array("txt" => $title,
                                                                                    "icon" => $icon,
                                                                                    "default" => true

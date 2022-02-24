@@ -163,7 +163,7 @@ class ObjectManager
         if ($this->ref_id > 0) {
             $tree = $this->domain_service->repositoryTree();
             $parent_ref_id = $tree->getParentId($this->ref_id);
-            $parent_id = \ilObject::_lookupObjId($parent_ref_id);
+            $parent_id = \ilObject::_lookupObjId((int) $parent_ref_id);
             $obj_id = \ilObject::_lookupObjId($this->ref_id);
             $style_id = \ilObjStyleSheet::lookupObjectStyle($parent_id);
             if ($style_id > 0) {

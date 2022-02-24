@@ -623,8 +623,10 @@ class SurveyQuestion
      */
     public function getImagePathWeb() : string
     {
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/images/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/images/";
+        return str_replace(
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
     }
 
     /**
@@ -632,8 +634,10 @@ class SurveyQuestion
      */
     public function getMaterialsPathWeb() : string
     {
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
+        return str_replace(
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
     }
 
     /**
@@ -981,7 +985,7 @@ class SurveyQuestion
                 switch ($type) {
                     case "lm":
                         $cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
-                        $cont_obj = $cont_obj_gui->object;
+                        $cont_obj = $cont_obj_gui->getObject();
                         $material_title .= $cont_obj->getTitle();
                         break;
 
@@ -989,7 +993,7 @@ class SurveyQuestion
                         $lm_id = ilLMObject::_lookupContObjID($target_id);
                         $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
                         /** @var ilObjLearningModule $cont_obj */
-                        $cont_obj = $cont_obj_gui->object;
+                        $cont_obj = $cont_obj_gui->getObject();
                         $pg_obj = new ilLMPageObject($cont_obj, $target_id);
                         $material_title .= $pg_obj->getTitle();
                         break;
@@ -998,7 +1002,7 @@ class SurveyQuestion
                         $lm_id = ilLMObject::_lookupContObjID($target_id);
                         $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
                         /** @var ilObjLearningModule $cont_obj */
-                        $cont_obj = $cont_obj_gui->object;
+                        $cont_obj = $cont_obj_gui->getObject();
                         $st_obj = new ilStructureObject($cont_obj, $target_id);
                         $material_title .= $st_obj->getTitle();
                         break;
@@ -1080,7 +1084,7 @@ class SurveyQuestion
                     switch ($type) {
                         case "lm":
                             $cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
-                            $cont_obj = $cont_obj_gui->object;
+                            $cont_obj = $cont_obj_gui->getObject();
                             $material_title .= $cont_obj->getTitle();
                             break;
 
@@ -1088,7 +1092,7 @@ class SurveyQuestion
                             $lm_id = ilLMObject::_lookupContObjID($target_id);
                             $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
                             /** @var ilObjLearningModule $cont_obj */
-                            $cont_obj = $cont_obj_gui->object;
+                            $cont_obj = $cont_obj_gui->getObject();
                             $pg_obj = new ilLMPageObject($cont_obj, $target_id);
                             $material_title .= $pg_obj->getTitle();
                             break;
@@ -1097,7 +1101,7 @@ class SurveyQuestion
                             $lm_id = ilLMObject::_lookupContObjID($target_id);
                             $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
                             /** @var ilObjLearningModule $cont_obj */
-                            $cont_obj = $cont_obj_gui->object;
+                            $cont_obj = $cont_obj_gui->getObject();
                             $st_obj = new ilStructureObject($cont_obj, $target_id);
                             $material_title .= $st_obj->getTitle();
                             break;
@@ -1218,10 +1222,12 @@ class SurveyQuestion
                 case "PageObject":
                 case "GlossaryItem":
                 case "LearningModule":
-                    $href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/goto.php?target=" . $type . "_" . $target_id;
+                    $href = ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/goto.php?target=" . $type . "_" . $target_id;
                     break;
                 case "MediaObject":
-                    $href = ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=" . $a_parent_ref_id . "&mob_id=" . $target_id;
+                    $href = ilFileUtils::removeTrailingPathSeparators(
+                            ILIAS_HTTP_PATH
+                        ) . "/ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=" . $a_parent_ref_id . "&mob_id=" . $target_id;
                     break;
             }
         }
@@ -1467,7 +1473,7 @@ class SurveyQuestion
         string $txt_output,
         bool $prepare_for_latex_output = false
     ) : string {
-        return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
     }
 
     /**

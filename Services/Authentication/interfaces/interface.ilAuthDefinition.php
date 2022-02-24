@@ -29,7 +29,7 @@ interface ilAuthDefinition
      * Get authentication id.
      * For plugins the auth must be greater than 1000 and unique
      *
-     * @see constants like in AUTH_LDAP ilAuthUtils
+     * @see constants like in ilAuthUtils::AUTH_LDAP
      * @return int[]
      */
     public function getAuthIds() : array;

@@ -380,7 +380,7 @@ class ilCopyWizardOptions
         $res = $this->db->query($query);
         $mappings = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $mappings = unserialize($row->options);
+            $mappings = unserialize((string) $row->options);
         }
         $mappings[$a_source_id] = $a_target_id;
 
@@ -422,7 +422,7 @@ class ilCopyWizardOptions
 
         $this->options = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->options[$row->source_id] = unserialize($row->options);
+            $this->options[(int) $row->source_id] = unserialize((string) $row->options);
         }
     }
 

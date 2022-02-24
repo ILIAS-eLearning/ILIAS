@@ -17,6 +17,7 @@ namespace ILIAS\Style\Content;
 
 use ILIAS\Style\Content\Access;
 use ILIAS\Filesystem;
+use ilShellUtil;
 
 /**
  * Main business logic for content style images
@@ -80,7 +81,7 @@ class ImageManager
     ) : void {
         if ($this->filenameExists($filename)) {
             $file = $this->getWebPath($this->getByFilename($filename));
-            \ilUtil::resizeImage(
+            ilShellUtil::resizeImage(
                 $file,
                 $file,
                 $width,

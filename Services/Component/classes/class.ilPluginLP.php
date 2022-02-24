@@ -30,7 +30,7 @@ class ilPluginLP extends ilObjectLP
         include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';
         if (ilRepositoryObjectPluginSlot::isTypePluginWithLP(ilObject::_lookupType($this->obj_id))) {
             $obj = ilObjectFactory::getInstanceByObjId($this->obj_id, false); // #12640
-            if ($obj && $obj instanceof ilLPStatusPluginInterface) {
+            if ($obj instanceof ilLPStatusPluginInterface) {
                 $this->status = $obj;
             }
         }
@@ -81,7 +81,9 @@ class ilPluginLP extends ilObjectLP
         
         // forward to plugin object
         if (method_exists($class_name, "isLPMember")) {
-            $class_name::isLPMember($a_res, $a_usr_id, $a_obj_ids);
+            return $class_name::isLPMember($a_res, $a_usr_id, $a_obj_ids);
         }
+
+        return false;
     }
 }

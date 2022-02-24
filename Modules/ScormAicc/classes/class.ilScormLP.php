@@ -144,7 +144,8 @@ class ilScormLP extends ilObjectLP
                 " WHERE " . $ilDB->in("obj_id", $types["scorm2004"], false, "integer") .
                 " AND user_id = " . $ilDB->quote($a_usr_id, "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
-                $a_res[$row["obj_id"]] = true;
+//                $a_res[$row["obj_id"]] = true;
+                return true;
             }
         }
 
@@ -156,9 +157,11 @@ class ilScormLP extends ilObjectLP
                 " AND user_id = " . $ilDB->quote($a_usr_id, "integer") .
                 " AND lvalue = " . $ilDB->quote("cmi.core.lesson_status", "text"));
             while ($row = $ilDB->fetchAssoc($set)) {
-                $a_res[$row["obj_id"]] = true;
+//                $a_res[$row["obj_id"]] = true;
+                return true;
             }
         }
+        return false;
     }
 
     /**

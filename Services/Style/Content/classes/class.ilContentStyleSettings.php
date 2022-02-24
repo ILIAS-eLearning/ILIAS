@@ -83,7 +83,7 @@ class ilContentStyleSettings
         }
 
         $this->styles =
-            ilUtil::sortArray($this->styles, "title", "asc", false, true);
+            ilArrayUtil::sortArray($this->styles, "title", "asc", false, true);
     }
 
     public function getStyles() : array

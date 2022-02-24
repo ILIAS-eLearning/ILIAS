@@ -17,12 +17,7 @@
 class ilRemoteObjectBaseListGUI extends ilObjectListGUI
 {
     private ilDBInterface $db;
-    /**
-     * Constructor
-     *
-     * @access public
-     *
-     */
+
     public function __construct()
     {
         global $DIC;
@@ -33,11 +28,8 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
 
     /**
      * lookup organization
-     *
-     * @param int $a_obj_id
-     * @return string
      */
-    public function _lookupOrganization($table, $a_obj_id)
+    public function _lookupOrganization(string $table, int $a_obj_id) : string
     {
         $query = "SELECT organization FROM " . $this->db->quoteIdentifier($table) .
         " WHERE obj_id = " . $this->db->quote($a_obj_id, 'integer') . " ";

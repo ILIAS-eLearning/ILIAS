@@ -13,7 +13,8 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
     protected function setUp() : void
     {
         parent::setUp();
-
+        global $DIC;
+        $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
         $this->testObj = new ilParticipantsTestResultsGUI();
     }
 

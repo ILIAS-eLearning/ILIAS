@@ -159,7 +159,9 @@ class ilPasswordAssistanceGUI
                 '<br />',
                 sprintf(
                     $this->lng->txt('pwassist_enter_username_and_email'),
-                    '<a href="mailto:' . ilUtil::prepareFormOutput($this->settings->get('admin_email')) . '">' . ilUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
+                    '<a href="mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
+                        $this->settings->get('admin_email')
+                    ) . '">' . ilLegacyFormElementsUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
                 )
             )
         );
@@ -206,7 +208,7 @@ class ilPasswordAssistanceGUI
             return;
         }
 
-        $defaultAuth = AUTH_LOCAL;
+        $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($GLOBALS['DIC']['ilSetting']->get('auth_mode')) {
             $defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
         }
@@ -230,10 +232,10 @@ class ilPasswordAssistanceGUI
             }
         } elseif (
             (
-                $user->getAuthMode(true) != AUTH_LOCAL ||
-                ($user->getAuthMode(true) == $defaultAuth && $defaultAuth != AUTH_LOCAL)
+                $user->getAuthMode(true) != ilAuthUtils::AUTH_LOCAL ||
+                ($user->getAuthMode(true) == $defaultAuth && $defaultAuth != ilAuthUtils::AUTH_LOCAL)
             ) && !(
-                $user->getAuthMode(true) == AUTH_SAML
+                $user->getAuthMode(true) == ilAuthUtils::AUTH_SAML
             )
         ) {
             \ilLoggerFactory::getLogger('usr')->info(sprintf(
@@ -350,7 +352,7 @@ class ilPasswordAssistanceGUI
         $form->addItem($username);
 
         $password = new ilPasswordInputGUI($this->lng->txt('password'), 'password');
-        $password->setInfo(\ilUtil::getPasswordRequirementsInfo());
+        $password->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
         $password->setRequired(true);
         $form->addItem($password);
 
@@ -390,15 +392,17 @@ class ilPasswordAssistanceGUI
             count($pwassist_session) == 0 ||
             $pwassist_session['expires'] < time()
         ) {
-            ilUtil::sendFailure($this->lng->txt('pwassist_session_expired'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('pwassist_session_expired'));
             $this->showAssistanceForm(null);
         } else {
             $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assignpassword.html', true);
             $tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
             $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
-            $tpl->setVariable('TXT_ENTER_USERNAME_AND_NEW_PASSWORD',
-                $this->lng->txt('pwassist_enter_username_and_new_password'));
+            $tpl->setVariable(
+                'TXT_ENTER_USERNAME_AND_NEW_PASSWORD',
+                $this->lng->txt('pwassist_enter_username_and_new_password')
+            );
 
             if (!$form) {
                 $form = $this->getAssignPasswordForm($pwassist_id);
@@ -451,7 +455,7 @@ class ilPasswordAssistanceGUI
             count($pwassist_session) == 0 ||
             $pwassist_session['expires'] < time()
         ) {
-            ilUtil::sendFailure(str_replace("\\n", '', $this->lng->txt('pwassist_session_expired')));
+            $this->tpl->setOnScreenMessage('failure', str_replace("\\n", '', $this->lng->txt('pwassist_session_expired')));
             $form->setValuesByPost();
             $this->showAssistanceForm($form);
             return;
@@ -473,7 +477,7 @@ class ilPasswordAssistanceGUI
             }
 
             $error_lng_var = '';
-            if (!ilUtil::isPasswordValidForUserContext($password, $userObj, $error_lng_var)) {
+            if (!ilSecuritySettingsChecker::isPasswordValidForUserContext($password, $userObj, $error_lng_var)) {
                 $message = $this->lng->txt($error_lng_var);
                 $is_successful = false;
             }
@@ -503,7 +507,7 @@ class ilPasswordAssistanceGUI
                 db_pwassist_session_destroy($pwassist_id);
                 $this->showMessageForm(sprintf($this->lng->txt('pwassist_password_assigned'), $username));
             } else {
-                ilUtil::sendFailure(str_replace("\\n", '', $message));
+                $this->tpl->setOnScreenMessage('failure', str_replace("\\n", '', $message));
                 $form->setValuesByPost();
                 $this->showAssignPasswordForm($form, $pwassist_id);
             }
@@ -551,7 +555,9 @@ class ilPasswordAssistanceGUI
                 '<br />',
                 sprintf(
                     $this->lng->txt('pwassist_enter_email'),
-                    '<a href="mailto:' . ilUtil::prepareFormOutput($this->settings->get('admin_email')) . '">' . ilUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
+                    '<a href="mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
+                        $this->settings->get('admin_email')
+                    ) . '">' . ilLegacyFormElementsUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
                 )
             )
         );

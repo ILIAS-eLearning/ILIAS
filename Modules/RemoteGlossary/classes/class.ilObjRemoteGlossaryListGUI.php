@@ -35,7 +35,7 @@ class ilObjRemoteGlossaryListGUI extends ilRemoteObjectBaseListGUI
     {
         parent::__construct();
     }
-    
+
     /**
      * init
      *
@@ -52,12 +52,12 @@ class ilObjRemoteGlossaryListGUI extends ilRemoteObjectBaseListGUI
         $this->info_screen_enabled = true;
         $this->type = 'rglo';
         $this->gui_class_name = 'ilobjremoteglossarygui';
-        
+
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
         }
-        
+
         // general commands array
         $this->commands = ilObjRemoteGlossaryAccess::_getCommands();
     }
@@ -79,10 +79,10 @@ class ilObjRemoteGlossaryListGUI extends ilRemoteObjectBaseListGUI
         if (!ilObjRemoteGlossary::_lookupOnline($this->obj_id)) {
             $this->addCustomProperty($this->lng->txt("status"), $this->lng->txt("offline"), true, true);
         }
-    
+
         return array();
     }
-    
+
     /**
      * get command frame
      *
@@ -100,7 +100,7 @@ class ilObjRemoteGlossaryListGUI extends ilRemoteObjectBaseListGUI
                 )) {
                     return '_blank';
                 }
-                
+
                 // no break
             default:
                 return parent::getCommandFrame($a_cmd);

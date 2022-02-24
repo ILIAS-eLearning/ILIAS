@@ -39,7 +39,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -62,7 +62,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        $rbacsystem = $this->rbacsystem;
+        $rbacsystem = $this->rbac_system;
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -295,7 +295,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
                 $news_set->set("enable_private_feed", 0);
             }
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         
         $ilCtrl->redirect($this, "view");

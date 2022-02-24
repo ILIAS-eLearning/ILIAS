@@ -13,6 +13,12 @@ class ilSystemStyleMessageStack
      * @var ilSystemStyleMessage[]
      */
     protected array $messages = [];
+    private \ilGlobalTemplateInterface $main_tpl;
+    public function __construct()
+    {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+    }
 
     /**
      * Add a message to be displayed before all others
@@ -102,13 +108,13 @@ class ilSystemStyleMessageStack
         foreach ($this->getJoinedMessages() as $type => $joined_message) {
             switch ($type) {
                 case ilSystemStyleMessage::TYPE_SUCCESS:
-                    ilUtil::sendSuccess($joined_message, $keep);
+                    $this->main_tpl->setOnScreenMessage('success', $joined_message, $keep);
                     break;
                 case ilSystemStyleMessage::TYPE_INFO:
-                    ilUtil::sendInfo($joined_message, $keep);
+                    $this->main_tpl->setOnScreenMessage('info', $joined_message, $keep);
                     break;
                 case ilSystemStyleMessage::TYPE_ERROR:
-                    ilUtil::sendFailure($joined_message, $keep);
+                    $this->main_tpl->setOnScreenMessage('failure', $joined_message, $keep);
                     break;
             }
         }

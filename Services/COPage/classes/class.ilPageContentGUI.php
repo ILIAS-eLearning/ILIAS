@@ -491,9 +491,9 @@ class ilPageContentGUI
                     $error_str .= htmlentities($err_mess) . "<br />";
                 }
             }
-            ilUtil::sendFailure($error_str);
+            $this->tpl->setOnScreenMessage('failure', $error_str);
         } elseif ($this->updated != "" && $this->updated !== true) {
-            ilUtil::sendFailure("<b>Error(s):</b><br />" .
+            $this->tpl->setOnScreenMessage('failure', "<b>Error(s):</b><br />" .
                 $this->updated);
         }
     }

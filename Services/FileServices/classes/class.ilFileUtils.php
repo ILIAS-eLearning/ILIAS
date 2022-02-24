@@ -6,6 +6,7 @@ use ILIAS\Filesystem\Definitions\SuffixDefinitions;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\Data\DataSize;
 
 /******************************************************************************
  *
@@ -84,7 +85,7 @@ class ilFileUtils
                 continue;
             }
             
-            $vir = ilUtil::virusHandling($filearray["path"][$key], $value);
+            $vir = ilVirusScanner::virusHandling($filearray["path"][$key], $value);
             if (!$vir[0]) {
                 // Unlink file and throw exception
                 unlink($filearray['path'][$key]);
@@ -501,6 +502,7 @@ class ilFileUtils
         $a_mode = "move_uploaded"
     ) : bool {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $target_filename = basename($a_target);
         
         $target_filename = ilFileUtils::getValidFilename($target_filename);
@@ -533,7 +535,7 @@ class ilFileUtils
             }
         } catch (ilException $e) {
             if (!$a_raise_errors) {
-                ilUtil::sendFailure($e->getMessage(), true);
+                $main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             } else {
                 throw $e;
             }
@@ -587,19 +589,19 @@ class ilFileUtils
             $source = "";
             foreach ($a_dir as $dir) {
                 $name = basename($dir);
-                $source .= " " . ilUtil::escapeShellArg($name);
+                $source .= " " . ilShellUtil::escapeShellArg($name);
             }
         } else {
             $name = basename($a_dir);
             if (trim($name) != "*") {
-                $source = ilUtil::escapeShellArg($name);
+                $source = ilShellUtil::escapeShellArg($name);
             } else {
                 $source = $name;
             }
         }
         
-        $zipcmd = "-r " . ilUtil::escapeShellArg($a_file) . " " . $source;
-        ilUtil::execQuoted($zip, $zipcmd);
+        $zipcmd = "-r " . ilShellUtil::escapeShellArg($a_file) . " " . $source;
+        ilShellUtil::execQuoted($zip, $zipcmd);
         chdir($cdir);
         return true;
     }
@@ -787,25 +789,13 @@ class ilFileUtils
         ilFileUtils::makeDir($a_dir);
     }
     
-    public static function getFileSizeInfo()
+    public static function getFileSizeInfo() : string
     {
-        $max_filesize = ilUtil::formatBytes(
-            ilUtil::getUploadSizeLimitBytes()
-        );
-        
         global $DIC;
-        
+        $size = new DataSize(self::getUploadSizeLimitBytes(), DataSize::MB);
+        $max_filesize = $size->__toString();
         $lng = $DIC->language();
-        /*
-        // get the value for the maximal uploadable filesize from the php.ini (if available)
-        $umf=get_cfg_var("upload_max_filesize");
-        // get the value for the maximal post data from the php.ini (if available)
-        $pms=get_cfg_var("post_max_size");
 
-        // use the smaller one as limit
-        $max_filesize=min($umf, $pms);
-        if (!$max_filesize) $max_filesize=max($umf, $pms);
-        */
         return $lng->txt("file_notice") . " $max_filesize.";
     }
     
@@ -954,11 +944,11 @@ class ilFileUtils
         
         // real unzip
         if (!$overwrite) {
-            $unzipcmd = ilUtil::escapeShellArg($file);
+            $unzipcmd = ilShellUtil::escapeShellArg($file);
         } else {
-            $unzipcmd = "-o " . ilUtil::escapeShellArg($file);
+            $unzipcmd = "-o " . ilShellUtil::escapeShellArg($file);
         }
-        ilUtil::execQuoted($unzip, $unzipcmd);
+        ilShellUtil::execQuoted($unzip, $unzipcmd);
         
         chdir($cdir);
         
@@ -997,5 +987,127 @@ class ilFileUtils
             }
             ilFileUtils::delDir($tmpdir);
         }
+    }
+    
+    /**
+     * @deprecated
+     */
+    public static function renameExecutables(string $a_dir) : void
+    {
+        $def_arr = explode(",", SUFFIX_REPL_DEFAULT);
+        foreach ($def_arr as $def) {
+            self::rRenameSuffix($a_dir, trim($def), "sec");
+        }
+        
+        $def_arr = explode(",", SUFFIX_REPL_ADDITIONAL);
+        foreach ($def_arr as $def) {
+            self::rRenameSuffix($a_dir, trim($def), "sec");
+        }
+    }
+    
+    /**
+    * Renames all files with certain suffix and gives them a new suffix.
+    * This words recursively through a directory.
+    *
+    * @deprecated
+    */
+    public static function rRenameSuffix(string $a_dir, string $a_old_suffix, string $a_new_suffix) : bool
+    {
+        if ($a_dir == "/" || $a_dir == "" || is_int(strpos($a_dir, ".."))
+            || trim($a_old_suffix) == "") {
+            return false;
+        }
+        
+        // check if argument is directory
+        if (!@is_dir($a_dir)) {
+            return false;
+        }
+        
+        // read a_dir
+        $dir = opendir($a_dir);
+        
+        while ($file = readdir($dir)) {
+            if ($file != "." and
+                $file != "..") {
+                // directories
+                if (@is_dir($a_dir . "/" . $file)) {
+                    ilFileUtils::rRenameSuffix($a_dir . "/" . $file, $a_old_suffix, $a_new_suffix);
+                }
+                
+                // files
+                if (@is_file($a_dir . "/" . $file)) {
+                    // first check for files with trailing dot
+                    if (strrpos($file, '.') == (strlen($file) - 1)) {
+                        rename($a_dir . '/' . $file, substr($a_dir . '/' . $file, 0, -1));
+                        $file = substr($file, 0, -1);
+                    }
+                    
+                    $path_info = pathinfo($a_dir . "/" . $file);
+                    
+                    if (strtolower($path_info["extension"]) ==
+                        strtolower($a_old_suffix)) {
+                        $pos = strrpos($a_dir . "/" . $file, ".");
+                        $new_name = substr($a_dir . "/" . $file, 0, $pos) . "." . $a_new_suffix;
+                        rename($a_dir . "/" . $file, $new_name);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+    public static function removeTrailingPathSeparators(string $path) : string
+    {
+        $path = preg_replace("/[\/\\\]+$/", "", $path);
+        return (string) $path;
+    }
+    
+    /**
+     * @deprecated should use DataSize instead
+     */
+    public static function getUploadSizeLimitBytes() : string
+    {
+        $convertPhpIniSizeValueToBytes = function ($phpIniSizeValue)
+        {
+            if (is_numeric($phpIniSizeValue)) {
+                return $phpIniSizeValue;
+            }
+        
+            $suffix = substr($phpIniSizeValue, -1);
+            $value = substr($phpIniSizeValue, 0, -1);
+        
+            switch (strtoupper($suffix)) {
+                case 'P':
+                    $value *= 1024;
+                // no break
+                case 'T':
+                    $value *= 1024;
+                // no break
+                case 'G':
+                    $value *= 1024;
+                // no break
+                case 'M':
+                    $value *= 1024;
+                // no break
+                case 'K':
+                    $value *= 1024;
+                    break;
+            }
+        
+            return $value;
+        };
+        
+        
+        $uploadSizeLimitBytes = min(
+            $convertPhpIniSizeValueToBytes(ini_get('post_max_size')),
+            $convertPhpIniSizeValueToBytes(ini_get('upload_max_filesize'))
+        );
+        
+        return $uploadSizeLimitBytes;
+    }
+    
+    public static function _sanitizeFilemame(string $a_filename) : string
+    {
+        return strip_tags(ilUtil::stripSlashes($a_filename));
     }
 }

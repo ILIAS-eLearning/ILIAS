@@ -24,6 +24,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
      * @var ilPropertyFormGUI
      */
     protected $form;
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     /**
@@ -34,6 +35,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     public function __construct($plugin_service_class)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         parent::__construct($plugin_service_class);
 
         $DIC->language()->loadLanguageModule('content');
@@ -67,7 +69,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
             $this->getSettingsValues();
             $tpl->setContent($this->form->getHTML());
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
         }
     }
 
@@ -215,11 +217,11 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
 
                 $DIC->object()->commonSettings()->legacyForm($this->form, $this->cloud_object)->saveTileImage();
 
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+                $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
                 $ilCtrl->redirect($this, 'editSettings');
             }
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
         }
 
         $this->form->setValuesByPost();

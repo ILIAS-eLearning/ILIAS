@@ -9,17 +9,30 @@
 class ilTestResultsGUITest extends ilTestBaseTestCase
 {
     private ilTestResultsGUI $testObj;
-
+    
+    
     protected function setUp() : void
     {
         parent::setUp();
-
+        global $DIC;
+        
+        $this->backup_dic = $DIC;
+        $DIC = new ILIAS\DI\Container([
+            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
+                          ->getMock()
+        ]);
         $this->addGlobal_lng();
-
+    
         $this->testObj = new ilTestResultsGUI(
             $this->createMock(ilObjTest::class),
             $this->createMock(ilTestQuestionSetConfig::class)
         );
+    }
+    
+    protected function tearDown() : void
+    {
+        global $DIC;
+        $DIC = $this->backup_dic;
     }
 
     public function test_instantiateObject_shouldReturnInstance() : void

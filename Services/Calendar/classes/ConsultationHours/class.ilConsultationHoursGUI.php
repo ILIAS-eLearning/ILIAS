@@ -136,7 +136,6 @@ class ilConsultationHoursGUI
             return explode(';', $app_string);
         }
         return [];
-
     }
 
     protected function initGroupIdsFromPost() : array
@@ -233,7 +232,7 @@ class ilConsultationHoursGUI
     {
         ilSession::set('ch_apps', $this->initAppointmentIdsFromPost());
         if (!count(ilSession::get('ch_apps'))) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'appointmentList');
         }
         $this->initSearchAssignmentToAppointments(true);
@@ -255,9 +254,8 @@ class ilConsultationHoursGUI
         foreach ($unassigned as $user_id) {
             $users[] = ilObjUser::_lookupFullname($user_id);
         }
-        ilUtil::sendInfo(
-            $this->lng->txt('cal_ch_user_assignment_failed_info') .
-            '<br />' . implode('<br />', $users), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('cal_ch_user_assignment_failed_info') .
+        '<br />' . implode('<br />', $users), true);
         return true;
     }
 
@@ -268,8 +266,10 @@ class ilConsultationHoursGUI
     {
         $unassigned_users = array();
         foreach ($_SESSION['ch_apps'] as $app) {
-            $unassigned_users = array_unique(array_merge($unassigned_users,
-                $this->assignUsersToAppointment($users, $app, false)));
+            $unassigned_users = array_unique(array_merge(
+                $unassigned_users,
+                $this->assignUsersToAppointment($users, $app, false)
+            ));
         }
 
         $this->sendInfoAboutUnassignedUsers($unassigned_users);
@@ -293,7 +293,7 @@ class ilConsultationHoursGUI
         }
 
         if (!count($users)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             return [];
         }
 
@@ -401,11 +401,11 @@ class ilConsultationHoursGUI
             $group->setUserId($this->getUserId());
             $group->save();
 
-            ilUtil::sendSuccess($GLOBALS['DIC']['lng']->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $GLOBALS['DIC']['lng']->txt('settings_saved'), true);
             $GLOBALS['DIC']['ilCtrl']->redirect($this, 'groupList');
         }
 
-        ilUtil::sendFailure($GLOBALS['DIC']['lng']->txt('err_check_input'), true);
+        $this->tpl->setOnScreenMessage('failure', $GLOBALS['DIC']['lng']->txt('err_check_input'), true);
         $this->addGroup($form);
     }
 
@@ -440,11 +440,11 @@ class ilConsultationHoursGUI
             $group->setUserId($this->getUserId());
             $group->update();
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'groupList');
         }
 
-        ilUtil::sendFailure($GLOBALS['DIC']['lng']->txt('err_check_input'), true);
+        $this->tpl->setOnScreenMessage('failure', $GLOBALS['DIC']['lng']->txt('err_check_input'), true);
         $this->editGroup($form);
     }
 
@@ -482,7 +482,7 @@ class ilConsultationHoursGUI
             $group = new ilConsultationHourGroup($grp_id);
             $group->delete();
         }
-        ilUtil::sendSuccess($this->lng->txt('cal_ch_grp_deleted'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_ch_grp_deleted'));
         $this->ctrl->redirect($this, 'groupList');
     }
 
@@ -557,11 +557,11 @@ class ilConsultationHoursGUI
         $confirm->setFormAction($this->ctrl->getFormAction($this));
 
         if ($a_send_notification) {
-            ilUtil::sendInfo($this->lng->txt('cal_ch_cancel_booking_info'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cal_ch_cancel_booking_info'));
             $confirm->setHeaderText($this->lng->txt('cal_ch_cancel_booking_sure'));
             $confirm->setConfirm($this->lng->txt('cal_ch_reject_booking'), 'rejectBooking');
         } else {
-            ilUtil::sendInfo($this->lng->txt('cal_ch_delete_booking_info'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cal_ch_delete_booking_info'));
             $confirm->setHeaderText($this->lng->txt('cal_ch_delete_booking_sure'));
             $confirm->setConfirm($this->lng->txt('cal_ch_delete_booking'), 'deleteBooking');
         }
@@ -604,9 +604,9 @@ class ilConsultationHoursGUI
             ilConsultationHourUtils::cancelBooking($ids[1], $ids[0], $a_send_notification);
         }
         if ($a_send_notification) {
-            ilUtil::sendSuccess($this->lng->txt('cal_ch_canceled_bookings'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_ch_canceled_bookings'), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt('cal_ch_deleted_bookings'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_ch_deleted_bookings'), true);
         }
         $this->ctrl->redirect($this, 'bookingList');
     }
@@ -620,8 +620,10 @@ class ilConsultationHoursGUI
         $this->help->setScreenId("consultation_hours");
 
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
-        $this->toolbar->addButton($this->lng->txt('cal_ch_add_sequence'),
-            $this->ctrl->getLinkTarget($this, 'createSequence'));
+        $this->toolbar->addButton(
+            $this->lng->txt('cal_ch_add_sequence'),
+            $this->ctrl->getLinkTarget($this, 'createSequence')
+        );
 
         $this->setSubTabs();
         $this->tabs->activateSubTab('cal_ch_app_list');
@@ -791,7 +793,7 @@ class ilConsultationHoursGUI
                 $type = ilObject::_lookupType($obj_id);
                 $valid_types = array('crs', 'grp');
                 if (!$obj_id or !in_array($type, $valid_types)) {
-                    ilUtil::sendFailure($this->lng->txt('cal_ch_unknown_repository_object'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cal_ch_unknown_repository_object'));
                     $this->tpl->setContent($this->form->getHTML());
                     return;
                 }
@@ -803,7 +805,7 @@ class ilConsultationHoursGUI
             $booking->save();
             $this->createAppointments($booking);
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'appointmentList');
         } else {
             $this->form->setValuesByPost();
@@ -826,8 +828,12 @@ class ilConsultationHoursGUI
             #$start = new ilDateTime(,IL_CAL_UNIX);
         }
 
-        $def_cat = ilCalendarUtil::initDefaultCalendarByType(ilCalendarCategory::TYPE_CH, $this->getUserId(),
-            $this->lng->txt('cal_ch_personal_ch'), true);
+        $def_cat = ilCalendarUtil::initDefaultCalendarByType(
+            ilCalendarCategory::TYPE_CH,
+            $this->getUserId(),
+            $this->lng->txt('cal_ch_personal_ch'),
+            true
+        );
 
         // Add calendar appointment for each
 
@@ -867,7 +873,7 @@ class ilConsultationHoursGUI
                 $entry->setStart($app_start);
                 $entry->setEnd($app_end);
 
-                $entry->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $entry->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $entry->save();
 
                 $cat_assign = new ilCalendarCategoryAssignments($entry->getEntryId());
@@ -903,12 +909,21 @@ class ilConsultationHoursGUI
     protected function setSubTabs() : void
     {
         $this->ctrl->setParameter($this, 'user_id', $this->getUserId());
-        $this->tabs->addSubTab('cal_ch_app_list', $this->lng->txt('cal_ch_app_list'),
-            $this->ctrl->getLinkTarget($this, 'appointmentList'));
-        $this->tabs->addSubTab('cal_ch_app_grp', $this->lng->txt('cal_ch_app_grp'),
-            $this->ctrl->getLinkTarget($this, 'groupList'));
-        $this->tabs->addSubTab('cal_ch_app_bookings', $this->lng->txt('cal_ch_app_bookings'),
-            $this->ctrl->getLinkTarget($this, 'bookingList'));
+        $this->tabs->addSubTab(
+            'cal_ch_app_list',
+            $this->lng->txt('cal_ch_app_list'),
+            $this->ctrl->getLinkTarget($this, 'appointmentList')
+        );
+        $this->tabs->addSubTab(
+            'cal_ch_app_grp',
+            $this->lng->txt('cal_ch_app_grp'),
+            $this->ctrl->getLinkTarget($this, 'groupList')
+        );
+        $this->tabs->addSubTab(
+            'cal_ch_app_bookings',
+            $this->lng->txt('cal_ch_app_bookings'),
+            $this->ctrl->getLinkTarget($this, 'bookingList')
+        );
     }
 
     /**
@@ -917,7 +932,7 @@ class ilConsultationHoursGUI
     public function edit() : void
     {
         if (!$this->http->wrapper()->post()->has('apps')) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->appointmentList();
             return;
         }
@@ -977,7 +992,7 @@ class ilConsultationHoursGUI
             $type = ilObject::_lookupType($obj_id);
             $valid_types = ['crs', 'grp'];
             if (!$obj_id or !in_array($type, $valid_types)) {
-                ilUtil::sendFailure($this->lng->txt('cal_ch_unknown_repository_object'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cal_ch_unknown_repository_object'));
                 return null;
             }
             $obj_ids[] = $obj_id;
@@ -1043,7 +1058,7 @@ class ilConsultationHoursGUI
             $this->rewriteBookingIdsForAppointments($booking, $apps, $this->form);
             ilBookingEntry::removeObsoleteEntries();
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'appointmentList');
         }
         $this->tpl->setContent($this->form->getHTML());
@@ -1056,7 +1071,7 @@ class ilConsultationHoursGUI
     {
         $apps = $this->initAppointmentIdsFromPost();
         if (!count($apps)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->appointmentList();
             return;
         }
@@ -1070,8 +1085,11 @@ class ilConsultationHoursGUI
         $bookings_available = array();
         foreach ((array) $apps as $entry_id) {
             $entry = new ilCalendarEntry($entry_id);
-            $confirm->addItem('apps[]', $entry_id,
-                ilDatePresentation::formatDate($entry->getStart()) . ', ' . $entry->getTitle());
+            $confirm->addItem(
+                'apps[]',
+                $entry_id,
+                ilDatePresentation::formatDate($entry->getStart()) . ', ' . $entry->getTitle()
+            );
 
             if (ilBookingEntry::lookupBookingsForAppointment($entry_id)) {
                 $bookings_available[] = ilDatePresentation::formatDate($entry->getStart()) . ', ' . $entry->getTitle();
@@ -1079,8 +1097,10 @@ class ilConsultationHoursGUI
         }
 
         if ($bookings_available) {
-            ilUtil::sendInfo($this->lng->txt('cal_ch_delete_app_booking_info') . '<br />' . implode('<br />',
-                    $bookings_available));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cal_ch_delete_app_booking_info') . '<br />' . implode(
+                '<br />',
+                $bookings_available
+            ));
         }
 
         $confirm->setConfirm($this->lng->txt('delete'), 'delete');
@@ -1095,7 +1115,7 @@ class ilConsultationHoursGUI
     public function delete() : void
     {
         if (!count($this->initAppointmentIdsFromPost())) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->appointmentList();
             return;
         }
@@ -1116,7 +1136,7 @@ class ilConsultationHoursGUI
 
         ilBookingEntry::removeObsoleteEntries();
 
-        ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_deleted_app'), true);
         $this->ctrl->redirect($this, 'appointmentList');
     }
 
@@ -1197,12 +1217,12 @@ class ilConsultationHoursGUI
         if ($form->checkInput()) {
             $mng = $form->getInput('mng');
             if (ilConsultationHourAppointments::setManager($mng)) {
-                ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
                 $this->ctrl->redirect($this, 'settings');
             } else {
                 $this->tabs->activateTab('ch_settings');
 
-                ilUtil::sendFailure($this->lng->txt('cal_ch_unknown_user'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cal_ch_unknown_user'));
                 $field = $form->getItemByPostVar('mng');
                 $field->setValue($mng);
                 $this->tpl->setContent($form->getHTML());

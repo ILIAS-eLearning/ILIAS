@@ -32,18 +32,9 @@ use ILIAS\GlobalScreen\ScreenContext;
  */
 class ilObjSkillTreeGUI extends ilObjectGUI
 {
-    /**
-     * @var ilObjSkillTree
-     */
-    public $object;
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
+    public ?ilObject $object;
+    protected ilRbacSystem $rbacsystem;
+    protected ilLocatorGUI $locator;
     protected ilErrorHandling $error;
     protected ilTabsGUI $tabs;
     protected ilSkillTree $skill_tree;
@@ -395,7 +386,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                     $props["title"],
                     $props["description"]
                 );
-                ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             } else {
                 $tpl->setContent($ui->renderer()->render($form));
                 $tabs->clearTargets();
@@ -421,12 +412,14 @@ class ilObjSkillTreeGUI extends ilObjectGUI
             $data = $form->getData();
             if (is_array($data["props"])) {
                 $props = $data["props"];
+                /** @var ilObjSkillTree $obj */
+                $obj = $this->object;
                 $this->skill_tree_manager->updateTree(
-                    $this->object,
+                    $obj,
                     $props["title"],
                     $props["description"]
                 );
-                ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             }
         }
         $ctrl->redirect($this, "edit");
@@ -526,7 +519,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 }
             }
             if ($a_succ_mess) {
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+                $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             }
         }
         $ilCtrl->redirect($this, "editSkills");
@@ -546,7 +539,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 }
             }
             if ($a_succ_mess) {
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+                $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             }
         }
         $ilCtrl->redirect($this, "editSkillTemplates");
@@ -661,7 +654,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 $lng->txt("back"),
                 $ilCtrl->getLinkTarget($a_gui, "cancelDelete")
             );
-            ilUtil::sendFailure($lng->txt("skmg_cannot_delete_nodes_in_use"));
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("skmg_cannot_delete_nodes_in_use"));
             return;
         }
 
@@ -732,7 +725,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         }
 
         // feedback
-        ilUtil::sendInfo($this->lng->txt("info_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("info_deleted"), true);
         $ctrl->redirectByClass("ilobjskillmanagementgui", "");
     }
 
@@ -753,7 +746,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         }
 
         // feedback
-        ilUtil::sendInfo($this->lng->txt("info_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("info_deleted"), true);
     }
 
     //

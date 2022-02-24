@@ -311,7 +311,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         }
         
         $this->tpl->setVariable('HINT_INDEX', $hintIndex);
-        $txt = ilUtil::prepareTextareaOutput($a_set['hint_text'], true);
+        $txt = ilLegacyFormElementsUtil::prepareTextareaOutput($a_set['hint_text'], true);
         $this->tpl->setVariable('HINT_TEXT', $txt);
         $this->tpl->setVariable('HINT_POINTS', $a_set['hint_points']);
     }

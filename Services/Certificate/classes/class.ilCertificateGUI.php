@@ -267,7 +267,7 @@ class ilCertificateGUI
         try {
             $this->previewAction->createPreviewPdf($this->objectId);
         } catch (Exception $exception) {
-            ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
             $this->certificateEditor();
         }
     }
@@ -563,20 +563,20 @@ class ilCertificateGUI
                     );
 
                     $this->templateRepository->save($certificateTemplate);
-                    ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
                     $this->ctrl->redirect($this, "certificateEditor");
                 }
 
                 if ($previousCertificateTemplate->getId() !== null && $previousCertificateTemplate->isCurrentlyActive() !== $active) {
                     $this->templateRepository->updateActivity($previousCertificateTemplate, $active);
-                    ilUtil::sendInfo($this->lng->txt('certificate_change_active_status'), true);
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_change_active_status'), true);
                     $this->ctrl->redirect($this, "certificateEditor");
                 }
 
-                ilUtil::sendInfo($this->lng->txt('certificate_same_not_saved'), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_same_not_saved'), true);
                 $this->ctrl->redirect($this, "certificateEditor");
             } catch (Exception $e) {
-                ilUtil::sendFailure($e->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
             }
         }
 

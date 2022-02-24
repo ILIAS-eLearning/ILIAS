@@ -1,4 +1,4 @@
-**Component** Documentation
+**Survey**
 
 * [Public Services](#public-services)
 * [Internal Documentation](#internal-documentation)
@@ -6,11 +6,6 @@
 # Public Services
 
 This component does currently not offer any public services.
-
-# PDF Generation
-
-- If wkhtmltopdf is being used you must set the "Use print media type instead of screen" flag.
-- wkhtmltopdf struggles with canvas rendering, see e.g. https://github.com/wkhtmltopdf/wkhtmltopdf/issues/1964
 
 # Internal Documentation
 

@@ -172,7 +172,7 @@ class ilOrgUnitPosition extends \ActiveRecord
     protected $authorities = array();
 
 
-    public function afterObjectLoad()
+    public function afterObjectLoad() : void
     {
         $this->authorities = ilOrgUnitAuthority::where(array(ilOrgUnitAuthority::POSITION_ID => $this->getId()))
             ->get();

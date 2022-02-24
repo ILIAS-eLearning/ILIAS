@@ -173,7 +173,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             
             $handler->rebuildIssuerStaticUrl();
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
         
@@ -269,7 +269,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             }
             $handler->setInactiveTypes($inactive);
             
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
         $this->ctrl->redirect($this, "listTypes");
     }
@@ -286,7 +286,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             $inactive = array_merge($handler->getInactiveTypes(), $ids);
             $handler->setInactiveTypes($inactive);
             
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
         $this->ctrl->redirect($this, "listTypes");
     }
@@ -404,7 +404,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             
             $tmpl->uploadImage($_FILES["img"]);
             
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "listImageTemplates");
         }
         
@@ -486,7 +486,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             
             $tmpl->uploadImage($_FILES["img"]);
         
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "listImageTemplates");
         }
         
@@ -543,7 +543,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 $tmpl->delete();
             }
         
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
         
         $ilCtrl->redirect($this, "listImageTemplates");
@@ -671,7 +671,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             $badge->update();
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listObjectBadges");
     }
     
@@ -742,7 +742,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             $badge->delete();
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listObjectBadges");
     }
 }

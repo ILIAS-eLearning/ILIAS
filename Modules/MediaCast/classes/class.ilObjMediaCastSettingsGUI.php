@@ -24,6 +24,7 @@ use ILIAS\MediaCast\StandardGUIRequest;
 class ilObjMediaCastSettingsGUI extends ilObjectGUI
 {
     protected StandardGUIRequest $mc_request;
+    protected ilMediaCastSettings $mc_settings;
 
     public function __construct(
         $a_data,
@@ -39,7 +40,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
         $this->lng->loadLanguageModule('mcst');
-        $this->settings = ilMediaCastSettings::_getInstance();
+        $this->mc_settings = ilMediaCastSettings::_getInstance();
         $this->mc_request = $DIC->mediaCast()
             ->internal()
             ->gui()
@@ -53,7 +54,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -76,9 +77,9 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        $rbacsystem = $this->rbacsystem;
+        $rbac_system = $this->rbac_system;
 
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "mcst_edit_settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),
@@ -86,7 +87,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
@@ -109,17 +110,17 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         $purposeSuffixes = [];
         
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            foreach ($this->settings->getPurposeSuffixes() as $purpose => $filetypes) {
+            foreach ($this->mc_settings->getPurposeSuffixes() as $purpose => $filetypes) {
                 $purposeSuffixes[$purpose] = explode(",", preg_replace("/[^\w,]/", "", strtolower($this->mc_request->getSettingsPurpose($purpose))));
             }
 
-            $this->settings->setPurposeSuffixes($purposeSuffixes);
-            $this->settings->setDefaultAccess($this->mc_request->getDefaultAccess());
-            $this->settings->setMimeTypes(explode(",", $this->mc_request->getMimeTypes()));
+            $this->mc_settings->setPurposeSuffixes($purposeSuffixes);
+            $this->mc_settings->setDefaultAccess($this->mc_request->getDefaultAccess());
+            $this->mc_settings->setMimeTypes(explode(",", $this->mc_request->getMimeTypes()));
 
-            $this->settings->save();
+            $this->mc_settings->save();
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         
         $ilCtrl->redirect($this, "view");
@@ -152,12 +153,12 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         $radio_group->addOption($radio_option);
         $radio_group->setInfo($lng->txt("mcst_news_item_visibility_info"));
         $radio_group->setRequired(false);
-        $radio_group->setValue($this->settings->getDefaultAccess());
+        $radio_group->setValue($this->mc_settings->getDefaultAccess());
         #$ch->addSubItem($radio_group);
         $form->addItem($radio_group);
 
 
-        foreach ($this->settings->getPurposeSuffixes() as $purpose => $filetypes) {
+        foreach ($this->mc_settings->getPurposeSuffixes() as $purpose => $filetypes) {
             if ($purpose != "VideoAlternative") {
                 $text = new ilTextInputGUI($lng->txt("mcst_" . strtolower($purpose) . "_settings_title"), $purpose);
                 $text->setValue(implode(",", $filetypes));
@@ -170,8 +171,8 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         $text->setInfo($lng->txt("mcst_mimetypes_info"));
         $text->setCols(120);
         $text->setRows(10);
-        if (is_array($this->settings->getMimeTypes())) {
-            $text->setValue(implode(",", $this->settings->getMimeTypes()));
+        if (is_array($this->mc_settings->getMimeTypes())) {
+            $text->setValue(implode(",", $this->mc_settings->getMimeTypes()));
         }
         $form->addItem($text);
         

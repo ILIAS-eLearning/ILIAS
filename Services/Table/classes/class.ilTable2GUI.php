@@ -112,6 +112,7 @@ class ilTable2GUI extends ilTableGUI
     protected string $custom_prev = "";
     protected string $custom_next = "";
     protected ?array $raw_post_data = null;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         ?object $a_parent_obj,
@@ -119,6 +120,7 @@ class ilTable2GUI extends ilTableGUI
         string $a_template_context = ""
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
@@ -1314,7 +1316,7 @@ class ilTable2GUI extends ilTableGUI
         if ($this->dataExists()) {
             // sort
             if (!$this->getExternalSorting() && $this->enabled["sort"]) {
-                $data = ilUtil::sortArray(
+                $data = ilArrayUtil::sortArray(
                     $data,
                     $this->getOrderField(),
                     $this->getOrderDirection(),
@@ -1827,11 +1829,11 @@ class ilTable2GUI extends ilTableGUI
             // template handling
             if ($this->requested_tmpl_create != "") {
                 if ($this->saveTemplate($this->requested_tmpl_create)) {
-                    ilUtil::sendSuccess($lng->txt("tbl_template_created"));
+                    $this->main_tpl->setOnScreenMessage('success', $lng->txt("tbl_template_created"));
                 }
             } elseif ($this->requested_tmpl_delete != "") {
                 if ($this->deleteTemplate($this->requested_tmpl_delete)) {
-                    ilUtil::sendSuccess($lng->txt("tbl_template_deleted"));
+                    $this->main_tpl->setOnScreenMessage('success', $lng->txt("tbl_template_deleted"));
                 }
             }
 
@@ -2084,7 +2086,7 @@ class ilTable2GUI extends ilTableGUI
                 }
                 $LinkBar .=
                     '<label for="tab_page_sel_' . $a_num . '">' . $lng->txt("page") . '</label> ' .
-                    ilUtil::formSelect(
+                    ilLegacyFormElementsUtil::formSelect(
                         $this->nav_value,
                         $this->getNavParameter() . $a_num,
                         $offset_arr,
@@ -2137,7 +2139,7 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->setCurrentBlock("sel_button");
                 $this->tpl->setVariable(
                     "SBUTTON_SELECT",
-                    ilUtil::formSelect(
+                    ilLegacyFormElementsUtil::formSelect(
                         $button["selected"],
                         $button["sel_var"],
                         $button["options"],
@@ -2153,7 +2155,7 @@ class ilTable2GUI extends ilTableGUI
                     $this->tpl->setCurrentBlock("sel_top_button");
                     $this->tpl->setVariable(
                         "SBUTTON_SELECT",
-                        ilUtil::formSelect(
+                        ilLegacyFormElementsUtil::formSelect(
                             $button["selected"],
                             $button["sel_var"],
                             $button["options"],
@@ -2228,7 +2230,7 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->setCurrentBlock("mi_sel_button");
                 $this->tpl->setVariable(
                     "MI_BUTTON_SELECT",
-                    ilUtil::formSelect(
+                    ilLegacyFormElementsUtil::formSelect(
                         $button["selected"],
                         $button["sel_var"],
                         $button["options"],
@@ -2244,7 +2246,7 @@ class ilTable2GUI extends ilTableGUI
                     $this->tpl->setCurrentBlock("mi_top_sel_button");
                     $this->tpl->setVariable(
                         "MI_BUTTON_SELECT",
-                        ilUtil::formSelect(
+                        ilLegacyFormElementsUtil::formSelect(
                             $button["selected"],
                             $button["sel_var"] . "_2",
                             $button["options"],
@@ -2276,7 +2278,7 @@ class ilTable2GUI extends ilTableGUI
             }
             $this->tpl->setVariable(
                 "SELECT_CMDS",
-                ilUtil::formSelect("", "selected_cmd", $sel, false, true)
+                ilLegacyFormElementsUtil::formSelect("", "selected_cmd", $sel, false, true)
             );
             $this->tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
             $this->tpl->parseCurrentBlock();
@@ -2297,7 +2299,7 @@ class ilTable2GUI extends ilTableGUI
                 }
                 $this->tpl->setVariable(
                     "SELECT_CMDS",
-                    ilUtil::formSelect("", "selected_cmd2", $sel, false, true)
+                    ilLegacyFormElementsUtil::formSelect("", "selected_cmd2", $sel, false, true)
                 );
                 $this->tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
                 $this->tpl->parseCurrentBlock();
@@ -2432,12 +2434,12 @@ class ilTable2GUI extends ilTableGUI
      * Get current filter value
      * @return mixed
      */
-    protected function getFilterValue(ilTableFilterItem $a_item) : string
+    protected function getFilterValue(ilTableFilterItem $a_item)
     {
         if (method_exists($a_item, "getChecked")) {
             return (string) $a_item->getChecked();
         } elseif (method_exists($a_item, "getValue")) {
-            return $a_item->getValue();
+            return $a_item->getValue() ?: "";
         } elseif (method_exists($a_item, "getDate")) {
             return $a_item->getDate()->get(IL_CAL_DATE);
         }
@@ -2533,8 +2535,8 @@ class ilTable2GUI extends ilTableGUI
 
         $ilUser = $DIC->user();
 
-        $a_name = ilUtil::prepareFormOutput($a_name, true);
-
+        $a_name = ilLegacyFormElementsUtil::prepareFormOutput($a_name, true);
+    
         if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
             $storage = new ilTableTemplatesStorage();
 
@@ -2555,8 +2557,8 @@ class ilTable2GUI extends ilTableGUI
 
         $ilUser = $DIC->user();
 
-        $a_name = ilUtil::prepareFormOutput($a_name, true);
-
+        $a_name = ilLegacyFormElementsUtil::prepareFormOutput($a_name, true);
+    
         if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
             $storage = new ilTableTemplatesStorage();
             $storage->delete($this->getContext(), $ilUser->getId(), $a_name);
@@ -2624,7 +2626,7 @@ class ilTable2GUI extends ilTableGUI
             if (!$this->getExternalSorting() && $this->enabled["sort"]) {
                 $this->determineOffsetAndOrder(true);
 
-                $this->row_data = ilUtil::sortArray(
+                $this->row_data = ilArrayUtil::sortArray(
                     $this->row_data,
                     $this->getOrderField(),
                     $this->getOrderDirection(),

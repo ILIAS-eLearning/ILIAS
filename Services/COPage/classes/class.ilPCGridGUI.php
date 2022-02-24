@@ -217,7 +217,7 @@ class ilPCGridGUI extends ilPageContentGUI
             $this->content_obj->savePositions($pos);
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "edit");
     }
 
@@ -229,7 +229,7 @@ class ilPCGridGUI extends ilPageContentGUI
         $this->content_obj->addCell();
         $this->updated = $this->pg_obj->update();
 
-        ilUtil::sendSuccess($this->lng->txt("cont_added_cell"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_added_cell"), true);
         $this->ctrl->redirect($this, "edit");
     }
     
@@ -242,7 +242,7 @@ class ilPCGridGUI extends ilPageContentGUI
 
         $tid = $this->request->getStringArray("tid");
         if (count($tid) == 0) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "edit");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -316,7 +316,7 @@ class ilPCGridGUI extends ilPageContentGUI
             $this->content_obj->savePositions($pos);
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "edit");
     }
 }

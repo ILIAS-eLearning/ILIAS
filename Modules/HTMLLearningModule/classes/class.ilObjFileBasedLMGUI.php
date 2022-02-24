@@ -150,7 +150,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                     }
                     
                     if ($do_update) {
-                        ilUtil::sendInfo(sprintf($this->lng->txt("cont_start_file_set_to"), $do_update), true);
+                        $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("cont_start_file_set_to"), $do_update), true);
                         
                         $this->object->update();
                         $this->ctrl->redirectByClass("ilfilesystemgui", "listFiles");
@@ -207,10 +207,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $this->addHeaderAction();
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type),
-            self::CFORM_IMPORT => $this->initImportForm($a_new_type));
+        $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type),
+            self::CFORM_IMPORT => $this->initImportForm($new_type));
         return $forms;
     }
 
@@ -350,7 +350,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 )
             );
 
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "properties");
         }
 
@@ -379,16 +379,16 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $this->cancelObject();
     }
     
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
-        if (!$a_new_object->getStartFile()) {
+        if (!$new_object->getStartFile()) {
             // try to set start file automatically
             $files = array();
-            ilFileUtils::recursive_dirscan($a_new_object->getDataDirectory(), $files);
+            ilFileUtils::recursive_dirscan($new_object->getDataDirectory(), $files);
             if (is_array($files["file"])) {
                 $zip_file = null;
-                if (stristr($a_new_object->getTitle(), ".zip")) {
-                    $zip_file = strtolower($a_new_object->getTitle());
+                if (stristr($new_object->getTitle(), ".zip")) {
+                    $zip_file = strtolower($new_object->getTitle());
                     $suffix = strrpos($zip_file, ".");
                     if ($suffix) {
                         $zip_file = substr($zip_file, 0, $suffix);
@@ -406,8 +406,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                     }
                     if (in_array($file, $valid) ||
                         ($chk_file && $zip_file && $chk_file == $zip_file)) {
-                        $a_new_object->setStartFile(str_replace($a_new_object->getDataDirectory() . "/", "", $files["path"][$idx]) . $file);
-                        $a_new_object->update();
+                        $new_object->setStartFile(str_replace($new_object->getDataDirectory() . "/", "", $files["path"][$idx]) . $file);
+                        $new_object->update();
                         break;
                     }
                 }
@@ -415,8 +415,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         }
         
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
-        $this->object = $a_new_object;
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
+        $this->object = $new_object;
         $this->redirectAfterCreation();
     }
 
@@ -609,6 +609,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
@@ -617,7 +618,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             $ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -641,7 +642,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         }
     }
 
-    protected function importFileObject($parent_id = null, $a_catch_errors = true)
+    protected function importFileObject(int $parent_id = null, bool $catch_errors = true) : void
     {
         try {
             parent::importFileObject();
@@ -651,10 +652,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         }
     }
 
-    protected function afterImport(ilObject $a_new_object)
+    protected function afterImport(ilObject $new_object) : void
     {
-        $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirect($this, "properties");
     }
 

@@ -15,13 +15,7 @@
  *****************************************************************************/
 
 /**
-* @defgroup ServicesWebServicesECS Services/WebServices/ECS
-*
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSSetting
 {
@@ -744,7 +738,7 @@ class ilECSSetting
     {
         $this->server_id = $this->db->nextId('ecs_server');
         $this->db->manipulate(
-            $q = 'INSERT INTO ecs_server (server_id,active,title,protocol,server,port,auth_type,client_cert_path,ca_cert_path,' .
+            'INSERT INTO ecs_server (server_id,active,title,protocol,server,port,auth_type,client_cert_path,ca_cert_path,' .
             'key_path,key_password,cert_serial,polling_time,import_id,global_role,econtent_rcp,user_rcp,approval_rcp,duration,auth_user,auth_pass) ' .
             'VALUES (' .
             $this->db->quote($this->getServerId(), 'integer') . ', ' .

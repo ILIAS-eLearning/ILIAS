@@ -33,8 +33,6 @@
  * requests by (i)frames.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
  */
 class ilSessionIStorage
 {
@@ -125,21 +123,20 @@ class ilSessionIStorage
     
     /**
      * Destroy session(s). This is called by ilSession->destroy
+     * @param $a_session_id string|array ids of sessions to be deleted
      */
-    public static function destroySession(string $a_session_id) : void
+    public static function destroySession($a_session_id) : void
     {
         global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if (!is_array($a_session_id)) {
             $q = "DELETE FROM usr_sess_istorage WHERE session_id = " .
-                $ilDB->quote($a_session_id, "text");
+                $DIC->database()->quote($a_session_id, "text");
         } else {
             $q = "DELETE FROM usr_sess_istorage WHERE " .
-                $ilDB->in("session_id", $a_session_id, "", "text");
+                $DIC->database()->in("session_id", $a_session_id, false, "text");
         }
-
-        $ilDB->manipulate($q);
+    
+        $DIC->database()->manipulate($q);
     }
 }

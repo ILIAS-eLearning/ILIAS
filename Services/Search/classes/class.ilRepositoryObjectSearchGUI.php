@@ -64,7 +64,7 @@ class ilRepositoryObjectSearchGUI
     public function executeCommand() : void
     {
         if (!$this->access->checkAccess('read', '', $this->getObject()->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->getCtrl()->returnToParent($this->getParentGUI());
         }
         
@@ -115,7 +115,6 @@ class ilRepositoryObjectSearchGUI
      */
     protected function performSearch() : bool
     {
-        
         try {
             $search = new ilRepositoryObjectDetailSearch(ilObject::_lookupObjId($this->getRefId()));
 
@@ -129,7 +128,7 @@ class ilRepositoryObjectSearchGUI
             $search->setQueryString($search_term);
             $result = $search->performSearch();
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             $this->getCtrl()->returnToParent($this);
             return false;
         }
@@ -147,7 +146,6 @@ class ilRepositoryObjectSearchGUI
 
     public function getResultTableInstance() : ?object
     {
-
         $class = $this->obj_definition->getClassName($this->getObject()->getType());
         $location = $this->obj_definition->getLocation($this->getObject()->getType());
         $full_class = "ilObj" . $class . "SearchResultTableGUI";

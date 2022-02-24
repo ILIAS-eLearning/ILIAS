@@ -278,7 +278,7 @@ class ilCalendarSchedule
         }
 
         if ($this->type == self::TYPE_PD_UPCOMING) {
-            $this->schedule = ilUtil::sortArray($this->schedule, "dstart", "asc", true);
+            $this->schedule = ilArrayUtil::sortArray($this->schedule, "dstart", "asc", true);
             if ($this->areEventsLimited() && sizeof($this->schedule) >= $this->getEventsLimit()) {
                 $this->schedule = array_slice($this->schedule, 0, $this->getEventsLimit());
             }

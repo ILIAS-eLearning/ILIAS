@@ -2339,6 +2339,7 @@ rbac#:#cat_copy#:#User can copy category
 rbac#:#cat_delete#:#User can move or delete category
 rbac#:#cat_edit_permission#:#User can change permission settings
 common#:#cat_edit#:#Category Settings
+common#:#catr_edit#:#Category Link Settings
 common#:#cat_new#:#New Category
 rbac#:#cat_read_users#:#User can read local user accounts created in this category
 rbac#:#cat_read#:#User has read access to category
@@ -2558,6 +2559,7 @@ forum#:#descending_order#:#Latest postings at the top
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
 common#:#details#:#Details
+common#:#didactic_template#:#Didactic Template
 common#:#disable_check#:#Disable check
 common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
 common#:#disable_hide_user_toggle#:#Member is allowed to deactivate
@@ -9432,6 +9434,7 @@ chatroom#:#kicked#:#You have been kicked from this chat room
 chatroom#:#unban#:#Unban
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
 common#:#obj_chtr#:#Chat Room
+common#:#obj_chtr_duplicate#:#Copy Chat Room
 chatroom#:#unable_to_connect#:#The connection to the chat server could not be established.
 user#:#user_account_codes_add#:#Add Codes
 user#:#user_account_codes_export#:#Export Codes
@@ -11778,6 +11781,8 @@ assessment#:#tolerance#:#Tolerance (%)
 assessment#:#result_units#:#Available Units
 assessment#:#precision#:#Precision
 assessment#:#err_range#:#The maximum range must be greater than the minimum range
+assessment#:#err_division#:#This value has to be smaller than the maximum range.
+assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
 assessment#:#err_no_formula#:#You must enter a formula
 assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent
 assessment#:#rating_sign#:#Rate Sign
@@ -12208,8 +12213,8 @@ skmg#:#skmg_suggested_resources#:#Suggested Resources
 cntr#:#exc_next_deadline_single#:#Deadline
 trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
-survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors
-survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys and results will be sent to tutors.
+survey#:#survey_reminder_cron#:#Remind users to participate
+survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys
 cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
 cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
 cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?
@@ -13870,7 +13875,7 @@ skmg#:#skmg_import_skills#:#Import
 skmg#:#skmg_input_file#:#Import File
 skmg#:#skmg_skill_in_use#:#This competence is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 form#:#form_no_link#:#No Link
-copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
+copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
 logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
 logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Path
@@ -15473,7 +15478,7 @@ rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
 rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
 rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
-dateplaner#:#btn_ical#:#iCal
+dateplaner#:#btn_ical#:#Subscribe
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
@@ -16737,3 +16742,15 @@ cmps#:#cmps_available_version#:#Available Version
 cmps#:#cmps_refresh_lng#:#Refresh language
 cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled
 cmps#:#cmps_plugin_updated#:#The plugin has been updated
+svy#:#svy_print_selection#:#Print View Selection
+svy#:#svy_selection#:#Selection
+svy#:#svy_current_page#:#Current Page
+svy#:#svy_all_pages#:#All Pages
+svy#:#svy_all_participants#:#All Participants
+svy#:#svy_selected_participants#:#Selected Participants
+svy#:#svy_all_questions#:#All Questions
+svy#:#svy_selected_questions#:#Selected Questions
+rating#:#rating_avg_rating#:#Average Rating
+rating#:#rating_personal_rating#:#Your Rating
+rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars
+rating#:#rating_open_dialog#:#Open rating dialog

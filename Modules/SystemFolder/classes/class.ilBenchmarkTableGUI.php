@@ -36,14 +36,14 @@ class ilBenchmarkTableGUI extends ilTable2GUI
 
         switch ($this->mode) {
             case "slowest_first":
-                $this->setData(ilUtil::sortArray($a_records, "time", "desc", true));
+                $this->setData(ilArrayUtil::sortArray($a_records, "time", "desc", true));
                 $this->setTitle($lng->txt("adm_db_bench_slowest_first"));
                 $this->addColumn($this->lng->txt("adm_time"));
                 $this->addColumn($this->lng->txt("adm_sql"));
                 break;
 
             case "sorted_by_sql":
-                $this->setData(ilUtil::sortArray($a_records, "sql", "asc"));
+                $this->setData(ilArrayUtil::sortArray($a_records, "sql", "asc"));
                 $this->setTitle($lng->txt("adm_db_bench_sorted_by_sql"));
                 $this->addColumn($this->lng->txt("adm_time"));
                 $this->addColumn($this->lng->txt("adm_sql"));
@@ -140,7 +140,7 @@ class ilBenchmarkTableGUI extends ilTable2GUI
             $data[$table]["time"] += $r["time"];
         }
         if (count($data) > 0) {
-            $data = ilUtil::sortArray($data, "time", "desc", true);
+            $data = ilArrayUtil::sortArray($data, "time", "desc", true);
         }
 
         return $data;

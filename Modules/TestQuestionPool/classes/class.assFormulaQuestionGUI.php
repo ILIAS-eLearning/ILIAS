@@ -151,7 +151,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     public function suggestRange()
     {
         if ($this->writePostData()) {
-            ilUtil::sendInfo($this->getErrorMessage());
+            $this->tpl->setOnScreenMessage('info', $this->getErrorMessage());
         }
         $this->editQuestion();
     }
@@ -238,7 +238,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
                 $checked = false;
                 if ($this->isSaveCommand()) {
-                    ilUtil::sendFailure($error_message);
+                    $this->tpl->setOnScreenMessage('failure', $error_message);
                 }
             }
             foreach ($found_results as $result) {
@@ -634,7 +634,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     
             $checked = false;
             if ($save) {
-                ilUtil::sendFailure($error_message);
+                $this->tpl->setOnScreenMessage('failure', $error_message);
             }
         }
 
@@ -644,7 +644,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
         
         if ($save && !$checked) {
-            ilUtil::sendFailure($error_message);
+            $this->tpl->setOnScreenMessage('failure', $error_message);
         }
         
         if ($this->object->getId()) {
@@ -687,6 +687,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     if ($min_range->getValue() > $max_range->getValue()) {
                         $min_range->setAlert($this->lng->txt('err_range'));
                         $max_range->setAlert($this->lng->txt('err_range'));
+                        $custom_errors = true;
+                    }
+                    $intPrecision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
+                    if ($intPrecision->getValue() > $max_range->getValue()) {
+                        $intPrecision->setAlert($this->lng->txt('err_division'));
                         $custom_errors = true;
                     }
                 }
@@ -736,14 +741,14 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $result_has_undefined_vars = array_diff($form_vars[0], (array) $found_vars);
                     if (count($result_has_undefined_vars)) {
                         $errors = true;
-                        ilUtil::sendInfo($this->lng->txt('res_contains_undef_var'));
+                        $this->tpl->setOnScreenMessage('info', $this->lng->txt('res_contains_undef_var'));
                     }
                 }
             }
             
             if ($custom_errors && !$errors) {
                 $errors = true;
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
             $form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
             if ($errors) {
@@ -845,7 +850,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $this->ctrl->setParameter($this, 'calling_test', $_GET['calling_test']);
                     #$this->ctrl->setParameter($this, 'test_ref_id', false);
                 }
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 if ($_REQUEST['test_express_mode']) {
                     ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($q_id));
                 } else {
@@ -854,13 +859,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
             } else {
                 if ($this->object->getId() != $old_id) {
                     $this->callNewIdListeners($this->object->getId());
-                    ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                     $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
                 }
                 if (strcmp($_SESSION["info"], "") != 0) {
-                    ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), true);
+                    $this->tpl->setOnScreenMessage('success', $_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), true);
                 } else {
-                    ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 }
                 $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
             }
@@ -1051,7 +1056,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false)
     // hey.
     {
-        ilUtil::sendInfo($this->lng->txt('enter_valid_values'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('enter_valid_values'));
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = array();
         if ($active_id) {

@@ -15,12 +15,7 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSParticipantSetting
 {
@@ -62,12 +57,6 @@ class ilECSParticipantSetting
 
     private ilDBInterface $db;
     
-    /**
-     * Constructor
-     *
-     * @access private
-     *
-     */
     public function __construct(int $a_server_id, int $mid)
     {
         global $DIC;
@@ -286,13 +275,13 @@ class ilECSParticipantSetting
         $this->exists = ($res->numRows() ? true : false);
 
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->enableExport(boolval($row->export));
-            $this->enableImport(boolval($row->import));
-            $this->setImportType(intval($row->import_type));
+            $this->enableExport((bool) $row->export);
+            $this->enableImport((bool) $row->import);
+            $this->setImportType((int) $row->import_type);
             $this->setTitle($row->title);
             $this->setCommunityName($row->cname);
-            $this->enableToken(boolval($row->token));
-            $this->enableDeprecatedToken(boolval($row->dtoken));
+            $this->enableToken((bool) $row->token);
+            $this->enableDeprecatedToken((bool) $row->dtoken);
             
             $this->setExportTypes((array) unserialize($row->export_types));
             $this->setImportTypes((array) unserialize($row->import_types));

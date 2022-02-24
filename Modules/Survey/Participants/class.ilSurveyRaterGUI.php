@@ -231,9 +231,9 @@ class ilSurveyRaterGUI
                 $user_id != $ilUser->getId()) {
                 if ($appr_id != $user_id) {
                     $this->survey->addRater($appr_id, $user_id);
-                    ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                    $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 } else {
-                    ilUtil::sendFailure($this->lng->txt("svy_appraisses_cannot_be_raters"), true);
+                    $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("svy_appraisses_cannot_be_raters"), true);
                 }
             }
         }
@@ -387,7 +387,7 @@ class ilSurveyRaterGUI
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt("mail_sent"), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("mail_sent"), true);
             $this->ctrl->redirect($this->parent, "editRaters");
         }
 
@@ -439,9 +439,9 @@ class ilSurveyRaterGUI
                     $user_id != $ilUser->getId()) {
                     if ($appr_id != $user_id) {
                         $this->survey->addRater($appr_id, $user_id);
-                        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                     } else {
-                        ilUtil::sendFailure($this->lng->txt("svy_appraisses_cannot_be_raters"), true);
+                        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("svy_appraisses_cannot_be_raters"), true);
                     }
                 }
             }

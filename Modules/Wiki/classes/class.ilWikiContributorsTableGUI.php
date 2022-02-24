@@ -116,7 +116,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
             );
             $this->tpl->setVariable(
                 "VAL_LCOMMENT",
-                ilUtil::prepareFormOutput($lpcomment)
+                ilLegacyFormElementsUtil::prepareFormOutput($lpcomment)
             );
 
             // status
@@ -156,7 +156,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 
             $this->tpl->setVariable(
                 "VAL_MARK",
-                ilUtil::prepareFormOutput($mark)
+                ilLegacyFormElementsUtil::prepareFormOutput($mark)
             );
         }
     }

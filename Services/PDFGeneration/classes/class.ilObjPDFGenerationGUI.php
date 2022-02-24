@@ -15,21 +15,9 @@
 class ilObjPDFGenerationGUI extends ilObject2GUI
 {
     protected string $active_tab;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilToolbarGUI $toolbar;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -124,7 +112,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         }
 
         if (ilPDFCompInstaller::checkForMultipleServiceAndPurposeCombination()) {
-            ilUtil::sendInfo($this->lng->txt('problem_with_purposes'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('problem_with_purposes'));
             $clean_btn = ilLinkButton::getInstance();
             $clean_btn->setCaption('cleanup');
             $clean_btn->setUrl($this->ctrl->getLinkTarget($this, 'doCleanUp'));
@@ -154,11 +142,11 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
             $form->setTitle($this->lng->txt('pdf_config'));
 
             if ($redirect_after) {
-                ilUtil::sendSuccess($this->lng->txt('config_saved'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('config_saved'), true);
                 $this->ctrl->redirect($this, "view");
             }
         } else {
-            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $this->ctrl->redirect($this, "view");
         }
     }
@@ -206,7 +194,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
             $this->tpl->setContent($form->getHTML());
             $this->setActiveTab('settings');
         } else {
-            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $this->ctrl->redirect($this, "view");
         }
     }
@@ -237,10 +225,10 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         if ($renderer_obj->validateConfigInForm($form, $service, $purpose)) {
             $config = $renderer_obj->getConfigFromForm($form, $service, $purpose);
             ilPDFGeneratorUtils::saveRendererPurposeConfig($service, $purpose, $renderer, $config);
-            ilUtil::sendSuccess($this->lng->txt('config_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('config_saved'), true);
             $this->ctrl->redirect($this, "view");
         } else {
-            ilUtil::sendFailure($this->lng->txt('config_not_saved'), true); // TODO: Needs better handling.
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('config_not_saved'), true); // TODO: Needs better handling.
             $this->ctrl->redirect($this, "view");
         }
     }
@@ -248,7 +236,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
     protected function doCleanUp() : void
     {
         ilPDFCompInstaller::doCleanUp();
-        ilUtil::sendSuccess($this->lng->txt('config_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('config_saved'), true);
         $this->ctrl->redirect($this, "view");
     }
 

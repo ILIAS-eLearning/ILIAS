@@ -63,8 +63,8 @@ class ilBookingGatewayGUI
         $this->lng->loadLanguageModule("book");
 
         // current parent context (e.g. session in course)
-        $this->obj_id = $parent_gui->object->getId();
-        $this->ref_id = $parent_gui->object->getRefId();
+        $this->obj_id = $parent_gui->getObject()->getId();
+        $this->ref_id = $parent_gui->getObject()->getRefId();
 
         $this->main_host_ref_id = ($main_host_ref_id == 0)
             ? $this->ref_id
@@ -244,7 +244,7 @@ class ilBookingGatewayGUI
             $ctrl->redirect($this, "settings");
         }
 
-        ilUtil::sendFailure($this->lng->txt("book_no_pools_selected"));
+        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("book_no_pools_selected"));
     }
 
     //
@@ -299,7 +299,7 @@ class ilBookingGatewayGUI
                 : [];
 
             if (!$this->checkBookingPoolsForSchedules($b_ids)) {
-                ilUtil::sendFailure($lng->txt("book_all_pools_need_schedules"));
+                $this->main_tpl->setOnScreenMessage('failure', $lng->txt("book_all_pools_need_schedules"));
                 $form->setValuesByPost();
                 $main_tpl->setContent($form->getHTML());
                 return;
@@ -314,7 +314,7 @@ class ilBookingGatewayGUI
             $handler = new BookingManager\saveObjectSettingsCommandHandler($cmd, $repo);
             $handler->handle();
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ctrl->redirect($this, "");
         } else {
             $form->setValuesByPost();

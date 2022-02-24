@@ -53,7 +53,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -124,7 +124,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
             $mset->set("restricted_file_types", $this->form->getInput("restricted_file_types"));
             $mset->set("black_list_file_types", $this->form->getInput("black_list_file_types"));
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
         

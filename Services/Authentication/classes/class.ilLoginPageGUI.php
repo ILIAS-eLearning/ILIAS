@@ -22,8 +22,6 @@
  * @ilCtrl_Calls ilLoginPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilLoginPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilLoginPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
- *
- * @ingroup ServicesAuthentication
  */
 class ilLoginPageGUI extends ilPageObjectGUI
 {

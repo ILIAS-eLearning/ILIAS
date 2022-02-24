@@ -55,7 +55,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -87,8 +87,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
 
@@ -235,7 +233,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
 
         if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
-            ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);
+            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt("no_permission"), true);
             $DIC->ctrl()->redirect($this, self::CMD_EDIT_SETTINGS);
         }
 
@@ -250,7 +248,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             ilPreviewSettings::setPreviewEnabled($post["enable_preview"] == 1);
             ilPreviewSettings::setMaximumPreviews($post["max_previews_per_object"]);
 
-            ilUtil::sendSuccess($DIC->language()->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $DIC->language()->txt('settings_saved'), true);
             $DIC->ctrl()->redirect($this, self::CMD_EDIT_SETTINGS);
         }
 
@@ -277,7 +275,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
         // set warning if ghostscript not installed
         if (!ilGhostscriptRenderer::isGhostscriptInstalled()) {
-            ilUtil::sendInfo($lng->txt("ghostscript_not_configured"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("ghostscript_not_configured"));
         }
 
         $renderers = ilRendererFactory::getRenderers();

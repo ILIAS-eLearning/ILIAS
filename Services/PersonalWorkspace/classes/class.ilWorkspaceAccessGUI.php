@@ -261,7 +261,7 @@ class ilWorkspaceAccessGUI
             
             case "registered":
                 $this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_REGISTERED);
-                ilUtil::sendSuccess($this->lng->txt("wsp_permission_registered_info"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_permission_registered_info"), true);
                 $this->ctrl->redirect($this, "share");
                 break;
             
@@ -271,7 +271,7 @@ class ilWorkspaceAccessGUI
             
             case "all":
                 $this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_ALL);
-                ilUtil::sendSuccess($this->lng->txt("wsp_permission_all_info"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_permission_all_info"), true);
                 $this->ctrl->redirect($this, "share");
         }
     }
@@ -281,7 +281,7 @@ class ilWorkspaceAccessGUI
         $obj_id = $this->std_request->getObjId();
         if ($obj_id > 0) {
             $this->getAccessHandler()->removePermission($this->node_id, $obj_id);
-            ilUtil::sendSuccess($this->lng->txt("wsp_permission_removed"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_permission_removed"), true);
         }
 
         $this->ctrl->redirect($this, "share");
@@ -322,7 +322,7 @@ class ilWorkspaceAccessGUI
                 self::PERMISSION_ALL_PASSWORD,
                 md5($form->getInput("password"))
             );
-            ilUtil::sendSuccess($this->lng->txt("wsp_permission_all_pw_info"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_permission_all_pw_info"), true);
             $this->ctrl->redirect($this, "share");
         }
     

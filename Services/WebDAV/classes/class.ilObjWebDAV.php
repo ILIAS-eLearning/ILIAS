@@ -49,16 +49,18 @@ class ilObjWebDAV extends ilObject
         return $this->webdavVersioningEnabled;
     }
     
-    public function create() : void
+    public function create() : int
     {
-        parent::create();
+        $id = parent::create();
         $this->write();
+        return $id;
     }
     
-    public function update() : void
+    public function update() : bool
     {
         parent::update();
         $this->write();
+        return true;
     }
 
     private function write() : void

@@ -73,7 +73,7 @@ class ilObjExercise extends ilObject
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function setId($a_id)
+    public function setId(int $a_id) : void
     {
         parent::setId($a_id);
         // this is needed, since e.g. ilObjectFactory initialises the object with id 0 and later sets the id
@@ -231,7 +231,7 @@ class ilObjExercise extends ilObject
      * @throws ilExcUnknownAssignmentTypeException
      * @throws ilException
      */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false) : ilObjExercise
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $ilDB = $this->db;
         
@@ -621,7 +621,7 @@ class ilObjExercise extends ilObject
         foreach ((array) $filtered_members as $user_id) {
             $mems[$user_id] = ilObjUser::_lookupName($user_id);
         }
-        $mems = ilUtil::sortArray($mems, "lastname", "asc", false, true);
+        $mems = ilArrayUtil::sortArray($mems, "lastname", "asc", false, true);
         
         foreach ($mems as $user_id => $d) {
             $col = 0;

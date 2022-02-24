@@ -29,6 +29,16 @@ abstract class ilTestExportPlugin extends ilPlugin
         'xml',
         'csv'
     );
+    private \ilGlobalTemplateInterface $main_tpl;
+    public function __construct(
+        \ilDBInterface $db,
+        \ilComponentRepositoryWrite $component_repository,
+        string $id
+    ) {
+        parent::__construct($db, $component_repository, $id);
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+    }
 
     /**
      * @param ilObjTest $test
@@ -110,14 +120,14 @@ abstract class ilTestExportPlugin extends ilPlugin
             $this->buildExportFile(new ilTestExportFilename($this->getTest()));
         } catch (ilException $e) {
             if ($this->txt($e->getMessage()) == '-' . $e->getMessage() . '-') {
-                ilUtil::sendFailure($e->getMessage(), true);
+                $this->main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             } else {
-                ilUtil::sendFailure($this->txt($e->getMessage()), true);
+                $this->main_tpl->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
             }
             $ilCtrl->redirectByClass('iltestexportgui');
         }
 
-        ilUtil::sendSuccess($lng->txt('exp_file_created'), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('exp_file_created'), true);
         $ilCtrl->redirectByClass('iltestexportgui');
     }
 

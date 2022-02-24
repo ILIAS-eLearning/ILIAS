@@ -38,10 +38,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     protected \ILIAS\HTTP\GlobalHttpState $httpState;
     protected \ILIAS\FileUpload\FileUpload $upload;
     protected ilAccessHandler $hierarchical_access;
-    /**
-     * @var ilRbacSystem
-     */
-    protected $access;
+    protected ilRbacSystem $rbac_system;
     protected ilErrorHandling $error;
 
     public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
@@ -56,13 +53,12 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $this->type = 'cert';
         $this->lng->loadLanguageModule('certificate');
         $this->lng->loadLanguageModule('trac');
-
-        $this->access = $DIC['rbacsystem'];
+        $this->rbac_system = $DIC['rbacsystem'];
         $this->error = $DIC['ilErr'];
         $this->hierarchical_access = $DIC['ilAccess'];
     }
 
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -88,13 +84,11 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
     public function getAdminTabs() : void
     {
-        if ($this->access->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'settings'),
@@ -102,7 +96,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($this->access->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'perm_settings',
                 $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm'),
@@ -252,7 +246,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         );
         $form_settings->set('persistent_certificate_mode', $mode);
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->settings();
     }
 }

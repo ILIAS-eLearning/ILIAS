@@ -212,7 +212,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
                         "CMD_EDIT",
                         $ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "editCastItem")
                     );
-                    
+
                     if (!is_int(strpos($med->getFormat(), "image/"))) {
                         $this->tpl->setVariable("TXT_DET_PLAYTIME", $lng->txt("mcst_det_playtime"));
                         $this->tpl->setVariable(
@@ -221,7 +221,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
                         );
                     }
                     $this->tpl->parseCurrentBlock();
-                    
+
                     $this->tpl->setCurrentBlock("edit_checkbox");
                     $this->tpl->setVariable("VAL_ID", $a_set["id"]);
                     $this->tpl->parseCurrentBlock();

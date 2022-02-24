@@ -55,16 +55,16 @@ class ilContSkillTableGUI extends ilTable2GUI
             $this->container_global_profiles,
             $this->container_local_profiles
         );
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getSkills());
         $this->setTitle($this->lng->txt("cont_cont_skills"));
-        
+
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("cont_skill"), "", "1");
         $this->addColumn($this->lng->txt("cont_path"), "", "1");
         $this->addColumn($this->lng->txt("cont_skill_profile"), "", "1");
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.cont_skill_row.html", "Services/Container/Skills");
         $this->setSelectAllCheckbox("id");

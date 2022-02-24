@@ -83,7 +83,7 @@ class ilMailTemplateGUI
     {
         $contexts = ilMailTemplateContextService::getTemplateContexts();
         if (count($contexts) <= 1) {
-            ilUtil::sendFailure($this->lng->txt('mail_template_no_context_available'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_no_context_available'));
         } elseif ($this->isEditingAllowed()) {
             $create_tpl_button = ilLinkButton::getInstance();
             $create_tpl_button->setCaption('mail_new_template');
@@ -139,13 +139,13 @@ class ilMailTemplateGUI
                 $form->getInput('lang')
             );
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this, 'showTemplates');
         } catch (Exception $e) {
             $form->getItemByPostVar('context')->setAlert(
                 $this->lng->txt('mail_template_no_valid_context')
             );
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         }
 
         $form->setValuesByPost();
@@ -177,7 +177,7 @@ class ilMailTemplateGUI
         }
 
         if (!is_numeric($templateId) || $templateId < 1) {
-            ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_missing_id'));
             $this->showTemplates();
             return;
         }
@@ -210,21 +210,21 @@ class ilMailTemplateGUI
                     $form->getInput('lang')
                 );
 
-                ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
                 $this->ctrl->redirect($this, 'showTemplates');
             } catch (OutOfBoundsException $e) {
-                ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_missing_id'));
             } catch (Exception $e) {
                 $form->getItemByPostVar('context')->setAlert(
                     $this->lng->txt('mail_template_no_valid_context')
                 );
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
 
             $form->setValuesByPost();
             $this->showEditTemplateForm($form);
         } catch (Exception $e) {
-            ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_missing_id'));
             $this->showTemplates();
             return;
         }
@@ -242,7 +242,7 @@ class ilMailTemplateGUI
             }
 
             if (!is_numeric($templateId) || $templateId < 1) {
-                ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_missing_id'));
                 $this->showTemplates();
                 return;
             }
@@ -252,7 +252,7 @@ class ilMailTemplateGUI
                 $form = $this->getTemplateForm($template);
                 $this->populateFormWithTemplate($form, $template);
             } catch (Exception $e) {
-                ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_missing_id'));
                 $this->showTemplates();
                 return;
             }
@@ -297,7 +297,7 @@ class ilMailTemplateGUI
         }
 
         if (0 === count($templateIds)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showTemplates();
             return;
         }
@@ -343,7 +343,7 @@ class ilMailTemplateGUI
         }
 
         if (0 === count($templateIds)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showTemplates();
             return;
         }
@@ -351,9 +351,9 @@ class ilMailTemplateGUI
         $this->service->deleteTemplatesByIds($templateIds);
 
         if (1 === count($templateIds)) {
-            ilUtil::sendSuccess($this->lng->txt('mail_tpl_deleted_s'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_tpl_deleted_s'), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt('mail_tpl_deleted_p'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_tpl_deleted_p'), true);
         }
         $this->ctrl->redirect($this, 'showTemplates');
     }
@@ -403,7 +403,7 @@ class ilMailTemplateGUI
         $contexts = ilMailTemplateContextService::getTemplateContexts();
 
         if (count($contexts) <= 1) {
-            ilUtil::sendFailure($this->lng->txt('mail_template_no_context_available'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_no_context_available'), true);
             $this->ctrl->redirect($this, 'showTemplates');
         }
 
@@ -506,7 +506,7 @@ class ilMailTemplateGUI
         }
 
         if (!is_numeric($templateId) || $templateId < 1) {
-            ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_missing_id'));
             $this->showTemplates();
             return;
         }
@@ -515,12 +515,12 @@ class ilMailTemplateGUI
             $template = $this->service->loadTemplateForId((int) $templateId);
             $this->service->unsetAsContextDefault($template);
         } catch (Exception $e) {
-            ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_missing_id'));
             $this->showTemplates();
             return;
         }
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this, 'showTemplates');
     }
 
@@ -536,7 +536,7 @@ class ilMailTemplateGUI
         }
 
         if (!is_numeric($templateId) || $templateId < 1) {
-            ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_missing_id'));
             $this->showTemplates();
             return;
         }
@@ -545,12 +545,12 @@ class ilMailTemplateGUI
             $template = $this->service->loadTemplateForId((int) $templateId);
             $this->service->setAsContextDefault($template);
         } catch (Exception $e) {
-            ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_template_missing_id'));
             $this->showTemplates();
             return;
         }
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this, 'showTemplates');
     }
 }

@@ -16,8 +16,6 @@
 
 /**
  * Database Session Handling
- * @module inc.db_session_handler.php
- * @modulegroup iliascore
  */
 class ilSessionDBHandler implements SessionHandlerInterface
 {

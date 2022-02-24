@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
-use \ILIAS\Setup;
-use \ILIAS\UI;
-use \ILIAS\Refinery\Transformation;
+use ILIAS\Setup;
+use ILIAS\Refinery\Transformation;
 
 class ilComponentsSetupAgent implements Setup\Agent
 {
@@ -21,7 +20,7 @@ class ilComponentsSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Transformation
     {
-        throw new \LogicException(self::class . " has no Config.");
+        throw new LogicException(self::class . " has no Config.");
     }
 
     /**
@@ -29,7 +28,7 @@ class ilComponentsSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new \ilComponentDefinitionsStoredObjective();
+        return new ilComponentDefinitionsStoredObjective();
     }
 
     /**
@@ -41,9 +40,9 @@ class ilComponentsSetupAgent implements Setup\Agent
             "Updates of Services/Components",
             false,
             new ilDatabaseUpdateStepsExecutedObjective(
-                new \ilIntroduceComponentArtifactDBUpdateSteps()
+                new ilIntroduceComponentArtifactDBUpdateSteps()
             ),
-            new \ilComponentDefinitionsStoredObjective(false)
+            new ilComponentDefinitionsStoredObjective(false)
         );
     }
 
@@ -55,8 +54,8 @@ class ilComponentsSetupAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             "Artifacts for Services/Component",
             false,
-            new \ilComponentBuildComponentInfoObjective(),
-            new \ilComponentBuildPluginInfoObjective()
+            new ilComponentBuildComponentInfoObjective(),
+            new ilComponentBuildPluginInfoObjective()
         );
     }
 

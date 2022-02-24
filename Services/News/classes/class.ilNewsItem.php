@@ -67,10 +67,12 @@ class ilNewsItem
     private static bool $privFeedId = false;
     private bool $limitation = false;
     protected bool $content_text_is_lang_var = false;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $a_id = 0)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
@@ -578,7 +580,7 @@ class ilNewsItem
             $data = ilNewsItem::mergeNews($data, $news);
         }
 
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
 
         return $data;
     }
@@ -801,7 +803,7 @@ class ilNewsItem
         }
         
         $data = ilNewsItem::mergeNews($data, $news);
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
         
         if (!$a_prevent_aggregation) {
             $data = $this->aggregateFiles($data, $a_ref_id);
@@ -960,7 +962,7 @@ class ilNewsItem
         $data = ilNewsItem::mergeNews($data, $news);
         
         // sort and return
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
         
         if (!$a_prevent_aggregation) {
             $data = $this->aggregateFiles($data, $a_ref_id);
@@ -1883,7 +1885,7 @@ class ilNewsItem
                 ilFileDelivery::deliverFileLegacy($file, $m_item->getLocation(), "", false, false, false);
                 return true;
             } else {
-                ilUtil::sendFailure("File not found!", true);
+                $this->main_tpl->setOnScreenMessage('failure', "File not found!", true);
                 return false;
             }
         } else {

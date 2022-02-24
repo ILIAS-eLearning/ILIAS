@@ -101,7 +101,7 @@ class ilObjectCustomUserFieldsGUI
     protected function show() : void
     {
         if (ilMemberAgreement::_hasAgreementsByObjId($this->getObjId())) {
-            ilUtil::sendInfo($this->lng->txt('ps_cdf_warning_modify'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('ps_cdf_warning_modify'));
         }
         $this->listFields();
     }
@@ -126,7 +126,7 @@ class ilObjectCustomUserFieldsGUI
         }
 
         ilMemberAgreement::_deleteByObjId($this->getObjId());
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->listFields();
     }
 
@@ -143,7 +143,7 @@ class ilObjectCustomUserFieldsGUI
         }
 
         if (!count($field_ids)) {
-            ilUtil::sendFailure($this->lng->txt('ps_cdf_select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ps_cdf_select_one'));
             $this->listFields();
             return;
         }
@@ -181,7 +181,7 @@ class ilObjectCustomUserFieldsGUI
 
         ilMemberAgreement::_deleteByObjId($this->obj_id);
 
-        ilUtil::sendSuccess($this->lng->txt('ps_cdf_deleted'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('ps_cdf_deleted'));
         $this->listFields();
     }
 
@@ -204,14 +204,14 @@ class ilObjectCustomUserFieldsGUI
             $udf->enableRequired($this->form->getInput('re'));
             $udf->save();
 
-            ilUtil::sendSuccess($this->lng->txt('ps_cdf_added_field'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('ps_cdf_added_field'));
             // reset agreements
             ilMemberAgreement::_deleteByObjId($this->getObjId());
             $this->listFields();
             return;
         }
         // not valid
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->form->setValuesByPost();
         $this->tpl->setContent($this->form->getHTML());
     }
@@ -248,12 +248,12 @@ class ilObjectCustomUserFieldsGUI
 
             // Finally reset member agreements
             ilMemberAgreement::_deleteByObjId($this->getObjId());
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
             $this->listFields();
             return;
         }
 
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->form->setValuesByPost();
         $this->tpl->setContent($this->form->getHTML());
     }
@@ -382,13 +382,13 @@ class ilObjectCustomUserFieldsGUI
             $history->save();
 
             ilMemberAgreementGUI::saveCourseDefinedFields($form, $this->getObjId(), (int) $_REQUEST['member_id']);
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->returnToParent($this);
             return;
         }
 
         $form->setValuesByPost();
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->editMember($form);
     }
 }

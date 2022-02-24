@@ -385,15 +385,15 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
     public function out() : void
     {
-        ilUtil::sendInfo($this->data, true);
+        $this->tpl->setOnScreenMessage('info', $this->data, true);
         $this->ctrl->redirect($this, "view");
     }
-    
+
     public function getAdminTabs() : void
     {
         $this->getTabs();
     }
-    
+
     /**
     * get tabs
     * @param   object   tabs gui object
@@ -409,7 +409,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
     }
     
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         // always check read permission, needed write permissions are checked in the *Object functions
         $this->checkPermission("read", "", $this->type, $this->ref_id);
@@ -438,7 +438,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
 
     public function confirmRefreshObject() : void
@@ -562,7 +561,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     protected function disableLanguageDetectionObject() : void
     {
         $this->settings->set("lang_detection", '0');
-        ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"));
         $this->viewObject();
     }
 
@@ -572,7 +571,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     protected function enableLanguageDetectionObject() : void
     {
         $this->settings->set("lang_detection", '1');
-        ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"));
         $this->viewObject();
     }
 

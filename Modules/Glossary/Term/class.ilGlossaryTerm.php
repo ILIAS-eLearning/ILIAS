@@ -488,13 +488,13 @@ class ilGlossaryTerm
         $def_list = ilGlossaryDefinition::getDefinitionList($a_term_id);
         foreach ($def_list as $def) {
             $old_def = new ilGlossaryDefinition($def["id"]);
-            
+
             $new_def = new ilGlossaryDefinition();
             $new_def->setShortText($old_def->getShortText());
             $new_def->setNr($old_def->getNr());
             $new_def->setTermId($new_term->getId());
             $new_def->create();
-            
+
             // copy meta data
             $md = new ilMD(
                 $old_term->getGlossaryId(),

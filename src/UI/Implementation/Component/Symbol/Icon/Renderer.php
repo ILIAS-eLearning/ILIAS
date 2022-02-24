@@ -25,6 +25,14 @@ class Renderer extends AbstractComponentRenderer
         $this->checkComponent($component);
         $tpl = $this->getTemplate("tpl.icon.html", true, true);
 
+        $id = $this->bindJavaScript($component);
+    
+        if ($id !== null) {
+            $tpl->setCurrentBlock("with_id");
+            $tpl->setVariable("ID", $id);
+            $tpl->parseCurrentBlock();
+        }
+
         $tpl->setVariable("NAME", $component->getName());
         $tpl->setVariable("SIZE", $component->getSize());
 

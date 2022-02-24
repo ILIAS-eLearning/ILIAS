@@ -242,7 +242,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
             $this->tpl->setVariable("PARENT_TYPE", $lng->txt("obj_" . $parent["type"]));
             $this->tpl->setVariable(
                 "PARENT_ICON",
-                ilObject::_getIcon($parent["id"], "big", $parent["type"])
+                ilObject::_getIcon((int) $parent["id"], "big", $parent["type"])
             );
         }
     }

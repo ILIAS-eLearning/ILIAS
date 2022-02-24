@@ -99,7 +99,7 @@ class ilModulesTableGUI extends ilTable2GUI
             }
             $has_repo = false;
             $rep_types =
-                $objDefinition->getRepositoryObjectTypesForComponent(IL_COMP_MODULE, $mod->getName());
+                $objDefinition->getRepositoryObjectTypesForComponent(ilComponentInfo::TYPE_MODULES, $mod->getName());
             if (sizeof($rep_types) > 0) {
                 foreach ($rep_types as $ridx => $rt) {
                     // we only want to display repository modules
@@ -124,8 +124,8 @@ class ilModulesTableGUI extends ilTable2GUI
         }
         
         // parse plugins
-        $obj_types = $this->getPluginComponents($obj_types, IL_COMP_SERVICE, "Repository", "robj");
-        $obj_types = $this->getPluginComponents($obj_types, IL_COMP_MODULE, "OrgUnit", "orguext");
+        $obj_types = $this->getPluginComponents($obj_types, ilComponentInfo::TYPE_SERVICES, "Repository", "robj");
+        $obj_types = $this->getPluginComponents($obj_types, ilComponentInfo::TYPE_MODULES, "OrgUnit", "orguext");
 
         // parse positions
         $data = array();
@@ -162,7 +162,7 @@ class ilModulesTableGUI extends ilTable2GUI
             );
         }
         
-        $data = ilUtil::sortArray($data, "sort_key", "asc", true);
+        $data = ilArrayUtil::sortArray($data, "sort_key", "asc", true);
         
         $this->setData($data);
     }
@@ -199,11 +199,11 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_REP_OBJECT_ID", $a_set["id"]);
         $this->tpl->setVariable(
             "IMG_REP_OBJECT",
-            ilObject::_getIcon("", "tiny", $a_set["id"])
+            ilObject::_getIcon(0, "tiny", $a_set["id"])
         );
 
         // grouping
-        $sel = ilUtil::formSelect(
+        $sel = ilLegacyFormElementsUtil::formSelect(
             $a_set["pos_group"],
             "obj_grp[" . $a_set["id"] . "]",
             $this->pos_group_options,
@@ -214,7 +214,7 @@ class ilModulesTableGUI extends ilTable2GUI
         
         // position
         $this->tpl->setVariable("VAR_POS", "obj_pos[" . $a_set["id"] . "]");
-        $this->tpl->setVariable("VAL_POS", ilUtil::prepareFormOutput($a_set["pos"]));
+        $this->tpl->setVariable("VAL_POS", ilLegacyFormElementsUtil::prepareFormOutput($a_set["pos"]));
 
         // enable creation
         $this->tpl->setVariable("VAR_DISABLE_CREATION", "obj_enbl_creation[" . $a_set["id"] . "]");

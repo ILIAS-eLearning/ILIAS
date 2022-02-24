@@ -337,7 +337,7 @@ class ilTableGUI
     public function sortData() : void
     {
         if ($this->enabled["sort"]) {
-            $this->data = ilUtil::sortArray($this->data, $this->order_column, $this->order_direction);
+            $this->data = ilArrayUtil::sortArray($this->data, $this->order_column, $this->order_direction);
         }
         $this->data = array_slice($this->data, $this->offset, $this->limit);
     }

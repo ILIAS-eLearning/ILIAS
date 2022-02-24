@@ -345,7 +345,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
                 }
 
                 if ($valid) {
-                    ilUtil::sendSuccess($this->lng->txt('cron_action_edit_success'), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('cron_action_edit_success'), true);
                     $this->ctrl->redirect($this, 'render');
                 }
             }
@@ -369,9 +369,9 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
         $job_id = $this->getRequestValue('jid', $this->refinery->kindlyTo()->string());
         if ($job_id) {
             if ($this->cronManager->runJobManual($job_id, $this->actor)) {
-                ilUtil::sendSuccess($this->lng->txt('cron_action_run_success'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('cron_action_run_success'), true);
             } else {
-                ilUtil::sendFailure($this->lng->txt('cron_action_run_fail'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cron_action_run_fail'), true);
             }
         }
 
@@ -397,7 +397,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('cron_action_activate_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('cron_action_activate_success'), true);
         }
 
         $this->ctrl->redirect($this, 'render');
@@ -422,7 +422,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('cron_action_deactivate_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('cron_action_deactivate_success'), true);
         }
 
         $this->ctrl->redirect($this, 'render');
@@ -444,7 +444,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
             foreach ($jobs as $job) {
                 $this->cronManager->resetJob($job, $this->actor);
             }
-            ilUtil::sendSuccess($this->lng->txt('cron_action_reset_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('cron_action_reset_success'), true);
         }
 
         $this->ctrl->redirect($this, 'render');
@@ -496,7 +496,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
             });
 
             if ($jobs === []) {
-                ilUtil::sendFailure($this->lng->txt('cron_no_executable_job_selected'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('cron_no_executable_job_selected'), true);
                 $this->ctrl->redirect($this, 'render');
             }
         }

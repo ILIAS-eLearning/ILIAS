@@ -45,7 +45,7 @@ interface Toast extends Component
     /**
      * Init the default signals
      */
-    public function initSignals();
+    public function initSignals() : void;
 
     /**
      * Get the signal to show this toast in the frontend

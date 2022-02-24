@@ -180,7 +180,7 @@ class ilEditClipboardGUI
         // check number of objects
         $ids = $this->request->getItemIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "view");
         }
 
@@ -212,13 +212,13 @@ class ilEditClipboardGUI
 
         // check number of objects
         if (count($ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             ilUtil::redirect($return);
         }
         
         if (!$this->getMultipleSelections()) {
             if (count($ids) > 1) {
-                ilUtil::sendFailure($lng->txt("cont_select_max_one_item"), true);
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_select_max_one_item"), true);
                 ilUtil::redirect($return);
             }
         }

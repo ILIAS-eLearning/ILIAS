@@ -293,7 +293,7 @@ class ilSettingsTemplateGUI
             $this->setValuesFromForm($settings_template);
             $settings_template->create();
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "listSettingsTemplates");
         }
 
@@ -315,7 +315,7 @@ class ilSettingsTemplateGUI
             $this->setValuesFromForm($this->settings_template);
             $this->settings_template->update();
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "listSettingsTemplates");
         }
 
@@ -363,7 +363,7 @@ class ilSettingsTemplateGUI
         $lng = $this->lng;
 
         if (count($this->request->getTemplateIds()) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listSettingsTemplates");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -388,7 +388,7 @@ class ilSettingsTemplateGUI
             $templ = new ilSettingsTemplate($i);
             $templ->delete();
         }
-        ilUtil::sendSuccess("msg_obj_modified");
+        $this->tpl->setOnScreenMessage('success', "msg_obj_modified");
         $ilCtrl->redirect($this, "listSettingsTemplates");
     }
 }

@@ -18,14 +18,9 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     const TAB_FIELDS = 'fields';
     const TAB_SETTINGS = 'settings';
     const CMD_DEFAULT = 'view';
-    /**
-     * @var string this is the ILIAS-type, not the Bib-type
-     */
-    protected $type = 'bibs';
-    /**
-     * @var ilObjBibliographicAdmin
-     */
-    public $object;
+
+    protected string $type = 'bibs';
+    public ?ilObject $object;
     protected \ilBiblAdminFactoryFacadeInterface $facade;
 
 

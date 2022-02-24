@@ -16,27 +16,14 @@
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesWebServicesECS
 */
 class ilECSOrganisation
 {
-    protected $json_obj;
-    protected $name;
-    protected $abbr;
+    protected string $name;
+    protected string $abbr;
 
     private ilLogger $logger;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
     public function __construct()
     {
         global $DIC;
@@ -47,7 +34,6 @@ class ilECSOrganisation
     /**
      * load from json
      *
-     * @access public
      * @param object json representation
      * @throws ilException
      */
@@ -63,18 +49,16 @@ class ilECSOrganisation
 
     /**
      * Get name
-     * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
     /**
      * Get abbreviation
-     * @return string
      */
-    public function getAbbreviation()
+    public function getAbbreviation() : string
     {
         return $this->abbr;
     }

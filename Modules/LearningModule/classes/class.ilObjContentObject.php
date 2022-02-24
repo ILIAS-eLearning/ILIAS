@@ -19,50 +19,52 @@
  */
 class ilObjContentObject extends ilObject
 {
-    protected array $q_ids;
-    protected array $mob_ids;
-    protected array $file_ids;
-    protected array $public_export_file;
-    protected int $header_page;
-    protected int $footer_page;
-    protected bool $user_comments;
-    protected bool $clean_frames;
-    protected bool $pub_notes;
-    protected bool $downloads_public_active;
-    protected bool $downloads_active;
-    protected bool $hide_header_footer_print;
-    protected bool $prevent_glossary_appendix_active;
-    protected bool $print_view_active;
-    protected bool $numbering;
-    protected bool $toc_active;
-    protected bool $lm_menu_active;
-    protected string $public_access_mode;
-    protected string $toc_mode;
-    protected bool $restrict_forw_nav;
-    protected bool $store_tries;
-    protected bool $progr_icons;
-    protected bool $disable_def_feedback;
-    protected bool $layout_per_page;
+    protected array $q_ids = [];
+    protected array $mob_ids = [];
+    protected array $file_ids = [];
+    protected array $public_export_file = [];
+    protected int $header_page = 0;
+    protected int $footer_page = 0;
+    protected bool $user_comments = false;
+    protected bool $clean_frames = false;
+    protected bool $pub_notes = false;
+    protected bool $downloads_public_active = false;
+    protected bool $downloads_active = false;
+    protected bool $hide_header_footer_print = false;
+    protected bool $prevent_glossary_appendix_active = false;
+    protected bool $print_view_active = false;
+    protected bool $numbering = false;
+    protected bool $toc_active = false;
+    protected bool $lm_menu_active = false;
+    protected string $public_access_mode = '';
+    protected string $toc_mode = '';
+    protected bool $restrict_forw_nav = false;
+    protected bool $store_tries = false;
+    protected bool $progr_icons = false;
+    protected bool $disable_def_feedback = false;
+    protected bool $layout_per_page = false;
     protected ilObjUser $user;
     protected ilLocatorGUI $locator;
     public ilLMTree $lm_tree;
-    public string $layout;
-    public int $style_id;
-    public string $pg_header;
-    public bool $online;
+    public string $layout = '';
+    public int $style_id = 0;
+    public string $pg_header = '';
+    public bool $online = false;
     public int $for_translation = 0;
-    protected bool $rating;
-    protected bool $rating_pages;
+    protected bool $rating = false;
+    protected bool $rating_pages = false;
     public array $auto_glossaries = array();
     private string $import_dir = '';
     protected ilObjLearningModule $lm;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         int $a_id = 0,
         bool $a_call_by_reference = true
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->user = $DIC->user();
         $this->db = $DIC->database();
@@ -94,9 +96,9 @@ class ilObjContentObject extends ilObject
      */
     public function create(
         bool $a_no_meta_data = false
-    ) : void {
+    ) : int {
         $this->setOfflineStatus(true);
-        parent::create();
+        $id = parent::create();
         
         // meta data will be created by
         // import parser
@@ -106,9 +108,10 @@ class ilObjContentObject extends ilObject
 
         $this->createProperties();
         $this->updateAutoGlossaries();
+        return $id;
     }
 
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -188,12 +191,13 @@ class ilObjContentObject extends ilObject
         return $this->lm_tree;
     }
 
-    public function update()
+    public function update() : bool
     {
         $this->updateMetaData();
         parent::update();
         $this->updateProperties();
         $this->updateAutoGlossaries();
+        return true;
     }
 
     public function updateAutoGlossaries() : void
@@ -973,13 +977,13 @@ class ilObjContentObject extends ilObject
     public function createProperties() : void
     {
         $ilDB = $this->db;
-        
+
         $q = "INSERT INTO content_object (id) VALUES (" . $ilDB->quote($this->getId(), "integer") . ")";
         $ilDB->manipulate($q);
-        
+
         // #14661
         ilNote::activateComments($this->getId(), 0, $this->getType(), true);
-        
+
         $this->readProperties();		// to get db default values
     }
 
@@ -1991,7 +1995,7 @@ class ilObjContentObject extends ilObject
                 
                 if ($error != "") {
                     $this->lng->loadLanguageModule("content");
-                    ilUtil::sendInfo($this->lng->txt("cont_import_validation_errors"));
+                    $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("cont_import_validation_errors"));
                     $title = ilLMObject::_lookupTitle($page["obj_id"]);
                     $page_obj = new ilLMPageObject($this->lm, $page["obj_id"]);
                     $mess .= $this->lng->txt("obj_pg") . ": " . $title;
@@ -2011,7 +2015,7 @@ class ilObjContentObject extends ilObject
         return $mess;
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         /** @var ilObjLearningModule $new_obj */
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);

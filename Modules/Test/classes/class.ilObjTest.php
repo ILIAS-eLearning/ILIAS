@@ -730,16 +730,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * create test object
     */
-    public function create()
+    public function create() : int
     {
         $this->setOfflineStatus(true);
-        parent::create();
+        return parent::create();
 
         // meta data will be created by
         // import parser
-        if (!$a_upload) {
-            $this->createMetaData();
-        }
+//        if (!$a_upload) {
+//            $this->createMetaData();
+//        }
     }
 
     /**
@@ -748,7 +748,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @access	public
     * @return	boolean
     */
-    public function update()
+    public function update() : bool
     {
         if (!parent::update()) {
             return false;
@@ -764,7 +764,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         * @param	boolean
         * @access	public
         */
-    public function read()
+    public function read() : void
     {
         parent::read();
         $this->loadFromDb();
@@ -777,7 +777,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -4176,7 +4176,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             
             $data = array(
                 "nr" => "$key",
-                "title" => ilUtil::prepareFormOutput($row['title']),
+                "title" => ilLegacyFormElementsUtil::prepareFormOutput($row['title']),
                 "max" => round($row['points'], 2),
                 "reached" => round($arrResults[$row['question_id']]['reached'], 2),
                 'requested_hints' => $arrResults[$row['question_id']]['requested_hints'],
@@ -4255,10 +4255,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $found['test']['result_tstamp'] = $results['tstamp'];
         $found['test']['obligations_answered'] = $results['obligations_answered'];
 
-        if ((!$found['pass']['total_reached_points']) or (! $found['pass']['total_max_points'])) {
+        if ((!$found['pass']['total_reached_points']) or (!$found['pass']['total_max_points'])) {
             $percentage = 0.0;
         } else {
-            $percentage = ($found['pass']['total_reached_points'] /  $found['pass']['total_max_points']) * 100.0;
+            $percentage = ($found['pass']['total_reached_points'] / $found['pass']['total_max_points']) * 100.0;
 
             if ($percentage < 0) {
                 $percentage = 0.0;
@@ -5448,8 +5448,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getImagePathWeb()
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/" . $this->getId() . "/images/";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/" . $this->getId() . "/images/";
+        return str_replace(
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
     }
 
     /**
@@ -7100,7 +7102,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @param int copy id
     * @return object new test object
     */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $target_id, int  $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         global $DIC;
 
@@ -7113,8 +7115,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         // Copy settings
         /** @var $newObj ilObjTest */
-        $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
-        $newObj->setTmpCopyWizardCopyId($a_copy_id);
+        $newObj = parent::cloneObject($target_id, $copy_id, $omit_tree);
+        $newObj->setTmpCopyWizardCopyId($copy_id);
         $this->cloneMetaData($newObj);
 
         // #27082
@@ -9320,7 +9322,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function prepareTextareaOutput($txt_output, $prepare_for_latex_output = false, $omitNl2BrWhenTextArea = false)
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output, $omitNl2BrWhenTextArea);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput(
+            $txt_output,
+            $prepare_for_latex_output,
+            $omitNl2BrWhenTextArea
+        );
     }
 
     /**
@@ -9946,7 +9952,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         $content = preg_replace("/href=\".*?\"/", "", $content);
         $printbody = new ilTemplate("tpl.il_as_tst_print_body.html", true, true, "Modules/Test");
-        $printbody->setVariable("TITLE", ilUtil::prepareFormOutput($this->getTitle()));
+        $printbody->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->getTitle()));
         $printbody->setVariable("ADM_CONTENT", $content);
         $printbody->setCurrentBlock("css_file");
         $printbody->setVariable("CSS_FILE", $this->getTestStyleLocation("filesystem"));
@@ -9997,7 +10003,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         try {
             $pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo);
             $filename = (strlen($title)) ? $title : $this->getTitle();
-            ilUtil::deliverData($pdf_base64->scalar, ilFileUtils::getASCIIFilename($filename) . ".pdf", "application/pdf", false, true);
+            ilUtil::deliverData(
+                $pdf_base64->scalar,
+                ilFileUtils::getASCIIFilename($filename) . ".pdf",
+                "application/pdf"
+            );
             return true;
         } catch (Exception $e) {
             $ilLog->write(__METHOD__ . ': ' . $e->getMessage());
@@ -10210,7 +10220,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getJavaScriptOutput()
     {
         return true;
-        
+
         //		global $DIC;
 //		$ilUser = $DIC['ilUser'];
 //		if (strcmp($_GET["tst_javascript"], "0") == 0) return FALSE;
@@ -10314,7 +10324,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "TestQuestionPool", "qst", $a_pname)) {
+        if ($ilPluginAdmin->isActive(ilComponentInfo::TYPE_MODULES, "TestQuestionPool", "qst", $a_pname)) {
             return true;
         } else {
             return false;
@@ -10460,7 +10470,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Get zipped xml file for test
     */
-    public function getXMLZip()
+    public function getXMLZip() : string
     {
         require_once 'Modules/Test/classes/class.ilTestExportFactory.php';
         $expFactory = new ilTestExportFactory($this);

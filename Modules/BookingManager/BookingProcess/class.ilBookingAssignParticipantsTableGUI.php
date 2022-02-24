@@ -38,6 +38,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
         int $a_booking_obj_id
     ) {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -79,12 +80,10 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 
 
         if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE) {
-            ilUtil::sendInfo(
-                sprintf(
-                    $this->lng->txt("book_objects_available"),
-                    ilBookingReservation::numAvailableFromObjectNoSchedule($a_booking_obj_id)
-                )
-            );
+            $main_tpl->setOnScreenMessage('info', sprintf(
+                $this->lng->txt("book_objects_available"),
+                ilBookingReservation::numAvailableFromObjectNoSchedule($a_booking_obj_id)
+            ));
         }
     }
 

@@ -67,7 +67,7 @@ abstract class ilContainerContentGUI
 
         $this->container_gui = $container_gui_obj;
         /** @var $obj ilContainer */
-        $obj = $this->container_gui->object;
+        $obj = $this->container_gui->getObject();
         $this->container_obj = $obj;
 
         $tpl->addJavaScript("./Services/Container/js/Container.js");
@@ -442,7 +442,7 @@ abstract class ilContainerContentGUI
                 if (isset($this->items[$type]) && is_array($this->items[$type]) && $this->renderer->addTypeBlock($type)) {
                     // :TODO: obsolete?
                     if ($type == 'sess') {
-                        $this->items['sess'] = ilUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
+                        $this->items['sess'] = ilArrayUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
                     }
                     
                     $position = 1;
@@ -778,7 +778,7 @@ abstract class ilContainerContentGUI
         $lng->loadLanguageModule("rep");
 
         $tpl = new ilTemplate("tpl.rep_intro.html", true, true, "Services/Repository");
-        $tpl->setVariable("IMG_REP_LARGE", ilObject::_getIcon("", "big", "root"));
+        $tpl->setVariable("IMG_REP_LARGE", ilObject::_getIcon(0, "big", "root"));
         $tpl->setVariable("TXT_WELCOME", $lng->txt("rep_intro"));
         $tpl->setVariable("TXT_INTRO_1", $lng->txt("rep_intro1"));
         $tpl->setVariable("TXT_INTRO_2", $lng->txt("rep_intro2"));

@@ -147,7 +147,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $ilCtrl = $this->ctrl;
 
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exercise_time_over"), true);
             $ilCtrl->redirect($this, "returnToParent");
         }
 
@@ -191,7 +191,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $ilCtrl = $this->ctrl;
         
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exercise_time_over"), true);
             $ilCtrl->redirect($this, "returnToParent");
         }
         
@@ -227,7 +227,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
                 $this->handleRemovedUpload();
             }
             
-            ilUtil::sendSuccess($this->lng->txt("exc_text_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_text_saved"), true);
             if ($a_return) {
                 $ilCtrl->redirect($this, "returnToParent");
             } else {
@@ -253,7 +253,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
             if (trim($files["atext"])) {
                 if ($files["late"] &&
                     !$this->submission->hasPeerReviewAccess()) {
-                    ilUtil::sendFailure($this->lng->txt("exc_late_submission"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_late_submission"));
                 }
                 
                 $text = $a_form->getItemByPostVar("atxt");
