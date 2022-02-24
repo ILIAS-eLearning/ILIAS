@@ -48,7 +48,7 @@ class ilQTIRespcondition
         $this->displayfeedback = array();
     }
     
-    public function setContinue($a_continue): void
+    public function setContinue($a_continue) : void
     {
         switch (strtolower($a_continue)) {
             case "1":
@@ -67,7 +67,7 @@ class ilQTIRespcondition
         return $this->continue;
     }
     
-    public function setTitle($a_title): void
+    public function setTitle($a_title) : void
     {
         $this->title = $a_title;
     }
@@ -77,7 +77,7 @@ class ilQTIRespcondition
         return $this->title;
     }
     
-    public function setComment($a_comment): void
+    public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
@@ -87,7 +87,7 @@ class ilQTIRespcondition
         return $this->comment;
     }
     
-    public function setConditionvar($a_conditionvar): void
+    public function setConditionvar($a_conditionvar) : void
     {
         $this->conditionvar = $a_conditionvar;
     }
@@ -97,7 +97,7 @@ class ilQTIRespcondition
         return $this->conditionvar;
     }
     
-    public function setRespcond_extension($a_respcond_extension): void
+    public function setRespcond_extension($a_respcond_extension) : void
     {
         $this->respcond_extension = $a_respcond_extension;
     }
@@ -107,12 +107,12 @@ class ilQTIRespcondition
         return $this->respcond_extension;
     }
     
-    public function addSetvar($a_setvar): void
+    public function addSetvar($a_setvar) : void
     {
         $this->setvar[] = $a_setvar;
     }
     
-    public function addDisplayfeedback($a_displayfeedback): void
+    public function addDisplayfeedback($a_displayfeedback) : void
     {
         $this->displayfeedback[] = $a_displayfeedback;
     }

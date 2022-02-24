@@ -49,7 +49,7 @@ class ilQTIRenderChoice
         $this->material = array();
     }
     
-    public function setShuffle($a_shuffle): void
+    public function setShuffle($a_shuffle) : void
     {
         switch (strtolower($a_shuffle)) {
             case "0":
@@ -63,12 +63,12 @@ class ilQTIRenderChoice
         }
     }
     
-    public function getShuffle(): string
+    public function getShuffle() : string
     {
         return $this->shuffle;
     }
     
-    public function setMinnumber($a_minnumber): void
+    public function setMinnumber($a_minnumber) : void
     {
         $this->minnumber = $a_minnumber;
     }
@@ -78,7 +78,7 @@ class ilQTIRenderChoice
         return $this->minnumber;
     }
     
-    public function setMaxnumber($a_maxnumber): void
+    public function setMaxnumber($a_maxnumber) : void
     {
         $this->maxnumber = $a_maxnumber;
     }
@@ -88,12 +88,12 @@ class ilQTIRenderChoice
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label): void
+    public function addResponseLabel($a_response_label) : void
     {
         $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material): void
+    public function addMaterial($a_material) : void
     {
         $this->material[] = $a_material;
     }

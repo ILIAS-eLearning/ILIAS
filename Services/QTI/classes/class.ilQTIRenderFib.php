@@ -60,7 +60,7 @@ class ilQTIRenderFib
         $this->encoding = "UTF-8";
     }
     
-    public function setPrompt($a_prompt): void
+    public function setPrompt($a_prompt) : void
     {
         switch (strtolower($a_prompt)) {
             case "1":
@@ -87,7 +87,7 @@ class ilQTIRenderFib
         return $this->prompt;
     }
     
-    public function setFibtype($a_fibtype): void
+    public function setFibtype($a_fibtype) : void
     {
         switch (strtolower($a_fibtype)) {
             case "1":
@@ -114,7 +114,7 @@ class ilQTIRenderFib
         return $this->fibtype;
     }
     
-    public function setMinnumber($a_minnumber): void
+    public function setMinnumber($a_minnumber) : void
     {
         $this->minnumber = $a_minnumber;
     }
@@ -124,7 +124,7 @@ class ilQTIRenderFib
         return $this->minnumber;
     }
     
-    public function setMaxnumber($a_maxnumber): void
+    public function setMaxnumber($a_maxnumber) : void
     {
         $this->maxnumber = $a_maxnumber;
     }
@@ -134,17 +134,17 @@ class ilQTIRenderFib
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label): void
+    public function addResponseLabel($a_response_label) : void
     {
         $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material): void
+    public function addMaterial($a_material) : void
     {
         $this->material[] = $a_material;
     }
     
-    public function setEncoding($a_encoding): void
+    public function setEncoding($a_encoding) : void
     {
         $this->encoding = $a_encoding;
     }
@@ -154,7 +154,7 @@ class ilQTIRenderFib
         return $this->encoding;
     }
 
-    public function setRows($a_rows): void
+    public function setRows($a_rows) : void
     {
         $this->rows = $a_rows;
     }
@@ -164,7 +164,7 @@ class ilQTIRenderFib
         return $this->rows;
     }
 
-    public function setMaxchars($a_maxchars): void
+    public function setMaxchars($a_maxchars) : void
     {
         $this->maxchars = $a_maxchars;
     }
@@ -174,7 +174,7 @@ class ilQTIRenderFib
         return $this->maxchars;
     }
 
-    public function setColumns($a_columns): void
+    public function setColumns($a_columns) : void
     {
         $this->columns = $a_columns;
     }
@@ -184,7 +184,7 @@ class ilQTIRenderFib
         return $this->columns;
     }
 
-    public function setCharset($a_charset): void
+    public function setCharset($a_charset) : void
     {
         $this->charset = $a_charset;
     }

@@ -47,7 +47,7 @@ class ilQTIRenderHotspot
         $this->material = array();
     }
     
-    public function setShowdraw($a_showdraw): void
+    public function setShowdraw($a_showdraw) : void
     {
         switch (strtolower($a_showdraw)) {
             case "1":
@@ -66,7 +66,7 @@ class ilQTIRenderHotspot
         return $this->showdraw;
     }
     
-    public function setMinnumber($a_minnumber): void
+    public function setMinnumber($a_minnumber) : void
     {
         $this->minnumber = $a_minnumber;
     }
@@ -76,7 +76,7 @@ class ilQTIRenderHotspot
         return $this->minnumber;
     }
     
-    public function setMaxnumber($a_maxnumber): void
+    public function setMaxnumber($a_maxnumber) : void
     {
         $this->maxnumber = $a_maxnumber;
     }
@@ -86,12 +86,12 @@ class ilQTIRenderHotspot
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label): void
+    public function addResponseLabel($a_response_label) : void
     {
         $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material): void
+    public function addMaterial($a_material) : void
     {
         $this->material[] = $a_material;
     }

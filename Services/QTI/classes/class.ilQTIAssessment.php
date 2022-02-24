@@ -85,7 +85,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         $this->section = array();
     }
     
-    public function setIdent($a_ident): void
+    public function setIdent($a_ident) : void
     {
         $this->ident = $a_ident;
     }
@@ -95,7 +95,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->ident;
     }
     
-    public function setTitle($a_title): void
+    public function setTitle($a_title) : void
     {
         $this->title = $a_title;
     }
@@ -105,7 +105,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->title;
     }
     
-    public function setComment($a_comment): void
+    public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
@@ -115,7 +115,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->comment;
     }
     
-    public function setDuration($a_duration): void
+    public function setDuration($a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -131,7 +131,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->duration;
     }
     
-    public function setXmllang($a_xmllang): void
+    public function setXmllang($a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
@@ -141,22 +141,22 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->xmllang;
     }
     
-    public function addQtiMetadata($a_metadata): void
+    public function addQtiMetadata($a_metadata) : void
     {
         $this->qtimetadata[] = $a_metadata;
     }
     
-    public function addObjectives($a_objectives): void
+    public function addObjectives($a_objectives) : void
     {
         $this->objectives[] = $a_objectives;
     }
     
-    public function addAssessmentcontrol($a_assessmentcontrol): void
+    public function addAssessmentcontrol($a_assessmentcontrol) : void
     {
         $this->assessmentcontrol[] = $a_assessmentcontrol;
     }
     
-    public function addRubric($a_rubric): void
+    public function addRubric($a_rubric) : void
     {
         $this->rubric[] = $a_rubric;
     }
@@ -177,12 +177,12 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->presentation_material;
     }
     
-    public function addOutcomesProcessing($a_outcomes_processing): void
+    public function addOutcomesProcessing($a_outcomes_processing) : void
     {
         $this->outcomes_processing[] = $a_outcomes_processing;
     }
     
-    public function setAssessprocExtension($a_assessproc_extension): void
+    public function setAssessprocExtension($a_assessproc_extension) : void
     {
         $this->assessproc_extension = $a_assessproc_extension;
     }
@@ -192,12 +192,12 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->assessproc_extension;
     }
     
-    public function addAssessfeedback($a_assessfeedback): void
+    public function addAssessfeedback($a_assessfeedback) : void
     {
         $this->assessfeedback[] = $a_assessfeedback;
     }
     
-    public function setSelectionOrdering($a_selection_ordering): void
+    public function setSelectionOrdering($a_selection_ordering) : void
     {
         $this->selection_ordering = $a_selection_ordering;
     }
@@ -207,7 +207,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->selection_ordering;
     }
     
-    public function setReference($a_reference): void
+    public function setReference($a_reference) : void
     {
         $this->reference = $a_reference;
     }
@@ -217,12 +217,12 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->reference;
     }
     
-    public function addSectionref($a_sectionref): void
+    public function addSectionref($a_sectionref) : void
     {
         $this->sectionref[] = $a_sectionref;
     }
     
-    public function addSection($a_section): void
+    public function addSection($a_section) : void
     {
         $this->section[] = $a_section;
     }

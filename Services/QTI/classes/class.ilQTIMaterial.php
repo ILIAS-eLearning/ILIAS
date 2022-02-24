@@ -54,62 +54,62 @@ class ilQTIMaterial
         $this->materials = array();
     }
     
-    public function addMattext($a_mattext): void
+    public function addMattext($a_mattext) : void
     {
         $this->materials[] = array("material" => $a_mattext, "type" => "mattext");
     }
 
-    public function addMatimage($a_matimage): void
+    public function addMatimage($a_matimage) : void
     {
         $this->materials[] = array("material" => $a_matimage, "type" => "matimage");
     }
 
-    public function addMatemtext($a_matemtext): void
+    public function addMatemtext($a_matemtext) : void
     {
         $this->materials[] = array("material" => $a_matemtext, "type" => "matemtext");
     }
 
-    public function addMataudio($a_mataudio): void
+    public function addMataudio($a_mataudio) : void
     {
         $this->materials[] = array("material" => $a_mataudio, "type" => "mataudio");
     }
 
-    public function addMatvideo($a_matvideo): void
+    public function addMatvideo($a_matvideo) : void
     {
         $this->materials[] = array("material" => $a_matvideo, "type" => "matvideo");
     }
 
-    public function addMatapplet($a_matapplet): void
+    public function addMatapplet($a_matapplet) : void
     {
         $this->materials[] = array("material" => $a_matapplet, "type" => "matapplet");
     }
 
-    public function addMatapplication($a_matapplication): void
+    public function addMatapplication($a_matapplication) : void
     {
         $this->materials[] = array("material" => $a_matapplication, "type" => "matapplication");
     }
 
-    public function addMatref($a_matref): void
+    public function addMatref($a_matref) : void
     {
         $this->materials[] = array("material" => $a_matref, "type" => "matref");
     }
 
-    public function addMatbreak($a_matbreak): void
+    public function addMatbreak($a_matbreak) : void
     {
         $this->materials[] = array("material" => $a_matbreak, "type" => "matbreak");
     }
 
-    public function addMat_extension($a_mat_extension): void
+    public function addMat_extension($a_mat_extension) : void
     {
         $this->materials[] = array("material" => $a_mat_extension, "type" => "mat_extension");
     }
 
-    public function addAltmaterial($a_altmaterial): void
+    public function addAltmaterial($a_altmaterial) : void
     {
         $this->materials[] = array("material" => $a_altmaterial, "type" => "altmaterial");
     }
     
-    public function getMaterialCount(): int
+    public function getMaterialCount() : int
     {
         return count($this->materials);
     }
@@ -123,7 +123,7 @@ class ilQTIMaterial
         return false;
     }
     
-    public function setFlow($a_flow): void
+    public function setFlow($a_flow) : void
     {
         $this->flow = $a_flow;
     }
@@ -133,7 +133,7 @@ class ilQTIMaterial
         return $this->flow;
     }
     
-    public function setLabel($a_label): void
+    public function setLabel($a_label) : void
     {
         $this->label = $a_label;
     }
@@ -143,12 +143,12 @@ class ilQTIMaterial
         return $this->label;
     }
     
-    public function extractText(): string
+    public function extractText() : string
     {
         $text = "";
         if ($this->getMaterialCount()) {
             foreach ($this->materials as $mat) {
-                if (strcmp($mat["type"], "mattext") == 0) {
+                if ($mat["type"] === "mattext") {
                     $text .= $mat["material"];
                 }
             }

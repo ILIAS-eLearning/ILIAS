@@ -58,7 +58,7 @@ class ilQTIItemfeedback
         $this->hint = array();
     }
     
-    public function setView($a_view): void
+    public function setView($a_view) : void
     {
         switch (strtolower($a_view)) {
             case "1":
@@ -109,7 +109,7 @@ class ilQTIItemfeedback
         return $this->view;
     }
     
-    public function setIdent($a_ident): void
+    public function setIdent($a_ident) : void
     {
         $this->ident = $a_ident;
     }
@@ -119,7 +119,7 @@ class ilQTIItemfeedback
         return $this->ident;
     }
     
-    public function setTitle($a_title): void
+    public function setTitle($a_title) : void
     {
         $this->title = $a_title;
     }
@@ -129,22 +129,22 @@ class ilQTIItemfeedback
         return $this->title;
     }
     
-    public function addFlow_mat($a_flow_mat): void
+    public function addFlow_mat($a_flow_mat) : void
     {
         $this->flow_mat[] = $a_flow_mat;
     }
     
-    public function addMaterial($a_material): void
+    public function addMaterial($a_material) : void
     {
         $this->material[] = $a_material;
     }
     
-    public function addSolution($a_solution): void
+    public function addSolution($a_solution) : void
     {
         $this->solution[] = $a_solution;
     }
     
-    public function addHint($a_hint): void
+    public function addHint($a_hint) : void
     {
         $this->hint[] = $a_hint;
     }

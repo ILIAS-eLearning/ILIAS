@@ -39,13 +39,13 @@ const QT_FORMULA = "assFormulaQuestion";
 const QT_TEXTSUBSET = "assTextSubset";
 
 /**
-* QTI item class
-*
-* @author Helmut Schottmüller <hschottm@gmx.de>
-* @version $Id$
-*
-* @package assessment
-*/
+ * QTI item class
+ *
+ * @author Helmut Schottmüller <hschottm@gmx.de>
+ * @version $Id$
+ *
+ * @package assessment
+ */
 class ilQTIItem
 {
     public $ident;
@@ -62,6 +62,10 @@ class ilQTIItem
     public $questiontext;
     public $resprocessing;
     public $itemfeedback;
+
+    /**
+     * @var ilQTIPresentation|null
+     */
     public $presentation;
     public $presentationitem;
     public $suggested_solutions;
@@ -85,7 +89,7 @@ class ilQTIItem
         $this->iliasSourceNic = null;
     }
     
-    public function setIdent($a_ident): void
+    public function setIdent($a_ident) : void
     {
         $this->ident = $a_ident;
     }
@@ -95,7 +99,7 @@ class ilQTIItem
         return $this->ident;
     }
     
-    public function setTitle($a_title): void
+    public function setTitle($a_title) : void
     {
         $this->title = $a_title;
     }
@@ -105,7 +109,7 @@ class ilQTIItem
         return $this->title;
     }
     
-    public function setComment($a_comment): void
+    public function setComment($a_comment) : void
     {
         if (preg_match("/(.*?)\=(.*)/", $a_comment, $matches)) {
             // special comments written by ILIAS
@@ -132,7 +136,7 @@ class ilQTIItem
         return $this->comment;
     }
     
-    public function setDuration($a_duration): void
+    public function setDuration($a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -148,7 +152,7 @@ class ilQTIItem
         return $this->duration;
     }
     
-    public function setQuestiontext($a_questiontext): void
+    public function setQuestiontext($a_questiontext) : void
     {
         $this->questiontext = $a_questiontext;
     }
@@ -158,17 +162,17 @@ class ilQTIItem
         return $this->questiontext;
     }
     
-    public function addResprocessing($a_resprocessing): void
+    public function addResprocessing($a_resprocessing) : void
     {
         $this->resprocessing[] = $a_resprocessing;
     }
     
-    public function addItemfeedback($a_itemfeedback): void
+    public function addItemfeedback($a_itemfeedback) : void
     {
         $this->itemfeedback[] = $a_itemfeedback;
     }
     
-    public function setMaxattempts($a_maxattempts): void
+    public function setMaxattempts($a_maxattempts) : void
     {
         $this->maxattempts = $a_maxattempts;
     }
@@ -178,7 +182,7 @@ class ilQTIItem
         return $this->maxattempts;
     }
     
-    public function setLabel($a_label): void
+    public function setLabel($a_label) : void
     {
         $this->label = $a_label;
     }
@@ -188,7 +192,7 @@ class ilQTIItem
         return $this->label;
     }
     
-    public function setXmllang($a_xmllang): void
+    public function setXmllang($a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
@@ -197,8 +201,11 @@ class ilQTIItem
     {
         return $this->xmllang;
     }
-    
-    public function setPresentation($a_presentation): void
+
+    /**
+     * @param ilQTIPresentation
+     */
+    public function setPresentation($a_presentation) : void
     {
         $this->presentation = $a_presentation;
     }
@@ -208,14 +215,11 @@ class ilQTIItem
         return $this->presentation;
     }
     
-    public function collectResponses(): void
+    public function collectResponses() : void
     {
-        $result = array();
-        if ($this->presentation != null) {
-        }
     }
     
-    public function setQuestiontype($a_questiontype): void
+    public function setQuestiontype($a_questiontype) : void
     {
         $this->questiontype = $a_questiontype;
     }
@@ -225,7 +229,7 @@ class ilQTIItem
         return $this->questiontype;
     }
     
-    public function addPresentationitem($a_presentationitem): void
+    public function addPresentationitem($a_presentationitem) : void
     {
         $this->presentationitem[] = $a_presentationitem;
     }
@@ -260,33 +264,11 @@ class ilQTIItem
             return QT_UNKNOWN;
         }
         foreach ($this->presentation->order as $entry) {
-            switch ($entry["type"]) {
-                case "response":
-                    $response = $this->presentation->response[$entry["index"]];
-                    switch ($response->getResponsetype()) {
-                        case RT_RESPONSE_LID:
-                            switch ($response->getRCardinality()) {
-                                case R_CARDINALITY_ORDERED:
-                                    return QT_ORDERING;
-                                case R_CARDINALITY_SINGLE:
-                                    return QT_MULTIPLE_CHOICE_SR;
-                                case R_CARDINALITY_MULTIPLE:
-                                    return QT_MULTIPLE_CHOICE_MR;
-                            }
-                        case RT_RESPONSE_XY:
-                            return QT_IMAGEMAP;
-                        case RT_RESPONSE_STR:
-                            switch ($response->getRCardinality()) {
-                                case R_CARDINALITY_ORDERED:
-                                    return QT_TEXT;
-                                case R_CARDINALITY_SINGLE:
-                                    return QT_CLOZE;
-                            }
-                        case RT_RESPONSE_GRP:
-                            return QT_MATCHING;
-                        default:
-                            break;
-                    }
+            if ('response' === $entry["type"]) {
+                $result = $this->typeFromResponse($this->presentation->response[$entry["index"]]);
+                if (null !== $result) {
+                    return $result;
+                }
             }
         }
         if (strlen($this->questiontype) == 0) {
@@ -296,7 +278,7 @@ class ilQTIItem
         return $this->questiontype;
     }
     
-    public function setAuthor($a_author): void
+    public function setAuthor($a_author) : void
     {
         $this->author = $a_author;
     }
@@ -317,7 +299,7 @@ class ilQTIItem
     /**
      * @param string $iliasSourceVersion
      */
-    public function setIliasSourceVersion($iliasSourceVersion): void
+    public function setIliasSourceVersion($iliasSourceVersion) : void
     {
         $this->iliasSourceVersion = $iliasSourceVersion;
     }
@@ -333,17 +315,17 @@ class ilQTIItem
     /**
      * @param null $iliasSourceNic
      */
-    public function setIliasSourceNic($iliasSourceNic): void
+    public function setIliasSourceNic($iliasSourceNic) : void
     {
         $this->iliasSourceNic = $iliasSourceNic;
     }
     
-    public function addSuggestedSolution($a_solution, $a_gap_index): void
+    public function addSuggestedSolution($a_solution, $a_gap_index) : void
     {
         $this->suggested_solutions[] = array("solution" => $a_solution, "gap_index" => $a_gap_index);
     }
     
-    public function addMetadata($a_metadata): void
+    public function addMetadata($a_metadata) : void
     {
         $this->itemmetadata[] = $a_metadata;
     }
@@ -356,10 +338,33 @@ class ilQTIItem
     public function getMetadataEntry($a_label)
     {
         foreach ($this->itemmetadata as $metadata) {
-            if (strcmp($metadata["label"], $a_label) == 0) {
+            if ($metadata["label"] === $a_label) {
                 return $metadata["entry"];
             }
         }
         return null;
+    }
+
+    private function typeFromResponse(ilQTIResponse $response) : ?string
+    {
+        switch ($response->getResponsetype()) {
+            case RT_RESPONSE_LID:
+                switch ($response->getRCardinality()) {
+                    case R_CARDINALITY_ORDERED: return QT_ORDERING;
+                    case R_CARDINALITY_SINGLE: return QT_MULTIPLE_CHOICE_SR;
+                    case R_CARDINALITY_MULTIPLE: return QT_MULTIPLE_CHOICE_MR;
+                }
+                // no break
+            case RT_RESPONSE_XY: return QT_IMAGEMAP;
+            case RT_RESPONSE_STR:
+                switch ($response->getRCardinality()) {
+                    case R_CARDINALITY_ORDERED: return QT_TEXT;
+                    case R_CARDINALITY_SINGLE: return QT_CLOZE;
+                }
+                // no break
+            case RT_RESPONSE_GRP: return QT_MATCHING;
+
+            default: return null;
+        }
     }
 }

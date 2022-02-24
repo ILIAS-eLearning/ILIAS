@@ -43,7 +43,7 @@ class ilQTIResprocessing
         $this->itemproc_extension = array();
     }
     
-    public function setComment($a_comment): void
+    public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
@@ -53,7 +53,7 @@ class ilQTIResprocessing
         return $this->comment;
     }
     
-    public function setOutcomes($a_outcomes): void
+    public function setOutcomes($a_outcomes) : void
     {
         $this->outcomes = $a_outcomes;
     }
@@ -63,12 +63,12 @@ class ilQTIResprocessing
         return $this->outcomes;
     }
     
-    public function addRespcondition($a_respcondition): void
+    public function addRespcondition($a_respcondition) : void
     {
         $this->respcondition[] = $a_respcondition;
     }
     
-    public function setScoremodel($a_scoremodel): void
+    public function setScoremodel($a_scoremodel) : void
     {
         $this->scoremodel = $a_scoremodel;
     }

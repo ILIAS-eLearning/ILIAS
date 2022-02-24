@@ -63,7 +63,7 @@ class ilQTIResponseVar
         $this->setVartype($a_vartype);
     }
     
-    public function setVartype($a_vartype): void
+    public function setVartype($a_vartype) : void
     {
         $this->vartype = $a_vartype;
     }
@@ -73,7 +73,7 @@ class ilQTIResponseVar
         return $this->vartype;
     }
     
-    public function setCase($a_case): void
+    public function setCase($a_case) : void
     {
         switch (strtolower($a_case)) {
             case "1":
@@ -92,7 +92,7 @@ class ilQTIResponseVar
         return $this->case;
     }
     
-    public function setRespident($a_respident): void
+    public function setRespident($a_respident) : void
     {
         $this->respident = $a_respident;
     }
@@ -102,7 +102,7 @@ class ilQTIResponseVar
         return $this->respident;
     }
     
-    public function setIndex($a_index): void
+    public function setIndex($a_index) : void
     {
         $this->index = $a_index;
     }
@@ -112,7 +112,7 @@ class ilQTIResponseVar
         return $this->index;
     }
     
-    public function setSetmatch($a_setmatch): void
+    public function setSetmatch($a_setmatch) : void
     {
         switch (strtolower($a_setmatch)) {
             case "1":
@@ -131,7 +131,7 @@ class ilQTIResponseVar
         return $this->setmatch;
     }
     
-    public function setAreatype($a_areatype): void
+    public function setAreatype($a_areatype) : void
     {
         switch (strtolower($a_areatype)) {
             case "1":
@@ -154,7 +154,7 @@ class ilQTIResponseVar
         return $this->areatype;
     }
     
-    public function setContent($a_content): void
+    public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }

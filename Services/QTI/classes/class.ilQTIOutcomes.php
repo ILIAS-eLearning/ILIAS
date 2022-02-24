@@ -39,7 +39,7 @@ class ilQTIOutcomes
         $this->decvar = array();
     }
     
-    public function setComment($a_comment): void
+    public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
@@ -49,7 +49,7 @@ class ilQTIOutcomes
         return $this->comment;
     }
     
-    public function addDecvar($a_decvar): void
+    public function addDecvar($a_decvar) : void
     {
         $this->decvar[] = $a_decvar;
     }

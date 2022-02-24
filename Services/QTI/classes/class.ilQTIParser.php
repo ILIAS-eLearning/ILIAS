@@ -394,7 +394,7 @@ class ilQTIParser extends ilSaxParser
         $this->questionSetType = $questionSetType;
     }
     
-    public function setTestObject(&$a_tst_object): void
+    public function setTestObject(&$a_tst_object) : void
     {
         $this->tst_object = &$a_tst_object;
         if (is_object($a_tst_object)) {
@@ -1129,7 +1129,7 @@ class ilQTIParser extends ilSaxParser
     */
     public function handlerParseEndTag($a_xml_parser, $a_name) : void
     {
-        if (($this->do_nothing) && (strcmp(strtolower($a_name), "item") != 0)) {
+        if ($this->do_nothing && strtolower($a_name) !== "item") {
             return;
         }
         switch (strtolower($a_name)) {
@@ -1144,7 +1144,7 @@ class ilQTIParser extends ilSaxParser
                 $this->assessmentcontrol = null;
                 break;
             case "objectives":
-                if (strcmp(strtolower($this->getParent($a_xml_parser)), "assessment") == 0) {
+                if (strtolower($this->getParent($a_xml_parser)) === "assessment") {
                     $this->assessment->addObjectives($this->objectives);
                 }
                 $this->in_objectives = false;
@@ -1269,10 +1269,8 @@ class ilQTIParser extends ilSaxParser
                 break;
             case "presentation":
                 $this->in_presentation = false;
-                if ($this->presentation != null) {
-                    if ($this->item != null) {
-                        $this->item->setPresentation($this->presentation);
-                    }
+                if ($this->presentation != null && $this->item != null) {
+                    $this->item->setPresentation($this->presentation);
                 }
                 $this->presentation = null;
                 break;
@@ -1350,14 +1348,14 @@ class ilQTIParser extends ilSaxParser
             case "material":
                 if ($this->material) {
                     $mat = $this->material->getMaterial(0);
-                    if ((strcmp($mat["type"], "mattext") == 0) && (strcmp($mat["material"]->getLabel(), "suggested_solution") == 0)) {
+                    if ($mat["type"] === "mattext" && $mat["material"]->getLabel() === "suggested_solution") {
                         $this->item->addSuggestedSolution($mat["material"], $this->gap_index);
                     }
                     if ($this->in_objectives) {
                         $this->objectives->addMaterial($this->material);
-                    } elseif (($this->render_type != null) && (strcmp(strtolower($this->getParent($a_xml_parser)), "render_hotspot") == 0)) {
+                    } elseif ($this->render_type != null && strtolower($this->getParent($a_xml_parser)) === "render_hotspot") {
                         $this->render_type->addMaterial($this->material);
-                    } elseif (count($this->flow_mat) && (strcmp(strtolower($this->getParent($a_xml_parser)), "flow_mat") == 0)) {
+                    } elseif (count($this->flow_mat) && strtolower($this->getParent($a_xml_parser)) === "flow_mat") {
                         $this->flow_mat[count($this->flow_mat) - 1]->addMaterial($this->material);
                     } elseif ($this->itemfeedback != null) {
                         $this->itemfeedback->addMaterial($this->material);
@@ -1709,7 +1707,7 @@ class ilQTIParser extends ilSaxParser
                 break;
             case "qtimetadatafield":
                 $this->verifymetadatafield = 0;
-                if (strcmp($this->verifyfieldlabeltext, "QUESTIONTYPE") == 0) {
+                if ($this->verifyfieldlabeltext === "QUESTIONTYPE") {
                     $this->founditems[count($this->founditems) - 1]["type"] = $this->verifyfieldentrytext;
                 }
                 if ($this->in_assessment) {
@@ -1864,6 +1862,7 @@ class ilQTIParser extends ilSaxParser
     {
         return $this->numImportedItems;
     }
+
     protected function isMatImageAvailable() : bool
     {
         if (!$this->material) {

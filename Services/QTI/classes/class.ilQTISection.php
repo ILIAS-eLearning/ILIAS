@@ -69,7 +69,7 @@ class ilQTISection
         $this->section = array();
     }
     
-    public function setIdent($a_ident): void
+    public function setIdent($a_ident) : void
     {
         $this->ident = $a_ident;
     }
@@ -79,7 +79,7 @@ class ilQTISection
         return $this->ident;
     }
     
-    public function setTitle($a_title): void
+    public function setTitle($a_title) : void
     {
         $this->title = $a_title;
     }
@@ -89,7 +89,7 @@ class ilQTISection
         return $this->title;
     }
     
-    public function setComment($a_comment): void
+    public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
@@ -99,7 +99,7 @@ class ilQTISection
         return $this->comment;
     }
     
-    public function setDuration($a_duration): void
+    public function setDuration($a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -115,7 +115,7 @@ class ilQTISection
         return $this->duration;
     }
     
-    public function setXmllang($a_xmllang): void
+    public function setXmllang($a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
@@ -125,37 +125,37 @@ class ilQTISection
         return $this->xmllang;
     }
     
-    public function addQtiMetadata($a_metadata): void
+    public function addQtiMetadata($a_metadata) : void
     {
         $this->qtimetadata[] = $a_metadata;
     }
     
-    public function addObjectives($a_objectives): void
+    public function addObjectives($a_objectives) : void
     {
         $this->objectives[] = $a_objectives;
     }
     
-    public function addSectioncontrol($a_sectioncontrol): void
+    public function addSectioncontrol($a_sectioncontrol) : void
     {
         $this->sectioncontrol[] = $a_sectioncontrol;
     }
     
-    public function addSectionprecondition($a_sectionprecondition): void
+    public function addSectionprecondition($a_sectionprecondition) : void
     {
         $this->sectionprecondition[] = $a_sectionprecondition;
     }
     
-    public function addSectionpostcondition($a_sectionpostcondition): void
+    public function addSectionpostcondition($a_sectionpostcondition) : void
     {
         $this->sectionpostcondition[] = $a_sectionpostcondition;
     }
     
-    public function addRubric($a_rubric): void
+    public function addRubric($a_rubric) : void
     {
         $this->rubric[] = $a_rubric;
     }
     
-    public function setPresentationMaterial($a_material): void
+    public function setPresentationMaterial($a_material) : void
     {
         $this->presentation_material = $a_material;
     }
@@ -165,12 +165,12 @@ class ilQTISection
         return $this->presentation_material;
     }
     
-    public function addOutcomesProcessing($a_outcomes_processing): void
+    public function addOutcomesProcessing($a_outcomes_processing) : void
     {
         $this->outcomes_processing[] = $a_outcomes_processing;
     }
     
-    public function setSectionprocExtension($a_sectionproc_extension): void
+    public function setSectionprocExtension($a_sectionproc_extension) : void
     {
         $this->sectionproc_extension = $a_sectionproc_extension;
     }
@@ -180,12 +180,12 @@ class ilQTISection
         return $this->sectionproc_extension;
     }
     
-    public function addSectionfeedback($a_sectionfeedback): void
+    public function addSectionfeedback($a_sectionfeedback) : void
     {
         $this->sectionfeedback[] = $a_sectionfeedback;
     }
     
-    public function setSelectionOrdering($a_selection_ordering): void
+    public function setSelectionOrdering($a_selection_ordering) : void
     {
         $this->selection_ordering = $a_selection_ordering;
     }
@@ -195,7 +195,7 @@ class ilQTISection
         return $this->selection_ordering;
     }
     
-    public function setReference($a_reference): void
+    public function setReference($a_reference) : void
     {
         $this->reference = $a_reference;
     }
@@ -205,22 +205,22 @@ class ilQTISection
         return $this->reference;
     }
     
-    public function addItemref($a_itemref): void
+    public function addItemref($a_itemref) : void
     {
         $this->itemref[] = $a_itemref;
     }
     
-    public function addItem($a_item): void
+    public function addItem($a_item) : void
     {
         $this->item[] = $a_item;
     }
 
-    public function addSectionref($a_sectionref): void
+    public function addSectionref($a_sectionref) : void
     {
         $this->sectionref[] = $a_sectionref;
     }
     
-    public function addSection($a_section): void
+    public function addSection($a_section) : void
     {
         $this->section[] = $a_section;
     }

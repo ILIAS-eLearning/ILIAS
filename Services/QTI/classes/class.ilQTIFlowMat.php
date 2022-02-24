@@ -45,7 +45,7 @@ class ilQTIFlowMat implements ilQTIMaterialAware
         $this->material_ref = array();
     }
 
-    public function setComment($a_comment): void
+    public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
@@ -55,7 +55,7 @@ class ilQTIFlowMat implements ilQTIMaterialAware
         return $this->comment;
     }
     
-    public function addFlow_mat($a_flow_mat): void
+    public function addFlow_mat($a_flow_mat) : void
     {
         $this->flow_mat[] = $a_flow_mat;
     }
@@ -73,14 +73,10 @@ class ilQTIFlowMat implements ilQTIMaterialAware
      */
     public function getMaterial($index)
     {
-        if (isset($this->material[$index])) {
-            return $this->material[$index];
-        }
-
-        return null;
+        return $this->material[$index] ?? null;
     }
 
-    public function addMaterial_ref($a_material_ref): void
+    public function addMaterial_ref($a_material_ref) : void
     {
         $this->material_ref[] = $a_material_ref;
     }

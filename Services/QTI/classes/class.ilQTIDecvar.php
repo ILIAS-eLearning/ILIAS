@@ -54,7 +54,7 @@ class ilQTIDecvar
         $this->interpretvar = array();
     }
     
-    public function setVarname($a_varname): void
+    public function setVarname($a_varname) : void
     {
         $this->varname = $a_varname;
     }
@@ -64,7 +64,7 @@ class ilQTIDecvar
         return $this->varname;
     }
 
-    public function setVartype($a_vartype): void
+    public function setVartype($a_vartype) : void
     {
         switch (strtolower($a_vartype)) {
             case "integer":
@@ -103,7 +103,7 @@ class ilQTIDecvar
         return $this->vartype;
     }
 
-    public function setDefaultval($a_defaultval): void
+    public function setDefaultval($a_defaultval) : void
     {
         $this->defaultval = $a_defaultval;
     }
@@ -113,7 +113,7 @@ class ilQTIDecvar
         return $this->defaultval;
     }
 
-    public function setMinvalue($a_minvalue): void
+    public function setMinvalue($a_minvalue) : void
     {
         $this->minvalue = $a_minvalue;
     }
@@ -123,7 +123,7 @@ class ilQTIDecvar
         return $this->minvalue;
     }
 
-    public function setMaxvalue($a_maxvalue): void
+    public function setMaxvalue($a_maxvalue) : void
     {
         $this->maxvalue = $a_maxvalue;
     }
@@ -133,7 +133,7 @@ class ilQTIDecvar
         return $this->maxvalue;
     }
 
-    public function setMembers($a_members): void
+    public function setMembers($a_members) : void
     {
         $this->members = $a_members;
     }
@@ -143,7 +143,7 @@ class ilQTIDecvar
         return $this->members;
     }
 
-    public function setCutvalue($a_cutvalue): void
+    public function setCutvalue($a_cutvalue) : void
     {
         $this->cutvalue = $a_cutvalue;
     }
@@ -153,7 +153,7 @@ class ilQTIDecvar
         return $this->cutvalue;
     }
 
-    public function setContent($a_content): void
+    public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }
@@ -163,7 +163,7 @@ class ilQTIDecvar
         return $this->content;
     }
     
-    public function addInterpretvar($a_interpretvar): void
+    public function addInterpretvar($a_interpretvar) : void
     {
         $this->interpretvar[] = $a_interpretvar;
     }

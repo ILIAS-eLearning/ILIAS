@@ -46,7 +46,7 @@ class ilQtiMatImageSecurity
     /**
      * @param ilQTIMatimage $imageMaterial
      */
-    public function setImageMaterial($imageMaterial): void
+    public function setImageMaterial($imageMaterial) : void
     {
         $this->imageMaterial = $imageMaterial;
     }
@@ -62,12 +62,12 @@ class ilQtiMatImageSecurity
     /**
      * @param string $detectedMimeType
      */
-    protected function setDetectedMimeType($detectedMimeType): void
+    protected function setDetectedMimeType($detectedMimeType) : void
     {
         $this->detectedMimeType = $detectedMimeType;
     }
     
-    public function validate(): bool
+    public function validate() : bool
     {
         if (!$this->validateLabel()) {
             return false;
@@ -80,7 +80,7 @@ class ilQtiMatImageSecurity
         return true;
     }
     
-    protected function validateContent(): bool
+    protected function validateContent() : bool
     {
         if ($this->getImageMaterial()->getImagetype() && !assQuestion::isAllowedImageMimeType($this->getImageMaterial()->getImagetype())) {
             return false;
@@ -110,7 +110,7 @@ class ilQtiMatImageSecurity
         return true;
     }
     
-    protected function validateLabel(): bool
+    protected function validateLabel() : bool
     {
         if ($this->getImageMaterial()->getUri()) {
             if (!$this->hasFileExtension($this->getImageMaterial()->getUri())) {
@@ -125,7 +125,7 @@ class ilQtiMatImageSecurity
         return assQuestion::isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
     }
     
-    public function sanitizeLabel(): void
+    public function sanitizeLabel() : void
     {
         $label = $this->getImageMaterial()->getLabel();
         
@@ -136,7 +136,7 @@ class ilQtiMatImageSecurity
         $this->getImageMaterial()->setLabel($label);
     }
     
-    protected function determineMimeType($content): string
+    protected function determineMimeType($content) : string
     {
         $finfo = new finfo(FILEINFO_MIME);
     
@@ -164,7 +164,7 @@ class ilQtiMatImageSecurity
      * @param string $label
      * @return bool
      */
-    protected function hasFileExtension($label): bool
+    protected function hasFileExtension($label) : bool
     {
         $pathInfo = pathinfo($label);
 

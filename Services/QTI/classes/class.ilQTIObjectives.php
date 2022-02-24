@@ -40,12 +40,12 @@ class ilQTIObjectives
         $this->view = "All";
     }
     
-    public function addMaterial($a_material): void
+    public function addMaterial($a_material) : void
     {
         $this->materials[] = $a_material;
     }
     
-    public function setView($a_view): void
+    public function setView($a_view) : void
     {
         switch ($a_view) {
             case "Administrator":

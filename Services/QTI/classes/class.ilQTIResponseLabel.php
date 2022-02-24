@@ -58,7 +58,7 @@ class ilQTIResponseLabel
         $this->flow_mat = array();
     }
     
-    public function setRshuffle($a_rshuffle): void
+    public function setRshuffle($a_rshuffle) : void
     {
         switch (strtolower($a_rshuffle)) {
             case "1":
@@ -77,7 +77,7 @@ class ilQTIResponseLabel
         return $this->rshuffle;
     }
     
-    public function setRarea($a_rarea): void
+    public function setRarea($a_rarea) : void
     {
         switch (strtolower($a_rarea)) {
             case "1":
@@ -100,7 +100,7 @@ class ilQTIResponseLabel
         return $this->rarea;
     }
     
-    public function setRrange($a_rrange): void
+    public function setRrange($a_rrange) : void
     {
         switch (strtolower($a_rrange)) {
             case "1":
@@ -119,7 +119,7 @@ class ilQTIResponseLabel
         return $this->rrange;
     }
     
-    public function setLabelrefid($a_labelrefid): void
+    public function setLabelrefid($a_labelrefid) : void
     {
         $this->labelrefid = $a_labelrefid;
     }
@@ -129,7 +129,7 @@ class ilQTIResponseLabel
         return $this->labelrefid;
     }
     
-    public function setIdent($a_ident): void
+    public function setIdent($a_ident) : void
     {
         $this->ident = $a_ident;
     }
@@ -139,7 +139,7 @@ class ilQTIResponseLabel
         return $this->ident;
     }
     
-    public function setMatchGroup($a_match_group): void
+    public function setMatchGroup($a_match_group) : void
     {
         $this->match_group = $a_match_group;
     }
@@ -149,7 +149,7 @@ class ilQTIResponseLabel
         return $this->match_group;
     }
     
-    public function setMatchMax($a_match_max): void
+    public function setMatchMax($a_match_max) : void
     {
         $this->match_max = $a_match_max;
     }
@@ -159,17 +159,17 @@ class ilQTIResponseLabel
         return $this->match_max;
     }
     
-    public function addMaterial($a_material): void
+    public function addMaterial($a_material) : void
     {
         $this->material[] = $a_material;
     }
     
-    public function addFlow_mat($a_flow_mat): void
+    public function addFlow_mat($a_flow_mat) : void
     {
         $this->flow_mat[] = $a_flow_mat;
     }
     
-    public function setContent($a_content): void
+    public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }

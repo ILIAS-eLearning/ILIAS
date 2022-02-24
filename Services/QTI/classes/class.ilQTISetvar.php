@@ -45,7 +45,7 @@ class ilQTISetvar
     {
     }
 
-    public function setVarname($a_varname): void
+    public function setVarname($a_varname) : void
     {
         $this->varname = $a_varname;
     }
@@ -55,7 +55,7 @@ class ilQTISetvar
         return $this->varname;
     }
     
-    public function setAction($a_action): void
+    public function setAction($a_action) : void
     {
         switch (strtolower($a_action)) {
             case "set":
@@ -86,7 +86,7 @@ class ilQTISetvar
         return $this->action;
     }
     
-    public function setContent($a_content): void
+    public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }

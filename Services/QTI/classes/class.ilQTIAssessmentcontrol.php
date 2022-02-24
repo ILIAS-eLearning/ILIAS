@@ -51,7 +51,7 @@ class ilQTIAssessmentcontrol
         $this->feedbackswitch = "";
     }
     
-    public function setView($a_view): void
+    public function setView($a_view) : void
     {
         switch ($a_view) {
             case "Administrator":
@@ -76,7 +76,7 @@ class ilQTIAssessmentcontrol
         return $this->view;
     }
 
-    public function setHintswitch($a_hintswitch): void
+    public function setHintswitch($a_hintswitch) : void
     {
         $this->hintswitch = 'No' === $a_hintswitch ? 'No' : 'Yes';
     }
@@ -86,9 +86,9 @@ class ilQTIAssessmentcontrol
         return $this->hintswitch;
     }
     
-    public function setSolutionswitch($a_solutionswitch): void
+    public function setSolutionswitch($a_solutionswitch) : void
     {
-        $this->solutionswitch = 'No' ==== $a_solutionswitch ? 'No' : 'Yes';
+        $this->solutionswitch = 'No' === $a_solutionswitch ? 'No' : 'Yes';
     }
     
     public function getSolutionswitch()
@@ -96,7 +96,7 @@ class ilQTIAssessmentcontrol
         return $this->solutionswitch;
     }
 
-    public function setFeedbackswitch($a_feedbackswitch): void
+    public function setFeedbackswitch($a_feedbackswitch) : void
     {
         $this->feedbackswitch = 'No' === $a_feedbackswitch ? 'No' : 'Yes';
     }
