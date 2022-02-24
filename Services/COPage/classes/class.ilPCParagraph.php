@@ -532,6 +532,13 @@ class ilPCParagraph extends ilPageContent
         bool $a_wysiwyg = false,
         bool $a_handle_lists = true
     ) : string {
+        $log = null;
+        if (!defined('IL_PHPUNIT_TEST')) {
+            $log = ilLoggerFactory::getLogger('copg');
+            $log->debug("_input2xml");
+            $log->debug("...start: " . substr($a_text, 0, 1000));
+        }
+
         if (!$a_wysiwyg) {
             $a_text = ilUtil::stripSlashes($a_text, false);
         }
@@ -636,6 +643,10 @@ class ilPCParagraph extends ilPageContent
             }
         }
         $a_text = preg_replace('~\[\/marked\]~i', "</Marked>", $a_text);
+
+        if (!is_null($log)) {
+            $log->debug("...finish: " . substr($a_text, 0, 1000));
+        }
 
         return $a_text;
     }
