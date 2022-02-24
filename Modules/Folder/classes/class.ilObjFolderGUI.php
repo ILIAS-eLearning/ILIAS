@@ -570,6 +570,16 @@ class ilObjFolderGUI extends ilContainerGUI
             );
         }
     }
+
+    /**
+     * show possible sub objects selection list
+     */
+    public function showPossibleSubObjects()
+    {
+        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui->render();
+    }
+
     
     protected function forwardToTimingsView()
     {
