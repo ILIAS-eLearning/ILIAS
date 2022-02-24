@@ -21,8 +21,8 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("SHUFFLE_NO", "0");
-define("SHUFFLE_YES", "1");
+const SHUFFLE_NO = "0";
+const SHUFFLE_YES = "1";
 
 /**
 * QTI render choice class
@@ -49,7 +49,7 @@ class ilQTIRenderChoice
         $this->material = array();
     }
     
-    public function setShuffle($a_shuffle)
+    public function setShuffle($a_shuffle): void
     {
         switch (strtolower($a_shuffle)) {
             case "0":
@@ -63,12 +63,12 @@ class ilQTIRenderChoice
         }
     }
     
-    public function getShuffle()
+    public function getShuffle(): string
     {
         return $this->shuffle;
     }
     
-    public function setMinnumber($a_minnumber)
+    public function setMinnumber($a_minnumber): void
     {
         $this->minnumber = $a_minnumber;
     }
@@ -78,7 +78,7 @@ class ilQTIRenderChoice
         return $this->minnumber;
     }
     
-    public function setMaxnumber($a_maxnumber)
+    public function setMaxnumber($a_maxnumber): void
     {
         $this->maxnumber = $a_maxnumber;
     }
@@ -88,13 +88,13 @@ class ilQTIRenderChoice
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label)
+    public function addResponseLabel($a_response_label): void
     {
-        array_push($this->response_labels, $a_response_label);
+        $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material)
+    public function addMaterial($a_material): void
     {
-        array_push($this->material, $a_material);
+        $this->material[] = $a_material;
     }
 }

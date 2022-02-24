@@ -21,11 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("ACTION_SET", "1");
-define("ACTION_ADD", "2");
-define("ACTION_SUBTRACT", "3");
-define("ACTION_MULTIPLY", "4");
-define("ACTION_DIVIDE", "5");
+const ACTION_SET = "1";
+const ACTION_ADD = "2";
+const ACTION_SUBTRACT = "3";
+const ACTION_MULTIPLY = "4";
+const ACTION_DIVIDE = "5";
 
 /**
 * QTI setvar class
@@ -45,7 +45,7 @@ class ilQTISetvar
     {
     }
 
-    public function setVarname($a_varname)
+    public function setVarname($a_varname): void
     {
         $this->varname = $a_varname;
     }
@@ -55,7 +55,7 @@ class ilQTISetvar
         return $this->varname;
     }
     
-    public function setAction($a_action)
+    public function setAction($a_action): void
     {
         switch (strtolower($a_action)) {
             case "set":
@@ -86,7 +86,7 @@ class ilQTISetvar
         return $this->action;
     }
     
-    public function setContent($a_content)
+    public function setContent($a_content): void
     {
         $this->content = $a_content;
     }

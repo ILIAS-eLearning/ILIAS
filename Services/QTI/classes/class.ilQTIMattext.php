@@ -21,8 +21,8 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("SPACE_PRESERVE", "1");
-define("SPACE_DEFAULT", "2");
+const SPACE_PRESERVE = "1";
+const SPACE_DEFAULT = "2";
 
 /**
 * QTI mattext class
@@ -51,7 +51,7 @@ class ilQTIMattext
     {
     }
 
-    public function setTexttype($a_texttype)
+    public function setTexttype($a_texttype): void
     {
         $this->texttype = $a_texttype;
     }
@@ -61,7 +61,7 @@ class ilQTIMattext
         return $this->texttype;
     }
     
-    public function setLabel($a_label)
+    public function setLabel($a_label): void
     {
         $this->label = $a_label;
     }
@@ -71,7 +71,7 @@ class ilQTIMattext
         return $this->label;
     }
     
-    public function setHeight($a_height)
+    public function setHeight($a_height): void
     {
         $this->height = $a_height;
     }
@@ -81,7 +81,7 @@ class ilQTIMattext
         return $this->height;
     }
     
-    public function setWidth($a_width)
+    public function setWidth($a_width): void
     {
         $this->width = $a_width;
     }
@@ -91,7 +91,7 @@ class ilQTIMattext
         return $this->width;
     }
     
-    public function setCharset($a_charset)
+    public function setCharset($a_charset): void
     {
         $this->charset = $a_charset;
     }
@@ -101,7 +101,7 @@ class ilQTIMattext
         return $this->charset;
     }
     
-    public function setUri($a_uri)
+    public function setUri($a_uri): void
     {
         $this->uri = $a_uri;
     }
@@ -111,7 +111,7 @@ class ilQTIMattext
         return $this->uri;
     }
     
-    public function setXmllang($a_xmllang)
+    public function setXmllang($a_xmllang): void
     {
         $this->xmllang = $a_xmllang;
     }
@@ -121,7 +121,7 @@ class ilQTIMattext
         return $this->xmllang;
     }
     
-    public function setXmlspace($a_xmlspace)
+    public function setXmlspace($a_xmlspace): void
     {
         switch (strtolower($a_xmlspace)) {
             case "preserve":
@@ -140,7 +140,7 @@ class ilQTIMattext
         return $this->xmlspace;
     }
     
-    public function setX0($a_x0)
+    public function setX0($a_x0): void
     {
         $this->x0 = $a_x0;
     }
@@ -150,7 +150,7 @@ class ilQTIMattext
         return $this->x0;
     }
     
-    public function setY0($a_y0)
+    public function setY0($a_y0): void
     {
         $this->y0 = $a_y0;
     }
@@ -160,7 +160,7 @@ class ilQTIMattext
         return $this->y0;
     }
     
-    public function setEntityref($a_entityref)
+    public function setEntityref($a_entityref): void
     {
         $this->entityref = $a_entityref;
     }
@@ -170,7 +170,7 @@ class ilQTIMattext
         return $this->entityref;
     }
     
-    public function setContent($a_content)
+    public function setContent($a_content): void
     {
         $this->content = $a_content;
     }

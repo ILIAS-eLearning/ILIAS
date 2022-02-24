@@ -21,8 +21,8 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("SHOWDRAW_NO", "1");
-define("SHOWDRAW_YES", "2");
+const SHOWDRAW_NO = "1";
+const SHOWDRAW_YES = "2";
 
 /**
 * QTI render hotspot class
@@ -47,7 +47,7 @@ class ilQTIRenderHotspot
         $this->material = array();
     }
     
-    public function setShowdraw($a_showdraw)
+    public function setShowdraw($a_showdraw): void
     {
         switch (strtolower($a_showdraw)) {
             case "1":
@@ -66,7 +66,7 @@ class ilQTIRenderHotspot
         return $this->showdraw;
     }
     
-    public function setMinnumber($a_minnumber)
+    public function setMinnumber($a_minnumber): void
     {
         $this->minnumber = $a_minnumber;
     }
@@ -76,7 +76,7 @@ class ilQTIRenderHotspot
         return $this->minnumber;
     }
     
-    public function setMaxnumber($a_maxnumber)
+    public function setMaxnumber($a_maxnumber): void
     {
         $this->maxnumber = $a_maxnumber;
     }
@@ -86,13 +86,13 @@ class ilQTIRenderHotspot
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label)
+    public function addResponseLabel($a_response_label): void
     {
-        array_push($this->response_labels, $a_response_label);
+        $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material)
+    public function addMaterial($a_material): void
     {
-        array_push($this->material, $a_material);
+        $this->material[] = $a_material;
     }
 }

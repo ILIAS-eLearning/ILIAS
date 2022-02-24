@@ -21,13 +21,13 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("VARTYPE_INTEGER", "1");
-define("VARTYPE_STRING", "2");
-define("VARTYPE_DECIMAL", "3");
-define("VARTYPE_SCIENTIFIC", "4");
-define("VARTYPE_BOOLEAN", "5");
-define("VARTYPE_ENUMERATED", "6");
-define("VARTYPE_SET", "7");
+const VARTYPE_INTEGER = "1";
+const VARTYPE_STRING = "2";
+const VARTYPE_DECIMAL = "3";
+const VARTYPE_SCIENTIFIC = "4";
+const VARTYPE_BOOLEAN = "5";
+const VARTYPE_ENUMERATED = "6";
+const VARTYPE_SET = "7";
 
 /**
 * QTI decvar class
@@ -54,7 +54,7 @@ class ilQTIDecvar
         $this->interpretvar = array();
     }
     
-    public function setVarname($a_varname)
+    public function setVarname($a_varname): void
     {
         $this->varname = $a_varname;
     }
@@ -64,7 +64,7 @@ class ilQTIDecvar
         return $this->varname;
     }
 
-    public function setVartype($a_vartype)
+    public function setVartype($a_vartype): void
     {
         switch (strtolower($a_vartype)) {
             case "integer":
@@ -103,7 +103,7 @@ class ilQTIDecvar
         return $this->vartype;
     }
 
-    public function setDefaultval($a_defaultval)
+    public function setDefaultval($a_defaultval): void
     {
         $this->defaultval = $a_defaultval;
     }
@@ -113,7 +113,7 @@ class ilQTIDecvar
         return $this->defaultval;
     }
 
-    public function setMinvalue($a_minvalue)
+    public function setMinvalue($a_minvalue): void
     {
         $this->minvalue = $a_minvalue;
     }
@@ -123,7 +123,7 @@ class ilQTIDecvar
         return $this->minvalue;
     }
 
-    public function setMaxvalue($a_maxvalue)
+    public function setMaxvalue($a_maxvalue): void
     {
         $this->maxvalue = $a_maxvalue;
     }
@@ -133,7 +133,7 @@ class ilQTIDecvar
         return $this->maxvalue;
     }
 
-    public function setMembers($a_members)
+    public function setMembers($a_members): void
     {
         $this->members = $a_members;
     }
@@ -143,7 +143,7 @@ class ilQTIDecvar
         return $this->members;
     }
 
-    public function setCutvalue($a_cutvalue)
+    public function setCutvalue($a_cutvalue): void
     {
         $this->cutvalue = $a_cutvalue;
     }
@@ -153,7 +153,7 @@ class ilQTIDecvar
         return $this->cutvalue;
     }
 
-    public function setContent($a_content)
+    public function setContent($a_content): void
     {
         $this->content = $a_content;
     }
@@ -163,8 +163,8 @@ class ilQTIDecvar
         return $this->content;
     }
     
-    public function addInterpretvar($a_interpretvar)
+    public function addInterpretvar($a_interpretvar): void
     {
-        array_push($this->interpretvar, $a_interpretvar);
+        $this->interpretvar[] = $a_interpretvar;
     }
 }

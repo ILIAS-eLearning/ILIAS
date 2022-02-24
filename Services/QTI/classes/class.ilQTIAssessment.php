@@ -37,21 +37,40 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
     public $title;
     public $xmllang;
     public $comment;
+
+    /** @var array|null */
     public $duration;
+
+    /** @var array */
     public $qtimetadata;
+
+    /** @var array */
     public $objectives;
+
+    /** @var array */
     public $assessmentcontrol;
+
+    /** @var array */
     public $rubric;
+
     /**
      * @var ilQTIPresentationMaterial
      */
     protected $presentation_material;
+
+    /** @var array */
     public $outcomes_processing;
     public $assessproc_extension;
+
+    /** @var array */
     public $assessfeedback;
     public $selection_ordering;
     public $reference;
+
+    /** @var array */
     public $sectionref;
+
+    /** @var array */
     public $section;
     
     public function __construct()
@@ -66,7 +85,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         $this->section = array();
     }
     
-    public function setIdent($a_ident)
+    public function setIdent($a_ident): void
     {
         $this->ident = $a_ident;
     }
@@ -76,7 +95,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->ident;
     }
     
-    public function setTitle($a_title)
+    public function setTitle($a_title): void
     {
         $this->title = $a_title;
     }
@@ -86,7 +105,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->title;
     }
     
-    public function setComment($a_comment)
+    public function setComment($a_comment): void
     {
         $this->comment = $a_comment;
     }
@@ -96,7 +115,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->comment;
     }
     
-    public function setDuration($a_duration)
+    public function setDuration($a_duration): void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -112,7 +131,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->duration;
     }
     
-    public function setXmllang($a_xmllang)
+    public function setXmllang($a_xmllang): void
     {
         $this->xmllang = $a_xmllang;
     }
@@ -122,30 +141,30 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->xmllang;
     }
     
-    public function addQtiMetadata($a_metadata)
+    public function addQtiMetadata($a_metadata): void
     {
-        array_push($this->qtimetadata, $a_metadata);
+        $this->qtimetadata[] = $a_metadata;
     }
     
-    public function addObjectives($a_objectives)
+    public function addObjectives($a_objectives): void
     {
-        array_push($this->objectives, $a_objectives);
+        $this->objectives[] = $a_objectives;
     }
     
-    public function addAssessmentcontrol($a_assessmentcontrol)
+    public function addAssessmentcontrol($a_assessmentcontrol): void
     {
-        array_push($this->assessmentcontrol, $a_assessmentcontrol);
+        $this->assessmentcontrol[] = $a_assessmentcontrol;
     }
     
-    public function addRubric($a_rubric)
+    public function addRubric($a_rubric): void
     {
-        array_push($this->rubric, $a_rubric);
+        $this->rubric[] = $a_rubric;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setPresentationMaterial(ilQTIPresentationMaterial $a_material)
+    public function setPresentationMaterial(ilQTIPresentationMaterial $a_material) : void
     {
         $this->presentation_material = $a_material;
     }
@@ -158,12 +177,12 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->presentation_material;
     }
     
-    public function addOutcomesProcessing($a_outcomes_processing)
+    public function addOutcomesProcessing($a_outcomes_processing): void
     {
-        array_push($this->outcomes_processing, $a_outcomes_processing);
+        $this->outcomes_processing[] = $a_outcomes_processing;
     }
     
-    public function setAssessprocExtension($a_assessproc_extension)
+    public function setAssessprocExtension($a_assessproc_extension): void
     {
         $this->assessproc_extension = $a_assessproc_extension;
     }
@@ -173,12 +192,12 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->assessproc_extension;
     }
     
-    public function addAssessfeedback($a_assessfeedback)
+    public function addAssessfeedback($a_assessfeedback): void
     {
-        array_push($this->assessfeedback, $a_assessfeedback);
+        $this->assessfeedback[] = $a_assessfeedback;
     }
     
-    public function setSelectionOrdering($a_selection_ordering)
+    public function setSelectionOrdering($a_selection_ordering): void
     {
         $this->selection_ordering = $a_selection_ordering;
     }
@@ -188,7 +207,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->selection_ordering;
     }
     
-    public function setReference($a_reference)
+    public function setReference($a_reference): void
     {
         $this->reference = $a_reference;
     }
@@ -198,13 +217,13 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->reference;
     }
     
-    public function addSectionref($a_sectionref)
+    public function addSectionref($a_sectionref): void
     {
-        array_push($this->sectionref, $a_sectionref);
+        $this->sectionref[] = $a_sectionref;
     }
     
-    public function addSection($a_section)
+    public function addSection($a_section): void
     {
-        array_push($this->section, $a_section);
+        $this->section[] = $a_section;
     }
 }

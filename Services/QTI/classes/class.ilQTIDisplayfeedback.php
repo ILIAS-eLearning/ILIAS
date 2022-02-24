@@ -39,7 +39,7 @@ class ilQTIDisplayfeedback
     {
     }
     
-    public function setFeedbacktype($a_feedbacktype)
+    public function setFeedbacktype($a_feedbacktype): void
     {
         $this->feedbacktype = $a_feedbacktype;
     }
@@ -49,7 +49,7 @@ class ilQTIDisplayfeedback
         return $this->feedbacktype;
     }
     
-    public function setLinkrefid($a_linkrefid)
+    public function setLinkrefid($a_linkrefid): void
     {
         $this->linkrefid = $a_linkrefid;
     }
@@ -59,7 +59,7 @@ class ilQTIDisplayfeedback
         return $this->linkrefid;
     }
     
-    public function setContent($a_content)
+    public function setContent($a_content): void
     {
         $this->content = $a_content;
     }

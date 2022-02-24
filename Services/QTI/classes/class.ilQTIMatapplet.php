@@ -46,7 +46,7 @@ class ilQTIMatapplet
     {
     }
 
-    public function setEmbedded($a_embedded)
+    public function setEmbedded($a_embedded): void
     {
         $this->embedded = $a_embedded;
     }
@@ -56,7 +56,7 @@ class ilQTIMatapplet
         return $this->embedded;
     }
     
-    public function setLabel($a_label)
+    public function setLabel($a_label): void
     {
         $this->label = $a_label;
     }
@@ -66,7 +66,7 @@ class ilQTIMatapplet
         return $this->label;
     }
     
-    public function setHeight($a_height)
+    public function setHeight($a_height): void
     {
         $this->height = $a_height;
     }
@@ -76,7 +76,7 @@ class ilQTIMatapplet
         return $this->height;
     }
     
-    public function setWidth($a_width)
+    public function setWidth($a_width): void
     {
         $this->width = $a_width;
     }
@@ -86,7 +86,7 @@ class ilQTIMatapplet
         return $this->width;
     }
     
-    public function setUri($a_uri)
+    public function setUri($a_uri): void
     {
         $this->uri = $a_uri;
     }
@@ -96,7 +96,7 @@ class ilQTIMatapplet
         return $this->uri;
     }
     
-    public function setX0($a_x0)
+    public function setX0($a_x0): void
     {
         $this->x0 = $a_x0;
     }
@@ -106,7 +106,7 @@ class ilQTIMatapplet
         return $this->x0;
     }
     
-    public function setY0($a_y0)
+    public function setY0($a_y0): void
     {
         $this->y0 = $a_y0;
     }
@@ -116,7 +116,7 @@ class ilQTIMatapplet
         return $this->y0;
     }
     
-    public function setEntityref($a_entityref)
+    public function setEntityref($a_entityref): void
     {
         $this->entityref = $a_entityref;
     }
@@ -126,7 +126,7 @@ class ilQTIMatapplet
         return $this->entityref;
     }
     
-    public function setContent($a_content)
+    public function setContent($a_content): void
     {
         $this->content = $a_content;
     }

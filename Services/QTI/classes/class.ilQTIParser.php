@@ -1,7 +1,4 @@
 <?php
-define("IL_MO_PARSE_QTI", 1);
-define("IL_MO_VERIFY_QTI", 2);
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -15,27 +12,77 @@ define("IL_MO_VERIFY_QTI", 2);
  * https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+include_once("./Services/Xml/classes/class.ilSaxParser.php");
+include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/class.ilAssQuestionTypeList.php';
+
+const IL_MO_PARSE_QTI = 1;
+const IL_MO_VERIFY_QTI = 2;
+
 /**
-* QTI Parser
-*
-* @author Helmut Schottmüller <hschottm@gmx.de>
-* @version $Id$
-*
-* @extends ilSaxParser
-* @package assessment
-*/
+ * QTI Parser
+ *
+ * @author Helmut Schottmüller <hschottm@gmx.de>
+ * @version $Id$
+ *
+ * @extends ilSaxParser
+ * @package assessment
+ */
 class ilQTIParser extends ilSaxParser
 {
+    /**
+     * @var bool
+     */
     public $hasRootElement;
+
+    /**
+     * @var array<int, string>
+     */
     public $path;
+
+    /**
+     * @var ilQTIItem[]
+     */
     public $items;
+
+    /**
+     * @var ilQTIItem|null
+     */
     public $item;
+
+    /**
+     * @var ilQTIXMLParserMap
+     */
     public $depth;
+
+    /**
+     * @var string
+     */
     public $qti_element;
+
+    /**
+     * @var bool
+     */
     public $in_presentation;
+
+    /**
+     * @var bool
+     */
     public $in_response;
+
+    /**
+     * @var ilQTIRenderChoice|ilQTIRenderHotspot|ilQTIRenderFib|null
+     */
     public $render_type;
+
+    /**
+     * @var ilQTIResponseLabel|null
+     */
     public $response_label;
+
+    /**
+     * @var ilQTIMaterial|null
+     */
     public $material;
 
     /**
@@ -43,47 +90,173 @@ class ilQTIParser extends ilSaxParser
      */
     public $matimage;
 
+    /**
+     * @var ilQTIResponse|null
+     */
     public $response;
-    public $resprocessing;
-    public $outcomes;
-    public $decvar;
-    public $respcondition;
-    public $setvar;
-    public $displayfeedback;
-    public $itemfeedback;
-    public $flow_mat;
-    public $flow;
-    public $presentation;
-    public $mattext;
-    public $sametag;
-    public $characterbuffer;
-    public $conditionvar;
-    public $parser_mode;
-    public $import_idents;
-    public $qpl_id;
-    public $tst_id;
-    public $tst_object;
-    public $do_nothing;
-    public $gap_index;
-    public $assessments;
-    public $assessment;
-    public $assessmentcontrol;
-    public $objectives;
-    public bool $in_assessment = false;
-    public $section;
-    public $import_mapping;
-    public int $question_counter = 1;
-    public $in_itemmetadata;
-    public bool $in_objectives = false;
 
-    public array $founditems = array();
-    public bool $verifyroot = false;
-    public int $verifyqticomment = 0;
+    /**
+     * @var ilQTIResprocessing|null
+     */
+    public $resprocessing;
+
+    /**
+     * @var ilQTIOutcomes|null
+     */
+    public $outcomes;
+
+    /**
+     * @var ilQTIDecvar|null
+     */
+    public $decvar;
+
+    /**
+     * @var ilQTIRespcondition|null
+     */
+    public $respcondition;
+
+    /**
+     * @var ilQTISetvar|null
+     */
+    public $setvar;
+
+    /**
+     * @var ilQTIDisplayfeedback|null
+     */
+    public $displayfeedback;
+
+    /**
+     * @var ilQTIItemfeedback|null
+     */
+    public $itemfeedback;
+
+    /**
+     * @var ilQTIFlowMat[]
+     */
+    public $flow_mat;
+
+    /**
+     * @var int
+     */
+    public $flow;
+
+    /**
+     * @var ilQTIPresentation|null
+     */
+    public $presentation;
+
+    /**
+     * @var ilQTIMattext|null
+     */
+    public $mattext;
+
+    /** @var bool|null */
+    public $sametag;
+
+    /**
+     * @var string|null
+     */
+    public $characterbuffer;
+
+    /**
+     * @var ilQTIConditionvar|null
+     */
+    public $conditionvar;
+
+    /**
+     * @var int
+     */
+    public $parser_mode;
+
+    /**
+     * @var string[]
+     */
+    public $import_idents;
+
+    /**
+     * @var int
+     */
+    public $qpl_id;
+
+    /**
+     * @var int|null
+     */
+    public $tst_id;
+
+    /**
+     * @var ilObjTest|null
+     */
+    public $tst_object;
+
+    /**
+     * @var bool
+     */
+    public $do_nothing;
+
+    /**
+     * @var int
+     */
+    public $gap_index;
+
+    /**
+     * @var ilQTIAssessment[]
+     */
+    public $assessments;
+
+    /**
+     * @var ilQTIAssessment|null
+     */
+    public $assessment;
+
+    /**
+     * @var ilQTIAssessmentcontrol|null
+     */
+    public $assessmentcontrol;
+
+    /**
+     * @var ilQTIObjectives|null
+     */
+    public $objectives;
+
+    public bool $in_assessment;
+
+    /**
+     * @var ilQTISection|null
+     */
+    public $section;
+
+    /**
+     * @var array<string, ['test' => mixed]>
+     */
+    public $import_mapping;
+
+    public int $question_counter;
+
+    /**
+     * @var bool|null
+     */
+    public $in_itemmetadata;
+
+    public bool $in_objectives;
+
+    /**
+     * @var array{title: string, type: string, ident: string}[]
+     */
+    public array $founditems;
+
+    public bool $verifyroot;
+
+    public int $verifyqticomment;
+
     public int $verifymetadatafield = 0;
-    public int $verifyfieldlabel = 0;
-    public string $verifyfieldlabeltext = "";
-    public int $verifyfieldentry = 0;
-    public string $verifyfieldentrytext = "";
+
+    public int $verifyfieldlabel;
+
+    public string $verifyfieldlabeltext;
+
+    public int $verifyfieldentry;
+
+    public string $verifyfieldentrytext;
 
     /**
      * @var int
@@ -104,6 +277,32 @@ class ilQTIParser extends ilSaxParser
      */
     protected $ignoreItemsEnabled = false;
 
+    /**
+     * @var false
+     */
+    protected bool $in_reponse;
+
+    /**
+     * @var null
+     */
+    private $render_hotspot;
+
+    /**
+     * @var null
+     */
+    private $matapplet;
+
+    /**
+     * @var array{label: string, entry: string}
+     */
+    private array $metadata;
+    private ?ilQTIResponseVar $responsevar;
+
+    /**
+     * @var string|null
+     */
+    protected $questionSetType;
+
     public function isIgnoreItemsEnabled() : bool
     {
         return $this->ignoreItemsEnabled;
@@ -114,15 +313,13 @@ class ilQTIParser extends ilSaxParser
         $this->ignoreItemsEnabled = $ignoreItemsEnabled;
     }
 
-    protected $questionSetType = null;
-
     /**
-    * Constructor
-    *
-    * @param	string		$a_xml_file			xml file
-    * @param  integer $a_mode Parser mode IL_MO_PARSE_QTI | IL_MO_VERIFY_QTI
-    * @access	public
-    */
+     * Constructor
+     *
+     * @param	string		$a_xml_file			xml file
+     * @param  integer $a_mode Parser mode IL_MO_PARSE_QTI | IL_MO_VERIFY_QTI
+     * @access	public
+     */
     //  TODO: The following line gets me an parse error in PHP 4, but I found no hint that pass-by-reference is forbidden in PHP 4 ????
     public function __construct(?string $a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "")
     {
@@ -196,8 +393,8 @@ class ilQTIParser extends ilSaxParser
     {
         $this->questionSetType = $questionSetType;
     }
-
-    public function setTestObject(&$a_tst_object) : void
+    
+    public function setTestObject(&$a_tst_object): void
     {
         $this->tst_object = &$a_tst_object;
         if (is_object($a_tst_object)) {
@@ -241,9 +438,9 @@ class ilQTIParser extends ilSaxParser
     {
         if ($this->depth[$a_xml_parser] > 0) {
             return $this->path[$this->depth[$a_xml_parser] - 1];
-        } else {
-            return "";
         }
+
+        return "";
     }
 
     /**
@@ -331,7 +528,7 @@ class ilQTIParser extends ilSaxParser
                 $this->flow++;
                 break;
             case "flow_mat":
-                array_push($this->flow_mat, new ilQTIFlowMat());
+                $this->flow_mat[] = new ilQTIFlowMat();
                 break;
             case "itemfeedback":
                 $this->itemfeedback = new ilQTIItemfeedback();
@@ -711,12 +908,6 @@ class ilQTIParser extends ilSaxParser
             case "objectbank":
                 // not implemented yet
                 break;
-            case "section":
-                if ($this->assessment != null) {
-                    $this->assessment->addSection($this->section);
-                }
-                $this->section = null;
-                break;
             case "presentation":
                 $this->in_presentation = true;
                 $this->presentation = new ilQTIPresentation();
@@ -775,7 +966,7 @@ class ilQTIParser extends ilSaxParser
                     foreach ($a_attribs as $attribute => $value) {
                         switch (strtolower($attribute)) {
                             case "showdraw":
-                                $this->render_type->setShuffle($value);
+                                $this->render_type->setShowdraw($value);
                                 break;
                             case "minnumber":
                                 $this->render_type->setMinnumber($value);
@@ -834,6 +1025,7 @@ class ilQTIParser extends ilSaxParser
                 // Close question
             case "response_num":
             case "response_grp":
+                $response_type = "0";//@todo maybe null.
                 switch (strtolower($a_name)) {
                     case "response_lid":
                         $response_type = RT_RESPONSE_LID;
@@ -1407,7 +1599,7 @@ class ilQTIParser extends ilSaxParser
                         }
                     }
                 }
-                array_push($this->founditems, array("title" => "$title", "type" => "", "ident" => $a_attribs["ident"]));
+                $this->founditems[] = array("title" => "$title", "type" => "", "ident" => $a_attribs["ident"]);
                 break;
             case "response_lid":
                 if (strlen($this->founditems[count($this->founditems) - 1]["type"]) == 0) {
@@ -1498,7 +1690,9 @@ class ilQTIParser extends ilSaxParser
                     if ($metaField['label'] == 'question_set_type') {
                         $this->setQuestionSetType($metaField['entry']);
                         break;
-                    } elseif ($metaField['label'] == 'random_test') {
+                    }
+
+                    if ($metaField['label'] == 'random_test') {
                         if ($metaField['entry'] == 1) {
                             $this->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
                         } else {
@@ -1571,13 +1765,13 @@ class ilQTIParser extends ilSaxParser
     * get array of new created questions for
     * import id
     */
-    public function getImportMapping()
+    public function getImportMapping() : array
     {
         if (!is_array($this->import_mapping)) {
             return array();
-        } else {
-            return $this->import_mapping;
         }
+
+        return $this->import_mapping;
     }
 
     /**
@@ -1587,7 +1781,7 @@ class ilQTIParser extends ilSaxParser
     {
         $questionIdMapping = array();
 
-        foreach ((array) $this->getImportMapping() as $k => $v) {
+        foreach ($this->getImportMapping() as $k => $v) {
             $oldQuestionId = substr($k, strpos($k, 'qst_') + strlen('qst_'));
             $newQuestionId = $v['test']; // yes, this is the new question id ^^
 
@@ -1670,7 +1864,6 @@ class ilQTIParser extends ilSaxParser
     {
         return $this->numImportedItems;
     }
-
     protected function isMatImageAvailable() : bool
     {
         if (!$this->material) {

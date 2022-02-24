@@ -49,7 +49,7 @@ class ilQTIPresentation
         $this->order = array();
     }
     
-    public function setLabel($a_label)
+    public function setLabel($a_label): void
     {
         $this->label = $a_label;
     }
@@ -59,7 +59,7 @@ class ilQTIPresentation
         return $this->label;
     }
     
-    public function setXmllang($a_xmllang)
+    public function setXmllang($a_xmllang): void
     {
         $this->xmllang = $a_xmllang;
     }
@@ -69,7 +69,7 @@ class ilQTIPresentation
         return $this->xmllang;
     }
     
-    public function setX0($a_x0)
+    public function setX0($a_x0): void
     {
         $this->x0 = $a_x0;
     }
@@ -79,7 +79,7 @@ class ilQTIPresentation
         return $this->x0;
     }
     
-    public function setY0($a_y0)
+    public function setY0($a_y0): void
     {
         $this->y0 = $a_y0;
     }
@@ -89,7 +89,7 @@ class ilQTIPresentation
         return $this->y0;
     }
     
-    public function setWidth($a_width)
+    public function setWidth($a_width): void
     {
         $this->width = $a_width;
     }
@@ -99,7 +99,7 @@ class ilQTIPresentation
         return $this->width;
     }
     
-    public function setHeight($a_height)
+    public function setHeight($a_height): void
     {
         $this->height = $a_height;
     }
@@ -109,15 +109,15 @@ class ilQTIPresentation
         return $this->height;
     }
     
-    public function addMaterial($a_material)
+    public function addMaterial($a_material): void
     {
         $count = array_push($this->material, $a_material);
-        array_push($this->order, array("type" => "material", "index" => $count - 1));
+        $this->order[] = array("type" => "material", "index" => $count - 1);
     }
     
-    public function addResponse($a_response)
+    public function addResponse($a_response): void
     {
         $count = array_push($this->response, $a_response);
-        array_push($this->order, array("type" => "response", "index" => $count - 1));
+        $this->order[] = array("type" => "response", "index" => $count - 1);
     }
 }

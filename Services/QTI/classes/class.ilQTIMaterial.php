@@ -54,62 +54,62 @@ class ilQTIMaterial
         $this->materials = array();
     }
     
-    public function addMattext($a_mattext)
+    public function addMattext($a_mattext): void
     {
-        array_push($this->materials, array("material" => $a_mattext, "type" => "mattext"));
+        $this->materials[] = array("material" => $a_mattext, "type" => "mattext");
     }
 
-    public function addMatimage($a_matimage)
+    public function addMatimage($a_matimage): void
     {
-        array_push($this->materials, array("material" => $a_matimage, "type" => "matimage"));
+        $this->materials[] = array("material" => $a_matimage, "type" => "matimage");
     }
 
-    public function addMatemtext($a_matemtext)
+    public function addMatemtext($a_matemtext): void
     {
-        array_push($this->materials, array("material" => $a_matemtext, "type" => "matemtext"));
+        $this->materials[] = array("material" => $a_matemtext, "type" => "matemtext");
     }
 
-    public function addMataudio($a_mataudio)
+    public function addMataudio($a_mataudio): void
     {
-        array_push($this->materials, array("material" => $a_mataudio, "type" => "mataudio"));
+        $this->materials[] = array("material" => $a_mataudio, "type" => "mataudio");
     }
 
-    public function addMatvideo($a_matvideo)
+    public function addMatvideo($a_matvideo): void
     {
-        array_push($this->materials, array("material" => $a_matvideo, "type" => "matvideo"));
+        $this->materials[] = array("material" => $a_matvideo, "type" => "matvideo");
     }
 
-    public function addMatapplet($a_matapplet)
+    public function addMatapplet($a_matapplet): void
     {
-        array_push($this->materials, array("material" => $a_matapplet, "type" => "matapplet"));
+        $this->materials[] = array("material" => $a_matapplet, "type" => "matapplet");
     }
 
-    public function addMatapplication($a_matapplication)
+    public function addMatapplication($a_matapplication): void
     {
-        array_push($this->materials, array("material" => $a_matapplication, "type" => "matapplication"));
+        $this->materials[] = array("material" => $a_matapplication, "type" => "matapplication");
     }
 
-    public function addMatref($a_matref)
+    public function addMatref($a_matref): void
     {
-        array_push($this->materials, array("material" => $a_matref, "type" => "matref"));
+        $this->materials[] = array("material" => $a_matref, "type" => "matref");
     }
 
-    public function addMatbreak($a_matbreak)
+    public function addMatbreak($a_matbreak): void
     {
-        array_push($this->materials, array("material" => $a_matbreak, "type" => "matbreak"));
+        $this->materials[] = array("material" => $a_matbreak, "type" => "matbreak");
     }
 
-    public function addMat_extension($a_mat_extension)
+    public function addMat_extension($a_mat_extension): void
     {
-        array_push($this->materials, array("material" => $a_mat_extension, "type" => "mat_extension"));
+        $this->materials[] = array("material" => $a_mat_extension, "type" => "mat_extension");
     }
 
-    public function addAltmaterial($a_altmaterial)
+    public function addAltmaterial($a_altmaterial): void
     {
-        array_push($this->materials, array("material" => $a_altmaterial, "type" => "altmaterial"));
+        $this->materials[] = array("material" => $a_altmaterial, "type" => "altmaterial");
     }
     
-    public function getMaterialCount()
+    public function getMaterialCount(): int
     {
         return count($this->materials);
     }
@@ -118,12 +118,12 @@ class ilQTIMaterial
     {
         if (array_key_exists($a_index, $this->materials)) {
             return $this->materials[$a_index];
-        } else {
-            return false;
         }
+
+        return false;
     }
     
-    public function setFlow($a_flow)
+    public function setFlow($a_flow): void
     {
         $this->flow = $a_flow;
     }
@@ -133,7 +133,7 @@ class ilQTIMaterial
         return $this->flow;
     }
     
-    public function setLabel($a_label)
+    public function setLabel($a_label): void
     {
         $this->label = $a_label;
     }
@@ -143,7 +143,7 @@ class ilQTIMaterial
         return $this->label;
     }
     
-    public function extractText()
+    public function extractText(): string
     {
         $text = "";
         if ($this->getMaterialCount()) {

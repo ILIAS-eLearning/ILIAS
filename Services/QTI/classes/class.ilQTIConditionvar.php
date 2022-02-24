@@ -76,121 +76,121 @@ class ilQTIConditionvar
         $this->order = array();
     }
     
-    public function addNot()
+    public function addNot(): void
     {
-        array_push($this->arr_not, 1);
-        array_push($this->order, array("field" => "arr_not", "index" => count($this->arr_not) - 1));
+        $this->arr_not[] = 1;
+        $this->order[] = array("field" => "arr_not", "index" => count($this->arr_not) - 1);
     }
     
-    public function addAnd()
+    public function addAnd(): void
     {
-        array_push($this->arr_and, 1);
-        array_push($this->order, array("field" => "arr_and", "index" => count($this->arr_and) - 1));
+        $this->arr_and[] = 1;
+        $this->order[] = array("field" => "arr_and", "index" => count($this->arr_and) - 1);
     }
 
-    public function addOr()
+    public function addOr(): void
     {
-        array_push($this->arr_or, 1);
-        array_push($this->order, array("field" => "arr_or", "index" => count($this->arr_or) - 1));
+        $this->arr_or[] = 1;
+        $this->order[] = array("field" => "arr_or", "index" => count($this->arr_or) - 1);
     }
     
-    public function addUnanswered($a_unanswered)
+    public function addUnanswered($a_unanswered): void
     {
-        array_push($this->unanswered, $a_unanswered);
-        array_push($this->order, array("field" => "unanswered", "index" => count($this->unanswered) - 1));
+        $this->unanswered[] = $a_unanswered;
+        $this->order[] = array("field" => "unanswered", "index" => count($this->unanswered) - 1);
     }
     
-    public function addOther($a_other)
+    public function addOther($a_other): void
     {
-        array_push($this->other, $a_other);
-        array_push($this->order, array("field" => "other", "index" => count($this->other) - 1));
+        $this->other[] = $a_other;
+        $this->order[] = array("field" => "other", "index" => count($this->other) - 1);
     }
     
-    public function addVarequal($a_varequal)
+    public function addVarequal($a_varequal): void
     {
-        array_push($this->varequal, $a_varequal);
-        array_push($this->order, array("field" => "varequal", "index" => count($this->varequal) - 1));
+        $this->varequal[] = $a_varequal;
+        $this->order[] = array("field" => "varequal", "index" => count($this->varequal) - 1);
     }
     
-    public function addVarlt($a_varlt)
+    public function addVarlt($a_varlt): void
     {
-        array_push($this->varlt, $a_varlt);
-        array_push($this->order, array("field" => "varlt", "index" => count($this->varlt) - 1));
+        $this->varlt[] = $a_varlt;
+        $this->order[] = array("field" => "varlt", "index" => count($this->varlt) - 1);
     }
     
-    public function addVarlte($a_varlte)
+    public function addVarlte($a_varlte): void
     {
-        array_push($this->varlte, $a_varlte);
-        array_push($this->order, array("field" => "varlte", "index" => count($this->varlte) - 1));
+        $this->varlte[] = $a_varlte;
+        $this->order[] = array("field" => "varlte", "index" => count($this->varlte) - 1);
     }
     
-    public function addVargt($a_vargt)
+    public function addVargt($a_vargt): void
     {
-        array_push($this->vargt, $a_vargt);
-        array_push($this->order, array("field" => "vargt", "index" => count($this->vargt) - 1));
+        $this->vargt[] = $a_vargt;
+        $this->order[] = array("field" => "vargt", "index" => count($this->vargt) - 1);
     }
     
-    public function addVargte($a_vargte)
+    public function addVargte($a_vargte): void
     {
-        array_push($this->vargte, $a_vargte);
-        array_push($this->order, array("field" => "vargte", "index" => count($this->vargte) - 1));
+        $this->vargte[] = $a_vargte;
+        $this->order[] = array("field" => "vargte", "index" => count($this->vargte) - 1);
     }
     
-    public function addVarsubset($a_varsubset)
+    public function addVarsubset($a_varsubset): void
     {
-        array_push($this->varsubset, $a_varsubset);
-        array_push($this->order, array("field" => "varsubset", "index" => count($this->varsubset) - 1));
+        $this->varsubset[] = $a_varsubset;
+        $this->order[] = array("field" => "varsubset", "index" => count($this->varsubset) - 1);
     }
     
-    public function addVarinside($a_varinside)
+    public function addVarinside($a_varinside): void
     {
-        array_push($this->varinside, $a_varinside);
-        array_push($this->order, array("field" => "varinside", "index" => count($this->varinside) - 1));
+        $this->varinside[] = $a_varinside;
+        $this->order[] = array("field" => "varinside", "index" => count($this->varinside) - 1);
     }
     
-    public function addVarsubstring($a_varsubstring)
+    public function addVarsubstring($a_varsubstring): void
     {
-        array_push($this->varsubstring, $a_varsubstring);
-        array_push($this->order, array("field" => "varsubstring", "index" => count($this->varsubstring) - 1));
+        $this->varsubstring[] = $a_varsubstring;
+        $this->order[] = array("field" => "varsubstring", "index" => count($this->varsubstring) - 1);
     }
     
-    public function addDurequal($a_durequal)
+    public function addDurequal($a_durequal): void
     {
-        array_push($this->durequal, $a_durequal);
-        array_push($this->order, array("field" => "durequal", "index" => count($this->durequal) - 1));
+        $this->durequal[] = $a_durequal;
+        $this->order[] = array("field" => "durequal", "index" => count($this->durequal) - 1);
     }
     
-    public function addDurlt($a_durlt)
+    public function addDurlt($a_durlt): void
     {
-        array_push($this->durlt, $a_durlt);
-        array_push($this->order, array("field" => "durlt", "index" => count($this->durlt) - 1));
+        $this->durlt[] = $a_durlt;
+        $this->order[] = array("field" => "durlt", "index" => count($this->durlt) - 1);
     }
     
-    public function addDurlte($a_durlte)
+    public function addDurlte($a_durlte): void
     {
-        array_push($this->durlte, $a_durlte);
-        array_push($this->order, array("field" => "durlte", "index" => count($this->durlte) - 1));
+        $this->durlte[] = $a_durlte;
+        $this->order[] = array("field" => "durlte", "index" => count($this->durlte) - 1);
     }
     
-    public function addDurgt($a_durgt)
+    public function addDurgt($a_durgt): void
     {
-        array_push($this->durgt, $a_durgt);
-        array_push($this->order, array("field" => "durgt", "index" => count($this->durgt) - 1));
+        $this->durgt[] = $a_durgt;
+        $this->order[] = array("field" => "durgt", "index" => count($this->durgt) - 1);
     }
     
-    public function addDurgte($a_durgte)
+    public function addDurgte($a_durgte): void
     {
-        array_push($this->durgte, $a_durgte);
-        array_push($this->order, array("field" => "durgte", "index" => count($this->durgte) - 1));
+        $this->durgte[] = $a_durgte;
+        $this->order[] = array("field" => "durgte", "index" => count($this->durgte) - 1);
     }
     
-    public function addVarextension($a_varextension)
+    public function addVarextension($a_varextension): void
     {
-        array_push($this->varextension, $a_varextension);
-        array_push($this->order, array("field" => "varextension", "index" => count($this->varextension) - 1));
+        $this->varextension[] = $a_varextension;
+        $this->order[] = array("field" => "varextension", "index" => count($this->varextension) - 1);
     }
     
-    public function addResponseVar($a_responsevar)
+    public function addResponseVar($a_responsevar): void
     {
         switch ($a_responsevar->getVartype()) {
             case RESPONSEVAR_EQUAL:

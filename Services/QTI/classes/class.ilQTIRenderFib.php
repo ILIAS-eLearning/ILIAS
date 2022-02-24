@@ -21,15 +21,15 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("PROMPT_BOX", "1");
-define("PROMPT_DASHLINE", "2");
-define("PROMPT_ASTERISK", "3");
-define("PROMPT_UNDERLINE", "4");
+const PROMPT_BOX = "1";
+const PROMPT_DASHLINE = "2";
+const PROMPT_ASTERISK = "3";
+const PROMPT_UNDERLINE = "4";
 
-define("FIBTYPE_STRING", "1");
-define("FIBTYPE_INTEGER", "2");
-define("FIBTYPE_DECIMAL", "3");
-define("FIBTYPE_SCIENTIFIC", "4");
+const FIBTYPE_STRING = "1";
+const FIBTYPE_INTEGER = "2";
+const FIBTYPE_DECIMAL = "3";
+const FIBTYPE_SCIENTIFIC = "4";
 
 /**
 * QTI render fib class
@@ -60,7 +60,7 @@ class ilQTIRenderFib
         $this->encoding = "UTF-8";
     }
     
-    public function setPrompt($a_prompt)
+    public function setPrompt($a_prompt): void
     {
         switch (strtolower($a_prompt)) {
             case "1":
@@ -87,7 +87,7 @@ class ilQTIRenderFib
         return $this->prompt;
     }
     
-    public function setFibtype($a_fibtype)
+    public function setFibtype($a_fibtype): void
     {
         switch (strtolower($a_fibtype)) {
             case "1":
@@ -114,7 +114,7 @@ class ilQTIRenderFib
         return $this->fibtype;
     }
     
-    public function setMinnumber($a_minnumber)
+    public function setMinnumber($a_minnumber): void
     {
         $this->minnumber = $a_minnumber;
     }
@@ -124,7 +124,7 @@ class ilQTIRenderFib
         return $this->minnumber;
     }
     
-    public function setMaxnumber($a_maxnumber)
+    public function setMaxnumber($a_maxnumber): void
     {
         $this->maxnumber = $a_maxnumber;
     }
@@ -134,17 +134,17 @@ class ilQTIRenderFib
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label)
+    public function addResponseLabel($a_response_label): void
     {
-        array_push($this->response_labels, $a_response_label);
+        $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material)
+    public function addMaterial($a_material): void
     {
-        array_push($this->material, $a_material);
+        $this->material[] = $a_material;
     }
     
-    public function setEncoding($a_encoding)
+    public function setEncoding($a_encoding): void
     {
         $this->encoding = $a_encoding;
     }
@@ -154,7 +154,7 @@ class ilQTIRenderFib
         return $this->encoding;
     }
 
-    public function setRows($a_rows)
+    public function setRows($a_rows): void
     {
         $this->rows = $a_rows;
     }
@@ -164,7 +164,7 @@ class ilQTIRenderFib
         return $this->rows;
     }
 
-    public function setMaxchars($a_maxchars)
+    public function setMaxchars($a_maxchars): void
     {
         $this->maxchars = $a_maxchars;
     }
@@ -174,7 +174,7 @@ class ilQTIRenderFib
         return $this->maxchars;
     }
 
-    public function setColumns($a_columns)
+    public function setColumns($a_columns): void
     {
         $this->columns = $a_columns;
     }
@@ -184,7 +184,7 @@ class ilQTIRenderFib
         return $this->columns;
     }
 
-    public function setCharset($a_charset)
+    public function setCharset($a_charset): void
     {
         $this->charset = $a_charset;
     }

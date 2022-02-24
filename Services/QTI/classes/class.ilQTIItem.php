@@ -21,22 +21,22 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("QT_UNKNOWN", "unknown");
-define("QT_KPRIM_CHOICE", "assKprimChoice");
-define("QT_LONG_MENU", "assLongMenu");
-define("QT_MULTIPLE_CHOICE_SR", "assSingleChoice");
-define("QT_MULTIPLE_CHOICE_MR", "assMultipleChoice");
-define("QT_CLOZE", "assClozeTest");
-define("QT_ERRORTEXT", "assErrorText");
-define("QT_MATCHING", "assMatchingQuestion");
-define("QT_ORDERING", "assOrderingQuestion");
-define("QT_ORDERING_HORIZONTAL", "assOrderingHorizontal");
-define("QT_IMAGEMAP", "assImagemapQuestion");
-define("QT_TEXT", "assTextQuestion");
-define("QT_FILEUPLOAD", "assFileUpload");
-define("QT_NUMERIC", "assNumeric");
-define("QT_FORMULA", "assFormulaQuestion");
-define("QT_TEXTSUBSET", "assTextSubset");
+const QT_UNKNOWN = "unknown";
+const QT_KPRIM_CHOICE = "assKprimChoice";
+const QT_LONG_MENU = "assLongMenu";
+const QT_MULTIPLE_CHOICE_SR = "assSingleChoice";
+const QT_MULTIPLE_CHOICE_MR = "assMultipleChoice";
+const QT_CLOZE = "assClozeTest";
+const QT_ERRORTEXT = "assErrorText";
+const QT_MATCHING = "assMatchingQuestion";
+const QT_ORDERING = "assOrderingQuestion";
+const QT_ORDERING_HORIZONTAL = "assOrderingHorizontal";
+const QT_IMAGEMAP = "assImagemapQuestion";
+const QT_TEXT = "assTextQuestion";
+const QT_FILEUPLOAD = "assFileUpload";
+const QT_NUMERIC = "assNumeric";
+const QT_FORMULA = "assFormulaQuestion";
+const QT_TEXTSUBSET = "assTextSubset";
 
 /**
 * QTI item class
@@ -69,7 +69,8 @@ class ilQTIItem
     
     protected $iliasSourceVersion;
     protected $iliasSourceNic;
-    
+    protected array $response;
+
     public function __construct()
     {
         $this->response = array();
@@ -84,7 +85,7 @@ class ilQTIItem
         $this->iliasSourceNic = null;
     }
     
-    public function setIdent($a_ident)
+    public function setIdent($a_ident): void
     {
         $this->ident = $a_ident;
     }
@@ -94,7 +95,7 @@ class ilQTIItem
         return $this->ident;
     }
     
-    public function setTitle($a_title)
+    public function setTitle($a_title): void
     {
         $this->title = $a_title;
     }
@@ -104,7 +105,7 @@ class ilQTIItem
         return $this->title;
     }
     
-    public function setComment($a_comment)
+    public function setComment($a_comment): void
     {
         if (preg_match("/(.*?)\=(.*)/", $a_comment, $matches)) {
             // special comments written by ILIAS
@@ -131,7 +132,7 @@ class ilQTIItem
         return $this->comment;
     }
     
-    public function setDuration($a_duration)
+    public function setDuration($a_duration): void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -147,7 +148,7 @@ class ilQTIItem
         return $this->duration;
     }
     
-    public function setQuestiontext($a_questiontext)
+    public function setQuestiontext($a_questiontext): void
     {
         $this->questiontext = $a_questiontext;
     }
@@ -157,17 +158,17 @@ class ilQTIItem
         return $this->questiontext;
     }
     
-    public function addResprocessing($a_resprocessing)
+    public function addResprocessing($a_resprocessing): void
     {
-        array_push($this->resprocessing, $a_resprocessing);
+        $this->resprocessing[] = $a_resprocessing;
     }
     
-    public function addItemfeedback($a_itemfeedback)
+    public function addItemfeedback($a_itemfeedback): void
     {
-        array_push($this->itemfeedback, $a_itemfeedback);
+        $this->itemfeedback[] = $a_itemfeedback;
     }
     
-    public function setMaxattempts($a_maxattempts)
+    public function setMaxattempts($a_maxattempts): void
     {
         $this->maxattempts = $a_maxattempts;
     }
@@ -177,7 +178,7 @@ class ilQTIItem
         return $this->maxattempts;
     }
     
-    public function setLabel($a_label)
+    public function setLabel($a_label): void
     {
         $this->label = $a_label;
     }
@@ -187,7 +188,7 @@ class ilQTIItem
         return $this->label;
     }
     
-    public function setXmllang($a_xmllang)
+    public function setXmllang($a_xmllang): void
     {
         $this->xmllang = $a_xmllang;
     }
@@ -197,7 +198,7 @@ class ilQTIItem
         return $this->xmllang;
     }
     
-    public function setPresentation($a_presentation)
+    public function setPresentation($a_presentation): void
     {
         $this->presentation = $a_presentation;
     }
@@ -207,14 +208,14 @@ class ilQTIItem
         return $this->presentation;
     }
     
-    public function collectResponses()
+    public function collectResponses(): void
     {
         $result = array();
         if ($this->presentation != null) {
         }
     }
     
-    public function setQuestiontype($a_questiontype)
+    public function setQuestiontype($a_questiontype): void
     {
         $this->questiontype = $a_questiontype;
     }
@@ -224,9 +225,9 @@ class ilQTIItem
         return $this->questiontype;
     }
     
-    public function addPresentationitem($a_presentationitem)
+    public function addPresentationitem($a_presentationitem): void
     {
-        array_push($this->presentationitem, $a_presentationitem);
+        $this->presentationitem[] = $a_presentationitem;
     }
 
     public function determineQuestionType()
@@ -267,51 +268,35 @@ class ilQTIItem
                             switch ($response->getRCardinality()) {
                                 case R_CARDINALITY_ORDERED:
                                     return QT_ORDERING;
-                                    break;
                                 case R_CARDINALITY_SINGLE:
                                     return QT_MULTIPLE_CHOICE_SR;
-                                    break;
                                 case R_CARDINALITY_MULTIPLE:
                                     return QT_MULTIPLE_CHOICE_MR;
-                                    break;
                             }
-                            break;
                         case RT_RESPONSE_XY:
                             return QT_IMAGEMAP;
-                            break;
                         case RT_RESPONSE_STR:
                             switch ($response->getRCardinality()) {
                                 case R_CARDINALITY_ORDERED:
                                     return QT_TEXT;
-                                    break;
                                 case R_CARDINALITY_SINGLE:
                                     return QT_CLOZE;
-                                    break;
                             }
-                            break;
                         case RT_RESPONSE_GRP:
                             return QT_MATCHING;
-                            break;
                         default:
                             break;
                     }
-                    break;
-                case "material":
-                    $material = $this->presentation->material[$entry["index"]];
-                    if (is_array($material->matapplet) && count($material->matapplet) > 0) {
-                        return QT_JAVAAPPLET;
-                    }
-                    break;
             }
         }
         if (strlen($this->questiontype) == 0) {
             return QT_UNKNOWN;
-        } else {
-            return $this->questiontype;
         }
+
+        return $this->questiontype;
     }
     
-    public function setAuthor($a_author)
+    public function setAuthor($a_author): void
     {
         $this->author = $a_author;
     }
@@ -332,7 +317,7 @@ class ilQTIItem
     /**
      * @param string $iliasSourceVersion
      */
-    public function setIliasSourceVersion($iliasSourceVersion)
+    public function setIliasSourceVersion($iliasSourceVersion): void
     {
         $this->iliasSourceVersion = $iliasSourceVersion;
     }
@@ -348,19 +333,19 @@ class ilQTIItem
     /**
      * @param null $iliasSourceNic
      */
-    public function setIliasSourceNic($iliasSourceNic)
+    public function setIliasSourceNic($iliasSourceNic): void
     {
         $this->iliasSourceNic = $iliasSourceNic;
     }
     
-    public function addSuggestedSolution($a_solution, $a_gap_index)
+    public function addSuggestedSolution($a_solution, $a_gap_index): void
     {
-        array_push($this->suggested_solutions, array("solution" => $a_solution, "gap_index" => $a_gap_index));
+        $this->suggested_solutions[] = array("solution" => $a_solution, "gap_index" => $a_gap_index);
     }
     
-    public function addMetadata($a_metadata)
+    public function addMetadata($a_metadata): void
     {
-        array_push($this->itemmetadata, $a_metadata);
+        $this->itemmetadata[] = $a_metadata;
     }
     
     public function getMetadata()
