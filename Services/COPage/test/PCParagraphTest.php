@@ -36,16 +36,17 @@ class PCParagraphTest extends TestCase
         $def_mock
             ->method('getAllRepositoryTypes')
             ->willReturn(["crs", "grp", "cat"]);
-
-
         $this->setGlobalVariable(
             "objDefinition",
             $def_mock
         );
+
+        libxml_use_internal_errors(true);
     }
 
     protected function tearDown() : void
     {
+        libxml_use_internal_errors(false);
     }
 
     /**
@@ -76,7 +77,6 @@ class PCParagraphTest extends TestCase
 
         foreach ($cases as $case) {
             $text = ilPCParagraph::_input2xml($case, "en", true, false);
-            libxml_use_internal_errors(true);
             $sxe = simplexml_load_string("<?xml version='1.0'?><dummy>" . $text . "</dummy>");
             $res = true;
             if ($sxe === false) {
