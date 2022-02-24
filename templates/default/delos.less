@@ -527,6 +527,8 @@ a {
 		color: @link-hover-color;
 		text-decoration: underline;
 	}
+	
+	.il-focus();
 }
 
 hr {
@@ -1141,6 +1143,11 @@ div.il_TreeIcons {
 #current_perma_link {
 	color: @il-text-color;
 	font-size: 90%;
+	
+	&:focus-visible {
+		outline: @il-focus-outline-inner-width solid @il-focus-protection-color;
+		outline-offset: @il-focus-outline-outer-width;
+	}
 }
 a.permalink_label {
 	> span.glyphicon {
@@ -1778,6 +1785,7 @@ span.ilIcalIcon {
 @import "less/Modules/LearningSequence/delos.less";
 @import "less/Services/LearningHistory/delos.less";
 @import "less/Services/Preview/delos.less";
+@import "less/Services/WebDAV/delos.less";
 
 .noMargin {
 	margin: 0;
