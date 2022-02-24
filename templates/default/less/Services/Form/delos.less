@@ -37,11 +37,15 @@ form.form-inline {
 
 .form-control:focus-visible {
 	.box-shadow(none);
-	outline: @il-focus-outline;
+	.il-focus();
 }
 
 .btn-file:focus-within {
-	outline: @il-focus-outline;
+    z-index: 3;
+    outline: @il-focus-outline-outer;
+    outline-offset: @il-focus-outline-width;
+        
+    .il-focus-after();
 }
 
 textarea.form-control {

@@ -7,17 +7,36 @@
     outline: none;
     outline-offset: 0px;
     &:focus-visible {
-        outline: @il-focus-outline;
+        outline: @il-focus-outline-outer;
+        outline-offset: @il-focus-outline-width;
+        
+        .il-focus-after();
     }
   }
 
-.il-focus(){
+.il-focus() {
 	&:focus-visible {
-		outline: @il-focus-outline;
-		outline-offset: 0px;
+		position: relative;
+		border: none;
+		outline: @il-focus-outline-outer;
+		outline-offset: @il-focus-outline-width - 1px;
+		
+		.il-focus-after();
 	}
 
 	&:active,&.engaged{
 		outline: none;
+	}
+}
+
+.il-focus-after() {
+	&::after {
+		content: " ";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		outline: @il-focus-outline-inner;
 	}
 }

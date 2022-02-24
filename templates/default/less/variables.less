@@ -126,7 +126,7 @@ with the il- variable set here.
 @il-padding-large-vertical: 6px;
 @il-padding-large-horizontal: 12px;
 
-@il-padding-small-vertical: 3px;
+@il-padding-small-vertical: 4px;
 @il-padding-small-horizontal: 6px;
 
 @il-padding-xs-vertical: 1px;
@@ -136,9 +136,10 @@ with the il- variable set here.
 @il-border-radius-large: 0px;
 @il-border-radius-small: 0px;
 
-@il-focus-outline: 3px solid @il-focus-color;
+@il-focus-outline-inner: @il-focus-outline-width solid white;
+@il-focus-outline-outer: @il-focus-outline-width solid @il-focus-color;
 // The offset should only be used if the contrast between the focus outline and the component is insufficient.
-@il-focus-outline-offset: 2px;
+@il-focus-outline-width: 3px;
 
 //== Layout (UI Layout Page)
 //

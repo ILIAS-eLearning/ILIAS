@@ -55,6 +55,7 @@
 		top:0;
 		left:0;
 		right:0;
+		z-index: 1;
 		height: @il-icon-size-medium + @padding-large-horizontal;
 		padding: 0 @padding-small-horizontal;
 
@@ -97,6 +98,10 @@
 						display: block;
 						margin-left: auto;
 						margin-right: auto;
+					}
+					
+					&:focus-visible {
+						outline-offset: @il-focus-outline-width - 1;
 					}
 				}
 			}
