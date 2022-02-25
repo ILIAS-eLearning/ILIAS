@@ -532,7 +532,17 @@ class ilObjFolderGUI extends ilContainerGUI
         }
     }
     
-    protected function forwardToTimingsView() : void
+    /**
+     * show possible sub objects selection list
+     */
+    public function showPossibleSubObjects() : void
+    {
+        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui->render();
+    }
+
+    
+    protected function forwardToTimingsView()
     {
         $tree = $this->tree;
         

@@ -57,7 +57,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected int $container_ref_id = 0;
     protected int $container_obj_id = 0;
     protected array $files = [];
-    protected ilPropertyFormGUI $form;
+    protected ?ilPropertyFormGUI $form = null;
     protected ilAdvancedMDRecordGUI $record_gui;
     protected ?ilEventRecurrence $rec = null;
     protected ?ilEventItems $event_items = null;
@@ -745,7 +745,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (!is_object($this->object)) {
             $this->object = new ilObjSession();
         }
-        $this->initForm('create');
+        if (!$this->form instanceof ilPropertyFormGUI) {
+            $this->initForm('create');
+        }
         return $this->form;
     }
 
@@ -771,7 +773,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->initForm('create');
         $ilErr->setMessage('');
         if (!$this->form->checkInput()) {
-            $ilErr->setMessage($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('err_check_input')
+            );
+            $this->form->setValuesByPost();
+            $this->createObject();
+            return;
         }
 
         if ($this->record_gui instanceof \ilAdvancedMDRecordGUI && !$this->record_gui->importEditFormPostValues()
@@ -829,7 +837,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $object_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
         
-        $this->createRecurringSessions($this->form->getInput("lp_preset"));
+        $this->createRecurringSessions((bool) $this->form->getInput("lp_preset"));
 
         if ($a_redirect_on_success) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('event_add_new_event'), true);
@@ -981,14 +989,25 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->initForm('edit');
         $ilErr->setMessage('');
         if (!$this->form->checkInput()) {
-            $ilErr->setMessage($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('err_check_input')
+            );
+            $this->form->setValuesByPost();
+            $this->editObject();
+            return;
         }
 
         if (
             $this->record_gui instanceof \ilAdvancedMDRecordGUI &&
             !$this->record_gui->importEditFormPostValues()
         ) {
-            $ilErr->setMessage($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('err_check_input')
+            );
+            $this->form->setValuesByPost();
+            $this->editObject();
         }
 
         $this->load();
@@ -1409,6 +1428,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     protected function initForm(string $a_mode) : bool
     {
+        if ($this->form instanceof ilPropertyFormGUI) {
+            return true;
+        }
         $ilUser = $this->user;
         $object_service = $this->object_service;
         $this->lng->loadLanguageModule('dateplaner');
@@ -1462,6 +1484,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // title
         $title = new ilTextInputGUI($this->lng->txt('event_title'), 'title');
+        $title->setRequired(true);
         $title->setValue($this->object->getTitle());
         $title->setSize(50);
         $title->setMaxLength(70);
