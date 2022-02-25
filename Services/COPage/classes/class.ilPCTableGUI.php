@@ -1169,8 +1169,23 @@ class ilPCTableGUI extends ilPageContentGUI
             $dtpl->parseCurrentBlock();
         }
 
-
         $dtpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
+        
+        // add int link parts
+        $dtpl->setCurrentBlock("int_link_prep");
+        $dtpl->setVariable(
+            "INT_LINK_PREP",
+            ilInternalLinkGUI::getInitHTML(
+                $ilCtrl->getLinkTargetByClass(
+                    array("ilpageeditorgui", "ilinternallinkgui"),
+                    "",
+                    false,
+                    true,
+                    false
+                )
+            )
+        );
+        $dtpl->parseCurrentBlock();
 
         if ($initial) {
             $dtpl->touchBlock("script");
