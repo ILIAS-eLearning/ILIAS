@@ -2111,15 +2111,15 @@
 			</xsl:if>
 			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
 				and $mode != 'fullscreen' and $mode != 'media'">
-				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">margin-right:auto; margin-left:0; </xsl:if></xsl:attribute>
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/>margin-right:auto; margin-left:0; </xsl:attribute>
 			</xsl:if>
 			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
 				and $mode != 'fullscreen' and $mode != 'media'">
-				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">margin-right:0; margin-left:auto; </xsl:if></xsl:attribute>
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/>margin-right:0; margin-left:auto; </xsl:attribute>
 			</xsl:if>
 			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Center'
 				and $mode != 'fullscreen' and $mode != 'media'">
-				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">margin-right:auto; margin-left:auto; </xsl:if></xsl:attribute>
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/>margin-right:auto; margin-left:auto;</xsl:attribute>
 			</xsl:if>
 
 			<!-- build object tag -->
