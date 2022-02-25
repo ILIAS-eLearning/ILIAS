@@ -8335,7 +8335,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $starting_time = $this->getStartingTimeOfUser($active_id);
                 if ($starting_time !== false) {
                     if ($this->isMaxProcessingTimeReached($starting_time, $active_id)) {
-                        if ($allowPassIncrease && $this->getResetProcessingTime() && (($this->getNrOfTries() == 0) || ($this->getNrOfTries() > (self::_getPass($active_id) + 1)))) {
+                        if ($allowPassIncrease && $this->getResetProcessingTime() && (($this->getNrOfTries() == 0) || ($this->getNrOfTries() > (self::_getPass($active_id))))) {
                             // a test pass was quitted because the maximum processing time was reached, but the time
                             // will be resetted for future passes, so if there are more passes allowed, the participant may
                             // start the test again.
