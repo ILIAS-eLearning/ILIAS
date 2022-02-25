@@ -107,7 +107,7 @@ class ilPCSectionGUI extends ilPageContentGUI
     public static function _getCharacteristics(string $a_style_id) : array
     {
         $std_chars = ilPCSectionGUI::_getStandardCharacteristics();
-
+        $chars = $std_chars;
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
             $style = new ilObjStyleSheet($a_style_id);
