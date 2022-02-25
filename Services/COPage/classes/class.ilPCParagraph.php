@@ -657,7 +657,7 @@ class ilPCParagraph extends ilPageContent
         // anchor
         $ws = "[ \t\r\f\v\n]*";
         while (preg_match("~\[(anc$ws(name$ws=$ws\"([^\"])*\")$ws)\]~i", $a_text, $found)) {
-            $attribs = self::attribsToArray($found[2]);
+            $attribs = ilUtil::attribsToArray($found[2]);
             $a_text = self::replaceBBTagByMatching(
                 "[" . $found[1] . "]",
                 "[/anc]",
@@ -843,7 +843,9 @@ class ilPCParagraph extends ilPageContent
                     [
                         "Target" => "il_" . $inst_str . "_git_" . $attribs['term'],
                         "Type" => "GlossaryItem",
-                        "TargetFrame" => ($found[10] ?? "") == "New" ?: "Glossary"
+                        "TargetFrame" => (($found[10] ?? "") == "New")
+                            ? "New"
+                            : "Glossary"
                     ]
                 );
             }
@@ -943,7 +945,7 @@ class ilPCParagraph extends ilPageContent
         }
 
         while (preg_match("~\[(iln$ws((inst$ws=$ws([\"0-9])*)?" . $ws . "media$ws=$ws([\"0-9])*)$ws)/\]~i", $a_text, $found)) {
-            $attribs = self::attribsToArray($found[2]);
+            $attribs = ilUtil::attribsToArray($found[2]);
             $inst_str = $attribs["inst"] ?? "";
             $a_text = self::replaceBBTagByMatching(
                 "[" . $found[1] . "/]",
