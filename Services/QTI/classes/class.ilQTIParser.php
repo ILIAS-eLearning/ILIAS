@@ -427,7 +427,7 @@ class ilQTIParser extends ilSaxParser
     * should be overwritten by inherited class
     * @access	private
     *
-    * @param XMLParser $a_xml_parser
+    * @param XMLParser|resource<xml> $a_xml_parser
     */
     public function setHandlers($a_xml_parser) : void
     {
@@ -443,7 +443,7 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @param XMLParser
+     * @param XMLParser|resource<xml>
      * @return string
      */
     public function getParent($a_xml_parser)
@@ -456,9 +456,10 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
+     * @param XMLParser|resource<xml> $a_xml_parser
      * @param array<string, string> $a_attribs
      */
-    public function handlerBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($this->parser_mode) {
             case IL_MO_PARSE_QTI:
@@ -471,9 +472,10 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
+     * @param XMLParser|resource<xml> $a_xml_parser
      * @param array<string, string> $a_attribs
      */
-    public function handlerParseBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerParseBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         if ($this->do_nothing) {
             return;
@@ -1117,7 +1119,10 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    public function handlerEndTag(XMLParser $a_xml_parser, string $a_name) : void
+    /**
+     * @param XMLParser|resource<xml> $a_xml_parser
+     */
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($this->parser_mode) {
             case IL_MO_PARSE_QTI:
@@ -1131,8 +1136,9 @@ class ilQTIParser extends ilSaxParser
 
     /**
      * @noinspection NotOptimalIfConditionsInspection
+     * @param XMLParser|resource<xml> $a_xml_parser
      */
-    public function handlerParseEndTag(XMLParser $a_xml_parser, string $a_name) : void
+    public function handlerParseEndTag($a_xml_parser, string $a_name) : void
     {
         if ($this->do_nothing && strtolower($a_name) !== "item") {
             return;
@@ -1438,7 +1444,10 @@ class ilQTIParser extends ilSaxParser
         $this->depth[$a_xml_parser]--;
     }
 
-    public function handlerCharacterData(XMLParser $a_xml_parser, string $a_data) : void
+    /**
+     * @param XMLParser|resource<xml> $a_xml_parser
+     */
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         switch ($this->parser_mode) {
             case IL_MO_PARSE_QTI:
@@ -1450,7 +1459,10 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    public function handlerParseCharacterData(XMLParser $a_xml_parser, string $a_data) : void
+    /**
+     * @param XMLParser|resource<xml> $a_xml_parser
+     */
+    public function handlerParseCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($this->do_nothing) {
             return;
@@ -1543,9 +1555,10 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
+     * @param XMLParser|resource<xml> $a_xml_parser
      * @param array<string, string> $a_attribs
      */
-    public function handlerVerifyBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerVerifyBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         $this->qti_element = $a_name;
 
@@ -1676,7 +1689,10 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    public function handlerVerifyEndTag(XMLParser $a_xml_parser, string $a_name) : void
+    /**
+     * @param XMLParser|resource<xml> $a_xml_parser
+     */
+    public function handlerVerifyEndTag($a_xml_parser, string $a_name) : void
     {
         switch (strtolower($a_name)) {
             case "assessment":
@@ -1720,7 +1736,10 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    public function handlerVerifyCharacterData(XMLParser $a_xml_parser, string $a_data) : void
+    /**
+     * @param XMLParser|resource<xml> $a_xml_parser
+     */
+    public function handlerVerifyCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($this->verifyqticomment == 1) {
             if (preg_match("/Questiontype\=(.*)/", $a_data, $matches)) {
