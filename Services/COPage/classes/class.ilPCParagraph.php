@@ -819,7 +819,9 @@ class ilPCParagraph extends ilPageContent
                     [
                         "Target" => "il_" . $inst_str . "_git_" . $attribs['term'],
                         "Type" => "GlossaryItem",
-                        "TargetFrame" => ($found[10] ?? "") == "New" ?: "Glossary"
+                        "TargetFrame" => (($found[10] ?? "") == "New")
+                            ? "New"
+                            : "Glossary"
                     ]
                 );
             }
