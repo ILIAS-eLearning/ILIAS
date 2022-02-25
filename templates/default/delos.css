@@ -14265,6 +14265,9 @@ p#copg-auto-save {
 #ed_datatable td {
   border: 1px solid #CCCCCC;
 }
+#ed_datatable th {
+  vertical-align: middle;
+}
 .copg-new-content-placeholder {
   text-align: center;
   color: #7c7c7c;
