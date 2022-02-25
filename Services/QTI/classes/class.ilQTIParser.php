@@ -51,7 +51,7 @@ class ilQTIParser extends ilSaxParser
     public $item;
 
     /**
-     * @var ilQTIXMLParserMap
+     * @var ilQTIXMLParserArray
      */
     public $depth;
 
@@ -344,7 +344,7 @@ class ilQTIParser extends ilSaxParser
         $this->path = array();
         $this->items = array();
         $this->item = null;
-        $this->depth = array();
+        $this->depth = new ilQTIXMLParserArray();
         $this->do_nothing = false;
         $this->qti_element = "";
         $this->in_presentation = false;
@@ -379,7 +379,7 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @return null
+     * @return null|string
      */
     public function getQuestionSetType()
     {
@@ -387,13 +387,16 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @param null $questionSetType
+     * @param null|string $questionSetType
      */
     public function setQuestionSetType($questionSetType) : void
     {
         $this->questionSetType = $questionSetType;
     }
-    
+
+    /**
+     * @param ilObjTest
+     */
     public function setTestObject(&$a_tst_object) : void
     {
         $this->tst_object = &$a_tst_object;
@@ -402,6 +405,9 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
+    /**
+     * @param int $a_mode
+     */
     public function setParserMode($a_mode = IL_MO_PARSE_QTI) : void
     {
         $this->parser_mode = $a_mode;
@@ -420,6 +426,8 @@ class ilQTIParser extends ilSaxParser
     * set event handler
     * should be overwritten by inherited class
     * @access	private
+    *
+    * @param XMLParser $a_xml_parser
     */
     public function setHandlers($a_xml_parser) : void
     {
@@ -434,6 +442,10 @@ class ilQTIParser extends ilSaxParser
         parent::startParsing();
     }
 
+    /**
+     * @param XMLParser
+     * @return string
+     */
     public function getParent($a_xml_parser)
     {
         if ($this->depth[$a_xml_parser] > 0) {
@@ -444,9 +456,9 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-    * handler for begin of element
-    */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+     * @param array<string, string> $a_attribs
+     */
+    public function handlerBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($this->parser_mode) {
             case IL_MO_PARSE_QTI:
@@ -459,9 +471,9 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-    * handler for begin of element parser
-    */
-    public function handlerParseBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+     * @param array<string, string> $a_attribs
+     */
+    public function handlerParseBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs) : void
     {
         if ($this->do_nothing) {
             return;
@@ -474,36 +486,32 @@ class ilQTIParser extends ilSaxParser
 
         switch (strtolower($a_name)) {
             case "assessment":
-                $this->assessment = &$this->assessments[array_push($this->assessments, new ilQTIAssessment()) - 1];
+                $this->assessment = $this->assessments[] = new ilQTIAssessment();
                 $this->in_assessment = true;
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "title":
-                                $this->assessment->setTitle($value);
-                                break;
-                            case "ident":
-                                $this->assessment->setIdent($value);
-                                break;
-                        }
+                foreach ($a_attribs as $attribute => $value) {
+                    switch (strtolower($attribute)) {
+                    case "title":
+                        $this->assessment->setTitle($value);
+                        break;
+                    case "ident":
+                        $this->assessment->setIdent($value);
+                        break;
                     }
                 }
                 break;
             case "assessmentcontrol":
                 $this->assessmentcontrol = new ilQTIAssessmentcontrol();
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "solutionswitch":
-                                $this->assessmentcontrol->setSolutionswitch($value);
-                                break;
-                            case "hintswitch":
-                                $this->assessmentcontrol->setHintswitch($value);
-                                break;
-                            case "feedbackswitch":
-                                $this->assessmentcontrol->setFeedbackswitch($value);
-                                break;
-                        }
+                foreach ($a_attribs as $attribute => $value) {
+                    switch (strtolower($attribute)) {
+                    case "solutionswitch":
+                        $this->assessmentcontrol->setSolutionswitch($value);
+                        break;
+                    case "hintswitch":
+                        $this->assessmentcontrol->setHintswitch($value);
+                        break;
+                    case "feedbackswitch":
+                        $this->assessmentcontrol->setFeedbackswitch($value);
+                        break;
                     }
                 }
                 break;
@@ -1067,7 +1075,7 @@ class ilQTIParser extends ilSaxParser
                 break;
             case "item":
                 $this->gap_index = 0;
-                $this->item = &$this->items[array_push($this->items, new ilQTIItem()) - 1];
+                $this->item = $this->items[] = new ilQTIItem();
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
                         switch (strtolower($attribute)) {
@@ -1109,10 +1117,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    /**
-    * handler for end of element
-    */
-    public function handlerEndTag($a_xml_parser, $a_name) : void
+    public function handlerEndTag(XMLParser $a_xml_parser, string $a_name) : void
     {
         switch ($this->parser_mode) {
             case IL_MO_PARSE_QTI:
@@ -1125,9 +1130,9 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-    * handler for end of element parser
-    */
-    public function handlerParseEndTag($a_xml_parser, $a_name) : void
+     * @noinspection NotOptimalIfConditionsInspection
+     */
+    public function handlerParseEndTag(XMLParser $a_xml_parser, string $a_name) : void
     {
         if ($this->do_nothing && strtolower($a_name) !== "item") {
             return;
@@ -1433,10 +1438,7 @@ class ilQTIParser extends ilSaxParser
         $this->depth[$a_xml_parser]--;
     }
 
-    /**
-    * handler for character data
-    */
-    public function handlerCharacterData($a_xml_parser, $a_data) : void
+    public function handlerCharacterData(XMLParser $a_xml_parser, string $a_data) : void
     {
         switch ($this->parser_mode) {
             case IL_MO_PARSE_QTI:
@@ -1448,10 +1450,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    /**
-      * handler for character data
-      */
-    public function handlerParseCharacterData($a_xml_parser, $a_data) : void
+    public function handlerParseCharacterData(XMLParser $a_xml_parser, string $a_data) : void
     {
         if ($this->do_nothing) {
             return;
@@ -1544,15 +1543,15 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-    * handler for begin of element verification
-    */
-    public function handlerVerifyBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+     * @param array<string, string> $a_attribs
+     */
+    public function handlerVerifyBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs) : void
     {
         $this->qti_element = $a_name;
 
         switch (strtolower($a_name)) {
             case "assessment":
-                $this->assessment = &$this->assessments[array_push($this->assessments, new ilQTIAssessment()) - 1];
+                $this->assessment = $this->assessments[] = new ilQTIAssessment();
                 $this->in_assessment = true;
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -1677,10 +1676,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    /**
-    * handler for end of element verification
-    */
-    public function handlerVerifyEndTag($a_xml_parser, $a_name) : void
+    public function handlerVerifyEndTag(XMLParser $a_xml_parser, string $a_name) : void
     {
         switch (strtolower($a_name)) {
             case "assessment":
@@ -1724,10 +1720,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    /**
-    * handler for character data verification
-    */
-    public function handlerVerifyCharacterData($a_xml_parser, $a_data) : void
+    public function handlerVerifyCharacterData(XMLParser $a_xml_parser, string $a_data) : void
     {
         if ($this->verifyqticomment == 1) {
             if (preg_match("/Questiontype\=(.*)/", $a_data, $matches)) {
@@ -1752,17 +1745,17 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @return mixed[]
+     * @return array [["title" => string, "type" => string, "ident" => string]]
      */
-    public function &getFoundItems() : array
+    public function &getFoundItems()
     {
         return $this->founditems;
     }
 
     /**
-    * get array of new created questions for
-    * import id
-    */
+     * Get array of new created questions for import id.
+     * @return array<string, ['test' => mixed]>
+     */
     public function getImportMapping() : array
     {
         if (!is_array($this->import_mapping)) {
@@ -1805,6 +1798,10 @@ class ilQTIParser extends ilSaxParser
         return parent::openXMLFile();
     }
 
+    /**
+     * @param string $versionDateString
+     * @return string|null
+     */
     protected function fetchNumericVersionFromVersionDateString($versionDateString)
     {
         $matches = null;
@@ -1816,6 +1813,10 @@ class ilQTIParser extends ilSaxParser
         return null;
     }
 
+    /**
+     * @param string $itemIdent
+     * @return string|null
+     */
     protected function fetchSourceNicFromItemIdent($itemIdent)
     {
         $matches = null;
@@ -1827,6 +1828,10 @@ class ilQTIParser extends ilSaxParser
         return null;
     }
 
+    /**
+     * @param string $xmlContent
+     * @param string
+     */
     protected function cleanInvalidXmlChars($xmlContent)
     {
         // http://www.w3.org/TR/xml/#charsets
@@ -1876,6 +1881,9 @@ class ilQTIParser extends ilSaxParser
         return true;
     }
 
+    /**
+     * @param string $buffer (any data, binary)
+     */
     protected function virusDetected($buffer) : bool
     {
         $vs = ilVirusScannerFactory::_getInstance();
