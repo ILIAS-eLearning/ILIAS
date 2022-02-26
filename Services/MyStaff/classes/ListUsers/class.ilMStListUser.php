@@ -1,11 +1,11 @@
 <?php
+
 namespace ILIAS\MyStaff\ListUsers;
 
 use ilObjUser;
 
 /**
  * Class ilMStListUser
- *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListUser
@@ -96,7 +96,6 @@ class ilMStListUser
      */
     protected $il_user_obj;
 
-
     /**
      * @return int
      */
@@ -104,7 +103,6 @@ class ilMStListUser
     {
         return $this->usr_id;
     }
-
 
     /**
      * @param int $usr_id
@@ -114,7 +112,6 @@ class ilMStListUser
         $this->usr_id = $usr_id;
     }
 
-
     /**
      * @return int
      */
@@ -122,7 +119,6 @@ class ilMStListUser
     {
         return $this->time_limit_owner;
     }
-
 
     /**
      * @param int $time_limit_owner
@@ -132,7 +128,6 @@ class ilMStListUser
         $this->time_limit_owner = $time_limit_owner;
     }
 
-
     /**
      * @return int
      */
@@ -140,7 +135,6 @@ class ilMStListUser
     {
         return $this->active;
     }
-
 
     /**
      * @param int $active
@@ -150,7 +144,6 @@ class ilMStListUser
         $this->active = $active;
     }
 
-
     /**
      * @return string
      */
@@ -158,7 +151,6 @@ class ilMStListUser
     {
         return $this->login;
     }
-
 
     /**
      * @param string $login
@@ -168,7 +160,6 @@ class ilMStListUser
         $this->login = $login;
     }
 
-
     /**
      * @return string
      */
@@ -176,7 +167,6 @@ class ilMStListUser
     {
         return $this->firstname;
     }
-
 
     /**
      * @param string $firstname
@@ -186,7 +176,6 @@ class ilMStListUser
         $this->firstname = $firstname;
     }
 
-
     /**
      * @return string
      */
@@ -194,7 +183,6 @@ class ilMStListUser
     {
         return $this->lastname;
     }
-
 
     /**
      * @param string $lastname
@@ -204,7 +192,6 @@ class ilMStListUser
         $this->lastname = $lastname;
     }
 
-
     /**
      * @return string
      */
@@ -212,7 +199,6 @@ class ilMStListUser
     {
         return $this->email;
     }
-
 
     /**
      * @param string $email
@@ -222,7 +208,6 @@ class ilMStListUser
         $this->email = $email;
     }
 
-
     /**
      * @return string
      */
@@ -230,7 +215,6 @@ class ilMStListUser
     {
         return $this->phone;
     }
-
 
     /**
      * @param string $phone
@@ -240,7 +224,6 @@ class ilMStListUser
         $this->phone = $phone;
     }
 
-
     /**
      * @return string
      */
@@ -248,7 +231,6 @@ class ilMStListUser
     {
         return $this->mobile_phone;
     }
-
 
     /**
      * @param string $mobile_phone
@@ -258,7 +240,6 @@ class ilMStListUser
         $this->mobile_phone = $mobile_phone;
     }
 
-
     /**
      * @return int
      */
@@ -266,7 +247,6 @@ class ilMStListUser
     {
         return $this->gender;
     }
-
 
     /**
      * @param int $gender
@@ -276,7 +256,6 @@ class ilMStListUser
         $this->gender = $gender;
     }
 
-
     /**
      * @return string
      */
@@ -284,7 +263,6 @@ class ilMStListUser
     {
         return $this->title;
     }
-
 
     /**
      * @param string $title
@@ -294,7 +272,6 @@ class ilMStListUser
         $this->title = $title;
     }
 
-
     /**
      * @return string
      */
@@ -302,7 +279,6 @@ class ilMStListUser
     {
         return $this->hobby;
     }
-
 
     /**
      * @param string $hobby
@@ -312,7 +288,6 @@ class ilMStListUser
         $this->hobby = $hobby;
     }
 
-
     /**
      * @return string
      */
@@ -320,7 +295,6 @@ class ilMStListUser
     {
         return $this->institution;
     }
-
 
     /**
      * @param string $institution
@@ -330,7 +304,6 @@ class ilMStListUser
         $this->institution = $institution;
     }
 
-
     /**
      * @return string
      */
@@ -338,7 +311,6 @@ class ilMStListUser
     {
         return $this->department;
     }
-
 
     /**
      * @param string $department
@@ -348,7 +320,6 @@ class ilMStListUser
         $this->department = $department;
     }
 
-
     /**
      * @return string
      */
@@ -356,7 +327,6 @@ class ilMStListUser
     {
         return $this->street;
     }
-
 
     /**
      * @param string $street
@@ -366,7 +336,6 @@ class ilMStListUser
         $this->street = $street;
     }
 
-
     /**
      * @return string
      */
@@ -374,7 +343,6 @@ class ilMStListUser
     {
         return $this->zipcode;
     }
-
 
     /**
      * @param string $zipcode
@@ -384,7 +352,6 @@ class ilMStListUser
         $this->zipcode = $zipcode;
     }
 
-
     /**
      * @return string
      */
@@ -392,7 +359,6 @@ class ilMStListUser
     {
         return $this->city;
     }
-
 
     /**
      * @param string $city
@@ -402,7 +368,6 @@ class ilMStListUser
         $this->city = $city;
     }
 
-
     /**
      * @return string
      */
@@ -410,7 +375,6 @@ class ilMStListUser
     {
         return $this->country;
     }
-
 
     /**
      * @param string $country
@@ -420,7 +384,6 @@ class ilMStListUser
         $this->country = $country;
     }
 
-
     /**
      * @return string
      */
@@ -428,7 +391,6 @@ class ilMStListUser
     {
         return $this->sel_country;
     }
-
 
     /**
      * @param string $sel_country
@@ -438,7 +400,6 @@ class ilMStListUser
         $this->sel_country = $sel_country;
     }
 
-
     /**
      * @return string
      */
@@ -447,7 +408,6 @@ class ilMStListUser
         return $this->matriculation;
     }
 
-
     /**
      * @param string $matriculation
      */
@@ -455,7 +415,6 @@ class ilMStListUser
     {
         $this->matriculation = $matriculation;
     }
-
 
     /**
      * @return ilObjUser

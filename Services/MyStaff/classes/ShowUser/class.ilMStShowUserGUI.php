@@ -4,11 +4,9 @@ use ILIAS\MyStaff\ilMyStaffAccess;
 
 /**
  * Class ilMStShowUserGUI
- *
  * @author            Martin Studer <ms@studer-raimann.ch>
- *
  * @ilCtrl_IsCalledBy ilMStShowUserGUI: ilMyStaffGUI
- * @ilCtrl_Calls ilMStShowUserGUI: ilUserCertificateGUI
+ * @ilCtrl_Calls      ilMStShowUserGUI: ilUserCertificateGUI
  */
 class ilMStShowUserGUI
 {
@@ -30,7 +28,6 @@ class ilMStShowUserGUI
     protected $access;
     private \ilGlobalTemplateInterface $main_tpl;
 
-
     /**
      *
      */
@@ -47,7 +44,6 @@ class ilMStShowUserGUI
         $DIC->ui()->mainTemplate()->setTitle(ilUserUtil::getNamePresentation($this->usr_id));
         $DIC->ui()->mainTemplate()->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
     }
-
 
     /**
      *
@@ -69,7 +65,6 @@ class ilMStShowUserGUI
             $DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }
-
 
     /**
      *
@@ -118,7 +113,6 @@ class ilMStShowUserGUI
         }
     }
 
-
     /**
      *
      */
@@ -127,7 +121,6 @@ class ilMStShowUserGUI
         global $DIC;
         $DIC->ctrl()->redirectByClass(ilMStShowUserCoursesGUI::class);
     }
-
 
     /**
      *
@@ -146,7 +139,6 @@ class ilMStShowUserGUI
         $DIC->ui()->mainTemplate()->setContent($pub_profile->getEmbeddable());
     }
 
-
     /**
      *
      */
@@ -156,7 +148,6 @@ class ilMStShowUserGUI
 
         $DIC->ctrl()->redirect($this);
     }
-
 
     /**
      * @param string $active_tab_id
@@ -172,29 +163,31 @@ class ilMStShowUserGUI
         )));
 
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
-            $DIC->tabs()->addTab(self::TAB_SHOW_COURSES, $DIC->language()->txt('mst_list_courses'), $DIC->ctrl()->getLinkTargetByClass(array(
-                ilMyStaffGUI::class,
-                self::class,
-                ilMStShowUserCoursesGUI::class,
-            )));
+            $DIC->tabs()->addTab(self::TAB_SHOW_COURSES, $DIC->language()->txt('mst_list_courses'),
+                $DIC->ctrl()->getLinkTargetByClass(array(
+                    ilMyStaffGUI::class,
+                    self::class,
+                    ilMStShowUserCoursesGUI::class,
+                )));
         }
 
         if ($this->access->hasCurrentUserAccessToCertificates()) {
-            $DIC->tabs()->addTab(self::TAB_SHOW_CERTIFICATES, $DIC->language()->txt('mst_list_certificates'), $DIC->ctrl()->getLinkTargetByClass(array(
-                ilMyStaffGUI::class,
-                self::class,
-                ilUserCertificateGUI::class,
-            )));
+            $DIC->tabs()->addTab(self::TAB_SHOW_CERTIFICATES, $DIC->language()->txt('mst_list_certificates'),
+                $DIC->ctrl()->getLinkTargetByClass(array(
+                    ilMyStaffGUI::class,
+                    self::class,
+                    ilUserCertificateGUI::class,
+                )));
         }
 
         if ($this->access->hasCurrentUserAccessToCompetences()) {
-            $DIC->tabs()->addTab(self::TAB_SHOW_COMPETENCES, $DIC->language()->txt('mst_list_competences'), $DIC->ctrl()->getLinkTargetByClass(array(
-                ilMyStaffGUI::class,
-                self::class,
-                ilMStShowUserCompetencesGUI::class,
-            )));
+            $DIC->tabs()->addTab(self::TAB_SHOW_COMPETENCES, $DIC->language()->txt('mst_list_competences'),
+                $DIC->ctrl()->getLinkTargetByClass(array(
+                    ilMyStaffGUI::class,
+                    self::class,
+                    ilMStShowUserCompetencesGUI::class,
+                )));
         }
-
 
         $user = new ilObjUser($this->usr_id);
         if ($user->hasPublicProfile()) {

@@ -2,7 +2,6 @@
 
 /**
  * Class ilMStListCompetencesSkill
- *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilMStListCompetencesSkill
@@ -33,10 +32,8 @@ class ilMStListCompetencesSkill
      */
     protected $user_id;
 
-
     /**
      * ilMStListCompetencesSkill constructor.
-     *
      * @param string $skill_title
      * @param string $skill_level
      * @param string $login
@@ -44,8 +41,14 @@ class ilMStListCompetencesSkill
      * @param string $first_name
      * @param int    $user_id
      */
-    public function __construct(string $skill_title, string $skill_level, string $login, string $last_name, string $first_name, int $user_id)
-    {
+    public function __construct(
+        string $skill_title,
+        string $skill_level,
+        string $login,
+        string $last_name,
+        string $first_name,
+        int $user_id
+    ) {
         $this->skill_title = $skill_title;
         $this->skill_level = $skill_level;
         $this->login = $login;
@@ -53,7 +56,6 @@ class ilMStListCompetencesSkill
         $this->first_name = $first_name;
         $this->user_id = $user_id;
     }
-
 
     /**
      * @return string
@@ -63,7 +65,6 @@ class ilMStListCompetencesSkill
         return $this->skill_title;
     }
 
-
     /**
      * @param string $skill_title
      */
@@ -71,7 +72,6 @@ class ilMStListCompetencesSkill
     {
         $this->skill_title = $skill_title;
     }
-
 
     /**
      * @return string
@@ -81,7 +81,6 @@ class ilMStListCompetencesSkill
         return $this->skill_level;
     }
 
-
     /**
      * @param string $skill_level
      */
@@ -89,7 +88,6 @@ class ilMStListCompetencesSkill
     {
         $this->skill_level = $skill_level;
     }
-
 
     /**
      * @return string
@@ -99,7 +97,6 @@ class ilMStListCompetencesSkill
         return $this->login;
     }
 
-
     /**
      * @param string $login
      */
@@ -107,7 +104,6 @@ class ilMStListCompetencesSkill
     {
         $this->login = $login;
     }
-
 
     /**
      * @return string
@@ -117,7 +113,6 @@ class ilMStListCompetencesSkill
         return $this->last_name;
     }
 
-
     /**
      * @param string $last_name
      */
@@ -125,7 +120,6 @@ class ilMStListCompetencesSkill
     {
         $this->last_name = $last_name;
     }
-
 
     /**
      * @return string
@@ -135,7 +129,6 @@ class ilMStListCompetencesSkill
         return $this->first_name;
     }
 
-
     /**
      * @param string $first_name
      */
@@ -144,7 +137,6 @@ class ilMStListCompetencesSkill
         $this->first_name = $first_name;
     }
 
-
     /**
      * @return int
      */
@@ -152,7 +144,6 @@ class ilMStListCompetencesSkill
     {
         return $this->user_id;
     }
-
 
     /**
      * @param int $user_id

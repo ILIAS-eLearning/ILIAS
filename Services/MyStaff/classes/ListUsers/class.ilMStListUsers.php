@@ -1,11 +1,11 @@
 <?php
+
 namespace ILIAS\MyStaff\ListUsers;
 
 use ILIAS\DI\Container;
 
 /**
  * Class ilListUser
- *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListUsers
@@ -16,10 +16,8 @@ class ilMStListUsers
      */
     protected $dic;
 
-
     /**
      * ilMStListUsers constructor.
-     *
      * @param Container $dic
      */
     public function __construct(Container $dic)
@@ -30,7 +28,6 @@ class ilMStListUsers
     /**
      * @param array $arr_usr_ids
      * @param array $options
-     *
      * @return array|int
      */
     public function getData(array $arr_usr_ids = array(), array $options = array())
@@ -123,13 +120,10 @@ class ilMStListUsers
         return $user_data;
     }
 
-
     /**
      * Returns the WHERE Part for the Queries using parameter $user_ids AND local variable $filters
-     *
      * @param array $arr_usr_ids
      * @param array $arr_filter
-     *
      * @return string
      */
     private function createWhereStatement(array $arr_usr_ids, array $arr_filter)
@@ -139,31 +133,42 @@ class ilMStListUsers
         $where[] = $this->dic->database()->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
 
         if (!empty($arr_filter['user'])) {
-            $where[] = "(" . $this->dic->database()->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
-                    ->like("usr_data.firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
-                    ->like("usr_data.lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
-                    ->like("usr_data.email", "text", "%" . $arr_filter['user'] . "%") . ") ";
+            $where[] = "(" . $this->dic->database()->like("usr_data.login", "text",
+                    "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+                                                                               ->like("usr_data.firstname", "text",
+                                                                                   "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+                                                                                                                                              ->like("usr_data.lastname",
+                                                                                                                                                  "text",
+                                                                                                                                                  "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+                                                                                                                                                                                                             ->like("usr_data.email",
+                                                                                                                                                                                                                 "text",
+                                                                                                                                                                                                                 "%" . $arr_filter['user'] . "%") . ") ";
         }
 
         if (!empty($arr_filter['org_unit'])) {
             $where[] = 'usr_data.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $this->dic->database()
-                    ->quote($arr_filter['org_unit'], 'integer') . ')';
+                                                                                                         ->quote($arr_filter['org_unit'],
+                                                                                                             'integer') . ')';
         }
 
         if (!empty($arr_filter['lastname'])) {
-            $where[] = '(lastname LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%', $arr_filter['lastname']) . '%', 'text') . ')';
+            $where[] = '(lastname LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%',
+                        $arr_filter['lastname']) . '%', 'text') . ')';
         }
 
         if (!empty($arr_filter['firstname'])) {
-            $where[] = '(firstname LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%', $arr_filter['firstname']) . '%', 'text') . ')';
+            $where[] = '(firstname LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%',
+                        $arr_filter['firstname']) . '%', 'text') . ')';
         }
 
         if (!empty($arr_filter['email'])) {
-            $where[] = '(email LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%', $arr_filter['email']) . '%', 'text') . ')';
+            $where[] = '(email LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%',
+                        $arr_filter['email']) . '%', 'text') . ')';
         }
 
         if (!empty($arr_filter['title'])) {
-            $where[] = '(title LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%', $arr_filter['title']) . '%', 'text') . ')';
+            $where[] = '(title LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%',
+                        $arr_filter['title']) . '%', 'text') . ')';
         }
 
         if ($arr_filter['activation']) {
