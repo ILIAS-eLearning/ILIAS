@@ -80,6 +80,9 @@ export default class PageUI {
     this.debug = true;
     this.droparea = "<div class='il_droparea'></div>";
     this.add = "<span class='glyphicon glyphicon-plus-sign'></span>";
+    this.first_add = "<span class='il-copg-add-text'> " +
+      il.Language.txt("cont_ed_click_to_add_pg") +
+      "</span>";
     this.model = {};
     this.uiModel = {};
 
@@ -162,9 +165,9 @@ export default class PageUI {
       drop.id = "TARGET" + hier_id + ":" + (area.dataset.pcid || "");
 
       // add dropdown
-      area.querySelectorAll("div.dropdown > button").forEach(b => {
+      const addButtons = area.querySelectorAll("div.dropdown > button");
+      addButtons.forEach(b => {
         b.classList.add("copg-add");
-        b.innerHTML = this.add;
         b.addEventListener("click", (event) => {
 
           // we need that to "filter" out these events on the single clicks
@@ -218,6 +221,7 @@ export default class PageUI {
         });
       });
     });
+    this.refreshAddButtonText();
   }
 
   getPCTypeForName(name) {
@@ -627,6 +631,17 @@ export default class PageUI {
   showAddButtons() {
     document.querySelectorAll("button.copg-add").forEach(el => {
       el.style.display = "";
+    });
+  }
+
+  refreshAddButtonText() {
+    const addButtons = document.querySelectorAll("button.copg-add");
+    document.querySelectorAll("button.copg-add").forEach(b => {
+      if (addButtons.length === 1) {
+        b.innerHTML = this.add + this.first_add;
+      } else {
+        b.innerHTML = this.add;
+      }
     });
   }
 

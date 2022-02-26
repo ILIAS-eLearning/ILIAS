@@ -1165,7 +1165,7 @@ class ilPCTableGUI extends ilPageContentGUI
                 $dtpl->setCurrentBlock("row");
                 $dtpl->parseCurrentBlock();
             }
-            
+
             for ($j = 0; $j < count($res2->nodeset); $j++) {
                 // first col: row icons
                 if ($j == 0) {
