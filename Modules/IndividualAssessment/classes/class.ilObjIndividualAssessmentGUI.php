@@ -34,7 +34,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
     protected ILIAS\Refinery\Factory $refinery;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
 
-    public function __construct(array $data, int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
+    public function __construct($data, int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
         global $DIC;
         $this->ilNavigationHistory = $DIC['ilNavigationHistory'];
@@ -52,7 +52,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
     }
 
-    public function addLocatorItems() : void
+    protected function addLocatorItems() : void
     {
         if (is_object($this->object)) {
             $this->locator->addItem(
@@ -259,7 +259,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         return false;
     }
 
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         if ($this->object->accessHandler()->mayViewObject()) {
             $this->tabs_gui->addTab(
@@ -381,10 +381,10 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         }
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         $this->tpl->setOnScreenMessage("success", $this->txt("iass_added"), true);
-        $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+        $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
         $this->ctrl->redirectToUrl($this->ctrl->getLinkTargetByClass(
             'ilIndividualassessmentsettingsgui',
             'edit',

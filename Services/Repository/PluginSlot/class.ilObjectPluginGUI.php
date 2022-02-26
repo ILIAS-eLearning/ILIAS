@@ -23,7 +23,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 {
     protected ilNavigationHistory $nav_history;
     protected ilTabsGUI $tabs;
-    protected ilPluginAdmin $plugin_admin;
     protected ilPlugin $plugin;
     protected PluginSlotGUIRequest $slot_request;
     protected ilComponentFactory $component_factory;
@@ -97,9 +96,9 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                     $this->slot_request->getRefId()
                 ), "big"),
                 $lng->txt("obj_" . ilObject::_lookupType(
-                        $this->slot_request->getRefId(),
-                        true
-                    ))
+                    $this->slot_request->getRefId(),
+                    true
+                ))
             );
             $this->setLocator();
         }
@@ -136,10 +135,10 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             case 'illearningprogressgui':
                 $user_id = $this->user->getId();
                 if ($this->access->checkAccess(
-                        'write',
-                        "",
-                        $this->object->getRefId()
-                    ) &&
+                    'write',
+                    "",
+                    $this->object->getRefId()
+                ) &&
                     $this->slot_request->getUserId() > 0) {
                     $user_id = $this->slot_request->getUserId();
                 }
@@ -231,16 +230,16 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
      * Init creation forms
      * this will create the default creation forms: new, import, clone
      */
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
         $forms = array();
-        $forms[self::CFORM_NEW] = $this->initCreateForm($a_new_type);
+        $forms[self::CFORM_NEW] = $this->initCreateForm($new_type);
 
         if ($this->supportsExport()) {
-            $forms[self::CFORM_IMPORT] = $this->initImportForm($a_new_type);
+            $forms[self::CFORM_IMPORT] = $this->initImportForm($new_type);
         }
         if ($this->supportsCloning()) {
-            $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
+            $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $new_type);
         }
 
         return $forms;
@@ -256,15 +255,13 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
     /**
      * Init object creation form
-     * @param string $a_new_type
-     * @return    ilPropertyFormGUI
      */
-    protected function initCreateForm($a_new_type)
+    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
-        $form->setTitle($this->txt($a_new_type . "_new"));
+        $form->setTitle($this->txt($new_type . "_new"));
 
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -279,7 +276,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         $ta->setRows(2);
         $form->addItem($ta);
 
-        $form->addCommandButton("save", $this->txt($a_new_type . "_add"));
+        $form->addCommandButton("save", $this->txt($new_type . "_add"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
         return $form;
@@ -287,9 +284,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
     /**
      * Init object update form
-     * @return    ilPropertyFormGUI
      */
-    protected function initEditForm()
+    protected function initEditForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -323,7 +319,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
      * @param string    new type
      * @return    ilPropertyFormGUI
      */
-    protected function initImportForm($a_new_type)
+    protected function initImportForm(string $new_type) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
@@ -341,14 +337,14 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         return $form;
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         $ilCtrl = $this->ctrl;
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
 
         $ilCtrl->setTargetScript('ilias.php');
-        $ilCtrl->setParameterByClass(get_class($this), "ref_id", $a_new_object->getRefId());
+        $ilCtrl->setParameterByClass(get_class($this), "ref_id", $new_object->getRefId());
         $ilCtrl->redirectByClass(array("ilobjplugindispatchgui", get_class($this)), $this->getAfterCreationCmd());
     }
 
@@ -444,6 +440,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     public static function _goto($a_target)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilCtrl = $DIC->ctrl();
         $ilAccess = $DIC->access();
@@ -462,7 +459,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             $ilCtrl->setParameterByClass($class_name, "ref_id", $ref_id);
             $ilCtrl->redirectByClass(array("ilobjplugindispatchgui", $class_name), "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
             ));

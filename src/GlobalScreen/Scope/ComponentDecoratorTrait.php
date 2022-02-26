@@ -15,7 +15,6 @@ use ReflectionType;
  */
 trait ComponentDecoratorTrait
 {
-    
     private ?Closure $component_decorator = null;
     
     /**
@@ -28,7 +27,7 @@ trait ComponentDecoratorTrait
             throw new LogicException('first argument and return value of closure must be type-hinted to \ILIAS\UI\Component\Component');
         }
         if ($this->component_decorator instanceof Closure) {
-            $existing                  = $this->component_decorator;
+            $existing = $this->component_decorator;
             $this->component_decorator = static function (Component $c) use ($component_decorator, $existing) : Component {
                 $component = $existing($c);
                 

@@ -76,7 +76,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
         
         $this->tpl->setCurrentBlock("title_form");
         $this->tpl->setVariable("VAL_ID", $a_set["id"]);
-        $this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+        $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
         $this->tpl->parseCurrentBlock();
 
         if (in_array($a_set["id"], $this->shared_objects)) {

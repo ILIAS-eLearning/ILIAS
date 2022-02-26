@@ -176,7 +176,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function executeCommand() : string
+    public function executeCommand() : void
     {
         $tpl = $this->tpl;
 
@@ -208,7 +208,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 break;
                 
             case "ilfilesystemgui":
-                $fs_gui = new ilFileSystemGUI(ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId());
+                $fs_gui = new ilFileSystemGUI(ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $this->object->getId());
                 $fs_gui->setAllowedSuffixes(ilObjMediaObject::getRestrictedFileTypes());
                 $fs_gui->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
                 $fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
@@ -243,8 +243,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $ret = $this->$cmd();
                 break;
         }
-
-        return (string) $ret;
     }
 
     public function setBackTitle(string $a_title) : void
@@ -524,7 +522,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $std_item = $this->object->getMediaItem("Standard");
         if ($std_item->getWidth() == "" || $std_item->getHeight() == "") {
-            ilUtil::sendFailure($this->lng->txt("mob_no_fixed_size_map_editing"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("mob_no_fixed_size_map_editing"));
         }
     }
 
@@ -620,7 +618,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * create new media object
      */
-    public function saveObject() : ?ilObjMediaObject
+    public function saveObject() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -629,12 +627,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         if ($this->form_gui->checkInput()) {
             $this->object = new ilObjMediaObject();
             $this->setObjectPerCreationForm($this->object);
-            ilUtil::sendSuccess($lng->txt("saved_media_object"), true);
-            return $this->object;
+            $this->tpl->setOnScreenMessage('success', $lng->txt("saved_media_object"), true);
         } else {
             $this->form_gui->setValuesByPost();
             $tpl->setContent($this->form_gui->getHTML());
-            return null;
         }
     }
     
@@ -688,7 +684,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         if ($form->getInput("standard_type") == "File") {
             $file_name = ilObjMediaObject::fixFilename($_FILES['standard_file']['name']);
             $file = $mob_dir . "/" . $file_name;
-            ilUtil::moveUploadedFile(
+            ilFileUtils::moveUploadedFile(
                 $_FILES['standard_file']['tmp_name'],
                 $file_name,
                 $file
@@ -738,7 +734,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $media_item->setWidth($wh["width"]);
         $media_item->setHeight($wh["height"]);
         if ($wh["info"] != "") {
-            ilUtil::sendInfo($wh["info"], true);
+            $this->tpl->setOnScreenMessage('info', $wh["info"], true);
         }
 
         if ($form->getInput("standard_caption") != "") {
@@ -760,7 +756,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 if ($_FILES['full_file']['name'] != "") {
                     $full_file_name = ilObjMediaObject::fixFilename($_FILES['full_file']['name']);
                     $file = $mob_dir . "/" . $full_file_name;
-                    ilUtil::moveUploadedFile(
+                    ilFileUtils::moveUploadedFile(
                         $_FILES['full_file']['tmp_name'],
                         $full_file_name,
                         $file
@@ -969,7 +965,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 if ($_FILES['standard_file']['name'] != "") {
                     $file_name = ilObjMediaObject::fixFilename($_FILES['standard_file']['name']);
                     $file = $mob_dir . "/" . $file_name;
-                    ilUtil::moveUploadedFile(
+                    ilFileUtils::moveUploadedFile(
                         $_FILES['standard_file']['tmp_name'],
                         $file_name,
                         $file
@@ -1017,7 +1013,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $wh_input["height"]
             );
             if ($wh["info"] != "") {
-                ilUtil::sendInfo($wh["info"], true);
+                $this->tpl->setOnScreenMessage('info', $wh["info"], true);
             }
             $std_item->setWidth($wh["width"]);
             $std_item->setHeight($wh["height"]);
@@ -1073,7 +1069,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     if ($_FILES['full_file']['name'] != "") {
                         $full_file_name = ilObjMediaObject::fixFilename($_FILES['full_file']['name']);
                         $file = $mob_dir . "/" . $full_file_name;
-                        ilUtil::moveUploadedFile(
+                        ilFileUtils::moveUploadedFile(
                             $_FILES['full_file']['tmp_name'],
                             $full_file_name,
                             $file
@@ -1146,7 +1142,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     $wh_input["height"]
                 );
                 if ($wh["info"] != "") {
-                    ilUtil::sendInfo($wh["info"], true);
+                    $this->tpl->setOnScreenMessage('info', $wh["info"], true);
                 }
 
                 $full_item->setWidth($wh["width"]);
@@ -1181,7 +1177,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             ilMediaSvgSanitizer::sanitizeDir(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20339
 
             $this->object->update();
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "edit");
         } else {
             $this->form_gui->setValuesByPost();
@@ -1197,7 +1193,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     ) : void {
         // determine directory
         $cur_subdir = dirname($a_file);
-        $mob_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
+        $mob_dir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
         $cur_dir = (!empty($cur_subdir))
             ? $mob_dir . "/" . $cur_subdir
             : $mob_dir;
@@ -1227,7 +1223,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     ) : void {
         // determine directory
         $cur_subdir = dirname($a_file);
-        $mob_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
+        $mob_dir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
         $cur_dir = (!empty($cur_subdir))
             ? $mob_dir . "/" . $cur_subdir
             : $mob_dir;
@@ -1240,7 +1236,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         if (!$this->object->hasFullscreenItem()) {	// create new fullscreen item
             $std_item = $this->object->getMediaItem("Standard");
-            $mob_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
+            $mob_dir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
             $file = $mob_dir . "/" . $location;
             $full_item = new ilMediaItem();
             $full_item->setMobId($std_item->getMobId());
@@ -1640,7 +1636,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $_FILES["subtitle_file"]["tmp_name"],
             $this->sub_title_request->getLanguage()
         )) {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "listSubtitleFiles");
     }
@@ -1658,7 +1654,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         $srts = $this->sub_title_request->getSrtFiles();
         if (count($srts) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listSubtitleFiles");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -1689,7 +1685,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $this->object->removeAdditionalFile("srt/subtitle_" . $i . ".srt");
             }
         }
-        ilUtil::sendSuccess($lng->txt("mob_srt_files_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("mob_srt_files_deleted"), true);
         $ilCtrl->redirect($this, "listSubtitleFiles");
     }
 
@@ -1699,7 +1695,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        ilUtil::sendInfo($lng->txt("mob_upload_multi_srt_howto"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("mob_upload_multi_srt_howto"));
 
         $this->setPropertiesSubTabs("subtitles");
 
@@ -1715,10 +1711,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     public function uploadMultipleSubtitleFileObject() : void
     {
         try {
-            $this->object->uploadMultipleSubtitleFile(ilUtil::stripSlashesArray($_FILES["subtitle_file"]));
+            $this->object->uploadMultipleSubtitleFile(ilArrayUtil::stripSlashesArray($_FILES["subtitle_file"]));
             $this->ctrl->redirect($this, "showMultiSubtitleConfirmationTable");
         } catch (ilMediaObjectsException $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             $this->ctrl->redirect($this, "uploadMultipleSubtitleFileForm");
         }
     }

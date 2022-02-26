@@ -696,7 +696,7 @@ class ilPersonalSkillsGUI
 
         ilPersonalSkill::addPersonalSkill($ilUser->getId(), $this->requested_node_id);
         
-        ilUtil::sendSuccess($lng->txt("msg_object_modified"));
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_object_modified"));
         $ilCtrl->redirect($this, "listSkills");
     }
 
@@ -710,7 +710,7 @@ class ilPersonalSkillsGUI
             $this->requested_skill_ids[] = $this->requested_skill_id;
         }
         if (empty($this->requested_skill_ids)) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listSkills");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -739,7 +739,7 @@ class ilPersonalSkillsGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("msg_object_modified"));
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_object_modified"));
         $ilCtrl->redirect($this, "listSkills");
     }
     
@@ -905,7 +905,7 @@ class ilPersonalSkillsGUI
                     (int) $w
                 );
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         
         $ilCtrl->saveParameter($this, "skill_id");
@@ -929,7 +929,7 @@ class ilPersonalSkillsGUI
             $this->requested_level_id,
             $this->requested_wsp_id
         );
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "assignMaterials");
     }
     
@@ -1022,7 +1022,7 @@ class ilPersonalSkillsGUI
             $this->requested_basic_skill_id,
             $this->requested_self_eval_level_id
         );
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         
         /*		$ilCtrl->saveParameter($this, "skill_id");
                 $ilCtrl->saveParameter($this, "level_id");
@@ -1052,9 +1052,9 @@ class ilPersonalSkillsGUI
             if (!$exp->handleCommand()) {
                 $tpl->setContent($exp->getHTML());
             }
-            ilUtil::sendInfo($lng->txt("skmg_select_skill"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_select_skill"));
         } else {
-            ilUtil::sendInfo($lng->txt("skmg_no_nodes_selectable"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_no_nodes_selectable"));
         }
     }
 

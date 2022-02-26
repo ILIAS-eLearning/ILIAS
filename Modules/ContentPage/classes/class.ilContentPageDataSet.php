@@ -29,8 +29,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                     'id' => 'integer',
                     'title' => 'text',
                     'description' => 'text',
-                    'info-tab' => 'integer',
-                    'style-id' => 'integer',
+                    'info-tab' => 'integer'
                 ];
 
             default:
@@ -71,8 +70,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                                 $obj->getId(),
                                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
                                 '1'
-                            )),
-                            'style-id' => $obj->getStyleSheetId(),
+                            ))
                         ];
                     }
                 }
@@ -100,7 +98,6 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
 
                 $newObject->setTitle(ilUtil::stripSlashes($a_rec['title']));
                 $newObject->setDescription(ilUtil::stripSlashes($a_rec['description']));
-                $newObject->setStyleSheetId((int) ilUtil::stripSlashes($a_rec['style-id']));
 
                 if (!$newObject->getId()) {
                     $newObject->create();
@@ -117,12 +114,6 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                     self::OBJ_TYPE,
                     (string) $a_rec['id'],
                     (string) $newObject->getId()
-                );
-                $a_mapping->addMapping(
-                    'Modules/ContentPage',
-                    'style',
-                    (string) $newObject->getId(),
-                    (string) $newObject->getStyleSheetId()
                 );
                 $a_mapping->addMapping(
                     'Services/COPage',

@@ -53,7 +53,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             new \ilIniFilesLoadedObjective(),
             new \ilDatabaseInitializedObjective(),
             new \ilComponentPluginAdminInitObjective(),
-            new \ilComponentDatabaseExistsObjective(),
+            new \ilComponentRepositoryExistsObjective(),
             new \ilComponentFactoryExistsObjective()
         ];
     }
@@ -63,7 +63,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
         $info = $component_repository->getPluginByName($this->plugin_name);
 
@@ -93,7 +93,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $plugin = $component_repository->getPluginByName($this->plugin_name);
 
         return $plugin->isUpdateRequired();
@@ -123,50 +123,50 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public function isHandling($a_level)
+            public function isHandling(int $a_level) : bool
             {
                 return true;
             }
-            public function log($a_message, $a_level = ilLogLevel::INFO)
+            public function log(string $a_message, int $a_level = ilLogLevel::INFO) : void
             {
             }
-            public function dump($a_variable, $a_level = ilLogLevel::INFO)
+            public function dump($a_variable, int $a_level = ilLogLevel::INFO) : void
             {
             }
-            public function debug($a_message, $a_context = array())
+            public function debug(string $a_message, array $a_context = array()) : void
             {
             }
-            public function info($a_message)
+            public function info(string $a_message) : void
             {
             }
-            public function notice($a_message)
+            public function notice(string $a_message) : void
             {
             }
-            public function warning($a_message)
+            public function warning(string $a_message) : void
             {
             }
-            public function error($a_message)
+            public function error(string $a_message) : void
             {
             }
-            public function critical($a_message)
+            public function critical(string $a_message) : void
             {
             }
-            public function alert($a_message)
+            public function alert(string $a_message) : void
             {
             }
-            public function emergency($a_message)
+            public function emergency(string $a_message) : void
             {
             }
-            public function write($a_message, $a_level = ilLogLevel::INFO)
+            public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
             {
             }
-            public function writeLanguageLog($a_topic, $a_lang_key)
+            public function writeLanguageLog(string $a_topic, string $a_lang_key) : void
             {
             }
-            public function logStack($a_level = null, $a_message = '')
+            public function logStack(?int $a_level = null, string $a_message = '') : void
             {
             }
-            public function writeMemoryPeakUsage($a_level)
+            public function writeMemoryPeakUsage(int $a_level) : void
             {
             }
         };
@@ -174,7 +174,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public function write($m, $l = ilLogLevel::INFO)
+            public function write(string $a_msg, $a_log_level = ilLogLevel::INFO) : void
             {
             }
             public function info($msg)
@@ -189,7 +189,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function debug($msg, $a = [])
             {
             }
-            public function dump($msg, $a = ilLogLevel::INFO)
+            public function dump($a_var, ?int $a_log_level = ilLogLevel::INFO) : void
             {
             }
         };
@@ -197,11 +197,11 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public static function getRootLogger()
+            public static function getRootLogger() : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
-            public static function getLogger($a)
+            public static function getLogger($a) : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
@@ -239,7 +239,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             }
         };
         $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
-            public $prefs = [];
+            public array $prefs = [];
 
             public function __construct()
             {

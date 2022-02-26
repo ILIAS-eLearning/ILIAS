@@ -28,5 +28,4 @@ class NullProvider implements Provider
     {
         return 'Null';
     }
-    
 }

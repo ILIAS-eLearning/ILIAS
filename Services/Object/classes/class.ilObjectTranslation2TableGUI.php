@@ -109,7 +109,7 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
 
         if ($this->incl_desc) {
             $this->tpl->setCurrentBlock("desc_row");
-            $this->tpl->setVariable("VAL_DESC", ilUtil::prepareFormOutput($a_set["desc"]));
+            $this->tpl->setVariable("VAL_DESC", ilLegacyFormElementsUtil::prepareFormOutput($a_set["desc"]));
             $this->tpl->setVariable("DNR", $this->nr);
             $this->tpl->parseCurrentBlock();
         }
@@ -120,7 +120,7 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
         $languages = ilMDLanguageItem::_getLanguages();
         $this->tpl->setVariable(
             "LANG_SELECT",
-            ilUtil::formSelect(
+            ilLegacyFormElementsUtil::formSelect(
                 $a_set["lang"],
                 "lang[" . $this->nr . "]",
                 $languages,
@@ -130,6 +130,6 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
         );
 
 
-        $this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+        $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
     }
 }

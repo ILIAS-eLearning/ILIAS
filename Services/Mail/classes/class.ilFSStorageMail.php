@@ -28,14 +28,14 @@ class ilFSStorageMail extends ilFileSystemAbstractionStorage
         $path = '';
         switch ($this->getStorageType()) {
             case self::STORAGE_DATA:
-                $path = ilUtil::getDataDir();
+                $path = ilFileUtils::getDataDir();
                 break;
 
             case self::STORAGE_WEB:
-                $path = ilUtil::getWebspaceDir();
+                $path = ilFileUtils::getWebspaceDir();
                 break;
         }
-        $path = ilUtil::removeTrailingPathSeparators($path);
+        $path = ilFileUtils::removeTrailingPathSeparators($path);
         $path .= '/';
 
         $path .= ($this->getPathPrefix() . '/');

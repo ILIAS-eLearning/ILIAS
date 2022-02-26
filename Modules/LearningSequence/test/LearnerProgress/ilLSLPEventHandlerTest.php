@@ -6,12 +6,12 @@ use PHPUnit\Framework\TestCase;
 
 class ilLPStatusWrapperStub extends ilLPStatusWrapper
 {
-    public static function _refreshStatus($a_obj_id, $a_users = null)
+    public static function _refreshStatus(int $a_obj_id, ?array $a_users = null) : void
     {
         throw new \Exception('Do not use ilLPStatusWrapper::_refreshStatus here; use _updateStatus instead');
     }
 
-    public static function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false, $a_force_raise = false)
+    public static function _updateStatus(int $a_obj_id, int $a_usr_id, ?object $a_obj = null, bool $a_percentage = false, bool $a_force_raise = false) : void
     {
     }
 }

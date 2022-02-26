@@ -60,7 +60,7 @@ class ilLMImportGUI
         $lng = $this->lng;
         $tpl = $this->tpl;
 
-        ilUtil::sendInfo($lng->txt("cont_trans_import_info"));
+        $this->tpl->setOnScreenMessage('info', $lng->txt("cont_trans_import_info"));
         $form = $this->initTranslationImportForm();
         $tpl->setContent($form->getHTML());
     }
@@ -111,7 +111,7 @@ class ilLMImportGUI
         $target_lang = $this->request->getImportLang();
         $ot = ilObjectTranslation::getInstance($this->lm->getId());
         if ($target_lang == $ot->getMasterLanguage() || $target_lang == "") {
-            ilUtil::sendFailure($lng->txt("cont_transl_master_language_not_allowed"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_transl_master_language_not_allowed"), true);
             $ilCtrl->redirect($this, "showTranslationImportForm");
         }
 
@@ -124,7 +124,7 @@ class ilLMImportGUI
             "Modules/LearningModule"
         );
         //echo "h"; exit;
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showTranslationImportForm");
     }
 }

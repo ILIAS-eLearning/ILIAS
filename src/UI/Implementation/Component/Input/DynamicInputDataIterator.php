@@ -25,12 +25,12 @@ class DynamicInputDataIterator implements Iterator
     {
         if ($this->valid()) {
             $entry = [];
-            // For the dynamic input, the values for a field "foo" a dynamically
-            // created input are all listed in one field "foo" in the input. For
-            // every subsequent input, we need to pick the next value from that
-            // list and map it to "foo" for further processing.
-            foreach ($this->post_data as $key => $data) {
-                $entry[$key] = $data[$this->index];
+            // for each input of the dynamic input template, the input data must
+            // be mapped to the rendered name, similar to one delivered by
+            // DynamicInputsNameSource for further processing.
+            foreach ($this->post_data as $input_name => $data) {
+                $dynamic_input_name = "$this->parent_input_name[$input_name][]";
+                $entry[$dynamic_input_name] = $data[$this->index];
             }
 
             return new ArrayInputData($entry);

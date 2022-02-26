@@ -507,7 +507,7 @@ class ilSecuritySettings
      */
     public function setPasswordMustNotContainLoginnameStatus($status) : void
     {
-        $this->password_must_not_contain_loginname = $status;
+        $this->password_must_not_contain_loginname = (bool) $status;
     }
 
     /**

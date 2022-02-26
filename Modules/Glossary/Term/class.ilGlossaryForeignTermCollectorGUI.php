@@ -42,7 +42,7 @@ class ilGlossaryForeignTermCollectorGUI
 
         $this->glossary_gui = $a_glossary_gui;
         /** @var ilObjGlossary $glossary */
-        $glossary = $a_glossary_gui->object;
+        $glossary = $a_glossary_gui->getObject();
         $this->glossary = $glossary;
 
         $this->term_manager = $DIC->glossary()
@@ -86,7 +86,7 @@ class ilGlossaryForeignTermCollectorGUI
 
     public function showGlossarySelector() : void
     {
-        ilUtil::sendInfo($this->lng->txt("glo_select_source_glo"));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("glo_select_source_glo"));
         $exp = new ilRepositorySelectorExplorerGUI(
             $this,
             "showGlossarySelector",
@@ -109,7 +109,7 @@ class ilGlossaryForeignTermCollectorGUI
         $ref_id = $this->request->getForeignGlossaryRefId();
 
         if ($ref_id == $this->glossary->getRefId()) {
-            ilUtil::sendFailure($lng->txt("glo_please_select_other_glo"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("glo_please_select_other_glo"), true);
             $ilCtrl->redirect($this, "showGlossarySelector");
         }
 
@@ -127,7 +127,7 @@ class ilGlossaryForeignTermCollectorGUI
     {
         $term_ids = $this->request->getTermIds();
         if (count($term_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "showTerms");
         }
         foreach ($term_ids as $id) {
@@ -136,7 +136,7 @@ class ilGlossaryForeignTermCollectorGUI
                 $id
             );
         }
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -144,7 +144,7 @@ class ilGlossaryForeignTermCollectorGUI
     {
         $term_ids = $this->request->getTermIds();
         if (count($term_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "showTerms");
         }
         $terms = array();
@@ -156,7 +156,7 @@ class ilGlossaryForeignTermCollectorGUI
             $terms
         );
         
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->returnToParent($this);
     }
 }

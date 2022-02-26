@@ -215,7 +215,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         if ($export) {
             ilUtil::deliverData(
                 $roomTpl->get(),
-                ilUtil::getASCIIFilename($scopes[$requestScope] . '.html'),
+                ilFileUtils::getASCIIFilename($scopes[$requestScope] . '.html'),
                 'text/html'
             );
         }

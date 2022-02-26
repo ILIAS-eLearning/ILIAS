@@ -19,9 +19,9 @@ class ilTestQuestionConfig
     // hey.
 
     protected $scoreEmptyMcSolutionsEnabled = false;
-    
+
     protected $workedThrough = false;
-    
+
     /**
      * ilTestQuestionConfig constructor.
      */
@@ -122,7 +122,7 @@ class ilTestQuestionConfig
     {
         return $this->previousPassSolutionReuseAllowed;
     }
-    
+
     /**
      * @param bool $previousPassSolutionReuseAllowed
      */
@@ -131,7 +131,7 @@ class ilTestQuestionConfig
         $this->previousPassSolutionReuseAllowed = $previousPassSolutionReuseAllowed;
     }
     // hey.
-    
+
     // hey: prevPassSolutions - previous solution adopted
     /**
      * @return bool
@@ -140,7 +140,7 @@ class ilTestQuestionConfig
     {
         return $this->solutionInitiallyPrefilled;
     }
-    
+
     /**
      * @param bool $solutionInitiallyPrefilled
     // hey: prevPassSolutions - streamlined signatures
@@ -154,7 +154,7 @@ class ilTestQuestionConfig
         return $this;
         // hey.
     }
-    
+
     /**
      * @return bool
      */
@@ -162,7 +162,7 @@ class ilTestQuestionConfig
     {
         return $this->scoreEmptyMcSolutionsEnabled;
     }
-    
+
     /**
      * @param bool $scoreEmptyMcSolutionsEnabled
      */
@@ -170,7 +170,7 @@ class ilTestQuestionConfig
     {
         $this->scoreEmptyMcSolutionsEnabled = $scoreEmptyMcSolutionsEnabled;
     }
-    
+
     /**
      * @return bool
      */
@@ -178,7 +178,7 @@ class ilTestQuestionConfig
     {
         return $this->workedThrough;
     }
-    
+
     /**
      * @param bool $workedThrough
      * @return $this

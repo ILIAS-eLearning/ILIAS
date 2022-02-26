@@ -14,6 +14,7 @@
  */
 
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 
 /**
  * Class ilUserUtil
@@ -238,7 +239,7 @@ class ilUserUtil
             $all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
         }
 
-        if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+        if ((new ilMyStaffCachedAccessDecorator($DIC, ilMyStaffAccess::getInstance()))->hasCurrentUserAccessToMyStaff()) {
             $all[self::START_PD_MYSTAFF] = 'my_staff';
         }
     
@@ -352,18 +353,15 @@ class ilUserUtil
                 $roles = ilStartingPoint::getRolesWithStartingPoint();
 
                 $roles_ids = array_keys($roles);
-
                 $gr = array();
-                foreach ($rbacreview->getGlobalRoles() as $role_id) {
+                foreach ($roles_ids as $role_id) {
                     if ($rbacreview->isAssigned($ilUser->getId(), $role_id)) {
-                        if (in_array($role_id, $roles_ids)) {
-                            $gr[$roles[$role_id]['position']] = array(
-                                "point" => $roles[$role_id]['starting_point'],
-                                "object" => $roles[$role_id]['starting_object'],
-                                "cal_view" => $roles[$role_id]['calendar_view'],
-                                "cal_period" => $roles[$role_id]['calendar_period']
-                            );
-                        }
+                        $gr[$roles[$role_id]['position']] = array(
+                            "point" => $roles[$role_id]['starting_point'],
+                            "object" => $roles[$role_id]['starting_object'],
+                            "cal_view" => $roles[$role_id]['calendar_view'],
+                            "cal_period" => $roles[$role_id]['calendar_period']
+                        );
                     }
                 }
                 if (!empty($gr)) {

@@ -9,7 +9,7 @@ class ilLSLocalDI extends Container
 {
     public function init(
         ArrayAccess $dic,
-        ilLSDI $lsdic,
+        ArrayAccess $lsdic,
         DataFactory $data_factory,
         ilObjLearningSequence $object
     ) : void {

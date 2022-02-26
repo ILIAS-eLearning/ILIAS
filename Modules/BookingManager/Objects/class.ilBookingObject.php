@@ -127,7 +127,7 @@ class ilBookingObject
     
         $path = $this->initStorage($this->id, "file");
         $original = $a_upload["name"];
-        if (ilUtil::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
+        if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
             chmod($path . $original, 0770);
 
             $this->setFile($original);
@@ -191,7 +191,7 @@ class ilBookingObject
         $path = $this->initStorage($this->id, "post");
         $original = $a_upload["name"];
 
-        if (ilUtil::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
+        if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
             chmod($path . $original, 0770);
 
             $this->setPostFile($original);
@@ -449,7 +449,7 @@ class ilBookingObject
         // files
         $source = $this->initStorage($this->getId());
         $target = $new_obj->initStorage($new_obj->getId());
-        ilUtil::rCopy($source, $target);
+        ilFileUtils::rCopy($source, $target);
     }
 
     public static function lookupPoolId(int $object_id) : int

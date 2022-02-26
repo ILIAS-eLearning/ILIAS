@@ -29,7 +29,7 @@ class Js extends AbstractMediaWithPath
     {
         parent::__construct($content, $version);
         $this->add_version_number = $add_version_number;
-        $this->batch              = $batch;
+        $this->batch = $batch;
     }
     
     /**

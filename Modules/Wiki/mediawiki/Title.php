@@ -36,8 +36,8 @@ class Title
      */
     private static $titleCache = array();
     private static $interwikiCache = array();
-    
-    
+
+
     /**
      * All member variables should be considered private
      * Please use the accessor functions
@@ -322,9 +322,9 @@ class Title
     public static function legalChars()
     {
         global $wgLegalTitleChars;
-        
+
         $wgLegalTitleChars = " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+";
-        
+
         return $wgLegalTitleChars;
     }
 
@@ -356,7 +356,7 @@ class Title
         global $wgInterwikiCache, $wgContLang;
 
         return "";		// changed. alex
-        
+
         $fname = 'Title::getInterwikiLink';
 
         $key = $wgContLang->lc($key);
@@ -401,7 +401,7 @@ class Title
 
         return $s->iw_url;
     }
-    
+
     /**
      * Fetch interwiki prefix data from local cache in constant database
      *
@@ -845,7 +845,7 @@ class Title
                     $url = "{$wgScript}?title={$dbkey}&{$query}";
                 }
             }
-            
+
             // FIXME: this causes breakage in various places when we
             // actually expected a local URL and end up with dupe prefixes.
             if ($wgRequest->getVal('action') == 'render') {
@@ -981,7 +981,7 @@ class Title
                 }
             }
         }
-        
+
         if ($action == 'move' || $action == '') {
             $r = $this->getRestrictions('move');
             foreach ($wgRestrictionLevels as $level) {
@@ -1050,7 +1050,7 @@ class Title
             wfProfileOut($fname);
             return false;
         }
-        
+
         if (array_key_exists($this->mNamespace, $wgNamespaceProtection)) {
             $nsProt = $wgNamespaceProtection[ $this->mNamespace ];
             if (!is_array($nsProt)) {
@@ -1079,7 +1079,7 @@ class Title
             wfProfileOut($fname);
             return false;
         }
-        
+
         if ($doExpensiveQueries && !$this->isCssJsSubpage()) {
             # We /could/ use the protection level on the source page, but it's fairly ugly
             #  as we have to establish a precedence hierarchy for pages included by multiple
@@ -1100,7 +1100,7 @@ class Title
                 }
             }
         }
-        
+
         foreach ($this->getRestrictions($action) as $right) {
             // Backwards compatibility, rewrite sysop -> protect
             if ($right == 'sysop') {
@@ -1230,7 +1230,7 @@ class Title
     public function isSubpage()
     {
         global $wgNamespacesWithSubpages;
-        
+
         if (isset($wgNamespacesWithSubpages[ $this->mNamespace ])) {
             return (strpos($this->getText(), '/') !== false && $wgNamespacesWithSubpages[ $this->mNamespace ] == true);
         } else {
@@ -1559,7 +1559,7 @@ class Title
 
         $this->mInterwiki = $this->mFragment = '';
         $this->mNamespace = $this->mDefaultNamespace; # Usually NS_MAIN
-        
+
         $dbkey = $this->mDbkeyform;
 
         # Strip Unicode bidi override characters.
@@ -1567,7 +1567,7 @@ class Title
         # override chars get included in list displays.
         $dbkey = str_replace("\xE2\x80\x8E", '', $dbkey); // 200E LEFT-TO-RIGHT MARK
         $dbkey = str_replace("\xE2\x80\x8F", '', $dbkey); // 200F RIGHT-TO-LEFT MARK
-        
+
         # Clean up whitespace
         #
         $dbkey = preg_replace('/[ _]+/', '_', $dbkey);
@@ -1671,7 +1671,7 @@ class Title
                strpos($dbkey, '/../') !== false)) {
             return false;
         }
-        
+
         /**
          * Magic tilde sequences? Nu-uh!
          */
@@ -1718,7 +1718,7 @@ class Title
         if ($dbkey !== '' && ':' == $dbkey[0]) {
             return false;
         }
-        
+
         # Fill fields
         $this->mDbkeyform = $dbkey;
         $this->mUrlform = ilWikiUtil::wfUrlencode($dbkey);
@@ -2027,7 +2027,7 @@ class Title
         if ($u) {
             $u->doUpdate();
         }
-        
+
         global $wgUser;
         wfRunHooks('TitleMoveComplete', array( &$this, &$nt, &$wgUser, $pageid, $redirid ));
         return true;

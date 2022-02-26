@@ -66,11 +66,11 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
             $rows[$def->getId()]['name'] = (string) $def->getName();
 
             switch ($def->getType()) {
-                case IL_CDF_TYPE_SELECT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
                     $rows[$def->getId()]['type'] = $this->lng->txt('ps_type_select');
                     break;
 
-                case IL_CDF_TYPE_TEXT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
                     $rows[$def->getId()]['type'] = $this->lng->txt('ps_type_text');
                     break;
             }

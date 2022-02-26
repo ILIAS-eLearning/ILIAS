@@ -3,6 +3,8 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Container\Content\ViewManager;
+use ILIAS\Refinery;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
 
 /**
  * Class ilObjStudyProgrammeGUI class
@@ -39,18 +41,18 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     protected ilStudyProgrammeTypeRepository $type_repository;
     protected ilObjStudyProgrammeAutoCategoriesGUI $autocategories_gui;
     protected ?ilPRGPermissionsHelper $permissions = null;
+    protected Refinery\Factory $refinery;
+    protected RequestWrapper $request_wrapper;
 
     /**
      * @var ilObjStudyProgramme
      */
-    public $object;
+    public ?ilObject $object;
 
     protected ViewManager $container_view_manager;
 
     public function __construct()
     {
-        parent::__construct(array(), (int) $_GET['ref_id'], true, false);
-
         global $DIC;
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
@@ -62,6 +64,11 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $this->type = "prg";
         $this->help = $DIC['ilHelp'];
         $this->user = $DIC['ilUser'];
+        $this->refinery = $DIC->refinery();
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+
+        $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+        parent::__construct(array(), $ref_id, true, false);
 
         $lng = $DIC['lng'];
         $lng->loadLanguageModule("prg");
@@ -415,7 +422,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
      */
     public function getAsyncCreationForm() : ilAsyncPropertyFormGUI
     {
-        $asyncForm = new ilAsyncPropertyFormGUI();
+        $asyncForm = new ilAsyncPropertyFormGUI($this->request_wrapper);
 
         $tmp_forms = $this->initCreationForms('prg');
         $asyncForm->cloneForm($tmp_forms[self::CFORM_NEW]);
@@ -442,7 +449,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         if (!$this->getPermissionsHelper()->mayAnyOf($permissions)) {
             if ($this->getPermissionsHelper()->may(ilPRGPermissionsHelper::ROLEPERM_VIEW)) {
-                ilUtil::sendFailure($this->lng->txt("msg_no_perm_write"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_write"));
                 $this->ctrl->redirectByClass('ilinfoscreengui', '');
             } else {
                 $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
@@ -450,7 +457,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         }
     }
 
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         $this->help->setScreenIdComponent("prg");
         if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_READ)) {
@@ -668,12 +675,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
 
         if (!$this->getCreationMode() && $this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_READ)) {
-            $link = ilLink::_getLink($_GET["ref_id"], "iass");
-            $ilNavigationHistory->addItem($_GET['ref_id'], $link, 'prg');
+            $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+            $link = ilLink::_getLink($ref_id, "iass");
+            $ilNavigationHistory->addItem($ref_id, $link, 'prg');
         }
     }
 
-    protected function initHeaderAction($sub_type = null, $sub_id = null)
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null) : ?ilObjectListGUI
     {
         $lg = parent::initHeaderAction($sub_type, $sub_id);
         $validator = new ilCertificateDownloadValidator();
@@ -704,7 +712,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
         $validator = new ilCertificateDownloadValidator();
         if (false === $validator->isCertificateDownloadable($user_id, $obj_id)) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this);
         }
         $repository = new ilUserCertificateRepository();

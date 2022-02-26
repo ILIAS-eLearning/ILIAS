@@ -141,7 +141,7 @@ class ilBadgeImageTemplate
             $suffix = strtolower(array_pop($exp));
             $tgt = $path . "img" . $this->getId() . "." . $suffix;
 
-            if (ilUtil::moveUploadedFile($a_upload_meta["tmp_name"], "img" . $this->getId() . "." . $suffix, $tgt)) {
+            if (ilFileUtils::moveUploadedFile($a_upload_meta["tmp_name"], "img" . $this->getId() . "." . $suffix, $tgt)) {
                 $this->setImage($filename);
                 $this->update();
             }

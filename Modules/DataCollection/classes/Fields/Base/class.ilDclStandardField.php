@@ -12,12 +12,19 @@
  */
 class ilDclStandardField extends ilDclBaseFieldModel
 {
+    private \ilGlobalTemplateInterface $main_tpl;
+    public function __construct($a_id = 0)
+    {
+        parent::__construct($a_id);
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+    }
     public function doRead()
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
         $message = "Standard fields cannot be read from DB";
-        ilUtil::sendFailure($message);
+        $this->main_tpl->setOnScreenMessage('failure', $message);
         $ilLog->write("[ilDclStandardField] " . $message);
     }
 
@@ -26,7 +33,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
         global $DIC;
         $ilLog = $DIC['ilLog'];
         $message = "Standard fields cannot be written to DB";
-        ilUtil::sendFailure($message);
+        $this->main_tpl->setOnScreenMessage('failure', $message);
         $ilLog->write("[ilDclStandardField] " . $message);
     }
 

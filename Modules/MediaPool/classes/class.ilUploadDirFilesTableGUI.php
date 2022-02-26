@@ -68,7 +68,7 @@ class ilUploadDirFilesTableGUI extends ilTable2GUI
             if (is_file($this->upload_dir . "/" . $f)) {
                 $files[] = $f;
             } elseif (is_dir($this->upload_dir . "/" . $f)) {
-                $dir = ilUtil::getDir($this->upload_dir . "/" . $f, true);
+                $dir = ilFileUtils::getDir($this->upload_dir . "/" . $f, true);
                 foreach ($dir as $d) {
                     if ($d["type"] == "file") {
                         $files[] = $f . $d["subdir"] . "/" . $d["entry"];

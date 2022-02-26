@@ -56,7 +56,7 @@ abstract class SurveyQuestionEvaluation
                                         
         $this->parseResults(
             $results,
-            (array) $answers[0],
+            (array) ($answers[0] ?? []),
             method_exists($this->question, "getCategories")
                 ? $this->question->getCategories()
                 : null
@@ -147,12 +147,15 @@ abstract class SurveyQuestionEvaluation
                 $parsed = new ilSurveyEvaluationResultsAnswer(
                     $active_id,
                     $answer["value"],
-                    $answer["text"],
+                    (string) $answer["text"],
                     $answer["tstamp"]
                 );
                 $a_results->addAnswer($parsed);
 
                 if ($answer["value"] != "") {
+                    if (!isset($selections[$answer["value"]])) {
+                        $selections[$answer["value"]] = 0;
+                    }
                     $selections[$answer["value"]]++;
                 }
             }
@@ -199,12 +202,14 @@ abstract class SurveyQuestionEvaluation
                 $cat = $a_categories->getCategory($c);
                 $scale = $cat->scale;
 
+                $perc = null;
+                if ($total && isset($selections[$scale])) {
+                    $perc = $selections[$scale] / $total;
+                }
                 $var = new ilSurveyEvaluationResultsVariable(
                     $cat,
-                    $selections[$scale],
-                    $total
-                            ? $selections[$scale] / $total
-                            : null
+                    $selections[$scale] ?? null,
+                    $perc
                 );
                 $a_results->addVariable($var);
             }

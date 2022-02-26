@@ -32,10 +32,10 @@ class ilCalendarUtil
     public static string $init_done;
     protected static bool $init_datetimepicker = false;
 
-    public static function convertDateToUtcDBTimestamp(\ilDateTime $date = null) : string
+    public static function convertDateToUtcDBTimestamp(\ilDateTime $date = null) : ?string
     {
         if (is_null($date)) {
-            return $date;
+            return null;
         }
         if ($date instanceof \ilDate) {
             return $date->get(IL_CAL_DATE);
@@ -473,8 +473,11 @@ class ilCalendarUtil
 
     /**
      * Parse current user setting into date/time format
+     * @param ?int $a_add_time 1=hh:mm, 2=hh:mm:ss
+     * @param bool $a_for_parsing
+     * @return string
      */
-    public static function getUserDateFormat(bool $a_add_time = false, bool $a_for_parsing = false) : string
+    public static function getUserDateFormat(int $a_add_time = 0, bool $a_for_parsing = false) : string
     {
         global $DIC;
 

@@ -49,13 +49,19 @@ class ilContainer extends ilObject
     public const SORT_NEW_ITEMS_ORDER_CREATION = 1;
     public const SORT_NEW_ITEMS_ORDER_ACTIVATION = 2;
 
+    public const TILE_NORMAL = 0;
+    public const TILE_SMALL = 1;
+    public const TILE_LARGE = 2;
+    public const TILE_EXTRA_LARGE = 3;
+    public const TILE_FULL = 4;
+
     public static bool $data_preloaded = false;
 
     protected ilAccessHandler $access;
     protected ilRbacSystem $rbacsystem;
     protected ilObjUser $user;
     public array $items = [];
-    protected ilObjectDefinition $obj_definition;
+    protected ?ilObjectDefinition $obj_definition;
     protected int $order_type = 0;
     protected bool $hiddenfilesfound = false;
     protected bool $news_timeline = false;
@@ -67,7 +73,7 @@ class ilContainer extends ilObject
     protected bool $news_block_activated = false;
     protected bool $use_news = false;
     protected ilRecommendedContentManager $recommended_content_manager;
-
+    
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
         /** @var \ILIAS\DI\Container $DIC */
@@ -92,6 +98,21 @@ class ilContainer extends ilObject
         $this->recommended_content_manager = new ilRecommendedContentManager();
     }
 
+    /**
+     * @return array<int,string>
+     */
+    public function getTileSizes() : array
+    {
+        $lng = $this->lng;
+        return [
+            self::TILE_SMALL => $lng->txt("cont_tile_size_1"),
+            self::TILE_NORMAL => $lng->txt("cont_tile_size_0"),
+            self::TILE_LARGE => $lng->txt("cont_tile_size_2"),
+            self::TILE_EXTRA_LARGE => $lng->txt("cont_tile_size_3"),
+            self::TILE_FULL => $lng->txt("cont_tile_size_4")
+        ];
+    }
+
     public function getObjectTranslation() : ?ilObjectTranslation
     {
         return $this->obj_trans;
@@ -105,14 +126,14 @@ class ilContainer extends ilObject
     // <webspace_dir>/container_data.
     public function createContainerDirectory() : void
     {
-        $webspace_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir();
         $cont_dir = $webspace_dir . "/container_data";
         if (!is_dir($cont_dir)) {
-            ilUtil::makeDir($cont_dir);
+            ilFileUtils::makeDir($cont_dir);
         }
         $obj_dir = $cont_dir . "/obj_" . $this->getId();
         if (!is_dir($obj_dir)) {
-            ilUtil::makeDir($obj_dir);
+            ilFileUtils::makeDir($obj_dir);
         }
     }
     
@@ -123,7 +144,7 @@ class ilContainer extends ilObject
     
     public static function _getContainerDirectory(int $a_id) : string
     {
-        return ilUtil::getWebspaceDir() . "/container_data/obj_" . $a_id;
+        return ilFileUtils::getWebspaceDir() . "/container_data/obj_" . $a_id;
     }
 
     // Set Found hidden files (set by getSubItems).
@@ -355,10 +376,10 @@ class ilContainer extends ilObject
      * @param int copy id
      * @return object new object
      */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         /** @var ilObjCourse $new_obj */
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
         // translations
         $ot = ilObjectTranslation::getInstance($this->getId());
@@ -423,24 +444,24 @@ class ilContainer extends ilObject
      * @param int copy id
      * return bool
      */
-    public function cloneDependencies($a_target_id, $a_copy_id)
+    public function cloneDependencies(int $target_id, int $copy_id) : bool
     {
         $ilLog = $this->log;
         
-        parent::cloneDependencies($a_target_id, $a_copy_id);
+        parent::cloneDependencies($target_id, $copy_id);
 
-        ilContainerSorting::_getInstance($this->getId())->cloneSorting($a_target_id, $a_copy_id);
+        ilContainerSorting::_getInstance($this->getId())->cloneSorting($target_id, $copy_id);
 
         // fix internal links to other objects
-        ilContainer::fixInternalLinksAfterCopy($a_target_id, $a_copy_id, $this->getRefId());
+        ilContainer::fixInternalLinksAfterCopy($target_id, $copy_id, $this->getRefId());
         
         // fix item group references in page content
-        ilObjItemGroup::fixContainerItemGroupRefsAfterCloning($this, $a_copy_id);
+        ilObjItemGroup::fixContainerItemGroupRefsAfterCloning($this, $copy_id);
         
         $olp = ilObjectLP::getInstance($this->getId());
         $collection = $olp->getCollectionInstance();
         if ($collection) {
-            $collection->cloneCollection($a_target_id, $a_copy_id);
+            $collection->cloneCollection($target_id, $copy_id);
         }
 
         return true;
@@ -523,7 +544,7 @@ class ilContainer extends ilObject
      *
      * @return    bool    true if all object data were removed; false if only a references were removed
      */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -763,7 +784,7 @@ class ilContainer extends ilObject
         return false;
     }
     
-    public function create()
+    public function create() : int
     {
         global $DIC;
 
@@ -798,20 +819,20 @@ class ilContainer extends ilObject
         return $ret;
     }
 
-    public function putInTree($a_parent_ref)
+    public function putInTree(int $parent_ref) : void
     {
-        parent::putInTree($a_parent_ref);
+        parent::putInTree($parent_ref);
 
         // copy title, icon actions visibilities
-        if (self::_lookupContainerSetting(ilObject::_lookupObjId($a_parent_ref), "hide_header_icon_and_title")) {
+        if (self::_lookupContainerSetting(ilObject::_lookupObjId($parent_ref), "hide_header_icon_and_title")) {
             self::_writeContainerSetting($this->getId(), "hide_header_icon_and_title", true);
         }
-        if (self::_lookupContainerSetting(ilObject::_lookupObjId($a_parent_ref), "hide_top_actions")) {
+        if (self::_lookupContainerSetting(ilObject::_lookupObjId($parent_ref), "hide_top_actions")) {
             self::_writeContainerSetting($this->getId(), "hide_top_actions", true);
         }
     }
 
-    public function update()
+    public function update() : bool
     {
         $ret = parent::update();
 
@@ -834,7 +855,7 @@ class ilContainer extends ilObject
         return $ret;
     }
     
-    public function read()
+    public function read() : void
     {
         parent::read();
 
@@ -878,7 +899,11 @@ class ilContainer extends ilObject
             // using (part of) shortened description
             if ($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::DESC_LENGTH) {
                 foreach ($objects as $key => $object) {
-                    $objects[$key]["description"] = ilUtil::shortenText($object["description"], $short_desc_max_length, true);
+                    $objects[$key]["description"] = ilStr::shortenTextExtended(
+                        $object["description"],
+                        $short_desc_max_length,
+                        true
+                    );
                 }
             }
             // using (part of) long description
@@ -895,7 +920,11 @@ class ilContainer extends ilObject
                             $long_desc[$object["obj_id"]] = $object["description"];
                         }
                         if ($short_desc && $short_desc_max_length) {
-                            $long_desc[$object["obj_id"]] = ilUtil::shortenText($long_desc[$object["obj_id"]], $short_desc_max_length, true);
+                            $long_desc[$object["obj_id"]] = ilStr::shortenTextExtended(
+                                $long_desc[$object["obj_id"]],
+                                $short_desc_max_length,
+                                true
+                            );
                         }
                         $objects[$key]["description"] = $long_desc[$object["obj_id"]];
                     }

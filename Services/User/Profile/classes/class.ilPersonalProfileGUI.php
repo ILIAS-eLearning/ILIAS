@@ -143,12 +143,12 @@ class ilPersonalProfileGUI
         $ilUser = $DIC['ilUser'];
 
         if ($this->workWithUserSetting("upload")) {
-            if (!$this->form->hasFileUpload("userfile")) {
+            if (!$this->form->hasFileUpload("userfile") && $this->profile_request->getUserFileCapture() == "") {
                 if ($this->form->getItemByPostVar("userfile")->getDeletionFlag()) {
                     $ilUser->removeUserPicture();
                 }
             } else {
-                $webspace_dir = ilUtil::getWebspaceDir();
+                $webspace_dir = ilFileUtils::getWebspaceDir();
                 $image_dir = $webspace_dir . "/usr_images";
                 $store_file = "usr_" . $ilUser->getID() . "." . "jpg";
 
@@ -157,17 +157,31 @@ class ilPersonalProfileGUI
                 $ilUser->update();
 
                 // move uploaded file
-
-                $pi = pathinfo($_FILES["userfile"]["name"]);
-                $uploaded_file = $this->form->moveFileUpload(
-                    $image_dir,
-                    "userfile",
-                    "upload_" . $ilUser->getId() . "." . $pi["extension"]
-                );
-                if (!$uploaded_file) {
-                    ilUtil::sendFailure($this->lng->txt("upload_error", true));
-                    $this->ctrl->redirect($this, "showProfile");
+                // begin patch profile-image-patch – Killing 1.3.2021
+                if ($this->form->hasFileUpload("userfile")) {
+                    $pi = pathinfo($_FILES["userfile"]["name"]);
+                    $uploaded_file = $this->form->moveFileUpload(
+                        $image_dir,
+                        "userfile",
+                        "upload_" . $ilUser->getId() . "." . $pi["extension"]
+                    );
+                    if (!$uploaded_file) {
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
+                        $this->ctrl->redirect($this, "showProfile");
+                    }
+                } else {        // cam capture png
+                    $uploaded_file = $image_dir . "/" . "upload_" . $ilUser->getId() . ".png";
+                    $img = $this->profile_request->getUserFileCapture();
+                    $img = str_replace('data:image/png;base64,', '', $img);
+                    $img = str_replace(' ', '+', $img);
+                    $data = base64_decode($img);
+                    $success = file_put_contents($uploaded_file, $data);
+                    if (!$success) {
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
+                        $this->ctrl->redirect($this, "showProfile");
+                    }
                 }
+                // end patch profile-image-patch – Killing 1.3.2021
                 chmod($uploaded_file, 0770);
 
                 // take quality 100 to avoid jpeg artefacts when uploading jpeg files
@@ -176,22 +190,30 @@ class ilPersonalProfileGUI
                 $thumb_file = "$image_dir/usr_" . $ilUser->getId() . "_small.jpg";
                 $xthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xsmall.jpg";
                 $xxthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xxsmall.jpg";
-                $uploaded_file = ilUtil::escapeShellArg($uploaded_file);
-                $show_file = ilUtil::escapeShellArg($show_file);
-                $thumb_file = ilUtil::escapeShellArg($thumb_file);
-                $xthumb_file = ilUtil::escapeShellArg($xthumb_file);
-                $xxthumb_file = ilUtil::escapeShellArg($xxthumb_file);
+                $uploaded_file = ilShellUtil::escapeShellArg($uploaded_file);
+                $show_file = ilShellUtil::escapeShellArg($show_file);
+                $thumb_file = ilShellUtil::escapeShellArg($thumb_file);
+                $xthumb_file = ilShellUtil::escapeShellArg($xthumb_file);
+                $xxthumb_file = ilShellUtil::escapeShellArg($xxthumb_file);
                 
-                if (ilUtil::isConvertVersionAtLeast("6.3.8-3")) {
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file);
+                if (ilShellUtil::isConvertVersionAtLeast("6.3.8-3")) {
+                    ilShellUtil::execConvert(
+                        $uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file
+                    );
+                    ilShellUtil::execConvert(
+                        $uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file
+                    );
+                    ilShellUtil::execConvert(
+                        $uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file
+                    );
+                    ilShellUtil::execConvert(
+                        $uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file
+                    );
                 } else {
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
-                    ilUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
+                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
+                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
+                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
                 }
             }
         }
@@ -468,7 +490,9 @@ class ilPersonalProfileGUI
                 'TERMS_OF_SERVICE_CONTENT',
                 sprintf(
                     $this->lng->txt('no_agreement_description'),
-                    'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
+                    'mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
+                        ilSystemSupportContacts::getMailsToAddress()
+                    )
                 )
             );
         }
@@ -526,15 +550,15 @@ class ilPersonalProfileGUI
         }
         $this->termsOfServiceHelper->resetAcceptance($this->user);
 
-        $defaultAuth = AUTH_LOCAL;
+        $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
             $defaultAuth = $this->setting->get('auth_mode');
         }
 
         $withdrawalType = 0;
         if (
-            $this->user->getAuthMode() == AUTH_LDAP ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
+            $this->user->getAuthMode() == ilAuthUtils::AUTH_LDAP ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_LDAP)
         ) {
             $withdrawalType = 2;
         } elseif ($this->setting->get('tos_withdrawal_usr_deletion', false)) {
@@ -673,7 +697,9 @@ class ilPersonalProfileGUI
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             if ($definition['field_type'] == UDF_TYPE_TEXT) {
                 $this->tpl->setCurrentBlock("field_text");
-                $this->tpl->setVariable("FIELD_VALUE", ilUtil::prepareFormOutput($user_defined_data[$field_id]));
+                $this->tpl->setVariable("FIELD_VALUE",
+                    ilLegacyFormElementsUtil::prepareFormOutput($user_defined_data[$field_id])
+                );
                 if (!$definition['changeable']) {
                     $this->tpl->setVariable("DISABLED_FIELD", 'disabled=\"disabled\"');
                 }
@@ -687,19 +713,21 @@ class ilPersonalProfileGUI
                     $disabled = true;
                 }
                 $this->tpl->setCurrentBlock("field_select");
-                $this->tpl->setVariable("SELECT_BOX", ilUtil::formSelect(
-                    $user_defined_data[$field_id],
-                    $name,
-                    $this->user_defined_fields->fieldValuesToSelectArray(
-                        $definition['field_values']
-                    ),
-                    false,
-                    true,
-                    0,
-                    '',
-                    '',
-                    $disabled
-                ));
+                $this->tpl->setVariable("SELECT_BOX",
+                    ilLegacyFormElementsUtil::formSelect(
+                        $user_defined_data[$field_id],
+                        $name,
+                        $this->user_defined_fields->fieldValuesToSelectArray(
+                            $definition['field_values']
+                        ),
+                        false,
+                        true,
+                        0,
+                        '',
+                        '',
+                        $disabled
+                    )
+                );
             }
             $this->tpl->parseCurrentBlock();
             $this->tpl->setCurrentBlock("user_defined");
@@ -783,7 +811,7 @@ class ilPersonalProfileGUI
             $this->initPersonalDataForm();
             // catch feedback message
             if ($ilUser->getProfileIncomplete()) {
-                ilUtil::sendInfo($lng->txt("profile_incomplete"));
+                $this->tpl->setOnScreenMessage('info', $lng->txt("profile_incomplete"));
             }
         }
 
@@ -923,11 +951,11 @@ class ilPersonalProfileGUI
             if ((int) $ilSetting->get('allow_change_loginname') &&
                $un != $ilUser->getLogin()) {
                 if (!strlen($un) || !ilUtil::isLogin($un)) {
-                    ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+                    $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
                     $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('login_invalid'));
                     $form_valid = false;
                 } elseif (ilObjUser::_loginExists($un, $ilUser->getId())) {
-                    ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+                    $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
                     $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('loginname_already_exists'));
                     $form_valid = false;
                 } else {
@@ -936,7 +964,7 @@ class ilPersonalProfileGUI
                     try {
                         $ilUser->updateLogin($ilUser->getLogin());
                     } catch (ilUserException $e) {
-                        ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+                        $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
                         $this->form->getItemByPostVar('username')->setAlert($e->getMessage());
                         $form_valid = false;
                     }
@@ -957,7 +985,7 @@ class ilPersonalProfileGUI
                 $ilUser->update();
 
                 $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PROFILE_DATA);
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
                 $ilCtrl->redirect($this, "showPublicProfile");
             }
@@ -1299,7 +1327,7 @@ class ilPersonalProfileGUI
             // update lucene index
             ilLuceneIndexer::updateLuceneIndex(array((int) $GLOBALS['DIC']['ilUser']->getId()));
             
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
             $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PUBLISH_OPTIONS);
 
@@ -1462,7 +1490,7 @@ class ilPersonalProfileGUI
                 (int) $this->form->getInput("notes"),
                 (int) $this->form->getInput("calendar")
             );
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "");
         } else {
             $ilTabs->activateTab("export");

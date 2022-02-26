@@ -32,10 +32,10 @@ class ilPageObjectFactory
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"];
         $obj = new $class($a_id, $a_old_nr, $a_lang);
-        
+
         return $obj;
     }
-    
+
     /**
      * Get page config instance
      */
@@ -46,7 +46,7 @@ class ilPageObjectFactory
         $class = $def["class_name"] . "Config";
         $path = "./" . $def["component"] . "/" . $def["directory"] . "/class." . $class . ".php";
         $cfg = new $class();
-        
+
         return $cfg;
     }
 

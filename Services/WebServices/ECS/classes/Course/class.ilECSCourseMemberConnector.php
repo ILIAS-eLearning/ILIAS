@@ -1,22 +1,26 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
-include_once './Services/WebServices/ECS/classes/class.ilECSConnectorException.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Connector for course member ressource
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCourseMemberConnector extends ilECSConnector
 {
-
-    /**
-     * Constructor
-     * @param ilECSSetting $settings
-     */
     public function __construct(ilECSSetting $settings = null)
     {
         parent::__construct($settings);
@@ -27,7 +31,7 @@ class ilECSCourseMemberConnector extends ilECSConnector
      * Get single directory tree
      * @return array an array of ecs cms directory tree entries
      */
-    public function getCourseMember($course_member_id, $a_details = false)
+    public function getCourseMember($course_member_id, bool $a_details = false)
     {
         $this->path_postfix = '/campusconnect/course_members/' . (int) $course_member_id;
         
@@ -55,9 +59,8 @@ class ilECSCourseMemberConnector extends ilECSConnector
             
             // Return ECSEContentDetails for details switch
             if ($a_details) {
-                include_once './Services/WebServices/ECS/classes/class.ilECSEContentDetails.php';
                 $details = new ilECSEContentDetails();
-                $GLOBALS['DIC']['ilLog']->write(print_r($res, true));
+                $this->logger->debug(print_r($res, true));
                 $details->loadFromJson($ecs_result->getResult());
                 return $details;
             }

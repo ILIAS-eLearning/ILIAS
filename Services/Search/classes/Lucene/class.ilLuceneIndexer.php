@@ -62,12 +62,11 @@ class ilLuceneIndexer extends ilCronJob
     
     public function run() : ilCronJobResult
     {
-        
         $status = ilCronJobResult::STATUS_NO_ACTION;
         $error_message = null;
         
         try {
-                        ilRpcClientFactory::factory('RPCIndexHandler', 60)->index(
+            ilRpcClientFactory::factory('RPCIndexHandler', 60)->index(
                 CLIENT_ID . '_' . $this->setting->get('inst_id', "0"),
                 true
             );
@@ -104,15 +103,15 @@ class ilLuceneIndexer extends ilCronJob
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-                if (!ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
+        if (!ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
             return false;
         }
         
         try {
             ilLoggerFactory::getLogger('src')->info('Lucene update index call BEGIN --- ');
 
-                        ilRpcClientFactory::factory('RPCIndexHandler', 1)->indexObjects(
-                CLIENT_ID . '_' . $ilSetting->get('inst_id', 0),
+            ilRpcClientFactory::factory('RPCIndexHandler', 1)->indexObjects(
+                CLIENT_ID . '_' . $ilSetting->get('inst_id', "0"),
                 $a_obj_ids
             );
             ilLoggerFactory::getLogger('src')->info('Lucene update index call --- END');

@@ -368,9 +368,19 @@ class Container extends \Pimple\Container
         return new \ILIAS\Awareness\Service($this);
     }
     
-    public function fileServiceSettings(): \ilFileServicesSettings
+    public function fileServiceSettings() : \ilFileServicesSettings
     {
         return new \ilFileServicesSettings($this->settings());
+    }
+
+    public function contentStyle() : \ILIAS\Style\Content\Service
+    {
+        return new \ILIAS\Style\Content\Service($this);
+    }
+
+    public function cron() : \ilCronServices
+    {
+        return new \ilCronServicesImpl($this);
     }
 
     /**

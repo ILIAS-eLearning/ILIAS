@@ -114,7 +114,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("ALT_ICON", $txt_type);
-        $this->tpl->setVariable("SRC_ICON", ilObject::_getIcon("", "tiny", $a_set["type"]));
+        $this->tpl->setVariable("SRC_ICON", ilObject::_getIcon(0, "tiny", $a_set["type"]));
         $this->tpl->setVariable("PATH", $a_set["path"]);
         
         if ($a_set["readable"]) {

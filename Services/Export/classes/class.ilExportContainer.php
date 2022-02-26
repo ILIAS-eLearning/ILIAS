@@ -42,7 +42,7 @@ class ilExportContainer extends ilExport
         $sub_dir = $ts . "__" . IL_INST_ID . "__" . $a_type . "_" . $a_id;
 
         $this->cont_export_dir = $export_dir . DIRECTORY_SEPARATOR . $sub_dir;
-        ilUtil::makeDirParents($this->cont_export_dir);
+        ilFileUtils::makeDirParents($this->cont_export_dir);
 
         $log->debug('Using base directory: ' . $this->export_run_dir);
 
@@ -51,8 +51,8 @@ class ilExportContainer extends ilExport
         $this->addSubitems($a_id, $a_type, $a_target_release);
         $this->manifestWriterEnd($a_type, $a_id, $a_target_release);
 
-        ilUtil::zip($this->cont_export_dir, $this->cont_export_dir . '.zip');
-        ilUtil::delDir($this->cont_export_dir);
+        ilFileUtils::zip($this->cont_export_dir, $this->cont_export_dir . '.zip');
+        ilFileUtils::delDir($this->cont_export_dir);
         return [];
     }
 
@@ -96,10 +96,10 @@ class ilExportContainer extends ilExport
             $this->log->debug('Zip path ' . $exp_full);
 
             // Unzip
-            ilUtil::unzip($exp_full, true, false);
+            ilFileUtils::unzip($exp_full, true, false);
 
             // create set directory
-            ilUtil::makeDirParents($this->cont_export_dir . DIRECTORY_SEPARATOR . 'set_' . $set_number);
+            ilFileUtils::makeDirParents($this->cont_export_dir . DIRECTORY_SEPARATOR . 'set_' . $set_number);
 
             // cut .zip
             $new_path_rel = 'set_' . $set_number . DIRECTORY_SEPARATOR . $expi->getBasename();

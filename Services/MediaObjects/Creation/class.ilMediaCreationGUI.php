@@ -282,15 +282,15 @@ class ilMediaCreationGUI
             if (!is_dir($mob_dir)) {
                 $mob->createDirectory();
             }
-            $file_name = ilUtil::getASCIIFilename($_FILES['file']["name"]);
+            $file_name = ilFileUtils::getASCIIFilename($_FILES['file']["name"]);
             $file_name = str_replace(" ", "_", $file_name);
 
             $file = $mob_dir . "/" . $file_name;
             $title = $file_name;
             $locationType = "LocalFile";
             $location = $title;
-            ilUtil::moveUploadedFile($_FILES['file']['tmp_name'], $file_name, $file);
-            ilUtil::renameExecutables($mob_dir);
+            ilFileUtils::moveUploadedFile($_FILES['file']['tmp_name'], $file_name, $file);
+            ilFileUtils::renameExecutables($mob_dir);
 
             // get mime type, if not already set!
             $format = ilObjMediaObject::getMimeType($file, false);
@@ -492,7 +492,7 @@ class ilMediaCreationGUI
     {
         $ids = $this->request->getIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("select_one"));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
             $this->listPoolItems();
             return;
         }
@@ -501,7 +501,7 @@ class ilMediaCreationGUI
             $id = ilMediaPoolItem::lookupForeignId($pool_entry_id);
             $mob = new ilObjMediaObject((int) $id);
             if (!in_array($mob->getMediaItem("Standard")->getFormat(), $this->getMimeTypes())) {
-                ilUtil::sendFailure($this->lng->txt("mob_mime_type_not_allowed") . ": " .
+                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("mob_mime_type_not_allowed") . ": " .
                     $mob->getMediaItem("Standard")->getFormat());
                 $this->listPoolItems();
                 return;

@@ -103,7 +103,76 @@ class ilMediaItem
     {
         return $this->nr;
     }
-
+    
+    /**
+    * returns the best supported image type by this PHP build
+    *
+    * @param	string	$desired_type	desired image type ("jpg" | "gif" | "png")
+    *
+    * @return    string                    supported image type ("jpg" | "gif" | "png" | "")
+    * @static
+    *
+    */
+    private static function getGDSupportedImageType(string $a_desired_type) : string
+    {
+        $a_desired_type = strtolower($a_desired_type);
+        // get supported Image Types
+        $im_types = ImageTypes();
+        
+        switch ($a_desired_type) {
+            case "jpg":
+            case "jpeg":
+                if ($im_types&IMG_JPG) {
+                    return "jpg";
+                }
+                if ($im_types&IMG_GIF) {
+                    return "gif";
+                }
+                if ($im_types&IMG_PNG) {
+                    return "png";
+                }
+                break;
+            
+            case "gif":
+                if ($im_types&IMG_GIF) {
+                    return "gif";
+                }
+                if ($im_types&IMG_JPG) {
+                    return "jpg";
+                }
+                if ($im_types&IMG_PNG) {
+                    return "png";
+                }
+                break;
+            
+            case "png":
+                if ($im_types&IMG_PNG) {
+                    return "png";
+                }
+                if ($im_types&IMG_JPG) {
+                    return "jpg";
+                }
+                if ($im_types&IMG_GIF) {
+                    return "gif";
+                }
+                break;
+            
+            case "svg":
+                if ($im_types&IMG_PNG) {
+                    return "png";
+                }
+                if ($im_types&IMG_JPG) {
+                    return "jpg";
+                }
+                if ($im_types&IMG_GIF) {
+                    return "gif";
+                }
+                break;
+        }
+        
+        return "";
+    }
+    
     public function setDuration(int $a_val) : void
     {
         $this->duration = $a_val;
@@ -644,12 +713,19 @@ class ilMediaItem
     {
         return $this->parameters;
     }
-
+    
     public function getParameterString() : string
     {
-        return ilUtil::assembleParameterString($this->parameters);
+        if (is_array($this->parameters)) {
+            $target_arr = [];
+            foreach ($this->parameters as $par => $val) {
+                $target_arr[] = "$par=\"$val\"";
+            }
+            return implode(", ", $target_arr);
+        }
+        return "";
     }
-
+    
     public function getParameter(string $a_name) : string
     {
         return (string) ($this->parameters[$a_name] ?? "");
@@ -660,7 +736,7 @@ class ilMediaItem
      */
     public function getWorkDirectory() : string
     {
-        return ilUtil::getDataDir() . "/map_workfiles/item_" . $this->getId();
+        return ilFileUtils::getDataDir() . "/map_workfiles/item_" . $this->getId();
     }
 
     /**
@@ -668,12 +744,12 @@ class ilMediaItem
      */
     public function createWorkDirectory() : void
     {
-        if (!is_dir(ilUtil::getDataDir() . "/map_workfiles")) {
-            ilUtil::createDirectory(ilUtil::getDataDir() . "/map_workfiles");
+        if (!is_dir(ilFileUtils::getDataDir() . "/map_workfiles")) {
+            ilFileUtils::createDirectory(ilFileUtils::getDataDir() . "/map_workfiles");
         }
         $work_dir = $this->getWorkDirectory();
         if (!is_dir($work_dir)) {
-            ilUtil::createDirectory($work_dir);
+            ilFileUtils::createDirectory($work_dir);
         }
     }
 
@@ -692,7 +768,7 @@ class ilMediaItem
      */
     public function getMapWorkCopyType() : string
     {
-        return ilUtil::getGDSupportedImageType($this->getSuffix());
+        return self::getGDSupportedImageType($this->getSuffix());
     }
 
     /**
@@ -764,8 +840,8 @@ class ilMediaItem
                 $med_file = $this->getDirectory() . "/" . $this->getLocation();
 
                 if (is_file($med_file)) {
-                    ilUtil::convertImage($med_file, $thumb_file, $format, "80");
-                    ilUtil::convertImage($med_file, $thumb_file_small, $format, "40");
+                    ilShellUtil::convertImage($med_file, $thumb_file, $format, "80");
+                    ilShellUtil::convertImage($med_file, $thumb_file_small, $format, "40");
                 }
             }
             if ($a_size == "small") {
@@ -801,7 +877,7 @@ class ilMediaItem
             : "";
 
         if ($this->getLocationType() != "Reference") {
-            ilUtil::convertImage(
+            ilShellUtil::convertImage(
                 $this->getDirectory() . "/" . $this->getLocation(),
                 $this->getMapWorkCopyName(),
                 $this->getMapWorkCopyType(),
@@ -823,7 +899,7 @@ class ilMediaItem
             }
 
             // now, create working copy
-            ilUtil::convertImage(
+            ilShellUtil::convertImage(
                 $this->getMapWorkCopyName(true),
                 $this->getMapWorkCopyName(),
                 $this->getMapWorkCopyType(),

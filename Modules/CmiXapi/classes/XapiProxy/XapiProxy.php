@@ -1,31 +1,30 @@
 <?php declare(strict_types=1);
     namespace XapiProxy;
 
+    use GuzzleHttp\Psr7\Request;
+    use GuzzleHttp\Psr7\Response;
+
     /******************************************************************************
-     *
      * This file is part of ILIAS, a powerful learning management system.
-     *
      * ILIAS is licensed with the GPL-3.0, you should have received a copy
      * of said license along with the source code.
-     *
      * If this is not the case or you just want to try ILIAS, you'll find
      * us at:
      *      https://www.ilias.de
      *      https://github.com/ILIAS-eLearning
-     *
      *****************************************************************************/
     class XapiProxy extends XapiProxyPolyFill
     {
-        private $xapiProxyRequest;
-        private $xapiProxyResponse;
+        private XapiProxyRequest $xapiProxyRequest;
+        private XapiProxyResponse $xapiProxyResponse;
 
-        public function __construct($client, $token, $plugin = false)
+        public function __construct(string $client, string $token, ?bool $plugin = false)
         {
             parent::__construct($client, $token, $plugin);
             $this->log()->debug($this->msg('proxy initialized'));
         }
 
-        public function setRequestParams($request) : void
+        public function setRequestParams(Request $request) : void
         {
             preg_match(self::PARTS_REG, $request->getUri(), $this->cmdParts);
         }
@@ -169,7 +168,8 @@
                 }
                 if (count($up) === 0) { // nothing allowed
                     $this->log()->debug($this->msg("no allowed statements in array - fake response..."));
-                    $this->xapiProxyResponse->fakeResponseBlocked($ret);
+                    $this->xapiProxyResponse->fakeResponseBlocked("");
+//                    $this->xapiProxyResponse->fakeResponseBlocked($ret);
                 } elseif (count($up) !== count($ret)) { // mixed request with allowed and not allowed statements
                     $this->log()->debug($this->msg("mixed with allowed and unallowed statements"));
                     return array($up,$ret);

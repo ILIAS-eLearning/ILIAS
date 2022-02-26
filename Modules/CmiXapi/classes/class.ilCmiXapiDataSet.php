@@ -225,8 +225,8 @@ class ilCmiXapiDataSet extends ilDataSet
 
         // build content zip file
         if (isset($this->_archive['files']['content'])) {
-            $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
-            ilUtil::zip(
+            $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
+            ilFileUtils::zip(
                 $lmDir,
                 $this->_archive['directories']['tempDir'] . "/" . substr($this->_archive['files']['content'], 0, -4),
                 true

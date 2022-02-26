@@ -206,7 +206,7 @@ class assImagemapQuestionImport extends assQuestionImport
         $imagepath = $this->object->getImagePath();
         if (!file_exists($imagepath)) {
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            ilUtil::makeDirParents($imagepath);
+            ilFileUtils::makeDirParents($imagepath);
         }
         $imagepath .= $questionimage["label"];
         $fh = fopen($imagepath, "wb");

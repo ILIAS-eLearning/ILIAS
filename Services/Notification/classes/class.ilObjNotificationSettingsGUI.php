@@ -117,7 +117,7 @@ class ilObjNotificationSettingsGUI
                 }
             }
             $this->settings->save();
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $ctrl->redirect($this, "show");
         }
 

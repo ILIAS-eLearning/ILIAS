@@ -128,7 +128,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
                     foreach ($act->data as $k => $v) {
                         $tpl->setCurrentBlock("f_data");
                         $tpl->setVariable("DATA_KEY", $k);
-                        $tpl->setVariable("DATA_VAL", ilUtil::prepareFormOutput($v));
+                        $tpl->setVariable("DATA_VAL", ilLegacyFormElementsUtil::prepareFormOutput($v));
                         $tpl->parseCurrentBlock();
                     }
                 }
@@ -167,8 +167,8 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
 
 
         $result = ["html" => $tpl->get(),
-                   "filter_val" => ilUtil::prepareFormOutput($filter),
-                    "cnt" => $ad["cnt"]];
+                   "filter_val" => ilLegacyFormElementsUtil::prepareFormOutput($filter),
+                   "cnt" => $ad["cnt"]];
 
         if ($return) {
             $this->initJS();

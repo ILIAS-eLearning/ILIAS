@@ -26,16 +26,16 @@ class ilObjUser extends ilObject
     public const PASSWD_PLAIN = "plain";
     public const PASSWD_CRYPTED = "crypted";
     protected ?string $ext_account = null;
-    protected string $time_limit_message;
-    protected bool $time_limit_unlimited;
+    protected string $time_limit_message = "";
+    protected bool $time_limit_unlimited = false;
     protected ?int $time_limit_until = null;
     protected ?int $time_limit_from = null;
     protected ?int $time_limit_owner = null;
-    protected string $last_login;
+    protected string $last_login = "";
 
     public string $login = '';
-    protected string $passwd; // password encoded in the format specified by $passwd_type
-    protected string $passwd_type;
+    protected string $passwd = ""; // password encoded in the format specified by $passwd_type
+    protected string $passwd_type = "";
     // specifies the password format.
     // value: ilObjUser::PASSWD_PLAIN or ilObjUser::PASSWD_CRYPTED.
     // Differences between password format in class ilObjUser and
@@ -49,7 +49,7 @@ class ilObjUser extends ilObject
     // in the methods that perform SQL statements. All other
     // methods work exclusively with the $passwd and $passwd_type
     // variables.
-    protected string $password_encoding_type; // The encoding algorithm of the user's password stored in the database
+    protected ?string $password_encoding_type = null; // The encoding algorithm of the user's password stored in the database
     // A salt used to encrypt the user's password
     protected ?string $password_salt = null;
     public string $gender = "";	// 'm' or 'f'
@@ -94,9 +94,9 @@ class ilObjUser extends ilObject
     protected ?string $inactivation_date = null;
     private bool $is_self_registered = false; // flag for self registered users
     protected string $org_units = "";    // ids of assigned org-units, comma seperated
-    protected ?array $interests_general = null;
-    protected ?array $interests_help_offered = null;
-    protected ?array $interests_help_looking = null;
+    protected array $interests_general = [];
+    protected array $interests_help_offered = [];
+    protected array $interests_help_looking = [];
     protected string $last_profile_prompt = "";	// timestamp
     protected string $first_login = "";	// timestamp
     protected bool $profile_incomplete = false;
@@ -202,12 +202,12 @@ class ilObjUser extends ilObject
         parent::read();
     }
 
-    public function getPasswordEncodingType() : string
+    public function getPasswordEncodingType() : ?string
     {
         return $this->password_encoding_type;
     }
 
-    public function setPasswordEncodingType(string $password_encryption_type) : void
+    public function setPasswordEncodingType(?string $password_encryption_type) : void
     {
         $this->password_encoding_type = $password_encryption_type;
     }
@@ -242,10 +242,10 @@ class ilObjUser extends ilObject
             $this->setPasswd($a_data["passwd"], $a_data["passwd_type"]);
         }
 
-        $this->setGender($a_data["gender"]);
-        $this->setUTitle($a_data["title"]);
-        $this->setFirstname($a_data["firstname"]);
-        $this->setLastname($a_data["lastname"]);
+        $this->setGender((string) $a_data["gender"]);
+        $this->setUTitle((string) $a_data["title"]);
+        $this->setFirstname((string) $a_data["firstname"]);
+        $this->setLastname((string) $a_data["lastname"]);
         $this->setFullname();
         if (!is_array($a_data['birthday'])) {
             $this->setBirthday($a_data['birthday']);
@@ -254,22 +254,22 @@ class ilObjUser extends ilObject
         }
         
         // address data
-        $this->setInstitution($a_data["institution"]);
-        $this->setDepartment($a_data["department"]);
-        $this->setStreet($a_data["street"]);
-        $this->setCity($a_data["city"]);
-        $this->setZipcode($a_data["zipcode"]);
-        $this->setCountry($a_data["country"]);
-        $this->setSelectedCountry($a_data["sel_country"]);
-        $this->setPhoneOffice($a_data["phone_office"]);
-        $this->setPhoneHome($a_data["phone_home"]);
-        $this->setPhoneMobile($a_data["phone_mobile"]);
-        $this->setFax($a_data["fax"]);
-        $this->setMatriculation($a_data["matriculation"]);
-        $this->setEmail($a_data["email"]);
-        $this->setSecondEmail($a_data["second_email"]);
-        $this->setHobby($a_data["hobby"]);
-        $this->setClientIP($a_data["client_ip"]);
+        $this->setInstitution((string) $a_data["institution"]);
+        $this->setDepartment((string) $a_data["department"]);
+        $this->setStreet((string) $a_data["street"]);
+        $this->setCity((string) $a_data["city"]);
+        $this->setZipcode((string) $a_data["zipcode"]);
+        $this->setCountry((string) $a_data["country"]);
+        $this->setSelectedCountry((string) $a_data["sel_country"]);
+        $this->setPhoneOffice((string) $a_data["phone_office"]);
+        $this->setPhoneHome((string) $a_data["phone_home"]);
+        $this->setPhoneMobile((string) $a_data["phone_mobile"]);
+        $this->setFax((string) $a_data["fax"]);
+        $this->setMatriculation((string) $a_data["matriculation"]);
+        $this->setEmail((string) $a_data["email"]);
+        $this->setSecondEmail((string) $a_data["second_email"]);
+        $this->setHobby((string) $a_data["hobby"]);
+        $this->setClientIP((string) $a_data["client_ip"]);
         $this->setPasswordEncodingType($a_data['passwd_enc_type']);
         $this->setPasswordSalt($a_data['passwd_salt']);
 
@@ -279,12 +279,12 @@ class ilObjUser extends ilObject
         $this->setLocationZoom($a_data["loc_zoom"]);
 
         // system data
-        $this->setLastLogin($a_data["last_login"]);
-        $this->setFirstLogin($a_data["first_login"]);
+        $this->setLastLogin((string) $a_data["last_login"]);
+        $this->setFirstLogin((string) $a_data["first_login"]);
         $this->setLastProfilePrompt((string) $a_data["last_profile_prompt"]);
-        $this->setLastUpdate($a_data["last_update"]);
-        $this->create_date = $a_data["create_date"];
-        $this->setComment($a_data["referral_comment"]);
+        $this->setLastUpdate((string) $a_data["last_update"]);
+        $this->create_date = $a_data["create_date"] ?? "";
+        $this->setComment((string) $a_data["referral_comment"]);
         $this->approve_date = $a_data["approve_date"];
         $this->active = $a_data["active"];
         $this->agree_date = $a_data["agree_date"];
@@ -299,7 +299,7 @@ class ilObjUser extends ilObject
         $this->setTimeLimitMessage($a_data['time_limit_message']);
 
         // user profile incomplete?
-        $this->setProfileIncomplete($a_data["profile_incomplete"]);
+        $this->setProfileIncomplete((bool) $a_data["profile_incomplete"]);
 
         //authentication
         $this->setAuthMode($a_data['auth_mode']);
@@ -419,7 +419,7 @@ class ilObjUser extends ilObject
         );
     }
 
-    public function update()
+    public function update() : bool
     {
         global $DIC;
 
@@ -589,7 +589,7 @@ class ilObjUser extends ilObject
     
     public static function _lookupGender(int $a_user_id) : string
     {
-        return ilObjUser::_lookup($a_user_id, "gender");
+        return (string) ilObjUser::_lookup($a_user_id, "gender");
     }
 
     public static function _lookupClientIP(int $a_user_id) : string
@@ -1048,7 +1048,7 @@ class ilObjUser extends ilObject
         $this->prefs = ilObjUser::_getPreferences($this->id);
     }
 
-    public function delete()
+    public function delete() : bool
     {
         global $DIC;
 
@@ -1514,7 +1514,7 @@ class ilObjUser extends ilObject
         $r = $ilDB->query($q);
 
         while ($row = $ilDB->fetchAssoc($r)) {
-            return $row['value'];
+            return (string) $row['value'];
         }
         if (is_object($lng)) {
             return $lng->getDefaultLanguage();
@@ -2752,7 +2752,7 @@ class ilObjUser extends ilObject
             "WHERE auth_mode = %s";
         $types[] = "text";
         $values[] = $a_auth_mode;
-        if ($a_read_auth_default and ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode', AUTH_LOCAL)) == $a_auth_mode) {
+        if ($a_read_auth_default and ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode', ilAuthUtils::AUTH_LOCAL)) == $a_auth_mode) {
             $q .= " OR auth_mode = %s ";
             $types[] = "text";
             $values[] = 'default';
@@ -2925,7 +2925,7 @@ class ilObjUser extends ilObject
         string $tmp_file,
         int $obj_id
     ) : bool {
-        $webspace_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
         $store_file = "usr_" . $obj_id . "." . "jpg";
 
@@ -2938,10 +2938,10 @@ class ilObjUser extends ilObject
         $xthumb_file = "$image_dir/usr_" . $obj_id . "_xsmall.jpg";
         $xxthumb_file = "$image_dir/usr_" . $obj_id . "_xxsmall.jpg";
 
-        ilUtil::execConvert($tmp_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
-        ilUtil::execConvert($tmp_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-        ilUtil::execConvert($tmp_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
-        ilUtil::execConvert($tmp_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
+        ilShellUtil::execConvert($tmp_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
+        ilShellUtil::execConvert($tmp_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+        ilShellUtil::execConvert($tmp_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
+        ilShellUtil::execConvert($tmp_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
 
         // store filename
         self::_writePref($obj_id, "profile_image", $store_file);
@@ -3004,7 +3004,7 @@ class ilObjUser extends ilObject
             return;
         }
         
-        $webspace_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
         $images = array(
             "upload_" . $a_user_id . "pic",
@@ -3024,7 +3024,7 @@ class ilObjUser extends ilObject
     public function removeUserPicture(
         bool $a_do_update = true
     ) : void {
-        $webspace_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
         $file = $image_dir . "/usr_" . $this->getId() . "." . "jpg";
         $thumb_file = $image_dir . "/usr_" . $this->getId() . "_small.jpg";
@@ -4031,21 +4031,11 @@ class ilObjUser extends ilObject
         return $num_rows == count($a_usr_ids);
     }
 
-    public function isCaptchaVerified() : bool
-    {
-        return (bool) ilSession::get("user_captcha_verified");
-    }
-    
-    public function setCaptchaVerified(bool $a_val) : void
-    {
-        ilSession::set("user_captcha_verified", $a_val);
-    }
-    
     public function exportPersonalData() : void
     {
         $exp = new ilExport();
         $dir = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "personal_data");
-        ilUtil::delDir($dir, true);
+        ilFileUtils::delDir($dir, true);
         $title = $this->getLastname() . ", " . $this->getLastname() . " [" . $this->getLogin() . "]";
         $exp->exportEntity(
             "personal_data",
@@ -4063,7 +4053,7 @@ class ilObjUser extends ilObject
         if (!is_dir($dir)) {
             return "";
         }
-        foreach (ilUtil::getDir($dir) as $entry) {
+        foreach (ilFileUtils::getDir($dir) as $entry) {
             if (is_int(strpos($entry["entry"], ".zip"))) {
                 return $entry["entry"];
             }
@@ -4222,10 +4212,10 @@ class ilObjUser extends ilObject
         
     public function setGeneralInterests(?array $value = null) : void
     {
-        $this->interests_general = $value;
+        $this->interests_general = $value ?? [];
     }
     
-    public function getGeneralInterests() : ?array
+    public function getGeneralInterests() : array
     {
         return $this->interests_general;
     }
@@ -4240,10 +4230,10 @@ class ilObjUser extends ilObject
     
     public function setOfferingHelp(?array $value = null) : void
     {
-        $this->interests_help_offered = $value;
+        $this->interests_help_offered = $value ?? [];
     }
     
-    public function getOfferingHelp() : ?array
+    public function getOfferingHelp() : array
     {
         return $this->interests_help_offered;
     }
@@ -4258,10 +4248,10 @@ class ilObjUser extends ilObject
     
     public function setLookingForHelp(?array $value = null) : void
     {
-        $this->interests_help_looking = $value;
+        $this->interests_help_looking = $value ?? [];
     }
     
-    public function getLookingForHelp() : ?array
+    public function getLookingForHelp() : array
     {
         return $this->interests_help_looking;
     }

@@ -107,7 +107,7 @@ class ilForumAppEventListener implements ilAppEventListener
 
                         // If the author of the parent post wants to be notified and the author of the new post is not the same individual: Send a message
                         // This notification will be NOT send via cron job
-                        if ($immediate_notifications_enabled || ilCronManager::isJobActive('frm_notification')) {
+                        if ($immediate_notifications_enabled || $DIC->cron()->manager()->isJobActive('frm_notification')) {
                             if ($post->isActivated() && $post->getParentId() > 0) {
                                 $parent_post = new ilForumPost($post->getParentId());
                                 if (
@@ -341,7 +341,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         );
 
                         if ($post->isActivated()) {
-                            if (ilCronManager::isJobActive('frm_notification')) {
+                            if ($DIC->cron()->manager()->isJobActive('frm_notification')) {
                                 $logger->debug(
                                     'Notification delivery via cron job is enabled: ' .
                                     'Storing posting data for deferred "Posting/Thread Deleted" notifications ...'

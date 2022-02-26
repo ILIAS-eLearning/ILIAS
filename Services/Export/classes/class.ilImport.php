@@ -105,16 +105,16 @@ class ilImport
     ) : int {
 
         // create temporary directory
-        $tmpdir = ilUtil::ilTempnam();
-        ilUtil::makeDir($tmpdir);
+        $tmpdir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDir($tmpdir);
         if ($a_copy_file) {
             copy($a_tmp_file, $tmpdir . "/" . $a_filename);
         } else {
-            ilUtil::moveUploadedFile($a_tmp_file, $a_filename, $tmpdir . "/" . $a_filename);
+            ilFileUtils::moveUploadedFile($a_tmp_file, $a_filename, $tmpdir . "/" . $a_filename);
         }
 
         $this->log->debug("unzip: " . $tmpdir . "/" . $a_filename);
-        ilUtil::unzip($tmpdir . "/" . $a_filename);
+        ilFileUtils::unzip($tmpdir . "/" . $a_filename);
         $dir = $tmpdir . "/" . substr($a_filename, 0, strlen($a_filename) - 4);
         $this->setTemporaryImportDir($dir);
         $this->log->debug("dir: " . $dir);
@@ -124,7 +124,7 @@ class ilImport
             $new_id = $ret['new_id'];
         }
         // delete temporary directory
-        ilUtil::delDir($tmpdir);
+        ilFileUtils::delDir($tmpdir);
         return $new_id;
     }
 

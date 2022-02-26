@@ -81,7 +81,7 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->tableview->setRoles((array) $this->getInput('roles'));
         $this->tableview->update();
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
+        $this->global_tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_updated'), true);
     }
 
     public function createTableView()
@@ -100,6 +100,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
 
         $this->ctrl->setParameterByClass('ilDclTableViewGUI', 'tableview_id', $this->tableview->getId());
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_created'), true);
+        $this->global_tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_created'), true);
     }
 }

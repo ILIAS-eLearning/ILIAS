@@ -11,16 +11,6 @@
 class ilObjObjectFolderGUI extends ilObjectGUI
 {
     /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
     * Constructor
     *
     * @param	array	basic object data
@@ -30,10 +20,6 @@ class ilObjObjectFolderGUI extends ilObjectGUI
     */
     public function __construct($a_data, $a_id, $a_call_by_reference)
     {
-        global $DIC;
-
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->error = $DIC["ilErr"];
         $this->type = "objf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
     }
@@ -43,9 +29,9 @@ class ilObjObjectFolderGUI extends ilObjectGUI
     *
     * @access	public
     */
-    public function viewObject()
+    public function viewObject() : void
     {
-        $rbacsystem = $this->rbacsystem;
+        $rbacsystem = $this->rbac_system;
         $ilErr = $this->error;
 
         if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
@@ -77,7 +63,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
     }
 
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -98,17 +84,16 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
-    
+
     /**
     * get tabs
     * @access	public
     * @param	object	tabs gui object
     */
-    protected function getTabs()
+    protected function getTabs() : void
     {
-        $rbacsystem = $this->rbacsystem;
+        $rbacsystem = $this->rbac_system;
 
         if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(

@@ -8,15 +8,8 @@
  */
 class ilCronOerHarvester extends ilCronJob
 {
-    /**
-     * @param string
-     */
-    const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
-
-    /**
-     * @param int
-     */
-    const DEFAULT_SCHEDULE_VALUE = 1;
+    public const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
+    public const DEFAULT_SCHEDULE_VALUE = 1;
 
     private ilLogger $logger;
     private ilLanguage $lng;
@@ -80,7 +73,8 @@ class ilCronOerHarvester extends ilCronJob
         $target = new ilRepositorySelector2InputGUI(
             $this->lng->txt('meta_oer_target'),
             'target',
-            false
+            false,
+            $a_form
         );
 
         $explorer = $target->getExplorerGUI();
@@ -120,7 +114,7 @@ class ilCronOerHarvester extends ilCronJob
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
-        $this->settings->setTarget($a_form->getInput('target'));
+        $this->settings->setTarget((int) $a_form->getInput('target'));
         $this->settings->setCopyrightTemplates($a_form->getInput('copyright'));
         $this->settings->save();
 

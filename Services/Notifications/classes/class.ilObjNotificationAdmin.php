@@ -31,7 +31,7 @@ class ilObjNotificationAdmin extends ilObject
     *
     * @param bool upload mode (if enabled no entries in file_data will be done)
     */
-    public function create()
+    public function create() : int
     {
         return parent::create();
     }
@@ -39,7 +39,8 @@ class ilObjNotificationAdmin extends ilObject
     /**
     * @access	public
     */
-    public function delete()
+    public function delete() : bool
     {
+        return false;
     }
 } // END class.ilObjFile

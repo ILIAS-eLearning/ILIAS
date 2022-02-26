@@ -136,13 +136,9 @@ class ilWebResourceCronLinkCheck extends ilCronJob
         return $period;
     }
     
-    public function activationWasToggled(bool $a_currently_active) : void
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active) : void
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-                
         // propagate cron-job setting to object setting
-        $ilSetting->set("cron_web_resource_check", (bool) $a_currently_active);
+        $setting->set("cron_web_resource_check", (bool) ((int) $a_currently_active));
     }
 }

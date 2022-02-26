@@ -322,7 +322,7 @@ class ilUserXMLWriter extends ilXmlWriter
         if ($ilDB->numRows($r) == 1) {
             $personal_picture_data = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
             $personal_picture = $personal_picture_data["value"];
-            $webspace_dir = ilUtil::getWebspaceDir();
+            $webspace_dir = ilFileUtils::getWebspaceDir();
             $image_file = $webspace_dir . "/usr_images/" . $personal_picture;
             if (is_file($image_file)) {
                 $fh = fopen($image_file, "rb");

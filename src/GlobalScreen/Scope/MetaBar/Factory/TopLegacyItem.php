@@ -22,7 +22,6 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle
 {
-    
     protected ?Symbol $symbol = null;
     protected string $title = "";
     protected ?Legacy $content = null;
@@ -41,7 +40,7 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
      */
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->symbol = $symbol;
         
         return $clone;
@@ -68,7 +67,7 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
         
         return $clone;
@@ -84,7 +83,7 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
     
     public function withLegacyContent(Legacy $content) : self
     {
-        $clone          = clone $this;
+        $clone = clone $this;
         $clone->content = $content;
         
         return $clone;

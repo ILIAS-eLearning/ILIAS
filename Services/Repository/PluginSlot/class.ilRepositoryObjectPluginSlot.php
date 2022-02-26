@@ -25,7 +25,6 @@ class ilRepositoryObjectPluginSlot
     {
         global $DIC;
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
         $component_repository = $DIC["component.repository"];
         $plugins = $component_repository->getPluginSlotById("robj")->getActivePlugins();
         foreach ($plugins as $plugin) {

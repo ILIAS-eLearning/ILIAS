@@ -37,6 +37,7 @@ class ilDclTableListGUI
     public function __construct(ilObjDataCollectionGUI $a_parent_obj)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
@@ -52,7 +53,7 @@ class ilDclTableListGUI
         $this->toolbar = $ilToolbar;
 
         if (!$this->checkAccess()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
@@ -76,8 +77,7 @@ class ilDclTableListGUI
         $role_titles = $tableHelper->getRoleTitlesWithoutReadRightOnAnyStandardView();
 
         if (count($role_titles) > 0) {
-            ilUtil::sendInfo($DIC->language()->txt('dcl_rbac_roles_without_read_access_on_any_standard_view') . " " . implode(", ",
-                    $role_titles));
+            $this->tpl->setOnScreenMessage('info', $DIC->language()->txt('dcl_rbac_roles_without_read_access_on_any_standard_view') . " " . implode(", ", $role_titles));
         }
 
         switch ($next_class) {
@@ -199,7 +199,7 @@ class ilDclTableListGUI
         foreach ($tables as $table_id) {
             ilDclCache::getTableCache($table_id)->doDelete();
         }
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tables_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tables_deleted'), true);
         $this->ctrl->redirect($this, 'listTables');
     }
 
@@ -210,7 +210,7 @@ class ilDclTableListGUI
     public function checkTablesLeft($delete_count)
     {
         if ($delete_count >= count($this->getDataCollectionObject()->getTables())) {
-            ilUtil::sendFailure($this->lng->txt('dcl_msg_tables_delete_all'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_tables_delete_all'), true);
             $this->ctrl->redirect($this, 'listTables');
         }
     }

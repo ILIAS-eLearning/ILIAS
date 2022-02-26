@@ -55,7 +55,7 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
 
             return true;
         } catch (ilException $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->global_tpl->setOnScreenMessage('failure', $e->getMessage());
 
             return false;
         }
@@ -106,7 +106,7 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
                 }
             }
         } catch (ilException $e) {
-            ilUtil::sendFailure($this->lng->txt('orgu_type_msg_error_custom_icon'));
+            $this->global_tpl->setOnScreenMessage('failure', $this->lng->txt('orgu_type_msg_error_custom_icon'));
 
             return false;
         }

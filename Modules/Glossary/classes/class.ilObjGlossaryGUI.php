@@ -17,7 +17,7 @@
  * GUI class for ilGlossary
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
- * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilObjectMetaDataGUI, ilGlossaryForeignTermCollectorGUI
  */
@@ -37,6 +37,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
     protected ilHelpGUI $help;
     protected ilGlossaryTermPermission $term_perm;
     protected ilLogger $log;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         $a_data,
@@ -105,6 +107,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
         $this->in_administration =
             (strtolower($this->edit_request->getBaseClass()) == "iladministrationgui");
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
+        if (is_object($this->object)) {
+            $this->content_style_domain = $cs->domain()->styleForRefId((int) $this->object->getRefId());
+        }
     }
 
     public function executeCommand() : void
@@ -145,28 +152,19 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 $this->addHeaderAction();
                 $this->showInfoScreen();
                 break;
-                
-            case "ilobjstylesheetgui":
-                $this->ctrl->setReturn($this, "editStyleProperties");
-                $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
-                $style_gui->omitLocator();
-                if ($cmd == "create" || $this->edit_request->getNewType() == "sty") {
-                    $style_gui->setCreationMode(true);
-                }
 
-                if ($cmd == "confirmedDelete") {
-                    $this->object->setStyleSheetId(0);
-                    $this->object->update();
-                }
-
-                $ret = $this->ctrl->forwardCommand($style_gui);
-
-                if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
-                    $style_id = $ret;
-                    $this->object->setStyleSheetId($style_id);
-                    $this->object->update();
-                    $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-                }
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $this->tabs_gui->activateTab("settings");
+                $this->setSettingsSubTabs("style");
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
 
                 
@@ -302,12 +300,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->object = new ilObjGlossary($this->id, true);
     }
 
-    protected function initCreateForm($a_new_type)
+    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt($a_new_type . "_new"));
+        $form->setTitle($this->lng->txt($new_type . "_new"));
 
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -334,7 +332,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $tm->setRequired(true);
         $form->addItem($tm);
 
-        $form->addCommandButton("save", $this->lng->txt($a_new_type . "_add"));
+        $form->addCommandButton("save", $this->lng->txt($new_type . "_add"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
         return $form;
@@ -345,7 +343,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->createObject();
     }
 
-    public function saveObject()
+    public function saveObject() : void
     {
         $new_type = $this->edit_request->getNewType();
 
@@ -371,7 +369,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $this->putObjectInTree($newObj);
 
             // always send a message
-            ilUtil::sendSuccess($this->lng->txt("glo_added"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("glo_added"), true);
             ilUtil::redirect("ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=" . $newObj->getRefId());
         }
 
@@ -440,7 +438,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     }
     
     
-    public function viewObject()
+    public function viewObject() : void
     {
         if ($this->in_administration) {
             parent::viewObject();
@@ -647,7 +645,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             // Update ecs export settings
             $ecs = new ilECSGlossarySettings($this->object);
             if ($ecs->handleSettingsUpdate()) {
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirect($this, "properties");
             }
         }
@@ -728,7 +726,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $new_term = $this->edit_request->getNewTerm();
         if ($new_term == "") {
-            ilUtil::sendFailure($this->lng->txt("cont_please_enter_a_term"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_please_enter_a_term"), true);
             $this->ctrl->redirect($this, "listTerms");
         }
         
@@ -824,7 +822,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         );
         $page_gui = new ilGlossaryDefPageGUI($definition->getId());
         $page_gui->setTemplateOutput(false);
-        $page_gui->setStyleId($this->object->getStyleSheetId());
+        $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
         $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->requested_ref_id);
         $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->requested_ref_id);
         $page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->requested_ref_id);
@@ -876,11 +874,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $files = $this->edit_request->getFiles();
         if (count($files) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->ctrl->redirectByClass("ilexportgui", "");
         }
         if (count($files) > 1) {
-            ilUtil::sendFailure($this->lng->txt("cont_select_max_one_item"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"));
             $this->ctrl->redirectByClass("ilexportgui", "");
         }
         
@@ -901,7 +899,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $ids = $this->edit_request->getIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listTerms");
         }
         
@@ -909,7 +907,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         foreach ($ids as $term_id) {
             $term_glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
             if ($term_glo_id != $this->object->getId() && !ilGlossaryTermReferences::isReferenced([$this->object->getId()], $term_id)) {
-                ilUtil::sendFailure($this->lng->txt("glo_term_must_belong_to_glo"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("glo_term_must_belong_to_glo"), true);
                 $this->ctrl->redirect($this, "listTerms");
             }
         }
@@ -998,7 +996,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
         $term_glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
         if ($term_glo_id != $this->object->getId()) {
-            ilUtil::sendFailure($this->lng->txt("glo_term_must_belong_to_glo"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("glo_term_must_belong_to_glo"), true);
             $this->ctrl->redirect($this, "listTerms");
         }
 
@@ -1144,7 +1142,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $this->tabs->addSubTab(
                 "style",
                 $this->lng->txt("obj_sty"),
-                $this->ctrl->getLinkTarget($this, 'editStyleProperties')
+                $this->ctrl->getLinkTargetByClass("ilobjectcontentstylesettingsgui", '')
             );
 
             // taxonomy
@@ -1170,6 +1168,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
@@ -1182,7 +1181,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $ctrl->setParameterByClass("ilGlossaryPresentationGUI", "ref_id", $a_target);
             $ctrl->redirectByClass("ilGlossaryPresentationGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -1222,124 +1221,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $ctpl = $this->tpl;
         }
 
-        $ctpl->setCurrentBlock("ContentStyle");
-        $ctpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
-        );
-        $ctpl->parseCurrentBlock();
-    }
-    
-    
-    public function editStyleProperties() : void
-    {
-        $this->checkPermission("write");
-        
-        $this->initStylePropertiesForm();
-        $this->tpl->setContent($this->form->getHTML());
-
-        $this->tabs->activateTab("settings");
-        $this->setSettingsSubTabs("style");
-    }
-    
-    public function initStylePropertiesForm() : void
-    {
-        $this->lng->loadLanguageModule("style");
-
-        $this->form = new ilPropertyFormGUI();
-        
-        $fixed_style = $this->setting->get("fixed_content_style_id");
-        $style_id = $this->object->getStyleSheetId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($this->lng->txt("style_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")");
-            $this->form->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $this->requested_ref_id
-            );
-
-            $st_styles[0] = $this->lng->txt("default");
-            ksort($st_styles);
-
-            if ($style_id > 0) {
-                // individual style
-                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $st = new ilNonEditableValueGUI($this->lng->txt("style_current_style"));
-                    $st->setValue(ilObject::_lookupTitle($style_id));
-                    $this->form->addItem($st);
-
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
-
-                    // delete command
-                    $this->form->addCommandButton(
-                        "editStyle",
-                        $this->lng->txt("style_edit_style")
-                    );
-                    $this->form->addCommandButton(
-                        "deleteStyle",
-                        $this->lng->txt("style_delete_style")
-                    );
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
-                }
-            }
-
-            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_sel = ilUtil::formSelect(
-                    $style_id,
-                    "style_id",
-                    $st_styles,
-                    false,
-                    true
-                );
-                $style_sel = new ilSelectInputGUI($this->lng->txt("style_current_style"), "style_id");
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($style_id);
-                $this->form->addItem($style_sel);
-                //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
-                $this->form->addCommandButton(
-                    "saveStyleSettings",
-                    $this->lng->txt("save")
-                );
-                $this->form->addCommandButton(
-                    "createStyle",
-                    $this->lng->txt("sty_create_ind_style")
-                );
-            }
-        }
-        $this->form->setTitle($this->lng->txt("glo_style"));
-        $this->form->setFormAction($this->ctrl->getFormAction($this));
-    }
-
-    public function createStyle() : void
-    {
-        $this->ctrl->redirectByClass("ilobjstylesheetgui", "create");
-    }
-    
-    public function editStyle() : void
-    {
-        $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-    }
-
-    public function deleteStyle() : void
-    {
-        $this->ctrl->redirectByClass("ilobjstylesheetgui", "delete");
-    }
-
-    public function saveStyleSettings() : void
-    {
-        if ($this->setting->get("fixed_content_style_id") <= 0 &&
-            (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-            || $this->object->getStyleSheetId() == 0)) {
-            $this->object->setStyleSheetId($this->edit_request->getStyleId());
-            $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        }
-        $this->ctrl->redirect($this, "editStyleProperties");
+        $this->content_style_gui->addCss($ctpl, $this->object->getRefId());
     }
     
     /**
@@ -1489,7 +1371,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->object->setAutoGlossaries($glos);
         $this->object->update();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editGlossaries");
     }
 
@@ -1498,7 +1380,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->object->removeAutoGlossary($this->edit_request->getGlossaryId());
         $this->object->update();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editGlossaries");
     }
     
@@ -1509,7 +1391,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $items = $this->edit_request->getIds();
         if (count($items) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listTerms");
         }
 
@@ -1530,7 +1412,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         }
 
         ilEditClipboard::setAction("copy");
-        ilUtil::sendInfo($this->lng->txt("glo_selected_terms_have_been_copied"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("glo_selected_terms_have_been_copied"), true);
         $this->ctrl->redirect($this, "listTerms");
     }
     
@@ -1541,7 +1423,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $items = $this->edit_request->getIds();
         if (count($items) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listTerms");
         }
 
@@ -1562,7 +1444,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         }
 
         ilEditClipboard::setAction("link");
-        ilUtil::sendInfo($this->lng->txt("glo_selected_terms_have_been_copied"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("glo_selected_terms_have_been_copied"), true);
         $this->ctrl->redirect($this, "listTerms");
     }
 
@@ -1587,7 +1469,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             }
             $refs->update();
         }
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "listTerms");
     }
 }

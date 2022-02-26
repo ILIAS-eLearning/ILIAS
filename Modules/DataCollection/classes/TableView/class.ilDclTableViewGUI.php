@@ -42,6 +42,7 @@ class ilDclTableViewGUI
     public function __construct(ilDclTableListGUI $a_parent_obj, $table_id = 0)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $ilToolbar = $DIC['ilToolbar'];
@@ -66,7 +67,7 @@ class ilDclTableViewGUI
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
@@ -182,7 +183,7 @@ class ilDclTableViewGUI
             ilDclTableView::find($tableview_id)->delete();
         }
         $this->table->sortTableViews();
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableviews_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableviews_deleted'), true);
         $this->ctrl->redirect($this, 'show');
     }
 
@@ -193,7 +194,7 @@ class ilDclTableViewGUI
     public function checkViewsLeft($delete_count)
     {
         if ($delete_count >= count($this->table->getTableViews())) {
-            ilUtil::sendFailure($this->lng->txt('dcl_msg_tableviews_delete_all'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_tableviews_delete_all'), true);
             $this->ctrl->redirect($this, 'show');
         }
     }
@@ -210,7 +211,7 @@ class ilDclTableViewGUI
             $tableviews[] = ilDclTableView::find($tableview_id);
         }
         $this->table->sortTableViews($tableviews);
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableviews_order_updated'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableviews_order_updated'));
         $this->ctrl->redirect($this);
     }
 }

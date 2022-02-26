@@ -41,7 +41,7 @@ class ilContainerFilterAdminGUI
         $this->lng = $DIC->language();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->container_gui = $container_gui;
-        $this->ref_id = $this->container_gui->object->getRefId();
+        $this->ref_id = $this->container_gui->getObject()->getRefId();
         $this->toolbar = $DIC["ilToolbar"];
         $this->ui = $DIC->ui();
         $this->request = $DIC->http()->request();
@@ -84,7 +84,7 @@ class ilContainerFilterAdminGUI
         $this->toolbar->addComponent($button);
 
         /** @var $container ilObjCategory */
-        $container = $this->container_gui->object;
+        $container = $this->container_gui->getObject();
         $table = new ilContainerFilterTableGUI(
             $this,
             "show",
@@ -179,7 +179,7 @@ class ilContainerFilterAdminGUI
                     }
                 }
             }
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             $service->data()->saveFilterSetForRefId($this->ref_id, $service->set($fields));
         }
         $ctrl->redirect($this, "");

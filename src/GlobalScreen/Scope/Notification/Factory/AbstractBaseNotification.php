@@ -24,7 +24,6 @@ use ILIAS\UI\Factory as UIFactory;
  */
 abstract class AbstractBaseNotification implements isStandardItem
 {
-    
     protected IdentificationInterface $provider_identification;
     
     /**
@@ -70,7 +69,7 @@ abstract class AbstractBaseNotification implements isStandardItem
      */
     public function withOpenedCallable(callable $handle_opened) : isItem
     {
-        $clone                = clone $this;
+        $clone = clone $this;
         $clone->handle_opened = $handle_opened;
         return $clone;
     }
@@ -88,7 +87,7 @@ abstract class AbstractBaseNotification implements isStandardItem
      */
     public function withClosedCallable(callable $handle_closed) : isItem
     {
-        $clone                = clone $this;
+        $clone = clone $this;
         $clone->handle_closed = $handle_closed;
         return $clone;
     }

@@ -29,7 +29,6 @@ abstract class ilContainerContentGUI
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected ilAccessHandler $access;
-    protected ilPluginAdmin $plugin_admin;
     protected ilDBInterface $db;
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $settings;
@@ -60,7 +59,6 @@ abstract class ilContainerContentGUI
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->db = $DIC->database();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->settings = $DIC->settings();
@@ -69,7 +67,7 @@ abstract class ilContainerContentGUI
 
         $this->container_gui = $container_gui_obj;
         /** @var $obj ilContainer */
-        $obj = $this->container_gui->object;
+        $obj = $this->container_gui->getObject();
         $this->container_obj = $obj;
 
         $tpl->addJavaScript("./Services/Container/js/Container.js");
@@ -444,7 +442,7 @@ abstract class ilContainerContentGUI
                 if (isset($this->items[$type]) && is_array($this->items[$type]) && $this->renderer->addTypeBlock($type)) {
                     // :TODO: obsolete?
                     if ($type == 'sess') {
-                        $this->items['sess'] = ilUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
+                        $this->items['sess'] = ilArrayUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
                     }
                     
                     $position = 1;
@@ -470,7 +468,8 @@ abstract class ilContainerContentGUI
         array $a_item_data,
         int $a_position = 0,
         bool $a_force_icon = false,
-        string $a_pos_prefix = ""
+        string $a_pos_prefix = "",
+        string $item_group_list_presentation = ""
     ) {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
@@ -481,7 +480,14 @@ abstract class ilContainerContentGUI
             return '';
         }
 
-        if ($this->getViewMode() == self::VIEW_MODE_TILE) {
+        $view_mode = $this->getViewMode();
+        if ($item_group_list_presentation != "") {
+            $view_mode = ($item_group_list_presentation == "tile")
+                ? self::VIEW_MODE_TILE
+                : self::VIEW_MODE_LIST;
+        }
+
+        if ($view_mode == self::VIEW_MODE_TILE) {
             return $this->renderCard($a_item_data, $a_position, $a_force_icon, $a_pos_prefix);
         }
 
@@ -772,7 +778,7 @@ abstract class ilContainerContentGUI
         $lng->loadLanguageModule("rep");
 
         $tpl = new ilTemplate("tpl.rep_intro.html", true, true, "Services/Repository");
-        $tpl->setVariable("IMG_REP_LARGE", ilObject::_getIcon("", "big", "root"));
+        $tpl->setVariable("IMG_REP_LARGE", ilObject::_getIcon(0, "big", "root"));
         $tpl->setVariable("TXT_WELCOME", $lng->txt("rep_intro"));
         $tpl->setVariable("TXT_INTRO_1", $lng->txt("rep_intro1"));
         $tpl->setVariable("TXT_INTRO_2", $lng->txt("rep_intro2"));
@@ -842,13 +848,14 @@ abstract class ilContainerContentGUI
         $commands_html = $item_list_gui->getCommandsHTML();
 
         // determine behaviour
-        $beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
+        $item_group = new ilObjItemGroup($a_itgr["ref_id"]);
+        $beh = $item_group->getBehaviour();
         $stored_val = $this->block_repo->getProperty(
             "itgr_" . $a_itgr["ref_id"],
             $ilUser->getId(),
             "opened"
         );
-        if ($beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
+        if ($stored_val != "" && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
             $beh = ($stored_val == "1")
                 ? ilItemGroupBehaviour::EXPANDABLE_OPEN
                 : ilItemGroupBehaviour::EXPANDABLE_CLOSED;
@@ -879,7 +886,7 @@ abstract class ilContainerContentGUI
         $position = 1;
         foreach ($items as $item) {
             // we are NOT using hasItem() here, because item might be in multiple item groups
-            $html2 = $this->renderItem($item, $position++, false, "[itgr][" . $a_itgr['obj_id'] . "]");
+            $html2 = $this->renderItem($item, $position++, false, "[itgr][" . $a_itgr['obj_id'] . "]", $item_group->getListPresentation());
             if ($html2 != "") {
                 // :TODO: show it multiple times?
                 $this->renderer->addItemToBlock($a_itgr["ref_id"], $item["type"], $item["child"], $html2, true);

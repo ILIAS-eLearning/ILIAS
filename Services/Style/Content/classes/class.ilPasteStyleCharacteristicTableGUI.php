@@ -1,27 +1,19 @@
 <?php
 
-use \ILIAS\Style\Content;
+use ILIAS\Style\Content;
 
 /**
  * Paste style overview table
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>s
  */
 class ilPasteStyleCharacteristicTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected string $from_style_type;
+    protected int $from_style_id;
+    protected ilAccessHandler $access;
+    protected Content\CharacteristicManager $manager;
 
-    /**
-     * @var Content\CharacteristicManager
-     */
-    protected $manager;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -41,7 +33,10 @@ class ilPasteStyleCharacteristicTableGUI extends ilTable2GUI
         $this->setLimit(9999);
         $this->from_style_id = $this->manager->getCopyCharacteristicStyleId();
         $this->from_style_type = $this->manager->getCopyCharacteristicStyleType();
-        $this->setData($this->manager->getCopyCharacteristics());
+        $this->setData(array_map(function ($c) {
+            return ["char" => $c];
+        }, $this->manager->getCopyCharacteristics()));
+
         $this->addColumn($this->lng->txt("name"));
         $this->addColumn($this->lng->txt("type"));
         $this->addColumn($this->lng->txt("sty_if_style_class_already_exists"));
@@ -65,8 +60,8 @@ class ilPasteStyleCharacteristicTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
 
-        $char = explode(".", $a_set);
-        $this->tpl->setVariable("CHAR", $a_set);
+        $char = explode(".", $a_set["char"]);
+        $this->tpl->setVariable("CHAR", $a_set["char"]);
         $this->tpl->setVariable("SEL_OVERWRITE", 'checked="checked"');
         $this->tpl->setVariable("VAL_TYPE", $lng->txt("sty_type_" . $char[0]));
         $this->tpl->setVariable("VAL_TITLE", $char[2]);

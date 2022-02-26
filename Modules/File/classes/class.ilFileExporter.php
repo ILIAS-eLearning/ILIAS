@@ -70,7 +70,7 @@ class ilFileExporter extends ilXmlExporter
             $writer->setFile($file);
             $writer->setOmitHeader(true);
             $writer->setAttachFileContents(ilFileXMLWriter::$CONTENT_ATTACH_COPY);
-            ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+            ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
             $writer->setFileTargetDirectories(
                 $this->getRelativeExportDirectory(),
                 $this->getAbsoluteExportDirectory()

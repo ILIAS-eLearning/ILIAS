@@ -154,7 +154,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     {
         $dl = DateTimeImmutable::createFromFormat('Ymd', '20201011');
         $spp = (new ilStudyProgrammeProgress(123))->withValidityOfQualification($dl);
-        $this->assertEquals($spp->getValidityOfQualification()->format('Ymd'), '20201011');
+        $this->assertEquals('20201011', $spp->getValidityOfQualification()->format('Ymd'));
     }
 
     /**

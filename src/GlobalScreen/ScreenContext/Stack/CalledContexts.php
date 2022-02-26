@@ -22,7 +22,6 @@ use LogicException;
  */
 final class CalledContexts extends ContextCollection
 {
-    
     private array $call_locations = [];
     
     /**
@@ -36,7 +35,7 @@ final class CalledContexts extends ContextCollection
     /**
      * @param ScreenContext $context
      */
-    public function push(ScreenContext $context): void
+    public function push(ScreenContext $context) : void
     {
         $this->claim($context);
     }
@@ -44,13 +43,13 @@ final class CalledContexts extends ContextCollection
     public function clear() : void
     {
         $this->call_locations = [];
-        $this->stack          = [];
+        $this->stack = [];
     }
     
     /**
      * @param ScreenContext $context
      */
-    public function claim(ScreenContext $context): void
+    public function claim(ScreenContext $context) : void
     {
         $this->checkCallLocation($context);
         
@@ -67,11 +66,11 @@ final class CalledContexts extends ContextCollection
     /**
      * @param ScreenContext $context
      */
-    private function checkCallLocation(ScreenContext $context): void
+    private function checkCallLocation(ScreenContext $context) : void
     {
         $called_classes = array_filter(
             debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-            function ($item): bool {
+            function ($item) : bool {
                 if (!isset($item['class'])) {
                     return false;
                 }
@@ -81,7 +80,7 @@ final class CalledContexts extends ContextCollection
         );
         array_walk(
             $called_classes,
-            function (&$item): void {
+            function (&$item) : void {
                 $item = $item['class'] . ":" . $item['line'];
             }
         );

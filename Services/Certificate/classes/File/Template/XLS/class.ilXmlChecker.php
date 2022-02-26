@@ -1,26 +1,17 @@
 <?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * XML checker
  * @author  Helmut Schottmüller <ilias@aurealis.de>
@@ -41,9 +32,9 @@ class ilXMLChecker extends ilSaxParser
     public int $texts;
     public int $text_size;
 
-    public function __construct(string $a_xml_file = '', bool $throwException = false)
+    public function __construct(string $a_xml_file = '', bool $throw_exception = false)
     {
-        parent::__construct($a_xml_file, $throwException);
+        parent::__construct($a_xml_file, $throw_exception);
         $this->has_error = false;
     }
 
@@ -60,7 +51,7 @@ class ilXMLChecker extends ilSaxParser
     /**
      * @param XmlParser|resource $a_xml_parser
      */
-    public function parse($a_xml_parser, $a_fp = null) : bool
+    public function parse($a_xml_parser, $a_fp = null) : void
     {
         $parseOk = false;
         switch ($this->getInputType()) {
@@ -81,10 +72,7 @@ class ilXMLChecker extends ilSaxParser
             $this->error_col = xml_get_current_column_number($a_xml_parser);
             $this->error_msg = xml_error_string($this->error_code);
             $this->has_error = true;
-            return false;
         }
-
-        return true;
     }
 
     /**

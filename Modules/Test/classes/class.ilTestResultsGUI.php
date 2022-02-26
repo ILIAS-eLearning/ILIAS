@@ -50,6 +50,7 @@ class ilTestResultsGUI
      * @var ilTestObjectiveOrientedContainer
      */
     protected $objectiveParent;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilTestParticipantsGUI constructor.
@@ -57,6 +58,8 @@ class ilTestResultsGUI
      */
     public function __construct(ilObjTest $testObj, ilTestQuestionSetConfig $questionSetConfig)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->testObj = $testObj;
         $this->questionSetConfig = $questionSetConfig;
     }
@@ -360,6 +363,6 @@ class ilTestResultsGUI
                 break;
         }
         
-        ilUtil::sendInfo($message);
+        $this->main_tpl->setOnScreenMessage('info', $message);
     }
 }

@@ -580,7 +580,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             $btn = ilLinkButton::getInstance();
             $btn->setCaption('download_assessment_paper');
             $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
-            $btn->setUrl($this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_FILE, false, true));
+            $btn->setUrl($this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_FILE, "", false, true));
             $this->ctrl->setParameter($this, 'usr_id', null);
             $this->toolbar->addButtonInstance($btn);
         }

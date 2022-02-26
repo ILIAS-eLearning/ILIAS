@@ -37,7 +37,7 @@ class ilObjFileBasedLM extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function update(bool $a_skip_meta = false)
+    public function update(bool $a_skip_meta = false) : bool
     {
         $ilDB = $this->db;
 
@@ -64,11 +64,11 @@ class ilObjFileBasedLM extends ilObject
         $this->setStartFile((string) $lm_rec["startfile"]);
     }
 
-    public function create(bool $a_skip_meta = false)
+    public function create(bool $a_skip_meta = false) : int
     {
         $ilDB = $this->db;
 
-        parent::create();
+        $id = parent::create();
         $this->createDataDirectory();
 
         $ilDB->manipulate("INSERT INTO file_based_lm (id, startfile) VALUES " .
@@ -77,11 +77,12 @@ class ilObjFileBasedLM extends ilObject
         if (!$a_skip_meta) {
             $this->createMetaData();
         }
+        return $id;
     }
 
     public function getDataDirectory(string $mode = "filesystem") : string
     {
-        $lm_data_dir = ilUtil::getWebspaceDir($mode) . "/lm_data";
+        $lm_data_dir = ilFileUtils::getWebspaceDir($mode) . "/lm_data";
         $lm_dir = $lm_data_dir . "/lm_" . $this->getId();
 
         return $lm_dir;
@@ -89,7 +90,7 @@ class ilObjFileBasedLM extends ilObject
 
     public function createDataDirectory() : void
     {
-        ilUtil::makeDir($this->getDataDirectory());
+        ilFileUtils::makeDir($this->getDataDirectory());
     }
 
     public function getStartFile() : ?string
@@ -115,7 +116,7 @@ class ilObjFileBasedLM extends ilObject
         return ilObjFileBasedLMAccess::_lookupDiskUsage($this->id);
     }
 
-    public function delete()
+    public function delete() : bool
     {
         $ilDB = $this->db;
 
@@ -132,7 +133,7 @@ class ilObjFileBasedLM extends ilObject
             $ilDB->quote($this->getId(), "integer"));
 
         // delete data directory
-        ilUtil::delDir($this->getDataDirectory());
+        ilFileUtils::delDir($this->getDataDirectory());
 
         return true;
     }
@@ -151,11 +152,11 @@ class ilObjFileBasedLM extends ilObject
         if (is_dir($a_dir . "/htlm_" . $match[1])) {
             $a_dir = $a_dir . "/htlm_" . $match[1];
         }
-        ilUtil::rCopy($a_dir, $this->getDataDirectory());
-        ilUtil::renameExecutables($this->getDataDirectory());
+        ilFileUtils::rCopy($a_dir, $this->getDataDirectory());
+        ilFileUtils::renameExecutables($this->getDataDirectory());
     }
     
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $this->cloneMetaData($new_obj);
@@ -176,5 +177,10 @@ class ilObjFileBasedLM extends ilObject
         $new_obj->update();
 
         return $new_obj;
+    }
+
+    public function isInfoEnabled() : bool
+    {
+        return ilObjContentObjectAccess::isInfoEnabled($this->getId());
     }
 }

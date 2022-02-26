@@ -52,7 +52,7 @@ class ilFavouritesListGUI
             foreach ($group->getItems() as $item) {
                 $items[] = $f->item()->standard(
                     $f->link()->standard($item["title"], ilLink::_getLink($item["ref_id"]))
-                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($item["obj_id"]), $item["title"]));
+                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon((int) $item["obj_id"]), $item["title"]));
             }
             if (count($items) > 0) {
                 $item_groups[] = $f->item()->group($group->getLabel(), $items);

@@ -746,7 +746,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         if (is_array($hl) && in_array($a_child["node_id"], $hl)) {
             $a_tpl->setVariable("CLASS", ' class="ilHFormHighlighted" ');
         }
-        $a_tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->getChildTitle($a_child)));
+        $a_tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->getChildTitle($a_child)));
         $a_tpl->setVariable("TNODE_ID", $a_child["node_id"]);
         $a_tpl->parseCurrentBlock();
         $grandchilds = [];

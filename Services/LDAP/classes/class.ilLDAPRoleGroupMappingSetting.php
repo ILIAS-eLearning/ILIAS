@@ -1,34 +1,43 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
- *
- *
  * @author Fabian Wolf <wolf@leifos.de>
- * @version $Id: $
- * @ingroup Services/LDAP
  */
 class ilLDAPRoleGroupMappingSetting
 {
-    /**
-     * constructor
-     * @global ilDB $ilDB
-     * @param int $a_mapping_id
-     */
-    public function __construct($a_mapping_id)
+    private ilDBInterface $db;
+    private ilObjectDataCache $ilObjDataCache;
+    private ilRbacReview $rbacreview;
+
+    private int $mapping_id;
+
+    public function __construct(int $a_mapping_id)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        $this->db = $ilDB;
+        $this->db = $DIC->database();
+        $this->ilObjDataCache = $DIC['ilObjDataCache'];
+        $this->rbacreview = $DIC['rbacreview'];
         $this->mapping_id = $a_mapping_id;
     }
     
     /**
      * read data from db
      */
-    public function read()
+    public function read() : void
     {
         $query = "SELECT * FROM ldap_rg_mapping "
                 . "WHERE mapping_id = " . $this->db->quote($this->getMappingId(), 'integer');
@@ -49,17 +58,17 @@ class ilLDAPRoleGroupMappingSetting
     /**
      * delete mapping by id
      */
-    public function delete()
+    public function delete() : void
     {
         $query = "DELETE FROM ldap_rg_mapping " .
             "WHERE mapping_id = " . $this->db->quote($this->getMappingId(), 'integer');
-        $res = $this->db->manipulate($query);
+        $this->db->manipulate($query);
     }
     
     /**
      * update mapping by id
      */
-    public function update()
+    public function update() : void
     {
         $query = "UPDATE ldap_rg_mapping " .
                     "SET server_id = " . $this->db->quote($this->getServerId(), 'integer') . ", " .
@@ -71,13 +80,13 @@ class ilLDAPRoleGroupMappingSetting
                     "mapping_info = " . $this->db->quote($this->getMappingInfo(), 'text') . ", " .
                     "mapping_info_type = " . $this->db->quote($this->getMappingInfoType(), 'integer') . " " .
                     "WHERE mapping_id = " . $this->db->quote($this->getMappingId(), 'integer');
-        $res = $this->db->manipulate($query);
+        $this->db->manipulate($query);
     }
     
     /**
      * create new mapping
      */
-    public function save()
+    public function save() : void
     {
         $this->setMappingId($this->db->nextId('ldap_rg_mapping'));
         $query = "INSERT INTO ldap_rg_mapping (mapping_id,server_id,url,dn,member_attribute,member_isdn,role,mapping_info,mapping_info_type) " .
@@ -92,7 +101,7 @@ class ilLDAPRoleGroupMappingSetting
                     $this->db->quote($this->getMappingInfo(), 'text') . ", " .
                     $this->db->quote($this->getMappingInfoType(), 'integer') .
                     ")";
-        $res = $this->db->manipulate($query);
+        $this->db->manipulate($query);
     }
     
     /**
@@ -223,28 +232,20 @@ class ilLDAPRoleGroupMappingSetting
     
     /**
      * get ILIAS Role Name
-     * @global type $ilObjDataCache
      * @return string
      */
     public function getRoleName()
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        return $ilObjDataCache->lookupTitle($this->role);
+        return $this->ilObjDataCache->lookupTitle($this->role);
     }
     
     /**
      * set ILIAS Role Name
-     * @global ilRbacReview $rbacreview
      * @param string $a_value
      */
     public function setRoleByName($a_value)
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $this->role = $rbacreview->roleExists(ilUtil::stripSlashes($a_value));
+        $this->role = $this->rbacreview->roleExists(ilUtil::stripSlashes($a_value));
     }
     
     /**

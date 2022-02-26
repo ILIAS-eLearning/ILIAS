@@ -329,7 +329,7 @@ class ilPortfolioRepositoryGUI
             $portfolio = new ilObjPortfolio($prt_id, false);
             $portfolio->setOnline(true);
             $portfolio->update();
-            ilUtil::sendSuccess($lng->txt("saved_successfully"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
             $ilCtrl->redirect($this, "show");
         }
         $ilCtrl->redirect($this, "show");
@@ -345,7 +345,7 @@ class ilPortfolioRepositoryGUI
             $portfolio = new ilObjPortfolio($prt_id, false);
             $portfolio->setOnline(false);
             $portfolio->update();
-            ilUtil::sendSuccess($lng->txt("saved_successfully"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
             $ilCtrl->redirect($this, "show");
         }
         $ilCtrl->redirect($this, "show");
@@ -376,7 +376,7 @@ class ilPortfolioRepositoryGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("saved_successfully"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
         $ilCtrl->redirect($this, "show");
     }
     
@@ -389,7 +389,7 @@ class ilPortfolioRepositoryGUI
         $prtfs = $this->port_request->getPortfolioIds();
 
         if (count($prtfs) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "show");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -421,7 +421,7 @@ class ilPortfolioRepositoryGUI
                 }
             }
         }
-        ilUtil::sendSuccess($lng->txt("prtf_portfolio_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("prtf_portfolio_deleted"), true);
         $ilCtrl->redirect($this, "show");
     }
     
@@ -442,7 +442,7 @@ class ilPortfolioRepositoryGUI
             $ilUser->writePrefs();
             
             ilObjPortfolio::setUserDefault($this->user_id);
-            ilUtil::sendSuccess($lng->txt("prtf_unset_default_share_info"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("prtf_unset_default_share_info"), true);
         }
         $ilCtrl->redirect($this, "show");
     }
@@ -536,7 +536,7 @@ class ilPortfolioRepositoryGUI
                 return;
             }
             ilObjPortfolio::setUserDefault($this->user_id, $a_prtf_id);
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
         $ilCtrl->redirect($this, "show");
     }

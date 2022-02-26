@@ -104,7 +104,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             case "ilpageeditorgui":
                 
                 if (!$this->getEnableEditing()) {
-                    ilUtil::sendFailure($lng->txt("permission_denied"), true);
+                    $this->tpl->setOnScreenMessage('failure', $lng->txt("permission_denied"), true);
                     $ilCtrl->redirect($this, "preview");
                 }
                 
@@ -490,7 +490,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
     {
         $selected_array = (is_array($_POST['q_id'])) ? $_POST['q_id'] : array();
         if (!count($selected_array)) {
-            ilUtil::sendInfo($this->lng->txt("tst_insert_missing_question"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_insert_missing_question"), true);
             $this->ctrl->redirect($this, "browseForQuestions");
         } else {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -514,9 +514,9 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             }
             $this->test_object->saveCompleteStatus($testQuestionSetConfig);
             if ($manscoring) {
-                ilUtil::sendInfo($this->lng->txt("manscoring_hint"), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("manscoring_hint"), true);
             } else {
-                ilUtil::sendSuccess($this->lng->txt("tst_questions_inserted"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_questions_inserted"), true);
             }
             
             $this->ctrl->setParameter($this, 'q_id', $last_question_id);

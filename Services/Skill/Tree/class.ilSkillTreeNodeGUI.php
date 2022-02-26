@@ -168,13 +168,13 @@ class ilSkillTreeNodeGUI
         }
 
         if (!ilSkillTreeNode::uniqueTypesCheck($items)) {
-            ilUtil::sendInfo($lng->txt("skmg_insert_please_choose_one_type_only"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_insert_please_choose_one_type_only"), true);
             $this->redirectToParent();
         }
 
         $this->skill_tree_node_manager->clipboardCut($items);
 
-        ilUtil::sendInfo($lng->txt("skmg_selected_items_have_been_cut"), true);
+        $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_selected_items_have_been_cut"), true);
 
         $this->skill_tree_node_manager->saveChildsOrder(
             $this->requested_node_id,
@@ -208,12 +208,12 @@ class ilSkillTreeNodeGUI
             unset($items[$k]);
         }
         if (!ilSkillTreeNode::uniqueTypesCheck($items)) {
-            ilUtil::sendInfo($lng->txt("skmg_insert_please_choose_one_type_only"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_insert_please_choose_one_type_only"), true);
             $this->redirectToParent();
         }
         $this->skill_tree_node_manager->clipboardCopy($items);
 
-        ilUtil::sendInfo($lng->txt("skmg_selected_items_have_been_copied"), true);
+        $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_selected_items_have_been_copied"), true);
 
         $this->redirectToParent();
     }
@@ -292,7 +292,7 @@ class ilSkillTreeNodeGUI
         $lng = $this->lng;
 
         if ($this->isInUse()) {
-            ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
+            $this->tpl->setOnScreenMessage('info', $lng->txt("skmg_skill_in_use"));
         }
 
         $this->initForm("edit");
@@ -333,7 +333,7 @@ class ilSkillTreeNodeGUI
         $this->initForm("create");
         if ($this->form->checkInput()) {
             $this->saveItem();
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $this->skill_tree_node_manager->saveChildsOrder(
                 $this->requested_node_id,
                 [],
@@ -369,7 +369,7 @@ class ilSkillTreeNodeGUI
         $this->initForm("edit");
         if ($this->form->checkInput()) {
             $this->updateItem();
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $this->afterUpdate();
         } else {
             $this->form->setValuesByPost();
@@ -470,7 +470,7 @@ class ilSkillTreeNodeGUI
             $this->requested_node_order,
             $this->requested_tmpmode
         );
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->redirectToParent($this->requested_tmpmode);
     }
 

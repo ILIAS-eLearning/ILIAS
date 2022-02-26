@@ -9,10 +9,7 @@
  */
 class ilObjSystemFolder extends ilObject
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
 
     /**
     * Constructor
@@ -37,7 +34,7 @@ class ilObjSystemFolder extends ilObject
     * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
-    public function delete()
+    public function delete() : bool
     {
         // DISABLED
         return false;
@@ -74,8 +71,12 @@ class ilObjSystemFolder extends ilObject
 
         while ($row = $ilDB->fetchObject($r)) {
             $data["Fobject"][$num] = array("title" => $row->title,
-                                          "desc" => ilUtil::shortenText($row->description, ilObject::DESC_LENGTH, true),
-                                          "lang" => $row->lang_code
+                                           "desc" => ilStr::shortenTextExtended(
+                                               $row->description,
+                                               ilObject::DESC_LENGTH,
+                                               true
+                                           ),
+                                           "lang" => $row->lang_code
                                           );
             $num++;
         }
@@ -90,7 +91,7 @@ class ilObjSystemFolder extends ilObject
     public function removeHeaderTitleTranslations()
     {
         $ilDB = $this->db;
-        
+
         $query = "DELETE FROM object_translation WHERE obj_id= " .
             $ilDB->quote($this->getId(), 'integer');
         $res = $ilDB->manipulate($query);
@@ -100,7 +101,7 @@ class ilObjSystemFolder extends ilObject
     public function addHeaderTitleTranslation($a_title, $a_desc, $a_lang, $a_lang_default)
     {
         $ilDB = $this->db;
-        
+
         $query = "INSERT INTO object_translation " .
              "(obj_id,title,description,lang_code,lang_default) " .
              "VALUES " .
@@ -173,7 +174,7 @@ class ilObjSystemFolder extends ilObject
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
-        
+
         $id = ilObjSystemFolder::_getId();
 
         $q = "SELECT title,description FROM object_translation " .
@@ -192,7 +193,7 @@ class ilObjSystemFolder extends ilObject
         $row = $ilDB->fetchObject($r);
 
         if ($row) {
-            $description = ilUtil::shortenText($row->description, ilObject::DESC_LENGTH, true);
+            $description = ilStr::shortenTextExtended($row->description, ilObject::DESC_LENGTH, true);
         }
 
         return $description;

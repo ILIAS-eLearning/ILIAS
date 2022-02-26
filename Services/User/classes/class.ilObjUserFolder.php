@@ -34,7 +34,7 @@ class ilObjUserFolder extends ilObject
     }
 
 
-    public function delete()
+    public function delete() : bool
     {
         return false;
     }
@@ -63,7 +63,7 @@ class ilObjUserFolder extends ilObject
 
     public function getExportDirectory() : string
     {
-        $export_dir = ilUtil::getDataDir() . "/usrf_data/export";
+        $export_dir = ilFileUtils::getDataDir() . "/usrf_data/export";
 
         return $export_dir;
     }
@@ -177,7 +177,7 @@ class ilObjUserFolder extends ilObject
 
         $separator = ";";
         $file = fopen($filename, "w");
-        $formattedrow = &ilUtil::processCSVRow($headerrow, true, $separator);
+        $formattedrow = &ilCSVUtil::processCSVRow($headerrow, true, $separator);
         fwrite($file, join($separator, $formattedrow) . "\n");
         foreach ($data as $row) {
             $csvrow = array();
@@ -199,7 +199,7 @@ class ilObjUserFolder extends ilObject
                 }
             }
 
-            $formattedrow = &ilUtil::processCSVRow($csvrow, true, $separator);
+            $formattedrow = &ilCSVUtil::processCSVRow($csvrow, true, $separator);
             fwrite($file, join($separator, $formattedrow) . "\n");
         }
         fclose($file);
@@ -364,7 +364,7 @@ class ilObjUserFolder extends ilObject
         $lng = $DIC['lng'];
 
         if ($use_temp_dir) {
-            $expDir = ilUtil::ilTempnam();
+            $expDir = ilFileUtils::ilTempnam();
             $fullname = $expDir;
         } else {
             $expDir = $this->getExportDirectory();
@@ -441,8 +441,8 @@ class ilObjUserFolder extends ilObject
     protected function createExportDirectory() : void
     {
         if (!is_dir($this->getExportDirectory())) {
-            $usrf_data_dir = ilUtil::getDataDir() . "/usrf_data";
-            ilUtil::makeDir($usrf_data_dir);
+            $usrf_data_dir = ilFileUtils::getDataDir() . "/usrf_data";
+            ilFileUtils::makeDir($usrf_data_dir);
             if (!is_writable($usrf_data_dir)) {
                 $this->ilias->raiseError("Userfolder data directory (" . $usrf_data_dir
                     . ") not writeable.", $this->ilias->error_obj->MESSAGE);
@@ -450,7 +450,7 @@ class ilObjUserFolder extends ilObject
 
             // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
             $export_dir = $usrf_data_dir . "/export";
-            ilUtil::makeDir($export_dir);
+            ilFileUtils::makeDir($export_dir);
             if (!is_dir($export_dir)) {
                 $this->ilias->raiseError("Creation of Userfolder Export Directory failed.", $this->ilias->error_obj->MESSAGE);
             }
@@ -533,7 +533,7 @@ class ilObjUserFolder extends ilObject
         $fs->create();
         $path = $fs->getAbsolutePath() . "/";
 
-        ilUtil::moveUploadedFile($a_tmp_name, $a_lang, $path . $a_lang);
+        ilFileUtils::moveUploadedFile($a_tmp_name, $a_lang, $path . $a_lang);
         
         $ilDB->update(
             'mail_template',

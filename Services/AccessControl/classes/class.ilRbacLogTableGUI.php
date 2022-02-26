@@ -83,13 +83,13 @@ class ilRbacLogTableGUI extends ilTable2GUI
         $data = ilRbacLog::getLogItems($a_ref_id, $this->getLimit(), $this->getOffset(), $a_current_filter);
 
         $this->setData($data["set"]);
-        $this->setMaxCount($data["cnt"]);
+        $this->setMaxCount((int) $data["cnt"]);
     }
 
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set["created"], IL_CAL_UNIX)));
-        $name = ilObjUser::_lookupName($a_set["user_id"]);
+        $name = ilObjUser::_lookupName((int) $a_set["user_id"]);
         $this->tpl->setVariable("LASTNAME", $name["lastname"]);
         $this->tpl->setVariable("FIRSTNAME", $name["firstname"]);
         $this->tpl->setVariable("LOGIN", $name["login"]);
@@ -237,7 +237,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
     /**
      * Check the op is translated correctly
      */
-    protected function notTranslated(string $perm, string $op_id) : bool
+    protected function notTranslated(?string $perm, string $op_id) : bool
     {
         return is_null($perm) || (strpos($perm, $op_id) !== false);
     }

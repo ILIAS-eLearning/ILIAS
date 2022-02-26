@@ -462,7 +462,7 @@ class ilUserPrivacySettingsGUI
             }
 
             $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_VISIBILITY_OPTIONS);
-            ilUtil::sendSuccess($lng->txt('msg_obj_modified'), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt('msg_obj_modified'), true);
             $ctrl->redirect($this, '');
         }
 

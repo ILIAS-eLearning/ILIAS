@@ -9,6 +9,7 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Collector\MetaBarMainCollector;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\MainNotificationCollector;
 use ILIAS\GlobalScreen\Scope\Tool\Collector\MainToolCollector;
 use ILIAS\GlobalScreen\SingletonTrait;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -47,10 +48,17 @@ class CollectorFactory
     public function mainmenu() : MainMenuMainCollector
     {
         if (!$this->has(MainMenuMainCollector::class)) {
-            $providers   = $this->provider_factory->getMainBarProvider();
+            $providers = $this->provider_factory->getMainBarProvider();
             $information = $this->provider_factory->getMainBarItemInformation();
-            
-            return $this->getWithMultipleArguments(MainMenuMainCollector::class, [$providers, $information]);
+    
+            return $this->getWithMultipleArguments(
+                MainMenuMainCollector::class,
+                [
+                    $providers,
+                    new MainMenuItemFactory(),
+                    $information
+                ]
+            );
         }
         
         return $this->get(MainMenuMainCollector::class);
@@ -64,7 +72,7 @@ class CollectorFactory
     public function tool() : MainToolCollector
     {
         if (!$this->has(MainToolCollector::class)) {
-            $providers   = $this->provider_factory->getToolProvider();
+            $providers = $this->provider_factory->getToolProvider();
             $information = $this->provider_factory->getMainBarItemInformation();
             
             return $this->getWithMultipleArguments(MainToolCollector::class, [$providers, $information]);

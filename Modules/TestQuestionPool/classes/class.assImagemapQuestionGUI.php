@@ -62,7 +62,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $this->object->deleteImage();
         $this->object->saveToDb();
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this, 'editQuestion');
     }
 
@@ -241,17 +241,17 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         switch ($_POST["shape"]) {
             case "rect":
                 $coords = join(",", $_POST['image']['mapcoords']);
-                ilUtil::sendSuccess($this->lng->txt('msg_rect_added'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_rect_added'), true);
                 break;
             case "circle":
                 if (preg_match("/(\d+)\s*,\s*(\d+)\s+(\d+)\s*,\s*(\d+)/", $_POST['image']['mapcoords'][0] . " " . $_POST['image']['mapcoords'][1], $matches)) {
                     $coords = "$matches[1],$matches[2]," . (int) sqrt((($matches[3] - $matches[1]) * ($matches[3] - $matches[1])) + (($matches[4] - $matches[2]) * ($matches[4] - $matches[2])));
                 }
-                ilUtil::sendSuccess($this->lng->txt('msg_circle_added'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_circle_added'), true);
                 break;
             case "poly":
                 $coords = join(",", $_POST['image']['mapcoords']);
-                ilUtil::sendSuccess($this->lng->txt('msg_poly_added'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_poly_added'), true);
                 break;
         }
         $this->object->addAnswer($_POST["shapetitle"], 0, count($this->object->getAnswers()), $coords, $_POST["shape"]);
@@ -298,9 +298,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         switch ($shape) {
             case "rect":
                 if (count($coords) == 0) {
-                    ilUtil::sendInfo($this->lng->txt("rectangle_click_tl_corner"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("rectangle_click_tl_corner"));
                 } elseif (count($coords) == 1) {
-                    ilUtil::sendInfo($this->lng->txt("rectangle_click_br_corner"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("rectangle_click_br_corner"));
                     $preview->addPoint($preview->getAreaCount(), join(",", $coords), true, "blue");
                 } elseif (count($coords) == 2) {
                     $c = join(",", $coords);
@@ -310,9 +310,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 break;
             case "circle":
                 if (count($coords) == 0) {
-                    ilUtil::sendInfo($this->lng->txt("circle_click_center"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("circle_click_center"));
                 } elseif (count($coords) == 1) {
-                    ilUtil::sendInfo($this->lng->txt("circle_click_circle"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("circle_click_circle"));
                     $preview->addPoint($preview->getAreaCount(), join(",", $coords), true, "blue");
                 } elseif (count($coords) == 2) {
                     if (preg_match("/(\d+)\s*,\s*(\d+)\s+(\d+)\s*,\s*(\d+)/", $coords[0] . " " . $coords[1], $matches)) {
@@ -324,12 +324,12 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 break;
             case "poly":
                 if (count($coords) == 0) {
-                    ilUtil::sendInfo($this->lng->txt("polygon_click_starting_point"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("polygon_click_starting_point"));
                 } elseif (count($coords) == 1) {
-                    ilUtil::sendInfo($this->lng->txt("polygon_click_next_point"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("polygon_click_next_point"));
                     $preview->addPoint($preview->getAreaCount(), implode(",", $coords), true, "blue");
                 } elseif (count($coords) > 1) {
-                    ilUtil::sendInfo($this->lng->txt("polygon_click_next_or_save"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("polygon_click_next_or_save"));
                     $disabled_save = "";
                     $c = implode(",", $coords);
                 }
@@ -380,7 +380,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function back()
     {
-        ilUtil::sendInfo($this->lng->txt('msg_cancel'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_cancel'), true);
         $this->ctrl->redirect($this, 'editQuestion');
     }
 
@@ -626,8 +626,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->setCurrentBlock("imagemap_area");
             $template->setVariable("SHAPE", $answer->getArea());
             $template->setVariable("COORDS", $answer->getCoords());
-            $template->setVariable("ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
-            $template->setVariable("TITLE", ilUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("ALT", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
@@ -690,8 +690,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->setVariable("HREF_AREA", $this->buildAreaLinkTarget($userSelection, $answer_id));
             $template->setVariable("SHAPE", $answer->getArea());
             $template->setVariable("COORDS", $answer->getCoords());
-            $template->setVariable("ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
-            $template->setVariable("TITLE", ilUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("ALT", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->parseCurrentBlock();
             if ($show_feedback) {
                 if (!$this->object->getIsMultipleChoice() && count($userSelection) && current($userSelection) == $answer_id) {

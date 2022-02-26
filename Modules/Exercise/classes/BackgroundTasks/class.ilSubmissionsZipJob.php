@@ -55,10 +55,10 @@ class ilSubmissionsZipJob extends AbstractJob
     ) : Value {
         $tmpdir = $input[0]->getValue();
 
-        ilUtil::zip($tmpdir, $tmpdir . '.zip');
+        ilFileUtils::zip($tmpdir, $tmpdir . '.zip');
         
         // delete temp directory
-        ilUtil::delDir($tmpdir);
+        ilFileUtils::delDir($tmpdir);
 
         $zip_file_name = new StringValue();
         $zip_file_name->setValue($tmpdir . '.zip');

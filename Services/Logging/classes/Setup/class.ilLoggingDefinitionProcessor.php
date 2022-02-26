@@ -4,10 +4,10 @@
 
 class ilLoggingDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected \ilDBInterface $db;
-    protected ?string $component_id;
+    protected ilDBInterface $db;
+    protected string $component_id;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
     }
@@ -18,18 +18,18 @@ class ilLoggingDefinitionProcessor implements ilComponentDefinitionProcessor
 
     public function beginComponent(string $component, string $type) : void
     {
-        $this->component_id = null;
+        $this->component_id = '';
     }
 
     public function endComponent(string $component, string $type) : void
     {
-        $this->component_id = null;
+        $this->component_id = '';
     }
 
     public function beginTag(string $name, array $attributes) : void
     {
         if ($name === "module" || $name === "service") {
-            $this->component_id = $attributes["id"] ?? null;
+            $this->component_id = $attributes["id"] ?? '';
             return;
         }
 
@@ -37,20 +37,18 @@ class ilLoggingDefinitionProcessor implements ilComponentDefinitionProcessor
             return;
         }
 
-        if ($this->component_id === null) {
+        if ($this->component_id === '') {
             throw new \RuntimeException(
                 "Found $name-tag outside of module or service in {$this->component_id}."
             );
         }
-
         ilLogComponentLevels::updateFromXML($this->component_id);
     }
 
     public function endTag(string $name) : void
     {
         if ($name === "module" || $name === "service") {
-            $this->component_id = null;
-            return;
+            $this->component_id = '';
         }
     }
 }

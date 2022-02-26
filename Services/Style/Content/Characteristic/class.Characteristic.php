@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Style\Content;
 
@@ -10,50 +21,14 @@ namespace ILIAS\Style\Content;
  */
 class Characteristic
 {
-    /**
-     * @var int
-     */
-    protected $style_id;
+    protected int$style_id;
+    protected string $type;
+    protected string $characteristic;
+    protected bool $hide;
+    protected array $titles;        // key, is lang, value is title
+    protected int $order_nr;
+    protected bool $outdated;
 
-    /**
-     * @var string
-     */
-    protected $type;
-
-    /**
-     * @var string
-     */
-    protected $characteristic;
-
-    /**
-     * @var bool
-     */
-    protected $hide;
-
-    /**
-     * @var array key, is lang, value is title
-     */
-    protected $titles;
-
-    /**
-     * @var int
-     */
-    protected $order_nr;
-
-    /**
-     * @var bool
-     */
-    protected $outdated;
-
-    /**
-     * Characteristic constructor.
-     * @param string $type
-     * @param string $characteristic
-     * @param bool   $hide
-     * @param array  $titles
-     * @param int    $order_nr
-     * @param bool   $outdated
-     */
     public function __construct(
         string $type,
         string $characteristic,
@@ -70,11 +45,6 @@ class Characteristic
         $this->outdated = $outdated;
     }
 
-    /**
-     * With style id
-     * @param int $style_id
-     * @return Characteristic
-     */
     public function withStyleId(int $style_id) : Characteristic
     {
         $clone = clone $this;
@@ -82,64 +52,37 @@ class Characteristic
         return $clone;
     }
 
-    /**
-     * Get style id
-     * @return int
-     */
     public function getStyleId() : int
     {
         return $this->style_id;
     }
 
-    /**
-     * Get characteristic (class name)
-     * @return string
-     */
     public function getCharacteristic() : string
     {
         return $this->characteristic;
     }
 
-    /**
-     * Get type
-     * @return string
-     */
     public function getType() : string
     {
         return $this->type;
     }
 
-    /**
-     * Is char hidden?
-     * @return bool
-     */
+    // Is char hidden?
     public function isHidden() : bool
     {
         return $this->hide;
     }
 
-    /**
-     * Get titles
-     * @return array
-     */
     public function getTitles() : array
     {
         return $this->titles;
     }
 
-    /**
-     * Get order nr
-     * @return int
-     */
     public function getOrderNr() : int
     {
         return $this->order_nr;
     }
 
-    /**
-     * Is char outdated?
-     * @return bool
-     */
     public function isOutdated() : bool
     {
         return $this->outdated;

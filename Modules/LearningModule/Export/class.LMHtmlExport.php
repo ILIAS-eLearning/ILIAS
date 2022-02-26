@@ -16,6 +16,7 @@
 namespace ILIAS\LearningModule\Export;
 
 use ILIAS\COPage\PageLinker;
+use ilFileUtils;
 
 /**
  * LM HTML Export
@@ -43,6 +44,7 @@ class LMHtmlExport
     protected string $initial_user_language;
     protected string $initial_current_user_language;
     protected \ILIAS\GlobalScreen\Services $global_screen;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         \ilObjLearningModule $lm,
@@ -61,10 +63,9 @@ class LMHtmlExport
         $this->lang = $lang;
         $this->target_dir = $export_dir . "/" . $sub_dir;
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir, $this->getLinker(), $lm->getRefId());
-        $this->co_page_html_export->setContentStyleId(\ilObjStyleSheet::getEffectiveContentStyleId(
-            $this->lm->getStyleSheetId(),
-            "lm"
-        ));
+        $this->co_page_html_export->setContentStyleId(
+            $this->content_style_domain->getEffectiveStyleId()
+        );
         $this->export_format = $export_format;
 
         // get learning module presentation gui class
@@ -82,6 +83,8 @@ class LMHtmlExport
         $this->export_util = new \ILIAS\Services\Export\HTML\Util($export_dir, $sub_dir);
 
         $this->setAdditionalContextData(\ilLMEditGSToolProvider::SHOW_TREE, false);
+        $cs = $DIC->contentStyle();
+        $this->content_style_domain = $cs->domain()->styleForRefId($this->lm->getRefId());
     }
 
     protected function getLinker() : PageLinker
@@ -126,11 +129,11 @@ class LMHtmlExport
     protected function initDirectories() : void
     {
         // initialize temporary target directory
-        \ilUtil::delDir($this->target_dir);
-        \ilUtil::makeDir($this->target_dir);
+        ilFileUtils::delDir($this->target_dir);
+        ilFileUtils::makeDir($this->target_dir);
         foreach (["mobs", "files", "textimg", "style",
             "style/images", "content_style", "content_style", "content_style/images"] as $dir) {
-            \ilUtil::makeDir($this->target_dir . "/" . $dir);
+            ilFileUtils::makeDir($this->target_dir . "/" . $dir);
         }
     }
 
@@ -225,7 +228,7 @@ class LMHtmlExport
         $this->initDirectories();
 
         $this->export_util->exportSystemStyle();
-        $this->export_util->exportCOPageFiles($this->lm->getStyleSheetId(), "lm");
+        $this->export_util->exportCOPageFiles($this->content_style_domain->getEffectiveStyleId(), "lm");
 
         $lang_iterator = $this->getLanguageIterator();
 
@@ -293,15 +296,15 @@ class LMHtmlExport
             $zip_target_dir = $this->lm->getExportDirectory("html");
         } else {
             $zip_target_dir = $this->lm->getExportDirectory("html_" . $this->lang);
-            \ilUtil::makeDir($zip_target_dir);
+            ilFileUtils::makeDir($zip_target_dir);
         }
 
         // zip it all
         $date = time();
         $zip_file = $zip_target_dir . "/" . $date . "__" . IL_INST_ID . "__" .
             $this->lm->getType() . "_" . $this->lm->getId() . ".zip";
-        \ilUtil::zip($this->target_dir, $zip_file);
-        \ilUtil::delDir($this->target_dir);
+        ilFileUtils::zip($this->target_dir, $zip_file);
+        ilFileUtils::delDir($this->target_dir);
     }
 
 

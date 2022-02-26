@@ -1,12 +1,9 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 
 /**
  * (Course) learning objective page object
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ModulesCourse
  */
 class ilLOPage extends ilPageObject

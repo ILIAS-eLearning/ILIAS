@@ -269,6 +269,7 @@ class ilExAssignmentGUI
         ilExAssignment $a_ass
     ) : void {
         $lng = $this->lng;
+        $lng->loadLanguageModule("exc");
         $files = $a_ass->getFiles();
 
         if (count($files) > 0) {
@@ -305,7 +306,8 @@ class ilExAssignmentGUI
                     $img_tpl->setVariable("MODAL", $modal);
                     $img_tpl->setVariable("ITEM_ID", $item_id);
                     $img_tpl->setVariable("IMAGE", $image);
-                    $img_tpl->setVariable("IMAGE_LENS", $image_lens);
+                    $img_tpl->setvariable("IMAGE_LENS", $image_lens);
+                    $img_tpl->setvariable("ALT_LENS", $lng->txt("exc_fullscreen"));
                     $img_tpl->parseCurrentBlock();
 
                     $a_info->addProperty($file["name"], $img_tpl->get());
@@ -465,7 +467,7 @@ class ilExAssignmentGUI
         if ($a_deadline - time() <= 0) {
             $time_str = $lng->txt("exc_time_over_short");
         } else {
-            $time_str = ilUtil::period2String(new ilDateTime($a_deadline, IL_CAL_UNIX));
+            $time_str = ilLegacyFormElementsUtil::period2String(new ilDateTime($a_deadline, IL_CAL_UNIX));
         }
 
         return $time_str;

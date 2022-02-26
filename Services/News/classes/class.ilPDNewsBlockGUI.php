@@ -362,7 +362,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
         $passwd = new ilPasswordInputGUI($lng->txt("password"), "desired_password");
         $passwd->setRequired(true);
-        $passwd->setInfo(ilUtil::getPasswordRequirementsInfo());
+        $passwd->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
         $enable_private_feed->addSubItem($passwd);
 
         $feed_form->addCommandButton("changeFeedSettings", $lng->txt("save"));
@@ -411,17 +411,17 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             // Deactivate private Feed - just delete the password
             if (!$form->getInput("enable_private_feed")) {
                 $ilUser->_setFeedPass($ilUser->getId(), "");
-                ilUtil::sendSuccess($lng->txt("priv_feed_disabled"), true);
+                $this->main_tpl->setOnScreenMessage('success', $lng->txt("priv_feed_disabled"), true);
                 // $ilCtrl->returnToParent($this);
                 $ilCtrl->redirect($this, "showFeedUrl");
             } else {
                 $passwd = $form->getInput("desired_password");
                 if (ilUserPasswordManager::getInstance()->verifyPassword($ilUser, $passwd)) {
                     $form->getItemByPostVar("desired_password")->setAlert($lng->txt("passwd_equals_ilpasswd"));
-                    ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                 } else {
                     $ilUser->_setFeedPass($ilUser->getId(), $passwd);
-                    ilUtil::sendSuccess($lng->txt("saved_successfully"), true);
+                    $this->main_tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
                     $ilCtrl->redirect($this, "showFeedUrl");
                 }
             }

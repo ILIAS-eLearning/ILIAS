@@ -149,7 +149,7 @@ class ilCustomBlock
         $this->setContextObjId($rec["context_obj_id"]);
         $this->setContextObjType($rec["context_obj_type"]);
         $this->setContextSubObjId($rec["context_sub_obj_id"]);
-        $this->setContextSubObjType($rec["context_sub_obj_type"]);
+        $this->setContextSubObjType((string) $rec["context_sub_obj_type"]);
         $this->setType($rec["type"]);
         $this->setTitle($rec["title"]);
     }

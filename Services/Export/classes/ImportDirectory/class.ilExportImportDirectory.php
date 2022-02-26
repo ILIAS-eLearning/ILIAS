@@ -77,7 +77,7 @@ class ilExportImportDirectory extends ilImportDirectory
         foreach ($this->getFilesFor($user_id, $type) as $hash => $file) {
             if (strcmp($hash, $post_hash) === 0) {
                 $file_path = base64_decode($hash);
-                return ilUtil::getDataDir() . '/' . base64_decode($hash);
+                return ilFileUtils::getDataDir() . '/' . base64_decode($hash);
             }
         }
         return '';

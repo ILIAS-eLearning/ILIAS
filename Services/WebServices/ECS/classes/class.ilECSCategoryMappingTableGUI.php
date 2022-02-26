@@ -1,36 +1,23 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * Show active rules
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSCategoryMappingTableGUI extends ilTable2GUI
 {
@@ -40,15 +27,8 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
      */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
         $this->addColumn('', 'f', '1px');
         $this->addColumn($this->lng->txt('obj_cat'), 'category', '40%');
         $this->addColumn($this->lng->txt('ecs_cat_mapping_type'), 'kind', '50%');
@@ -87,8 +67,9 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
      * @param	array	$a_rules	Array of mapping rules
      * @return
      */
-    public function parse($a_rules)
+    public function parse(array $a_rules) : void
     {
+        $content = array();
         foreach ($a_rules as $rule) {
             $tmp_arr['id'] = $rule->getMappingId();
             $tmp_arr['category_id'] = $rule->getContainerId();
@@ -97,7 +78,7 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
             
             $content[] = $tmp_arr;
         }
-        $this->setData($content ? $content : array());
+        $this->setData($content);
     }
     
     private function buildPath($a_ref_id)

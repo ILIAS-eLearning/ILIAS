@@ -12,14 +12,14 @@ class ilUtilitiesMetricsCollectedObjective extends Setup\Metrics\CollectedObject
             new ilIniFilesLoadedObjective()
         ];
     }
-
+    
     public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         if (!$ini) {
             return;
         }
-
+        
         $storage->storeConfigText(
             "path_to_convert",
             $ini->readVariable("tools", "convert"),

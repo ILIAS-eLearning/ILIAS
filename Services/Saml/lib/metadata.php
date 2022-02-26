@@ -359,7 +359,7 @@ if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
 } else {
     header('Content-Type: application/samlmetadata+xml');
     // ilias-patch: begin
-    $ascii_filename = ilUtil::getASCIIFilename($sourceId);
+    $ascii_filename = ilFileUtils::getASCIIFilename($sourceId);
     header("Content-Disposition:attachment; filename=\"" . $ascii_filename . "\"");
     // ilias-patch: end
     echo($xml);

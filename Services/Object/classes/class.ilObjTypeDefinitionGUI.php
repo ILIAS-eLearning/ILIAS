@@ -12,33 +12,12 @@
 class ilObjTypeDefinitionGUI extends ilObjectGUI
 {
     /**
-     * @var ilRbacAdmin
-     */
-    protected $rbacadmin;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
     * Constructor
     *
     * @access	public
     */
     public function __construct($a_data, $a_id, $a_call_by_reference)
     {
-        global $DIC;
-
-        $this->rbacadmin = $DIC->rbac()->admin();
-        $this->rbacreview = $DIC->rbac()->review();
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->error = $DIC["ilErr"];
         $this->type = "typ";
         parent::__construct($a_data, $a_id, $a_call_by_reference);
     }
@@ -47,11 +26,11 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     * list operations of object type
     * @access	public
     */
-    public function viewObject()
+    public function viewObject() : void
     {
-        $rbacadmin = $this->rbacadmin;
-        $rbacreview = $this->rbacreview;
-        
+        $rbacadmin = $this->rbac_admin;
+        $rbacreview = $this->rbac_review;
+
         //prepare objectlist
         $this->data = array();
         $this->data["data"] = array();
@@ -82,7 +61,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         $this->maxcount = count($this->data["data"]);
 
         // sorting array
-        $this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+        $this->data["data"] = ilArrayUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 
         // now compute control information
         foreach ($this->data["data"] as $key => $val) {
@@ -116,7 +95,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
         // create table
         $tbl = new ilTableGUI();
-        
+
         // title & header columns
         $tbl->setTitle($this->lng->txt("obj_" . $this->object->getType()) . " '" . $this->object->getTitle() . "'");
 
@@ -124,23 +103,23 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         foreach ($this->data["cols"] as $val) {
             $header_names[] = $this->lng->txt($val);
         }
-        
+
         $tbl->setHeaderNames($header_names);
 
         $header_params = array("ref_id" => $this->ref_id,"obj_id" => $this->id);
         $tbl->setHeaderVars($this->data["cols"], $header_params);
-        
+
         // control
         $tbl->setOrderColumn($_GET["sort_by"]);
         $tbl->setOrderDirection($_GET["sort_order"]);
         $tbl->setLimit(0);
         $tbl->setOffset(0);
         $tbl->setMaxCount($this->maxcount);
-        
+
         // footer
         $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
         //$tbl->disable("footer");
-        
+
         // render table
         $tbl->render();
 
@@ -190,11 +169,11 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     *
     * @access	public
     */
-    public function saveObject()
+    public function saveObject() : void
     {
-        $rbacsystem = $this->rbacsystem;
-        $rbacadmin = $this->rbacadmin;
-        $rbacreview = $this->rbacreview;
+        $rbacsystem = $this->rbac_system;
+        $rbacadmin = $this->rbac_admin;
+        $rbacreview = $this->rbac_review;
         $ilErr = $this->error;
 
         if (!$rbacsystem->checkAccess('edit_permission', $_GET["ref_id"])) {
@@ -219,7 +198,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
         $this->update = $this->object->update();
 
-        ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
 
         header("Location: adm_object.php?ref_id=" . $_GET["ref_id"] . "&obj_id=" . $_GET["obj_id"]);
         exit();
@@ -231,12 +210,12 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     *
     * @access	public
     */
-    public function editObject()
+    public function editObject() : void
     {
-        $rbacsystem = $this->rbacsystem;
-        $rbacreview = $this->rbacreview;
+        $rbacsystem = $this->rbac_system;
+        $rbacreview = $this->rbac_review;
         $ilErr = $this->error;
-        
+
         if (!$rbacsystem->checkAccess("edit_permission", $_GET["ref_id"])) {
             $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
@@ -263,7 +242,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
                 }
 
                 $obj = $ops["ops_id"];
-                $ops_options = ilUtil::formSelect($ops_status, "id[$obj]", $options);
+                $ops_options = ilLegacyFormElementsUtil::formSelect($ops_status, "id[$obj]", $options);
 
                 //visible data part
                 $this->data["data"][] = array(
@@ -279,7 +258,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         $this->maxcount = count($this->data["data"]);
 
         // sorting array
-        $this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+        $this->data["data"] = ilArrayUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 
         // now compute control information
         foreach ($this->data["data"] as $key => $val) {
@@ -307,7 +286,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
         // create table
         $tbl = new ilTableGUI();
-        
+
         // title & header columns
         $tbl->setTitle(
             $this->lng->txt("edit_operations") . " " . strtolower($this->lng->txt("of")) . " '" . $this->object->getTitle() . "'"
@@ -317,27 +296,27 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         foreach ($this->data["cols"] as $val) {
             $header_names[] = $this->lng->txt($val);
         }
-        
+
         $tbl->setHeaderNames($header_names);
 
         $header_params = array("ref_id" => $this->ref_id,"obj_id" => $this->id,"cmd" => "edit");
         $tbl->setHeaderVars($this->data["cols"], $header_params);
-        
+
         // control
         $tbl->setOrderColumn($_GET["sort_by"]);
         $tbl->setOrderDirection($_GET["sort_order"]);
         $tbl->setLimit(0);
         $tbl->setOffset(0);
         $tbl->setMaxCount($this->maxcount);
-        
+
         // SHOW VALID ACTIONS
         $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
         $this->tpl->setVariable("COLUMN_COUNTS", count($this->data["cols"]));
-        
+
         // footer
         $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
         //$tbl->disable("footer");
-        
+
         // render table
         $tbl->render();
 
@@ -372,7 +351,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         } //if is_array
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -387,17 +366,16 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
-    
+
     /**
     * get tabs
     * @access	public
     * @param	object	tabs gui object
     */
-    protected function getTabs()
+    protected function getTabs() : void
     {
-        $rbacsystem = $this->rbacsystem;
+        $rbacsystem = $this->rbac_system;
 
         if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(

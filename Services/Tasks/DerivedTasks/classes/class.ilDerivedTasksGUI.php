@@ -171,7 +171,7 @@ class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
 
             $main_tpl->setContent($renderer->render($panels));
         } else {
-            ilUtil::sendInfo($lng->txt("task_no_tasks"));
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("task_no_tasks"));
         }
     }
 }

@@ -116,7 +116,7 @@ class ilSurveySkillGUI
             (int) $skill_id_parts[0],
             (int) $skill_id_parts[1]
         );
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         
         $ilCtrl->redirect($this, "listQuestionAssignment");
     }
@@ -130,7 +130,7 @@ class ilSurveySkillGUI
         $skill_survey->removeQuestionSkillAssignment(
             $this->edit_request->getQuestionId()
         );
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         
         $ilCtrl->redirect($this, "listQuestionAssignment");
     }

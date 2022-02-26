@@ -13,7 +13,11 @@ abstract class AbstractMediaWithPath extends AbstractMedia
         // the version string is only appended if the content string is not
         // a data uri, otherwise the data uri will behave incorrectly.
         if (!$this->isContentDataUri($content)) {
-            return rtrim($content, "?") . "?" . $this->version;
+            if ($this->hasContentParameters($content)) {
+                return rtrim($content, "&") . "&version=" . $this->version;
+            } else {
+                return rtrim($content, "?") . "?version=" . $this->version;
+            }
         }
 
         return $content;
@@ -27,4 +31,8 @@ abstract class AbstractMediaWithPath extends AbstractMedia
         return (bool) preg_match('/^(data:)([a-z\/]*)((;base64)?)(,?)([A-z0-9=]*)$/', $content);
     }
 
+    protected function hasContentParameters(string $content) : bool
+    {
+        return (strpos($content, "?") !== false);
+    }
 }

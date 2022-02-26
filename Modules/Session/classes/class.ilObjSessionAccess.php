@@ -29,7 +29,7 @@ class ilObjSessionAccess extends ilObjectAccess
     protected ilObjUser $user;
     protected static ?array $registrations = null;
     protected static ?array $registered = null;
-    protected static ilBookingReservationDBRepository $booking_repo;
+    protected static ?ilBookingReservationDBRepository $booking_repo = null;
 
     public function __construct()
     {
@@ -154,8 +154,11 @@ class ilObjSessionAccess extends ilObjectAccess
         self::$booking_repo = $f->getRepoWithContextObjCache($a_obj_ids);
     }
 
-    public static function getBookingInfoRepo() : ilBookingReservationDBRepository
+    public static function getBookingInfoRepo() : ?ilBookingReservationDBRepository
     {
-        return self::$booking_repo;
+        if (self::$booking_repo instanceof ilBookingReservationDBRepository) {
+            return self::$booking_repo;
+        }
+        return null;
     }
 }

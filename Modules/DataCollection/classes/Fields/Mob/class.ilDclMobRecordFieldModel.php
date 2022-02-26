@@ -10,6 +10,13 @@
  */
 class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
 {
+    private \ilGlobalTemplateInterface $main_tpl;
+    public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
+    {
+        parent::__construct($record, $field);
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+    }
     public function parseValue($value)
     {
         if ($value == -1) { //marked for deletion.
@@ -31,7 +38,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
             $media_item = new ilMediaItem();
             $mob->addMediaItem($media_item);
             $media_item->setPurpose("Standard");
-            $file_name = ilUtil::getASCIIFilename($media['name']);
+            $file_name = ilFileUtils::getASCIIFilename($media['name']);
             $file_name = str_replace(" ", "_", $file_name);
             $file = $mob_dir . "/" . $file_name;
             $title = $file_name;
@@ -41,10 +48,10 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                     'field_' . $this->getField()->getId(), $media["name"], $media["type"]);
                 ilFileUtils::rename($move_file, $file);
             } else {
-                ilUtil::moveUploadedFile($media['tmp_name'], $file_name, $file);
+                ilFileUtils::moveUploadedFile($media['tmp_name'], $file_name, $file);
             }
 
-            ilUtil::renameExecutables($mob_dir);
+            ilFileUtils::renameExecutables($mob_dir);
             // Check image/video
             $format = ilObjMediaObject::getMimeType($file);
 
@@ -94,7 +101,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                 try {
                     $new_file = ilFFmpeg::extractImage($mob_file, "mob_vpreview.png", $a_target_dir, 1);
                 } catch (Exception $e) {
-                    ilUtil::sendFailure($e->getMessage(), true);
+                    $this->main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
                 }
             }
 

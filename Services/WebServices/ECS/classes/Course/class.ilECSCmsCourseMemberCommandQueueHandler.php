@@ -1,11 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-include_once './Services/WebServices/ECS/interfaces/interface.ilECSCommandQueueHandler.php';
-include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
-include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Synchronize member assignments
@@ -14,12 +21,9 @@ include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.p
  */
 class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandler
 {
-    /**
-     * @var ilLogger
-     */
-    protected $log;
+    protected ilLogger $log;
     
-    private $server = null;
+    private ?\ilECSSetting $server = null;
     private $mid = 0;
     
     private $mapping = null;
@@ -29,7 +33,8 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
      */
     public function __construct(ilECSSetting $server)
     {
-        $this->log = $GLOBALS['DIC']->logger()->wsrv();
+        global $DIC;
+        $this->log = $DIC->logger()->wsrv();
         $this->server = $server;
     }
     
@@ -69,24 +74,21 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
     public function checkAllocationActivation(ilECSSetting $server, $a_content_id)
     {
         try {
-            include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMemberConnector.php';
             $crsm_reader = new ilECSCourseMemberConnector($server);
             $details = $crsm_reader->getCourseMember($a_content_id, true);
             $this->mid = $details->getMySender();
             
             // Check if import is enabled
-            include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
             $part = ilECSParticipantSetting::getInstance($this->getServer()->getServerId(), $this->getMid());
             if (!$part->isImportEnabled()) {
                 $this->log->warning('Import disabled for mid ' . $this->getMid());
                 return false;
             }
             // Check course allocation setting
-            include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
             $this->mapping = ilECSNodeMappingSettings::getInstanceByServerMid(
                 $this->getServer()->getServerId(),
                 $this->getMid()
-                );
+            );
             return $this->getMappingSettings()->isCourseAllocationEnabled();
         } catch (ilECSConnectorException $e) {
             $this->log->error('Reading course member details failed with message ' . $e->getMessage());
@@ -102,10 +104,6 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
      */
     public function handleCreate(ilECSSetting $server, $a_content_id)
     {
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
-        include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
-
         if (!$this->checkAllocationActivation($server, $a_content_id)) {
             return true;
         }
@@ -168,10 +166,9 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
             $this->log->warning('Missing course id');
             return false;
         }
-        include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
         $this->log->debug('sid: ' . $this->getServer()->getServerId() . ' course_id: ' . $course_id . ' mid: ' . $this->mid);
-        //$crs_obj_id = ilECSImport::_lookupObjId($this->getServer()->getServerId(), $course_id, $this->mid);
-        $crs_obj_id = ilECSImport::lookupObjIdByContentId($this->getServer()->getServerId(), $this->mid, $course_id);
+        //$crs_obj_id = ilECSImportManager::getInstance()->_lookupObjId($this->getServer()->getServerId(), $course_id, $this->mid);
+        $crs_obj_id = ilECSImportManager::getInstance()->lookupObjIdByContentId($this->getServer()->getServerId(), $this->mid, $course_id);
         
         if (!$crs_obj_id) {
             $this->log->info('No main course created. Group scenario >= 3 ?');
@@ -191,8 +188,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
             
             $this->log->debug('sub id is ' . $sub_id . ' for ' . $cms_id);
             
-            include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-            $obj_id = ilECSImport::lookupObjIdByContentId(
+            $obj_id = ilECSImportManager::getInstance()->lookupObjIdByContentId(
                 $this->getServer()->getServerId(),
                 $this->getMid(),
                 $course_id,
@@ -211,28 +207,22 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
      */
     protected function readAssignments($course, $course_member)
     {
-        $put_in_course = true;
-        
-        include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
+        //TODO check if this switch is still needed
         switch ((int) $course->groupScenario) {
             case ilECSMappingUtils::PARALLEL_ONE_COURSE:
                 $this->log->debug('Parallel group scenario one course.');
-                $put_in_course = true;
                 break;
                 
             case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
                 $this->log->debug('Parallel group scenario groups in courses.');
-                $put_in_course = false;
                 break;
                 
             case ilECSMappingUtils::PARALLEL_ALL_COURSES:
                 $this->log->debug('Parallel group scenario only courses.');
-                $put_in_course = false;
                 break;
-            
+
             default:
                 $this->log->debug('Parallel group scenario undefined.');
-                $put_in_course = true;
                 break;
         }
         
@@ -282,16 +272,12 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
      */
     protected function refreshAssignmentStatus($course_member, $obj_id, $sub_id, $assigned)
     {
-        include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMemberAssignment.php';
-        
         $this->log->debug('Currrent sub_id = ' . $sub_id . ', obj_id = ' . $obj_id);
         
         $type = ilObject::_lookupType($obj_id);
         if ($type == 'crs') {
-            include_once './Modules/Course/classes/class.ilCourseParticipants.php';
             $part = ilCourseParticipants::_getInstanceByObjId($obj_id);
         } elseif ($type == 'grp') {
-            include_once './Modules/Group/classes/class.ilGroupParticipants.php';
             $part = ilGroupParticipants::_getInstanceByObjId($obj_id);
         } else {
             $this->log->warning('Invalid object type given for obj_id: ' . $obj_id);
@@ -422,17 +408,17 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
             $exploded_map = (array) explode(',', $map);
             if (in_array($role_value, $exploded_map)) {
                 switch ($name) {
-                    case IL_CRS_ADMIN:
-                    case IL_CRS_TUTOR:
-                    case IL_CRS_MEMBER:
+                    case ilParticipants::IL_CRS_ADMIN:
+                    case ilParticipants::IL_CRS_TUTOR:
+                    case ilParticipants::IL_CRS_MEMBER:
                         if ($a_obj_type == 'crs') {
                             $this->log->debug('Role: ' . $role_value . ' maps: ' . $exploded_map);
                             return $name;
                         }
                         break;
                         
-                    case IL_GRP_ADMIN:
-                    case IL_GRP_MEMBER:
+                    case ilParticipants::IL_GRP_ADMIN:
+                    case ilParticipants::IL_GRP_MEMBER:
                         if ($a_obj_type == 'grp') {
                             $this->log->debug('Role: ' . $role_value . ' maps: ' . $exploded_map);
                             return $name;
@@ -447,7 +433,6 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
     
     /**
      * Create user account
-     * @param type $a_person_id
      */
     private function createMember($a_person_id)
     {
@@ -458,7 +443,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 
         if (
             $this->getMappingSettings()->getAuthMode() ==
-            ilAuthUtils::_getAuthModeName(AUTH_SHIBBOLETH)
+            ilAuthUtils::_getAuthModeName(ilAuthUtils::AUTH_SHIBBOLETH)
         ) {
             $this->log->info('Not handling direct user creation for auth mode: ' . $auth_mode);
             return false;
@@ -469,20 +454,16 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
         }
 
         try {
-            include_once './Services/LDAP/classes/class.ilLDAPServer.php';
             $server = ilLDAPServer::getInstanceByServerId(ilLDAPServer::_getFirstActiveServer());
             $server->doConnectionCheck();
 
-            include_once './Services/LDAP/classes/class.ilLDAPQuery.php';
             $query = new ilLDAPQuery($server);
-            $query->bind(IL_LDAP_BIND_DEFAULT);
+            $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
             
             $users = $query->fetchUser($a_person_id, true);
             if ($users) {
-                include_once './Services/User/classes/class.ilUserCreationContext.php';
                 ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_LDAP);
 
-                include_once './Services/LDAP/classes/class.ilLDAPAttributeToUser.php';
                 $xml = new ilLDAPAttributeToUser($server);
                 $xml->setNewUserAuthMode($server->getAuthenticationMappingKey());
                 $xml->setUserData($users);
@@ -496,12 +477,10 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 
     /**
      * Read course from ecs
-     * @return boolean
      */
     private function readCourseMember(ilECSSetting $server, $a_content_id)
     {
         try {
-            include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMemberConnector.php';
             $crs_member_reader = new ilECSCourseMemberConnector($server);
             
             $member = $crs_member_reader->getCourseMember($a_content_id);
@@ -513,19 +492,16 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
     
     /**
      * Read course from ecs
-     * @return boolean
      */
     private function readCourse($course_member)
     {
         try {
-            include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-            $ecs_id = ilECSImport::lookupEContentIdByContentId(
+            $ecs_id = ilECSImportManager::getInstance()->lookupEContentIdByContentId(
                 $this->getServer()->getServerId(),
                 $this->getMid(),
                 $course_member->lectureID
             );
             
-            include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
             $crs_reader = new ilECSCourseConnector($this->getServer());
             return $crs_reader->getCourse($ecs_id);
         } catch (ilECSConnectorException $e) {

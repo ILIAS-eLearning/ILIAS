@@ -1,20 +1,31 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 use PHPUnit\Framework\TestCase;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilPdfGeneratorConstantsTest
  * @package ilPdfGenerator
  */
 class ilPdfGeneratorConstantsTest extends TestCase
 {
-    public function testInstanceCanBeCreated()
+    public function testInstanceCanBeCreated() : void
     {
         $this->assertInstanceOf('ilPDFGenerationConstants', new ilPDFGenerationConstants());
     }
 
-    public function testGetOrientations()
+    public function testGetOrientations() : void
     {
         $this->assertCount(2, ilPDFGenerationConstants::getOrientations());
         $orientations = ilPDFGenerationConstants::getOrientations();
@@ -22,19 +33,19 @@ class ilPdfGeneratorConstantsTest extends TestCase
         $this->assertSame('Landscape', $orientations['Landscape']);
     }
 
-    public function testGetPageSizesNames()
+    public function testGetPageSizesNames() : void
     {
         $this->assertCount(15, ilPDFGenerationConstants::getPageSizesNames());
     }
 
-    public function testHeaderConstants()
+    public function testHeaderConstants() : void
     {
         $this->assertSame(0, ilPDFGenerationConstants::HEADER_NONE);
         $this->assertSame(1, ilPDFGenerationConstants::HEADER_TEXT);
         $this->assertSame(2, ilPDFGenerationConstants::HEADER_HTML);
     }
 
-    public function testFooterConstants()
+    public function testFooterConstants() : void
     {
         $this->assertSame(0, ilPDFGenerationConstants::FOOTER_NONE);
         $this->assertSame(1, ilPDFGenerationConstants::FOOTER_TEXT);

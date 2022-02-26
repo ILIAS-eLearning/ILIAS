@@ -43,7 +43,7 @@ class ilPortfolioTemplatePage extends ilPortfolioPage
             $id = explode("_", $node->getAttribute("OriginId"));
             $mob_id = array_pop($id);
             $mob_dir = ilObjMediaObject::_getDirectory($mob_id);
-            $quota_sum += ilUtil::dirsize($mob_dir);
+            $quota_sum += ilFileUtils::dirsize($mob_dir);
         }
         
         return $quota_sum;

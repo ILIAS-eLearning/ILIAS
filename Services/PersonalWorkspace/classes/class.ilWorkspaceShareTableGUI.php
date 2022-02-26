@@ -40,6 +40,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         bool $a_load_data = false
     ) {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -116,7 +117,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
             $this->importData();
             return;
         } else {
-            ilUtil::sendInfo($lng->txt("wsp_shared_mandatory_filter_info"));
+            $main_tpl->setOnScreenMessage('info', $lng->txt("wsp_shared_mandatory_filter_info"));
         }
 
         // initial state: show filters only
@@ -277,7 +278,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         if (!$this->portfolio_mode) {
             $this->tpl->setVariable("TYPE", $a_set["obj_type"]);
             $this->tpl->setVariable("ICON_ALT", $a_set["obj_type"]);
-            $this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $a_set["type"]));
+            $this->tpl->setVariable("ICON", ilObject::_getIcon(0, "tiny", $a_set["type"]));
             
             $url = $this->handler->getGotoLink($a_set["wsp_id"], $a_set["obj_id"]);
         } else {

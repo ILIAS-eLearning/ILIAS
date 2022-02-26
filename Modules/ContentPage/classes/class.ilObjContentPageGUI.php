@@ -22,7 +22,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @ilCtrl_Calls      ilObjContentPageGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilContentPagePageGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectCustomIconConfigurationGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilObjStyleSheetGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectTranslationGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilPageMultiLangGUI
  */
@@ -30,20 +30,17 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 {
     /** @var GlobalHttpState */
     protected $http;
-    /** @var Refinery */
-    protected $refinery;
-    /** @var ilCtrl */
-    protected $ctrl;
-    /** @var ilAccessHandler */
-    protected $access;
-    /** @var ilSetting */
-    protected $settings;
-    /** @var ilObjUser */
-    protected $user;
+    protected Refinery $refinery;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    protected ilCtrl $ctrl;
+    protected ilAccessHandler $access;
+    protected ilSetting $settings;
+    protected ilObjUser $user;
     private ilTabsGUI $tabs;
     private ilObjectService $obj_service;
     private ilNavigationHistory $navHistory;
-    private ilErrorHandling $error;
+    protected ilErrorHandling $error;
     private Container $dic;
     private bool $infoScreenEnabled = false;
     private PageMetricsService $pageMetricsService;
@@ -87,11 +84,17 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             new PageMetricsRepositoryImp($DIC->database()),
             $DIC->refinery()
         );
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
+        if (is_object($this->object)) {
+            $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
+        }
     }
 
     public static function _goto(string $target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $targetAttributes = explode('_', $target);
         $refId = (int) $targetAttributes[0];
@@ -102,9 +105,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
         if ($DIC->access()->checkAccess('read', '', $refId)) {
             $DIC->ctrl()->setTargetScript('ilias.php');
-            if ($DIC->http()->wrapper()->query()->has('gotolp')) {
-                $DIC->ctrl()->setParameterByClass(self::class, 'gotolp', 1);
-            }
             $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', $refId);
             $DIC->ctrl()->redirectByClass([
                 ilRepositoryGUI::class,
@@ -113,7 +113,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         } elseif ($DIC->access()->checkAccess('visible', '', $refId)) {
             ilObjectGUI::_gotoRepositoryNode($refId, 'infoScreen');
         } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(sprintf(
+            $main_tpl->setOnScreenMessage('info', sprintf(
                 $DIC->language()->txt('msg_no_perm_read_item'),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($refId))
             ), true);
@@ -184,14 +184,14 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd(self::UI_CMD_VIEW);
 
         $this->addToNavigationHistory();
 
-        if (strtolower($nextClass) !== strtolower(ilObjStyleSheetGUI::class)) {
+        if (strtolower($nextClass) !== strtolower(ilObjectContentStyleSettingsGUI::class)) {
             $this->renderHeaderActions();
         }
 
@@ -207,44 +207,18 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
-            case strtolower(ilObjStyleSheetGUI::class):
-                $this->checkPermission('write');
-
+            case strtolower(ilObjectContentStyleSettingsGUI::class):
+                $this->checkPermission("write");
+                $this->prepareOutput();
                 $this->setLocator();
-
-                $this->ctrl->setReturn($this, 'editStyleProperties');
-                $style_gui = new ilObjStyleSheetGUI(
-                    '',
-                    $this->object->getStyleSheetId(),
-                    false,
-                    false
-                );
-                $style_gui->omitLocator();
-
-                $new_type = '';
-                if ($this->http->wrapper()->query()->has('new_type')) {
-                    $new_type = $this->http->wrapper()->query()->retrieve(
-                        'new_type',
-                        $this->refinery->kindlyTo()->string()
+                $this->tabs->activateTab(self::UI_TAB_ID_SETTINGS);
+                $this->setSettingsSubTabs(self::UI_TAB_ID_STYLE);
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
                     );
-                }
-                if ($cmd === 'create' || $new_type === 'sty') {
-                    $style_gui->setCreationMode();
-                }
-
-                if ($cmd === 'confirmedDelete') {
-                    $this->object->setStyleSheetId(0);
-                    $this->object->update();
-                }
-
-                $ret = $this->ctrl->forwardCommand($style_gui);
-
-                if ($cmd === 'save' || $cmd === 'copyStyle' || $cmd === 'importStyle') {
-                    $styleId = $ret;
-                    $this->object->setStyleSheetId((int) $styleId);
-                    $this->object->update();
-                    $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'edit');
-                }
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
 
             case strtolower(ilContentPagePageGUI::class):
@@ -263,22 +237,22 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
                 $this->prepareOutput();
 
-                $this->tpl->setVariable(
-                    'LOCATION_CONTENT_STYLESHEET',
-                    ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
-                );
+                $this->content_style_gui->addCss($this->tpl, $this->object->getRefId());
                 $this->tpl->setCurrentBlock('SyntaxStyle');
                 $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
                 $this->tpl->parseCurrentBlock();
 
+                /** @var ilObjContentPage $obj */
+                $obj = $this->object;
                 $forwarder = new ilContentPagePageCommandForwarder(
                     $this->http,
                     $this->ctrl,
                     $this->tabs,
                     $this->lng,
-                    $this->object,
+                    $obj,
                     $this->user,
-                    $this->refinery
+                    $this->refinery,
+                    $this->content_style_domain
                 );
 
                 $forwarder->addUpdateListener(function (PageUpdatedEvent $event) : void {
@@ -298,7 +272,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
             case strtolower(ilInfoScreenGUI::class):
                 if (!$this->infoScreenEnabled) {
-                    return null;
+                    return;
                 }
                 $this->prepareOutput();
 
@@ -387,9 +361,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     $this->ctrl->setCmd($cmd . 'Object');
                 }
 
-                return parent::executeCommand();
+                parent::executeCommand();
         }
-        return null;
     }
 
     public function addToNavigationHistory() : void
@@ -450,7 +423,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $this->tabs_gui->addSubTab(
                 self::UI_TAB_ID_STYLE,
                 $this->lng->txt('cont_style'),
-                $this->ctrl->getLinkTarget($this, 'editStyleProperties')
+                $this->ctrl->getLinkTargetByClass("ilobjectcontentstylesettingsgui", "")
             );
 
             $this->tabs_gui->addSubTab(
@@ -528,7 +501,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->lng,
                 $this->object,
                 $this->user,
-                $this->refinery
+                $this->refinery,
+                $this->content_style_domain
             );
             $forwarder->setPresentationMode(ilContentPagePageCommandForwarder::PRESENTATION_MODE_PRESENTATION);
 
@@ -540,10 +514,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     protected function initStyleSheets() : void
     {
-        $this->tpl->setVariable(
-            'LOCATION_CONTENT_STYLESHEET',
-            ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
-        );
+        $this->content_style_gui->addCss($this->tpl, $this->object->getRefId());
         $this->tpl->setCurrentBlock('SyntaxStyle');
         $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
         $this->tpl->parseCurrentBlock();
@@ -560,7 +531,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         );
         $a_new_object->getObjectTranslation()->save();
 
-        ilUtil::sendSuccess($this->lng->txt('object_added'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
         $this->ctrl->redirect($this, 'edit');
     }
 
@@ -625,107 +596,5 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             ]
         );
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
-    }
-
-    protected function editStyleProperties() : void
-    {
-        $this->checkPermission('write');
-
-        $this->tabs->activateTab(self::UI_TAB_ID_SETTINGS);
-        $this->setSettingsSubTabs(self::UI_TAB_ID_STYLE);
-
-        $form = $this->buildStylePropertiesForm();
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    protected function buildStylePropertiesForm() : ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-
-        $fixedStyle = (int) $this->settings->get('fixed_content_style_id', '0');
-        $defaultStyle = (int) $this->settings->get('default_content_style_id', '0');
-        $styleId = $this->object->getStyleSheetId();
-
-        if ($fixedStyle > 0) {
-            $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
-            $st->setValue(
-                ilObject::_lookupTitle($fixedStyle) . ' (' . $this->lng->txt('global_fixed') . ')'
-            );
-            $form->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int())
-            );
-
-            if ($defaultStyle > 0) {
-                $st_styles[0] = ilObject::_lookupTitle($defaultStyle) . ' (' . $this->lng->txt('default') . ')';
-            } else {
-                $st_styles[0] = $this->lng->txt('default');
-            }
-            ksort($st_styles);
-
-            if ($styleId > 0 && !ilObjStyleSheet::_lookupStandard($styleId)) {
-                $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
-                $st->setValue(ilObject::_lookupTitle($styleId));
-                $form->addItem($st);
-
-                $form->addCommandButton('editStyle', $this->lng->txt('cont_edit_style'));
-                $form->addCommandButton('deleteStyle', $this->lng->txt('cont_delete_style'));
-            }
-
-            if ($styleId <= 0 || ilObjStyleSheet::_lookupStandard($styleId)) {
-                $style_sel = new ilSelectInputGUI($this->lng->txt('cont_current_style'), 'style_id');
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($styleId);
-                $form->addItem($style_sel);
-                $form->addCommandButton('saveStyleSettings', $this->lng->txt('save'));
-                $form->addCommandButton('createStyle', $this->lng->txt('sty_create_ind_style'));
-            }
-        }
-
-        $form->setTitle($this->lng->txt('cont_style'));
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        return $form;
-    }
-
-    protected function createStyle() : void
-    {
-        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'create');
-    }
-
-    protected function editStyle() : void
-    {
-        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'edit');
-    }
-
-    protected function deleteStyle() : void
-    {
-        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'delete');
-    }
-
-    protected function saveStyleSettings() : void
-    {
-        $this->checkPermission('write');
-
-        if (
-            (int) $this->settings->get('fixed_content_style_id', '0') <= 0 &&
-            (
-                ilObjStyleSheet::_lookupStandard(
-                    $this->object->getStyleSheetId()
-                ) ||
-                $this->object->getStyleSheetId() === 0
-            )
-        ) {
-            $this->object->setStyleSheetId(
-                $this->http->wrapper()->query()->retrieve('style_id', $this->refinery->kindlyTo()->int())
-            );
-            $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-        }
-
-        $this->ctrl->redirect($this, 'editStyleProperties');
     }
 }

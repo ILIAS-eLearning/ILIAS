@@ -20,6 +20,7 @@ class ilCertificateCron extends ilCronJob
     private ?ilCertificateObjectHelper $objectHelper;
     private Container $dic;
     private ?ilSetting $settings;
+    private ?ilCronManager $cronManager;
 
     public function __construct(
         ?ilCertificateQueueRepository $queueRepository = null,
@@ -30,7 +31,8 @@ class ilCertificateCron extends ilCronJob
         ?Container $dic = null,
         ?ilLanguage $language = null,
         ?ilCertificateObjectHelper $objectHelper = null,
-        ?ilSetting $setting = null
+        ?ilSetting $setting = null,
+        ?ilCronManager $cronManager = null
     ) {
         if (null === $dic) {
             global $DIC;
@@ -45,6 +47,7 @@ class ilCertificateCron extends ilCronJob
         $this->logger = $logger;
         $this->objectHelper = $objectHelper;
         $this->settings = $setting;
+        $this->cronManager = $cronManager;
 
         if ($dic && isset($dic['lng'])) {
             $language = $dic->language();
@@ -75,6 +78,10 @@ class ilCertificateCron extends ilCronJob
 
         if (null === $this->logger) {
             $this->logger = $this->dic->logger()->cert();
+        }
+
+        if (null === $this->cronManager) {
+            $this->cronManager = $this->dic->cron()->manager();
         }
 
         if (null === $this->queueRepository) {
@@ -204,7 +211,7 @@ class ilCertificateCron extends ilCronJob
     public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations) : array
     {
         if ($entryCounter > 0 && $entryCounter % 10 === 0) {
-            ilCronManager::ping($this->getId());
+            $this->cronManager->ping($this->getId());
         }
 
         $this->logger->debug('Entry found will start of processing the entry');

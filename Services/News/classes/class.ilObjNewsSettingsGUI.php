@@ -39,7 +39,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -62,7 +62,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        $rbacsystem = $this->rbacsystem;
+        $rbacsystem = $this->rbac_system;
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -105,9 +105,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $news_default_visibility = ($news_set->get("default_visibility") != "")
             ? $news_set->get("default_visibility")
             : "users";
-        $disable_repository_feeds = $feed_set->get("disable_rep_feeds");
-        $nr_personal_desktop_feeds = $ilSetting->get("block_limit_pdfeed");
-        
+
         $allow_shorter_periods = $news_set->get("allow_shorter_periods");
         $allow_longer_periods = $news_set->get("allow_longer_periods");
     
@@ -251,22 +249,6 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $cb_prop->setChecked($enable_private_feed);
         $form->addItem($cb_prop);
 
-
-        // Section Header: External Web Feeds Settings
-        $sh = new ilFormSectionHeaderGUI();
-        $sh->setTitle($lng->txt("feed_settings"));
-        $form->addItem($sh);
-
-        // Disable External Web Feeds in catetegories
-        $cb_prop = new ilCheckboxInputGUI(
-            $lng->txt("feed_disable_rep_feeds"),
-            "disable_repository_feeds"
-        );
-        $cb_prop->setValue("1");
-        $cb_prop->setInfo($lng->txt("feed_disable_rep_feeds_info"));
-        $cb_prop->setChecked($disable_repository_feeds);
-        $form->addItem($cb_prop);
-
         if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             // command buttons
             $form->addCommandButton("saveSettings", $lng->txt("save"));
@@ -306,7 +288,6 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
             $news_set->set("allow_longer_periods", $form->getInput("allow_longer_periods"));
             $news_set->set("rss_period", $form->getInput("news_rss_period"));
             $news_set->set("rss_title_format", $form->getInput("rss_title_format"));
-            $feed_set->set("disable_rep_feeds", $form->getInput("disable_repository_feeds"));
 
             if ($form->getInput("enable_internal_rss") != 0) {
                 $news_set->set("enable_private_feed", $form->getInput("enable_private_feed"));
@@ -314,7 +295,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
                 $news_set->set("enable_private_feed", 0);
             }
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         
         $ilCtrl->redirect($this, "view");

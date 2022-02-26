@@ -194,7 +194,7 @@ class ilObjectCustomIconImpl implements ilObjectCustomIcon
     {
         // TODO: Currently there is no option to get the relative base directory of a filesystem
         return implode(DIRECTORY_SEPARATOR, [
-            ilUtil::getWebspaceDir(),
+            ilFileUtils::getWebspaceDir(),
             $this->getRelativePath()
         ]);
     }
@@ -202,10 +202,10 @@ class ilObjectCustomIconImpl implements ilObjectCustomIcon
     public function createFromImportDir(string $source_dir) : void
     {
         $target_dir = implode(DIRECTORY_SEPARATOR, [
-            ilUtil::getWebspaceDir(),
+            ilFileUtils::getWebspaceDir(),
             $this->getIconDirectory()
         ]);
-        ilUtil::rCopy($source_dir, $target_dir);
+        ilFileUtils::rCopy($source_dir, $target_dir);
         $this->persistIconState($this->getRelativePath());
     }
 }

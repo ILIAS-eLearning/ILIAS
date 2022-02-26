@@ -37,6 +37,7 @@ class ilDclFieldEditGUI
      * @var ilDclBaseFieldModel
      */
     protected $field_obj;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
@@ -47,6 +48,7 @@ class ilDclFieldEditGUI
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
 
         $this->obj_id = $a_parent_obj->obj_id;
@@ -290,7 +292,7 @@ class ilDclFieldEditGUI
 
             $title = $this->form->getInput("title");
             if ($a_mode != "create" && $title != $this->field_obj->getTitle()) {
-                ilUtil::sendInfo($lng->txt("dcl_field_title_change_warning"), true);
+                $this->main_tpl->setOnScreenMessage('info', $lng->txt("dcl_field_title_change_warning"), true);
             }
 
             $this->field_obj->setTitle($title);
@@ -311,11 +313,11 @@ class ilDclFieldEditGUI
             $ilCtrl->setParameter($this, "field_id", $this->field_obj->getId());
 
             if ($a_mode == "update") {
-                ilUtil::sendSuccess($lng->txt("dcl_msg_field_modified"), true);
+                $this->main_tpl->setOnScreenMessage('success', $lng->txt("dcl_msg_field_modified"), true);
             } else {
                 $this->table->addField($this->field_obj);
                 $this->table->buildOrderFields();
-                ilUtil::sendSuccess($lng->txt("msg_field_created"), false);
+                $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_field_created"), false);
             }
             $ilCtrl->redirectByClass(strtolower("ilDclFieldListGUI"), "listFields");
         } else {
@@ -359,7 +361,7 @@ class ilDclFieldEditGUI
         }
 
         if (!$return) {
-            ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
         }
 
         return $return;

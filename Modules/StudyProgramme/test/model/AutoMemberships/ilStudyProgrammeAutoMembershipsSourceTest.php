@@ -11,7 +11,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
     protected int $usr_id;
     protected DateTimeImmutable $dat;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->prg_obj_id = 123;
         $this->source_type = ilStudyProgrammeAutoMembershipSource::TYPE_ROLE;

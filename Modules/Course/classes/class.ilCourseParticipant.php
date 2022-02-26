@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,32 +21,23 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ModulesCourse
-*/
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ModulesCourse
+ */
 class ilCourseParticipant extends ilParticipant
 {
-    const COMPONENT_NAME = 'Modules/Course';
-    
-    protected static $instances = array();
-    
+    protected const COMPONENT_NAME = 'Modules/Course';
+
+    protected static array $instances = [];
+
     /**
-     * Singleton constructor
-     *
-     * @access protected
-     * @param int obj_id of container
+     * @todo get rid of these pseudo constants
      */
-    public function __construct($a_obj_id, $a_usr_id)
+    protected function __construct(int $a_obj_id, int $a_usr_id)
     {
         $this->type = 'crs';
-        
+
         $this->NOTIFY_DISMISS_SUBSCRIBER = 1;
         $this->NOTIFY_ACCEPT_SUBSCRIBER = 2;
         $this->NOTIFY_DISMISS_MEMBER = 3;
@@ -56,24 +47,15 @@ class ilCourseParticipant extends ilParticipant
         $this->NOTIFY_ADMINS = 7;
         $this->NOTIFY_STATUS_CHANGED = 8;
         $this->NOTIFY_SUBSCRIPTION_REQUEST = 9;
-        
+
         $this->NOTIFY_REGISTERED = 10;
         $this->NOTIFY_UNSUBSCRIBE = 11;
         $this->NOTIFY_WAITING_LIST = 12;
-        
+
         parent::__construct(self::COMPONENT_NAME, $a_obj_id, $a_usr_id);
     }
 
-    /**
-     * Get singleton instance
-     *
-     * @access public
-     * @static
-     *
-     * @param int obj_id
-     * @return ilCourseParticipant
-     */
-    public static function _getInstanceByObjId($a_obj_id, $a_usr_id)
+    public static function _getInstanceByObjId(int $a_obj_id, int $a_usr_id) : ilCourseParticipant
     {
         if (isset(self::$instances[$a_obj_id][$a_usr_id]) && self::$instances[$a_obj_id][$a_usr_id]) {
             return self::$instances[$a_obj_id][$a_usr_id];

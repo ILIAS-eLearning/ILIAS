@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjLTIConsumerGUI
  * @author       Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
@@ -33,15 +44,8 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     const DEFAULT_CMD = 'infoScreen';
 
-    /**
-     * @var ilObjLTIConsumer
-     */
-    public $object;
-
-    /**
-     * @var ilLTIConsumerAccess
-     */
-    protected $ltiAccess;
+    public ?ilObject $object;
+    protected ilLTIConsumerAccess $ltiAccess;
 
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
@@ -58,12 +62,16 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $DIC->language()->loadLanguageModule("rep");
     }
 
-    public function getType()
+    public function getType() : ?string
     {
         return 'lti';
     }
 
-    public function initCreationForms($a_new_type)
+    /**
+     * @param string $a_new_type
+     * @return array
+     */
+    protected function initCreationForms($a_new_type) : array
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -82,7 +90,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $forms;
     }
 
-    public function initCreateForm($a_new_type)
+    /**
+     * @param string $a_new_type
+     * @return ilLTIConsumerProviderSelectionFormTableGUI
+     */
+    protected function initCreateForm($a_new_type) : \ilLTIConsumerProviderSelectionFormTableGUI
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -90,11 +102,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $form = $this->buildProviderSelectionForm($a_new_type);
 
         $globalProviderList = new ilLTIConsumeProviderList();
-        $globalProviderList->setAvailabilityFilter(ilLTIConsumeProvider::AVAILABILITY_CREATE);
+        $globalProviderList->setAvailabilityFilter((string) ilLTIConsumeProvider::AVAILABILITY_CREATE);
         $globalProviderList->setScopeFilter(ilLTIConsumeProviderList::SCOPE_GLOBAL);
 
         $userProviderList = new ilLTIConsumeProviderList();
-        $userProviderList->setAvailabilityFilter(ilLTIConsumeProvider::AVAILABILITY_CREATE);
+        $userProviderList->setAvailabilityFilter((string) ilLTIConsumeProvider::AVAILABILITY_CREATE);
         $userProviderList->setScopeFilter(ilLTIConsumeProviderList::SCOPE_USER);
         $userProviderList->setCreatorFilter($DIC->user()->getId());
 
@@ -139,7 +151,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $form;
     }
 
-    public function initCustomCreateForm($a_new_type)
+    public function initCustomCreateForm(string $a_new_type) : \ilLTIConsumeProviderFormGUI
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -159,7 +171,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $form;
     }
 
-    protected function buildProviderSelectionForm($a_new_type)
+    protected function buildProviderSelectionForm(string $a_new_type) : \ilLTIConsumerProviderSelectionFormTableGUI
     {
         return new ilLTIConsumerProviderSelectionFormTableGUI(
             $a_new_type,
@@ -170,21 +182,21 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         );
     }
 
-    protected function applyProviderFilter()
+    protected function applyProviderFilter() : void
     {
         $form = $this->buildProviderSelectionForm('');
         $form->applyFilter();
         $this->createObject();
     }
 
-    protected function resetProviderFilter()
+    protected function resetProviderFilter() : void
     {
         $form = $this->buildProviderSelectionForm('');
         $form->resetFilter();
         $this->createObject();
     }
 
-    protected function createNewObject($newType, $title, $description)
+    protected function createNewObject(string $newType, string $title, string $description) : ilObject
     {
         $classname = "ilObj" . $this->objDefinition->getClassName($newType);
 
@@ -199,7 +211,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $newObj;
     }
 
-    public function saveCustom()
+    public function saveCustom() : void
     {
         if (!ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
             throw new ilLtiConsumerException('permission denied!');
@@ -244,7 +256,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $DIC->ui()->mainTemplate()->setContent($form->getHtml());
     }
 
-    public function afterSave(ilObject $newObject)
+    protected function afterSave(ilObject $newObject) : void
     {
         /* @var ilObjLTIConsumer $newObject */
         global $DIC;
@@ -296,7 +308,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         );
     }
 
-    public function initMetadata(ilObjLTIConsumer $object)
+    public function initMetadata(ilObjLTIConsumer $object) : void
     {
         $metadata = new ilMD($object->getId(), $object->getId(), $object->getType());
 
@@ -318,7 +330,13 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         ilMDKeyword::updateKeywords($generalMetadata, $keywords);
     }
 
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+    /**
+     * @param string|null $a_sub_type
+     * @param int|null    $a_sub_id
+     * @return ilObjectListGUI
+     * @throws ilCtrlException
+     */
+    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) : ?\ilObjectListGUI
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -353,9 +371,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $return;
     }
 
-    public static function _goto($a_target)
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         /* @var \ILIAS\DI\Container $DIC */
         $err = $DIC['ilErr'];
         /* @var ilErrorHandling $err */
@@ -374,14 +393,12 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         if ($access->checkAccess('read', '', $id)) {
             $ctrl->setTargetScript('ilias.php');
             $ctrl->setParameterByClass(ilObjLTIConsumerGUI::class, 'ref_id', $id);
-            if (isset($request->getQueryParams()['gotolp'])) {
-                $ctrl->setParameterByClass(ilObjLTIConsumerGUI::class, 'gotolp', 1);
-            }
             $ctrl->redirectByClass([ilRepositoryGUI::class, ilObjLTIConsumerGUI::class]);
         } elseif ($access->checkAccess('visible', '', $id)) {
             ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
         } elseif ($access->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(
+            $main_tpl->setOnScreenMessage(
+                'info',
                 sprintf(
                     $DIC->language()->txt('msg_no_perm_read_item'),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($id))
@@ -398,7 +415,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     /**
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -425,6 +442,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             /* @var ilNavigationHistory $navigationHistory */
             $navigationHistory->addItem($this->object->getRefId(), $link, $this->object->getType());
         }
+
+        /** @var ilObjLTIConsumer $obj */
+        $obj = $this->object;
 
         switch ($DIC->ctrl()->getNextClass()) {
             case strtolower(ilObjectCopyGUI::class):
@@ -457,7 +477,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 $DIC->tabs()->activateTab(self::TAB_ID_METADATA);
 
-                $gui = new ilObjectMetaDataGUI($this->object);
+                $gui = new ilObjectMetaDataGUI($obj);
                 $DIC->ctrl()->forwardCommand($gui);
                 break;
 
@@ -473,7 +493,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 $DIC->tabs()->activateTab(self::TAB_ID_SETTINGS);
 
-                $gui = new ilLTIConsumerSettingsGUI($this->object, $this->ltiAccess);
+                $gui = new ilLTIConsumerSettingsGUI($obj, $this->ltiAccess);
                 $DIC->ctrl()->forwardCommand($gui);
                 break;
 
@@ -481,7 +501,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 $DIC->tabs()->activateTab(self::TAB_ID_STATEMENTS);
 
-                $gui = new ilLTIConsumerXapiStatementsGUI($this->object);
+                $gui = new ilLTIConsumerXapiStatementsGUI($obj);
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
@@ -490,7 +510,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 $DIC->tabs()->activateTab(self::TAB_ID_SCORING);
 
-                $gui = new ilLTIConsumerScoringGUI($this->object);
+                $gui = new ilLTIConsumerScoringGUI($obj);
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
@@ -499,7 +519,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 $DIC->tabs()->activateTab(self::TAB_ID_CONTENT);
 
-                $gui = new ilLTIConsumerEmbeddedContentGUI($this->object);
+                $gui = new ilLTIConsumerEmbeddedContentGUI($obj);
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
@@ -510,7 +530,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
     }
 
-    public function setTabs()
+    protected function setTabs() : void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -595,7 +615,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
     }
 
-    protected function debug()
+    protected function debug() : void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -635,14 +655,14 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             );
 
             //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
-            ilUtil::sendInfo($linkBuilder->getPipelineDebug());
-            ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), 1) . '</pre>');
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('info', $linkBuilder->getPipelineDebug());
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('question', '<pre>' . print_r($report->getTableData(), true) . '</pre>');
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
         }
     }
 
-    public function addLocatorItems()
+    protected function addLocatorItems() : void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -653,11 +673,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $this->object->getTitle(),
             $this->ctrl->getLinkTarget($this, self::DEFAULT_CMD),
             "",
-            $_GET["ref_id"]
+            $this->object->getRefId()
         );
     }
 
-    protected function trackObjectReadEvent()
+    protected function trackObjectReadEvent() : void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -672,7 +692,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
     }
 
-    protected function infoScreen()
+    protected function infoScreen() : void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -684,7 +704,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $this->infoScreenForward();
     }
 
-    protected function infoScreenForward()
+    protected function infoScreenForward() : void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -713,8 +733,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
             if ($enable_internal_rss) {
-                $info->setBlockProperty("news", "settings", true);
-                $info->setBlockProperty("news", "public_notifications_option", true);
+                //todo check
+                $info->setBlockProperty("news", "settings", "true");
+                $info->setBlockProperty("news", "public_notifications_option", "true");
             }
         }
 
@@ -724,11 +745,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         if (DEVMODE) {
             // Development Info
             $info->addSection('DEVMODE Info');
-            $info->addProperty('Local Object ID', $this->object->getId());
-            $info->addProperty('Current User ID', $DIC->user()->getId());
+            $info->addProperty('Local Object ID', (string) $this->object->getId());
+            $info->addProperty('Current User ID', (string) $DIC->user()->getId());
         }
-
-        require_once('Services/Tracking/classes/class.ilLPObjSettings.php');
         if ($this->object->getProvider()->getHasOutcome() && ilLPObjSettings::_lookupDBMode($this->object->getId()) != 0) {
             $info->addSection($DIC->language()->txt("lti_info_learning_progress_section"));
             $info->addProperty(
@@ -772,7 +791,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $this->ctrl->forwardCommand($info);
     }
 
-    protected function initInfoScreenToolbar()
+    protected function initInfoScreenToolbar() : void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -794,16 +813,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $cmixUser->setUsrIdent($user_ident);
             $cmixUser->save();
         }
-
-        include_once("./Modules/LTIConsumer/classes/class.ilLTIConsumerLaunch.php");
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
         $context = $ilLTIConsumerLaunch->getContext();
         $contextType = $ilLTIConsumerLaunch::getLTIContextType($context["type"]);
         $contextId = $context["id"];
         $contextTitle = $context["title"];
-
-        require_once("Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
-        require_once('./Services/Link/classes/class.ilLink.php');
 
         $token = ilCmiXapiAuthToken::fillToken(
             $DIC->user()->getId(),
@@ -845,14 +859,14 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $DIC->toolbar()->addText($output);
     }
 
-    protected function handleAvailablityMessage()
+    protected function handleAvailablityMessage() : void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
         if ($this->object->getProvider()->getProviderUrl() == '') {
-            ilUtil::sendFailure($DIC->language()->txt('lti_provider_not_set_msg'));
+            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_provider_not_set_msg'));
         } elseif ($this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
-            ilUtil::sendFailure($DIC->language()->txt('lti_provider_not_avail_msg'));
+            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_provider_not_avail_msg'));
         }
     }
 }

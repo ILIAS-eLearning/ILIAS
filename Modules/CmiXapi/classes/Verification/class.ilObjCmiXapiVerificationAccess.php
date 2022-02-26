@@ -47,7 +47,7 @@ class ilObjCmiXapiVerificationAccess extends ilObjectAccess
         // #11021
         // personal workspace context: do not force normal login
         if (isset($t_arr[2]) && $t_arr[2] == "wsp") {
-            return ilSharedResourceGUI::hasAccess($t_arr[1]);
+            return ilSharedResourceGUI::hasAccess((int) $t_arr[1]);
         }
         
         if ($ilAccess->checkAccess("read", "", $t_arr[1])) {

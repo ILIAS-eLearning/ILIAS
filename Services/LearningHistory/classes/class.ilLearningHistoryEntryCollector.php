@@ -60,7 +60,7 @@ class ilLearningHistoryEntryCollector
             }
         }
 
-        $sort_array = ilUtil::sortArray($sort_array, "ts", "desc");
+        $sort_array = ilArrayUtil::sortArray($sort_array, "ts", "desc");
 
         // add today entry
         $entries = [];

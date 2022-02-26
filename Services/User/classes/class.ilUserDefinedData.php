@@ -71,12 +71,12 @@ class ilUserDefinedData
         return $this->usr_id;
     }
 
-    public function set(int $a_field, string $a_value) : void
+    public function set(string $a_field, string $a_value) : void
     {
         $this->user_data[$a_field] = $a_value;
     }
 
-    public function get(int $a_field) : string
+    public function get(string $a_field) : string
     {
         return $this->user_data[$a_field] ?? '';
     }

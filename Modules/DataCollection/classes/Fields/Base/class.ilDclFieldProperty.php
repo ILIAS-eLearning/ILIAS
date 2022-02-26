@@ -148,7 +148,7 @@ class ilDclFieldProperty extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function afterObjectLoad()
+    public function afterObjectLoad() : void
     {
         $this->value = $this->deserializeData($this->value);
     }

@@ -19,7 +19,6 @@ use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
  */
 abstract class AbstractPluginProvider extends AbstractProvider implements PluginProvider
 {
-    
     private PluginIdentificationProvider $identification_provider;
     
     /**

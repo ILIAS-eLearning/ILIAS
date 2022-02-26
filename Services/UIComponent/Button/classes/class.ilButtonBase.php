@@ -130,17 +130,7 @@ abstract class ilButtonBase implements ilToolbarItem
     {
         return $this->onclick;
     }
-    
-    public function setAccessKey(int $a_value) : void
-    {
-        $this->acc_key = $a_value;
-    }
-    
-    public function getAccessKey() : int
-    {
-        return $this->acc_key;
-    }
-    
+
     public function setDisabled(bool $a_value) : void
     {
         $this->disabled = $a_value;
@@ -205,11 +195,7 @@ abstract class ilButtonBase implements ilToolbarItem
         $attr["id"] = $this->getId();
         $attr["class"] = $this->gatherCssClasses();
         $attr["onclick"] = $this->getOnClick();
-        
-        if ($this->getAccessKey()) {
-            $attr["accesskey"] = ilAccessKey::getKey($this->getAccessKey());
-        }
-        
+
         if ($this->isDisabled()) {
             $attr["disabled"] = "disabled";
         }

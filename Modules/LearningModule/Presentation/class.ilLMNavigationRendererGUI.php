@@ -124,7 +124,7 @@ class ilLMNavigationRendererGUI
                     $this->lang,
                     true
                 );
-                $prev_title = ilUtil::shortenText($prev_title, 50, true);
+                $prev_title = ilStr::shortenTextExtended($prev_title, 50, true);
                 $prev_img =
                     ilUtil::getImagePath("nav_arr_L.png", false, "output", $this->offline);
 
@@ -172,7 +172,7 @@ class ilLMNavigationRendererGUI
                     $this->lang,
                     true
                 );
-                $succ_title = ilUtil::shortenText($succ_title, 50, true);
+                $succ_title = ilStr::shortenTextExtended($succ_title, 50, true);
                 $succ_img =
                     ilUtil::getImagePath("nav_arr_R.png", false, "output", $this->offline);
                 if (!$this->lm->cleanFrames()) {

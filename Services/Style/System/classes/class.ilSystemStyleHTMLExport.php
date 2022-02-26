@@ -32,9 +32,9 @@ class ilSystemStyleHTMLExport
 
     public function createDirectories()
     {
-        ilUtil::makeDirParents($this->style_dir);
-        ilUtil::makeDirParents($this->img_dir);
-        ilUtil::makeDirParents($this->img_browser_dir);
+        ilFileUtils::makeDirParents($this->style_dir);
+        ilFileUtils::makeDirParents($this->img_dir);
+        ilFileUtils::makeDirParents($this->img_browser_dir);
     }
 
     /**

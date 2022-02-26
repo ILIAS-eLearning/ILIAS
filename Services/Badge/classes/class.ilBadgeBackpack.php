@@ -23,9 +23,12 @@ class ilBadgeBackpack
 
     protected string $email;
     protected int $uid;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(string $a_email)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->email = $a_email;
     }
     
@@ -146,7 +149,7 @@ class ilBadgeBackpack
 
             $answer = $curl->exec();
         } catch (Exception $ex) {
-            ilUtil::sendFailure($ex->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $ex->getMessage());
             return null;
         }
         

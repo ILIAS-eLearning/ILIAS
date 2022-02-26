@@ -170,7 +170,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
                 $surveySetting->set("skipped_custom_value", trim($form->getInput("cust_value")));
             }
 
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "settings");
         }
         

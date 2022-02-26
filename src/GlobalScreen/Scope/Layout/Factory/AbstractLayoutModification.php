@@ -41,10 +41,10 @@ abstract class AbstractLayoutModification implements LayoutModification
      */
     final public function withPriority(int $priority) : LayoutModification
     {
-        if ((self::PRIORITY_LOW <= $priority) && ($priority <= self::PRIORITY_HIGH)) {
+        if ((self::PRIORITY_LOW > $priority) || ($priority > self::PRIORITY_HIGH)) {
             throw new LogicException("\$priority MUST be between LayoutModification::PRIORITY_LOW, LayoutModification::PRIORITY_MEDIUM or LayoutModification::PRIORITY_HIGH");
         }
-        $clone           = clone $this;
+        $clone = clone $this;
         $clone->priority = $priority;
         
         return $clone;
@@ -55,7 +55,7 @@ abstract class AbstractLayoutModification implements LayoutModification
      */
     final public function withHighPriority() : LayoutModification
     {
-        $clone           = clone $this;
+        $clone = clone $this;
         $clone->priority = LayoutModification::PRIORITY_HIGH;
         
         return $clone;
@@ -66,7 +66,7 @@ abstract class AbstractLayoutModification implements LayoutModification
      */
     final public function withLowPriority() : LayoutModification
     {
-        $clone           = clone $this;
+        $clone = clone $this;
         $clone->priority = LayoutModification::PRIORITY_LOW;
         
         return $clone;
@@ -78,7 +78,7 @@ abstract class AbstractLayoutModification implements LayoutModification
      */
     final public function withModification(Closure $closure) : LayoutModification
     {
-        $clone               = clone $this;
+        $clone = clone $this;
         $clone->modification = $closure;
         
         return $clone;
@@ -105,7 +105,7 @@ abstract class AbstractLayoutModification implements LayoutModification
      */
     private function checkClosure() : bool
     {
-        $closure     = $this->modification;
+        $closure = $this->modification;
         $return_type = $this->getClosureReturnType();
         
         try {

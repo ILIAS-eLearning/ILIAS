@@ -92,7 +92,7 @@ class ilUserPasswordManager
                     [
                         'default_password_encoder' => 'bcryptphp',
                         'ignore_security_flaw' => true,
-                        'data_directory' => ilUtil::getDataDir()
+                        'data_directory' => ilFileUtils::getDataDir()
                     ]
                 ),
                 'password_encoder' => 'bcryptphp',
@@ -177,7 +177,7 @@ class ilUserPasswordManager
     {
         $defaultAuthMode = $this->settings->get('auth_mode');
         $defaultAuthModeCondition = '';
-        if ((int) $defaultAuthMode === AUTH_LOCAL) {
+        if ((int) $defaultAuthMode === ilAuthUtils::AUTH_LOCAL) {
             $defaultAuthModeCondition = ' OR auth_mode = ' . $this->db->quote('default', 'text');
         }
 

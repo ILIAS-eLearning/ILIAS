@@ -39,7 +39,7 @@ abstract class ilImportDirectory implements ilImportDirectoryHandler
         if (!$this->exists()) {
             return '';
         }
-        return ilUtil::getDataDir() . '/' . $this->relative_path;
+        return ilFileUtils::getDataDir() . '/' . $this->relative_path;
     }
 
     abstract protected function getPathPrefix() : string;

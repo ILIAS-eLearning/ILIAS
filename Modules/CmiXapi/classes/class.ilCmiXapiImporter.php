@@ -158,8 +158,8 @@ class ilCmiXapiImporter extends ilXmlImporter
             if (false === (bool) $DIC->filesystem()->web()->has($this->_relWebDir)) {
                 $DIC->filesystem()->web()->createDir($this->_relWebDir);
                 $DIC->filesystem()->web()->put($this->_relWebDir . '/content.zip', $DIC->filesystem()->temp()->read($this->_relImportDir . '/content.zip'));
-                $webDataDir = ilUtil::getWebspaceDir();
-                ilUtil::unzip($webDataDir . "/" . $this->_relWebDir . "/content.zip");
+                $webDataDir = ilFileUtils::getWebspaceDir();
+                ilFileUtils::unzip($webDataDir . "/" . $this->_relWebDir . "/content.zip");
                 $DIC->filesystem()->web()->delete($this->_relWebDir . '/content.zip');
             }
         }

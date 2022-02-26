@@ -104,7 +104,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     public function addToDeskObject() : void
     {
         $this->favourites->add($this->user->getId(), $this->requested_item_ref_id);
-        ilUtil::sendSuccess($this->lng->txt("rep_added_to_favourites"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_added_to_favourites"), true);
         $this->returnToContext();
     }
 
@@ -118,7 +118,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     {
         $this->lng->loadLanguageModule("rep");
         $this->favourites->remove($this->user->getId(), $this->requested_item_ref_id);
-        ilUtil::sendSuccess($this->lng->txt("rep_removed_from_favourites"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_removed_from_favourites"), true);
         $this->returnToContext();
     }
 
@@ -327,7 +327,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
         $refIds = (array) ($this->http->request()->getParsedBody()['id'] ?? []);
         if (0 === count($refIds)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'manage');
         }
 
@@ -375,7 +375,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         }
 
         // #12909
-        ilUtil::sendSuccess($this->lng->txt('pd_remove_multi_confirm'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('pd_remove_multi_confirm'), true);
         $this->ctrl->redirect($this, 'manage');
     }
     
@@ -425,7 +425,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('mmbr_unsubscribed_from_objs'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('mmbr_unsubscribed_from_objs'), true);
         $this->ctrl->returnToParent($this);
     }
 

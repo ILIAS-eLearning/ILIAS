@@ -48,7 +48,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -70,9 +70,9 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        $rbacsystem = $this->rbacsystem;
+        $rbac_system = $this->rbac_system;
 
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "cont_edit_lrs_settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),
@@ -80,7 +80,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
@@ -263,7 +263,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             $privacy->enableExportSCORM((int) $form->getInput('export_scorm'));
             $privacy->save();
 
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "view");
         } else {
             $form->setValuesByPost();

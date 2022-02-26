@@ -33,7 +33,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     protected ilLOSettings $loc_settings;
     private string $output_html = '';
     private ?ilLOTestAssignments $test_assignments = null;
-    
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+
     public function __construct(ilContainerGUI $a_container_gui)
     {
         global $DIC;
@@ -51,6 +52,13 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         parent::__construct($a_container_gui);
         
         $this->initTestAssignments();
+
+        // ak: note, also in ILIAS <= 7 this page did not
+        // use the container style, it could however, but this would be a conceptual change
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain()
+            ->styleForObjId(0);
     }
     
     public function getTestAssignments() : ilLOTestAssignments
@@ -156,7 +164,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $lng = $this->lng;
         
         $status = ilCourseObjectiveResultCache::getStatus($ilUser->getId(), $this->getContainerObject()->getId());
-        if ($status == IL_OBJECTIVE_STATUS_EMPTY) {
+        if ($status == ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_EMPTY) {
             return;
         }
         $info_tpl = new ilTemplate('tpl.crs_objectives_view_info_table.html', true, true, 'Modules/Course');
@@ -792,7 +800,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 
                 $page_gui = new ilLOPageGUI($objective->getObjectiveId());
                 
-                $page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));
+                $page_gui->setStyleId(
+                    $this->content_style_domain->getEffectiveStyleId()
+                );
                 $page_gui->setPresentationTitle("");
                 $page_gui->setTemplateOutput(false);
                 $page_gui->setHeader("");

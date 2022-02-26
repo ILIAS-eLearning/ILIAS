@@ -1,144 +1,110 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Handle user timings
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ModulesCourse
  */
 class ilTimingsUser
 {
-    private static $instances = array();
-    
-    private $container_obj_id = 0;
-    private $container_ref_id = 0;
-    
-    private $initialized = false;
-    private $item_ids = array();
+    private static array $instances = array();
 
+    private int $container_obj_id = 0;
+    private int $container_ref_id = 0;
 
-    
-    
+    private bool $initialized = false;
+    private array $item_ids = array();
+
+    protected ilTree $tree;
+    protected ilDBInterface $db;
+
     /**
      * Singleton constructor
      */
-    protected function __construct($a_container_obj_id)
+    protected function __construct(int $a_container_obj_id)
     {
+        global $DIC;
+
+        $this->tree = $DIC->repositoryTree();
+        $this->db = $DIC->database();
+
         $this->container_obj_id = $a_container_obj_id;
-        
         $refs = ilObject::_getAllReferences($a_container_obj_id);
         $this->container_ref_id = end($refs);
     }
-    
-    /**
-     * Get instance by container id
-     * @param int $a_container_obj_id
-     * @return ilTimingsUser
-     */
-    public static function getInstanceByContainerId($a_container_obj_id)
+
+    public static function getInstanceByContainerId(int $a_container_obj_id) : self
     {
         if (array_key_exists($a_container_obj_id, self::$instances)) {
             return self::$instances[$a_container_obj_id];
         }
         return self::$instances[$a_container_obj_id] = new self($a_container_obj_id);
     }
-    
-    /**
-     * Get container obj id
-     */
-    public function getContainerObjId()
+
+    public function getContainerObjId() : int
     {
         return $this->container_obj_id;
     }
-    
-    /**
-     * Get container ref_id
-     */
-    public function getContainerRefId()
+
+    public function getContainerRefId() : int
     {
         return $this->container_ref_id;
     }
-    
-    public function getItemIds()
+
+    public function getItemIds() : array
     {
         return $this->item_ids;
     }
-    
-    /**
-     * Init activation items
-     */
-    public function init()
+
+    public function init() : void
     {
         if ($this->initialized) {
-            return true;
+            return;
         }
-        $this->item_ids = $GLOBALS['tree']->getSubTreeIds($this->getContainerRefId());
-        
+        $this->item_ids = $this->tree->getSubTreeIds($this->getContainerRefId());
         ilObjectActivation::preloadData($this->item_ids);
-        
         $this->initialized = true;
     }
 
-
-    /**
-     * @param int $a_usr_id
-     * @param ilDateTime $sub_date
-     * @throws ilDateTimeException
-     */
-    public function handleNewMembership($a_usr_id, ilDateTime $sub_date)
+    public function handleNewMembership(int $a_usr_id, ilDateTime $sub_date) : void
     {
         foreach ($this->getItemIds() as $item_ref_id) {
             $item = ilObjectActivation::getItem($item_ref_id);
-            
+
             if ($item['timing_type'] != ilObjectActivation::TIMINGS_PRESETTING) {
                 continue;
             }
-            
             $user_item = new ilTimingUser($item['obj_id'], $a_usr_id);
-            
             $user_start = clone $sub_date;
             $user_start->increment(IL_CAL_DAY, $item['suggestion_start_rel']);
             $user_item->getStart()->setDate($user_start->get(IL_CAL_UNIX), IL_CAL_UNIX);
-            
             $user_end = clone $sub_date;
             $user_end->increment(IL_CAL_DAY, $item['suggestion_end_rel']);
             $user_item->getEnd()->setDate($user_end->get(IL_CAL_UNIX), IL_CAL_UNIX);
-            
             $user_item->update();
         }
     }
-    
-    /**
-     * Handle unsubscribe
-     * @param type $a_usr_id
-     */
-    public function handleUnsubscribe($a_usr_id)
-    {
-        global $DIC;
 
-        $ilDB = $DIC->database();
-        
-        $query = 'DELETE FROM crs_timings_user WHERE ' . $ilDB->in('ref_id', $this->item_ids, false, 'integer') . ' ' .
-                'AND usr_id = ' . $ilDB->quote($a_usr_id, 'integer');
-                
-        $ilDB->manipulate($query);
+    public function handleUnsubscribe(int $a_usr_id) : void
+    {
+        $query = 'DELETE FROM crs_timings_user WHERE ' . $this->db->in('ref_id', $this->item_ids, false,
+                'integer') . ' ' .
+            'AND usr_id = ' . $this->db->quote($a_usr_id, 'integer');
+        $this->db->manipulate($query);
     }
 
     /**
      * Check if users currently exceeded ANY object
-     *
      * @param int[] $a_user_ids
      * @return array
      */
-    public static function lookupTimingsExceededByUser(array $a_user_ids)
+    public static function lookupTimingsExceededByUser(array $a_user_ids) : array
     {
         $res = array();
 
         $meta = [];
-        foreach (self::lookupTimings($a_user_ids, $meta, true, true) as $user_ids) {
+        foreach (self::lookupTimings($a_user_ids, $meta, true) as $user_ids) {
             foreach ($user_ids as $user_id) {
                 $res[$user_id] = $user_id;
             }
@@ -148,13 +114,12 @@ class ilTimingsUser
 
     /**
      * Lookup references, users with exceeded timings
-     *
-     * @param int[] $a_user_ids
+     * @param int[]  $a_user_ids
      * @param array &$a_meta
-     * @param bool $a_only_exceeded
+     * @param bool   $a_only_exceeded
      * @return array
      */
-    public static function lookupTimings(array $a_user_ids, array &$a_meta = null, $a_only_exceeded = true)
+    public static function lookupTimings(array $a_user_ids, array &$a_meta = null, $a_only_exceeded = true) : array
     {
         global $DIC;
 
@@ -163,7 +128,6 @@ class ilTimingsUser
 
         $res = array();
         $now = time();
-
 
         // get all relevant courses
         $course_members_map = ilParticipants::getUserMembershipAssignmentsByType($a_user_ids, ['crs'], true);
@@ -186,13 +150,13 @@ class ilTimingsUser
         $set = $ilDB->query($query);
         $user_relevant = $course_map = $course_parent_map = [];
         while ($row = $ilDB->fetchAssoc($set)) {
-            $obj_id = $row['obj_id'];
-            $sub_ref_id = $row['sub_ref_id'];
-            $mode = $row['timing_mode'];
+            $obj_id = (int) $row['obj_id'];
+            $sub_ref_id = (int) $row['sub_ref_id'];
+            $mode = (int) $row['timing_mode'];
 
             // needed for course_map-lookup for user-relevant data (see below)
-            $course_parent_map[$row['sub_ref_id']] = $row['obj_id'];
-            $course_map[$row['obj_id']] = $row['ref_id'];
+            $course_parent_map[(int) $row['sub_ref_id']] = (int) $row['obj_id'];
+            $course_map[(int) $row['obj_id']] = (int) $row['ref_id'];
 
             // gather meta data
             if (is_array($a_meta)) {
@@ -213,15 +177,15 @@ class ilTimingsUser
                     foreach ($a_user_ids as $user_id) {
                         // only if course member
                         if (in_array($user_id, $course_members_map[$obj_id])) {
-                            $a_meta[$user_id][$sub_ref_id]['start'] = $row['suggestion_start'];
-                            $a_meta[$user_id][$sub_ref_id]['end'] = $row['suggestion_end'];
+                            $a_meta[$user_id][$sub_ref_id]['start'] = (int) $row['suggestion_start'];
+                            $a_meta[$user_id][$sub_ref_id]['end'] = (int) $row['suggestion_end'];
                         }
                     }
                 }
 
                 if (
-                    ($a_only_exceeded && ($row['suggestion_end'] && $row['suggestion_end'] < $now)) ||
-                    (!$a_only_exceeded && ($row['suggestion_start'] && $row['suggestion_start'] < $now))
+                    ($a_only_exceeded && ((int) $row['suggestion_end'] && (int) $row['suggestion_end'] < $now)) ||
+                    (!$a_only_exceeded && ((int) $row['suggestion_start'] && (int) $row['suggestion_start'] < $now))
                 ) {
                     foreach ($a_user_ids as $user_id) {
                         // only if course member
@@ -245,10 +209,9 @@ class ilTimingsUser
                 ' WHERE ' . $ilDB->in('usr_id', $a_user_ids, false, 'integer') .
                 ' AND ' . $ilDB->in('ref_id', $user_relevant, false, 'integer');
             $set = $ilDB->query($query);
-            ;
             while ($row = $ilDB->fetchAssoc($set)) {
-                $ref_id = $row['ref_id'];
-                $user_id = $row['usr_id'];
+                $ref_id = (int) $row['ref_id'];
+                $user_id = (int) $row['usr_id'];
 
                 // only if course member
                 $crs_obj_id = $course_parent_map[$ref_id];
@@ -258,13 +221,13 @@ class ilTimingsUser
 
                 // gather meta data
                 if (is_array($a_meta)) {
-                    $a_meta[$user_id][$ref_id]['start'] = $row['sstart'];
-                    $a_meta[$user_id][$ref_id]['end'] = $row['ssend'];
+                    $a_meta[$user_id][$ref_id]['start'] = (int) $row['sstart'];
+                    $a_meta[$user_id][$ref_id]['end'] = (int) $row['ssend'];
                 }
 
                 if (
-                    ($a_only_exceeded && $row['ssend'] && $row['ssend'] < $now) ||
-                    (!$a_only_exceeded && $row['sstart'] && $row['sstart'] < $now)
+                    ($a_only_exceeded && (int) $row['ssend'] && (int) $row['ssend'] < $now) ||
+                    (!$a_only_exceeded && (int) $row['sstart'] && (int) $row['sstart'] < $now)
                 ) {
                     $res[$ref_id][$user_id] = $user_id;
                 } else {
@@ -273,8 +236,6 @@ class ilTimingsUser
                 }
             }
         }
-
-
 
         // clean-up/minimize the result
         foreach (array_keys($res) as $ref_id) {
@@ -295,8 +256,7 @@ class ilTimingsUser
                 // invalid LP?
                 if (in_array($ref_id, $invalid_lp)) {
                     $res[$ref_id] = array();
-                }
-                // LP completed?
+                } // LP completed?
                 else {
                     $user_ids = $res[$ref_id];
                     if (count($user_ids)) {
@@ -334,12 +294,11 @@ class ilTimingsUser
 
     /**
      * Check object LP modes
-     *
-     * @param int[] $a_ref_ids
+     * @param int[]  $a_ref_ids
      * @param array &$a_obj_map
      * @return array
      */
-    public static function getObjectsWithInactiveLP(array $a_ref_ids, array &$a_obj_map = null)
+    public static function getObjectsWithInactiveLP(array $a_ref_ids, array &$a_obj_map = null) : array
     {
         global $DIC;
 
@@ -353,8 +312,8 @@ class ilTimingsUser
         $set = $ilDB->query($query);
         $item_map = $item_types = array();
         while ($row = $ilDB->fetchAssoc($set)) {
-            $item_map[$row['ref_id']] = $row['obj_id'];
-            $item_types[$row['obj_id']] = $row['type'];
+            $item_map[(int) $row['ref_id']] = (int) $row['obj_id'];
+            $item_types[(int) $row['obj_id']] = $row['type'];
         }
 
         $a_obj_map = $item_map;
@@ -375,8 +334,7 @@ class ilTimingsUser
             // use db mode
             if (array_key_exists($obj_id, $db_modes)) {
                 $mode = $db_modes[$obj_id];
-            }
-            // use default
+            } // use default
             else {
                 if (!array_key_exists($type, $type_modes)) {
                     $type_modes[$type] = ilObjectLP::getInstance($obj_id);

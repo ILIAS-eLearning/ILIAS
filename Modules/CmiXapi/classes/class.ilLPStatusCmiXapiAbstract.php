@@ -68,9 +68,9 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
 
     /**
      * @param int $a_obj_id
-     * @return array|int[]|mixed
+     * @return array|int[]
      */
-    public static function _getNotAttempted($a_obj_id)
+    public static function _getNotAttempted(int $a_obj_id) : array
     {
         return self::getUserIdsByLpStatusNum(
             $a_obj_id,
@@ -80,9 +80,9 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
 
     /**
      * @param int $a_obj_id
-     * @return array|int[]|mixed
+     * @return array|int[]
      */
-    public static function _getInProgress($a_obj_id)
+    public static function _getInProgress(int $a_obj_id) : array
     {
         return self::getUserIdsByLpStatusNum(
             $a_obj_id,
@@ -92,9 +92,9 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
 
     /**
      * @param int $a_obj_id
-     * @return array|int[]|mixed
+     * @return array
      */
-    public static function _getCompleted($a_obj_id)
+    public static function _getCompleted(int $a_obj_id) : array
     {
         return self::getUserIdsByLpStatusNum(
             $a_obj_id,
@@ -104,9 +104,9 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
 
     /**
      * @param int $a_obj_id
-     * @return array|int[]|mixed
+     * @return array|int[]
      */
-    public static function _getFailed($a_obj_id)
+    public static function _getFailed(int $a_obj_id) : array
     {
         return self::getUserIdsByLpStatusNum(
             $a_obj_id,
@@ -127,9 +127,9 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
 
     /**
      * @param int $a_obj_id
-     * @return array|array[]|int[][]|mixed
+     * @return array|array[]|int[][]
      */
-    public static function _getStatusInfo($a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id) : array
     {
         if (self::$statusInfoCache[$a_obj_id] === null) {
             self::$statusInfoCache[$a_obj_id] = self::loadStatusInfo($a_obj_id);
@@ -176,12 +176,12 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     }
 
     /**
-     * @param int      $a_obj_id
-     * @param int      $a_usr_id
-     * @param int|null $a_obj
+     * @param int         $a_obj_id
+     * @param int         $a_usr_id
+     * @param object|null $a_obj
      * @return int
      */
-    public function determineStatus($a_obj_id, $a_usr_id, $a_obj = null) : int
+    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         $cmixUserResult = $this->getCmixUserResult($a_obj_id, $a_usr_id);
         
@@ -205,12 +205,12 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     }
 
     /**
-     * @param int      $a_obj_id
-     * @param int      $a_usr_id
-     * @param int|null $a_obj
-     * @return float
+     * @param int         $a_obj_id
+     * @param int         $a_usr_id
+     * @param object|null $a_obj
+     * @return int
      */
-    public function determinePercentage($a_obj_id, $a_usr_id, $a_obj = null) : float
+    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
     {
         $cmixResult = $this->getCmixUserResult($a_obj_id, $a_usr_id);
         

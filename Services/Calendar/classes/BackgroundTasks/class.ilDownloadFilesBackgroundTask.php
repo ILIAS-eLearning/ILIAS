@@ -21,6 +21,7 @@ class ilDownloadFilesBackgroundTask
     private array $events = [];
     private string $bucket_title;
     private bool $has_files = false;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilDownloadFilesBackgroundTask constructor.
@@ -30,6 +31,7 @@ class ilDownloadFilesBackgroundTask
     public function __construct($a_usr_id)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->logger = $DIC->logger()->cal();
         $this->user_id = $a_usr_id;
@@ -76,13 +78,13 @@ class ilDownloadFilesBackgroundTask
     public function run() : bool
     {
         $definition = new ilCalendarCopyDefinition();
-        $normalized_name = ilUtil::getASCIIFilename($this->getBucketTitle());
+        $normalized_name = ilFileUtils::getASCIIFilename($this->getBucketTitle());
         $definition->setTempDir($normalized_name);
 
         $this->collectFiles($definition);
 
         if (!$this->has_files) {
-            ilUtil::sendInfo($this->lng->txt("cal_down_no_files"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("cal_down_no_files"), true);
             return false;
         }
 
@@ -98,8 +100,10 @@ class ilDownloadFilesBackgroundTask
         $this->logger->debug("Normalized name = " . $normalized_name);
         $download_name->setValue($normalized_name . '.zip');
 
-        $download_interaction = $this->task_factory->createTask(ilCalendarDownloadZipInteraction::class,
-            [$zip_job, $download_name]);
+        $download_interaction = $this->task_factory->createTask(
+            ilCalendarDownloadZipInteraction::class,
+            [$zip_job, $download_name]
+        );
 
         // last task to bucket
         $bucket->setTask($download_interaction);
@@ -133,7 +137,7 @@ class ilDownloadFilesBackgroundTask
                 $folder_date = $start->get(IL_CAL_FKT_DATE, 'Y-m-d', $this->user->getTimeZone());
 
                 if ($event['fullday']) {
-                    $folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
+                    $folder_app = ilFileUtils::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
                 } else {
                     $start_time = $start->get(IL_CAL_FKT_DATE, 'H.i', $this->user->getTimeZone());
 
@@ -144,7 +148,7 @@ class ilDownloadFilesBackgroundTask
                         $start_time .= (' - ' . $end_time);
                     }
                     $folder_app = $start_time . ' ' .
-                        ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
+                        ilFileUtils::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
                 }
 
                 $this->logger->debug("collecting files...event title = " . $folder_app);

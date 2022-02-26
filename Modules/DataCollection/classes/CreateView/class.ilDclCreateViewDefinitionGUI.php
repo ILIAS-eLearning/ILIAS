@@ -149,7 +149,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
             $pageObject->delete();
         }
 
-        ilUtil::sendSuccess($lng->txt("dcl_empty_detailed_view_success"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("dcl_empty_detailed_view_success"), true);
 
         // Bug fix for mantis 22537: Redirect to settings-tab instead of fields-tab. This solves the problem and is more intuitive.
         $ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
@@ -166,7 +166,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $lng = $DIC['lng'];
 
         $this->getPageObject()->releasePageLock();
-        ilUtil::sendSuccess($lng->txt("cont_page_lock_released"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("cont_page_lock_released"), true);
         $ilCtrl->redirectByClass('ilDclTableViewGUI', "show");
     }
 
@@ -232,7 +232,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                     // Check number field
                     if ($data_type_id === ilDclDatatype::INPUTFORMAT_NUMBER) {
                         if (!ctype_digit($value)) {
-                            ilUtil::sendFailure($this->lng->txt('dcl_tableview_default_value_fail'), true);
+                            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_tableview_default_value_fail'), true);
                             $this->ctrl->saveParameter($this, 'tableview_id');
                             $this->ctrl->redirect($this, 'presentation');
                         }
@@ -289,7 +289,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
             $view->save();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_updated'), true);
         $this->ctrl->saveParameter($this, 'tableview_id');
         $this->ctrl->redirect($this, 'presentation');
     }

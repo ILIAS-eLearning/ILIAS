@@ -357,7 +357,7 @@ abstract class SurveyQuestionGUI
             // #13784
             if ($a_return &&
                 !SurveyQuestion::_isComplete($this->object->getId())) {
-                ilUtil::sendFailure($this->lng->txt("survey_error_insert_incomplete_question"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("survey_error_insert_incomplete_question"));
                 $this->editQuestion();
                 return;
             }
@@ -370,7 +370,7 @@ abstract class SurveyQuestionGUI
 
             // pool question?
             if ($a_sync) {
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirect($this, 'copySyncForm');
             } else {
                 // form: update original pool question, too?
@@ -383,7 +383,7 @@ abstract class SurveyQuestionGUI
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->redirectAfterSaving($a_return);
         }
     }
@@ -406,7 +406,7 @@ abstract class SurveyQuestionGUI
 
         $qids = $this->request->getQuestionIds();
         if (count($qids) == 0) {
-            ilUtil::sendFailure($lng->txt("select_one"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("select_one"));
             $this->copySyncForm();
             return;
         }
@@ -426,14 +426,14 @@ abstract class SurveyQuestionGUI
                 foreach ($questions as $qid) {
                     if (in_array($qid, $qids)) {
                         $id = $this->object->getId();
-                        
+
                         $this->object->setId($qid);
                         $this->object->setOriginalId($id);
                         $this->object->saveToDb();
-                        
+
                         $this->object->setId($id);
                         $this->object->setOriginalId(null);
-                        
+
                         // see: SurveyQuestion::syncWithOriginal()
                         // what about material?
                     }
@@ -441,7 +441,7 @@ abstract class SurveyQuestionGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("survey_sync_success"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("survey_sync_success"), true);
         $this->redirectAfterSaving($this->request->getReturn());
     }
     
@@ -470,13 +470,13 @@ abstract class SurveyQuestionGUI
             $this->object->syncWithOriginal();
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->redirectAfterSaving($this->request->getReturn());
     }
 
     protected function cancelSync() : void
     {
-        ilUtil::sendInfo($this->lng->txt("question_changed_in_survey_only"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("question_changed_in_survey_only"), true);
         $this->redirectAfterSaving($this->request->getReturn());
     }
             
@@ -553,7 +553,7 @@ abstract class SurveyQuestionGUI
         $title = "";
         switch ($question_title) {
             case ilObjSurvey::PRINT_HIDE_LABELS:
-                $title = ilUtil::prepareFormOutput($this->object->getTitle());
+                $title = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle());
                 break;
 
             #19448  get rid of showing only the label without title
@@ -562,9 +562,11 @@ abstract class SurveyQuestionGUI
             //	break;
 
             case ilObjSurvey::PRINT_SHOW_LABELS:
-                $title = ilUtil::prepareFormOutput($this->object->getTitle());
+                $title = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle());
                 if (trim($this->object->getLabel())) {
-                    $title .= ' <span class="questionLabel">(' . ilUtil::prepareFormOutput($this->object->getLabel()) . ')</span>';
+                    $title .= ' <span class="questionLabel">(' . ilLegacyFormElementsUtil::prepareFormOutput(
+                            $this->object->getLabel()
+                        ) . ')</span>';
                 }
                 break;
         }
@@ -623,7 +625,9 @@ abstract class SurveyQuestionGUI
                         $template->setVariable('MATERIAL_HREF', $href);
                         break;
                 }
-                $template->setVariable('MATERIAL_TITLE', (strlen($material->title)) ? ilUtil::prepareFormOutput($material->title) : $this->lng->txt('material'));
+                $template->setVariable('MATERIAL_TITLE', (strlen($material->title)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                    $material->title
+                ) : $this->lng->txt('material'));
                 $template->setVariable('TEXT_AVAILABLE_MATERIALS', $this->lng->txt('material'));
                 $template->parseCurrentBlock();
             }
@@ -697,7 +701,9 @@ abstract class SurveyQuestionGUI
                         $type = $this->lng->txt('internal_link');
                         break;
                 }
-                $title = (strlen($material->title)) ? ilUtil::prepareFormOutput($material->title) : $this->lng->txt('material');
+                $title = (strlen($material->title)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                    $material->title
+                ) : $this->lng->txt('material');
                 $data[] = array('href' => $href, 'title' => $title, 'type' => $type);
             }
             $table_gui->setData($data);
@@ -715,9 +721,9 @@ abstract class SurveyQuestionGUI
         $mids = $this->request->getMaterialIndexes();
         if (count($mids) > 0) {
             $this->object->deleteMaterials($mids);
-            ilUtil::sendSuccess($this->lng->txt('materials_deleted'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('materials_deleted'), true);
         } else {
-            ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
         }
         $this->ctrl->redirect($this, 'material');
     }
@@ -783,7 +789,7 @@ abstract class SurveyQuestionGUI
     public function cancelExplorer() : void
     {
         $this->edit_manager->clearNewLinkType();
-        ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, 'material');
     }
         
@@ -792,7 +798,7 @@ abstract class SurveyQuestionGUI
         $this->object->addInternalLink("il__pg_" . $this->request->getLinkItemId("pg"));
         $this->edit_manager->clearNewLinkType();
         $this->edit_manager->clearSearchLinkType();
-        ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("material_added_successfully"), true);
         $this->ctrl->redirect($this, "material");
     }
     
@@ -801,7 +807,7 @@ abstract class SurveyQuestionGUI
         $this->object->addInternalLink("il__st_" . $this->request->getLinkItemId("st"));
         $this->edit_manager->clearNewLinkType();
         $this->edit_manager->clearSearchLinkType();
-        ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("material_added_successfully"), true);
         $this->ctrl->redirect($this, "material");
     }
 
@@ -810,7 +816,7 @@ abstract class SurveyQuestionGUI
         $this->object->addInternalLink("il__git_" . $this->request->getLinkItemId("git"));
         $this->edit_manager->clearNewLinkType();
         $this->edit_manager->clearSearchLinkType();
-        ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("material_added_successfully"), true);
         $this->ctrl->redirect($this, "material");
     }
     
@@ -825,7 +831,7 @@ abstract class SurveyQuestionGUI
         switch ($this->edit_manager->getSearchLinkType()) {
             case "pg":
                 $cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
-                $cont_obj = $cont_obj_gui->object;
+                $cont_obj = $cont_obj_gui->getObject();
                 $pages = ilLMPageObject::getPageList($cont_obj->getId());
                 foreach ($pages as $page) {
                     if ($page["type"] == $this->edit_manager->getSearchLinkType()) {
@@ -840,7 +846,7 @@ abstract class SurveyQuestionGUI
                 
             case "st":
                 $cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
-                $cont_obj = $cont_obj_gui->object;
+                $cont_obj = $cont_obj_gui->getObject();
                 // get all chapters
                 $ctree = $cont_obj->getLMTree();
                 $nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
@@ -883,13 +889,13 @@ abstract class SurveyQuestionGUI
             $this->tpl->setContent($tbl->getHTML());
         } else {
             if ($this->edit_manager->getSearchLinkType() == "lm") {
-                ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("material_added_successfully"), true);
 
                 $this->edit_manager->clearSearchLinkType();
                 $this->edit_manager->clearNewLinkType();
                 $this->ctrl->redirect($this, "material");
             } else {
-                ilUtil::sendFailure($this->lng->txt("material_added_empty"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("material_added_empty"), true);
                 $this->ctrl->redirect($this, "addMaterial");
             }
         }
@@ -983,7 +989,7 @@ abstract class SurveyQuestionGUI
             if ($valid) {
                 $this->object->saveToDb();
                 
-                ilUtil::sendSuccess($this->lng->txt('phrase_added'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('phrase_added'), true);
                 $this->ctrl->redirect($this, 'editQuestion');
             }
         }
@@ -1051,17 +1057,17 @@ abstract class SurveyQuestionGUI
         
         $valid = true;
         if (!trim($title)) {
-            ilUtil::sendFailure($this->lng->txt("qpl_savephrase_empty"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("qpl_savephrase_empty"));
             $valid = false;
         } elseif ($this->object->phraseExists($title)) {
-            ilUtil::sendFailure($this->lng->txt("qpl_savephrase_exists"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("qpl_savephrase_exists"));
             $valid = false;
         }
         
         if ($valid) {
             $this->object->savePhrase($title);
 
-            ilUtil::sendSuccess($this->lng->txt("phrase_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("phrase_saved"), true);
             $this->ctrl->redirect($this, "editQuestion");
         }
         

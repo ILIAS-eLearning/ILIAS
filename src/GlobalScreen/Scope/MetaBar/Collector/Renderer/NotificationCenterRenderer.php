@@ -35,7 +35,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
     public function __construct()
     {
         global $DIC;
-        $this->gs  = $DIC->globalScreen();
+        $this->gs = $DIC->globalScreen();
         $this->lng = $DIC->language();
         parent::__construct();
     }
@@ -68,7 +68,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
     protected function attachJSShowEvent(Combined $center) : \ILIAS\UI\Component\MainControls\Slate\Combined
     {
         $toggle_signal = $center->getToggleSignal();
-        $url           = ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildShowQuery();
+        $url = ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildShowQuery();
         
         $center = $center->withAdditionalOnLoadCode(
             function ($id) use ($toggle_signal, $url) {
@@ -88,7 +88,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
     protected function buildShowQuery() : string
     {
         return http_build_query([
-            ClientNotifications::MODE                     => ClientNotifications::MODE_OPENED,
+            ClientNotifications::MODE => ClientNotifications::MODE_OPENED,
             ClientNotifications::NOTIFICATION_IDENTIFIERS => $this->gs->collector()->notifications()->getNotificationsIdentifiersAsArray(true),
         ]);
     }

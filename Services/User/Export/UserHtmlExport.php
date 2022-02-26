@@ -15,6 +15,8 @@
 
 namespace ILIAS\User\Export;
 
+use ilFileUtils;
+
 /**
  * Wiki HTML exporter class
  */
@@ -27,7 +29,7 @@ class UserHtmlExport
     public function exportUserImages(string $dir, array $user_ids)
     {
         $base_dir = $dir . "/data/" . CLIENT_ID . "/usr_images";
-        \ilUtil::makeDirParents($base_dir);
+        ilFileUtils::makeDirParents($base_dir);
         foreach ($user_ids as $id) {
             $source = "./data/" . CLIENT_ID . "/usr_images/usr_$id.jpg";
             if (is_file($source)) {

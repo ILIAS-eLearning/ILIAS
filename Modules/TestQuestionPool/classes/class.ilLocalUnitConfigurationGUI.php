@@ -205,7 +205,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         }
 
         if ($i) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         }
 
         $this->ctrl->setParameter($this, 'question_fi', 0);

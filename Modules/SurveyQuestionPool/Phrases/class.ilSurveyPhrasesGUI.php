@@ -82,14 +82,14 @@ class ilSurveyPhrasesGUI
      */
     public function deletePhrase() : void
     {
-        ilUtil::sendInfo();
+        $this->tpl->setOnScreenMessage('info');
 
         $checked_phrases = $this->request->getPhraseIds();
         if (count($checked_phrases) > 0) {
-            ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_phrases"));
+            $this->tpl->setOnScreenMessage('question', $this->lng->txt("qpl_confirm_delete_phrases"));
             $this->deletePhrasesForm($checked_phrases);
         } else {
-            ilUtil::sendInfo($this->lng->txt("qpl_delete_phrase_select_none"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_delete_phrase_select_none"));
             $this->phrases();
         }
     }
@@ -123,7 +123,7 @@ class ilSurveyPhrasesGUI
             $table_gui->setData($data);
             $this->tpl->setContent($table_gui->getHTML());
         } else {
-            ilUtil::sendInfo($this->lng->txt("cannot_manage_phrases"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_manage_phrases"));
         }
     }
 
@@ -136,7 +136,7 @@ class ilSurveyPhrasesGUI
     {
         $phrases = $this->request->getPhraseIds();
         $this->object->deletePhrases($phrases);
-        ilUtil::sendSuccess($this->lng->txt("qpl_phrases_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("qpl_phrases_deleted"), true);
         $this->ctrl->redirect($this, "phrases");
     }
 
@@ -217,10 +217,10 @@ class ilSurveyPhrasesGUI
         if ($result == 0) {
             if ($this->request->getPhraseId()) {
                 $this->object->updatePhrase($this->request->getPhraseId());
-                ilUtil::sendSuccess($this->lng->txt('phrase_saved'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('phrase_saved'), true);
             } else {
                 $this->object->savePhrase();
-                ilUtil::sendSuccess($this->lng->txt('phrase_added'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('phrase_added'), true);
             }
             $this->ctrl->redirect($this, 'phrases');
         }
@@ -270,11 +270,11 @@ class ilSurveyPhrasesGUI
     {
         $ids = $this->request->getPhraseIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt('no_phrase_selected'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_phrase_selected'), true);
             $this->ctrl->redirect($this, 'phrases');
         }
         if (count($ids) > 1) {
-            ilUtil::sendFailure($this->lng->txt('select_max_one_item'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_max_one_item'), true);
             $this->ctrl->redirect($this, 'phrases');
         }
         $phrase_id = $ids[key($ids)];

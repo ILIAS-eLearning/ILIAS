@@ -11,9 +11,12 @@ class ilObjectCustomIconConfigurationGUI
     /** @var \ilObjectGUI|mixed */
     protected $parentGui;
     protected ?string $uploadFieldInformationText = null;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(\ILIAS\DI\Container $dic, $parentGui, ilObject $object)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->dic = $dic;
         $this->parentGui = $parentGui;
         $this->object = $object;
@@ -91,7 +94,7 @@ class ilObjectCustomIconConfigurationGUI
         if ($form->checkInput()) {
             $this->saveIcon($form);
 
-            ilUtil::sendSuccess($this->dic->language()->txt('msg_obj_modified'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->dic->language()->txt('msg_obj_modified'), true);
             $this->dic->ctrl()->redirect($this, 'showForm');
         }
 

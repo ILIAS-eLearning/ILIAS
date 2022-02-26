@@ -21,7 +21,6 @@ use LogicException;
  */
 class Collection
 {
-    
     private array $values = [];
     
     /**
@@ -36,7 +35,7 @@ class Collection
      * @param string $key
      * @param        $value
      */
-    public function add(string $key, $value): void
+    public function add(string $key, $value) : void
     {
         if ($this->exists($key)) {
             throw new LogicException("Key {$key} already exists.");
@@ -76,7 +75,7 @@ class Collection
      * @param string $key
      * @param        $value
      */
-    public function replace(string $key, $value): void
+    public function replace(string $key, $value) : void
     {
         if (!$this->exists($key)) {
             throw new LogicException("Key {$key} does not exists.");

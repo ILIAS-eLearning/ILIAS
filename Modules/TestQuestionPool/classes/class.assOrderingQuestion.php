@@ -328,7 +328,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $imagepath = $this->getImagePath($dest_question_id, $dest_object_id);
 
             if (!file_exists($imagepath)) {
-                ilUtil::makeDirParents($imagepath);
+                ilFileUtils::makeDirParents($imagepath);
             }
             foreach ($this->getOrderingElementList() as $element) {
                 $filename = $element->getContent();
@@ -358,7 +358,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
             $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
             if (!file_exists($imagepath)) {
-                ilUtil::makeDirParents($imagepath);
+                ilFileUtils::makeDirParents($imagepath);
             }
             foreach ($this->getOrderingElementList() as $element) {
                 $filename = $element->getContent();
@@ -732,7 +732,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         if ($this->getOrderingType() == OQ_PICTURES) {
             if (@file_exists($this->getImagePath())) {
-                $contents = ilUtil::getDir($this->getImagePath());
+                $contents = ilFileUtils::getDir($this->getImagePath());
                 foreach ($contents as $f) {
                     if (strcmp($f['type'], 'file') == 0) {
                         $found = false;
@@ -754,7 +754,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
         } else {
             if (@file_exists($this->getImagePath())) {
-                ilUtil::delDir($this->getImagePath());
+                ilFileUtils::delDir($this->getImagePath());
             }
         }
     }
@@ -821,7 +821,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         
         // store file with hashed name
         
-        if (!ilUtil::moveUploadedFile($uploadFile, $targetFile, $this->getImagePath() . $targetFile)) {
+        if (!ilFileUtils::moveUploadedFile($uploadFile, $targetFile, $this->getImagePath() . $targetFile)) {
             return false;
         }
 
@@ -841,7 +841,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $imageFile = $this->getImagePath() . $element->getContent();
             $thumbFile = $this->getImagePath() . $this->getThumbPrefix() . $element->getContent();
             
-            ilUtil::convertImage($imageFile, $thumbFile, "JPEG", $this->getThumbGeometry());
+            ilShellUtil::convertImage($imageFile, $thumbFile, "JPEG", $this->getThumbGeometry());
         }
     }
 
@@ -1131,7 +1131,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $ext = 'JPEG';
                     break;
             }
-            ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
         }
     }
     
@@ -1595,7 +1595,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     protected function ensureImagePathExists()
     {
         if (!file_exists($this->getImagePath())) {
-            ilUtil::makeDirParents($this->getImagePath());
+            ilFileUtils::makeDirParents($this->getImagePath());
         }
     }
     

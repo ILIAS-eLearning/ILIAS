@@ -43,7 +43,7 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
      */
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->symbol = $symbol;
         
         return $clone;
@@ -70,7 +70,7 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
         
         return $clone;
@@ -97,7 +97,7 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
      */
     public function withChildren(array $children) : isParent
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->children = $children;
         
         return $clone;

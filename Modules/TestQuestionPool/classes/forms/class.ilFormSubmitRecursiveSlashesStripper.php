@@ -32,7 +32,7 @@ class ilFormSubmitRecursiveSlashesStripper implements ilFormValuesManipulator
                 continue;
             }
             
-            $submitValues[$identifier] = ilUtil::stripSlashesRecursive($value);
+            $submitValues[$identifier] = ilArrayUtil::stripSlashesRecursive($value);
         }
         
         return $submitValues;

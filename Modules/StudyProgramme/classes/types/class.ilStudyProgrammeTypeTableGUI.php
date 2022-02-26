@@ -51,13 +51,13 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
      * Pass data to row template
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $icon = "";
         $type = $this->type_repo->getType((int) $a_set['id']);
 
         if ($this->web_dir->has($type->getIconPath(true))) {
-            $icon = ilUtil::getWebspaceDir() . '/' . $type->getIconPath(true);
+            $icon = ilFileUtils::getWebspaceDir() . '/' . $type->getIconPath(true);
         }
 
         $this->tpl->setVariable('TITLE', $a_set['title']);

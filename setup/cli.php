@@ -120,7 +120,6 @@ function build_container_for_setup(string $executed_in_directory) : \Pimple\Cont
             $c["data_factory"],
             $c["lng"],
             $c["interface_finder"],
-            $c["plugin_raw_reader"],
             [
                 "common" => $c["common_agent"]
             ]
@@ -151,10 +150,6 @@ function build_container_for_setup(string $executed_in_directory) : \Pimple\Cont
 
     $c["interface_finder"] = function ($c) {
         return new \ILIAS\Setup\ImplementationOfInterfaceFinder();
-    };
-
-    $c["plugin_raw_reader"] = function ($c) {
-        return new \ilPluginRawReader();
     };
 
     $c["json.parser"] = function ($c) {

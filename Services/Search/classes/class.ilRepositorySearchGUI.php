@@ -38,7 +38,6 @@ use ILIAS\UI\Factory;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as RefineryFactory;
 
-
 class ilRepositorySearchGUI
 {
     private array $search_results = [];
@@ -179,8 +178,7 @@ class ilRepositorySearchGUI
         ilToolbarGUI $toolbar = null,
         array $a_options = [],
         bool $a_sticky = false
-    ) : ilToolbarGUI
-    {
+    ) : ilToolbarGUI {
         global $DIC;
 
         $ilToolbar = $DIC->toolbar();
@@ -334,8 +332,8 @@ class ilRepositorySearchGUI
             $result_field = 'login';
         } else {
             $auto_complete_field = $this->http->wrapper()->query()->retrieve(
-                    'autoCompleteField',
-                    $this->refinery->kindlyTo()->string()
+                'autoCompleteField',
+                $this->refinery->kindlyTo()->string()
             );
             $a_fields = [$auto_complete_field];
             $result_field = $auto_complete_field;
@@ -479,7 +477,7 @@ class ilRepositorySearchGUI
 
         $user_type = $_REQUEST['user_type'] ?? 0;
 
-        if (!$class->$method($user_ids, $user_type)) {
+        if (!$class->$method($user_ids, (int) $user_type)) {
             $this->ctrl->returnToParent($this);
         }
     }
@@ -510,7 +508,7 @@ class ilRepositorySearchGUI
         $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
         $users = (array) $_POST['uids'];
         if (!count($users)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'showClipboard');
         }
         $class = $this->callback['class'];
@@ -537,7 +535,7 @@ class ilRepositorySearchGUI
 
         $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
         if (!count($users)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'showClipboard');
         }
 
@@ -545,7 +543,7 @@ class ilRepositorySearchGUI
         $clip->delete($users);
         $clip->save();
         
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'showClipboard');
     }
 
@@ -556,7 +554,7 @@ class ilRepositorySearchGUI
         $clip->clear();
         $clip->save();
         
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->returnToParent($this);
     }
 
@@ -611,8 +609,6 @@ class ilRepositorySearchGUI
     
     public function initFormSearch(ilObjUser $user = null) : void
     {
-
-        
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'showSearch'));
         $this->form->setTitle($this->getTitle());
@@ -766,7 +762,7 @@ class ilRepositorySearchGUI
             $found_query = true;
         }
         if (!$found_query) {
-            ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'));
             $this->start();
             return false;
         }
@@ -829,14 +825,14 @@ class ilRepositorySearchGUI
         }
 
         if (!count($this->search_results)) {
-            ilUtil::sendFailure($this->lng->txt('search_no_match'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_no_match'));
             $this->showSearch();
             return true;
         }
         $this->__updateResults();
         if ($this->result_obj->isLimitReached()) {
             $message = sprintf($this->lng->txt('search_limit_reached'), $this->settings->getMaxHits());
-            ilUtil::sendInfo($message);
+            $this->tpl->setOnScreenMessage('info', $message);
             return true;
         }
         // show results
@@ -846,7 +842,6 @@ class ilRepositorySearchGUI
 
     public function __performUserSearch() : bool
     {
-
         foreach (ilUserSearchOptions::_getSearchableFieldsInfo(!$this->isSearchableCheckEnabled()) as $info) {
             $name = $info['db'];
             $query_string = $_SESSION['rep_query']['usr'][$name];
@@ -857,7 +852,7 @@ class ilRepositorySearchGUI
             }
         
             if (!is_object($query_parser = $this->__parseQueryString($query_string, true, ($info['type'] == ilUserSearchOptions::FIELD_TYPE_SELECT)))) {
-                ilUtil::sendInfo($query_parser);
+                $this->tpl->setOnScreenMessage('info', $query_parser);
                 return false;
             }
             switch ($info['type']) {
@@ -911,10 +906,9 @@ class ilRepositorySearchGUI
 
     public function __performGroupSearch() : bool
     {
-
         $query_string = $_SESSION['rep_query']['grp']['title'];
         if (!is_object($query_parser = $this->__parseQueryString($query_string))) {
-            ilUtil::sendInfo($query_parser, true);
+            $this->tpl->setOnScreenMessage('info', $query_parser, true);
             return false;
         }
 
@@ -927,10 +921,9 @@ class ilRepositorySearchGUI
 
     protected function __performCourseSearch() : bool
     {
-
         $query_string = $_SESSION['rep_query']['crs']['title'];
         if (!is_object($query_parser = $this->__parseQueryString($query_string))) {
-            ilUtil::sendInfo($query_parser, true);
+            $this->tpl->setOnScreenMessage('info', $query_parser, true);
             return false;
         }
 
@@ -943,10 +936,9 @@ class ilRepositorySearchGUI
 
     public function __performRoleSearch() : bool
     {
-
         $query_string = $_SESSION['rep_query']['role']['title'];
         if (!is_object($query_parser = $this->__parseQueryString($query_string))) {
-            ilUtil::sendInfo($query_parser, true);
+            $this->tpl->setOnScreenMessage('info', $query_parser, true);
             return false;
         }
         
@@ -1116,7 +1108,6 @@ class ilRepositorySearchGUI
     
     protected function showSearchRoleTable(array $a_obj_ids) : void
     {
-        
         $table = new ilRepositoryObjectResultTableGUI($this, 'showSearchResults', $this->object_selection);
         $table->parseObjectIds($a_obj_ids);
         
@@ -1125,7 +1116,6 @@ class ilRepositorySearchGUI
 
     protected function showSearchGroupTable(array $a_obj_ids) : void
     {
-        
         $table = new ilRepositoryObjectResultTableGUI($this, 'showSearchResults', $this->object_selection);
         $table->parseObjectIds($a_obj_ids);
         
@@ -1134,7 +1124,6 @@ class ilRepositorySearchGUI
     
     protected function showSearchCourseTable(array $a_obj_ids) : void
     {
-        
         $table = new ilRepositoryObjectResultTableGUI($this, 'showSearchResults', $this->object_selection);
         $table->parseObjectIds($a_obj_ids);
         
@@ -1162,7 +1151,7 @@ class ilRepositorySearchGUI
             );
         }
         if (!count($selected_entries)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showSearchResults();
             return false;
         }
@@ -1260,7 +1249,7 @@ class ilRepositorySearchGUI
 
     public function allowObjectSelection(bool $a_value = false) : void
     {
-        $this->object_selection =  $a_value;
+        $this->object_selection = $a_value;
     }
 
     /**
@@ -1288,7 +1277,7 @@ class ilRepositorySearchGUI
         }
 
         if (!count($selected_entries)) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showSearchResults();
             return false;
         }

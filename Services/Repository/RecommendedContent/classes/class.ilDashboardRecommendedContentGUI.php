@@ -34,11 +34,13 @@ class ilDashboardRecommendedContentGUI
     protected ilFavouritesManager $fav_manager;
     protected ilObjectDefinition $objDefinition;
     protected int $requested_item_ref_id;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->user = $DIC->user();
         $this->rec_manager = new ilRecommendedContentManager();
@@ -202,7 +204,7 @@ class ilDashboardRecommendedContentGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
         $this->rec_manager->declineObjectRecommendation($this->user->getId(), $this->requested_item_ref_id);
-        ilUtil::sendSuccess($lng->txt("dash_item_removed"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("dash_item_removed"), true);
         $ctrl->returnToParent($this);
     }
 
@@ -211,7 +213,7 @@ class ilDashboardRecommendedContentGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
         $this->fav_manager->add($this->user->getId(), $this->requested_item_ref_id);
-        ilUtil::sendSuccess($lng->txt("dash_added_to_favs"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("dash_added_to_favs"), true);
         $ctrl->returnToParent($this);
     }
 }

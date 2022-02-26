@@ -62,7 +62,7 @@ class ilMDCopyrightSelectionGUI
             $this->tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt('meta_copyright'));
             $this->tpl->setVariable(
                 'COPYRIGHT_VAL',
-                ilUtil::prepareFormOutput($desc)
+                ilLegacyFormElementsUtil::prepareFormOutput($desc)
             );
             return true;
         }

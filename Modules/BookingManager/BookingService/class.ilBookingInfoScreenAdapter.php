@@ -56,9 +56,9 @@ class ilBookingInfoScreenAdapter
         $f = new ilBookingReservationDBRepositoryFactory();
         $repo = $f->getRepo();
         $list = $repo->getListByDate(true, null, $filter, $this->getPoolIds());
-        $list = ilUtil::sortArray($list, "slot", "asc", true);
-        $list = ilUtil::stableSortArray($list, "date", "asc", true);
-        $list = ilUtil::stableSortArray($list, "pool_id", "asc", true);
+        $list = ilArrayUtil::sortArray($list, "slot", "asc", true);
+        $list = ilArrayUtil::stableSortArray($list, "date", "asc", true);
+        $list = ilArrayUtil::stableSortArray($list, "pool_id", "asc", true);
         return $list;
     }
 

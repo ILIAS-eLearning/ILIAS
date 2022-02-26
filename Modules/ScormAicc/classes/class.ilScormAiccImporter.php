@@ -37,27 +37,27 @@ class ilScormAiccImporter extends ilXmlImporter
      * @param string          $a_entity
      * @param string          $a_id
      * @param string          $a_xml
-     * @param ilImportMapping $a_mapping
+     * @param ilImportMapping|null $a_mapping
      * @return void
      * @throws ilDatabaseException
      * @throws ilFileUtilsException
      * @throws ilObjectNotFoundException
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ?ilImportMapping $a_mapping) : void
     {
         global $DIC;
         $ilLog = ilLoggerFactory::getLogger('sahs');
         
-        if ($this->handleEditableLmXml($a_entity, $a_id, $a_xml, $a_mapping)) {
-            return;
-        }
+//        if ($this->handleEditableLmXml($a_entity, $a_id, $a_xml, $a_mapping)) {
+//            return;
+//        }
         // case i container
         if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-            $exportDir = ilExport::_getExportDirectory($a_id);
+            $exportDir = ilExport::_getExportDirectory((int) $a_id);
             $tempFile = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) . '.zip';
             $timeStamp = time();
-            $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/";
+            $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
             $lmTempDir = $lmDir . $timeStamp;
             if (!file_exists($lmTempDir)) {
                 mkdir($lmTempDir, 0755, true);
@@ -98,10 +98,10 @@ class ilScormAiccImporter extends ilXmlImporter
                             $file_path = $targetPath;
 
                             ilFileUtils::rename($scormFilePath, $targetPath);
-                            ilUtil::unzip($file_path);
+                            ilFileUtils::unzip($file_path);
                             unlink($file_path);
-                            ilUtil::delDir($lmTempDir, false);
-                            ilUtil::renameExecutables($newObj->getDataDirectory());
+                            ilFileUtils::delDir($lmTempDir, false);
+                            ilFileUtils::renameExecutables($newObj->getDataDirectory());
 
                             $newId = $newObj->getRefId();
                             // $newObj->putInTree($newId);
@@ -146,31 +146,31 @@ class ilScormAiccImporter extends ilXmlImporter
         $this->dataset->writeData($a_entity, $a_version, $a_id, $this->moduleProperties);
     }
 
-    /**
-     * Handle editable (authoring) scorm lms
-     *
-     * @param string $a_entity entity
-     * @param string $a_id id
-     * @param string $a_xml xml
-     * @param ilImportMapping $a_mapping import mapping object
-     * @return bool success
-     */
-    public function handleEditableLmXml(string $a_entity, string $a_id, string $a_xml, \ilImportMapping $a_mapping) : bool
-    {
-        // if editable...
-        if (is_int(strpos($a_xml, "<Editable>1</Editable>"))) {
-            $dataset = new ilScorm2004DataSet();
-            $dataset->setDSPrefix("ds");
-            $dataset->setImportDirectory($this->getImportDirectory());
-            $parser = new ilDataSetImportParser(
-                $a_entity,
-                $this->getSchemaVersion(),
-                $a_xml,
-                $dataset,
-                $a_mapping
-            );
-            return true;
-        }
-        return false;
-    }
+//    /**
+//     * Handle editable (authoring) scorm lms
+//     *
+//     * @param string $a_entity entity
+//     * @param string $a_id id
+//     * @param string $a_xml xml
+//     * @param ilImportMapping $a_mapping import mapping object
+//     * @return bool success
+//     */
+//    public function handleEditableLmXml(string $a_entity, string $a_id, string $a_xml, \ilImportMapping $a_mapping) : bool
+//    {
+//        // if editable...
+//        if (is_int(strpos($a_xml, "<Editable>1</Editable>"))) {
+//            $dataset = new ilScorm2004DataSet();
+//            $dataset->setDSPrefix("ds");
+//            $dataset->setImportDirectory($this->getImportDirectory());
+//            $parser = new ilDataSetImportParser(
+//                $a_entity,
+//                $this->getSchemaVersion(),
+//                $a_xml,
+//                $dataset,
+//                $a_mapping
+//            );
+//            return true;
+//        }
+//        return false;
+//    }
 }

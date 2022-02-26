@@ -1,6 +1,17 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Adv MD XML Parser
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -12,7 +23,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
     protected int $rec_id = 0;
     protected ilImportMapping $mapping;
     protected string $cdata;
-    protected $sax_controller = [];
+    protected array $sax_controller = [];
 
     /**
      * @var array<int, ilAdvancedMDValues>
@@ -43,7 +54,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         $this->mapping = $a_mapping;
     }
 
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         $this->sax_controller = new ilSaxController();
         $this->sax_controller->setHandlers($a_xml_parser);
@@ -52,7 +63,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 
     public function createLocalRecord(int $a_old_id, string $a_xml, int $a_obj_id, ?string $a_sub_type = null) : void
     {
-        $tmp_file = ilUtil::ilTempnam();
+        $tmp_file = ilFileUtils::ilTempnam();
         file_put_contents($tmp_file, $a_xml);
 
         // see ilAdvancedMDSettingsGUI::importRecord()
@@ -149,7 +160,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         string $a_sub_type = "",
         int $a_sub_id = 0,
         int $a_local_rec_id = null
-    ) {
+    ) : void {
         $this->current_value = null;
 
         // get parent objects

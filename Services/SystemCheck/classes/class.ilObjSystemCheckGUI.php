@@ -21,9 +21,9 @@ class ilObjSystemCheckGUI extends ilObjectGUI
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
         global $DIC;
-        $this->http     = $DIC->http();
+        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $this->type     = 'sysc';
+        $this->type = 'sysc';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule('sysc');
     }
@@ -55,10 +55,10 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return $this->lng;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd        = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
 
         switch ($next_class) {
@@ -109,13 +109,12 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
-
-        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget('overview', $this->ctrl->getLinkTarget($this, 'overview'));
         }
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
         }
     }
@@ -159,7 +158,6 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 
     protected function initFormTrash() : ilPropertyFormGUI
     {
-
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -195,10 +193,10 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 
         $sub_objects = $this->tree->lookupTrashedObjectTypes();
 
-        $options    = array();
+        $options = array();
         $options[0] = '';
         foreach ($sub_objects as $obj_type) {
-            if (!$this->objDefinition->isRBACObject($obj_type) or !$this->objDefinition->isAllowedInRepository($obj_type)) {
+            if (!$this->obj_definition->isRBACObject($obj_type) or !$this->obj_definition->isAllowedInRepository($obj_type)) {
                 continue;
             }
             $options[$obj_type] = $this->lng->txt('obj_' . $obj_type);
@@ -235,13 +233,13 @@ class ilObjSystemCheckGUI extends ilObjectGUI
             $trash->setMode($form->getInput('type'));
             $trash->start();
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $form->setValuesByPost();
             $this->trash($form);
             return true;
         }
 
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->trash($form);
         return false;

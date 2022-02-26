@@ -89,7 +89,7 @@ class ilCourseReferenceAppEventListener implements ilAppEventListener
             $this->logger->debug('Reference member update: adding user to course.');
             $target_course_ref_id = $path_info->getTargetId();
             $part = ilCourseParticipants::getInstance($target_course_ref_id);
-            $part->add($a_usr_id, IL_CRS_MEMBER);
+            $part->add($a_usr_id, ilParticipants::IL_CRS_MEMBER);
         }
     }
 

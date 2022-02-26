@@ -92,7 +92,7 @@ class ilSolutionExplorer extends ilExplorer
     {
         $this->ref_id = $a_ref_id;
     }
-    
+
 
     public function buildLinkTarget($a_node_id, string $a_type) : string
     {

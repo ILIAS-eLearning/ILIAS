@@ -20,7 +20,7 @@ class ilObjLanguageExt extends ilObjLanguage
     {
         parent::__construct($a_id, $a_call_by_reference);
     }
-    
+
     /**
     * Read and get the global language file as an object
     * @return  object  global language file
@@ -48,7 +48,7 @@ class ilObjLanguageExt extends ilObjLanguage
         }
     }
 
-    
+
     /**
     * Get the full language description
     *
@@ -66,11 +66,11 @@ class ilObjLanguageExt extends ilObjLanguage
     public function getDataPath() : string
     {
         if (!is_dir(CLIENT_DATA_DIR . "/lang_data")) {
-            ilUtil::makeDir(CLIENT_DATA_DIR . "/lang_data");
+            ilFileUtils::makeDir(CLIENT_DATA_DIR . "/lang_data");
         }
         return CLIENT_DATA_DIR . "/lang_data";
     }
-    
+
     /**
     * Get the language files path
     *
@@ -113,8 +113,8 @@ class ilObjLanguageExt extends ilObjLanguage
     {
         return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern);
     }
-    
-    
+
+
     /**
     * Get only the changed values from the database
     * which differ from the original language file.
@@ -265,11 +265,11 @@ class ilObjLanguageExt extends ilObjLanguage
                     $ilDB->quote($this->key, "text"));
                 $to_keep = array();
                 break;
-                
+
             default:
                 return;
         }
-        
+
         // process the values of the import file
         $to_save = array();
         foreach ($import_file_obj->getAllValues() as $key => $value) {
@@ -359,7 +359,7 @@ class ilObjLanguageExt extends ilObjLanguage
 
         $q = "SELECT * FROM lng_data WHERE" .
             " lang_key = " . $ilDB->quote($a_lang_key, "text") . " ";
-        
+
         if (is_array($a_modules) && count($a_modules) > 0) {
             $q .= " AND " . $ilDB->in("module", $a_modules, false, "text");
         }
@@ -398,13 +398,13 @@ class ilObjLanguageExt extends ilObjLanguage
         global $DIC;
         $ilDB = $DIC->database();
         $lng = $DIC->language();
-        
+
         if (!is_array($a_values)) {
             return;
         }
         $save_array = array();
         $save_date = date("Y-m-d H:i:s", time());
-        
+
         // read and get the global values
         require_once "./Services/Language/classes/class.ilLanguageFile.php";
         $global_file_obj = ilLanguageFile::_getGlobalLanguageFile($a_lang_key);
@@ -446,7 +446,7 @@ class ilObjLanguageExt extends ilObjLanguage
                 $ilDB->quote($module, "text")
             ));
             $row = $ilDB->fetchAssoc($set);
-            
+
             $arr = unserialize($row["lang_array"]);
             if (is_array($arr)) {
                 $entries = array_merge($arr, $entries);

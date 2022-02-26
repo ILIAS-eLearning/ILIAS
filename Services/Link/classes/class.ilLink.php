@@ -24,7 +24,7 @@ class ilLink
     protected const LINK_SCRIPT = "goto.php";
 
     public static function _getLink(
-        int $a_ref_id,
+        ?int $a_ref_id,
         string $a_type = '',
         array $a_params = array(),
         string $append = ""
@@ -33,7 +33,7 @@ class ilLink
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
 
-        if (!strlen($a_type)) {
+        if (!strlen($a_type) && !is_null($a_ref_id)) {
             $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
         }
         $param_string = '';
@@ -48,7 +48,7 @@ class ilLink
                 return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?client_id=' . CLIENT_ID . $param_string . $append;
             
             default:
-                return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?target=' . $a_type . '_' . $a_ref_id . $append . '&client_id=' . CLIENT_ID . $param_string;
+                return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?target=' . $a_type . '_' . (string) $a_ref_id . $append . '&client_id=' . CLIENT_ID . $param_string;
         }
     }
 

@@ -252,7 +252,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $tpl->setLeftNavContent($left);
     }
     
-    public function edit()
+    public function edit() : void
     {
         parent::edit();
       
@@ -260,7 +260,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $this->tabs_gui->activateSubTab("settings");
     }
     
-    public function update()
+    public function update() : void
     {
         parent::update();
         
@@ -272,7 +272,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
     {
         $item_ids = $this->std_request->getItemIds();
         if (count($item_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this);
         }
 
@@ -292,7 +292,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             }
         }
         if (count($no_cut)) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_perm_cut") . " " . implode(',', $no_cut), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_cut") . " " . implode(',', $no_cut), true);
             $this->ctrl->redirect($this);
         }
 
@@ -321,7 +321,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
         $item_ids = $this->std_request->getItemIds();
         if (count($item_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this);
         }
 
@@ -337,7 +337,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             $current_node = $item_id;
             $owner = $this->tree->lookupOwner($current_node);
             if ($owner != $ilUser->getId()) {
-                ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                 $this->ctrl->redirect($this);
             }
         }
@@ -374,7 +374,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             }
         }
         
-        ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
         $this->ctrl->redirect($this, "share");
     }
         
@@ -411,7 +411,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         
         $mode = $this->session_repo->getClipboardCmd();
 
-        ilUtil::sendInfo($this->lng->txt('msg_' . $mode . '_clipboard'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_' . $mode . '_clipboard'));
         
         $this->tpl->addBlockFile(
             'ADM_CONTENT',
@@ -508,11 +508,11 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $target_node_id = $this->std_request->getNode();
 
         if (!is_array($source_node_ids) || count($source_node_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt('select_at_least_one_object'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_at_least_one_object'), true);
             $this->ctrl->redirect($this);
         }
         if (!$target_node_id) {
-            ilUtil::sendFailure($this->lng->txt('select_at_least_one_object'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_at_least_one_object'), true);
             $this->ctrl->redirect($this, "showMoveIntoObjectTree");
         }
 
@@ -583,7 +583,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         }
 
         if (sizeof($fail)) {
-            ilUtil::sendFailure(implode("<br />", $fail), true);
+            $this->tpl->setOnScreenMessage('failure', implode("<br />", $fail), true);
             $this->ctrl->redirect($this);
         }
 
@@ -652,9 +652,9 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         
         // #17746
         if ($mode == 'cut') {
-            ilUtil::sendSuccess($this->lng->txt('msg_cut_copied'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_cut_copied'), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt('msg_cloned'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_cloned'), true);
         }
         
         $this->ctrl->setParameter($this, "wsp_id", $redirect_node);
@@ -762,7 +762,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             } else {
                 $item = $form->getItemByPostVar("password");
                 $item->setAlert($lng->txt("wsp_invalid_password"));
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
             }
         }
         
@@ -802,7 +802,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $item_ids = $this->std_request->getItemIds();
 
         if (count($item_ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "");
         }
 
@@ -828,7 +828,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
                 // if anything fails, abort the whole process
                 if (!$this->checkPermissionBool("delete", "", "", $node_id)) {
-                    ilUtil::sendFailure($lng->txt("msg_no_perm_delete") . " " . $title, true);
+                    $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_no_perm_delete") . " " . $title, true);
                     $this->ctrl->redirect($this);
                 }
 
@@ -956,13 +956,13 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
         $download_job->setBucketTitle($this->getBucketTitle());
         if ($download_job->run()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_bt_download_started'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_bt_download_started'), true);
         }
         $this->ctrl->redirect($this);
     }
 
     public function getBucketTitle() : string
     {
-        return ilUtil::getASCIIFilename($this->object->getTitle());
+        return ilFileUtils::getASCIIFilename($this->object->getTitle());
     }
 }

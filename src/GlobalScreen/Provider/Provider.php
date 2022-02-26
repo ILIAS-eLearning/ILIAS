@@ -6,7 +6,6 @@
  */
 interface Provider
 {
-    
     public function getFullyQualifiedClassName() : string;
     
     public function getProviderNameForPresentation() : string;

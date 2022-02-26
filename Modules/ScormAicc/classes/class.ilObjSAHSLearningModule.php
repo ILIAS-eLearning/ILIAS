@@ -26,9 +26,15 @@
 */
 class ilObjSAHSLearningModule extends ilObject
 {
-//    public $validator;
     protected bool $sequencing = false;
-    //	var $meta_data;
+
+    protected string $localization = "";
+
+    protected string $mastery_score_values = "";
+
+    protected int $tries;
+
+    protected string $api_adapter;
 
     /**
     * Constructor
@@ -48,12 +54,12 @@ class ilObjSAHSLearningModule extends ilObject
      * @param bool $upload
      * @return void
      */
-    public function create(bool $upload = false) : void
+    public function create(bool $upload = false) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
 
-        parent::create();
+        $id = parent::create();
         if (!$upload) {
             $this->createMetaData();
         }
@@ -68,6 +74,7 @@ class ilObjSAHSLearningModule extends ilObject
                 0, $this->getLocalization()
                 )
         );
+        return $id;
     }
 
     /**
@@ -195,7 +202,7 @@ class ilObjSAHSLearningModule extends ilObject
     *
     * @return	boolean	Editable
     */
-    public function getEditable()
+    public function getEditable() : bool
     {
         return false;
     }
@@ -239,7 +246,7 @@ class ilObjSAHSLearningModule extends ilObject
     }
 
     /**
-     * obsolet!
+     * obsolet?
      *
      * @param int $a_id
      * @return int
@@ -276,19 +283,19 @@ class ilObjSAHSLearningModule extends ilObject
     */
     public function createDataDirectory() : void
     {
-        $lm_data_dir = ilUtil::getWebspaceDir() . "/lm_data";
-        ilUtil::makeDir($lm_data_dir);
-        ilUtil::makeDir($this->getDataDirectory());
+        $lm_data_dir = ilFileUtils::getWebspaceDir() . "/lm_data";
+        ilFileUtils::makeDir($lm_data_dir);
+        ilFileUtils::makeDir($this->getDataDirectory());
     }
 
     /**
      * get data directory of lm
-     * @param string $mode
+     * @param string|null $mode
      * @return string
      */
     public function getDataDirectory($mode = "filesystem") : string
     {
-        $lm_data_dir = ilUtil::getWebspaceDir($mode) . "/lm_data";
+        $lm_data_dir = ilFileUtils::getWebspaceDir($mode) . "/lm_data";
         $lm_dir = $lm_data_dir . "/lm_" . $this->getId();
 
         return $lm_dir;
@@ -1057,14 +1064,12 @@ class ilObjSAHSLearningModule extends ilObject
 				debug = %s,
 				localization = %s,
 				seq_exp_mode = %s,
-				debugpw = %s,
 				open_mode = %s,
 				width = %s,
 				height = %s,
 				auto_continue = %s,
 				auto_last_visited = %s,
 				check_values = %s,
-				offline_mode = %s,
 				auto_suspend = %s,
 				ie_force_render = %s,
 				mastery_score = %s,
@@ -1095,11 +1100,9 @@ class ilObjSAHSLearningModule extends ilObject
                 'text',
                 'text',
                 'integer',
-                'text',
                 'integer',
                 'integer',
                 'integer',
-                'text',
                 'text',
                 'text',
                 'text',
@@ -1134,14 +1137,12 @@ class ilObjSAHSLearningModule extends ilObject
                 ilUtil::tf2yn($this->getDebug()),
                 $this->getLocalization(),
                 0,//$this->getSequencingExpertMode(),
-//                $this->getDebugPw(),
                 $this->getOpenMode(),
                 $this->getWidth(),
                 $this->getHeight(),
                 ilUtil::tf2yn($this->getAutoContinue()),
                 ilUtil::tf2yn($this->getAuto_last_visited()),
                 ilUtil::tf2yn($this->getCheck_values()),
-//                ilUtil::tf2yn($this->getOfflineMode()),
                 ilUtil::tf2yn($this->getAutoSuspend()),
                 ilUtil::tf2yn($this->getIe_force_render()),
                 $s_mastery_score,
@@ -1238,7 +1239,7 @@ class ilObjSAHSLearningModule extends ilObject
         $this->deleteMetaData();
 
         // delete data directory
-        ilUtil::delDir($this->getDataDirectory());
+        ilFileUtils::delDir($this->getDataDirectory());
 
         // delete scorm learning module record
         $ilDB->manipulateF(
@@ -1393,8 +1394,8 @@ class ilObjSAHSLearningModule extends ilObject
         {
             $a_dir = $a_dir."/sahs_".$match[1];
         }*/
-        ilUtil::rCopy($a_dir, $this->getDataDirectory());
-        ilUtil::renameExecutables($this->getDataDirectory());
+        ilFileUtils::rCopy($a_dir, $this->getDataDirectory());
+        ilFileUtils::renameExecutables($this->getDataDirectory());
     }
 
     /**
@@ -1408,8 +1409,7 @@ class ilObjSAHSLearningModule extends ilObject
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilSaxParserException
      */
-//    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false)
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1434,7 +1434,7 @@ class ilObjSAHSLearningModule extends ilObject
         $new_obj->setAPIFunctionsPrefix($this->getAPIFunctionsPrefix());
         $new_obj->setAutoReviewChar($this->getAutoReviewChar());
         $new_obj->setDefaultLessonMode($this->getDefaultLessonMode());
-        $new_obj->setEditable($this->getEditable());
+//        $new_obj->setEditable($this->getEditable());
         $new_obj->setMaxAttempt($this->getMaxAttempt());
         $new_obj->setModuleVersion($this->getModuleVersion());
         $new_obj->setModuleVersion(1);
@@ -1452,7 +1452,7 @@ class ilObjSAHSLearningModule extends ilObject
         $new_obj->setTime_from_lms($this->getTime_from_lms());
         $new_obj->setDebug($this->getDebug());
         $new_obj->setLocalization($this->getLocalization());
-        $new_obj->setSequencingExpertMode(0); //$this->getSequencingExpertMode()
+//        $new_obj->setSequencingExpertMode(0); //$this->getSequencingExpertMode()
 //        $new_obj->setDebugPw($this->getDebugPw());
         $new_obj->setOpenMode($this->getOpenMode());
         $new_obj->setWidth($this->getWidth());

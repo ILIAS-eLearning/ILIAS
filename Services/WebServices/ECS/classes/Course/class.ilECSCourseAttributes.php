@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttribute.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Storage of course attributes for assignment rules
@@ -11,18 +21,24 @@ include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseAttribu
  */
 class ilECSCourseAttributes
 {
-    private static $instances = null;
+    private static ?array $instances = null;
 
-    private $server_id = 0;
-    private $mid = 0;
+    private int $server_id = 0;
+    private int $mid = 0;
     
-    private $attributes = array();
+    private array $attributes = array();
+    
+    private ilDBInterface $db;
     
     /**
      * Constructor
      */
     public function __construct($a_server_id, $a_mid)
     {
+        global $DIC;
+        
+        $this->db = $DIC->database();
+        
         $this->server_id = $a_server_id;
         $this->mid = $a_mid;
         
@@ -189,21 +205,16 @@ class ilECSCourseAttributes
 
     /**
      * Read attributes
-     * @global type $ilDB
      */
     protected function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $this->attributes = array();
         
         $query = 'SELECT * FROM ecs_crs_mapping_atts ' .
-                'WHERE sid = ' . $ilDB->quote($this->server_id, 'integer') . ' ' .
-                'AND mid = ' . $ilDB->quote($this->mid, 'integer') . ' ' .
+                'WHERE sid = ' . $this->db->quote($this->server_id, 'integer') . ' ' .
+                'AND mid = ' . $this->db->quote($this->mid, 'integer') . ' ' .
                 'ORDER BY id';
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->attributes[] = new ilECSCourseAttribute($row->id);
         }

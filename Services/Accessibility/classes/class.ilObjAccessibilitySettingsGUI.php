@@ -48,7 +48,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('meta');
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -107,7 +107,6 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
     protected function getSettingsForm() : ilPropertyFormGUI
@@ -126,10 +125,6 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $ti->setValue(ilAccessibilitySupportContacts::getList());
         $ti->setInfo($this->lng->txt("adm_accessibility_contacts_info"));
         $this->form->addItem($ti);
-
-        $se = new ilFormSectionHeaderGUI();
-        $se ->setTitle($this->lng->txt('obj_accs_captcha'));
-        $this->form->addItem($se);
 
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY,
@@ -166,7 +161,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
                 $this->form->getInput("accessibility_support_contacts")
             );
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editAccessibilitySettings");
         } else {
             $this->form->setValuesByPost();

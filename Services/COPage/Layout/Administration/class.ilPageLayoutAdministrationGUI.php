@@ -89,7 +89,9 @@ class ilPageLayoutAdministrationGUI
                 $layout_gui->setEditPreview(true);
                 $this->ctrl->saveParameter($this, "obj_id");
                 $ret = $this->ctrl->forwardCommand($layout_gui);
-                $this->tpl->setContent($ret);
+                if ($ret != "") {
+                    $this->tpl->setContent($ret);
+                }
                 break;
 
             default:
@@ -146,9 +148,9 @@ class ilPageLayoutAdministrationGUI
     ) : void {
         $ids = $this->admin_request->getLayoutIds();
         if (count($ids) == 0) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt("sty_opt_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("sty_opt_saved"), true);
             foreach ($ids as $item) {
                 $pg_layout = new ilPageLayout($item);
                 $pg_layout->activate($a_activate);
@@ -169,7 +171,7 @@ class ilPageLayoutAdministrationGUI
     {
         $ids = $this->admin_request->getLayoutIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listLayouts");
         }
 
@@ -200,7 +202,7 @@ class ilPageLayoutAdministrationGUI
      */
     public function cancelDeletePg() : void
     {
-        ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "listLayouts");
     }
 
@@ -371,7 +373,7 @@ class ilPageLayoutAdministrationGUI
                     $l->update();
                 }
             }
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"));
         }
 
         $this->ctrl->redirect($this, "listLayouts");
@@ -385,8 +387,8 @@ class ilPageLayoutAdministrationGUI
     {
         $exp = new ilExport();
 
-        $tmpdir = ilUtil::ilTempnam();
-        ilUtil::makeDir($tmpdir);
+        $tmpdir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDir($tmpdir);
 
         $succ = $exp->exportEntity(
             "pgtp",
@@ -454,7 +456,7 @@ class ilPageLayoutAdministrationGUI
         $form = $this->initPageLayoutImportForm();
         if ($form->checkInput()) {
             ilPageLayout::import($_FILES["file"]["name"], $_FILES["file"]["tmp_name"]);
-            ilUtil::sendSuccess($this->lng->txt("sty_imported_layout"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("sty_imported_layout"), true);
             $this->ctrl->redirect($this, "listLayouts");
         } else {
             $form->setValuesByPost();

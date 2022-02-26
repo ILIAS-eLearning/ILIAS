@@ -424,7 +424,8 @@ class ilPCTableGUI extends ilPageContentGUI
             $a_mode,
             $a_submode,
             $tab,
-            !$this->pg_obj->getPageConfig()->getPreventHTMLUnmasking()
+            !$this->pg_obj->getPageConfig()->getPreventHTMLUnmasking(),
+            $this->getPage()
         );
     }
         
@@ -433,7 +434,8 @@ class ilPCTableGUI extends ilPageContentGUI
         string $a_mode = "table_edit",
         string $a_submode = "",
         ilPCTable $a_table_obj = null,
-        bool $unmask = true
+        bool $unmask = true,
+        ilPageObject $page_object = null
     ) : string {
         global $DIC;
 
@@ -446,7 +448,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $xh = xslt_create();
         //echo "<b>XML</b>:".htmlentities($content).":<br>";
         //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-        $wb_path = ilUtil::getWebspaceDir("output");
+        $wb_path = ilFileUtils::getWebspaceDir("output");
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $a_mode,
             'media_mode' => 'disable',
@@ -481,7 +483,20 @@ class ilPCTableGUI extends ilPageContentGUI
                     break;
             }
         }
-        return '<div class="ilFloatLeft">' . $output . '</div>';
+
+        // for all page components...
+        if (isset($page_object)) {
+            $defs = ilCOPagePCDef::getPCDefinitions();
+            foreach ($defs as $def) {
+                $pc_class = $def["pc_class"];
+                $pc_obj = new $pc_class($page_object);
+
+                // post xsl page content modification by pc elements
+                $output = $pc_obj->modifyPageContentPostXsl($output, "presentation", false);
+            }
+        }
+
+        return $output;
     }
     
     /**
@@ -714,7 +729,7 @@ class ilPCTableGUI extends ilPageContentGUI
             }
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editCellStyle");
     }
     
@@ -737,7 +752,7 @@ class ilPCTableGUI extends ilPageContentGUI
             }
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editCellWidth");
     }
 
@@ -760,7 +775,7 @@ class ilPCTableGUI extends ilPageContentGUI
             $this->content_obj->setTDSpans($cs, $rs);
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editCellSpan");
     }
 
@@ -882,7 +897,7 @@ class ilPCTableGUI extends ilPageContentGUI
                         $import_table
                     );
                     if ($res !== true) {
-                        ilUtil::sendFailure($res);
+                        $this->tpl->setOnScreenMessage('failure', $res);
                         $this->insert();
                         return;
                     }
@@ -986,7 +1001,7 @@ class ilPCTableGUI extends ilPageContentGUI
             }
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
         $this->ctrl->redirect($this, "editCellAlignment");
     }
@@ -1071,13 +1086,12 @@ class ilPCTableGUI extends ilPageContentGUI
                     $dtpl->setCurrentBlock("col_icon");
                     $dtpl->setVariable("NR_COLUMN", $j + 1);
                     $dtpl->setVariable("PCID_COLUMN", $res2->nodeset[$j]->get_attribute("PCID"));
-                    $dtpl->setVariable("COLUMN_CAPTION", $j + 1);
+                    $dtpl->setVariable("COLUMN_CAPTION", $this->getColumnCaption($j + 1));
                     $dtpl->parseCurrentBlock();
                 }
                 $dtpl->setCurrentBlock("row");
                 $dtpl->parseCurrentBlock();
             }
-
 
             for ($j = 0; $j < count($res2->nodeset); $j++) {
                 // first col: row icons
@@ -1154,13 +1168,40 @@ class ilPCTableGUI extends ilPageContentGUI
             $dtpl->parseCurrentBlock();
         }
 
-
         $dtpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
+        
+        // add int link parts
+        $dtpl->setCurrentBlock("int_link_prep");
+        $dtpl->setVariable(
+            "INT_LINK_PREP",
+            ilInternalLinkGUI::getInitHTML(
+                $ilCtrl->getLinkTargetByClass(
+                    array("ilpageeditorgui", "ilinternallinkgui"),
+                    "",
+                    false,
+                    true,
+                    false
+                )
+            )
+        );
+        $dtpl->parseCurrentBlock();
 
         if ($initial) {
             $dtpl->touchBlock("script");
         }
 
         return $dtpl->get();
+    }
+
+    protected function getColumnCaption(int $nr)
+    {
+        $cap = "";
+        $base = 26;
+        while ($nr > 0) {
+            $chr = ($nr - 1) % $base;
+            $cap = chr($chr + 65) . $cap;
+            $nr = ($nr - 1 - $chr) / $base;
+        }
+        return $cap;
     }
 }

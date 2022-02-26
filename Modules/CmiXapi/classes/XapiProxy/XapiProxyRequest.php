@@ -24,14 +24,14 @@ class XapiProxyRequest
 {
     private $dic;
     private $xapiproxy;
-//        private $request;
+//    private $request;
     private $xapiProxyResponse;
 
-    public function __construct()
+    public function __construct($xapiproxy)
     {
         $this->dic = $GLOBALS['DIC'];
-        $this->xapiproxy = $this->dic['xapiproxy'];
-//            $this->request = $this->dic->http()->request();
+        $this->xapiproxy = $xapiproxy;
+//        $this->request = $this->dic->http()->request();
     }
 
     public function handle() : void

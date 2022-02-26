@@ -30,7 +30,7 @@ class ilFileServicesPreProcessor extends BlacklistExtensionPreProcessor
         $this->fileadmin_ref_id = $this->determineFileAdminRefId();
     }
     
-    public function process(FileStream $stream, Metadata $metadata)
+    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus
     {
         if ($this->rbac->checkAccess('upload_blacklisted_files', $this->fileadmin_ref_id)) {
             return new ProcessingStatus(ProcessingStatus::OK, 'Blacklist override by RBAC');

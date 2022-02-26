@@ -1124,7 +1124,7 @@ class ilValidator
                 $restored = true;
                 $this->writeScanLogLine("Restored object '" . $missing_obj["title"] . "' (id=" . $missing_obj["obj_id"] . ",ref=" . $missing_obj["ref_id"] . ") in 'Restored objects folder'");
             }
-            
+
             // TODO: process rolefolders
         }
         

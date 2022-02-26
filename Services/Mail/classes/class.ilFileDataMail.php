@@ -98,7 +98,7 @@ class ilFileDataMail extends ilFileData
         $relativePath = $row['path'];
         $path = $this->getMailPath() . '/' . $row['path'];
 
-        $files = ilUtil::getDir($path);
+        $files = ilFileUtils::getDir($path);
         foreach ($files as $file) {
             if ($file['type'] === 'file' && md5($file['entry']) === $md5FileHash) {
                 return [
@@ -212,7 +212,7 @@ class ilFileDataMail extends ilFileData
             return 1;
         }
 
-        $name = ilUtil::_sanitizeFilemame($a_filename);
+        $name = ilFileUtils::_sanitizeFilemame($a_filename);
         $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $name);
 
         $abs_path = $this->getMailPath() . '/' . $this->user_id . '_' . $name;
@@ -236,11 +236,11 @@ class ilFileDataMail extends ilFileData
      */
     public function storeUploadedFile(array $file) : void
     {
-        $file['name'] = ilUtil::_sanitizeFilemame($file['name']);
+        $file['name'] = ilFileUtils::_sanitizeFilemame($file['name']);
 
         $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $file['name']);
 
-        ilUtil::moveUploadedFile(
+        ilFileUtils::moveUploadedFile(
             $file['tmp_name'],
             $file['name'],
             $this->getMailPath() . '/' . $this->user_id . '_' . $file['name']
@@ -425,7 +425,7 @@ class ilFileDataMail extends ilFileData
 
     private function deleteAttachmentDirectory(string $a_rel_path) : void
     {
-        ilUtil::delDir($this->mail_path . "/" . $a_rel_path);
+        ilFileUtils::delDir($this->mail_path . "/" . $a_rel_path);
     }
     
     protected function initAttachmentMaxUploadSize() : void
@@ -570,12 +570,12 @@ class ilFileDataMail extends ilFileData
             }
         }
 
-        $downloadFilename = ilUtil::getASCIIFilename($basename);
+        $downloadFilename = ilFileUtils::getASCIIFilename($basename);
         if ($downloadFilename === '') {
             $downloadFilename = 'attachments';
         }
 
-        $processingDirectory = ilUtil::ilTempnam();
+        $processingDirectory = ilFileUtils::ilTempnam();
         $relativeProcessingDirectory = basename($processingDirectory);
 
         $absoluteZipDirectory = $processingDirectory . '/' . $downloadFilename;
@@ -606,7 +606,7 @@ class ilFileDataMail extends ilFileData
         }
 
         $pathToZipFile = $processingDirectory . '/' . $downloadFilename . '.zip';
-        ilUtil::zip($absoluteZipDirectory, $pathToZipFile);
+        ilFileUtils::zip($absoluteZipDirectory, $pathToZipFile);
 
         $this->tmpDirectory->deleteDir($relativeZipDirectory);
 

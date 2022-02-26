@@ -4,7 +4,7 @@
 /**
  * Class ilForumSettingsGUI
  * @author  Nadia Matuschek <nmatuschek@databay.de>
- * @ilCtrl_Calls ilForumSettingsGUI: ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilForumSettingsGUI: ilObjectContentStyleSettingsGUI
  */
 class ilForumSettingsGUI implements ilForumObjectConstants
 {
@@ -20,8 +20,8 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     private \ILIAS\Refinery\Factory $refinery;
     private ilForumNotification $forumNotificationObj;
     private ilPropertyFormGUI $form;
-    private ilPropertyFormGUI $notificationSettingsForm;
-    private int $ref_id;
+    private ?ilPropertyFormGUI $notificationSettingsForm = null;
+    public int $ref_id;
     private ilObjectService $obj_service;
     private \ILIAS\DI\Container $dic;
     private ilForumProperties $properties;
@@ -45,6 +45,8 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->ref_id = $this->parent_obj->object->getRefId();
         $this->http_wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
 
         $this->lng->loadLanguageModule('style');
         $this->lng->loadLanguageModule('cont');
@@ -62,37 +64,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $next_class = $this->ctrl->getNextClass();
         
         switch (strtolower($next_class)) {
-            case strtolower(ilObjStyleSheetGUI::class):
-                $this->tabs->clearTargets();
-                
-                $this->ctrl->setReturn($this, 'editStyleProperties');
-                $style_gui = new ilObjStyleSheetGUI(
-                    '',
-                    $this->properties->getStyleSheetId(),
-                    false,
-                    false
-                );
-
-                $new_type = (string) ($this->dic->http()->request()->getQueryParams()['new_type'] ?? '');
-                if ($cmd === 'create' || $new_type === 'sty') {
-                    $style_gui->setCreationMode();
-                }
-
-                if ($cmd === 'confirmedDelete') {
-                    $this->properties->setStyleSheetId(0);
-                    $this->properties->update();
-                }
-
-                $ret = $this->ctrl->forwardCommand($style_gui);
-
-                if ($cmd === 'save' || $cmd === 'copyStyle' || $cmd === 'importStyle') {
-                    $styleId = $ret;
-                    $this->properties->setStyleSheetId((int) $styleId);
-                    $this->properties->update();
-                    $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'edit');
-                }
-                break;
-
             default:
                 switch (true) {
                     case method_exists($this, $cmd):
@@ -265,9 +236,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         $this->tabs->addSubTabTarget(
             self::UI_SUB_TAB_ID_STYLE,
-            $this->ctrl->getLinkTarget($this, 'editStyleProperties'),
+            $this->ctrl->getLinkTargetByClass(strtolower(ilObjectContentStyleSettingsGUI::class), ""),
             '',
-            [strtolower(ilObjStyleSheetGUI::class)]
+            [strtolower(ilObjectContentStyleSettingsGUI::class)]
         );
 
         $this->tabs->activateTab(self::UI_TAB_ID_SETTINGS);
@@ -427,7 +398,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         foreach ($user_ids as $user_id) {
             $forced_events = $this->forumNotificationObj->getForcedEventsObjectByUserId($user_id);
 
-            $users[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
+            $users[$counter]['user_id'] = ilLegacyFormElementsUtil::formCheckbox(false, 'user_id[]', (string) $user_id);
             $users[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
             $name = ilObjUser::_lookupName($user_id);
             $users[$counter]['firstname'] = $name['firstname'];
@@ -542,7 +513,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'), true);
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
@@ -557,7 +528,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -581,7 +552,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
@@ -594,7 +565,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -618,7 +589,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
@@ -635,7 +606,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -659,7 +630,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
@@ -675,7 +646,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -683,7 +654,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function getParticipants() : ilParticipants
     {
-        if ($this->parent_obj->isParentObjectCrsOrGrp()) {
+        if (!$this->parent_obj->isParentObjectCrsOrGrp()) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -762,30 +733,19 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
             $cb_grp = new ilCheckboxGroupInputGUI($this->lng->txt('notification_settings'), 'notification_events');
 
-            $notify_modified = new ilCheckboxInputGUI($this->lng->txt('notify_modified'), 'notify_modified');
-            $notify_modified->setValue((string) ilForumNotificationEvents::UPDATED);
+            $notify_modified = new ilCheckboxOption($this->lng->txt('notify_modified'), (string) ilForumNotificationEvents::UPDATED);
             $cb_grp->addOption($notify_modified);
 
-            $notify_censored = new ilCheckboxInputGUI($this->lng->txt('notify_censored'), 'notify_censored');
-            $notify_censored->setValue((string) ilForumNotificationEvents::CENSORED);
+            $notify_censored = new ilCheckboxOption($this->lng->txt('notify_censored'), (string) ilForumNotificationEvents::CENSORED);
             $cb_grp->addOption($notify_censored);
 
-            $notify_uncensored = new ilCheckboxInputGUI($this->lng->txt('notify_uncensored'), 'notify_uncensored');
-            $notify_uncensored->setValue((string) ilForumNotificationEvents::UNCENSORED);
+            $notify_uncensored = new ilCheckboxOption($this->lng->txt('notify_uncensored'), (string) ilForumNotificationEvents::UNCENSORED);
             $cb_grp->addOption($notify_uncensored);
 
-            $notify_post_deleted = new ilCheckboxInputGUI(
-                $this->lng->txt('notify_post_deleted'),
-                'notify_post_deleted'
-            );
-            $notify_post_deleted->setValue((string) ilForumNotificationEvents::POST_DELETED);
+            $notify_post_deleted = new ilCheckboxOption($this->lng->txt('notify_post_deleted'), (string) ilForumNotificationEvents::POST_DELETED);
             $cb_grp->addOption($notify_post_deleted);
 
-            $notify_thread_deleted = new ilCheckboxInputGUI(
-                $this->lng->txt('notify_thread_deleted'),
-                'notify_thread_deleted'
-            );
-            $notify_thread_deleted->setValue((string) ilForumNotificationEvents::THREAD_DELETED);
+            $notify_thread_deleted = new ilCheckboxOption($this->lng->txt('notify_thread_deleted'), (string) ilForumNotificationEvents::THREAD_DELETED);
             $cb_grp->addOption($notify_thread_deleted);
             $opt_0->addSubItem($cb_grp);
 
@@ -854,107 +814,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
             $this->parent_obj->objProperties->update();
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
         $this->notificationSettingsForm->setValuesByPost();
 
         $this->showMembers();
-    }
-
-    protected function editStyleProperties() : void
-    {
-        $this->tabs->activateSubTab(self::UI_SUB_TAB_ID_STYLE);
-        
-        $form = $this->buildStylePropertiesForm();
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    protected function buildStylePropertiesForm() : ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-
-        $fixedStyle = (int) $this->settings->get('fixed_content_style_id', '0');
-        $defaultStyle = (int) $this->settings->get('default_content_style_id', '0');
-        $styleId = $this->properties->getStyleSheetId();
-
-        if ($fixedStyle > 0) {
-            $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
-            $st->setValue(
-                ilObject::_lookupTitle($fixedStyle) . ' (' . $this->lng->txt('global_fixed') . ')'
-            );
-            $form->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $this->parent_obj->object->getRefId()
-            );
-
-            if ($defaultStyle > 0) {
-                $st_styles[0] = ilObject::_lookupTitle($defaultStyle) . ' (' . $this->lng->txt('default') . ')';
-            } else {
-                $st_styles[0] = $this->lng->txt('default');
-            }
-            ksort($st_styles);
-
-            if ($styleId > 0 && !ilObjStyleSheet::_lookupStandard($styleId)) {
-                $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
-                $st->setValue(ilObject::_lookupTitle($styleId));
-                $form->addItem($st);
-
-                $form->addCommandButton('editStyle', $this->lng->txt('cont_edit_style'));
-                $form->addCommandButton('deleteStyle', $this->lng->txt('cont_delete_style'));
-            }
-
-            if ($styleId <= 0 || ilObjStyleSheet::_lookupStandard($styleId)) {
-                $style_sel = new ilSelectInputGUI($this->lng->txt('cont_current_style'), 'style_id');
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($styleId);
-                $form->addItem($style_sel);
-                $form->addCommandButton('saveStyleSettings', $this->lng->txt('save'));
-                $form->addCommandButton('createStyle', $this->lng->txt('sty_create_ind_style'));
-            }
-        }
-
-        $form->setTitle($this->lng->txt('cont_style'));
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        return $form;
-    }
-
-    protected function createStyle() : void
-    {
-        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'create');
-    }
-
-    protected function editStyle() : void
-    {
-        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'edit');
-    }
-
-    protected function deleteStyle() : void
-    {
-        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'delete');
-    }
-
-    protected function saveStyleSettings() : void
-    {
-        if (
-            (int) $this->settings->get('fixed_content_style_id', '0') <= 0 &&
-            (
-                ilObjStyleSheet::_lookupStandard(
-                    $this->properties->getStyleSheetId()
-                ) ||
-                $this->properties->getStyleSheetId() === 0
-            )
-        ) {
-            $this->properties->setStyleSheetId(
-                (int) ($this->dic->http()->request()->getQueryParams()['style_id'] ?? 0)
-            );
-            $this->properties->update();
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-        }
-
-        $this->ctrl->redirect($this, 'editStyleProperties');
     }
 }

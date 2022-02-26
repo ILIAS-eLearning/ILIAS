@@ -21,7 +21,7 @@ use ILIAS\RootFolder\StandardGUIRequest;
  * @author Stefan Meyer <meyer@leifos.com>
  *
  * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI
- * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ilObjectTranslationGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilRepositoryTrashGUI
  */
@@ -55,7 +55,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->help = $DIC->help();
     }
 
-    protected function getTabs()
+    protected function getTabs() : void
     {
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
@@ -89,7 +89,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         parent::getTabs();
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -120,9 +120,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
             case "ilcolumngui":
                 $this->checkPermission("read");
                 $this->prepareOutput();
-                $this->tpl->setVariable(
-                    "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                $this->content_style_gui->addCss(
+                    $this->tpl,
+                    $this->object->getRefId()
                 );
                 $this->renderObject();
                 break;
@@ -133,9 +133,17 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 $cp->setType('root');
                 $this->ctrl->forwardCommand($cp);
                 break;
-                
-            case "ilobjstylesheetgui":
-                $this->forwardToStyleSheet();
+
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->setTitleAndDescription();
+                $this->showContainerPageTabs();
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
             
             case "ilcommonactiondispatchergui":
@@ -162,9 +170,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
                     }
                 }
                 $this->prepareOutput();
-                $this->tpl->setVariable(
-                    "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                $this->content_style_gui->addCss(
+                    $this->tpl,
+                    $this->object->getRefId()
                 );
 
                 if (!$cmd) {
@@ -176,7 +184,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
                 break;
         }
-        return true;
     }
     
     public function renderObject() : void
@@ -196,20 +203,18 @@ class ilObjRootFolderGUI extends ilContainerGUI
     /**
      * @throws ilObjectException
      */
-    public function viewObject()
+    public function viewObject() : void
     {
         $this->checkPermission('read');
 
         if (strtolower($this->root_request->getBaseClass()) == "iladministrationgui") {
             parent::viewObject();
-            return true;
         }
 
         $this->renderObject();
-        return true;
     }
 
-    protected function setTitleAndDescription()
+    protected function setTitleAndDescription() : void
     {
         global $lng;
 
@@ -244,7 +249,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->tabs_gui->activateSubTab($active_tab);
     }
     
-    protected function initEditForm()
+    protected function initEditForm() : ilPropertyFormGUI
     {
         $this->setEditTabs();
         $obj_service = $this->getObjectService();
@@ -281,12 +286,13 @@ class ilObjRootFolderGUI extends ilContainerGUI
         return $form;
     }
 
-    protected function getEditFormValues()
+    protected function getEditFormValues() : array
     {
         // values are set in initEditForm()
+        return [];
     }
 
-    public function updateObject()
+    public function updateObject() : void
     {
         global $ilSetting;
 
@@ -330,7 +336,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
                 // END ChangeEvent: Record update
 
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirect($this, "edit");
             }
 

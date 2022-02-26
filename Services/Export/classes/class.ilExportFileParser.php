@@ -1,7 +1,18 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Export file parser
  * @author Aleex Killing <alex.killing@gmx.de>
@@ -38,7 +49,7 @@ class ilExportFileParser extends ilSaxParser
     /**
      * @inheritDoc
      */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handleBeginTag', 'handleEndTag');
@@ -48,7 +59,7 @@ class ilExportFileParser extends ilSaxParser
     /**
      * @inheritDoc
      */
-    public function startParsing()
+    public function startParsing() : void
     {
         parent::startParsing();
     }

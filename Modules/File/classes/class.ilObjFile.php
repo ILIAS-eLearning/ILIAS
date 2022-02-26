@@ -40,10 +40,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     
     protected int $page_count = 0;
     protected bool $rating = false;
-    /**
-     * @var \ilLogger // not yet typed in parent class
-     */
-    protected $log;
+    protected ?ilLogger $log;
     protected string $filename = '';
     protected string $filetype = '';
     protected int $filesize;
@@ -471,7 +468,10 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         // delete resource
         $identification = $this->getResourceId();
         if ($identification && $identification != '-') {
-            $this->manager->remove($this->manager->find($identification), $this->stakeholder);
+            $resource = $this->manager->find($identification);
+            if ($resource !== null) {
+                $this->manager->remove($resource, $this->stakeholder);
+            }
         }
     }
     
@@ -598,7 +598,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->setVersion($this->getVersion() + 1);
         
         if (@!is_dir($this->getDirectory($this->getVersion()))) {
-            ilUtil::makeDir($this->getDirectory($this->getVersion()));
+            ilFileUtils::makeDir($this->getDirectory($this->getVersion()));
         }
         
         $file = $this->getDirectory($this->getVersion()) . "/" . $a_filename;

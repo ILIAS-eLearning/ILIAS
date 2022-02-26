@@ -44,10 +44,10 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
         );
     }
     
-    public function saveObject()
+    public function saveObject() : void
     {
         parent::saveObject();
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         exit();
     }
 
@@ -80,7 +80,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
         }
     }
 
-    protected function showPossibleSubObjects()
+    protected function showPossibleSubObjects() : void
     {
         $this->sub_objects = "";
     }

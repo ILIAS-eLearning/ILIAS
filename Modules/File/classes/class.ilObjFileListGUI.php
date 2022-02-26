@@ -123,13 +123,13 @@ class ilObjFileListGUI extends ilObjectListGUI
             "value"               => ilObjFileAccess::_getFileExtension($this->title),
             'propertyNameVisible' => false,
         );
-        
+        ilObjFileAccess::_preloadData([$this->obj_id], [$this->ref_id]);
         $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
         
         $props[] = array(
             "alert"               => false,
             "property"            => $DIC->language()->txt("size"),
-            "value"               => ilUtil::formatSize($file_data['size'], 'short'),
+            "value"               => ilUtil::formatSize($file_data['size'] ?? 0, 'short'),
             'propertyNameVisible' => false,
         );
         $version = $file_data['version'];

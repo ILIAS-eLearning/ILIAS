@@ -91,7 +91,7 @@ class ilExcCriteriaGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "view");
     }
     
@@ -103,7 +103,7 @@ class ilExcCriteriaGUI
         
         $ids = $this->request->getCriteriaIds();
         if (count($ids) == 0) {
-            ilUtil::sendInfo($lng->txt("select_one"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("select_one"), true);
             $ilCtrl->redirect($this, "view");
         }
         
@@ -138,7 +138,7 @@ class ilExcCriteriaGUI
             }
         }
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "view");
     }
     
@@ -240,7 +240,7 @@ class ilExcCriteriaGUI
                 $a_crit_obj->update();
             }
             
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "view");
         }
         

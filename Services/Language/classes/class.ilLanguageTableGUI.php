@@ -69,8 +69,8 @@ class ilLanguageTableGUI extends ilTable2GUI
         }
 
         // sort alphabetically but shoe installed languages first
-        $data = ilUtil::stableSortArray($data, "name", "asc", false);
-        $data = ilUtil::stableSortArray($data, "desc", "asc", false);
+        $data = ilArrayUtil::stableSortArray($data, "name", "asc", false);
+        $data = ilArrayUtil::stableSortArray($data, "desc", "asc", false);
 
         $this->setData($data);
     }

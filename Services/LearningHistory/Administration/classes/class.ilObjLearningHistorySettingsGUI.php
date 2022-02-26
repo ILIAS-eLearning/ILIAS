@@ -154,7 +154,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
             $data = $form->getData();
             if (is_array($data["sec"])) {
                 $setting->set("enable_learning_history", (int) ($data["sec"]["enable_learning_history"]));
-                ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+                $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             }
         }
         $ctrl->redirect($this, "editSettings");

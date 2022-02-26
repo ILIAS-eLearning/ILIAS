@@ -134,7 +134,7 @@ abstract class ilRegistrationGUI
             $this->lng->txt($this->container->getType() . '_removed_from_waiting_list'),
             $this->container->getTitle()
         );
-        ilUtil::sendSuccess($message, true);
+        $this->tpl->setOnScreenMessage('success', $message, true);
         $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $parent);
         $this->ctrl->redirectByClass("ilrepositorygui", "");
     }
@@ -247,7 +247,7 @@ abstract class ilRegistrationGUI
             $course_user_data = new ilCourseUserData($this->user->getId(), $field_obj->getId());
 
             switch ($field_obj->getType()) {
-                case IL_CDF_TYPE_SELECT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
                     $select = new ilSelectInputGUI($field_obj->getName(), 'cdf[' . $field_obj->getId() . ']');
                     $select->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));
                     $select->setOptions($field_obj->prepareSelectBox());
@@ -257,7 +257,7 @@ abstract class ilRegistrationGUI
                     $cdf->addSubItem($select);
                     break;
 
-                case IL_CDF_TYPE_TEXT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
                     $text = new ilTextInputGUI($field_obj->getName(), 'cdf[' . $field_obj->getId() . ']');
                     $text->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));
                     $text->setSize(32);
@@ -289,7 +289,7 @@ abstract class ilRegistrationGUI
         $value = '';
         foreach (ilCourseDefinedFieldDefinition::_getFields($this->container->getId()) as $field_obj) {
             switch ($field_obj->getType()) {
-                case IL_CDF_TYPE_SELECT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
 
                     // Split value id from post
                     list($field_id, $option_id) = explode('_', $_POST['cdf_' . $field_obj->getId()]);
@@ -302,7 +302,7 @@ abstract class ilRegistrationGUI
                     }
                     break;
 
-                case IL_CDF_TYPE_TEXT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
                     $value = $_POST['cdf_' . $field_obj->getId()];
                     break;
             }
@@ -350,7 +350,7 @@ abstract class ilRegistrationGUI
             $this->initForm();
         }
         if ($_SESSION["pending_goto"]) {
-            ilUtil::sendInfo($this->lng->txt("reg_goto_parent_membership_info"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("reg_goto_parent_membership_info"));
         }
         $this->tpl->setContent($this->form->getHTML());
     }
@@ -361,9 +361,9 @@ abstract class ilRegistrationGUI
         if (!$form->checkInput() || !$this->validate()) {
             $form->setValuesByPost();
             if ($this->join_error) {
-                ilUtil::sendFailure($this->join_error);
+                $this->tpl->setOnScreenMessage('failure', $this->join_error);
             } else {
-                ilUtil::sendFailure($this->lng->txt('err_check_input'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             }
             $this->show($form);
             return;
@@ -424,12 +424,10 @@ abstract class ilRegistrationGUI
             $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
         if ($this->getWaitingList()->isOnList($this->user->getId())) {
-            ilUtil::sendQuestion(
-                sprintf(
-                    $this->lng->txt($this->container->getType() . '_cancel_waiting_list'),
-                    $this->container->getTitle()
-                )
-            );
+            $this->tpl->setOnScreenMessage('question', sprintf(
+                $this->lng->txt($this->container->getType() . '_cancel_waiting_list'),
+                $this->container->getTitle()
+            ));
             $this->form->addCommandButton('leaveWaitingList', $this->lng->txt('leave_waiting_list'));
             $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
@@ -438,7 +436,7 @@ abstract class ilRegistrationGUI
     protected function updateSubscriptionRequest() : void
     {
         $this->participants->updateSubject($this->user->getId(), ilUtil::stripSlashes($_POST['subject']));
-        ilUtil::sendSuccess($this->lng->txt('sub_request_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('sub_request_saved'), true);
         $this->ctrl->setParameterByClass(
             "ilrepositorygui",
             "ref_id",
@@ -450,7 +448,7 @@ abstract class ilRegistrationGUI
     protected function cancelSubscriptionRequest() : void
     {
         $this->participants->deleteSubscriber($this->user->getId());
-        ilUtil::sendSuccess($this->lng->txt('sub_request_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('sub_request_deleted'), true);
 
         $this->ctrl->setParameterByClass(
             "ilrepositorygui",

@@ -112,7 +112,6 @@ class ilObjectPermissionStatusGUI
      */
     public function accessStatusInfo() : string
     {
-
         $info = new ilInfoScreenGUI(new stdClass());
         $info->setFormAction($this->ctrl->getFormAction($this));
 
@@ -130,7 +129,6 @@ class ilObjectPermissionStatusGUI
      */
     public function accessPermissionsTable() : string
     {
-
         $table = new ilAccessPermissionsStatusTableGUI($this, "perminfo");
 
         $table->setData($this->getAccessPermissionTableData());
@@ -145,7 +143,6 @@ class ilObjectPermissionStatusGUI
      */
     public function availableRolesTable() : string
     {
-
         $table = new ilAvailableRolesStatusTableGUI($this, "perminfo");
 
         $table->setData($this->getAvailableRolesTableData());
@@ -175,8 +172,10 @@ class ilObjectPermissionStatusGUI
 
                     $role['ops'] = $ops;
                 } else {
-                    $role['ops'] = $this->rbacreview->getRoleOperationsOnObject($role["obj_id"],
-                        $this->object->getRefId());
+                    $role['ops'] = $this->rbacreview->getRoleOperationsOnObject(
+                        $role["obj_id"],
+                        $this->object->getRefId()
+                    );
                 }
 
                 $role['translation'] = str_replace(" ", "&nbsp;", ilObjRole::_getTranslation($role["title"]));
@@ -228,10 +227,10 @@ class ilObjectPermissionStatusGUI
         $user_id = ilObjUser::_lookupId($user_login);
         $user = ilObjectFactory::getInstanceByObjId($user_id, false);
         if (!$user instanceof ilObjUser || $user->getType() != 'usr') {
-            ilUtil::sendFailure($this->lng->txt('info_err_user_not_exist'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('info_err_user_not_exist'));
             return $DIC->user();
         }
-        ilUtil::sendSuccess($this->lng->txt('info_user_view_changed'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('info_user_view_changed'));
         return $user;
     }
 
@@ -343,8 +342,13 @@ class ilObjectPermissionStatusGUI
 
         // check permissions of user
         foreach ($ops_list as $ops) {
-            $access = $ilAccess->doRBACCheck($ops['operation'], "info", $this->object->getRefId(), $this->user->getId(),
-                $this->object->getType());
+            $access = $ilAccess->doRBACCheck(
+                $ops['operation'],
+                "info",
+                $this->object->getRefId(),
+                $this->user->getId(),
+                $this->object->getType()
+            );
 
             $result_set[$counter]["img"] = $access ? self::IMG_OK : self::IMG_NOT_OK;
 
@@ -412,12 +416,16 @@ class ilObjectPermissionStatusGUI
 
         $result_set = [];
         foreach ($this->valid_roles as $role) {
-            $result_set[$counter]["img"] = in_array($role['obj_id'],
-                $this->user_roles) ? self::IMG_OK : self::IMG_NOT_OK;
+            $result_set[$counter]["img"] = in_array(
+                $role['obj_id'],
+                $this->user_roles
+            ) ? self::IMG_OK : self::IMG_NOT_OK;
 
             if (is_subclass_of($this->object, ilObjectPlugin::class) && $role["parent"] == $this->object->getRefId()) {
-                $result_set[$counter][] = ilObjectPlugin::lookupTxtById($this->object->getType(),
-                    ilObjRole::_removeObjectId($role["title"]));
+                $result_set[$counter][] = ilObjectPlugin::lookupTxtById(
+                    $this->object->getType(),
+                    ilObjRole::_removeObjectId($role["title"])
+                );
             } else {
                 $result_set[$counter][] = str_replace(" ", "&nbsp;", ilObjRole::_getTranslation($role["title"]));
             }

@@ -271,12 +271,10 @@ class ilAdvancedMDRecordGUI
     public function importEditFormPostValues() : bool
     {
         // #13774
-        if (!is_array($this->editor_form)) {
+        if (!count($this->editor_form)) {
             return false;
         }
-
         $valid = true;
-
         foreach ($this->editor_form as $item) {
             $item["form"]->importFromPost();
             if (!$item["form"]->validate()) {
@@ -546,7 +544,7 @@ class ilAdvancedMDRecordGUI
      */
     public function saveSelection() : void
     {
-        $sel = ilUtil::stripSlashesArray($_POST["amet_use_rec"]);
+        $sel = ilArrayUtil::stripSlashesArray($_POST["amet_use_rec"]);
         ilAdvancedMDRecord::saveObjRecSelection($this->obj_id, $this->sub_type, $sel);
     }
 

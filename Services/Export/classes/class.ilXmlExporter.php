@@ -50,9 +50,9 @@ abstract class ilXmlExporter
             : "_" . $a_entity;
 
         if ($a_export_type == 'xml') {
-            return ilUtil::getDataDir() . "/" . $a_obj_type . $ent . "_data" . "/" . $a_obj_type . "_" . $a_obj_id . "/export";
+            return ilFileUtils::getDataDir() . "/" . $a_obj_type . $ent . "_data" . "/" . $a_obj_type . "_" . $a_obj_id . "/export";
         }
-        return ilUtil::getDataDir() . "/" . $a_obj_type . $ent . "_data" . "/" . $a_obj_type . "_" . $a_obj_id . "/export_" . $a_export_type;
+        return ilFileUtils::getDataDir() . "/" . $a_obj_type . $ent . "_data" . "/" . $a_obj_type . "_" . $a_obj_id . "/export_" . $a_export_type;
     }
 
     abstract public function getXmlRepresentation(

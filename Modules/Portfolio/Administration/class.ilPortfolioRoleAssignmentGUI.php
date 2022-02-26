@@ -134,7 +134,7 @@ class ilPortfolioRoleAssignmentGUI
                 (int) $form->getInput("template_ref_id"),
                 (int) $form->getInput("role_id")
             );
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ctrl->redirect($this, "");
         } else {
             $form->setValuesByPost();
@@ -150,7 +150,7 @@ class ilPortfolioRoleAssignmentGUI
 
         $template_ids = $this->port_request->getRoleTemplateIds();
         if (count($template_ids) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ctrl->redirect($this, "listAssignments");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -181,7 +181,7 @@ class ilPortfolioRoleAssignmentGUI
             $id_arr = explode("_", $i);
             $this->manager->delete((int) $id_arr[1], (int) $id_arr[0]);
         }
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ctrl->redirect($this, "listAssignments");
     }
 }

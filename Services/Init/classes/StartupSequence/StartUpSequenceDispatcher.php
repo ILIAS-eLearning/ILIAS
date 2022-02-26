@@ -15,7 +15,7 @@ use SplQueue;
 /**
  * Class StartupSequenceDispatcher
  * @package ILIAS\Init\StartupSequence
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 class StartUpSequenceDispatcher
 {
@@ -64,7 +64,7 @@ class StartUpSequenceDispatcher
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function dispatch() : bool
     {
@@ -90,11 +90,10 @@ class StartUpSequenceDispatcher
             return false;
         }
 
-
         $this->sequence->rewind();
         while (!$this->sequence->isEmpty()) {
             $step = $this->sequence->shift();
-            
+
             if ($step->isInFulfillment()) {
                 $this->dic->logger()->init()->debug('Step is in fulfillment:' . get_class($step));
                 return false;

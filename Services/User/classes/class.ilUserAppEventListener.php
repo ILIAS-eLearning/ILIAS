@@ -33,13 +33,13 @@ class ilUserAppEventListener implements ilAppEventListener
             /** @var ilObjUser $user */
             $user = $a_parameter['event']->getUser();
 
-            $defaultAuth = AUTH_LOCAL;
+            $defaultAuth = ilAuthUtils::AUTH_LOCAL;
             if ($DIC['ilSetting']->get('auth_mode')) {
                 $defaultAuth = $DIC['ilSetting']->get('auth_mode');
             }
             $isLdapUser = (
-                $user->getAuthMode() == AUTH_LDAP ||
-                ($user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
+                $user->getAuthMode() == ilAuthUtils::AUTH_LDAP ||
+                ($user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_LDAP)
             );
 
             if ($isLdapUser) {

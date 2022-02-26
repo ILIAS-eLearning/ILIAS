@@ -5,6 +5,7 @@
 namespace ILIAS\Services\Export\HTML;
 
 use ILIAS\GlobalScreen\Services;
+use ilFileUtils;
 
 /**
  * Util
@@ -54,10 +55,7 @@ class Util
         \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
 
         // init co page html exporter
-        $this->co_page_html_export->setContentStyleId(\ilObjStyleSheet::getEffectiveContentStyleId(
-            $style_sheet_id,
-            $obj_type
-        ));
+        $this->co_page_html_export->setContentStyleId($style_sheet_id);
         $this->co_page_html_export->createDirectories();
         $this->co_page_html_export->exportStyles();
         $this->co_page_html_export->exportSupportScripts();
@@ -102,7 +100,7 @@ class Util
         }
         if (is_file($file)) {
             $dir = dirname($file);
-            \ilUtil::makeDirParents($target_dir . "/" . $dir);
+            ilFileUtils::makeDirParents($target_dir . "/" . $dir);
             if (!is_file($target_dir . "/" . $file)) {
                 copy($file, $target_dir . "/" . $file);
             }

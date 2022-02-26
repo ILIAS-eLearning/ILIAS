@@ -94,7 +94,7 @@ class ilModulesGroupTasks
 
         $members = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['grpRefId']));
         foreach ($input_params['usrIdList'] as $user_id) {
-            $members->add($user_id, IL_GRP_MEMBER);
+            $members->add($user_id, ilParticipants::IL_GRP_MEMBER);
         }
 
         return;
@@ -123,7 +123,7 @@ class ilModulesGroupTasks
 
         $participants = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['grpRefId']));
         foreach ($input_params['usrIdList'] as $user_id) {
-            $participants->add($user_id, IL_GRP_ADMIN);
+            $participants->add($user_id, ilParticipants::IL_GRP_ADMIN);
         }
         return;
     }

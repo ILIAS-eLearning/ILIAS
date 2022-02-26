@@ -182,19 +182,21 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('QUESTION_ID', $a_set["question_id"]);
-        $this->tpl->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+        $this->tpl->setVariable("QUESTION_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
 
         $this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
         $guiclass = strtolower($a_set['type_tag']) . "gui";
         $this->ctrl->setParameterByClass($guiclass, "q_id", $a_set["question_id"]);
         $this->tpl->setVariable("LINK_PREVIEW", "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&amp;ref_id=" . $a_set["ref_id"] . "&amp;cmd=preview&amp;preview=" . $a_set["question_id"]);
 
-        $this->tpl->setVariable("QUESTION_DESCRIPTION", ilUtil::prepareFormOutput((strlen($a_set["description"])) ? $a_set["description"] : ""));
+        $this->tpl->setVariable("QUESTION_DESCRIPTION",
+            ilLegacyFormElementsUtil::prepareFormOutput((strlen($a_set["description"])) ? $a_set["description"] : "")
+        );
         $this->tpl->setVariable("QUESTION_TYPE", $a_set["ttype"]);
-        $this->tpl->setVariable("QUESTION_AUTHOR", ilUtil::prepareFormOutput($a_set["author"]));
+        $this->tpl->setVariable("QUESTION_AUTHOR", ilLegacyFormElementsUtil::prepareFormOutput($a_set["author"]));
         $this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($a_set['created'], IL_CAL_UNIX)));
         $this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX)));
-        $this->tpl->setVariable("QPL", ilUtil::prepareFormOutput($a_set["spl"]));
+        $this->tpl->setVariable("QPL", ilLegacyFormElementsUtil::prepareFormOutput($a_set["spl"]));
     }
     
     public function setEditable(bool $value) : void

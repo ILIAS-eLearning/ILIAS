@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumerAdminProviderTableGUI
  *
@@ -16,83 +26,83 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @var string
      */
-    protected $editProviderCmd = '';
+    protected string $editProviderCmd = '';
     
     /**
      * @var string
      */
-    protected $acceptProviderAsGlobalCmd = '';
+    protected string $acceptProviderAsGlobalCmd = '';
     
     /**
      * @var string
      */
-    protected $acceptProviderAsGlobalMultiCmd = '';
+    protected string $acceptProviderAsGlobalMultiCmd = '';
     
     /**
      * @var string
      */
-    protected $resetProviderToUserScopeCmd = '';
+    protected string $resetProviderToUserScopeCmd = '';
     
     /**
      * @var string
      */
-    protected $resetProviderToUserScopeMultiCmd = '';
+    protected string $resetProviderToUserScopeMultiCmd = '';
     
     /**
      * @var string
      */
-    protected $selectProviderCmd = '';
+    protected string $selectProviderCmd = '';
     
     /**
      * @var string
      */
-    protected $deleteProviderCmd = '';
+    protected string $deleteProviderCmd = '';
     
     /**
      * @var string
      */
-    protected $deleteProviderMultiCmd = '';
+    protected string $deleteProviderMultiCmd = '';
 
     /**
      * @var bool
      */
-    protected $availabilityColumnEnabled = false;
+    protected bool $availabilityColumnEnabled = false;
     
     /**
      * @var bool
      */
-    protected $ownProviderColumnEnabled = false;
+    protected bool $ownProviderColumnEnabled = false;
     
     /**
      * @var bool
      */
-    protected $providerCreatorColumnEnabled = false;
+    protected bool $providerCreatorColumnEnabled = false;
     
     /**
      * @var bool
      */
-    protected $actionsColumnEnabled = false;
+    protected bool $actionsColumnEnabled = false;
     
     /**
      * @var bool
      */
-    protected $detailedUsagesEnabled = false;
+    protected bool $detailedUsagesEnabled = false;
     
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $this->setId('providers');
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate('tpl.lti_consume_provider_table_row.html', 'Modules/LTIConsumer');
-        
+
         $this->setTitle($DIC->language()->txt('tbl_provider_header'));
         //$this->setDescription($DIC->language()->txt('tbl_provider_header_info'));
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -108,7 +118,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param string $editProviderCmd
      */
-    public function setEditProviderCmd(string $editProviderCmd)
+    public function setEditProviderCmd(string $editProviderCmd) : void
     {
         $this->editProviderCmd = $editProviderCmd;
     }
@@ -124,7 +134,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param string $acceptProviderAsGlobalCmd
      */
-    public function setAcceptProviderAsGlobalCmd(string $acceptProviderAsGlobalCmd)
+    public function setAcceptProviderAsGlobalCmd(string $acceptProviderAsGlobalCmd) : void
     {
         $this->acceptProviderAsGlobalCmd = $acceptProviderAsGlobalCmd;
     }
@@ -140,7 +150,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param string $acceptProviderAsGlobalMultiCmd
      */
-    public function setAcceptProviderAsGlobalMultiCmd(string $acceptProviderAsGlobalMultiCmd)
+    public function setAcceptProviderAsGlobalMultiCmd(string $acceptProviderAsGlobalMultiCmd) : void
     {
         $this->acceptProviderAsGlobalMultiCmd = $acceptProviderAsGlobalMultiCmd;
     }
@@ -156,7 +166,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param string $resetProviderToUserScopeCmd
      */
-    public function setResetProviderToUserScopeCmd(string $resetProviderToUserScopeCmd)
+    public function setResetProviderToUserScopeCmd(string $resetProviderToUserScopeCmd) : void
     {
         $this->resetProviderToUserScopeCmd = $resetProviderToUserScopeCmd;
     }
@@ -172,7 +182,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param string $resetProviderToUserScopeMultiCmd
      */
-    public function setResetProviderToUserScopeMultiCmd(string $resetProviderToUserScopeMultiCmd)
+    public function setResetProviderToUserScopeMultiCmd(string $resetProviderToUserScopeMultiCmd) : void
     {
         $this->resetProviderToUserScopeMultiCmd = $resetProviderToUserScopeMultiCmd;
     }
@@ -188,7 +198,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param string $selectProviderCmd
      */
-    public function setSelectProviderCmd(string $selectProviderCmd)
+    public function setSelectProviderCmd(string $selectProviderCmd) : void
     {
         $this->selectProviderCmd = $selectProviderCmd;
     }
@@ -204,7 +214,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param string $deleteProviderCmd
      */
-    public function setDeleteProviderCmd(string $deleteProviderCmd)
+    public function setDeleteProviderCmd(string $deleteProviderCmd) : void
     {
         $this->deleteProviderCmd = $deleteProviderCmd;
     }
@@ -220,7 +230,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param string $deleteProviderMultiCmd
      */
-    public function setDeleteProviderMultiCmd(string $deleteProviderMultiCmd)
+    public function setDeleteProviderMultiCmd(string $deleteProviderMultiCmd) : void
     {
         $this->deleteProviderMultiCmd = $deleteProviderMultiCmd;
     }
@@ -236,7 +246,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param bool $availabilityColumnEnabled
      */
-    public function setAvailabilityColumnEnabled(bool $availabilityColumnEnabled)
+    public function setAvailabilityColumnEnabled(bool $availabilityColumnEnabled) : void
     {
         $this->availabilityColumnEnabled = $availabilityColumnEnabled;
     }
@@ -252,7 +262,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param bool $ownProviderColumnEnabled
      */
-    public function setOwnProviderColumnEnabled(bool $ownProviderColumnEnabled)
+    public function setOwnProviderColumnEnabled(bool $ownProviderColumnEnabled) : void
     {
         $this->ownProviderColumnEnabled = $ownProviderColumnEnabled;
     }
@@ -268,7 +278,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param bool $providerCreatorColumnEnabled
      */
-    public function setProviderCreatorColumnEnabled(bool $providerCreatorColumnEnabled)
+    public function setProviderCreatorColumnEnabled(bool $providerCreatorColumnEnabled) : void
     {
         $this->providerCreatorColumnEnabled = $providerCreatorColumnEnabled;
     }
@@ -284,7 +294,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param bool $actionsColumnEnabled
      */
-    public function setActionsColumnEnabled(bool $actionsColumnEnabled)
+    public function setActionsColumnEnabled(bool $actionsColumnEnabled) : void
     {
         $this->actionsColumnEnabled = $actionsColumnEnabled;
     }
@@ -300,12 +310,12 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     /**
      * @param bool $detailedUsagesEnabled
      */
-    public function setDetailedUsagesEnabled(bool $detailedUsagesEnabled)
+    public function setDetailedUsagesEnabled(bool $detailedUsagesEnabled) : void
     {
         $this->detailedUsagesEnabled = $detailedUsagesEnabled;
     }
     
-    public function hasMultiCommands()
+    public function hasMultiCommands() : bool
     {
         if ($this->getAcceptProviderAsGlobalMultiCmd()) {
             return true;
@@ -318,7 +328,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return false;
     }
     
-    public function init()
+    public function init() : void
     {
         parent::determineSelectedColumns();
         
@@ -327,7 +337,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         $this->initCommands();
     }
     
-    protected function initCommands()
+    protected function initCommands() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -353,7 +363,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         }
     }
     
-    protected function initColumns()
+    protected function initColumns() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -420,6 +430,9 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
          */
     }
     
+    /**
+     * @return array<string, mixed[]>
+     */
     public function getSelectableColumns() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -558,7 +571,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
             $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
             $this->tpl->setVariable('ICON_ALT', basename($a_set['icon']));
         } else {
-            $icon = ilObject::_getIcon("", "small", "lti");
+            $icon = ilObject::_getIcon(0, "small", "lti");
             $this->tpl->setVariable('ICON_SRC', $icon);
             $this->tpl->setVariable('ICON_ALT', 'lti');
         }
@@ -614,39 +627,39 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         }
     }
     
-    protected function getHasOutcomeFormatted($hasOutcome)
+    protected function getHasOutcomeFormatted(bool $hasOutcome) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         return $hasOutcome ? $DIC->language()->txt('yes') : '';
     }
     
-    protected function getIsInternalFormatted($isInternal)
+    protected function getIsInternalFormatted(bool $isInternal) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         return $isInternal ? $DIC->language()->txt('yes') : '';
     }
     
-    protected function getIsWithKeyFormatted($isWithKey)
+    protected function getIsWithKeyFormatted(bool $isWithKey) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         return $isWithKey ? $DIC->language()->txt('yes') : '';
     }
 
-    protected function getCategoryTranslation($category)
+    protected function getCategoryTranslation(string $category) : string
     {
         $categories = ilLTIConsumeProvider::getCategoriesSelectOptions();
         return $categories[$category];
     }
     
-    protected function getKeywordsFormatted(array $keywords)
+    protected function getKeywordsFormatted(array $keywords) : string
     {
         return implode('<br />', $keywords);
     }
     
-    protected function getAvailabilityLabel($data)
+    protected function getAvailabilityLabel(array $data) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -663,9 +676,10 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
                 
                 return $DIC->language()->txt('lti_con_prov_availability_non');
         }
+        return '';
     }
     
-    protected function getOwnProviderLabel($data)
+    protected function getOwnProviderLabel(array $data) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -676,7 +690,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return '';
     }
     
-    protected function getProviderCreatorLabel($data)
+    protected function getProviderCreatorLabel(array $data) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -694,7 +708,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return '';
     }
     
-    protected function buildActionsListHtml($data)
+    protected function buildActionsListHtml(array $data) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -711,7 +725,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return '';
     }
     
-    protected function getActionItems($data)
+    protected function getActionItems(array $data) : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -755,7 +769,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return $items;
     }
     
-    protected function buildProviderLink(int $providerId, string $command)
+    protected function buildProviderLink(int $providerId, string $command) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -766,15 +780,15 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return $link;
     }
     
-    protected function isUserCreatedProviderResettableToUserScope($data)
+    protected function isUserCreatedProviderResettableToUserScope(array $data) : bool
     {
         return (bool) $data['creator'] && (bool) $data['accepted_by'];
     }
     
-    protected static function isTrashEnabled()
+    protected static function isTrashEnabled() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        return (bool) $DIC->settings()->get('enable_trash', 0);
+        return (bool) $DIC->settings()->get('enable_trash', "0");
     }
 }

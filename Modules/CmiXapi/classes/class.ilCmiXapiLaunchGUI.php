@@ -79,7 +79,8 @@ class ilCmiXapiLaunchGUI
                 $launchLink = $this->object->getLaunchUrl();
             } else {
                 $launchLink = implode('/', [
-                    ILIAS_HTTP_PATH, ilUtil::getWebspaceDir(),
+                    ILIAS_HTTP_PATH,
+                    ilFileUtils::getWebspaceDir(),
                     ilCmiXapiContentUploadImporter::RELATIVE_CONTENT_DIRECTORY_NAMEBASE . $this->object->getId()
                 ]);
 

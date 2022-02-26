@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\MessageBox;
@@ -55,6 +54,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     protected Psr\Http\Message\ServerRequestInterface $request;
     protected ilTree $tree;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
+    protected ilContainerGUI $parent_gui;
 
     public function __construct(
         ilGlobalTemplateInterface $tpl,
@@ -65,7 +66,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         MessageBox\Factory $message_box_factory,
         Button\Factory $button_factory,
         Renderer $ui_renderer,
-        ServerRequest $request,
+        Psr\Http\Message\ServerRequestInterface $request,
         ilTree $tree,
         ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
         ILIAS\Refinery\Factory $refinery
@@ -131,8 +132,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             );
         }
 
-        $selected_src_type = $_GET[self::F_SOURCE_TYPE];
-        $selected_src = $_GET[self::F_SOURCE_ID];
+        $selected_src_type = $this->request_wrapper->retrieve(self::F_SOURCE_TYPE, $this->refinery->kindlyTo()->string());
+        $selected_src = $this->request_wrapper->retrieve(self::F_SOURCE_ID, $this->refinery->kindlyTo()->int());
 
         $form = $this->getSelectionForm(
             $selected_src_type,
@@ -211,8 +212,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $src_id = $post[self::F_SOURCE_ID . $src_type];
 
         if (
-            (is_null($src_type) || $src_type == "") ||
-            (is_null($src_id) || $src_id == 0)
+            (is_null($src_type) || $src_type === "") ||
+            (is_null($src_id) || $src_id === 0)
         ) {
             $this->tpl->setOnScreenMessage("failure", $this->txt('no_srctype_or_id'), true);
             $this->ctrl->redirect($this, self::CMD_VIEW);
@@ -576,7 +577,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             $title = ilObject::_lookupTitle($obj_id);
             $description = ilObject::_lookupDescription($obj_id);
 
-            $option = new ilRadioOption($title, $obj_id, $description);
+            $option = new ilRadioOption($title, (string) $obj_id, $description);
             $rgoup->addOption($option);
         }
 
@@ -585,7 +586,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $form->addItem($hi);
 
         $hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_ID);
-        $hi->setValue($source_id);
+        $hi->setValue((string) $source_id);
         $form->addItem($hi);
 
         $hi = new ilHiddenInputGUI(self::F_SOURCE_TYPE);

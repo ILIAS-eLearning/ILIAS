@@ -1,18 +1,18 @@
 <?php
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *****************************************************************************/
 /**
  * Group Import Parser
  *
@@ -41,45 +41,46 @@ class ilCategoryXmlParser extends ilSaxParser
 
         $this->cat_log = ilLoggerFactory::getLogger("cat");
     }
-    
+
     public function getParentId() : int
     {
         return $this->parent_id;
     }
-    
+
+    /**
+     * @return mixed[]
+     */
     protected function getCurrentTranslation() : array
     {
         return $this->current_translation;
     }
-    
-    public function setHandlers($a_xml_parser)
+
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function startParsing()
+    public function startParsing() : void
     {
         parent::startParsing();
 
-        if ($this->mode == ilCategoryXmlParser::MODE_CREATE) {
-            return is_object($this->cat) ? $this->cat->getRefId() : false;
-        } else {
-            return is_object($this->cat) && $this->cat->update();
+        if ($this->mode !== ilCategoryXmlParser::MODE_CREATE) {
+            $this->cat->update();
         }
     }
 
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
             case "Category":
                 break;
-            
+
             case 'Translations':
                 $this->getCategory()->removeTranslations();
                 break;
-            
+
             case 'Translation':
                 $this->current_translation = array();
                 $this->current_translation['default'] = $a_attribs['default'] ? 1 : 0;
@@ -90,38 +91,38 @@ class ilCategoryXmlParser extends ilSaxParser
             case 'Sort':
                 ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $this->getCategory()->getId());
                 break;
-            
+
             case 'ContainerSetting':
                 $this->current_container_setting = $a_attribs['id'];
                 break;
         }
     }
 
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
             case "Category":
                 $this->save();
                 break;
-            
+
             case 'Title':
                 $this->current_translation['title'] = trim($this->cdata);
-                
+
                 if ($this->current_translation['default']) {
                     $this->getCategory()->setTitle(trim($this->cdata));
                 }
-                
+
                 break;
-            
+
             case 'Description':
                 $this->current_translation['description'] = trim($this->cdata);
-                
+
                 if ($this->current_translation['default']) {
                     $this->getCategory()->setDescription(trim($this->cdata));
                 }
-                
+
                 break;
-            
+
             case 'Translation':
                 // Add translation
                 $this->getCategory()->addTranslation(
@@ -131,7 +132,7 @@ class ilCategoryXmlParser extends ilSaxParser
                     (int) $this->current_translation['default']
                 );
                 break;
-            
+
             case 'ContainerSetting':
                 if ($this->current_container_setting) {
                     $this->cat_log->debug("Write container Setting, ID: " . $this->getCategory()->getId() . ", setting: " .
@@ -145,13 +146,13 @@ class ilCategoryXmlParser extends ilSaxParser
                 break;
 
             case 'ContainerSettings':
-                $this->cat->readContainerSettings();	// read container settings to member vars (call getter/setter), see #0019870
+                $this->cat->readContainerSettings();    // read container settings to member vars (call getter/setter), see #0019870
                 break;
         }
         $this->cdata = '';
     }
 
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         #$a_data = str_replace("<","&lt;",$a_data);
         #$a_data = str_replace(">","&gt;",$a_data);
@@ -183,12 +184,12 @@ class ilCategoryXmlParser extends ilSaxParser
         $this->mode = $mode;
     }
 
-    public function setCategory(ilObjCategory $cat)
+    public function setCategory(ilObjCategory $cat) : void
     {
         $this->cat = $cat;
     }
-    
-    public function getCategory() : ilObjCategory
+
+    public function getCategory() : ?\ilObjCategory
     {
         return $this->cat;
     }

@@ -74,12 +74,12 @@ class ilBookingObjectGUI
 
         $this->pool_gui = $a_parent_obj;
         $this->pool_has_schedule =
-            ($a_parent_obj->object->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
+            ($a_parent_obj->getObject()->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
         $this->pool_uses_preferences =
-            ($a_parent_obj->object->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES);
+            ($a_parent_obj->getObject()->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES);
         $this->pool_overall_limit = $this->pool_has_schedule
             ? null
-            : $a_parent_obj->object->getOverallLimit();
+            : $a_parent_obj->getObject()->getOverallLimit();
 
         $this->object_id = $this->book_request->getObjectId();
         $this->ref_id = $this->book_request->getRefId();
@@ -103,12 +103,12 @@ class ilBookingObjectGUI
 
     protected function getPoolRefId() : int
     {
-        return $this->pool_gui->ref_id;
+        return $this->pool_gui->getRefId();
     }
 
     protected function getPoolObjId() : int
     {
-        return $this->pool_gui->object->getId();
+        return $this->pool_gui->getObject()->getId();
     }
 
     /**
@@ -116,7 +116,7 @@ class ilBookingObjectGUI
      */
     protected function hasPoolSchedule() : bool
     {
-        return ($this->pool_gui->object->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
+        return ($this->pool_gui->getObject()->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
     }
 
     /**
@@ -126,7 +126,7 @@ class ilBookingObjectGUI
     {
         return $this->hasPoolSchedule()
             ? null
-            : $this->pool_gui->object->getOverallLimit();
+            : $this->pool_gui->getObject()->getOverallLimit();
     }
 
     /**
@@ -153,7 +153,7 @@ class ilBookingObjectGUI
                     $ilCtrl->setReturn($this, "returnToPreferences");
                 }
                 /** @var ilObjBookingPool $pool */
-                $pool = $this->pool_gui->object;
+                $pool = $this->pool_gui->getObject();
                 $process_gui = new ilBookingProcessGUI(
                     $pool,
                     $this->object_id,
@@ -431,7 +431,7 @@ class ilBookingObjectGUI
                     $this->record_gui->writeEditForm(null, $obj->getId());
                 }
 
-                ilUtil::sendSuccess($lng->txt("book_object_added"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("book_object_added"), true);
                 $ilCtrl->redirect($this, "render");
             }
         }
@@ -488,7 +488,7 @@ class ilBookingObjectGUI
                     $this->record_gui->writeEditForm();
                 }
 
-                ilUtil::sendSuccess($lng->txt("book_object_updated"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("book_object_updated"), true);
                 $ilCtrl->redirect($this, "render");
             }
         }
@@ -535,7 +535,7 @@ class ilBookingObjectGUI
         $obj = new ilBookingObject($this->object_id);
         $obj->delete();
 
-        ilUtil::sendSuccess($lng->txt('book_object_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt('book_object_deleted'), true);
         $ilCtrl->setParameter($this, 'object_id', "");
         $ilCtrl->redirect($this, 'render');
     }

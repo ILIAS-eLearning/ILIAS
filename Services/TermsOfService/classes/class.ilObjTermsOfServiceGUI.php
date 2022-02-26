@@ -31,7 +31,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         $this->lng->loadLanguageModule('meta');
     }
 
-    public function getType() : string
+    public function getType() : ?string
     {
         return 'tos';
     }
@@ -48,8 +48,10 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
         switch (strtolower($nextClass)) {
             case strtolower(ilTermsOfServiceDocumentGUI::class):
+                /** @var ilObjTermsOfService $obj */
+                $obj = $this->object;
                 $documentGui = new ilTermsOfServiceDocumentGUI(
-                    $this->object,
+                    $obj,
                     $this->dic['tos.criteria.type.factory'],
                     $this->dic->ui()->mainTemplate(),
                     $this->dic->user(),
@@ -65,14 +67,17 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                     $this->dic->filesystem(),
                     $this->dic->upload(),
                     $tableDataProviderFactory,
-                    new ilTermsOfServiceTrimmedDocumentPurifier(new ilTermsOfServiceDocumentHtmlPurifier())
+                    new ilTermsOfServiceTrimmedDocumentPurifier(new ilTermsOfServiceDocumentHtmlPurifier()),
+                    $this->dic->refinery()
                 );
                 $this->ctrl->forwardCommand($documentGui);
                 break;
 
             case strtolower(ilTermsOfServiceAcceptanceHistoryGUI::class):
+                /** @var ilObjTermsOfService $obj */
+                $obj = $this->object;
                 $documentGui = new ilTermsOfServiceAcceptanceHistoryGUI(
-                    $this->object,
+                    $obj,
                     $this->dic['tos.criteria.type.factory'],
                     $this->dic->ui()->mainTemplate(),
                     $this->dic->ctrl(),
@@ -83,7 +88,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                     $this->dic->refinery(),
                     $this->dic->ui()->factory(),
                     $this->dic->ui()->renderer(),
-                    $tableDataProviderFactory
+                    $tableDataProviderFactory,
                 );
                 $this->ctrl->forwardCommand($documentGui);
                 break;
@@ -106,19 +111,19 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
     {
         if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                'settings',
-                $this->ctrl->getLinkTarget($this, 'settings'),
+                'tos_agreement_documents_tab_label',
+                $this->ctrl->getLinkTargetByClass(ilTermsOfServiceDocumentGUI::class),
                 '',
-                [strtolower(self::class)]
+                [strtolower(ilTermsOfServiceDocumentGUI::class)]
             );
         }
 
         if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                'tos_agreement_documents_tab_label',
-                $this->ctrl->getLinkTargetByClass(ilTermsOfServiceDocumentGUI::class),
+                'settings',
+                $this->ctrl->getLinkTarget($this, 'settings'),
                 '',
-                [strtolower(ilTermsOfServiceDocumentGUI::class)]
+                [strtolower(self::class)]
             );
         }
 
@@ -146,8 +151,10 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
     protected function getSettingsForm() : ilTermsOfServiceSettingsFormGUI
     {
+        /** @var ilObjTermsOfService $obj */
+        $obj = $this->object;
         $form = new ilTermsOfServiceSettingsFormGUI(
-            $this->object,
+            $obj,
             $this->ctrl->getFormAction($this, 'saveSettings'),
             'saveSettings',
             $this->rbacsystem->checkAccess('write', $this->object->getRefId())
@@ -170,10 +177,10 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
         $form = $this->getSettingsForm();
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this, 'settings');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -186,7 +193,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
 
         if (0 === ilTermsOfServiceDocument::where([])->count()) {
-            ilUtil::sendInfo($this->lng->txt('tos_no_documents_exist'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tos_no_documents_exist'));
         }
     }
 

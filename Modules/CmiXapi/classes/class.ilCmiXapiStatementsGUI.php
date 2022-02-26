@@ -33,12 +33,15 @@ class ilCmiXapiStatementsGUI
      * @var ilCmiXapiAccess
      */
     protected ilCmiXapiAccess $access;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * @param ilObjCmiXapi $object
      */
     public function __construct(ilObjCmiXapi $object)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
 
         $this->access = ilCmiXapiAccess::getInstance($this->object);
@@ -94,7 +97,7 @@ class ilCmiXapiStatementsGUI
 
             $this->initTableData($table, $statementsFilter);
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
             $table->setData(array());
             $table->setMaxCount(0);
             $table->resetOffset();

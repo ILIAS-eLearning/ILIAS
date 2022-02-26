@@ -94,7 +94,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         parent::saveObject();
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirect($this);
     }
 
@@ -248,7 +248,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         } else {
             $this->object->setRichTextEditor("");
         }
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
         $this->ctrl->redirect($this, 'settings');
     }
@@ -393,12 +393,12 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                     unset($html_tags[0]);
                 }
                 $this->object->setUsedHTMLTags((array) $html_tags, $a_id);
-                ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             } else {
                 return false;
             }
         } catch (ilAdvancedEditingRequiredTagsException $e) {
-            ilUtil::sendInfo($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('info', $e->getMessage(), true);
         }
         $this->ctrl->redirect($this, $a_cmd);
         return true;
@@ -505,7 +505,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 $ilSetting->set("enable_cat_page_edit", (string) $this->form->getInput("cat_page_edit"));
             }
             
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
         }
         
         $ilCtrl->setParameter($this, "grp", $this->std_request->getGroup());
@@ -656,7 +656,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                     }
                 }
 
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
                 $ilCtrl->redirect($this, "showGeneralPageEditorSettings");
             }
         }
@@ -722,7 +722,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             $ilSetting->set('char_selector_availability', $char_selector->getConfig()->getAvailability());
             $ilSetting->set('char_selector_definition', $char_selector->getConfig()->getDefinition());
             
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showCharSelectorSettings");
         }
         $form->setValuesByPost();

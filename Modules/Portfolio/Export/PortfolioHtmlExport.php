@@ -16,6 +16,7 @@
 namespace ILIAS\Portfolio\Export;
 
 use ILIAS\Blog\Export\BlogHtmlExport;
+use ilFileUtils;
 
 /**
  * Portfolio HTML export
@@ -38,6 +39,7 @@ class PortfolioHtmlExport
     protected string $active_tab;
     protected bool $include_comments = false;
     protected bool $print_version = false;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         \ilObjPortfolioBaseGUI $portfolio_gui
@@ -57,6 +59,10 @@ class PortfolioHtmlExport
             \ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
             true
         );
+
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain()->styleForObjId($this->portfolio->getId());
     }
 
     protected function init() : void
@@ -90,8 +96,8 @@ class PortfolioHtmlExport
         \ilExport::_createExportDirectory($this->portfolio->getId(), "html", "prtf");
 
         // initialize temporary target directory
-        \ilUtil::delDir($this->target_dir);
-        \ilUtil::makeDir($this->target_dir);
+        ilFileUtils::delDir($this->target_dir);
+        ilFileUtils::makeDir($this->target_dir);
     }
 
     /**
@@ -134,7 +140,7 @@ class PortfolioHtmlExport
 
         $this->export_util->exportSystemStyle();
         $this->export_util->exportCOPageFiles(
-            $this->portfolio->getStyleSheetId(),
+            $this->content_style_domain->getEffectiveStyleId(),
             $this->portfolio->getType()
         );
 
@@ -192,8 +198,8 @@ class PortfolioHtmlExport
         $zip_file = \ilExport::_getExportDirectory($this->portfolio->getId(), "html", "prtf") .
             "/" . $date . "__" . IL_INST_ID . "__" .
             $this->portfolio->getType() . "_" . $this->portfolio->getId() . ".zip";
-        \ilUtil::zip($this->target_dir, $zip_file);
-        \ilUtil::delDir($this->target_dir);
+        ilFileUtils::zip($this->target_dir, $zip_file);
+        ilFileUtils::delDir($this->target_dir);
 
         return $zip_file;
     }
@@ -292,7 +298,9 @@ class PortfolioHtmlExport
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
         $this->global_screen->layout()->meta()->addCss($location_stylesheet);
         $this->global_screen->layout()->meta()->addCss(
-            \ilObjStyleSheet::getContentStylePath($this->portfolio->getStyleSheetId())
+            \ilObjStyleSheet::getContentStylePath(
+                $this->content_style_domain->getEffectiveStyleId()
+            )
         );
         \ilPCQuestion::resetInitialState();
 

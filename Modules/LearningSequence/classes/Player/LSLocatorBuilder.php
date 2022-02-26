@@ -22,7 +22,7 @@ class LSLocatorBuilder implements LocatorBuilder
     }
 
     /**
-     * @var array<array<int|string>>
+     * @var array int[]|string[]
      */
     public function getItems() : array
     {

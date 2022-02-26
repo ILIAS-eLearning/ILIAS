@@ -131,12 +131,12 @@ class ilQuestionpoolExport
 
         // create directories
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
 
         // get Log File
         $expDir = $this->qpl_obj->getExportDirectory();
-        ilUtil::makeDirParents($expDir);
+        ilFileUtils::makeDirParents($expDir);
 
         include_once "./Services/Logging/classes/class.ilLog.php";
         $expLog = new ilLog($expDir, "export.log");
@@ -179,7 +179,7 @@ class ilQuestionpoolExport
 
         // zip the file
         $ilBench->start("QuestionpoolExport", "buildExportFile_zipFile");
-        ilUtil::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip");
+        ilFileUtils::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip");
         if (@is_dir($this->export_dir . "/" . $this->subdir)) {
             // Do not delete this dir, since it is required for container exports
             #ilUtil::delDir($this->export_dir."/".$this->subdir);
@@ -250,7 +250,7 @@ class ilQuestionpoolExport
 
         $excelfile = $this->export_dir . '/' . $this->filename;
         $worksheet->writeToFile($excelfile);
-        ilUtil::zip($excelfile, $this->export_dir . "/" . $this->zipfilename);
+        ilFileUtils::zip($excelfile, $this->export_dir . "/" . $this->zipfilename);
         if (@file_exists($this->export_dir . "/" . $this->filename)) {
             @unlink($this->export_dir . "/" . $this->filename);
         }

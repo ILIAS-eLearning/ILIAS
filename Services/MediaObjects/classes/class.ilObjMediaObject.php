@@ -46,27 +46,27 @@ class ilObjMediaObject extends ilObject
     }
 
     public static function _exists(
-        $a_id,
-        $a_reference = false,
-        $a_type = null
-    ) {
+        int $a_id,
+        bool $a_reference = false,
+        ?string $a_type = null
+    ) : bool {
         if (is_int(strpos($a_id, "_"))) {
             $a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
         }
         
-        if (parent::_exists($a_id, false) && ilObject::_lookupType($a_id) == "mob") {
+        if (parent::_exists($a_id) && ilObject::_lookupType($a_id) == "mob") {
             return true;
         }
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         $mob_logger = ilLoggerFactory::getLogger('mob');
         $mob_logger->debug("ilObjMediaObject: Delete called for media object ID '" . $this->getId() . "'.");
 
         if (!($this->getId() > 0)) {
-            return;
+            return false;
         }
 
         $usages = $this->getUsages();
@@ -75,10 +75,10 @@ class ilObjMediaObject extends ilObject
 
         if (count($usages) == 0) {
             // remove directory
-            ilUtil::delDir(ilObjMediaObject::_getDirectory($this->getId()));
+            ilFileUtils::delDir(ilObjMediaObject::_getDirectory($this->getId()));
 
             // remove thumbnail directory
-            ilUtil::delDir(ilObjMediaObject::_getThumbnailDirectory($this->getId()));
+            ilFileUtils::delDir(ilObjMediaObject::_getThumbnailDirectory($this->getId()));
 
             // delete meta data of mob
             $this->deleteMetaData();
@@ -103,6 +103,7 @@ class ilObjMediaObject extends ilObject
             }
             $mob_logger->debug("ilObjMediaObject: ... not deleted.");
         }
+        return true;
     }
 
     protected function beforeMDUpdateListener(string $a_element) : bool
@@ -117,7 +118,7 @@ class ilObjMediaObject extends ilObject
                 if (is_object($md_gen)) {
                     ilObject::_writeTitle($this->getId(), $md_gen->getTitle());
                     $this->setTitle($md_gen->getTitle());
-    
+
                     foreach ($md_gen->getDescriptionIds() as $id) {
                         $md_des = $md_gen->getDescription($id);
                         ilObject::_writeDescription($this->getId(), $md_des->getDescription());
@@ -274,9 +275,9 @@ class ilObjMediaObject extends ilObject
         return $this->origin_id;
     }
 
-    public function create($a_create_meta_data = false, $a_save_media_items = true)
+    public function create($a_create_meta_data = false, $a_save_media_items = true) : int
     {
-        parent::create();
+        $id = parent::create();
 
         if (!$a_create_meta_data) {
             $this->createMetaData();
@@ -302,9 +303,11 @@ class ilObjMediaObject extends ilObject
             'obj_type' => 'mob',
             'obj_id' => $this->getId())
         );
+
+        return $id;
     }
 
-    public function update($a_upload = false)
+    public function update($a_upload = false) : bool
     {
         parent::update();
         
@@ -340,6 +343,8 @@ class ilObjMediaObject extends ilObject
                     'obj_type' => 'mob',
                     'obj_id' => $this->getId())
         );
+
+        return true;
     }
 
     /**
@@ -369,7 +374,7 @@ class ilObjMediaObject extends ilObject
                 $parent_obj_ids[] = $parent_obj_id;
             }
         }
-        
+
         // we could suppress this if object is present in a (repository) media pool
         // but this would lead to "quota-breaches" when the pool item is deleted
         // and "suddenly" all workspace owners get filesize added to their
@@ -382,7 +387,7 @@ class ilObjMediaObject extends ilObject
     public static function _getDirectory(
         int $a_mob_id
     ) : string {
-        return ilUtil::getWebspaceDir() . "/" . self::_getRelativeDirectory($a_mob_id);
+        return ilFileUtils::getWebspaceDir() . "/" . self::_getRelativeDirectory($a_mob_id);
     }
 
     /**
@@ -399,7 +404,7 @@ class ilObjMediaObject extends ilObject
     public static function _getURL(
         int $a_mob_id
     ) : string {
-        return ilUtil::getHtmlPath(ilUtil::getWebspaceDir() . "/mobs/mm_" . $a_mob_id);
+        return ilUtil::getHtmlPath(ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $a_mob_id);
     }
 
     /**
@@ -409,7 +414,7 @@ class ilObjMediaObject extends ilObject
         int $a_mob_id,
         string $a_mode = "filesystem"
     ) : string {
-        return ilUtil::getWebspaceDir($a_mode) . "/thumbs/mm_" . $a_mob_id;
+        return ilFileUtils::getWebspaceDir($a_mode) . "/thumbs/mm_" . $a_mob_id;
     }
     
     /**
@@ -458,7 +463,7 @@ class ilObjMediaObject extends ilObject
     public function createDirectory() : void
     {
         $path = ilObjMediaObject::_getDirectory($this->getId());
-        ilUtil::makeDirParents($path);
+        ilFileUtils::makeDirParents($path);
         if (!is_dir($path)) {
             throw new ilMediaObjectsException("Failed to create directory $path.");
         }
@@ -470,8 +475,8 @@ class ilObjMediaObject extends ilObject
     public static function _createThumbnailDirectory(
         int $a_obj_id
     ) : void {
-        ilUtil::createDirectory(ilUtil::getWebspaceDir() . "/thumbs");
-        ilUtil::createDirectory(ilUtil::getWebspaceDir() . "/thumbs/mm_" . $a_obj_id);
+        ilFileUtils::createDirectory(ilFileUtils::getWebspaceDir() . "/thumbs");
+        ilFileUtils::createDirectory(ilFileUtils::getWebspaceDir() . "/thumbs/mm_" . $a_obj_id);
     }
     
     /**
@@ -488,7 +493,7 @@ class ilObjMediaObject extends ilObject
         
         $files = array();
         if (is_dir($dir)) {
-            $entries = ilUtil::getDir($dir);
+            $entries = ilFileUtils::getDir($dir);
             foreach ($entries as $e) {
                 if (is_file($dir . "/" . $e["entry"]) && $e["entry"] != "." && $e["entry"] != "..") {
                     $files[] = $e["entry"];
@@ -748,10 +753,10 @@ class ilObjMediaObject extends ilObject
         string $a_target_dir
     ) : void {
         $subdir = "il_" . IL_INST_ID . "_mob_" . $this->getId();
-        ilUtil::makeDir($a_target_dir . "/objects/" . $subdir);
+        ilFileUtils::makeDir($a_target_dir . "/objects/" . $subdir);
 
-        $mobdir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->getId();
-        ilUtil::rCopy($mobdir, $a_target_dir . "/objects/" . $subdir);
+        $mobdir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $this->getId();
+        ilFileUtils::rCopy($mobdir, $a_target_dir . "/objects/" . $subdir);
     }
 
     public function modifyExportIdentifier(
@@ -1237,7 +1242,7 @@ class ilObjMediaObject extends ilObject
             $a_height . "." . $file_path["extension"];
         $target_file = $file_path["dirname"] . "/" .
             $location;
-        ilUtil::resizeImage(
+        ilShellUtil::resizeImage(
             $a_file,
             $target_file,
             $a_width,
@@ -1344,7 +1349,7 @@ class ilObjMediaObject extends ilObject
 
     public function getDataDirectory() : string
     {
-        return ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->getId();
+        return ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $this->getId();
     }
 
     /**
@@ -1371,7 +1376,7 @@ class ilObjMediaObject extends ilObject
 
         $file = $mob_dir . "/" . $name;
         if ($upload) {
-            ilUtil::moveUploadedFile($tmp_name, $name, $file);
+            ilFileUtils::moveUploadedFile($tmp_name, $name, $file);
         } else {
             copy($tmp_name, $file);
         }
@@ -1414,11 +1419,11 @@ class ilObjMediaObject extends ilObject
         if ($a_subdir != "") {
             $dir .= "/" . $a_subdir;
         }
-        ilUtil::makeDirParents($dir);
+        ilFileUtils::makeDirParents($dir);
         if ($a_mode == "rename") {
             rename($tmp_name, $dir . "/" . $a_name);
         } else {
-            ilUtil::moveUploadedFile($tmp_name, $a_name, $dir . "/" . $a_name, true, $a_mode);
+            ilFileUtils::moveUploadedFile($tmp_name, $a_name, $dir . "/" . $a_name, true, $a_mode);
         }
         self::renameExecutables($mob_dir);
         ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
@@ -1444,7 +1449,7 @@ class ilObjMediaObject extends ilObject
             return array();
         }
         
-        $items = ilUtil::getDir($srt_dir);
+        $items = ilFileUtils::getDir($srt_dir);
 
         $srt_files = array();
         foreach ($items as $i) {
@@ -1472,7 +1477,7 @@ class ilObjMediaObject extends ilObject
         $m_dir = ilObjMediaObject::_getDirectory($this->getId());
         $t_dir = ilObjMediaObject::_getThumbnailDirectory($this->getId());
         self::_createThumbnailDirectory($this->getId());
-        ilUtil::convertImage(
+        ilShellUtil::convertImage(
             $m_dir . "/" . $a_file,
             $t_dir . "/" . $a_thumbname,
             $a_format,
@@ -1605,11 +1610,11 @@ class ilObjMediaObject extends ilObject
         // files
         $new_obj->createDirectory();
         self::_createThumbnailDirectory($new_obj->getId());
-        ilUtil::rCopy(
+        ilFileUtils::rCopy(
             ilObjMediaObject::_getDirectory($this->getId()),
             ilObjMediaObject::_getDirectory($new_obj->getId())
         );
-        ilUtil::rCopy(
+        ilFileUtils::rCopy(
             ilObjMediaObject::_getThumbnailDirectory($this->getId()),
             ilObjMediaObject::_getThumbnailDirectory($new_obj->getId())
         );
@@ -1649,14 +1654,14 @@ class ilObjMediaObject extends ilObject
                 $file = $dir . "/" .
                     $item->getLocation();
                 if (is_file($file)) {
-                    if (ilUtil::isConvertVersionAtLeast("6.3.8-3")) {
-                        ilUtil::execConvert(
-                            ilUtil::escapeShellArg(
+                    if (ilShellUtil::isConvertVersionAtLeast("6.3.8-3")) {
+                        ilShellUtil::execConvert(
+                            ilShellUtil::escapeShellArg(
                                 $file
                             ) . "[0] -geometry " . $a_width . "x" . $a_height . "^ -gravity center -extent " . $a_width . "x" . $a_height . " PNG:" . $dir . "/mob_vpreview.png"
                         );
                     } else {
-                        ilUtil::convertImage($file, $dir . "/mob_vpreview.png", "PNG", $a_width . "x" . $a_height);
+                        ilShellUtil::convertImage($file, $dir . "/mob_vpreview.png", "PNG", $a_width . "x" . $a_height);
                     }
                 }
             }
@@ -1719,7 +1724,7 @@ class ilObjMediaObject extends ilObject
     public static function fixFilename(
         string $a_name
     ) : string {
-        $a_name = ilUtil::getASCIIFilename($a_name);
+        $a_name = ilFileUtils::getASCIIFilename($a_name);
 
         $rchars = array("`", "=", "$", "{", "}", "'", ";", " ", "(", ")");
         $a_name = str_replace($rchars, "_", $a_name);
@@ -1750,10 +1755,10 @@ class ilObjMediaObject extends ilObject
         }
 
         $dir = $this->getMultiSrtUploadDir();
-        ilUtil::delDir($dir, true);
-        ilUtil::makeDirParents($dir);
-        ilUtil::moveUploadedFile($a_file["tmp_name"], "multi_srt.zip", $dir . "/" . "multi_srt.zip");
-        ilUtil::unzip($dir . "/multi_srt.zip", true);
+        ilFileUtils::delDir($dir, true);
+        ilFileUtils::makeDirParents($dir);
+        ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_srt.zip", $dir . "/" . "multi_srt.zip");
+        ilFileUtils::unzip($dir . "/multi_srt.zip", true);
     }
 
     /**
@@ -1761,7 +1766,7 @@ class ilObjMediaObject extends ilObject
      */
     public function clearMultiSrtDirectory() : void
     {
-        ilUtil::delDir($this->getMultiSrtUploadDir());
+        ilFileUtils::delDir($this->getMultiSrtUploadDir());
     }
 
     /**
@@ -1774,7 +1779,7 @@ class ilObjMediaObject extends ilObject
         $lang_codes = ilMDLanguageItem::_getPossibleLanguageCodes();
 
         $dir = $this->getMultiSrtUploadDir();
-        $files = ilUtil::getDir($dir);
+        $files = ilFileUtils::getDir($dir);
         foreach ($files as $k => $i) {
             // check directory
             if ($i["type"] == "file" && !in_array($k, array(".", ".."))) {
@@ -1796,9 +1801,9 @@ class ilObjMediaObject extends ilObject
     public static function renameExecutables(
         string $a_dir
     ) : void {
-        ilUtil::renameExecutables($a_dir);
+        ilFileUtils::renameExecutables($a_dir);
         if (!self::isTypeAllowed("html")) {
-            ilUtil::rRenameSuffix($a_dir, "html", "sec");        // see #20187
+            ilFileUtils::rRenameSuffix($a_dir, "html", "sec");        // see #20187
         }
     }
 }

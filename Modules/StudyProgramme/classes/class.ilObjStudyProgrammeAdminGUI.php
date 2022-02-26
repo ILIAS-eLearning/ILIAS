@@ -17,12 +17,6 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
 
     public function __construct(array $data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
     {
-        global $DIC;
-        $this->error = $DIC['ilErr'];
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->access = $DIC['ilAccess'];
-        $this->setting = $DIC['ilSetting'];
-
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
 
         $this->type = 'prgs';
@@ -33,7 +27,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
     public function executeCommand() : void
     {
         //Check Permissions globally for all SubGUIs. We only check write permissions
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
         }
         $next_class = $this->ctrl->getNextClass($this);
@@ -120,13 +114,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        /**
-         * @var $rbacsystem ilRbacSystem
-         */
-
-        if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTargetByClass('ilObjStudyProgrammeAdminGUI', 'view')
@@ -140,7 +128,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
                 )
             );
         }
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'perm_settings',
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'),

@@ -11,7 +11,7 @@
 */
 class ilSCORM2004DeleteData
 {
-    public static function removeCMIDataForPackage($packageId)
+    public static function removeCMIDataForPackage(int $packageId) : void
     {
         global $DIC;
 
@@ -54,7 +54,7 @@ class ilSCORM2004DeleteData
         }
     }
 
-    public static function removeCMIDataForUser($user_id)
+    public static function removeCMIDataForUser(int $user_id) : void
     {
         global $DIC;
 
@@ -99,7 +99,7 @@ class ilSCORM2004DeleteData
         );
     }
     
-    public static function removeCMIDataForUserAndPackage($user_id, $packageId)
+    public static function removeCMIDataForUserAndPackage(int $user_id, int $packageId) : void
     {
         global $DIC;
 
@@ -155,7 +155,7 @@ class ilSCORM2004DeleteData
     /**
      * @param array $cmi_node_values
      */
-    public static function removeCMIDataForNodes(array $cmi_node_values)
+    public static function removeCMIDataForNodes(array $cmi_node_values) : void
     {
         global $DIC;
 
@@ -202,7 +202,7 @@ class ilSCORM2004DeleteData
         $ilDB->manipulate($query);
     }
     
-    public static function getGlobalToSystemObjectiveIdStringForPackage($packageId)
+    public static function getGlobalToSystemObjectiveIdStringForPackage(int $packageId)
     {
         global $DIC;
 

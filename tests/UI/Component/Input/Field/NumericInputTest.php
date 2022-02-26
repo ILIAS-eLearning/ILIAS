@@ -192,4 +192,22 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value->isOK());
         $this->assertEquals(0, $value->value());
     }
+
+    /**
+     * @depends testNullValue
+     */
+    public function testConstraintForRequirementForFloat(Field\Input $field) : void
+    {
+        $post_data = new DefInputData(['name_0' => 1.1]);
+        $field_required = $field->withRequired(true);
+
+        $value = $field->withInput($post_data)->getContent();
+        $this->assertTrue($value->isOk());
+        //Note, this float will be Transformed to int, since this input only accepts int
+        $this->assertEquals(1, $value->value());
+
+        $value = $field_required->withInput($post_data)->getContent();
+        $this->assertTrue($value->isOK());
+        $this->assertEquals(1, $value->value());
+    }
 }

@@ -1,7 +1,18 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Export
  * @author    Alex Killing <alex.killing@gmx.de>
@@ -15,7 +26,7 @@ class ilExport
 
     protected ilLogger $log;
 
-    private static $new_file_structure = array('cat',
+    private static array $new_file_structure = array('cat',
                                                'exc',
                                                'crs',
                                                'sess',
@@ -28,7 +39,7 @@ class ilExport
                                                'grpr'
     );
     // @todo this should be part of module.xml and be parsed in the future
-    private static $export_implementer = array("tst", "lm", "glo", "sahs");
+    private static array $export_implementer = array("tst", "lm", "glo", "sahs");
     private array $configs = [];
 
     private array $cnt = [];
@@ -60,7 +71,6 @@ class ilExport
         if (!is_file($export_config_file)) {
             throw new ilExportException('Component "' . $a_comp . '" does not provide ExportConfig class.');
         }
-        include_once($export_config_file);
         $exp_config = new $a_class();
         $this->configs[$a_comp] = $exp_config;
         return $exp_config;
@@ -69,6 +79,7 @@ class ilExport
     /**
      * Get a list of subitems of a repository resource, that implement
      * the export. Includes also information on last export file.
+     * @return array<int, array<string, int|string>>
      */
     public static function _getValidExportSubItems(int $a_ref_id) : array
     {
@@ -97,13 +108,12 @@ class ilExport
      * @param int    $a_obj_id   object id
      * @param string $a_type     export type ("xml", "html", ...), default "xml"
      * @param string $a_obj_type object type (optional, if not given, type is looked up)
-     * @return int
      */
-    public static function _getLastExportFileDate(int $a_obj_id, string $a_type = "", string $a_obj_type = "")
+    public static function _getLastExportFileDate(int $a_obj_id, string $a_type = "", string $a_obj_type = "") : int
     {
         $files = ilExport::_getExportFiles($a_obj_id, $a_type, $a_obj_type);
         if (is_array($files)) {
-            $files = ilUtil::sortArray($files, "timestamp", "desc");
+            $files = ilArrayUtil::sortArray($files, "timestamp", "desc");
             return (int) $files[0]["timestamp"];
         }
         return 0;
@@ -123,7 +133,7 @@ class ilExport
     ) : ?array {
         $files = ilExport::_getExportFiles($a_obj_id, $a_type, $a_obj_type);
         if (is_array($files)) {
-            $files = ilUtil::sortArray($files, "timestamp", "desc");
+            $files = ilArrayUtil::sortArray($files, "timestamp", "desc");
             return $files[0];
         }
         return null;
@@ -157,7 +167,7 @@ class ilExport
         }
 
         if (in_array($a_obj_type, self::$new_file_structure)) {
-            $dir = ilUtil::getDataDir() . DIRECTORY_SEPARATOR;
+            $dir = ilFileUtils::getDataDir() . DIRECTORY_SEPARATOR;
             $dir .= 'il' . $objDefinition->getClassName($a_obj_type) . $ent . DIRECTORY_SEPARATOR;
             $dir .= self::createPathFromId($a_obj_id, $a_obj_type) . DIRECTORY_SEPARATOR;
             $dir .= ($a_type == 'xml' ? 'export' : 'export_' . $a_type);
@@ -165,8 +175,13 @@ class ilExport
         }
 
         $exporter_class = ilImportExportFactory::getExporterClass($a_obj_type);
-        $export_dir = call_user_func(array($exporter_class, 'lookupExportDirectory'), $a_obj_type, $a_obj_id, $a_type,
-            $a_entity);
+        $export_dir = call_user_func(
+            array($exporter_class, 'lookupExportDirectory'),
+            $a_obj_type,
+            $a_obj_id,
+            $a_type,
+            $a_entity
+        );
 
         $logger->debug('Export dir is ' . $export_dir);
         return $export_dir;
@@ -248,7 +263,7 @@ class ilExport
         }
 
         $edir = ilExport::_getExportDirectory($a_obj_id, $a_export_type, $a_obj_type);
-        ilUtil::makeDirParents($edir);
+        ilFileUtils::makeDirParents($edir);
         return true;
     }
 
@@ -316,7 +331,6 @@ class ilExport
         int $a_id,
         string $a_target_release = ""
     ) : array {
-
         $this->log->debug("export type: $a_type, id: $a_id, target_release: " . $a_target_release);
 
         // if no target release specified, use latest major release number
@@ -350,7 +364,7 @@ class ilExport
         $new_file = $sub_dir . '.zip';
 
         $this->export_run_dir = $export_dir . "/" . $sub_dir;
-        ilUtil::makeDirParents($this->export_run_dir);
+        ilFileUtils::makeDirParents($this->export_run_dir);
         $this->log->debug("export dir: " . $this->export_run_dir);
 
         $this->cnt = array();
@@ -365,8 +379,8 @@ class ilExport
 
         // zip the file
         $this->log->debug("zip: " . $export_dir . "/" . $new_file);
-        ilUtil::zip($this->export_run_dir, $export_dir . "/" . $new_file);
-        ilUtil::delDir($this->export_run_dir);
+        ilFileUtils::zip($this->export_run_dir, $export_dir . "/" . $new_file);
+        ilFileUtils::delDir($this->export_run_dir);
 
         // Store info about export
         if ($success) {
@@ -443,7 +457,7 @@ class ilExport
         $new_file = $sub_dir . '.zip';
 
         $this->export_run_dir = $export_dir . "/" . $sub_dir;
-        ilUtil::makeDirParents($this->export_run_dir);
+        ilFileUtils::makeDirParents($this->export_run_dir);
 
         $this->cnt = array();
         $success = $this->processExporter($comp, $class, $a_entity, $a_target_release, [$a_id]);
@@ -451,8 +465,8 @@ class ilExport
         $this->manifest_writer->xmlDumpFile($this->export_run_dir . "/manifest.xml", false);
 
         // zip the file
-        ilUtil::zip($this->export_run_dir, $export_dir . "/" . $new_file);
-        ilUtil::delDir($this->export_run_dir);
+        ilFileUtils::zip($this->export_run_dir, $export_dir . "/" . $new_file);
+        ilFileUtils::delDir($this->export_run_dir);
 
         return array(
             "success" => $success,
@@ -495,7 +509,6 @@ class ilExport
             if (!is_file($export_class_file)) {
                 throw new ilExportException('Export class file "' . $export_class_file . '" not found.');
             }
-            include_once($export_class_file);
         }
 
         $exp = new $a_class();
@@ -507,7 +520,7 @@ class ilExport
         }
         $set_dir_relative = $a_comp . "/set_" . $this->cnt[$a_comp];
         $set_dir_absolute = $this->export_run_dir . "/" . $set_dir_relative;
-        ilUtil::makeDirParents($set_dir_absolute);
+        ilFileUtils::makeDirParents($set_dir_absolute);
         $this->log->debug("dir: " . $set_dir_absolute);
 
         $this->log->debug("init exporter");
@@ -536,7 +549,7 @@ class ilExport
         $export_writer->xmlHeader();
 
         $sv = $exp->determineSchemaVersion($a_entity, $a_target_release);
-        $sv["uses_dataset"] = $sv["uses_dataset"] ?? false;
+        $sv["uses_dataset"] ??= false;
         $this->log->debug("schema version for entity: $a_entity, target release: $a_target_release");
         $this->log->debug("...is: " . $sv["schema_version"] . ", namespace: " . $sv["namespace"] .
             ", xsd file: " . $sv["xsd_file"] . ", uses_dataset: " . ((int) $sv["uses_dataset"]));
@@ -595,7 +608,7 @@ class ilExport
                 $exp_class,
                 $s["entity"],
                 $a_target_release,
-                $s["ids"]
+                (array) $s["ids"]
             );
             if (!$s) {
                 $success = false;
@@ -628,5 +641,4 @@ class ilExport
         }
         return $path_string . $a_name . '_' . $a_container_id;
     }
-
 }
