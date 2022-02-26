@@ -425,7 +425,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
             $info["type_txt"] = $type_txt;
             $info["type_icon"] = ilObject::_getIcon($obj_id, "tiny", $type);
-            $info["obj_title"] = ilUtil::shortenWords(ilObject::_lookupTitle($obj_id));
+            $info["obj_title"] = ilStr::shortenWords(ilObject::_lookupTitle($obj_id));
             $info["user_read"] = $news["user_read"];
 
             $ilCtrl->setParameter($this, "news_context", $context_ref);
@@ -435,13 +435,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         // title
         $info["news_title"] =
-            ilUtil::shortenWords(ilNewsItem::determineNewsTitle(
-                $news["context_obj_type"],
-                $news["title"],
-                $news["content_is_lang_var"],
-                $news["agg_ref_id"] ?? 0,
-                $news["aggregation"] ?? []
-            ));
+            ilStr::shortenWords(
+                ilNewsItem::determineNewsTitle(
+                    $news["context_obj_type"],
+                    $news["title"],
+                    $news["content_is_lang_var"],
+                    $news["agg_ref_id"] ?? 0,
+                    $news["aggregation"] ?? []
+                )
+            );
         
 
         $ilCtrl->setParameter($this, "news_id", $news["id"]);

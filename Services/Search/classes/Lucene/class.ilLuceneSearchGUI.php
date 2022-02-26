@@ -502,7 +502,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 
 
         $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, 'performSearch'));
-        $this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->search_cache->getQuery()));
+        $this->tpl->setVariable("TERM", ilLegacyFormElementsUtil::prepareFormOutput($this->search_cache->getQuery()));
         $this->tpl->setVariable("SEARCH_LABEL", $this->lng->txt("search"));
         $btn = ilSubmitButton::getInstance();
         $btn->setCommand("performSearch");

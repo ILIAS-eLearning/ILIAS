@@ -40,7 +40,7 @@ class ilObjClipboardTableGUI extends ilTable2GUI
         $lng = $this->lng;
         //var_dump($a_set);
         $this->tpl->setVariable("ICON", ilUtil::img(
-            ilObject::_getIcon($a_set["obj_id"], "tiny"),
+            ilObject::_getIcon((int) $a_set["obj_id"], "tiny"),
             $a_set["type_txt"]
         ));
         $this->tpl->setVariable("TITLE", $a_set["title"]);

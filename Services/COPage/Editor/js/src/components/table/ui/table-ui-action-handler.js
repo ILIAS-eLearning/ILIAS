@@ -67,6 +67,10 @@ export default class TableUIActionHandler {
 
     const params = action.getParams();
 
+    if (action.getComponent() === "Paragraph") {
+      this.tableUI.updateModelFromCell();
+    }
+
     if (action.getComponent() === "Table") {
 
       switch (action.getType()) {

@@ -168,7 +168,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         // form input: hint text
         
         $nonEditableHintText = new ilNonEditableValueGUI($lng->txt('tst_question_hints_form_label_hint_text'), 'hint_text', true);
-        $nonEditableHintText->setValue(ilUtil::prepareTextareaOutput($questionHint->getText(), true));
+        $nonEditableHintText->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($questionHint->getText(), true));
         $form->addItem($nonEditableHintText);
         
         // form input: hint points

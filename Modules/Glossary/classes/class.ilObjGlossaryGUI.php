@@ -300,12 +300,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->object = new ilObjGlossary($this->id, true);
     }
 
-    protected function initCreateForm($a_new_type)
+    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt($a_new_type . "_new"));
+        $form->setTitle($this->lng->txt($new_type . "_new"));
 
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -332,7 +332,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $tm->setRequired(true);
         $form->addItem($tm);
 
-        $form->addCommandButton("save", $this->lng->txt($a_new_type . "_add"));
+        $form->addCommandButton("save", $this->lng->txt($new_type . "_add"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
         return $form;
@@ -343,7 +343,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->createObject();
     }
 
-    public function saveObject()
+    public function saveObject() : void
     {
         $new_type = $this->edit_request->getNewType();
 
@@ -438,7 +438,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     }
     
     
-    public function viewObject()
+    public function viewObject() : void
     {
         if ($this->in_administration) {
             parent::viewObject();
@@ -1168,6 +1168,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
@@ -1180,7 +1181,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $ctrl->setParameterByClass("ilGlossaryPresentationGUI", "ref_id", $a_target);
             $ctrl->redirectByClass("ilGlossaryPresentationGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);

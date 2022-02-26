@@ -34,19 +34,21 @@
     //minimize all scripts
     foreach ($mandatory_scripts as $file) {
         $inp = file_get_contents($location . "/" . $file);
-        $jsMin = new JSMin($inp, false);
-        $jsMin->minify();
-        $a_outjsmin[] = $jsMin->out;
+//        jsMin should be renewed
+//        $jsMin = new JSMin($inp, false);
+//        $jsMin->minify();
+//        $a_outjsmin[] = $jsMin->out;
         $out[] = $inp;
     }
     $timestamp = time();
     $f_time = date("YndHis", $timestamp);
     $comment = "// Build: $f_time \n";
-    $outjsmin = implode("", $a_outjsmin);
+//    $outjsmin = implode("", $a_outjsmin);
     $out = implode("", $out);
-    $outjsmin = $comment . $outjsmin;
+//    $outjsmin = $comment . $outjsmin;
     $out = $comment . $out;
     $filenamemin = "../scripts/buildrte/rte-min.js";
     $filename = "../scripts/buildrte/rte.js";
-    file_put_contents($filenamemin, $outjsmin);
+//    file_put_contents($filenamemin, $outjsmin);
+    file_put_contents($filenamemin, $out);
     file_put_contents($filename, $out);

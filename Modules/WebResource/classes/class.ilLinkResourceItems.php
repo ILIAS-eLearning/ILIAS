@@ -533,7 +533,7 @@ class ilLinkResourceItems
         $mode = ilContainerSortingSettings::_lookupSortMode($this->getLinkResourceId());
         
         if ($mode == ilContainer::SORT_TITLE) {
-            $a_items = ilUtil::sortArray($a_items, 'title', 'asc', false, true);
+            $a_items = ilArrayUtil::sortArray($a_items, 'title', 'asc', false, true);
             return $a_items;
         }
     
@@ -548,8 +548,8 @@ class ilLinkResourceItems
                     $unsorted[$link_id] = $item;
                 }
             }
-            $sorted = ilUtil::sortArray((array) $sorted, 'position', 'asc', true, true);
-            $unsorted = ilUtil::sortArray((array) $unsorted, 'title', 'asc', false, true);
+            $sorted = ilArrayUtil::sortArray((array) $sorted, 'position', 'asc', true, true);
+            $unsorted = ilArrayUtil::sortArray((array) $unsorted, 'title', 'asc', false, true);
             $a_items = (array) $sorted + (array) $unsorted;
             return $a_items;
         }

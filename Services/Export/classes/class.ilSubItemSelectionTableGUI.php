@@ -49,7 +49,7 @@ class ilSubItemSelectionTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("IMG_ALT", $this->lng->txt("obj_" . $a_set["type"]));
         $this->tpl->setVariable("IMG_SRC", ilObject::_getIcon(
-            $a_set["obj_id"],
+            (int) $a_set["obj_id"],
             "small",
             $a_set["type"]
         ));

@@ -57,7 +57,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
             ->standardRequest();
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
@@ -93,7 +93,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         }
     }
 
-    protected function addLocatorItems()
+    protected function addLocatorItems() : void
     {
         $ilLocator = $this->locator;
         
@@ -110,7 +110,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $ilCtrl->redirectByClass("ilrepositorygui", "");
     }
     
-    public function createObject()
+    public function createObject() : void
     {
         $ilAccess = $this->access;
         $ilErr = $this->error;
@@ -129,7 +129,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
     }
     
     
-    public function saveObject()
+    public function saveObject() : void
     {
         $ilAccess = $this->access;
         
@@ -151,25 +151,25 @@ class ilContainerReferenceGUI extends ilObjectGUI
         parent::saveObject();
     }
     
-    protected function initCreateForm($a_new_type)
+    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
     {
         return $this->initForm(self::MODE_CREATE);
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         $target_obj_id = ilObject::_lookupObjId((int) $this->form->getInput('target_id'));
-        $a_new_object->setTargetId($target_obj_id);
+        $new_object->setTargetId($target_obj_id);
 
-        $a_new_object->setTitleType($this->form->getInput('title_type'));
+        $new_object->setTitleType($this->form->getInput('title_type'));
         if ($this->form->getInput('title_type') == ilContainerReference::TITLE_TYPE_CUSTOM) {
-            $a_new_object->setTitle($this->form->getInput('title'));
+            $new_object->setTitle($this->form->getInput('title'));
         }
 
-        $a_new_object->update();
-        
+        $new_object->update();
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
-        $this->ctrl->setParameter($this, 'ref_id', $a_new_object->getRefId());
+        $this->ctrl->setParameter($this, 'ref_id', $new_object->getRefId());
         $this->ctrl->setParameter($this, 'creation_mode', 0);
         $this->ctrl->redirect($this, 'firstEdit');
     }
@@ -184,7 +184,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $this->editObject();
     }
     
-    public function editObject(ilPropertyFormGUI $form = null)
+    public function editObject(ilPropertyFormGUI $form = null) : void
     {
         global $DIC;
 
@@ -313,7 +313,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         return $ok;
     }
 
-    public function updateObject()
+    public function updateObject() : void
     {
         $this->checkPermission('write');
 
@@ -329,7 +329,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $form->setValuesByPost();
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->editObject($form);
-        return true;
     }
 
     public function getTargetType() : string
@@ -342,7 +341,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         return $this->reference_type;
     }
 
-    protected function getTabs()
+    protected function getTabs() : void
     {
         global $DIC;
 

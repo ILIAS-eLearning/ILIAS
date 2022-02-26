@@ -29,7 +29,4 @@
 		<context id="svy_rater_inv" class="ilSurveyMailTemplateRaterInvitationContext" />
 	</mailtemplates>
 	<logging />
-	<pdfpurposes>
-		<pdfpurpose name="Results" preferred="WkhtmlToPdf" />
-	</pdfpurposes>
 </module>

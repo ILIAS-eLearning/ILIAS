@@ -193,10 +193,11 @@ class ilContainerSorting
 
                         // this line used until #4389 has been fixed (3.10.6)
                         // reanimated with 4.4.0
-                        $sorted[$type] = ilUtil::sortArray(
+                        $sorted[$type] = ilArrayUtil::sortArray(
                             (array) $data,
                             'title',
-                            ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+                            ($this->getSortingSettings()->getSortDirection(
+                                ) == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                             false
                         );
 
@@ -217,10 +218,11 @@ class ilContainerSorting
                             continue;
                         }
                     
-                        $sorted[$type] = ilUtil::sortArray(
+                        $sorted[$type] = ilArrayUtil::sortArray(
                             (array) $data,
                             'start',
-                            ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+                            ($this->getSortingSettings()->getSortDirection(
+                                ) == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                             true
                         );
                     }
@@ -235,10 +237,11 @@ class ilContainerSorting
                             continue;
                         }
                     
-                        $sorted[$type] = ilUtil::sortArray(
+                        $sorted[$type] = ilArrayUtil::sortArray(
                             (array) $data,
                             'create_date',
-                            ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+                            ($this->getSortingSettings()->getSortDirection(
+                                ) == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                             true
                         );
                     }
@@ -274,7 +277,7 @@ class ilContainerSorting
                 case '_non_sess':
                 case '_all':
                 default:
-                    $sorted[$type] = ilUtil::sortArray($items, 'position', 'asc', true);
+                    $sorted[$type] = ilArrayUtil::sortArray($items, 'position', 'asc', true);
                     break;
             }
         }
@@ -298,31 +301,34 @@ class ilContainerSorting
                 }
 
                 $items = $this->sortOrderDefault($items);
-                return ilUtil::sortArray($items, 'position', 'asc', true);
+                return ilArrayUtil::sortArray($items, 'position', 'asc', true);
                 
 
             case ilContainer::SORT_ACTIVATION:
-                return ilUtil::sortArray(
+                return ilArrayUtil::sortArray(
                     $a_items,
                     'start',
-                    ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+                    ($this->getSortingSettings()->getSortDirection(
+                        ) == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true
                 );
 
             case ilContainer::SORT_CREATION:
-                return ilUtil::sortArray(
+                return ilArrayUtil::sortArray(
                     $a_items,
                     'create_date',
-                    ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+                    ($this->getSortingSettings()->getSortDirection(
+                        ) == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true
                 );
 
             default:
             case ilContainer::SORT_TITLE:
-                return ilUtil::sortArray(
+                return ilArrayUtil::sortArray(
                     $a_items,
                     'title',
-                    ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+                    ($this->getSortingSettings()->getSortDirection(
+                        ) == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     false
                 );
         }
@@ -483,26 +489,29 @@ class ilContainerSorting
 
         switch ($this->getSortingSettings()->getSortNewItemsOrder()) {
             case ilContainer::SORT_NEW_ITEMS_ORDER_TITLE:
-                $no_position = ilUtil::sortArray(
+                $no_position = ilArrayUtil::sortArray(
                     $no_position,
                     'title',
-                    ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+                    ($this->getSortingSettings()->getSortDirection(
+                        ) == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true
                 );
                 break;
             case ilContainer::SORT_NEW_ITEMS_ORDER_CREATION:
-                $no_position = ilUtil::sortArray(
+                $no_position = ilArrayUtil::sortArray(
                     $no_position,
                     'create_date',
-                    ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+                    ($this->getSortingSettings()->getSortDirection(
+                        ) == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true
                 );
                 break;
             case ilContainer::SORT_NEW_ITEMS_ORDER_ACTIVATION:
-                $no_position = ilUtil::sortArray(
+                $no_position = ilArrayUtil::sortArray(
                     $no_position,
                     'start',
-                    ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+                    ($this->getSortingSettings()->getSortDirection(
+                        ) == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true
                 );
 

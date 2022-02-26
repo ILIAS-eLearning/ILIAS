@@ -94,7 +94,7 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
                 $class .= " last";
             }
             $tpl->setVariable("ROW_CLASS", $class);
-            $tpl->setVariable("QPL_VALUE", ilUtil::prepareFormOutput($value['title']));
+            $tpl->setVariable("QPL_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value['title']));
             $tpl->setVariable("COUNT_VALUE", "(" . $value['count'] . " " . $lng->txt('assQuestions') . ")");
             $tpl->parseCurrentBlock();
             $i++;

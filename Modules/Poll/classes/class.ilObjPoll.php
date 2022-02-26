@@ -455,21 +455,21 @@ class ilObjPoll extends ilObject2
 
             // take quality 100 to avoid jpeg artefacts when uploading jpeg files
             // taking only frame [0] to avoid problems with animated gifs
-            $original_file = ilUtil::escapeShellArg($path . $original);
-            $thumb_file = ilUtil::escapeShellArg($path . $thumb);
-            $processed_file = ilUtil::escapeShellArg($path . $processed);
+            $original_file = ilShellUtil::escapeShellArg($path . $original);
+            $thumb_file = ilShellUtil::escapeShellArg($path . $thumb);
+            $processed_file = ilShellUtil::escapeShellArg($path . $processed);
 
             // -geometry "100x100>" is escaped by -geometry "100x100\>"
             // re-replace "\>" with ">"
             $convert_100 = $original_file . "[0] -geometry \"100x100>\" -quality 100 PNG:" . $thumb_file;
-            $escaped_convert_100 = ilUtil::escapeShellCmd($convert_100);
+            $escaped_convert_100 = ilShellUtil::escapeShellCmd($convert_100);
             $escaped_convert_100 = str_replace('-geometry "100x100\>', '-geometry "100x100>', $escaped_convert_100);
-            ilUtil::execQuoted(PATH_TO_CONVERT, $escaped_convert_100);
+            ilShellUtil::execQuoted(PATH_TO_CONVERT, $escaped_convert_100);
 
             $convert_300 = $original_file . "[0] -geometry \"" . self::getImageSize() . ">\" -quality 100 PNG:" . $processed_file;
-            $escaped_convert_300 = ilUtil::escapeShellCmd($convert_300);
+            $escaped_convert_300 = ilShellUtil::escapeShellCmd($convert_300);
             $escaped_convert_300 = str_replace('-geometry "' . self::getImageSize() . '\>"', '-geometry "' . self::getImageSize() . '>"', $escaped_convert_300);
-            ilUtil::execQuoted(PATH_TO_CONVERT, $escaped_convert_300);
+            ilShellUtil::execQuoted(PATH_TO_CONVERT, $escaped_convert_300);
             
             $this->setImage($processed);
             return true;

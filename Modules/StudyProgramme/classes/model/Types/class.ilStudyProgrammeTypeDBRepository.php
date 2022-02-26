@@ -48,7 +48,6 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         $this->webdir = $webdir;
         $this->usr = $usr;
         $this->lng = $lng;
-        $this->usr = $usr;
         $this->component_factory = $component_factory;
     }
 
@@ -319,7 +318,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         unset($this->amd_records_assigned[$type->getId()]);
     }
 
-    protected function getActivePlugins() : array
+    protected function getActivePlugins() : Iterator
     {
         return $this->component_factory->getActivePluginsInSlot('prgtypehk');;
     }

@@ -39,7 +39,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
         $this->enable('select_all');
         $this->setSelectAllCheckbox("obj[]");
 
-        switch ($this->parent_obj->search_type) {
+        switch ($this->parent_obj->getSearchType()) {
             case 'grp':
             case 'crs':
                 if ($this->parent_obj->role_callback) {
@@ -49,7 +49,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
                 break;
 
             case 'role':
-                if ($this->parent_obj->role_callback) {
+                if ($this->parent_obj->getRoleCallback()) {
                     $this->addMultiCommand('addRole', $this->lng->txt('add_role'));
                 }
                 $this->addMultiCommand('listUsers', $this->lng->txt('grp_list_users'));

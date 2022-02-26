@@ -3,7 +3,6 @@ require_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
 
 /**
  * Class ilDclGenericMultiInputGUI
- *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
@@ -73,10 +72,8 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
      */
     protected $render_one_for_empty_value = true;
 
-
     /**
      * Constructor
-     *
      * @param string $a_title   Title
      * @param string $a_postvar Post Variable
      */
@@ -87,7 +84,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->setMulti(true);
         $this->initCSSandJS();
     }
-
 
     /**
      * @return string
@@ -101,7 +97,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return false;
     }
 
-
     /**
      * @param array $options
      */
@@ -110,10 +105,8 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->hooks[$key] = $options;
     }
 
-
     /**
      * @param $key
-     *
      * @return bool
      */
     public function removeHook($key)
@@ -127,7 +120,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return false;
     }
 
-
     /**
      * @param       $input
      * @param array $options
@@ -139,7 +131,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->counter++;
     }
 
-
     /**
      * @return mixed
      */
@@ -147,7 +138,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     {
         return $this->template_dir;
     }
-
 
     /**
      * @param mixed $template_dir
@@ -157,7 +147,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->template_dir = $template_dir;
     }
 
-
     /**
      * @return boolean
      */
@@ -165,7 +154,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     {
         return $this->show_label;
     }
-
 
     /**
      * @param boolean $show_label
@@ -175,17 +163,14 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->show_label = $show_label;
     }
 
-
     /**
      * Get Options.
-     *
      * @return    array    Options. Array ("value" => "option_text")
      */
     public function getInputs()
     {
         return $this->inputs;
     }
-
 
     /**
      * @param bool $a_multi
@@ -195,10 +180,8 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->multi = $a_multi;
     }
 
-
     /**
      * Set Value.
-     *
      * @param string $a_value Value
      */
     public function setValue($a_value)
@@ -213,10 +196,8 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->value = $a_value;
     }
 
-
     /**
      * Get Value.
-     *
      * @return    string    Value
      */
     public function getValue()
@@ -229,10 +210,8 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return $out;
     }
 
-
     /**
      * Set value by array
-     *
      * @param array $a_values value array
      */
     public function setValueByArray($a_values)
@@ -244,7 +223,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
             $this->setValue($data);
         }
     }
-
 
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
@@ -288,7 +266,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return $valid;
     }
 
-
     /**
      * @param            $key
      * @param            $value
@@ -303,7 +280,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         }
     }
 
-
     /**
      * @return array
      */
@@ -312,11 +288,9 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return (array) $this->cust_attr;
     }
 
-
     /**
      * @param                    $iterator_id
      * @param \ilFormPropertyGUI $input
-     *
      * @return string
      */
     protected function createInputPostVar($iterator_id, \ilFormPropertyGUI $input)
@@ -328,12 +302,9 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         }
     }
 
-
     /**
      * Render item
-     *
      * @param int $iterator_id
-     *
      * @return string
      * @throws \ilException
      */
@@ -393,7 +364,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
                 case $is_hidden:
                     $tpl->setCurrentBlock('hidden');
                     $tpl->setVariable('NAME', $post_var);
-                    $tpl->setVariable('VALUE', \ilUtil::prepareFormOutput($input->getValue()));
+                    $tpl->setVariable('VALUE', ilLegacyFormElementsUtil::prepareFormOutput($input->getValue()));
                     break;
                 case $is_ta:
                     if ($this->isShowLabel() || ($this->isShowLabelOnce() && $first_label)) {
@@ -456,17 +427,14 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return $tpl->get();
     }
 
-
     public function initCSSandJS()
     {
         global $tpl;
         $tpl->addJavascript('Modules/OrgUnit/js/generic_multi_line_input.js');
     }
 
-
     /**
      * Insert property html
-     *
      * @return    int    Size
      */
     public function insert(&$a_tpl)
@@ -509,7 +477,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-
     /**
      * Get HTML for table filter
      */
@@ -519,7 +486,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
 
         return $html;
     }
-
 
     /**
      * Get HTML for toolbar
@@ -531,7 +497,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return $html;
     }
 
-
     /**
      * @return boolean
      */
@@ -539,7 +504,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     {
         return $this->position_movable;
     }
-
 
     /**
      * @param boolean $position_movable
@@ -549,7 +513,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->position_movable = $position_movable;
     }
 
-
     /**
      * @return boolean
      */
@@ -557,7 +520,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     {
         return $this->show_label_once;
     }
-
 
     /**
      * @param boolean $show_label_once
@@ -568,7 +530,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->show_label_once = $show_label_once;
     }
 
-
     /**
      * @return boolean
      */
@@ -576,7 +537,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     {
         return $this->show_info;
     }
-
 
     /**
      * @param boolean $show_info
@@ -586,7 +546,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->show_info = $show_info;
     }
 
-
     /**
      * @return bool
      */
@@ -594,7 +553,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     {
         return $this->render_one_for_empty_value;
     }
-
 
     /**
      * @param bool $render_one_for_empty_value

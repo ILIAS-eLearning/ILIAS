@@ -401,7 +401,7 @@ class ilAdvancedMDSettingsGUI
             }
 
             if (sizeof($new_sub)) {
-                $new_sub = ilUtil::sortArray($new_sub, "pos", "asc", true, true);
+                $new_sub = ilArrayUtil::sortArray($new_sub, "pos", "asc", true, true);
                 foreach ($new_sub as $field_id => $field) {
                     $sub->appendSubstitution($field_id, (bool) $field["bold"], (bool) $field["newline"]);
                 }

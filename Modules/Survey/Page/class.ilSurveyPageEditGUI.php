@@ -21,6 +21,7 @@
  */
 class ilSurveyPageEditGUI
 {
+    protected \ILIAS\Survey\PrintView\GUIService $print;
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\DI\UIServices $ui;
     protected bool $suppress_clipboard_msg;
@@ -75,6 +76,10 @@ class ilSurveyPageEditGUI
         $this->pgov = $this->svy_request->getTargetPosition();
         $this->ui = $DIC->ui();
         $this->http = $DIC->http();
+        $this->print = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->print();
     }
 
     public function executeCommand() : void
@@ -1309,7 +1314,7 @@ class ilSurveyPageEditGUI
         // print view
         if (is_array($pages_drop)) {
             $ilToolbar->addSeparator();
-            $print_view = $this->getPrintView();
+            $print_view = $this->print->page($this->ref_id);
             $modal_elements = $print_view->getModalElements(
                 $this->ctrl->getLinkTarget(
                     $this,
@@ -1743,25 +1748,9 @@ class ilSurveyPageEditGUI
         $ilCtrl->redirect($this->editor_gui, $cmd);
     }
 
-    protected function getPrintView() : \ILIAS\Export\PrintProcessGUI
-    {
-        $provider = new \ILIAS\Survey\PagePrintViewProviderGUI(
-            $this->lng,
-            $this->ctrl,
-            $this->ref_id
-        );
-
-        return new \ILIAS\Export\PrintProcessGUI(
-            $provider,
-            $this->http,
-            $this->ui,
-            $this->lng
-        );
-    }
-
     public function printViewSelection()
     {
-        $view = $this->getPrintView();
+        $view = $this->print->page($this->ref_id);
         $view->sendForm();
     }
 }

@@ -281,7 +281,7 @@ class ilSCORMExplorer extends ilExplorer
             $tpl->setCurrentBlock("link");
             $frame_target = $this->buildFrameTarget($option["c_type"], $option["id"], $option["obj_id"]);
             if ($frame_target != "") {
-                $tpl->setVariable("TITLE", ilUtil::shortenText($option["title"], $this->textwidth, true));
+                $tpl->setVariable("TITLE", ilStr::shortenTextExtended($option["title"], $this->textwidth, true));
                 $tpl->setVariable("LINK_TARGET", "javascript:void(0);");
                 if ($jsApi == true) {
                     $tpl->setVariable("ONCLICK", " onclick=\"parent.API.IliasLaunch('" . $option["id"] . "');return false;\"");
@@ -294,7 +294,7 @@ class ilSCORMExplorer extends ilExplorer
             $tpl->parseCurrentBlock();
         } else {			// output text only
             $tpl->setCurrentBlock("text");
-            $tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($option["title"], $this->textwidth, true));
+            $tpl->setVariable("OBJ_TITLE", ilStr::shortenTextExtended($option["title"], $this->textwidth, true));
             $tpl->parseCurrentBlock();
         }
 

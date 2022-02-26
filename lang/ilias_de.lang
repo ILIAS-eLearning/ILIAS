@@ -2751,6 +2751,7 @@ rbac#:#cat_copy#:#Kategorie kopieren
 common#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 rbac#:#cat_delete#:#Kategorie löschen oder verschieben
 common#:#cat_edit#:#Einstellungen der Kategorie
+common#:#cat_edit#:#Einstellungen des Kategorielinks
 rbac#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_new#:#Neue Kategorie anlegen
 rbac#:#cat_read#:#Seiteninhalt der Kategorie kann gelesen werden
@@ -3001,6 +3002,7 @@ forum#:#descending_order#:#Neueste Beiträge oben
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#details#:#Details
+common#:#didactic_template#:#Didaktische Vorlage
 common#:#disable#:#ausschalten
 common#:#disable_check#:#Nicht überprüfen
 common#:#disable_ext_lang_maint#:#Eweiterte Sprachenverwaltung deaktivieren
@@ -3881,6 +3883,7 @@ common#:#obj_cert_desc#:#Einstellungen für Zertifikate
 common#:#obj_chap#:#Kapitel
 common#:#obj_chta#:#Chat
 common#:#obj_chtr#:#Chatraum
+common#:#obj_chtr_duplicate#:#Chatraum kopieren
 common#:#obj_cmps#:#Plugins
 common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Plugins
 common#:#obj_crs#:#Kurs
@@ -5045,7 +5048,7 @@ content#:#cont_edit_base_image#:#Ausgangsbild bearbeiten
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_lrs_settings#:#Einstellungen
 content#:#cont_edit_marker_position#:#Markierungspunkt bearbeiten
-content#:#cont_edit_mob#:#Medienobjekt editieren
+content#:#cont_edit_mob#:#Medienobjekt bearbeiten
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Instanz des Medienobjekts bearbeiten
 content#:#cont_edit_mode#:#Bearbeitungsmodus
 content#:#cont_edit_overlay_position#:#Position des Overlays bearbeiten
@@ -5524,7 +5527,7 @@ content#:#cont_update_login_page#:#Login-Seitenelemente aktualisieren
 content#:#cont_update_map#:#Karte bearbeiten
 content#:#cont_update_profile#:#Veröffentlichte Daten bearbeiten
 content#:#cont_update_resources#:#Materialienliste aktualisieren
-content#:#cont_update_section#:#Block aktualisieren
+content#:#cont_update_section#:#Block bearbeiten
 content#:#cont_update_skills#:#Kompetenz bearbeiten
 content#:#cont_update_verification#:#Zertifikat bearbeiten
 content#:#cont_upload_dir#:#Upload-Verzeichnis
@@ -11748,6 +11751,8 @@ assessment#:#tolerance#:#Toleranz (%)
 assessment#:#result_units#:#Auswählbare Einheiten
 assessment#:#precision#:#Präzision
 assessment#:#err_range#:#Die obere Grenze muss größer als die untere Grenze sein.
+assessment#:#err_division#:#Dieser Wert muss kleiner als das Maximum sein.
+assessment#:#err_divider_too_big#:#Der Teiler einer der Variablen in dieser Frage ist zu gross.
 assessment#:#err_no_formula#:#Bitte geben Sie eine Formel zur Berechnung des Ergebnisses an.
 assessment#:#err_wrong_rating_advanced#:#Bitte stellen Sie sicher, dass die Summe der erweiterten Bewertungsoptionen genau 100 Prozent ergibt.
 assessment#:#rating_sign#:#Bewertung (Vorzeichen)
@@ -12154,8 +12159,8 @@ rep#:#rep_time_period#:#Zeitraum
 cntr#:#exc_next_deadline_single#:#Abgabefrist
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
-survey#:#survey_reminder_cron#:#Benutzer an Teilnahme erinnern / Tutoren Ergebnisse zusenden
-survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert und Tutoren erhalten die Ergebnisse zugesendet.
+survey#:#survey_reminder_cron#:#Benutzer an Teilnahme erinnern
+survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
 cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
 cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
@@ -13915,7 +13920,7 @@ skmg#:#skmg_import_skills#:#Importieren
 skmg#:#skmg_input_file#:#Importdatei
 skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
 form#:#form_no_link#:#Kein Link
-copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen, stellen Sie bitte sicher, dass der Block keine weiteren interaktiven Elemente (z.B. andere Links) enthält. Deren Funktion ist nicht gewährleistet.
+copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
 logging#:#log_error_message#:#Entschuldigung, es ist ein Fehler aufgetreten. Eine Logdatei wurde erzeugt, die über den Error Code "%s" identifiziert werden kann.
 logging#:#log_error_message_send_mail#:# Bitte wenden Sie sich an <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Dateipfad
@@ -15490,7 +15495,7 @@ rbac#:#lso_participate#:#An der Lernsequenz anmelden
 rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
 rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
-dateplaner#:#btn_ical#:#iCal
+dateplaner#:#btn_ical#:#Abonnieren
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Seite %1$d von %2$d
@@ -16624,6 +16629,7 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 file#:#file_upload_info_file_with_critical_extension#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator.
+file#:#migrated#:#Status
 file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
@@ -16770,3 +16776,11 @@ svy#:#svy_print_selection#:#Auswahl Druckansicht
 svy#:#svy_selection#:#Auswahl
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_all_pages#:#Alle Seiten
+svy#:#svy_all_participants#:#Alle Teilnehmer
+svy#:#svy_selected_participants#:#Ausgewählte Teilnehmer
+svy#:#svy_all_questions#:#Alle Fragen
+svy#:#svy_selected_questions#:#Ausgewählte Fragen
+rating#:#rating_avg_rating#:#Durchschnittliche Bewertung
+rating#:#rating_personal_rating#:#Ihre Bewertung
+rating#:#rating_rate_x_of_5#:#Mit %s von 5 Sternen bewerten
+rating#:#rating_open_dialog#:#Bewertungsskala aufklappen

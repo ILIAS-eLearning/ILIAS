@@ -126,10 +126,6 @@ class ilPDNotesGUI
         }
 
         $this->tpl->setTitle($t);
-
-        // catch feedback message
-        // display infopanel if something happened
-        ilUtil::infoPanel();
     }
 
     public function view() : void

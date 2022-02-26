@@ -2,6 +2,9 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @noinspection PhpIncludeInspection */
+
+use ILIAS\DI\Container;
+
 require_once './Services/Object/classes/class.ilObject2GUI.php';
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
@@ -20,31 +23,14 @@ require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
  */
 class ilObjWorkflowEngineGUI extends ilObject2GUI
 {
-    /** @var ilCtrl $ilCtrl */
-    public $ilCtrl;
-
-    /** @var ilTabsGUI $ilTabs */
-    public $ilTabs;
-
-    /** @var ilLanguage $lng */
-    public $lng;
-
-    /** @var ilTemplate $tpl */
-    public $tpl;
-
-    /** @var ilTree $tree */
-    public $tree;
-
-    /** @var ilLocatorGUI $ilLocator */
-    public $ilLocator;
-
-    /** @var ilToolbarGUI $ilToolbar */
-    public $ilToolbar;
-    
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
+    public ilCtrl $ilCtrl;
+    public ilTabsGUI $ilTabs;
+    public ilLanguage $lng;
+    public ilGlobalTemplateInterface $tpl;
+    public ilTree $tree;
+    public ilLocatorGUI $ilLocator;
+    public ilToolbarGUI $ilToolbar;
+    protected Container $dic;
 
     /**
      * ilObjWorkflowEngineGUI constructor.
@@ -67,10 +53,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
         $this->assignObject();
     }
 
-    /**
-     * @return null
-     */
-    public function getType()
+    public function getType() : ?string
     {
         return null;
     }
@@ -91,6 +74,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
     public static function _goto($params)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         /** @var ilLanguage $lng */
         $lng = $DIC['lng'];
 
@@ -114,11 +98,11 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
             $context_id
         );
 
-        ilUtil::sendSuccess($lng->txt('ok'), true);
+        $main_tpl->setOnScreenMessage('success', $lng->txt('ok'), true);
         ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ilCtrl->getNextClass();
 

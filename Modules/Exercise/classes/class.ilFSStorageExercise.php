@@ -25,7 +25,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     /**
      * Append ass_<ass_id> to path (assignment id)
      */
-    protected function init() : bool
+    public function init() : bool
     {
         if (parent::init()) {
             if ($this->ass_id > 0) {
@@ -150,7 +150,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
             }
         }
         closedir($dp);
-        return ilUtil::sortArray($files, "name", "asc");
+        return ilArrayUtil::sortArray($files, "name", "asc");
     }
 
 

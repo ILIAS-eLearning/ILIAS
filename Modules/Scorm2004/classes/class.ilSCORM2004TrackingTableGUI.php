@@ -26,27 +26,25 @@ class ilSCORM2004TrackingTableGUI extends ilTable2GUI
     protected $access;
 
 
-    public function __construct(?object $a_parent_obj, string $a_parent_cmd = "")
+    public function __construct(object $a_parent_obj, string $a_parent_cmd = "")
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->addColumn("", "f", "1");
-        $this->addColumn($lng->txt("user"), "user_full_name", "100%");
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->addColumn($this->lng->txt("user"), "user_full_name", "100%");
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.table_scorm_2004_tracking_row.html",
             "Modules/Scorm2004"
         );
         $this->setDefaultOrderField("user_full_name");
-        $this->addMultiCommand("deleteTrackingData", $lng->txt("cont_delete_track_data"));
+        $this->addMultiCommand("deleteTrackingData", $this->lng->txt("cont_delete_track_data"));
         $this->setSelectAllCheckbox("id");
     }
 
@@ -56,9 +54,9 @@ class ilSCORM2004TrackingTableGUI extends ilTable2GUI
     */
     protected function fillRow(array $a_set) : void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
+//        $lng = $this->lng;
+//        $ilCtrl = $this->ctrl;
+//        $ilAccess = $this->access;
         
         $this->tpl->setVariable("USER_NAME", $a_set["user_full_name"]);
         $this->tpl->setVariable("USER_ID", $a_set["user_id"]);

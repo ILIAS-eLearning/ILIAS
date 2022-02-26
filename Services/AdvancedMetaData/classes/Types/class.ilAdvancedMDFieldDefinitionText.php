@@ -158,6 +158,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         $max = new ilNumberInputGUI($lng->txt("md_adv_text_max_length"), "max");
         $max->setValue((string) $this->getMaxLength());
         $max->setSize(10);
+        $max->setSuffix($lng->txt("characters"));
         $max->setMinValue(1);
         $max->setMaxValue(4000); // DB limit
         $a_form->addItem($max);

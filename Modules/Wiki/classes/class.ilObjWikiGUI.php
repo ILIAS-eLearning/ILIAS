@@ -92,13 +92,12 @@ class ilObjWikiGUI extends ilObjectGUI
         }
     }
     
-    public function executeCommand() : string
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
         $ilAccess = $this->access;
-        $ret = "";
   
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -124,7 +123,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->addHeaderAction();
                 $ilTabs->activateTab("perm_settings");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ilsettingspermissiongui':
@@ -137,7 +136,7 @@ class ilObjWikiGUI extends ilObjectGUI
                     "wiki_html_export"));
                 $perm_gui->setRoleRequiredPermissions(array("edit_content"));
                 $perm_gui->setRoleProhibitedPermissions(array("write"));
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ilwikipagegui':
@@ -208,7 +207,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 if ($this->object->isCommentsExportPossible()) {
                     $exp_gui->addFormat("html_comments", "HTML (" . $this->lng->txt("wiki_incl_comments") . ")", $this, "exportHTML");
                 }
-                $ret = $this->ctrl->forwardCommand($exp_gui);
+                $this->ctrl->forwardCommand($exp_gui);
                 break;
             
             case "ilcommonactiondispatchergui":
@@ -293,29 +292,27 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-  
-        return $ret;
     }
     
-    public function viewObject()
+    public function viewObject() : void
     {
         $this->checkPermission("read");
         $this->gotoStartPageObject();
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
         $this->initSettingsForm("create");
         $this->getSettingsFormValues("create");
 
         $forms = array(self::CFORM_NEW => $this->form_gui,
-                self::CFORM_IMPORT => $this->initImportForm($a_new_type),
-                self::CFORM_CLONE => $this->fillCloneTemplate(null, $a_new_type));
+                self::CFORM_IMPORT => $this->initImportForm($new_type),
+                self::CFORM_CLONE => $this->fillCloneTemplate(null, $new_type));
 
         return $forms;
     }
 
-    public function saveObject()
+    public function saveObject() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -339,34 +336,34 @@ class ilObjWikiGUI extends ilObjectGUI
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         $ilSetting = $this->settings;
 
-        $a_new_object->setTitle($this->form_gui->getInput("title"));
-        $a_new_object->setDescription($this->form_gui->getInput("description"));
-        $a_new_object->setIntroduction($this->form_gui->getInput("intro"));
-        $a_new_object->setStartPage($this->form_gui->getInput("startpage"));
-        $a_new_object->setShortTitle((string) $this->form_gui->getInput("shorttitle"));
-        $a_new_object->setRating($this->form_gui->getInput("rating"));
-        // $a_new_object->setRatingAsBlock($this->form_gui->getInput("rating_side"));
-        $a_new_object->setRatingForNewPages($this->form_gui->getInput("rating_new"));
-        $a_new_object->setRatingCategories($this->form_gui->getInput("rating_ext"));
+        $new_object->setTitle($this->form_gui->getInput("title"));
+        $new_object->setDescription($this->form_gui->getInput("description"));
+        $new_object->setIntroduction($this->form_gui->getInput("intro"));
+        $new_object->setStartPage($this->form_gui->getInput("startpage"));
+        $new_object->setShortTitle((string) $this->form_gui->getInput("shorttitle"));
+        $new_object->setRating($this->form_gui->getInput("rating"));
+        // $new_object->setRatingAsBlock($this->form_gui->getInput("rating_side"));
+        $new_object->setRatingForNewPages($this->form_gui->getInput("rating_new"));
+        $new_object->setRatingCategories($this->form_gui->getInput("rating_ext"));
 
-        $a_new_object->setRatingOverall($this->form_gui->getInput("rating_overall"));
-        $a_new_object->setPageToc($this->form_gui->getInput("page_toc"));
+        $new_object->setRatingOverall($this->form_gui->getInput("rating_overall"));
+        $new_object->setPageToc($this->form_gui->getInput("page_toc"));
 
 
 
         if (!$ilSetting->get("disable_comments")) {
-            $a_new_object->setPublicNotes($this->form_gui->getInput("public_notes"));
+            $new_object->setPublicNotes($this->form_gui->getInput("public_notes"));
         }
-        $a_new_object->setOnline($this->form_gui->getInput("online"));
-        $a_new_object->update();
+        $new_object->setOnline($this->form_gui->getInput("online"));
+        $new_object->update();
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
-        ilUtil::redirect(ilObjWikiGUI::getGotoLink($a_new_object->getRefId()));
+        ilUtil::redirect(ilObjWikiGUI::getGotoLink($new_object->getRefId()));
     }
 
     /**
@@ -748,7 +745,7 @@ class ilObjWikiGUI extends ilObjectGUI
         if ($a_mode == "edit") {
             $pages = ilWikiPage::getAllWikiPages($this->object->getId());
             foreach ($pages as $p) {
-                $options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
+                $options[$p["id"]] = ilStr::shortenTextExtended($p["title"], 60, true);
             }
             $si = new ilSelectInputGUI($lng->txt("wiki_start_page"), "startpage_id");
             $si->setOptions($options);
@@ -1021,6 +1018,7 @@ class ilObjWikiGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -1069,7 +1067,7 @@ class ilObjWikiGUI extends ilObjectGUI
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -1500,7 +1498,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $options = array("" => $lng->txt("please_select"));
         foreach ($pages as $p) {
             if (!in_array($p["id"], $ipages_ids)) {
-                $options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
+                $options[$p["id"]] = ilStr::shortenTextExtended($p["title"], 60, true);
             }
         }
         if (count($options) > 0) {
@@ -1751,15 +1749,15 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilCtrl->redirectByClass("ilwikipagegui", "preview");
     }
 
-    protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null)
+    protected function checkPermissionBool(string $perm, string $cmd = "", string $type = "", ?int $ref_id = null) : bool
     {
-        if ($a_perm == "create") {
-            return parent::checkPermissionBool($a_perm, $a_cmd, $a_type, $a_ref_id);
+        if ($perm == "create") {
+            return parent::checkPermissionBool($perm, $cmd, $type, $ref_id);
         } else {
-            if (!$a_ref_id) {
-                $a_ref_id = $this->object->getRefId();
+            if (!$ref_id) {
+                $ref_id = $this->object->getRefId();
             }
-            return ilWikiPerm::check($a_perm, $a_ref_id, $a_cmd);
+            return ilWikiPerm::check($perm, $ref_id, $cmd);
         }
     }
 

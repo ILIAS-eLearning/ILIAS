@@ -50,9 +50,6 @@ class ilLearningSequenceParticipants extends ilParticipants
         );
     }
 
-    /**
-     * @return array<mixed, mixed>|[]
-     */
     public static function getMemberRoles(int $ref_id) : array
     {
         global $DIC;
@@ -62,7 +59,7 @@ class ilLearningSequenceParticipants extends ilParticipants
 
         $roles = array();
         foreach ($lrol as $role) {
-            $title = ilObject::_lookupTitle((int) $role);
+            $title = ilObject::_lookupTitle($role);
 
             switch (substr($title, 0, 8)) {
                 case 'il_lso_a':

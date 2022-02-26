@@ -196,7 +196,7 @@ class ilMDEditorGUI
 
         // TITLE
         $this->tpl->setVariable("TXT_TITLE", $this->lng->txt('title'));
-        $this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->md_section->getTitle()));
+        $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getTitle()));
         $this->tpl->setVariable("VAL_TITLE_LANGUAGE", $this->__showLanguageSelect(
             'gen_title_language',
             $this->md_section->getTitleLanguageCode()
@@ -220,7 +220,9 @@ class ilMDEditorGUI
             $this->tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
             $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
             $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($md_des->getDescription()));
+            $this->tpl->setVariable("DESCRIPTION_LOOP_VAL",
+                ilLegacyFormElementsUtil::prepareFormOutput($md_des->getDescription())
+            );
             $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
             $this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 "gen_description[" . $id . '][language]',
@@ -250,9 +252,11 @@ class ilMDEditorGUI
             }
 
             $this->tpl->setCurrentBlock("keyword_loop");
-            $this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput(
-                implode(", ", $keyword_set)
-            ));
+            $this->tpl->setVariable("KEYWORD_LOOP_VAL",
+                ilLegacyFormElementsUtil::prepareFormOutput(
+                    implode(", ", $keyword_set)
+                )
+            );
             $this->tpl->setVariable("LANG", $lang);
             $this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 "keyword[language][$lang]",
@@ -291,7 +295,7 @@ class ilMDEditorGUI
                     }
                 }
             }
-            $this->tpl->setVariable("EXPERTS_VAL", ilUtil::prepareFormOutput($ent_str));
+            $this->tpl->setVariable("EXPERTS_VAL", ilLegacyFormElementsUtil::prepareFormOutput($ent_str));
         }
         // InstructionalDesigner
         $this->tpl->setVariable("TXT_DESIGNERS", $this->lng->txt('meta_instructionaldesigner'));
@@ -308,7 +312,7 @@ class ilMDEditorGUI
                     }
                 }
             }
-            $this->tpl->setVariable("DESIGNERS_VAL", ilUtil::prepareFormOutput($ent_str));
+            $this->tpl->setVariable("DESIGNERS_VAL", ilLegacyFormElementsUtil::prepareFormOutput($ent_str));
         }
         // Point of Contact
         $this->tpl->setVariable("TXT_POC", $this->lng->txt('meta_pointofcontact'));
@@ -325,7 +329,7 @@ class ilMDEditorGUI
                     }
                 }
             }
-            $this->tpl->setVariable("POC_VAL", ilUtil::prepareFormOutput($ent_str));
+            $this->tpl->setVariable("POC_VAL", ilLegacyFormElementsUtil::prepareFormOutput($ent_str));
         }
 
         $this->tpl->setVariable("TXT_STATUS", $this->lng->txt('meta_status'));
@@ -363,14 +367,16 @@ class ilMDEditorGUI
         $this->tpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
 
         $this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME", $this->lng->txt('meta_typical_learning_time'));
-        $this->tpl->setVariable("SEL_TLT", ilUtil::makeTimeSelect(
-            'tlt',
-            $tlt[4] ? false : true,
-            $tlt[2],
-            $tlt[3],
-            $tlt[4],
-            false
-        ));
+        $this->tpl->setVariable("SEL_TLT",
+            ilLegacyFormElementsUtil::makeTimeSelect(
+                'tlt',
+                $tlt[4] ? false : true,
+                $tlt[2],
+                $tlt[3],
+                $tlt[4],
+                false
+            )
+        );
         $this->tpl->setVariable("TLT_HINT", $tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
 
         if (!$valid) {
@@ -1305,11 +1311,11 @@ class ilMDEditorGUI
             $this->tpl->setVariable("IDENTIFIER_LOOP_NO", $id);
             $this->tpl->setVariable(
                 "IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG",
-                ilUtil::prepareFormOutput($md_ide->getCatalog())
+                ilLegacyFormElementsUtil::prepareFormOutput($md_ide->getCatalog())
             );
             $this->tpl->setVariable(
                 "IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY",
-                ilUtil::prepareFormOutput($md_ide->getEntry())
+                ilLegacyFormElementsUtil::prepareFormOutput($md_ide->getEntry())
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -1346,7 +1352,7 @@ class ilMDEditorGUI
 
         // TITLE
         $this->tpl->setVariable("TXT_TITLE", $this->lng->txt('title'));
-        $this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->md_section->getTitle()));
+        $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getTitle()));
         $this->tpl->setVariable("VAL_TITLE_LANGUAGE", $this->__showLanguageSelect(
             'gen_title_language',
             $this->md_section->getTitleLanguageCode()
@@ -1370,7 +1376,9 @@ class ilMDEditorGUI
             $this->tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
             $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
             $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($md_des->getDescription()));
+            $this->tpl->setVariable("DESCRIPTION_LOOP_VAL",
+                ilLegacyFormElementsUtil::prepareFormOutput($md_des->getDescription())
+            );
             $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
             $this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 "gen_description[" . $id . '][language]',
@@ -1405,7 +1413,9 @@ class ilMDEditorGUI
             $this->tpl->setCurrentBlock("keyword_loop");
             $this->tpl->setVariable("KEYWORD_LOOP_NO", $id);
             $this->tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-            $this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput($md_key->getKeyword()));
+            $this->tpl->setVariable("KEYWORD_LOOP_VAL",
+                ilLegacyFormElementsUtil::prepareFormOutput($md_key->getKeyword())
+            );
             $this->tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
             $this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 "gen_keyword[" . $id . '][language]',
@@ -1417,7 +1427,9 @@ class ilMDEditorGUI
 
         // Coverage
         $this->tpl->setVariable("COVERAGE_LOOP_TXT_COVERAGE", $this->lng->txt('meta_coverage'));
-        $this->tpl->setVariable("COVERAGE_LOOP_VAL", ilUtil::prepareFormOutput($this->md_section->getCoverage()));
+        $this->tpl->setVariable("COVERAGE_LOOP_VAL",
+            ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getCoverage())
+        );
         $this->tpl->setVariable("COVERAGE_LOOP_TXT_LANGUAGE", $this->lng->txt('meta_language'));
         $this->tpl->setVariable("COVERAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
             'gen_coverage_language',
@@ -1588,13 +1600,15 @@ class ilMDEditorGUI
 
             $this->tpl->setVariable("FORMAT_LOOP_NO", $id);
             $this->tpl->setVariable("FORMAT_LOOP_TXT_FORMAT", $this->lng->txt('meta_format'));
-            $this->tpl->setVariable("FORMAT_LOOP_VAL", ilUtil::prepareFormOutput($md_for->getFormat()));
+            $this->tpl->setVariable("FORMAT_LOOP_VAL",
+                ilLegacyFormElementsUtil::prepareFormOutput($md_for->getFormat())
+            );
 
             $this->tpl->parseCurrentBlock();
         }
         // Size
         $this->tpl->setVariable("SIZE_TXT_SIZE", $this->lng->txt('meta_size'));
-        $this->tpl->setVariable("SIZE_VAL", ilUtil::prepareFormOutput($this->md_section->getSize()));
+        $this->tpl->setVariable("SIZE_VAL", ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getSize()));
 
         // Location
         foreach ($ids = $this->md_section->getLocationIds() as $id) {
@@ -1610,7 +1624,9 @@ class ilMDEditorGUI
             $this->tpl->setVariable("LOCATION_LOOP_TXT_LOCATION", $this->lng->txt('meta_location'));
             $this->tpl->setVariable("LOCATION_LOOP_NO", $id);
             $this->tpl->setVariable("LOCATION_LOOP_TXT_TYPE", $this->lng->txt('meta_type'));
-            $this->tpl->setVariable("LOCATION_LOOP_VAL", ilUtil::prepareFormOutput($md_loc->getLocation()));
+            $this->tpl->setVariable("LOCATION_LOOP_VAL",
+                ilLegacyFormElementsUtil::prepareFormOutput($md_loc->getLocation())
+            );
 
             $this->tpl->setVariable(
                 "SEL_LOCATION_TYPE",
@@ -1661,22 +1677,22 @@ class ilMDEditorGUI
 
             $this->tpl->setVariable(
                 "REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION",
-                ilUtil::prepareFormOutput($md_re->getOperatingSystemMinimumVersion())
+                ilLegacyFormElementsUtil::prepareFormOutput($md_re->getOperatingSystemMinimumVersion())
             );
 
             $this->tpl->setVariable(
                 "REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION",
-                ilUtil::prepareFormOutput($md_re->getOperatingSystemMaximumVersion())
+                ilLegacyFormElementsUtil::prepareFormOutput($md_re->getOperatingSystemMaximumVersion())
             );
 
             $this->tpl->setVariable(
                 "REQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION",
-                ilUtil::prepareFormOutput($md_re->getBrowserMinimumVersion())
+                ilLegacyFormElementsUtil::prepareFormOutput($md_re->getBrowserMinimumVersion())
             );
 
             $this->tpl->setVariable(
                 "REQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION",
-                ilUtil::prepareFormOutput($md_re->getBrowserMaximumVersion())
+                ilLegacyFormElementsUtil::prepareFormOutput($md_re->getBrowserMaximumVersion())
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -1721,22 +1737,22 @@ class ilMDEditorGUI
 
                 $this->tpl->setVariable(
                     "ORREQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION",
-                    ilUtil::prepareFormOutput($md_re->getOperatingSystemMinimumVersion())
+                    ilLegacyFormElementsUtil::prepareFormOutput($md_re->getOperatingSystemMinimumVersion())
                 );
 
                 $this->tpl->setVariable(
                     "ORREQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION",
-                    ilUtil::prepareFormOutput($md_re->getOperatingSystemMaximumVersion())
+                    ilLegacyFormElementsUtil::prepareFormOutput($md_re->getOperatingSystemMaximumVersion())
                 );
 
                 $this->tpl->setVariable(
                     "ORREQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION",
-                    ilUtil::prepareFormOutput($md_re->getBrowserMinimumVersion())
+                    ilLegacyFormElementsUtil::prepareFormOutput($md_re->getBrowserMinimumVersion())
                 );
 
                 $this->tpl->setVariable(
                     "ORREQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION",
-                    ilUtil::prepareFormOutput($md_re->getBrowserMaximumVersion())
+                    ilLegacyFormElementsUtil::prepareFormOutput($md_re->getBrowserMaximumVersion())
                 );
                 $this->tpl->parseCurrentBlock();
             }
@@ -1756,7 +1772,9 @@ class ilMDEditorGUI
         $this->tpl->setVariable("INSTALLATIONREMARKS_TXT_INSTALLATIONREMARKS", $this->lng->txt('meta_installation_remarks'));
         $this->tpl->setVariable("INSTALLATIONREMARKS_TXT_LANGUAGE", $this->lng->txt('meta_language'));
 
-        $this->tpl->setVariable("INSTALLATIONREMARKS_VAL", ilUtil::prepareFormOutput($this->md_section->getInstallationRemarks()));
+        $this->tpl->setVariable("INSTALLATIONREMARKS_VAL",
+            ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getInstallationRemarks())
+        );
         $this->tpl->setVariable(
             "INSTALLATIONREMARKS_VAL_LANGUAGE",
             $this->__showLanguageSelect(
@@ -1774,7 +1792,7 @@ class ilMDEditorGUI
 
         $this->tpl->setVariable(
             "OTHERPLATTFORMREQUIREMENTS_VAL",
-            ilUtil::prepareFormOutput($this->md_section->getOtherPlatformRequirements())
+            ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getOtherPlatformRequirements())
         );
         $this->tpl->setVariable(
             "OTHERPLATTFORMREQUIREMENTS_VAL_LANGUAGE",
@@ -1786,7 +1804,9 @@ class ilMDEditorGUI
 
         // Duration
         $this->tpl->setVariable("DURATION_TXT_DURATION", $this->lng->txt('meta_duration'));
-        $this->tpl->setVariable("DURATION_VAL", ilUtil::prepareFormOutput($this->md_section->getDuration()));
+        $this->tpl->setVariable("DURATION_VAL",
+            ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getDuration())
+        );
 
         $this->tpl->setCurrentBlock("technical");
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
@@ -1835,7 +1855,9 @@ class ilMDEditorGUI
         ));
         // Version
         $this->tpl->setVariable("TXT_VERSION", $this->lng->txt('meta_version'));
-        $this->tpl->setVariable("VAL_VERSION", ilUtil::prepareFormOutput($this->md_section->getVersion()));
+        $this->tpl->setVariable("VAL_VERSION",
+            ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getVersion())
+        );
 
         $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt('meta_language'));
         $this->tpl->setVariable("VAL_VERSION_LANGUAGE", $this->__showLanguageSelect(
@@ -1875,7 +1897,9 @@ class ilMDEditorGUI
 
                 $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO", $con_id);
                 $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_NO", $ent_id);
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY", ilUtil::prepareFormOutput($md_ent->getEntity()));
+                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY",
+                    ilLegacyFormElementsUtil::prepareFormOutput($md_ent->getEntity())
+                );
                 $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ENTITY", $this->lng->txt('meta_entity'));
                 $this->tpl->parseCurrentBlock();
             }
@@ -1899,7 +1923,9 @@ class ilMDEditorGUI
             ));
             $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE", $this->lng->txt('meta_date'));
             $this->tpl->setVariable("CONTRIBUTE_LOOP_NO", $con_id);
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", ilUtil::prepareFormOutput($md_con->getDate()));
+            $this->tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE",
+                ilLegacyFormElementsUtil::prepareFormOutput($md_con->getDate())
+            );
 
             $this->tpl->parseCurrentBlock();
         }
@@ -2008,12 +2034,12 @@ class ilMDEditorGUI
             $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
             $this->tpl->setVariable(
                 "IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG",
-                ilUtil::prepareFormOutput($md_ide->getCatalog())
+                ilLegacyFormElementsUtil::prepareFormOutput($md_ide->getCatalog())
             );
             $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
             $this->tpl->setVariable(
                 "IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY",
-                ilUtil::prepareFormOutput($md_ide->getEntry())
+                ilLegacyFormElementsUtil::prepareFormOutput($md_ide->getEntry())
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -2055,7 +2081,9 @@ class ilMDEditorGUI
 
                 $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO", $con_id);
                 $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_NO", $ent_id);
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY", ilUtil::prepareFormOutput($md_ent->getEntity()));
+                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY",
+                    ilLegacyFormElementsUtil::prepareFormOutput($md_ent->getEntity())
+                );
                 $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ENTITY", $this->lng->txt('meta_entity'));
                 $this->tpl->parseCurrentBlock();
             }
@@ -2070,7 +2098,9 @@ class ilMDEditorGUI
             ));
             $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE", $this->lng->txt('meta_date'));
             $this->tpl->setVariable("CONTRIBUTE_LOOP_NO", $con_id);
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", ilUtil::prepareFormOutput($md_con->getDate()));
+            $this->tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE",
+                ilLegacyFormElementsUtil::prepareFormOutput($md_con->getDate())
+            );
 
             $this->tpl->parseCurrentBlock();
         }
@@ -2162,7 +2192,9 @@ class ilMDEditorGUI
 
             $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
             $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($this->md_section->getDescription()));
+            $this->tpl->setVariable("DESCRIPTION_LOOP_VAL",
+                ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getDescription())
+            );
             $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
             $this->tpl->setVariable(
                 "DESCRIPTION_LOOP_VAL_LANGUAGE",
@@ -2305,14 +2337,16 @@ class ilMDEditorGUI
             $this->tpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
 
             $this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME", $this->lng->txt('meta_typical_learning_time'));
-            $this->tpl->setVariable("SEL_TLT", ilUtil::makeTimeSelect(
-                'tlt',
-                $tlt[4] ? false : true,
-                $tlt[2],
-                $tlt[3],
-                $tlt[4],
-                false
-            ));
+            $this->tpl->setVariable("SEL_TLT",
+                ilLegacyFormElementsUtil::makeTimeSelect(
+                    'tlt',
+                    $tlt[4] ? false : true,
+                    $tlt[2],
+                    $tlt[3],
+                    $tlt[4],
+                    false
+                )
+            );
             $this->tpl->setVariable("TLT_HINT", $tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
 
             if (!$valid) {
@@ -2354,7 +2388,9 @@ class ilMDEditorGUI
 
                     $this->tpl->setCurrentBlock("typicalagerange_loop");
                     $this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-                    $this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL", ilUtil::prepareFormOutput($md_age->getTypicalAgeRange()));
+                    $this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL",
+                        ilLegacyFormElementsUtil::prepareFormOutput($md_age->getTypicalAgeRange())
+                    );
                     $this->tpl->setVariable("TYPICALAGERANGE_LOOP_NO", $id);
                     $this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
                     $this->tpl->setVariable(
@@ -2393,7 +2429,9 @@ class ilMDEditorGUI
                 $this->tpl->setCurrentBlock("description_loop");
                 $this->tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
                 $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-                $this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($md_des->getDescription()));
+                $this->tpl->setVariable("DESCRIPTION_LOOP_VAL",
+                    ilLegacyFormElementsUtil::prepareFormOutput($md_des->getDescription())
+                );
                 $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
                 $this->tpl->setVariable(
                     "DESCRIPTION_LOOP_VAL_LANGUAGE",
@@ -2584,11 +2622,11 @@ class ilMDEditorGUI
                     $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
                     $this->tpl->setVariable(
                         "IDENTIFIER_LOOP_VAL_CATALOG",
-                        ilUtil::prepareFormOutput($ident->getCatalog())
+                        ilLegacyFormElementsUtil::prepareFormOutput($ident->getCatalog())
                     );
                     $this->tpl->setVariable(
                         "IDENTIFIER_LOOP_VAL_ENTRY",
-                        ilUtil::prepareFormOutput($ident->getEntry())
+                        ilLegacyFormElementsUtil::prepareFormOutput($ident->getEntry())
                     );
                     $this->tpl->parseCurrentBlock();
                 }
@@ -2624,7 +2662,7 @@ class ilMDEditorGUI
                     $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
                     $this->tpl->setVariable(
                         "DESCRIPTION_LOOP_VAL",
-                        ilUtil::prepareFormOutput($des->getDescription())
+                        ilLegacyFormElementsUtil::prepareFormOutput($des->getDescription())
                     );
                     $this->tpl->setVariable(
                         "DESCRIPTION_LOOP_VAL_LANGUAGE",
@@ -2757,14 +2795,20 @@ class ilMDEditorGUI
                 $this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
 
                 $this->tpl->setVariable("TXT_ENTITY", $this->lng->txt("meta_entity"));
-                $this->tpl->setVariable("VAL_ENTITY", ilUtil::prepareFormOutput($this->md_section->getEntity()));
+                $this->tpl->setVariable("VAL_ENTITY",
+                    ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getEntity())
+                );
                 $this->tpl->setVariable("TXT_DATE", $this->lng->txt("meta_date"));
-                $this->tpl->setVariable("VAL_DATE", ilUtil::prepareFormOutput($this->md_section->getDate()));
+                $this->tpl->setVariable("VAL_DATE",
+                    ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getDate())
+                );
 
                 /* Description */
                 $this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
                 $this->tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
-                $this->tpl->setVariable("VAL_DESCRIPTION", ilUtil::prepareFormOutput($this->md_section->getDescription()));
+                $this->tpl->setVariable("VAL_DESCRIPTION",
+                    ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getDescription())
+                );
                 $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
                 $this->tpl->setVariable(
                     "VAL_DESCRIPTION_LANGUAGE",
@@ -2856,9 +2900,13 @@ class ilMDEditorGUI
                         $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TAXONPATH_NO", $tp_id);
                         $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_TAXON", $this->lng->txt("meta_taxon"));
                         $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_TAXON", ilUtil::prepareFormOutput($taxon->getTaxon()));
+                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_TAXON",
+                            ilLegacyFormElementsUtil::prepareFormOutput($taxon->getTaxon())
+                        );
                         $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_ID", $this->lng->txt("meta_id"));
-                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_ID", ilUtil::prepareFormOutput($taxon->getTaxonId()));
+                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_ID",
+                            ilLegacyFormElementsUtil::prepareFormOutput($taxon->getTaxonId())
+                        );
                         $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
                         $this->tpl->setVariable(
                             "TAXONPATH_TAXON_LOOP_VAL_TAXON_LANGUAGE",
@@ -2897,7 +2945,9 @@ class ilMDEditorGUI
                     $this->tpl->setVariable("TAXONPATH_LOOP_TXT_SOURCE", $this->lng->txt("meta_source"));
                     $this->tpl->setVariable("TAXONPATH_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
                     $this->tpl->setVariable("TAXONPATH_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                    $this->tpl->setVariable("TAXONPATH_LOOP_VAL_SOURCE", ilUtil::prepareFormOutput($tax_path->getSource()));
+                    $this->tpl->setVariable("TAXONPATH_LOOP_VAL_SOURCE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($tax_path->getSource())
+                    );
                     $this->tpl->setVariable(
                         "TAXONPATH_LOOP_VAL_SOURCE_LANGUAGE",
                         $this->__showLanguageSelect(
@@ -2920,7 +2970,7 @@ class ilMDEditorGUI
                 $this->tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
                 $this->tpl->setVariable(
                     "VAL_DESCRIPTION",
-                    ilUtil::prepareFormOutput($this->md_section->getDescription())
+                    ilLegacyFormElementsUtil::prepareFormOutput($this->md_section->getDescription())
                 );
                 $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
                 $this->tpl->setVariable(
@@ -2953,7 +3003,7 @@ class ilMDEditorGUI
                     $this->tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
                     $this->tpl->setVariable(
                         "KEYWORD_LOOP_VAL",
-                        ilUtil::prepareFormOutput($keyword->getKeyword())
+                        ilLegacyFormElementsUtil::prepareFormOutput($keyword->getKeyword())
                     );
                     $this->tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
                     $this->tpl->setVariable(
@@ -3373,7 +3423,9 @@ class ilMDEditorGUI
             //$subs = array_merge(array('' => 'meta_please_select'),$subs);
 
             $this->tpl->setCurrentBlock("subelements");
-            $this->tpl->setVariable("SEL_SUBELEMENTS", ilUtil::formSelect('', 'section_element', $subs));
+            $this->tpl->setVariable("SEL_SUBELEMENTS",
+                ilLegacyFormElementsUtil::formSelect('', 'section_element', $subs)
+            );
             $this->tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
             $this->tpl->parseCurrentBlock();
 
@@ -3455,7 +3507,7 @@ class ilMDEditorGUI
         for ($i = 0; $i <= 24; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }
-        return ilUtil::formSelect($sel_month, 'tlt[mo]', $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($sel_month, 'tlt[mo]', $options, false, true);
     }
 
     public function __buildDaysSelect(string $sel_day) : string
@@ -3464,7 +3516,7 @@ class ilMDEditorGUI
         for ($i = 0; $i <= 31; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }
-        return ilUtil::formSelect($sel_day, 'tlt[d]', $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($sel_day, 'tlt[d]', $options, false, true);
     }
 
     // Observer methods

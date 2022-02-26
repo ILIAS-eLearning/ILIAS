@@ -173,7 +173,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         } elseif ('actions' === $column) {
             return $this->formatActionsDropDown($column, $row);
         } elseif ('chb' === $column) {
-            return \ilUtil::formCheckbox(false, 'acc_id[]', $row['id']);
+            return ilLegacyFormElementsUtil::formCheckbox(false, 'acc_id[]', $row['id']);
         } elseif ('criteria' === $column) {
             return $this->formatCriterionAssignments($column, $row);
         }

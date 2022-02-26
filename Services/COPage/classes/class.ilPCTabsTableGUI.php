@@ -60,8 +60,8 @@ class ilPCTabsTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         $this->pos += 10;
-        $this->tpl->setVariable("POS", ilUtil::prepareFormOutput($this->pos));
+        $this->tpl->setVariable("POS", ilLegacyFormElementsUtil::prepareFormOutput($this->pos));
         $this->tpl->setVariable("TID", $a_set["hier_id"] . ":" . $a_set["pc_id"]);
-        $this->tpl->setVariable("VAL_CAPTION", ilUtil::prepareFormOutput($a_set["caption"]));
+        $this->tpl->setVariable("VAL_CAPTION", ilLegacyFormElementsUtil::prepareFormOutput($a_set["caption"]));
     }
 }

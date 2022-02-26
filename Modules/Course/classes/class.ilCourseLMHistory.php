@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,50 +21,40 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* class ilCourseLMHistory
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @extends Object
-*/
-
+ * class ilCourseLMHistory
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @extends Object
+ */
 class ilCourseLMHistory
 {
-    public $db;
 
-    public $course_id;
-    public $user_id;
+    private int $course_id = 0;
+    private int $user_id = 0;
 
-    /**
-     * Constructor
-     * @param int $crs_id
-     * @param int $user_id
-     */
-    public function __construct($crs_id, $user_id)
+    protected ilDBInterface $db;
+
+    public function __construct(int $crs_id, int $user_id)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $this->db = &$ilDB;
-
+        $this->db = $DIC->database();
         $this->course_id = $crs_id;
         $this->user_id = $user_id;
     }
 
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->user_id;
     }
-    public function getCourseRefId()
+
+    public function getCourseRefId() : int
     {
         return $this->course_id;
     }
 
-    public static function _updateLastAccess($a_user_id, $a_lm_ref_id, $a_page_id)
+    public static function _updateLastAccess(int $a_user_id, int $a_lm_ref_id, int $a_page_id) : bool
     {
         global $DIC;
 
@@ -78,10 +68,10 @@ class ilCourseLMHistory
         $ilDB->replace(
             "crs_lm_history",
             [
-            "crs_ref_id" => ["integer", $crs_ref_id],
-            "lm_ref_id" => ["integer", $a_lm_ref_id],
-            "usr_id" => ["integer", $a_user_id]
-        ],
+                "crs_ref_id" => ["integer", $crs_ref_id],
+                "lm_ref_id" => ["integer", $a_lm_ref_id],
+                "usr_id" => ["integer", $a_user_id]
+            ],
             [
                 "lm_page_id" => ["integer", $a_page_id],
                 "last_access" => ["integer", time()]
@@ -91,58 +81,42 @@ class ilCourseLMHistory
         return true;
     }
 
-    public function getLastLM()
+    public function getLastLM() : int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT * FROM crs_lm_history " .
-            "WHERE usr_id = " . $ilDB->quote($this->getUserId(), 'integer') . " " .
-            "AND crs_ref_id = " . $ilDB->quote($this->getCourseRefId(), 'integer') . " " .
+            "WHERE usr_id = " . $this->db->quote($this->getUserId(), 'integer') . " " .
+            "AND crs_ref_id = " . $this->db->quote($this->getCourseRefId(), 'integer') . " " .
             "ORDER BY last_access ";
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->lm_ref_id;
+            return (int) $row->lm_ref_id;
         }
-        return false;
+        return 0;
     }
 
-    public function getLMHistory()
+    public function getLMHistory() : array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT * FROM crs_lm_history " .
-            "WHERE usr_id = " . $ilDB->quote($this->getUserId(), 'integer') . " " .
-            "AND crs_ref_id = " . $ilDB->quote($this->getCourseRefId(), 'integer') . "";
+            "WHERE usr_id = " . $this->db->quote($this->getUserId(), 'integer') . " " .
+            "AND crs_ref_id = " . $this->db->quote($this->getCourseRefId(), 'integer') . "";
 
         $res = $this->db->query($query);
+        $lm = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $lm[$row->lm_ref_id]['lm_ref_id'] = $row->lm_ref_id;
-            $lm[$row->lm_ref_id]['lm_page_id'] = $row->lm_page_id;
-            $lm[$row->lm_ref_id]['last_access'] = $row->last_access;
+            $lm[$row->lm_ref_id]['lm_ref_id'] = (int) $row->lm_ref_id;
+            $lm[$row->lm_ref_id]['lm_page_id'] = (int) $row->lm_page_id;
+            $lm[$row->lm_ref_id]['last_access'] = (int) $row->last_access;
         }
-        return $lm ? $lm : array();
+        return $lm;
     }
 
-    /**
-     * Delete user
-     * @global type $ilDB
-     * @param type $a_usr_id
-     * @return boolean
-     */
-    public static function _deleteUser($a_usr_id)
+    public static function _deleteUser(int $a_usr_id) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = "DELETE FROM crs_lm_history WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
-
-        return true;
     }
 }

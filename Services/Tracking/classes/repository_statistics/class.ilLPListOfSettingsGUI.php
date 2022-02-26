@@ -435,7 +435,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 }
 
                 $tpl->setCurrentBlock("parent_usage_bl");
-                $tpl->setVariable("PARENT_TYPE_URL", ilUtil::getTypeIconPath($node["type"], $node["obj_id"]));
+                $tpl->setVariable("PARENT_TYPE_URL", ilObject::_getIcon($node["obj_id"], "small", $node["type"]));
                 $tpl->setVariable("PARENT_TYPE_ALT", $this->lng->txt("obj_" . $node["type"]));
 
                 $tpl->setVariable("PARENT_STYLE", $node["lp"]

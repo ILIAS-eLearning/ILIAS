@@ -290,7 +290,7 @@ class ilInternalLinkGUI
         $tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
 
 
-        $select_ltype = ilUtil::formSelect(
+        $select_ltype = ilLegacyFormElementsUtil::formSelect(
             $this->link_type,
             "ltype",
             $this->ltypes,

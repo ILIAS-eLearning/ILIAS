@@ -107,7 +107,7 @@ class ilAuthModeDetermination
         foreach ($this->position as $auth_key) {
             $sid = ilLDAPServer::getServerIdByAuthMode((string) $auth_key);
             if ($sid) {
-                $server = ilLDAPServer::getInstanceByServerId((int) $sid);
+                $server = ilLDAPServer::getInstanceByServerId($sid);
                 $this->logger->debug('Validating username filter for ' . $server->getName());
                 if (strlen($server->getUsernameFilter())) {
                     //#17731
@@ -179,7 +179,6 @@ class ilAuthModeDetermination
         $apache_active = $apache_settings->get('apache_enable_auth');
 
         // Check if active
-        // begin-patch ldap_multiple
         $i = 0;
         while (true) {
             $auth_mode = $this->settings->get((string) $i++, null);
@@ -187,7 +186,7 @@ class ilAuthModeDetermination
                 break;
             }
             if ($auth_mode) {
-                // begin-patch ldap_multiple
+                //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
                 switch ((int) $auth_mode) {
                     case ilAuthUtils::AUTH_LOCAL:
                         $this->position[] = $auth_mode;
@@ -218,7 +217,6 @@ class ilAuthModeDetermination
                         }
                         break;
 
-                    // begin-patch auth_plugin
                     default:
                         foreach (ilAuthUtils::getAuthPlugins() as $pl) {
                             if ($pl->isAuthActive($auth_mode)) {
@@ -226,12 +224,9 @@ class ilAuthModeDetermination
                             }
                         }
                         break;
-                    // end-patch auth_plugin
-
                 }
             }
         }
-        // end-patch ldap_multiple
 
         // Append missing active auth modes
         if (!in_array(ilAuthUtils::AUTH_LOCAL, $this->position)) {

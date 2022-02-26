@@ -1517,7 +1517,7 @@ class ilExAssignment
             // deadline or relative deadline given
             if ($this->getDeadline() || $this->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE) {
                 $app = new ilCalendarAppointmentTemplate($dl_id);
-                $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $app->setSubtitle("cal_exc_deadline");
                 $app->setTitle($this->getTitle());
                 $app->setFullday(false);
@@ -1531,7 +1531,7 @@ class ilExAssignment
             if ($this->getPeerReview() &&
                 $this->getPeerReviewDeadline()) {
                 $app = new ilCalendarAppointmentTemplate($fbdl_id);
-                $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $app->setSubtitle("cal_exc_peer_review_deadline");
                 $app->setTitle($this->getTitle());
                 $app->setFullday(false);

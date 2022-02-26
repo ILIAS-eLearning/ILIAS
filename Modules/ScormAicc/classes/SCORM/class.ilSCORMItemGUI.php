@@ -45,7 +45,10 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
             $resource = new ilSCORMResource();
             $resource->readByIdRef($id_ref, $this->sc_object->getSLMId());
 
-            $slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
+            $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
+            $objId = $DIC->http()->wrapper()->query()->retrieve('obj_id', $DIC->refinery()->kindlyTo()->int());
+
+            $slm_obj = new ilObjSCORMLearningModule($refId);
 
             if ($resource->getHref() != "") {
                 $param_str = ($this->sc_object->getParameters() != "")
@@ -54,8 +57,8 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 
                 $this->tpl = new ilGlobalTemplate("tpl.scorm_content_frameset.html", true, true, "Modules/ScormAicc");
                 $this->tpl->setVariable("ITEM_LOCATION", $slm_obj->getDataDirectory() . "/" . $resource->getHref() . $param_str);
-                $this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
-                $this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
+                $this->tpl->setVariable("ITEM_ID", $objId);
+                $this->tpl->setVariable("REF_ID", $refId);
                 $this->tpl->setVariable("USER_ID", $usr->getId());
                 $this->tpl->setVariable("ADAPTER_NAME", $slm_obj->getAPIAdapterName());
                 $this->tpl->printToStdout();

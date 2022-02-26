@@ -60,10 +60,15 @@ if (!ilStartUpGUI::_checkGoto($_GET["target"])) {
         // message if target given but not accessible
         $tarr = explode("_", $_GET["target"]);
         if ($tarr[0] != "pg" && $tarr[0] != "st" && $tarr[1] > 0) {
-            ilUtil::sendFailure(sprintf(
-                $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))
-            ), true);
+            global $DIC;
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                sprintf(
+                    $lng->txt("msg_no_perm_read_item"),
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))
+                ),
+                true
+            );
         }
     
         ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());

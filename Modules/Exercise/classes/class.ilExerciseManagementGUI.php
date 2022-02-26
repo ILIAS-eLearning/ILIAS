@@ -937,7 +937,7 @@ class ilExerciseManagementGUI
             }
         }
         
-        $mems = ilUtil::sortArray($mems, "lastname", "asc", false, true);
+        $mems = ilArrayUtil::sortArray($mems, "lastname", "asc", false, true);
         
         if ($this->requested_part_id == 0 && count($mems) > 0 && key($mems) > 0) {
             $ilCtrl->setParameter($this, "part_id", key($mems));
@@ -1793,7 +1793,7 @@ class ilExerciseManagementGUI
         $form = $this->initMultiFeedbackForm($this->assignment->getId());
         if ($form->checkInput()) {
             try {
-                $this->assignment->uploadMultiFeedbackFile(ilUtil::stripSlashesArray($_FILES["mfzip"]));
+                $this->assignment->uploadMultiFeedbackFile(ilArrayUtil::stripSlashesArray($_FILES["mfzip"]));
                 $this->ctrl->redirect($this, "showMultiFeedbackConfirmationTable");
             } catch (ilException $e) {
                 $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);

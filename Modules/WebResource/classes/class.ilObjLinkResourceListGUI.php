@@ -48,7 +48,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 
             // #10682
             if ($ilSetting->get("rep_shorten_description")) {
-                $desc = ilUtil::shortenText(
+                $desc = ilStr::shortenTextExtended(
                     $desc,
                     $ilSetting->get("rep_shorten_description_length"),
                     true

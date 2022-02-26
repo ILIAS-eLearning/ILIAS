@@ -11,53 +11,15 @@
  */
 class ilObjStyleSettingsGUI extends ilObjectGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
     //page_layout editing
     public $pg_id = null;
-
-    /**
-     * @var ILIAS\DI\Container
-     */
-    protected $DIC;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
 
     /**
      * Constructor
      */
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
-        global $DIC;
-        $this->rbacsystem = $DIC->rbac()->system();
-
         $this->type = "stys";
-
-        $this->dic = $DIC;
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->tabs = $DIC->tabs();
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -67,7 +29,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
     /**
      * Execute command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -79,21 +41,21 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->prepareOutput();
-                $this->tabs->activateTab("perm_settings");
+                $this->tabs_gui->activateTab("perm_settings");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ilsystemstylemaingui':
                 $this->prepareOutput();
-                $this->tabs->activateTab("system_styles");
+                $this->tabs_gui->activateTab("system_styles");
                 $gui = new ilSystemStyleMainGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'ilpagelayoutadministrationgui':
                 $this->prepareOutput();
-                $this->tabs->activateTab("page_layouts");
+                $this->tabs_gui->activateTab("page_layouts");
                 $gui = new ilPageLayoutAdministrationGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -102,7 +64,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
                 $gui = new ilContentStyleSettingsGUI($this);
                 $this->ctrl->forwardCommand($gui);
                 if ($this->ctrl->getCmdClass() == "ilcontentstylesettingsgui") {
-                    $this->tabs->activateTab("content_styles");
+                    $this->tabs_gui->activateTab("content_styles");
                 }
                 break;
 
@@ -113,7 +75,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
 
     /**
@@ -136,7 +97,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
         }*/
 
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
@@ -146,13 +107,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
     * @access	public
     * @param	object	tabs gui object
     */
-    public function getTabs()
+    public function getTabs() : void
     {
-        $rbacsystem = $this->rbacsystem;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "system_styles",
                 $this->lng->txt("system_styles"),
@@ -172,7 +129,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "perm_settings",
                 $this->lng->txt("perm_settings"),

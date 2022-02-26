@@ -692,8 +692,8 @@ class ilECSSettingsGUI
             }
         }
 
-        foreach ((array) $_POST['sci_mid'] as $sid => $tmp) {
-            foreach ((array) $_POST['sci_mid'][$sid] as $mid => $tmp) {
+        foreach ((array) $_POST['sci_mid'] as $sid) {
+            foreach ((array) $_POST['sci_mid'][$sid] as $mid) {
                 $set = new ilECSParticipantSetting($sid, $mid);
                 #$set->enableExport(array_key_exists($mid, (array) $_POST['export'][$sid]) ? true : false);
                 #$set->enableImport(array_key_exists($mid, (array) $_POST['import'][$sid]) ? true : false);

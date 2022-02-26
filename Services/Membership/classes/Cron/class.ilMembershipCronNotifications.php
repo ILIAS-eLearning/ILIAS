@@ -197,7 +197,7 @@ class ilMembershipCronNotifications extends ilCronJob
         $title = trim($title);
 
         // #18067 / #18186
-        $content = ilUtil::shortenText(trim(strip_tags($content)), 200, true);
+        $content = ilStr::shortenTextExtended(trim(strip_tags($content)), 200, true);
 
         $res = "";
         switch ($item_obj_type) {
@@ -251,7 +251,7 @@ class ilMembershipCronNotifications extends ilCronJob
                 ilUserUtil::getNamePresentation($c->getAuthor()) . ", " . ilDatePresentation::formatDate(
                     new ilDateTime($c->getCreationDate(), IL_CAL_DATETIME)
                 ) . ": " .
-                ilUtil::shortenText(trim(strip_tags($c->getText())), 60, true, true);
+                ilStr::shortenTextExtended(trim(strip_tags($c->getText())), 60, true, true);
         }
 
         // likes

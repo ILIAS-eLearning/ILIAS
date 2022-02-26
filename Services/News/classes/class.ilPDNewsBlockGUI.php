@@ -362,7 +362,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
         $passwd = new ilPasswordInputGUI($lng->txt("password"), "desired_password");
         $passwd->setRequired(true);
-        $passwd->setInfo(ilUtil::getPasswordRequirementsInfo());
+        $passwd->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
         $enable_private_feed->addSubItem($passwd);
 
         $feed_form->addCommandButton("changeFeedSettings", $lng->txt("save"));

@@ -594,25 +594,25 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->ctrl->redirect($this, "export");
     }
 
-    protected function initImportForm($a_new_type)
+    protected function initImportForm(string $new_type) : ilPropertyFormGUI
     {
-        $form = parent::initImportForm($a_new_type);
+        $form = parent::initImportForm($new_type);
         $form->getItemByPostVar('importfile')->setSuffixes(array("zip", "xml"));
     
         return $form;
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        $form = $this->initImportForm($a_new_type);
+        $form = $this->initImportForm($new_type);
         
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type),
+        $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type),
             self::CFORM_IMPORT => $form);
 
         return $forms;
     }
 
-    protected function importFileObject($parent_id = null, $a_catch_errors = true)
+    protected function importFileObject(int $parent_id = null, bool $catch_errors = true) : void
     {
         $tpl = $this->tpl;
 
@@ -884,6 +884,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ctrl = $DIC->ctrl();
         $ilAccess = $DIC->access();
@@ -894,7 +895,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             $ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "ref_id", $a_target);
             $ctrl->redirectByClass("ilObjSurveyQuestionPoolGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);

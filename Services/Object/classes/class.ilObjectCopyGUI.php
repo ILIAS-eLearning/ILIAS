@@ -252,7 +252,7 @@ class ilObjectCopyGUI
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt('tab_back_to_repository'),
-            $ilCtrl->getParentReturn($this->parent_obj)
+            (string) $ilCtrl->getParentReturn($this->parent_obj)
         );
     }
     
@@ -1179,7 +1179,7 @@ class ilObjectCopyGUI
         $orig = ilObjectFactory::getInstanceByRefId($this->getFirstSource());
         $result = $orig->cloneAllObject(
             $_COOKIE[session_name()],
-            $_COOKIE['ilClientId'],
+            CLIENT_ID,
             $this->getType(),
             $a_target,
             $this->getFirstSource(),

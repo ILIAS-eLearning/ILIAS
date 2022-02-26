@@ -21,21 +21,11 @@ abstract class ilPluginConfigGUI
 {
     protected $plugin_object = null;
     
-    /**
-     * Set plugin object
-     *
-     * @param	object	plugin object
-     */
     final public function setPluginObject($a_val)
     {
         $this->plugin_object = $a_val;
     }
 
-    /**
-     * Get plugin object
-     *
-     * @return ilPlugin	 object
-     */
     final public function getPluginObject()
     {
         return $this->plugin_object;
@@ -47,7 +37,7 @@ abstract class ilPluginConfigGUI
      * @param
      * @return
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();

@@ -9,7 +9,7 @@ class ilStudyProgrammeAutoCategoryTest extends TestCase
     protected int $usr_id;
     protected DateTimeImmutable $dat;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->prg_obj_id = 123;
         $this->cat_ref_id = 666;

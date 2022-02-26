@@ -123,7 +123,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("content");
             $this->tpl->setVariable(
                 "VAL_CONTENT",
-                ilUtil::shortenText($a_set["content"], 80, true, true)
+                ilStr::shortenTextExtended($a_set["content"], 80, true, true)
             );
             $this->tpl->parseCurrentBlock();
         }

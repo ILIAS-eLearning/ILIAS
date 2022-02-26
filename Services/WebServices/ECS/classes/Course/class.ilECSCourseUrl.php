@@ -18,7 +18,6 @@
  * Represents a ecs course url
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCourseUrl
 {
@@ -31,10 +30,6 @@ class ilECSCourseUrl
     public string $ecs_course_url = '';
     public ?array $lms_course_urls = null;
     
-    
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -44,25 +39,22 @@ class ilECSCourseUrl
     
     /**
      * Set lecture id
-     * @param type $a_id
      */
-    public function setCmsLectureId($a_id)
+    public function setCmsLectureId(string $a_id)
     {
         $this->cms_lecture_id = $a_id;
     }
     
     /**
      * Set ecs course id
-     * @param int $a_id
      */
-    public function setECSId($a_id)
+    public function setECSId(int $a_id)
     {
         $this->ecs_course_url = self::COURSE_URL_PREFIX . $a_id;
     }
     
     /**
      * Add lms url
-     * @param ilECSCourseLmsUrl $lms_url
      */
     public function addLmsCourseUrls(ilECSCourseLmsUrl $lms_url = null)
     {

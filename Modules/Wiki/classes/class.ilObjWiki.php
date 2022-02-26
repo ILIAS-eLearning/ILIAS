@@ -189,10 +189,10 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
     
     public function create(
         bool $a_prevent_start_page_creation = false
-    ) : void {
+    ) : int {
         $ilDB = $this->db;
 
-        parent::create();
+        $id = parent::create();
         
         $ilDB->insert("il_wiki_data", array(
             "id" => array("integer", $this->getId()),
@@ -212,15 +212,17 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page->setTitle($this->getStartPage());
             $start_page->create(false);
         }
+
+        return $id;
     }
 
     public function update(
         bool $a_prevent_start_page_creation = false
-    ) : void {
+    ) : bool {
         $ilDB = $this->db;
         
         if (!parent::update()) {
-            return;
+            return false;
         }
         
         $ilDB->update("il_wiki_data", array(
@@ -249,6 +251,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page->setTitle($this->getStartPage());
             $start_page->create(false);
         }
+
+        return true;
     }
     
     public function read() : void
@@ -548,7 +552,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
                 $ipages[$k]["indent"] = (int) $a_indent[$v["page_id"]];
             }
         }
-        $ipages = ilUtil::sortArray($ipages, "ord", "asc", true);
+        $ipages = ilArrayUtil::sortArray($ipages, "ord", "asc", true);
 
         // fix indentation: no 2 is allowed after a 0
         $c_indent = 0;
@@ -615,7 +619,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         return (bool) ilObjWiki::_lookup($a_wiki_id, "page_toc");
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 

@@ -19,7 +19,7 @@ class ilCertificateUtilHelper
 
     public function prepareFormOutput(string $string) : string
     {
-        return ilUtil::prepareFormOutput($string);
+        return ilLegacyFormElementsUtil::prepareFormOutput($string);
     }
 
     public function convertImage(
@@ -29,7 +29,7 @@ class ilCertificateUtilHelper
         string $geometry = '',
         string $backgroundColor = ''
     ) : void {
-        ilUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
+        ilShellUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
     }
 
     /**

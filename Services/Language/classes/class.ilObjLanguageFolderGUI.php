@@ -408,8 +408,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $this->tabs_gui->addTab("perm_settings", $this->lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass(array(self::class,"ilpermissiongui"), "perm"));
         }
     }
-
-    public function executeCommand() : bool
+    
+    public function executeCommand() : void
     {
         // always check read permission, needed write permissions are checked in the *Object functions
         $this->checkPermission("read", "", $this->type, $this->ref_id);
@@ -438,7 +438,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
 
     public function confirmRefreshObject() : void

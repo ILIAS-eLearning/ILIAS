@@ -79,7 +79,7 @@ class ilWikiPageTemplateGUI
         foreach ($pages as $p) {
             //if (!in_array($p["id"], $ipages_ids))
             //{
-            $options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
+            $options[$p["id"]] = ilStr::shortenTextExtended($p["title"], 60, true);
             //}
         }
 

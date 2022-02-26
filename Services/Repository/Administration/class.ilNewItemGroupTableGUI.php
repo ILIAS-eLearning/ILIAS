@@ -95,7 +95,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
             );
         }
         
-        $data = ilUtil::sortArray($data, "pos", "asc", true);
+        $data = ilArrayUtil::sortArray($data, "pos", "asc", true);
         
         $this->setData($data);
     }

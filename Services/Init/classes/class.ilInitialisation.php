@@ -400,7 +400,7 @@ class ilInitialisation
             $path = dirname($rq_uri);
 
             // dirname cuts the last directory from a directory path e.g content/classes return content
-            $module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
+            $module = ilFileUtils::removeTrailingPathSeparators(ILIAS_MODULE);
 
             $dirs = explode('/', $module);
             $uri = $path;
@@ -412,7 +412,7 @@ class ilInitialisation
         $iliasHttpPath = ilContext::modifyHttpPath(implode('', [$protocol, $host, $uri]));
 
         $f = new \ILIAS\Data\Factory();
-        $uri = $f->uri(ilUtil::removeTrailingPathSeparators($iliasHttpPath));
+        $uri = $f->uri(ilFileUtils::removeTrailingPathSeparators($iliasHttpPath));
 
         return define('ILIAS_HTTP_PATH', $uri->getBaseURI());
     }
@@ -423,36 +423,42 @@ class ilInitialisation
      */
     protected static function determineClient() : void
     {
-        global $ilIliasIniFile, $DIC;
+        global $DIC;
+        $df = new \ILIAS\Data\Factory;
 
         // check whether ini file object exists
-        if (!is_object($ilIliasIniFile)) {
+        if (!$DIC->isDependencyAvailable('iliasIni')) {
             self::abortAndDie('Fatal Error: ilInitialisation::determineClient called without initialisation of ILIAS ini file object.');
         }
-
-        $client_id = '';
-        if ($DIC->http()->wrapper()->query()->has('client_id')) {
+        $in_unit_tests = defined('IL_PHPUNIT_TEST');
+        $context_supports_persitent_session = (bool) ilContext::supportsPersistentSessions();
+        $can_set_cookie = !$in_unit_tests && $context_supports_persitent_session;
+        $has_request_client_id = $DIC->http()->wrapper()->query()->has('client_id');
+        $has_cookie_client_id = $DIC->http()->cookieJar()->has('ilClientId');
+        $default_client_id = $DIC->iliasIni()->readVariable('clients', 'default');
+        
+        // determintaion of client_id:
+        $client_id_to_use = '';
+        // first we try to get the client_id from request
+        if ($has_request_client_id) {
             // @todo refinerey undefined
-            $client_id = (string) $_GET['client_id'];
+            $client_id_from_get = (string) $_GET['client_id'];
         }
-        if (strlen($client_id) > 0) {
-            $client_id = $_GET['client_id'] = \ilUtil::getClientIdByString($client_id)->toString();
-            if (!defined('IL_PHPUNIT_TEST')) {
-                if (ilContext::supportsPersistentSessions()) {
-                    ilUtil::setCookie('ilClientId', $client_id);
-                }
+        // we found a client_id in $GET
+        if (isset($client_id_from_get) && strlen($client_id_from_get) > 0) {
+            $client_id_to_use = $_GET['client_id'] = $df->clientId($client_id_from_get)->toString();
+            if ($can_set_cookie) {
+                ilUtil::setCookie('ilClientId', $client_id_to_use);
             }
-        } elseif (!isset($_COOKIE['ilClientId'])) {
-            ilUtil::setCookie('ilClientId', $ilIliasIniFile->readVariable('clients', 'default'));
-        }
-
-        if (!defined('IL_PHPUNIT_TEST') && ilContext::supportsPersistentSessions()) {
-            $clientId = $_COOKIE['ilClientId'];
         } else {
-            $clientId = $client_id;
+            $client_id_to_use = $default_client_id;
+            if (!isset($_COOKIE['ilClientId'])) {
+                ilUtil::setCookie('ilClientId', $client_id_to_use);
+            }
         }
-
-        define('CLIENT_ID', \ilUtil::getClientIdByString((string) $clientId)->toString());
+        $client_id_to_use = strlen($client_id_to_use) > 0 ? $client_id_to_use : $default_client_id;
+        
+        define('CLIENT_ID', $df->clientId($client_id_to_use)->toString());
     }
 
     /**
@@ -493,14 +499,13 @@ class ilInitialisation
                 $mess = array("en" => "Client does not exist.",
                               "de" => "Mandant ist ungültig."
                 );
-                self::redirect("index.php?client_id=" . $default_client, null, $mess);
+                self::redirect("index.php?client_id=" . $default_client, '', $mess);
             } else {
                 self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile initializing client ini file abborted with: " . $ilClientIniFile->ERROR);
             }
         }
 
         self::initGlobal("ilClientIniFile", $ilClientIniFile);
-
         // set constants
         define("SESSION_REMINDER_LEADTIME", 30);
         define("DEBUG", $ilClientIniFile->readVariable("system", "DEBUG"));
@@ -963,18 +968,23 @@ class ilInitialisation
         if (!$DIC['ilAuthSession']->isAuthenticated()) {
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
         }
-
-        $target = '';
-        if ($DIC->http()->wrapper()->query()->has('target')) {
-            $target = $DIC->http()->wrapper()->query()->retrieve(
+        
+        $target = $DIC->http()->wrapper()->query()->has('target')
+            ? $DIC->http()->wrapper()->query()->retrieve(
                 'target',
                 $DIC->refinery()->kindlyTo()->string()
-            );
-        }
+            )
+            : '';
+        
         if (strlen($target)) {
             $target = "target=" . $target . "&";
         }
-        $script = "login.php?" . $target . "client_id=" . $_COOKIE["ilClientId"] .
+        
+        $client_id = $DIC->http()->wrapper()->cookie()->has('ilClientId')
+            ? $DIC->http()->wrapper()->cookie()->retrieve('ilClientId', $DIC->refinery()->kindlyTo()->string())
+            : '';
+        
+        $script = "login.php?" . $target . "client_id=" . $client_id .
             "&auth_stat=" . $a_auth_stat;
 
         self::redirect(
@@ -1071,7 +1081,7 @@ class ilInitialisation
 
     protected static function abortAndDie(string $a_message) : void
     {
-        if (is_object($GLOBALS['ilLog'])) {
+        if (isset($GLOBALS['ilLog'])) {
             $GLOBALS['ilLog']->write("Fatal Error: ilInitialisation - " . $a_message);
             $GLOBALS['ilLog']->logStack();
         }
@@ -1470,10 +1480,22 @@ class ilInitialisation
      */
     protected static function replaceSuperGlobals(\ILIAS\DI\Container $container) : void
     {
-        $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET);
-        $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
-        $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);
-        $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST);
+        /** @var ilIniFile $client_ini */
+        $client_ini = $container['ilClientIniFile'];
+
+        $replace_super_globals = (
+            !$client_ini->variableExists('system', 'prevent_super_global_replacement') ||
+            !(bool) $client_ini->readVariable('system', 'prevent_super_global_replacement')
+        );
+
+        if ($replace_super_globals) {
+            $throwOnValueAssignment = defined('DEVMODE') && DEVMODE;
+
+            $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET, $throwOnValueAssignment);
+            $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST, $throwOnValueAssignment);
+            $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE, $throwOnValueAssignment);
+            $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST, $throwOnValueAssignment);
+        }
     }
 
     protected static function initComponentService(\ILIAS\DI\Container $container) : void

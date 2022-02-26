@@ -1,0 +1,51 @@
+.il-toast-wrapper {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+}
+
+.il-toast {
+    width: @il-toast-width;
+    margin: @il-toast-margin;
+    padding: @il-padding-base;
+    background-color: white;
+    display: grid;
+    grid-template-areas:
+    "icon title close"
+    "none description description"
+    "none actions actions";
+    grid-template-columns: @il-toast-horizontal-division;
+    grid-gap: @il-padding-base;
+    box-shadow: @il-mode-info-shadow;
+    transform: translateX(150%);
+    transition: @il-toast-transition;
+
+    &.active {
+        transform: translateX(0);
+    }
+
+    .icon {
+        grid-area: icon;
+    }
+
+    .title {
+        grid-area: title;
+    }
+
+    .close {
+        grid-area: close;
+    }
+
+    .description {
+        grid-area: description;
+        font-size: 90%;
+    }
+
+    .actions {
+        grid-area: actions;
+        display: flex;
+        flex-direction: column;
+    }
+}

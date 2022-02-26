@@ -163,7 +163,7 @@ class ilItemGroupItems
             $materials[] = $node;
         }
         
-        $materials = ilUtil::sortArray($materials, "title", "asc");
+        $materials = ilArrayUtil::sortArray($materials, "title", "asc");
         
         return $materials;
     }

@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
-
 /**
 * @author Jens Conze
 * @ingroup ServicesMail
@@ -13,7 +11,7 @@ class ilContactGUI
 {
     public const CONTACTS_VIEW_GALLERY = 1;
     public const CONTACTS_VIEW_TABLE = 2;
-    private ServerRequestInterface $httpRequest;
+    private \ILIAS\HTTP\GlobalHttpState $http;
     /**
      * @var int[]|null
      */
@@ -45,7 +43,7 @@ class ilContactGUI
         $this->user = $DIC['ilUser'];
         $this->error = $DIC['ilErr'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
         $this->ctrl->saveParameter($this, "mobj_id");
@@ -100,7 +98,9 @@ class ilContactGUI
                 break;
 
             case strtolower(ilPublicUserProfileGUI::class):
-                $profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['user']));
+                $profile_gui = new ilPublicUserProfileGUI(
+                    $this->http->wrapper()->query()->retrieve('user', $this->refinery->kindlyTo()->int())
+                );
                 $profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showContacts'));
                 $this->ctrl->forwardCommand($profile_gui);
                 $this->tpl->printToStdout();
@@ -240,8 +240,8 @@ class ilContactGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
-        if (isset($this->httpRequest->getParsedBody()['contacts_view'])) {
-            switch ($this->httpRequest->getParsedBody()['contacts_view']) {
+        if ($this->http->wrapper()->post()->has('contacts_view')) {
+            switch ($this->http->wrapper()->post()->retrieve('contacts_view', $this->refinery->kindlyTo()->int())) {
                 case self::CONTACTS_VIEW_GALLERY:
                     $this->ctrl->redirectByClass(ilUsersGalleryGUI::class);
                     break;
@@ -302,27 +302,26 @@ class ilContactGUI
     }
 
     
-    protected function mailToUsers() : bool
+    protected function mailToUsers() : void
     {
         if (!$this->rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
-        if (
-            !isset($this->httpRequest->getParsedBody()['usr_id']) ||
-            !is_array($this->httpRequest->getParsedBody()['usr_id']) ||
-            0 === count($this->httpRequest->getParsedBody()['usr_id'])
-        ) {
+        try {
+            $usr_ids = $this->http->wrapper()->post()->retrieve(
+                'usr_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+
+            // TODO: Replace this with some kind of 'ArrayLengthConstraint'
+            if ($usr_ids === []) {
+                throw new LengthException('mail_select_one_entry');
+            }
+        } catch (Exception $e) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
             $this->showContacts();
-            return true;
-        }
-
-        $usr_ids = $this->httpRequest->getParsedBody()['usr_id'];
-
-        $mail_data = $this->umail->getSavedData();
-        if (!is_array($mail_data)) {
-            $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
+            return;
         }
 
         $logins = [];
@@ -332,6 +331,11 @@ class ilContactGUI
         $logins = array_filter($logins);
 
         if (count($logins) > 0) {
+            $mail_data = $this->umail->getSavedData();
+            if (!is_array($mail_data)) {
+                $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
+            }
+ 
             $mail_data = $this->umail->appendSearchResult($logins, 'to');
             $this->umail->savePostData(
                 (int) $mail_data['user_id'],
@@ -347,8 +351,7 @@ class ilContactGUI
             );
         }
 
-        ilUtil::redirect('ilias.php?baseClass=ilMailGUI&type=search_res');
-        return false;
+        $this->ctrl->redirectToURL('ilias.php?baseClass=ilMailGUI&type=search_res');
     }
 
     /**
@@ -357,33 +360,41 @@ class ilContactGUI
      */
     public function submitInvitation() : void
     {
-        if (
-            !isset($this->httpRequest->getParsedBody()['usr_id']) ||
-            $this->httpRequest->getParsedBody()['usr_id'] === ''
-        ) {
+        try {
+            $usr_ids = $this->refinery->kindlyTo()->listOf(
+                $this->refinery->kindlyTo()->int()
+            )->transform(explode(',', $this->http->wrapper()->post()->retrieve(
+                'usr_id',
+                $this->refinery->kindlyTo()->string()
+            )));
+
+            // TODO: Replace this with some kind of 'ArrayLengthConstraint'
+            if ($usr_ids === []) {
+                throw new LengthException('select_one');
+            }
+        } catch (Exception $e) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this);
         }
 
-        if (!$this->httpRequest->getParsedBody()['room_id']) {
+        if (!$this->http->wrapper()->post()->has('room_id')) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'));
-            $this->postUsrId = explode(',', $this->httpRequest->getParsedBody()['usr_id']);
+            $this->postUsrId = $usr_ids;
             $this->inviteToChat();
             return;
         }
 
-        // get selected users (comma seperated user id list)
-        $usr_ids = $this->refinery->kindlyTo()->listOf(
-            $this->refinery->kindlyTo()->int()
-        )->transform(explode(',', $this->httpRequest->getParsedBody()['usr_id']));
-
-        // get selected chatroom from POST-String, format: "room_id , scope"
+        // get selected chatroom from POST-String, format: "room_id,scope"
         $room_ids = $this->refinery->kindlyTo()->listOf(
             $this->refinery->kindlyTo()->int()
-        )->transform(explode(',', $this->httpRequest->getParsedBody()['room_id']));
-        $room_id = (int) $room_ids[0];
-        $scope = 0;
+        )->transform(explode(',', $this->http->wrapper()->post()->retrieve(
+            'room_id',
+            $this->refinery->kindlyTo()->string()
+        )));
 
+        $room_id = (int) $room_ids[0];
+
+        $scope = 0;
         if (count($room_ids) > 1) {
             $scope = (int) $room_ids[1];
         }
@@ -490,12 +501,13 @@ class ilContactGUI
 
         $usr_ids = $this->postUsrId;
         if (!is_array($usr_ids)) {
-            if (
-                isset($this->httpRequest->getParsedBody()['usr_id']) &&
-                is_array($this->httpRequest->getParsedBody()['usr_id']) &&
-                count($this->httpRequest->getParsedBody()['usr_id']) > 0
-            ) {
-                $usr_ids = $this->httpRequest->getParsedBody()['usr_id'];
+            try {
+                $usr_ids = $this->http->wrapper()->post()->retrieve(
+                    'usr_id',
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+                );
+            } catch (Exception $e) {
+                $usr_ids = [];
             }
         }
 

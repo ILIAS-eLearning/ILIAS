@@ -22,7 +22,7 @@ If it is a visually-whole section is not a control then it MUST have a heading t
 * H3
   * Primary Sub-Panels
   * Question List in Test 
-  * Entries in List GI and Tile Lists
+  * Entries in List GUI and Tile Lists
 * H4 or ARIA Role Complementary 
     - Headlines of Side Panels 
 *  H5 and H6

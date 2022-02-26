@@ -898,7 +898,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             );
 
 
-        return ilUtil::formSelect($this->options['type'], 'search_adv[type]', $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($this->options['type'], 'search_adv[type]', $options, false, true);
     }
 
 

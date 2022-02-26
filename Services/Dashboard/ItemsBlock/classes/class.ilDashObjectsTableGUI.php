@@ -69,7 +69,7 @@ class ilDashObjectsTableGUI extends ilTable2GUI
     {
         $tpl = $this->tpl;
         $tpl->setVariable("ID", $a_set["ref_id"]);
-        $tpl->setVariable("ICON", ilObject::_getIcon($a_set["obj_id"]));
+        $tpl->setVariable("ICON", ilObject::_getIcon((int) $a_set["obj_id"]));
         $tpl->setVariable("TITLE", $a_set["title"]);
     }
 }

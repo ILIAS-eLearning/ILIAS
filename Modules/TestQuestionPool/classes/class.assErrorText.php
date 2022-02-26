@@ -815,7 +815,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                 if (in_array($counter, $selections)) {
                     $word .= '#';
                 }
-                $word .= ilUtil::prepareFormOutput($item);
+                $word .= ilLegacyFormElementsUtil::prepareFormOutput($item);
                 if (in_array($counter, $selections)) {
                     $word .= '#';
                 }
@@ -1151,7 +1151,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                     }
                 }
                 array_push($answers, array(
-                    "answertext" => (string) ilUtil::prepareFormOutput($item),
+                    "answertext" => (string) ilLegacyFormElementsUtil::prepareFormOutput($item),
                     "order" => $this->getId() . "_" . $textidx . "_" . ($idx + 1)
                 ));
             }
@@ -1263,9 +1263,13 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     private function getErrorTokenHtml($item, $class, $useLinkTags)
     {
         if ($useLinkTags) {
-            return '<a class="' . $class . '" href="#">' . ($item == '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</a>';
+            return '<a class="' . $class . '" href="#">' . ($item == '&nbsp;' ? $item : ilLegacyFormElementsUtil::prepareFormOutput(
+                    $item
+                )) . '</a>';
         }
         
-        return '<span class="' . $class . '">' . ($item == '&nbsp;' ? $item : ilUtil::prepareFormOutput($item)) . '</span>';
+        return '<span class="' . $class . '">' . ($item == '&nbsp;' ? $item : ilLegacyFormElementsUtil::prepareFormOutput(
+                $item
+            )) . '</span>';
     }
 }

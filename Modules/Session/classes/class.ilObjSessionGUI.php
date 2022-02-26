@@ -37,54 +37,18 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    public $tpl;
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-    /**
-     * @var ilTree
-     */
-    public $tree;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilErrorHandling
-     */
+    public ilLanguage $lng;
+    public ilCtrl $ctrl;
+    public ilGlobalTemplateInterface $tpl;
+    protected ilObjUser $user;
+    public ilTree $tree;
+    protected ilAccessHandler $access;
+    protected ilToolbarGUI $toolbar;
     protected $ilErr;
-    /**
-     * @var ilObjectService
-     */
-    protected $object_service;
-    /**
-     * @var object
-     */
-    public $objDefinition;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
+    protected ilObjectService $object_service;
+    public ilObjectDefinition $objDefinition;
+    protected ilTabsGUI $tabs_gui;
+    protected ilLocatorGUI $locator;
     /**
      * @var ilRbacReview
      */
@@ -93,7 +57,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected int $container_ref_id = 0;
     protected int $container_obj_id = 0;
     protected array $files = [];
-    protected ilPropertyFormGUI $form;
+    protected ?ilPropertyFormGUI $form = null;
     protected ilAdvancedMDRecordGUI $record_gui;
     protected ?ilEventRecurrence $rec = null;
     protected ?ilEventItems $event_items = null;
@@ -194,7 +158,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
     }
 
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
@@ -314,8 +278,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
         
         $this->addHeaderAction();
-        
-        return true;
     }
 
     protected function membersObject() : void
@@ -333,9 +295,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         return $object;
     }
 
-    public function prepareOutput($a_show_subobjects = true) : void
+    public function prepareOutput(bool $show_subobjects = true) : bool
     {
-        parent::prepareOutput($a_show_subobjects);
+        parent::prepareOutput($show_subobjects);
         
         if (!$this->getCreationMode()) {
             $title = strlen($this->object->getTitle()) ? (': ' . $this->object->getTitle()) : '';
@@ -344,6 +306,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->object->getFirstAppointment()->appointmentToString() . $title
             );
         }
+        return true;
     }
 
     public function registerObject() : void
@@ -489,6 +452,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -509,13 +473,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($ilAccess->checkAccess('visible', "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(
-                sprintf(
-                    $lng->txt("msg_no_perm_read_item"),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-                ),
-                true
-            );
+            $main_tpl->setOnScreenMessage('failure', sprintf(
+                $lng->txt("msg_no_perm_read_item"),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+            ), true);
             ilObjectGUI::_gotoRepositoryRoot();
         }
     }
@@ -784,7 +745,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (!is_object($this->object)) {
             $this->object = new ilObjSession();
         }
-        $this->initForm('create');
+        if (!$this->form instanceof ilPropertyFormGUI) {
+            $this->initForm('create');
+        }
         return $this->form;
     }
 
@@ -797,7 +760,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->ctrl->redirect($this, 'materials');
     }
 
-    public function saveObject(bool $a_redirect_on_success = true) : bool
+    public function saveObject(bool $a_redirect_on_success = true) : void
     {
         $ilErr = $this->ilErr;
         $ilUser = $this->user;
@@ -810,7 +773,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->initForm('create');
         $ilErr->setMessage('');
         if (!$this->form->checkInput()) {
-            $ilErr->setMessage($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('err_check_input')
+            );
+            $this->form->setValuesByPost();
+            $this->createObject();
+            return;
         }
 
         if ($this->record_gui instanceof \ilAdvancedMDRecordGUI && !$this->record_gui->importEditFormPostValues()
@@ -828,7 +797,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->tpl->setOnScreenMessage('failure', $ilErr->getMessage());
             $this->form->setValuesByPost();
             $this->createObject();
-            return false;
         }
         // Create session
         $this->object->create();
@@ -869,13 +837,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $object_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
         
-        $this->createRecurringSessions($this->form->getInput("lp_preset"));
+        $this->createRecurringSessions((bool) $this->form->getInput("lp_preset"));
 
         if ($a_redirect_on_success) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('event_add_new_event'), true);
             $this->ctrl->returnToParent($this);
         }
-        return true;
     }
     
     public function handleFileUpload() : void
@@ -982,7 +949,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         return true;
     }
 
-    public function editObject() : bool
+    public function editObject() : void
     {
         $this->tabs_gui->setTabActive('settings');
         
@@ -991,7 +958,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->tpl->setVariable('EVENT_EDIT_TABLE', $this->form->getHTML());
         
         if (!count($this->object->getFiles())) {
-            return true;
+            return;
         }
         $rows = [];
         foreach ($this->object->getFiles() as $file) {
@@ -1010,11 +977,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $table_gui->addMultiCommand("confirmDeleteFiles", $this->lng->txt("delete"));
         $table_gui->setSelectAllCheckbox("file_id");
         $this->tpl->setVariable('EVENT_FILE_TABLE', $table_gui->getHTML());
-
-        return true;
     }
 
-    public function updateObject() : bool
+    public function updateObject() : void
     {
         $ilErr = $this->ilErr;
         $object_service = $this->object_service;
@@ -1024,14 +989,25 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->initForm('edit');
         $ilErr->setMessage('');
         if (!$this->form->checkInput()) {
-            $ilErr->setMessage($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('err_check_input')
+            );
+            $this->form->setValuesByPost();
+            $this->editObject();
+            return;
         }
 
         if (
             $this->record_gui instanceof \ilAdvancedMDRecordGUI &&
             !$this->record_gui->importEditFormPostValues()
         ) {
-            $ilErr->setMessage($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('err_check_input')
+            );
+            $this->form->setValuesByPost();
+            $this->editObject();
         }
 
         $this->load();
@@ -1042,7 +1018,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (strlen($ilErr->getMessage())) {
             $this->tpl->setOnScreenMessage('failure', $ilErr->getMessage());
             $this->editObject();
-            return false;
         }
         // Update event
         $this->object->update();
@@ -1070,8 +1045,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('event_updated'), true);
         $this->ctrl->redirect($this, 'edit');
-
-        return true;
     }
 
     public function confirmDeleteFilesObject() : bool
@@ -1448,8 +1421,16 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
     }
 
+    protected function __showButton(string $cmd, string $text, string $target = '') : void
+    {
+        $this->toolbar->addButton($text, $this->ctrl->getLinkTarget($this, $cmd), $target);
+    }
+
     protected function initForm(string $a_mode) : bool
     {
+        if ($this->form instanceof ilPropertyFormGUI) {
+            return true;
+        }
         $ilUser = $this->user;
         $object_service = $this->object_service;
         $this->lng->loadLanguageModule('dateplaner');
@@ -1503,6 +1484,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // title
         $title = new ilTextInputGUI($this->lng->txt('event_title'), 'title');
+        $title->setRequired(true);
         $title->setValue($this->object->getTitle());
         $title->setSize(50);
         $title->setMaxLength(70);

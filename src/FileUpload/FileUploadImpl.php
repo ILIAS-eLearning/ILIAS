@@ -20,6 +20,7 @@ use Psr\Http\Message\UploadedFileInterface;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use ILIAS\HTTP\GlobalHttpState;
+use ilFileUtils;
 
 /******************************************************************************
  *
@@ -221,7 +222,7 @@ final class FileUploadImpl implements FileUpload
      */
     public function uploadSizeLimit() : int
     {
-        return \ilUtil::getUploadSizeLimitBytes();
+        return ilFileUtils::getUploadSizeLimitBytes();
     }
 
 

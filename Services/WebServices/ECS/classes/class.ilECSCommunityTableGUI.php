@@ -15,12 +15,7 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSCommunityTableGUI extends ilTable2GUI
 {
@@ -31,14 +26,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
     private ilECSSetting $server;
     private int $cid;
     
-    /**
-     * constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct(ilECSSetting $set, $a_parent_obj, $a_parent_cmd, $cid)
+    public function __construct(ilECSSetting $set, ?object $a_parent_obj, string $a_parent_cmd, int $cid)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -56,7 +44,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('ecs_tbl_import'), 'import', '5%');
         $this->addColumn($this->lng->txt('ecs_tbl_import_type'), 'type', '10%');
 
-        if ($this->access->checkAccess('write', '', intval($_REQUEST["ref_id"]))) {
+        if ($this->access->checkAccess('write', '', (int) $_REQUEST["ref_id"])) {
             $this->addColumn('', 'actions', '10%');
         }
 
@@ -71,9 +59,8 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 
     /**
      * Get current server
-     * @return ilECSSetting
      */
-    public function getServer()
+    public function getServer() : ilECSSetting
     {
         return $this->server;
     }
@@ -81,9 +68,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
     /**
      * Fill row
      *
-     * @access public
      * @param array row data
-     *
      */
     public function fillRow(array $a_set) : void
     {
@@ -127,7 +112,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TXT_OBJ_IINFO', $this->lng->txt('disabled'));
         }
         // :TODO: what types are to be supported?
-        $sel = ilUtil::formSelect(
+        $sel = ilLegacyFormElementsUtil::formSelect(
             $part->getImportType(),
             'import_type[' . $this->getServer()->getServerId() . '][' . $a_set['mid'] . ']',
             array(
@@ -188,7 +173,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
                 break;
         }
 
-        if ($this->access->checkAccess('write', '', intval($_REQUEST["ref_id"]))) {
+        if ($this->access->checkAccess('write', '', (int) $_REQUEST["ref_id"])) {
             $this->tpl->setCurrentBlock("actions");
             $this->tpl->setVariable('ACTIONS', $list->getHTML());
             $this->tpl->parseCurrentBlock();
@@ -196,15 +181,11 @@ class ilECSCommunityTableGUI extends ilTable2GUI
     }
     
     /**
-     * Parse
-     *
-     * @access public
-     * @param array array of LDAPRoleAssignmentRule
-     *
+     * @param ilECSCommunity[] $a_participants list of participants
      */
-    public function parse($a_participants)
+    public function parse(array $participants) : void
     {
-        foreach ($a_participants as $participant) {
+        foreach ($participants as $participant) {
             $tmp_arr['mid'] = $participant->getMID();
             $tmp_arr['participants'] = $participant->getParticipantName();
             $tmp_arr['description'] = $participant->getDescription();

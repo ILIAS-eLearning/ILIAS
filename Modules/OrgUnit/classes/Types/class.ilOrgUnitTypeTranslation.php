@@ -3,7 +3,6 @@
 /**
  * Class ilOrgUnitTypeTranslation
  * This class represents a translation for a given ilOrgUnit object and language.
- *
  * @author: Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class ilOrgUnitTypeTranslation
@@ -42,7 +41,6 @@ class ilOrgUnitTypeTranslation
      */
     protected static $instances = array();
 
-
     public function __construct($a_org_type_id = 0, $a_lang_code = '')
     {
         global $DIC;
@@ -65,10 +63,8 @@ class ilOrgUnitTypeTranslation
     /**
      * Get instance of an ilOrgUnitType object
      * Returns object from cache or from database, returns null if no object was found
-     *
      * @param int    $a_orgu_type_id ID of an ilOrgUnitType object
      * @param string $a_lang_code    Language code
-     *
      * @return ilOrgUnitTypeTranslation|null
      */
     public static function getInstance($a_orgu_type_id, $a_lang_code)
@@ -91,12 +87,9 @@ class ilOrgUnitTypeTranslation
         }
     }
 
-
     /**
      * Get all translation objects for a given OrgUnit type ID
-     *
      * @param int $a_orgu_type_id
-     *
      * @return array
      */
     public static function getAllTranslations($a_orgu_type_id)
@@ -104,7 +97,8 @@ class ilOrgUnitTypeTranslation
         global $DIC;
         $ilDB = $DIC['ilDB'];
         /** @var ilDB $ilDB */
-        $sql = 'SELECT DISTINCT lang FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $ilDB->quote($a_orgu_type_id, 'integer');
+        $sql = 'SELECT DISTINCT lang FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $ilDB->quote($a_orgu_type_id,
+                'integer');
         $set = $ilDB->query($sql);
         $objects = array();
         while ($rec = $ilDB->fetchObject($set)) {
@@ -117,16 +111,13 @@ class ilOrgUnitTypeTranslation
         return $objects;
     }
 
-
     /**
      * Checks if there exists a translation for a given member/value/lang triple
      * for any other OrgUnit than the OrgUnit ID provided.
-     *
      * @param int    $a_orgu_type_id
      * @param string $a_member
      * @param string $a_value
      * @param string $a_lang
-     *
      * @return bool
      */
     public static function exists($a_orgu_type_id, $a_member, $a_lang, $a_value)
@@ -144,12 +135,9 @@ class ilOrgUnitTypeTranslation
         return ($ilDB->numRows($set)) ? true : false;
     }
 
-
     /**
      * Get translated value for a member, returns null if no translation exists.
-     *
      * @param string $a_member Name of the variable, e.g. title,description
-     *
      * @return string|null
      */
     public function getMember($a_member)
@@ -157,10 +145,8 @@ class ilOrgUnitTypeTranslation
         return (isset($this->members[$a_member])) ? (string) $this->members[$a_member] : null;
     }
 
-
     /**
      * Set translation value for a member, either update or add value
-     *
      * @param string $a_member Name of the variable, e.g. title,description
      * @param string $a_value  Value of the translation
      */
@@ -170,7 +156,6 @@ class ilOrgUnitTypeTranslation
         $this->members[$a_member] = (string) $a_value;
         $this->trackChange($a_member, $is_new);
     }
-
 
     /**
      * Insert all translated member into database
@@ -182,7 +167,6 @@ class ilOrgUnitTypeTranslation
         }
         $this->resetTrackChanges();
     }
-
 
     /**
      * Update translations in database. Newly added members are inserted.
@@ -200,21 +184,19 @@ class ilOrgUnitTypeTranslation
         $this->resetTrackChanges();
     }
 
-
     /**
      * Delete object
      */
     public function delete()
     {
-        $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $this->db->quote($this->getOrguTypeId(), 'integer') .
+        $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $this->db->quote($this->getOrguTypeId(),
+                'integer') .
             ' AND lang = ' . $this->db->quote($this->getLang(), 'text');
         $this->db->manipulate($sql);
     }
 
-
     /**
      * Delete every translation existing for a given OrgUnit type id
-     *
      * @param $a_orgu_type_id
      */
     public static function deleteAllTranslations($a_orgu_type_id)
@@ -233,7 +215,6 @@ class ilOrgUnitTypeTranslation
 
     /**
      * Insert a (member,value) pair in database
-     *
      * @param $member
      * @param $value
      */
@@ -247,10 +228,8 @@ class ilOrgUnitTypeTranslation
         ));
     }
 
-
     /**
      * Update a (member,value) pair in database
-     *
      * @param $member
      * @param $value
      */
@@ -265,10 +244,8 @@ class ilOrgUnitTypeTranslation
         ));
     }
 
-
     /**
      * Track a member that was either updated or added
-     *
      * @param string $a_member Name of a variable, e.g. title,description
      * @param bool   $is_new   True if the member did not exist before
      */
@@ -282,7 +259,6 @@ class ilOrgUnitTypeTranslation
         }
     }
 
-
     /**
      * Reset tracked members
      */
@@ -292,15 +268,14 @@ class ilOrgUnitTypeTranslation
         $this->members_new = array();
     }
 
-
     /**
      * Read object data from database
-     *
      * @throws ilOrgUnitTypeException
      */
     protected function read()
     {
-        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $this->db->quote($this->orgu_type_id, 'integer') .
+        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $this->db->quote($this->orgu_type_id,
+                'integer') .
             ' AND lang = ' . $this->db->quote($this->lang, 'text');
         $set = $this->db->query($sql);
         if (!$this->db->numRows($set)) {
@@ -324,7 +299,6 @@ class ilOrgUnitTypeTranslation
         $this->lang = $lang;
     }
 
-
     /**
      * @return string
      */
@@ -332,7 +306,6 @@ class ilOrgUnitTypeTranslation
     {
         return $this->lang;
     }
-
 
     /**
      * @return array
@@ -342,7 +315,6 @@ class ilOrgUnitTypeTranslation
         return $this->members;
     }
 
-
     /**
      * @return int
      */
@@ -350,7 +322,6 @@ class ilOrgUnitTypeTranslation
     {
         return $this->orgu_type_id;
     }
-
 
     /**
      * @param int $id

@@ -39,7 +39,7 @@ class ilCalendarAppointmentTemplate
     protected ?ilDateTime $start = null;
     protected ?ilDateTime $end = null;
     protected bool $fullday = false;
-    protected int $translation_type = IL_CAL_TRANSLATION_SYSTEM;
+    protected int $translation_type = ilCalendarEntry::TRANSLATION_SYSTEM;
 
     public function __construct(int $a_id)
     {

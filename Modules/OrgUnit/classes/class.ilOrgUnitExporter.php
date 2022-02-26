@@ -3,10 +3,8 @@
 
 /**
  * Class ilOrgUnitExporter
- *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilOrgUnitExporter extends ilCategoryExporter
 {
@@ -33,10 +31,8 @@ class ilOrgUnitExporter extends ilCategoryExporter
         return $writer;
     }
 
-
     /**
      * @param $orgu_ref_id
-     *
      * @return string
      */
     protected function getExternalId($orgu_ref_id)
@@ -46,17 +42,14 @@ class ilOrgUnitExporter extends ilCategoryExporter
         return $import_id ?: $this->buildExternalId($orgu_ref_id);
     }
 
-
     /**
      * @param $orgu_ref_id int
-     *
      * @return string
      */
     protected function buildExternalId($orgu_ref_id)
     {
         return "orgu_" . CLIENT_ID . "_" . $orgu_ref_id;
     }
-
 
     /**
      * @param $orgu_ref_id
@@ -101,7 +94,6 @@ class ilOrgUnitExporter extends ilCategoryExporter
         $worksheet->sendToClient($file_name);
     }
 
-
     public function sendAndCreateSimpleExportFile()
     {
         $orgu_id = ilObjOrgUnit::getRootOrgId();
@@ -145,7 +137,6 @@ class ilOrgUnitExporter extends ilCategoryExporter
         );
     }
 
-
     private function getStructure($root_node_ref)
     {
         global $DIC;
@@ -165,10 +156,8 @@ class ilOrgUnitExporter extends ilCategoryExporter
         return $closed;
     }
 
-
     /**
      * @param $orgu ilObjOrgUnit
-     *
      * @return array
      */
     private function getAttributesForOrgu($orgu)
@@ -183,7 +172,12 @@ class ilOrgUnitExporter extends ilCategoryExporter
         }
         // Only the ref id is guaranteed to be unique.
         $ref_id = $orgu->getRefId();
-        $attr = array("ou_id" => $this->getExternalId($ref_id), "ou_id_type" => "external_id", "ou_parent_id" => $ou_parent_id, "ou_parent_id_type" => "external_id", "action" => "create");
+        $attr = array("ou_id" => $this->getExternalId($ref_id),
+                      "ou_id_type" => "external_id",
+                      "ou_parent_id" => $ou_parent_id,
+                      "ou_parent_id_type" => "external_id",
+                      "action" => "create"
+        );
 
         return $attr;
     }

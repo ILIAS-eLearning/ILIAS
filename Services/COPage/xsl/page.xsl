@@ -1116,7 +1116,7 @@
 		<subchar><xsl:value-of select="$subchar"/></subchar> -->
 
 		 <xsl:if test="$subchar = $filetype or $filetype='-1'">
-			 <span style="margin-left: 5px"><a href="{$link}" ><img src="{$image}" align="middle" alt="{$title}" border="0" /></a></span>
+			 <span style="margin-left: 5px"><a href="{$link}" ><img src="{$image}" alt="{$title}" border="0" /></a></span>
 		 </xsl:if>
 </xsl:template>
 
@@ -1369,17 +1369,7 @@
 		<br/>
 	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
-	<xsl:choose>
-		<xsl:when test="@HorizontalAlign = 'Left'">
-			<div align="left"><xsl:call-template name="TableTag" /></div>
-		</xsl:when>
-		<xsl:when test="@HorizontalAlign = 'Right'">
-			<div align="right"><xsl:call-template name="TableTag" /></div>
-		</xsl:when>
-		<xsl:otherwise>
-			<xsl:call-template name="TableTag" />
-		</xsl:otherwise>
-	</xsl:choose>
+	<xsl:call-template name="TableTag" />
 </xsl:template>
 
 <!-- Table Tag -->
@@ -1438,6 +1428,14 @@
 			</xsl:if>
 		</xsl:attribute>
 	</xsl:if>
+	<xsl:choose>
+		<xsl:when test="@HorizontalAlign = 'Left'">
+			<xsl:attribute name="style">margin-right:auto; margin-left:0;</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@HorizontalAlign = 'Right'">
+			<xsl:attribute name="style">margin-right:0; margin-left:auto;</xsl:attribute>
+		</xsl:when>
+	</xsl:choose>
 	<xsl:for-each select="Caption">
 		<caption>
 		<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='caption']/@Value">
@@ -1450,7 +1448,7 @@
 	<xsl:variable name = "rows" select = "count(./TableRow)"/>
 	<xsl:for-each select = "TableRow">
 		<xsl:variable name = "rowpos" select = "position()"/>
-		<tr valign="top">
+		<tr style="vertical-align: top">
 			<xsl:variable name = "cols" select = "count(./TableData)"/>
 			<xsl:for-each select = "TableData">
 				<xsl:if test="not(@Hidden) or @Hidden != 'Y'">
@@ -1919,19 +1917,19 @@
 	<!-- Alignment Part 1 (Left, Center, Right)-->
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
 		and $mode != 'fullscreen' and $mode != 'media'">
-		<div align="left" style="clear:both;">
+		<div style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Center'
 		or $mode = 'fullscreen' or $mode = 'media'">
-		<div align="center" style="clear:both;">
+		<div style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
 		and $mode != 'fullscreen' and $mode != 'media'">
-		<div align="right" style="clear:both;">
+		<div style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
@@ -1939,7 +1937,7 @@
 		and $mode != 'fullscreen' and $mode != 'media'">
 		<xsl:choose>
 			<xsl:when test="name(..) = 'InteractiveImage' and $mode = 'edit'">
-			<div align="right" style="clear:both;">
+			<div style="clear:both; margin-right:0; margin-left:auto; display: table;">
 				<xsl:call-template name="MOBTable"/>
 			</div>
 			</xsl:when>
@@ -1954,7 +1952,7 @@
 	</xsl:if>
 	<xsl:if test="count(../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign) = 0
 		and $mode != 'fullscreen' and $mode != 'media'">
-		<div align="left" style="clear:both;">
+		<div style="clear:both; margin-right:auto; margin-left:0; display: table;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
@@ -2094,7 +2092,7 @@
 		</xsl:variable>
 		<xsl:variable name="captiondisplay">
 			<xsl:choose>
-				<xsl:when test="$figuredisplay = 'display:table;'">
+				<xsl:when test="contains($figuredisplay, 'display:table;')">
 					display: table-caption; caption-side: bottom;
 				</xsl:when>
 				<xsl:otherwise>
@@ -2116,15 +2114,17 @@
 				and $mode != 'fullscreen' and $mode != 'media'">
 				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">float:right; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-right: 0px;</xsl:if></xsl:attribute>
 			</xsl:if>
-
-			<!-- make object fit to left/right border -->
 			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
-				and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
-				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/> margin-left: 0px;</xsl:attribute>
+				and $mode != 'fullscreen' and $mode != 'media'">
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/>margin-right:auto; margin-left:0; </xsl:attribute>
 			</xsl:if>
 			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
-				and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
-				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/> margin-right: 0px;</xsl:attribute>
+				and $mode != 'fullscreen' and $mode != 'media'">
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/>margin-right:0; margin-left:auto; </xsl:attribute>
+			</xsl:if>
+			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Center'
+				and $mode != 'fullscreen' and $mode != 'media'">
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/>margin-right:auto; margin-left:auto;</xsl:attribute>
 			</xsl:if>
 
 			<!-- build object tag -->
@@ -2951,7 +2951,7 @@
 		<xsl:when test="$fullscreen_link = 'fullscreen.html'">
 			<a target="_blank">
 			<xsl:attribute name="href">fullscreen_<xsl:value-of select="substring-after($cmobid,'mob_')"/>.html</xsl:attribute>
-			<img border="0" align="right">
+			<img style="float: right">
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 			</img>
 			</a>
@@ -2959,7 +2959,7 @@
 		<xsl:otherwise>
 			<a target="_blank">
 			<xsl:attribute name="onclick">il.COPagePres.openFullScreenModal('<xsl:value-of select="$fullscreen_link"/>&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;pg_id=<xsl:value-of select="$pg_id"/>'); return false;</xsl:attribute>
-			<img border="0" align="right">
+			<img style="float: right">
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 			</img>
 			</a>
@@ -3775,7 +3775,7 @@
 			<xsl:if test="$mode = 'edit'">
 				<xsl:attribute name="class">flex-col flex-grow copg-edit-container</xsl:attribute>
 			</xsl:if>
-			<div>	<!-- this div enforces margin collapsing, see bug 31536 -->
+			<div style="height:100%">	<!-- this div enforces margin collapsing, see bug 31536, for height see 32067 -->
 				<xsl:if test="$mode = 'edit'">
 					<xsl:call-template name="EditReturnAnchors"/>
 				</xsl:if>

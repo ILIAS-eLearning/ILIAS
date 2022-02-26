@@ -75,16 +75,16 @@ class ilWorkspaceFolderSorting
     {
         switch ($sorting) {
             case self::SORT_ALPHABETICAL_ASC:
-                $nodes = ilUtil::sortArray($nodes, "title", "asc");
+                $nodes = ilArrayUtil::sortArray($nodes, "title", "asc");
                 break;
             case self::SORT_ALPHABETICAL_DESC:
-                $nodes = ilUtil::sortArray($nodes, "title", "desc");
+                $nodes = ilArrayUtil::sortArray($nodes, "title", "desc");
                 break;
             case self::SORT_CREATION_ASC:
-                $nodes = ilUtil::sortArray($nodes, "create_date", "asc");
+                $nodes = ilArrayUtil::sortArray($nodes, "create_date", "asc");
                 break;
             case self::SORT_CREATION_DESC:
-                $nodes = ilUtil::sortArray($nodes, "create_date", "desc");
+                $nodes = ilArrayUtil::sortArray($nodes, "create_date", "desc");
                 break;
         }
         return $nodes;

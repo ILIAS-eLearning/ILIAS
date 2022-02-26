@@ -61,7 +61,7 @@ class ilContSkillAdminGUI
 
         $this->container_gui = $a_container_gui;
         /* @var $obj ilContainer */
-        $obj = $this->container_gui->object;
+        $obj = $this->container_gui->getObject();
         $this->container = $obj;
         $this->ref_id = $this->container->getRefId();
 

@@ -53,7 +53,7 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
      */
     public function isEditable() : bool
     {
-        return (!$this->gs_item instanceof Lost);
+        return (!$this->raw_item instanceof Lost);
     }
 
 
@@ -62,7 +62,7 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
      */
     public function isDeletable() : bool
     {
-        return ($this->gs_item instanceof Lost);
+        return ($this->raw_item instanceof Lost);
     }
 
 

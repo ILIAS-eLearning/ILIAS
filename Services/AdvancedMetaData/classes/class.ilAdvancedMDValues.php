@@ -303,7 +303,7 @@ class ilAdvancedMDValues
         
         // object record selection
 
-        $source_sel = ilAdvancedMDRecord::getObjRecSelection($a_source_id, $a_sub_type);
+        $source_sel = ilAdvancedMDRecord::getObjRecSelection($a_source_id, (string) $a_sub_type);
         if ($source_sel) {
             $target_sel = array();
             foreach ($source_sel as $record_id) {

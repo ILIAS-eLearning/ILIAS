@@ -3,11 +3,8 @@
 
 /**
  * Class ilObjOrgUnitListGUI
- *
- *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilObjOrgUnitListGUI extends ilObjectListGUI
 {
@@ -17,7 +14,6 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
      */
     protected $tpl;
 
-
     public function __construct()
     {
         global $DIC;
@@ -26,7 +22,6 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         $this->tpl = $tpl;
         //$this->enableComments(false, false);
     }
-
 
     /**
      * initialisation
@@ -48,7 +43,6 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         $this->commands = ilObjOrgUnitAccess::_getCommands();
     }
 
-
     /**
      * no timing commands needed in orgunits.
      */
@@ -57,7 +51,6 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         return;
     }
 
-
     /**
      * no social commands needed in orgunits.
      */
@@ -65,7 +58,6 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     {
         return;
     }
-
 
     /**
      * insert info screen command
@@ -78,13 +70,12 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         $cmd_link = $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
         $cmd_frame = $this->getCommandFrame("infoScreen");
 
-        $this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame, ilUtil::getImagePath("icon_info.svg"));
+        $this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame,
+            ilUtil::getImagePath("icon_info.svg"));
     }
-
 
     /**
      * @param string $a_cmd
-     *
      * @return string
      */
     public function getCommandLink($a_cmd)
@@ -93,7 +84,6 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
 
         return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $a_cmd);
     }
-
 
     public function insertIconsAndCheckboxes()
     {
@@ -132,7 +122,8 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
 
             parent::insertIconsAndCheckboxes();
             $this->tpl->setCurrentBlock("icon");
-            $this->tpl->setVariable("ALT_ICON", $lng->txt("icon") . " " . $lng->txt("obj_" . $this->getIconImageType()));
+            $this->tpl->setVariable("ALT_ICON",
+                $lng->txt("icon") . " " . $lng->txt("obj_" . $this->getIconImageType()));
             $this->tpl->setVariable("SRC_ICON", $icon_file);
             $this->tpl->parseCurrentBlock();
             $this->enableIcon(true);

@@ -14,6 +14,7 @@
  */
 
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 
 /**
  * Class ilUserUtil
@@ -238,7 +239,7 @@ class ilUserUtil
             $all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
         }
 
-        if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+        if ((new ilMyStaffCachedAccessDecorator($DIC, ilMyStaffAccess::getInstance()))->hasCurrentUserAccessToMyStaff()) {
             $all[self::START_PD_MYSTAFF] = 'my_staff';
         }
     

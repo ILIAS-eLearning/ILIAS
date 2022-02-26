@@ -41,10 +41,7 @@ class ilLTIProviderObjectSettingGUI
      */
     protected ?ilLanguage $lng = null;
     
-    /**
-     * @var ilTemplate
-     */
-    protected ?ilTemplate $tpl = null;
+    protected ?\ilGlobalPageTemplate $tpl = null;
     
     /**
      * @var int
@@ -264,7 +261,7 @@ class ilLTIProviderObjectSettingGUI
             }
         }
         
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'settings');
     }
     

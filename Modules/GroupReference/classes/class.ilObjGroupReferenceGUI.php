@@ -30,7 +30,7 @@ class ilObjGroupReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBa
      *
      * @access public
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         parent::executeCommand();
     }

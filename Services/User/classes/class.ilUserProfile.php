@@ -482,7 +482,6 @@ class ilUserProfile
         $ilSetting = $DIC['ilSetting'];
         $lng = $DIC['lng'];
         $rbacreview = $DIC['rbacreview'];
-        $ilias = $DIC['ilias'];
 
         $registration_settings = null;
 
@@ -656,7 +655,7 @@ class ilUserProfile
                             $global_roles = $rbacreview->getGlobalRoles();
                             foreach ($global_roles as $role_id) {
                                 if (in_array($role_id, $rbacreview->assignedRoles($a_user->getId()))) {
-                                    $roleObj = $ilias->obj_factory->getInstanceByObjId($role_id);
+                                    $roleObj = ilObjectFactory::getInstanceByObjId($role_id);
                                     $role_names .= $roleObj->getTitle() . ", ";
                                     unset($roleObj);
                                 }
@@ -732,7 +731,7 @@ class ilUserProfile
                             $ta = new ilPasswordInputGUI($lng->txt($lv), "usr_" . $f);
                             $ta->setUseStripSlashes(false);
                             $ta->setRequired(true);
-                            $ta->setInfo(ilUtil::getPasswordRequirementsInfo());
+                            $ta->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
                         // $ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
                         } else {
                             $ta = new ilNonEditableValueGUI($lng->txt($lv));

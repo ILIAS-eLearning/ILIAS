@@ -92,7 +92,7 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
                 $post_var = $n["post_var"];
             }
             $value = $id;
-            $item_html = ilUtil::formCheckbox(
+            $item_html = ilLegacyFormElementsUtil::formCheckbox(
                 $n["checked"],
                 $post_var,
                 $value,

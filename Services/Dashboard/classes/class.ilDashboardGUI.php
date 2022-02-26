@@ -252,9 +252,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     {
         // preload block settings
         ilBlockSetting::preloadPDBlockSettings();
-
-        // display infopanel if something happened
-        ilUtil::infoPanel();
         
         $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_dshs.svg"));
@@ -372,9 +369,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     public function prepareContentView() : void
     {
         $this->tpl->loadStandardTemplate();
-                
-        // display infopanel if something happened
-        ilUtil::infoPanel();
 
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd.svg"));
         $this->tpl->setTitle($this->lng->txt("personal_desktop"));

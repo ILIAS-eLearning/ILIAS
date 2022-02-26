@@ -3,9 +3,7 @@
 
 /**
  * Class ilDclTableListGUI
- *
  * @author       Theodor Truffer <tt@studer-raimann.ch>
- *
  * @ilCtrl_Calls ilDclTableListGUI: ilDclFieldListGUI, ilDclFieldEditGUI, ilDclTableViewGUI, ilDclTableEditGUI
  */
 class ilDclTableListGUI
@@ -32,10 +30,8 @@ class ilDclTableListGUI
      */
     protected $toolbar;
 
-
     /**
      * ilDclTableListGUI constructor.
-     *
      * @param ilObjDataCollectionGUI $a_parent_obj
      */
     public function __construct(ilObjDataCollectionGUI $a_parent_obj)
@@ -62,7 +58,6 @@ class ilDclTableListGUI
         }
     }
 
-
     /**
      * execute command
      */
@@ -76,7 +71,8 @@ class ilDclTableListGUI
         /*
          * see https://www.ilias.de/mantis/view.php?id=22775
          */
-        $tableHelper = new ilDclTableHelper((int) $this->obj_id, (int) $_GET['ref_id'], $DIC->rbac()->review(), $DIC->user(), $DIC->database());
+        $tableHelper = new ilDclTableHelper((int) $this->obj_id, (int) $_GET['ref_id'], $DIC->rbac()->review(),
+            $DIC->user(), $DIC->database());
         // send a warning if there are roles with rbac read access on the data collection but without read access on any standard view
         $role_titles = $tableHelper->getRoleTitlesWithoutReadRightOnAnyStandardView();
 
@@ -90,7 +86,8 @@ class ilDclTableListGUI
                 if ($cmd != 'create') {
                     $this->setTabs('settings');
                 } else {
-                    $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'listTables'));
+                    $this->tabs->setBackTarget($this->lng->txt('back'),
+                        $this->ctrl->getLinkTarget($this, 'listTables'));
                 }
                 $ilDclTableEditGUI = new ilDclTableEditGUI($this);
                 $this->ctrl->forwardCommand($ilDclTableEditGUI);
@@ -126,7 +123,6 @@ class ilDclTableListGUI
         }
     }
 
-
     public function listTables()
     {
         $add_new = ilLinkButton::getInstance();
@@ -139,16 +135,17 @@ class ilDclTableListGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-
     protected function setTabs($active)
     {
         $this->tabs->setBackTarget($this->lng->txt('dcl_tables'), $this->ctrl->getLinkTarget($this, 'listTables'));
-        $this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
-        $this->tabs->addTab('fields', $this->lng->txt('dcl_list_fields'), $this->ctrl->getLinkTargetByClass('ilDclFieldListGUI', 'listFields'));
-        $this->tabs->addTab('tableviews', $this->lng->txt('dcl_tableviews'), $this->ctrl->getLinkTargetByClass('ilDclTableViewGUI'));
+        $this->tabs->addTab('settings', $this->lng->txt('settings'),
+            $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
+        $this->tabs->addTab('fields', $this->lng->txt('dcl_list_fields'),
+            $this->ctrl->getLinkTargetByClass('ilDclFieldListGUI', 'listFields'));
+        $this->tabs->addTab('tableviews', $this->lng->txt('dcl_tableviews'),
+            $this->ctrl->getLinkTargetByClass('ilDclTableViewGUI'));
         $this->tabs->setTabActive($active);
     }
-
 
     /**
      *
@@ -170,7 +167,6 @@ class ilDclTableListGUI
         }
         $this->ctrl->redirect($this);
     }
-
 
     /**
      * Confirm deletion of multiple fields
@@ -194,7 +190,6 @@ class ilDclTableListGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-
     /**
      *
      */
@@ -208,10 +203,8 @@ class ilDclTableListGUI
         $this->ctrl->redirect($this, 'listTables');
     }
 
-
     /**
      * redirects if there are no tableviews left after deletion of {$delete_count} tableviews
-     *
      * @param $delete_count number of tableviews to delete
      */
     public function checkTablesLeft($delete_count)
@@ -222,7 +215,6 @@ class ilDclTableListGUI
         }
     }
 
-
     /**
      * @return bool
      */
@@ -232,7 +224,6 @@ class ilDclTableListGUI
 
         return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
     }
-
 
     /**
      * @return ilObjDataCollection

@@ -63,7 +63,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         
-        $row['chb'] = ilUtil::formCheckbox(false, 'category_ids[]', $row['category_id']);
+        $row['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'category_ids[]', $row['category_id']);
 
         $action = new ilAdvancedSelectionListGUI();
         $action->setId('asl_content_' . $row['category_id']);

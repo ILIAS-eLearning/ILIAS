@@ -15,10 +15,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
      */
     protected $rbacsystem;
     protected ilErrorHandling $error;
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
+    public ilLanguage $lng;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {

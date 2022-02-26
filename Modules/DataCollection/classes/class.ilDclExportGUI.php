@@ -3,7 +3,6 @@
 
 /**
  * Export User Interface Class
- *
  * @author       Michael Herren <mh@studer-raimann.ch>
  */
 class ilDclExportGUI extends ilExportGUI
@@ -19,7 +18,6 @@ class ilDclExportGUI extends ilExportGUI
         return $table;
     }
 
-
     /**
      * overwrite to check if exportable fields are available (for async xls export)
      */
@@ -32,10 +30,8 @@ class ilDclExportGUI extends ilExportGUI
         parent::createExportFile();
     }
 
-
     /**
      * send failure and redirect if no exportable fields
-     *
      * @return bool
      */
     protected function checkForExportableFields()

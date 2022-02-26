@@ -324,8 +324,8 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 [//]: # (BEGIN Dashboard)
 
 * **Dashboard**
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
+	* 1st Maintainer: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html) and [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
+	* 2nd Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [silvia.marine](https://docu.ilias.de/goto_docu_usr_71642.html)
 
@@ -798,9 +798,9 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 * **Portfolio**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* 2nd Maintainer: N.A.
-	* Testcases: [KlausVorkauf](https://docu.ilias.de/goto_docu_usr_5890.html)
-	* Tester: [KlausVorkauf](https://docu.ilias.de/goto_docu_usr_5890.html)
-	  and [ob1013](https://docu.ilias.de/goto_docu_usr_71172.html) (for Portfolio Template)
+	* Testcases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
+	* Tester Portfolio: [KlausVorkauf](https://docu.ilias.de/goto_docu_usr_5890.html)
+	* Tester Portfolio Template: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 [//]: # (END Portfolio)
 

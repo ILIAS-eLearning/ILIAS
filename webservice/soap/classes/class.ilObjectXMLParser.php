@@ -1,63 +1,40 @@
 <?php
+
 /******************************************************************************
- *
  * This file is part of ILIAS, a powerful learning management system.
- *
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
  * of said license along with the source code.
- *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
  *****************************************************************************/
 class ilObjectXMLParser extends ilSaxParser
 {
     public array $object_data = array();
 
-    private $ref_id;
-    private $parent_id;
+    private int $ref_id = 0;
+    private int $parent_id = 0;
+    private int $curr_obj = 0;
+    private array $time_target = [];
+    private string $cdata = '';
 
-    /**
-    * Constructor
-    *
-    * @param	object		$a_content_object	must be of type ilObjContentObject
-    *											ilObjTest or ilObjQuestionPool
-    * @param	string		$a_xml_file			xml data
-    * @param	string		$a_subdir			subdirectory in import directory
-    * @access	public
-    */
     public function __construct($a_xml_data = '', ?bool $throw_exception = false)
     {
         parent::__construct('', $throw_exception);
         $this->setXMLContent($a_xml_data);
     }
 
-    public function getObjectData()
+    public function getObjectData() : array
     {
-        return $this->object_data ? $this->object_data : array();
+        return $this->object_data;
     }
 
-    /**
-    * parse xml file
-    *
-    * @access	private
-    * @throws ilSaxParserException
-    * @throws ilObjectXMLException
-    */
     public function parse($a_xml_parser, $a_fp = null) : void
     {
         parent::parse($a_xml_parser, $a_fp);
     }
 
-
-    /**
-    * set event handlers
-    *
-    * @param	resource	reference to the xml parser
-    * @access	private
-    */
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -65,16 +42,6 @@ class ilObjectXMLParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-
-
-
-    /**
-    * handler for begin of element
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_name				element name
-    * @param	array		$a_attribs			element attributes array
-    */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
@@ -86,7 +53,9 @@ class ilObjectXMLParser extends ilSaxParser
                 ++$this->curr_obj;
 
                 $this->__addProperty('type', $a_attribs['type']);
-                $this->__addProperty('obj_id', is_numeric($a_attribs['obj_id'])?(int) $a_attribs["obj_id"] :  ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID));
+                $this->__addProperty('obj_id',
+                    is_numeric($a_attribs['obj_id']) ? (int) $a_attribs["obj_id"] : ilUtil::__extractId($a_attribs["obj_id"],
+                        IL_INST_ID));
                 $this->__addProperty('offline', $a_attribs['offline']);
                 break;
 
@@ -135,7 +104,6 @@ class ilObjectXMLParser extends ilSaxParser
             case 'Suggestion':
                 $this->time_target['changeable'] = $a_attribs['changeable'];
 
-
                 if (isset($a_attribs['starting_time'])) {
                     $this->time_target['suggestion_start'] = $a_attribs['starting_time'];
                 }
@@ -147,12 +115,6 @@ class ilObjectXMLParser extends ilSaxParser
         }
     }
 
-    /**
-    * handler for end of element
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_name				element name
-    */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
@@ -196,12 +158,6 @@ class ilObjectXMLParser extends ilSaxParser
         return;
     }
 
-    /**
-    * handler for character data
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_data				character data
-    */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {
@@ -212,16 +168,12 @@ class ilObjectXMLParser extends ilSaxParser
         }
     }
 
-    // PRIVATE
     public function __addProperty($a_name, $a_value) : void
     {
         $this->object_data[$this->curr_obj][$a_name] = $a_value;
     }
 
-    /**
-     * @throws ilObjectXMLException
-     */
-    public function __addReference($a_ref_id, $a_parent_id, $a_time_target) : void
+    public function __addReference(int $a_ref_id, int $a_parent_id, array $a_time_target) : void
     {
         $reference['ref_id'] = $a_ref_id;
         $reference['parent_id'] = $a_parent_id;

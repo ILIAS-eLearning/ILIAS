@@ -184,9 +184,11 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
             $tpl->setVariable("PROP_COLOR_ID", $this->getFieldId() . "_" . $dir);
 
             if (substr(trim($this->getValue()), 0, 1) == "!" && $this->getAcceptNamedColors()) {
-                $tpl->setVariable("PROPERTY_VALUE_COLOR", ilUtil::prepareFormOutput(trim($this->getValue())));
+                $tpl->setVariable("PROPERTY_VALUE_COLOR",
+                    ilLegacyFormElementsUtil::prepareFormOutput(trim($this->getValue()))
+                );
             } else {
-                $tpl->setVariable("PROPERTY_VALUE_COLOR", ilUtil::prepareFormOutput($value));
+                $tpl->setVariable("PROPERTY_VALUE_COLOR", ilLegacyFormElementsUtil::prepareFormOutput($value));
                 $tpl->setVariable('INIT_COLOR', '#' . $value);
             }
 

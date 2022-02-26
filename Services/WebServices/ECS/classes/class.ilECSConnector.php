@@ -17,11 +17,6 @@
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesWebServicesECS
 */
 class ilECSConnector
 {
@@ -37,20 +32,10 @@ class ilECSConnector
     
     protected ?\ilECSSetting $settings = null;
 
-    protected $header_strings = array();
+    protected array $header_strings = [];
 
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
+    protected ilLogger $logger;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
     public function __construct(ilECSSetting $settings = null)
     {
         global $DIC;
@@ -70,26 +55,25 @@ class ilECSConnector
      * @param string $a_name
      * @param string $a_value
      */
-    public function addHeader($a_name, $a_value)
+    public function addHeader(string $a_name, string $a_value)
     {
         $this->header_strings[] = ($a_name . ': ' . $a_value);
     }
 
-    public function getHeader()
+    public function getHeader() : array
     {
-        return (array) $this->header_strings;
+        return $this->header_strings;
     }
 
-    public function setHeader($a_header_strings)
+    public function setHeader(array $a_header_strings)
     {
         $this->header_strings = $a_header_strings;
     }
 
     /**
      * Get current server setting
-     * @return ilECSSetting
      */
-    public function getServer()
+    public function getServer() : ilECSSetting
     {
         return $this->settings;
     }
@@ -102,13 +86,12 @@ class ilECSConnector
     /**
      * Add auth resource
      *
-     * @access public
      * @param string post data
-     * @return int new econtent id
+     * @return string the new hash for this authentication
      * @throws ilECSConnectorException
      *
      */
-    public function addAuth($a_post, $a_target_mid)
+    public function addAuth($a_post, $a_target_mid) : string
     {
         $this->logger->info(__METHOD__ . ': Add new Auth resource...');
 
@@ -120,7 +103,6 @@ class ilECSConnector
             $this->addHeader('Content-Type', 'application/json');
             $this->addHeader('Accept', 'application/json');
             $this->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, $a_target_mid);
-            #$this->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, 1);
 
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $this->curl->setOpt(CURLOPT_POST, true);
@@ -153,14 +135,13 @@ class ilECSConnector
     /**
      * get auth resource
      *
-     * @access public
-     * @param auth hash (transfered via GET)
+     * @return ilECSResult|ilECSEContentDetails
      * @throws ilECSConnectorException
      */
-    public function getAuth($a_hash, $a_details_only = false)
+    public function getAuth(string $a_hash, bool $a_details_only = false)
     {
         if (!strlen($a_hash)) {
-            $this->logger->info(__METHOD__ . ': No auth hash given. Aborting.');
+            $this->logger->error(__METHOD__ . ': No auth hash given. Aborting.');
             throw new ilECSConnectorException('No auth hash given.');
         }
         
@@ -195,39 +176,6 @@ class ilECSConnector
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
         }
     }
-    
-    ///////////////////////////////////////////////////////
-    // eventqueues methods
-    ///////////////////////////////////////////////////////
-    
-    /**
-     * get event queue
-     *
-     * @access public
-     * @throw ilECSConnectorException
-     * @deprecated
-     */
-    public function getEventQueues()
-    {
-        $this->path_postfix = '/eventqueues';
-
-        try {
-            $this->prepareConnection();
-            
-            $res = $this->call();
-            $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
-    
-            $this->logger->info(__METHOD__ . ': Checking HTTP status...');
-            if ($info != self::HTTP_CODE_OK) {
-                $this->logger->info(__METHOD__ . ': Cannot get event queue, did not receive HTTP 200. ');
-                throw new ilECSConnectorException('Received HTTP status code: ' . $info);
-            }
-            $this->logger->info(__METHOD__ . ': ... got HTTP 200 (ok)');
-            return new ilECSResult($res);
-        } catch (ilCurlConnectionException $exc) {
-            throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
-        }
-    }
 
     #######################################################
     # event fifo methods
@@ -235,10 +183,10 @@ class ilECSConnector
     /**
      * Read event fifo
      *
-     * @param bool set to true for deleting the current element
+     * @param bool $a_delete set to true for deleting the current element
      * @throws ilECSConnectorException
      */
-    public function readEventFifo($a_delete = false)
+    public function readEventFifo(bool $a_delete = false) : ilECSResult
     {
         $this->path_postfix = '/sys/events/fifo';
 
@@ -255,14 +203,12 @@ class ilECSConnector
 
             // Checking status code
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
-            #$this->logger->info(__METHOD__.': Checking HTTP status...');
             if ($info != self::HTTP_CODE_OK) {
                 $this->logger->info(__METHOD__ . ': Cannot read event fifo, did not receive HTTP 200. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            #$this->logger->info(__METHOD__.': ... got HTTP 200 (ok)');
-
             $result = new ilECSResult($res);
+            //TODO check if this return needs to be moved after the finally
             return $result;
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
@@ -275,7 +221,7 @@ class ilECSConnector
     // econtents methods
     ///////////////////////////////////////////////////////
 
-    public function getResourceList($a_path)
+    public function getResourceList(string $a_path) : ilECSResult
     {
         $this->path_postfix = $a_path;
 
@@ -303,16 +249,11 @@ class ilECSConnector
     /**
      * Get resources from ECS server.
      *
-     *
-     *
-     * @access public
-     * @param string resource "path"
-     * @param int e-content id
-     * @return object ECSResult
      * @throws ilECSConnectorException
      */
-    public function getResource($a_path, $a_econtent_id, $a_details_only = false)
+    public function getResource(string $a_path, int $a_econtent_id, $a_details_only = false) : ECSResult
     {
+        // TODO make handling of a_econtent_id explict like setting it to null
         if ($a_econtent_id) {
             $this->logger->info(__METHOD__ . ': Get resource with ID: ' . $a_econtent_id);
         } else {
@@ -354,8 +295,8 @@ class ilECSConnector
      * Add resource
      *
      * @access public
-     * @param string resource "path"
-     * @param string post data
+     * @param string $a_path resource "path"
+     * @param array $a_post post data
      * @return int new econtent id
      * @throws ilECSConnectorException
      *
@@ -375,7 +316,7 @@ class ilECSConnector
             $this->curl->setOpt(CURLOPT_HEADER, true);
             $this->curl->setOpt(CURLOPT_POST, true);
             $this->curl->setOpt(CURLOPT_POSTFIELDS, $a_post);
-            $res = $this->call();
+            $this->call();
             
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
     
@@ -396,13 +337,12 @@ class ilECSConnector
     /**
      * update resource
      *
-     * @access public
-     * @param string resource "path"
-     * @param int econtent id
-     * @param string post content
+     * @param string $a_path resource "path"
+     * @param int $a_econtent_id econtent id
+     * @param string $a_post_string post content
      * @throws ilECSConnectorException
      */
-    public function updateResource($a_path, $a_econtent_id, $a_post_string)
+    public function updateResource(string $a_path, int $a_econtent_id, string $a_post_string) : ilECSResult
     {
         $this->logger->info(__METHOD__ . ': Update resource with id ' . $a_econtent_id);
         
@@ -420,7 +360,7 @@ class ilECSConnector
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $this->curl->setOpt(CURLOPT_HEADER, true);
             $this->curl->setOpt(CURLOPT_PUT, true);
-            
+            //TODO migrate to filesystem->tempfile
             $tempfile = ilFileUtils::ilTempnam();
             $this->logger->info(__METHOD__ . ': Created new tempfile: ' . $tempfile);
 
@@ -447,12 +387,11 @@ class ilECSConnector
     /**
      * Delete resource
      *
-     * @access public
-     * @param string resource "path"
-     * @param string econtent id
+     * @param string $a_path resource "path"
+     * @param int $a_econtent_id econtent id
      * @throws ilECSConnectorException
      */
-    public function deleteResource($a_path, $a_econtent_id)
+    public function deleteResource(string $a_path, int $a_econtent_id) : ilECSResult
     {
         $this->logger->info(__METHOD__ . ': Delete resource with id ' . $a_econtent_id);
 
@@ -479,20 +418,17 @@ class ilECSConnector
     ///////////////////////////////////////////////////////
 
     /**
-     *
-     *
-     * @access public
-     * @param int membership id
+     * @param int $a_mid membership id
      * @throw ilECSConnectorException
      */
-    public function getMemberships($a_mid = 0)
+    public function getMemberships(int $a_mid = 0) : ilECSResult
     {
         $this->logger->info(__METHOD__ . ': Get existing memberships');
 
         $this->path_postfix = '/sys/memberships';
         if ($a_mid) {
             $this->logger->info(__METHOD__ . ': Read membership with id: ' . $a_mid);
-            $this->path_postfix .= ('/' . (int) $a_mid);
+            $this->path_postfix .= ('/' . $a_mid);
         }
         try {
             $this->prepareConnection();
@@ -516,10 +452,9 @@ class ilECSConnector
     /**
      * prepare connection
      *
-     * @access private
      * @throws ilCurlConnectionException
      */
-    protected function prepareConnection()
+    protected function prepareConnection() : void
     {
         try {
             $this->curl = new ilCurlConnection($this->settings->getServerURI() . $this->path_postfix);
@@ -559,7 +494,8 @@ class ilECSConnector
     /**
      * call peer
      *
-     * @access private
+     * @return string|bool
+     *
      * @throws ilCurlConnectionException
      */
     protected function call()

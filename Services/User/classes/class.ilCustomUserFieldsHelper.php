@@ -13,6 +13,9 @@
  * https://github.com/ILIAS-eLearning
  */
 
+// still needed, since constants are defined in ilUserDefinedFields
+include_once("./Services/User/classes/class.ilUserDefinedFields.php");
+
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
@@ -72,7 +75,7 @@ class ilCustomUserFieldsHelper
      */
     public function getActivePlugins() : array
     {
-        return $this->component_factory->getActivePluginsInSlot(ilUDFDefinitionPlugin::UDF_SLOT_ID);
+        return iterator_to_array($this->component_factory->getActivePluginsInSlot(ilUDFDefinitionPlugin::UDF_SLOT_ID));
     }
     
     /**

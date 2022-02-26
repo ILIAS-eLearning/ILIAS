@@ -132,7 +132,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
             return $object->getProvider()->getProviderIcon()->getAbsoluteFilePath();
         }
         
-        return ilObject::_getIcon($this->obj_id, "small", $this->getIconImageType());
+        return ilObject::_getIcon((int) $this->obj_id, "small", $this->getIconImageType());
     }
 
     /**
