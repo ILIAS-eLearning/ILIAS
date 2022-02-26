@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclTableViewBaseDefaultValue
- *
  * @author  Jannik Dolf <jd@studer-raimann.ch>
  */
 abstract class ilDclTableViewBaseDefaultValue extends ActiveRecord
@@ -10,7 +9,6 @@ abstract class ilDclTableViewBaseDefaultValue extends ActiveRecord
     /**
      * @param $data_type_id
      * @param $tview_id
-     *
      * @return ilDclTableViewBaseDefaultValue
      * @throws ilDclException
      */
@@ -28,7 +26,6 @@ abstract class ilDclTableViewBaseDefaultValue extends ActiveRecord
             return null;
         }
     }
-
 
     public static function findAll($data_type_id, $tview_id)
     {

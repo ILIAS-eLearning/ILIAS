@@ -3,9 +3,7 @@
 
 /**
  * Class ilDclFieldProperty
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclFieldProperty extends ActiveRecord
@@ -13,7 +11,6 @@ class ilDclFieldProperty extends ActiveRecord
 
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_unique        true
      * @db_is_primary       true
@@ -25,17 +22,14 @@ class ilDclFieldProperty extends ActiveRecord
     protected $id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        integer
      * @db_length           8
-     *
      */
     protected $field_id;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        text
@@ -44,17 +38,14 @@ class ilDclFieldProperty extends ActiveRecord
     protected $name;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_fieldtype        text
      * @db_length           128
      */
     protected $value;
 
-
     /**
      * ilDclFieldProperty constructor.
-     *
      * @param int  $primary_key
      * @param null $connector
      */
@@ -62,7 +53,6 @@ class ilDclFieldProperty extends ActiveRecord
     {
         parent::__construct($primary_key, $connector);
     }
-
 
     /**
      * @return string
@@ -73,7 +63,6 @@ class ilDclFieldProperty extends ActiveRecord
         return "il_dcl_field_prop";
     }
 
-
     /**
      * @return int
      */
@@ -81,7 +70,6 @@ class ilDclFieldProperty extends ActiveRecord
     {
         return $this->id;
     }
-
 
     /**
      * @param int $id
@@ -91,7 +79,6 @@ class ilDclFieldProperty extends ActiveRecord
         $this->id = $id;
     }
 
-
     /**
      * @return int
      */
@@ -99,7 +86,6 @@ class ilDclFieldProperty extends ActiveRecord
     {
         return $this->field_id;
     }
-
 
     /**
      * @param int $field_id
@@ -109,7 +95,6 @@ class ilDclFieldProperty extends ActiveRecord
         $this->field_id = $field_id;
     }
 
-
     /**
      * @return string
      */
@@ -117,7 +102,6 @@ class ilDclFieldProperty extends ActiveRecord
     {
         return $this->name;
     }
-
 
     /**
      * @param string $name
@@ -127,7 +111,6 @@ class ilDclFieldProperty extends ActiveRecord
         $this->name = $name;
     }
 
-
     /**
      * @return string
      */
@@ -136,7 +119,6 @@ class ilDclFieldProperty extends ActiveRecord
         return $this->value;
     }
 
-
     /**
      * @param string $value
      */
@@ -144,7 +126,6 @@ class ilDclFieldProperty extends ActiveRecord
     {
         $this->value = $value;
     }
-
 
     /**
      * @inheritdoc
@@ -155,7 +136,6 @@ class ilDclFieldProperty extends ActiveRecord
         parent::create();
     }
 
-
     /**
      * @inheritdoc
      */
@@ -165,7 +145,6 @@ class ilDclFieldProperty extends ActiveRecord
         parent::update();
     }
 
-
     /**
      * @inheritdoc
      */
@@ -174,12 +153,9 @@ class ilDclFieldProperty extends ActiveRecord
         $this->value = $this->deserializeData($this->value);
     }
 
-
     /**
      * Serialize data before storing to db
-     *
      * @param $value mixed
-     *
      * @return mixed
      */
     public function serializeData($value)
@@ -191,12 +167,9 @@ class ilDclFieldProperty extends ActiveRecord
         return $value;
     }
 
-
     /**
      * Deserialize data before applying to field
-     *
      * @param $value mixed
-     *
      * @return mixed
      */
     public function deserializeData($value)

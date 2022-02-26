@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclRecordQueryObject
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -14,7 +13,6 @@ class ilDclRecordQueryObject
     protected $groupStatement;
     protected $orderStatement;
 
-
     /**
      * @return mixed
      */
@@ -22,7 +20,6 @@ class ilDclRecordQueryObject
     {
         return $this->selectStatement;
     }
-
 
     /**
      * @param mixed $selectStatement
@@ -32,7 +29,6 @@ class ilDclRecordQueryObject
         $this->selectStatement = " " . $selectStatement;
     }
 
-
     /**
      * @return mixed
      */
@@ -40,7 +36,6 @@ class ilDclRecordQueryObject
     {
         return $this->joinStatement;
     }
-
 
     /**
      * @param mixed $joinStatement
@@ -50,7 +45,6 @@ class ilDclRecordQueryObject
         $this->joinStatement = " " . $joinStatement;
     }
 
-
     /**
      * @return mixed
      */
@@ -58,7 +52,6 @@ class ilDclRecordQueryObject
     {
         return $this->whereStatement;
     }
-
 
     /**
      * @param mixed $whereStatement
@@ -68,7 +61,6 @@ class ilDclRecordQueryObject
         $this->whereStatement = " " . $whereStatement;
     }
 
-
     /**
      * @return mixed
      */
@@ -76,7 +68,6 @@ class ilDclRecordQueryObject
     {
         return $this->groupStatement;
     }
-
 
     /**
      * @param mixed $groupStatement
@@ -86,7 +77,6 @@ class ilDclRecordQueryObject
         $this->groupStatement = " " . $groupStatement;
     }
 
-
     /**
      * @return mixed
      */
@@ -94,7 +84,6 @@ class ilDclRecordQueryObject
     {
         return $this->orderStatement;
     }
-
 
     /**
      * @param mixed $orderStatement
@@ -104,14 +93,11 @@ class ilDclRecordQueryObject
         $this->orderStatement = " " . $orderStatement;
     }
 
-
     /**
      * Apply custom sorting
-     *
      * @param ilDclBaseFieldModel $field
      * @param array               $all_records
      * @param string              $direction
-     *
      * @return array
      */
     public function applyCustomSorting(ilDclBaseFieldModel $field, array $all_records, $direction = 'asc')

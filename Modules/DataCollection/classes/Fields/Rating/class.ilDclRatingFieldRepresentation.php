@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclDateTimeREpresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -18,10 +17,10 @@ class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT, false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
+            false, $this->getField()->getId());
         $options = array("" => $this->lng->txt("dcl_any"), 1 => ">1", 2 => ">2", 3 => ">3", 4 => ">4", 5 => "5");
         $input->setOptions($options);
 
@@ -29,7 +28,6 @@ class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation
 
         return $this->getFilterInputFieldValue($input);
     }
-
 
     public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
     {

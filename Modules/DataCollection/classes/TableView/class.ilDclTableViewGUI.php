@@ -2,10 +2,8 @@
 
 /**
  * Class ilDclTableViewGUI
- *
  * @author       Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup      ModulesDataCollection
- *
  * @ilCtrl_Calls ilDclTableViewGUI: ilDclTableViewEditGUI
  */
 class ilDclTableViewGUI
@@ -36,10 +34,8 @@ class ilDclTableViewGUI
      */
     protected $table;
 
-
     /**
      * Constructor
-     *
      * @param ilDclTableListGUI $a_parent_obj
      * @param int               $table_id
      */
@@ -76,7 +72,6 @@ class ilDclTableViewGUI
         }
     }
 
-
     /**
      *
      */
@@ -88,7 +83,8 @@ class ilDclTableViewGUI
 
         switch ($next_class) {
             case 'ildcltablevieweditgui':
-                $edit_gui = new ilDclTableViewEditGUI($this, $this->table, ilDclTableView::findOrGetInstance($_GET['tableview_id']));
+                $edit_gui = new ilDclTableViewEditGUI($this, $this->table,
+                    ilDclTableView::findOrGetInstance($_GET['tableview_id']));
                 $this->ctrl->saveParameter($edit_gui, 'tableview_id');
                 $this->ctrl->forwardCommand($edit_gui);
                 break;
@@ -102,15 +98,14 @@ class ilDclTableViewGUI
         }
     }
 
-
     /**
      * @return bool
      */
     protected function checkAccess()
     {
-        return ilObjDataCollectionAccess::hasAccessToEditTable($this->parent_obj->getDataCollectionObject()->getRefId(), $this->table->getId());
+        return ilObjDataCollectionAccess::hasAccessToEditTable($this->parent_obj->getDataCollectionObject()->getRefId(),
+            $this->table->getId());
     }
-
 
     /**
      *
@@ -147,7 +142,6 @@ class ilDclTableViewGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-
     /**
      *
      */
@@ -156,7 +150,6 @@ class ilDclTableViewGUI
         $this->ctrl->setParameterByClass("ilDclTableViewGUI", "table_id", $_POST['table_id']);
         $this->ctrl->redirectByClass("ilDclTableViewGUI", "show");
     }
-
 
     /**
      * Confirm deletion of multiple fields
@@ -180,7 +173,6 @@ class ilDclTableViewGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-
     /**
      *
      */
@@ -195,10 +187,8 @@ class ilDclTableViewGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-
     /**
      * redirects if there are no tableviews left after deletion of {$delete_count} tableviews
-     *
      * @param $delete_count number of tableviews to delete
      */
     public function checkViewsLeft($delete_count)
@@ -208,7 +198,6 @@ class ilDclTableViewGUI
             $this->ctrl->redirect($this, 'show');
         }
     }
-
 
     /**
      * invoked by ilDclTableViewTableGUI

@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclBooleanFieldModel
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,7 +10,6 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
@@ -43,12 +41,9 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @param string $filter_value
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
@@ -70,12 +65,14 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     /**
      * @inheritDoc
      */
     public function getValidFieldProperties()
     {
-        return array(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS, ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK, ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU);
+        return array(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS,
+                     ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK,
+                     ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU
+        );
     }
 }
