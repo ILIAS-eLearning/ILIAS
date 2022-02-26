@@ -2443,6 +2443,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
                 }
+                $header_action = false;
                 break;
                 
             case "ilcontainerstartobjectspagegui":

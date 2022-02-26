@@ -87,7 +87,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
+        $header_action = true;
         switch ($next_class) {
 
             case strtolower(ilRepUtilGUI::class):
@@ -173,6 +174,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
                 }
+                $header_action = false;
                 break;
                 
             case 'ilobjectcopygui':
@@ -302,8 +304,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 
                 break;
         }
-        
-        $this->addHeaderAction();
+
+        if ($header_action) {
+            $this->addHeaderAction();
+        }
 
         return true;
     }
