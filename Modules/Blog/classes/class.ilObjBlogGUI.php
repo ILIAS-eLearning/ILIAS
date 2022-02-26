@@ -692,7 +692,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                                 }
                             }
                             $public_action = false;
-                            if ($cmd != "history" && $is_active && empty($info)) {
+                            if ($cmd != "history" && $cmd != "edit" && $is_active && empty($info)) {
                                 $info[] = $lng->txt("blog_new_posting_info");
                                 $public_action = true;
                             }
@@ -707,10 +707,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             }
 
                             // revert to edit cmd to avoid confusion
-                            $this->addHeaderActionForCommand("render");
                             $tpl->setContent($ret);
-                            $nav = $this->renderNavigation("render", $cmd, "", $is_owner);
-                            $tpl->setRightContent($nav);
+                            if ($cmd != "edit") {
+                                $this->addHeaderActionForCommand("render");
+                                $nav = $this->renderNavigation("render", $cmd, "", $is_owner);
+                                $tpl->setRightContent($nav);
+                            } else {
+                                $this->tabs->setBackTarget("", "");
+                            }
                             break;
                     }
                 }
