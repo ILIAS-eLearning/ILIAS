@@ -23,8 +23,8 @@ class ilNestedList
     protected array $list_class = array();
     protected bool $auto_numbering = false;
     protected array $nr = array();
-    protected array $nodes;
-    protected array $childs;
+    protected array $nodes = [];
+    protected array $childs = [];
 
     public function __constructor()
     {
@@ -84,7 +84,7 @@ class ilNestedList
 
         $nr = array();
         $depth = 1;
-        if (is_array($this->childs[0]) && count($this->childs[0]) > 0) {
+        if (isset($this->childs[0]) && count($this->childs[0]) > 0) {
             $this->listStart($tpl, $depth);
             foreach ($this->childs[0] as $child) {
                 $this->renderNode($child, $tpl, $depth, $nr);

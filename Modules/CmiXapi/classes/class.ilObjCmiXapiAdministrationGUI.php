@@ -431,7 +431,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $lrsType->setAvailability((int) $form->getInput("availability"));
         
         $lrsType->setLrsEndpoint(
-            ilUtil::removeTrailingPathSeparators($form->getInput("lrs_endpoint"))
+            ilFileUtils::removeTrailingPathSeparators($form->getInput("lrs_endpoint"))
         );
         
         $lrsType->setLrsKey($form->getInput("lrs_key"));

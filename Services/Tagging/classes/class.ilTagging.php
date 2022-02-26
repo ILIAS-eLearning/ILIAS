@@ -151,7 +151,7 @@ class ilTagging
             $tags[] = $rec;
             $cnt++;
         }
-        $tags = ilUtil::sortArray($tags, "tag", "asc");
+        $tags = ilArrayUtil::sortArray($tags, "tag", "asc");
 
         return $tags;
     }

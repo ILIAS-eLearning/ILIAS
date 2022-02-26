@@ -435,7 +435,7 @@ class ilExAssignmentTeam
             }
         }
         
-        return ilUtil::sortArray($res, "title", "asc", false, true);
+        return ilArrayUtil::sortArray($res, "title", "asc", false, true);
     }
 
     /**
@@ -545,7 +545,7 @@ class ilExAssignmentTeam
             );
         }
         
-        return ilUtil::sortArray($res, "title", "asc", false, true);
+        return ilArrayUtil::sortArray($res, "title", "asc", false, true);
     }
 
     /**

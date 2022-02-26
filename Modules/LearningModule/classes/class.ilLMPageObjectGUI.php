@@ -359,6 +359,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilErr = $DIC["ilErr"];
         $lng = $DIC->language();
@@ -405,13 +406,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             if ($lm_id > 0) {
-                ilUtil::sendFailure(sprintf(
+                $main_tpl->setOnScreenMessage('failure', sprintf(
                     $lng->txt("msg_no_perm_read_item"),
                     ilObject::_lookupTitle($lm_id)
                 ), true);
             } else {
                 $lng->loadLanguageModule("content");
-                ilUtil::sendFailure($lng->txt("page_does_not_exist"), true);
+                $main_tpl->setOnScreenMessage('failure', $lng->txt("page_does_not_exist"), true);
             }
             ilObjectGUI::_gotoRepositoryRoot();
         }

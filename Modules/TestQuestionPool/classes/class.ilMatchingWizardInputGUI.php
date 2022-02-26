@@ -172,7 +172,11 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $lng = $DIC['lng'];
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
+                $_POST[$this->getPostVar()],
+                true,
+                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+            );
         }
         $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
@@ -238,7 +242,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
                         // check suffixes
                         if ($tmpname != '' && is_array($this->getSuffixes())) {
-                            $vir = ilUtil::virusHandling($tmpname, $filename);
+                            $vir = ilVirusScanner::virusHandling($tmpname, $filename);
                             if ($vir[0] == false) {
                                 $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                                 return false;
@@ -279,7 +283,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
                     $tpl->setCurrentBlock('image');
                     $tpl->setVariable('SRC_IMAGE', $imagename);
                     $tpl->setVariable('IMAGE_NAME', $value->picture);
-                    $tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->text));
+                    $tpl->setVariable('ALT_IMAGE', ilLegacyFormElementsUtil::prepareFormOutput($value->text));
                     $tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
                     $tpl->setVariable("IMAGE_ROW_NUMBER", $i);
                     $tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
@@ -296,7 +300,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
             if (is_object($value)) {
                 $tpl->setCurrentBlock("prop_text_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->text));
                 $tpl->parseCurrentBlock();
             }
             // this block does not exist in the template

@@ -10,18 +10,18 @@ use ILIAS\UI;
 class ilUtilitiesSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
-
+    
     /**
      * @var Refinery\Factory
      */
     protected $refinery;
-
+    
     public function __construct(
         Refinery\Factory $refinery
     ) {
         $this->refinery = $refinery;
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -29,7 +29,7 @@ class ilUtilitiesSetupAgent implements Setup\Agent
     {
         return true;
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -43,26 +43,26 @@ class ilUtilitiesSetupAgent implements Setup\Agent
             );
         });
     }
-
+    
     /**
      * @inheritdoc
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return  new ilUtilitiesConfigStoredObjective($config);
+        return new ilUtilitiesConfigStoredObjective($config);
     }
-
+    
     /**
      * @inheritdoc
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         if ($config !== null) {
-            return  new ilUtilitiesConfigStoredObjective($config);
+            return new ilUtilitiesConfigStoredObjective($config);
         }
         return new Setup\Objective\NullObjective();
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -70,7 +70,7 @@ class ilUtilitiesSetupAgent implements Setup\Agent
     {
         return new Setup\Objective\NullObjective();
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -78,7 +78,7 @@ class ilUtilitiesSetupAgent implements Setup\Agent
     {
         return new ilUtilitiesMetricsCollectedObjective($storage);
     }
-
+    
     /**
      * @inheritDoc
      */

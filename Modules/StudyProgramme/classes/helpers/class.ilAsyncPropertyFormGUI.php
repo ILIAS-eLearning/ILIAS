@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+
 /**
  * Class ilAsyncPropertyFormGUI
  *
@@ -33,7 +35,9 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
      */
     protected bool $is_async = true;
 
-    public function __construct(array $config = array(), bool $is_async = true)
+    protected RequestWrapper $request_wrapper;
+
+    public function __construct(RequestWrapper $request_wrapper, array $config = array(), bool $is_async = true)
     {
         parent::__construct();
 
@@ -44,6 +48,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
             }
         }
 
+        $this->request_wrapper = $request_wrapper;
         $this->setAsync($is_async);
         $this->setName(self::$default_from_name);
     }
@@ -192,18 +197,15 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
      */
     public function isSubmitted() : bool
     {
-        if (isset($_POST['cmd'])) {
+        if ($this->request_wrapper->has("cmd")) {
             return true;
         }
         return false;
     }
 
-    // TODO: DW -> add type hint if ilFormGUI is refactored
     /**
      * Sets the form action
      * If the form is set to async, the cmdMode=asynch is added to the url
-     *
-     * @param string $a_formaction
      */
     public function setFormAction(string $a_formaction) : void
     {

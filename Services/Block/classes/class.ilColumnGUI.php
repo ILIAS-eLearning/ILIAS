@@ -787,11 +787,11 @@ class ilColumnGUI
         
         
         $this->blocks[IL_COL_LEFT] =
-            ilUtil::sortArray($this->blocks[IL_COL_LEFT], "nr", "asc", true);
+            ilArrayUtil::sortArray($this->blocks[IL_COL_LEFT], "nr", "asc", true);
         $this->blocks[IL_COL_RIGHT] =
-            ilUtil::sortArray($this->blocks[IL_COL_RIGHT], "nr", "asc", true);
+            ilArrayUtil::sortArray($this->blocks[IL_COL_RIGHT], "nr", "asc", true);
         $this->blocks[IL_COL_CENTER] =
-            ilUtil::sortArray($this->blocks[IL_COL_CENTER], "nr", "asc", true);
+            ilArrayUtil::sortArray($this->blocks[IL_COL_CENTER], "nr", "asc", true);
     }
 
     /**

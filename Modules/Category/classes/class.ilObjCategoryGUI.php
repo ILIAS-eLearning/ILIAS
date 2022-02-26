@@ -318,7 +318,7 @@ class ilObjCategoryGUI extends ilContainerGUI
     }
 
 
-    protected function addHeaderAction()
+    protected function addHeaderAction() : void
     {
         ilPreviewGUI::initPreview();
         parent::addHeaderAction();
@@ -510,7 +510,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         );
     }
 
-    public function viewObject()
+    public function viewObject() : void
     {
         if (strtolower($this->cat_request->getBaseClass()) == "iladministrationgui") {
             parent::viewObject();
@@ -519,31 +519,31 @@ class ilObjCategoryGUI extends ilContainerGUI
         $this->renderObject();
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        $forms = parent::initCreationForms($a_new_type);
+        $forms = parent::initCreationForms($new_type);
         //unset($forms[self::CFORM_IMPORT]);
         return $forms;
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         $tree = $this->tree;
 
         // default: sort by title
-        $settings = new ilContainerSortingSettings($a_new_object->getId());
+        $settings = new ilContainerSortingSettings($new_object->getId());
         $settings->setSortMode(ilContainer::SORT_TITLE);
         $settings->save();
         
         // inherit parents content style, if not individual
         $this->content_style_domain
-            ->styleForRefId($a_new_object->getRefId())
+            ->styleForRefId($new_object->getRefId())
             ->inheritFromParent();
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("cat_added"), true);
-        $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
-        $this->redirectToRefId($a_new_object->getRefId(), "");
+        $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
+        $this->redirectToRefId($new_object->getRefId(), "");
     }
     
     /**
@@ -789,12 +789,12 @@ class ilObjCategoryGUI extends ilContainerGUI
         return $form;
     }
 
-    protected function getEditFormValues()
+    protected function getEditFormValues() : array
     {
-        // values are set in initEditForm()
+        return [];
     }
     
-    public function updateObject()
+    public function updateObject() : void
     {
         $ilErr = $this->error;
         $ilUser = $this->user;
@@ -1061,7 +1061,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             $role_obj = ilObjectFactory::getInstanceByObjId($role['obj_id']);
             
             $disabled = false;
-            $f_result[$counter]['checkbox'] = ilUtil::formCheckbox(
+            $f_result[$counter]['checkbox'] = ilLegacyFormElementsUtil::formCheckbox(
                 in_array($role['obj_id'], $ass_roles) ? 1 : 0,
                 'role_ids[]',
                 $role['obj_id'],
@@ -1185,6 +1185,7 @@ class ilObjCategoryGUI extends ilContainerGUI
     public static function _goto($a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $ilErr = $DIC["ilErr"];
@@ -1194,7 +1195,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);

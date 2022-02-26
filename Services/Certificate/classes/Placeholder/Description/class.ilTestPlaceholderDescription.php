@@ -33,15 +33,33 @@ class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescriptio
 
         $this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
-        $this->placeholder['RESULT_PASSED'] = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_passed'));
-        $this->placeholder['RESULT_POINTS'] = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_points'));
-        $this->placeholder['RESULT_PERCENT'] = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_percent'));
-        $this->placeholder['MAX_POINTS'] = ilUtil::prepareFormOutput($this->language->txt('certificate_var_max_points'));
-        $this->placeholder['RESULT_MARK_SHORT'] = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_short'));
-        $this->placeholder['RESULT_MARK_LONG'] = ilUtil::prepareFormOutput($this->language->txt('certificate_var_result_mark_long'));
-        $this->placeholder['TEST_TITLE'] = ilUtil::prepareFormOutput($this->language->txt('certificate_ph_testtitle'));
-        $this->placeholder['DATE_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_date_completed'));
-        $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
+        $this->placeholder['RESULT_PASSED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('certificate_var_result_passed')
+        );
+        $this->placeholder['RESULT_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('certificate_var_result_points')
+        );
+        $this->placeholder['RESULT_PERCENT'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('certificate_var_result_percent')
+        );
+        $this->placeholder['MAX_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('certificate_var_max_points')
+        );
+        $this->placeholder['RESULT_MARK_SHORT'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('certificate_var_result_mark_short')
+        );
+        $this->placeholder['RESULT_MARK_LONG'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('certificate_var_result_mark_long')
+        );
+        $this->placeholder['TEST_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('certificate_ph_testtitle')
+        );
+        $this->placeholder['DATE_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_ph_date_completed')
+        );
+        $this->placeholder['DATETIME_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_ph_datetime_completed')
+        );
     }
 
     /**

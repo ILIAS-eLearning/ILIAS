@@ -102,7 +102,7 @@ class shibUser extends ilObjUser
         $this->setFirstname($this->shibServerData->getFirstname());
         $this->setLastname($this->shibServerData->getLastname());
         $this->setLogin($this->returnNewLoginName());
-        $array = ilUtil::generatePasswords(1);
+        $array = ilSecuritySettingsChecker::generatePasswords(1);
         $this->setPasswd(md5(end($array)), ilObjUser::PASSWD_CRYPTED);
         $this->setGender($this->shibServerData->getGender());
         $this->setExternalAccount($this->shibServerData->getLogin());
@@ -130,7 +130,7 @@ class shibUser extends ilObjUser
     }
 
 
-    public function create() : void
+    public function create() : int
     {
         $c = shibConfig::getInstance();
         if ($c->isActivateNew()) {
@@ -144,7 +144,7 @@ class shibUser extends ilObjUser
         }
 
         if ($this->getLogin() != '' && $this->getLogin() != '.') {
-            parent::create();
+            return parent::create();
         } else {
             throw new ilUserException('No Login-name created');
         }

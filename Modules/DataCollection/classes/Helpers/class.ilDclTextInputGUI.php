@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclTextInputGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class ilDclTextInputGUI extends ilTextInputGUI
@@ -14,7 +13,6 @@ class ilDclTextInputGUI extends ilTextInputGUI
             $item->setValueByArray($a_values);
         }
     }
-
 
     public function checkInput() : bool
     {

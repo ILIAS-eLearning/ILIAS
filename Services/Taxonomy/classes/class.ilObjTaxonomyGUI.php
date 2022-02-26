@@ -54,12 +54,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $this->requested_move_ids = (string) ($params["move_ids"] ?? "");
     }
     
-    /**
-     * Get type
-     *
-     * @return string type
-     */
-    public function getType() : string
+    public function getType() : ?string
     {
         return "tax";
     }
@@ -221,12 +216,16 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * @inheritDoc
      */
-    protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_node_id = null)
-    {
+    protected function checkPermissionBool(
+        string $perm,
+        string $cmd = "",
+        string $type = "",
+        ?int $node_id = null
+    ) : bool {
         if ($this->getAssignedObject() > 0) {
             return true;
         } else {
-            return parent::checkPermissionBool($a_perm, $a_cmd, $a_type, $a_node_id);
+            return parent::checkPermissionBool($perm, $cmd, $type, $node_id);
         }
     }
     

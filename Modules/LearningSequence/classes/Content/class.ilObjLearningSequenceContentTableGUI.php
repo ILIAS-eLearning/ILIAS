@@ -60,8 +60,8 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
             "",
             $this->parent_gui->getFieldName($this->parent_gui::FIELD_ORDER, $a_set->getRefId())
         );
-        $ni->setSize("3");
-        $ni->setValue(($a_set->getOrderNumber() + 1) * 10);
+        $ni->setSize(3);
+        $ni->setValue((string) (($a_set->getOrderNumber() + 1) * 10));
 
         if ($this->ls_item_online_status->hasOnlineStatus($a_set->getRefId())) {
             $cb = new ilCheckboxInputGUI(

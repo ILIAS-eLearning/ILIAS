@@ -899,7 +899,7 @@ class ilNoteGUI
             : $lng->txt("note"));
         
         if ($a_note) {
-            $this->form_tpl->setVariable("VAL_NOTE", ilUtil::prepareFormOutput($a_note->getText()));
+            $this->form_tpl->setVariable("VAL_NOTE", ilLegacyFormElementsUtil::prepareFormOutput($a_note->getText()));
             $this->form_tpl->setVariable("NOTE_ID", $a_note->getId());
         }
 

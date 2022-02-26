@@ -65,6 +65,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
     {
         global $DIC;
         $ilias = $DIC['ilias'];
+        $obj_id = 0;
         if ($ilias->getSetting('custom_icons')) {
             $icons_cache = ilObjOrgUnit::getIconsCache();
             $obj_id = ilObject::_lookupObjId($a_node["child"]);

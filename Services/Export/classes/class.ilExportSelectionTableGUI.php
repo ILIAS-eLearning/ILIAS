@@ -8,7 +8,7 @@
  */
 class ilExportSelectionTableGUI extends ilTable2GUI
 {
-    protected array $post_data;
+    protected ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement $post_data;
 
     protected ilAccessHandler $access;
     protected ilObjectDefinition $objDefinition;
@@ -93,7 +93,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $this->tpl->touchBlock('end_padding');
         }
         $this->tpl->setVariable('TREE_IMG',
-            ilObject::_getIcon(ilObject::_lookupObjId($a_set['ref_id']), "tiny", $a_set['type']));
+            ilObject::_getIcon(ilObject::_lookupObjId((int) $a_set['ref_id']), "tiny", $a_set['type']));
         $this->tpl->setVariable('TREE_ALT_IMG', $this->lng->txt('obj_' . $a_set['type']));
         $this->tpl->setVariable('TREE_TITLE', $a_set['title']);
 
@@ -171,7 +171,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             }
             $r = array();
 
-            if ($last = ilExportFileInfo::lookupLastExport($node['obj_id'], 'xml')) {
+            if ($last = ilExportFileInfo::lookupLastExport((int) $node['obj_id'], 'xml')) {
                 $r['last_export'] = $last->getCreationDate()->get(IL_CAL_UNIX);
             } else {
                 $r['last_export'] = 0;
@@ -184,7 +184,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $r['type'] = $node['type'];
             $r['title'] = $node['title'];
             $r['export'] = $this->objDefinition->allowExport($node['type']);
-            $r['perm_export'] = $this->access->checkAccess('write', '', $node['child']);
+            $r['perm_export'] = $this->access->checkAccess('write', '', (int) $node['child']);
 
             $rows[] = $r;
 

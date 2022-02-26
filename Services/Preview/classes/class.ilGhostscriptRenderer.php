@@ -78,11 +78,11 @@ class ilGhostscriptRenderer extends ilFilePreviewRenderer
         $args = sprintf(
             "-dBATCH -dNOPAUSE -dSAFER -dFirstPage=1 -dLastPage=%d -sDEVICE=pngalpha -dEPSCrop -r72 -o %s %s",
             $numOfPreviews,
-            str_replace("#", "%", ilUtil::escapeShellArg($outputFile)),
-            ilUtil::escapeShellArg($inputFile)
+            str_replace("#", "%", ilShellUtil::escapeShellArg($outputFile)),
+            ilShellUtil::escapeShellArg($inputFile)
         );
 
-        ilUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $args);
+        ilShellUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $args);
 
         // was a temporary file created? then delete it
         if ($filepath != $inputFile) {

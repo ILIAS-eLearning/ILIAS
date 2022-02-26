@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclFormulaFieldModel
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,7 +10,6 @@ class ilDclFormulaFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
@@ -22,7 +20,6 @@ class ilDclFormulaFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -30,7 +27,6 @@ class ilDclFormulaFieldModel extends ilDclBaseFieldModel
     {
         return array(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
     }
-
 
     /**
      * @return bool

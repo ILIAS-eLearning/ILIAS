@@ -66,7 +66,7 @@ class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("cb");
             $language = $lng->txt("meta_l_" . $a_set["lang"]);
             $this->tpl->setVariable("LANGUAGE", $language);
-            $this->tpl->setVariable("POST_FILE", ilUtil::prepareFormOutput($a_set["filename"]));
+            $this->tpl->setVariable("POST_FILE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["filename"]));
             $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setVariable("FILENAME", $a_set["filename"]);

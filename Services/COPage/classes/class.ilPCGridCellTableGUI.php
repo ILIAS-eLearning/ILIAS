@@ -64,12 +64,20 @@ class ilPCGridCellTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         $this->pos += 10;
-        $this->tpl->setVariable("POS", ilUtil::prepareFormOutput($this->pos));
+        $this->tpl->setVariable("POS", ilLegacyFormElementsUtil::prepareFormOutput($this->pos));
         $tid = $a_set["hier_id"] . ":" . $a_set["pc_id"];
         $this->tpl->setVariable("TID", $tid);
         foreach (ilPCGrid::getSizes() as $s) {
             $this->tpl->setCurrentBlock("select_width");
-            $this->tpl->setVariable("SELECT_WIDTH", ilUtil::formSelect($a_set[$s], "width_" . $s . "[$tid]", array("" => "") + ilPCGrid::getWidths(), false, true));
+            $this->tpl->setVariable("SELECT_WIDTH",
+                ilLegacyFormElementsUtil::formSelect(
+                    $a_set[$s],
+                    "width_" . $s . "[$tid]",
+                    ["" => ""] + ilPCGrid::getWidths(),
+                    false,
+                    true
+                )
+            );
             $this->tpl->parseCurrentBlock();
         }
     }

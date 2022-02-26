@@ -310,7 +310,6 @@ class ilMathJax
                 $tex = str_replace('<br />', '', $tex);
 
                 // tex specific replacements
-                $tex = str_replace('\\\\', '\\cr', $tex);
                 $tex = preg_replace("/\\\\([RZN])([^a-zA-Z])/", "\\mathbb{" . "$1" . "}" . "$2", $tex);
 
                 // check, if tags go across div borders

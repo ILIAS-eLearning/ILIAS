@@ -51,7 +51,7 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
     {
         parent::fillRow(array(
             'name' => $a_set['name'],
-            'checkbox' => ilUtil::formCheckbox(false, 'chb_defaults[]', $a_set['test_defaults_id']),
+            'checkbox' => ilLegacyFormElementsUtil::formCheckbox(false, 'chb_defaults[]', $a_set['test_defaults_id']),
             'tstamp' => ilDatePresentation::formatDate(new ilDateTime($a_set['tstamp'], IL_CAL_UNIX))
         ));
     }

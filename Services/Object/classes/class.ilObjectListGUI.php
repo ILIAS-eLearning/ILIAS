@@ -1502,9 +1502,6 @@ class ilObjectListGUI
     */
     public function getIconImageType()
     {
-        if ($this->type == "sahs" && $this->offline_mode) {
-            return $this->type . "_offline";
-        }
         return $this->type;
     }
 
@@ -2045,7 +2042,7 @@ class ilObjectListGUI
             for ($i = 0; $i < count($conditions); $i++) {
                 $conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
             }
-            $conditions = ilUtil::sortArray($conditions, 'title', 'DESC');
+            $conditions = ilArrayUtil::sortArray($conditions, 'title', 'DESC');
         
             ++self::$js_unique_id;
 
@@ -2133,7 +2130,7 @@ class ilObjectListGUI
             $this->ctrl->setParameter(
                 $this->container_obj,
                 "ref_id",
-                $this->container_obj->object->getRefId()
+                $this->container_obj->getObject()->getRefId()
             );
             $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
             $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "delete");
@@ -2185,7 +2182,7 @@ class ilObjectListGUI
         $this->ctrl->setParameter(
             $this->container_obj,
             "ref_id",
-            $this->container_obj->object->getRefId()
+            $this->container_obj->getObject()->getRefId()
         );
         $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
         $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "link");
@@ -2227,11 +2224,11 @@ class ilObjectListGUI
         // if the permission is changed here, it  has
         // also to be changed in ilContainerContentGUI, determineAdminCommands
         if ($this->checkCommandAccess('delete', '', $this->ref_id, $this->type) &&
-            $this->container_obj->object) {
+            $this->container_obj->getObject()) {
             $this->ctrl->setParameter(
                 $this->container_obj,
                 "ref_id",
-                $this->container_obj->object->getRefId()
+                $this->container_obj->getObject()->getRefId()
             );
             $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
             
@@ -2280,7 +2277,7 @@ class ilObjectListGUI
                 $this->ctrl->setParameter(
                     $this->container_obj,
                     "ref_id",
-                    $this->container_obj->object->getRefId()
+                    $this->container_obj->getObject()->getRefId()
                 );
                 $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
                 
@@ -2341,10 +2338,13 @@ class ilObjectListGUI
         if ($this->std_cmd_only) {
             return;
         }
-        
-        if ((int) $ilSetting->get('disable_my_offers')) {
-            return;
-        }
+
+        // note: the setting disable_my_offers is used for
+        // presenting the favourites in the main section of the dashboard
+        // see also bug #32014
+        //if ((int) $ilSetting->get('disable_my_offers')) {
+        //    return;
+        //}
         
         $type = ilObject::_lookupType(ilObject::_lookupObjId($this->getCommandId()));
 
@@ -2352,8 +2352,9 @@ class ilObjectListGUI
             // #17467 - add ref_id to link (in repository only!)
             if (is_object($this->container_obj) &&
                 !($this->container_obj instanceof ilAdministrationCommandHandling) &&
-                isset($this->container_obj->object)) {
-                $this->ctrl->setParameter($this->container_obj, "ref_id", $this->container_obj->object->getRefId());
+                method_exists($this->container_obj, "getObject") &&
+                is_object($this->container_obj->getObject())) {
+                $this->ctrl->setParameter($this->container_obj, "ref_id", $this->container_obj->getObject()->getRefId());
             }
 
             if (!$this->fav_manager->ifIsFavourite($ilUser->getId(), $this->getCommandId())) {
@@ -2477,12 +2478,16 @@ class ilObjectListGUI
     */
     public function insertTimingsCommand()
     {
-        if ($this->std_cmd_only || !(isset($this->container_obj->object))) {
+        if (
+            $this->std_cmd_only ||
+            !method_exists($this->container_obj, "getObject") ||
+            !is_object($this->container_obj->getObject())
+        ) {
             return;
         }
         
-        $parent_ref_id = $this->container_obj->object->getRefId();
-        $parent_type = $this->container_obj->object->getType();
+        $parent_ref_id = $this->container_obj->getObject()->getRefId();
+        $parent_type = $this->container_obj->getObject()->getType();
         
         // #18737
         if ($this->reference_ref_id) {
@@ -3171,7 +3176,7 @@ class ilObjectListGUI
     {
         global $DIC;
 
-        if (strstr($a_link, 'ilSAHSPresentationGUI') && !$this->offline_mode) {
+        if (strstr($a_link, 'ilSAHSPresentationGUI')) {
             $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
             $om = $sahs_obj->getOpenMode();
             $width = $sahs_obj->getWidth();
@@ -3721,7 +3726,8 @@ class ilObjectListGUI
             // fallback to single object check if no preloaded data
             // only the repository does preloadCommonProperties() yet
             if (!$a_header_actions && self::$preload_done) {
-                if (self::$comments_activation[$a_obj_id][$a_type]) {
+                if (isset(self::$comments_activation[$a_obj_id][$a_type]) &&
+                    self::$comments_activation[$a_obj_id][$a_type]) {
                     return true;
                 }
             } else {
@@ -3925,10 +3931,17 @@ class ilObjectListGUI
         $this->insertCommands();
         $actions = [];
 
-        foreach ($this->current_selection_list->getItems() as $action_item) {
-            $actions[] = $ui->factory()
-                            ->button()
-                            ->shy($action_item['title'], $action_item['link']);
+        foreach ($this->current_selection_list->getItems() as $item) {
+            if (!isset($item["onclick"]) || $item["onclick"] == "") {
+                $actions[] =
+                    $ui->factory()->button()->shy($item["title"], $item["link"]);
+            } else {
+                $actions[] =
+                    $ui->factory()->button()->shy($item["title"], "")->withAdditionalOnLoadCode(function ($id) use ($item) {
+                        return
+                            "$('#$id').click(function(e) { " . $item["onclick"] . "});";
+                    });
+            }
         }
 
         $def_command = $this->getDefaultCommand();

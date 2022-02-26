@@ -44,14 +44,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     const DEFAULT_CMD = 'infoScreen';
 
-    /**
-     * @var ilObjLTIConsumer
-     */
-    public $object;
-
-    /**
-     * @var ilLTIConsumerAccess
-     */
+    public ?ilObject $object;
     protected ilLTIConsumerAccess $ltiAccess;
 
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
@@ -69,7 +62,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $DIC->language()->loadLanguageModule("rep");
     }
 
-    public function getType() : string
+    public function getType() : ?string
     {
         return 'lti';
     }
@@ -381,6 +374,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         /* @var \ILIAS\DI\Container $DIC */
         $err = $DIC['ilErr'];
         /* @var ilErrorHandling $err */
@@ -403,7 +397,8 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         } elseif ($access->checkAccess('visible', '', $id)) {
             ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
         } elseif ($access->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(
+            $main_tpl->setOnScreenMessage(
+                'info',
                 sprintf(
                     $DIC->language()->txt('msg_no_perm_read_item'),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($id))
@@ -448,6 +443,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $navigationHistory->addItem($this->object->getRefId(), $link, $this->object->getType());
         }
 
+        /** @var ilObjLTIConsumer $obj */
+        $obj = $this->object;
+
         switch ($DIC->ctrl()->getNextClass()) {
             case strtolower(ilObjectCopyGUI::class):
 
@@ -479,7 +477,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 $DIC->tabs()->activateTab(self::TAB_ID_METADATA);
 
-                $gui = new ilObjectMetaDataGUI($this->object);
+                $gui = new ilObjectMetaDataGUI($obj);
                 $DIC->ctrl()->forwardCommand($gui);
                 break;
 
@@ -495,7 +493,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 $DIC->tabs()->activateTab(self::TAB_ID_SETTINGS);
 
-                $gui = new ilLTIConsumerSettingsGUI($this->object, $this->ltiAccess);
+                $gui = new ilLTIConsumerSettingsGUI($obj, $this->ltiAccess);
                 $DIC->ctrl()->forwardCommand($gui);
                 break;
 
@@ -503,7 +501,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 $DIC->tabs()->activateTab(self::TAB_ID_STATEMENTS);
 
-                $gui = new ilLTIConsumerXapiStatementsGUI($this->object);
+                $gui = new ilLTIConsumerXapiStatementsGUI($obj);
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
@@ -512,7 +510,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 $DIC->tabs()->activateTab(self::TAB_ID_SCORING);
 
-                $gui = new ilLTIConsumerScoringGUI($this->object);
+                $gui = new ilLTIConsumerScoringGUI($obj);
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
@@ -521,7 +519,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
                 $DIC->tabs()->activateTab(self::TAB_ID_CONTENT);
 
-                $gui = new ilLTIConsumerEmbeddedContentGUI($this->object);
+                $gui = new ilLTIConsumerEmbeddedContentGUI($obj);
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
@@ -657,10 +655,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             );
 
             //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
-            ilUtil::sendInfo($linkBuilder->getPipelineDebug());
-            ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), true) . '</pre>');
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('info', $linkBuilder->getPipelineDebug());
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('question', '<pre>' . print_r($report->getTableData(), true) . '</pre>');
         } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
         }
     }
 
@@ -866,9 +864,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
         if ($this->object->getProvider()->getProviderUrl() == '') {
-            ilUtil::sendFailure($DIC->language()->txt('lti_provider_not_set_msg'));
+            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_provider_not_set_msg'));
         } elseif ($this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
-            ilUtil::sendFailure($DIC->language()->txt('lti_provider_not_avail_msg'));
+            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_provider_not_avail_msg'));
         }
     }
 }

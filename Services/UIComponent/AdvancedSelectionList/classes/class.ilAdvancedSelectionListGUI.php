@@ -54,7 +54,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     protected int $style = 0;
     private bool $dd_pullright = true;
 
-    protected string $listtitle;
+    protected string $listtitle = "";
     protected string $aria_listtitle = "";
     protected bool $useimages = false;
     protected string $itemlinkclass = '';
@@ -532,7 +532,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                             foreach ($item["data"] as $k => $v) {
                                 $tpl->setCurrentBlock("f_data");
                                 $tpl->setVariable("DATA_KEY", $k);
-                                $tpl->setVariable("DATA_VAL", ilUtil::prepareFormOutput($v));
+                                $tpl->setVariable("DATA_VAL", ilLegacyFormElementsUtil::prepareFormOutput($v));
                                 $tpl->parseCurrentBlock();
                             }
                         }

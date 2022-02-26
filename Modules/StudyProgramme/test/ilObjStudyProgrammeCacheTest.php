@@ -12,7 +12,7 @@ class ilObjStudyProgrammeCacheTest extends TestCase
         new ilObjStudyProgrammeCache();
     }
 
-    public function testCreateBySingelton() : void
+    public function testCreateBySingleton() : void
     {
         $obj = ilObjStudyProgrammeCache::singleton();
         $this->assertInstanceOf(ilObjStudyProgrammeCache::class, $obj);

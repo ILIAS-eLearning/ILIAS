@@ -227,26 +227,26 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $this->addHeaderAction();
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        $forms = parent::initCreationForms($a_new_type);
+        $forms = parent::initCreationForms($new_type);
         unset($forms[self::CFORM_IMPORT]);
         
         return $forms;
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
-        $a_new_object->setOffline(true);
-        $a_new_object->update();
+        $new_object->setOffline(true);
+        $new_object->update();
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("book_pool_added"), true);
-        $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+        $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
         $this->ctrl->redirect($this, "edit");
     }
     
-    public function editObject()
+    public function editObject() : void
     {
         $this->showNoScheduleMessage();
         parent::editObject();
@@ -262,16 +262,16 @@ class ilObjBookingPoolGUI extends ilObjectGUI
     }
 
     
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form)
+    protected function initEditCustomForm(ilPropertyFormGUI $form) : void
     {
         $obj_service = $this->getObjectService();
 
         $online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
-        $a_form->addItem($online);
+        $form->addItem($online);
 
         $type = new ilRadioGroupInputGUI($this->lng->txt("book_schedule_type"), "stype");
         $type->setRequired(true);
-        $a_form->addItem($type);
+        $form->addItem($type);
         
         // #14478
         if (sizeof(ilBookingObject::getList($this->object->getId()))) {
@@ -337,20 +337,20 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
         $public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
         $public->setInfo($this->lng->txt("book_public_log_info"));
-        $a_form->addItem($public);
+        $form->addItem($public);
 
         // presentation
         $pres = new ilFormSectionHeaderGUI();
         $pres->setTitle($this->lng->txt('obj_presentation'));
-        $a_form->addItem($pres);
+        $form->addItem($pres);
 
         // tile image
-        $obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
+        $obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
 
         // additional features
         $feat = new ilFormSectionHeaderGUI();
         $feat->setTitle($this->lng->txt('obj_features'));
-        $a_form->addItem($feat);
+        $form->addItem($feat);
     }
 
     protected function getEditFormCustomValues(
@@ -369,40 +369,40 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         }
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form)
+    protected function updateCustom(ilPropertyFormGUI $form) : void
     {
         $obj_service = $this->getObjectService();
 
-        $pref_deadline = $a_form->getItemByPostVar("pref_deadline")->getDate();
+        $pref_deadline = $form->getItemByPostVar("pref_deadline")->getDate();
         $pref_deadline = $pref_deadline
             ? $pref_deadline->get(IL_CAL_UNIX)
             : 0;
 
-        $this->object->setOffline(!$a_form->getInput('online'));
-        $this->object->setReminderStatus((int) $a_form->getInput('rmd'));
-        $this->object->setReminderDay($a_form->getInput('rmd_day'));
-        $this->object->setPublicLog($a_form->getInput('public'));
-        $this->object->setScheduleType($a_form->getInput('stype'));
-        $this->object->setOverallLimit($a_form->getInput('limit') ? $a_form->getInput('limit') : null);
-        $this->object->setReservationFilterPeriod(strlen($a_form->getInput('period')) ? (int) $a_form->getInput('period') : null);
+        $this->object->setOffline(!$form->getInput('online'));
+        $this->object->setReminderStatus((int) $form->getInput('rmd'));
+        $this->object->setReminderDay($form->getInput('rmd_day'));
+        $this->object->setPublicLog($form->getInput('public'));
+        $this->object->setScheduleType($form->getInput('stype'));
+        $this->object->setOverallLimit($form->getInput('limit') ? $form->getInput('limit') : null);
+        $this->object->setReservationFilterPeriod(strlen($form->getInput('period')) ? (int) $form->getInput('period') : null);
         $this->object->setPreferenceDeadline($pref_deadline);
-        $this->object->setPreferenceNumber($a_form->getInput('preference_nr'));
+        $this->object->setPreferenceNumber($form->getInput('preference_nr'));
 
         // tile image
-        $obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
         ilObjectServiceSettingsGUI::updateServiceSettingsForm(
             $this->object->getId(),
-            $a_form,
+            $form,
             array(ilObjectServiceSettingsGUI::CUSTOM_METADATA)
         );
     }
     
-    public function addExternalEditFormCustom(ilPropertyFormGUI $a_form)
+    public function addExternalEditFormCustom(ilPropertyFormGUI $form) : void
     {
         ilObjectServiceSettingsGUI::initServiceSettingsForm(
             $this->object->getId(),
-            $a_form,
+            $form,
             array(ilObjectServiceSettingsGUI::CUSTOM_METADATA)
         );
     }
@@ -501,6 +501,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -510,7 +511,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -589,7 +590,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         }
     }
 
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null) : ?ilObjectListGUI
     {
         $access = $this->access;
         $user = $this->user;
@@ -598,7 +599,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
         $lng->loadLanguageModule("noti");
 
-        $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
+        $lg = parent::initHeaderAction($sub_type, $sub_id);
 
         if ($lg && $access->checkAccess("read", "", $this->ref_id)) {
             // notification

@@ -30,13 +30,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     const LINK_MOD_ADD = 3;
     const LINK_MOD_SET_LIST = 4;
     const LINK_MOD_EDIT_LIST = 5;
-
-    public function getType()
+    
+    public function getType() : ?string
     {
         return "webr";
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -78,7 +78,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 $ilTabs->activateTab('id_permissions');
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ilobjectcopygui':
@@ -135,10 +135,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
             $this->addHeaderAction();
         }
-        return true;
     }
-
-    protected function initCreateForm($a_new_type)
+    
+    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
     {
         $this->initFormLink(self::LINK_MOD_CREATE);
         return $this->form;
@@ -148,7 +147,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
      * Save new object
      * @access	public
      */
-    public function save()
+    public function save() : void
     {
         global $DIC;
 
@@ -171,11 +170,11 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         }
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         if ($this->form->getInput('tar_mode_type') == 'single') {
             // Save link
-            $this->link->setLinkResourceId($a_new_object->getId());
+            $this->link->setLinkResourceId($new_object->getId());
             $link_id = $this->link->add();
             $this->link->updateValid(true);
 
@@ -184,7 +183,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
         if ($this->form->getInput('tar_mode_type') == 'list') {
             // Save list
-            $this->list->setListResourceId($a_new_object->getId());
+            $this->list->setListResourceId($new_object->getId());
             $this->list->add();
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_list_added'));
@@ -197,7 +196,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         // repository
         else {
             ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" .
-                $a_new_object->getRefId() . "&cmd=switchViewMode&switch_mode=2");
+                $new_object->getRefId() . "&cmd=switchViewMode&switch_mode=2");
         }
     }
 
@@ -983,7 +982,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
      * View object
      * @return
      */
-    public function view()
+    public function view() : void
     {
         global $DIC;
 
@@ -996,7 +995,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
         if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
             parent::view();
-            return true;
+            return;
         } else {
             switch ((int) $_REQUEST['view_mode']) {
                 case self::VIEW_MODE_MANAGE:
@@ -1018,7 +1017,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             }
         }
         $GLOBALS['DIC']['tpl']->setPermanentLink($this->object->getType(), $this->object->getRefId());
-        return true;
     }
 
     /**
@@ -1470,13 +1468,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
         $ilTabs->activateTab('id_content');
     }
-
-
-    /**
-    * get tabs
-    * @access	public
-    */
-    public function setTabs()
+    
+    public function setTabs() : void
     {
         global $DIC;
 
@@ -1568,13 +1561,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         if ($this->message) {
             $this->tpl->setOnScreenMessage('info', $this->message);
         }
-
-        // display infopanel if something happened
-        ilUtil::infoPanel();
-        ;
     }
 
-    public function addLocatorItems()
+    public function addLocatorItems() : void
     {
         global $DIC;
 
@@ -1727,6 +1716,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     public static function _goto($a_target, $a_additional = null)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
@@ -1748,7 +1738,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $a_target . "&cmd=infoScreen");
             } else {
                 if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                    ilUtil::sendFailure(sprintf(
+                    $main_tpl->setOnScreenMessage('failure', sprintf(
                         $lng->txt("msg_no_perm_read_item"),
                         ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
                     ), true);

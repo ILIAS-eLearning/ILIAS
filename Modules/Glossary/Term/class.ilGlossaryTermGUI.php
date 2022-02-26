@@ -636,6 +636,7 @@ class ilGlossaryTermGUI
         int $a_ref_id = 0
     ) : void {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -660,7 +661,7 @@ class ilGlossaryTermGUI
             }
         }
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle($glo_id)
             ), true);

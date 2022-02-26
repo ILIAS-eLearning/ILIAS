@@ -18,10 +18,6 @@
 * Reads ECS events and stores them in the database.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSEventQueueReader
 {

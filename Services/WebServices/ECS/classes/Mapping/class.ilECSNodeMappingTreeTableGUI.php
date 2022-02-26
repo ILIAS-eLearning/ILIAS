@@ -18,7 +18,6 @@
  * Table GUI for ecs trees
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
 {

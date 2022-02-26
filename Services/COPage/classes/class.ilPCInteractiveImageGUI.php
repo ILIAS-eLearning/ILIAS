@@ -246,7 +246,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $media_item->setLocation($location);
         $media_item->setLocationType("LocalFile");
 
-        ilUtil::renameExecutables($mob_dir);
+        ilFileUtils::renameExecutables($mob_dir);
         $media_obj->update();
 
         $this->content_obj->createAlias($this->pg_obj, $this->hier_id, $this->pc_id);

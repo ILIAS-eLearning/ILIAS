@@ -12,13 +12,15 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
 
     public function addUser() : void
     {
+        global $DIC;
+        $post_wrapper = $DIC->http()->wrapper()->post();
+        $refinery = $DIC->refinery();
         $class = $this->callback['class'];
         $method = $this->callback['method'];
 
         // call callback if that function does give a return value => show error message
         // listener redirects if everything is ok.
-        $post = $_POST['user'] ?: [];
-        $class->$method($post);
+        $class->$method($post_wrapper->retrieve('user', $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string())));
         // Removed this from overwritten class, as we do not want to show the
         // results again...
         //$this->showSearchResults();

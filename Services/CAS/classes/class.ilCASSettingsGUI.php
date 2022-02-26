@@ -15,13 +15,7 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ilCtrl_Calls ilCASSettingsGUI:
-*
-* @ingroup ServicesCAS
 */
 class ilCASSettingsGUI
 {
@@ -29,65 +23,57 @@ class ilCASSettingsGUI
     const SYNC_CAS = 1;
     const SYNC_LDAP = 2;
 
-    private $settings;
+    private ilCASSettings $settings;
 
-    private $ref_id;
-    /**
-     * @var ILIAS\DI\Container
-     */
-    private $dic;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private int $ref_id;
+
+    private \ilGlobalTemplateInterface $tpl;
+    private ilCtrl $ctrl;
+    private ilTabsGUI $tabs_gui;
+    private ilLanguage $lng;
+    private ilRbacSystem $rbacSystem;
+    private ilRbacReview $rbacReview;
+    private ilErrorHandling $ilErr;
     
     /**
      * Constructor
      *
-     * @access public
      * @param int object auth ref_id
      *
      */
-    public function __construct($a_auth_ref_id)
+    public function __construct(int $a_auth_ref_id)
     {
         global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        
-        $this->dic = $DIC;
-        $this->ctrl = $this->dic->ctrl();
-        $this->tabs_gui = $this->dic->tabs();
-        $this->lng = $this->dic->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+
+        $this->ctrl = $DIC->ctrl();
+        $this->tabs_gui = $DIC->tabs();
+        $this->rbacSystem = $DIC->rbac()->system();
+        $this->ilErr = $DIC['ilErr'];
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('registration');
         $this->lng->loadLanguageModule('auth');
         
-        $this->tpl = $this->dic['tpl'];
         $this->ref_id = $a_auth_ref_id;
 
         $this->settings = ilCASSettings::getInstance();
     }
 
-    /**
-     *
-     * @return ilCASSettings
-     */
-    protected function getSettings()
+    protected function getSettings() : ilCASSettings
     {
         return $this->settings;
     }
     
     /**
      * Execute command
-     *
-     * @access public
-     * @param
-     *
      */
-    public function executeCommand()
+    public function executeCommand() : bool
     {
-        global $ilErr;
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("settings");
         
-        if (!$this->dic->rbac()->system()->checkAccess("visible,read", $this->ref_id)) {
-            $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->WARNING);
+        if (!$this->rbacSystem->checkAccess("visible,read", $this->ref_id)) {
+            $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->WARNING);
         }
 
         switch ($next_class) {
@@ -105,12 +91,11 @@ class ilCASSettingsGUI
     /**
      * Init cas settings
      */
-    protected function initFormSettings()
+    protected function initFormSettings() : ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('auth');
         $this->lng->loadLanguageModule('radius');
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -231,7 +216,7 @@ class ilCASSettingsGUI
         $create->setValue("1");
         $form->addItem($create);
 
-        if ($this->dic->rbac()->system()->checkAccess('write', $this->ref_id)) {
+        if ($this->rbacSystem->checkAccess('write', $this->ref_id)) {
             $form->addCommandButton('save', $this->lng->txt('save'));
         }
 
@@ -240,25 +225,17 @@ class ilCASSettingsGUI
     
     /**
      * Show settings
-     *
-     * @access public
-     * @param
-     *
      */
-    public function settings()
+    public function settings() : void
     {
         $form = $this->initFormSettings();
         $this->tpl->setContent($form->getHTML());
-        return;
     }
     
     /**
      * Save
-     *
-     * @access public
-     *
      */
-    public function save()
+    public function save() : void
     {
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
@@ -283,32 +260,29 @@ class ilCASSettingsGUI
 
                 case ilCASSettings::SYNC_LDAP:
                     if (!(int) $_REQUEST['ldap_sid']) {
-                        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
                         $this->settings();
-                        return false;
+                        //TODO do we need return false?
+                        return;
                     }
 
                     ilLDAPServer::toggleDataSource((int) $_REQUEST['ldap_sid'], ilAuthUtils::AUTH_CAS, true);
                     break;
             }
 
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
         }
         
         $form->setValuesByPost();
-        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_ceck_input'));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_ceck_input'));
         $this->tpl->setContent($form->getHTML());
     }
     
-    
-    
-    private function prepareRoleSelection()
+    private function prepareRoleSelection() : array
     {
-        global $rbacreview,$ilObjDataCache;
-        
         $global_roles = ilUtil::_sortIds(
-            $rbacreview->getGlobalRoles(),
+            $this->rbacReview->getGlobalRoles(),
             'object_data',
             'title',
             'obj_id'

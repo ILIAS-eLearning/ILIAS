@@ -43,15 +43,15 @@ class SeqActivity
 
     public string $mLearnerID = "_NULL_";
 
-    public $mScopeID = null;
+    public ?string $mScopeID = null;
     
-    public $mActivityID = null;
+    public ?string $mActivityID = null;
 
-    public $mResourceID = null;
+    public ?string $mResourceID = null;
 
-    public $mStateID = null;
+    public ?string $mStateID = null;
 
-    public $mTitle = null;
+    public ?string $mTitle = null;
 
     public bool $mIsVisible = true;
     
@@ -62,17 +62,17 @@ class SeqActivity
     public bool $mSelected = true;
 
     //SeqActivity converted to array???
-    public $mParent = null;
+    public ?string $mParent = null;
 
     public bool $mIsActive = false;
     
     public bool $mIsSuspended = false;
 
     //Vector converted to array
-    public $mChildren = null;
+    public ?array $mChildren = null;
 
     //Vector converted to array
-    public $mActiveChildren = null;
+    public ?array $mActiveChildren = null;
 
     public string $mDeliveryMode = "normal";
 
@@ -99,35 +99,35 @@ class SeqActivity
     public bool $mAttemptAbDurControl = false;
 
     //ADLDuration
-    public $mAttemptAbDur = null;
+    public ?string $mAttemptAbDur = null;
 
     public bool $mAttemptExDurControl = false;
 
-    public $mAttemptExDur = null;
+    public ?string $mAttemptExDur = null;
 
     public bool $mActivityAbDurControl = false;
 
     //ADLDuration
-    public $mActivityAbDur = null;
+    public ?string $mActivityAbDur = null;
 
     public bool $mActivityExDurControl = false;
 
     //ADLDuration
-    public $mActivityExDur = null;
+    public ?string $mActivityExDur = null;
 
     public bool $mBeginTimeControl = false;
 
-    public $mBeginTime = null;
+    public ?string $mBeginTime = null;
     
     public bool $mEndTimeControl = false;
 
-    public $mEndTime = null;
+    public ?string $mEndTime = null;
 
     //convert to array?
-    public $mAuxResources = null;
+    public ?string $mAuxResources = null;
 
     //SeqRollupRuleset
-    public $mRollupRules = null;
+    public ?array $mRollupRules = null;
 
     public bool $mActiveMeasure = true;
 
@@ -140,10 +140,10 @@ class SeqActivity
     public string $mRequiredForIncomplete = ROLLUP_CONSIDER_ALWAYS;
     
     //convert to array
-    public $mObjectives = null;
+    public ?array $mObjectives = null;
 
     //HashTable convert to assosiative array
-    public $mObjMaps = null;
+    public ?array $mObjMaps = null;
     
     public bool $mIsObjectiveRolledUp = true;
 
@@ -172,26 +172,30 @@ class SeqActivity
     public bool $mContentSetsObj = false;
         
     //ADLTracking
-    public $mCurTracking = null;
+    public ?object $mCurTracking = null;
         
     //convert to array?
-    public $mTracking = null;
+    public ?array $mTracking = null;
     
     public int $mNumAttempt = 0;
    
     public int $mNumSCOAttempt = 0;
     
     //ADLDuration
-    public $mActivityAbDur_track = null;
+    public ?string $mActivityAbDur_track = null;
       
     //ADLDuration
-    public $mActivityExDur_track = null;
+    public ?string $mActivityExDur_track = null;
        
     public float $mProgressThreshold = 1.0;
        
     public bool $mProgressDeterminedByMeasure = false;
        
     public float $mProgressWeight = 1.0;
+
+    public bool $mmActivityExDurControl;
+
+    public string $iTiming;
     
 
     public function __construct()
@@ -199,7 +203,7 @@ class SeqActivity
         //$this->mActiveChildren = array();
     }
     
-    public function addChild($ioChild) : void
+    public function addChild(object $ioChild) : void
     {
         if ($this->mChildren == null) {
             $this->mChildren = array();
@@ -234,20 +238,20 @@ class SeqActivity
         $this->mActiveOrder = $iOrder;
     }
     
-    public function setParent($iParent) : void
+    public function setParent(string $iParent) : void
     {
         $this->mParent = $iParent;
     }
     
 
     
-    //setters for public vats
-    public function setID($id) : void
+    //setters for public vars
+    public function setID(string $id) : void
     {
         $this->mActivityID = $id;
     }
    
-    public function setResourceID($id) : void
+    public function setResourceID(string $id) : void
     {
         $this->mResourceID = $id;
     }
@@ -313,7 +317,7 @@ class SeqActivity
         }
     }
     
-    public function setAttemptAbDur($iDur) : void
+    public function setAttemptAbDur(?string $iDur) : void
     {
         if ($iDur != null) {
             $this->mActivityAbDurControl = true;
@@ -325,7 +329,7 @@ class SeqActivity
         }
     }
     
-    public function setAttemptExDur($iDur) : void
+    public function setAttemptExDur(?string $iDur) : void
     {
         if ($iDur != null) {
             $this->mAttemptExDurControl = true;
@@ -336,7 +340,7 @@ class SeqActivity
         }
     }
     
-    public function setActivityAbDur($iDur) : void
+    public function setActivityAbDur(?string $iDur) : void
     {
         if ($iDur != null) {
             $this->mActivityAbDurControl = true;
@@ -346,7 +350,7 @@ class SeqActivity
         }
     }
     
-    public function setActivityExDur($iDur) : void
+    public function setActivityExDur(?string $iDur) : void
     {
         if ($iDur != null) {
             $this->mmActivityExDurControl = true;
@@ -356,7 +360,7 @@ class SeqActivity
         }
     }
     
-    public function setBeginTimeLimit($iTime) : void
+    public function setBeginTimeLimit(?string $iTime) : void
     {
         if ($iTime != null) {
             $this->mBeginTimeControl = true;
@@ -366,7 +370,7 @@ class SeqActivity
         }
     }
     
-    public function setEndTimeLimit($iTime) : void
+    public function setEndTimeLimit(?string $iTime) : void
     {
         if ($iTime != null) {
             $this->mEndTimeControl = true;
@@ -467,27 +471,27 @@ class SeqActivity
         $this->mActiveMeasure = $iActiveMeasure;
     }
     
-    public function setTitle($title) : void
+    public function setTitle(string $title) : void
     {
         $this->mTitle = $title;
     }
     
-    public function setPreSeqRules($iRuleSet) : void
+    public function setPreSeqRules(?array $iRuleSet) : void
     {
         $this->mPreConditionRules = $iRuleSet;
     }
    
-    public function setExitSeqRules($iRuleSet) : void
+    public function setExitSeqRules(?array $iRuleSet) : void
     {
         $this->mExitActionRules = $iRuleSet;
     }
 
-    public function setPostSeqRules($iRuleSet) : void
+    public function setPostSeqRules(?array $iRuleSet) : void
     {
         $this->mPostConditionRules = $iRuleSet;
     }
     
-    public function setObjectives($iObjs) : void
+    public function setObjectives(array $iObjs) : void
     {
         $this->mObjectives = $iObjs;
         for ($i = 0; $i < count($iObjs); $i++) {
@@ -514,12 +518,12 @@ class SeqActivity
         $this->mIsProgressRolledUp = $iRolledup;
     }
     
-    public function setRollupRules($iRuleSet) : void
+    public function setRollupRules(?array $iRuleSet) : void
     {
         $this->mRollupRules = $iRuleSet;
     }
     
-    public function setAuxResources($iRes) : void
+    public function setAuxResources(string $iRes) : void
     {
         $this->mAuxResources = $iRes;
     }
@@ -527,7 +531,7 @@ class SeqActivity
 
     
 
-    public function getID()
+    public function getID() : string
     {
         return $this->mActivityID;
     }

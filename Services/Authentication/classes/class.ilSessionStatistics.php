@@ -142,14 +142,14 @@ class ilSessionStatistics
         // no previous slot?  calculate last complete slot
         // should we use minimum session raw date instead? (problem: table lock)
         if (!$previous_slot_end) {
-            $slot = floor(date("i") / self::SLOT_SIZE);
+            $slot = (int) (floor(date("i") / self::SLOT_SIZE));
             // last slot of previous hour
             if (!$slot) {
-                $current_slot_begin = mktime(date("H", $a_now) - 1, 60 - self::SLOT_SIZE, 0);
+                $current_slot_begin = mktime((int) date("H", $a_now) - 1, 60 - self::SLOT_SIZE, 0);
             }
             // "normalize" to slot
             else {
-                $current_slot_begin = mktime(date("H", $a_now), ($slot - 1) * self::SLOT_SIZE, 0);
+                $current_slot_begin = mktime((int) date("H", $a_now), ($slot - 1) * self::SLOT_SIZE, 0);
             }
         } else {
             $current_slot_begin = $previous_slot_end + 1;

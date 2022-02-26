@@ -5,7 +5,6 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 /**
  * Class ilDclTextSelectionRecordFieldModel
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDclTextSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel

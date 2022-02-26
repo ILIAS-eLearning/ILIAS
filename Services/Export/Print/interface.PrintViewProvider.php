@@ -19,6 +19,10 @@ interface PrintViewProvider
      */
     public function getSelectionForm() : ?ilPropertyFormGUI;
 
+    public function getOnSubmitCode() : string;
+
+    public function autoPageBreak() : bool;
+
     /**
      * @return string[]
      */

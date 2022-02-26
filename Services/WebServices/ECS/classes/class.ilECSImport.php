@@ -19,10 +19,6 @@
 * This class stores the econent id and informations whether an object is imported or not.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSImport
 {
@@ -36,15 +32,7 @@ class ilECSImport
     protected int $mid = 0;
     protected bool $imported = false;
 
-
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param int $a_server_id
-     * @param int $a_obj_id
-     */
-    public function __construct($a_server_id, $a_obj_id)
+    public function __construct(int $a_server_id, int $a_obj_id)
     {
         global $DIC;
         $this->db = $DIC->database();
@@ -68,8 +56,7 @@ class ilECSImport
     /**
      * Set imported
      *
-     * @access public
-     * @param bool export status
+     * @param bool $a_status import status
      *
      */
     public function setImported($a_status)
@@ -89,7 +76,6 @@ class ilECSImport
     
     /**
      * Set content id.
-     * @param type $a_content_id
      */
     public function setContentId($a_content_id)
     {
@@ -98,7 +84,6 @@ class ilECSImport
     
     /**
      * get content id
-     * @return type
      */
     public function getContentId()
     {
@@ -108,7 +93,6 @@ class ilECSImport
     /**
      * set mid
      *
-     * @access public
      * @param int mid
      *
      */
@@ -119,9 +103,6 @@ class ilECSImport
     
     /**
      * get mid
-     *
-     * @access public
-     *
      */
     public function getMID()
     {
@@ -131,7 +112,6 @@ class ilECSImport
     /**
      * set econtent id
      *
-     * @access public
      * @param int econtent id
      *
      */
@@ -142,9 +122,6 @@ class ilECSImport
     
     /**
      * get econtent id
-     *
-     * @access public
-     *
      */
     public function getEContentId()
     {
@@ -153,8 +130,6 @@ class ilECSImport
     
     /**
      * Save
-     *
-     * @access public
      */
     public function save()
     {

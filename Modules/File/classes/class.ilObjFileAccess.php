@@ -425,7 +425,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         $set = $DIC->database()->query("SELECT file_size, version, file_id, page_count, rid" . " FROM file_data" . " WHERE "
             . $DIC->database()->in("file_id", $a_obj_ids, "", "integer"));
         while ($row = $DIC->database()->fetchAssoc($set)) {
-            self::$preload_list_gui_data[$row["file_id"]]["size"] = $row["file_size"];
+            self::$preload_list_gui_data[$row["file_id"]]["size"] = $row["file_size"] ?? 0;
             self::$preload_list_gui_data[$row["file_id"]]["version"] = $row["version"];
             self::$preload_list_gui_data[$row["file_id"]]["page_count"] = $row["page_count"];
             self::$preload_list_gui_data[$row["file_id"]]["rid"] = $row["rid"];
@@ -448,7 +448,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             if ($id = $DIC->resourceStorage()->manage()->find($rid)) {
                 $max = $DIC->resourceStorage()->manage()->getResource($id)->getCurrentRevision();
                 self::$preload_list_gui_data[$file_id]["version"] = $max->getVersionNumber();
-                self::$preload_list_gui_data[$file_id]["size"] = $max->getInformation()->getSize();
+                self::$preload_list_gui_data[$file_id]["size"] = $max->getInformation()->getSize() ?? 0;
                 self::$preload_list_gui_data[$file_id]["date"] = $max->getInformation()->getCreationDate()->format(DATE_ATOM);
             }
         }

@@ -79,7 +79,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
                 $a_obj_id,
                 array("skrt", "skll", "scat", "sktr")
             );
-            $childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
+            $childs = ilArrayUtil::sortArray($childs, "order_nr", "asc", true);
             $this->setData($childs);
         } elseif ($this->mode == self::MODE_SCTP) {
             $this->manage_perm = $this->tree_access_manager->hasManageCompetenceTemplatesPermission();
@@ -87,7 +87,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
                 $a_obj_id,
                 array("skrt", "sktp", "sctp")
             );
-            $childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
+            $childs = ilArrayUtil::sortArray($childs, "order_nr", "asc", true);
             $this->setData($childs);
         }
         

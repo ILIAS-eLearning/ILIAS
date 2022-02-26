@@ -15,24 +15,12 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSExportedContentTableGUI extends ilTable2GUI
 {
     private ilObjectDataCache $ilObjDataCache;
     
-    /**
-     * constructor
-     *
-     * @access public
-     * @param
-     *
-     */
     public function __construct($a_parent_obj, $a_parent_cmd = '')
     {
         global $DIC;
@@ -51,7 +39,6 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
     /**
      * Fill row
      *
-     * @access public
      * @param array row data
      *
      */
@@ -120,7 +107,6 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
     /**
      * Parse
      *
-     * @access public
      * @param array array of released content obj_ids
      *
      */

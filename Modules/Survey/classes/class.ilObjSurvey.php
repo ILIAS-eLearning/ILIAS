@@ -34,8 +34,8 @@ class ilObjSurvey extends ilObject
     public const QUESTIONTITLES_VISIBLE = 1;
 
     // constants to define the print view values.
-    public const PRINT_HIDE_LABELS = 1; // Show only the titles in "print" and "PDF Export"
-    public const PRINT_SHOW_LABELS = 3; // Show titles and labels in "print" and "PDF Export"
+    public const PRINT_HIDE_LABELS = 1; // Show only the titles in print view
+    public const PRINT_SHOW_LABELS = 3; // Show titles and labels in print view
 
     //MODE TYPES
     public const MODE_STANDARD = 0;
@@ -202,14 +202,15 @@ class ilObjSurvey extends ilObject
             ->data();
     }
 
-    public function create($a_upload = false)
+    public function create($a_upload = false) : int
     {
-        parent::create();
+        $id = parent::create();
         if (!$a_upload) {
             $this->createMetaData();
         }
         $this->setOfflineStatus(true);
         $this->update($a_upload);
+        return $id;
     }
 
     protected function doCreateMetaData() : void
@@ -217,7 +218,7 @@ class ilObjSurvey extends ilObject
         $this->saveAuthorToMetadata();
     }
 
-    public function update($a_upload = false)
+    public function update($a_upload = false) : bool
     {
         if (!$a_upload) {
             $this->updateMetaData();
@@ -232,14 +233,14 @@ class ilObjSurvey extends ilObject
         return true;
     }
 
-    public function createReference()
+    public function createReference() : int
     {
         $result = parent::createReference();
         $this->saveToDb();
         return $result;
     }
 
-    public function read()
+    public function read() : void
     {
         parent::read();
         $this->loadFromDb();
@@ -254,7 +255,7 @@ class ilObjSurvey extends ilObject
         $this->questions[] = $question_id;
     }
     
-    public function delete()
+    public function delete() : bool
     {
         if ($this->countReferences() == 1) {
             $this->deleteMetaData();
@@ -428,7 +429,7 @@ class ilObjSurvey extends ilObject
      * @todo move to run/participant manager/repo
      */
     public function getSurveyParticipants(
-        array $finished_ids = null,
+        ?array $finished_ids = null,
         bool $force_non_anonymous = false,
         bool $include_invites = false
     ) : array {
@@ -2249,7 +2250,7 @@ class ilObjSurvey extends ilObject
             }
         }
         
-        $result_array = ilUtil::sortArray($result_array, "order", "ASC", true, true);
+        $result_array = ilArrayUtil::sortArray($result_array, "order", "ASC", true, true);
         foreach ($result_array as $idx => $item) {
             unset($result_array[$idx]["order"]);
         }
@@ -2373,6 +2374,12 @@ class ilObjSurvey extends ilObject
         );
     }
 
+    /**
+     * These mails are sent to tutors for each single participant
+     * that finishes a survey. It includes the "additional participant data" text
+     * that can be set in the settings screen.
+     * @throws ilWACException
+     */
     public function sendNotificationMail(
         int $a_user_id,
         string $a_anonymize_id,
@@ -3222,7 +3229,7 @@ class ilObjSurvey extends ilObject
         return $error;
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $ilDB = $this->db;
         
@@ -3956,7 +3963,7 @@ class ilObjSurvey extends ilObject
     public function prepareTextareaOutput(
         string $txt_output
     ) : string {
-        return ilUtil::prepareTextareaOutput($txt_output);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($txt_output);
     }
 
     /**
@@ -4033,88 +4040,6 @@ class ilObjSurvey extends ilObject
     }
 
     /**
-     * Convert a print output to XSL-FO
-     * @todo deprecate / abandon
-     * @throws Exception
-     */
-    public function processPrintoutput2FO(
-        string $print_output
-    ) : string {
-        if (extension_loaded("tidy")) {
-            $config = array(
-                "indent" => false,
-                "output-xml" => true,
-                "numeric-entities" => true
-            );
-            $tidy = new tidy();
-            $tidy->parseString($print_output, $config, 'utf8');
-            $tidy->cleanRepair();
-            $print_output = tidy_get_output($tidy);
-            $print_output = preg_replace("/^.*?(<html)/", "\\1", $print_output);
-        } else {
-            $print_output = str_replace("&nbsp;", "&#160;", $print_output);
-            $print_output = str_replace("&otimes;", "X", $print_output);
-            
-            // #17680 - metric questions use &#160; in print view
-            $print_output = str_replace("&gt;", "~|gt|~", $print_output);		// see #21550
-            $print_output = str_replace("&lt;", "~|lt|~", $print_output);
-            $print_output = str_replace("&#160;", "~|nbsp|~", $print_output);
-            $print_output = preg_replace('/&(?!amp)/', '&amp;', $print_output);
-            $print_output = str_replace("~|nbsp|~", "&#160;", $print_output);
-            $print_output = str_replace("~|gt|~", "&gt;", $print_output);
-            $print_output = str_replace("~|lt|~", "&lt;", $print_output);
-        }
-        $xsl = file_get_contents("./Modules/Survey/xml/question2fo.xsl");
-
-        // additional font support
-        $xsl = str_replace(
-            'font-family="Helvetica, unifont"',
-            'font-family="' . $GLOBALS['ilSetting']->get('rpc_pdf_font', 'Helvetica, unifont') . '"',
-            $xsl
-        );
-        $args = array( '/_xml' => $print_output, '/_xsl' => $xsl );
-        $xh = xslt_create();
-        $params = array();
-        try {
-            $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        } catch (Exception $e) {
-            $this->log->error("Print XSLT failed:");
-            $this->log->error("Content: " . $print_output);
-            $this->log->error("Xsl: " . $xsl);
-            throw ($e);
-        }
-        xslt_error($xh);
-        xslt_free($xh);
-
-        return $output;
-    }
-    
-    /**
-     * Delivers a PDF file from a XSL-FO string
-     * @todo deprecate / abandon
-     */
-    public function deliverPDFfromFO(string $fo) : bool
-    {
-        /*
-        $ilLog = $this->log;
-
-        $fo_file = ilUtil::ilTempnam() . ".fo";
-        $fp = fopen($fo_file, "w");
-        fwrite($fp, $fo);
-        fclose($fp);
-
-        try {
-            $pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo);
-            ilUtil::deliverData($pdf_base64->scalar, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
-            return true;
-        } catch (Exception $e) {
-            $ilLog->write(__METHOD__ . ': ' . $e->getMessage());
-            return false;
-        }*/
-        return false;
-    }
-
-    /**
      * @todo deprecate / abandon
      */
     public function isPluginActive(string $a_pname) : bool
@@ -4156,31 +4081,49 @@ class ilObjSurvey extends ilObject
         return $result_array;
     }
 
+    /**
+     * Send mail to tutors each time a participant finishes the survey?
+     */
     public function getMailNotification() : bool
     {
         return $this->mailnotification;
     }
-    
+
+    /**
+     * Activate mail to tutors each time a participant finishes the survey
+     */
     public function setMailNotification(bool $a_notification) : void
     {
         $this->mailnotification = $a_notification;
     }
-    
+
+    /**
+     * (Tutor) Recipients of "single participant has finished" mails
+     */
     public function getMailAddresses() : string
     {
         return $this->mailaddresses;
     }
-    
+
+    /**
+     * Set (Tutor) Recipients of "single participant has finished" mails
+     */
     public function setMailAddresses(string $a_addresses) : void
     {
         $this->mailaddresses = $a_addresses;
     }
-    
+
+    /**
+     * Preceding text (incl. placeholders) for "single participant has finished" mails
+     */
     public function getMailParticipantData() : string
     {
         return $this->mailparticipantdata;
     }
-    
+
+    /**
+     * Set preceding text (incl. placeholders) for "single participant has finished" mails
+     */
     public function setMailParticipantData(string $a_data) : void
     {
         $this->mailparticipantdata = $a_data;
@@ -5098,22 +5041,37 @@ class ilObjSurvey extends ilObject
     {
         return $this->tutor_ntf_status;
     }
-    
+
+    /**
+     * Activates mail being sent to tutors after all participants have finished the survey
+     */
     public function setTutorNotificationStatus(bool $a_value) : void
     {
         $this->tutor_ntf_status = $a_value;
     }
-    
+
+    /**
+     * Mail being sent to tutors after all participants have finished the survey?
+     */
     public function getTutorNotificationRecipients() : array
     {
         return $this->tutor_ntf_recipients;
     }
-    
+
+    /**
+     * Set tutor recipients for "all participants have finished" mail
+     */
     public function setTutorNotificationRecipients(array $a_value) : void
     {
         $this->tutor_ntf_recipients = $a_value;
     }
-    
+
+    /**
+     * Group that is checked for the "all participants have finished" mail
+     * Either
+     * a) all members of a parent group/course or
+     * b) all users which have been invited (svy_invitation) (= task on dashboard)
+     */
     public function getTutorNotificationTarget() : int
     {
         return $this->tutor_ntf_target;
@@ -5143,12 +5101,19 @@ class ilObjSurvey extends ilObject
     {
         $this->tutor_res_recipients = $a_value;
     }
-    
+
+    /**
+     * Check, if mail to tutors after all participants have finished the survey
+     * should be sent.
+     */
     protected function checkTutorNotification() : void
     {
         $ilDB = $this->db;
         
         if ($this->getTutorNotificationStatus()) {
+
+            // get target users, either parent course/group members or
+            // user with the survey on the dashboard
             $user_ids = $this->getNotificationTargetUserIds(($this->getTutorNotificationTarget() == self::NOTIFICATION_INVITED_USERS));
             if ($user_ids) {
                 $set = $ilDB->query("SELECT COUNT(*) numall FROM svy_finished" .
@@ -5156,6 +5121,8 @@ class ilObjSurvey extends ilObject
                     " AND state = " . $ilDB->quote(1, "integer") .
                     " AND " . $ilDB->in("user_fi", $user_ids, "", "integer"));
                 $row = $ilDB->fetchAssoc($set);
+
+                // all users finished the survey -> send notifications
                 if ($row["numall"] == sizeof($user_ids)) {
                     $this->sendTutorNotification();
                 }
@@ -5257,7 +5224,13 @@ class ilObjSurvey extends ilObject
         );
     }
 
-
+    /**
+     * These users must finish the survey to trigger the
+     * tutor notification "all users finished the survey"
+     * a) members of a parent group/course or
+     * b) all members that have been invited (svy_invitation)
+     *    invitations are presented as tasks on the dashboard
+     */
     public function getNotificationTargetUserIds(
         bool $a_use_invited
     ) : array {
@@ -5281,11 +5254,15 @@ class ilObjSurvey extends ilObject
         }
         return $user_ids;
     }
-    
+
+    /**
+     * Send mail to tutors after all participants have finished the survey
+     */
     protected function sendTutorNotification() : void
     {
         $link = ilLink::_getStaticLink($this->getRefId(), "svy");
-            
+
+        // get tutors being set in the setting
         foreach ($this->getTutorNotificationRecipients() as $user_id) {
             // use language of recipient to compose message
             $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
@@ -5633,85 +5610,6 @@ class ilObjSurvey extends ilObject
         
         return $res;
     }
-
-    // most probably abandoned, see https://docu.ilias.de/goto_docu_wiki_wpage_6994_1357.html
-    /*
-    public function sendTutorResults() : void
-    {
-        global $ilCtrl, $ilDB;
-
-        $log = ilLoggerFactory::getLogger("svy");
-
-        $link = ilLink::_getStaticLink($this->getRefId(), "svy");
-
-        // yeah, I know...
-        $old_ref_id = $_GET["ref_id"];
-        $old_base_class = $_GET["baseClass"];
-        $_GET["ref_id"] = $this->getRefId();
-        $ilCtrl->setTargetScript("ilias.php");
-        $_GET["baseClass"] = "ilObjSurveyGUI";
-
-        $ilCtrl->setParameterByClass("ilSurveyEvaluationGUI", "ref_id", $this->getRefId());
-
-        try {
-            $gui = new ilSurveyEvaluationGUI($this);
-            $html = $gui->evaluation(1, true, true);
-        } catch (Exception $exception) {
-            $_GET["ref_id"] = $old_ref_id;
-            $_GET["baseClass"] = $old_base_class;
-            throw $exception;
-        }
-        $_GET["ref_id"] = $old_ref_id;
-        $_GET["baseClass"] = $old_base_class;
-
-        $html = preg_replace("/\?dummy\=[0-9]+/", "", $html);
-        $html = preg_replace("/\?vers\=[0-9A-Za-z\-]+/", "", $html);
-        $html = str_replace('.css$Id$', ".css", $html);
-        $html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
-        $html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
-
-        $pdf_factory = new ilHtmlToPdfTransformerFactory();
-        $pdf = $pdf_factory->deliverPDFFromHTMLString($html, "survey.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, "Survey", "Results");
-
-        if (!$pdf ||
-            !file_exists($pdf)) {
-            return;
-        }
-
-        // prepare mail attachment
-        $att = "survey_" . $this->getRefId() . ".pdf";
-        $mail_data = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $mail_data->copyAttachmentFile($pdf, $att);
-
-        foreach ($this->getTutorResultsRecipients() as $user_id) {
-            // use language of recipient to compose message
-            $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
-            $ulng->loadLanguageModule('survey');
-
-            $subject = sprintf($ulng->txt('survey_results_tutor_subject'), $this->getTitle());
-            $message = sprintf($ulng->txt('survey_notification_tutor_salutation'), ilObjUser::_lookupFullname($user_id)) . "\n\n";
-
-            $message .= $ulng->txt('survey_results_tutor_body') . ":\n\n";
-            $message .= $ulng->txt('obj_svy') . ": " . $this->getTitle() . "\n";
-            $message .= "\n" . $ulng->txt('survey_notification_tutor_link') . ": " . $link;
-
-            $mail_obj = new ilMail(ANONYMOUS_USER_ID);
-            $mail_obj->appendInstallationSignature(true);
-            $log->debug("send mail to user id: " . $user_id . ",login: " . ilObjUser::_lookupLogin($user_id));
-            $mail_obj->enqueue(
-                ilObjUser::_lookupLogin($user_id),
-                "",
-                "",
-                $subject,
-                $message,
-                array($att)
-            );
-        }
-
-        $ilDB->manipulate("UPDATE svy_svy" .
-            " SET tutor_res_cron = " . $ilDB->quote(1, "integer") .
-            " WHERE survey_id = " . $ilDB->quote($this->getSurveyId(), "integer"));
-    }*/
 
     public function getMaxSumScore() : int
     {

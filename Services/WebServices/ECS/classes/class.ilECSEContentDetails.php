@@ -18,9 +18,6 @@
  * Presentation of ecs content details (http://...campusconnect/courselinks/id/details)
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesWebServicesECS
  */
 class ilECSEContentDetails
 {

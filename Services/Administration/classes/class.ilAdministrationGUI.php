@@ -106,10 +106,8 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         if ($this->admin_mode != ilObjectGUI::ADMIN_MODE_REPOSITORY) {
             $this->admin_mode = ilObjectGUI::ADMIN_MODE_SETTINGS;
         }
-        
-        if (!ilUtil::isAPICall()) {
-            $this->ctrl->setReturn($this, "");
-        }
+    
+        $this->ctrl->setReturn($this, "");
 
         // determine current ref id and mode
         $ref_id = $this->request->getRefId();

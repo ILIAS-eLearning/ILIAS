@@ -104,7 +104,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                         unset($type_options[2]);
                         break;
                 }
-                $select = ilUtil::formSelect(
+                $select = ilLegacyFormElementsUtil::formSelect(
                     $value,
                     "obj_types[" . $a_set['id'] . "][" . $obj_type["obj_type"] . ":" . $obj_type["sub_type"] . "]",
                     $type_options,

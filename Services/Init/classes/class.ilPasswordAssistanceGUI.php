@@ -159,7 +159,9 @@ class ilPasswordAssistanceGUI
                 '<br />',
                 sprintf(
                     $this->lng->txt('pwassist_enter_username_and_email'),
-                    '<a href="mailto:' . ilUtil::prepareFormOutput($this->settings->get('admin_email')) . '">' . ilUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
+                    '<a href="mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
+                        $this->settings->get('admin_email')
+                    ) . '">' . ilLegacyFormElementsUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
                 )
             )
         );
@@ -350,7 +352,7 @@ class ilPasswordAssistanceGUI
         $form->addItem($username);
 
         $password = new ilPasswordInputGUI($this->lng->txt('password'), 'password');
-        $password->setInfo(\ilUtil::getPasswordRequirementsInfo());
+        $password->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
         $password->setRequired(true);
         $form->addItem($password);
 
@@ -475,7 +477,7 @@ class ilPasswordAssistanceGUI
             }
 
             $error_lng_var = '';
-            if (!ilUtil::isPasswordValidForUserContext($password, $userObj, $error_lng_var)) {
+            if (!ilSecuritySettingsChecker::isPasswordValidForUserContext($password, $userObj, $error_lng_var)) {
                 $message = $this->lng->txt($error_lng_var);
                 $is_successful = false;
             }
@@ -553,7 +555,9 @@ class ilPasswordAssistanceGUI
                 '<br />',
                 sprintf(
                     $this->lng->txt('pwassist_enter_email'),
-                    '<a href="mailto:' . ilUtil::prepareFormOutput($this->settings->get('admin_email')) . '">' . ilUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
+                    '<a href="mailto:' . ilLegacyFormElementsUtil::prepareFormOutput(
+                        $this->settings->get('admin_email')
+                    ) . '">' . ilLegacyFormElementsUtil::prepareFormOutput($this->settings->get('admin_email')) . '</a>'
                 )
             )
         );

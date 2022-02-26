@@ -17,11 +17,6 @@
 /**
  * ECS Event Handler
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
- *
- * @ilCtrl_Calls
- * @ingroup ServicesWebServicesECS
  */
 class ilECSAppEventListener implements ilAppEventListener
 {
@@ -227,7 +222,7 @@ class ilECSAppEventListener implements ilAppEventListener
      */
     private function handleMembership(ilObjUser $user)
     {
-        $this->log->debug('Handling ECS assignments ');
+        $this->logger->debug('Handling ECS assignments ');
         
         $assignments = ilECSCourseMemberAssignment::lookupMissingAssignmentsOfUser($user->getExternalAccount());
         foreach ($assignments as $assignment) {
@@ -236,11 +231,11 @@ class ilECSAppEventListener implements ilAppEventListener
                 $assignment->getMid()
             );
             if ($user->getAuthMode() == $msettings->getAuthMode()) {
-                $this->log->info('Adding user ' . $assignment->getUid() . ' to course/group: ' . $assignment->getObjId());
+                $this->logger->info('Adding user ' . $assignment->getUid() . ' to course/group: ' . $assignment->getObjId());
                 $obj_type = ilObject::_lookupType($assignment->getObjId());
                 if ($obj_type !== 'crs' && $obj_type !== 'grp') {
-                    $this->log->error('Invalid assignment type: ' . $obj_type);
-                    $this->log->logStack(ilLogLevel::ERROR);
+                    $this->logger->error('Invalid assignment type: ' . $obj_type);
+                    $this->logger->logStack(ilLogLevel::ERROR);
                     continue;
                 }
                 $refs = ilObject::_getAllReferences($assignment->getObjId());
@@ -254,12 +249,12 @@ class ilECSAppEventListener implements ilAppEventListener
                         $part->add($user->getId(), ilParticipants::IL_GRP_MEMBER);
                     }
                 } catch (InvalidArgumentException $e) {
-                    $this->log->error('Invalid ref_id given: ' . (int) $ref_id);
-                    $this->log->logStack(ilLogLevel::ERROR);
+                    $this->logger->error('Invalid ref_id given: ' . (int) $ref_id);
+                    $this->logger->logStack(ilLogLevel::ERROR);
                     continue;
                 }
             } else {
-                $this->log->notice('Auth mode of user: ' . $user->getAuthMode() . ' conflicts ' . $msettings->getAuthMode());
+                $this->logger->notice('Auth mode of user: ' . $user->getAuthMode() . ' conflicts ' . $msettings->getAuthMode());
             }
         }
     }

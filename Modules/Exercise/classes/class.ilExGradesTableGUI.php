@@ -159,7 +159,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         $mark = ilLPMarks::_lookupMark($user_id, $this->exc_id);
         $this->tpl->setVariable(
             "VAL_MARK",
-            ilUtil::prepareFormOutput($mark)
+            ilLegacyFormElementsUtil::prepareFormOutput($mark)
         );
         $this->tpl->parseCurrentBlock();
         
@@ -203,7 +203,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         $c = ilLPMarks::_lookupComment($user_id, $this->exc_id);
         $this->tpl->setVariable(
             "VAL_COMMENT",
-            ilUtil::prepareFormOutput($c)
+            ilLegacyFormElementsUtil::prepareFormOutput($c)
         );
     }
 }

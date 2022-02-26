@@ -49,7 +49,7 @@ class ilLDAPServerTableGUI extends ilTable2GUI
         $this->importData();
     }
     
-    private function importData()
+    private function importData() : void
     {
         $data = ilLDAPServer::_getAllServer();
         $this->setData($data);

@@ -77,6 +77,20 @@ class ilRadiusSettings
         return self::$instance = new ilRadiusSettings();
     }
     
+    public static function isDN($a_str)
+    {
+        return (preg_match("/^[a-z]+([a-z0-9-]*[a-z0-9]+)?(\.([a-z]+([a-z0-9-]*[a-z0-9]+)?)+)*$/", $a_str));
+    }
+    
+    public static function isIPv4($a_str)
+    {
+        return (preg_match(
+            "/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\." .
+            "(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/",
+            $a_str
+        ));
+    }
+    
     public function isActive() : bool
     {
         return $this->active;
@@ -256,7 +270,7 @@ class ilRadiusSettings
         foreach ($servers as $server) {
             $server = trim($server);
 
-            if (!ilUtil::isIPv4($server) and !ilUtil::isDN($server)) {
+            if (!self::isIPv4($server) and !self::isDN($server)) {
                 return false;
             }
         }

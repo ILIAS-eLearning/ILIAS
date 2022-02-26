@@ -89,7 +89,7 @@ class ilStyleColorTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
         
-        $this->tpl->setVariable("COLOR_NAME_ENC", ilUtil::prepareFormOutput($a_set["name"]));
+        $this->tpl->setVariable("COLOR_NAME_ENC", ilLegacyFormElementsUtil::prepareFormOutput($a_set["name"]));
         $this->tpl->setVariable("COLOR_NAME", $a_set["name"]);
         $this->tpl->setVariable("COLOR_CODE", $a_set["code"]);
         

@@ -131,11 +131,9 @@ class ilObjChatroom extends ilObject
         return $userInfo;
     }
 
-    public function initDefaultRoles() : array
+    public function initDefaultRoles() : void
     {
-        $role = $this->createDefaultRole();
-
-        return [];
+        $this->createDefaultRole();
     }
 
     protected function createDefaultRole() : ilObjRole
@@ -148,7 +146,7 @@ class ilObjChatroom extends ilObject
         );
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $original_room = ilChatroom::byObjectId($this->getId());
 

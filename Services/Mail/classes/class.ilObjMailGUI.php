@@ -24,7 +24,7 @@ class ilObjMailGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('mail');
     }
 
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -55,23 +55,21 @@ class ilObjMailGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
     private function isEditingAllowed() : bool
     {
-        return $this->rbacsystem->checkAccess('write', $this->object->getRefId());
+        return $this->rbac_system->checkAccess('write', $this->object->getRefId());
     }
 
     private function isViewAllowed() : bool
     {
-        return $this->rbacsystem->checkAccess('read', $this->object->getRefId());
+        return $this->rbac_system->checkAccess('read', $this->object->getRefId());
     }
 
     private function isPermissionChangeAllowed() : bool
     {
-        return $this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId());
+        return $this->rbac_system->checkAccess('edit_permission', $this->object->getRefId());
     }
 
     public function getAdminTabs() : void
@@ -637,6 +635,7 @@ class ilObjMailGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $mail = new ilMail($DIC->user()->getId());
         $request = $DIC->http()->request();
@@ -644,13 +643,10 @@ class ilObjMailGUI extends ilObjectGUI
         if ($DIC->rbac()->system()->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
             $DIC->ctrl()->redirectToURL('ilias.php?baseClass=ilMailGUI');
         } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(
-                sprintf(
-                    $DIC->language()->txt('msg_no_perm_read_item'),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-                ),
-                true
-            );
+            $main_tpl->setOnScreenMessage('failure', sprintf(
+                $DIC->language()->txt('msg_no_perm_read_item'),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+            ), true);
 
             $DIC->ctrl()->setTargetScript('ilias.php');
             $DIC->ctrl()->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);

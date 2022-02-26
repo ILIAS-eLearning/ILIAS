@@ -57,6 +57,6 @@ class ilLMEditShortTitlesTableGUI extends ilTable2GUI
         $this->tpl->setVariable("DEFAULT_TITLE", $a_set["default_title"]);
         $this->tpl->setVariable("DEFAULT_SHORT_TITLE", $a_set["default_short_title"]);
         $this->tpl->setVariable("ID", $a_set["obj_id"]);
-        $this->tpl->setVariable("SHORT_TITLE", ilUtil::prepareFormOutput($a_set["short_title"]));
+        $this->tpl->setVariable("SHORT_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["short_title"]));
     }
 }

@@ -256,7 +256,7 @@ class ilLocalUserGUI
         foreach ($roles as $role) {
             $role_obj = &ilObjectFactory::getInstanceByObjId($role['obj_id']);
             $disabled = false;
-            $f_result[$counter][] = ilUtil::formCheckbox(
+            $f_result[$counter][] = ilLegacyFormElementsUtil::formCheckbox(
                 in_array($role['obj_id'], $ass_roles) ? 1 : 0,
                 'role_ids[]',
                 $role['obj_id'],
@@ -379,7 +379,7 @@ class ilLocalUserGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
-        $tbl = &$this->parent_gui->__initTableGUI();
+        $tbl = &$this->__initTableGUI();
         $tpl = &$tbl->getTemplateObject();
         // SET FORMAACTION
         $tpl->setCurrentBlock("tbl_form_header");
@@ -426,11 +426,41 @@ class ilLocalUserGUI
             ));
         $tbl->setColumnWidth(array("4%", "35%", "45%", "16%"));
         $this->set_unlimited = true;
-        $this->parent_gui->__setTableGUIBasicData($tbl, $a_result_set, $a_from, true);
+        $this->__setTableGUIBasicData($tbl, $a_result_set, $a_from);
         $tbl->render();
         $this->tpl->setVariable('OBJECTS', $tbl->getTemplateObject()->get());
 
         return true;
+    }
+
+    protected function &__initTableGUI()
+    {
+        return new ilTableGUI([], false);
+    }
+
+    protected function __setTableGUIBasicData($tbl, &$result_set, string $a_from = "")
+    {
+        switch ($a_from) {
+            case "clipboardObject":
+                $offset = $_GET["offset"];
+                $order = $_GET["sort_by"];
+                $direction = $_GET["sort_order"];
+                $tbl->disable("footer");
+                break;
+
+            default:
+                $offset = $_GET["offset"];
+                $order = $_GET["sort_by"];
+                $direction = $_GET["sort_order"];
+                break;
+        }
+
+        $tbl->setOrderColumn($order);
+        $tbl->setOrderDirection($direction);
+        $tbl->setOffset($offset);
+        $tbl->setLimit($_GET["limit"]);
+        $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
+        $tbl->setData($result_set);
     }
 
     /**

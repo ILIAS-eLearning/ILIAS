@@ -113,7 +113,7 @@ class ilExport
     {
         $files = ilExport::_getExportFiles($a_obj_id, $a_type, $a_obj_type);
         if (is_array($files)) {
-            $files = ilUtil::sortArray($files, "timestamp", "desc");
+            $files = ilArrayUtil::sortArray($files, "timestamp", "desc");
             return (int) $files[0]["timestamp"];
         }
         return 0;
@@ -133,7 +133,7 @@ class ilExport
     ) : ?array {
         $files = ilExport::_getExportFiles($a_obj_id, $a_type, $a_obj_type);
         if (is_array($files)) {
-            $files = ilUtil::sortArray($files, "timestamp", "desc");
+            $files = ilArrayUtil::sortArray($files, "timestamp", "desc");
             return $files[0];
         }
         return null;

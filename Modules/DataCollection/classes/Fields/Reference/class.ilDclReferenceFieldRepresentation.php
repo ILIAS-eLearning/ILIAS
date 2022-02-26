@@ -2,14 +2,12 @@
 
 /**
  * Class ilDclTextFieldRepresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
 class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     const REFERENCE_SEPARATOR = " -> ";
-
 
     public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
     {
@@ -88,10 +86,10 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT, false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
+            false, $this->getField()->getId());
         $ref_field_id = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
         $ref_field = ilDclCache::getFieldCache($ref_field_id);
         $ref_table = ilDclCache::getTableCache($ref_field->getTableId());
@@ -111,13 +109,13 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-
     public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
 
         $pass = false;
-        if ($filter && $this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE) && is_array($value) && in_array($filter, $value)) {
+        if ($filter && $this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE) && is_array($value) && in_array($filter,
+                $value)) {
             $pass = true;
         }
         if (!$filter || $filter == $value) {
@@ -126,7 +124,6 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 
         return $pass;
     }
-
 
     /**
      * @inheritDoc
@@ -146,16 +143,19 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                 }
             }
         }
-        $prop_table_selection = new ilSelectInputGUI($this->lng->txt('dcl_reference_title'), 'prop_' . ilDclBaseFieldModel::PROP_REFERENCE);
+        $prop_table_selection = new ilSelectInputGUI($this->lng->txt('dcl_reference_title'),
+            'prop_' . ilDclBaseFieldModel::PROP_REFERENCE);
         $prop_table_selection->setOptions($options);
 
         $opt->addSubItem($prop_table_selection);
 
-        $prop_ref_link = new ilDclCheckboxInputGUI($this->lng->txt('dcl_reference_link'), 'prop_' . ilDclBaseFieldModel::PROP_REFERENCE_LINK);
+        $prop_ref_link = new ilDclCheckboxInputGUI($this->lng->txt('dcl_reference_link'),
+            'prop_' . ilDclBaseFieldModel::PROP_REFERENCE_LINK);
         $prop_ref_link->setInfo($this->lng->txt('dcl_reference_link_info'));
         $opt->addSubItem($prop_ref_link);
 
-        $prop_multi_select = new ilDclCheckboxInputGUI($this->lng->txt('dcl_multiple_selection'), 'prop_' . ilDclBaseFieldModel::PROP_N_REFERENCE);
+        $prop_multi_select = new ilDclCheckboxInputGUI($this->lng->txt('dcl_multiple_selection'),
+            'prop_' . ilDclBaseFieldModel::PROP_N_REFERENCE);
         $opt->addSubItem($prop_multi_select);
 
         return $opt;

@@ -4,13 +4,11 @@
 
 /**
  * Class ilDclDetailedViewDefinition
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclDetailedViewDefinition extends ilPageObject
@@ -25,7 +23,6 @@ class ilDclDetailedViewDefinition extends ilPageObject
      */
     protected static $record_view_cache = array();
 
-
     /**
      * Get parent type
      * @return string parent type
@@ -35,14 +32,11 @@ class ilDclDetailedViewDefinition extends ilPageObject
         return self::PARENT_TYPE;
     }
 
-
     /**
      * Get all placeholders for table id
-     *
      * @return array
      * @internal param int $a_table_id
      * @internal param bool $a_verbose
-     *
      */
     public function getAvailablePlaceholders()
     {
@@ -73,12 +67,10 @@ class ilDclDetailedViewDefinition extends ilPageObject
         return $all;
     }
 
-
     public static function exists($id)
     {
         return parent::_exists(self::PARENT_TYPE, $id);
     }
-
 
     public static function isActive($id)
     {

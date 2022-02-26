@@ -729,7 +729,7 @@ class ilSkillProfileGUI
             return;
         }
 
-        $order = ilUtil::stripSlashesArray($this->requested_level_order);
+        $order = ilArrayUtil::stripSlashesArray($this->requested_level_order);
         $this->profile->updateSkillOrder($order);
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);

@@ -33,8 +33,8 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     {
         return array();
     }
-
-    public function executeCommand()
+    
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -45,7 +45,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
                         default:
@@ -82,7 +82,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                 // upload file to filesystem
     }
 
-    public function setTabs()
+    public function setTabs() : void
     {
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
 
@@ -122,7 +122,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
         );
     }
 
-    public function addLocatorItems()
+    public function addLocatorItems() : void
     {
         if (is_object($this->object)) {
             $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);

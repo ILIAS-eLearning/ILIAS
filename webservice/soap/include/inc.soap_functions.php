@@ -51,7 +51,7 @@ class ilSoapFunctions
     // These functions are wrappers for soap, since it cannot register methods inside classes
 
     // USER ADMINISTRATION
-    public static function login($client, $username, $password)
+    public static function login(string $client, string $username, string $password)
     {
         include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
@@ -59,39 +59,8 @@ class ilSoapFunctions
 
         return $sua->login($client, $username, $password);
     }
-
-    public static function loginCAS($client, $PT, $user)
-    {
-        include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
-
-        $sua = new ilSoapUserAdministration();
-
-        return $sua->loginCAS($client, $PT, $user);
-    }
-
-    public static function loginLDAP($client, $username, $password)
-    {
-        include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
-
-        $sua = new ilSoapUserAdministration();
-
-        return $sua->loginLDAP($client, $username, $password);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function loginStudipUser($sid, $user_id)
-    {
-        include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
-
-        $sua = new ilSoapUserAdministration();
-
-        return $sua->loginStudipUser($sid, $user_id);
-    }
-
     
-    public static function logout($sid)
+    public static function logout(string $sid)
     {
         include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
@@ -99,7 +68,7 @@ class ilSoapFunctions
 
         return $sua->logout($sid);
     }
-    public static function lookupUser($sid, $user_name)
+    public static function lookupUser(string $sid, string $user_name)
     {
         include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
@@ -108,7 +77,7 @@ class ilSoapFunctions
         return $sua->lookupUser($sid, $user_name);
     }
 
-    public static function getUser($sid, $user_id)
+    public static function getUser(string $sid, int $user_id)
     {
         include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
@@ -121,7 +90,7 @@ class ilSoapFunctions
 
     /**
      */
-    public static function deleteUser($sid, $user_id)
+    public static function deleteUser(string $sid, int $user_id)
     {
         include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
@@ -131,8 +100,7 @@ class ilSoapFunctions
     }
 
 
-    // COURSE ADMINSTRATION
-    public static function addCourse($sid, $target_id, $crs_xml)
+    public static function addCourse(string $sid, int $target_id, string $crs_xml)
     {
         include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
@@ -140,7 +108,7 @@ class ilSoapFunctions
 
         return $sca->addCourse($sid, $target_id, $crs_xml);
     }
-    public static function deleteCourse($sid, $course_id)
+    public static function deleteCourse(string $sid, int $course_id)
     {
         include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
@@ -148,7 +116,7 @@ class ilSoapFunctions
 
         return $sca->deleteCourse($sid, $course_id);
     }
-    public static function assignCourseMember($sid, $course_id, $user_id, $type)
+    public static function assignCourseMember(string $sid, int $course_id, int $user_id, int $type)
     {
         include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
@@ -156,7 +124,7 @@ class ilSoapFunctions
 
         return $sca->assignCourseMember($sid, $course_id, $user_id, $type);
     }
-    public static function isAssignedToCourse($sid, $course_id, $user_id)
+    public static function isAssignedToCourse(string $sid, int $course_id, int $user_id)
     {
         include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
@@ -165,7 +133,7 @@ class ilSoapFunctions
         return $sca->isAssignedToCourse($sid, $course_id, $user_id);
     }
 
-    public static function excludeCourseMember($sid, $course_id, $user_id)
+    public static function excludeCourseMember(string $sid, int $course_id, int $user_id)
     {
         include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
@@ -173,7 +141,7 @@ class ilSoapFunctions
 
         return $sca->excludeCourseMember($sid, $course_id, $user_id);
     }
-    public static function getCourseXML($sid, $course_id)
+    public static function getCourseXML(string $sid, int $course_id)
     {
         include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
@@ -181,7 +149,7 @@ class ilSoapFunctions
 
         return $sca->getCourseXML($sid, $course_id);
     }
-    public static function updateCourse($sid, $course_id, $xml)
+    public static function updateCourse(string $sid, int $course_id, string $xml)
     {
         include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
@@ -190,7 +158,7 @@ class ilSoapFunctions
         return $sca->updateCourse($sid, $course_id, $xml);
     }
     // Object admninistration
-    public static function getObjIdByImportId($sid, $import_id)
+    public static function getObjIdByImportId(string $sid, string $import_id)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -199,7 +167,7 @@ class ilSoapFunctions
         return $soa->getObjIdByImportId($sid, $import_id);
     }
 
-    public static function getRefIdsByImportId($sid, $import_id)
+    public static function getRefIdsByImportId(string $sid, string $import_id)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -207,7 +175,7 @@ class ilSoapFunctions
 
         return $soa->getRefIdsByImportId($sid, $import_id);
     }
-    public static function getRefIdsByObjId($sid, $object_id)
+    public static function getRefIdsByObjId(string $sid, int $object_id)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -217,7 +185,7 @@ class ilSoapFunctions
     }
 
 
-    public static function getObjectByReference($sid, $a_ref_id, $user_id)
+    public static function getObjectByReference(string $sid, int $a_ref_id, int $user_id)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -226,7 +194,7 @@ class ilSoapFunctions
         return $soa->getObjectByReference($sid, $a_ref_id, $user_id);
     }
 
-    public static function getObjectsByTitle($sid, $a_title, $user_id)
+    public static function getObjectsByTitle(string $sid, string $a_title, int $user_id)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -235,7 +203,7 @@ class ilSoapFunctions
         return $soa->getObjectsByTitle($sid, $a_title, $user_id);
     }
 
-    public static function addObject($sid, $a_target_id, $a_xml)
+    public static function addObject(string $sid, int $a_target_id, string $a_xml)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -244,7 +212,7 @@ class ilSoapFunctions
         return $soa->addObject($sid, $a_target_id, $a_xml);
     }
 
-    public static function addReference($sid, $a_source_id, $a_target_id)
+    public static function addReference(string $sid, int $a_source_id, int $a_target_id)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -253,7 +221,7 @@ class ilSoapFunctions
         return $soa->addReference($sid, $a_source_id, $a_target_id);
     }
 
-    public static function deleteObject($sid, $reference_id)
+    public static function deleteObject(string $sid, int $reference_id)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -262,7 +230,7 @@ class ilSoapFunctions
         return $soa->deleteObject($sid, $reference_id);
     }
 
-    public static function removeFromSystemByImportId($sid, $import_id)
+    public static function removeFromSystemByImportId(string $sid, string $import_id)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -271,7 +239,7 @@ class ilSoapFunctions
         return $soa->removeFromSystemByImportId($sid, $import_id);
     }
 
-    public static function updateObjects($sid, $obj_xml)
+    public static function updateObjects(string $sid, string $obj_xml)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -279,7 +247,7 @@ class ilSoapFunctions
 
         return $soa->updateObjects($sid, $obj_xml);
     }
-    public static function searchObjects($sid, $types, $key, $combination, $user_id)
+    public static function searchObjects(string $sid, array $types, string $key, string $combination, int $user_id)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -288,7 +256,7 @@ class ilSoapFunctions
         return $soa->searchObjects($sid, $types, $key, $combination, $user_id);
     }
 
-    public static function getTreeChilds($sid, $ref_id, $types, $user_id)
+    public static function getTreeChilds(string $sid, int $ref_id, array $types, int $user_id)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -297,7 +265,7 @@ class ilSoapFunctions
         return $soa->getTreeChilds($sid, $ref_id, $types, $user_id);
     }
 
-    public static function getXMLTree($sid, $ref_id, $types, $user_id)
+    public static function getXMLTree(string $sid, int $ref_id, array $types, int $user_id)
     {
         include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 
@@ -309,7 +277,7 @@ class ilSoapFunctions
 
 
     // Rbac Tree public static function s
-    public static function getOperations($sid)
+    public static function getOperations(string $sid)
     {
         include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
@@ -319,7 +287,7 @@ class ilSoapFunctions
     }
 
 
-    public static function addUserRoleEntry($sid, $user_id, $role_id)
+    public static function addUserRoleEntry(string $sid, int $user_id, int $role_id)
     {
         include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
@@ -328,7 +296,7 @@ class ilSoapFunctions
         return $soa->addUserRoleEntry($sid, $user_id, $role_id);
     }
 
-    public static function deleteUserRoleEntry($sid, $user_id, $role_id)
+    public static function deleteUserRoleEntry(string $sid, int $user_id, int $role_id)
     {
         include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
@@ -337,7 +305,7 @@ class ilSoapFunctions
         return $soa->deleteUserRoleEntry($sid, $user_id, $role_id);
     }
 
-    public static function revokePermissions($sid, $ref_id, $role_id)
+    public static function revokePermissions(string $sid, int $ref_id, int $role_id)
     {
         include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
@@ -346,7 +314,7 @@ class ilSoapFunctions
         return $soa->revokePermissions($sid, $ref_id, $role_id);
     }
 
-    public static function grantPermissions($sid, $ref_id, $role_id, $permissions)
+    public static function grantPermissions(string $sid, int $ref_id, int $role_id, array $permissions)
     {
         include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
@@ -355,7 +323,7 @@ class ilSoapFunctions
         return $soa->grantPermissions($sid, $ref_id, $role_id, $permissions);
     }
 
-    public static function getLocalRoles($sid, $ref_id)
+    public static function getLocalRoles(string $sid, int $ref_id)
     {
         include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
@@ -364,7 +332,7 @@ class ilSoapFunctions
         return $soa->getLocalRoles($sid, $ref_id);
     }
 
-    public static function getUserRoles($sid, $user_id)
+    public static function getUserRoles(string $sid, int $user_id)
     {
         include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
@@ -373,7 +341,7 @@ class ilSoapFunctions
         return $soa->getUserRoles($sid, $user_id);
     }
 
-    public static function deleteRole($sid, $role_id)
+    public static function deleteRole(string $sid, int $role_id)
     {
         include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
 
@@ -457,7 +425,7 @@ class ilSoapFunctions
 
         $sca = new ilSoapGroupAdministration();
 
-        return $sca->excludeGroupMember($sid, $group_id, $user_id, $type);
+        return $sca->excludeGroupMember($sid, $group_id, $user_id);
     }
 
     public static function distributeMails($sid, $mail_xml)
@@ -487,17 +455,6 @@ class ilSoapFunctions
         $sou->ignoreUserAbort();
 
         return $sou->ilCloneDependencies($sid, $copy_identifier);
-    }
-    
-    public static function handleECSTasks($sid, $a_server_id)
-    {
-        include_once './webservice/soap/classes/class.ilSoapUtils.php';
-
-        $sou = new ilSoapUtils();
-        $sou->disableSoapCheck();
-        $sou->ignoreUserAbort();
-        
-        return $sou->handleECSTasks($sid, $a_server_id);
     }
 
     public static function saveQuestionResult($sid, $user_id, $test_id, $question_id, $pass, $solution)
@@ -656,13 +613,6 @@ class ilSoapFunctions
         return $sua->hasNewMail($sid);
     }
 
-    public static function getNIC($sid)
-    {
-        include_once './webservice/soap/classes/class.ilSoapAdministration.php';
-        $soa = new ilSoapAdministration();
-        return $soa->getNIC($sid);
-    }
-
     public static function getExerciseXML($sid, $ref_id, $attachFileContentsMode)
     {
         include_once './webservice/soap/classes/class.ilSoapExerciseAdministration.php';
@@ -784,7 +734,7 @@ class ilSoapFunctions
      * @param $sid	session id
      * @param $refid  source iod
      * @param $target target ref id
-     * @return int refid of new location, -1 if not successful
+     * return int refid of new location, -1 if not successful
      */
     public static function moveObject($sid, $ref_id, $target_id)
     {
@@ -802,8 +752,6 @@ class ilSoapFunctions
      * @param string $sid
      * @param int $ref_id
      * @param boolean $sum_only
-     *
-     * @return XMLResultSet with columns firstname, lastname, matriculation, maximum points, received points
      */
 
     public static function getTestResults($sid, $ref_id, $sum_only)
@@ -907,14 +855,14 @@ class ilSoapFunctions
 
         //dirname cuts the last directory from a directory path e.g content/classes return content
         include_once 'Services/Utilities/classes/class.ilUtil.php';
-        $module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
+        $module = ilFileUtils::removeTrailingPathSeparators(ILIAS_MODULE);
 
         $dirs = explode('/', $module);
         $uri = $path;
         foreach ($dirs as $dir) {
             $uri = dirname($uri);
         }
-        return ilUtil::removeTrailingPathSeparators($protocol . $host . $uri);
+        return ilFileUtils::removeTrailingPathSeparators($protocol . $host . $uri);
     }
 
     public static function getSCORMCompletionStatus($sid, $usr_id, $a_ref_id)
@@ -1036,14 +984,7 @@ class ilSoapFunctions
     // mcs-patch end
     
 
-    /**
-     * Get learning progress info
-     * @param type $sid
-     * @param type $ref_id
-     * @param type $progress_filter
-     * @return type
-     */
-    public static function getProgressInfo($sid, $ref_id, $progress_filter)
+    public static function getProgressInfo(string $sid, int $ref_id, array $progress_filter)
     {
         include_once './webservice/soap/classes/class.ilSoapLearningProgressAdministration.php';
         $sla = new ilSoapLearningProgressAdministration();
@@ -1066,37 +1007,6 @@ class ilSoapFunctions
         include_once './webservice/soap/classes/class.ilSoapDataCollectionAdministration.php';
         $dcl = new ilSoapDataCollectionAdministration();
         return $dcl->exportDataCollectionContent($sid, $data_collection_id, $table_id, $format, $filepath);
-    }
-
-    /**
-     * Add desktop items for user
-     *
-     * @param $sid
-     * @param $user_id
-     * @param $reference_ids
-     * @return int
-     */
-    /* abandonded with 6.0
-    public static function addDesktopItems($sid, $user_id, $reference_ids)
-    {
-        include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
-        $obj_handler = new ilSoapObjectAdministration();
-        return $obj_handler->addDesktopItems($sid, $user_id, $reference_ids);
-    }*/
-
-    /**
-     * Add desktop items for user
-     *
-     * @param $sid
-     * @param $user_id
-     * @param $reference_ids
-     * @return int
-     */
-    public static function removeDesktopItems($sid, $user_id, $reference_ids)
-    {
-        include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
-        $obj_handler = new ilSoapObjectAdministration();
-        return $obj_handler->removeDesktopItems($sid, $user_id, $reference_ids);
     }
 
 

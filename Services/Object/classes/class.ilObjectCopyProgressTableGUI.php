@@ -79,7 +79,7 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
 
-        $this->tpl->setVariable('TYPE_IMG', ilUtil::getTypeIconPath($a_set['type'], $a_set['obj_id']));
+        $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon($a_set['obj_id'], "small", $a_set['type']));
         $this->tpl->setVariable('TYPE_STR', $this->lng->txt('obj_' . $a_set['type']));
 
         $progress = ilProgressBar::getInstance();

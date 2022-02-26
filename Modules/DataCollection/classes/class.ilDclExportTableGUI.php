@@ -3,7 +3,6 @@
 
 /**
  * Export User Interface Class
- *
  * @author       Michael Herren <mh@studer-raimann.ch>
  */
 class ilDclExportTableGUI extends ilExportTableGUI
@@ -14,7 +13,6 @@ class ilDclExportTableGUI extends ilExportTableGUI
 
         $this->addCustomColumn($this->lng->txt('status'), $this, 'parseExportStatus');
     }
-
 
     public function getExportFiles() : array
     {
@@ -65,7 +63,6 @@ class ilDclExportTableGUI extends ilExportTableGUI
         return $files;
     }
 
-
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
@@ -85,11 +82,13 @@ class ilDclExportTableGUI extends ilExportTableGUI
             : $a_set['type'];
         $this->tpl->setVariable('VAL_TYPE', $type);
 
-        $filename = ($this->isExportInProgress($a_set['file'])) ? substr($a_set['file'], 0, -strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX)) . ".xlsx" : $a_set['file'];
+        $filename = ($this->isExportInProgress($a_set['file'])) ? substr($a_set['file'], 0,
+                -strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX)) . ".xlsx" : $a_set['file'];
         $this->tpl->setVariable('VAL_FILE', $filename);
 
         $this->tpl->setVariable('VAL_SIZE', ilUtil::formatSize($a_set['size']));
-        $this->tpl->setVariable('VAL_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX)));
+        $this->tpl->setVariable('VAL_DATE',
+            ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX)));
 
         if (!$this->isExportInProgress($a_set['file'])) {
             $this->tpl->setVariable('TXT_DOWNLOAD', $this->lng->txt('download'));
@@ -100,7 +99,6 @@ class ilDclExportTableGUI extends ilExportTableGUI
             $this->tpl->setVariable('URL_DOWNLOAD', $url);
         }
     }
-
 
     public function parseExportStatus($type, $file)
     {
@@ -116,7 +114,6 @@ class ilDclExportTableGUI extends ilExportTableGUI
             return $this->lng->txt('dcl_export_finished');
         }
     }
-
 
     protected function isExportInProgress($file)
     {

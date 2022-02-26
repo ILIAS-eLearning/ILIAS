@@ -32,12 +32,12 @@ class ilObjRemoteCategory extends ilRemoteObjectBase
         $this->type = "rcat";
     }
     
-    protected function getTableName()
+    protected function getTableName() : string
     {
         return self::DB_TABLE_NAME;
     }
     
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return "/campusconnect/categories";
     }

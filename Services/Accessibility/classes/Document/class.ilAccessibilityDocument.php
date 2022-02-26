@@ -117,7 +117,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         return (int) $this->id;
     }
 
-    public function read()
+    public function read() : void
     {
         parent::read();
 

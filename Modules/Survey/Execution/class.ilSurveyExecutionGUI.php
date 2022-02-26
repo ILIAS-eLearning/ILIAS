@@ -758,7 +758,8 @@ class ilSurveyExecutionGUI
             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                 ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
             }
-                                    
+
+            // send "single participant has finished" mail to tutors
             if ($this->object->getMailNotification()) {
                 $this->object->sendNotificationMail(
                     $ilUser->getId(),

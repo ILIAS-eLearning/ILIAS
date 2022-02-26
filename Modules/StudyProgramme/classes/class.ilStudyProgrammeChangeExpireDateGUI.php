@@ -2,7 +2,6 @@
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Factory;
 use ILIAS\UI\Component\Input\Field\Input;
@@ -21,7 +20,7 @@ class ilStudyProgrammeChangeExpireDateGUI
     protected ilObjUser $user;
     protected Factory $input_factory;
     protected Renderer $renderer;
-    protected ServerRequest $request;
+    protected Psr\Http\Message\ServerRequestInterface $request;
     protected ILIAS\Refinery\Factory $refinery_factory;
     protected ILIAS\Data\Factory $data_factory;
     protected ilPRGMessagePrinter $messages;
@@ -39,7 +38,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         ilObjUser $user,
         Factory $input_factory,
         Renderer $renderer,
-        ServerRequest $request,
+        Psr\Http\Message\ServerRequestInterface $request,
         ILIAS\Refinery\Factory $refinery_factory,
         ILIAS\Data\Factory $data_factory,
         ilPRGMessagePrinter $messages
@@ -59,25 +58,20 @@ class ilStudyProgrammeChangeExpireDateGUI
 
     public function executeCommand() : void
     {
-        $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) {
-            default:
-                switch ($cmd) {
-                    case self::CMD_SHOW_EXPIRE_DATE_CONFIG:
-                        $this->showExpireDateConfig();
-                        break;
-                    case self::CMD_CHANGE_EXPIRE_DATE:
-                        $this->changeExpireDate();
-                        break;
-                    case 'cancel':
-                        $this->redirectToParent();
-                        break;
-                    default:
-                        throw new Exception('Unknown command ' . $cmd);
-                }
+        switch ($cmd) {
+            case self::CMD_SHOW_EXPIRE_DATE_CONFIG:
+                $this->showExpireDateConfig();
                 break;
+            case self::CMD_CHANGE_EXPIRE_DATE:
+                $this->changeExpireDate();
+                break;
+            case 'cancel':
+                $this->redirectToParent();
+                break;
+            default:
+                throw new Exception('Unknown command ' . $cmd);
         }
     }
 

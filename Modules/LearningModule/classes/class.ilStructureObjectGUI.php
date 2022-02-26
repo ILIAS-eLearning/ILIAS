@@ -311,7 +311,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         // SHOW POSSIBLE SUB OBJECTS
         $this->tpl->setVariable("NUM_COLS", 3);
         $subobj = array("st");
-        $opts = ilUtil::formSelect(12, "new_type", $subobj);
+        $opts = ilLegacyFormElementsUtil::formSelect(12, "new_type", $subobj);
         $this->tpl->setCurrentBlock("add_object");
         $this->tpl->setVariable("SELECT_OBJTYPE", $opts);
         $this->tpl->setVariable("BTN_NAME", "create");
@@ -556,6 +556,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         int $a_target_ref_id = 0
     ) : void {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
@@ -583,7 +584,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         }
         
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle($lm_id)
             ), true);

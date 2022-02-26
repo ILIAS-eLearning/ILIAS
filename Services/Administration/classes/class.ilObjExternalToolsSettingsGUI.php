@@ -45,12 +45,12 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $lng->loadLanguageModule("mathjax");
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
     
-    protected function getTabs()
+    protected function getTabs() : void
     {
         $rbacsystem = $this->rbacsystem;
 

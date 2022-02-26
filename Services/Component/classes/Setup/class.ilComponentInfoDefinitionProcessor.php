@@ -49,7 +49,7 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
 
         if (!isset($attributes["id"])) {
             throw new \InvalidArgumentException(
-                "Expected attribute 'id' for tag '$name' in {$this->component}"
+                "Expected attribute 'id' for tag '$name' in $this->component"
             );
         }
 
@@ -57,7 +57,7 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
         if (!is_null($type)) {
             if ($type !== $this->type) {
                 throw new \InvalidArgumentException(
-                    "Type {$this->type} and tag don't match for component {$this->component}"
+                    "Type $this->type and tag don't match for component $this->component"
                 );
             }
             if (isset($this->data[$id])) {
@@ -70,7 +70,7 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
         } else {
             if (!isset($attributes["name"])) {
                 throw new \InvalidArgumentException(
-                    "Expected attribute 'name' for tag '$name' in {$this->component}"
+                    "Expected attribute 'name' for tag '$name' in $this->component"
                 );
             }
             if (isset($this->slots[$id])) {

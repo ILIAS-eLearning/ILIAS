@@ -46,7 +46,7 @@ class ilObjOrgUnit extends ilContainer
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function read()
+    public function read() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -60,18 +60,20 @@ class ilObjOrgUnit extends ilContainer
         }
     }
 
-    public function create()
+
+    public function create() : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        parent::create();
+        $id = parent::create();
         $ilDB->insert(self::TABLE_NAME, array(
             'orgu_type_id' => array('integer', $this->getOrgUnitTypeId()),
             'orgu_id' => array('integer', $this->getId()),
         ));
+        return $id;
     }
 
-    public function update()
+    public function update() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -98,6 +100,8 @@ class ilObjOrgUnit extends ilContainer
             // If no type is assigned, delete relations by passing an empty array
             ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'orgu_type', array());
         }
+
+        return true;
     }
 
     /**
@@ -365,21 +369,11 @@ class ilObjOrgUnit extends ilContainer
         return $return;
     }
 
-    /**
-     * @param        $a_id
-     * @param bool   $a_reference
-     * @param string $type
-     * @return bool
-     */
-    public static function _exists($a_id, $a_reference = false, $type = "orgu")
+    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = "orgu") : bool
     {
         return parent::_exists($a_id, $a_reference, "orgu");
     }
 
-    /**
-     * Return title
-     * @return string
-     */
     public function getTitle() : string
     {
         if (parent::getTitle() != "__OrgUnitAdministration") {
@@ -445,7 +439,7 @@ class ilObjOrgUnit extends ilContainer
      * @return    boolean    true if all object data were removed; false if only a references were
      *                       removed
      */
-    public function delete()
+    public function delete() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

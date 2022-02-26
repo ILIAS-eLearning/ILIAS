@@ -179,7 +179,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_PARENT", $a_set["parent_title"]);
             $this->tpl->setVariable(
                 "SRC_PARENT",
-                ilObject::_getIcon($a_set["parent"]["id"], "big", $a_set["parent"]["type"])
+                ilObject::_getIcon((int) $a_set["parent"]["id"], "big", $a_set["parent"]["type"])
             );
         }
 

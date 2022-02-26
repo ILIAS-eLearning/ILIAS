@@ -480,7 +480,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 if (strlen($definition->picture)) {
                     if (strlen($definition->text)) {
                         $template->setCurrentBlock('definition_image_text');
-                        $template->setVariable("TEXT_DEFINITION", ilUtil::prepareFormOutput($definition->text));
+                        $template->setVariable("TEXT_DEFINITION",
+                            ilLegacyFormElementsUtil::prepareFormOutput($definition->text)
+                        );
                         $template->parseCurrentBlock();
                     }
                     
@@ -490,8 +492,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     
                     $template->setCurrentBlock('definition_image');
                     $template->setVariable('ANSWER_IMAGE_URL', $answerImageSrc);
-                    $template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
-                    $template->setVariable('ANSWER_IMAGE_TITLE', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
+                    $template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                        $definition->text
+                    ) : ilLegacyFormElementsUtil::prepareFormOutput($definition->picture)
+                    );
+                    $template->setVariable('ANSWER_IMAGE_TITLE', (strlen($definition->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                        $definition->text
+                    ) : ilLegacyFormElementsUtil::prepareFormOutput($definition->picture)
+                    );
                     $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                     $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
@@ -506,7 +514,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 if (strlen($term->picture)) {
                     if (strlen($term->text)) {
                         $template->setCurrentBlock('term_image_text');
-                        $template->setVariable("TEXT_TERM", ilUtil::prepareFormOutput($term->text));
+                        $template->setVariable("TEXT_TERM", ilLegacyFormElementsUtil::prepareFormOutput($term->text));
                         $template->parseCurrentBlock();
                     }
 
@@ -516,8 +524,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     
                     $template->setCurrentBlock('term_image');
                     $template->setVariable('ANSWER_IMAGE_URL', $answerImageSrc);
-                    $template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
-                    $template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
+                    $template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                        $term->text
+                    ) : ilLegacyFormElementsUtil::prepareFormOutput($term->picture)
+                    );
+                    $template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                        $term->text
+                    ) : ilLegacyFormElementsUtil::prepareFormOutput($term->picture)
+                    );
                     $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                     $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));

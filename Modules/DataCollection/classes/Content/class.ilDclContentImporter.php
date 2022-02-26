@@ -5,7 +5,6 @@
 /**
  * Hook-Class for exporting data-collections (used in SOAP-Class)
  * This Class avoids duplicated code by routing the request to the right place
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @ingroup ModulesDataCollection
  */
@@ -55,7 +54,6 @@ class ilDclContentImporter
      */
     protected $lng;
 
-
     public function __construct($ref_id, $table_id = null)
     {
         global $DIC;
@@ -69,7 +67,6 @@ class ilDclContentImporter
         $this->dcl = new ilObjDataCollection($ref_id);
         $this->tables = ($table_id) ? array($this->dcl->getTableById($table_id)) : $this->dcl->getTables();
     }
-
 
     public function import($file, $simulate = false)
     {
@@ -172,10 +169,8 @@ class ilDclContentImporter
         return array('line' => ($i - 2 < 0 ? 0 : $i - 2), 'warnings' => $this->warnings);
     }
 
-
     /**
      * @param ilDclBaseFieldModel $field
-     *
      * @return bool
      */
     protected function checkImportType($field)
@@ -189,11 +184,9 @@ class ilDclContentImporter
         }
     }
 
-
     /**
      * @param ilDclTable $table
      * @param            $titles string[]
-     *
      * @return ilDclBaseFieldModel[]
      */
     protected function getImportFieldsFromTitles($table, $titles)

@@ -224,13 +224,13 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
         
         foreach ($this->getOptions() as $option_value => $option_text) {
             $tpl->setCurrentBlock("prop_select_option");
-            $tpl->setVariable("VAL_SELECT_OPTION", ilUtil::prepareFormOutput($option_text));
+            $tpl->setVariable("VAL_SELECT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($option_text));
             $tpl->setVariable("TXT_SELECT_OPTION", $option_text);
             $tpl->parseCurrentBlock();
         }
         
         $tpl->setVariable("ID", $this->getFieldId());
-                    
+        
         $tpl->setVariable("POST_VAR", $this->getPostVar() . "[]");
         
         if ($this->js_self_init) {

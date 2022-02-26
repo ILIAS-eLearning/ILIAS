@@ -69,7 +69,7 @@ class ilAuthProviderFactory
             case ilAuthUtils::AUTH_LDAP:
                 $ldap_info = explode('_', $a_authmode);
                 $this->logger->debug('Using ldap authentication with credentials ');
-                return new ilAuthProviderLDAP($credentials, $ldap_info[1]);
+                return new ilAuthProviderLDAP($credentials, (int) $ldap_info[1]);
             
             case ilAuthUtils::AUTH_LOCAL:
                 $this->logger->debug('Using local database authentication');

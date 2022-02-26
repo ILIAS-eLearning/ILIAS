@@ -98,10 +98,12 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return    integer        object id
      */
-    public function create(): void
+    public function create(): int
     {
-        parent::create();
+        $id = parent::create();
         $this->write();
+
+        return $id;
     }
 
 
@@ -110,10 +112,12 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return    boolean    true on success
      */
-    public function update(): void
+    public function update(): bool
     {
         parent::update();
         $this->write();
+
+        return true;
     }
 
 

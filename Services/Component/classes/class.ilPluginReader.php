@@ -27,6 +27,11 @@
 */
 class ilPluginReader extends ilSaxParser
 {
+    protected $ctype;
+    protected $cname;
+    protected $slot_id;
+    protected $pname;
+
     public function __construct(?string $a_path, $a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
         parent::__construct($a_path);
@@ -71,7 +76,7 @@ class ilPluginReader extends ilSaxParser
     /**
     * start tag handler
     *
-    * @param	ressouce	internal xml_parser_handler
+    * @param	mixed	    internal xml_parser_handler
     * @param	string		element tag name
     * @param	array		element attributes
     * @access	private
@@ -81,22 +86,20 @@ class ilPluginReader extends ilSaxParser
         global $DIC;
         $ilDB = $DIC->database();
 
-        switch ($a_name) {
-            case "event":
-                $component = "Plugins/" . $this->pname;
-                $q = "INSERT INTO il_event_handling (component, type, id) VALUES (" .
-                    $ilDB->quote($component, "text") . "," .
-                    $ilDB->quote($a_attribs["type"], "text") . "," .
-                    $ilDB->quote($a_attribs["id"], "text") . ")";
-                $ilDB->manipulate($q);
-                break;
+        if ($a_name == "event") {
+            $component = "Plugins/" . $this->pname;
+            $q = "INSERT INTO il_event_handling (component, type, id) VALUES (" .
+                $ilDB->quote($component, "text") . "," .
+                $ilDB->quote($a_attribs["type"], "text") . "," .
+                $ilDB->quote($a_attribs["id"], "text") . ")";
+            $ilDB->manipulate($q);
         }
     }
 
     /**
     * end tag handler
     *
-    * @param	ressouce	internal xml_parser_handler
+    * @param	mixed   	internal xml_parser_handler
     * @param	string		element tag name
     * @access	private
     */
@@ -108,7 +111,7 @@ class ilPluginReader extends ilSaxParser
     /**
     * end tag handler
     *
-    * @param	ressouce	internal xml_parser_handler
+    * @param	mixed   	internal xml_parser_handler
     * @param	string		data
     * @access	private
     */

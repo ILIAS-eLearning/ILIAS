@@ -3,7 +3,6 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2020 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\UI\Component\Input\Factory;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as InputFieldFactory;
 use ILIAS\UI\Renderer;
@@ -41,6 +40,7 @@ class ilObjStudyProgrammeSettingsGUI
     protected ilStudyProgrammeTypeRepository $type_repository;
     protected ilStudyProgrammeCommonSettingsGUI $common_settings_gui;
     protected ilTabsGUI $tabs;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
 
     protected ?ilObjStudyProgramme $object;
     protected string $tmp_heading;
@@ -52,12 +52,13 @@ class ilObjStudyProgrammeSettingsGUI
         ilLanguage $lng,
         Factory $input_factory,
         Renderer $renderer,
-        ServerRequest $request,
+        Psr\Http\Message\ServerRequestInterface $request,
         ILIAS\Refinery\Factory $refinery_factory,
         ILIAS\Data\Factory $data_factory,
         ilStudyProgrammeTypeRepository $type_repository,
         ilStudyProgrammeCommonSettingsGUI $common_settings_gui,
-        ilTabsGUI $tabs
+        ilTabsGUI $tabs,
+        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -70,6 +71,7 @@ class ilObjStudyProgrammeSettingsGUI
         $this->type_repository = $type_repository;
         $this->common_settings_gui = $common_settings_gui;
         $this->tabs = $tabs;
+        $this->request_wrapper = $request_wrapper;
 
         $this->object = null;
 
@@ -125,7 +127,10 @@ class ilObjStudyProgrammeSettingsGUI
 
     protected function view() : string
     {
-        $this->buildModalHeading($this->lng->txt('prg_async_settings'), isset($_GET["currentNode"]));
+        $this->buildModalHeading(
+            $this->lng->txt('prg_async_settings'),
+            $this->request_wrapper->has("currentNode")
+        );
 
         $form = $this->buildForm($this->getObject(), $this->ctrl->getFormAction($this, "update"));
         return $this->renderer->render($form);
@@ -155,7 +160,7 @@ class ilObjStudyProgrammeSettingsGUI
                     "success" => true,
                     "message" => $this->lng->txt("msg_obj_modified"))
                 );
-                return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
+                return ilAsyncOutputHandler::handleAsyncOutput($this->renderer->render($form), $response, false);
             } else {
                 $this->ctrl->redirect($this);
             }
@@ -166,9 +171,9 @@ class ilObjStudyProgrammeSettingsGUI
                 $response = ilAsyncOutputHandler::encodeAsyncResponse(
                     array(
                     "success" => false,
-                    "errors" => $form->getErrors())
+                    "errors" => $form->getError())
                 );
-                return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
+                return ilAsyncOutputHandler::handleAsyncOutput($this->renderer->render($form), $response, false);
             } else {
                 return $this->renderer->render($form);
             }

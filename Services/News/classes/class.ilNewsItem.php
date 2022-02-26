@@ -580,7 +580,7 @@ class ilNewsItem
             $data = ilNewsItem::mergeNews($data, $news);
         }
 
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
 
         return $data;
     }
@@ -803,7 +803,7 @@ class ilNewsItem
         }
         
         $data = ilNewsItem::mergeNews($data, $news);
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
         
         if (!$a_prevent_aggregation) {
             $data = $this->aggregateFiles($data, $a_ref_id);
@@ -962,7 +962,7 @@ class ilNewsItem
         $data = ilNewsItem::mergeNews($data, $news);
         
         // sort and return
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
         
         if (!$a_prevent_aggregation) {
             $data = $this->aggregateFiles($data, $a_ref_id);

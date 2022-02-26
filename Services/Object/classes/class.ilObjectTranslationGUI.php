@@ -59,7 +59,7 @@ class ilObjectTranslationGUI
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->obj_gui = $a_obj_gui;
-        $this->obj = $a_obj_gui->object;
+        $this->obj = $a_obj_gui->getObject();
 
         $this->obj_trans = ilObjectTranslation::getInstance($this->obj->getId());
     }

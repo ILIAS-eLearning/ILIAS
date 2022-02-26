@@ -124,7 +124,7 @@ class ilLDAPUserSynchronisation
     /**
      * Set user data
      */
-    public function setUserData(array $a_data)
+    public function setUserData(array $a_data) : void
     {
         $this->user_data = $a_data;
     }
@@ -234,7 +234,7 @@ class ilLDAPUserSynchronisation
      * Read internal account of user
      * @throws UnexpectedValueException
      */
-    protected function readInternalAccount()
+    protected function readInternalAccount() : void
     {
         if (!$this->getExternalAccount()) {
             throw new UnexpectedValueException('No external account given.');
@@ -247,7 +247,6 @@ class ilLDAPUserSynchronisation
 
     /**
      * Check if an update is required
-     * @return bool
      */
     protected function isUpdateRequired() : bool
     {

@@ -15,6 +15,7 @@
 
 /**
  * Cron for survey notifications
+ * (reminder to paricipate in the survey)
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
@@ -84,23 +85,12 @@ class ilSurveyCronNotification extends ilCronJob
         $status = ilCronJobResult::STATUS_NO_ACTION;
         $message = array();
                 
-        $tutor_res = ilObjSurvey::getSurveysWithTutorResults();
-
-        $log->debug(var_export($tutor_res, true));
-        
         $root = $tree->getNodeData(ROOT_FOLDER_ID);
         foreach ($tree->getSubTree($root, false, ["svy"]) as $svy_ref_id) {
             $svy = new ilObjSurvey($svy_ref_id);
             $num = $svy->checkReminder();
             if (!is_null($num)) {
                 $message[] = $svy_ref_id . "(" . $num . ")";
-                $status = ilCronJobResult::STATUS_OK;
-            }
-            
-            // separate cron-job?
-            if (in_array($svy->getId(), $tutor_res)) {
-//                $svy->sendTutorResults();
-                $message[] = $svy_ref_id;
                 $status = ilCronJobResult::STATUS_OK;
             }
         }

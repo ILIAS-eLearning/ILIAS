@@ -31,7 +31,7 @@ class ilObjRootFolder extends ilContainer
     /**
      * @throws ilException
      */
-    public function delete()
+    public function delete() : bool
     {
         $message = get_class($this) . "::delete(): Can't delete root folder!";
         throw new ilException($message);

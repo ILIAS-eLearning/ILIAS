@@ -24,23 +24,18 @@
 include_once('Services/Exceptions/classes/class.ilException.php');
 
 /**
-* Exception class for ObjectXMLWriter and ObjectXMLParser
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup
-*/
+ * Exception class for ObjectXMLWriter and ObjectXMLParser
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup
+ */
 class ilObjectXMLException extends ilException
 {
     /**
      * Constructor
-     *
      * @access public
      * @param string message
      * @param int errno
-     *
      */
     public function __construct($a_message, $a_errno = 0)
     {

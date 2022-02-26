@@ -60,7 +60,49 @@ class ilVirusScanner
         $this->type = "simulate";
         $this->scanZipFiles = false;
     }
-
+    
+    /**
+     * @param string $a_file
+     * @param string $a_orig_name
+     * @param bool $a_clean
+     * @return array{0: bool, 1: string}
+     */
+    public static function virusHandling(string $a_file, string $a_orig_name = '', bool $a_clean = true) : array
+    {
+        global $DIC;
+        
+        $lng = $DIC->language();
+        
+        if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER !== 'None') || (defined(
+                    'IL_ICAP_HOST'
+                ) && IL_ICAP_HOST !== '')) {
+            $vs = ilVirusScannerFactory::_getInstance();
+            if (($vs_txt = $vs->scanFile($a_file, $a_orig_name)) !== '') {
+                if ($a_clean && defined('IL_VIRUS_CLEAN_COMMAND') && IL_VIRUS_CLEAN_COMMAND !== '') {
+                    $clean_txt = $vs->cleanFile($a_file, $a_orig_name);
+                    if ($vs->fileCleaned()) {
+                        $vs_txt .= '<br />' . $lng->txt('cleaned_file') . '<br />' . $clean_txt;
+                        $vs_txt .= '<br />' . $lng->txt('repeat_scan');
+                        if (($vs2_txt = $vs->scanFile($a_file, $a_orig_name)) !== '') {
+                            return [
+                                false,
+                                nl2br($vs_txt) . '<br />' . $lng->txt('repeat_scan_failed') . '<br />' . nl2br($vs2_txt)
+                            ];
+                        }
+                        
+                        return [true, nl2br($vs_txt) . '<br />' . $lng->txt('repeat_scan_succeded')];
+                    }
+                    
+                    return [false, nl2br($vs_txt) . '<br />' . $lng->txt('cleaning_failed')];
+                }
+                
+                return [false, nl2br($vs_txt)];
+            }
+        }
+        
+        return [true, ''];
+    }
+    
     public function scanBuffer(string $buffer) : bool
     {
         return $this->scanFileFromBuffer($buffer);

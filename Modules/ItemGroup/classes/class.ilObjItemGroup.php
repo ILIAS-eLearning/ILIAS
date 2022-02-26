@@ -136,7 +136,7 @@ class ilObjItemGroup extends ilObject2
         $new_obj->update();
     }
 
-    public function cloneDependencies($a_target_id, $a_copy_id)
+    public function cloneDependencies(int $a_target_id, int $a_copy_id) : bool
     {
         parent::cloneDependencies($a_target_id, $a_copy_id);
 

@@ -75,13 +75,15 @@ class ilPCFileListTableGUI extends ilTable2GUI
             $sel = ($a_set["class"] == "")
                 ? "FileListItem"
                 : $a_set["class"];
-            $this->tpl->setVariable("CLASS_SEL", ilUtil::formSelect(
-                $sel,
-                "class[" . $a_set["hier_id"] . ":" . $a_set["pc_id"] . "]",
-                $this->getParentObject()->getCharacteristics(),
-                false,
-                true
-            ));
+            $this->tpl->setVariable("CLASS_SEL",
+                ilLegacyFormElementsUtil::formSelect(
+                    $sel,
+                    "class[" . $a_set["hier_id"] . ":" . $a_set["pc_id"] . "]",
+                    $this->getParentObject()->getCharacteristics(),
+                    false,
+                    true
+                )
+            );
             $this->tpl->parseCurrentBlock();
         }
 

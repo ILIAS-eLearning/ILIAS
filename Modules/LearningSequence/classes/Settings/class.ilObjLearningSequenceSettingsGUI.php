@@ -3,6 +3,8 @@
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 /* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+
 class ilObjLearningSequenceSettingsGUI
 {
     const PROP_TITLE = 'title';
@@ -45,6 +47,8 @@ class ilObjLearningSequenceSettingsGUI
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilObjectService $obj_service;
+    protected ArrayBasedRequestWrapper $post_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
     protected ilLearningSequenceSettings $settings;
     protected ilLearningSequenceActivation $activation;
     protected string $obj_title;
@@ -55,13 +59,17 @@ class ilObjLearningSequenceSettingsGUI
         ilCtrl $ctrl,
         ilLanguage $lng,
         ilGlobalTemplateInterface $tpl,
-        ilObjectService $obj_service
+        ilObjectService $obj_service,
+        ArrayBasedRequestWrapper $post_wrapper,
+        ILIAS\Refinery\Factory $refinery
     ) {
         $this->obj = $obj;
         $this->ctrl = $ctrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->obj_service = $obj_service;
+        $this->post_wrapper = $post_wrapper;
+        $this->refinery = $refinery;
 
         $this->settings = $obj->getLSSettings();
         $this->activation = $obj->getLSActivation();
@@ -211,7 +219,7 @@ class ilObjLearningSequenceSettingsGUI
         return $form;
     }
 
-    protected function fillForm(\ilPropertyFormGUI $form) : \ilPropertyFormGUI
+    protected function fillForm(ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         $settings = $this->settings;
         $activation = $this->activation;
@@ -229,7 +237,7 @@ class ilObjLearningSequenceSettingsGUI
         return $form;
     }
 
-    protected function addCommonFieldsToForm(\ilPropertyFormGUI $form) : void
+    protected function addCommonFieldsToForm(ilPropertyFormGUI $form) : void
     {
         $txt = function ($id) {
             return $this->lng->txt($id);
@@ -250,37 +258,36 @@ class ilObjLearningSequenceSettingsGUI
         $this->addCommonFieldsToForm($form);
         if (!$form->checkInput()) {
             $form->setValuesByPost();
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_form_save_error"));
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("msg_form_save_error"));
             return $form->getHTML();
         }
 
-        $post = $_POST;
         $lso = $this->obj;
 
-        $lso->setTitle($post[self::PROP_TITLE]);
-        $lso->setDescription($post[self::PROP_DESC]);
+        $lso->setTitle($this->post_wrapper->retrieve(self::PROP_TITLE , $this->refinery->kindlyTo()->string()));
+        $lso->setDescription($this->post_wrapper->retrieve(self::PROP_DESC , $this->refinery->kindlyTo()->string()));
 
         $settings = $this->settings
-            ->withAbstract($post[self::PROP_ABSTRACT])
-            ->withExtro($post[self::PROP_EXTRO])
-            ->withMembersGallery((bool) $post[self::PROP_GALLERY])
+            ->withAbstract($this->post_wrapper->retrieve(self::PROP_ABSTRACT , $this->refinery->kindlyTo()->string()))
+            ->withExtro($this->post_wrapper->retrieve(self::PROP_EXTRO , $this->refinery->kindlyTo()->string()))
+            ->withMembersGallery($this->post_wrapper->retrieve(self::PROP_GALLERY , $this->refinery->kindlyTo()->bool()))
         ;
 
         $inpt = $form->getItemByPostVar(self::PROP_AVAIL_PERIOD);
         $start = $inpt->getStart();
         $end = $inpt->getEnd();
         $activation = $this->activation
-            ->withIsOnline((bool) $post[self::PROP_ONLINE]);
+            ->withIsOnline($this->post_wrapper->retrieve(self::PROP_ONLINE , $this->refinery->kindlyTo()->bool()));
 
         if ($start) {
             $activation = $activation
-                ->withActivationStart(\DateTime::createFromFormat('Y-m-d H:i:s', (string) $start->get(IL_CAL_DATETIME)));
+                ->withActivationStart(DateTime::createFromFormat('Y-m-d H:i:s', (string) $start->get(IL_CAL_DATETIME)));
         } else {
             $activation = $activation->withActivationStart();
         }
         if ($end) {
             $activation = $activation
-                ->withActivationEnd(\DateTime::createFromFormat('Y-m-d H:i:s', (string) $end->get(IL_CAL_DATETIME)));
+                ->withActivationEnd(DateTime::createFromFormat('Y-m-d H:i:s', (string) $end->get(IL_CAL_DATETIME)));
         } else {
             $activation = $activation->withActivationEnd();
         }
@@ -289,7 +296,10 @@ class ilObjLearningSequenceSettingsGUI
         if ($inpt->getDeletionFlag()) {
             $settings = $settings->withDeletion(ilLearningSequenceFilesystem::IMG_ABSTRACT);
         } else {
-            $img = $_POST[self::PROP_ABSTRACT_IMAGE];
+            $img = $this->post_wrapper->retrieve(
+                self::PROP_ABSTRACT_IMAGE,
+                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+            );
             if ($img['size'] > 0) {
                 $settings = $settings->withUpload($img, ilLearningSequenceFilesystem::IMG_ABSTRACT);
             }
@@ -299,7 +309,10 @@ class ilObjLearningSequenceSettingsGUI
         if ($inpt->getDeletionFlag()) {
             $settings = $settings->withDeletion(ilLearningSequenceFilesystem::IMG_EXTRO);
         } else {
-            $img = $_POST[self::PROP_EXTRO_IMAGE];
+            $img = $this->post_wrapper->retrieve(
+                self::PROP_EXTRO_IMAGE,
+                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+            );
             if ($img['size'] > 0) {
                 $settings = $settings->withUpload($img, ilLearningSequenceFilesystem::IMG_EXTRO);
             }
@@ -315,7 +328,7 @@ class ilObjLearningSequenceSettingsGUI
         $lso->updateActivation($activation);
         $lso->update();
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this);
         return null;
     }
