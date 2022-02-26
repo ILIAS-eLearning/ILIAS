@@ -1002,6 +1002,9 @@ class ilPageObjectGUI
         // init template
         if ($this->getOutputMode() == "edit") {
             $this->initEditing();
+            if (!$this->getPageObject()->getEditLock()) {
+                return "";
+            }
 
             $this->getPageObject()->buildDom();
 
@@ -2268,8 +2271,6 @@ class ilPageObjectGUI
             $this->ctrl->redirect($this, "preview");
         }
 
-        $this->setEditorToolContext();
-
         // not so nive workaround for container pages, bug #0015831
         $ptype = $this->getParentType();
         if ($ptype == "cont" && $this->requested_ref_id > 0) {
@@ -2280,19 +2281,10 @@ class ilPageObjectGUI
 
         // edit lock
         if (!$this->getPageObject()->getEditLock()) {
-            $info = $this->lng->txt("content_no_edit_lock");
-            $lock = $this->getPageObject()->getEditLockInfo();
-            $info .= "</br>" . $this->lng->txt("content_until") . ": " .
-                ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
-            $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
-                ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
-            if (!$this->ctrl->isAsynch()) {
-                $this->tpl->setOnScreenMessage('info', $info);
-                return;
-            } else {
-                echo ilUtil::getSystemMessageHTML($info);
-                exit;
-            }
+            $this->showEditLockInfo();
+            return;
+        } else {
+            $this->setEditorToolContext();
         }
 
         $this->lng->toJS("paste");
@@ -2308,6 +2300,32 @@ class ilPageObjectGUI
         // @todo: solve this in a smarter way
         $this->tpl->addJavaScript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
         \ilCalendarUtil::initDateTimePicker();
+    }
+
+    protected function showEditLockInfo() : void
+    {
+        $info = $this->lng->txt("content_no_edit_lock");
+        $lock = $this->getPageObject()->getEditLockInfo();
+        $info .= "</br>" . $this->lng->txt("content_until") . ": " .
+            ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
+        $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
+            ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
+
+        $back_link = $this->ui->factory()->link()->standard(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "finishEditing")
+        );
+
+        $mbox = $this->ui->factory()->messageBox()->info($info)
+            ->withLinks([$back_link]);
+        $rendered_mbox = $this->ui->renderer()->render($mbox);
+
+        if (!$this->ctrl->isAsynch()) {
+            $this->tpl->setContent($rendered_mbox);
+        } else {
+            echo $rendered_mbox;
+            exit;
+        }
     }
 
     public function edit() : string
