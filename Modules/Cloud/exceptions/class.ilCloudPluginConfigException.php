@@ -5,7 +5,6 @@ require_once 'class.ilCloudException.php';
 
 /**
  * Class ilCloudPluginConfigException
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id:
  * @extends ilCloudException
@@ -17,7 +16,6 @@ class ilCloudPluginConfigException extends ilCloudException
     const ENTRY_DOES_NOT_EXIST = 100002;
     const NO_VALID_GET_OR_SET_FUNCTION = 100003;
     const PLUGIN_NOT_PROPERLY_CONFIGURED = 100004;
-
 
     protected function assignMessageToCode()
     {

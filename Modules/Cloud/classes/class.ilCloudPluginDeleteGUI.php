@@ -6,9 +6,7 @@ include_once("./Modules/Cloud/exceptions/class.ilCloudException.php");
 
 /**
  * Class ilCloudPluginDeleteGUI
- *
  * Standard GUI when deleting files or folders. Could be overwritten by the plugin if needed.
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id:
  * @extends ilCloudPluginGUI
@@ -33,7 +31,6 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
      * @var ilConfirmationGUI
      */
     protected $gui;
-
 
     /**
      * is called async and prints the content from the confirmation gui
@@ -79,7 +76,6 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
         exit;
     }
 
-
     public function initDeleteItem()
     {
         global $DIC;
@@ -112,7 +108,6 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
         $this->gui->setData($item);
     }
 
-
     /**
      * Update properties
      */
@@ -141,7 +136,6 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
             . ");</script>";
         exit;
     }
-
 
     /**
      * Update properties

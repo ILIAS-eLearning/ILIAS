@@ -3,9 +3,7 @@
 
 /**
  * ilCloudFileTree class
- *
  * Representation of a node (a file or a folder) in the file tree
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id$
  * @ingroup ModulesCloud
@@ -58,7 +56,6 @@ class ilCloudFileNode
      */
     protected $mixed;
 
-
     /**
      * @param string $path
      */
@@ -68,7 +65,6 @@ class ilCloudFileNode
         $this->setId($id);
     }
 
-
     /**
      * @param $id
      */
@@ -76,7 +72,6 @@ class ilCloudFileNode
     {
         $this->id = $id;
     }
-
 
     /**
      * @return int
@@ -86,7 +81,6 @@ class ilCloudFileNode
         return $this->id;
     }
 
-
     /**
      * @param bool $complete
      */
@@ -94,7 +88,6 @@ class ilCloudFileNode
     {
         $this->loading_complete = $complete;
     }
-
 
     /**
      * @return bool
@@ -104,7 +97,6 @@ class ilCloudFileNode
         return $this->loading_complete;
     }
 
-
     /**
      * @param string $path
      */
@@ -113,7 +105,6 @@ class ilCloudFileNode
         $this->path = ilCloudUtil::normalizePath($path, $this->is_dir);
     }
 
-
     /**
      * @return string
      */
@@ -121,7 +112,6 @@ class ilCloudFileNode
     {
         return $this->path;
     }
-
 
     /**
      * @param $path
@@ -133,7 +123,6 @@ class ilCloudFileNode
         }
     }
 
-
     /**
      * @param $path
      */
@@ -143,7 +132,6 @@ class ilCloudFileNode
             unset($this->children[$path]);
         }
     }
-
 
     /**
      * @return array|null
@@ -157,7 +145,6 @@ class ilCloudFileNode
         return null;
     }
 
-
     /**
      * @return bool
      */
@@ -165,7 +152,6 @@ class ilCloudFileNode
     {
         return (count($this->children) > 0);
     }
-
 
     /**
      * @param $id
@@ -175,7 +161,6 @@ class ilCloudFileNode
         $this->parent_id = $id;
     }
 
-
     /**
      * @return int
      */
@@ -183,7 +168,6 @@ class ilCloudFileNode
     {
         return $this->parent_id;
     }
-
 
     /**
      * @param $is_dir
@@ -193,7 +177,6 @@ class ilCloudFileNode
         $this->is_dir = $is_dir;
     }
 
-
     /**
      * @return bool
      */
@@ -201,7 +184,6 @@ class ilCloudFileNode
     {
         return $this->is_dir;
     }
-
 
     /**
      * @param $size
@@ -211,7 +193,6 @@ class ilCloudFileNode
         $this->size = $size;
     }
 
-
     /**
      * @return int
      */
@@ -219,7 +200,6 @@ class ilCloudFileNode
     {
         return $this->size;
     }
-
 
     /**
      * @param $modified
@@ -229,7 +209,6 @@ class ilCloudFileNode
         $this->modified = $modified;
     }
 
-
     /**
      * @return int
      */
@@ -237,7 +216,6 @@ class ilCloudFileNode
     {
         return $this->modified;
     }
-
 
     /**
      * @param $path
@@ -247,7 +225,6 @@ class ilCloudFileNode
         $this->icon_path = $path;
     }
 
-
     /**
      * @return string
      */
@@ -255,7 +232,6 @@ class ilCloudFileNode
     {
         return $this->icon_path;
     }
-
 
     /**
      * @param mixed $mixed
@@ -265,7 +241,6 @@ class ilCloudFileNode
         $this->mixed = $mixed;
     }
 
-
     /**
      * @return mixed
      */
@@ -273,7 +248,6 @@ class ilCloudFileNode
     {
         return $this->mixed;
     }
-
 
     /**
      * @return array

@@ -8,12 +8,10 @@ include_once("class.ilCloudUtil.php");
 
 /**
  * ilCloudFileTree class
- *
  * Representation of the structure of all files and folders so far. Not really a tree but a list simulating a tree
  * (for faster access on the nodes). This class also calls the functions of a service to update the tree (addToFileTree,
  * deleteItem, etc.)
- *
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id$
  * @ingroup ModulesCloud
  */
@@ -59,9 +57,9 @@ class ilCloudFileTree
     /**
      * @param string $root_path
      * @param string $root_id
-     * @param int $id
+     * @param int    $id
      * @param string $service_name
-     * @param bool $case_sensitive
+     * @param bool   $case_sensitive
      */
     public function __construct($root_path = "/", $root_id = "root", $id, $service_name)
     {
@@ -87,7 +85,6 @@ class ilCloudFileTree
     {
         return $this->id;
     }
-
 
     /**
      * @param string $path
@@ -147,7 +144,7 @@ class ilCloudFileTree
 
     /**
      * @param string $path
-     * @param bool $is_dir
+     * @param bool   $is_dir
      * @return ilCloudFileNode
      */
     protected function createNode($path = "/", $id, $is_dir = false)
@@ -160,10 +157,10 @@ class ilCloudFileTree
     }
 
     /**
-     * @param $path
-     * @param $is_Dir
+     * @param      $path
+     * @param      $is_Dir
      * @param null $modified
-     * @param int $size
+     * @param int  $size
      * @return ilCloudFileNode
      */
     public function addNode($path, $id, $is_Dir, $modified = null, $size = 0)
@@ -179,7 +176,8 @@ class ilCloudFileTree
             $path_of_parent = ilCloudUtil::normalizePath(dirname($path));
             $node_parent = $this->getNodeFromPath($path_of_parent);
             if (!$node_parent) {
-                throw new ilCloudException(ilCloudException::PATH_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION, "Parent: " . $path_of_parent);
+                throw new ilCloudException(ilCloudException::PATH_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION,
+                    "Parent: " . $path_of_parent);
             }
             $node = $this->createNode($path, $id, $is_Dir);
             $node->setParentId($node_parent->getId());
@@ -192,17 +190,14 @@ class ilCloudFileTree
         return $node;
     }
 
-
     /**
      * Add node that relies on id's
-     *
      * @param      $path
      * @param      $id
      * @param      $parent_id
      * @param      $is_Dir
      * @param null $modified
      * @param int  $size
-     *
      * @return ilCloudFileNode
      * @throws ilCloudException
      */
@@ -222,7 +217,8 @@ class ilCloudFileTree
 
             $node_parent = $this->getNodeFromId($parent_id);
             if (!$node_parent) {
-                throw new ilCloudException(ilCloudException::PATH_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION, "Parent: " . $parent_id);
+                throw new ilCloudException(ilCloudException::PATH_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION,
+                    "Parent: " . $parent_id);
             }
             $node = $this->createNode($path, $id, $is_Dir);
             $node->setParentId($node_parent->getId());
@@ -234,7 +230,6 @@ class ilCloudFileTree
 
         return $node;
     }
-
 
     /**
      * @param $path
@@ -257,7 +252,7 @@ class ilCloudFileTree
     }
 
     /**
-     * @param   string $path
+     * @param string $path
      * @return  ilCloudFileNode  node;
      */
     public function getNodeFromPath($path = "/")
@@ -314,10 +309,8 @@ class ilCloudFileTree
         $this->storeFileTreeToSession();
     }
 
-
     /**
      * @param $folder_id
-     *
      * @throws ilCloudException
      */
     public function addItemsFromService($folder_id)
@@ -339,11 +332,9 @@ class ilCloudFileTree
         }
     }
 
-
     /**
      * @param $id
      * @param $folder_name
-     *
      * @return bool|ilCloudFileNode|null
      * @throws ilCloudException
      */
@@ -359,7 +350,6 @@ class ilCloudFileTree
             if ($this->getNodeFromPath($path) != null) {
                 throw new ilCloudException(ilCloudException::FOLDER_ALREADY_EXISTING_ON_SERVICE, $folder_name);
             }
-
 
             $current_node->setLoadingComplete(false);
             $this->storeFileTreeToSession();
@@ -390,12 +380,10 @@ class ilCloudFileTree
         }
     }
 
-
     /**
      * @param $current_id
      * @param $tmp_name
      * @param $file_name
-     *
      * @throws ilCloudException
      */
     public function uploadFileToService($current_id, $tmp_name, $file_name)
@@ -421,7 +409,8 @@ class ilCloudFileTree
                 throw new ilCloudException(ilCloudException::UPLOAD_FAILED, $e->getMessage());
             }
         } else {
-            throw new ilCloudException(ilCloudException::UPLOAD_FAILED_MAX_FILESIZE, filesize($tmp_name) / (1024 * 1024) . " MB");
+            throw new ilCloudException(ilCloudException::UPLOAD_FAILED_MAX_FILESIZE,
+                filesize($tmp_name) / (1024 * 1024) . " MB");
         }
     }
 
@@ -488,7 +477,6 @@ class ilCloudFileTree
             return false;
         }
     }
-
 
     public static function clearFileTreeSession()
     {

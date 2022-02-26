@@ -1,13 +1,10 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilObjCloudListGUI
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * $Id:
- *
  * @extends ilObjectListGUI
  */
 class ilObjCloudListGUI extends ilObjectListGUI
@@ -37,11 +34,11 @@ class ilObjCloudListGUI extends ilObjectListGUI
         $lng->loadLanguageModule("cld");
     }
 
-
     public function getCommands()
     {
         $object = ilObjectFactory::getInstanceByRefId($this->ref_id);
-        $header_action_gui = ilCloudConnector::getHeaderActionGUIClass(ilCloudConnector::getServiceClass($object->getServiceName(), $object->getId(), false));
+        $header_action_gui = ilCloudConnector::getHeaderActionGUIClass(ilCloudConnector::getServiceClass($object->getServiceName(),
+            $object->getId(), false));
         $custom_urls = [];
 
         if (method_exists($header_action_gui, "getCustomListActions")) {
@@ -73,7 +70,6 @@ class ilObjCloudListGUI extends ilObjectListGUI
         return $ref_commands;
     }
 
-
     /**
      * @return array
      */
@@ -103,11 +99,9 @@ class ilObjCloudListGUI extends ilObjectListGUI
         return $props;
     }
 
-
     /**
      * Remove recently added custom actions from dynamic field "commands" as
      * it may pass onto other ListGUIs and mess them up
-     *
      * @param array $commands
      * @param array $custom_list_actions
      */
@@ -122,10 +116,8 @@ class ilObjCloudListGUI extends ilObjectListGUI
         }
     }
 
-
     /**
      * Inject predefined custom URLs into ref_commands and change its destination
-     *
      * @param $custom_urls
      * @param $ref_commands
      */
@@ -140,10 +132,8 @@ class ilObjCloudListGUI extends ilObjectListGUI
         }
     }
 
-
     /**
      * Fetches custom URLs from predefined actions and structures them appropriately
-     *
      * @param array $custom_list_actions
      * @param       $custom_urls
      */

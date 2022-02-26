@@ -3,9 +3,7 @@
 
 /**
  * Class ilCloudPluginListGUI
- *
  * Abstract class working as base for ilCloudPluginItemCreationListGUI and ilCloudPluginActionListGUI
- *
  * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
  * @version $Id$
  * @ingroup ModulesCloud
@@ -18,9 +16,7 @@ abstract class ilCloudPluginListGUI extends ilCloudPluginGUI
      */
     protected $node = null;
 
-
     abstract protected function addItemsBefore();
-
 
     abstract protected function addItemsAfter();
 }

@@ -6,12 +6,9 @@ include_once("class.ilObjCloud.php");
 
 /**
  * Class ilCloudPlugin
- *
  * Base Class for the model of the plugin. Probably will be extended by most plugins.
- *
  * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
  * @version $Id$
- *
  * @ingroup ModulesCloud
  */
 class ilCloudPlugin
@@ -72,7 +69,6 @@ class ilCloudPlugin
         $this->setCloudModulObject($cloud_modul_object);
     }
 
-
     /**
      * @param  $obj_id
      */
@@ -80,7 +76,6 @@ class ilCloudPlugin
     {
         $this->obj_id = $obj_id;
     }
-
 
     /**
      * @return
@@ -90,7 +85,6 @@ class ilCloudPlugin
         return $this->obj_id;
     }
 
-
     /**
      * @return \ilCloudHookPlugin
      */
@@ -98,7 +92,6 @@ class ilCloudPlugin
     {
         return $this->plugin_hook_object;
     }
-
 
     /**
      * @return \ilCloudPluginConfig
@@ -108,7 +101,6 @@ class ilCloudPlugin
         return $this->admin_config_object;
     }
 
-
     /**
      * @param \ilCloudHookPlugin $plugin_hook_object
      */
@@ -116,7 +108,6 @@ class ilCloudPlugin
     {
         $this->plugin_hook_object = $plugin_hook_object;
     }
-
 
     /**
      * @return string
@@ -129,16 +120,12 @@ class ilCloudPlugin
 
     /**
      * @param boolean $async_drawing
-     *
      * public function setAsyncDrawing($async_drawing)
      * {
      * $this->async_drawing = $async_drawing;
      * }
-     *
      * /**
-     *
      * @return boolean
-     *
      * public function getAsyncDrawing()
      * {
      * return $this->async_drawing;
@@ -152,7 +139,6 @@ class ilCloudPlugin
         $this->max_file_size = $max_file_size;
     }
 
-
     /**
      * @return int
      */
@@ -160,7 +146,6 @@ class ilCloudPlugin
     {
         return $this->max_file_size;
     }
-
 
     /**
      * @param $cloud_modul_object
@@ -170,7 +155,6 @@ class ilCloudPlugin
         $this->cloud_modul_object = $cloud_modul_object;
     }
 
-
     /**
      * @return ilObjCloud
      */
@@ -178,7 +162,6 @@ class ilCloudPlugin
     {
         return $this->cloud_modul_object;
     }
-
 
     /**
      * $return integer
@@ -191,21 +174,17 @@ class ilCloudPlugin
         return $cloud_object->getOwnerId();
     }
 
-
     public function read()
     {
     }
-
 
     public function create()
     {
     }
 
-
     public function doUpdate()
     {
     }
-
 
     public function doDelete()
     {
