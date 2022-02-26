@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitPathStorage
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPathStorage extends ActiveRecord
@@ -14,7 +13,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
     const MAX_MIDDLE_PATH_LENGTH = 50;
     /**
      * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
@@ -24,7 +22,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
     protected $ref_id = 0;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
@@ -32,7 +29,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
     protected $obj_id = 0;
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  clob
      */
@@ -41,7 +37,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
      * @var array
      */
     protected static $orgu_names = array();
-
 
     /**
      * @return array
@@ -53,7 +48,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
         return array_keys($names);
     }
 
-
     public function store() : void
     {
         if (self::where(array('ref_id' => $this->getRefId()))->hasSets()) {
@@ -63,19 +57,19 @@ class ilOrgUnitPathStorage extends ActiveRecord
         }
     }
 
-
     /**
      * Format comma seperated ref_ids into comma seperated string representation (also filters out deleted orgunits).
      * Return "-" if $string is empty
-     *
-     * @param int    $user_id
+     * @param int $user_id
      * @param string $separator
-     * @param bool   $using_tmp_table second implementation
-     *
+     * @param bool $using_tmp_table second implementation
      * @return string   comma seperated string representations of format: [OrgUnit Title] - [OrgUnits corresponding Level 1 Title]
      */
-    public static function getTextRepresentationOfUsersOrgUnits($user_id, $separator = self::ORG_SEPARATOR, $using_tmp_table = true)
-    {
+    public static function getTextRepresentationOfUsersOrgUnits(
+        $user_id,
+        $separator = self::ORG_SEPARATOR,
+        $using_tmp_table = true
+    ) {
         if ($using_tmp_table) {
             global $DIC;
             /**
@@ -84,7 +78,9 @@ class ilOrgUnitPathStorage extends ActiveRecord
             $ilDB = $DIC['ilDB'];
             ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements();
 
-            $res = $ilDB->queryF("SELECT " . $ilDB->groupConcat("path", $separator) . " AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;", array('integer'), array($user_id));
+            $res = $ilDB->queryF("SELECT " . $ilDB->groupConcat("path",
+                    $separator) . " AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;",
+                array('integer'), array($user_id));
             $dat = $ilDB->fetchObject($res);
 
             return (isset($dat->orgus) && $dat->orgus) ? $dat->orgus : '-';
@@ -100,12 +96,9 @@ class ilOrgUnitPathStorage extends ActiveRecord
         }
     }
 
-
     /**
      * Get ref id path array
-     *
      * @param bool $sort_by_title
-     *
      * @return array
      */
     public static function getTextRepresentationOfOrgUnits($sort_by_title = true)
@@ -117,10 +110,8 @@ class ilOrgUnitPathStorage extends ActiveRecord
         }
     }
 
-
     /**
      * @param $ref_id
-     *
      * @return bool
      */
     public static function writePathByRefId($ref_id)
@@ -163,7 +154,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
         return true;
     }
 
-
     public static function clearDeleted()
     {
         global $DIC;
@@ -176,10 +166,8 @@ class ilOrgUnitPathStorage extends ActiveRecord
         $ilDB->manipulate($q);
     }
 
-
     /**
      * @param $ref_id
-     *
      * @return bool
      * @currently_unused
      */
@@ -215,10 +203,8 @@ class ilOrgUnitPathStorage extends ActiveRecord
         return true;
     }
 
-
     /**
      * @param null $lng_key
-     *
      * @return array
      */
     public static function getAllOrguNames($lng_key = null)
@@ -240,7 +226,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
         return self::$orgu_names;
     }
 
-
     /**
      * @return string
      */
@@ -248,7 +233,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
     {
         return self::TABLE_NAME;
     }
-
 
     /**
      * @return int
@@ -258,7 +242,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
         return $this->ref_id;
     }
 
-
     /**
      * @param int $ref_id
      */
@@ -266,7 +249,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
     {
         $this->ref_id = $ref_id;
     }
-
 
     /**
      * @return string
@@ -276,7 +258,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
         return $this->path;
     }
 
-
     /**
      * @param string $path
      */
@@ -285,7 +266,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
         $this->path = $path;
     }
 
-
     /**
      * @return int
      */
@@ -293,7 +273,6 @@ class ilOrgUnitPathStorage extends ActiveRecord
     {
         return $this->obj_id;
     }
-
 
     /**
      * @param int $obj_id

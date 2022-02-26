@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitTypeFormGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
@@ -16,7 +15,6 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
      * @var
      */
     protected $parent_gui;
-
 
     public function __construct($parent_gui, ilOrgUnitType $type)
     {
@@ -33,10 +31,8 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-
     /**
      * Save object (create or update)
-     *
      * @return bool
      */
     public function saveObject()
@@ -54,7 +50,6 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
             return false;
         }
     }
-
 
     /**
      * Add all fields to the form
@@ -86,10 +81,8 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
         }
     }
 
-
     /**
      * Check validity of form and pass values from form to object
-     *
      * @return bool
      */
     protected function fillObject()
@@ -116,10 +109,8 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
         return $success;
     }
 
-
     /**
      * Add a text and textarea input per language
-     *
      * @param $a_lang_code
      */
     protected function addTranslationInputs($a_lang_code)

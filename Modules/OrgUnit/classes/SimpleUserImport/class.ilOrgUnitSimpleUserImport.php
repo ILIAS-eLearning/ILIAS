@@ -3,11 +3,9 @@
 
 /**
  * Class ilOrgUnitSimpleUserImport
- *
  * @author : Oskar Truffer <ot@studer-raimann.ch>
  * @author : Martin Studer <ms@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
- *
  */
 class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
 {
@@ -31,7 +29,6 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
             $this->simpleUserImportElement($a);
         }
     }
-
 
     /**
      * @param SimpleXMLElement $a
@@ -86,11 +83,9 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         }
     }
 
-
     /**
      * @param $id
      * @param $type
-     *
      * @return bool
      */
     private function buildUserId($id, $type)

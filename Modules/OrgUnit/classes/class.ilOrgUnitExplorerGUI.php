@@ -5,10 +5,8 @@ use ILIAS\UI\Component\Tree\TreeRecursion;
 
 /**
  * Class ilOrgUnitExplorerGUI
- *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 {
@@ -17,7 +15,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      * @var array
      */
     protected $stay_with_command = array('', 'render', 'view', 'infoScreen', 'showStaff', 'performPaste', 'cut');
-
 
     /**
      * @param $a_expl_id
@@ -32,7 +29,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         $this->setTypeWhiteList(array(self::ORGU));
         $this->tree->initLangCode();
     }
-
 
     /**
      * @param mixed $a_node
@@ -51,7 +47,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         return $a_node['title'];
     }
 
-
     /**
      * @return array
      */
@@ -59,7 +54,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
     {
         return $this->getTree()->getNodeData(ilObjOrgUnit::getRootOrgRefId());
     }
-
 
     /**
      * Get node icon
@@ -82,7 +76,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
-
 
     /**
      * @param array $a_node
@@ -111,20 +104,20 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         return $link_target;
     }
 
-
     /**
      * @return string
      */
     protected function getLinkTarget() : string
     {
         global $DIC;
-        if ($DIC->ctrl()->getCmdClass() === strtolower(ilObjOrgUnitGUI::class) && in_array($DIC->ctrl()->getCmd(), $this->stay_with_command, true)) {
-            return $DIC->ctrl()->getLinkTargetByClass(array(ilAdministrationGUI::class, $DIC->ctrl()->getCmdClass()), $DIC->ctrl()->getCmd());
+        if ($DIC->ctrl()->getCmdClass() === strtolower(ilObjOrgUnitGUI::class) && in_array($DIC->ctrl()->getCmd(),
+                $this->stay_with_command, true)) {
+            return $DIC->ctrl()->getLinkTargetByClass(array(ilAdministrationGUI::class, $DIC->ctrl()->getCmdClass()),
+                $DIC->ctrl()->getCmd());
         }
 
         return $DIC->ctrl()->getLinkTargetByClass(array(ilAdministrationGUI::class, ilObjOrgUnitGUI::class), 'view');
     }
-
 
     /**
      * @return string
@@ -135,7 +128,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 
         return $DIC->ctrl()->getLinkTargetByClass(ilObjPluginDispatchGUI::class, 'forward');
     }
-
 
     /**
      * @param array $a_node
@@ -152,7 +144,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 
         return false;
     }
-
 
     /**
      * @param array $a_node
