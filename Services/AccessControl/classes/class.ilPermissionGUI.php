@@ -36,7 +36,7 @@ class ilPermissionGUI extends ilPermission2GUI
     public function executeCommand()
     {
         // access to all functions in this class are only allowed if edit_permission is granted
-        if (!$this->rbacsystem->checkAccess("edit_permission", $this->gui_obj->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("edit_permission", $this->gui_obj->getObject()->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
         }
         $next_class = $this->ctrl->getNextClass($this);
@@ -69,7 +69,7 @@ class ilPermissionGUI extends ilPermission2GUI
 
             case 'ilobjectpermissionstatusgui':
                 $this->__initSubTabs("perminfo");
-                $perm_stat = new ilObjectPermissionStatusGUI($this->gui_obj->object);
+                $perm_stat = new ilObjectPermissionStatusGUI($this->gui_obj->getObject());
                 $this->ctrl->forwardCommand($perm_stat);
                 break;
 
@@ -83,7 +83,7 @@ class ilPermissionGUI extends ilPermission2GUI
 
     public function getCurrentObject() : object
     {
-        return $this->gui_obj->object;
+        return $this->gui_obj->getObject();
     }
 
     /**
@@ -565,7 +565,7 @@ class ilPermissionGUI extends ilPermission2GUI
             $option = new ilRadioOption($this->lng->txt("rbac_role_rights_copy_empty"), (string) 0);
             $rights->addOption($option);
 
-            $parent_role_ids = $this->rbacreview->getParentRoleIds($this->gui_obj->object->getRefId(), true);
+            $parent_role_ids = $this->rbacreview->getParentRoleIds($this->gui_obj->getObject()->getRefId(), true);
             $ids = array();
             foreach ($parent_role_ids as $id => $tmp) {
                 $ids[] = $id;

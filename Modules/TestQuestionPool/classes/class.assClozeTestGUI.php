@@ -209,8 +209,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 ) {
                     $assClozeGapCombinationObject->saveGapCombinationToDb(
                         $this->object->getId(),
-                        ilUtil::stripSlashesRecursive($_POST['gap_combination']),
-                        ilUtil::stripSlashesRecursive($_POST['gap_combination_values'])
+                        ilArrayUtil::stripSlashesRecursive($_POST['gap_combination']),
+                        ilArrayUtil::stripSlashesRecursive($_POST['gap_combination_values'])
                     );
                 }
             }
@@ -298,7 +298,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         } else {
             // author as hidden field
             $hi = new ilHiddenInputGUI("author");
-            $author = ilUtil::prepareFormOutput($this->object->getAuthor());
+            $author = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getAuthor());
             if (trim($author) == "") {
                 $author = "-";
             }
@@ -731,18 +731,18 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
 
         $value->setSize(10);
-        $value->setValue(ilUtil::prepareFormOutput($gap->getAnswertext()));
+        $value->setValue(ilLegacyFormElementsUtil::prepareFormOutput($gap->getAnswertext()));
         $value->setRequired(true);
         $form->addItem($value);
 
         $lowerbound->setSize(10);
         $lowerbound->setRequired(true);
-        $lowerbound->setValue(ilUtil::prepareFormOutput($gap->getLowerBound()));
+        $lowerbound->setValue(ilLegacyFormElementsUtil::prepareFormOutput($gap->getLowerBound()));
         $form->addItem($lowerbound);
 
         $upperbound->setSize(10);
         $upperbound->setRequired(true);
-        $upperbound->setValue(ilUtil::prepareFormOutput($gap->getUpperBound()));
+        $upperbound->setValue(ilLegacyFormElementsUtil::prepareFormOutput($gap->getUpperBound()));
         $form->addItem($upperbound);
 
         if ($this->object->getFixedTextLength() > 0) {
@@ -758,7 +758,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $points->allowDecimals(true);
         $points->setSize(3);
         $points->setRequired(true);
-        $points->setValue(ilUtil::prepareFormOutput($gap->getPoints()));
+        $points->setValue(ilLegacyFormElementsUtil::prepareFormOutput($gap->getPoints()));
         $form->addItem($points);
         return $form;
     }
@@ -823,7 +823,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     $gaptemplate->setVariable("GAP_COUNTER", $gap_index);
                     foreach ($user_solution as $val1 => $val2) {
                         if (strcmp($val1, $gap_index) == 0) {
-                            $gaptemplate->setVariable("VALUE_GAP", " value=\"" . ilUtil::prepareFormOutput($val2) . "\"");
+                            $gaptemplate->setVariable("VALUE_GAP", " value=\"" . ilLegacyFormElementsUtil::prepareFormOutput(
+                                    $val2
+                                ) . "\"");
                         }
                     }
                     // fau: fixGapReplace - use replace function
@@ -835,7 +837,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     foreach ($gap->getItems($this->object->getShuffler()) as $item) {
                         $gaptemplate->setCurrentBlock("select_gap_option");
                         $gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
-                        $gaptemplate->setVariable("SELECT_GAP_TEXT", ilUtil::prepareFormOutput($item->getAnswerText()));
+                        $gaptemplate->setVariable("SELECT_GAP_TEXT",
+                            ilLegacyFormElementsUtil::prepareFormOutput($item->getAnswerText())
+                        );
                         foreach ($user_solution as $val1 => $val2) {
                             if (strcmp($val1, $gap_index) == 0) {
                                 if (strcmp($val2, $item->getOrder()) == 0) {
@@ -861,7 +865,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     $gaptemplate->setVariable("GAP_COUNTER", $gap_index);
                     foreach ($user_solution as $val1 => $val2) {
                         if (strcmp($val1, $gap_index) == 0) {
-                            $gaptemplate->setVariable("VALUE_GAP", " value=\"" . ilUtil::prepareFormOutput($val2) . "\"");
+                            $gaptemplate->setVariable("VALUE_GAP", " value=\"" . ilLegacyFormElementsUtil::prepareFormOutput(
+                                    $val2
+                                ) . "\"");
                         }
                     }
                     // fau: fixGapReplace - use replace function
@@ -1023,7 +1029,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                                 $solutiontext .= "&nbsp;";
                             }
                         } else {
-                            $solutiontext = ilUtil::prepareFormOutput($found["value2"]);
+                            $solutiontext = ilLegacyFormElementsUtil::prepareFormOutput($found["value2"]);
                         }
                     } else {
                         $solutiontext = $this-> getBestSolutionText($gap, $gap_index, $check_for_gap_combinations);
@@ -1043,7 +1049,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                         } else {
                             $item = $gap->getItem($found["value2"]);
                             if (is_object($item)) {
-                                $solutiontext = ilUtil::prepareFormOutput($item->getAnswertext());
+                                $solutiontext = ilLegacyFormElementsUtil::prepareFormOutput($item->getAnswertext());
                             } else {
                                 for ($chars = 0; $chars < $gap->getMaxWidth(); $chars++) {
                                     $solutiontext .= "&nbsp;";
@@ -1122,10 +1128,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 break;
             }
         }
-        $best_solution_text = ilUtil::prepareFormOutput($gap->getBestSolutionOutput(
-            $this->object->getShuffler(),
-            $combination
-        ));
+        $best_solution_text = ilLegacyFormElementsUtil::prepareFormOutput(
+            $gap->getBestSolutionOutput(
+                $this->object->getShuffler(),
+                $combination
+            )
+        );
         return $best_solution_text;
     }
 
@@ -1198,7 +1206,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     $gaptemplate->setVariable("GAP_COUNTER", $gap_index);
                     foreach ($user_solution as $solution) {
                         if (strcmp($solution["value1"], $gap_index) == 0) {
-                            $gaptemplate->setVariable("VALUE_GAP", " value=\"" . ilUtil::prepareFormOutput($solution["value2"]) . "\"");
+                            $gaptemplate->setVariable("VALUE_GAP", " value=\"" . ilLegacyFormElementsUtil::prepareFormOutput(
+                                    $solution["value2"]
+                                ) . "\"");
                         }
                     }
                     // fau: fixGapReplace - use replace function
@@ -1210,7 +1220,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     foreach ($gap->getItems($this->object->getShuffler()) as $item) {
                         $gaptemplate->setCurrentBlock("select_gap_option");
                         $gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
-                        $gaptemplate->setVariable("SELECT_GAP_TEXT", ilUtil::prepareFormOutput($item->getAnswerText()));
+                        $gaptemplate->setVariable("SELECT_GAP_TEXT",
+                            ilLegacyFormElementsUtil::prepareFormOutput($item->getAnswerText())
+                        );
                         foreach ($user_solution as $solution) {
                             if (strcmp($solution["value1"], $gap_index) == 0) {
                                 if (strcmp($solution["value2"], $item->getOrder()) == 0) {
@@ -1237,7 +1249,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     $gaptemplate->setVariable("GAP_COUNTER", $gap_index);
                     foreach ($user_solution as $solution) {
                         if (strcmp($solution["value1"], $gap_index) == 0) {
-                            $gaptemplate->setVariable("VALUE_GAP", " value=\"" . ilUtil::prepareFormOutput($solution["value2"]) . "\"");
+                            $gaptemplate->setVariable("VALUE_GAP", " value=\"" . ilLegacyFormElementsUtil::prepareFormOutput(
+                                    $solution["value2"]
+                                ) . "\"");
                         }
                     }
                     // fau: fixGapReplace - use replace function
@@ -1750,7 +1764,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $value = new ilNumberInputGUI($this->lng->txt('value'), "gap_" . $gapIndex . "_numeric");
         $value->allowDecimals(true);
         $value->setSize(10);
-        $value->setValue(ilUtil::prepareFormOutput($item->getAnswertext()));
+        $value->setValue(ilLegacyFormElementsUtil::prepareFormOutput($item->getAnswertext()));
         $value->setRequired(true);
         $form->addItem($value);
 
@@ -1758,14 +1772,14 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $lowerbound->allowDecimals(true);
         $lowerbound->setSize(10);
         $lowerbound->setRequired(true);
-        $lowerbound->setValue(ilUtil::prepareFormOutput($item->getLowerBound()));
+        $lowerbound->setValue(ilLegacyFormElementsUtil::prepareFormOutput($item->getLowerBound()));
         $form->addItem($lowerbound);
 
         $upperbound = new ilNumberInputGUI($this->lng->txt('range_upper_limit'), "gap_" . $gapIndex . "_numeric_upper");
         $upperbound->allowDecimals(true);
         $upperbound->setSize(10);
         $upperbound->setRequired(true);
-        $upperbound->setValue(ilUtil::prepareFormOutput($item->getUpperBound()));
+        $upperbound->setValue(ilLegacyFormElementsUtil::prepareFormOutput($item->getUpperBound()));
         $form->addItem($upperbound);
 
         if (!$hidePoints) {
@@ -1773,7 +1787,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $points->allowDecimals(true);
             $points->setSize(3);
             $points->setRequired(true);
-            $points->setValue(ilUtil::prepareFormOutput($item->getPoints()));
+            $points->setValue(ilLegacyFormElementsUtil::prepareFormOutput($item->getPoints()));
             $form->addItem($points);
         }
     }
@@ -1847,8 +1861,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             }
         }
 
-        $combinationPoints = ilUtil::stripSlashesRecursive($combinationPoints);
-        $combinationValues = ilUtil::stripSlashesRecursive($combinationValues);
+        $combinationPoints = ilArrayUtil::stripSlashesRecursive($combinationPoints);
+        $combinationValues = ilArrayUtil::stripSlashesRecursive($combinationValues);
 
         $assClozeGapCombinationObject = new assClozeGapCombination();
         $assClozeGapCombinationObject->clearGapCombinationsFromDb($this->object->getId());

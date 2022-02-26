@@ -117,7 +117,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
         $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
@@ -179,12 +179,12 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         foreach ($this->pairs as $pair) {
             $counter = 1;
             $tpl->setCurrentBlock("option_term");
-            $tpl->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($lng->txt('please_select')));
+            $tpl->setVariable("TEXT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($lng->txt('please_select')));
             $tpl->setVariable("VALUE_OPTION", 0);
             $tpl->parseCurrentBlock();
             foreach ($this->terms as $term) {
                 $tpl->setCurrentBlock("option_term");
-                $tpl->setVariable("VALUE_OPTION", ilUtil::prepareFormOutput($term->identifier));
+                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($term->identifier));
                 $tpl->setVariable("TEXT_OPTION", $lng->txt('term') . " " . $counter);
                 if ($pair->term->identifier == $term->identifier) {
                     $tpl->setVariable('SELECTED_OPTION', ' selected="selected"');
@@ -194,12 +194,12 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             }
             $counter = 1;
             $tpl->setCurrentBlock("option_definition");
-            $tpl->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($lng->txt('please_select')));
+            $tpl->setVariable("TEXT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($lng->txt('please_select')));
             $tpl->setVariable("VALUE_OPTION", 0);
             $tpl->parseCurrentBlock();
             foreach ($this->definitions as $definition) {
                 $tpl->setCurrentBlock("option_definition");
-                $tpl->setVariable("VALUE_OPTION", ilUtil::prepareFormOutput($definition->identifier));
+                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($definition->identifier));
                 $tpl->setVariable("TEXT_OPTION", $lng->txt('definition') . " " . $counter);
                 if ($pair->definition->identifier == $definition->identifier) {
                     $tpl->setVariable('SELECTED_OPTION', ' selected="selected"');

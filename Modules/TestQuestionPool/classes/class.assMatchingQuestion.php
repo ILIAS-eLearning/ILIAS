@@ -1044,7 +1044,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             } else {
                 // create thumbnail file
                 $thumbpath = $imagepath . $this->getThumbPrefix() . $savename;
-                ilUtil::convertImage($imagepath . $savename, $thumbpath, "JPEG", $this->getThumbGeometry());
+                ilShellUtil::convertImage($imagepath . $savename, $thumbpath, "JPEG", $this->getThumbGeometry());
             }
             if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename))) {
                 $this->deleteImagefile($previous_filename);
@@ -1366,7 +1366,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $ext = 'JPEG';
                     break;
             }
-            ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
         }
     }
 

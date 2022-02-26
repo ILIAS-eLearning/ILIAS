@@ -135,7 +135,7 @@ class ilFileDataForumDrafts extends ilFileData
         if (isset($files['name']) && is_array($files['name'])) {
             foreach ($files['name'] as $index => $name) {
                 $name = rtrim($name, '/');
-                $filename = ilUtil::_sanitizeFilemame($name);
+                $filename = ilFileUtils::_sanitizeFilemame($name);
                 $temp_name = $files['tmp_name'][$index];
                 $error = $files['error'][$index];
 
@@ -152,7 +152,7 @@ class ilFileDataForumDrafts extends ilFileData
 
         if (isset($files['name']) && is_string($files['name'])) {
             $files['name'] = rtrim($files['name'], '/');
-            $filename = ilUtil::_sanitizeFilemame($files['name']);
+            $filename = ilFileUtils::_sanitizeFilemame($files['name']);
             $temp_name = $files['tmp_name'];
 
             $path = $this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $filename;

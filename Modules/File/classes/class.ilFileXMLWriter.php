@@ -158,7 +158,7 @@ class ilFileXMLWriter extends ilXmlWriter
                 $attribs = array(
                     "version" => $version["version"],
                     "max_version" => $version["max_version"],
-                    "date" => ilUtil::date_mysql2time($version["date"]),
+                    "date" => strtotime($version["date"]),
                     "usr_id" => "il_" . IL_INST_ID . "_usr_" . $version["user_id"],
                     "action" => $version["action"],
                     "rollback_version" => $version["rollback_version"],

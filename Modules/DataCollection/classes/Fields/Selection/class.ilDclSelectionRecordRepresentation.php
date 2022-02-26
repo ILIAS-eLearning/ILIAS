@@ -3,7 +3,6 @@
 
 /**
  * Class ilDclSelectionRecordRepresentation
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordRepresentation
@@ -13,10 +12,8 @@ abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordReprese
     const PROP_SELECTION_TYPE = '';
     const PROP_SELECTION_OPTIONS = '';
 
-
     /**
      * @param bool $link
-     *
      * @return string
      */
     public function getHTML($link = true)

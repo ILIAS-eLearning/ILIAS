@@ -136,4 +136,35 @@ class AccessManager
         }
         return false;
     }
+
+    /**
+     * Gets all participants or a subset of participants (by run ids)
+     * where the current user can access the results
+     */
+    public function canReadResultOfParticipants(
+        ?array $a_finished_ids = null
+    ) : array {
+        $all_participants = $this->getSurvey()->getSurveyParticipants($a_finished_ids);
+        $participant_ids = [];
+        foreach ($all_participants as $participant) {
+            $participant_ids[] = $participant['usr_id'];
+        }
+
+        $filtered_participant_ids = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
+            'read_results',
+            'access_results',
+            $this->getSurvey()->getRefId(),
+            $participant_ids
+        );
+        $participants = [];
+        foreach ($all_participants as $username => $user_data) {
+            if (!$user_data['usr_id']) {
+                $participants[$username] = $user_data;
+            }
+            if (in_array($user_data['usr_id'], $filtered_participant_ids)) {
+                $participants[$username] = $user_data;
+            }
+        }
+        return $participants;
+    }
 }

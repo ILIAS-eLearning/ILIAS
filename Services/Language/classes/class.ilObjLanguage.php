@@ -60,7 +60,7 @@ class ilObjLanguage extends ilObject
         $objects = array();
         $languages = ilObject::_getObjectsByType("lng");
         foreach ($languages as $lang) {
-            $langObj = new ilObjLanguage($lang["obj_id"], false);
+            $langObj = new ilObjLanguage((int) $lang["obj_id"], false);
             if ($langObj->isInstalled()) {
                 $objects[] = $langObj;
             } else {

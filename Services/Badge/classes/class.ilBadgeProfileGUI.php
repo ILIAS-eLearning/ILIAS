@@ -143,7 +143,7 @@ class ilBadgeProfileGUI
         }
         
         // :TODO:
-        $data = ilUtil::sortArray($data, "issued_on", "desc", true);
+        $data = ilArrayUtil::sortArray($data, "issued_on", "desc", true);
 
         $tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
 
@@ -172,7 +172,7 @@ class ilBadgeProfileGUI
 
             if ($badge["object"]["type"] != "bdga") {
                 $parent_icon = $this->factory->symbol()->icon()->custom(
-                    ilObject::_getIcon($badge["object"]["id"], "big", $badge["object"]["type"]),
+                    ilObject::_getIcon((int) $badge["object"]["id"], "big", $badge["object"]["type"]),
                     $this->lng->txt("obj_" . $badge["object"]["type"]),
                     "medium"
                 );

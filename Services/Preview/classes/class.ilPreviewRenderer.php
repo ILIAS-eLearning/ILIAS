@@ -128,13 +128,13 @@ abstract class ilPreviewRenderer
         // cmd: convert $src_img_path -background white -flatten -resize 280x280 -quality 85 -sharpen 0x0.5 $dest_img_path
         $args = sprintf(
             "%s -background white -flatten -resize %s -quality %d -sharpen 0x0.5 %s",
-            ilUtil::escapeShellArg($src_img_path),
+            ilShellUtil::escapeShellArg($src_img_path),
             $resizeArg,
             $this->getImageQuality(),
-            ilUtil::escapeShellArg($dest_img_path)
+            ilShellUtil::escapeShellArg($dest_img_path)
         );
 
-        ilUtil::execQuoted(PATH_TO_CONVERT, $args);
+        ilShellUtil::execQuoted(PATH_TO_CONVERT, $args);
 
         return is_file($dest_img_path);
     }

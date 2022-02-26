@@ -1,51 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 
-
-
-  /******************************************************************************
- *
+/******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
- *
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
  * of said license along with the source code.
- *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
  *****************************************************************************/
 class ilXMLResultSetParser extends ilSaxParser
 {
-    public $xmlResultSet;
+    private ?ilXMLResultSet $xmlResultSet = null;
+    private ?ilXMLResultSetRow $currentRow = null;
+    private int $currentColumnIndex = 0;
+    private string $cdata = '';
 
-    /**
-    * Constructor
-    * @param	string		$a_xml_data			xml data
-    * @access	public
-    */
-    public function __construct($a_xml_data = '')
+    public function __construct(string $a_xml_data = '')
     {
         parent::__construct();
         $this->setXMLContent($a_xml_data);
     }
 
-    /**
-     * parsed result
-     *
-     * @return ilXMLResultSet xmlResultSet
-     */
-    public function getXMLResultSet() : ?\ilXMLResultSet
+    public function getXMLResultSet() : ?ilXMLResultSet
     {
         return $this->xmlResultSet;
     }
 
     /**
-    * set event handlers
-    *
-    * @param	resource	reference to the xml parser
-    * @access	private
-    */
+     * @param resource    reference to the xml parser
+     */
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -53,14 +37,12 @@ class ilXMLResultSetParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-
     /**
-    * handler for begin of element
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_name				element name
-    * @param	array		$a_attribs			element attributes array
-    */
+     * @param resource $a_xml_parser xml parser
+     * @param string   $a_name       element name
+     * @param array    $a_attribs    element attributes array
+     * @return void
+     */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
@@ -79,17 +61,15 @@ class ilXMLResultSetParser extends ilSaxParser
                 $this->xmlResultSet->addRow($this->currentRow);
                 $this->currentColumnIndex = 0;
                 break;
-            case 'column':
-                break;
         }
     }
 
     /**
-    * handler for end of element
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_name				element name
-    */
+     * handler for end of element
+     * @param resource $a_xml_parser xml parser
+     * @param string   $a_name       element name
+     * @return void
+     */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
@@ -102,17 +82,16 @@ class ilXMLResultSetParser extends ilSaxParser
     }
 
     /**
-    * handler for character data
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_data				character data
-    */
+     * handler for character data
+     * @param resource $a_xml_parser xml parser
+     * @param string   $a_data       character data
+     * @return void
+     */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {
             // Replace multiple tabs with one space
             $a_data = preg_replace("/\t+/", " ", $a_data);
-
             $this->cdata .= trim($a_data);
         }
     }

@@ -128,6 +128,7 @@ class ilStudyProgrammeDashboardViewGUI
 
     protected function fillValidation(?bool $valid, ?DateTimeImmutable $validation_expiry_date) : array
     {
+        $validation = '';
         if (!$valid) {
             $validation = $this->txt('no');
         }

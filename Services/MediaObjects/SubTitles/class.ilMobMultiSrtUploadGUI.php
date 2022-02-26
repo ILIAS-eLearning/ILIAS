@@ -70,7 +70,7 @@ class ilMobMultiSrtUploadGUI
     public function uploadMultipleSubtitleFile() : void
     {
         try {
-            $this->multi_srt->uploadMultipleSubtitleFile(ilUtil::stripSlashesArray($_FILES["subtitle_file"]));
+            $this->multi_srt->uploadMultipleSubtitleFile(ilArrayUtil::stripSlashesArray($_FILES["subtitle_file"]));
             $this->ctrl->redirect($this, "showMultiSubtitleConfirmationTable");
         } catch (ilLMException $e) {
             $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);

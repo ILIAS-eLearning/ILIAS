@@ -131,12 +131,12 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     protected function buildFileItemContent($a_set)
     {
         if (!isset($a_set['webpath']) || !strlen($a_set['webpath'])) {
-            return ilUtil::prepareFormOutput($a_set['value2']);
+            return ilLegacyFormElementsUtil::prepareFormOutput($a_set['value2']);
         }
 
         $link = "<a href='{$a_set['webpath']}{$a_set['value1']}' download target='_blank'>";
-        $link .= ilUtil::prepareFormOutput($a_set['value2']) . '</a>';
-
+        $link .= ilLegacyFormElementsUtil::prepareFormOutput($a_set['value2']) . '</a>';
+        
         return $link;
     }
     // hey.

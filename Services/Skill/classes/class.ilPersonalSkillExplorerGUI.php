@@ -149,7 +149,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         if (isset($this->selectable_child_nodes[$a_parent_node_id])
             && is_array($this->selectable_child_nodes[$a_parent_node_id])) {
             $childs = $this->selectable_child_nodes[$a_parent_node_id];
-            $childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
+            $childs = ilArrayUtil::sortArray($childs, "order_nr", "asc", true);
             return $childs;
         }
         return [];

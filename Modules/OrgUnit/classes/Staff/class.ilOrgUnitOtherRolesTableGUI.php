@@ -3,7 +3,6 @@
 
 /**
  * Class ilOrgUnitOtherRolesTableGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  */
@@ -54,12 +53,10 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-
     public function readData()
     {
         $this->parseData();
     }
-
 
     public function parseData()
     {
@@ -70,7 +67,6 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
 
         $this->setData($data);
     }
-
 
     protected function parseRows($user_ids)
     {
@@ -84,7 +80,6 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         return $data;
     }
 
-
     /**
      * @param $role_id integer
      */
@@ -92,7 +87,6 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
     {
         $this->role_id = $role_id;
     }
-
 
     /**
      * @return integer
@@ -102,7 +96,6 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         return $this->role_id;
     }
 
-
     protected function setRowForUser(&$set, $user_id)
     {
         $user = new ilObjUser($user_id);
@@ -111,7 +104,6 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         $set["user_object"] = $user;
         $set["user_id"] = $user_id;
     }
-
 
     public function fillRow(array $a_set) : void
     {
@@ -130,7 +122,8 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
             $selection = new ilAdvancedSelectionListGUI();
             $selection->setListTitle($lng->txt("Actions"));
             $selection->setId("selection_list_user_other_roles_" . $a_set["user_id"]);
-            $selection->addItem($this->lng->txt("remove"), "delete_from_role", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromRole"));
+            $selection->addItem($this->lng->txt("remove"), "delete_from_role",
+                $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromRole"));
         }
         $this->tpl->setVariable("ACTIONS", $selection->getHTML());
     }

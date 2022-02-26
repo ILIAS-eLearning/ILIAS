@@ -5,6 +5,7 @@ use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemDrilldownRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
@@ -131,15 +132,21 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_orga.svg"), $title);
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
-            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(static function () : bool {
-                return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(function () : bool {
+                return (new ilMyStaffCachedAccessDecorator(
+                    $this->dic,
+                    ilMyStaffAccess::getInstance()
+                ))->hasCurrentUserAccessToMyStaff();
             }))
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(60)
             ->withAvailableCallable(
-                static function () : bool {
-                    return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+                function () : bool {
+                    return (new ilMyStaffCachedAccessDecorator(
+                        $this->dic,
+                        ilMyStaffAccess::getInstance()
+                    ))->hasCurrentUserAccessToMyStaff();
                 }
             );
 

@@ -57,11 +57,6 @@ class EditingGUIRequest
         return $this->str("new_type");
     }
 
-    public function getPdf() : int
-    {
-        return $this->int("pdf");
-    }
-
     public function getFetchAll() : int
     {
         return $this->int("fetchall");

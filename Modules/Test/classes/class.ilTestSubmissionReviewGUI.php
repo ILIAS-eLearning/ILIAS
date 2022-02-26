@@ -234,7 +234,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
             ilFileUtils::makeDirParents($path);
         }
         
-        $filename = ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . '/' . $path . '/exam_N';
+        $filename = ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . '/' . $path . '/exam_N';
         $filename .= $inst_id . '-' . $this->testOutputGUI->object->getId();
         $filename .= '-' . $this->testSession->getActiveId() . '-';
         $filename .= $this->testSession->getPass() . '.pdf';

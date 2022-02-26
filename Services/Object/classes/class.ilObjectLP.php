@@ -17,7 +17,7 @@ class ilObjectLP
     protected ?ilLPCollection $collection_instance = null;
     protected ?int $mode = null;
     
-    protected static array $type_defaults = [];
+    protected static ?array $type_defaults = null;
     
     protected function __construct($a_obj_id)
     {
@@ -228,6 +228,7 @@ class ilObjectLP
     public function getSettingsInfo() : string
     {
         // type-specific
+        return "";
     }
     
     
@@ -630,21 +631,21 @@ class ilObjectLP
     {
         return array(ilLPObjSettings::LP_MODE_UNDEFINED);
     }
-    
-    protected static function getTypeDefaultFromDB(string $a_type) : array
+
+    protected static function getTypeDefaultFromDB(string $a_type) : ?int
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
-        if (!is_array(self::$type_defaults)) {
+
+        if (is_null(self::$type_defaults)) {
             self::$type_defaults = [];
             $set = $ilDB->query("SELECT * FROM ut_lp_defaults");
             while ($row = $ilDB->fetchAssoc($set)) {
-                self::$type_defaults[(int) $row["type_id"]] = (int) $row["lp_mode"];
+                self::$type_defaults[(string) $row["type_id"]] = (int) $row["lp_mode"];
             }
         }
-        return self::$type_defaults[$a_type];
+        return self::$type_defaults[$a_type] ?? null;
     }
     
     public static function saveTypeDefaults(array $a_data) : void

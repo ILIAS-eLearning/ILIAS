@@ -267,7 +267,7 @@ class ilExcAssMemberState
         if ($official_deadline - $this->time <= 0) {
             $time_str = $lng->txt("exc_time_over_short");
         } else {
-            $time_str = ilUtil::period2String(new ilDateTime($official_deadline, IL_CAL_UNIX));
+            $time_str = ilLegacyFormElementsUtil::period2String(new ilDateTime($official_deadline, IL_CAL_UNIX));
         }
 
         return $time_str;

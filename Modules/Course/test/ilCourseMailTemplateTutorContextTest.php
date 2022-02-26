@@ -2,7 +2,6 @@
 
 use PHPUnit\Framework\TestCase;
 
-
 /**
  * Class ilCourseMailTemplateTutorContextTest
  */

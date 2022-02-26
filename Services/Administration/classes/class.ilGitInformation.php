@@ -34,11 +34,11 @@ class ilGitInformation implements ilVersionControlInformation
         $info = array();
 
         if (!ilUtil::isWindows()) {
-            $origin = ilUtil::execQuoted('git config --get remote.origin.url');
-            $branch = ilUtil::execQuoted('git rev-parse --abbrev-ref HEAD');
-            $version_mini_hash = ilUtil::execQuoted('git rev-parse --short HEAD');
-            $version_number = ilUtil::execQuoted('git rev-list --count HEAD');
-            $line = ilUtil::execQuoted('git log -1');
+            $origin = ilShellUtil::execQuoted('git config --get remote.origin.url');
+            $branch = ilShellUtil::execQuoted('git rev-parse --abbrev-ref HEAD');
+            $version_mini_hash = ilShellUtil::execQuoted('git rev-parse --short HEAD');
+            $version_number = ilShellUtil::execQuoted('git rev-list --count HEAD');
+            $line = ilShellUtil::execQuoted('git log -1');
 
             if ($origin[0]) {
                 $origin = $origin[0];

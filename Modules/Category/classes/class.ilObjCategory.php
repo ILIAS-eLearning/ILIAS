@@ -32,7 +32,7 @@ class ilObjCategory extends ilContainer
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete()
+    public function delete() : bool
     {
         $ilDB = $this->db;
         $ilAppEventHandler = $this->app_event_handler;
@@ -63,14 +63,14 @@ class ilObjCategory extends ilContainer
         return true;
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 
         return $new_obj;
     }
     
-    public function cloneDependencies($a_target_id, $a_copy_id)
+    public function cloneDependencies(int $a_target_id, int $a_copy_id) : bool
     {
         parent::cloneDependencies($a_target_id, $a_copy_id);
     
@@ -114,6 +114,7 @@ class ilObjCategory extends ilContainer
                 }
             }
         }
+        return true;
     }
     
     public function addAdditionalSubItemInformation(array &$object) : void

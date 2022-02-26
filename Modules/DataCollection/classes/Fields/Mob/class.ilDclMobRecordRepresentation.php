@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclMobRecordRepresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,10 +10,8 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
 
     /**
      * Outputs html of a certain field
-     *
      * @param mixed     $value
      * @param bool|true $link
-     *
      * @return string
      */
     public function getHTML($link = true)
@@ -24,9 +21,11 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
         // the file is only temporary uploaded. Still need to be confirmed before stored
         if (is_array($value) && $_POST['ilfilehash']) {
             $this->ctrl->setParameterByClass("ildclrecordlistgui", "ilfilehash", $_POST['ilfilehash']);
-            $this->ctrl->setParameterByClass("ildclrecordlistgui", "field_id", $this->getRecordField()->getField()->getId());
+            $this->ctrl->setParameterByClass("ildclrecordlistgui", "field_id",
+                $this->getRecordField()->getField()->getId());
 
-            return '<a href="' . $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "sendFile") . '">' . $value['name'] . '</a>';
+            return '<a href="' . $this->ctrl->getLinkTargetByClass("ildclrecordlistgui",
+                    "sendFile") . '">' . $value['name'] . '</a>';
         }
 
         $mob = new ilObjMediaObject($value, false);
@@ -50,8 +49,10 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
             $html = ilUtil::img(ilWACSignedPath::signFile($dir . "/" . $med->getLocation()), '', $width, $height);
 
             if ($is_linked_field && $has_view && $link) {
-                $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->getRecordField()->getRecord()->getId());
-                $html = '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord') . '">' . $html . '</a>';
+                $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id',
+                    $this->getRecordField()->getRecord()->getId());
+                $html = '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI",
+                        'renderRecord') . '">' . $html . '</a>';
             }
         } else {
             // Video/Audio
@@ -64,20 +65,19 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
             $html = $mpl->getPreviewHtml();
 
             if ($is_linked_field && $has_view) {
-                $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->getRecordField()->getRecord()->getId());
-                $html = $html . '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord') . '">' . $this->lng->txt('details') . '</a>';
+                $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id',
+                    $this->getRecordField()->getRecord()->getId());
+                $html = $html . '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI",
+                        'renderRecord') . '">' . $this->lng->txt('details') . '</a>';
             }
         }
 
         return $html;
     }
 
-
     /**
      * function parses stored value to the variable needed to fill into the form for editing.
-     *
      * @param $value
-     *
      * @return mixed
      */
     public function parseFormInput($value)

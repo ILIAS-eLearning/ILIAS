@@ -27,7 +27,7 @@ class ilExplorer
     protected ilObjectDefinition $obj_definition;
     protected ilErrorHandling $error;
     protected ilRbacSystem $rbacsystem;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     public string $id;
     public string $output;
@@ -105,7 +105,7 @@ class ilExplorer
         $this->order_column = "title";
         $this->tree = new ilTree(ROOT_FOLDER_ID);
         $this->tree->initLangCode();
-        $this->expand_target = $_SERVER["PATH_INFO"];
+        $this->expand_target = $_SERVER["PATH_INFO"] ?? "";
         $this->rbac_check = true;
         $this->output_icons = true;
         $this->expand_variable = "expand";
@@ -778,32 +778,40 @@ class ilExplorer
             }
 
             //$tpl->setVariable("LINK_NAME", $a_node_id);
-            $tpl->setVariable("TITLE", ilUtil::shortenText(
-                $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
-                $this->textwidth,
-                true
-            ));
-            $tpl->setVariable("DESC", ilUtil::shortenText(
-                $this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]),
-                $this->textwidth,
-                true
-            ));
+            $tpl->setVariable("TITLE",
+                ilStr::shortenTextExtended(
+                    $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
+                    $this->textwidth,
+                    true
+                )
+            );
+            $tpl->setVariable("DESC",
+                ilStr::shortenTextExtended(
+                    $this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]),
+                    $this->textwidth,
+                    true
+                )
+            );
             $frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
             if ($frame_target != "") {
                 $tpl->setVariable("TARGET", " target=\"" . $frame_target . "\"");
             }
         } else {			// output text only
             $tpl->setCurrentBlock("text");
-            $tpl->setVariable("OBJ_TITLE", ilUtil::shortenText(
-                $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
-                $this->textwidth,
-                true
-            ));
-            $tpl->setVariable("OBJ_DESC", ilUtil::shortenText(
-                $this->buildDescription($a_option["desc"], $a_node_id, $a_option["type"]),
-                $this->textwidth,
-                true
-            ));
+            $tpl->setVariable("OBJ_TITLE",
+                ilStr::shortenTextExtended(
+                    $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
+                    $this->textwidth,
+                    true
+                )
+            );
+            $tpl->setVariable("OBJ_DESC",
+                ilStr::shortenTextExtended(
+                    $this->buildDescription($a_option["desc"], $a_node_id, $a_option["type"]),
+                    $this->textwidth,
+                    true
+                )
+            );
         }
         $tpl->parseCurrentBlock();
 
@@ -1114,7 +1122,7 @@ class ilExplorer
             array_splice($a_nodes, $match, 1);
         }
 
-        $a_nodes = ilUtil::sortArray($a_nodes, $this->order_column, $this->order_direction);
+        $a_nodes = ilArrayUtil::sortArray($a_nodes, $this->order_column, $this->order_direction);
 
         // append adm node to end of list
         if (isset($match)) {

@@ -322,7 +322,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         if ($a_set["title"] == "") {
             $a_set["title"] = "--" . $this->lng->txt("none") . "--";
         }
-        $this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $a_set["type"]));
+
+        $this->tpl->setVariable("ICON", ilObject::_getIcon(0, "tiny", $a_set["type"]));
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
 
         if (in_array($a_set['type'], array('fold', 'grp')) && $a_set['obj_id'] != $this->obj_id) {

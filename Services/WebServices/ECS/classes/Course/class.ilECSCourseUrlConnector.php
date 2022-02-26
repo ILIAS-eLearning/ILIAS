@@ -18,14 +18,9 @@
  * Connector for writing ecs course urls
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCourseUrlConnector extends ilECSConnector
 {
-    /**
-     * Constructor
-     * @param ilECSSetting $settings
-     */
     public function __construct(ilECSSetting $settings = null)
     {
         parent::__construct($settings);
@@ -33,7 +28,6 @@ class ilECSCourseUrlConnector extends ilECSConnector
     
     /**
      * Send url of newly created courses to ecs
-     * @return type
      * @throws ilECSConnectorException
      */
     public function addUrl(ilECSCourseUrl $url, $a_target_mid)
@@ -55,7 +49,7 @@ class ilECSCourseUrlConnector extends ilECSConnector
             
             $this->logger->debug('Sending url ' . print_r(json_encode($url), true));
             
-            $ret = $this->call();
+            $this->call();
 
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
     

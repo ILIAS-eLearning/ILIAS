@@ -92,7 +92,7 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
             }
         }
         closedir($dp);
-        return ilUtil::sortArray($files, "order", "asc", true);
+        return ilArrayUtil::sortArray($files, "order", "asc", true);
     }
 
     public function getAssignmentFilePath(

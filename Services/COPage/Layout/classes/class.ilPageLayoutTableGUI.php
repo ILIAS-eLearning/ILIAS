@@ -137,11 +137,12 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable(
             "TYPE",
-            ilUtil::formSelect(
+            ilLegacyFormElementsUtil::formSelect(
                 $a_set["special_page"],
                 "type[" . $a_set["layout_id"] . "]",
-                array("0" => $lng->txt("cont_layout_template"),
-                    "1" => $lng->txt("cont_special_page")),
+                ["0" => $lng->txt("cont_layout_template"),
+                 "1" => $lng->txt("cont_special_page")
+                ],
                 false,
                 true
             )

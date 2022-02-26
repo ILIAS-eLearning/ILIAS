@@ -18,16 +18,11 @@
 * Handles object exports to ECS
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @ingroup ServicesWebServicesECS
 */
 abstract class ilECSObjectSettings
 {
     protected \ilObject $content_obj; // [ilObj]
     
-    /**
-     * @var ilLogger
-     */
     private ilLogger $logger;
     private ilLanguage $lng;
     private ilTree $tree;

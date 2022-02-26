@@ -55,7 +55,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -87,8 +87,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
 

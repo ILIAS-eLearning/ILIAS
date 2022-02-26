@@ -411,7 +411,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $url = $this->ctrl->getLinkTarget($this, "dl" . $a_type);
             $this->ctrl->setParameter($this, "dlid", "");
         } else {
-            $file = $verification->object->getFilePath();
+            $file = $verification->getObject()->getFilePath();
             $url = "files/" . basename($file);
 
             $this->export_material["files"][] = $file;
@@ -721,11 +721,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $data = $this->getCoursesOfUser($user_id, ($sorting == "loc"));
         if (sizeof($data)) {
             if ($sorting != "loc") {
-                $data = ilUtil::sortArray($data, "title", "ASC");
+                $data = ilArrayUtil::sortArray($data, "title", "ASC");
             } else {
-                $data = ilUtil::sortArray($data, "path_sort", "ASC");
+                $data = ilArrayUtil::sortArray($data, "path_sort", "ASC");
             }
-                
+            
             $tpl = new ilTemplate("tpl.pc_my_courses.html", true, true, "Modules/Portfolio");
             $tpl->setVariable("TITLE", $this->lng->txt("prtf_page_element_my_courses_title"));
             $tpl->setVariable("INFO", $this->lng->txt("prtf_page_element_my_courses_info")); // #14464
@@ -739,16 +739,18 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                     "alpha" => $this->lng->txt("cont_mycourses_sortorder_alphabetical"),
                     "loc" => $this->lng->txt("cont_mycourses_sortorder_location")
                 );
-                $tpl->setVariable("SORT_SELECT", ilUtil::formSelect(
-                    $sorting,
-                    "srt",
-                    $options,
-                    false,
-                    true,
-                    0,
-                    "",
-                    array("onchange" => "form.submit()")
-                ));
+                $tpl->setVariable("SORT_SELECT",
+                    ilLegacyFormElementsUtil::formSelect(
+                        $sorting,
+                        "srt",
+                        $options,
+                        false,
+                        true,
+                        0,
+                        "",
+                        ["onchange" => "form.submit()"]
+                    )
+                );
                 $tpl->setVariable("SORT_FORM", $this->getCourseSortAction($ilCtrl));
             }
 
@@ -821,7 +823,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                         }
                         $tpl->parseCurrentBlock();
 
-                        $objtv_icon = ilUtil::getTypeIconPath("lobj", $objtv["id"]);
+                        $objtv_icon = ilObject::_getIcon($objtv["id"], 'big', "lobj");
                         if ($img_path) {
                             $objtv_icon = $img_path . basename($objtv_icon);
                         }
@@ -863,7 +865,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 }
                 $tpl->parseCurrentBlock();
 
-                $crs_icon = ilUtil::getTypeIconPath("crs", $course["obj_id"]);
+                $crs_icon = ilObject::_getIcon($course["obj_id"], 'small', 'crs');
                 if ($img_path) {
                     $crs_icon = $img_path . basename($crs_icon);
                 }

@@ -121,7 +121,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             case "ilexportgui":
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
-                $ret = $ctrl->forwardCommand($exp_gui);
+                $ctrl->forwardCommand($exp_gui);
                 break;
 
             case "ilstylecharacteristicgui":
@@ -135,7 +135,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                     $this->characteristic_manager,
                     $this->image_manager
                 );
-                $ret = $ctrl->forwardCommand($gui);
+                $ctrl->forwardCommand($gui);
                 break;
 
             case "ilcontentstyleimagegui":
@@ -145,13 +145,13 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                     $this->access_manager,
                     $this->image_manager
                 );
-                $ret = $ctrl->forwardCommand($gui);
+                $ctrl->forwardCommand($gui);
                 break;
 
             default:
                 $this->prepareOutput();
                 $cmd .= "Object";
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
     }
@@ -163,12 +163,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         return $obj;
     }
 
-    public function viewObject()
+    public function viewObject() : void
     {
         $this->editObject();
     }
 
-    public function createObject()
+    public function createObject() : void
     {
         $tpl = $this->gui_service->ui()->mainTemplate();
         $ctrl = $this->gui_service->ctrl();
@@ -409,7 +409,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $this->gui_service->ctrl()->returnToParent($this);
     }
 
-    public function saveObject() : int
+    public function saveObject() : void
     {
         $ctrl = $this->gui_service->ctrl();
 
@@ -460,8 +460,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $ctrl->returnToParent($this);
             }
         }
-
-        return $newObj->getId();
     }
 
     public function copyStyleObject() : int
@@ -545,7 +543,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     }
 
 
-    public function cancelObject()
+    public function cancelObject() : void
     {
         $lng = $this->lng;
 
@@ -553,7 +551,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $this->ctrl->returnToParent($this);
     }
     
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
@@ -654,7 +652,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
      * should be overwritten to add object specific items
      * (repository items are preloaded)
      */
-    protected function addAdminLocatorItems($a_do_not_add_object = false)
+    protected function addAdminLocatorItems(bool $do_not_add_object = false) : void
     {
         $ilLocator = $this->gui_service->locator();
 
@@ -904,7 +902,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $cgui->setConfirm($lng->txt("delete"), "deleteColor");
             
             foreach ($colors as $c) {
-                $cgui->addItem("color[]", ilUtil::prepareFormOutput($c), $c);
+                $cgui->addItem("color[]", ilLegacyFormElementsUtil::prepareFormOutput($c), $c);
             }
             
             $tpl->setContent($cgui->getHTML());

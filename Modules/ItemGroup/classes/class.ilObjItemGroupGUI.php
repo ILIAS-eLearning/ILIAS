@@ -50,7 +50,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
             ->standardRequest();
     }
 
-    protected function afterConstructor()
+    protected function afterConstructor() : void
     {
         $lng = $this->lng;
         
@@ -58,7 +58,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $this->ctrl->saveParameter($this, array("ref_id"));
     }
 
-    final public function getType()
+    final public function getType() : ?string
     {
         return "itgr";
     }
@@ -110,33 +110,32 @@ class ilObjItemGroupGUI extends ilObject2GUI
         }
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type)
-            );
+        $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type));
 
         return $forms;
     }
 
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form)
+    protected function initEditCustomForm(ilPropertyFormGUI $form) : void
     {
-        $a_form->removeItemByPostVar("desc");
+        $form->removeItemByPostVar("desc");
 
         // description
         $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $ta->setRows(2);
         $ta->setInfo($this->lng->txt("itgr_desc_info"));
-        $a_form->addItem($ta);
+        $form->addItem($ta);
 
         // presentation
         $pres = new ilFormSectionHeaderGUI();
         $pres->setTitle($this->lng->txt('obj_presentation'));
-        $a_form->addItem($pres);
+        $form->addItem($pres);
 
         // show title
         $cb = new ilCheckboxInputGUI($this->lng->txt("itgr_show_title"), "show_title");
         $cb->setInfo($this->lng->txt("itgr_show_title_info"));
-        $a_form->addItem($cb);
+        $form->addItem($cb);
 
         // behaviour
         $options = ilItemGroupBehaviour::getAll();
@@ -170,12 +169,10 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $si->setValue($this->object->getTileSize());
 
         $lpres->setValue($this->object->getListPresentation());
-        $a_form->addItem($lpres);
-
-        return $a_form;
+        $form->addItem($lpres);
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -183,7 +180,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $ilCtrl->redirect($this, "listMaterials");
     }
 
-    public function edit()
+    public function edit() : void
     {
         parent::edit();
         $this->setSettingsSubTabs("general");
@@ -293,6 +290,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -306,7 +304,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
             ilUtil::redirect(ilLink::_getLink($par_id));
             exit;
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -352,20 +350,20 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $a_values["tile_size"] = $this->object->getTileSize();
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form)
+    protected function updateCustom(ilPropertyFormGUI $form) : void
     {
-        $this->object->setHideTitle(!$a_form->getInput("show_title"));
-        $behaviour = ($a_form->getInput("show_title"))
-            ? $a_form->getInput("behaviour")
+        $this->object->setHideTitle(!$form->getInput("show_title"));
+        $behaviour = ($form->getInput("show_title"))
+            ? $form->getInput("behaviour")
             : ilItemGroupBehaviour::ALWAYS_OPEN;
         $this->object->setBehaviour($behaviour);
-        $this->object->setListPresentation($a_form->getInput("list_presentation"));
-        $this->object->setTileSize($a_form->getInput("tile_size"));
+        $this->object->setListPresentation($form->getInput("list_presentation"));
+        $this->object->setTileSize($form->getInput("tile_size"));
     }
 
-    protected function initCreateForm($a_new_type)
+    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
     {
-        $form = parent::initCreateForm($a_new_type);
+        $form = parent::initCreateForm($new_type);
         $ta = $form->getItemByPostVar("desc");
         $ta->setInfo($this->lng->txt("itgr_desc_info"));
         return $form;

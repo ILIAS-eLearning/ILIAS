@@ -11,6 +11,7 @@ use ilToolbarGUI;
 use ilTemplate;
 use ilSession;
 use ilSystemStyleException;
+use ILIAS\UI\Component\MessageBox\MessageBox;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -53,7 +54,8 @@ class PageContentGUI
     protected bool $is_title_hidden = false;
     protected bool $should_display_admin_panel_arrow = false;
     protected bool $is_admin_panel_for_bottom = false;
-
+    private \ILIAS\DI\UIServices $ui_service;
+    
     /**
      * @throws ilTemplateException|ilSystemStyleException
      */
@@ -66,6 +68,7 @@ class PageContentGUI
         bool $plugin = false,
         bool $a_use_cache = true
     ) {
+        global $DIC;
         $this->template = new ilTemplate(
             $file,
             $flag1,
@@ -75,6 +78,7 @@ class PageContentGUI
             $plugin,
             $a_use_cache
         );
+        $this->ui_service = $DIC->ui();
     }
 
     public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null) : bool
@@ -321,19 +325,41 @@ class PageContentGUI
 
     protected function fillMessage() : void
     {
-        $out = '';
+        $messages = [];
         foreach (ilGlobalTemplateInterface::MESSAGE_TYPES as $type) {
             $message = $this->getMessageTextForType($type);
             if (null !== $message) {
-                $out .= \ilUtil::getSystemMessageHTML($message, $type);
+                $messages[] = $this->getMessageBox($type, $message);
             }
-
             ilSession::clear($type);
         }
 
-        if ('' !== $out) {
-            $this->template->setVariable("MESSAGE", $out);
+        if (count($messages) > 0) {
+            $this->template->setVariable("MESSAGE", $this->ui_service->renderer()->render($messages));
         }
+    }
+    
+    private function getMessageBox(string $type, string $message):MessageBox {
+
+        $box_factory = $this->ui_service->factory()->messageBox();
+        switch ($type) {
+            case 'info';
+                $box = $box_factory->info($message);
+                break;
+            case 'success';
+                $box = $box_factory->success($message);
+                break;
+            case 'question';
+                $box = $box_factory->confirmation($message);
+                break;
+            case 'failure';
+                $box = $box_factory->failure($message);
+                break;
+            default:
+                throw new InvalidArgumentException();
+        }
+    
+        return $box;
     }
 
     protected function getMessageTextForType(string $type) : ?string

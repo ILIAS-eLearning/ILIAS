@@ -53,7 +53,7 @@ class ilObjLinkResource extends ilObject
     *
     * @param bool upload mode (if enabled no meta data will be created)
     */
-    public function create($a_upload = false)
+    public function create($a_upload = false) : int
     {
         $new_id = parent::create();
 
@@ -67,10 +67,10 @@ class ilObjLinkResource extends ilObject
     /**
     * update object
     */
-    public function update()
+    public function update() : bool
     {
         $this->updateMetaData();
-        parent::update();
+        return parent::update();
     }
 
     /**
@@ -114,7 +114,7 @@ class ilObjLinkResource extends ilObject
     * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -155,7 +155,7 @@ class ilObjLinkResource extends ilObject
      * @param int copy id
      *
      */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $this->cloneMetaData($new_obj);

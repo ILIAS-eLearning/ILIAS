@@ -626,8 +626,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->setCurrentBlock("imagemap_area");
             $template->setVariable("SHAPE", $answer->getArea());
             $template->setVariable("COORDS", $answer->getCoords());
-            $template->setVariable("ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
-            $template->setVariable("TITLE", ilUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("ALT", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
@@ -690,8 +690,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->setVariable("HREF_AREA", $this->buildAreaLinkTarget($userSelection, $answer_id));
             $template->setVariable("SHAPE", $answer->getArea());
             $template->setVariable("COORDS", $answer->getCoords());
-            $template->setVariable("ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
-            $template->setVariable("TITLE", ilUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("ALT", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->parseCurrentBlock();
             if ($show_feedback) {
                 if (!$this->object->getIsMultipleChoice() && count($userSelection) && current($userSelection) == $answer_id) {

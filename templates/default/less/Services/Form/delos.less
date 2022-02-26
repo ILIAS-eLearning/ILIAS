@@ -40,6 +40,10 @@ form.form-inline {
 	outline: @il-focus-outline;
 }
 
+.btn-file:focus-within {
+	outline: @il-focus-outline;
+}
+
 textarea.form-control {
 	max-width: 100%;
 }
@@ -295,7 +299,7 @@ div.ilFormInfo {
 
 input:invalid {
 	background-color: #ffebeb;
-	border-color: #d08080;
+	border-color: @il-danger-color;
 }
 
 .bootstrap-datetimepicker-widget {

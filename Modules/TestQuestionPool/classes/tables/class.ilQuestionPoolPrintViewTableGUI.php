@@ -126,26 +126,28 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
     public function fillRow(array $a_set) : void
     {
         ilDatePresentation::setUseRelativeDates(false);
-        $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($a_set['title']));
+        $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') == 0) {
                 $this->tpl->setCurrentBlock('description');
-                $this->tpl->setVariable("DESCRIPTION", ilUtil::prepareFormOutput($a_set['description']));
+                $this->tpl->setVariable("DESCRIPTION",
+                    ilLegacyFormElementsUtil::prepareFormOutput($a_set['description'])
+                );
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'author') == 0) {
                 $this->tpl->setCurrentBlock('author');
-                $this->tpl->setVariable("AUTHOR", ilUtil::prepareFormOutput($a_set['author']));
+                $this->tpl->setVariable("AUTHOR", ilLegacyFormElementsUtil::prepareFormOutput($a_set['author']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'ttype') == 0) {
                 $this->tpl->setCurrentBlock('ttype');
-                $this->tpl->setVariable("TYPE", ilUtil::prepareFormOutput($a_set['ttype']));
+                $this->tpl->setVariable("TYPE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['ttype']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'points') == 0) {
                 $this->tpl->setCurrentBlock('points');
-                $this->tpl->setVariable("POINTS", ilUtil::prepareFormOutput($a_set['points']));
+                $this->tpl->setVariable("POINTS", ilLegacyFormElementsUtil::prepareFormOutput($a_set['points']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'created') == 0) {

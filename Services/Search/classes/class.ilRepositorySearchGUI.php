@@ -477,7 +477,7 @@ class ilRepositorySearchGUI
 
         $user_type = $_REQUEST['user_type'] ?? 0;
 
-        if (!$class->$method($user_ids, $user_type)) {
+        if (!$class->$method($user_ids, (int) $user_type)) {
             $this->ctrl->returnToParent($this);
         }
     }

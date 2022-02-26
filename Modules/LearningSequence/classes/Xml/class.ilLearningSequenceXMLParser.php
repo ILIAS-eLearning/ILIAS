@@ -34,7 +34,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
     protected array $settings;
 
     /**
-     * @var mixed[]
+     * @var array
      */
     protected array $lp_settings;
     protected int $counter;

@@ -226,7 +226,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             array()
         );
         
-        ilUtil::sendSuccess($this->lng->txt("lti_user_role_created"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_user_role_created"), true);
         $this->listConsumers();
     }
     
@@ -364,7 +364,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                 $consumer->getExtConsumerId(),
                 $form->getInput('types')
             );
-            ilUtil::sendSuccess($this->lng->txt("lti_consumer_created"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_consumer_created"), true);
             $GLOBALS['DIC']->ctrl()->redirect($this, 'listConsumers');
         }
 
@@ -401,7 +401,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $consumer->saveGlobalToolConsumerSettings($this->dataConnector);
             $this->object->saveConsumerObjectTypes($this->consumer_id, $form->getInput('types'));
 
-            ilUtil::sendSuccess($this->lng->txt("lti_consumer_updated"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_consumer_updated"), true);
         }
         $this->listConsumers();
     }
@@ -421,7 +421,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
         $consumer = ilLTIToolConsumer::fromExternalConsumerId($consumer_id, $this->dataConnector);
         $consumer->deleteGlobalToolConsumerSettings($this->dataConnector);
-        ilUtil::sendSuccess($this->lng->txt("lti_consumer_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_consumer_deleted"), true);
         $GLOBALS['DIC']->ctrl()->redirect($this, 'listConsumers');
     }
 
@@ -479,7 +479,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $msg = "lti_consumer_set_active";
         }
         $consumer->saveGlobalToolConsumerSettings($this->dataConnector);
-        ilUtil::sendSuccess($this->lng->txt($msg), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt($msg), true);
         
         $GLOBALS['DIC']->ctrl()->redirect($this, 'listConsumers');
     }

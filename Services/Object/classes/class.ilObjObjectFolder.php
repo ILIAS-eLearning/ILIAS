@@ -28,7 +28,7 @@ class ilObjObjectFolder extends ilObject
     * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
-    public function delete()
+    public function delete() : bool
     {
         // DISABLED
         return false;

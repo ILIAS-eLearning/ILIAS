@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -6,12 +6,12 @@ use ILIAS\DI\Container;
 
 /**
  * List all completed course for current user
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ModulesCourse
  */
 class ilCourseVerificationTableGUI extends ilTable2GUI
 {
-    private ilUserCertificateRepository $userCertificateRepository;
+    private ?ilUserCertificateRepository $userCertificateRepository;
     private Container $dic;
 
     public function __construct(
@@ -42,7 +42,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
         $this->setDescription($this->lng->txt('crsv_create_info'));
 
         $this->setRowTemplate('tpl.crs_verification_row.html', 'Modules/Course');
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->getItems();
     }
@@ -81,8 +81,8 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
         );
 
         if ($a_set['passed']) {
-            $ilCtrl->setParameter($this->parent_obj, 'crs_id', $a_set['id']);
-            $action = $ilCtrl->getLinkTarget($this->parent_obj, 'save');
+            $this->ctrl->setParameter($this->parent_obj, 'crs_id', $a_set['id']);
+            $action = $this->ctrl->getLinkTarget($this->parent_obj, 'save');
             $this->tpl->setVariable('URL_SELECT', $action);
             $this->tpl->setVariable('TXT_SELECT', $this->lng->txt('select'));
         }

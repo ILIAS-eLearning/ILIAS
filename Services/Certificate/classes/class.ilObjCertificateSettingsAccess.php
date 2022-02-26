@@ -69,10 +69,10 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
     public static function getBackgroundImageThumbPathWeb() : string
     {
         return str_replace(
-            ilUtil::removeTrailingPathSeparators(
+            ilFileUtils::removeTrailingPathSeparators(
                 ILIAS_ABSOLUTE_PATH
             ),
-            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
             self::getBackgroundImageThumbPath()
         );
     }

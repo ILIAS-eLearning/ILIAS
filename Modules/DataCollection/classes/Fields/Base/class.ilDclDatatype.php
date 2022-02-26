@@ -3,14 +3,12 @@
 
 /**
  * Class ilDclDatatype
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclDatatype
@@ -53,14 +51,10 @@ class ilDclDatatype
      */
     public static $datatype_cache;
 
-
     /**
      * Constructor
-     *
      * @access public
-     *
      * @param integer datatype_id
-     *
      */
     public function __construct($a_id = 0)
     {
@@ -70,10 +64,8 @@ class ilDclDatatype
         }
     }
 
-
     /**
      * Get field id
-     *
      * @return int
      */
     public function getId()
@@ -81,10 +73,8 @@ class ilDclDatatype
         return $this->id;
     }
 
-
     /**
      * Set title
-     *
      * @param string $a_title
      */
     public function setTitle($a_title)
@@ -92,10 +82,8 @@ class ilDclDatatype
         $this->title = $a_title;
     }
 
-
     /**
      * Get title
-     *
      * @return string
      */
     public function getTitle()
@@ -103,10 +91,8 @@ class ilDclDatatype
         return $this->title;
     }
 
-
     /**
      * Set Storage Location
-     *
      * @param int $a_id
      */
     public function setStorageLocation($a_id)
@@ -114,17 +100,14 @@ class ilDclDatatype
         $this->storageLocation = $a_id;
     }
 
-
     /**
      * Get Storage Location
-     *
      * @return int
      */
     public function getStorageLocation()
     {
         return $this->storageLocation;
     }
-
 
     /*
      * getDbType
@@ -134,7 +117,6 @@ class ilDclDatatype
         return $this->dbType;
     }
 
-
     /**
      * Read Datatype
      */
@@ -143,17 +125,16 @@ class ilDclDatatype
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $query = "SELECT * FROM il_dcl_datatype WHERE id = " . $ilDB->quote($this->getId(), "integer") . " ORDER BY sort";
+        $query = "SELECT * FROM il_dcl_datatype WHERE id = " . $ilDB->quote($this->getId(),
+                "integer") . " ORDER BY sort";
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
 
         $this->loadDatatype($rec);
     }
 
-
     /**
      * Get all possible Datatypes
-     *
      * @return array
      */
     public static function getAllDatatype()
@@ -177,7 +158,6 @@ class ilDclDatatype
 
         return self::$datatype_cache;
     }
-
 
     protected function loadDatatype($rec)
     {

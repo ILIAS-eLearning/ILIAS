@@ -136,7 +136,7 @@ class ilObjRole extends ilObject
      * loads "role" from database
      * @access private
      */
-    public function read()
+    public function read() : void
     {
         $query = "SELECT * FROM role_data WHERE role_id= " . $this->db->quote($this->id, 'integer') . " ";
         $res = $this->db->query($query);
@@ -151,7 +151,7 @@ class ilObjRole extends ilObject
         parent::read();
     }
 
-    public function update()
+    public function update() : bool
     {
         $query = "UPDATE role_data SET " .
             "allow_register= " . $this->db->quote($this->allow_register, 'integer') . ", " .
@@ -166,7 +166,7 @@ class ilObjRole extends ilObject
         return true;
     }
 
-    public function create()
+    public function create() : int
     {
         global $DIC;
 
@@ -258,7 +258,7 @@ class ilObjRole extends ilObject
      * @access    public
      * @return    bool    true if all object data were removed; false if only a references were removed
      */
-    public function delete()
+    public function delete() : bool
     {
         global $DIC;
 
@@ -410,7 +410,7 @@ class ilObjRole extends ilObject
             $sorted[$subtype]['translation'] = $translation;
         }
 
-        return ilUtil::sortArray($sorted, 'translation', 'asc', true, true);
+        return ilArrayUtil::sortArray($sorted, 'translation', 'asc', true, true);
     }
 
     public static function _updateAuthMode(array $a_roles) : void

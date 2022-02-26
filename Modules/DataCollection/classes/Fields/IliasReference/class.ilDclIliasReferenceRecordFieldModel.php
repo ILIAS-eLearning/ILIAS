@@ -4,13 +4,11 @@
 
 /**
  * Class ilDclIliasReferenceRecordFieldModel
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
@@ -21,7 +19,6 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     protected $dcl_obj_id;
 
-
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
         parent::__construct($record, $field);
@@ -29,7 +26,6 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         $dclTable = ilDclCache::getTableCache($this->getField()->getTableId());
         $this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
     }
-
 
     public function getStatus()
     {
@@ -48,7 +44,6 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return ($result->numRows() == 0) ? false : $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -58,7 +53,6 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 
         return ilObject2::_lookupTitle(ilObject2::_lookupObjectId($ref_id)) . ' [' . $ref_id . ']';
     }
-
 
     /**
      * @return int|string

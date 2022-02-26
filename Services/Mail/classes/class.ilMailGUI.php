@@ -267,8 +267,6 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         $this->tpl->loadStandardTemplate();
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mail.svg"));
 
-        ilUtil::infoPanel();
-
         $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->currentFolderId);
         $DIC->tabs()->addTarget('fold', $this->ctrl->getLinkTargetByClass(ilMailFolderGUI::class));
         $this->ctrl->clearParametersByClass(ilMailFormGUI::class);

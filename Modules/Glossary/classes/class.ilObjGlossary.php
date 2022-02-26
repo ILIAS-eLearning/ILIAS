@@ -54,9 +54,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             ->styleForRefId((int) $this->getRefId());
     }
 
-    public function create($a_upload = false)
+    public function create($a_upload = false) : int
     {
-        parent::create();
+        $id = parent::create();
         
         // meta data will be created by
         // import parser
@@ -78,9 +78,11 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->setSnippetLength(200);
 
         $this->updateAutoGlossaries();
+
+        return $id;
     }
 
-    public function read()
+    public function read() : void
     {
         parent::read();
         #		echo "Glossary<br>\n";
@@ -284,7 +286,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->setAutoGlossaries($glo_ids);
     }
 
-    public function update() : void
+    public function update() : bool
     {
         $this->updateMetaData();
 
@@ -307,7 +309,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         );
 
         $this->updateAutoGlossaries();
-        parent::update();
+        return parent::update();
     }
 
     public function updateAutoGlossaries() : void
@@ -692,7 +694,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $glo_exp->buildExportFile();
     }
 
-    public static function getDeletionDependencies($a_obj_id)
+    public static function getDeletionDependencies(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -718,11 +720,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     }
     
     
-    public function cloneObject(
-        $a_target_id,
-        $a_copy_id = 0,
-        $a_omit_tree = false
-    ) {
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $this->cloneMetaData($new_obj);
 

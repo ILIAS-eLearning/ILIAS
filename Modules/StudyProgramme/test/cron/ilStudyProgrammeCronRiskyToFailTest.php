@@ -19,7 +19,7 @@ class ilStudyProgrammeCronRiskyToFailTest extends TestCase
     protected $progress_repo;
     protected ProgrammeEventsMock $events;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->job = $this
             ->getMockBuilder(ilPrgUserRiskyToFailCronJob::class)

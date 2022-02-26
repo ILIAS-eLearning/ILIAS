@@ -306,11 +306,13 @@ abstract class ilObjPortfolioBase extends ilObject2
 
             // take quality 100 to avoid jpeg artefacts when uploading jpeg files
             // taking only frame [0] to avoid problems with animated gifs
-            $original_file = ilUtil::escapeShellArg($path . $original);
-            $thumb_file = ilUtil::escapeShellArg($path . $thumb);
-            $processed_file = ilUtil::escapeShellArg($path . $processed);
-            ilUtil::execConvert($original_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-            ilUtil::execConvert($original_file . "[0] -geometry " . $dimensions . " -quality 100 JPEG:" . $processed_file);
+            $original_file = ilShellUtil::escapeShellArg($path . $original);
+            $thumb_file = ilShellUtil::escapeShellArg($path . $thumb);
+            $processed_file = ilShellUtil::escapeShellArg($path . $processed);
+            ilShellUtil::execConvert($original_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+            ilShellUtil::execConvert(
+                $original_file . "[0] -geometry " . $dimensions . " -quality 100 JPEG:" . $processed_file
+            );
             
             $this->setImage($processed);
             

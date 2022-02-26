@@ -461,7 +461,7 @@ class ilStudyProgrammeType
         return $this->type_repo;
     }
 
-    protected function getActivePlugins() : array
+    protected function getActivePlugins() : Iterator
     {
         return $this->component_factory->getActivePluginsInSlot("prgtypehk");
     }

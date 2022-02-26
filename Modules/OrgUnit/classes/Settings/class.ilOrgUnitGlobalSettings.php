@@ -4,9 +4,7 @@
 
 /**
  * Global settings for org units
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilOrgUnitGlobalSettings
 {
@@ -25,11 +23,9 @@ class ilOrgUnitGlobalSettings
     private $position_settings = [];
     /**
      * Array with key obj_id => active status
-     *
      * @var array
      */
     private $object_position_cache = [];
-
 
     /**
      * Singelton constructor
@@ -40,10 +36,8 @@ class ilOrgUnitGlobalSettings
         $this->readSettings();
     }
 
-
     /**
      * Get instance
-     *
      * @return ilOrgUnitGlobalSettings
      */
     public static function getInstance()
@@ -55,12 +49,9 @@ class ilOrgUnitGlobalSettings
         return self::$instance;
     }
 
-
     /**
      * Get object position settings by type
-     *
      * @param string $a_obj_type
-     *
      * @return ilOrgUnitObjectTypePositionSetting
      * @throws \InvalidArgumentException
      */
@@ -74,12 +65,9 @@ class ilOrgUnitGlobalSettings
         return $this->position_settings[$a_obj_type];
     }
 
-
     /**
      * Check of position access is activate for object
-     *
      * @param int $a_obj_id
-     *
      * @return bool
      */
     public function isPositionAccessActiveForObject($a_obj_id)
@@ -117,10 +105,8 @@ class ilOrgUnitGlobalSettings
         return $this->object_position_cache[$a_obj_id];
     }
 
-
     /**
      * Set and save the default activation status according to settings.
-     *
      * @param int $a_obj_id
      */
     public function saveDefaultPositionActivationStatus($a_obj_id)
@@ -140,7 +126,6 @@ class ilOrgUnitGlobalSettings
         return;
     }
 
-
     /**
      * read settings
      */
@@ -150,7 +135,6 @@ class ilOrgUnitGlobalSettings
             $this->position_settings[$type] = new ilOrgUnitObjectTypePositionSetting($type);
         }
     }
-
 
     /**
      * @return \ilOrgUnitObjectTypePositionSetting[]

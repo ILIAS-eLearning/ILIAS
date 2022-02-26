@@ -53,7 +53,7 @@ class ilMultiFilesSubmitRecursiveSlashesStripper implements ilFormValuesManipula
     protected function manipulateFileSubmitValues()
     {
         if ($_FILES) {
-            $_FILES[$this->getPostVar()] = ilUtil::stripSlashesRecursive(
+            $_FILES[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
                 $_FILES[$this->getPostVar()]
             );
         }

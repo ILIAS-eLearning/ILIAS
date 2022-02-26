@@ -39,7 +39,7 @@ class ilTrackingLearningHistoryProvider extends ilAbstractLearningHistoryProvide
             $entries[] = $this->getFactory()->entry(
                 $this->lng->txt("trac_lhist_obj_completed"),
                 $this->lng->txt("trac_lhist_obj_completed_in"),
-                ilObject::_getIcon($c["obj_id"]),
+                ilObject::_getIcon((int) $c["obj_id"]),
                 $ts->get(IL_CAL_UNIX),
                 $c["obj_id"]
             );

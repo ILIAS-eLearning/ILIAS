@@ -373,27 +373,27 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                     $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                     $template->setVariable("ANSWER_IMAGE_URL", $answer->getThumbWebPath());
-                    list($width, $height, $type, $attr) = getimagesize($answer->getImageFsPath());
+                    [$width, $height, $type, $attr] = getimagesize($answer->getImageFsPath());
                     $alt = $answer->getImageFile();
                     if (strlen($answer->getAnswertext())) {
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 } else {
                     $template->setCurrentBlock("answer_image");
                     $template->setVariable("ANSWER_IMAGE_URL", $answer->getImageWebPath());
-                    list($width, $height, $type, $attr) = getimagesize($answer->getImageFsPath());
+                    [$width, $height, $type, $attr] = getimagesize($answer->getImageFsPath());
                     $alt = $answer->getImageFile();
                     if (strlen($answer->getAnswertext())) {
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
                     $template->setVariable("ATTR", $attr);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 }
             }
@@ -462,27 +462,27 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                     $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                     $template->setVariable("ANSWER_IMAGE_URL", $answer->getThumbWebPath());
-                    list($width, $height, $type, $attr) = getimagesize($answer->getImageFsPath());
+                    [$width, $height, $type, $attr] = getimagesize($answer->getImageFsPath());
                     $alt = $answer->getImageFile();
                     if (strlen($answer->getAnswertext())) {
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 } else {
                     $template->setCurrentBlock("answer_image");
                     $template->setVariable("ANSWER_IMAGE_URL", $answer->getImageWebPath());
-                    list($width, $height, $type, $attr) = getimagesize($answer->getImageFsPath());
+                    [$width, $height, $type, $attr] = getimagesize($answer->getImageFsPath());
                     $alt = $answer->getImageFile();
                     if (strlen($answer->getAnswertext())) {
                         $alt = $answer->getAnswertext();
                     }
                     $alt = preg_replace("/<[^>]*?>/", "", $alt);
                     $template->setVariable("ATTR", $attr);
-                    $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-                    $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput($alt));
+                    $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                     $template->parseCurrentBlock();
                 }
             }
@@ -600,8 +600,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                     $template->setVariable("ANSWER_IMAGE_URL", $answer->getImageWebPath());
                 }
 
-                $template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($answer->getImageFile()));
-                $template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($answer->getImageFile()));
+                $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput(
+                    $answer->getImageFile()
+                )
+                );
+                $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput(
+                    $answer->getImageFile()
+                )
+                );
                 $template->parseCurrentBlock();
             }
 

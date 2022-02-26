@@ -27,7 +27,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
         $this->parent_gui = $parent_gui;
         $this->type_repo = $type_repo;
         $this->ctrl = $ctrl;
-        $this->tpl = $tpl;
+        $this->global_tpl = $tpl;
         $this->lng = $lng;
         $this->user = $user;
         $this->webdir = $web_dir;
@@ -50,7 +50,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
             $type->updateAssignedStudyProgrammesIcons();
             return true;
         } catch (ilException $e) {
-            $this->tpl->setOnScreenMessage("failure", $e->getMessage());
+            $this->global_tpl->setOnScreenMessage("failure", $e->getMessage());
 
             return false;
         }
@@ -103,7 +103,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
                 }
             }
         } catch (ilException $e) {
-            $this->tpl->setOnScreenMessage("failure", $this->lng->txt('prg_type_msg_error_custom_icon'));
+            $this->global_tpl->setOnScreenMessage("failure", $this->lng->txt('prg_type_msg_error_custom_icon'));
 
             return null;
         }

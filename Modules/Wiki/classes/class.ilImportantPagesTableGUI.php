@@ -78,10 +78,10 @@ class ilImportantPagesTableGUI extends ilTable2GUI
             );
             $this->tpl->setVariable(
                 "SEL_INDENT",
-                ilUtil::formSelect(
+                ilLegacyFormElementsUtil::formSelect(
                     $a_set["indent"],
                     "indent[" . $a_set["page_id"] . "]",
-                    array(0 => "0", 1 => "1", 2 => "2"),
+                    [0 => "0", 1 => "1", 2 => "2"],
                     false,
                     true
                 )

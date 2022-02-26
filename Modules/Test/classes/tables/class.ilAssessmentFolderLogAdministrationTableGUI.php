@@ -69,7 +69,7 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
      */
     public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($a_set['title']));
+        $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
         $this->tpl->setVariable("NR", $a_set['nr']);
         $this->tpl->setVariable("TEST_ID", $a_set['id']);
         $this->tpl->setVariable("LOCATION_HREF", $a_set['location_href']);

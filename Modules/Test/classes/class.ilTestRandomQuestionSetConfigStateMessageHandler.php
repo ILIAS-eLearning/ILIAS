@@ -289,10 +289,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         }
     }
     
-    /**
-     * @return \ILIAS\UI\Component\Button\Standard
-     */
-    private function buildQuestionStageRebuildButton()
+    private function buildQuestionStageRebuildButton() : \ILIAS\UI\Component\Button\Standard
     {
         $this->ctrl->setParameter(
             $this->getTargetGUI(),
@@ -306,7 +303,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         );
         $label = $this->lng->txt('tst_btn_rebuild_random_question_stage');
 
-        return $this->DIC->ui()->factory()->button()->standard($label, $href);
+        return $this->DIC->ui()->factory()->button()->standard($label, $href)->withLoadingAnimationOnClick(true);
     }
 
     private function buildGeneralConfigSubTabLink()

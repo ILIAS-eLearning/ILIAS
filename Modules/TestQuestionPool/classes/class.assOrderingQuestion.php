@@ -841,7 +841,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $imageFile = $this->getImagePath() . $element->getContent();
             $thumbFile = $this->getImagePath() . $this->getThumbPrefix() . $element->getContent();
             
-            ilUtil::convertImage($imageFile, $thumbFile, "JPEG", $this->getThumbGeometry());
+            ilShellUtil::convertImage($imageFile, $thumbFile, "JPEG", $this->getThumbGeometry());
         }
     }
 
@@ -1131,7 +1131,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $ext = 'JPEG';
                     break;
             }
-            ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
+            ilShellUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
         }
     }
     

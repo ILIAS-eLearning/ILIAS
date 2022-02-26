@@ -55,7 +55,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->help = $DIC->help();
     }
 
-    protected function getTabs()
+    protected function getTabs() : void
     {
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
@@ -89,7 +89,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         parent::getTabs();
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -184,7 +184,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
                 break;
         }
-        return true;
     }
     
     public function renderObject() : void
@@ -204,20 +203,18 @@ class ilObjRootFolderGUI extends ilContainerGUI
     /**
      * @throws ilObjectException
      */
-    public function viewObject()
+    public function viewObject() : void
     {
         $this->checkPermission('read');
 
         if (strtolower($this->root_request->getBaseClass()) == "iladministrationgui") {
             parent::viewObject();
-            return true;
         }
 
         $this->renderObject();
-        return true;
     }
 
-    protected function setTitleAndDescription()
+    protected function setTitleAndDescription() : void
     {
         global $lng;
 
@@ -252,7 +249,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->tabs_gui->activateSubTab($active_tab);
     }
     
-    protected function initEditForm()
+    protected function initEditForm() : ilPropertyFormGUI
     {
         $this->setEditTabs();
         $obj_service = $this->getObjectService();
@@ -289,12 +286,13 @@ class ilObjRootFolderGUI extends ilContainerGUI
         return $form;
     }
 
-    protected function getEditFormValues()
+    protected function getEditFormValues() : array
     {
         // values are set in initEditForm()
+        return [];
     }
 
-    public function updateObject()
+    public function updateObject() : void
     {
         global $ilSetting;
 

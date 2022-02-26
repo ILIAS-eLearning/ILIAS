@@ -13,6 +13,7 @@ class ilMembershipRegistrationCodeUtils
     public static function handleCode(int $a_ref_id, string $a_type, string $a_code) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $lng = $DIC->language();
         $tree = $DIC->repositoryTree();
@@ -22,30 +23,30 @@ class ilMembershipRegistrationCodeUtils
         try {
             self::useCode($a_code, $a_ref_id);
             $title = ilObject::_lookupTitle(ilObject::_lookupObjectId($a_ref_id));
-            ilUtil::sendSuccess(sprintf($lng->txt($a_type . "_admission_link_success_registration"), $title), true);
+            $main_tpl->setOnScreenMessage('success', sprintf($lng->txt($a_type . "_admission_link_success_registration"), $title), true);
             ilUtil::redirect(ilLink::_getLink($a_ref_id));
         } catch (ilMembershipRegistrationException $e) {
             switch ($e->getCode()) {
                 case ilMembershipRegistrationException::ADDED_TO_WAITINGLIST://added to waiting list
-                    ilUtil::sendSuccess($e->getMessage(), true);
+                    $main_tpl->setOnScreenMessage('success', $e->getMessage(), true);
                     break;
                 case ilMembershipRegistrationException::OBJECT_IS_FULL://object is full
-                    ilUtil::sendFailure($lng->txt($a_type . "_admission_link_failure_membership_limited"), true);
+                    $main_tpl->setOnScreenMessage('failure', $lng->txt($a_type . "_admission_link_failure_membership_limited"), true);
                     break;
                 case ilMembershipRegistrationException::OUT_OF_REGISTRATION_PERIOD://out of registration period
-                    ilUtil::sendFailure($lng->txt($a_type . "_admission_link_failure_registration_period"), true);
+                    $main_tpl->setOnScreenMessage('failure', $lng->txt($a_type . "_admission_link_failure_registration_period"), true);
                     break;
                 case ilMembershipRegistrationException::ADMISSION_LINK_INVALID://admission link is invalid
-                    ilUtil::sendFailure($lng->txt($a_type . "_admission_link_failure_invalid_code"), true);
+                    $main_tpl->setOnScreenMessage('failure', $lng->txt($a_type . "_admission_link_failure_invalid_code"), true);
                     break;
                 case ilMembershipRegistrationException::REGISTRATION_INVALID_OFFLINE:
-                    ilUtil::sendFailure($lng->txt($a_type . '_admission_link_failure_offline'), true);
+                    $main_tpl->setOnScreenMessage('failure', $lng->txt($a_type . '_admission_link_failure_offline'), true);
                     break;
                 case ilMembershipRegistrationException::REGISTRATION_INVALID_AVAILABILITY:
-                    ilUtil::sendFailure($lng->txt($a_type . '_admission_link_failure_availability'), true);
+                    $main_tpl->setOnScreenMessage('failure', $lng->txt($a_type . '_admission_link_failure_availability'), true);
                     break;
                 default:
-                    ilUtil::sendFailure($e->getMessage(), true);
+                    $main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
                     break;
             }
             $parent_id = $tree->getParentId($a_ref_id);

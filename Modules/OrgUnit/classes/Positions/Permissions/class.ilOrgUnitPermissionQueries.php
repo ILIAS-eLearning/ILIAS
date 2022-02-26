@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitPermissionQueries
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPermissionQueries
@@ -10,11 +9,8 @@ class ilOrgUnitPermissionQueries
 
     /**
      * @param      $context_name
-     *
      * @param      $position_id
-     *
      * @param bool $editable
-     *
      * @return \ilOrgUnitPermission
      * @throws \ilException
      */
@@ -50,11 +46,9 @@ class ilOrgUnitPermissionQueries
         return $template_set;
     }
 
-
     /**
      * @param $ref_id
      * @param $position_id
-     *
      * @return bool
      */
     public static function hasLocalSet($ref_id, $position_id)
@@ -65,14 +59,10 @@ class ilOrgUnitPermissionQueries
         ])->hasSets());
     }
 
-
     /**
      * @param $ref_id
-     *
      * @param $position_id
-     *
      * @return \ilOrgUnitPermission
-     *
      * @throws \ilException
      */
     public static function getSetForRefId($ref_id, $position_id)
@@ -86,7 +76,8 @@ class ilOrgUnitPermissionQueries
         $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
         if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive("Postion-related permissions not active in {$context->getContext()}", $context->getContext());
+            throw new ilPositionPermissionsNotActive("Postion-related permissions not active in {$context->getContext()}",
+                $context->getContext());
         }
 
         /**
@@ -104,11 +95,9 @@ class ilOrgUnitPermissionQueries
         return ilOrgUnitPermissionQueries::getTemplateSetForContextName($context->getContext(), $position_id);
     }
 
-
     /**
      * @param $ref_id
      * @param $position_id
-     *
      * @return \ilOrgUnitPermission
      * @throws \ilException
      */
@@ -125,7 +114,8 @@ class ilOrgUnitPermissionQueries
         $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
         if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
+            throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}",
+                $context->getContext());
         }
 
         $dedicated_set = ilOrgUnitPermission::where([
@@ -151,11 +141,9 @@ class ilOrgUnitPermissionQueries
         return $set;
     }
 
-
     /**
      * @param $ref_id
      * @param $position_id
-     *
      * @return bool
      * @throws \ilException
      */
@@ -172,7 +160,8 @@ class ilOrgUnitPermissionQueries
         $ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
         if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-            throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
+            throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}",
+                $context->getContext());
         }
 
         $dedicated_set = ilOrgUnitPermission::where([
@@ -190,12 +179,9 @@ class ilOrgUnitPermissionQueries
         return false;
     }
 
-
     /**
      * @param      $position_id
-     *
      * @param bool $editable
-     *
      * @return \ilOrgUnitPermission[]
      */
     public static function getAllTemplateSetsForAllActivedContexts($position_id, $editable = false)
@@ -214,7 +200,6 @@ class ilOrgUnitPermissionQueries
         return $sets;
     }
 
-
     /**
      * @param $user_id
      * @param $ref_id
@@ -226,7 +211,6 @@ class ilOrgUnitPermissionQueries
 JOIN il_orgu_operations ON il_orgu_operations.context_id = il_orgu_op_contexts.id
 WHERE il_orgu_op_contexts.context IN(\'crs\', \'object\') AND operation_string = \'viewmembers\';';
     }
-
 
     private static function getAllowedOperationsOnRefIdAndPosition($ref_id, $position_id)
     {
@@ -250,10 +234,8 @@ WHERE il_orgu_op_contexts.context IN(\'crs\', \'object\') AND operation_string =
         ($r->numRows() > 0);
     }
 
-
     /**
      * @param $ref_id
-     *
      * @return \ilOrgUnitOperationContext
      * @throws \ilException
      */
@@ -267,11 +249,9 @@ WHERE il_orgu_op_contexts.context IN(\'crs\', \'object\') AND operation_string =
         return $context;
     }
 
-
     /**
      * @param $ref_id
      * @param $position_id
-     *
      * @throws \ilException
      */
     protected static function checkRefIdAndPositionId($ref_id, $position_id)

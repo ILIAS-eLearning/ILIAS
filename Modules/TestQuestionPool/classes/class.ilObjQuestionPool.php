@@ -65,15 +65,16 @@ class ilObjQuestionPool extends ilObject
     /**
     * create questionpool object
     */
-    public function create($a_upload = false)
+    public function create($a_upload = false) : int
     {
-        parent::create();
+        $id = parent::create();
 
         // meta data will be created by
         // import parser
         if (!$a_upload) {
             $this->createMetaData();
         }
+        return $id;
     }
 
     /**
@@ -82,7 +83,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function createReference()
+    public function createReference() : int
     {
         $result = parent::createReference();
         $this->saveToDb();
@@ -95,7 +96,7 @@ class ilObjQuestionPool extends ilObject
     * @access	public
     * @return	boolean
     */
-    public function update()
+    public function update() : bool
     {
         $this->updateMetaData();
         if (!parent::update()) {
@@ -129,7 +130,7 @@ class ilObjQuestionPool extends ilObject
     * @param	boolean
     * @access	public
     */
-    public function read($a_force_db = false)
+    public function read($a_force_db = false) : void
     {
         parent::read($a_force_db);
         $this->loadFromDb();
@@ -142,7 +143,7 @@ class ilObjQuestionPool extends ilObject
     * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -1325,7 +1326,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 

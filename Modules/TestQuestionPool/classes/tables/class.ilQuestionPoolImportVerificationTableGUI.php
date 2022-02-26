@@ -44,7 +44,7 @@ class ilQuestionPoolImportVerificationTableGUI extends ilTable2GUI
      */
     protected function fillRow(array $a_set) : void
     {
-        $a_set['chb'] = ilUtil::formCheckbox(true, 'ident[]', $a_set['ident']);
+        $a_set['chb'] = ilLegacyFormElementsUtil::formCheckbox(true, 'ident[]', $a_set['ident']);
         parent::fillRow($a_set);
     }
 }

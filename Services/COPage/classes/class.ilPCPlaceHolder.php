@@ -158,4 +158,9 @@ class ilPCPlaceHolder extends ilPageContent
         $model->contentClass = $this->getContentClass();
         return $model;
     }
+
+    public function getCssFiles(string $a_mode) : array
+    {
+        return [ilObjStyleSheet::getPlaceHolderStylePath()];
+    }
 }

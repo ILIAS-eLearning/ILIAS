@@ -349,7 +349,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 }
 
                 if ($forsolution) {
-                    $input = '<span class="ilc_qinput_TextInput solutionbox">' . ilUtil::prepareFormOutput($value) . '</span>';
+                    $input = '<span class="ilc_qinput_TextInput solutionbox">' . ilLegacyFormElementsUtil::prepareFormOutput(
+                            $value
+                        ) . '</span>';
                 } else {
                     $input = '<input class="ilc_qinput_TextInput" type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" name="result_' . $result . '"' . $value . ' />';
                 }

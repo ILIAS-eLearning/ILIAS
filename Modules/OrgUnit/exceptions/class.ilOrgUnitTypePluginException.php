@@ -6,7 +6,6 @@ require_once('class.ilOrgUnitTypeException.php');
  * This exception is thrown whenever one or multiple ilOrgUnitTypeHook plugin(s) did not allow an action on a ilOrgUnitType object,
  * e.g. updating, deleting or setting title.
  * It stores additionally the plugin objects which did not allow the action.
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class ilOrgUnitTypePluginException extends ilObjOrgUnitException
@@ -17,7 +16,6 @@ class ilOrgUnitTypePluginException extends ilObjOrgUnitException
      * @var array[ilOrgUnitTypeHookPlugin]
      */
     protected $plugins = array();
-
 
     public function __construct($a_message, $plugins = array())
     {

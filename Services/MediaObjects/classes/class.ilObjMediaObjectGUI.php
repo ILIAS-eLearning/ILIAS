@@ -176,7 +176,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function executeCommand() : string
+    public function executeCommand() : void
     {
         $tpl = $this->tpl;
 
@@ -243,8 +243,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $ret = $this->$cmd();
                 break;
         }
-
-        return (string) $ret;
     }
 
     public function setBackTitle(string $a_title) : void
@@ -620,7 +618,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * create new media object
      */
-    public function saveObject() : ?ilObjMediaObject
+    public function saveObject() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -630,11 +628,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $this->object = new ilObjMediaObject();
             $this->setObjectPerCreationForm($this->object);
             $this->tpl->setOnScreenMessage('success', $lng->txt("saved_media_object"), true);
-            return $this->object;
         } else {
             $this->form_gui->setValuesByPost();
             $tpl->setContent($this->form_gui->getHTML());
-            return null;
         }
     }
     
@@ -1715,7 +1711,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     public function uploadMultipleSubtitleFileObject() : void
     {
         try {
-            $this->object->uploadMultipleSubtitleFile(ilUtil::stripSlashesArray($_FILES["subtitle_file"]));
+            $this->object->uploadMultipleSubtitleFile(ilArrayUtil::stripSlashesArray($_FILES["subtitle_file"]));
             $this->ctrl->redirect($this, "showMultiSubtitleConfirmationTable");
         } catch (ilMediaObjectsException $e) {
             $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);

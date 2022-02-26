@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclPropertyFormGUI
- *
  * @author       Michael Herren <mh@studer-raimann.ch>
  * @version      1.0.0
  * @ilCtrl_Calls ilDclPropertyFormGUI: ilFormPropertyDispatchGUI
@@ -12,7 +11,6 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
 
     /**
      * Expose method for save confirmation
-     *
      * @param      $a_hash
      * @param      $a_field
      * @param      $a_tmp_name
@@ -21,22 +19,26 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
      * @param null $a_index
      * @param null $a_sub_index
      */
-    public function keepTempFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null)
-    {
+    public function keepTempFileUpload(
+        $a_hash,
+        $a_field,
+        $a_tmp_name,
+        $a_name,
+        $a_type,
+        $a_index = null,
+        $a_sub_index = null
+    ) {
         $this->keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index, $a_sub_index);
     }
 
-
     /**
      * return temp-filename
-     *
      * @param      $a_hash
      * @param      $a_field
      * @param      $a_name
      * @param      $a_type
      * @param null $a_index
      * @param null $a_sub_index
-     *
      * @return string
      */
     public static function getTempFilename($a_hash, $a_field, $a_name, $a_type, $a_index = null, $a_sub_index = null)
@@ -62,12 +64,9 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         return $temp_path . $tmp_file_name;
     }
 
-
     /**
      * Return temp files
-     *
      * @param $hash
-     *
      * @throws ilDclException
      */
     public static function rebuildTempFileByHash($hash)
@@ -118,10 +117,8 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         }
     }
 
-
     /**
      * Cleanup temp-files
-     *
      * @param $hash
      */
     public function cleanupTempFiles($hash)

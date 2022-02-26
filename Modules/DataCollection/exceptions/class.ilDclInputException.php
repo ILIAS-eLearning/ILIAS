@@ -5,13 +5,11 @@ require_once './Services/Exceptions/classes/class.ilException.php';
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclInputException extends ilException
@@ -26,7 +24,6 @@ class ilDclInputException extends ilException
     const CUSTOM_MESSAGE = 7;
     const REGEX_CONFIG_EXCEPTION = 8;
 
-
     /**
      * @var int
      */
@@ -36,7 +33,6 @@ class ilDclInputException extends ilException
      * @var string
      */
     protected $additional_text;
-
 
     /**
      * @param string $exception_type
@@ -48,7 +44,6 @@ class ilDclInputException extends ilException
         $this->additional_text = $additional_text;
     }
 
-
     /**
      * @return string
      */
@@ -56,7 +51,6 @@ class ilDclInputException extends ilException
     {
         return $this->exception_type;
     }
-
 
     /**
      * @return string

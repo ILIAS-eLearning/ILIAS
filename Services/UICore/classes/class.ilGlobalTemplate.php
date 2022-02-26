@@ -250,7 +250,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
                     ];
                     $total += filesize($f);
                 }
-                $ifiles = ilUtil::sortArray($ifiles, "size", "desc", true);
+                $ifiles = ilArrayUtil::sortArray($ifiles, "size", "desc", true);
                 foreach ($ifiles as $f) {
                     $ftpl->setCurrentBlock("i_entry");
                     $ftpl->setVariable(

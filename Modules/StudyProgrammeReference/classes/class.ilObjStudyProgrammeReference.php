@@ -17,7 +17,7 @@ class ilObjStudyProgrammeReference extends ilContainerReference
      *
      * Calls nodeInserted on parent object if parent object is a program.
      */
-    public function putInTree($a_parent_ref)
+    public function putInTree(int $a_parent_ref) : void
     {
         parent::putInTree($a_parent_ref);
 

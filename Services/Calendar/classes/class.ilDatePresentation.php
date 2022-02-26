@@ -83,7 +83,7 @@ class ilDatePresentation
         self::setUseRelativeDates(true);
     }
 
-    public static function formatDate(ilDateTime $date, bool $a_skip_day = false, bool $a_include_wd = false) : string
+    public static function formatDate(ilDateTime $date, bool $a_skip_day = false, bool $a_include_wd = false, bool $include_seconds = false) : string
     {
         global $DIC;
 
@@ -129,12 +129,16 @@ class ilDatePresentation
             return $date_str;
         }
 
+        $sec = ($include_seconds)
+            ? ":s"
+            : "";
+
         switch ($ilUser->getTimeFormat()) {
             case ilCalendarSettings::TIME_FORMAT_24:
-                return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'H:i', $ilUser->getTimeZone());
+                return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'H:i' . $sec, $ilUser->getTimeZone());
 
             case ilCalendarSettings::TIME_FORMAT_12:
-                return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone());
+                return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'g:ia' . $sec, $ilUser->getTimeZone());
         }
         return '';
     }
@@ -179,13 +183,19 @@ class ilDatePresentation
                 } else {
                     switch ($ilUser->getTimeFormat()) {
                         case ilCalendarSettings::TIME_FORMAT_24:
-                            return $date_str . $sep . $start->get(IL_CAL_FKT_DATE, 'H:i',
-                                    $ilUser->getTimeZone()) . ' - ' .
+                            return $date_str . $sep . $start->get(
+                                IL_CAL_FKT_DATE,
+                                'H:i',
+                                $ilUser->getTimeZone()
+                            ) . ' - ' .
                                 $end->get(IL_CAL_FKT_DATE, 'H:i', $ilUser->getTimeZone());
 
                         case ilCalendarSettings::TIME_FORMAT_12:
-                            return $date_str . $sep . $start->get(IL_CAL_FKT_DATE, 'g:ia',
-                                    $ilUser->getTimeZone()) . ' - ' .
+                            return $date_str . $sep . $start->get(
+                                IL_CAL_FKT_DATE,
+                                'g:ia',
+                                $ilUser->getTimeZone()
+                            ) . ' - ' .
                                 $end->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone());
                     }
                 }

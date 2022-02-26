@@ -4,10 +4,9 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitUserAssignmentGUI
- *
  * @author       Fabian Schmid <fs@studer-raimann.ch>
- * @author dkloepfer
- * @author Martin Studer <ms@studer-raimann.ch>
+ * @author       dkloepfer
+ * @author       Martin Studer <ms@studer-raimann.ch>
  * @ilCtrl_Calls ilOrgUnitUserAssignmentGUI: ilRepositorySearchGUI
  */
 class ilOrgUnitUserAssignmentGUI extends BaseCommands
@@ -17,6 +16,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     const SUBTAB_ASSIGNMENTS = 'user_assignments';
     const SUBTAB_ASSIGNMENTS_RECURSIVE = 'user_assignments_recursive';
     private \ilGlobalTemplateInterface $main_tpl;
+
     public function __construct()
     {
         global $DIC;
@@ -25,7 +25,8 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
     public function executeCommand()
     {
-        if (!ilObjOrgUnitAccess::_checkAccessPositions((int) filter_input(INPUT_GET, "ref_id", FILTER_SANITIZE_NUMBER_INT))) {
+        if (!ilObjOrgUnitAccess::_checkAccessPositions((int) filter_input(INPUT_GET, "ref_id",
+            FILTER_SANITIZE_NUMBER_INT))) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng()->txt("permission_denied"), true);
             $this->ctrl()->redirectByClass(ilObjOrgUnitGUI::class);
         }
@@ -52,7 +53,6 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         }
     }
 
-
     protected function index()
     {
         $this->addSubTabs();
@@ -71,7 +71,8 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         // Tables
         $html = '';
         foreach (ilOrgUnitPosition::getActiveForPosition($this->getParentRefId()) as $ilOrgUnitPosition) {
-            $ilOrgUnitUserAssignmentTableGUI = new ilOrgUnitUserAssignmentTableGUI($this, self::CMD_INDEX, $ilOrgUnitPosition);
+            $ilOrgUnitUserAssignmentTableGUI = new ilOrgUnitUserAssignmentTableGUI($this, self::CMD_INDEX,
+                $ilOrgUnitPosition);
             $html .= $ilOrgUnitUserAssignmentTableGUI->getHTML();
         }
         $this->setContent($html);
@@ -95,7 +96,6 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->setContent($html);
     }
 
-
     protected function confirm()
     {
         $this->ctrl()->saveParameter($this, 'position_id');
@@ -109,28 +109,27 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $confirmation->setCancel($this->txt(self::CMD_CANCEL), self::CMD_CANCEL);
         $confirmation->setConfirm($this->txt('remove_user'), self::CMD_DELETE);
         $confirmation->setHeaderText(sprintf($this->txt('msg_confirm_remove_user'), $ilOrgUnitPosition->getTitle()));
-        $confirmation->addItem('usr_id', $r->getQueryParams()['usr_id'], ilObjUser::_lookupLogin($r->getQueryParams()['usr_id']));
+        $confirmation->addItem('usr_id', $r->getQueryParams()['usr_id'],
+            ilObjUser::_lookupLogin($r->getQueryParams()['usr_id']));
 
         $this->setContent($confirmation->getHTML());
     }
-
 
     protected function delete()
     {
         $r = $this->http()->request();
         $ua = ilOrgUnitUserAssignmentQueries::getInstance()
-            ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id'], $this->getParentRefId());
+                                            ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id'],
+                                                $this->getParentRefId());
         $ua->delete();
         $this->main_tpl->setOnScreenMessage('success', $this->txt('remove_successful'), true);
         $this->cancel();
     }
 
-
     protected function cancel()
     {
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
-
 
     public function addStaff()
     {
@@ -170,8 +169,9 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     public function addSubTabs()
     {
         $this->pushSubTab(self::SUBTAB_ASSIGNMENTS, $this->ctrl()
-            ->getLinkTarget($this, self::CMD_INDEX));
+                                                         ->getLinkTarget($this, self::CMD_INDEX));
         $this->pushSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE, $this->ctrl()
-            ->getLinkTarget($this, self::CMD_ASSIGNMENTS_RECURSIVE));
+                                                                   ->getLinkTarget($this,
+                                                                       self::CMD_ASSIGNMENTS_RECURSIVE));
     }
 }

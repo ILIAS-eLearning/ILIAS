@@ -157,7 +157,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function emergency(string $a_message) : void
             {
             }
-            public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
+            public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
             {
             }
             public function writeLanguageLog(string $a_topic, string $a_lang_key) : void
@@ -197,11 +197,11 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public static function getRootLogger()
+            public static function getRootLogger() : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
-            public static function getLogger($a)
+            public static function getLogger($a) : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
@@ -239,7 +239,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             }
         };
         $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
-            public $prefs = [];
+            public array $prefs = [];
 
             public function __construct()
             {

@@ -400,7 +400,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             return;
         }
 
-        $order = ilUtil::stripSlashesArray($this->requested_level_order);
+        $order = ilArrayUtil::stripSlashesArray($this->requested_level_order);
         $this->node_object->updateLevelOrder($order);
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "edit");

@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -13,7 +12,6 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
      */
     protected $max_reference_length = 20;
 
-
     /**
      * @return int
      */
@@ -22,7 +20,6 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         return $this->max_reference_length;
     }
 
-
     /**
      * @param int $max_reference_length
      */
@@ -30,7 +27,6 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
     {
         $this->max_reference_length = $max_reference_length;
     }
-
 
     public function doUpdate()
     {
@@ -54,13 +50,13 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         $query = "INSERT INTO il_dcl_stloc" . $datatype->getStorageLocation() . "_value (value, record_field_id, id) VALUES";
         foreach ($values as $value) {
             $next_id = $ilDB->nextId("il_dcl_stloc" . $datatype->getStorageLocation() . "_value");
-            $query .= " (" . $ilDB->quote($value, $datatype->getDbType()) . ", " . $ilDB->quote($this->getId(), "integer") . ", "
+            $query .= " (" . $ilDB->quote($value, $datatype->getDbType()) . ", " . $ilDB->quote($this->getId(),
+                    "integer") . ", "
                 . $ilDB->quote($next_id, "integer") . "),";
         }
         $query = substr($query, 0, -1);
         $ilDB->manipulate($query);
     }
-
 
     /**
      * @return string
@@ -71,7 +67,6 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
 
         return $this->value;
     }
-
 
     protected function loadValueSorted()
     {
@@ -137,7 +132,6 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         }
     }
 
-
     protected function loadValue()
     {
         if ($this->value === null) {
@@ -154,10 +148,8 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         }
     }
 
-
     /**
      * @description this funciton is used to in the viewdefinition of a single record.
-     *
      * @return mixed
      */
     public function getSingleHTML($options = null)
@@ -167,11 +159,9 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         return $ilDataCollectionNReferenceFieldGUI->getSingleHTML($options);
     }
 
-
     /**
      * @param null $link
      * @param      $value
-     *
      * @return string
      */
     public function getLinkHTML($link, $value)
@@ -183,7 +173,6 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         return parent::getLinkHTML($link, $value);
     }
 
-
     /**
      * @return array|mixed|string
      */
@@ -193,7 +182,6 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
 
         return $ilDataCollectionNReferenceFieldGUI->getHTML();
     }
-
 
     public function getValueFromExcel($excel, $row, $col)
     {
@@ -211,7 +199,6 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
 
         return $referenceIds;
     }
-
 
     /**
      * @return int|string
@@ -238,14 +225,11 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         return $string;
     }
 
-
     /**
      * This method tries to get as many valid references out of a string separated by commata. This is problematic as a string value could contain commata itself.
      * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
      * Will mess with it.
-     *
      * @param $stringValues string
-     *
      * @return int[]
      */
     protected function getReferencesFromString($stringValues)

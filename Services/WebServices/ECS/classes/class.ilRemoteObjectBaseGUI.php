@@ -15,11 +15,7 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesWebServicesECS
 */
 abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 {
@@ -36,7 +32,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
         $this->lng->loadLanguageModule('ecs');
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -70,8 +66,6 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
                 break;
         }
         $this->logger->info("cmd:" . print_r($cmd, true));
-
-        return true;
     }
     
     /**
@@ -91,7 +85,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     /**
      * get tabs
      */
-    public function setTabs()
+    public function setTabs() : void
     {
         if ($this->checkPermissionBool('visible')) {
             $this->tabs_gui->addTab(
@@ -158,7 +152,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     public function infoScreen()
     {
         if (!$this->access->checkAccess("visible", "", $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->MESSAGE);
+            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
         
         $this->tabs_gui->activateTab('info');
@@ -216,29 +210,25 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     
     /**
      * Edit settings
-     *
-     * @param ilPropertyFormGUI $a_form
      */
-    public function editObject(ilPropertyFormGUI $a_form = null)
+    public function editObject(ilPropertyFormGUI $form = null) : void
     {
         if (!$this->access->checkAccess("write", "", $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->MESSAGE);
+            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
         $this->logger->info("Can write:" . print_r($this->checkPermissionBool('write'), true));
         $this->tabs_gui->activateTab('edit');
         
-        if (!$a_form) {
-            $a_form = $this->initEditForm();
+        if (!$form) {
+            $form = $this->initEditForm();
         }
-        $this->tpl->setContent($a_form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
     
     /**
      * Init edit settings form
-     *
-     * @return ilPropertyFormGUI
      */
-    protected function initEditForm()
+    protected function initEditForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -288,13 +278,10 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     {
     }
 
-    /**
-     * update object
-     */
-    public function updateObject()
+    public function updateObject() : void
     {
         if (!$this->checkPermissionBool('write')) {
-            $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->MESSAGE);
+            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
         
         $form = $this->initEditForm();

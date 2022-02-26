@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclFileuploadFieldRepresentaion
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -19,17 +18,16 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
         return $input;
     }
 
-
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_TEXT, false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_TEXT,
+            false, $this->getField()->getId());
         $input->setSubmitFormOnEnter(true);
 
         $this->setupFilterInputField($input);
 
         return $this->getFilterInputFieldValue($input);
     }
-
 
     public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
     {
@@ -44,13 +42,13 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
         return false;
     }
 
-
     /**
      * @inheritDoc
      */
     public function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
     {
-        $opt = new ilRadioOption($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()), $this->getField()->getDatatypeId());
+        $opt = new ilRadioOption($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
+            $this->getField()->getDatatypeId());
         $opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
 
         $opt->setInfo(sprintf($opt->getInfo(), implode(", ", ilDclMobFieldModel::$mob_suffixes)));
@@ -67,7 +65,8 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
 
         $opt->addSubItem($prop_height);
 
-        $prop_page_details = new ilDclCheckboxInputGUI($this->lng->txt('dcl_link_detail_page'), 'prop_' . ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT);
+        $prop_page_details = new ilDclCheckboxInputGUI($this->lng->txt('dcl_link_detail_page'),
+            'prop_' . ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT);
         $opt->addSubItem($prop_page_details);
 
         return $opt;

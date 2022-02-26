@@ -16,7 +16,7 @@ use ILIAS\UI\Renderer;
  * @ilCtrl_Calls ilObjForumGUI: ilObjectContentStyleSettingsGUI
  * @ingroup      ModulesForum
  */
-class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForumObjectConstants
+class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForumObjectConstants, ilCtrlSecurityInterface
 {
     use ilForumRequestTrait;
 
@@ -39,8 +39,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private bool $is_moderator;
     private $replyEditForm;
     private bool $hideToolbar = false;
-    /** @var $object ilObjForum */
-    public $object;
+    public ?ilObject $object;
     private $httpRequest;
     private \ILIAS\HTTP\Services $http;
     private Factory $uiFactory;
@@ -52,21 +51,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private string $requestAction;
     private array $modalActionsContainer = [];
 
-    public $access;
+    public ilAccessHandler $access;
     public $ilObjDataCache;
     public $tabs;
-    public $error;
-    public $user;
-    public $settings;
-    public $toolbar;
+    public ilErrorHandling $error;
+    public ilObjUser $user;
+    public ilSetting $settings;
+    public ilToolbarGUI $toolbar;
     public $repositoryTree;
     public $rbac;
-    public $locator;
+    public ilLocatorGUI $locator;
     public $ilHelp;
 
     private int $selectedSorting;
     private ilForumThreadSettingsSessionStorage $selected_post_storage;
-    private \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
 
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
@@ -290,7 +289,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         );
     }
 
-    public function executeCommand()
+    public function getUnsafeGetCommands() : array
+    {
+        return [
+            'enableForumNotification',
+            'disableForumNotification',
+            'toggleThreadNotification'
+        ];
+    }
+
+    public function getSafePostCommands() : array
+    {
+        return [];
+    }
+
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -366,12 +379,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
                 $this->tpl->parseCurrentBlock();
 
+                /** @var ilObjForum $obj */
+                $obj = $this->object;
+
                 $forwarder = new ilForumPageCommandForwarder(
                     $this->http,
                     $this->ctrl,
                     $this->tabs,
                     $this->lng,
-                    $this->object,
+                    $obj,
                     $this->objProperties,
                     $this->user,
                     $this->content_style_domain
@@ -971,7 +987,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $tpl->setVariable('DRAFT_ANCHOR', 'draft_' . $draft->getDraftId());
 
             $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
-            $tpl->setVariable('USR_ICON_ALT', ilUtil::prepareFormOutput($authorinfo->getAuthorShortName()));
+            $tpl->setVariable(
+                'USR_ICON_ALT',
+                ilLegacyFormElementsUtil::prepareFormOutput($authorinfo->getAuthorShortName())
+            );
             if ($authorinfo->getAuthor()->getId() && ilForum::_isModerator(
                 $ref_id,
                 $draft->getPostAuthorId()
@@ -1175,7 +1194,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
-        $tpl->setVariable('USR_ICON_ALT', ilUtil::prepareFormOutput($authorinfo->getAuthorShortName()));
+        $tpl->setVariable(
+            'USR_ICON_ALT',
+            ilLegacyFormElementsUtil::prepareFormOutput($authorinfo->getAuthorShortName())
+        );
         $isModerator = ilForum::_isModerator($this->ref_id, $node->getPosAuthorId());
         if ($isModerator && $authorinfo->getAuthor()->getId()) {
             $authorRole = $this->lng->txt('frm_moderator_n');
@@ -1501,6 +1523,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public static function _goto($a_target, $a_thread = 0, $a_posting = 0) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -1555,7 +1578,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 'showSummary'
             );
         } elseif ($ilAccess->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(sprintf(
+            $main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt('msg_no_perm_read_item'),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -1691,7 +1714,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->ilHelp->setScreenIdComponent("frm");
 
         $this->tpl->loadStandardTemplate();
-        ilUtil::infoPanel();
 
         $this->tpl->setTitleIcon(ilObject::_getIcon("", "big", "frm"));
 
@@ -3325,7 +3347,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->tpl->addOnLoadCode('$(".ilFrmPostContent img").each(function() {
 			var $elm = $(this);
 			$elm.css({
-				maxWidth: $elm.attr("width") + "px", 
+				maxWidth: $elm.attr("width") + "px",
 				maxHeight: $elm.attr("height")  + "px"
 			});
 			$elm.removeAttr("width");
@@ -4220,7 +4242,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
     }
 
-    public function handleFormInput(string $a_text, $a_stripslashes = true) : string
+    public function handleFormInput(string $a_text, bool $a_stripslashes = true) : string
     {
         $a_text = str_replace(["<", ">"], ["&lt;", "&gt;"], $a_text);
         if ($a_stripslashes) {
@@ -4230,10 +4252,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         return $a_text;
     }
 
-    public function prepareFormOutput($a_text) : string
+    public function prepareFormOutput(string $a_text) : string
     {
         $a_text = str_replace(["&lt;", "&gt;"], ["<", ">"], $a_text);
-        $a_text = ilUtil::prepareFormOutput($a_text);
+        $a_text = ilLegacyFormElementsUtil::prepareFormOutput($a_text);
         return $a_text;
     }
 

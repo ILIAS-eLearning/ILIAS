@@ -177,7 +177,13 @@ abstract class ilPageObject
     {
         return $this->page_config;
     }
-
+    
+    public static function randomhash()
+    {
+        $random = new \ilRandom();
+        return md5($random->int(1, 9999999) + str_replace(" ", "", (string) microtime()));
+    }
+    
     public function setRenderMd5(string $a_rendermd5) : void
     {
         $this->rendermd5 = $a_rendermd5;
@@ -3743,7 +3749,7 @@ s     */
 
     public function generatePcId() : string
     {
-        $id = ilUtil::randomhash();
+        $id = self::randomhash();
         return $id;
     }
 
@@ -3767,7 +3773,7 @@ s     */
         $res = xpath_eval($xpc, $path);
 
         for ($i = 0; $i < count($res->nodeset); $i++) {
-            $id = ilUtil::randomhash();
+            $id = self::randomhash();
             $res->nodeset[$i]->set_attribute("PCID", $id);
         }
     }
@@ -4223,7 +4229,7 @@ s     */
             );
         }
 
-        $page_changes = ilUtil::sortArray($page_changes, "date", "desc");
+        $page_changes = ilArrayUtil::sortArray($page_changes, "date", "desc");
 
         return $page_changes;
     }

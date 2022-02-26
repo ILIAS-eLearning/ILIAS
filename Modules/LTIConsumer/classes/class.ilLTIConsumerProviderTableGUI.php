@@ -571,7 +571,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
             $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
             $this->tpl->setVariable('ICON_ALT', basename($a_set['icon']));
         } else {
-            $icon = ilObject::_getIcon("", "small", "lti");
+            $icon = ilObject::_getIcon(0, "small", "lti");
             $this->tpl->setVariable('ICON_SRC', $icon);
             $this->tpl->setVariable('ICON_ALT', 'lti');
         }

@@ -146,7 +146,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 
                 // virus handling
                 if ($pictures["tmp_name"][$index] != "") {
-                    $vir = ilUtil::virusHandling($temp_name, $filename);
+                    $vir = ilVirusScanner::virusHandling($temp_name, $filename);
                     if ($vir[0] == false) {
                         $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                         $uploadcheck = false;
@@ -172,10 +172,13 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         foreach ($this->filenames as $value) {
             if (strlen($value)) {
                 $tpl->setCurrentBlock("image");
-                $tpl->setVariable("SRC_IMAGE", $this->getImagePathWeb() . ilUtil::prepareFormOutput($value));
-                $tpl->setVariable("PICTURE_FILE", ilUtil::prepareFormOutput($value));
+                $tpl->setVariable("SRC_IMAGE", $this->getImagePathWeb() . ilLegacyFormElementsUtil::prepareFormOutput(
+                        $value
+                    )
+                );
+                $tpl->setVariable("PICTURE_FILE", ilLegacyFormElementsUtil::prepareFormOutput($value));
                 $tpl->setVariable("ID", $this->getFieldId() . "[$i]");
-                $tpl->setVariable("ALT_IMAGE", ilUtil::prepareFormOutput($value));
+                $tpl->setVariable("ALT_IMAGE", ilLegacyFormElementsUtil::prepareFormOutput($value));
                 $tpl->parseCurrentBlock();
             }
             if ($this->getAllowMove()) {

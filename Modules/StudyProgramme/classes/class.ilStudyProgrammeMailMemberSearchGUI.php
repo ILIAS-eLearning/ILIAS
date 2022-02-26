@@ -8,6 +8,8 @@ class ilStudyProgrammeMailMemberSearchGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilAccessHandler $access;
+    protected ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
     protected array $assignments = [];
     private ?string $back_target = null;
@@ -16,12 +18,16 @@ class ilStudyProgrammeMailMemberSearchGUI
         ilCtrl $ctrl,
         ilGlobalTemplateInterface $tpl,
         ilLanguage $lng,
-        ilAccessHandler $access
+        ilAccessHandler $access,
+        ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
+        ILIAS\Refinery\Factory $refinery
     ) {
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->access = $access;
+        $this->http_wrapper = $http_wrapper;
+        $this->refinery = $refinery;
 
         $this->lng->loadLanguageModule('mail');
         $this->lng->loadLanguageModule('search');
@@ -49,35 +55,30 @@ class ilStudyProgrammeMailMemberSearchGUI
 
     public function executeCommand() : void
     {
-        $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->ctrl->setReturn($this, '');
 
-        switch ($next_class) {
-            default:
-                switch ($cmd) {
-                    case 'sendMailToSelectedUsers':
-                        $this->sendMailToSelectedUsers();
-                        break;
-                    case 'showSelectableUsers':
-                    case 'members':
-                        $this->showSelectableUsers();
-                        break;
-                    case 'cancel':
-                        $this->redirectToParent();
-                        break;
-                    default:
-                        throw new Exception('Unknown command ' . $cmd);
-                }
+        switch ($cmd) {
+            case 'sendMailToSelectedUsers':
+                $this->sendMailToSelectedUsers();
                 break;
+            case 'showSelectableUsers':
+            case 'members':
+                $this->showSelectableUsers();
+                break;
+            case 'cancel':
+                $this->redirectToParent();
+                break;
+            default:
+                throw new Exception('Unknown command ' . $cmd);
         }
     }
 
     protected function showSelectableUsers() : void
     {
         $this->tpl->loadStandardTemplate();
-        $tbl = new ilStudyProgrammeMailMemberSearchTableGUI($this, 'showSelectableUsers');
+        $tbl = new ilStudyProgrammeMailMemberSearchTableGUI($this, $this->getRootPrgObjId(), 'showSelectableUsers');
         $tbl->setData($this->getProcessData());
 
         $this->tpl->setContent($tbl->getHTML());
@@ -112,14 +113,22 @@ class ilStudyProgrammeMailMemberSearchGUI
 
     protected function sendMailToSelectedUsers() : bool
     {
-        if (!isset($_POST['user_ids']) || !count($_POST['user_ids'])) {
+        $user_ids = [];
+        if ($this->http_wrapper->post()->has("user_ids")) {
+            $user_ids = $this->http_wrapper->post()->retrieve(
+                "user_ids",
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
+
+        if (!count($user_ids)) {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
             return false;
         }
 
         $rcps = array();
-        foreach ($_POST['user_ids'] as $usr_id) {
+        foreach ($user_ids as $usr_id) {
             $rcps[] = ilObjUser::_lookupLogin($usr_id);
         }
 
@@ -188,5 +197,12 @@ class ilStudyProgrammeMailMemberSearchGUI
         $assignments = $this->getAssignments();
         $assignment = array_shift($assignments);
         return ilObjStudyProgramme::getRefIdFor($assignment->getRootId());
+    }
+
+    protected function getRootPrgObjId() : int
+    {
+        $assignments = $this->getAssignments();
+        $assignment = array_shift($assignments);
+        return (int) $assignment->getRootId();
     }
 }

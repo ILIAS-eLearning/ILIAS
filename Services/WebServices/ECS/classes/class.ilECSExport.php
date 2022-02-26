@@ -19,28 +19,17 @@
 * This class stores the econtent id and informations whether an object is exported or not.
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSExport
 {
     protected ilDBInterface $db;
 
-    protected $server_id = 0;
+    protected int $server_id = 0;
     protected int $obj_id = 0;
-    protected $econtent_id = 0;
-    protected $exported = false;
+    protected int $econtent_id = 0;
+    protected bool $exported = false;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct($a_server_id, $a_obj_id)
+    public function __construct(int $a_server_id, int $a_obj_id)
     {
         global $DIC;
 
@@ -53,18 +42,16 @@ class ilECSExport
 
     /**
      * Get server id
-     * @return int
      */
-    public function getServerId()
+    public function getServerId() : int
     {
         return $this->server_id;
     }
 
     /**
      * Set server id
-     * @param int $a_server_id
      */
-    public function setServerId($a_server_id)
+    public function setServerId(int $a_server_id) : void
     {
         $this->server_id = $a_server_id;
     }
@@ -72,34 +59,28 @@ class ilECSExport
     /**
      * Set exported
      *
-     * @access public
-     * @param bool export status
+     * @param bool $a_status export status
      *
      */
-    public function setExported($a_status)
+    public function setExported(bool $a_status) : void
     {
         $this->exported = $a_status;
     }
     
     /**
      * check if an object is exported or not
-     *
-     * @access public
-     *
      */
-    public function isExported()
+    public function isExported() : bool
     {
-        return (bool) $this->exported;
+        return $this->exported;
     }
 
     /**
      * set econtent id
      *
-     * @access public
-     * @param int econtent id (received from ECS::addResource)
-     *
+     * @param int $a_id econtent id (received from ECS::addResource)
      */
-    public function setEContentId($a_id)
+    public function setEContentId(int $a_id) : void
     {
         $this->econtent_id = $a_id;
     }
@@ -107,21 +88,17 @@ class ilECSExport
     /**
      * get econtent id
      *
-     * @access public
      * @return int econtent id
-     *
      */
-    public function getEContentId()
+    public function getEContentId() : int
     {
         return $this->econtent_id;
     }
     
     /**
      * Save
-     *
-     * @access public
      */
-    public function save()
+    public function save() : bool
     {
         $query = "DELETE FROM ecs_export " .
             "WHERE obj_id = " . $this->db->quote($this->obj_id, 'integer') . " " .
@@ -143,9 +120,8 @@ class ilECSExport
     
     /**
      * Read
-     * @access private
      */
-    private function read()
+    private function read() : void
     {
         $query = "SELECT * FROM ecs_export WHERE " .
             "obj_id = " . $this->db->quote($this->obj_id, 'integer') . " AND " .

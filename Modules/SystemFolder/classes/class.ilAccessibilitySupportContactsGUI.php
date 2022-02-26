@@ -125,7 +125,9 @@ class ilAccessibilitySupportContactsGUI implements ilCtrlBaseClassInterface
         $users = ilAccessibilitySupportContacts::getValidSupportContactIds();
         if (count($users) > 0) {
             if (!$user->getId() || $user->getId() == ANONYMOUS_USER_ID) {
-                $mails = ilUtil::prepareFormOutput(ilAccessibilitySupportContacts::getMailsToAddress());
+                $mails = ilLegacyFormElementsUtil::prepareFormOutput(
+                    ilAccessibilitySupportContacts::getMailsToAddress()
+                );
                 $request_scheme =
                     isset($http->request()->getServerParams()['HTTPS'])
                     && $http->request()->getServerParams()['HTTPS'] !== 'off'

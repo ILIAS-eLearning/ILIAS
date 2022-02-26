@@ -150,7 +150,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
 
-        $placeholders['COURSE_TITLE'] = ilUtil::prepareFormOutput($object->getTitle());
+        $placeholders['COURSE_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
 
         return $placeholders;
     }

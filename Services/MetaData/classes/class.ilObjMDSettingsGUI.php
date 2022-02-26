@@ -27,7 +27,6 @@ use ILIAS\HTTP\GlobalHttpState;
 /**
  * Meta Data Settings.
  * @author       Stefan Meyer <meyer@leifos.com>
- * @version      $Id$
  * @ilCtrl_Calls ilObjMDSettingsGUI: ilPermissionGUI, ilAdvancedMDSettingsGUI, ilMDCopyrightUsageGUI
  * @ingroup      ServicesMetaData
  */
@@ -76,15 +75,15 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         return [];
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt('no_permission'), $this->ilErr->WARNING);
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
         switch ($next_class) {
@@ -121,7 +120,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
     protected function getType() : string
@@ -139,9 +137,9 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         return ilAdministrationSettingsFormHandler::FORM_META_COPYRIGHT;
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "md_general_settings",
                 $this->ctrl->getLinkTarget($this, "showGeneralSettings"),
@@ -162,7 +160,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
@@ -177,7 +175,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initGeneralSettingsForm();
         }
-        $this->tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
     public function initGeneralSettingsForm(string $a_mode = "edit") : ilPropertyFormGUI
@@ -231,7 +229,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initSettingsForm();
         }
-        $this->tpl->setVariable('SETTINGS_TABLE', $this->form->getHTML());
+        $this->tpl->setVariable('SETTINGS_TABLE', $form->getHTML());
 
         $has_write = $this->access->checkAccess('write', '', $this->object->getRefId());
         $table_gui = new ilMDCopyrightTableGUI($this, 'showCopyrightSettings', $has_write);
@@ -470,6 +468,8 @@ class ilObjMDSettingsGUI extends ilObjectGUI
                 $this->refinery->kindlyTo()->int()
             )
         );
+        ilLoggerFactory::getLogger('root')->dump($positions, ilLogLevel::ERROR);
+        ilLoggerFactory::getLogger('root')->dump($_POST['order'], ilLogLevel::ERROR);
         asort($positions);
         $position = 0;
         foreach ($positions as $entry_id => $position_ignored) {

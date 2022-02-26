@@ -108,7 +108,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         $temp_file = $this->getPdfTempName();
         $args = $config->getCommandLineConfig() . ' ' . $a_path_to_file . ' ' . $temp_file . $this->redirectLog();
         $this->appendDefaultFontStyle($a_path_to_file, $config);
-        $return_value = ilUtil::execQuoted($config->getWKHTMLToPdfDefaultPath(), $args);
+        $return_value = ilShellUtil::execQuoted($config->getWKHTMLToPdfDefaultPath(), $args);
         $this->log->debug('ilWebkitHtmlToPdfTransformer command line config: ' . $args);
         $this->checkReturnValueFromCommandLine($return_value, $temp_file, $a_target);
         unlink($a_path_to_file);

@@ -619,6 +619,16 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 return false;
             }
         }
+
+        /*
+            #21097 - exceed maximum passes
+            this is a battle of conditions; e.g. ilTestPlayerAbstractGUI::autosaveOnTimeLimitCmd forces saving of results.
+            However, if an admin has finished the pass in the meantime, a new pass should not be created.
+        */
+        if ($force && $this->isNrOfTriesReached()) {
+            $force = false;
+        }
+
         // save question solution
         if ($this->canSaveResult() || $force) {
             // but only if the ending time is not reached

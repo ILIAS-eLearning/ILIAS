@@ -186,7 +186,7 @@ class ilLTIViewGUI
                     && (isset($_GET['cmdClass']) && $_GET['cmdClass'] === 'ilpersonalprofilegui')) {
                     return $context_id;
                 }
-                ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                 $redirect = $this->link_dir . "goto.php?target=" . $obj_type . "_" . $ref_id . "&lti_context_id=" . $context_id;
                 $this->log->debug("redirect: " . $redirect);
                 ilUtil::redirect($redirect);

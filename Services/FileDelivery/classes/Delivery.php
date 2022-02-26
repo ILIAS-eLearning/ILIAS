@@ -94,7 +94,10 @@ final class Delivery
     public function deliver(): void
     {
         $response = $this->http->response()->withHeader('X-ILIAS-FileDelivery-Method', $this->getDeliveryType());
-        if (!$this->delivery()->doesFileExists($this->path_to_file)) {
+        if (
+            !$this->delivery()->doesFileExists($this->path_to_file)
+            && $this->path_to_file !== self::DIRECT_PHP_OUTPUT
+        ) {
             $response = $this->http->response()->withStatus(404);
             $this->http->saveResponse($response);
             $this->http->sendResponse();

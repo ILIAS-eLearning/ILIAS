@@ -18,11 +18,6 @@
 * Stores relevant user data.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesWebServicesECS
 */
 class ilECSUser
 {

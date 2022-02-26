@@ -53,7 +53,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 

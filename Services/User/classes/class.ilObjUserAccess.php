@@ -33,25 +33,27 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass
 
     public static function _checkGoto($a_target)
     {
+        global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $settings = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']->settings() : $GLOBALS['DIC']['ilSetting'];
 
         if ('usr_registration' == $a_target) {
             $regSeetings = new ilRegistrationSettings();
             if ($regSeetings->getRegistrationType() == ilRegistrationSettings::IL_REG_DISABLED) {
                 $GLOBALS['DIC']->language()->loadLanguageModule('registration');
-                ilUtil::sendFailure(sprintf($GLOBALS['DIC']->language()->txt('registration_disabled_no_access'), $settings->get('admin_email')), true);
+                $main_tpl->setOnScreenMessage('failure', sprintf($GLOBALS['DIC']->language()->txt('registration_disabled_no_access'), $settings->get('admin_email')), true);
                 return false;
             }
         } elseif ('usr_nameassist' == $a_target) {
             if (!$settings->get('password_assistance')) {
                 $GLOBALS['DIC']->language()->loadLanguageModule('pwassist');
-                ilUtil::sendFailure(sprintf($GLOBALS['DIC']->language()->txt('unassist_disabled_no_access'), $settings->get('admin_email')), true);
+                $main_tpl->setOnScreenMessage('failure', sprintf($GLOBALS['DIC']->language()->txt('unassist_disabled_no_access'), $settings->get('admin_email')), true);
                 return false;
             }
         } elseif ('usr_pwassist' == $a_target) {
             if (!$settings->get('password_assistance')) {
                 $GLOBALS['DIC']->language()->loadLanguageModule('pwassist');
-                ilUtil::sendFailure(sprintf($GLOBALS['DIC']->language()->txt('pwassist_disabled_no_access'), $settings->get('admin_email')), true);
+                $main_tpl->setOnScreenMessage('failure', sprintf($GLOBALS['DIC']->language()->txt('pwassist_disabled_no_access'), $settings->get('admin_email')), true);
                 return false;
             }
         }

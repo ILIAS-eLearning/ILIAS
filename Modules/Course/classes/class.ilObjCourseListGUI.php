@@ -1,26 +1,21 @@
-<?php
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilObjCourseListGUI
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * $Id$
- *
  * @ingroup ModulesCourse
  */
 class ilObjCourseListGUI extends ilObjectListGUI
 {
-    /**
-     * @var \ilCertificateObjectsForUserPreloader
-     */
-    private $certificatePreloader;
+    private ?ilCertificateObjectsForUserPreloader $certificatePreloader = null;
+    private bool $conditions_ok = false;
 
     /**
-    * initialisation
-    */
+     * @inheritDoc
+     */
     public function init()
     {
         $this->static_link_enabled = true;
@@ -52,33 +47,21 @@ class ilObjCourseListGUI extends ilObjectListGUI
         $this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id, $this->obj_id);
     }
 
-    /**
-     * @return \ilCertificateObjectsForUserPreloader
-     */
-    protected function getCertificatePreloader() : \ilCertificateObjectsForUserPreloader
+    protected function getCertificatePreloader() : ilCertificateObjectsForUserPreloader
     {
         if (null === $this->certificatePreloader) {
             $repository = new ilUserCertificateRepository();
             $this->certificatePreloader = new ilCertificateObjectsForUserPreloader($repository);
         }
-
         return $this->certificatePreloader;
     }
 
     /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
+     * @inheritDoc
+     */
     public function getProperties()
     {
         global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
 
         $props = parent::getProperties();
 
@@ -90,22 +73,26 @@ class ilObjCourseListGUI extends ilObjectListGUI
             $showRegistrationInfo = false;
             $props[] = array(
                 "alert" => true,
-                "property" => $lng->txt("status"),
-                "value" => $lng->txt("offline")
+                "property" => $this->lng->txt("status"),
+                "value" => $this->lng->txt("offline")
             );
         }
 
         // blocked
-        $members = ilCourseParticipant::_getInstanceByObjId($this->obj_id, $ilUser->getId());
-        if ($members->isBlocked($ilUser->getId()) and $members->isAssigned($ilUser->getId())) {
-            $props[] = array("alert" => true, "property" => $lng->txt("member_status"),
-                "value" => $lng->txt("crs_status_blocked"));
+        $members = ilCourseParticipant::_getInstanceByObjId($this->obj_id, $this->user->getId());
+        if ($members->isBlocked() and $members->isAssigned()) {
+            $props[] = array("alert" => true,
+                             "property" => $this->lng->txt("member_status"),
+                             "value" => $this->lng->txt("crs_status_blocked")
+            );
         }
 
         // pending subscription
-        if (ilCourseParticipants::_isSubscriber($this->obj_id, $ilUser->getId())) {
-            $props[] = array("alert" => true, "property" => $lng->txt("member_status"),
-                "value" => $lng->txt("crs_status_pending"));
+        if (ilCourseParticipants::_isSubscriber($this->obj_id, $this->user->getId())) {
+            $props[] = array("alert" => true,
+                             "property" => $this->lng->txt("member_status"),
+                             "value" => $this->lng->txt("crs_status_pending")
+            );
         }
 
         $info = ilObjCourseAccess::lookupRegistrationInfo($this->obj_id);
@@ -122,17 +109,17 @@ class ilObjCourseListGUI extends ilObjectListGUI
                 'alert' => false,
                 'newline' => false,
                 'property' => $info['reg_info_list_prop_limit']['property'],
-                'propertyNameVisible' => strlen($info['reg_info_list_prop_limit']['property']) ? true : false,
+                'propertyNameVisible' => (bool) strlen($info['reg_info_list_prop_limit']['property']),
                 'value' => $info['reg_info_list_prop_limit']['value']
             );
         }
 
         // waiting list
-        if (ilCourseWaitingList::_isOnList($ilUser->getId(), $this->obj_id)) {
+        if (ilCourseWaitingList::_isOnList($this->user->getId(), $this->obj_id)) {
             $props[] = array(
                 "alert" => true,
-                "property" => $lng->txt('member_status'),
-                "value" => $lng->txt('on_waiting_list')
+                "property" => $this->lng->txt('member_status'),
+                "value" => $this->lng->txt('on_waiting_list')
             );
         }
 
@@ -142,21 +129,21 @@ class ilObjCourseListGUI extends ilObjectListGUI
             $props[] = array(
                 'alert' => false,
                 'newline' => true,
-                'property' => $info['property'],
-                'value' => $info['value']
+                'property' => $info['property'] ?? "",
+                'value' => $info['value'] ?? ""
             );
         }
 
         // check for certificates
-        $hasCertificate = $this->getCertificatePreloader()->isPreloaded($ilUser->getId(), $this->obj_id);
+        $hasCertificate = $this->getCertificatePreloader()->isPreloaded($this->user->getId(), $this->obj_id);
         if (true === $hasCertificate) {
-            $lng->loadLanguageModule('certificate');
+            $this->lng->loadLanguageModule('certificate');
             $cmd_link = "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $this->ref_id . "&cmd=deliverCertificate";
             $props[] = [
                 'alert' => false,
-                'property' => $lng->txt('certificate'),
+                'property' => $this->lng->txt('certificate'),
                 'value' => $DIC->ui()->renderer()->render(
-                    $DIC->ui()->factory()->link()->standard($lng->txt('download_certificate'), $cmd_link)
+                    $DIC->ui()->factory()->link()->standard($this->lng->txt('download_certificate'), $cmd_link)
                 )
             ];
         }
@@ -167,20 +154,11 @@ class ilObjCourseListGUI extends ilObjectListGUI
             $repo = (new ilBookingReservationDBRepositoryFactory())->getRepoWithContextObjCache([$this->obj_id]);
         }
         $book_info = new ilBookingInfoListItemPropertiesAdapter($repo);
-        $props = $book_info->appendProperties($this->obj_id, $props);
-
-        return $props;
+        return $book_info->appendProperties($this->obj_id, $props);
     }
 
-
     /**
-     * Workaround for course titles (linked if join or read permission is granted)
-     * @param type $a_permission
-     * @param type $a_cmd
-     * @param type $a_ref_id
-     * @param type $a_type
-     * @param type $a_obj_id
-     * @return type
+     * @inheritDoc
      */
     public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
     {

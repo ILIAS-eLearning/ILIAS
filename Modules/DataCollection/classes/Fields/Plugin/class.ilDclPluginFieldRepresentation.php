@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclPluginFieldRepresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -26,7 +25,8 @@ class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
             }
 
             if (count($options) > 0) {
-                $plugin_selection = new ilSelectInputGUI($this->lng->txt('dcl_plugin_hooks'), 'prop_' . ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME);
+                $plugin_selection = new ilSelectInputGUI($this->lng->txt('dcl_plugin_hooks'),
+                    'prop_' . ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME);
                 $plugin_selection->setOptions($options);
                 $opt->addSubItem($plugin_selection);
                 if ($mode == "edit") {
@@ -34,7 +34,8 @@ class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
                 } else {
                 }
             } else {
-                $plugin_selection = new ilNonEditableValueGUI($this->lng->txt('dcl_plugin_no_hooks_available'), 'prop_' . ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME);
+                $plugin_selection = new ilNonEditableValueGUI($this->lng->txt('dcl_plugin_no_hooks_available'),
+                    'prop_' . ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME);
                 $opt->addSubItem($plugin_selection);
             }
         }

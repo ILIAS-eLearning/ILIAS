@@ -167,7 +167,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
                 $title = ilObject::_lookupTitle($obj["obj_id"]);
                 $items[] = $f->item()->standard(
                     $f->link()->standard($title, ilLink::_getLink($ref_id))
-                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj["obj_id"]), $title));
+                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon((int) $obj["obj_id"]), $title));
             }
         }
         $item_groups[] = $f->item()->group(sprintf(

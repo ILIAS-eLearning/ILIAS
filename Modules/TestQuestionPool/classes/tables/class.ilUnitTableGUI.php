@@ -72,7 +72,7 @@ class ilUnitTableGUI extends ilTable2GUI
         $ilCtrl = $DIC['ilCtrl'];
 
         if ($this->getParentObject()->isCRUDContext()) {
-            $a_set['chb'] = ilUtil::formCheckbox(false, 'unit_ids[]', $a_set['unit_id']);
+            $a_set['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'unit_ids[]', $a_set['unit_id']);
 
             $sequence = new ilNumberInputGUI('', 'sequence[' . $a_set['unit_id'] . ']');
             $sequence->setValue($this->position++ * 10);

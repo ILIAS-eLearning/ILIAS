@@ -275,7 +275,7 @@ class ilTrQuery
         // as we cannot do this in the query, sort by custom field here
         // this will not work with pagination!
         if ($udf_order) {
-            $result["set"] = ilUtil::stableSortArray(
+            $result["set"] = ilArrayUtil::stableSortArray(
                 $result["set"],
                 $udf_order,
                 $a_order_dir

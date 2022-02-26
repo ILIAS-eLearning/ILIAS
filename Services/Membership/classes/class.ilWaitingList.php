@@ -27,10 +27,13 @@
  */
 abstract class ilWaitingList
 {
-    private ilDBInterface $db;
     private int $obj_id = 0;
     private array $user_ids = [];
     private $users = [];
+
+    protected ilDBInterface $db;
+    protected ilAppEventHandler $eventHandler;
+
 
     public static array $is_on_list = [];
 
@@ -39,6 +42,7 @@ abstract class ilWaitingList
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->eventHandler = $DIC->event();
         $this->obj_id = $a_obj_id;
         if ($a_obj_id) {
             $this->read();
@@ -118,13 +122,14 @@ abstract class ilWaitingList
         $res = $this->db->manipulate($query);
     }
 
-    public function removeFromList(int $a_usr_id) : void
+    public function removeFromList(int $a_usr_id) : bool
     {
         $query = "DELETE FROM crs_waiting_list " .
             " WHERE obj_id = " . $this->db->quote($this->getObjId(), 'integer') . " " .
             " AND usr_id = " . $this->db->quote($a_usr_id, 'integer') . " ";
-        $res = $this->db->manipulate($query);
+        $affected = $this->db->manipulate($query);
         $this->read();
+        return $affected > 0;
     }
 
     public function isOnList(int $a_usr_id) : bool

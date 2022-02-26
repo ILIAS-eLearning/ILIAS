@@ -182,10 +182,6 @@ abstract class ilParticipants
 
     /**
      * Get user membership assignments by type
-     * @param int[]    $a_user_ids
-     * @param string[] $a_type
-     * @param bool     $a_only_member_roles
-     * @return int[]
      */
     public static function getUserMembershipAssignmentsByType(
         array $a_user_ids,
