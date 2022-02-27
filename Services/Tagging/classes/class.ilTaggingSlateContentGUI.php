@@ -196,6 +196,7 @@ class ilTaggingSlateContentGUI
 
         $f = $this->ui->factory();
         $item_groups = [];
+        $items = [];
         foreach ($objs as $key => $obj) {
             $ref_ids = ilObject::_getAllReferences($obj["obj_id"]);
             foreach ($ref_ids as $ref_id) {
@@ -218,7 +219,15 @@ class ilTaggingSlateContentGUI
         ), $items);
         $panel = $f->panel()->secondary()->listing("", $item_groups);
 
-        return $ui->renderer()->renderAsync([$back_button, $panel]);
+        $components = [$back_button, $panel];
+        if (count($items) == 0) {
+            $mbox = $f->messageBox()->info(
+                sprintf($lng->txt("tagging_no_obj_for_tag"), ilUtil::secureString($tag))
+            );
+            $components = [$back_button, $mbox];
+        }
+
+        return $ui->renderer()->renderAsync($components);
     }
 
     /**
