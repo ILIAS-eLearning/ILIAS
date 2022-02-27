@@ -866,4 +866,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $ctrl->setParameterByClass("ilObjFileBasedLMGUI", "ref_id", $this->object->getRefId());
         $ctrl->redirectByClass(["ilrepositorygui", "ilObjFileBasedLMGUI"], "properties");
     }
+
+    public function redrawHeaderAction() : void
+    {
+        parent::redrawHeaderActionObject();
+    }
 }

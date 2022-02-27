@@ -16310,3 +16310,4 @@ cmix#:#duration_info#:#Die Zeitdauer kann z.B. für die Beantwortung einer Aufga
 cmix#:#no_substatements_label#:#Substatements nicht speichern
 cmix#:#no_substatements_info#:#Mit dieser Option, die nur für den ILIAS LRS-Proxy zur Verfügung steht, kann die Speicherung von untergeordneten Statements unterdrückt werden. Dies kann z.B. die Beantwortung einzelner Aufgaben in einem Test beeinflussen. Dem Content wird mitgeteilt, dass die Statements gespeichert worden wären.
 exc#:#exc_fullscreen#:#Vollbild
+tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit '%s' verschlagwortet.

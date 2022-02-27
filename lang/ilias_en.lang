@@ -16310,3 +16310,4 @@ cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. Th
 cmix#:#no_substatements_label#:#Do not store substatements
 cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.
 exc#:#exc_fullscreen#:#Fullscreen
+tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.
