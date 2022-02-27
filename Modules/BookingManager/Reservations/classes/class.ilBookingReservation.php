@@ -388,8 +388,8 @@ class ilBookingReservation
         $f = new ilBookingReservationDBRepositoryFactory();
         $repo = $f->getRepo();
         $res = $repo->getNumberOfReservations([$a_obj_id], $a_from, $a_to, true);
-        $booked_in_period = $res[$a_obj_id]["cnt"];
-        
+        $booked_in_period = (int) $res[$a_obj_id]["cnt"];
+
         $per_slot = ilBookingObject::getNrOfItemsForObjects(array($a_obj_id));
         $per_slot = $per_slot[$a_obj_id];
                 
@@ -421,11 +421,10 @@ class ilBookingReservation
                     $slot = explode("-", $slot);
                     $slot_from = strtotime(date("Y-m-d", $a_from) . " " . $slot[0]);
                     $slot_to = strtotime(date("Y-m-d", $a_from) . " " . $slot[1]);
-
                     // slot has to be in the future and part of schedule availability
                     if ($slot_to > time() &&
                         $slot_from >= $av_from &&
-                        $slot_to <= $av_to) {
+                        ($slot_to <= $av_to || is_null($av_to))) {
                         $available_in_period += $per_slot;
                     }
                 }
@@ -433,7 +432,6 @@ class ilBookingReservation
             
             $a_from += (60 * 60 * 24);
         }
-
         if ($available_in_period - $booked_in_period > 0) {
             return true;
         }
