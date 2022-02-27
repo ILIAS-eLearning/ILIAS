@@ -896,6 +896,9 @@ class ilPageObjectGUI
                     );
                 }
                 $ret = $this->$cmd();
+                if ($this->getOutputMode() == self::PREVIEW && $cmd == "preview") {
+                    $this->showEditToolbar();
+                }
                 break;
         }
         //echo "+$ret+";
@@ -976,10 +979,6 @@ class ilPageObjectGUI
     {
         $main_tpl = $this->tpl;
         $sn_arr = [];
-
-        if ($this->getOutputMode() == self::PREVIEW) {
-            $this->showEditToolbar();
-        }
 
         $sel_js_mode = '';
         $paragraph_plugin_string = '';
