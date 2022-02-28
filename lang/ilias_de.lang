@@ -2402,6 +2402,7 @@ common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung wide
 common#:#withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ein, um den Widerrufsvorgang abzuschließen.
 common#:#withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herkunftsinstallation zurück, und loggen Sie sich erneut ein, um den Widerrufsvorgang abzuschließen.
 common#:#withdraw_consent#:#Einverständnis widerrufen
+common#:#refuse_tos_acceptance#:#Akzeptanz der Nutzungsvereinbarung ablehnen
 common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen, wird Ihr Account gelöscht.
 common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
 common#:#withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsvereinbarungen.
