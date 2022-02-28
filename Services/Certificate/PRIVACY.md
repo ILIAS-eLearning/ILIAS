@@ -25,14 +25,14 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 
 For each issued persisting user certificate, the ID of the user account is stored. The purpose of this ID being stored
   is the identification of the certificate being presented to or exported by the respective owner of certificate.
-* In addition, certificate templates may contain placeholders.
-* All placeholders defined in a certificate template will be replaced by the corresponding user data and contextual
+- In addition, certificate templates may contain placeholders.
+- All placeholders defined in a certificate template will be replaced by the corresponding user data and contextual
   data i.e., course title or issuing date.
-* The issuing of certificate and thus replacing placeholders with user data is triggered by the user who
+- The issuing of certificate and thus replacing placeholders with user data is triggered by the user who
   completes an object.
-* The actual replacing of placeholders is done by processing a queue. The queue holds the user ID along with the object
+- The actual replacing of placeholders is done by processing a queue. The queue holds the user ID along with the object
   related data and a datetime information. Once a queue item has been processed, the record will be deleted.
-* The issued certificates are immutable: They contain the user data that replaced the placeholders at the
+- The issued certificates are immutable: They contain the user data that replaced the placeholders at the
   moment of issuing. It will not change with time.
 
     Stored Data (if used as a placeholder in a certificate template):
@@ -53,56 +53,23 @@ For each issued persisting user certificate, the ID of the user account is store
       - Matriculation
       - User Defined Fields (if avaiable and enabled for "Certificate" in field definition)
 
-- There might be other user related data stored depending on specific placeholders of the respective consumer. Consumers
-  might provide placeholders for the qualification status, test results, points, etc..
-- Although other components might provide user related data, and it is the responsibility of the consumer
-  to define the nature and extend of this data, the certificate service will store this as part of the final certificate
-  content.
-- Because the replacement of placeholders for final user certificates (possible bulk processing) can be time-consuming, the
-  `Certificate Service` will initially store the issued raw data of the domain event (e.g. `User completes an object`) in an
-  (asynchronous) queue (table: `il_cert_cron_queue`). Once a queue item has been processed, the record will be deleted.
-  The ID of the user account is stored along with the object related data and a datetime information.
-
 ## Data being presented
 
-- The certificate service itself provides a `Deck of Card` user interface listing all achieved certificates for the acting
-  user account. The presented data is only object related, enriched with a datetime presentation of the issue date
-  of the respective certificate. Furthermore, a PDF document can be generated (on demand/at runtime). The PDF document
-  contains the textual representation of the [stored data](#data-being-stored).
-- In addition, downloads of certificate PDF documents are provided by consumers of the certificate service. The
-  availability of user interface elements triggering a download of a user certificate and corresponding access checks
-  when the PDF documents are requested depend on the specific consumer. Please check the privacy documentation
-  of the corresponding consumers. 
-
-    Known Consumers:
-
-      - Modules/Course
-      - Modules/StudyProgramme
-      - Modules/Exercise
-      - Modules/Test
-      - Modules/ScormAicc
-      - Modules/CmiXapi
-      - Modules/LTIConsumer
-
-- The certificate provides an internal API. The presentation of this [exported data](#data-being-exported)
-  depends on the consumer. Please check the privacy documentation of the corresponding consumers.
-
-    Known API Consumers:
-
-      - Modules/OrgUnit
+- The "Certificate Service" presents the certificate and the respective personal data only to the owner of the
+  issued certificates at "Achievements > Certificates". Owners can download a PDF document of their certificate.
+- Certificates are also presented to their owner in "Achievements > Learning History", if activated.
+- Certificates may be presented to other accounts in the object types listed above. Please refer to the respective
+  "PRIVACY.md" of those object types to see presentation of certificate data in that very object type.
+  For example the course object presents certificate download links in the "Member" tab to user accounts with
+  "Manage Member" permission.
 
 ## Data being deleted
 
-- If a user account is removed from system, all it's user certificates will be completely deleted from
-  the database.
+- If a user account is deleted, all it's certificates will be completely deleted from the database.
+  There is no trash for users.
 
 ## Data being exported 
 
-- As mentioned the cerfificate service provides an internal [API](./README.md#api). The consumer is able
-  to request user certificates based on a filter. The API returns an object representation of the
-  [stored database records](#data-being-stored) matching the passed filter.
-- Additionally, the owner of a certificate is able to request a PDF document download of it's achieved
-  certificates (as mentioned above). There might be consumers of the certificate service which provide additional
-  export functionality. Please check the privacy documentation of the corresponding consumers.
-- No other exports of user related data is provided. Only certificate templates are copied or exported if the
-  consuming component (e.g. a course) is copied or a manual export of the certificate is triggered.
+- Certificate owners can export PDF documents of their certificates at "Achievements > Certificates".
+  No other exports of user related data is provided by the "Certificate Service" itself. Exports may be possible
+  in the object types listed above. Please refer to the respective "PRIVACY.md" files.
