@@ -70,22 +70,34 @@ class ilQTIPresentation
         $this->material = array();
         $this->order = array();
     }
-    
+
+    /**
+     * @param string $a_label
+     */
     public function setLabel($a_label) : void
     {
         $this->label = $a_label;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getLabel()
     {
         return $this->label;
     }
-    
+
+    /**
+     * @param string $a_xmllang
+     */
     public function setXmllang($a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getXmllang()
     {
         return $this->xmllang;
@@ -110,22 +122,34 @@ class ilQTIPresentation
     {
         return $this->y0;
     }
-    
+
+    /**
+     * @param string $a_width
+     */
     public function setWidth($a_width) : void
     {
         $this->width = $a_width;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getWidth()
     {
         return $this->width;
     }
-    
+
+    /**
+     * @param string $a_height
+     */
     public function setHeight($a_height) : void
     {
         $this->height = $a_height;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getHeight()
     {
         return $this->height;

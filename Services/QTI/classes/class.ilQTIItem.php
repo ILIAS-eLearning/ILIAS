@@ -272,7 +272,10 @@ class ilQTIItem
     {
         $this->presentation = $a_presentation;
     }
-    
+
+    /**
+     * @return ilQTIPresentation|null
+     */
     public function getPresentation()
     {
         return $this->presentation;

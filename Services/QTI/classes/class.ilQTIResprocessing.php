@@ -51,22 +51,34 @@ class ilQTIResprocessing
         $this->respcondition = array();
         $this->itemproc_extension = array();
     }
-    
+
+    /**
+     * @param string $a_comment
+     */
     public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getComment()
     {
         return $this->comment;
     }
-    
+
+    /**
+     * @param ilQTIOutcomes $a_outcomes
+     */
     public function setOutcomes($a_outcomes) : void
     {
         $this->outcomes = $a_outcomes;
     }
-    
+
+    /**
+     * @return ilQTIOutcomes|null
+     */
     public function getOutcomes()
     {
         return $this->outcomes;
@@ -76,12 +88,18 @@ class ilQTIResprocessing
     {
         $this->respcondition[] = $a_respcondition;
     }
-    
+
+    /**
+     * @param string $a_scoremodel
+     */
     public function setScoremodel($a_scoremodel) : void
     {
         $this->scoremodel = $a_scoremodel;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getScoremodel()
     {
         return $this->scoremodel;

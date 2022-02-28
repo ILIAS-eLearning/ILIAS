@@ -137,12 +137,18 @@ class ilQTISection
     {
         return $this->title;
     }
-    
+
+    /**
+     * @param string $a_comment
+     */
     public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getComment()
     {
         return $this->comment;
@@ -169,12 +175,18 @@ class ilQTISection
     {
         return $this->duration;
     }
-    
+
+    /**
+     * @param string $a_xmllang
+     */
     public function setXmllang($a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getXmllang()
     {
         return $this->xmllang;

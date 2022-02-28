@@ -74,61 +74,97 @@ class ilQTIMattext
     {
     }
 
+    /**
+     * @param string $a_texttype
+     */
     public function setTexttype($a_texttype) : void
     {
         $this->texttype = $a_texttype;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getTexttype()
     {
         return $this->texttype;
     }
-    
+
+    /**
+     * @param string $a_label
+     */
     public function setLabel($a_label) : void
     {
         $this->label = $a_label;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getLabel()
     {
         return $this->label;
     }
-    
+
+    /**
+     * @param string $a_height
+     */
     public function setHeight($a_height) : void
     {
         $this->height = $a_height;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getHeight()
     {
         return $this->height;
     }
-    
+
+    /**
+     * @param string $a_width
+     */
     public function setWidth($a_width) : void
     {
         $this->width = $a_width;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getWidth()
     {
         return $this->width;
     }
-    
+
+    /**
+     * @param string $a_charset
+     */
     public function setCharset($a_charset) : void
     {
         $this->charset = $a_charset;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getCharset()
     {
         return $this->charset;
     }
-    
+
+    /**
+     * @param string $a_uri
+     */
     public function setUri($a_uri) : void
     {
         $this->uri = $a_uri;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getUri()
     {
         return $this->uri;
@@ -194,22 +230,34 @@ class ilQTIMattext
     {
         return $this->y0;
     }
-    
+
+    /**
+     * @param string $a_entityref
+     */
     public function setEntityref($a_entityref) : void
     {
         $this->entityref = $a_entityref;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getEntityref()
     {
         return $this->entityref;
     }
-    
+
+    /**
+     * @param string $a_content
+     */
     public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getContent()
     {
         return $this->content;

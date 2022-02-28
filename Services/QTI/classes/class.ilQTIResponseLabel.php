@@ -155,12 +155,18 @@ class ilQTIResponseLabel
     {
         return $this->rrange;
     }
-    
+
+    /**
+     * @param string $a_labelrefid
+     */
     public function setLabelrefid($a_labelrefid) : void
     {
         $this->labelrefid = $a_labelrefid;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getLabelrefid()
     {
         return $this->labelrefid;
@@ -211,12 +217,18 @@ class ilQTIResponseLabel
     {
         $this->flow_mat[] = $a_flow_mat;
     }
-    
+
+    /**
+     * @param string $a_content
+     */
     public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getContent()
     {
         return $this->content;

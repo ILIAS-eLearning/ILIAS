@@ -74,27 +74,42 @@ class ilQTIRenderChoice
                 break;
         }
     }
-    
+
+    /**
+     * @return string
+     */
     public function getShuffle() : string
     {
         return $this->shuffle;
     }
-    
+
+    /**
+     * @param string $a_minnumber
+     */
     public function setMinnumber($a_minnumber) : void
     {
         $this->minnumber = $a_minnumber;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getMinnumber()
     {
         return $this->minnumber;
     }
-    
+
+    /**
+     * @param string $a_maxnumber
+     */
     public function setMaxnumber($a_maxnumber) : void
     {
         $this->maxnumber = $a_maxnumber;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getMaxnumber()
     {
         return $this->maxnumber;

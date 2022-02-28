@@ -100,22 +100,34 @@ class ilQTIRespcondition
     {
         return $this->title;
     }
-    
+
+    /**
+     * @param string $a_comment
+     */
     public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getComment()
     {
         return $this->comment;
     }
-    
+
+    /**
+     * @param ilQTIConditionvar $a_conditionvar
+     */
     public function setConditionvar($a_conditionvar) : void
     {
         $this->conditionvar = $a_conditionvar;
     }
-    
+
+    /**
+     * @return ilQTIConditionvar|null
+     */
     public function getConditionvar()
     {
         return $this->conditionvar;

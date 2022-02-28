@@ -43,32 +43,50 @@ class ilQTIDisplayfeedback
     public function __construct()
     {
     }
-    
+
+    /**
+     * @param string $a_feedbacktype
+     */
     public function setFeedbacktype($a_feedbacktype) : void
     {
         $this->feedbacktype = $a_feedbacktype;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getFeedbacktype()
     {
         return $this->feedbacktype;
     }
-    
+
+    /**
+     * @param string $a_linkrefid
+     */
     public function setLinkrefid($a_linkrefid) : void
     {
         $this->linkrefid = $a_linkrefid;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getLinkrefid()
     {
         return $this->linkrefid;
     }
-    
+
+    /**
+     * @param string $a_content
+     */
     public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getContent()
     {
         return $this->content;

@@ -105,7 +105,10 @@ class ilQTIRenderFib
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getPrompt()
     {
         return $this->prompt;
@@ -135,27 +138,42 @@ class ilQTIRenderFib
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getFibtype()
     {
         return $this->fibtype;
     }
-    
+
+    /**
+     * @param string $a_minnumber
+     */
     public function setMinnumber($a_minnumber) : void
     {
         $this->minnumber = $a_minnumber;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getMinnumber()
     {
         return $this->minnumber;
     }
-    
+
+    /**
+     * @param string $a_maxnumber
+     */
     public function setMaxnumber($a_maxnumber) : void
     {
         $this->maxnumber = $a_maxnumber;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getMaxnumber()
     {
         return $this->maxnumber;
@@ -187,41 +205,65 @@ class ilQTIRenderFib
         return $this->encoding;
     }
 
+    /**
+     * @param string $a_rows
+     */
     public function setRows($a_rows) : void
     {
         $this->rows = $a_rows;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getRows()
     {
         return $this->rows;
     }
 
+    /**
+     * @param string $a_maxchars
+     */
     public function setMaxchars($a_maxchars) : void
     {
         $this->maxchars = $a_maxchars;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getMaxchars()
     {
         return $this->maxchars;
     }
 
+    /**
+     * @param string $a_columns
+     */
     public function setColumns($a_columns) : void
     {
         $this->columns = $a_columns;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getColumns()
     {
         return $this->columns;
     }
 
+    /**
+     * @param string $a_charset
+     */
     public function setCharset($a_charset) : void
     {
         $this->charset = $a_charset;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getCharset()
     {
         return $this->charset;

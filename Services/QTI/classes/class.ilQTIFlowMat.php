@@ -52,11 +52,17 @@ class ilQTIFlowMat implements ilQTIMaterialAware
         $this->material_ref = array();
     }
 
+    /**
+     * @param string $a_comment
+     */
     public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getComment()
     {
         return $this->comment;

@@ -75,12 +75,18 @@ class ilQTIResponseVar
     {
         $this->setVartype($a_vartype);
     }
-    
+
+    /**
+     * @param string $a_vartype
+     */
     public function setVartype($a_vartype) : void
     {
         $this->vartype = $a_vartype;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getVartype()
     {
         return $this->vartype;
@@ -110,22 +116,34 @@ class ilQTIResponseVar
     {
         return $this->case;
     }
-    
+
+    /**
+     * @param string $a_respident
+     */
     public function setRespident($a_respident) : void
     {
         $this->respident = $a_respident;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getRespident()
     {
         return $this->respident;
     }
-    
+
+    /**
+     * @param string $a_index
+     */
     public function setIndex($a_index) : void
     {
         $this->index = $a_index;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getIndex()
     {
         return $this->index;
@@ -184,12 +202,18 @@ class ilQTIResponseVar
     {
         return $this->areatype;
     }
-    
+
+    /**
+     * @param string $a_content
+     */
     public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getContent()
     {
         return $this->content;

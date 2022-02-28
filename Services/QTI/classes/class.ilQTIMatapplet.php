@@ -62,51 +62,81 @@ class ilQTIMatapplet
     {
     }
 
+    /**
+     * @param string $a_embedded
+     */
     public function setEmbedded($a_embedded) : void
     {
         $this->embedded = $a_embedded;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getEmbedded()
     {
         return $this->embedded;
     }
-    
+
+    /**
+     * @param string $a_label
+     */
     public function setLabel($a_label) : void
     {
         $this->label = $a_label;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getLabel()
     {
         return $this->label;
     }
-    
+
+    /**
+     * @param string $a_height
+     */
     public function setHeight($a_height) : void
     {
         $this->height = $a_height;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getHeight()
     {
         return $this->height;
     }
-    
+
+    /**
+     * @param string $a_width
+     */
     public function setWidth($a_width) : void
     {
         $this->width = $a_width;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getWidth()
     {
         return $this->width;
     }
-    
+
+    /**
+     * @param string $a_uri
+     */
     public function setUri($a_uri) : void
     {
         $this->uri = $a_uri;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getUri()
     {
         return $this->uri;
@@ -131,22 +161,34 @@ class ilQTIMatapplet
     {
         return $this->y0;
     }
-    
+
+    /**
+     * @param string $a_entityref
+     */
     public function setEntityref($a_entityref) : void
     {
         $this->entityref = $a_entityref;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getEntityref()
     {
         return $this->entityref;
     }
-    
+
+    /**
+     * @param string $a_content
+     */
     public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getContent()
     {
         return $this->content;
