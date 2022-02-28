@@ -980,7 +980,7 @@ var renderer = function($) {
             document.getElementById(triggerer.triggerer).focus();
         },
 
-        dispatchResizeNotification: function(top_entry_id) {
+        dispatchResizeNotification: function() {
             var event = new CustomEvent(
                 'resize',
                 {detail : {mainbar_induced : true}}
