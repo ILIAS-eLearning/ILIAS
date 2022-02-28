@@ -9,9 +9,14 @@
         padding: @padding-large-vertical;
     }
 
-    .btn-default:not(.disabled) {
+    .btn-default:not(.disabled):not(.engaged)  {
         //Using Mixin for buttons
         .button-variant(@il-table-presentation-details-viewcontrols-btn-color; @il-table-presentation-details-viewcontrols-btn-bg; @il-btn-standard-border);
+    }
+
+    .btn-default.engaged  {
+        //Using Mixin for buttons
+        .button-variant(@il-btn-standard-color; @il-btn-standard-bg; @il-btn-standard-border);
     }
 
     .il-viewcontrol-pagination {
