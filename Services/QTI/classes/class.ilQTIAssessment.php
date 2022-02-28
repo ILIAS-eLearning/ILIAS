@@ -38,10 +38,14 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
 
     /** @var string|null */
     public $title;
+
+    /** @var string|null */
     public $xmllang;
+
+    /** @var string|null */
     public $comment;
 
-    /** @var array|null */
+    /** @var null|array{h: string, m: string, s: string} */
     public $duration;
 
     /** @var array{label: string, entry: string}[] */
@@ -119,17 +123,26 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
     {
         return $this->title;
     }
-    
+
+    /**
+     * @param string $a_comment
+     */
     public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getComment()
     {
         return $this->comment;
     }
-    
+
+    /**
+     * @param string $a_duration
+     */
     public function setDuration($a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
@@ -140,24 +153,33 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
             );
         }
     }
-    
+
+    /**
+     * @return null|array{h: string, m: string, s: string}
+     */
     public function getDuration()
     {
         return $this->duration;
     }
-    
+
+    /**
+     * @param string $a_xmllang
+     */
     public function setXmllang($a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getXmllang()
     {
         return $this->xmllang;
     }
 
     /**
-     * @param arrary ['label' => string, 'entry' => string] $a_metadata
+     * @param array {label: string, entry: string] $a_metadata
      */
     public function addQtiMetadata($a_metadata) : void
     {
@@ -203,7 +225,10 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
     {
         return $this->presentation_material;
     }
-    
+
+    /**
+     * Never used.
+     */
     public function addOutcomesProcessing($a_outcomes_processing) : void
     {
         $this->outcomes_processing[] = $a_outcomes_processing;
