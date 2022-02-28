@@ -7884,6 +7884,14 @@ ul.dropdown-menu > li > .btn:focus {
   pointer-events: none;
   cursor: default;
 }
+.il-viewcontrol-pagination .btn + .btn,
+.il-viewcontrol-mode .btn + .btn {
+  border-left-color: #dddddd;
+}
+.il-viewcontrol-pagination .btn:not(:last-child):hover,
+.il-viewcontrol-mode .btn:not(:last-child):hover {
+  border-right-color: #dddddd;
+}
 .panel-secondary .il-viewcontrol-section .btn-default,
 .panel-secondary .il-viewcontrol-section .btn-default:active {
   background-color: transparent;
