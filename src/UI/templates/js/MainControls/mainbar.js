@@ -142,7 +142,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					return false;
 				}
 			},
-			adjustToScreenSize = function() {
+			adjustToScreenSize = function(event) {
+				if(event.detail && event.detail.mainbar_induced) {
+					return;
+				}
 				var mb = il.UI.maincontrols.mainbar,
 					amount = mb.renderer.calcAmountOfButtons();
 
@@ -232,6 +235,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 				mb.model.actions.initMoreButton(mb.renderer.calcAmountOfButtons());
 				mb.renderer.render(mb.model.getState());
+
+
 			},
 			init_mobile = function() {
 				var mb = il.UI.maincontrols.mainbar;
@@ -886,12 +891,21 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					}
 					//unfortunately, this does not work properly via a class
 					$('.' + css.mainbar_entries).css('visibility', 'visible');
-				}
+					actions.dispatchResizeNotification();
+				},
+				dispatchResizeNotification: function() {
+		            var event = new CustomEvent(
+		                'resize',
+		                {detail : {mainbar_induced : true}}
+		            );
+		            window.dispatchEvent(event);
+		        }
 			},
 			public_interface = {
 				addEntry: actions.addEntry,
 				calcAmountOfButtons: more.calcAmountOfButtons,
-				render: actions.render
+				render: actions.render,
+				dispatchResizeNotification: actions.dispatchResizeNotification
 			};
 
 		return public_interface;
