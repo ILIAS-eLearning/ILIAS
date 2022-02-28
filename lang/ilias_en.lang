@@ -2063,6 +2063,7 @@ common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
 common#:#withdraw_consent_description_internal#:#Please log in again to complete the revocation process.
 common#:#withdraw_consent_description_external#:#Please return to your source installation and log in again to complete the revocation process.
 common#:#withdraw_consent#:#Withdraw Acceptance
+common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service
 common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.
 common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.
 common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here

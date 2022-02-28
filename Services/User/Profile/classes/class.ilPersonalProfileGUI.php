@@ -513,7 +513,7 @@ class ilPersonalProfileGUI
 
         $this->tabs->clearTargets();
         $this->tabs->clearSubTabs();
-        $this->tpl->setTitle($this->lng->txt('withdraw_consent'));
+        $this->tpl->setTitle($this->lng->txt('refuse_tos_acceptance'));
 
         $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
         $content = $tosWithdrawalGui->getConsentWithdrawalConfirmation($this);
@@ -697,7 +697,8 @@ class ilPersonalProfileGUI
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             if ($definition['field_type'] == UDF_TYPE_TEXT) {
                 $this->tpl->setCurrentBlock("field_text");
-                $this->tpl->setVariable("FIELD_VALUE",
+                $this->tpl->setVariable(
+                    "FIELD_VALUE",
                     ilLegacyFormElementsUtil::prepareFormOutput($user_defined_data[$field_id])
                 );
                 if (!$definition['changeable']) {
@@ -713,7 +714,8 @@ class ilPersonalProfileGUI
                     $disabled = true;
                 }
                 $this->tpl->setCurrentBlock("field_select");
-                $this->tpl->setVariable("SELECT_BOX",
+                $this->tpl->setVariable(
+                    "SELECT_BOX",
                     ilLegacyFormElementsUtil::formSelect(
                         $user_defined_data[$field_id],
                         $name,
