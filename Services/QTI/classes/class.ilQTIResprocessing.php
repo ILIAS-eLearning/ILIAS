@@ -31,14 +31,19 @@
 */
 class ilQTIResprocessing
 {
+    /** @var string|null */
     public $comment;
+
+    /** @var ilQTIOutcomes|null */
     public $outcomes;
 
-    /** @var array */
+    /** @var ilQTIRespcondition[] */
     public $respcondition;
 
     /** @var array */
     public $itemproc_extension;
+
+    /** @var string|null */
     public $scoremodel;
     
     public function __construct()

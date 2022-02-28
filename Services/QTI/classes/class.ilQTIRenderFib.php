@@ -41,22 +41,37 @@ const FIBTYPE_SCIENTIFIC = "4";
 */
 class ilQTIRenderFib
 {
+    /** @var string|null */
     public $minnumber;
+
+    /** @var string|null */
     public $maxnumber;
 
-    /** @var array */
+    /** @var ilQTIResponseLabel[] */
     public $response_labels;
 
-    /** @var array */
+    /** @var ilQTIMaterial[] */
     public $material;
+
+    /** @var string|null */
     public $prompt;
 
     /** @var string */
     public $encoding;
+
+    /** @var string|null */
     public $fibtype;
+
+    /** @var string|null */
     public $rows;
+
+    /** @var string|null */
     public $maxchars;
+
+    /** @var string|null */
     public $columns;
+
+    /** @var string|null */
     public $charset;
 
     public function __construct()

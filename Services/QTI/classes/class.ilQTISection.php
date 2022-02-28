@@ -36,7 +36,11 @@ class ilQTISection
 
     /** @var string|null */
     public $title;
+
+    /** @var string|null */
     public $xmllang;
+
+    /** @var string|null */
     public $comment;
 
     /**
@@ -47,7 +51,7 @@ class ilQTISection
     /** @var array */
     public $qtimetadata;
 
-    /** @var array */
+    /** @var ilQTIObjectives[] */
     public $objectives;
 
     /** @var array */
@@ -61,6 +65,8 @@ class ilQTISection
 
     /** @var array */
     public $rubric;
+
+    /** @var ilQTIPresentationMaterial|null */
     public $presentation_material;
 
     /** @var array */

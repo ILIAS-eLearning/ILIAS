@@ -49,11 +49,17 @@ class ilQTIResponseLabel
 
     /** @var string|null */
     public $rrange;
+
+    /** @var string|null */
     public $labelrefid;
 
     /** @var string|null */
     public $ident;
+
+    /** @var string|null */
     public $match_group;
+
+    /** @var string|null */
     public $match_max;
 
     /** @var array */
@@ -61,6 +67,8 @@ class ilQTIResponseLabel
 
     /** @var array */
     public $flow_mat;
+
+    /** @var string|null */
     public $content;
 
     public function __construct()

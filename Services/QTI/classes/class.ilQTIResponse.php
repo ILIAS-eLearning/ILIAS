@@ -60,6 +60,9 @@ class ilQTIResponse
     /** @var string */
     public $rcardinality;
 
+    /**
+     * @var ilQTIRenderChoice|ilQTIRenderHotspot|ilQTIRenderFib|null
+     */
     public $render_type;
     public $material1;
     public $material2;
@@ -191,12 +194,18 @@ class ilQTIResponse
     {
         return $this->numtype;
     }
-    
+
+    /**
+     * @param ilQTIRenderChoice|ilQTIRenderHotspot|ilQTIRenderFib $a_render_type
+     */
     public function setRenderType($a_render_type) : void
     {
         $this->render_type = $a_render_type;
     }
-    
+
+    /**
+     * @return ilQTIRenderChoice|ilQTIRenderHotspot|ilQTIRenderFib|null
+     */
     public function getRenderType()
     {
         return $this->render_type;

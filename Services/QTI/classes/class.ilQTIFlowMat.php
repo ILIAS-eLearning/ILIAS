@@ -33,9 +33,16 @@ require_once 'Services/QTI/interfaces/interface.ilQTIMaterialAware.php';
 */
 class ilQTIFlowMat implements ilQTIMaterialAware
 {
+    /** @var string|null */
     public $comment;
+
+    /** @var ilQTIFlowMat[] */
     public $flow_mat;
+
+    /** @var ilQTIMaterial[] */
     public $material;
+
+    /** @var arrary */
     public $material_ref;
     
     public function __construct()
@@ -54,7 +61,10 @@ class ilQTIFlowMat implements ilQTIMaterialAware
     {
         return $this->comment;
     }
-    
+
+    /**
+     * @param ilQTIFlowMat $a_flow_mat
+     */
     public function addFlow_mat($a_flow_mat) : void
     {
         $this->flow_mat[] = $a_flow_mat;

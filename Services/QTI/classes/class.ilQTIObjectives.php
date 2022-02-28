@@ -31,6 +31,7 @@
 */
 class ilQTIObjectives
 {
+    /** @var ilQTIMaterial[] */
     public $materials;
 
     /** @var string */

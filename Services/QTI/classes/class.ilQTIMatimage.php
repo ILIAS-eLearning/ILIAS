@@ -32,20 +32,35 @@
 class ilQTIMatimage
 {
     public const EMBEDDED_BASE64 = 'base64';
-    
+
+    /** @var string|null */
     public $imagetype;
+
+    /** @var string|null */
     public $label;
+
+    /** @var string|null */
     public $height;
+
+    /** @var string|null */
     public $width;
+
+    /** @var string|null */
     public $uri;
+
+    /** @var string|null */
     public $embedded;
+
+    /** @var string|null */
     public $x0;
+
+    /** @var string|null */
     public $y0;
+
+    /** @var string|null */
     public $entityref;
 
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     public $content;
     
     public function __construct()

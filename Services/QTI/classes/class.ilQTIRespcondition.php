@@ -39,14 +39,19 @@ class ilQTIRespcondition
 
     /** @var string|null */
     public $title;
+
+    /** @var string|null */
     public $comment;
+
+    /** @var ilQTIConditionvar|null */
     public $conditionvar;
 
-    /** @var array */
+    /** @var ilQTISetvar[] */
     public $setvar;
 
-    /** @var array */
+    /** @var ilQTIDisplayfeedback[] */
     public $displayfeedback;
+
     public $respcond_extension;
     
     public function __construct()

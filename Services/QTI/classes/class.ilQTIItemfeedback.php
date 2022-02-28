@@ -51,10 +51,10 @@ class ilQTIItemfeedback
     /** @var string|null */
     public $title;
 
-    /** @var array */
+    /** @var ilQTIFlowmat[] */
     public $flow_mat;
 
-    /** @var array */
+    /** @var ilQTIMaterial[] */
     public $material;
 
     /** @var array */
@@ -72,7 +72,7 @@ class ilQTIItemfeedback
     }
 
     /**
-     * @param string
+     * @param string $a_view
      */
     public function setView($a_view) : void
     {
@@ -159,12 +159,18 @@ class ilQTIItemfeedback
     {
         return $this->title;
     }
-    
+
+    /**
+     * @param ilQTIFlowmat $a_flow_mat
+     */
     public function addFlow_mat($a_flow_mat) : void
     {
         $this->flow_mat[] = $a_flow_mat;
     }
-    
+
+    /**
+     * @param ilQTIMaterial $a_material
+     */
     public function addMaterial($a_material) : void
     {
         $this->material[] = $a_material;

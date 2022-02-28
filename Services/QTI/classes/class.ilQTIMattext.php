@@ -34,9 +34,16 @@ const SPACE_DEFAULT = "2";
 */
 class ilQTIMattext
 {
+    /** @var string|null */
     public $texttype;
+
+    /** @var string|null */
     public $label;
+
+    /** @var string|null */
     public $charset;
+
+    /** @var string|null */
     public $uri;
 
     /** @var string|null */
@@ -44,11 +51,23 @@ class ilQTIMattext
 
     /** @var string|null */
     public $xmllang;
+
+    /** @var string|null */
     public $entityref;
+
+    /** @var string|null */
     public $width;
+
+    /** @var string|null */
     public $height;
+
+    /** @var string|null */
     public $x0;
+
+    /** @var string|null */
     public $y0;
+
+    /** @var string|null */
     public $content;
     
     public function __construct()

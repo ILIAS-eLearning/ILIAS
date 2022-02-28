@@ -50,11 +50,16 @@ const AREATYPE_BOUNDED = "3";
 */
 class ilQTIResponseVar
 {
+    /** @var string|null */
     public $vartype;
 
     /** @var string|null */
     public $case;
+
+    /** @var string|null */
     public $respident;
+
+    /** @var string|null */
     public $index;
 
     /** @var string|null */
@@ -62,6 +67,8 @@ class ilQTIResponseVar
 
     /** @var string|null */
     public $areatype;
+
+    /** @var string|null */
     public $content;
     
     public function __construct($a_vartype)

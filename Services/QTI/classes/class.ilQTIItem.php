@@ -54,9 +54,14 @@ class ilQTIItem
     /** @var string|null */
     public $title;
     public $maxattempts;
+
+    /** @var string|null */
     public $label;
+
+    /** @var string|null */
     public $xmllang;
-    
+
+    /** @var string|null */
     public $comment;
 
     /** @var string|null */
@@ -67,6 +72,8 @@ class ilQTIItem
 
     /** @var string|null */
     public $questiontype;
+
+    /** @var null|array{h: string, m: string, s: string} */
     public $duration;
     public $questiontext;
 
@@ -143,7 +150,10 @@ class ilQTIItem
     {
         return $this->title;
     }
-    
+
+    /**
+     * @param string $a_comment
+     */
     public function setComment($a_comment) : void
     {
         if (preg_match("/(.*?)\=(.*)/", $a_comment, $matches)) {
@@ -162,12 +172,18 @@ class ilQTIItem
         }
         $this->comment = $a_comment;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getComment()
     {
         return $this->comment;
     }
-    
+
+    /**
+     * @param string $a_duration
+     */
     public function setDuration($a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
@@ -178,7 +194,10 @@ class ilQTIItem
             );
         }
     }
-    
+
+    /**
+     * @return null|array{h: string, m: string, s: string}
+     */
     public function getDuration()
     {
         return $this->duration;
@@ -213,22 +232,34 @@ class ilQTIItem
     {
         return $this->maxattempts;
     }
-    
+
+    /**
+     * @param string $a_label
+     */
     public function setLabel($a_label) : void
     {
         $this->label = $a_label;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getLabel()
     {
         return $this->label;
     }
-    
+
+    /**
+     * @param string $a_xmllang
+     */
     public function setXmllang($a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getXmllang()
     {
         return $this->xmllang;

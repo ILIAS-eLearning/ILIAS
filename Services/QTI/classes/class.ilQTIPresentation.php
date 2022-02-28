@@ -31,11 +31,22 @@
 */
 class ilQTIPresentation
 {
+    /** @var string|null */
     public $label;
+
+    /** @var string|null */
     public $xmllang;
+
+    /** @var string|null */
     public $x0;
+
+    /** @var string|null */
     public $y0;
+
+    /** @var string|null */
     public $width;
+
+    /** @var string|null */
     public $height;
 
     /**

@@ -31,6 +31,7 @@
 */
 class ilQTIFlow
 {
+    /** @var string|null */
     public $comment;
 
     /** @var array */
@@ -62,7 +63,10 @@ class ilQTIFlow
     {
         return $this->comment;
     }
-    
+
+    /**
+     * Never used.
+     */
     public function addFlow($a_flow, $a_index) : void
     {
         $this->flow[$a_index] = $a_flow;

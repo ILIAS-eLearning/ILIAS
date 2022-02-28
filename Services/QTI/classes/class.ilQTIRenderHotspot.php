@@ -36,13 +36,17 @@ class ilQTIRenderHotspot
 {
     /** @var string */
     public $showdraw;
+
+    /** @var string|null */
     public $minnumber;
+
+    /** @var string|null */
     public $maxnumber;
 
-    /** @var array */
+    /** @var ilQTIResponseLabel[] */
     public $response_labels;
 
-    /** @var array */
+    /** @var ilQTIMaterial[] */
     public $material;
 
     public function __construct()

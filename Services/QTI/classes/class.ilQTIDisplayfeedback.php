@@ -31,8 +31,13 @@
 */
 class ilQTIDisplayfeedback
 {
+    /** @var string|null */
     public $feedbacktype;
+
+    /** @var string|null */
     public $linkrefid;
+
+    /** @var string|null */
     public $content;
     
     public function __construct()
