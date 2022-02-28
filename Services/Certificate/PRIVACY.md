@@ -23,18 +23,17 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 
 ## Data being stored
 
-- For each issued persisting user certificate the ID of the user account is stored
-  in database table `il_cert_user_cert` (field: `user_id`). The purpose of this ID being stored is the identification of
-  the certificate's owner (for filtering purposes) whenever certificates are determined, presented or exported.
-- In addition, further user related data is stored (fields: `certificate_content`, `template_values`), depending on the
-  placeholders used in the certificate template. All placeholders defined in a certificate template
-  (database table `il_cert_template`) will be replaced by the corresponding user data and related data of the
-  issuing object given at that particular moment in time, when the relevant domain event (e.g. `User comples object`)
-  is raised. It's the nature of a `Persisting Certificate` that requires this data being determined and stored at the
-  point in time when the certificate is created. The user certificate and it's data MUST be immutable, not matter if
-  user data change afterwards. You can think of this as a "snapshot" or a virtual printer. The certificate
-  content (`certificate_content`) is a plain XML string, the placeholder values are stored as a JSON
-  string.
+For each issued persisting user certificate, the ID of the user account is stored. The purpose of this ID being stored
+  is the identification of the certificate being presented to or exported by the respective owner of certificate.
+* In addition, certificate templates may contain placeholders.
+* All placeholders defined in a certificate template will be replaced by the corresponding user data and contextual
+  data i.e., course title or issuing date.
+* The issuing of certificate and thus replacing placeholders with user data is triggered by the user who
+  completes an object.
+* The actual replacing of placeholders is done by processing a queue. The queue holds the user ID along with the object
+  related data and a datetime information. Once a queue item has been processed, the record will be deleted.
+* The issued certificates are immutable: They contain the user data that replaced the placeholders at the
+  moment of issuing. It will not change with time.
 
     Stored Data (if used as a placeholder in a certificate template):
 
@@ -52,7 +51,7 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
       - ZIP
       - Country
       - Matriculation
-      - User Defined Fields (if avaiable and enabled for `Certificate` in field definition)
+      - User Defined Fields (if avaiable and enabled for "Certificate" in field definition)
 
 - There might be other user related data stored depending on specific placeholders of the respective consumer. Consumers
   might provide placeholders for the qualification status, test results, points, etc..
