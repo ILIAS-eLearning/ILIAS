@@ -155,6 +155,7 @@ var mainbar = function() {
                     after_render();
                 }
                 mb.persistence.store(mb.model.getState());
+                mb.renderer.dispatchResizeNotification();
             });
         }
     },
@@ -177,7 +178,10 @@ var mainbar = function() {
             return false;
         }
     },
-    adjustToScreenSize = function() {
+    adjustToScreenSize = function(event) {
+         if(event.detail && event.detail.mainbar_induced) {
+            return;
+        }
         var mb = il.UI.maincontrols.mainbar,
             amount = mb.renderer.calcAmountOfButtons();
 
@@ -974,6 +978,14 @@ var renderer = function($) {
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];
             document.getElementById(triggerer.triggerer).focus();
+        },
+
+        dispatchResizeNotification: function(top_entry_id) {
+            var event = new CustomEvent(
+                'resize',
+                {detail : {mainbar_induced : true}}
+            );
+            window.dispatchEvent(event);
         }
     },
     public_interface = {
@@ -981,7 +993,8 @@ var renderer = function($) {
         calcAmountOfButtons: more.calcAmountOfButtons,
         render: actions.render,
         focusSubentry: actions.focusSubentry,
-        focusTopentry: actions.focusTopentry
+        focusTopentry: actions.focusTopentry,
+        dispatchResizeNotification: actions.dispatchResizeNotification
     };
 
     return public_interface;
