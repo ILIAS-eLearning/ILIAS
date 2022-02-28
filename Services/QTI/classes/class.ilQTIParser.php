@@ -548,130 +548,114 @@ class ilQTIParser extends ilSaxParser
                 break;
             case "varlt":
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_LT);
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "respident":
-                                $this->responsevar->setRespident($value);
-                                break;
-                            case "index":
-                                $this->responsevar->setIndex($value);
-                                break;
-                        }
+                foreach ($a_attribs as $attribute => $value) {
+                    switch (strtolower($attribute)) {
+                        case "respident":
+                            $this->responsevar->setRespident($value);
+                            break;
+                        case "index":
+                            $this->responsevar->setIndex($value);
+                            break;
                     }
                 }
                 break;
             case "varlte":
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_LTE);
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "respident":
-                                $this->responsevar->setRespident($value);
-                                break;
-                            case "index":
-                                $this->responsevar->setIndex($value);
-                                break;
-                        }
+                foreach ($a_attribs as $attribute => $value) {
+                    switch (strtolower($attribute)) {
+                        case "respident":
+                            $this->responsevar->setRespident($value);
+                            break;
+                        case "index":
+                            $this->responsevar->setIndex($value);
+                            break;
                     }
                 }
                 break;
             case "vargt":
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_GT);
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "respident":
-                                $this->responsevar->setRespident($value);
-                                break;
-                            case "index":
-                                $this->responsevar->setIndex($value);
-                                break;
-                        }
+                foreach ($a_attribs as $attribute => $value) {
+                    switch (strtolower($attribute)) {
+                        case "respident":
+                            $this->responsevar->setRespident($value);
+                            break;
+                        case "index":
+                            $this->responsevar->setIndex($value);
+                            break;
                     }
                 }
                 break;
             case "vargte":
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_GTE);
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "respident":
-                                $this->responsevar->setRespident($value);
-                                break;
-                            case "index":
-                                $this->responsevar->setIndex($value);
-                                break;
-                        }
+                foreach ($a_attribs as $attribute => $value) {
+                    switch (strtolower($attribute)) {
+                        case "respident":
+                            $this->responsevar->setRespident($value);
+                            break;
+                        case "index":
+                            $this->responsevar->setIndex($value);
+                            break;
                     }
                 }
                 break;
             case "varsubset":
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_SUBSET);
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "respident":
-                                $this->responsevar->setRespident($value);
-                                break;
-                            case "setmatch":
-                                $this->responsevar->setSetmatch($value);
-                                break;
-                            case "index":
-                                $this->responsevar->setIndex($value);
-                                break;
-                        }
+                foreach ($a_attribs as $attribute => $value) {
+                    switch (strtolower($attribute)) {
+                        case "respident":
+                            $this->responsevar->setRespident($value);
+                            break;
+                        case "setmatch":
+                            $this->responsevar->setSetmatch($value);
+                            break;
+                        case "index":
+                            $this->responsevar->setIndex($value);
+                            break;
                     }
                 }
                 break;
             case "varinside":
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_INSIDE);
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "respident":
-                                $this->responsevar->setRespident($value);
-                                break;
-                            case "areatype":
-                                $this->responsevar->setAreatype($value);
-                                break;
-                            case "index":
-                                $this->responsevar->setIndex($value);
-                                break;
-                        }
+                foreach ($a_attribs as $attribute => $value) {
+                    switch (strtolower($attribute)) {
+                        case "respident":
+                            $this->responsevar->setRespident($value);
+                            break;
+                        case "areatype":
+                            $this->responsevar->setAreatype($value);
+                            break;
+                        case "index":
+                            $this->responsevar->setIndex($value);
+                            break;
                     }
                 }
                 break;
             case "varsubstring":
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_SUBSTRING);
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "case":
-                                $this->responsevar->setCase($value);
-                                break;
-                            case "respident":
-                                $this->responsevar->setRespident($value);
-                                break;
-                            case "index":
-                                $this->responsevar->setIndex($value);
-                                break;
-                        }
+                foreach ($a_attribs as $attribute => $value) {
+                    switch (strtolower($attribute)) {
+                        case "case":
+                            $this->responsevar->setCase($value);
+                            break;
+                        case "respident":
+                            $this->responsevar->setRespident($value);
+                            break;
+                        case "index":
+                            $this->responsevar->setIndex($value);
+                            break;
                     }
                 }
                 break;
             case "respcondition":
                 $this->respcondition = new ilQTIRespcondition();
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "continue":
-                                $this->respcondition->setContinue($value);
-                                break;
-                            case "title":
-                                $this->respcondition->setTitle($value);
-                                break;
-                        }
+                foreach ($a_attribs as $attribute => $value) {
+                    switch (strtolower($attribute)) {
+                        case "continue":
+                            $this->respcondition->setContinue($value);
+                            break;
+                        case "title":
+                            $this->respcondition->setTitle($value);
+                            break;
                     }
                 }
                 break;
