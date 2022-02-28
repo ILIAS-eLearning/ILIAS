@@ -6,9 +6,7 @@ include_once("./Services/JSON/classes/class.ilJsonUtil.php");
 
 /**
  * Class ilCloudPluginUploadGUI
- *
  * Standard class for uploading files. Can be overwritten if needed.
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id:
  * @extends ilCloudPluginGUI
@@ -21,7 +19,6 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
      * @var ilPropertyFormGUI
      */
     protected $form;
-
 
     /**
      * execute command
@@ -39,7 +36,6 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
                 break;
         }
     }
-
 
     public function asyncUploadFile()
     {
@@ -64,7 +60,6 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 
         exit;
     }
-
 
     public function initUploadForm()
     {
@@ -97,13 +92,11 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         $this->form->setTarget("cld_blank_target");
     }
 
-
     public function cancelAll()
     {
         echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterUpload('cancel');</script>";
         exit;
     }
-
 
     /**
      * Update properties
@@ -137,7 +130,6 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         exit;
     }
 
-
     public function handleFileUpload($file_upload)
     {
         // create answer object
@@ -153,7 +145,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         if ($file_upload["extract"]) {
             $newdir = ilUtil::ilTempnam();
             ilUtil::makeDir($newdir);
-            
+
             try {
                 ilFileUtils::processZipFile($newdir, $file_upload["tmp_name"], $file_upload["keep_structure"]);
             } catch (Exception $e) {
@@ -180,15 +172,12 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         }
     }
 
-
     /**
      * Recursive Method to upload a directory
-     *
      * @param string          $dir            path to directory
      * @param int             $parent_id      id of parent folder
      * @param ilCloudFileTree $file_tree
      * @param bool            $keep_structure if false, only files will be extracted, without folder structure
-     *
      * @throws ilCloudException
      */
     protected function uploadDirectory($dir, $parent_id, $file_tree, $keep_structure = true)

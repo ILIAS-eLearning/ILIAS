@@ -2,9 +2,7 @@
 
 /**
  * Class ilDclTableViewFieldSetting
- *
  * defines tableview/field specific settings: visible, in_filter, filter_value, filter_changeable
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup ModulesDataCollection
  */
@@ -13,7 +11,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
 
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_unique        true
      * @db_is_primary       true
@@ -25,7 +22,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        integer
@@ -34,17 +30,14 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $tableview_id;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        text
      * @db_length           128
-     *
      */
     protected $field;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
@@ -52,7 +45,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $visible;
     /**
      * @var boolean
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
@@ -60,7 +52,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $in_filter;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_fieldtype        text
      * @db_length           128
@@ -68,7 +59,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $filter_value;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
@@ -76,7 +66,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $filter_changeable;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
@@ -84,7 +73,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $required_create;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
@@ -92,7 +80,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $locked_create;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_fieldtype        text
      * @db_length           128
@@ -100,7 +87,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $default_value;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_is_notnull       true
@@ -109,7 +95,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $visible_create;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_is_notnull       true
@@ -118,7 +103,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $visible_edit;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
@@ -126,13 +110,11 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $required_edit;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
     protected $locked_edit;
-
 
     /**
      * @return string
@@ -143,7 +125,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return "il_dcl_tview_set";
     }
 
-
     /**
      * @return int
      */
@@ -151,7 +132,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->tableview_id;
     }
-
 
     /**
      * @param int $tableview_id
@@ -161,7 +141,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->tableview_id = $tableview_id;
     }
 
-
     /**
      * @return int
      */
@@ -169,7 +148,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->field;
     }
-
 
     /**
      * @param int $field
@@ -179,7 +157,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->field = $field;
     }
 
-
     /**
      * @return boolean
      */
@@ -187,7 +164,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->visible;
     }
-
 
     /**
      * @param boolean $visible
@@ -197,7 +173,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->visible = $visible;
     }
 
-
     /**
      * @return boolean
      */
@@ -205,7 +180,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->in_filter;
     }
-
 
     /**
      * @param boolean $in_filter
@@ -215,7 +189,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->in_filter = $in_filter;
     }
 
-
     /**
      * @return string
      */
@@ -223,7 +196,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->filter_value;
     }
-
 
     /**
      * @param string $filter_value
@@ -233,7 +205,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->filter_value = $filter_value;
     }
 
-
     /**
      * @return boolean
      */
@@ -241,7 +212,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->filter_changeable;
     }
-
 
     /**
      * @param boolean $filter_changeable
@@ -251,7 +221,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->filter_changeable = $filter_changeable;
     }
 
-
     /**
      * @return int
      */
@@ -259,7 +228,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->id;
     }
-
 
     /**
      * @param int $id
@@ -269,7 +237,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->id = $id;
     }
 
-
     /**
      * @return bool
      */
@@ -277,7 +244,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->required_create;
     }
-
 
     /**
      * @param bool $required_create
@@ -287,7 +253,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->required_create = $required_create;
     }
 
-
     /**
      * @return bool
      */
@@ -295,7 +260,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->locked_create;
     }
-
 
     /**
      * @param bool $locked_create
@@ -305,7 +269,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->locked_create = $locked_create;
     }
 
-
     /**
      * @return bool
      */
@@ -313,7 +276,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->required_edit;
     }
-
 
     /**
      * @param bool $required_edit
@@ -323,7 +285,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->required_edit = $required_edit;
     }
 
-
     /**
      * @return bool
      */
@@ -331,7 +292,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->locked_edit;
     }
-
 
     /**
      * @param bool $locked_edit
@@ -341,7 +301,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->locked_edit = $locked_edit;
     }
 
-
     /**
      * @return string
      */
@@ -349,7 +308,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->default_value;
     }
-
 
     /**
      * @param string $default_value
@@ -359,7 +317,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->default_value = $default_value;
     }
 
-
     /**
      * @return bool
      */
@@ -367,7 +324,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->visible_create;
     }
-
 
     /**
      * @param bool $visible_create
@@ -377,7 +333,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->visible_create = $visible_create;
     }
 
-
     /**
      * @param bool $not_visible_create
      */
@@ -385,7 +340,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         $this->visible_create = !$not_visible_create;
     }
-
 
     /**
      * @return bool
@@ -395,7 +349,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return !$this->visible_create;
     }
 
-
     /**
      * @return bool
      */
@@ -403,7 +356,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         return $this->visible_edit;
     }
-
 
     /**
      * @param bool $visible_edit
@@ -458,7 +410,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
 
     /**
      * @param $field_name
-     *
      * @return null|string
      */
     public function sleep($field_name)
@@ -470,11 +421,9 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return null;
     }
 
-
     /**
      * @param $field_name
      * @param $field_value
-     *
      * @return mixed|null
      */
     public function wakeUp($field_name, $field_value)
@@ -496,7 +445,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return null;
     }
 
-
     public function cloneStructure(ilDclTableViewFieldSetting $orig)
     {
         $this->setFilterChangeable($orig->isFilterChangeable());
@@ -511,7 +459,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->create();
         return $this->getId();
     }
-
 
     /**
      * @return ilDclBaseFieldModel|ilDclStandardField
@@ -532,11 +479,9 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         }
     }
 
-
     /**
      * @param $tableview_id
      * @param $field_id
-     *
      * @return ActiveRecord
      */
     public static function getInstance($tableview_id, $field_id)

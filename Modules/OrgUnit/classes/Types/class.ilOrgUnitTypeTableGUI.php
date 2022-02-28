@@ -18,7 +18,6 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
             'icon',
         );
 
-
     public function __construct($parent_obj, $parent_cmd)
     {
         global $DIC;
@@ -38,7 +37,6 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
     }
 
-
     /**
      * Pass data to row template
      * @param array $a_set
@@ -53,11 +51,12 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($this->lng->txt('Actions'));
         $selection->setId('action_orgu_type' . $a_set['id']);
-        $selection->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'edit'));
-        $selection->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'delete'));
+        $selection->addItem($this->lng->txt('edit'), 'edit',
+            $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'edit'));
+        $selection->addItem($this->lng->txt('delete'), 'delete',
+            $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'delete'));
         $this->tpl->setVariable('ACTIONS', $selection->getHTML());
     }
-
 
     /**
      * Add columns
@@ -68,7 +67,6 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt($column), $column);
         }
     }
-
 
     /**
      * Build and set data for table.

@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclTextFieldModel
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -29,7 +28,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     /**
      * @inheritdoc
      */
@@ -42,7 +40,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
             return parent::getRecordQuerySortObject($direction, $sort_by_status);
         }
     }
-
 
     /**
      * @param ilPropertyFormGUI $form
@@ -61,7 +58,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
             parent::checkValidityFromForm($form, $record_id);
         }
     }
-
 
     /**
      * @inheritdoc
@@ -96,11 +92,9 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-
     /**
      * @param $value
      * @param $record_id
-     *
      * @return bool
      * @throws ilDclInputException
      */
@@ -139,7 +133,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-
     /**
      * @inheritDoc
      */
@@ -159,7 +152,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         return $return;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -174,10 +166,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         );
     }
 
-
     /**
      * @param $value
-     *
      * @throws ilDclInputException
      */
     protected function checkRegexAndLength($value)
@@ -209,11 +199,9 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-
     /**
      * @param        $value
      * @param string $encoding
-     *
      * @return int
      */
     public function strlen($value, $encoding = 'UTF-8')
@@ -228,7 +216,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-
     public function fillHeaderExcel(ilExcel $worksheet, &$row, &$col)
     {
         parent::fillHeaderExcel($worksheet, $row, $col);
@@ -237,7 +224,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
             $col++;
         }
     }
-
 
     /**
      * @param array $titles

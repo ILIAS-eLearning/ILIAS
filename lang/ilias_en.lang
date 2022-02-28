@@ -2063,6 +2063,7 @@ common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
 common#:#withdraw_consent_description_internal#:#Please log in again to complete the revocation process.
 common#:#withdraw_consent_description_external#:#Please return to your source installation and log in again to complete the revocation process.
 common#:#withdraw_consent#:#Withdraw Acceptance
+common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service
 common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.
 common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.
 common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here
@@ -16600,6 +16601,7 @@ file#:#file_suffix_custom_white_info#:#These suffixes will be added to the defau
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.
+file#:#migrated#:#Status
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
@@ -16754,3 +16756,4 @@ rating#:#rating_avg_rating#:#Average Rating
 rating#:#rating_personal_rating#:#Your Rating
 rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars
 rating#:#rating_open_dialog#:#Open rating dialog
+tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.

@@ -3,9 +3,7 @@
 
 /**
  * Class ilDclCreateViewDefinitionGUI
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
+ * @author       studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @ilCtrl_Calls ilDclCreateViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilDclCreateViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
@@ -20,7 +18,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
      * @var ilDclCreateViewTableGUI
      */
     protected $table_gui;
-
 
     /**
      * @param     $tableview_id
@@ -53,7 +50,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-
     /**
      * execute command
      */
@@ -84,7 +80,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-
     /**
      *
      */
@@ -96,7 +91,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-
     /**
      *
      */
@@ -107,7 +101,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $page->update();
         $this->ctrl->redirect($this, 'edit');
     }
-
 
     /**
      * confirmDelete
@@ -131,7 +124,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-
     /**
      * cancelDelete
      */
@@ -142,7 +134,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
 
         $ilCtrl->redirect($this, "edit");
     }
-
 
     /**
      *
@@ -164,7 +155,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
     }
 
-
     /**
      * Release page lock
      * overwrite to redirect properly
@@ -179,7 +169,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $this->tpl->setOnScreenMessage('success', $lng->txt("cont_page_lock_released"), true);
         $ilCtrl->redirectByClass('ilDclTableViewGUI', "show");
     }
-
 
     /**
      * Finalizing output processing
@@ -216,7 +205,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
 
         return $a_output;
     }
-
 
     /**
      * Save table entries
@@ -269,7 +257,11 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                     $selection = $_POST[$selection_key];
                     $selected_radio_attribute = explode("_", $selection)[0];
 
-                    foreach (array("LockedCreate", "RequiredCreate", "VisibleCreate", "NotVisibleCreate") as $radio_attribute) {
+                    foreach (array("LockedCreate",
+                                   "RequiredCreate",
+                                   "VisibleCreate",
+                                   "NotVisibleCreate"
+                             ) as $radio_attribute) {
                         $result = false;
 
                         if ($selected_radio_attribute === $radio_attribute) {

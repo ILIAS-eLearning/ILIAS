@@ -19,7 +19,6 @@ use ilUtil;
 
 /**
  * Class StaffMainBarProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class StaffMainBarProvider extends AbstractStaticMainMenuProvider
@@ -33,7 +32,6 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
         return [];
     }
 
-
     /**
      * @inheritDoc
      */
@@ -45,7 +43,8 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
         $top = StandardTopItemsProvider::getInstance()->getOrganisationIdentification();
 
         $title = $this->dic->language()->txt("mm_staff_list");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_stff.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_stff.svg"),
+            $title);
 
         // My Staff
         $items[] = $this->mainmenu->link($this->if->identifier('mm_pd_mst'))
@@ -72,7 +71,8 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
 
         $title = $this->dic->language()->txt("mm_enrolments");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_enrl.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_enrl.svg"),
+            $title);
 
         // My Enrolments
         $items[] = $this->mainmenu->link($this->if->identifier('mm_pd_enrol'))
@@ -123,7 +123,6 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                 }
             )->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt("component_not_active")}"));
 
-
         // My Competences
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::SKMG, $title)->withIsOutlined(true);
         $items[] = $this->mainmenu->link($this->if->identifier("mm_pd_comp"))
@@ -148,7 +147,6 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                     )->hasCurrentUserAccessToCompetences();
                 }
             )->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt("component_not_active")}"));
-
 
         return $items;
     }

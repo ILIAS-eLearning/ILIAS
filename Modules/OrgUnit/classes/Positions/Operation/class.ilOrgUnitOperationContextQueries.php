@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitOperationContextQueries
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitOperationContextQueries
@@ -10,9 +9,7 @@ class ilOrgUnitOperationContextQueries
 
     /**
      * @param      $context_name
-     *
      * @param null $parent_context
-     *
      * @throws \ilException
      */
     public static function registerNewContext($context_name, $parent_context = null)
@@ -37,32 +34,27 @@ class ilOrgUnitOperationContextQueries
         $context->create();
     }
 
-
     /**
      * @var array
      */
     protected static $instance_by_name = array();
 
-
     /**
      * @param $context_name
-     *
      * @return \ilOrgUnitOperationContext
      */
     public static function findByName($context_name)
     {
         if (!isset(self::$instance_by_name[$context_name])) {
             self::$instance_by_name[$context_name] = ilOrgUnitOperationContext::where(array('context' => $context_name))
-                ->first();
+                                                                              ->first();
         }
 
         return self::$instance_by_name[$context_name];
     }
 
-
     /**
      * @param int $id
-     *
      * @return \ilOrgUnitOperationContext
      */
     public static function findById($id)
@@ -70,10 +62,8 @@ class ilOrgUnitOperationContextQueries
         return ilOrgUnitOperationContext::find($id);
     }
 
-
     /**
      * @param int $ref_id
-     *
      * @return \ilOrgUnitOperationContext
      */
     public static function findByRefId($ref_id)
@@ -83,10 +73,8 @@ class ilOrgUnitOperationContextQueries
         return self::findByName($type_context);
     }
 
-
     /**
      * @param int $obj_id
-     *
      * @return \ilOrgUnitOperationContext
      */
     public static function findByObjId($obj_id)

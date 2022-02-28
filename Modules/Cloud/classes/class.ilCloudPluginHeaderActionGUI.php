@@ -5,9 +5,7 @@ include_once("class.ilCloudPluginGUI.php");
 
 /**
  * Class ilCloudPluginHeaderActionGUI
- *
  * Can be extended to add custom action in the action list on the very top of the object.
- *
  * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
  * @version $Id$
  * @extends ilCloudPluginGUI

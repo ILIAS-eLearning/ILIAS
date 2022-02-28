@@ -4,13 +4,11 @@
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
@@ -20,7 +18,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
      * @var int
      */
     protected $dcl_obj_id;
-
 
     /**
      * @param ilDclBaseRecordModel $record
@@ -32,7 +29,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         $dclTable = ilDclCache::getTableCache($this->getField()->getTableId());
         $this->dcl_obj_id = $dclTable->getObjId();
     }
-
 
     /**
      * @return int|string
@@ -73,7 +69,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-
     public function getValueFromExcel($excel, $row, $col)
     {
         global $DIC;
@@ -98,14 +93,11 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return $value;
     }
 
-
     /**
      * This method tries to get as many valid references out of a string separated by commata. This is problematic as a string value could contain commata itself.
      * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
      * Will mess with it.
-     *
      * @param $stringValues string
-     *
      * @return int[]
      */
     protected function getReferencesFromString($stringValues)
@@ -137,11 +129,9 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return $slicedReferences;
     }
 
-
     /**
      * @param $field ilDclBaseFieldModel
      * @param $value
-     *
      * @return int
      */
     public function getReferenceFromValue($value)
@@ -162,7 +152,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 
         return $record_id;
     }
-
 
     public function afterClone()
     {

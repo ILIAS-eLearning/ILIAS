@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\MyStaff\ListUsers;
 
 use Closure;
@@ -17,7 +18,6 @@ use ilUserSearchOptions;
 
 /**
  * Class ilMStListUsersTableGUI
- *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListUsersTableGUI extends ilTable2GUI
@@ -31,7 +31,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI
      * @var ilMyStaffAccess
      */
     protected $access;
-
 
     /**
      * @param ilMStListUsersGUI $parent_obj
@@ -59,7 +58,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $this->setDisableFilterHiding(true);
         $this->setEnableNumInfo(true);
 
-        $this->setExportFormats(array( self::EXPORT_EXCEL, self::EXPORT_CSV ));
+        $this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
 
         $this->setFilterCols(4);
         $this->initFilter();
@@ -67,7 +66,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
         $this->parseData();
     }
-
 
     /**
      *
@@ -109,7 +107,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-
     /**
      *
      */
@@ -119,7 +116,8 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
         // User name, login, email filter
         $item = new ilTextInputGUI($DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
-                ->txt("name"), "user");
+                                                                                                                     ->txt("name"),
+            "user");
         //$item->setDataSource($DIC->ctrl()->getLinkTarget($this->getParentObject(),"addUserAutoComplete", "", true));
         //$item->setSize(20);
         //$item->setSubmitFormOnEnter(true);
@@ -145,7 +143,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @return array
      */
@@ -167,7 +164,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
         return $cols;
     }
-
 
     /**
      *
@@ -197,7 +193,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param array $a_set
      */
@@ -205,7 +200,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $propGetter = Closure::bind(function ($prop) {
+        $propGetter = Closure::bind(function($prop) {
             return $this->$prop;
         }, $a_set, $a_set);
 
@@ -223,7 +218,8 @@ class ilMStListUsersTableGUI extends ilTable2GUI
                 switch ($k) {
                     case 'org_units':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set->getUsrId())));
+                        $this->tpl->setVariable('VALUE',
+                            strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set->getUsrId())));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'gender':
@@ -252,7 +248,8 @@ class ilMStListUsersTableGUI extends ilTable2GUI
                     default:
                         if ($propGetter($k) !== null) {
                             $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
+                            $this->tpl->setVariable('VALUE',
+                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
                             $this->tpl->parseCurrentBlock();
                         } else {
                             $this->tpl->setCurrentBlock('td');
@@ -272,24 +269,23 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $DIC->ctrl()->setParameterByClass(ilMStListUsersGUI::class, 'mst_lus_usr_id', $a_set->getUsrId());
 
         $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-            ->getLinkTarget($this->parent_obj, ilMStListUsersGUI::CMD_GET_ACTIONS, "", true)));
+                                                             ->getLinkTarget($this->parent_obj,
+                                                                 ilMStListUsersGUI::CMD_GET_ACTIONS, "", true)));
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
 
-
     /**
      * Get profile back url
-     *
      * @return string
      */
     private function getProfileBackUrl()
     {
         global $DIC;
 
-        return rawurlencode($DIC->ctrl()->getLinkTargetByClass(strtolower(ilMyStaffGUI::class), ilMyStaffGUI::CMD_INDEX));
+        return rawurlencode($DIC->ctrl()->getLinkTargetByClass(strtolower(ilMyStaffGUI::class),
+            ilMyStaffGUI::CMD_INDEX));
     }
-
 
     /**
      * @param ilExcel $a_excel excel wrapper
@@ -305,7 +301,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param ilCSVWriter $a_csv
      * @param array       $a_set
@@ -318,17 +313,15 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-
     /**
      * @param ilMStListUser $my_staff_user
-     *
      * @return array
      */
     protected function getFieldValuesForExport(ilMStListUser $my_staff_user)
     {
         global $DIC;
 
-        $propGetter = Closure::bind(function ($prop) {
+        $propGetter = Closure::bind(function($prop) {
             return $this->$prop;
         }, $my_staff_user, $my_staff_user);
 

@@ -1086,13 +1086,12 @@ class ilPCTableGUI extends ilPageContentGUI
                     $dtpl->setCurrentBlock("col_icon");
                     $dtpl->setVariable("NR_COLUMN", $j + 1);
                     $dtpl->setVariable("PCID_COLUMN", $res2->nodeset[$j]->get_attribute("PCID"));
-                    $dtpl->setVariable("COLUMN_CAPTION", $j + 1);
+                    $dtpl->setVariable("COLUMN_CAPTION", $this->getColumnCaption($j + 1));
                     $dtpl->parseCurrentBlock();
                 }
                 $dtpl->setCurrentBlock("row");
                 $dtpl->parseCurrentBlock();
             }
-
 
             for ($j = 0; $j < count($res2->nodeset); $j++) {
                 // first col: row icons
@@ -1169,13 +1168,40 @@ class ilPCTableGUI extends ilPageContentGUI
             $dtpl->parseCurrentBlock();
         }
 
-
         $dtpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
+        
+        // add int link parts
+        $dtpl->setCurrentBlock("int_link_prep");
+        $dtpl->setVariable(
+            "INT_LINK_PREP",
+            ilInternalLinkGUI::getInitHTML(
+                $ilCtrl->getLinkTargetByClass(
+                    array("ilpageeditorgui", "ilinternallinkgui"),
+                    "",
+                    false,
+                    true,
+                    false
+                )
+            )
+        );
+        $dtpl->parseCurrentBlock();
 
         if ($initial) {
             $dtpl->touchBlock("script");
         }
 
         return $dtpl->get();
+    }
+
+    protected function getColumnCaption(int $nr)
+    {
+        $cap = "";
+        $base = 26;
+        while ($nr > 0) {
+            $chr = ($nr - 1) % $base;
+            $cap = chr($chr + 65) . $cap;
+            $nr = ($nr - 1 - $chr) / $base;
+        }
+        return $cap;
     }
 }

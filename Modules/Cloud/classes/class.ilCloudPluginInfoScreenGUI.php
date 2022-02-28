@@ -5,9 +5,7 @@ include_once("class.ilCloudPluginGUI.php");
 
 /**
  * Class ilCloudPluginInitGUI
- *
  * GUI Class to display Information.
- *
  * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
  * @version $Id$
  * @extends ilCloudPluginGUI
@@ -20,7 +18,6 @@ class ilCloudPluginInfoScreenGUI extends ilCloudPluginGUI
      * @var ilInfoScreenGUI
      */
     public $info = null;
-
 
     /**
      * show information screen
@@ -35,7 +32,6 @@ class ilCloudPluginInfoScreenGUI extends ilCloudPluginGUI
 
         return $this->info;
     }
-
 
     /**
      * To be overriden by plugins to add additional Information

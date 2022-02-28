@@ -98,7 +98,8 @@ class ilObjFolderGUI extends ilContainerGUI
         $ilUser = $this->user;
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
+        $header_action = true;
         switch ($next_class) {
             case strtolower(ilRepositoryTrashGUI::class):
                 $ru = new \ilRepositoryTrashGUI($this);
@@ -139,6 +140,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
                 }
+                $header_action = false;
                 break;
 
             case 'ilinfoscreengui':
@@ -214,8 +216,10 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->$cmd();
                 break;
         }
-        
-        $this->addHeaderAction();
+
+        if ($header_action) {
+            $this->addHeaderAction();
+        }
     }
 
     public function setFolderTree(ilTree $a_tree) : void

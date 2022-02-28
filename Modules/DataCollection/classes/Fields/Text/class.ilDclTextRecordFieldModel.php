@@ -4,7 +4,6 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 /**
  * Class ilDclTextRecordFieldModel
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
@@ -25,7 +24,6 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
         $this->setValue($value);
     }
-
 
     /**
      * @param $worksheet
@@ -52,7 +50,6 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-
     public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation)
     {
         if ($this->field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
@@ -66,7 +63,6 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
         parent::addHiddenItemsToConfirmation($confirmation);
     }
-
 
     /**
      * @return string
@@ -86,7 +82,6 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-
     /**
      * @return mixed|string
      */
@@ -102,7 +97,6 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-
     public function getValueFromExcel($excel, $row, $col)
     {
         $value = parent::getValueFromExcel($excel, $row, $col);
@@ -117,7 +111,6 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         return $value;
     }
 
-
     public function parseValue($value)
     {
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)
@@ -129,14 +122,11 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         return $value;
     }
 
-
     /**
      * Returns sortable value for the specific field-types
-     *
      * @param                           $value
      * @param ilDclBaseRecordFieldModel $record_field
      * @param bool|true                 $link
-     *
      * @return int|string
      */
     public function parseSortingValue($value, $link = true)

@@ -5,11 +5,9 @@ include_once('./Modules/Cloud/exceptions/class.ilCloudPluginConfigException.php'
 
 /**
  * Class ilCloudPluginConfig
- *
  * Model class for the administration settings. Note the use of the __call Function. The value max_file_size could be
  * for example set by the method setMaxFileSize without the declaring this method. Similarly it could be get by
  * getMaxFileSize
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @author  fabian Schmid <fs@studer-raimann.ch>
  * @version $Id$
@@ -26,7 +24,6 @@ class ilCloudPluginConfig
      */
     protected $cache = array();
 
-
     /**
      * @param $table_name
      */
@@ -34,7 +31,6 @@ class ilCloudPluginConfig
     {
         $this->table_name = $table_name;
     }
-
 
     /**
      * @param string $table_name
@@ -44,7 +40,6 @@ class ilCloudPluginConfig
         $this->table_name = $table_name;
     }
 
-
     /**
      * @return string
      */
@@ -53,11 +48,9 @@ class ilCloudPluginConfig
         return $this->table_name;
     }
 
-
     /**
      * @param $method
      * @param $params
-     *
      * @return bool|null
      */
     public function __call($method, $params)
@@ -79,11 +72,11 @@ class ilCloudPluginConfig
 
                 return true;
             } else {
-                throw new ilCloudPluginConfigException(ilCloudPluginConfigException::NO_VALID_GET_OR_SET_FUNCTION, $method);
+                throw new ilCloudPluginConfigException(ilCloudPluginConfigException::NO_VALID_GET_OR_SET_FUNCTION,
+                    $method);
             }
         }
     }
-
 
     /**
      * @param $key
@@ -95,20 +88,22 @@ class ilCloudPluginConfig
         $ilDB = $DIC['ilDB'];
 
         if (!$ilDB->tableExists($this->table_name)) {
-            throw new ilCloudPluginConfigException(ilCloudPluginConfigException::TABLE_DOES_NOT_EXIST, $this->table_name);
+            throw new ilCloudPluginConfigException(ilCloudPluginConfigException::TABLE_DOES_NOT_EXIST,
+                $this->table_name);
         }
 
         if (!is_string($this->getValue($key))) {
-            $ilDB->insert($this->table_name, array("config_key" => array("text", $key), "config_value" => array("text", $value)));
+            $ilDB->insert($this->table_name,
+                array("config_key" => array("text", $key), "config_value" => array("text", $value)));
         } else {
-            $ilDB->update($this->table_name, array("config_key" => array("text", $key), "config_value" => array("text", $value)), array("config_key" => array("text", $key)));
+            $ilDB->update($this->table_name,
+                array("config_key" => array("text", $key), "config_value" => array("text", $value)),
+                array("config_key" => array("text", $key)));
         }
     }
 
-
     /**
      * @param $key
-     *
      * @return bool|string
      */
     public function getValue($key)
@@ -117,10 +112,12 @@ class ilCloudPluginConfig
         $ilDB = $DIC['ilDB'];
 
         if (!$this->tableExists($this->table_name)) {
-            throw new ilCloudPluginConfigException(ilCloudPluginConfigException::TABLE_DOES_NOT_EXIST, $this->table_name);
+            throw new ilCloudPluginConfigException(ilCloudPluginConfigException::TABLE_DOES_NOT_EXIST,
+                $this->table_name);
         }
 
-        $result = $ilDB->query("SELECT config_value FROM " . $this->table_name . " WHERE config_key = " . $ilDB->quote($key, "text"));
+        $result = $ilDB->query("SELECT config_value FROM " . $this->table_name . " WHERE config_key = " . $ilDB->quote($key,
+                "text"));
 
         if ($result->numRows() == 0) {
             return false;
@@ -129,7 +126,6 @@ class ilCloudPluginConfig
 
         return (string) $record['config_value'];
     }
-
 
     /**
      * @return bool
@@ -165,23 +161,20 @@ class ilCloudPluginConfig
 
     /**
      * @param string $str
-     *
      * @return string
      */
     public static function _fromCamelCase($str)
     {
         $str[0] = strtolower($str[0]);
 
-        return preg_replace_callback('/([A-Z])/', function ($c) {
+        return preg_replace_callback('/([A-Z])/', function($c) {
             return "_" . strtolower($c[1]);
         }, $str);
     }
 
-
     /**
      * @param string $str
      * @param bool   $capitalise_first_char
-     *
      * @return string
      */
     public static function _toCamelCase($str, $capitalise_first_char = false)
@@ -190,11 +183,10 @@ class ilCloudPluginConfig
             $str[0] = strtoupper($str[0]);
         }
 
-        return preg_replace_callback('/-([a-z])/', function ($c) {
+        return preg_replace_callback('/-([a-z])/', function($c) {
             return strtoupper($c[1]);
         }, $str);
     }
-
 
     public function tableExists()
     {

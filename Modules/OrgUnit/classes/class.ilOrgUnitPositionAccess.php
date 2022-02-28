@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitPositionAccess
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler
@@ -21,7 +20,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
      */
     protected static $ref_id_obj_type_map = array();
 
-
     /**
      * ilOrgUnitPositionAccess constructor.
      */
@@ -30,7 +28,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         $this->set = ilOrgUnitGlobalSettings::getInstance();
         $this->ua = ilOrgUnitUserAssignmentQueries::getInstance();
     }
-
 
     /**
      * @inheritdoc
@@ -41,7 +38,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
         return $this->filterUserIdsForUsersPositionsAndPermission($user_ids, $current_user_id, $permission);
     }
-
 
     /**
      * @inheritdoc
@@ -58,7 +54,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return array_intersect($user_ids, $other_users_in_same_org_units);
     }
 
-
     /**
      * @inheritdoc
      */
@@ -69,18 +64,17 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return $this->isUserBasedOnPositionsAllowedTo($current_user_id, $permission, $on_user_ids);
     }
 
-
     /**
      * @inheritdoc
      */
     public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids)
     {
-        $filtered_user_ids = $this->filterUserIdsForUsersPositionsAndPermission($on_user_ids, $which_user_id, $permission);
+        $filtered_user_ids = $this->filterUserIdsForUsersPositionsAndPermission($on_user_ids, $which_user_id,
+            $permission);
 
         return ($on_user_ids === array_intersect($on_user_ids, $filtered_user_ids)
             && $filtered_user_ids === array_intersect($filtered_user_ids, $on_user_ids));
     }
-
 
     /**
      * @inheritdoc
@@ -96,7 +90,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
         return $this->filterUserIdsByPositionOfUser($current_user_id, $pos_perm, $ref_id, $user_ids);
     }
-
 
     /**
      * @inheritdoc
@@ -130,7 +123,8 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
                                 $allowed_user_ids = array_merge($allowed_user_ids, $allowed);
                                 break;
                             case ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS:
-                                $allowed = $this->ua->getUserIdsOfOrgUnitsOfUsersPosition($position->getId(), $user_id, true);
+                                $allowed = $this->ua->getUserIdsOfOrgUnitsOfUsersPosition($position->getId(), $user_id,
+                                    true);
                                 $allowed_user_ids = array_merge($allowed_user_ids, $allowed);
                                 break;
                         }
@@ -138,11 +132,13 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
                     default:
                         switch ($authority->getScope()) {
                             case ilOrgUnitAuthority::SCOPE_SAME_ORGU:
-                                $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition($user_id, $position->getId(), $authority->getOver());
+                                $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition($user_id, $position->getId(),
+                                    $authority->getOver());
                                 $allowed_user_ids = array_merge($allowed_user_ids, $allowed);
                                 break;
                             case ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS:
-                                $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition($user_id, $position->getId(), $authority->getOver(), true);
+                                $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition($user_id, $position->getId(),
+                                    $authority->getOver(), true);
                                 $allowed_user_ids = array_merge($allowed_user_ids, $allowed);
                                 break;
                         }
@@ -153,7 +149,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
         return array_intersect($user_ids, $allowed_user_ids);
     }
-
 
     /**
      * @inheritdoc
@@ -181,7 +176,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return false;
     }
 
-
     /**
      * @inheritdoc
      */
@@ -204,7 +198,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return false;
     }
 
-
     /**
      * @inheritdoc
      */
@@ -224,7 +217,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return $this->checkPositionAccess($pos_perm, $ref_id);
     }
 
-
     /**
      * @inheritdoc
      */
@@ -242,7 +234,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
         return $this->filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, $user_ids);
     }
-
 
     /**
      * @inheritdoc
@@ -270,7 +261,6 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return $GLOBALS['DIC'];
     }
 
-
     /**
      * @return int
      */
@@ -279,10 +269,8 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return $this->dic()->user()->getId();
     }
 
-
     /**
      * @param $ref_id
-     *
      * @return mixed
      */
     private function getTypeForRefId($ref_id)
@@ -294,10 +282,8 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return self::$ref_id_obj_type_map[$ref_id];
     }
 
-
     /**
      * @param $ref_id
-     *
      * @return int
      */
     private function getObjIdForRefId($ref_id)
@@ -305,10 +291,8 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return ilObject2::_lookupObjectId($ref_id);
     }
 
-
     /**
      * @param $ref_id
-     *
      * @return bool
      */
     private function isPositionActiveForRefId($ref_id)

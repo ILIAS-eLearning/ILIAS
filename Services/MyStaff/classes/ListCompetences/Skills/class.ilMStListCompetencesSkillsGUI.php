@@ -6,9 +6,7 @@ use ILIAS\MyStaff\ListCompetences\Skills\ilMStListCompetencesSkillsTableGUI;
 
 /**
  * Class ilMStListCompetencesSkillsGUI
- *
  * @package ILIAS\MyStaff\ListCompetences
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilMStListCompetencesSkillsGUI
@@ -31,7 +29,6 @@ class ilMStListCompetencesSkillsGUI
     private $dic;
     private \ilGlobalTemplateInterface $main_tpl;
 
-
     /**
      * @param Container $dic
      */
@@ -43,7 +40,6 @@ class ilMStListCompetencesSkillsGUI
         $this->dic = $dic;
     }
 
-
     protected function checkAccessOrFail() : void
     {
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
@@ -53,7 +49,6 @@ class ilMStListCompetencesSkillsGUI
             $this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }
-
 
     public function executeCommand() : void
     {
@@ -76,12 +71,10 @@ class ilMStListCompetencesSkillsGUI
         }
     }
 
-
     public function index() : void
     {
         $this->listUsers();
     }
-
 
     public function listUsers() : void
     {
@@ -92,7 +85,6 @@ class ilMStListCompetencesSkillsGUI
         $this->dic->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-
     public function applyFilter() : void
     {
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_APPLY_FILTER, $this->dic);
@@ -101,7 +93,6 @@ class ilMStListCompetencesSkillsGUI
         $this->index();
     }
 
-
     public function resetFilter() : void
     {
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_RESET_FILTER, $this->dic);
@@ -109,7 +100,6 @@ class ilMStListCompetencesSkillsGUI
         $this->table->resetFilter();
         $this->index();
     }
-
 
     /**
      * @return string
@@ -121,12 +111,10 @@ class ilMStListCompetencesSkillsGUI
         return $this->table->getId();
     }
 
-
     public function cancel() : void
     {
         $this->dic->ctrl()->redirect($this);
     }
-
 
     protected function getActions() : void
     {
@@ -137,8 +125,9 @@ class ilMStListCompetencesSkillsGUI
         if ($mst_co_usr_id > 0) {
             $selection = new ilAdvancedSelectionListGUI();
 
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id, rawurlencode($DIC->ctrl()
-                ->getLinkTarget($this, self::CMD_INDEX)));
+            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id,
+                rawurlencode($DIC->ctrl()
+                                 ->getLinkTarget($this, self::CMD_INDEX)));
 
             echo $selection->getHTML(true);
         }

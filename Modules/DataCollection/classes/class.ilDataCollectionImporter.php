@@ -3,7 +3,6 @@
 
 /**
  * Class ilDataCollectionImporter
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -15,14 +14,12 @@ class ilDataCollectionImporter extends ilXmlImporter
      */
     protected $ds;
 
-
     public function init() : void
     {
         $this->ds = new ilDataCollectionDataSet();
         $this->ds->setDSPrefix("ds");
         $this->ds->setImportDirectory($this->getImportDirectory());
     }
-
 
     /**
      * Executes the Import
@@ -32,11 +29,14 @@ class ilDataCollectionImporter extends ilXmlImporter
      * @param ilImportMapping $a_mapping
      * @return void
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ) : void {
         $parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
     }
-
 
     /**
      * Called before finishing the import
@@ -47,10 +47,8 @@ class ilDataCollectionImporter extends ilXmlImporter
         $this->ds->beforeFinishImport($a_mapping);
     }
 
-
     /**
      * @param $int
-     *
      * @return string
      */
     public static function getExcelCharForInteger($int)

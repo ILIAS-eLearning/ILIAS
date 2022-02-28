@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitPermissionTableGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
@@ -17,10 +16,8 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
      */
     private $ilOrgUnitPermission = null;
 
-
     /**
      * ilOrgUnitDefaultPermissionTableGUI constructor.
-     *
      * @param object               $a_parent_obj
      * @param string               $a_parent_cmd
      * @param \ilOrgUnitPermission $ilOrgUnitPermission
@@ -37,9 +34,9 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->setId('objpositionperm_' . $this->type);
 
         $this->dic()
-            ->ui()
-            ->mainTemplate()
-            ->addJavaScript('./Services/AccessControl/js/ilPermSelect.js');
+             ->ui()
+             ->mainTemplate()
+             ->addJavaScript('./Services/AccessControl/js/ilPermSelect.js');
 
         $this->setTitle(
             $this->dic()->language()->txt('orgu_permission_settings_'
@@ -57,7 +54,6 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->setCloseFormTag(false);
     }
 
-
     public function start()
     {
         $this->setEnableHeader(false);
@@ -67,13 +63,11 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->addMultiCommand(ilOrgUnitDefaultPermissionGUI::CMD_UPDATE, $this->lng->txt('save'));
     }
 
-
     public function end()
     {
         $this->setCloseFormTag(true);
         $this->addCommandButton(ilOrgUnitDefaultPermissionGUI::CMD_UPDATE, $this->lng->txt('save'));
     }
-
 
     /**
      * @param array $a_set
@@ -93,11 +87,9 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
             . $a_set->getOperationString()));
     }
 
-
     public function collectData()
     {
     }
-
 
     /**
      * @return \ILIAS\DI\Container

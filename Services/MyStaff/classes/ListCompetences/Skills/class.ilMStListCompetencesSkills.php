@@ -5,7 +5,6 @@ use ILIAS\MyStaff\ilMyStaffAccess;
 
 /**
  * Class ilMStListCompetencesSkills
- *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilMStListCompetencesSkills
@@ -16,10 +15,8 @@ class ilMStListCompetencesSkills
      */
     protected $dic;
 
-
     /**
      * ilMStListCompetencesSkills constructor.
-     *
      * @param Container $dic
      */
     public function __construct(Container $dic)
@@ -27,10 +24,8 @@ class ilMStListCompetencesSkills
         $this->dic = $dic;
     }
 
-
     /**
      * @param int[] $options
-     *
      * @return ilMStListCompetencesSkill[]
      */
     public function getData(array $options)
@@ -63,8 +58,10 @@ class ilMStListCompetencesSkills
 
         $arr_query = [];
         foreach ($users_per_position as $position_id => $users) {
-            $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(), $operation_access);
-            $arr_query[] = $query . $this->dic->database()->in('ulvl.trigger_obj_id', $obj_ids, false, 'integer') . " AND " . $this->dic->database()->in('sk.user_id ', $users, false, 'integer')
+            $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(),
+                $operation_access);
+            $arr_query[] = $query . $this->dic->database()->in('ulvl.trigger_obj_id', $obj_ids, false,
+                    'integer') . " AND " . $this->dic->database()->in('sk.user_id ', $users, false, 'integer')
                 . $this->getAdditionalWhereStatement($options['filters']);
         }
 
@@ -101,10 +98,8 @@ class ilMStListCompetencesSkills
         return $skills;
     }
 
-
     /**
      * @param array $filters
-     *
      * @return string
      */
     protected function getAdditionalWhereStatement(array $filters) : string
@@ -120,10 +115,16 @@ class ilMStListCompetencesSkills
         }
 
         if (!empty($filters['user'])) {
-            $wheres[] = "(" . $this->dic->database()->like("ud.login", "text", "%" . $filters['user'] . "%") . " " . "OR " . $this->dic->database()
-                    ->like("ud.firstname", "text", "%" . $filters['user'] . "%") . " " . "OR " . $this->dic->database()
-                    ->like("ud.lastname", "text", "%" . $filters['user'] . "%") . " " . "OR " . $this->dic->database()
-                    ->like("ud.email", "text", "%" . $filters['user'] . "%") . ") ";
+            $wheres[] = "(" . $this->dic->database()->like("ud.login", "text",
+                    "%" . $filters['user'] . "%") . " " . "OR " . $this->dic->database()
+                                                                            ->like("ud.firstname", "text",
+                                                                                "%" . $filters['user'] . "%") . " " . "OR " . $this->dic->database()
+                                                                                                                                        ->like("ud.lastname",
+                                                                                                                                            "text",
+                                                                                                                                            "%" . $filters['user'] . "%") . " " . "OR " . $this->dic->database()
+                                                                                                                                                                                                    ->like("ud.email",
+                                                                                                                                                                                                        "text",
+                                                                                                                                                                                                        "%" . $filters['user'] . "%") . ") ";
         }
 
         if (!empty($arr_filter['org_unit'])) {

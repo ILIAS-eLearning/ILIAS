@@ -10,7 +10,7 @@
 <!ENTITY % acctext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Important | Strong | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup | Marked">
 <!ENTITY % imptext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Accent | Strong | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | Sub | Sup | Marked">
 <!ENTITY % kwtext "#PCDATA | br | Comment | Footnote | Strong | Emph | Accent | Important | Quotation | Code | Sub | Sup | Marked">
-<!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code | Sub | Sup | Marked">
+<!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Important | Accent | Quotation | Code | Sub | Sup | Marked">
 <!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | Anchor | ExtLink | IntLink | Sub | Sup | Marked">
 <!ENTITY % footnotetext "#PCDATA | br | Comment | Emph | Accent | Strong | Anchor | ExtLink | IntLink | Important | Quotation | Code | Sub | Sup | Marked">
 <!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code | Sub | Sup | Marked">

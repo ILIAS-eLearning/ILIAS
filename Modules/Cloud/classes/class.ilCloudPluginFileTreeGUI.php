@@ -8,9 +8,7 @@ include_once("class.ilCloudConnector.php");
 
 /**
  * Class ilCloudFileTree
- *
  * Class for drawing the file tree.
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id$
  * @extends ilCloudPluginGUI
@@ -24,7 +22,6 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
      */
     protected $file_tree;
 
-
     /**
      * @param ilCloudFileTree $file_tree
      */
@@ -33,7 +30,6 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
         parent::__construct($plugin_service_class);
         $this->setFileTree($file_tree);
     }
-
 
     /**
      * @param ilCloudFileTree $file_tree
@@ -45,7 +41,6 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
         }
     }
 
-
     /**
      * @return ilCloudFileTree
      */
@@ -53,7 +48,6 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
     {
         return $this->file_tree;
     }
-
 
     /**
      * @param ilObjCloudGUI $gui_class
@@ -63,12 +57,18 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
      * @param bool          $download
      * @param bool          $files_visible
      * @param bool          $folders_visible
-     *
      * @return string
      * @throws ilCloudException
      */
-    public function getFolderHtml(ilObjCloudGUI $gui_class, $id, $delete_files = false, $delete_folder = false, $download = false, $files_visible = false, $folders_visible = false)
-    {
+    public function getFolderHtml(
+        ilObjCloudGUI $gui_class,
+        $id,
+        $delete_files = false,
+        $delete_folder = false,
+        $download = false,
+        $files_visible = false,
+        $folders_visible = false
+    ) {
         global $DIC;
         $lng = $DIC['lng'];
 
@@ -98,7 +98,8 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
                         } else {
                             $block->setVariable("ROW_ID", "id=xcld_file_" . $child_node->getId());
                         }
-                        $block->setVariable("BLOCK_ROW_CONTENT", $this->getItemHtml($child_node, $gui_class, $delete_files, $delete_folder, $download));
+                        $block->setVariable("BLOCK_ROW_CONTENT",
+                            $this->getItemHtml($child_node, $gui_class, $delete_files, $delete_folder, $download));
                         $block->parseCurrentBlock();
                     }
                 }
@@ -109,11 +110,11 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
             // Nothing is visible
             // $tree_tpl->setVariable("CONTENT", $lng->txt("file_folder_not_visible"));
         }
-        $this->setTreeVariablePlugin($tree_tpl, $gui_class, $id, $delete_files, $delete_folder, $download, $files_visible, $folders_visible);
+        $this->setTreeVariablePlugin($tree_tpl, $gui_class, $id, $delete_files, $delete_folder, $download,
+            $files_visible, $folders_visible);
 
         return $tree_tpl->get();
     }
-
 
     /**
      * @param ilObjCloudGUI $gui_class
@@ -136,7 +137,6 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
     ) {
     }
 
-
     /**
      * @param ilTemplate $block
      */
@@ -144,25 +144,29 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
     {
     }
 
-
     /**
      * @param ilCloudFileNode $node
      * @param ilObjCloudGUI   $gui_class
      * @param bool            $delete_files
      * @param bool            $delete_folder
      * @param bool            $download
-     *
      * @return string
      */
-    public function getItemHtml(ilCloudFileNode $node, ilObjCloudGUI $gui_class, $delete_files = false, $delete_folder = false, $download = false)
-    {
+    public function getItemHtml(
+        ilCloudFileNode $node,
+        ilObjCloudGUI $gui_class,
+        $delete_files = false,
+        $delete_folder = false,
+        $download = false
+    ) {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
         $item = new ilTemplate("tpl.container_list_item.html", true, true, "Services/Container/");
 
         $action_list_gui = ilCloudConnector::getActionListGUIClass($this->getService());
-        $item->setVariable("COMMAND_SELECTION_LIST", $action_list_gui->getSelectionListItemsHTML($delete_files, $delete_folder, $node));
+        $item->setVariable("COMMAND_SELECTION_LIST",
+            $action_list_gui->getSelectionListItemsHTML($delete_files, $delete_folder, $node));
 
         $item->setVariable("DIV_CLASS", "ilContainerListItemOuter");
         $item->touchBlock("d_1");
@@ -195,7 +199,8 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
             );
             if ($download) {
                 $item->setVariable("TXT_TITLE_LINKED", basename($node->getPath()));
-                $item->setVariable("HREF_TITLE_LINKED", $ilCtrl->getLinkTarget($gui_class, "getFile") . "&id=" . $node->getId());
+                $item->setVariable("HREF_TITLE_LINKED",
+                    $ilCtrl->getLinkTarget($gui_class, "getFile") . "&id=" . $node->getId());
             } else {
                 $item->setVariable("TXT_TITLE", basename($node->getPath()));
             }
@@ -206,11 +211,9 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
         return $item->get();
     }
 
-
     /**
      * @param     $bytes
      * @param int $precision
-     *
      * @return string
      */
     protected function formatBytes($bytes, $precision = 2)
@@ -232,7 +235,6 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
         return $bytes;
     }
 
-
     /**
      * @param ilTemplate $item
      * @param ilCloudFileNode $node
@@ -241,10 +243,8 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
     {
     }
 
-
     /**
      * @param ilCloudFileNode $node
-     *
      * @return string
      */
     public function getLocatorHtml(ilCloudFileNode $node)
@@ -253,7 +253,8 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
 
         if ($node == $this->getFileTree()->getRootNode()) {
             $ilLocator = new ilLocatorGUI();
-            $ilLocator->addItem($this->getPluginObject()->getCloudModulObject()->getTitle(), ilCloudPluginFileTreeGUI::getLinkToFolder($node));
+            $ilLocator->addItem($this->getPluginObject()->getCloudModulObject()->getTitle(),
+                ilCloudPluginFileTreeGUI::getLinkToFolder($node));
         } else {
             $this->getLocatorHtml($this->getFileTree()->getNodeFromId($node->getParentId()));
             $ilLocator->addItem(basename($node->getPath()), $this->getLinkToFolder($node));
@@ -262,17 +263,14 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
         return "<DIV class='xcld_locator' id='xcld_locator_" . $node->getId() . "'>" . $ilLocator->getHTML() . "</DIV>";
     }
 
-
     /**
      * @param ilCloudFileNode $node
-     *
      * @return string
      */
     public static function getLinkToFolder(ilCloudFileNode $node)
     {
         return "#/open_folder?id_parent=" . $node->getParentId() . "&current_id=" . $node->getId() . "&current_path=" . self::_urlencode($node->getPath());
     }
-
 
     protected function addDropZone()
     {
@@ -288,12 +286,9 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
             . ");</script>";
     }
 
-
     /**
      * urlencode without encoding slashes
-     *
      * @param $str
-     *
      * @return mixed
      */
     protected static function _urlencode($str)

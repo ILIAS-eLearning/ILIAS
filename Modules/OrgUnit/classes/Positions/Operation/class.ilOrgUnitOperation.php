@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitOperation
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitOperation extends ActiveRecord
@@ -24,7 +23,6 @@ class ilOrgUnitOperation extends ActiveRecord
 
     /**
      * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_sequence   true
@@ -35,7 +33,6 @@ class ilOrgUnitOperation extends ActiveRecord
     protected $operation_id = 0;
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     127
@@ -44,7 +41,6 @@ class ilOrgUnitOperation extends ActiveRecord
     protected $operation_string = '';
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     512
@@ -52,7 +48,6 @@ class ilOrgUnitOperation extends ActiveRecord
     protected $description = '';
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
@@ -61,14 +56,12 @@ class ilOrgUnitOperation extends ActiveRecord
     protected $list_order = 0;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      * @con_index      true
      */
     protected $context_id = 0;
-
 
     public function create() : void
     {
@@ -82,7 +75,6 @@ class ilOrgUnitOperation extends ActiveRecord
         parent::create();
     }
 
-
     /**
      * @return int
      */
@@ -90,7 +82,6 @@ class ilOrgUnitOperation extends ActiveRecord
     {
         return $this->operation_id;
     }
-
 
     /**
      * @param int $operation_id
@@ -100,7 +91,6 @@ class ilOrgUnitOperation extends ActiveRecord
         $this->operation_id = $operation_id;
     }
 
-
     /**
      * @return string
      */
@@ -108,7 +98,6 @@ class ilOrgUnitOperation extends ActiveRecord
     {
         return $this->operation_string;
     }
-
 
     /**
      * @param string $operation_string
@@ -118,7 +107,6 @@ class ilOrgUnitOperation extends ActiveRecord
         $this->operation_string = $operation_string;
     }
 
-
     /**
      * @return string
      */
@@ -126,7 +114,6 @@ class ilOrgUnitOperation extends ActiveRecord
     {
         return $this->description;
     }
-
 
     /**
      * @param string $description
@@ -136,7 +123,6 @@ class ilOrgUnitOperation extends ActiveRecord
         $this->description = $description;
     }
 
-
     /**
      * @return int
      */
@@ -144,7 +130,6 @@ class ilOrgUnitOperation extends ActiveRecord
     {
         return $this->list_order;
     }
-
 
     /**
      * @param int $list_order
@@ -154,7 +139,6 @@ class ilOrgUnitOperation extends ActiveRecord
         $this->list_order = $list_order;
     }
 
-
     /**
      * @return int
      */
@@ -163,7 +147,6 @@ class ilOrgUnitOperation extends ActiveRecord
         return $this->context_id;
     }
 
-
     /**
      * @param int $context_id
      */
@@ -171,7 +154,6 @@ class ilOrgUnitOperation extends ActiveRecord
     {
         $this->context_id = $context_id;
     }
-
 
     /**
      * @return string

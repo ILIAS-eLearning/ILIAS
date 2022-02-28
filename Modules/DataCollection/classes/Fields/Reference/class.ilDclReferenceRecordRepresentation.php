@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclReferenceRecordRepresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -59,11 +58,9 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         return $html;
     }
 
-
     /**
      * @param null $link_name
      * @param      $value
-     *
      * @return string
      */
     protected function getLinkHTML($link_name = null, $value)
@@ -84,7 +81,8 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         $ilDCLTableView = ilDCLTableView::createOrGetStandardView($ref_record->getTableId());
         $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "tableview_id", $ilDCLTableView->getId());
         $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "back_tableview_id", $_GET['tableview_id']);
-        $html = "<a href='" . $ilCtrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
+        $html = "<a href='" . $ilCtrl->getLinkTargetByClass(ilDclDetailedViewGUI::class,
+                "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
 
         return $html;
     }

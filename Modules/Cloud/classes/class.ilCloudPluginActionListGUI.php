@@ -4,13 +4,10 @@ require_once('./Modules/Cloud/classes/class.ilCloudPluginListGUI.php');
 
 /**
  * Class ilCloudPluginActionListGUI
- *
  * Basic functionality of the action list. Can be extended to define addidtional actions by the plugin. Note that
  * the list is loaded asyncronically by default. Disable if not wanted.
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- *
  * @version $Id:
  * @extends ilCloudPluginListGUI
  * @ingroup ModulesCloud
@@ -27,12 +24,10 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
      */
     protected $node = null;
 
-
     /**
      * @param bool            $delete_item
      * @param bool            $delete_folder
      * @param ilCloudFileNode $node
-     *
      * @return string
      */
     public function getSelectionListItemsHTML($delete_item = false, $delete_folder = false, ilCloudFileNode $node)
@@ -56,7 +51,8 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
 
             if ($this->getAsyncMode()) {
                 $this->selection_list->setAsynch(true);
-                $this->selection_list->setAsynchUrl(html_entity_decode($ilCtrl->getLinkTargetByClass("ilobjcloudgui", "asyncGetActionListContent", false)
+                $this->selection_list->setAsynchUrl(html_entity_decode($ilCtrl->getLinkTargetByClass("ilobjcloudgui",
+                        "asyncGetActionListContent", false)
                     . "&node_id=" . $node->getId()));
             } else {
                 $this->addSelectionListItems($delete_item, $delete_folder);
@@ -68,7 +64,6 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
         }
     }
 
-
     /**
      * @param $delete_item
      * @param $delete_folder
@@ -79,13 +74,13 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
         $lng = $DIC['lng'];
         $this->addItemsBefore();
         if (($delete_item && !$this->node->getIsDir()) || ($delete_folder && $this->node->getIsDir())) {
-            $this->selection_list->addItem($lng->txt("delete"), "delete_item", "javascript:il.CloudFileList.deleteItem('" . $this->node->getId()
+            $this->selection_list->addItem($lng->txt("delete"), "delete_item",
+                "javascript:il.CloudFileList.deleteItem('" . $this->node->getId()
                 . "');");
         }
 
         $this->addItemsAfter();
     }
-
 
     /**
      * @param bool            $delete_item
@@ -113,21 +108,17 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
         }
     }
 
-
     protected function addItemsBefore()
     {
     }
-
 
     protected function addItemsAfter()
     {
     }
 
-
     protected function checkHasAction()
     {
     }
-
 
     /**
      * @return bool

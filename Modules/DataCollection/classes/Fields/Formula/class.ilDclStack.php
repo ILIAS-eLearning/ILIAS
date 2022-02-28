@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclStack
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -14,7 +13,6 @@ class ilDclStack
      */
     protected $stack = array();
 
-
     /**
      * @param $elem
      */
@@ -22,7 +20,6 @@ class ilDclStack
     {
         $this->stack[] = $elem;
     }
-
 
     /**
      * @return null
@@ -41,7 +38,6 @@ class ilDclStack
         return null;
     }
 
-
     /**
      * @return null
      */
@@ -54,7 +50,6 @@ class ilDclStack
         return null;
     }
 
-
     /**
      * @return bool
      */
@@ -63,12 +58,10 @@ class ilDclStack
         return !(bool) count($this->stack);
     }
 
-
     public function reset()
     {
         $this->stack = array();
     }
-
 
     /**
      * @return int
@@ -77,7 +70,6 @@ class ilDclStack
     {
         return count($this->stack);
     }
-
 
     public function debug()
     {

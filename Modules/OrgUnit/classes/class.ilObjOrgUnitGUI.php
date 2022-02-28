@@ -180,10 +180,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             case "ilinfoscreengui":
                 $this->tabs_gui->activateTab("info_short");
                 if (!$this->ilAccess->checkAccess(
-                    "read",
-                    "",
-                    $this->ref_id
-                ) and !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
+                        "read",
+                        "",
+                        $this->ref_id
+                    ) and !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
                     $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
                 }
                 $info = new ilInfoScreenGUI($this);
@@ -586,9 +586,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $this->addStandardContainerSubTabs();
         //only display the import tab at the first level
         if ($this->rbacsystem->checkAccess(
-            "visible, read",
-            $_GET["ref_id"]
-        ) and $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+                "visible, read",
+                $_GET["ref_id"]
+            ) and $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
             $this->tabs_gui->addSubTab(
                 "import",
                 $this->lng->txt("import"),

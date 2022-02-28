@@ -13587,7 +13587,11 @@ button.copg-add.dropdown-toggle.btn:hover {
 button.copg-add.dropdown-toggle.btn .glyphicon-plus-sign,
 button.copg-add.dropdown-toggle.btn:focus .glyphicon-plus-sign,
 button.copg-add.dropdown-toggle.btn:hover .glyphicon-plus-sign,
-#copg-editor-help .glyphicon-plus-sign {
+#copg-editor-help .glyphicon-plus-sign,
+button.copg-add.dropdown-toggle.btn .il-copg-add-text,
+button.copg-add.dropdown-toggle.btn:focus .il-copg-add-text,
+button.copg-add.dropdown-toggle.btn:hover .il-copg-add-text,
+#copg-editor-help .il-copg-add-text {
   color: #4c6586;
   font-size: 18px;
 }
@@ -14210,6 +14214,9 @@ p#copg-auto-save {
 #ed_datatable th,
 #ed_datatable td {
   border: 1px solid #CCCCCC;
+}
+#ed_datatable th {
+  vertical-align: middle;
 }
 .copg-new-content-placeholder {
   text-align: center;

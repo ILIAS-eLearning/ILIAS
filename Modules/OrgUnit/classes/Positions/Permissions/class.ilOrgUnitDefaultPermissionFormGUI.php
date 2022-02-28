@@ -4,7 +4,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitDefaultPermissionFormGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
@@ -19,10 +18,8 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
      */
     protected $ilOrgUnitPermissions = [];
 
-
     /**
      * ilOrgUnitDefaultPermissionFormGUI constructor.
-     *
      * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
      * @param ilOrgUnitPermission[]                        $ilOrgUnitPermissionsFilter
      */
@@ -37,7 +34,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $this->setTarget('_top');
         parent::__construct();
     }
-
 
     /**
      * @return int ID of the object
@@ -54,7 +50,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-
     protected function initButtons()
     {
         $this->setTitle($this->txt("form_title_org_default_permissions_"
@@ -62,7 +57,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $this->addCommandButton(BaseCommands::CMD_UPDATE, $this->txt('save', true));
         $this->addCommandButton(BaseCommands::CMD_CANCEL, $this->txt(BaseCommands::CMD_CANCEL));
     }
-
 
     protected function initFormElements()
     {
@@ -82,7 +76,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         }
     }
 
-
     public function fillForm()
     {
         $operations = array();
@@ -95,7 +88,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         }
         $this->setValuesByArray($operations);
     }
-
 
     protected function fillObject()
     {
@@ -118,7 +110,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-
     /**
      * @return \ilOrgUnitPermission[]
      */
@@ -126,7 +117,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     {
         return $this->ilOrgUnitPermissions;
     }
-
 
     /**
      * @param \ilOrgUnitPermission[] $ilOrgUnitPermissions
@@ -136,7 +126,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $this->ilOrgUnitPermissions = $ilOrgUnitPermissions;
     }
 
-
     /**
      * @return \ILIAS\DI\Container
      */
@@ -145,10 +134,8 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         return $GLOBALS["DIC"];
     }
 
-
     /**
      * @param $key
-     *
      * @return mixed
      */
     protected function txt($key)
