@@ -53,7 +53,7 @@ class ilQTIMaterial
     public $altmaterial;
 
     /**
-     * @var array [['material' => string, 'type' => string]]
+     * @var array{material: string, type: string}[]
      */
     public $materials;
     

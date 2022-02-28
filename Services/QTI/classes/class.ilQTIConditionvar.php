@@ -31,25 +31,45 @@
 */
 class ilQTIConditionvar
 {
+    /** @var int[] */
     public $arr_not;
+    /** @var int[] */
     public $arr_and;
+    /** @var int[] */
     public $arr_or;
+    /** @var array */
     public $unanswered;
+    /** @var array */
     public $other;
+    /** @var array */
     public $varequal;
+    /** @var array */
     public $varlt;
+    /** @var array */
     public $varlte;
+    /** @var array */
     public $vargt;
+    /** @var array */
     public $vargte;
+    /** @var array */
     public $varsubset;
+    /** @var array */
     public $varinside;
+    /** @var array */
     public $varsubstring;
+    /** @var array */
     public $durequal;
+    /** @var array */
     public $durlt;
+    /** @var array */
     public $durlte;
+    /** @var array */
     public $durgt;
+    /** @var array */
     public $durgte;
+    /** @var array */
     public $varextension;
+    /** @var array{field: arr_or, index: int} */
     public $order;
     
     public function __construct()

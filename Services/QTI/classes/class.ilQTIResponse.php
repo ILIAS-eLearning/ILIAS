@@ -53,6 +53,8 @@ class ilQTIResponse
 
     /** @var int */
     public $response_type;
+
+    /** @var string|null */
     public $ident;
 
     /** @var string */
@@ -90,12 +92,18 @@ class ilQTIResponse
     {
         return $this->response_type;
     }
-    
+
+    /**
+     * @param string $a_ident
+     */
     public function setIdent($a_ident) : void
     {
         $this->ident = $a_ident;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getIdent()
     {
         return $this->ident;

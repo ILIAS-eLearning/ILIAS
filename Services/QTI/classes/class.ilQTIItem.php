@@ -48,7 +48,10 @@ const QT_TEXTSUBSET = "assTextSubset";
  */
 class ilQTIItem
 {
+    /** @var string|null */
     public $ident;
+
+    /** @var string|null */
     public $title;
     public $maxattempts;
     public $label;
@@ -80,12 +83,12 @@ class ilQTIItem
     public $presentationitem;
 
     /**
-     * @var array [['solution' => string, 'gap_index' => string]] // @todo Check if really strings.
+     * @var array {solution: string, gap_index: string}[] // @todo Check if really strings.
      */
     public $suggested_solutions;
 
     /**
-     * @var array [['label' => string]]
+     * @var array {label: string}[]
      */
     public $itemmetadata;
 
@@ -108,22 +111,34 @@ class ilQTIItem
         $this->iliasSourceVersion = null;
         $this->iliasSourceNic = null;
     }
-    
+
+    /**
+     * @param string $a_ident
+     */
     public function setIdent($a_ident) : void
     {
         $this->ident = $a_ident;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getIdent()
     {
         return $this->ident;
     }
-    
+
+    /**
+     * @param string $a_title
+     */
     public function setTitle($a_title) : void
     {
         $this->title = $a_title;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getTitle()
     {
         return $this->title;

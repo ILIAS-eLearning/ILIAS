@@ -50,7 +50,10 @@ class ilQTIAssessmentcontrol
         $this->view = "All";
         $this->feedbackswitch = "";
     }
-    
+
+    /**
+     * @param string $a_view
+     */
     public function setView($a_view) : void
     {
         switch ($a_view) {
@@ -70,37 +73,58 @@ class ilQTIAssessmentcontrol
                 break;
         }
     }
-    
+
+    /**
+     * @return string
+     */
     public function getView()
     {
         return $this->view;
     }
 
+    /**
+     * @param string $a_hintswitch
+     */
     public function setHintswitch($a_hintswitch) : void
     {
         $this->hintswitch = 'No' === $a_hintswitch ? 'No' : 'Yes';
     }
-    
+
+    /**
+     * @return string
+     */
     public function getHintswitch()
     {
         return $this->hintswitch;
     }
-    
+
+    /**
+     * @param string $a_solutionswitch
+     */
     public function setSolutionswitch($a_solutionswitch) : void
     {
         $this->solutionswitch = 'No' === $a_solutionswitch ? 'No' : 'Yes';
     }
-    
+
+    /**
+     * @return string
+     */
     public function getSolutionswitch()
     {
         return $this->solutionswitch;
     }
 
+    /**
+     * @param string $a_feedbackswitch
+     */
     public function setFeedbackswitch($a_feedbackswitch) : void
     {
         $this->feedbackswitch = 'No' === $a_feedbackswitch ? 'No' : 'Yes';
     }
-    
+
+    /**
+     * @return string
+     */
     public function getFeedbackswitch()
     {
         return $this->feedbackswitch;

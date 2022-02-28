@@ -50,6 +50,8 @@ class ilQTIResponseLabel
     /** @var string|null */
     public $rrange;
     public $labelrefid;
+
+    /** @var string|null */
     public $ident;
     public $match_group;
     public $match_max;
@@ -155,12 +157,18 @@ class ilQTIResponseLabel
     {
         return $this->labelrefid;
     }
-    
+
+    /**
+     * @param string $a_ident
+     */
     public function setIdent($a_ident) : void
     {
         $this->ident = $a_ident;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getIdent()
     {
         return $this->ident;

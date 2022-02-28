@@ -49,7 +49,7 @@ class ilQTIPresentation
     public $response;
 
     /**
-     * @var array [['type' => string, 'index' => int]]
+     * @var array{type: string, index: int}[]
      */
     public $order;
     

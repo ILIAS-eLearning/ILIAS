@@ -41,6 +41,8 @@ class ilQTIMattext
 
     /** @var string|null */
     public $xmlspace;
+
+    /** @var string|null */
     public $xmllang;
     public $entityref;
     public $width;
@@ -112,12 +114,18 @@ class ilQTIMattext
     {
         return $this->uri;
     }
-    
+
+    /**
+     * @param string $a_xmllang
+     */
     public function setXmllang($a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getXmllang()
     {
         return $this->xmllang;

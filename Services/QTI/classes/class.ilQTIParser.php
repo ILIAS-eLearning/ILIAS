@@ -51,7 +51,7 @@ class ilQTIParser extends ilSaxParser
     public $item;
 
     /**
-     * @var ilQTIXMLParserArray
+     * @var ilQTIXMLParserMap
      */
     public $depth;
 
@@ -344,7 +344,7 @@ class ilQTIParser extends ilSaxParser
         $this->path = array();
         $this->items = array();
         $this->item = null;
-        $this->depth = new ilQTIXMLParserArray();
+        $this->depth = new SplObjectStorage();
         $this->do_nothing = false;
         $this->qti_element = "";
         $this->in_presentation = false;
@@ -482,40 +482,16 @@ class ilQTIParser extends ilSaxParser
         }
         $this->sametag = false;
         $this->characterbuffer = "";
-        $this->depth[$a_xml_parser]++;
+        $this->depth[$a_xml_parser] += 1; // Issue with SplObjectStorage: Cannot use ++.
         $this->path[$this->depth[$a_xml_parser]] = strtolower($a_name);
         $this->qti_element = $a_name;
 
         switch (strtolower($a_name)) {
             case "assessment":
-                $this->assessment = $this->assessments[] = new ilQTIAssessment();
-                $this->in_assessment = true;
-                foreach ($a_attribs as $attribute => $value) {
-                    switch (strtolower($attribute)) {
-                    case "title":
-                        $this->assessment->setTitle($value);
-                        break;
-                    case "ident":
-                        $this->assessment->setIdent($value);
-                        break;
-                    }
-                }
+                $this->assessmentBeginTag($a_attribs);
                 break;
             case "assessmentcontrol":
-                $this->assessmentcontrol = new ilQTIAssessmentcontrol();
-                foreach ($a_attribs as $attribute => $value) {
-                    switch (strtolower($attribute)) {
-                    case "solutionswitch":
-                        $this->assessmentcontrol->setSolutionswitch($value);
-                        break;
-                    case "hintswitch":
-                        $this->assessmentcontrol->setHintswitch($value);
-                        break;
-                    case "feedbackswitch":
-                        $this->assessmentcontrol->setFeedbackswitch($value);
-                        break;
-                    }
-                }
+                $this->assessmentControlBeginTag($a_attribs);
                 break;
             case "objectives":
                 $this->objectives = new ilQTIObjectives();
@@ -541,49 +517,13 @@ class ilQTIParser extends ilSaxParser
                 $this->flow_mat[] = new ilQTIFlowMat();
                 break;
             case "itemfeedback":
-                $this->itemfeedback = new ilQTIItemfeedback();
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "ident":
-                                $this->itemfeedback->setIdent($value);
-                                break;
-                            case "view":
-                                $this->itemfeedback->setView($value);
-                                break;
-                        }
-                    }
-                }
+                $this->itemFeedbackBeginTag($a_attribs);
                 break;
             case "displayfeedback":
-                $this->displayfeedback = new ilQTIDisplayfeedback();
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "feedbacktype":
-                                $this->displayfeedback->setFeedbacktype($value);
-                                break;
-                            case "linkrefid":
-                                $this->displayfeedback->setLinkrefid($value);
-                                break;
-                        }
-                    }
-                }
+                $this->displayFeedbackBeginTag($a_attribs);
                 break;
             case "setvar":
-                $this->setvar = new ilQTISetvar();
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "action":
-                                $this->setvar->setAction($value);
-                                break;
-                            case "varname":
-                                $this->setvar->setVarname($value);
-                                break;
-                        }
-                    }
-                }
+                $this->setVarBeginTag($a_attribs);
                 break;
             case "conditionvar":
                 $this->conditionvar = new ilQTIConditionvar();
@@ -604,22 +544,7 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "varequal":
-                $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_EQUAL);
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "case":
-                                $this->responsevar->setCase($value);
-                                break;
-                            case "respident":
-                                $this->responsevar->setRespident($value);
-                                break;
-                            case "index":
-                                $this->responsevar->setIndex($value);
-                                break;
-                        }
-                    }
-                }
+                $this->varEqualBeginTag($a_attribs);
                 break;
             case "varlt":
                 $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_LT);
@@ -754,161 +679,19 @@ class ilQTIParser extends ilSaxParser
                 $this->outcomes = new ilQTIOutcomes();
                 break;
             case "decvar":
-                $this->decvar = new ilQTIDecvar();
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "varname":
-                                $this->decvar->setVarname($value);
-                                break;
-                            case "vartype":
-                                $this->decvar->setVartype($value);
-                                break;
-                            case "defaultval":
-                                $this->decvar->setDefaultval($value);
-                                break;
-                            case "minvalue":
-                                $this->decvar->setMinvalue($value);
-                                break;
-                            case "maxvalue":
-                                $this->decvar->setMaxvalue($value);
-                                break;
-                            case "members":
-                                $this->decvar->setMembers($value);
-                                break;
-                            case "cutvalue":
-                                $this->decvar->setCutvalue($value);
-                                break;
-                        }
-                    }
-                }
+                $this->decVarBeginTag($a_attribs);
                 break;
             case "matimage":
-                $this->matimage = new ilQTIMatimage();
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "imagtype":
-                                $this->matimage->setImagetype($value);
-                                break;
-                            case "label":
-                                $this->matimage->setLabel($value);
-                                break;
-                            case "height":
-                                $this->matimage->setHeight($value);
-                                break;
-                            case "width":
-                                $this->matimage->setWidth($value);
-                                break;
-                            case "uri":
-                                $this->matimage->setUri($value);
-                                break;
-                            case "embedded":
-                                $this->matimage->setEmbedded($value);
-                                break;
-                            case "x0":
-                                $this->matimage->setX0($value);
-                                break;
-                            case "y0":
-                                $this->matimage->setY0($value);
-                                break;
-                            case "entityref":
-                                $this->matimage->setEntityref($value);
-                                break;
-                        }
-                    }
-                }
-                if (!$this->matimage->getEmbedded() && strlen($this->matimage->getUri())) {
-                    $this->matimage->setContent(@file_get_contents(dirname($this->xml_file) . '/' . $this->matimage->getUri()));
-                }
+                $this->matImageBeginTag($a_attribs);
                 break;
             case "material":
-                $this->material = new ilQTIMaterial();
-                $this->material->setFlow($this->flow);
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "label":
-                                $this->material->setLabel($value);
-                                break;
-                        }
-                    }
-                }
+                $this->materialBeginTag($a_attribs);
                 break;
             case "mattext":
-                $this->mattext = new ilQTIMattext();
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "texttype":
-                                $this->mattext->setTexttype($value);
-                                break;
-                            case "label":
-                                $this->mattext->setLabel($value);
-                                break;
-                            case "charset":
-                                $this->mattext->setCharset($value);
-                                break;
-                            case "uri":
-                                $this->mattext->setUri($value);
-                                break;
-                            case "xml:space":
-                                $this->mattext->setXmlspace($value);
-                                break;
-                            case "xml:lang":
-                                $this->mattext->setXmllang($value);
-                                break;
-                            case "entityref":
-                                $this->mattext->setEntityref($value);
-                                break;
-                            case "height":
-                                $this->mattext->setHeight($value);
-                                break;
-                            case "width":
-                                $this->mattext->setWidth($value);
-                                break;
-                            case "x0":
-                                $this->mattext->setX0($value);
-                                break;
-                            case "y0":
-                                $this->mattext->setY0($value);
-                                break;
-                        }
-                    }
-                }
+                $this->matTextBeginTag($a_attribs);
                 break;
             case "matapplet":
-                $this->matapplet = new ilQTIMatapplet();
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "label":
-                                $this->matapplet->setLabel($value);
-                                break;
-                            case "uri":
-                                $this->matapplet->setUri($value);
-                                break;
-                            case "y0":
-                                $this->matapplet->setY0($value);
-                                break;
-                            case "height":
-                                $this->matapplet->setHeight($value);
-                                break;
-                            case "width":
-                                $this->matapplet->setWidth($value);
-                                break;
-                            case "x0":
-                                $this->matapplet->setX0($value);
-                                break;
-                            case "embedded":
-                                $this->matapplet->setEmbedded($value);
-                                break;
-                            case "entityref":
-                                $this->matapplet->setEntityref($value);
-                                break;
-                        }
-                    }
-                }
+                $this->matAppletBeginTag($a_attribs);
                 break;
             case "questestinterop":
                 $this->hasRootElement = true;
@@ -923,106 +706,16 @@ class ilQTIParser extends ilSaxParser
                 $this->presentation = new ilQTIPresentation();
                 break;
             case "response_label":
-                if ($this->render_type != null) {
-                    $this->response_label = new ilQTIResponseLabel();
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "rshuffle":
-                                $this->response_label->setRshuffle($value);
-                                break;
-                            case "rarea":
-                                $this->response_label->setRarea($value);
-                                break;
-                            case "rrange":
-                                $this->response_label->setRrange($value);
-                                break;
-                            case "labelrefid":
-                                $this->response_label->setLabelrefid($value);
-                                break;
-                            case "ident":
-                                $this->response_label->setIdent($value);
-                                break;
-                            case "match_group":
-                                $this->response_label->setMatchGroup($value);
-                                break;
-                            case "match_max":
-                                $this->response_label->setMatchMax($value);
-                                break;
-                        }
-                    }
-                }
+                $this->responseLabelBeginTag($a_attribs);
                 break;
             case "render_choice":
-                if ($this->in_response) {
-                    $this->render_type = new ilQTIRenderChoice();
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "shuffle":
-                                $this->render_type->setShuffle($value);
-                                break;
-                            case 'minnumber':
-                                $this->render_type->setMinnumber($value);
-                                break;
-                            case 'maxnumber':
-                                $this->render_type->setMaxnumber($value);
-                                break;
-                        }
-                    }
-                }
+                $this->renderChoiceBeginTag($a_attribs);
                 break;
             case "render_hotspot":
-                if ($this->in_response) {
-                    $this->render_type = new ilQTIRenderHotspot();
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "showdraw":
-                                $this->render_type->setShowdraw($value);
-                                break;
-                            case "minnumber":
-                                $this->render_type->setMinnumber($value);
-                                break;
-                            case "maxnumber":
-                                $this->render_type->setMaxnumber($value);
-                                break;
-                        }
-                    }
-                }
+                $this->renderHotspotBeginTag($a_attribs);
                 break;
             case "render_fib":
-                if ($this->in_response) {
-                    $this->render_type = new ilQTIRenderFib();
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "encoding":
-                                $this->render_type->setEncoding($value);
-                                break;
-                            case "fibtype":
-                                $this->render_type->setFibtype($value);
-                                break;
-                            case "rows":
-                                $this->render_type->setRows($value);
-                                break;
-                            case "maxchars":
-                                $this->render_type->setMaxchars($value);
-                                break;
-                            case "prompt":
-                                $this->render_type->setPrompt($value);
-                                break;
-                            case "columns":
-                                $this->render_type->setColumns($value);
-                                break;
-                            case "charset":
-                                $this->render_type->setCharset($value);
-                                break;
-                            case "maxnumber":
-                                $this->render_type->setMaxnumber($value);
-                                break;
-                            case "minnumber":
-                                $this->render_type->setMinnumber($value);
-                                break;
-                        }
-                    }
-                }
+                $this->renderFibBeginTag($a_attribs);
                 break;
             case "response_lid":
                 // Ordering Terms and Definitions    or
@@ -1035,86 +728,15 @@ class ilQTIParser extends ilSaxParser
                 // Close question
             case "response_num":
             case "response_grp":
-                $response_type = "0";//@todo maybe null.
-                switch (strtolower($a_name)) {
-                    case "response_lid":
-                        $response_type = RT_RESPONSE_LID;
-                        break;
-                    case "response_xy":
-                        $response_type = RT_RESPONSE_XY;
-                        break;
-                    case "response_str":
-                        $response_type = RT_RESPONSE_STR;
-                        break;
-                    case "response_num":
-                        $response_type = RT_RESPONSE_NUM;
-                        break;
-                    case "response_grp":
-                        $response_type = RT_RESPONSE_GRP;
-                        break;
-                }
-                $this->in_response = true;
-                $this->response = new ilQTIResponse($response_type);
-                $this->response->setFlow($this->flow);
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "ident":
-                                $this->response->setIdent($value);
-                                break;
-                            case "rtiming":
-                                $this->response->setRTiming($value);
-                                break;
-                            case "rcardinality":
-                                $this->response->setRCardinality($value);
-                                break;
-                            case "numtype":
-                                $this->response->setNumtype($value);
-                                break;
-                        }
-                    }
-                }
+                // Matching terms and definitions
+                // Matching terms and images
+                $this->termsAndDefinitionsBeginTag($a_attribs);
                 break;
             case "item":
-                $this->gap_index = 0;
-                $this->item = $this->items[] = new ilQTIItem();
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "ident":
-                                $this->item->setIdent($value);
-                                $this->item->setIliasSourceNic(
-                                    $this->fetchSourceNicFromItemIdent($value)
-                                );
-                                if ($this->isIgnoreItemsEnabled()) {
-                                    $this->do_nothing = true;
-                                } elseif (count($this->import_idents) > 0) {
-                                    if (!in_array($value, $this->import_idents)) {
-                                        $this->do_nothing = true;
-                                    }
-                                }
-                                break;
-                            case "title":
-                                $this->item->setTitle($value);
-                                break;
-                            case "maxattempts":
-                                $this->item->setMaxattempts($value);
-                                break;
-                        }
-                    }
-                }
+                $this->itemBeginTag($a_attribs);
                 break;
             case "resprocessing":
-                $this->resprocessing = new ilQTIResprocessing();
-                if (is_array($a_attribs)) {
-                    foreach ($a_attribs as $attribute => $value) {
-                        switch (strtolower($attribute)) {
-                            case "scoremodel":
-                                $this->resprocessing->setScoremodel($value);
-                                break;
-                        }
-                    }
-                }
+                $this->resprocessingBeginTag($a_attribs);
                 break;
         }
     }
@@ -1441,7 +1063,7 @@ class ilQTIParser extends ilSaxParser
                 $this->matapplet = null;
                 break;
         }
-        $this->depth[$a_xml_parser]--;
+        $this->depth[$a_xml_parser] -= 1; // Issue with SplObjectStorage: Cannot use --.
     }
 
     /**
@@ -1764,7 +1386,7 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @return array [["title" => string, "type" => string, "ident" => string]]
+     * @return array{title: string, type: string, ident: string}[]
      */
     public function &getFoundItems()
     {
@@ -1912,5 +1534,473 @@ class ilQTIParser extends ilSaxParser
         }
 
         return (bool) $vs->scanBuffer($buffer);
+    }
+
+    private function assessmentBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIAssessment.php");
+        $this->assessment = $this->assessments[] = new ilQTIAssessment();
+        $this->in_assessment = true;
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "title":
+                    $this->assessment->setTitle($value);
+                    break;
+                case "ident":
+                    $this->assessment->setIdent($value);
+                    break;
+            }
+        }
+    }
+
+    private function assessmentControlBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIAssessmentcontrol.php");
+        $this->assessmentcontrol = new ilQTIAssessmentcontrol();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "solutionswitch":
+                    $this->assessmentcontrol->setSolutionswitch($value);
+                    break;
+                case "hintswitch":
+                    $this->assessmentcontrol->setHintswitch($value);
+                    break;
+                case "feedbackswitch":
+                    $this->assessmentcontrol->setFeedbackswitch($value);
+                    break;
+            }
+        }
+    }
+
+    private function itemFeedbackBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIItemfeedback.php");
+        $this->itemfeedback = new ilQTIItemfeedback();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "ident":
+                    $this->itemfeedback->setIdent($value);
+                    break;
+                case "view":
+                    $this->itemfeedback->setView($value);
+                    break;
+            }
+        }
+    }
+
+    private function displayFeedbackBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIDisplayfeedback.php");
+        $this->displayfeedback = new ilQTIDisplayfeedback();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "feedbacktype":
+                    $this->displayfeedback->setFeedbacktype($value);
+                    break;
+                case "linkrefid":
+                    $this->displayfeedback->setLinkrefid($value);
+                    break;
+            }
+        }
+    }
+
+    private function setVarBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTISetvar.php");
+        $this->setvar = new ilQTISetvar();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "action":
+                    $this->setvar->setAction($value);
+                    break;
+                case "varname":
+                    $this->setvar->setVarname($value);
+                    break;
+            }
+        }
+    }
+
+    private function varEqualBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
+        $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_EQUAL);
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "case":
+                    $this->responsevar->setCase($value);
+                    break;
+                case "respident":
+                    $this->responsevar->setRespident($value);
+                    break;
+                case "index":
+                    $this->responsevar->setIndex($value);
+                    break;
+            }
+        }
+    }
+
+    private function termsAndDefinitionsBeginTag(array $a_attribs) : void
+    {
+        include_once "./Services/QTI/classes/class.ilQTIResponse.php";
+        $response_type = "0";
+        switch (strtolower($a_name)) {
+            case "response_lid":
+                $response_type = RT_RESPONSE_LID;
+                break;
+            case "response_xy":
+                $response_type = RT_RESPONSE_XY;
+                break;
+            case "response_str":
+                $response_type = RT_RESPONSE_STR;
+                break;
+            case "response_num":
+                $response_type = RT_RESPONSE_NUM;
+                break;
+            case "response_grp":
+                $response_type = RT_RESPONSE_GRP;
+                break;
+        }
+        $this->in_response = true;
+        $this->response = new ilQTIResponse($response_type);
+        $this->response->setFlow($this->flow);
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "ident":
+                    $this->response->setIdent($value);
+                    break;
+                case "rtiming":
+                    $this->response->setRTiming($value);
+                    break;
+                case "rcardinality":
+                    $this->response->setRCardinality($value);
+                    break;
+                case "numtype":
+                    $this->response->setNumtype($value);
+                    break;
+            }
+        }
+    }
+
+    private function itemBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIItem.php");
+        $this->gap_index = 0;
+        $this->item = $this->items[] = new ilQTIItem();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "ident":
+                    $this->item->setIdent($value);
+                    $this->item->setIliasSourceNic(
+                        $this->fetchSourceNicFromItemIdent($value)
+                    );
+                    if ($this->isIgnoreItemsEnabled()) {
+                        $this->do_nothing = true;
+                    } elseif (count($this->import_idents) > 0) {
+                        if (!in_array($value, $this->import_idents)) {
+                            $this->do_nothing = true;
+                        }
+                    }
+                    break;
+                case "title":
+                    $this->item->setTitle($value);
+                    break;
+                case "maxattempts":
+                    $this->item->setMaxattempts($value);
+                    break;
+            }
+        }
+    }
+
+    private function resprocessingBeginTagarray(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIResprocessing.php");
+        $this->resprocessing = new ilQTIResprocessing();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "scoremodel":
+                    $this->resprocessing->setScoremodel($value);
+                    break;
+            }
+        }
+    }
+
+    private function renderFibBeginTag(array $a_attribs) : void
+    {
+        if (!$this->in_response) {
+            return;
+        }
+        include_once("./Services/QTI/classes/class.ilQTIRenderFib.php");
+        $this->render_type = new ilQTIRenderFib();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "encoding":
+                    $this->render_type->setEncoding($value);
+                    break;
+                case "fibtype":
+                    $this->render_type->setFibtype($value);
+                    break;
+                case "rows":
+                    $this->render_type->setRows($value);
+                    break;
+                case "maxchars":
+                    $this->render_type->setMaxchars($value);
+                    break;
+                case "prompt":
+                    $this->render_type->setPrompt($value);
+                    break;
+                case "columns":
+                    $this->render_type->setColumns($value);
+                    break;
+                case "charset":
+                    $this->render_type->setCharset($value);
+                    break;
+                case "maxnumber":
+                    $this->render_type->setMaxnumber($value);
+                    break;
+                case "minnumber":
+                    $this->render_type->setMinnumber($value);
+                    break;
+            }
+        }
+    }
+
+    private function renderHotspotBeginTag(array $a_attribs) : void
+    {
+        if (!$this->in_response) {
+            return;
+        }
+        include_once("./Services/QTI/classes/class.ilQTIRenderHotspot.php");
+        $this->render_type = new ilQTIRenderHotspot();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "showdraw":
+                    $this->render_type->setShowdraw($value);
+                    break;
+                case "minnumber":
+                    $this->render_type->setMinnumber($value);
+                    break;
+                case "maxnumber":
+                    $this->render_type->setMaxnumber($value);
+                    break;
+            }
+        }
+    }
+
+    private function renderChoiceBeginTag(array $a_attribs) : void
+    {
+        if (!$this->in_response) {
+            return;
+        }
+        include_once("./Services/QTI/classes/class.ilQTIRenderChoice.php");
+        $this->render_type = new ilQTIRenderChoice();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "shuffle":
+                    $this->render_type->setShuffle($value);
+                    break;
+                case 'minnumber':
+                    $this->render_type->setMinnumber($value);
+                    break;
+                case 'maxnumber':
+                    $this->render_type->setMaxnumber($value);
+                    break;
+            }
+        }
+    }
+
+    private function responseLabelBeginTag(array $a_attribs) : void
+    {
+        if ($this->render_type == null) {
+            return;
+        }
+        include_once("./Services/QTI/classes/class.ilQTIResponseLabel.php");
+        $this->response_label = new ilQTIResponseLabel();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "rshuffle":
+                    $this->response_label->setRshuffle($value);
+                    break;
+                case "rarea":
+                    $this->response_label->setRarea($value);
+                    break;
+                case "rrange":
+                    $this->response_label->setRrange($value);
+                    break;
+                case "labelrefid":
+                    $this->response_label->setLabelrefid($value);
+                    break;
+                case "ident":
+                    $this->response_label->setIdent($value);
+                    break;
+                case "match_group":
+                    $this->response_label->setMatchGroup($value);
+                    break;
+                case "match_max":
+                    $this->response_label->setMatchMax($value);
+                    break;
+            }
+        }
+    }
+
+    private function matAppletBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIMatapplet.php");
+        $this->matapplet = new ilQTIMatapplet();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "label":
+                    $this->matapplet->setLabel($value);
+                    break;
+                case "uri":
+                    $this->matapplet->setUri($value);
+                    break;
+                case "y0":
+                    $this->matapplet->setY0($value);
+                    break;
+                case "height":
+                    $this->matapplet->setHeight($value);
+                    break;
+                case "width":
+                    $this->matapplet->setWidth($value);
+                    break;
+                case "x0":
+                    $this->matapplet->setX0($value);
+                    break;
+                case "embedded":
+                    $this->matapplet->setEmbedded($value);
+                    break;
+                case "entityref":
+                    $this->matapplet->setEntityref($value);
+                    break;
+            }
+        }
+    }
+
+    private function matTextBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIMattext.php");
+        $this->mattext = new ilQTIMattext();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "texttype":
+                    $this->mattext->setTexttype($value);
+                    break;
+                case "label":
+                    $this->mattext->setLabel($value);
+                    break;
+                case "charset":
+                    $this->mattext->setCharset($value);
+                    break;
+                case "uri":
+                    $this->mattext->setUri($value);
+                    break;
+                case "xml:space":
+                    $this->mattext->setXmlspace($value);
+                    break;
+                case "xml:lang":
+                    $this->mattext->setXmllang($value);
+                    break;
+                case "entityref":
+                    $this->mattext->setEntityref($value);
+                    break;
+                case "height":
+                    $this->mattext->setHeight($value);
+                    break;
+                case "width":
+                    $this->mattext->setWidth($value);
+                    break;
+                case "x0":
+                    $this->mattext->setX0($value);
+                    break;
+                case "y0":
+                    $this->mattext->setY0($value);
+                    break;
+            }
+        }
+    }
+
+    private function materialBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIMaterial.php");
+        $this->material = new ilQTIMaterial();
+        $this->material->setFlow($this->flow);
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "label":
+                    $this->material->setLabel($value);
+                    break;
+            }
+        }
+    }
+
+    private function matImageBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIMatimage.php");
+        $this->matimage = new ilQTIMatimage();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "imagtype":
+                    $this->matimage->setImagetype($value);
+                    break;
+                case "label":
+                    $this->matimage->setLabel($value);
+                    break;
+                case "height":
+                    $this->matimage->setHeight($value);
+                    break;
+                case "width":
+                    $this->matimage->setWidth($value);
+                    break;
+                case "uri":
+                    $this->matimage->setUri($value);
+                    break;
+                case "embedded":
+                    $this->matimage->setEmbedded($value);
+                    break;
+                case "x0":
+                    $this->matimage->setX0($value);
+                    break;
+                case "y0":
+                    $this->matimage->setY0($value);
+                    break;
+                case "entityref":
+                    $this->matimage->setEntityref($value);
+                    break;
+            }
+        }
+        if (!$this->matimage->getEmbedded() && strlen($this->matimage->getUri())) {
+            $this->matimage->setContent(@file_get_contents(dirname($this->xml_file) . '/' . $this->matimage->getUri()));
+        }
+    }
+
+    private function decVarBeginTag(array $a_attribs) : void
+    {
+        include_once("./Services/QTI/classes/class.ilQTIDecvar.php");
+        $this->decvar = new ilQTIDecvar();
+        foreach ($a_attribs as $attribute => $value) {
+            switch (strtolower($attribute)) {
+                case "varname":
+                    $this->decvar->setVarname($value);
+                    break;
+                case "vartype":
+                    $this->decvar->setVartype($value);
+                    break;
+                case "defaultval":
+                    $this->decvar->setDefaultval($value);
+                    break;
+                case "minvalue":
+                    $this->decvar->setMinvalue($value);
+                    break;
+                case "maxvalue":
+                    $this->decvar->setMaxvalue($value);
+                    break;
+                case "members":
+                    $this->decvar->setMembers($value);
+                    break;
+                case "cutvalue":
+                    $this->decvar->setCutvalue($value);
+                    break;
+            }
+        }
     }
 }

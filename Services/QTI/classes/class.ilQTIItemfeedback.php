@@ -44,9 +44,11 @@ class ilQTIItemfeedback
 {
     /** @var string|null */
     public $view;
+
+    /** @var string|null */
     public $ident;
 
-    /** @var string|null @todo check */
+    /** @var string|null */
     public $title;
 
     /** @var array */
@@ -125,12 +127,18 @@ class ilQTIItemfeedback
     {
         return $this->view;
     }
-    
+
+    /**
+     * @param string $a_ident
+     */
     public function setIdent($a_ident) : void
     {
         $this->ident = $a_ident;
     }
-    
+
+    /**
+     * @param string|null
+     */
     public function getIdent()
     {
         return $this->ident;

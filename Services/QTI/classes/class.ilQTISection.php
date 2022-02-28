@@ -31,7 +31,10 @@
 */
 class ilQTISection
 {
+    /** @var string|null */
     public $ident;
+
+    /** @var string|null */
     public $title;
     public $xmllang;
     public $comment;
@@ -96,22 +99,34 @@ class ilQTISection
         $this->sectionref = array();
         $this->section = array();
     }
-    
+
+    /**
+     * @param string $a_ident
+     */
     public function setIdent($a_ident) : void
     {
         $this->ident = $a_ident;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getIdent()
     {
         return $this->ident;
     }
-    
+
+    /**
+     * @param string $a_title
+     */
     public function setTitle($a_title) : void
     {
         $this->title = $a_title;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getTitle()
     {
         return $this->title;
@@ -142,7 +157,7 @@ class ilQTISection
     }
 
     /**
-     * @return null|array ['h' => string, 'm' => string, 's' => string]
+     * @return null|array{h: string, m: string, s: string}
      */
     public function getDuration()
     {

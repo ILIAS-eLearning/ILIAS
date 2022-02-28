@@ -36,6 +36,8 @@ class ilQTIRespcondition
 {
     /** @var string|null */
     public $continue;
+
+    /** @var string|null */
     public $title;
     public $comment;
     public $conditionvar;
@@ -77,12 +79,18 @@ class ilQTIRespcondition
     {
         return $this->continue;
     }
-    
+
+    /**
+     * @param string $a_title
+     */
     public function setTitle($a_title) : void
     {
         $this->title = $a_title;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getTitle()
     {
         return $this->title;
