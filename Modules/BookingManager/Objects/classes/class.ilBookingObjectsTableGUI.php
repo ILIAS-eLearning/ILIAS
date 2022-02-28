@@ -346,7 +346,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         } elseif (!$this->may_edit) {
             if (isset($this->reservations[$a_set["booking_object_id"]])) {
                 foreach ($this->reservations[$a_set["booking_object_id"]] as $item) {
-                    if ($item["user_id"] == $ilUser->getId()) {
+                    if ($item["status"] != ilBookingReservation::STATUS_CANCELLED &&
+                        $item["user_id"] == $ilUser->getId()
+                    ) {
                         $has_booking = true;
                     }
                 }
