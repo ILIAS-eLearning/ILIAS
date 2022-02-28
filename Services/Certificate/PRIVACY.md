@@ -6,10 +6,20 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 
 ## General Information
 
-- An account with `Edit Settings` permissions for `Administration > Achievements > Certificates > Settings`
-  can enable the `Certificate Service` globally. If enabled, certificate templates can be
-  configured and activated for different object types (see list below) depending on the `Edit Settings` permission
-  for the particular object in the repository.
+- An account with "Edit Settings" permissions for "Administration > Achievements > Certificates > Settings"
+  can enable the "Certificate Service" globally.
+- If the "Certificate Service" is globally activated then the object types
+
+      - Modules/Course
+      - Modules/StudyProgramme
+      - Modules/Exercise
+      - Modules/Test
+      - Modules/ScormAicc
+      - Modules/CmiXapi
+      - Modules/LTIConsumer
+
+  feature an additional sub-tab "Certificate" in the "Settings" tab.
+- Accounts with the permission "Edit Settings" for these particular objects can configure and activate certificates.
 
 ## Data being stored
 
