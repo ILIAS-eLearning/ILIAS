@@ -4,22 +4,18 @@
 
 /**
  * Class ilObjDataCollectionAccess
- *
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version $Id: class.ilObjDataCollectionAccess.php 15678 2008-01-06 20:40:55Z akill $
- *
  */
 class ilObjDataCollectionAccess extends ilObjectAccess
 {
 
     /**
      * get commands
-     *
      * this method returns an array of all possible commands/permission combinations
-     *
      * example:
      * $commands = array
      *    (
@@ -37,7 +33,6 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 
         return $commands;
     }
-
 
     /**
      * check whether goto script will succeed
@@ -61,11 +56,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return false;
     }
 
-
     /**
      * @param ilDclTable $table
      * @param            $ref_id
-     *
      * @return bool
      */
     protected static function isTableInDataCollection($table, $ref_id)
@@ -79,17 +72,14 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return false;
     }
 
-
     /**
      * checks wether a user may invoke a command or not
      * (this method is called by ilAccessHandler::checkAccess)
-     *
      * @param string $a_cmd        command (not permission!)
      * @param string $a_permission permission
      * @param int    $a_ref_id     reference id
      * @param int    $a_obj_id     object id
      * @param int    $a_user_id    user id (if not provided, current user is taken)
-     *
      * @return    boolean        true, if everything is ok
      */
     public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
@@ -140,10 +130,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return true;
     }
 
-
     /**
      * Check wether datacollection is online
-     *
      * @param int $a_id wiki id
      */
     public static function _lookupOnline($a_id)
@@ -164,7 +152,6 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 
     /**
      * @param $data_collection_id
-     *
      * @depracated use checkActionForId instead
      * @return bool
      */
@@ -183,11 +170,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $perm;
     }
 
-
     /**
      * @param $action
      * @param $obj_id
-     *
      * @return bool
      */
     public static function checkActionForObjId($action, $obj_id)
@@ -201,11 +186,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return false;
     }
 
-
     /**
      * @param $action
      * @param $ref_id
-     *
      * @return bool
      */
     public static function checkActionForRefId($action, $ref_id)
@@ -220,12 +203,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $ilAccess->checkAccess($action, "", $ref_id);
     }
 
-
     /**
      * @param     $ref int the reference id of the datacollection object to check.
-     *
      * @param int $user_id
-     *
      * @return bool whether or not the current user has admin/write access to the referenced datacollection
      */
     public static function hasWriteAccess($ref, $user_id = 0)
@@ -240,13 +220,10 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $ilAccess->checkAccess("write", "", $ref);
     }
 
-
     /**
      * Has permission to view and edit all entries event when he is not the owner
-     *
      * @param     $ref
      * @param int $user_id
-     *
      * @return mixed
      */
     public static function hasEditAccess($ref, $user_id = 0)
@@ -261,11 +238,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $ilAccess->checkAccess("edit_content", "", $ref);
     }
 
-
     /**
      * @param     $ref int the reference id of the datacollection object to check.
      * @param int $user_id
-     *
      * @return bool whether or not the current user has admin/write access to the referenced datacollection
      */
     public static function hasAddRecordAccess($ref, $user_id = 0)
@@ -280,11 +255,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $ilAccess->checkAccess("add_entry", "", $ref);
     }
 
-
     /**
      * @param     $ref int the reference id of the datacollection object to check.
      * @param int $user_id
-     *
      * @return bool whether or not the current user has read access to the referenced datacollection
      */
     public static function hasReadAccess($ref, $user_id = 0)
@@ -299,13 +272,10 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $ilAccess->checkAccess("read", "", $ref);
     }
 
-
     /**
      * This only checks access to the tableview - if the full access check is required, use hasAccessTo($ref_id, $table_id, $tableview_id)
-     *
      * @param integer|ilDclTableView $tableview can be object or id
      * @param int                    $user_id
-     *
      * @return bool
      */
     public static function hasAccessToTableView($tableview, $user_id = 0)
@@ -327,13 +297,10 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return !empty(array_intersect($assigned_roles, $allowed_roles));
     }
 
-
     /**
      * returns true if either the table is visible for all users, or no tables are visible and this is
      * the table with the lowest order (getFirstVisibleTableId())
-     *
      * @param $table_id
-     *
      * @return bool
      */
     protected static function hasAccessToTable($table_id)
@@ -343,12 +310,10 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $table->getIsVisible() || ($table_id == $table->getCollectionObject()->getFirstVisibleTableId());
     }
 
-
     /**
      * @param $ref_id
      * @param $table_id
      * @param $tableview_id
-     *
      * @return bool
      */
     public static function hasAccessTo($ref_id, $table_id, $tableview_id)
@@ -371,11 +336,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess
             );
     }
 
-
     /**
      * @param $ref_id
      * @param $table_id
-     *
      * @return bool
      */
     public static function hasAccessToFields($ref_id, $table_id)
@@ -384,11 +347,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess
             && (self::hasWriteAccess($ref_id));
     }
 
-
     /**
      * @param $ref_id
      * @param $table_id
-     *
      * @return bool
      */
     public static function hasAccessToEditTable($ref_id, $table_id)
@@ -396,12 +357,10 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return self::hasAccessToFields($ref_id, $table_id);
     }
 
-
     /**
      * @param $ref_id
      * @param $table_id
      * @param $field_id
-     *
      * @return bool
      */
     public static function hasAccessToField($ref_id, $table_id, $field_id)
@@ -411,11 +370,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return in_array($field_id, $table->getFieldIds()) && self::hasAccessToFields($ref_id, $table_id);
     }
 
-
     /**
      * @param int $ref_id
-     *
-     *
      * @return bool
      */
     public static function hasPermissionToAddRecord($ref_id, $table_id)

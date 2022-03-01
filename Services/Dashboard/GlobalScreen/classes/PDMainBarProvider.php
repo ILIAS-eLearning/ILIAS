@@ -91,9 +91,12 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
                                       ->withTitle($title)
                                       ->withSymbol($icon)
                                       ->withPosition(25)
-                                        ->withVisibilityCallable(function () use ($admin_ref_id) {
-                                            return $this->dic->rbac()->system()->checkAccess('visible,read', $ref_id);
-                                        });
+                                      ->withVisibilityCallable(function () use ($admin_ref_id) {
+                                          return $this->dic->rbac()->system()->checkAccess(
+                                              'visible,read',
+                                              $admin_ref_id
+                                          );
+                                      });
         }
 
 

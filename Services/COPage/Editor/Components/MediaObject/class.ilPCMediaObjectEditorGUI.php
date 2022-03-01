@@ -59,6 +59,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
 
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
+        $form->setTitle($lng->txt("cont_edit_mob"));
 
         /** @var ilPCMediaObject $pc_media */
         $pc_media = $page_gui->getPageObject()->getContentObjectForPcId($pcid);
@@ -71,6 +72,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
             $page_gui->getPageObject()->getHierIdForPcId($pcid),
             $pcid
         );
+        $pc_media_gui->setStyleId($style_id);
         $pc_media_gui->getCharacteristicsOfCurrentStyle(["media_cont"]);
 
         $media = $pc_media->getMediaObject()->getMediaItem("Standard");

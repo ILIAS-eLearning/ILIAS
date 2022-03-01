@@ -250,7 +250,7 @@ class ilObjPollGUI extends ilObject2GUI
         parent::setTabs();
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -292,10 +292,8 @@ class ilObjPollGUI extends ilObject2GUI
                 break;
 
             default:
-                return parent::executeCommand();
+                parent::executeCommand();
         }
-        
-        return true;
     }
     
     public function render(?ilPropertyFormGUI $a_form = null) : void

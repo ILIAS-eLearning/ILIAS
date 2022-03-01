@@ -20,7 +20,6 @@ use ilUserSearchOptions;
 
 /**
  * Class ilMStListCompetencesTableGUI
- *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
@@ -38,7 +37,6 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
      * @var Container
      */
     protected $dic;
-
 
     /**
      * @param           $parent_obj
@@ -76,7 +74,6 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-
     /**
      *
      */
@@ -99,7 +96,6 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
             ),
         );
 
-
         $skills_fetcher = new ilMStListCompetencesSkills($this->dic);
         $count = $skills_fetcher->getData($options);
         $options['limit'] = array(
@@ -111,7 +107,6 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $this->setMaxCount($count);
         $this->setData($data);
     }
-
 
     /**
      *
@@ -132,7 +127,8 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
         //user
         $item = new ilTextInputGUI($this->dic->language()->txt("login") . "/" . $this->dic->language()->txt("email") . "/" . $this->dic->language()
-                ->txt("name"), "user");
+                                                                                                                                       ->txt("name"),
+            "user");
 
         $this->addFilterItem($item);
         $item->readFromSession();
@@ -152,7 +148,6 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
             $this->filter['org_unit'] = $item->getValue();
         }
     }
-
 
     /**
      * @return array
@@ -204,7 +199,6 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         return $cols;
     }
 
-
     /**
      *
      */
@@ -227,13 +221,12 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param array $a_set
      */
     public function fillRow(array $a_set) : void
     {
-        $propGetter = Closure::bind(function ($prop) {
+        $propGetter = Closure::bind(function($prop) {
             return $this->$prop;
         }, $a_set, $a_set);
 
@@ -241,7 +234,8 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
             if ($this->isColumnSelected($k)) {
                 if ($propGetter($k) !== null) {
                     $this->tpl->setCurrentBlock('td');
-                    $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
+                    $this->tpl->setVariable('VALUE',
+                        (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
                     $this->tpl->parseCurrentBlock();
                 } else {
                     $this->tpl->setCurrentBlock('td');
@@ -258,11 +252,12 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $a_set->getUserId());
 
         $actions->setAsynchUrl(str_replace("\\", "\\\\", $this->dic->ctrl()
-            ->getLinkTarget($this->parent_obj, ilMStListCompetencesSkillsGUI::CMD_GET_ACTIONS, "", true)));
+                                                                   ->getLinkTarget($this->parent_obj,
+                                                                       ilMStListCompetencesSkillsGUI::CMD_GET_ACTIONS,
+                                                                       "", true)));
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
-
 
     /**
      * @param ilExcel $a_excel excel wrapper
@@ -278,7 +273,6 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param ilCSVWriter $a_csv
      * @param array       $a_set
@@ -291,15 +285,13 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-
     /**
      * @param ilMStListCompetencesSkill $selected_skill
-     *
      * @return array
      */
     protected function getFieldValuesForExport(ilMStListCompetencesSkill $selected_skill)
     {
-        $propGetter = Closure::bind(function ($prop) {
+        $propGetter = Closure::bind(function($prop) {
             return $this->$prop;
         }, $selected_skill, $selected_skill);
 

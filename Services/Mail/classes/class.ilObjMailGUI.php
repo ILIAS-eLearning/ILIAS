@@ -24,7 +24,7 @@ class ilObjMailGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('mail');
     }
 
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -55,23 +55,21 @@ class ilObjMailGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
     private function isEditingAllowed() : bool
     {
-        return $this->rbacsystem->checkAccess('write', $this->object->getRefId());
+        return $this->rbac_system->checkAccess('write', $this->object->getRefId());
     }
 
     private function isViewAllowed() : bool
     {
-        return $this->rbacsystem->checkAccess('read', $this->object->getRefId());
+        return $this->rbac_system->checkAccess('read', $this->object->getRefId());
     }
 
     private function isPermissionChangeAllowed() : bool
     {
-        return $this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId());
+        return $this->rbac_system->checkAccess('edit_permission', $this->object->getRefId());
     }
 
     public function getAdminTabs() : void

@@ -6,9 +6,7 @@ include_once("class.ilCloudUtil.php");
 
 /**
  * Class ilCloudPluginSettingsGUI
- *
  * Base class for the settings. Needs to be overwritten if the plugin needs custom settings.
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id:
  * @ingroup ModulesCloud
@@ -26,10 +24,8 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     protected $form;
     private \ilGlobalTemplateInterface $main_tpl;
 
-
     /**
      * ilCloudPluginSettingsGUI constructor.
-     *
      * @param $plugin_service_class
      */
     public function __construct($plugin_service_class)
@@ -43,7 +39,6 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $DIC->language()->loadLanguageModule('cntr');
     }
 
-
     /**
      * @param ilObjCloud $object
      */
@@ -51,7 +46,6 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     {
         $this->cloud_object = $object;
     }
-
 
     /**
      * Edit Settings. This commands uses the form class to display an input form.
@@ -72,7 +66,6 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
             $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
         }
     }
-
 
     /**
      *
@@ -119,7 +112,6 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $this->form->setFormAction($ilCtrl->getFormActionByClass("ilCloudPluginSettingsGUI"));
     }
 
-
     /**
      *
      */
@@ -134,14 +126,12 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         }
     }
 
-
     /**
      *
      */
     protected function initPluginSettings()
     {
     }
-
 
     /**
      *
@@ -155,7 +145,6 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $DIC->object()->commonSettings()->legacyForm($this->form, $this->cloud_object)->addTileImage();
     }
 
-
     /**
      * @return bool
      */
@@ -163,7 +152,6 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     {
         return true;
     }
-
 
     /**
      * Get values for edit Settings form
@@ -178,14 +166,12 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $this->form->setValuesByArray($values, true);
     }
 
-
     /**
      * @param $values
      */
     protected function getPluginSettingsValues(&$values)
     {
     }
-
 
     /**
      * Update Settings
@@ -227,7 +213,6 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $this->form->setValuesByPost();
         $tpl->setContent($this->form->getHtml());
     }
-
 
     /**
      *

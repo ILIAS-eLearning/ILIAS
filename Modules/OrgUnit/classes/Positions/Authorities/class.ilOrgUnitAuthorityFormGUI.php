@@ -4,7 +4,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseForm;
 
 /**
  * Class ilOrgUnitAuthorityFormGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitAuthorityFormGUI extends BaseForm
@@ -16,7 +15,6 @@ class ilOrgUnitAuthorityFormGUI extends BaseForm
     protected $object;
     const F_TITLE = 'title';
     const F_DESCRIPTION = 'description';
-
 
     protected function initFormElements()
     {
@@ -32,13 +30,12 @@ class ilOrgUnitAuthorityFormGUI extends BaseForm
         $r = $this->parent_gui->dic()->ui()->renderer();
         $modal = $f->modal()->roundtrip("Modal", $f->legacy(''))->withCloseWithKeyboard(false);
         $button = $f->button()
-            ->shy($this->txt("open_authorities_modal"), '#')
-            ->withOnClick($modal->getShowSignal());
+                    ->shy($this->txt("open_authorities_modal"), '#')
+                    ->withOnClick($modal->getShowSignal());
 
         $c->setHtml($r->render([$button, $modal]));
         $this->addItem($c);
     }
-
 
     public function fillForm()
     {
@@ -50,10 +47,8 @@ class ilOrgUnitAuthorityFormGUI extends BaseForm
         $this->setValuesByArray($array);
     }
 
-
     /**
      * returns whether checkinput was successful or not.
-     *
      * @return bool
      */
     public function fillObject()

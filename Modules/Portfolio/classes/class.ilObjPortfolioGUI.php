@@ -53,15 +53,19 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         return "prtf";
     }
     
-    protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_node_id = null)
-    {
-        if ($a_perm == "create") {
+    protected function checkPermissionBool(
+        string $perm,
+        string $cmd = "",
+        string $type = "",
+        ?int $node_id = null
+    ) : bool {
+        if ($perm == "create") {
             return true;
         }
-        if (!$a_node_id) {
-            $a_node_id = $this->obj_id;
+        if (!$node_id) {
+            $node_id = $this->obj_id;
         }
-        return $this->access_handler->checkAccess($a_perm, "", $a_node_id);
+        return $this->access_handler->checkAccess($perm, "", $node_id);
     }
     
     public function executeCommand() : void
@@ -265,7 +269,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
     public function create() : void
     {
         $tpl = $this->tpl;
-        $ilErr = $this->ilErr;
+        $ilErr = $this->error;
 
         $new_type = $this->port_request->getNewType();
 
@@ -334,12 +338,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
     }
 
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        return array(self::CFORM_NEW => $this->initCreateForm($a_new_type));
+        return array(self::CFORM_NEW => $this->initCreateForm($new_type));
     }
     
-    protected function initCreateForm($a_new_type)
+    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
     {
         $ilSetting = $this->settings;
         
@@ -452,7 +456,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         return $form;
     }
     
-    public function save()
+    public function save() : void
     {
         $form = $this->initCreateForm("prtf");
         if ($form->checkInput()) {
@@ -469,10 +473,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         parent::save();
     }
     
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         // create 1st page / blog
-        $page = $this->getPageInstance(null, $a_new_object->getId());
+        $page = $this->getPageInstance(null, $new_object->getId());
         if ($this->port_request->getPageType() == "page") {
             $page->setType(ilPortfolioPage::TYPE_PAGE);
             $page->setTitle($this->port_request->getPageTitle());
@@ -487,10 +491,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             $page->setType(ilPortfolioPage::TYPE_BLOG);
             $page->setTitle($this->port_request->getBlogTitle());
         }
-        $page->create(false);
+        $page->create();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtf_portfolio_created"), true);
-        $this->ctrl->setParameter($this, "prt_id", $a_new_object->getId());
+        $this->ctrl->setParameter($this, "prt_id", $new_object->getId());
         $this->ctrl->redirect($this, "view");
     }
     

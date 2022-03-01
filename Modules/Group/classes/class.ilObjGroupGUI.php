@@ -30,7 +30,7 @@ class ilObjGroupGUI extends ilContainerGUI
     protected bool $show_tracking = false;
 
     private GlobalHttpState $http;
-    private Factory $refinery;
+    protected Factory $refinery;
 
     /**
      * @inheritDoc
@@ -62,7 +62,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -89,6 +89,7 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->ctrl->redirectByClass("ilnewstimelinegui");
         }
 
+        $header_action = true;
         switch ($next_class) {
             case strtolower(ilRepositoryTrashGUI::class):
                 $ru = new \ilRepositoryTrashGUI($this);
@@ -126,7 +127,7 @@ class ilObjGroupGUI extends ilContainerGUI
             case 'ilpermissiongui':
                 $this->tabs_gui->activateTab('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case "ilinfoscreengui":
@@ -213,6 +214,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
                 }
+                $header_action = false;
                 break;
 
             case 'ilobjectcopygui':
@@ -333,7 +335,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
             case 'ilcalendarpresentationgui':
                 $cal = new ilCalendarPresentationGUI($this->object->getRefId());
-                $ret = $this->ctrl->forwardCommand($cal);
+                $this->ctrl->forwardCommand($cal);
                 break;
 
             case 'ilobjectmetadatagui':
@@ -390,13 +392,15 @@ class ilObjGroupGUI extends ilContainerGUI
                 break;
         }
 
-        $this->addHeaderAction();
+        if ($header_action) {
+            $this->addHeaderAction();
+        }
     }
 
     /**
      * @inheritDoc
      */
-    public function viewObject()
+    public function viewObject() : void
     {
         ilLearningProgress::_tracProgress(
             $this->user->getId(),
@@ -460,7 +464,7 @@ class ilObjGroupGUI extends ilContainerGUI
      * @access public
      * @see ilGroupAddToGroupActionGUI
      */
-    public function afterSave(ilObject $new_object)
+    public function afterSave(ilObject $new_object) : void
     {
         $new_object->setRegistrationType(GRP_REGISTRATION_DIRECT);
         $new_object->update();
@@ -494,7 +498,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function editObject(?ilPropertyFormGUI $a_form = null)
+    public function editObject(?ilPropertyFormGUI $a_form = null) : void
     {
         $this->checkPermission("write");
 
@@ -990,7 +994,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    protected function getTabs()
+    protected function getTabs() : void
     {
         global $DIC;
 
@@ -1844,9 +1848,9 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function prepareOutput($a_show_subobjects = true)
+    public function prepareOutput(bool $show_subobjects = true) : bool
     {
-        parent::prepareOutput($a_show_subobjects);
+        return parent::prepareOutput($show_subobjects);
     }
 
     public function createMailSignature() : string
@@ -1861,14 +1865,14 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null) : ?ilObjectListGUI
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
         $ilUser = $DIC['ilUser'];
-
-        $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
+        
+        $lg = parent::initHeaderAction($sub_type, $sub_id);
 
         if (ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId())) {
             if (ilMembershipNotifications::isActiveForRefId($this->ref_id)) {

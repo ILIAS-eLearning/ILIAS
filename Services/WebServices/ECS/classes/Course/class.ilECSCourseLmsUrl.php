@@ -18,7 +18,6 @@
  * Represents a ecs course lms url
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCourseLmsUrl
 {
@@ -26,17 +25,9 @@ class ilECSCourseLmsUrl
     public string $url = '';
     
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-    
-    /**
      * Set title
-     * @param type $a_title
      */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
@@ -44,7 +35,7 @@ class ilECSCourseLmsUrl
     /**
      * Set url
      */
-    public function setUrl($a_url)
+    public function setUrl(string $a_url)
     {
         $this->url = $a_url;
     }

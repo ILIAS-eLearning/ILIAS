@@ -177,7 +177,7 @@ class ilCurlConnection
     {
         $len = strlen($header);
         $header = explode(':', $header, 2);
-        if (count($header) < 2) { // ignore invalid headers
+        if (count($header) == 2) { // ignore invalid headers
             $this->header_arr[strtolower(trim($header[0]))] = trim($header[1]);
         }
         return $len;

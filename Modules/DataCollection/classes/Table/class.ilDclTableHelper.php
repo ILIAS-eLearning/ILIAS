@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclTableHelper
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDclTableHelper
@@ -29,25 +28,27 @@ class ilDclTableHelper
      */
     protected $database;
 
-
     /**
      * ilDclTableHelper constructor.
-     *
      * @param int           $obj_id
      * @param int           $ref_id
      * @param ilRbacReview  $rbac_review
      * @param ilObjUser     $user
      * @param ilDBInterface $database
      */
-    public function __construct(int $obj_id, int $ref_id, ilRbacReview $rbac_review, ilObjUser $user, ilDBInterface $database)
-    {
+    public function __construct(
+        int $obj_id,
+        int $ref_id,
+        ilRbacReview $rbac_review,
+        ilObjUser $user,
+        ilDBInterface $database
+    ) {
         $this->obj_id = $obj_id;
         $this->ref_id = $ref_id;
         $this->rbac_review = $rbac_review;
         $this->user = $user;
         $this->database = $database;
     }
-
 
     /**
      * @return array
@@ -75,7 +76,6 @@ class ilDclTableHelper
         return $role_titles;
     }
 
-
     /**
      * @return array $roles_with_read_acces_ids
      */
@@ -95,10 +95,8 @@ class ilDclTableHelper
         return $roles_with_read_acces_ids;
     }
 
-
     /**
      * @param array $views_for_data_collection
-     *
      * @return array $roles
      */
     protected function getRolesIdsByViews($views_for_data_collection)
@@ -119,10 +117,8 @@ class ilDclTableHelper
         return $roles_ids;
     }
 
-
     /**
      * @param array $visible_tables_for_data_collection
-     *
      * @return array
      */
     protected function getStandardViewsByVisibleTables($visible_tables_for_data_collection)
@@ -138,7 +134,6 @@ class ilDclTableHelper
 
         return $standard_views_for_data_collection;
     }
-
 
     /**
      * @return array
@@ -158,7 +153,6 @@ class ilDclTableHelper
         return $visible_tables_for_data_collection;
     }
 
-
     protected function hasUserReadAccessOnAnyVisibleTableView()
     {
         // admin user has always access to the views of a data collection
@@ -175,7 +169,8 @@ class ilDclTableHelper
         foreach ($roles_ids as $role_id) {
             $assigned_users = $this->rbac_review->assignedUsers($role_id);
             if (!empty($assigned_users)) {
-                $user_ids_with_read_right_on_any_standard_view[] = array_merge($user_ids_with_read_right_on_any_standard_view, $assigned_users);
+                $user_ids_with_read_right_on_any_standard_view[] = array_merge($user_ids_with_read_right_on_any_standard_view,
+                    $assigned_users);
             }
         }
 
@@ -187,18 +182,17 @@ class ilDclTableHelper
         }
     }
 
-
     /**
      * @param      $needle
      * @param      $haystack
      * @param bool $strict
-     *
      * @return bool
      */
     protected function in_array_r($needle, $haystack, $strict = false)
     {
         foreach ($haystack as $item) {
-            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle, $item, $strict))) {
+            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle,
+                        $item, $strict))) {
                 return true;
             }
         }

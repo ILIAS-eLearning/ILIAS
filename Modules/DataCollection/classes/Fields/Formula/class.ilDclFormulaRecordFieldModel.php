@@ -4,11 +4,9 @@
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version $Id:
- *
  */
 class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
 {
@@ -22,7 +20,6 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     protected $parsed_value = '';
 
-
     /**
      * @param ilDclBaseRecordModel $record
      * @param ilDclBaseFieldModel  $field
@@ -34,7 +31,6 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->expression = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
     }
 
-
     /**
      * @param ilConfirmationGUI $confirmation
      */
@@ -42,7 +38,6 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         return;
     }
-
 
     /**
      * Do nothing, value is runtime only and not stored in DB
@@ -52,10 +47,8 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
         return null;
     }
 
-
     /**
      * Set value for record field
-     *
      * @param mixed $value
      * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
      */
@@ -63,7 +56,6 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         unset($value);
     }
-
 
     /**
      * Do nothing, value is runtime only and not stored in DB
@@ -73,7 +65,6 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
         return null;
     }
 
-
     /**
      * Do nothing, value is runtime only and not stored in DB
      */
@@ -81,7 +72,6 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         return null;
     }
-
 
     /**
      * Do nothing, value is runtime only and not stored in DB
@@ -91,16 +81,13 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
         return null;
     }
 
-
     /**
-     *
      * @return mixed|string
      */
     public function getFormInput()
     {
         return $this->parse();
     }
-
 
     /**
      * @return string
@@ -110,7 +97,6 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
         return $this->parse();
     }
 
-
     /**
      * @return string
      */
@@ -118,7 +104,6 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         return $this->parse();
     }
-
 
     /**
      * @return string
@@ -128,10 +113,8 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
         return $this->parse();
     }
 
-
     /**
      * Parse expression
-     *
      * @return string
      */
     protected function parse()

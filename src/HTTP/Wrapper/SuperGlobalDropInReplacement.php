@@ -25,23 +25,23 @@ use ILIAS\Refinery\KeyValueAccess;
  */
 class SuperGlobalDropInReplacement extends KeyValueAccess
 {
+    private bool $throwOnValueAssignment;
 
-    /**
-     * DirectValueAccessDropInReplacement constructor.
-     */
-    public function __construct(Factory $factory, array $raw_values)
+    public function __construct(Factory $factory, array $raw_values, bool $throwOnValueAssignment = false)
     {
+        $this->throwOnValueAssignment = $throwOnValueAssignment;
         parent::__construct($raw_values, $factory->kindlyTo()->string());
     }
 
     /**
-     * @deprecated Please note that this will throw an exception in a future version
      * @inheritDoc
      */
     public function offsetSet($offset, $value) : void
     {
-        /** @noRector */
-        // this is currently possible, throw new \OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!"); if you want to prevent from overriding a value here
+        if ($this->throwOnValueAssignment) {
+            throw new \OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
+        }
+
         parent::offsetSet($offset, $value);
     }
 
@@ -52,5 +52,4 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
     {
         throw new \LogicException("Modifying global Request-Array such as \$_GET is not allowed!");
     }
-
 }

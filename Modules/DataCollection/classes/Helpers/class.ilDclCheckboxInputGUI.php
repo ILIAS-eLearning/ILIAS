@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclCheckboxInputGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class ilDclCheckboxInputGUI extends ilCheckboxInputGUI

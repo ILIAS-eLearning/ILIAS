@@ -37,17 +37,18 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
         $tools = [];
 
         if ($called_contexts->current()->getAdditionalData()->is(self::SHOW_ORGU_TREE, true)) {
-            $iff = function (string $id) {
+            $iff = function(string $id) {
                 return $this->identification_provider->contextAwareIdentifier($id);
             };
 
-            $t = function (string $key) : string {
+            $t = function(string $key) : string {
                 return $this->dic->language()->txt($key);
             };
 
             $tools[] = $this->factory->treeTool($iff('tree_new'))
                                      ->withTitle($t('tree'))
-                                     ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard('orgu', 'Orgu'))
+                                     ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard('orgu',
+                                         'Orgu'))
                                      ->withTree($this->getTree());
         }
 
@@ -63,7 +64,7 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
         $parent_node_id = $DIC->repositoryTree()->getParentId(ilObjOrgUnit::getRootOrgRefId());
 
         return $this->dic->ui()->factory()->tree()->expandable($lng->txt("org_units"), $tree)
-            ->withData($tree->getChildsOfNode($parent_node_id));
+                         ->withData($tree->getChildsOfNode($parent_node_id));
     }
 
     private function getTreeRecursion() : TreeRecursion

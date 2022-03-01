@@ -15,36 +15,19 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesWebServicesECS
 */
 class ilECSAuth
 {
     protected ilLogger $log;
     protected array $mids = array();
 
-    //public $url;
-    public $realm;
-    #	public $hash;
-    #	public $sov;
-    #	public $eov;
-    #	public $url;
-    #	public $abbr;
-    #	public $pid;
-    
+    private string $realm = '';
+    private string $url = '';
+    private ?int $pid = null;
+    private $sov;
+    private $eov;
 
-    /**
-     * constuctor
-     *
-     * @access public
-     * @param
-     *
-     */
     public function __construct()
     {
         global $DIC;
@@ -52,51 +35,40 @@ class ilECSAuth
         $this->log = $DIC->logger()->wsrv();
     }
     
-    public function setPid($a_pid)
+    public function setPid(int $a_pid) : void
     {
         $this->pid = $a_pid;
     }
     
-    public function getPid()
+    public function getPid() : int
     {
         return $this->pid;
     }
 
-    /**
-     * URL
-     * @param string $a_url
-     */
-    public function setUrl($a_url)
+    public function setUrl(string $a_url) : void
     {
         $this->url = $a_url;
     }
     
-    /**
-     * get Url
-     * @return <type>
-     */
-    public function getUrl()
+    public function getUrl() : string
     {
         return $this->url;
     }
     
-    public function setRealm($a_realm)
+    public function setRealm(string $a_realm) : void
     {
         $this->realm = $a_realm;
     }
     
-    public function getRealm()
+    public function getRealm() : string
     {
         return $this->realm;
     }
     
     /**
      * get hash
-     *
-     * @access public
-     *
      */
-    public function getHash()
+    public function getHash() : string
     {
         return $this->hash;
     }
@@ -104,11 +76,10 @@ class ilECSAuth
     /**
      * set SOV
      *
-     * @access public
      * @param int start of verification
      *
      */
-    public function setSOV($a_sov)
+    public function setSOV(int $a_sov) : void
     {
         $dt = new ilDateTime($a_sov, IL_CAL_UNIX);
         $this->sov = $dt->get(IL_CAL_ISO_8601);
@@ -117,13 +88,12 @@ class ilECSAuth
     /**
      * set EOV
      *
-     * @access public
-     * @param int eov of verification
+     * @param int end of verification
      *
      */
-    public function setEOV($a_eov)
+    public function setEOV(int $a_eov) : void
     {
         $dt = new ilDateTime($a_eov, IL_CAL_UNIX);
-        $this->sov = $dt->get(IL_CAL_ISO_8601);
+        $this->eov = $dt->get(IL_CAL_ISO_8601);
     }
 }

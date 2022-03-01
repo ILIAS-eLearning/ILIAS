@@ -312,57 +312,57 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl->redirect($eval_gui, "evaluation");
     }
 
-    protected function addDidacticTemplateOptions(array &$a_options)
+    protected function addDidacticTemplateOptions(array &$options) : void
     {
         $templates = ilSettingsTemplate::getAllSettingsTemplates("svy");
         if ($templates) {
             foreach ($templates as $item) {
-                $a_options["svytpl_" . $item["id"]] = array($item["title"],
+                $options["svytpl_" . $item["id"]] = array($item["title"],
                     nl2br(trim($item["description"])));
             }
         }
         
         // JF, 2013-06-10
-        $a_options["svy360_1"] = array($this->lng->txt("survey_360_mode"),
+        $options["svy360_1"] = array($this->lng->txt("survey_360_mode"),
             $this->lng->txt("survey_360_mode_info"));
 
         //Self evaluation only
-        $a_options["svyselfeval_1"] = array($this->lng->txt("svy_self_ev_mode"),
+        $options["svyselfeval_1"] = array($this->lng->txt("svy_self_ev_mode"),
             $this->lng->txt("svy_self_ev_info"));
 
         // individual feedback
-        $a_options["individfeedb_1"] = array($this->lng->txt("svy_ind_feedb_mode"),
+        $options["individfeedb_1"] = array($this->lng->txt("svy_ind_feedb_mode"),
             $this->lng->txt("svy_ind_feedb_info"));
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         // #16446
-        $a_new_object->loadFromDb();
+        $new_object->loadFromDb();
         
         //set the mode depending on didactic template
         if ($this->getDidacticTemplateVar("svy360")) {
-            $a_new_object->setMode(ilObjSurvey::MODE_360);
+            $new_object->setMode(ilObjSurvey::MODE_360);
         } elseif ($this->getDidacticTemplateVar("svyselfeval")) {
-            $a_new_object->setMode(ilObjSurvey::MODE_SELF_EVAL);
+            $new_object->setMode(ilObjSurvey::MODE_SELF_EVAL);
         } elseif ($this->getDidacticTemplateVar("individfeedb")) {
-            $a_new_object->setMode(ilObjSurvey::MODE_IND_FEEDB);
+            $new_object->setMode(ilObjSurvey::MODE_IND_FEEDB);
         }
 
-        $svy_mode = $a_new_object->getMode();
+        $svy_mode = $new_object->getMode();
         if ($svy_mode == ilObjSurvey::MODE_360) {
             // this should rather be ilObjSurvey::ANONYMIZE_ON - see ilObjSurvey::getUserDataFromActiveId()
-            $a_new_object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
-            $a_new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
+            $new_object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
+            $new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
         } elseif ($svy_mode == ilObjSurvey::MODE_SELF_EVAL) {
-            $a_new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
+            $new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
         }
-        $a_new_object->saveToDB();
+        $new_object->saveToDB();
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" .
-            $a_new_object->getRefId() . "&cmd=properties");
+            $new_object->getRefId() . "&cmd=properties");
     }
     
     protected function getTabs() : void
@@ -608,7 +608,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     // IMPORT/EXPORT
     //
     
-    protected function initImportForm($a_new_type)
+    protected function initImportForm(string $new_type) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");

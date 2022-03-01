@@ -67,7 +67,7 @@ class ilRadiusSettingsGUI
         
         if (!$this->rbacsystem->checkAccess("visible,read", $this->ref_id)) {
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->WARNING);
-            $this->ctrl()->redirect($this, "settings");
+            $this->ctrl->redirect($this, "settings");
         }
 
         switch ($next_class) {

@@ -5,7 +5,6 @@ require_once './Services/Exceptions/classes/class.ilException.php';
 
 /**
  * Class ilDclException
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */

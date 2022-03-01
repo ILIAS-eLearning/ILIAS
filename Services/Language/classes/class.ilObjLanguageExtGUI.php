@@ -100,7 +100,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ilHelp = $DIC->help();
 
         if (!ilObjLanguageAccess::_checkMaintenance()) {
-            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
             exit;
         }
 

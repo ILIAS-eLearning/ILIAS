@@ -128,7 +128,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         }
     }
         
-    protected function setTabs()
+    protected function setTabs() : void
     {
         $ilHelp = $this->help;
         

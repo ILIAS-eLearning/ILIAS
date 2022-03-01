@@ -3,7 +3,6 @@
 
 /**
  * Class ilOrgUnitSimpleUserImportGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @author            Fabian Schmid <fs@studer-raimann.ch>
@@ -40,7 +39,6 @@ class ilOrgUnitSimpleUserImportGUI
      */
     protected $ilAccess;
 
-
     /**
      * @param $parent_gui
      */
@@ -69,7 +67,6 @@ class ilOrgUnitSimpleUserImportGUI
         }
     }
 
-
     /**
      * @return bool
      */
@@ -78,7 +75,8 @@ class ilOrgUnitSimpleUserImportGUI
         $cmd = $this->ctrl->getCmd();
 
         $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTargetByClass('ilOrgUnitSimpleImportGUI', 'chooseImport'));
+        $this->tabs_gui->setBackTarget($this->lng->txt("back"),
+            $this->ctrl->getLinkTargetByClass('ilOrgUnitSimpleImportGUI', 'chooseImport'));
 
         switch ($cmd) {
             case 'userImportScreen':
@@ -92,13 +90,11 @@ class ilOrgUnitSimpleUserImportGUI
         return true;
     }
 
-
     public function userImportScreen()
     {
         $form = $this->initForm();
         $this->tpl->setContent($form->getHTML());
     }
-
 
     /**
      * @description FSX Can be deleted; Just for a single Test of a UserImport
@@ -118,7 +114,6 @@ class ilOrgUnitSimpleUserImportGUI
         $this->tpl->setOnScreenMessage('info', '<pre>' . print_r($importer->getErrors(), 1) . '</pre>');
     }
 
-
     protected function initForm()
     {
         $form = new ilPropertyFormGUI();
@@ -130,7 +125,6 @@ class ilOrgUnitSimpleUserImportGUI
 
         return $form;
     }
-
 
     public function startImport()
     {
@@ -151,7 +145,6 @@ class ilOrgUnitSimpleUserImportGUI
         }
     }
 
-
     /**
      * @param $importer ilOrgUnitImporter
      */
@@ -159,7 +152,8 @@ class ilOrgUnitSimpleUserImportGUI
     {
         if (!$importer->hasErrors() and !$importer->hasWarnings()) {
             $stats = $importer->getStats();
-            $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt('user_import_successful'), $stats['created'], $stats['removed']), true);
+            $this->tpl->setOnScreenMessage('success',
+                sprintf($this->lng->txt('user_import_successful'), $stats['created'], $stats['removed']), true);
         }
         if ($importer->hasWarnings()) {
             $msg = $this->lng->txt('import_terminated_with_warnings') . '<br>';

@@ -5,7 +5,6 @@ require_once './Services/Exceptions/classes/class.ilException.php';
 
 /**
  * Class ilCloudException
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id:
  * @extends ilException
@@ -39,7 +38,6 @@ class ilCloudException extends ilException
     protected $code;
     protected $add_info;
 
-
     /**
      * @param string $exception_code
      * @param string $exception_info
@@ -51,7 +49,6 @@ class ilCloudException extends ilException
         $this->assignMessageToCode();
         parent::__construct($this->message, $this->code);
     }
-
 
     protected function assignMessageToCode()
     {
@@ -127,7 +124,6 @@ class ilCloudException extends ilException
         }
         $this->message .= ($this->add_info ? ": " : "") . $this->add_info;
     }
-
 
     public function __toString()
     {

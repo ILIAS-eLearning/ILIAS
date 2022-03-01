@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclFileuploadFieldRepresentaion
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -22,7 +21,6 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
 
         return $input;
     }
-
 
     protected function requiredWorkaroundForInputField($input, $record_id)
     {
@@ -46,20 +44,19 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
         }
     }
 
-
     /**
      * @inheritdoc
      */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_TEXT, false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_TEXT,
+            false, $this->getField()->getId());
         $input->setSubmitFormOnEnter(true);
 
         $this->setupFilterInputField($input);
 
         return $this->getFilterInputFieldValue($input);
     }
-
 
     /**
      * @inheritdoc
@@ -81,7 +78,6 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
         return $pass;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -89,7 +85,8 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
-        $prop_filetype = new ilTextInputGUI($this->lng->txt('dcl_supported_filetypes'), 'prop_' . ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
+        $prop_filetype = new ilTextInputGUI($this->lng->txt('dcl_supported_filetypes'),
+            'prop_' . ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
         $prop_filetype->setInfo($this->lng->txt('dcl_supported_filetypes_desc'));
 
         $opt->addSubItem($prop_filetype);

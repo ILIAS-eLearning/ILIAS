@@ -4,7 +4,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseForm;
 
 /**
  * Class ilOrgUnitPositionFormGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPositionFormGUI extends BaseForm
@@ -16,7 +15,6 @@ class ilOrgUnitPositionFormGUI extends BaseForm
     protected $object;
     const F_TITLE = 'title';
     const F_DESCRIPTION = 'description';
-
 
     protected function initFormElements()
     {
@@ -56,7 +54,6 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $this->addItem($m);
     }
 
-
     public function fillForm()
     {
         $array = array(
@@ -68,10 +65,8 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $this->setValuesByArray($array);
     }
 
-
     /**
      * returns whether checkinput was successful or not.
-     *
      * @return bool
      */
     public function fillObject()

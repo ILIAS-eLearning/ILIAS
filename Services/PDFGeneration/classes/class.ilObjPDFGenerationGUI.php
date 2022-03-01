@@ -15,21 +15,9 @@
 class ilObjPDFGenerationGUI extends ilObject2GUI
 {
     protected string $active_tab;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilToolbarGUI $toolbar;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {

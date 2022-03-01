@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\MyStaff\ListCourses;
 
 use ilObjCourse;
@@ -6,7 +7,6 @@ use ilObjUser;
 
 /**
  * Class ilMStListCourse
- *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListCourse
@@ -15,7 +15,6 @@ class ilMStListCourse
     const MEMBERSHIP_STATUS_WAITINGLIST = 2;
     const MEMBERSHIP_STATUS_REGISTERED = 3;
     /**
-     *
      * @var int
      */
     protected $crs_ref_id;
@@ -65,7 +64,6 @@ class ilMStListCourse
         return $this->crs_ref_id;
     }
 
-
     /**
      * @param int $crs_ref_id
      */
@@ -73,7 +71,6 @@ class ilMStListCourse
     {
         $this->crs_ref_id = $crs_ref_id;
     }
-
 
     /**
      * @return string
@@ -83,7 +80,6 @@ class ilMStListCourse
         return $this->crs_title;
     }
 
-
     /**
      * @param string $crs_title
      */
@@ -91,7 +87,6 @@ class ilMStListCourse
     {
         $this->crs_title = $crs_title;
     }
-
 
     /**
      * @return int
@@ -101,7 +96,6 @@ class ilMStListCourse
         return $this->usr_id;
     }
 
-
     /**
      * @param int $usr_id
      */
@@ -109,7 +103,6 @@ class ilMStListCourse
     {
         $this->usr_id = $usr_id;
     }
-
 
     /**
      * @return int
@@ -119,7 +112,6 @@ class ilMStListCourse
         return $this->usr_reg_status;
     }
 
-
     /**
      * @param int $usr_reg_status
      */
@@ -127,7 +119,6 @@ class ilMStListCourse
     {
         $this->usr_reg_status = $usr_reg_status;
     }
-
 
     /**
      * @return int
@@ -137,7 +128,6 @@ class ilMStListCourse
         return $this->usr_lp_status;
     }
 
-
     /**
      * @param int $usr_lp_status
      */
@@ -145,7 +135,6 @@ class ilMStListCourse
     {
         $this->usr_lp_status = $usr_lp_status;
     }
-
 
     /**
      * @return string
@@ -155,7 +144,6 @@ class ilMStListCourse
         return $this->usr_login;
     }
 
-
     /**
      * @param string $usr_login
      */
@@ -163,7 +151,6 @@ class ilMStListCourse
     {
         $this->usr_login = $usr_login;
     }
-
 
     /**
      * @return string
@@ -173,7 +160,6 @@ class ilMStListCourse
         return $this->usr_firstname;
     }
 
-
     /**
      * @param string $usr_firstname
      */
@@ -181,7 +167,6 @@ class ilMStListCourse
     {
         $this->usr_firstname = $usr_firstname;
     }
-
 
     /**
      * @return string
@@ -191,7 +176,6 @@ class ilMStListCourse
         return $this->usr_lastname;
     }
 
-
     /**
      * @param string $usr_lastname
      */
@@ -200,7 +184,6 @@ class ilMStListCourse
         $this->usr_lastname = $usr_lastname;
     }
 
-
     /**
      * @return string
      */
@@ -208,7 +191,6 @@ class ilMStListCourse
     {
         return $this->usr_email;
     }
-
 
     /**
      * @param string $usr_email
@@ -220,7 +202,6 @@ class ilMStListCourse
 
     //Other
 
-
     /**
      * @return ilObjUser
      */
@@ -230,7 +211,6 @@ class ilMStListCourse
 
         return $il_user_obj;
     }
-
 
     /**
      * @return ilObjCourse
@@ -242,10 +222,8 @@ class ilMStListCourse
         return $il_course_obj;
     }
 
-
     /**
      * @param int $status
-     *
      * @return string
      */
     public static function getMembershipStatusText($status)

@@ -5,9 +5,7 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
 
 /**
  * Class ilCloudHookPlugin
- *
  * Definition of the PluginHook
- *
  * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
  * @version $Id$
  * @extends ilPlugin
@@ -20,12 +18,10 @@ abstract class ilCloudHookPlugin extends ilPlugin
         return $this->getLanguageHandler()->getPrefix();
     }
 
-
     public function getPluginTableName()
     {
         return $this->getPluginTablePrefix() . "_props";
     }
-
 
     public function getPluginConfigTableName()
     {

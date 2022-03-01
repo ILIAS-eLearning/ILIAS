@@ -2465,6 +2465,7 @@ common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung wide
 common#:#withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ein, um den Widerrufsvorgang abzuschließen.
 common#:#withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herkunftsinstallation zurück, und loggen Sie sich erneut ein, um den Widerrufsvorgang abzuschließen.
 common#:#withdraw_consent#:#Einverständnis widerrufen
+common#:#refuse_tos_acceptance#:#Akzeptanz der Nutzungsvereinbarung ablehnen
 common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen, wird Ihr Account gelöscht.
 common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
 common#:#withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsvereinbarungen.
@@ -2751,6 +2752,7 @@ rbac#:#cat_copy#:#Kategorie kopieren
 common#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 rbac#:#cat_delete#:#Kategorie löschen oder verschieben
 common#:#cat_edit#:#Einstellungen der Kategorie
+common#:#cat_edit#:#Einstellungen des Kategorielinks
 rbac#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_new#:#Neue Kategorie anlegen
 rbac#:#cat_read#:#Seiteninhalt der Kategorie kann gelesen werden
@@ -5047,7 +5049,7 @@ content#:#cont_edit_base_image#:#Ausgangsbild bearbeiten
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_lrs_settings#:#Einstellungen
 content#:#cont_edit_marker_position#:#Markierungspunkt bearbeiten
-content#:#cont_edit_mob#:#Medienobjekt editieren
+content#:#cont_edit_mob#:#Medienobjekt bearbeiten
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Instanz des Medienobjekts bearbeiten
 content#:#cont_edit_mode#:#Bearbeitungsmodus
 content#:#cont_edit_overlay_position#:#Position des Overlays bearbeiten
@@ -5315,6 +5317,7 @@ content#:#cont_pc_iim#:#Interaktives Bild
 content#:#cont_pc_incl#:#Inhaltsbaustein
 content#:#cont_pc_list#:#Erweiterte Liste
 content#:#cont_pc_map#:#Karte
+content#:#cont_pc_media#:#Bild/Audio/Video
 content#:#cont_pc_mob#:#Medienobjekt
 content#:#cont_pc_modified#:#Geänderte Inhalte
 content#:#cont_pc_new#:#Neue Inhalte
@@ -5526,7 +5529,7 @@ content#:#cont_update_login_page#:#Login-Seitenelemente aktualisieren
 content#:#cont_update_map#:#Karte bearbeiten
 content#:#cont_update_profile#:#Veröffentlichte Daten bearbeiten
 content#:#cont_update_resources#:#Materialienliste aktualisieren
-content#:#cont_update_section#:#Block aktualisieren
+content#:#cont_update_section#:#Block bearbeiten
 content#:#cont_update_skills#:#Kompetenz bearbeiten
 content#:#cont_update_verification#:#Zertifikat bearbeiten
 content#:#cont_upload_dir#:#Upload-Verzeichnis
@@ -15494,7 +15497,7 @@ rbac#:#lso_participate#:#An der Lernsequenz anmelden
 rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
 rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
-dateplaner#:#btn_ical#:#iCal
+dateplaner#:#btn_ical#:#Abonnieren
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Seite %1$d von %2$d
@@ -16628,6 +16631,7 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 file#:#file_upload_info_file_with_critical_extension#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator.
+file#:#migrated#:#Status
 file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
@@ -16778,3 +16782,8 @@ svy#:#svy_all_participants#:#Alle Teilnehmer
 svy#:#svy_selected_participants#:#Ausgewählte Teilnehmer
 svy#:#svy_all_questions#:#Alle Fragen
 svy#:#svy_selected_questions#:#Ausgewählte Fragen
+rating#:#rating_avg_rating#:#Durchschnittliche Bewertung
+rating#:#rating_personal_rating#:#Ihre Bewertung
+rating#:#rating_rate_x_of_5#:#Mit %s von 5 Sternen bewerten
+rating#:#rating_open_dialog#:#Bewertungsskala aufklappen
+tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit '%s' verschlagwortet.

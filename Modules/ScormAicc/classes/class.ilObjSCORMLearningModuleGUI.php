@@ -32,10 +32,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     protected \ILIAS\DI\Container $dic;
 
     protected int $refId;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
 
     /**
     * Constructor

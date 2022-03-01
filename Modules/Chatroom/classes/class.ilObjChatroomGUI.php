@@ -134,7 +134,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         ];
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
 

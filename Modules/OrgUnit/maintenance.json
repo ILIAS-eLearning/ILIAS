@@ -1,16 +1,16 @@
 {
-    "maintenance_model": "Classic",
-    "first_maintainer": "mstuder(8473)",
-    "second_maintainer": "bheyser(14300)",
-    "implicit_maintainers": [
-        "ttruffer(42894)"
-    ],
-    "coordinator": [
-        ""
-    ],
-    "tester": "wischniak(21896)",
-    "testcase_writer": "wischniak(21896)",
-    "path": "Modules/OrgUnit",
-    "belong_to_component": "Organisational Units",
-    "used_in_components": []
+  "maintenance_model": "Classic",
+  "first_maintainer": "mstuder(8473)",
+  "second_maintainer": "bheyser(14300)",
+  "implicit_maintainers": [
+    "ttruffer(42894)"
+  ],
+  "coordinator": [
+    ""
+  ],
+  "tester": "wischniak(21896)",
+  "testcase_writer": "wischniak(21896)",
+  "path": "Modules/OrgUnit",
+  "belong_to_component": "Organisational Units",
+  "used_in_components": []
 }

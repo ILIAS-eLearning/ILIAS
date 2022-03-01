@@ -17,7 +17,6 @@
 /**
  * Storage of ecs remote user
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSRemoteUser
 {

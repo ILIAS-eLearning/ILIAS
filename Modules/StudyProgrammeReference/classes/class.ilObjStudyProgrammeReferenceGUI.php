@@ -22,26 +22,22 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI implements
         ilObjStudyProgrammeGUI::_goto($target_ref_id . "_");
     }
 
-    public function saveObject() : bool
+    public function saveObject() : void
     {
         $ilAccess = $this->access;
         
         if (!(int) $_REQUEST['target_id']) {
             $this->createObject();
-            return false;
         }
         if (!$ilAccess->checkAccess('visible', '', (int) $_REQUEST['target_id'])) {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt('permission_denied'));
             $this->createObject();
-            return false;
         }
         if ($this->tryingToCreateCircularReference((int) $_REQUEST['target_id'], (int) $_REQUEST['ref_id'])) {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt('prgr_may_not_create_circular_reference'));
             $this->createObject();
-            return false;
         }
         parent::saveObject();
-        return true;
     }
 
     public function putObjectInTree(ilObject $obj, $parent_node_id = null) : void

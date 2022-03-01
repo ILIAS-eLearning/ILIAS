@@ -10,7 +10,7 @@
  */
 class ilObjExerciseVerificationGUI extends ilObject2GUI
 {
-    public function getType() : string
+    public function getType() : ?string
     {
         return "excv";
     }

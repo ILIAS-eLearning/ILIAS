@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitExtension
- *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
 abstract class ilOrgUnitExtension extends ilObjectPlugin
@@ -11,10 +10,8 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
     protected int $parent_ref_id;
     protected ilTree $tree;
 
-
     /**
      * ilOrgUnitExtension constructor.
-     *
      * @param int $a_ref_id
      */
     public function __construct($a_ref_id = 0)
@@ -28,10 +25,8 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
         $this->tree = $tree;
     }
 
-
     /**
      * Returns all Orgu Plugin Ids of active plugins where the Plugin wants to be shown in the tree. ($plugin->showInTree() == true)
-     *
      * @return string[]
      */
     public static function getActivePluginIdsForTree()
@@ -55,9 +50,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
 
     /**
      * Get all user ids of employees of the underlying OrgUnit.
-     *
      * @param bool $recursively include all employees in the suborgunits
-     *
      * @return int[]
      */
     public function getEmployees($recursively = false)
@@ -65,19 +58,15 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
         return $this->ilObjOrgUnitTree->getEmployees($this->parent_ref_id, $recursively);
     }
 
-
     /**
      * Get all user ids of superiors of the underlying OrgUnit
-     *
      * @param bool $recursively
-     *
      * @return int[]
      */
     public function getSuperiors($recursively = false)
     {
         return $this->ilObjOrgUnitTree->getSuperiors($this->parent_ref_id, $recursively);
     }
-
 
     /**
      * @return ilObjOrgUnit
@@ -86,7 +75,6 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
     {
         return ilObjectFactory::getInstanceByRefId($this->parent_ref_id);
     }
-
 
     /**
      * @return int[] RefIds from the root OrgUnit to the underlying OrgUnit
@@ -101,16 +89,13 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
         return $path;
     }
 
-
     /**
-     *
      * @return array Returns the path to the underlying OrgUnit starting with the root OrgUnit. The array are nodes of the global $tree.
      */
     public function getOrgUnitPath()
     {
         return $this->tree->getPathFull($this->parent_ref_id, ilObjOrgUnit::getRootOrgRefId());
     }
-
 
     /**
      * @return string[] Returns the titles to the underlying OrgUnit starting with the root OrgUnit.
@@ -128,11 +113,9 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
         return $titles;
     }
 
-
     /**
      * @param bool   $with_data if this is set to true, only the ids are delivered
      * @param string $type      what type are you looking for?
-     *
      * @return array
      */
     public function getOrgUnitSubtree($with_data = true, $type = "")

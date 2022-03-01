@@ -27,14 +27,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
     private ilTree $tree;
     private ilObjectDataCache $objDataCache;
     
-    /**
-     * constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '')
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd = '')
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 

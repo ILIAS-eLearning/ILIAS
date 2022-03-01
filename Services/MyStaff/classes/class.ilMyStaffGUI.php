@@ -5,7 +5,6 @@ use ILIAS\MyStaff\ListCourses\ilMStListCourse;
 
 /**
  * Class ilMyStaffGUI
- *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMyStaffGUI
@@ -16,7 +15,6 @@ class ilMyStaffGUI
     const TAB_LIST_CERTIFICATES = 'list_certificates';
     const TAB_LIST_COMPETENCES = 'list_competences';
     const TAB_LIST_STUDY_PROGRAMME = 'list_study_programme';
-
 
     /**
      *
@@ -32,7 +30,6 @@ class ilMyStaffGUI
         $DIC->ui()->mainTemplate()->loadStandardTemplate();
         $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_my_staff'));
     }
-
 
     /**
      *
@@ -74,19 +71,21 @@ class ilMyStaffGUI
         $DIC->ui()->mainTemplate()->printToStdout();
     }
 
-
     /**
      * @param ilAdvancedSelectionListGUI $selection
      * @param int                        $usr_id
      * @param string                     $return_url
-     *
      * @return ilAdvancedSelectionListGUI
      */
-    public static function extendActionMenuWithUserActions(ilAdvancedSelectionListGUI $selection, $usr_id = 0, $return_url = "")
-    {
+    public static function extendActionMenuWithUserActions(
+        ilAdvancedSelectionListGUI $selection,
+        $usr_id = 0,
+        $return_url = ""
+    ) {
         global $DIC;
 
-        $user_action_collector = ilUserActionCollector::getInstance($DIC->user()->getId(), new ilAwarenessUserActionContext());
+        $user_action_collector = ilUserActionCollector::getInstance($DIC->user()->getId(),
+            new ilAwarenessUserActionContext());
         $action_collection = $user_action_collector->getActionsForTargetUser($usr_id);
         if (count($action_collection->getActions()) > 0) {
             foreach ($action_collection->getActions() as $action) {
@@ -102,11 +101,13 @@ class ilMyStaffGUI
                     case "invite_osd": //direct chat (start conversation)
                         //do only display those actions if the displayed user is not the current user
                         if ($usr_id != $DIC->user()->getId()) {
-                            $selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "", "", "", "", true, $action->getData());
+                            $selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "",
+                                "", "", "", true, $action->getData());
                         }
                         break;
                     default:
-                        $selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "", "", "", "", true, $action->getData());
+                        $selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "", "",
+                            "", "", true, $action->getData());
                         break;
                 }
             }
@@ -115,10 +116,8 @@ class ilMyStaffGUI
         return $selection;
     }
 
-
     /**
      * @param ilMStListCourse $my_staff_course
-     *
      * @return string
      */
     public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course)
@@ -127,7 +126,8 @@ class ilMyStaffGUI
 
         if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
             $lp_icon = $DIC->ui()->factory()->image()
-                ->standard(ilLearningProgressBaseGUI::_getImagePathForStatus($my_staff_course->getUsrLpStatus()), ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus())));
+                           ->standard(ilLearningProgressBaseGUI::_getImagePathForStatus($my_staff_course->getUsrLpStatus()),
+                               ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus())));
 
             return $DIC->ui()->renderer()->render($lp_icon) . ' '
                 . ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));
@@ -136,10 +136,8 @@ class ilMyStaffGUI
         return '&nbsp';
     }
 
-
     /**
      * @param ilMStListCourse $my_staff_course
-     *
      * @return string
      */
     public static function getUserLpStatusAsText(ilMStListCourse $my_staff_course)

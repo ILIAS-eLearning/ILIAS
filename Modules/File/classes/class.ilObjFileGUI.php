@@ -29,11 +29,8 @@ class ilObjFileGUI extends ilObject2GUI
     const CMD_EDIT = "edit";
     const CMD_VERSIONS = "versions";
     const CMD_UPLOAD_FILES = "uploadFiles";
-    /**
-     * @var \ilObjFile
-     */
-    public $object;
-    public $lng;
+    public ?ilObject $object = null;
+    public ilLanguage $lng;
     protected ?\ilLogger $log = null;
     protected ilObjectService $obj_service;
     protected \ILIAS\Refinery\Factory $refinery;
@@ -65,10 +62,7 @@ class ilObjFileGUI extends ilObject2GUI
         return ilObjFile::OBJECT_TYPE;
     }
 
-    /**
-     * @return mixed|void
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
@@ -123,14 +117,14 @@ class ilObjFileGUI extends ilObject2GUI
             case 'ilpermissiongui':
                 $ilTabs->activateTab("id_permissions");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case "ilexportgui":
                 $ilTabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
-                $ret = $this->ctrl->forwardCommand($exp_gui);
+                $this->ctrl->forwardCommand($exp_gui);
                 break;
 
             case 'ilobjectcopygui':
@@ -168,9 +162,11 @@ class ilObjFileGUI extends ilObject2GUI
                 $this->tabs_gui->activateTab("id_versions");
 
                 if (!$this->checkPermissionBool("write")) {
-                    $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+                    $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
                 }
-                $this->ctrl->forwardCommand(new ilFileVersionsGUI($this->object));
+                /** @var ilObjFile $obj */
+                $obj = $this->object;
+                $this->ctrl->forwardCommand(new ilFileVersionsGUI($obj));
                 break;
             default:
                 // in personal workspace use object2gui
@@ -183,7 +179,7 @@ class ilObjFileGUI extends ilObject2GUI
                     }
                     $ilTabs->clearTargets();
 
-                    return parent::executeCommand();
+                    parent::executeCommand();
                 }
 
                 if (empty($cmd) || $cmd === 'render') {
@@ -306,10 +302,8 @@ class ilObjFileGUI extends ilObject2GUI
 
     /**
      * updates object entry in object_data
-     * @access    public
-     * @return bool|void
      */
-    public function update()
+    public function update() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -320,7 +314,7 @@ class ilObjFileGUI extends ilObject2GUI
             $form->setValuesByPost();
             $this->tpl->setContent($form->getHTML());
 
-            return false;
+            return;
         }
 
         $title = $form->getInput('title');
@@ -355,11 +349,7 @@ class ilObjFileGUI extends ilObject2GUI
         ilUtil::redirect($this->ctrl->getLinkTarget($this, self::CMD_EDIT, '', false, false));
     }
 
-    /**
-     * edit object
-     * @access    public
-     */
-    public function edit() : bool
+    public function edit() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -382,15 +372,9 @@ class ilObjFileGUI extends ilObject2GUI
         $ecs->addSettingsToForm($form, ilObjFile::OBJECT_TYPE);
 
         $this->tpl->setContent($form->getHTML());
-
-        return true;
     }
 
-    /**
-     * @param
-     * @return
-     */
-    protected function initPropertiesForm($mode = "create") : \ilPropertyFormGUI
+    protected function initPropertiesForm($mode = "create"): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'update'));
@@ -468,10 +452,10 @@ class ilObjFileGUI extends ilObject2GUI
 
                 $this->object->sendFile($hist_entry_id);
             } else {
-                $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+                $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
             }
         } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
-            $this->ilErr->raiseError($e->getMessage(), $this->ilErr->MESSAGE);
+            $this->error->raiseError($e->getMessage(), $this->error->MESSAGE);
         }
 
         return true;
@@ -744,7 +728,7 @@ class ilObjFileGUI extends ilObject2GUI
      * Initializes the upload form for multiple files.
      * @return object The created property form.
      */
-    public function initMultiUploadForm() : \ilPropertyFormGUI
+    public function initMultiUploadForm(): ilPropertyFormGUI
     {
         $dnd_form_gui = new ilPropertyFormGUI();
         $dnd_form_gui->setMultipart(true);

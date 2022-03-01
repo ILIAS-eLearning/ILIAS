@@ -15,10 +15,7 @@
  *****************************************************************************/
 
 /**
- * Description of ilECSServerTableGUI
- *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesWebServicesECS
  */
 class ilECSServerTableGUI extends ilTable2GUI
 {

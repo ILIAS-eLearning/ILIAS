@@ -5,11 +5,8 @@ use ILIAS\MyStaff\ilMyStaffAccess;
 
 /**
  * Class ilMStShowUserCoursesGUI
- *
  * @package           ILIAS\MyStaff\Courses\ShowUser
- *
  * @author            Theodor Truffer <tt@studer-raimann.ch>
- *
  * @ilCtrl_IsCalledBy ilMStShowUserCoursesGUI: ilMStShowUserGUI
  * @ilCtrl_Calls      ilMStShowUserCoursesGUI: ilFormPropertyDispatchGUI
  */
@@ -33,7 +30,6 @@ class ilMStShowUserCoursesGUI
     protected $access;
     private \ilGlobalTemplateInterface $main_tpl;
 
-
     /**
      *
      */
@@ -47,7 +43,6 @@ class ilMStShowUserCoursesGUI
         $this->usr_id = $DIC->http()->request()->getQueryParams()['usr_id'];
         $DIC->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
     }
-
 
     /**
      *
@@ -70,7 +65,6 @@ class ilMStShowUserCoursesGUI
             $DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }
-
 
     /**
      *
@@ -105,7 +99,6 @@ class ilMStShowUserCoursesGUI
         }
     }
 
-
     /**
      *
      */
@@ -113,7 +106,6 @@ class ilMStShowUserCoursesGUI
     {
         $this->listUsers();
     }
-
 
     /**
      *
@@ -141,7 +133,6 @@ class ilMStShowUserCoursesGUI
         $this->index();
     }
 
-
     /**
      *
      */
@@ -153,7 +144,6 @@ class ilMStShowUserCoursesGUI
         $this->index();
     }
 
-
     /**
      * @return string
      */
@@ -164,7 +154,6 @@ class ilMStShowUserCoursesGUI
         return $this->table->getId();
     }
 
-
     /**
      *
      */
@@ -174,7 +163,6 @@ class ilMStShowUserCoursesGUI
 
         $DIC->ctrl()->redirect($this);
     }
-
 
     /**
      *
@@ -191,7 +179,8 @@ class ilMStShowUserCoursesGUI
 
             if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
                 $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
-                $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
+                $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '',
+                    $link);
             };
 
             $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
@@ -207,8 +196,9 @@ class ilMStShowUserCoursesGUI
                 }
             }
 
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id, rawurlencode($DIC->ctrl()
-                ->getLinkTarget($this, self::CMD_INDEX)));
+            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id,
+                rawurlencode($DIC->ctrl()
+                                 ->getLinkTarget($this, self::CMD_INDEX)));
 
             echo $selection->getHTML(true);
         }

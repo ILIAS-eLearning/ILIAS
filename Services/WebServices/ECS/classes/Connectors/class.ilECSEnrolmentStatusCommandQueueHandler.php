@@ -15,8 +15,6 @@
  *****************************************************************************/
 
 /**
- * Description of class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandler

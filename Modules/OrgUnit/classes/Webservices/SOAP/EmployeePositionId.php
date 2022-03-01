@@ -6,7 +6,6 @@ use ilOrgUnitPosition;
 
 /**
  * Class EmployeePositionId
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class EmployeePositionId extends Base
@@ -14,14 +13,12 @@ class EmployeePositionId extends Base
 
     /**
      * @param array $params
-     *
      * @return int
      */
     protected function run(array $params)
     {
         return ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
     }
-
 
     /**
      * @return string
@@ -31,7 +28,6 @@ class EmployeePositionId extends Base
         return "getEmployeePositionId";
     }
 
-
     /**
      * @return array
      */
@@ -40,7 +36,6 @@ class EmployeePositionId extends Base
         return array();
     }
 
-
     /**
      * @inheritdoc
      */
@@ -48,7 +43,6 @@ class EmployeePositionId extends Base
     {
         return array('position_id' => Base::TYPE_INT);
     }
-
 
     /**
      * @inheritdoc

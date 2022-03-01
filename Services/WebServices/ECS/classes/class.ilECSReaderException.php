@@ -17,19 +17,9 @@
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSReaderException extends ilException
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     *
-     */
     public function __construct($a_message, $a_code = 0)
     {
         parent::__construct($a_message, $a_code);

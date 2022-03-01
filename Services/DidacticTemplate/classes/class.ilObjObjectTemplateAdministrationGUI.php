@@ -26,17 +26,16 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
      * Execute command
      * @access public
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
         switch ($next_class) {
 
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ildidactictemplatesettingsgui':
@@ -52,7 +51,7 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->checkPermissionBool('write')) {
             $this->lng->loadLanguageModule('didactic');
@@ -62,7 +61,7 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),

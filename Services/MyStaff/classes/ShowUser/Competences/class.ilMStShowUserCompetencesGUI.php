@@ -5,9 +5,7 @@ use ILIAS\MyStaff\ilMyStaffAccess;
 
 /**
  * Class ilMStShowUserCompetencesGUI
- *
  * @author            Theodor Truffer <tt@studer-raimann.ch>
- *
  * @ilCtrl_IsCalledBy ilMStShowUserCompetencesGUI: ilMStShowUserGUI
  */
 class ilMStShowUserCompetencesGUI
@@ -33,7 +31,6 @@ class ilMStShowUserCompetencesGUI
     private $dic;
     private \ilGlobalTemplateInterface $main_tpl;
 
-
     /**
      * @param Container $dic
      */
@@ -47,7 +44,6 @@ class ilMStShowUserCompetencesGUI
         $this->usr_id = $this->dic->http()->request()->getQueryParams()['usr_id'];
         $this->dic->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
     }
-
 
     /**
      *
@@ -68,7 +64,6 @@ class ilMStShowUserCompetencesGUI
             $this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }
-
 
     /**
      *
@@ -93,7 +88,6 @@ class ilMStShowUserCompetencesGUI
         }
     }
 
-
     /**
      * @param string $active_sub_tab
      */
@@ -108,7 +102,6 @@ class ilMStShowUserCompetencesGUI
 
         $this->dic->tabs()->activateSubTab($active_sub_tab);
     }
-
 
     /**
      *

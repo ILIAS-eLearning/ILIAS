@@ -401,14 +401,14 @@ class ilLearningModuleDataSet extends ilDataSet
                 $newObj->setActiveNumbering(ilUtil::yn2tf($a_rec["Numbering"]));
                 $newObj->setHistoryUserComments(ilUtil::yn2tf($a_rec["HistUserComments"]));
                 $newObj->setPublicAccessMode($a_rec["PublicAccessMode"]);
-                $newObj->setPublicNotes(ilUtil::yn2tf($a_rec["PubNotes"]));
+                $newObj->setPublicNotes(ilUtil::yn2tf($a_rec["PubNotes"] ?? "n"));
                 // Header Page/ Footer Page ???
                 $newObj->setLayoutPerPage($a_rec["LayoutPerPage"]);
                 $newObj->setRating($a_rec["Rating"]);
                 $newObj->setHideHeaderFooterPrint($a_rec["HideHeadFootPrint"]);
                 $newObj->setDisableDefaultFeedback($a_rec["DisableDefFeedback"]);
                 $newObj->setRatingPages($a_rec["RatingPages"]);
-                $newObj->setForTranslation($a_rec["ForTranslation"]);
+                $newObj->setForTranslation($a_rec["ForTranslation"] ?? false);
                 $newObj->setProgressIcons($a_rec["ProgrIcons"]);
                 $newObj->setStoreTries($a_rec["StoreTries"]);
                 $newObj->setRestrictForwardNavigation($a_rec["RestrictForwNav"]);

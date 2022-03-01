@@ -19,6 +19,7 @@ class ilCertificateCloneAction
     private Filesystem $fileSystem;
     private ilCertificateObjectHelper $objectHelper;
     private string $webDirectory;
+    private string $global_certificate_path;
 
     public function __construct(
         ilDBInterface $database,
@@ -27,7 +28,8 @@ class ilCertificateCloneAction
         ?Filesystem $fileSystem = null,
         ?ilLogger $logger = null,
         ?ilCertificateObjectHelper $objectHelper = null,
-        string $webDirectory = CLIENT_WEB_DIR
+        string $webDirectory = CLIENT_WEB_DIR,
+        string $global_certificate_path = null
     ) {
         $this->database = $database;
         $this->pathFactory = $pathFactory;
@@ -49,6 +51,16 @@ class ilCertificateCloneAction
             $objectHelper = new ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
+
+        if (null === $global_certificate_path) {
+            $global_certificate_path = str_replace(
+                '[CLIENT_WEB_DIR]',
+                '',
+                ilObjCertificateSettingsAccess::getBackgroundImagePath(true)
+            );
+        }
+        $this->global_certificate_path = $global_certificate_path;
+
 
         $this->webDirectory = $webDirectory;
     }
@@ -93,42 +105,46 @@ class ilCertificateCloneAction
 
             $newBackgroundImage = '';
             $newBackgroundImageThumbnail = '';
-            if ($this->fileSystem->has($backgroundImagePath) &&
-                !$this->fileSystem->hasDir($backgroundImagePath)
-            ) {
-                $newBackgroundImage = $certificatePath . $backgroundImageFile;
-                $newBackgroundImageThumbnail = str_replace(
-                    $webDir,
-                    '',
-                    $this->getBackgroundImageThumbPath($certificatePath)
-                );
-                if ($this->fileSystem->has($newBackgroundImage) &&
-                    !$this->fileSystem->hasDir($newBackgroundImage)
+            if ($this->global_certificate_path !== $backgroundImagePath) {
+                if ($this->fileSystem->has($backgroundImagePath) &&
+                    !$this->fileSystem->hasDir($backgroundImagePath)
                 ) {
-                    $this->fileSystem->delete($newBackgroundImage);
+                    $newBackgroundImage = $certificatePath . $backgroundImageFile;
+                    $newBackgroundImageThumbnail = str_replace(
+                        $webDir,
+                        '',
+                        $this->getBackgroundImageThumbPath($certificatePath)
+                    );
+                    if ($this->fileSystem->has($newBackgroundImage) &&
+                        !$this->fileSystem->hasDir($newBackgroundImage)
+                    ) {
+                        $this->fileSystem->delete($newBackgroundImage);
+                    }
+
+                    $this->fileSystem->copy(
+                        $backgroundImagePath,
+                        $newBackgroundImage
+                    );
                 }
 
-                $this->fileSystem->copy(
-                    $backgroundImagePath,
-                    $newBackgroundImage
-                );
-            }
-
-            if (
-                $newBackgroundImageThumbnail !== '' &&
-                $this->fileSystem->has($backgroundImageThumbnail) &&
-                !$this->fileSystem->hasDir($backgroundImageThumbnail)
-            ) {
-                if ($this->fileSystem->has($newBackgroundImageThumbnail) &&
-                    !$this->fileSystem->hasDir($newBackgroundImageThumbnail)
+                if (
+                    $newBackgroundImageThumbnail !== '' &&
+                    $this->fileSystem->has($backgroundImageThumbnail) &&
+                    !$this->fileSystem->hasDir($backgroundImageThumbnail)
                 ) {
-                    $this->fileSystem->delete($newBackgroundImageThumbnail);
-                }
+                    if ($this->fileSystem->has($newBackgroundImageThumbnail) &&
+                        !$this->fileSystem->hasDir($newBackgroundImageThumbnail)
+                    ) {
+                        $this->fileSystem->delete($newBackgroundImageThumbnail);
+                    }
 
-                $this->fileSystem->copy(
-                    $backgroundImageThumbnail,
-                    $newBackgroundImageThumbnail
-                );
+                    $this->fileSystem->copy(
+                        $backgroundImageThumbnail,
+                        $newBackgroundImageThumbnail
+                    );
+                }
+            } else {
+                $newBackgroundImage = $this->global_certificate_path;
             }
 
             $newCardThumbImage = '';
