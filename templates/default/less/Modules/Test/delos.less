@@ -4,26 +4,23 @@
     background: transparent;
     // left column: list of questions
     #tst_left {
-        flex-grow: 1;
-        max-width: @il-test-shortlist-max-width;
-        padding-right: @il-test-spacing-large-horizontal;
-        .shortlist .panel {
-            @media screen and (max-width: @grid-float-breakpoint-max) {
-                margin-right: 0;
-            }
-        }
+        width: 20%;
+        min-width: @il-test-shortlist-min-width;
+        margin-right: @il-test-margin-large-horizontal;
         &:empty {
             display: none; // handles show/hide shortlist from former ta_split.css
+            visibility: hidden;
         }
         @media screen and (max-width: @grid-float-breakpoint-max) {
-            max-width: 100%;
+            margin-right: 0;
+            width: 100%;
         }
     }
     #tst_right {
-        flex-grow: 2;
+        flex-grow: 1;
         .ilc_Page {
             background-color: @il-main-bg;
-            padding: @il-test-spacing-large-vertical @il-test-spacing-large-horizontal; // like a panel
+            padding: @il-test-padding-large-vertical @il-test-padding-large-horizontal; // like a panel
         }
     }
     @media screen and (max-width: @grid-float-breakpoint-max) {
@@ -34,7 +31,7 @@
 // navigation previous and next buttons
 #tst_output .ilTstNavigation {
     display: flex;
-    padding: @il-test-spacing-large-vertical @il-test-spacing-large-horizontal; // like a panel
+    padding: @il-test-padding-large-vertical @il-test-padding-large-horizontal; // like a panel
     justify-content: space-between;
     background-color: @il-main-dark-bg;
     #bottomprevbutton {
@@ -53,6 +50,41 @@
     }
 }
 
+// question list
+#tst_output #tst_left {
+    ul.shortlist {
+        list-style-type: none;
+        padding: 0;
+        li {
+            padding: 0 0 @il-test-margin-large-vertical (1.5 * @il-test-margin-large-horizontal);
+            background-repeat: no-repeat;
+            background-size: 10px;
+            background-position: 0px 5px;
+            &.unanswered {
+                background-image: url('images/answered_not.svg');
+            }
+            &.answered {
+                background-image: url('images/answered.svg');
+            }
+            &.active {
+                font-weight: bold;
+            }
+        }
+    }
+    /*
+    ul.shortlist li.listEntry a
+    {
+        text-decoration:none;
+        color:#0033AA;
+    }
+    
+    ul.shortlist li.listEntry a:hover
+    {
+        text-decoration: underline;
+    }
+    */
+}
+
 // main page area elements
 #tst_output #tst_right {
     .ilTstWorkingFormBlock_WorkingTime {
@@ -68,7 +100,7 @@
         }
     }
     h1.ilc_page_title_PageTitle {
-        margin-bottom: @il-test-spacing-large-vertical;
+        margin-bottom: @il-test-padding-large-vertical;
     }
 }
 
@@ -440,43 +472,6 @@ table.il_tst_answer_aggregation td.answer_frequency
 .question_description {
 	font-style: italic;
 	font-size: 90%;
-}
-
-ul.shortlist {
-	list-style-type: none;
-	padding: 0;
-}
-
-/* fau: testNav - icon for answered/unanswered questions in shortlist */
-ul.shortlist li {
-	padding: 0 0 6px 15px;
-    background-repeat: no-repeat;
-    background-size: 10px;
-    background-position: 0px 5px;
-}
-
-ul.shortlist li.answered {
-    background-image: url('../../../../templates/default/images/answered.svg');
-}
-
-ul.shortlist li.unanswered {
-    background-image: url('../../../../templates/default/images/answered_not.svg');
-}
-/* fau. */
-
-ul.shortlist li.active {
-	font-weight: bold;
-}
-
-ul.shortlist li.listEntry a
-{
-	text-decoration:none;
-	color:#0033AA;
-}
-
-ul.shortlist li.listEntry a:hover
-{
-	text-decoration: underline;
 }
 
 .number {
