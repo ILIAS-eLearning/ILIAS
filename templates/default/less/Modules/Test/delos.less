@@ -1,3 +1,77 @@
+// general layout
+#tst_output #taForm {
+    display: flex;
+    background: transparent;
+    // left column: list of questions
+    #tst_left {
+        flex-grow: 1;
+        max-width: @il-test-shortlist-max-width;
+        padding-right: @il-test-spacing-large-horizontal;
+        .shortlist .panel {
+            @media screen and (max-width: @grid-float-breakpoint-max) {
+                margin-right: 0;
+            }
+        }
+        &:empty {
+            display: none; // handles show/hide shortlist from former ta_split.css
+        }
+        @media screen and (max-width: @grid-float-breakpoint-max) {
+            max-width: 100%;
+        }
+    }
+    #tst_right {
+        flex-grow: 2;
+        .ilc_Page {
+            background-color: @il-main-bg;
+            padding: @il-test-spacing-large-vertical @il-test-spacing-large-horizontal; // like a panel
+        }
+    }
+    @media screen and (max-width: @grid-float-breakpoint-max) {
+        flex-direction: column-reverse;
+    }
+}
+
+// navigation previous and next buttons
+#tst_output .ilTstNavigation {
+    display: flex;
+    padding: @il-test-spacing-large-vertical @il-test-spacing-large-horizontal; // like a panel
+    justify-content: space-between;
+    background-color: @il-main-dark-bg;
+    #bottomprevbutton {
+        // can correct glyph be selected in php?
+        .glyphicon-arrow-left:before {
+            font-family: 'il-icons';
+            content: "\e605";
+        }
+    }
+    #bottomnextbutton {
+        // can correct glyph be selected in php?
+        .glyphicon-arrow-right:before {
+            font-family: 'il-icons';
+            content: "\e606";
+        }
+    }
+}
+
+// main page area elements
+#tst_output #tst_right {
+    .ilTstWorkingFormBlock_WorkingTime {
+        text-align: center;
+        clear: both;
+        .ilTstWorkingFormInfo_UserWorkingTime {
+            visibility: hidden;
+            display: none;
+        }
+        .ilTstWorkingFormInfo_ProcessTimeLeft {
+            font-size: @il-test-working-time-font-size;
+            font-weight: @il-test-working-time-font-weight;
+        }
+    }
+    h1.ilc_page_title_PageTitle {
+        margin-bottom: @il-test-spacing-large-vertical;
+    }
+}
+
 /* former ta.css */
 
 .kiosk {
@@ -84,24 +158,8 @@
 	visibility: hidden;
 }
 
-
-.ilTstWorkingFormBlock_WorkingTime {
-	text-align: center;
-	clear: both;
-}
-
-.ilTstWorkingFormInfo_UserWorkingTime {
-	visibility: hidden;
-	display: none;
-}
-
-.ilTstWorkingFormInfo_ProcessTimeLeft {
-	font-size: 200%;
-	font-weight: bold;
-}
-
 .ilTstQuestionSummaryBlock_WorkingTime {
-	clear: both;
+    clear: both;
 }
 
 div.ilc_Question {
@@ -379,28 +437,6 @@ table.il_tst_answer_aggregation td.answer_frequency
 	text-align: right;
 }
 
-#tst_output {
-	clear: both;
-	overflow: hidden;
-	width: 100%;
-	float: left;
-}
-
-#tst_left {
-	float: left;
-	width: 0%;
-}
-
-#tst_left h1 {
-	font-size: 110%;
-	font-weight: bold;
-}
-
-#tst_right {
-	float: right;
-	width: 100%;
-}
-
 .question_description {
 	font-style: italic;
 	font-size: 90%;
@@ -603,15 +639,6 @@ table.imagemapareas tr.active-area, table.imagemapareas tr.active-area td {
 
 /* fau: testNav - added and changed styles */
 
-td.ilc_Page {
-    padding: 15px;
-}
-
-.ilTestQuestionSubtitleBlocks
-{
-    margin-top: -12px;
-}
-
 .ilTestMarkQuestionIcon {
 	width: 12px;
 	height: 12px;
@@ -679,16 +706,4 @@ div.ilc_Page.readonly textarea[disabled]
 }
 .ilc_question_SingleChoice .ilc_qanswer_Answer > div {
 	vertical-align: top;
-}
-
-/* former ta_split.css */
-
-#tst_left {
-	float: left;
-	width: 19%;
-}
-
-#tst_right {
-	float: right;
-	width: 80%;
 }
