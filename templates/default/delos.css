@@ -17121,6 +17121,9 @@ div#il_startup_logo img {
   display: inline-block;
   vertical-align: top;
 }
+.ilToolbar .input-group {
+  vertical-align: top;
+}
 .ilToolbar input[type="file"] {
   display: inline-block;
 }
