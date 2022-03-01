@@ -457,6 +457,10 @@ export default class PageUI {
       });
 
       buttonDisabled = (selected.size === 0 && type !== "all");
+      if (type === "all") {
+        const all_areas = document.querySelectorAll("[data-copg-ed-type='pc-area']");
+        buttonDisabled = (selected.size === all_areas.length);
+      }
       multi_button.disabled = buttonDisabled
 
     });
