@@ -104,7 +104,8 @@ class ilObjFolderGUI extends ilContainerGUI
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
+        $header_action = true;
         switch ($next_class) {
             case 'ilreputilgui':
                 $ru = new \ilRepUtilGUI($this);
@@ -148,6 +149,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
                 }
+                $header_action = false;
                 break;
 
             case 'ilinfoscreengui':
@@ -219,8 +221,10 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->$cmd();
                 break;
         }
-        
-        $this->addHeaderAction();
+
+        if ($header_action) {
+            $this->addHeaderAction();
+        }
     }
 
     /**
@@ -570,6 +574,16 @@ class ilObjFolderGUI extends ilContainerGUI
             );
         }
     }
+
+    /**
+     * show possible sub objects selection list
+     */
+    public function showPossibleSubObjects()
+    {
+        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui->render();
+    }
+
     
     protected function forwardToTimingsView()
     {

@@ -25,6 +25,10 @@ class ilMStListCoursesGUI
      * @var ilMyStaffAccess
      */
     protected $access;
+    /**
+     * @var ilHelp
+     */
+    protected $help;
 
 
     /**
@@ -32,7 +36,10 @@ class ilMStListCoursesGUI
      */
     public function __construct()
     {
+        global $DIC;
         $this->access = ilMyStaffAccess::getInstance();
+        $this->help = $DIC->help();
+        $this->help->setScreenIdComponent('msta');
     }
 
 
@@ -105,6 +112,7 @@ class ilMStListCoursesGUI
         global $DIC;
 
         $this->checkAccessOrFail();
+        $this->help->setScreenId('courses_list');
 
         $this->table = new ilMStListCoursesTableGUI($this, self::CMD_INDEX);
         $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_list_courses'));

@@ -558,7 +558,7 @@ class ilPersonalProfileGUI
 
         $this->tabs->clearTargets();
         $this->tabs->clearSubTabs();
-        $this->tpl->setTitle($this->lng->txt('withdraw_consent'));
+        $this->tpl->setTitle($this->lng->txt('refuse_tos_acceptance'));
 
         $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
         $content = $tosWithdrawalGui->getConsentWithdrawalConfirmation($this);

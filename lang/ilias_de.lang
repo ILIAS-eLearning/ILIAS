@@ -2402,6 +2402,7 @@ common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung wide
 common#:#withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ein, um den Widerrufsvorgang abzuschließen.
 common#:#withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herkunftsinstallation zurück, und loggen Sie sich erneut ein, um den Widerrufsvorgang abzuschließen.
 common#:#withdraw_consent#:#Einverständnis widerrufen
+common#:#refuse_tos_acceptance#:#Akzeptanz der Nutzungsvereinbarung ablehnen
 common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen, wird Ihr Account gelöscht.
 common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
 common#:#withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsvereinbarungen.
@@ -4977,7 +4978,7 @@ content#:#cont_edit_base_image#:#Ausgangsbild bearbeiten
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_lrs_settings#:#Einstellungen
 content#:#cont_edit_marker_position#:#Markierungspunkt bearbeiten
-content#:#cont_edit_mob#:#Medienobjekt editieren
+content#:#cont_edit_mob#:#Medienobjekt bearbeiten
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Instanz des Medienobjekts bearbeiten
 content#:#cont_edit_mode#:#Bearbeitungsmodus
 content#:#cont_edit_overlay_position#:#Position des Overlays bearbeiten
@@ -5245,6 +5246,7 @@ content#:#cont_pc_iim#:#Interaktives Bild
 content#:#cont_pc_incl#:#Inhaltsbaustein
 content#:#cont_pc_list#:#Erweiterte Liste
 content#:#cont_pc_map#:#Karte
+content#:#cont_pc_media#:#Bild/Audio/Video
 content#:#cont_pc_mob#:#Medienobjekt
 content#:#cont_pc_modified#:#Geänderte Inhalte
 content#:#cont_pc_new#:#Neue Inhalte
@@ -5456,7 +5458,7 @@ content#:#cont_update_login_page#:#Login-Seitenelemente aktualisieren
 content#:#cont_update_map#:#Karte bearbeiten
 content#:#cont_update_profile#:#Veröffentlichte Daten bearbeiten
 content#:#cont_update_resources#:#Materialienliste aktualisieren
-content#:#cont_update_section#:#Block aktualisieren
+content#:#cont_update_section#:#Block bearbeiten
 content#:#cont_update_skills#:#Kompetenz bearbeiten
 content#:#cont_update_verification#:#Zertifikat bearbeiten
 content#:#cont_upload_dir#:#Upload-Verzeichnis
@@ -16552,6 +16554,7 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 file#:#file_upload_info_file_with_critical_extension#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator.
+file#:#migrated#:#Status
 file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
@@ -16641,3 +16644,4 @@ rating#:#rating_avg_rating#:#Durchschnittliche Bewertung
 rating#:#rating_personal_rating#:#Ihre Bewertung
 rating#:#rating_rate_x_of_5#:#Mit %s von 5 Sternen bewerten
 rating#:#rating_open_dialog#:#Bewertungsskala aufklappen
+tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit '%s' verschlagwortet.

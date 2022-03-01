@@ -25,6 +25,10 @@ class ilMStListUsersGUI
      * @var ilMyStaffAccess
      */
     protected $access;
+    /**
+     * @var ilHelp
+     */
+    protected $help;
 
 
     /**
@@ -32,7 +36,10 @@ class ilMStListUsersGUI
      */
     public function __construct()
     {
+        global $DIC;
         $this->access = ilMyStaffAccess::getInstance();
+        $this->help = $DIC->help();
+        $this->help->setScreenIdComponent('msta');
     }
 
 
@@ -94,6 +101,7 @@ class ilMStListUsersGUI
     {
         global $DIC;
 
+        $this->help->setScreenId('users_list');
         $this->table = new ilMStListUsersTableGUI($this, self::CMD_INDEX);
         $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_list_users'));
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());

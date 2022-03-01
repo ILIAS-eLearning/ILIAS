@@ -1063,6 +1063,8 @@ export default class ParagraphUI {
   setSectionClassSelector(i) {
     if (i === "") {
       i = il.Language.txt("cont_no_block");
+    } else {
+      i = document.querySelector("[data-copg-ed-par-class='" + i + "'] div.ilc_section_" + i).innerHTML;
     }
     const fc = document.querySelector(".ilSectionClassSelector .dropdown button");
     if (fc) {
