@@ -236,6 +236,10 @@ export default class PageUI {
     return this.uiModel.pcDefinition.names[type];
   }
 
+  getLabelForType(type) {
+    return this.uiModel.pcDefinition.txt[type];
+  }
+
   getCnameForPCID(pcid) {
     const el = document.querySelector("[data-pcid='" + pcid + "']");
     if (el) {
@@ -815,7 +819,7 @@ export default class PageUI {
     if (this.uiModel.components[this.model.getCurrentPCName()] &&
       this.uiModel.components[this.model.getCurrentPCName()].icon) {
       content = "<div class='copg-new-content-placeholder'>" + this.uiModel.components[this.model.getCurrentPCName()].icon +
-        "<div>" + this.model.getCurrentPCName() + "</div></div>";
+        "<div>" +  this.getLabelForType(this.getPCTypeForName(this.model.getCurrentPCName())) + "</div></div>";
     }
 
     this.pageModifier.insertComponentAfter(
