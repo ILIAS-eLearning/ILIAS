@@ -84,6 +84,7 @@
 <xsl:param name="enable_amd_page_list"/>
 <xsl:param name="current_ts"/>
 <xsl:param name="enable_html_mob"/>
+<xsl:param name="enable_href"/>
 <xsl:param name="page_perma_link"/>
 
 <xsl:template match="PageObject">
@@ -1277,7 +1278,9 @@
 			<xsl:variable name="link_target" select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkTarget"/>
 			<xsl:if test="$href != ''">
 				<a class="ilc_link_IntLink">
-					<xsl:attribute name="href"><xsl:value-of select="$href"/></xsl:attribute>
+					<xsl:if test="$enable_href">
+						<xsl:attribute name="href"><xsl:value-of select="$href"/></xsl:attribute>
+					</xsl:if>
 					<xsl:if test="$link_target != ''">
 						<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
 					</xsl:if>
@@ -1315,7 +1318,9 @@
 	<xsl:variable name="on_click">
 		<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@OnClick"/>
 	</xsl:variable>
-	<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
+	<xsl:if test="$enable_href">
+		<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
+	</xsl:if>
 	<xsl:if test="$link_target != ''">
 		<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
 	</xsl:if>
@@ -1349,7 +1354,9 @@
 		<xsl:attribute name="onclick"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick"/></xsl:attribute>
 	</xsl:if>
 	<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
-	<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
+	<xsl:if test="$enable_href">
+		<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
+	</xsl:if>
 </xsl:template>
 
 	<!-- Tables -->

@@ -21,6 +21,8 @@ class ilPageObjectGUI
     const OFFLINE = "offline";
     const PRINTING = "print";
 
+    protected bool $enabled_href = true;
+
     /**
      * @var ilTemplate
      */
@@ -928,6 +930,15 @@ class ilPageObjectGUI
         return $this->lng->txt("inactive");
     }
 
+    public function getEnabledHref() : bool
+    {
+        return $this->enabled_href;
+    }
+
+    public function setEnabledHref(bool $enable) : void
+    {
+        $this->enabled_href = $enable;
+    }
 
     /**
     * Activate meda data editor
@@ -1765,6 +1776,11 @@ class ilPageObjectGUI
         $current_ts = time();
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
+        $enable_href = $this->getEnabledHref();
+        if ($this->getOutputMode() == self::EDIT) {
+            $enable_href = false;
+        }
+
         // added UTF-8 encoding otherwise umlaute are converted too
         include_once("./Services/Maps/classes/class.ilMapUtil.php");
         $params = array('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title, ENT_QUOTES, "UTF-8"),
@@ -1812,7 +1828,8 @@ class ilPageObjectGUI
                          'current_ts' => $current_ts,
                          'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
                          'flv_video_player' => $flv_video_player,
-                         'page_perma_link' => $this->getPagePermaLink()
+                         'page_perma_link' => $this->getPagePermaLink(),
+                          'enable_href' => $enable_href
                         );
         if ($this->link_frame != "") {		// todo other link types
             $params["pg_frame"] = $this->link_frame;

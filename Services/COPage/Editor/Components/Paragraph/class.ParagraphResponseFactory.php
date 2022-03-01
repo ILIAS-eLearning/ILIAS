@@ -126,6 +126,7 @@ class ParagraphResponseFactory
         $page_gui->setRawPageContent(true);
         $page_gui->setAbstractOnly(true, $pcid);
         $page_gui->setOutputMode(\ilPageObjectGUI::PRESENTATION);
+        $page_gui->setEnabledHref(false);
         //$html = $page_gui->showPage();
         $html = $DIC->ctrl()->getHTML($page_gui);
 
