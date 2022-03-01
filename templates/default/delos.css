@@ -16593,6 +16593,9 @@ div.ilStartupSection form.form-horizontal {
   display: inline-block;
   vertical-align: top;
 }
+.ilToolbar .input-group {
+  vertical-align: top;
+}
 .ilToolbar input[type="file"] {
   display: inline-block;
 }
