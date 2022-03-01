@@ -16644,3 +16644,5 @@ rating#:#rating_personal_rating#:#Your Rating
 rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars
 rating#:#rating_open_dialog#:#Open rating dialog
 tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.
+rep#:#rep_favourites#:#Favourites
+rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
