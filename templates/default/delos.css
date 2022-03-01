@@ -16513,8 +16513,7 @@ div.ilListItemSection {
   max-width: calc(100% - 40px);
 }
 div.ilContainerListItemOuterHighlight {
-  padding: 15px;
-  background-color: #ffffd9;
+  background-color: #e2e8ef;
   zoom: 1;
 }
 .ilCLI {
