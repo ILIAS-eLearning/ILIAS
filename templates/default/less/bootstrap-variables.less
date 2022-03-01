@@ -47,7 +47,7 @@ the il- variable in your less code and not the boostrap variable in your less co
 //** Unit-less `line-height` for use in components like buttons.
 @line-height-base:        @il-line-height-base;
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
-@line-height-computed:    floor((@il-font-size-base * @il-line-height-base)); // ~20px
+@line-height-computed:    @il-line-height-computed; // ~20px
 //** For larger font sizes, such as titles in panels.
 @line-height-large:         1.33;
 //** For smaller font sizes
@@ -162,18 +162,3 @@ the il- variable in your less code and not the boostrap variable in your less co
 @dropdown-header-bg: white;
 
 @navbar-height: @il-toolbar-height;
-
-//== Code
-//
-//##
-
-@code-color:                  @il-danger-color;
-@code-bg:                     @il-main-dark-bg;
-
-@kbd-color:                   white;
-@kbd-bg:                      @il-neutral-color;
-
-@pre-bg:                      @il-main-dark-bg;
-@pre-color:                   @il-text-color;
-@pre-border-color:            @il-main-border-color;
-@pre-scrollable-max-height:   340px;
