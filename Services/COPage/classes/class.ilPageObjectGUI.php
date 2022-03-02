@@ -21,7 +21,7 @@ class ilPageObjectGUI
     const OFFLINE = "offline";
     const PRINTING = "print";
 
-    protected bool $enabled_href = true;
+    protected $enabled_href = true;
 
     /**
      * @var ilTemplate
