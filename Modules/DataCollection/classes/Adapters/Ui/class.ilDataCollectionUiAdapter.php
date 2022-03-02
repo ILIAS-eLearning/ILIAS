@@ -7,11 +7,13 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
 {
     protected static ?self $instance = null;
 
+
     private ilGlobalTemplateInterface $tpl;
     private \ILIAS\DI\UIServices $ui;
-    protected \ilTabsGUI $tabs;
-    protected \ilErrorHandling $error;
-    protected \ilLocatorGUI $locatorGui;
+    private \ilTabsGUI $tabs;
+    private \ilErrorHandling $error;
+    private \ilLocatorGUI $locatorGui;
+    private \ilNavigationHistory $navigationHistory;
 
     private function __construct(
         ilGlobalTemplateInterface $tpl,
@@ -19,13 +21,15 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
         \ilTabsGUI $tabs,
         \ilErrorHandling $error,
         \ilLocatorGUI $locatorGui,
-        \ilHelpGUI $help
+        \ilHelpGUI $help,
+        \ilNavigationHistory $navigationHistory
     ) {
         $this->tpl = $tpl;
         $this->ui = $ui;
         $this->tabs = $tabs;
         $this->error = $error;
         $this->locatorGui = $locatorGui;
+        $this->navigationHistory = $navigationHistory;
 
         $help->setScreenIdComponent("dcl");
     }
@@ -34,8 +38,15 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
     {
         if (is_null(static::$instance) === true) {
             global $DIC;
-            static::$instance = new self($DIC["tpl"], $DIC->ui(), $DIC->tabs(), $DIC['ilErr'], $DIC['ilLocator'],
-                $DIC['ilHelp']);
+            static::$instance = new self(
+                $DIC["tpl"],
+                $DIC->ui(),
+                $DIC->tabs(),
+                $DIC['ilErr'],
+                $DIC['ilLocator'],
+                $DIC['ilHelp'],
+                $DIC['ilNavigationHistory']
+            );
         }
 
         return static::$instance;
@@ -79,5 +90,20 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
     public function addLocatorItem(string $title, string $link, int $itemId) : void
     {
         $this->locatorGui->addItem($title, $link, "", $itemId);
+    }
+
+    public function resetTabs() : void
+    {
+        $this->tabs->clearTargets();
+    }
+
+    public function setBackTab(string $label, string $link)
+    {
+        $this->tabs->setBackTarget($label, $link);
+    }
+
+    public function addDataCollectionEndpointToNavigationHistory(int $refId, string $link) : void
+    {
+        $this->navigationHistory->addItem($refId, $link, "dcl");
     }
 }

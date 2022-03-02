@@ -31,6 +31,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     const TAB_LIST_TABLES = 'dcl_tables';
     const TAB_EXPORT = 'export';
     const TAB_LIST_PERMISSIONS = 'perm_settings';
+    const TAB_INFO = 'id_info';
+    const TAB_LIST_RECORDS = 'id_records';
+
 
     public ?ilObject $object;
 
@@ -38,29 +41,26 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     private ilDataCollectionLanguagePort $dclLanguage;
     private ilDataCollectionEndpointPort $dclEndPoint;
     private ilDataCollectionAccessAdapter $dclAccess;
+    private ilDataCollectionGuiClassFactoryPort $dclGuiClass;
 
+    //todo to remove
     protected \ilCtrl $ctrl;
-    protected \ilErrorHandling $error;
 
-    protected \ilTabsGUI $tabs;
-    protected \ilLanguage $language;
-    protected \ILIAS\DI\UIServices $ui;
-    protected \ilNavigationHistory $navigationHistory;
-    protected \ilHelp $help;
-    protected \ilLocatorGUI $locatorGui;
 
     private int $tableId;
 
     private function init(
-        ilDataCollectionUiPort $dataCollectionTemplate,
+        ilDataCollectionUiPort $dclUi,
         ilDataCollectionLanguagePort $dclLanguage,
         ilDataCollectionEndpointPort $dclEndPoint,
-        ilDataCollectionAccessAdapter $dclAccess
+        ilDataCollectionAccessAdapter $dclAccess,
+        ilDataCollectionGuiClassFactoryPort $dclGuiClass
     ) {
-        $this->dclUi = $dataCollectionTemplate;
+        $this->dclUi = $dclUi;
         $this->dclLanguage = $dclLanguage;
         $this->dclEndPoint = $dclEndPoint;
         $this->dclAccess = $dclAccess;
+        $this->dclGuiClass = $dclGuiClass;
     }
 
     public function __construct(int $objectOrRefId = 0, int $idType = self::REPOSITORY_NODE_ID, $parentNodeId = 0)
@@ -69,21 +69,23 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         parent::__construct($objectOrRefId, $idType, $parentNodeId);
 
-        $this->ctrl = $DIC->ctrl();
-        $this->tpl = $DIC["tpl"];
-        $this->language = $DIC->language();
-        $this->ui = $DIC->ui();
-        $this->tabs = $DIC->tabs();
-        $this->navigationHistory = $DIC['ilNavigationHistory'];
-        $this->help = $DIC['ilHelp'];
-        $this->error = $DIC['ilErr'];
-        $this->locatorGui = $DIC['ilLocator'];
+        $dclOutbounds = ilDataCollectionOutboundsAdapter::new();
+        $this->init(
+            $dclOutbounds->getDataCollectionUi(),
+            $dclOutbounds->getDataCollectionLanguage(),
+            $dclOutbounds->getDataCollectionEndpoint(),
+            $dclOutbounds->getDataCollectionAccess(),
+            $dclOutbounds->getDataCollectionGuiClassFactory($this, $this->object)
+        );
 
-        if ($this->ctrl->isAsynch() === false) {
+        //todo get rid of ctrl
+        $this->ctrl = $DIC->ctrl();
+
+        if ($this->dclEndPoint->isAsyncCall() === false) {
             $this->addJavaScript();
         }
 
-        $this->ctrl->saveParameter($this, "table_id");
+        $this->dclEndPoint->saveParameterTableId($this);
     }
 
     private function setTableId(int $objectOrRefId = 0)
@@ -138,7 +140,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $refId = $this->object->getRefId();
 
         if (is_null($this->object) === true) {
-            $this->navigationHistory->addItem($refId, $this->dclEndPoint->getDataCollectionHomeLink($this), "dcl");
+            $this->dclUi->addDataCollectionEndpointToNavigationHistory($refId, $this->dclEndPoint->getDataCollectionHomeLink($this));
         }
 
         // Direct-Link Resource, redirect to viewgui
@@ -161,104 +163,114 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
 
         switch ($next_class) {
-            case strtolower(\ilInfoScreenGUI::class):
+            case $this->dclGuiClass->getIlInfoScreenGUI()->getLowerCaseGuiClassName():
                 $this->prepareOutput();
-                $this->tabs->activateTab("id_info");
-                $this->infoScreenForward();
+                $this->dclUi->activateTab(self::TAB_INFO);
+                $guiObject = $this->dclGuiClass->getIlInfoScreenGUI()->getGuiObject();
+                $this->dclEndPoint->forwardCommand($guiObject);
                 break;
 
-            case strtolower(\ilCommonActionDispatcherGUI::class):
-                $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
-                $gui->enableCommentsSettings(false);
-                $this->ctrl->forwardCommand($gui);
+            case $this->dclGuiClass->getIlCommonActionDispatcherGUI()->getLowerCaseGuiClassName():
+                $guiObject = $this->dclGuiClass->getIlCommonActionDispatcherGUI()->getGuiObject();
+                $this->dclEndPoint->forwardCommand($guiObject);
                 break;
 
-            case strtolower(\ilPermissionGUI::class):
+            case $this->dclGuiClass->getIlPermissionGUI($this)->getLowerCaseGuiClassName():
                 $this->prepareOutput();
-                $this->tabs->activateTab("id_permissions");
-                $perm_gui = new ilPermissionGUI($this);
-                $this->ctrl->forwardCommand($perm_gui);
+                $this->dclUi->activateTab(self::TAB_LIST_PERMISSIONS);
+                $guiObject = $this->dclGuiClass->getIlPermissionGUI($this);
+                $this->dclEndPoint->forwardCommand($guiObject);
                 break;
 
-            case strtolower(\ilObjectCopyGUI::class):
-                $cp = new ilObjectCopyGUI($this);
-                $cp->setType("dcl");
-                $this->ui->mainTemplate()->loadStandardTemplate();
-                $this->ctrl->forwardCommand($cp);
+            case $this->dclGuiClass->getIlObjectCopyGUI()->getLowerCaseGuiClassName():
+                //TODO move to adapter
+                //$this->ui->mainTemplate()->loadStandardTemplate();
+                $guiObject = $this->dclGuiClass->getIlObjectCopyGUI($this);
+                $this->dclEndPoint->forwardCommand($guiObject);
                 break;
 
-            case strtolower(\ilDclTableListGUI::class):
+            case $this->dclGuiClass->getIlDclTableListGUI($this)->getLowerCaseGuiClassName():
                 $this->prepareOutput();
-                $this->tabs->setTabActive("id_tables");
-                $tablelist_gui = new ilDclTableListGUI($this);
-                $this->ctrl->forwardCommand($tablelist_gui);
+                $this->dclUi->activateTab(self::TAB_LIST_TABLES);
+                $guiObject = $this->dclGuiClass->getIlDclTableListGUI($this);
+                $this->dclEndPoint->forwardCommand($guiObject);
                 break;
 
-            case strtolower(\ilDclRecordListGUI::class):
+            case $this->dclGuiClass->getIlDclRecordListGUI($this, $this->tableId)->getLowerCaseGuiClassName():
                 $this->addHeaderAction();
                 $this->prepareOutput();
-                $this->tabs->activateTab("id_records");
-                $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, 'tableview_id', $_REQUEST['tableview_id']);
-                $recordlist_gui = new ilDclRecordListGUI($this, $this->tableId);
-                $this->ctrl->forwardCommand($recordlist_gui);
+                $this->dclUi->activateTab(self::TAB_LIST_RECORDS);
+                $guiObject = $this->dclGuiClass->getIlDclRecordListGUI($this, $this->tableId);
+                $this->dclEndPoint->saveParameterTableviewId($guiObject);
+                $this->dclEndPoint->forwardCommand($guiObject);
                 break;
 
-            case  strtolower(\ilDclRecordEditGUI::class):
+            case $this->dclGuiClass->getIlDclRecordEditGUI($this)->getLowerCaseGuiClassName():
                 $this->prepareOutput();
-                $this->tabs->activateTab("id_records");
-                $recordedit_gui = new ilDclRecordEditGUI($this);
-                $this->ctrl->forwardCommand($recordedit_gui);
+                $this->dclUi->activateTab(self::TAB_LIST_RECORDS);
+                $guiObject = $this->dclGuiClass->getIlDclRecordEditGUI($this);
+                $this->dclEndPoint->forwardCommand($guiObject);
                 break;
 
-            case strtolower(\ilObjFileGUI::class):
+            case $this->dclGuiClass->getIlObjFileGUI($this)->getLowerCaseGuiClassName():
                 $this->prepareOutput();
-                $this->tabs->setTabActive("id_records");
-                $file_gui = new ilObjFile($this);
-                $this->ctrl->forwardCommand($file_gui);
+                $this->dclUi->activateTab(self::TAB_LIST_RECORDS);
+                $guiObject = $this->dclGuiClass->getIlObjFileGUI($this);
+                $this->dclEndPoint->forwardCommand($guiObject);
                 break;
 
-            case strtolower(\ilRatingGUI::class):
+            case $this->dclGuiClass->getIlRatingGUI()->getLowerCaseGuiClassName():
                 $rgui = new ilRatingGUI();
                 $rgui->setObject($_GET['record_id'], "dcl_record", $_GET["field_id"], "dcl_field");
                 $rgui->executeCommand();
-                $this->ctrl->redirectByClass("ilDclRecordListGUI", "listRecords");
+                //todo get rid of GET
+                $viewId = $_GET["tableview_id"];
+                $this->dclEndPoint->forwardCommand($this->dclEndPoint->getListRecordsLink($viewId));
                 break;
 
-            case strtolower(\ilDclDetailedViewGUI::class):
+            case $this->dclGuiClass->getIlDclDetailedViewGUI()->getLowerCaseGuiClassName():
                 $this->prepareOutput();
                 $recordview_gui = new ilDclDetailedViewGUI($this);
-                $this->ctrl->forwardCommand($recordview_gui);
-                $this->tabs->clearTargets();
-                $this->tabs->setBackTarget($this->lng->txt("back"),
-                    $this->ctrl->getLinkTargetByClass(ilDclRecordListGUI::class,
-                        ilDclRecordListGUI::CMD_LIST_RECORDS));
+                $this->dclEndPoint->forwardCommand($recordview_gui);
+
+                $this->dclUi->resetTabs();
+
+                //todo get rid of GET
+                $viewId = $_GET["tableview_id"];
+                $this->dclUi->setBackTab(
+                    $this->dclLanguage->translate('back'),
+                    $this->dclEndPoint->getListRecordsLink($viewId)
+                );
                 break;
 
-            case strtolower(\ilNoteGUI::class):
+            case $this->dclGuiClass->getIlNoteGUI()->getLowerCaseGuiClassName():
                 $this->prepareOutput();
                 $recordviewGui = new ilDclDetailedViewGUI($this);
-                $this->ctrl->forwardCommand($recordviewGui);
-                $this->tabs->clearTargets();
-                $this->tabs->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, ""));
+                $this->dclEndPoint->forwardCommand($recordviewGui);
+                $this->dclUi->resetTabs();
+                $this->dclUi->setBackTab(
+                    $this->dclLanguage->translate('back'),
+                    $this->dclEndPoint->getDataCollectionHomeLink($this)
+                );
                 break;
 
-            case strtolower(\ilDclExportGUI::class):
+            case $this->dclGuiClass->getIlDclExportGUI()->getLowerCaseGuiClassName():
                 $this->prepareOutput();
-                $this->tabs->setTabActive("export");
+                $this->dclUi->activateTab(self::TAB_EXPORT);
                 $exp_gui = new ilDclExportGUI($this);
                 $exporter = new ilDclContentExporter($this->object->getRefId());
                 $exp_gui->addFormat("xlsx", $this->lng->txt('dlc_xls_async_export'), $exporter, 'exportAsync');
                 $exp_gui->addFormat("xml");
 
-                $this->ctrl->forwardCommand($exp_gui);
+                $this->dclEndPoint->forwardCommand($exp_gui);
                 break;
 
-            case strtolower(ilDclPropertyFormGUI::class):
+            case $this->dclGuiClass->getIlDclPropertyFormGUI()->getLowerCaseGuiClassName():
                 $recordedit_gui = new ilDclRecordEditGUI($this);
                 $recordedit_gui->getRecord();
                 $recordedit_gui->initForm();
                 $form = $recordedit_gui->getForm();
-                $this->ctrl->forwardCommand($form);
+                $this->dclEndPoint->forwardCommand($form);
                 break;
 
             default:
@@ -280,6 +292,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
      */
     public function infoScreen()
     {
+        //TODO get rid of ctrl
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreenForward();
@@ -290,8 +303,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI
      */
     public function render()
     {
-        $this->ctrl->setParameterByClass('ilDclRecordListGUI', 'tableview_id', $_GET['tableview_id']);
-        $this->ctrl->redirectByClass("ildclrecordlistgui", "show");
+        //todo get rid of GET
+        $tableId = $_GET['table_id'];
+        $viewId = $_GET['tableview_id'];
+
+        $guiObject = $this->dclGuiClass->getIlDclRecordListGUI($this, $tableId);
+        $this->dclEndPoint->saveParameterTableviewId($guiObject);
+        $this->dclEndPoint->redirect($this->dclEndPoint->getListRecordsLink($viewId));
     }
 
     /**
@@ -328,7 +346,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     public static function _goto(string $a_target) : void
     {
-        $dclConfig = ilDataCollectionConfigAdapter::new();
+        $dclConfig = ilDataCollectionOutboundsAdapter::new();
         $dclUi = $dclConfig->getDataCollectionUi();
         $dclTranslation = $dclConfig->getDataCollectionLanguage();
         $dclAccess = $dclConfig->getDataCollectionAccess();
@@ -427,8 +445,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     public function editObject() : void
     {
         $dataCollectionTemplate = $this->tpl;
-        $ilTabs = $this->tabs_gui;
-        $ilErr = $this->error;
 
         $refId = $this->object->getRefId();
         if ($this->dclAccess->hasEditPermission($refId) === false) {

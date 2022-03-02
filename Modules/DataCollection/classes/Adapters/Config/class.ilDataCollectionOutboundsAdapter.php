@@ -3,7 +3,7 @@
 /**
  * @author martin@fluxlabs.ch
  */
-class ilDataCollectionConfigAdapter implements ilDataCollectionConfigPort
+class ilDataCollectionOutboundsAdapter implements ilDataCollectionOutboundsPort
 {
 
     private function __construct()
@@ -33,6 +33,16 @@ class ilDataCollectionConfigAdapter implements ilDataCollectionConfigPort
 
     public function getDataCollectionEndpoint() : ilDataCollectionEndpointPort
     {
-        return ilDataCollectionEndpointPort::new();
+        return ilDataCollectionEndpointAdapter::new();
+    }
+
+    public function getDataCollectionGuiClassFactory(
+        ilObjDataCollectionGUI $dataCollectionGUI,
+        ilObjDataCollection|ilObject $dataCollection
+    ): ilDataCollectionGuiClassFactoryPort {
+        ilDataCollectionGuiClassFactoryAdapter::new(
+            $dataCollectionGUI,
+            $dataCollection
+        );
     }
 }

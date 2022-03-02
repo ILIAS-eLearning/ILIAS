@@ -108,11 +108,29 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
         return $this->ctrl->getLinkTarget($dataCollectionGUI, "render");
     }
 
+    public function isAsyncCall() : bool
+    {
+        return $this->ctrl->isAsynch();
+    }
+
     /**
      * @throws ilCtrlException
      */
     public function forwardCommand(object $guiObject) : void
     {
         $this->ctrl->forwardCommand($guiObject);
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    public function saveParameterTableId(object $guiObject) : void
+    {
+        $this->ctrl->saveParameter($guiObject, "table_id");
+    }
+
+    public function saveParameterTableviewId(object $guiObject) : void
+    {
+        $this->ctrl->saveParameter($guiObject, "tableview_id");
     }
 }

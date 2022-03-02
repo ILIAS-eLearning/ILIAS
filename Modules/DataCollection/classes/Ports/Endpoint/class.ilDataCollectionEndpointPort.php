@@ -27,7 +27,13 @@ interface ilDataCollectionEndpointPort
 
     public function getQueryRecordDataEndpoint(): string;
 
+    public function isAsyncCall() : bool;
+
     public function redirect(string $link) : void;
+
+    public function saveParameterTableId(object $guiObject): void;
+
+    public function saveParameterTableviewId(object $guiObject): void;
 
     public function forwardCommand(object $guiObject): void;
 }
