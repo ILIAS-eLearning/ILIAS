@@ -9,7 +9,7 @@
     </report>
   </coverage>
   <testsuite name="ilServicesContactSuite">
-    <file>./test/ilQTITestSuite.php</file>
+    <file>./test/ilServicesQTISuite.php</file>
   </testsuite>
   <logging>
     <testdoxHtml outputFile="build/dox.html"/>

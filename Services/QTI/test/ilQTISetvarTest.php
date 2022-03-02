@@ -12,7 +12,7 @@ class ilQTISetvarTest extends TestCase
     /**
      * @dataProvider actions
      */
-    public function testSetGetAction() : void
+    public function testSetGetAction($input, $expected) : void
     {
         $instance = new ilQTISetvar();
         $instance->setAction($input);
