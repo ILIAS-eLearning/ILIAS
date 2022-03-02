@@ -31,6 +31,7 @@
 */
 class ilQTIMaterial
 {
+    /** @var string|null */
     public $label;
 
     /** @var int */
@@ -184,12 +185,18 @@ class ilQTIMaterial
     {
         return $this->flow;
     }
-    
+
+    /**
+     * @param string $a_label
+     */
     public function setLabel($a_label) : void
     {
         $this->label = $a_label;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getLabel()
     {
         return $this->label;

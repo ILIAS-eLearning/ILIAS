@@ -8,4 +8,18 @@ class ilQTIPresentationMaterialTest extends TestCase
     {
         $this->assertInstanceOf(ilQTIPresentationMaterial::class, new ilQTIPresentationMaterial());
     }
+
+    public function testAddFlowMat() : void
+    {
+        $flowMat = $this->getMockBuilder(ilQTIFlowMat::class)->disableOriginalConstructor()->getMock();
+        $instance = new ilQTIPresentationMaterial();
+
+        $this->assertEquals(null, $instance->getFlowMat(0));
+        $this->assertEquals(null, $instance->getFlowMat(1));
+
+        $instance->addFlowMat($flowMat);
+
+        $this->assertEquals($flowMat, $instance->getFlowMat(0));
+        $this->assertEquals(null, $instance->getFlowMat(1));
+    }
 }
