@@ -5317,6 +5317,7 @@ content#:#cont_pc_iim#:#Interaktives Bild
 content#:#cont_pc_incl#:#Inhaltsbaustein
 content#:#cont_pc_list#:#Erweiterte Liste
 content#:#cont_pc_map#:#Karte
+content#:#cont_pc_media#:#Bild/Audio/Video
 content#:#cont_pc_mob#:#Medienobjekt
 content#:#cont_pc_modified#:#Geänderte Inhalte
 content#:#cont_pc_new#:#Neue Inhalte
@@ -16786,3 +16787,5 @@ rating#:#rating_personal_rating#:#Ihre Bewertung
 rating#:#rating_rate_x_of_5#:#Mit %s von 5 Sternen bewerten
 rating#:#rating_open_dialog#:#Bewertungsskala aufklappen
 tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit '%s' verschlagwortet.
+rep#:#rep_favourites#:#Favoriten
+rep#:#rep_favourites_info#:#Benutzer können einzelne Magazinobjekte als Favorit markieren. Favoritenlisten können in der Dashboard- und Hauptmenükonfiguration aktiviert werden.

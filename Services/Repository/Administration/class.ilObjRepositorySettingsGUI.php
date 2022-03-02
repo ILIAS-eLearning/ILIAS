@@ -137,6 +137,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
         
         // default repository view
+        /*
         $options = array(
             "flat" => $this->lng->txt("flatview"),
             "tree" => $this->lng->txt("treeview")
@@ -149,7 +150,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         } else {
             $si->setValue("flat");
         }
-        $form->addItem($si);
+        $form->addItem($si);*/
 
         //
         $options = array(
@@ -284,6 +285,13 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $dl_prop->setInfo($this->lng->txt('enable_multi_download_info'));
         $form->addItem($dl_prop);
 
+        // favourites
+        $cb = new ilCheckboxInputGUI($this->lng->txt("rep_favourites"), "rep_favourites");
+        $cb->setInfo($this->lng->txt("rep_favourites_info"));
+        $cb->setChecked((bool) $ilSetting->get("rep_favourites"));
+        $form->addItem($cb);
+
+
         // object lists
         
         $lists = new ilFormSectionHeaderGUI();
@@ -350,6 +358,11 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $ilSetting->set(
                 "rep_tree_limit_grp_crs",
                 $rep_tree_limit_grp_crs
+            );
+
+            $ilSetting->set(
+                "rep_favourites",
+                $form->getInput("rep_favourites")
             );
 
             $ilSetting->set(
