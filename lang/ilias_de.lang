@@ -423,7 +423,7 @@ administration#:#adm_db_benchmark_user#:#Benutzer-Login
 administration#:#adm_db_benchmark_user_desc#:#Für diesen Benutzer wird die Messung durchgeführt. Sie sollten nicht den gleichen Benutzer verwenden, der die Funktion aktiviert.
 administration#:#adm_edit_settings_template#:#Vorlagen bearbeiten
 administration#:#adm_hide#:#Im Einstellungsformular ausblenden
-administration#:#adm_hide_tabs#:#Tabs ausblenden
+administration#:#adm_hide_tabs#:#Reiter ausblenden
 administration#:#adm_item_cmd_asynch#:#Asynchrones Laden der Aktionsmenüs im Magazin
 administration#:#adm_item_cmd_asynch_info#:#Aktionsmenüs, z. B. im Magazin, werden asynchron geladen. Dies erhöht die Performanz allgemein. In Einzelfällen kann es zu kurzen Verzögerungen beim Anzeigen des Popup-Menüs kommen.
 administration#:#adm_locale#:#Locale
