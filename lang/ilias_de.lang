@@ -4388,7 +4388,7 @@ common#:#shib_country#:#Attribut für Land
 common#:#shib_data_conv#:#Pfad zum Daten Manipulations-API
 common#:#shib_data_conv_warning#:#Das angegebene Daten-Manipulations-API kann nicht gelesen werden.
 common#:#shib_department#:#Attribut für Departement
-common#:#shib_email#:#Attribut für E-Mailadresse
+common#:#shib_email#:#Attribut für E-Mail-Adresse
 common#:#shib_federation_name#:#Name der Shibboleth-Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
 common#:#shib_gender#:#Attribut für Anrede (muss 'n', 'm' oder 'f' sein)
@@ -10768,7 +10768,7 @@ dateplaner#:#cal_notification_users#:#Benachrichtigung für ausgewählte Benutze
 dateplaner#:#cal_adm_notification_user_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung an einzelne, auswählbare Benutzer versenden zu können.
 dateplaner#:#cal_err_invalid_notification_rcps#:#Die Empfänger für die E-Mail-Benachrichtigung sind nicht gültig. Bitte wählen geben Sie ausschließlich ILIAS-Benutzerkontennamen oder gültige E-Mail-Adressen an.
 dateplaner#:#cal_user_notification#:#Benutzerbenachrichtigung
-dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten eine E-Mail mit den Termindetails. Bitte geben Sie ILIAS-Benutzernamen oder gültige E-Mailadressen ein.
+dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten eine E-Mail mit den Termindetails. Bitte geben Sie ILIAS-Benutzernamen oder gültige E-Mail-Adressen ein.
 dateplaner#:#cal_cg_notification#:#Kurs/Gruppenbenachrichtigung
 dateplaner#:#cal_mail_notification_subject#:#Termineinladung: "%s"
 dateplaner#:#cal_mail_notification_body#:#Sie wurden zu einem Termin eingeladen.
