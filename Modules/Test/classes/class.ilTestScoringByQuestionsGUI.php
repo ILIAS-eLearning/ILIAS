@@ -192,7 +192,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $pass = key($_POST['scoring']);
         $activeData = current($_POST['scoring']);
         $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-        $oneExceededMaxPoints = false;
         $manPointsPost = [];
         $skipParticipant = [];
         $maxPointsByQuestionId = [];
@@ -217,8 +216,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             }
             
             foreach ((array) $questions as $qst_id => $reached_points) {
-                $this->saveFeedback($active_id, $qst_id, $pass, $ajax);
-
                 if (false == isset($manPointsPost[$pass])) {
                     $manPointsPost[$pass] = [];
                 }
@@ -228,15 +225,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 $maxPointsByQuestionId[$qst_id] = assQuestion::_getMaximumPoints($qst_id);
                 $manPointsPost[$pass][$active_id][$qst_id] = $reached_points;
                 if ($reached_points > $maxPointsByQuestionId[$qst_id]) {
-                    $oneExceededMaxPoints = true;
+                    ilUtil::sendFailure(sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1));
+                    $this->showManScoringByQuestionParticipantsTable($manPointsPost);
+                    return;
                 }
             }
-        }
-        
-        if ($oneExceededMaxPoints) {
-            ilUtil::sendFailure(sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1));
-            $this->showManScoringByQuestionParticipantsTable($manPointsPost);
-            return;
         }
         
         $changed_one = false;
