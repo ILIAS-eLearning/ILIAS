@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 
 class ilQTIParserTest extends TestCase
@@ -25,5 +26,16 @@ class ilQTIParserTest extends TestCase
         $instance->setTestObject($test);
         $this->assertEquals($test, $instance->tst_object);
         $this->assertEquals($id, $instance->tst_id);
+    }
+
+    protected function setup() : void
+    {
+        $GLOBALS['DIC'] = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
+        $GLOBALS['DIC']->expects(self::any())->method('isDependencyAvailable')->with('language')->willReturn(false);
+    }
+
+    protected function tearDown() : void
+    {
+        unset($GLOBALS['DIC']);
     }
 }

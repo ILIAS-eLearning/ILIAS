@@ -51,7 +51,7 @@ class ilQTIParser extends ilSaxParser
     public $item;
 
     /**
-     * @var ilQTIXMLParserMap
+     * @var SplObjectStorage<XmlParser|resource<xml>, int>
      */
     public $depth;
 
@@ -278,11 +278,6 @@ class ilQTIParser extends ilSaxParser
     protected $ignoreItemsEnabled = false;
 
     /**
-     * @var false
-     */
-    protected bool $in_reponse;
-
-    /**
      * @var null
      */
     private $render_hotspot;
@@ -296,12 +291,13 @@ class ilQTIParser extends ilSaxParser
      * @var array{label: string, entry: string}
      */
     private array $metadata;
+
     private ?ilQTIResponseVar $responsevar;
 
     /**
      * @var string|null
      */
-    protected $questionSetType;
+    protected $questionSetType = null;
 
     public function isIgnoreItemsEnabled() : bool
     {
@@ -349,7 +345,7 @@ class ilQTIParser extends ilSaxParser
         $this->qti_element = "";
         $this->in_presentation = false;
         $this->in_objectives = false;
-        $this->in_reponse = false;
+        $this->in_response = false;
         $this->render_type = null;
         $this->render_hotspot = null;
         $this->response_label = null;
@@ -1372,7 +1368,7 @@ class ilQTIParser extends ilSaxParser
     /**
      * @return array{title: string, type: string, ident: string}[]
      */
-    public function &getFoundItems()
+    public function &getFoundItems() : array
     {
         return $this->founditems;
     }
@@ -1522,7 +1518,6 @@ class ilQTIParser extends ilSaxParser
 
     private function assessmentBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIAssessment.php");
         $this->assessment = $this->assessments[] = new ilQTIAssessment();
         $this->in_assessment = true;
         foreach ($a_attribs as $attribute => $value) {
@@ -1539,7 +1534,6 @@ class ilQTIParser extends ilSaxParser
 
     private function assessmentControlBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIAssessmentcontrol.php");
         $this->assessmentcontrol = new ilQTIAssessmentcontrol();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1558,7 +1552,6 @@ class ilQTIParser extends ilSaxParser
 
     private function itemFeedbackBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIItemfeedback.php");
         $this->itemfeedback = new ilQTIItemfeedback();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1574,7 +1567,6 @@ class ilQTIParser extends ilSaxParser
 
     private function displayFeedbackBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIDisplayfeedback.php");
         $this->displayfeedback = new ilQTIDisplayfeedback();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1590,7 +1582,6 @@ class ilQTIParser extends ilSaxParser
 
     private function setVarBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTISetvar.php");
         $this->setvar = new ilQTISetvar();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1606,7 +1597,6 @@ class ilQTIParser extends ilSaxParser
 
     private function varEqualBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
         $this->responsevar = new ilQTIResponseVar(RESPONSEVAR_EQUAL);
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1625,8 +1615,7 @@ class ilQTIParser extends ilSaxParser
 
     private function termsAndDefinitionsBeginTag(array $a_attribs) : void
     {
-        include_once "./Services/QTI/classes/class.ilQTIResponse.php";
-        $response_type = "0";
+        $response_type = 0;
         switch (strtolower($a_name)) {
             case "response_lid":
                 $response_type = RT_RESPONSE_LID;
@@ -1667,7 +1656,6 @@ class ilQTIParser extends ilSaxParser
 
     private function itemBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIItem.php");
         $this->gap_index = 0;
         $this->item = $this->items[] = new ilQTIItem();
         foreach ($a_attribs as $attribute => $value) {
@@ -1695,9 +1683,8 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function resprocessingBeginTagarray(array $a_attribs) : void
+    private function resprocessingBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIResprocessing.php");
         $this->resprocessing = new ilQTIResprocessing();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1713,7 +1700,6 @@ class ilQTIParser extends ilSaxParser
         if (!$this->in_response) {
             return;
         }
-        include_once("./Services/QTI/classes/class.ilQTIRenderFib.php");
         $this->render_type = new ilQTIRenderFib();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1753,7 +1739,6 @@ class ilQTIParser extends ilSaxParser
         if (!$this->in_response) {
             return;
         }
-        include_once("./Services/QTI/classes/class.ilQTIRenderHotspot.php");
         $this->render_type = new ilQTIRenderHotspot();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1775,7 +1760,6 @@ class ilQTIParser extends ilSaxParser
         if (!$this->in_response) {
             return;
         }
-        include_once("./Services/QTI/classes/class.ilQTIRenderChoice.php");
         $this->render_type = new ilQTIRenderChoice();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1797,7 +1781,6 @@ class ilQTIParser extends ilSaxParser
         if ($this->render_type == null) {
             return;
         }
-        include_once("./Services/QTI/classes/class.ilQTIResponseLabel.php");
         $this->response_label = new ilQTIResponseLabel();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1828,7 +1811,6 @@ class ilQTIParser extends ilSaxParser
 
     private function matAppletBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIMatapplet.php");
         $this->matapplet = new ilQTIMatapplet();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1862,7 +1844,6 @@ class ilQTIParser extends ilSaxParser
 
     private function matTextBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIMattext.php");
         $this->mattext = new ilQTIMattext();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1905,7 +1886,6 @@ class ilQTIParser extends ilSaxParser
 
     private function materialBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIMaterial.php");
         $this->material = new ilQTIMaterial();
         $this->material->setFlow($this->flow);
         foreach ($a_attribs as $attribute => $value) {
@@ -1919,7 +1899,6 @@ class ilQTIParser extends ilSaxParser
 
     private function matImageBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIMatimage.php");
         $this->matimage = new ilQTIMatimage();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {
@@ -1959,7 +1938,6 @@ class ilQTIParser extends ilSaxParser
 
     private function decVarBeginTag(array $a_attribs) : void
     {
-        include_once("./Services/QTI/classes/class.ilQTIDecvar.php");
         $this->decvar = new ilQTIDecvar();
         foreach ($a_attribs as $attribute => $value) {
             switch (strtolower($attribute)) {

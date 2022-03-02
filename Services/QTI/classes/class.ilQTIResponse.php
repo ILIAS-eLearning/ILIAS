@@ -51,7 +51,7 @@ class ilQTIResponse
     /** @var int */
     public $flow;
 
-    /** @var int */
+    /** @var int|string */
     public $response_type;
 
     /** @var string|null */
@@ -89,7 +89,7 @@ class ilQTIResponse
     }
 
     /**
-     * @return int
+     * @return int|string
      */
     public function getResponsetype()
     {
