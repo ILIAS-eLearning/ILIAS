@@ -6059,6 +6059,7 @@ dateplaner#:#cal_ch_booking_owner#:#Inhaber
 dateplaner#:#cal_ch_bookings#:#Teilnehmer
 dateplaner#:#cal_ch_cancel_booking#:#Buchung stornieren
 dateplaner#:#cal_ch_ch#:#Sprechstundentermine
+dateplaner#:#cal_change_calendar_view#:#Kalenderansicht ändern
 dateplaner#:#cal_ch_current_bookings#:#Aktuelle Teilnehmer
 dateplaner#:#cal_ch_deadline#:#Späteste Anmeldung
 dateplaner#:#cal_ch_deadline_info#:#Bitte legen Sie fest, bis zu wie viel Stunden vor der Sprechstunde eine Anmeldung ermöglicht werden soll.

@@ -366,8 +366,8 @@ class ilCalendarPresentationGUI
             $this->lng->txt("cal_list") => $ctrl->getLinkTargetByClass('ilCalendarInboxGUI', '')
         );
 
-        $aria_label = $this->lng->txt("cal_change_calendar_view");
-        $view_control = $f->viewControl()->mode($actions, $aria_label)->withActive($this->lng->txt($a_active));
+
+        $view_control = $f->viewControl()->mode($actions, "cal_change_calendar_view")->withActive($this->lng->txt($a_active));
         $toolbar->addComponent($view_control);
         $ctrl->setParameterByClass("ilcalendarappointmentgui", "seed", $this->seed->get(IL_CAL_DATE, ''));
         $ctrl->setParameterByClass("ilcalendarappointmentgui", "app_id", "");
