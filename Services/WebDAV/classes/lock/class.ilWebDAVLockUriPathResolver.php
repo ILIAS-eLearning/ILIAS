@@ -13,8 +13,8 @@ use Psr\Http\Message\UriInterface;
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
 /**
