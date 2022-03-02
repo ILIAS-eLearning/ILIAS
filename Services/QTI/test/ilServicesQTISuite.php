@@ -22,7 +22,6 @@ class ilServicesQTISuite extends TestSuite
             $a[] = $className;
         }
         array_map([$suite, 'addTestSuite'], array_filter($a, 'class_exists'));
-        // $suite->addTestSuite(ilBuddySystemTestSuite::class);
 
         return $suite;
     }

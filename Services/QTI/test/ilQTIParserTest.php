@@ -8,4 +8,11 @@ class ilQTIParserTest extends TestCase
     {
         $this->assertInstanceOf(ilQTIParser::class, new ilQTIParser('dummy xml file'));
     }
+
+    public function testSetGetQuestionSetType() : void
+    {
+        $instance = new ilQTIParser('dummy xml file');
+        $instance->setQuestionSetType('Some input.');
+        $this->assertEquals('Some input.', $instance->getQuestionSetType());
+    }
 }

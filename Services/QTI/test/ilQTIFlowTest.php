@@ -8,4 +8,11 @@ class ilQTIFlowTest extends TestCase
     {
         $this->assertInstanceOf(ilQTIFlow::class, new ilQTIFlow());
     }
+
+    public function testSetGetComment() : void
+    {
+        $instance = new ilQTIFlow();
+        $instance->setComment('Some input.');
+        $this->assertEquals('Some input.', $instance->getComment());
+    }
 }

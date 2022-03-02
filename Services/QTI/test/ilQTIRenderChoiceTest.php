@@ -8,4 +8,18 @@ class ilQTIRenderChoiceTest extends TestCase
     {
         $this->assertInstanceOf(ilQTIRenderChoice::class, new ilQTIRenderChoice());
     }
+
+    public function testSetGetMinnumber() : void
+    {
+        $instance = new ilQTIRenderChoice();
+        $instance->setMinnumber('Some input.');
+        $this->assertEquals('Some input.', $instance->getMinnumber());
+    }
+
+    public function testSetGetMaxnumber() : void
+    {
+        $instance = new ilQTIRenderChoice();
+        $instance->setMaxnumber('Some input.');
+        $this->assertEquals('Some input.', $instance->getMaxnumber());
+    }
 }

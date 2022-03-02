@@ -6,8 +6,14 @@ class ilQtiMatImageSecurityTest extends TestCase
 {
     public function testConstruct() : void
     {
+        $this->assertInstanceOf(ilQtiMatImageSecurity::class, new ilQtiMatImageSecurity($this->image()));
+    }
+
+    private function image() : ilQTIMatimage
+    {
         $image = $this->getMockBuilder(ilQTIMatimage::class)->disableOriginalConstructor()->getMock();
         $image->expects(self::exactly(2))->method('getRawContent')->willReturn('Ayayay');
-        $this->assertInstanceOf(ilQtiMatImageSecurity::class, new ilQtiMatImageSecurity($image));
+
+        return $image;
     }
 }
