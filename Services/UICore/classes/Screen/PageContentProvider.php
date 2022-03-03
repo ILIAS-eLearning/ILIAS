@@ -166,7 +166,7 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
             if (\ilObjLanguageAccess::_checkTranslate() && !\ilObjLanguageAccess::_isPageTranslation()) {
                 $translation_url = \ilObjLanguageAccess::_getTranslationLink();
                 $translation_title = $this->dic->language()->txt('translation');
-                $links[] = $f->link()->standard($translation_title, $translation_url);
+                $links[] = $f->link()->standard($translation_title, $translation_url)->withOpenInNewViewport(true);
             }
 
             // accessibility control concept
