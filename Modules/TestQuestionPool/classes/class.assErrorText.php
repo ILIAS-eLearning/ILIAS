@@ -502,7 +502,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
     * @param array $import_mapping An array containing references to included ILIAS objects
     */
-    public function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping, array $solutionhints = [])
     {
         include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assErrorTextImport.php";
         $import = new assErrorTextImport($this);
