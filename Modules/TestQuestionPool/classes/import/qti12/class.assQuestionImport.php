@@ -15,10 +15,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class assQuestionImport
 {
     /**
-    * The question object
-    *
-    * The question object
-    *
     * @var assQuestion
     */
     public $object;
@@ -32,6 +28,11 @@ class assQuestionImport
     public function __construct($a_object)
     {
         $this->object = $a_object;
+    }
+    
+    public function getQuestionId() : int
+    {
+        return (int) $this->object->getId();
     }
     
     public function getFeedbackGeneric($item)
