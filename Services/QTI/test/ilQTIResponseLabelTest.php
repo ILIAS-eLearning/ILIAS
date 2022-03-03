@@ -36,7 +36,7 @@ class ilQTIResponseLabelTest extends TestCase
     {
         $instance = new ilQTIResponseLabel();
         $instance->setRrange($input);
-        $this->assertEquals($expected, $instance->getRshuffle());
+        $this->assertEquals($expected, $instance->getRrange());
     }
 
     public function testSetGetLabelrefid() : void

@@ -15,14 +15,25 @@ class ilServicesQTISuite extends TestSuite
         $suite = new self();
 
         $dir = __DIR__;
-        $a = [];
-        foreach (array_filter(explode("\n", `find "$dir" -name \*.php -and -not -name ilServicesQTISuite.php -print`)) as $file) {
-            $className = `echo "$(basename "$file")" | sed s/^class.// | cut -d . -f 1 | tr -d '\n'`;
+        $classes = [];
+
+        $files = new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS);
+        $files = new RecursiveIteratorIterator($files, RecursiveIteratorIterator::LEAVES_ONLY);
+        $files = new RegExIterator($files, '/\.php$/');
+
+        foreach ($files as $file) {
+            $file = $file->getPathname();
+            $className = preg_replace(['@^.*/@', '/^class./', '/\.php$/'], '', $file);
             require_once $file;
-            $a[] = $className;
+            $classes[] = $className;
         }
-        array_map([$suite, 'addTestSuite'], array_filter($a, 'class_exists'));
+        array_map([$suite, 'addTestSuite'], array_filter(array_filter($classes, 'class_exists'), [self::class, 'notSelf']));
 
         return $suite;
+    }
+
+    private static function notSelf(string $className) : bool
+    {
+        return self::class !== $className;
     }
 }

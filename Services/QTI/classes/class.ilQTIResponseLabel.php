@@ -139,11 +139,11 @@ class ilQTIResponseLabel
         switch (strtolower($a_rrange)) {
             case "1":
             case "excact":
-                $this->rshuffle = RRANGE_EXACT; // @todo Ask if this should't be $this->rrange.
+                $this->rrange = RRANGE_EXACT;
                 break;
             case "2":
             case "range":
-                $this->rshuffle = RRANGE_RANGE;
+                $this->rrange = RRANGE_RANGE;
                 break;
         }
     }
