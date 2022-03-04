@@ -10620,7 +10620,7 @@ forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
 ecs#:#ecs_cms_tree_synchronize#:#Synchronisieren
 ecs#:#ecs_cms_tree_synchronized#:#Der Baum wurde synchronisiert.
-rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Repository aus.
+rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Magazin aus.
 rep#:#rep_activation_access_ref_info#:#Dieses Einstellung betrifft nur die aktuelle und keine andere Referenz.
 poll#:#poll_block_results_available_on#:#Die Ergebnisse werden am %s veröffentlicht.
 survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen.
