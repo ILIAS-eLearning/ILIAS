@@ -13,7 +13,7 @@ class ilCourseAppEventListener
     private ilLogger $logger;
 
     protected static array $course_mode = array();
-    protected static bool $blocked_for_lp;
+    protected static ?bool $blocked_for_lp;
 
     /**
      * Constructor
