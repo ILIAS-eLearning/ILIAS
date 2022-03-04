@@ -21,20 +21,18 @@ use ILIAS\Data\Chart\Dataset;
 class Factory implements \ILIAS\UI\Component\Chart\Bar\Factory
 {
     public function vertical(
-        string $id,
         string $title,
         Dataset $dataset,
-        array $bars
+        array $bar_configs = []
     ) : Vertical {
-        return new Vertical($id, $title, $dataset, $bars);
+        return new Vertical($title, $dataset, $bar_configs);
     }
 
     public function horizontal(
-        string $id,
         string $title,
         Dataset $dataset,
-        array $bars
+        array $bar_configs = []
     ) : Horizontal {
-        return new Horizontal($id, $title, $dataset, $bars);
+        return new Horizontal($title, $dataset, $bar_configs);
     }
 }

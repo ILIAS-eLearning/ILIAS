@@ -22,17 +22,19 @@ namespace ILIAS\Data\Dimension;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class OrdinalDimension extends Dimension
+class CardinalDimension extends Dimension
 {
-    public const TYPE = "ordinal";
-
     public function __construct(array $value_labels = [])
     {
         $this->value_labels = $value_labels;
     }
 
-    public function getType() : string
+    public function checkValue($value) : void
     {
-        return self::TYPE;
+        if (!is_null($value) && !is_numeric($value)) {
+            throw new \InvalidArgumentException(
+                "Expected parameter to be numeric or null. '$value' is given."
+            );
+        }
     }
 }

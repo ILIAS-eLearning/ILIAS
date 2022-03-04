@@ -1,10 +1,10 @@
 var horizontal = function() {
 
-  var init = function(id, preferences, series, xLabels, tooltips){
+  var init = function(element, preferences, series, xLabels, tooltips){
     determineXLabels(preferences, xLabels);
     determineToolTipXLabels(preferences, xLabels, tooltips);
 
-    var chart = new Chart(document.getElementById(id), {
+    var chart = new Chart(document.getElementById(element.id), {
       type: 'bar',
       data: series,
       options: preferences,

@@ -22,7 +22,7 @@ namespace ILIAS\Data\Dimension;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class Dimension
+abstract class Dimension
 {
     protected array $value_labels = [];
 
@@ -31,11 +31,5 @@ class Dimension
         return $this->value_labels;
     }
 
-    public static function getAllTypes() : array
-    {
-        return [
-            OrdinalDimension::TYPE,
-            RangeDimension::TYPE
-        ];
-    }
+    abstract public function checkValue($value) : void;
 }

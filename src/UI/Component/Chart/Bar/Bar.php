@@ -19,19 +19,10 @@ namespace ILIAS\UI\Component\Chart\Bar;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\Data\Chart\Dataset;
+use ILIAS\UI\Implementation\Component\Chart\Bar\BarConfig;
 
 interface Bar extends Component, JavaScriptBindable
 {
-    public const AXIS_X = "x";
-    public const AXIS_Y = "y";
-    public const POSITION_LEFT = "left";
-    public const POSITION_RIGHT = "right";
-    public const POSITION_TOP = "top";
-    public const POSITION_BOTTOM = "bottom";
-    public const TYPE_LINEAR = "linear";
-
-    public function getId() : string;
-
     /**
      * Replace the given title at creation with a new title.
      */
@@ -51,15 +42,14 @@ interface Bar extends Component, JavaScriptBindable
 
     /**
      * Replace the given bars at creation with new ones.
-     *
-     * @param \ILIAS\Data\Chart\Bar[] $bars
+     * @param BarConfig[] $bar_configs
      */
-    public function withBars(array $bars) : self;
+    public function withBarConfigs(array $bar_configs) : self;
 
     /**
-     * @return \ILIAS\Data\Chart\Bar[]
+     * @return BarConfig[]
      */
-    public function getBars() : array;
+    public function getBarConfigs() : array;
 
     public function withTitleVisible(bool $title_visible) : self;
 
@@ -70,9 +60,9 @@ interface Bar extends Component, JavaScriptBindable
     public function isLegendVisible() : bool;
 
     /**
-     * On which side next to the chart should the legend be placed? Default is POSITION_TOP.
+     * On which side next to the chart should the legend be placed? Default is top.
      *
-     * @param string $legend_position Bar::POSITION_XYZ
+     * @param string $legend_position "top", "bottom", "left" or "right"
      * @return Bar
      */
     public function withLegendPosition(string $legend_position) : self;

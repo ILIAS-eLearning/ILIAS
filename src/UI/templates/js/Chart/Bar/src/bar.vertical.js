@@ -1,10 +1,10 @@
 var vertical = function() {
 
-  var init = function(id, preferences, series, yLabels, tooltips){
+  var init = function(element, preferences, series, yLabels, tooltips){
     determineYLabels(preferences, yLabels);
     determineToolTipYLabels(preferences, yLabels, tooltips);
 
-    var chart = new Chart(document.getElementById(id), {
+    var chart = new Chart(document.getElementById(element.id), {
       type: 'bar',
       data: series,
       options: preferences,

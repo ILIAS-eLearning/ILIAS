@@ -64,17 +64,16 @@ class Renderer extends AbstractComponentRenderer
         $a11y_list = $this->getAccessibilityList($component);
         $tpl->setVariable("LIST", $default_renderer->render($a11y_list));
 
-        $chart_id = $component->getId();
         $options = json_encode($this->getParsedOptions($component));
         $data = json_encode($this->getParsedData($component));
         $dimensions = $component->getDataset()->getDimensions();
         $x_labels = json_encode($this->reformatValueLabels($dimensions[key($dimensions)]->getLabels()));
-        $tooltips = json_encode($component->getDataset()->getToolTips());
+        $tooltips = json_encode($component->getDataset()->getAlternativeInformation());
 
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($chart_id, $options, $data, $x_labels, $tooltips) {
+            function ($id) use ($options, $data, $x_labels, $tooltips) {
                 return "il.UI.chart.bar.horizontal.init(
-                    '$chart_id',
+                    $id,
                     $options,
                     $data,
                     $x_labels,
@@ -82,7 +81,8 @@ class Renderer extends AbstractComponentRenderer
                 );";
             }
         );
-        $this->maybeRenderId($component, $tpl);
+        $id = $this->bindJavaScript($component);
+        $tpl->setVariable("ID", $id);
 
         return $tpl->get();
     }
@@ -95,20 +95,19 @@ class Renderer extends AbstractComponentRenderer
 
         $this->renderBasics($component, $tpl);
 
-        $chart_id = $component->getId();
         $options = json_encode($this->getParsedOptions($component));
         $data = json_encode($this->getParsedData($component));
         $dimensions = $component->getDataset()->getDimensions();
         $y_labels = json_encode($this->reformatValueLabels($dimensions[key($dimensions)]->getLabels()));
-        $tooltips = json_encode($component->getDataset()->getToolTips());
+        $tooltips = json_encode($component->getDataset()->getAlternativeInformation());
 
         $a11y_list = $this->getAccessibilityList($component);
         $tpl->setVariable("LIST", $default_renderer->render($a11y_list));
 
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($chart_id, $options, $data, $y_labels, $tooltips) {
+            function ($id) use ($options, $data, $y_labels, $tooltips) {
                 return "il.UI.chart.bar.vertical.init(
-                    '$chart_id',
+                    $id,
                     $options,
                     $data,
                     $y_labels,
@@ -116,24 +115,14 @@ class Renderer extends AbstractComponentRenderer
                 );";
             }
         );
-        $this->maybeRenderId($component, $tpl);
+        $id = $this->bindJavaScript($component);
+        $tpl->setVariable("ID", $id);
 
         return $tpl->get();
     }
 
-    protected function maybeRenderId(Component\JavaScriptBindable $component, Template $tpl) : void
-    {
-        $id = $this->bindJavaScript($component);
-        if ($id !== null) {
-            $tpl->setCurrentBlock("with_id");
-            $tpl->setVariable("ID", $id);
-            $tpl->parseCurrentBlock();
-        }
-    }
-
     protected function renderBasics(Bar\Bar $component, Template $tpl) : void
     {
-        $tpl->setVariable("CHART_ID", $component->getId());
         $tpl->setVariable("TITLE", $component->getTitle());
         $height = "";
         if ($component instanceof Bar\Horizontal) {
@@ -176,7 +165,7 @@ class Renderer extends AbstractComponentRenderer
         $ui_fac = $this->getUIFactory();
 
         $points_per_dimension = $component->getDataset()->getPointsPerDimension();
-        $tooltips_per_dimension = $component->getDataset()->getTooltipsPerDimension();
+        $tooltips_per_dimension = $component->getDataset()->getAlternativeInformationPerDimension();
         $dimensions = $component->getDataset()->getDimensions();
         $value_labels = $dimensions[key($dimensions)]->getLabels();
         $lowest = $this->getLowestValueOfChart($component);
@@ -217,12 +206,19 @@ class Renderer extends AbstractComponentRenderer
 
     public function getLowestValueOfChart(Bar\Bar $component) : int
     {
-        $min = floor($component->getDataset()->getMinValue());
+        $min = null;
+        $new_min = 0;
+        foreach ($component->getDataset()->getDimensions() as $dimension_name => $dimension) {
+            $new_min = floor($component->getDataset()->getMinValueForDimension($dimension_name));
+            if (is_null($min) || $new_min < $min) {
+                $min = $new_min;
+            }
+        }
 
         if ($component instanceof Bar\Horizontal) {
-            $min = $component->getXAxis()["min"] ?? $min;
+            $min = $component->getXAxis()->getMinValue() ?? $min;
         } elseif ($component instanceof Bar\Vertical) {
-            $min = $component->getYAxis()["min"] ?? $min;
+            $min = $component->getYAxis()->getMinValue() ?? $min;
         }
 
         return (int) $min;
@@ -230,12 +226,19 @@ class Renderer extends AbstractComponentRenderer
 
     public function getHighestValueOfChart(Bar\Bar $component) : int
     {
-        $max = ceil($component->getDataset()->getMaxValue());
+        $max = null;
+        $new_max = 0;
+        foreach ($component->getDataset()->getDimensions() as $dimension_name => $dimension) {
+            $new_max = ceil($component->getDataset()->getMaxValueForDimension($dimension_name));
+            if (is_null($max) || $new_max > $max) {
+                $max = $new_max;
+            }
+        }
 
         if ($component instanceof Bar\Horizontal) {
-            $max = $component->getXAxis()["max"] ?? $max;
+            $max = $component->getXAxis()->getMaxValue() ?? $max;
         } elseif ($component instanceof Bar\Vertical) {
-            $max = $component->getYAxis()["max"] ?? $max;
+            $max = $component->getYAxis()->getMaxValue() ?? $max;
         }
 
         return (int) $max;
@@ -282,15 +285,30 @@ class Renderer extends AbstractComponentRenderer
     protected function getParsedOptionsForHorizontal(Bar\Bar $component) : stdClass
     {
         $scales = new stdClass();
-        $scales->x = $component->getXAxis();
         $scales->y = new stdClass();
+        $x_axis = $component->getXAxis();
+        $scales->x = new stdClass();
+        $scales->x->axis = $x_axis->getAbbreviation();
+        $scales->x->type = $x_axis->getType();
+        $scales->x->display = $x_axis->isDisplayed();
+        $scales->x->position = $x_axis->getPosition();
+        $scales->x->beginAtZero = $x_axis->isBeginAtZero();
+        $scales->x->ticks = new stdClass();
+        $scales->x->ticks->callback = null;
+        $scales->x->ticks->stepSize = $x_axis->getStepSize();
+        if ($x_axis->getMinValue()) {
+            $scales->x->min = $x_axis->getMinValue();
+        }
+        if ($x_axis->getMaxValue()) {
+            $scales->x->max = $x_axis->getMaxValue();
+        }
 
         // hide pseudo y axes
-        $dimension_scales = Dimension::getAllTypes();
+        $dimension_scales = $component->getDataset()->getDimensions();
         foreach ($dimension_scales as $scale_id) {
-            $scales->{$scale_id} = new stdClass();
-            $scales->{$scale_id}->axis = Bar\Bar::AXIS_Y;
-            $scales->{$scale_id}->display = false;
+            $scales->{get_class($scale_id)} = new stdClass();
+            $scales->{get_class($scale_id)}->axis = "y";
+            $scales->{get_class($scale_id)}->display = false;
         }
 
         return $scales;
@@ -299,15 +317,30 @@ class Renderer extends AbstractComponentRenderer
     protected function getParsedOptionsForVertical(Bar\Bar $component) : stdClass
     {
         $scales = new stdClass();
-        $scales->y = $component->getYAxis();
         $scales->x = new stdClass();
+        $y_axis = $component->getYAxis();
+        $scales->y = new stdClass();
+        $scales->y->axis = $y_axis->getAbbreviation();
+        $scales->y->type = $y_axis->getType();
+        $scales->y->display = $y_axis->isDisplayed();
+        $scales->y->position = $y_axis->getPosition();
+        $scales->y->beginAtZero = $y_axis->isBeginAtZero();
+        $scales->y->ticks = new stdClass();
+        $scales->y->ticks->callback = null;
+        $scales->y->ticks->stepSize = $y_axis->getStepSize();
+        if ($y_axis->getMinValue()) {
+            $scales->y->min = $y_axis->getMinValue();
+        }
+        if ($y_axis->getMaxValue()) {
+            $scales->y->max = $y_axis->getMaxValue();
+        }
 
         // hide pseudo x axes
-        $dimension_scales = Dimension::getAllTypes();
+        $dimension_scales = $component->getDataset()->getDimensions();
         foreach ($dimension_scales as $scale_id) {
-            $scales->{$scale_id} = new stdClass();
-            $scales->{$scale_id}->axis = Bar\Bar::AXIS_X;
-            $scales->{$scale_id}->display = false;
+            $scales->{get_class($scale_id)} = new stdClass();
+            $scales->{get_class($scale_id)}->axis = "x";
+            $scales->{get_class($scale_id)}->display = false;
         }
 
         return $scales;
@@ -321,10 +354,7 @@ class Renderer extends AbstractComponentRenderer
         $user_data = $this->getUserData($component);
         $datasets = [];
         foreach ($user_data as $set) {
-            $dataset = new stdClass();
-            foreach ($set as $option => $value) {
-                $dataset->$option = $value;
-            }
+            $dataset = (object) $set;
             $datasets[] = $dataset;
         }
         $data->datasets = $datasets;
@@ -337,16 +367,16 @@ class Renderer extends AbstractComponentRenderer
     {
         $points_per_dimension = $component->getDataset()->getPointsPerDimension();
         $dimensions = $component->getDataset()->getDimensions();
-        $bars = $component->getBars();
+        $bar_configs = $component->getBarConfigs();
         $data = [];
 
         foreach ($points_per_dimension as $dimension_name => $item_points) {
             $data[$dimension_name]["label"] = $dimension_name;
-            if ($bars[$dimension_name]->getColor()) {
-                $data[$dimension_name]["backgroundColor"] = $bars[$dimension_name]->getColor();
+            if ($bar_configs[$dimension_name] && $bar_configs[$dimension_name]->getColor()) {
+                $data[$dimension_name]["backgroundColor"] = $bar_configs[$dimension_name]->getColor()->asHex();
             }
-            if ($bars[$dimension_name]->getSize()) {
-                $data[$dimension_name]["barPercentage"] = $bars[$dimension_name]->getSize();
+            if ($bar_configs[$dimension_name] && $bar_configs[$dimension_name]->getRelativeWidth()) {
+                $data[$dimension_name]["barPercentage"] = $bar_configs[$dimension_name]->getRelativeWidth();
             }
 
             $points_as_objects = [];
@@ -359,7 +389,7 @@ class Renderer extends AbstractComponentRenderer
                     $points_as_objects[] = $datasets->data;
                 }
                 $data[$dimension_name]["data"] = $points_as_objects;
-                $data[$dimension_name]["yAxisID"] = $dimensions[$dimension_name]->getType();
+                $data[$dimension_name]["yAxisID"] = get_class($dimensions[$dimension_name]);
             } elseif ($component instanceof Bar\Vertical) {
                 foreach ($item_points as $x_point => $y_point) {
                     $datasets = new stdClass();
@@ -369,7 +399,7 @@ class Renderer extends AbstractComponentRenderer
                     $points_as_objects[] = $datasets->data;
                 }
                 $data[$dimension_name]["data"] = $points_as_objects;
-                $data[$dimension_name]["xAxisID"] = $dimensions[$dimension_name]->getType();
+                $data[$dimension_name]["xAxisID"] = get_class($dimensions[$dimension_name]);
             }
         }
 

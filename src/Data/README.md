@@ -390,10 +390,11 @@ assert($join === 'sort subject1 ASC, subject2 DESC,');
 
 ## Dimension
 
-### OrdinalDimension
-Object representing a rank order, where the distances of the categories are not known.
-Construct an ordinal dimension object with textual variables representing 
-the natural, ordered categories.
+### CardinalDimension
+Object representing a metric order, where the distances of the categories are known
+and can be described quantitatively.
+Construct a cardinal dimension object with numerical or textual variables representing 
+the categories.
 
 #### Example
 
@@ -403,15 +404,15 @@ the natural, ordered categories.
 $f = new \ILIAS\Data\Factory;
 
 // construct dimension
-$ordinal = $f->dimension()->ordinal("low", "medium", "high");
+$cardinal = $f->dimension()->cardinal(["low", "medium", "high"]);
 
-assert($ordinal->getType() === "ordinal");
+assert($cardinal->getLabels() === ["low", "medium", "high"]);
 ?>
 ```
 
 ### RangeDimension
-Object representing a range on an ordinal dimension.
-Construct an ordinal dimension object with an existing ordinal dimension.
+Object representing a range on a cardinal dimension.
+Construct a range dimension object with an existing cardinal dimension.
 
 #### Example
 
@@ -421,11 +422,10 @@ Construct an ordinal dimension object with an existing ordinal dimension.
 $f = new \ILIAS\Data\Factory;
 
 // construct dimensions
-$ordinal = $f->dimension()->ordinal("low", "medium", "high");
-$range = $f->dimension()->range($ordinal);
+$cardinal = $f->dimension()->cardinal(["low", "medium", "high"]);
+$range = $f->dimension()->range($cardinal);
 
-assert($range->getType() === "range");
-assert($range->getLabels() === $ordinal->getLabels());
+assert($range->getLabels() === $cardinal->getLabels());
 ?>
 ```
 
@@ -443,11 +443,17 @@ dimension of the dataset.
 $f = new \ILIAS\Data\Factory;
 
 // construct dimensions and dataset
-$ordinal = $f->dimension()->ordinal("very low", "low", "medium", "high", "very high");
-$range = $f->dimension()->range($ordinal);
+$cardinal = $f->dimension()->cardinal(
+    0 => "very low",
+    1 => "low",
+    2 => "medium",
+    3 => "high",
+    4 => "very high"
+);
+$range = $f->dimension()->range($cardinal);
 $dataset = $f->dataset(
-    "Measurement 1" => $ordinal,
-    "Measurement 2" => $ordinal,
+    "Measurement 1" => $cardinal,
+    "Measurement 2" => $cardinal,
     "Target" => $range
 );
 $dataset = $dataset->withPoints(
@@ -467,28 +473,7 @@ $dataset = $dataset->withPoints(
     ]
 );
 
-assert($dataset->getMinValue() === -1);
-assert($dataset->getMaxValue() === 1.75);
-?>
-```
-
-## Bar
-Object representing a bar for a chart.
-Constructed bars can be extended with properties like color and size.
-
-### Example
-
-```php
-<?php
-
-$f = new \ILIAS\Data\Factory;
-
-// construct ordinal dimension
-$bar = $f->bar();
-$bar = $bar->withColor($f->color("#333333"));
-$bar = $bar->withSize(0.7);
-
-assert($bar->getColor() === "#333333");
-assert($bar->getSize() === 0.7);
+assert($dataset->getMinValueForDimension("Measurement 1") === -1);
+assert($dataset->getMaxValueForDimension("Target") === 1.5);
 ?>
 ```

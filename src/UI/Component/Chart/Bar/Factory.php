@@ -17,7 +17,7 @@
 namespace ILIAS\UI\Component\Chart\Bar;
 
 use ILIAS\Data\Chart\Dataset;
-use ILIAS\Data\Chart\Bar;
+use ILIAS\UI\Implementation\Component\Chart\Bar\BarConfig;
 
 interface Factory
 {
@@ -38,17 +38,15 @@ interface Factory
      *       Horizontal Bar Charts work well with visualizing statistics with rather few
      *       value labels and rather many meassurement items.
      * ---
-     * @param string    $id         Id of the chart to distinguish multiple charts rendered on one site
-     * @param string    $title      Title which is shown above the chart. Also used as aria-label.
-     * @param Dataset   $dataset    Dataset with points for each defined Dimension. Will be shown as bars in the chart.
-     * @param Bar[]     $bars       Customized Bars for each defined Dimension
+     * @param string      $title        Title which is shown above the chart. Also used as aria-label.
+     * @param Dataset     $dataset      Dataset with points for each defined Dimension. Will be shown as bars in the chart.
+     * @param BarConfig[] $bar_configs  Configurations for Bars for each defined Dimension
      * @return Vertical
      */
     public function vertical(
-        string $id,
         string $title,
         Dataset $dataset,
-        array $bars
+        array $bar_configs = []
     ) : Vertical;
 
     /**
@@ -68,16 +66,14 @@ interface Factory
      *       Vertical Bar Charts work well with visualizing statistics with rather many
      *       value labels and rather few meassurement items.
      * ---
-     * @param string    $id         Id of the chart to distinguish multiple charts rendered on one site
-     * @param string    $title      Title which is shown above the chart. Also used as aria-label.
-     * @param Dataset   $dataset    Dataset with points for each defined Dimension. Will be shown as bars in the chart.
-     * @param Bar[]     $bars       Customized Bars for each defined Dimension
+     * @param string      $title        Title which is shown above the chart. Also used as aria-label.
+     * @param Dataset     $dataset      Dataset with points for each defined Dimension. Will be shown as bars in the chart.
+     * @param BarConfig[] $bar_configs  Configurations for Bars for each defined Dimension
      * @return Horizontal
      */
     public function horizontal(
-        string $id,
         string $title,
         Dataset $dataset,
-        array $bars
+        array $bar_configs = []
     ) : Horizontal;
 }

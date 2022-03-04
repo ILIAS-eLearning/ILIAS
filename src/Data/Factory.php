@@ -171,9 +171,4 @@ class Factory
     {
         return new Chart\Dataset($dimensions);
     }
-
-    public function bar() : Chart\Bar
-    {
-        return new Chart\Bar();
-    }
 }

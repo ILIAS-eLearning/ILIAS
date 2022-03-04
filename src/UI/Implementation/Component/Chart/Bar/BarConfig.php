@@ -17,16 +17,16 @@
  ********************************************************************
  */
 
-namespace ILIAS\Data\Chart;
+namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
 use ILIAS\Data\Color;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class Bar
+class BarConfig
 {
-    protected ?string $color = null;
+    protected ?Color $color = null;
     protected ?float $size = null;
 
     public function __construct()
@@ -36,23 +36,29 @@ class Bar
     public function withColor(Color $color) : self
     {
         $clone = clone $this;
-        $clone->color = $color->asHex();
+        $clone->color = $color;
         return $clone;
     }
 
-    public function getColor() : ?string
+    public function getColor() : ?Color
     {
         return $this->color;
     }
-    
-    public function withSize(float $relative_width) : self
+
+    /**
+     * Set a relative width for the bar. The chart library's default width is 1.0 (100%) to make use of
+     * the maximum available space for the bars within the chart . A number less than 1.0 will make the bar appear
+     * thinner, a number greater than 1.0 will make it appear thicker. Please be aware, that using multiple thicker
+     * bars at the same time will result in overlapping.
+     */
+    public function withRelativeWidth(float $relative_width) : self
     {
         $clone = clone $this;
         $clone->size = $relative_width;
         return $clone;
     }
 
-    public function getSize() : ?float
+    public function getRelativeWidth() : ?float
     {
         return $this->size;
     }

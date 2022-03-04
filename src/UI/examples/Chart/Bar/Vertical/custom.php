@@ -2,6 +2,8 @@
 namespace ILIAS\UI\examples\Chart\Bar\Vertical;
 
 use ILIAS\UI\Component\Chart\Bar\Bar;
+use ILIAS\UI\Implementation\Component\Chart\Bar\BarConfig;
+use ILIAS\UI\Implementation\Component\Chart\Bar\YAxis;
 
 function custom()
 {
@@ -11,14 +13,14 @@ function custom()
     $df = new \ILIAS\Data\Factory();
     $renderer = $DIC->ui()->renderer();
 
-    //Genarating Dimensions
-    $o_dimension = $df->dimension()->ordinal();
+    //Generating Dimensions
+    $c_dimension = $df->dimension()->cardinal();
 
-    //Genarating Dataset with points and tooltips
+    //Generating Dataset with points and tooltips
     $dataset = $df->dataset([
-       "Dataset 1" => $o_dimension,
-        "Dataset 2" => $o_dimension,
-        "Dataset 3" => $o_dimension,
+       "Dataset 1" => $c_dimension,
+        "Dataset 2" => $c_dimension,
+        "Dataset 3" => $c_dimension,
     ]);
 
     $dataset = $dataset->withPoints(
@@ -46,12 +48,12 @@ function custom()
         ]
     );
 
-    //Genarating Bars
-    $b1 = $df->bar();
+    //Generating Bar Configurations
+    $b1 = new BarConfig();
     $b1 = $b1->withColor($df->color("#d38000"));
-    $b2 = $df->bar();
+    $b2 = new BarConfig();
     $b2 = $b2->withColor($df->color("#307C88"));
-    $b3 = $df->bar();
+    $b3 = new BarConfig();
     $b3 = $b3->withColor($df->color("#557b2e"));
 
     $bars = [
@@ -60,16 +62,19 @@ function custom()
         "Dataset 3" => $b3
     ];
 
-    //Genarating and rendering the vertical chart
+    //Generating and rendering the vertical chart
     $bar = $f->chart()->bar()->vertical(
-        "chart123",
         "A vertical bar chart",
         $dataset,
         $bars
     );
     $bar = $bar->withTitleVisible(false);
-    $bar = $bar->withLegendPosition(Bar::POSITION_LEFT);
-    $bar = $bar->withCustomYAxis(true, Bar::POSITION_RIGHT, 10, false);
+    $bar = $bar->withLegendPosition("left");
+    $y_axis = new YAxis();
+    $y_axis = $y_axis->withPosition("right");
+    $y_axis = $y_axis->withStepSize(10);
+    $y_axis = $y_axis->withBeginAtZero(false);
+    $bar = $bar->withCustomYAxis($y_axis);
 
     // render
     return $renderer->render($bar);

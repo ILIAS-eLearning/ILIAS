@@ -20,70 +20,31 @@
 namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
 use ILIAS\UI\Component as C;
+use ILIAS\Data\Chart\Dataset;
 
 class Horizontal extends Bar implements C\Chart\Bar\Horizontal
 {
-    protected array $x_axis = [
-        "axis" => self::AXIS_X,
-        "type" => self::TYPE_LINEAR,
-        "display" => true,
-        "position" => self::POSITION_BOTTOM,
-        "ticks" => [
-            "callback" => null,
-            "stepSize" => 1.0
-            ]
-    ];
+    protected XAxis $x_axis;
+
+    public function __construct(string $title, Dataset $dataset, array $bar_configs = [])
+    {
+        parent::__construct($title, $dataset, $bar_configs);
+        $this->x_axis = new XAxis();
+    }
 
     public function getIndexAxis() : string
     {
-        return self::AXIS_Y;
+        return "y";
     }
 
-    public function withCustomXAxis(
-        bool $is_displayed,
-        ?string $position = self::POSITION_BOTTOM,
-        ?float $step_size = 1.0,
-        ?bool $begin_at_zero = true,
-        ?int $min = null,
-        ?int $max = null
-    ) : self {
-        $clone = clone $this;
-        $clone->x_axis = [
-            "axis" => self::AXIS_X,
-            "type" => self::TYPE_LINEAR,
-            "display" => $is_displayed,
-            "position" => $position,
-            "beginAtZero" => $begin_at_zero,
-            "ticks" => [
-                "callback" => null,
-                "stepSize" => $step_size
-            ]
-        ];
-        if ($min !== null) {
-            $clone->x_axis["min"] = $min;
-        }
-        if ($max !== null) {
-            $clone->x_axis["max"] = $max;
-        }
-        return $clone;
-    }
-
-    public function withResetXAxis() : self
+    public function withCustomXAxis(XAxis $x_axis) : self
     {
         $clone = clone $this;
-        $clone->x_axis = [
-            "axis" => self::AXIS_X,
-            "type" => self::TYPE_LINEAR,
-            "display" => true,
-            "position" => self::POSITION_BOTTOM,
-            "ticks" => [
-                "callback" => null,
-            ]
-        ];
+        $clone->x_axis = $x_axis;
         return $clone;
     }
 
-    public function getXAxis() : array
+    public function getXAxis() : XAxis
     {
         return $this->x_axis;
     }

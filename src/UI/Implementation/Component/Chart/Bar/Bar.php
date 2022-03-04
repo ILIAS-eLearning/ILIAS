@@ -23,43 +23,45 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\Data\Chart\Dataset;
+use ILIAS\Data\Dimension\CardinalDimension;
+use ILIAS\Data\Dimension\RangeDimension;
 
 class Bar implements C\Chart\Bar\Bar
 {
     use ComponentHelper;
     use JavaScriptBindable;
 
-    protected string $id;
     protected string $title;
     protected Dataset $dataset;
     /**
-     * @var \ILIAS\Data\Chart\Bar[]
+     * @var BarConfig[]
      */
-    protected array $bars;
+    protected array $bar_configs;
     protected bool $title_visible = true;
     protected bool $legend_visible = true;
-    protected string $legend_position = self::POSITION_TOP;
+    protected string $legend_position = "top";
     protected bool $tooltips_visible = true;
 
-    public function __construct(string $id, string $title, Dataset $dataset, array $bars)
+    public function __construct(string $title, Dataset $dataset, array $bar_configs = [])
     {
-        $this->id = $id;
         $this->title = $title;
-        $this->dataset = $dataset;
-        $this->bars = $bars;
-
-        if (array_diff_key($this->dataset->getDimensions(), $this->bars)
-            || array_diff_key($this->bars, $this->dataset->getDimensions())
-        ) {
-            throw new \InvalidArgumentException(
-                "Dimensions in Dataset and keys of Bars do not match."
+        if ($dataset->isEmpty()) {
+            throw new \LogicException(
+                "Dataset must not be empty."
             );
+        } else {
+            foreach ($dataset->getDimensions() as $dimension) {
+                if (!$dimension instanceof CardinalDimension &&
+                    !$dimension instanceof RangeDimension
+                ) {
+                    throw new \InvalidArgumentException(
+                        "Expected parameter to be a CardinalDimension or RangeDimension."
+                    );
+                }
+            }
+            $this->dataset = $dataset;
         }
-    }
-
-    public function getId() : string
-    {
-        return $this->id;
+        $this->bar_configs = $bar_configs;
     }
 
     public function withTitle(string $title) : self
@@ -86,16 +88,16 @@ class Bar implements C\Chart\Bar\Bar
         return $this->dataset;
     }
 
-    public function withBars(array $bars) : self
+    public function withBarConfigs(array $bar_configs) : self
     {
         $clone = clone $this;
-        $clone->bars = $bars;
+        $clone->bar_configs = $bar_configs;
         return $clone;
     }
 
-    public function getBars() : array
+    public function getBarConfigs() : array
     {
-        return $this->bars;
+        return $this->bar_configs;
     }
 
     public function withTitleVisible(bool $title_visible) : self

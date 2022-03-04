@@ -26,13 +26,13 @@ use ILIAS\Data\Dimension;
  */
 class Factory
 {
-    public function ordinal(array $value_labels = []) : OrdinalDimension
+    public function cardinal(array $value_labels = []) : CardinalDimension
     {
-        return new OrdinalDimension($value_labels);
+        return new CardinalDimension($value_labels);
     }
 
-    public function range(OrdinalDimension $ord_dimension) : RangeDimension
+    public function range(CardinalDimension $cardinal_dimension) : RangeDimension
     {
-        return new RangeDimension($ord_dimension);
+        return new RangeDimension($cardinal_dimension);
     }
 }

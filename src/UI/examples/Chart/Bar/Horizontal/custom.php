@@ -2,6 +2,8 @@
 namespace ILIAS\UI\examples\Chart\Bar\Horizontal;
 
 use ILIAS\UI\Component\Chart\Bar\Bar;
+use ILIAS\UI\Implementation\Component\Chart\Bar\BarConfig;
+use ILIAS\UI\Implementation\Component\Chart\Bar\XAxis;
 
 function custom()
 {
@@ -11,16 +13,16 @@ function custom()
     $df = new \ILIAS\Data\Factory();
     $renderer = $DIC->ui()->renderer();
 
-    //Genarating Dimensions
-    $o_dimension = $df->dimension()->ordinal(["", "low", "medium", "high"]);
-    $r_dimension = $df->dimension()->range($o_dimension);
+    //Generating Dimensions
+    $c_dimension = $df->dimension()->cardinal(["", "low", "medium", "high", "very high"]);
+    $r_dimension = $df->dimension()->range($c_dimension);
 
-    //Genarating Dataset with points and tooltips
+    //Generating Dataset with points and tooltips
     $dataset = $df->dataset([
         "Target" => $r_dimension,
-        "Dataset 1" => $o_dimension,
-        "Dataset 2" => $o_dimension,
-        "Dataset 3" => $o_dimension,
+        "Dataset 1" => $c_dimension,
+        "Dataset 2" => $c_dimension,
+        "Dataset 3" => $c_dimension,
     ]);
 
     $dataset = $dataset->withPoints(
@@ -78,7 +80,7 @@ function custom()
         ]
     );
 
-    $dataset = $dataset->withToolTips(
+    $dataset = $dataset->withAlternativeInformation(
         "Item 1",
         [
             "Target" => "low",
@@ -87,7 +89,7 @@ function custom()
             "Dataset 3" => "Custom 1"
         ]
     );
-    $dataset = $dataset->withToolTips(
+    $dataset = $dataset->withAlternativeInformation(
         "Item 2",
         [
             "Target" => "high",
@@ -96,7 +98,7 @@ function custom()
             "Dataset 3" => "Custom 2"
         ]
     );
-    $dataset = $dataset->withToolTips(
+    $dataset = $dataset->withAlternativeInformation(
         "Item 3",
         [
             "Target" => "high",
@@ -105,7 +107,7 @@ function custom()
             "Dataset 3" => "Custom 3"
         ]
     );
-    $dataset = $dataset->withToolTips(
+    $dataset = $dataset->withAlternativeInformation(
         "Item 4",
         [
             "Target" => "medium",
@@ -114,7 +116,7 @@ function custom()
             "Dataset 3" => "Custom 4"
         ]
     );
-    $dataset = $dataset->withToolTips(
+    $dataset = $dataset->withAlternativeInformation(
         "Item 5",
         [
             "Target" => "high",
@@ -123,7 +125,7 @@ function custom()
             "Dataset 3" => "Custom 5"
         ]
     );
-    $dataset = $dataset->withToolTips(
+    $dataset = $dataset->withAlternativeInformation(
         "Item 6",
         [
             "Target" => "-",
@@ -133,18 +135,18 @@ function custom()
         ]
     );
 
-    //Genarating Bars
-    $b1 = $df->bar();
-    $b1 = $b1->withSize(1.1);
+    //Generating Bar Configurations
+    $b1 = new BarConfig();
+    $b1 = $b1->withRelativeWidth(1.1);
     $b1 = $b1->withColor($df->color("#000000"));
-    $b2 = $df->bar();
-    $b2 = $b2->withSize(0.6);
+    $b2 = new BarConfig();
+    $b2 = $b2->withRelativeWidth(0.6);
     $b2 = $b2->withColor($df->color("#d38000"));
-    $b3 = $df->bar();
-    $b3 = $b3->withSize(0.6);
+    $b3 = new BarConfig();
+    $b3 = $b3->withRelativeWidth(0.6);
     $b3 = $b3->withColor($df->color("#307C88"));
-    $b4 = $df->bar();
-    $b4 = $b4->withSize(0.6);
+    $b4 = new BarConfig();
+    $b4 = $b4->withRelativeWidth(0.6);
     $b4 = $b4->withColor($df->color("#557b2e"));
 
     $bars = [
@@ -154,15 +156,17 @@ function custom()
         "Dataset 3" => $b4
     ];
 
-    //Genarating and rendering the horizontal chart
+    //Generating and rendering the horizontal chart
     $bar_chart = $f->chart()->bar()->horizontal(
-        "chart123",
         "A horizontal bar chart",
         $dataset,
         $bars
     );
     $bar_chart = $bar_chart->withTitleVisible(false);
-    $bar_chart = $bar_chart->withCustomXAxis(true, Bar::POSITION_BOTTOM, 1.0, true, 0, 3);
+    $x_axis = new XAxis();
+    $x_axis = $x_axis->withMinValue(0);
+    $x_axis = $x_axis->withMaxValue(3);
+    $bar_chart = $bar_chart->withCustomXAxis($x_axis);
 
     // render
     return $renderer->render($bar_chart);

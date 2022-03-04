@@ -24,18 +24,32 @@ namespace ILIAS\Data\Dimension;
  */
 class RangeDimension extends Dimension
 {
-    public const TYPE = "range";
+    protected CardinalDimension $cardinal_dimension;
 
-    protected OrdinalDimension $ord_dimension;
-
-    public function __construct(OrdinalDimension $ord_dimension)
+    public function __construct(CardinalDimension $cardinal_dimension)
     {
-        $this->ord_dimension = $ord_dimension;
-        $this->value_labels = $ord_dimension->getLabels();
+        $this->cardinal_dimension = $cardinal_dimension;
+        $this->value_labels = $this->cardinal_dimension->getLabels();
     }
 
-    public function getType() : string
+    public function checkValue($value) : void
     {
-        return self::TYPE;
+        if (is_null($value)) {
+            return;
+        }
+        if (!is_array($value) || count($value) !== 2) {
+            throw new \InvalidArgumentException(
+                "Expected parameter to be null or an array with two parameters of int or float.
+                            '$value' is given."
+            );
+        } else {
+            foreach ($value as $number) {
+                if (!is_numeric($number)) {
+                    throw new \InvalidArgumentException(
+                        "Expected parameters in array to be numeric. '$number' is given."
+                    );
+                }
+            }
+        }
     }
 }

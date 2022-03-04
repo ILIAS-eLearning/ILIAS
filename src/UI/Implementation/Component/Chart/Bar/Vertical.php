@@ -20,70 +20,31 @@
 namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
 use ILIAS\UI\Component as C;
+use ILIAS\Data\Chart\Dataset;
 
 class Vertical extends Bar implements C\Chart\Bar\Vertical
 {
-    protected array $y_axis = [
-        "axis" => self::AXIS_Y,
-        "type" => self::TYPE_LINEAR,
-        "display" => true,
-        "position" => self::POSITION_LEFT,
-        "ticks" => [
-            "callback" => null,
-            "stepSize" => 1.0
-        ]
-    ];
+    protected YAxis $y_axis;
+
+    public function __construct(string $title, Dataset $dataset, array $bar_configs = [])
+    {
+        parent::__construct($title, $dataset, $bar_configs);
+        $this->y_axis = new YAxis();
+    }
 
     public function getIndexAxis() : string
     {
-        return self::AXIS_X;
+        return "x";
     }
 
-    public function withCustomYAxis(
-        bool $is_displayed,
-        ?string $position = self::POSITION_LEFT,
-        ?float $step_size = 1.0,
-        ?bool $begin_at_zero = true,
-        ?int $min = null,
-        ?int $max = null
-    ) : self {
-        $clone = clone $this;
-        $clone->y_axis = [
-            "axis" => self::AXIS_Y,
-            "type" => self::TYPE_LINEAR,
-            "display" => $is_displayed,
-            "position" => $position,
-            "beginAtZero" => $begin_at_zero,
-            "ticks" => [
-                "callback" => null,
-                "stepSize" => $step_size
-            ]
-        ];
-        if ($min !== null) {
-            $clone->y_axis["min"] = $min;
-        }
-        if ($max !== null) {
-            $clone->y_axis["max"] = $max;
-        }
-        return $clone;
-    }
-
-    public function withResetYAxis() : self
+    public function withCustomYAxis(YAxis $y_axis) : self
     {
         $clone = clone $this;
-        $clone->y_axis = [
-            "axis" => self::AXIS_Y,
-            "type" => self::TYPE_LINEAR,
-            "display" => true,
-            "position" => self::POSITION_LEFT,
-            "ticks" => [
-                "callback" => null,
-            ]
-        ];
+        $clone->y_axis = $y_axis;
         return $clone;
     }
 
-    public function getYAxis() : array
+    public function getYAxis() : YAxis
     {
         return $this->y_axis;
     }
