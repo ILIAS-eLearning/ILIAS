@@ -14,7 +14,7 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - The **Permission** service stores which users / user roles have what kind
       of access to the object.
     - The **Info Screen** service reveals owner and creation data.
-    - The **[News Service](../../Services/News/Privacy.md)** is the foundation of the mediacast.
+    - The **[News Service](../../Services/News/Privacy.md)** holds the main data on author and creation/update timestamps.
 
 ## General Information
 
