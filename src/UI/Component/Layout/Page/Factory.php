@@ -2,9 +2,12 @@
 
 namespace ILIAS\UI\Component\Layout\Page;
 
-use ILIAS\UI\Component\MainControls;
-use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\MainControls\Mainbar;
+use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Toast\Container;
+use ILIAS\UI\Component\MainControls\Footer;
 
 /**
  * This is what a factory for pages looks like.
@@ -62,9 +65,11 @@ interface Factory
      *        Footer MUST additionally be declared with the ARIA role "Contentinfo".
      * ----
      * @param  \ILIAS\UI\Component\Component[] $content
-     * @param  \ILIAS\UI\Component\MainControls\MetaBar $Metabar
+     * @param  \ILIAS\UI\Component\MainControls\MetaBar $metabar
      * @param  \ILIAS\UI\Component\MainControls\MetaBar $mainbar
      * @param  \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs $locator
+     * @param  \ILIAS\UI\Component\Image\Image $logo
+     * @param  \ILIAS\UI\Component\Toast\Container $overlay
      * @param  \ILIAS\UI\Component\MainControls\Footer $footer
      * @param  string $title
      * @param  string $short_title
@@ -73,11 +78,12 @@ interface Factory
      */
     public function standard(
         array $content,
-        MainControls\MetaBar $metabar = null,
-        MainControls\MainBar $mainbar = null,
+        MetaBar $metabar = null,
+        MainBar $mainbar = null,
         Breadcrumbs $locator = null,
         Image $logo = null,
-        MainControls\Footer $footer = null,
+        Container $overlay = null,
+        Footer $footer = null,
         string $title = '',
         string $short_title = '',
         string $view_title = ''

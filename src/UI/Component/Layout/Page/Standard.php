@@ -12,6 +12,7 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\ModeInfo;
 use ILIAS\UI\Component\MainControls\Footer;
+use ILIAS\UI\Component\Toast\Container;
 
 /**
  * This describes the Page.
@@ -34,6 +35,8 @@ interface Standard extends Page, JavaScriptBindable
 
     public function hasLogo() : bool;
 
+    public function hasOverlay() : bool;
+
     public function getMetabar() : ?MetaBar;
 
     public function getMainbar() : ?MainBar;
@@ -41,6 +44,8 @@ interface Standard extends Page, JavaScriptBindable
     public function getBreadcrumbs() : ?Breadcrumbs;
 
     public function getLogo() : ?Image;
+
+    public function getOverlay() : ?Container;
 
     public function getFooter() : ?Footer;
 

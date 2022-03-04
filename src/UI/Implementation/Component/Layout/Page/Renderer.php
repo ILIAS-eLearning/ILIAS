@@ -38,6 +38,9 @@ class Renderer extends AbstractComponentRenderer
     ) : string {
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
+        if ($component->hasOverlay()) {
+            $tpl->setVariable('OVERLAY', $default_renderer->render($component->getOverlay()));
+        }
         if ($component->hasMetabar()) {
             $tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
         }
