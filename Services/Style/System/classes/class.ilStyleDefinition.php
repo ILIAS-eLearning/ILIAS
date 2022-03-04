@@ -317,6 +317,10 @@ class ilStyleDefinition
                         $parent_name = $skin->getStyle($style->getSubstyleOf())->getName();
                     }
 
+                    $version = $skin->getVersion();
+                    if($version == '$Id$') {
+                        $version = '-';
+                    }
                     // default selection list
                     $all_styles[$skin->getId() . ':' . $style->getId()] = [
                         'title' => $skin->getName() . ' / ' . $style->getName(),
@@ -329,7 +333,8 @@ class ilStyleDefinition
                         'style_name' => $style->getName(),
                         'substyle_of' => $style->getSubstyleOf(),
                         'substyle_of_name' => $parent_name,
-                        'users' => $num_users
+                        'users' => $num_users,
+                        'version' => $version,
                     ];
                 }
             }
