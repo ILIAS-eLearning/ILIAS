@@ -7,7 +7,7 @@ global.setTimeout = (callback, time) => {
 }
 
 beforeEach( (done) => {
-    JSDOM.fromFile('./tests/UI/Client/Toast/Standard/StandardToastTest.html', { runScripts: "dangerously", resources: "usable"})
+    JSDOM.fromFile('./tests/UI/Client/Toast/ToastTest.html', { runScripts: "dangerously", resources: "usable"})
         .then(dom => {
             global.window = dom.window;
             window.XMLHttpRequest = class {
@@ -62,7 +62,6 @@ describe('appearToast', () => {
     it ('show and arrange', () => {
         il.UI.toast.appearToast(element);
         expect(toast.classList.contains('active')).to.be.true;
-        expect(element.style.top).to.be.string('0px');
     })
     it ('trigger close action', () => {
         il.UI.toast.appearToast(element);
@@ -75,16 +74,6 @@ describe('appearToast', () => {
         expect(toast.classList.contains('active')).to.be.false;
     })
 })
-
-describe('getRelativeAnchestor', () => {
-    it ('with near target', () => {
-        expect(il.UI.toast.getRelativeAnchestor(element).id).to.be.string('anchestor');
-    })
-    it ('with far target', () => {
-        expect(il.UI.toast.getRelativeAnchestor(toast).id).to.be.string('anchestor');
-    })
-})
-
 
 describe('closeToast', () => {
     it ('initiate transition', () => {

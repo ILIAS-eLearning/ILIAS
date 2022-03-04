@@ -8,11 +8,14 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Toast as ComponentInterface;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Toast implements ComponentInterface\Toast
 {
     use ComponentHelper;
+    use JavaScriptBindable;
+
     public const DEFAULT_VANISH_TIME_IN_MS = 5000;
     public const DEFAULT_DELAY_TIME_IN_MS = 500;
 
