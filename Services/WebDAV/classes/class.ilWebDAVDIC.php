@@ -85,6 +85,7 @@ class ilWebDAVDIC extends Container
             $DIC->logger()->root(),
             $DIC->toolbar(),
             $DIC->http(),
+            $DIC->refinery(),
             $DIC->ui(),
             $DIC->filesystem(),
             $DIC->upload(),

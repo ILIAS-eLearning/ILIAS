@@ -81,7 +81,6 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.webdav_documents_row.html', 'Services/WebDAV');
 
         if ($this->is_editable) {
-            $this->setSelectAllCheckbox('webdav_id[]');
             $this->addCommandButton('saveDocumentSorting', $this->lng->txt('sorting_save'));
         }
 
@@ -287,7 +286,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
             return '';
         }
 
-        $this->ctrl->setParameter($this->getParentObject(), 'webdav_id', $row['id']);
+        $this->ctrl->setParameter($this->getParentObject(), 'document_id', $row['id']);
 
         $edit_btn = $this->ui_factory
             ->button()
@@ -311,7 +310,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
         $this->ui_components[] = $delete_modal;
 
-        $this->ctrl->setParameter($this->getParentObject(), 'webdav_id', null);
+        $this->ctrl->setParameter($this->getParentObject(), 'document_id', null);
 
         $drop_down = $this->ui_factory
             ->dropdown()

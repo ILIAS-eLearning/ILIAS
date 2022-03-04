@@ -108,9 +108,9 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         $this->addItem($language_selection);
 
         if ($document_already_exists) {
-            $webdav_id = new ilHiddenInputGUI('webdav_id');
-            $webdav_id->setValue((string) $this->document->getId());
-            $this->addItem($webdav_id);
+            $document_id = new ilHiddenInputGUI('document_id');
+            $document_id->setValue((string) $this->document->getId());
+            $this->addItem($document_id);
         } else {
             $document_upload = new ilFileInputGUI($document_label, 'document');
             $document_upload->setInfo($document_by_line);
