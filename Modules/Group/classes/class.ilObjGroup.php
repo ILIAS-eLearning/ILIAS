@@ -1967,7 +1967,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                     $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
                     $app->setDescription($this->getLongDescription());
                     $app->setStart($this->getEnd());
-                    $app->setFullday($this->getStartTimeIndication());
+                    $app->setFullday(!$this->getStartTimeIndication());
                     $apps[] = $app;
                 }
                 if ($this->isRegistrationUnlimited()) {
