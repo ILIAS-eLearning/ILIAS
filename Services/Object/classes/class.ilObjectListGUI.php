@@ -85,7 +85,6 @@ class ilObjectListGUI
     public $sub_item_html = array();
     public $multi_download_enabled = false;
     public $download_checkbox_state = self::DOWNLOAD_CHECKBOX_NONE;
-
     protected $obj_id;
     protected int $ref_id;
     protected $type;
