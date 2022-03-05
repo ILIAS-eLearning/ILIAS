@@ -136,12 +136,9 @@ class Factory implements \ILIAS\UI\Factory
         return $this->image_factory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function audio(string $src, string $transcript) : C\Audio\Audio
+    public function player() : C\Player\Factory
     {
-        return new Component\Audio\Audio($src, $transcript);
+        return new Component\Player\Factory();
     }
 
     /**

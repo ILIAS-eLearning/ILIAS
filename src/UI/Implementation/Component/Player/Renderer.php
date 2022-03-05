@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,42 +16,52 @@
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Implementation\Component\Audio;
+namespace ILIAS\UI\Implementation\Component\Player;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
 /**
- * Audio Renderer
- *
  * @author Alexander Killing <killing@leifos.de>
- * @package ILIAS\UI\Implementation\Component\Audio
+ * @package ILIAS\UI\Implementation\Component\Player
  */
 class Renderer extends AbstractComponentRenderer
 {
-    /**
-     * @inheritdocs
-     */
     public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         /**
-         * @var Component\Audio\Audio $component
+         * @var Component\Player\Player $component
          */
         $this->checkComponent($component);
+
+        if ($component instanceof Component\Player\Audio) {
+            return $this->renderAudio($component, $default_renderer);
+        }
+        return "";
+    }
+
+    public function renderAudio(Component\Component $component, RendererInterface $default_renderer) : string
+    {
         $tpl = $this->getTemplate("tpl.audio.html", true, true);
-        
+
         $component = $component->withAdditionalOnLoadCode(function ($id) {
-            return "$('#$id').mediaelementplayer();";
+            return "$('#$id').mediaelementplayer({stretching: 'responsive'});";
         });
         $id = $this->bindJavaScript($component);
 
         if ($component->getTranscription() != "") {
+            $factory = $this->getUIFactory();
+            $page = $factory->modal()->lightboxTextPage(
+                $component->getTranscription(),
+                $this->txt("ui_transcription")
+            );
+            $modal = $factory->modal()->lightbox($page);
+            $button = $factory->button()->standard($this->txt("ui_transcription"), '')
+                              ->withOnClick($modal->getShowSignal());
+
             $tpl->setCurrentBlock("transcription");
-            $tpl->setVariable("TID", $id);
-            $tpl->setVariable("TRANSCRIPTION_CONTENT", htmlspecialchars($component->getTranscription()));
-            $tpl->setVariable("TRANSCRIPTION", $this->txt("ui_transcription"));
-            $tpl->setVariable("CLOSE", $this->txt("close"));
+            $tpl->setVariable("BUTTON_AND_MODAL", $default_renderer->render([$button, $modal]));
             $tpl->parseCurrentBlock();
         }
 
@@ -61,9 +71,6 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
@@ -71,11 +78,8 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./node_modules/mediaelement/build/mediaelementplayer.min.css');
     }
 
-    /**
-     * @inheritdocs
-     */
     protected function getComponentInterfaceName() : array
     {
-        return [Component\Audio\Audio::class];
+        return [Component\Player\Player::class];
     }
 }

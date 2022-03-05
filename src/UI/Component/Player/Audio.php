@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,15 +16,17 @@
  *
  *********************************************************************/
 
-namespace ILIAS\UI\examples\Audio;
+namespace ILIAS\UI\Component\Player;
 
-function audio() : string
+use ILIAS\UI\Component\JavaScriptBindable;
+
+/**
+ * @author Alexander Killing <killing@leifos.de>
+ */
+interface Audio extends Player
 {
-    global $DIC;
-    $renderer = $DIC->ui()->renderer();
-    $f = $DIC->ui()->factory();
-
-    $audio = $f->audio("./src/UI/examples/Audio/ilias.mp3", "Erster Gesang: Pest im Lager. Zorn des Achilleus. Singe vom Ingrimm, Göttin, des Peleus-Sohnes Achilleus, vom Verfluchten, der zahllose Schmerzen schuf den Archaiern und viele kraftvolle Seelen der Helden vorwarf dem Hades...");
-
-    return $renderer->render($audio);
+    /**
+     * Get the transcription
+     */
+    public function getTranscription() : string;
 }

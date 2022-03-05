@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,35 +16,17 @@
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Component\Audio;
+namespace ILIAS\UI\Component\Player;
 
 use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
- * Interface for Audio elements
- *
  * @author Alexander Killing <killing@leifos.de>
- * @package ILIAS\UI\Component\Audio
  */
-interface Audio extends \ILIAS\UI\Component\Component, JavaScriptBindable
+interface Player extends \ILIAS\UI\Component\Component, JavaScriptBindable
 {
     /**
-     * Set the source (path) of the audio file. The complete path to the audio file has to be provided.
-     */
-    public function withSource(string $source) : \ILIAS\UI\Component\Audio\Audio;
-
-    /**
-     * Get the source (path) of the audio.
+     * Get the source path/url of the media
      */
     public function getSource() : string;
-
-    /**
-     * Set the transcription
-     */
-    public function withTranscription(string $transcription) : \ILIAS\UI\Component\Audio\Audio;
-
-    /**
-     * Get the transcription
-     */
-    public function getTranscription() : string;
 }

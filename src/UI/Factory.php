@@ -75,36 +75,33 @@ interface Factory
     /**
      * ---
      * description:
-     *   purpose: The Audio component is used to play and control an mp3 audio source.
+     *   purpose: >
+     *       The Player component is used to play and control a media source. The source
+     *       is either a local path on the filesystem or a URL of an external resource.
      *   composition: >
-     *       The Audio component is composed by a play/pause button, a playtime presentation,
-     *       a volume button, a volume slider and a time slider. Additionally it optionally
-     *       provides a transcript Button that opens a Modal showing the transcription of the audio file.
-     *
+     *       The Player component is composed by a play/pause button, a playtime presentation,
+     *       a volume button, a volume slider and a time slider. Players dedicated to
+     *       concrete media types MAY add additional visual elements.
      * rules:
      *   accessibility:
      *     1: >
-     *        The play/pause button MUST be accessible via tab key and allow to start/stop the audio when the
+     *        The play/pause button MUST be accessible via tab key and allow to start/stop the media when the
      *        space/return key is being pressed.
      *     2: >
      *        The playing position SHOULD be adjustable by using the cursor left/right keys.
      *     3: >
      *        The volume SHOULD be adjustable by using the cursor up/down keys.
-     *     4: >
-     *        A transcript text SHOULD be provided, if the audio content contains speech.
      *   style:
      *     1: >
-     *        The widget will be presented with the full width of its container. The widget will use a default
+     *        The widget will be presented with the full width of its container. The controls will use a default
      *        high contrast presentation provided by the respective library being used.
-     *
      * context:
      *   - Listing Items in Panels
+     *   - Main Content Section
      * ----
-     * @param string $src
-     * @param string $transcript
-     * @return  \ILIAS\UI\Component\Audio\Audio
+     * @return  \ILIAS\UI\Component\Player\Factory
      */
-    public function audio(string $src, string $transcript) : C\Audio\Audio;
+    public function player() : C\Player\Factory;
 
     /**
      * ---
