@@ -59,17 +59,15 @@ class ilObjectListGUI
     const DETAILS_MINIMAL = 10;
     const DETAILS_SEARCH = 20 ;
     const DETAILS_ALL = 30;
-
     const CONTEXT_REPOSITORY = 1;
     const CONTEXT_WORKSPACE = 2;
     const CONTEXT_WORKSPACE_SHARING = 4;
     const CONTEXT_PERSONAL_DESKTOP = 5;
     const CONTEXT_SEARCH = 6;
-
     const DOWNLOAD_CHECKBOX_NONE = 0;
     const DOWNLOAD_CHECKBOX_ENABLED = 1;
     const DOWNLOAD_CHECKBOX_DISABLED = 2;
-
+    
     public $ctrl;
     public $description_enabled = true;
     public $preconditions_enabled = true;
@@ -93,10 +91,8 @@ class ilObjectListGUI
     protected $type;
     protected $sub_obj_id;
     protected $sub_obj_type;
-
     protected $substitutions = null;
     protected $substitutions_enabled = false;
-
     protected $icons_enabled = false;
     protected $checkboxes_enabled = false;
     protected $position_enabled = false;
@@ -104,63 +100,47 @@ class ilObjectListGUI
     protected $item_detail_links_enabled = false;
     protected $item_detail_links = array();
     protected $item_detail_links_intro = '';
-
     protected $search_fragments_enabled = false;
     protected $search_fragment = '';
     protected $path_linked = false;
-
     protected $enabled_relevance = false;
     protected $relevance = 0;
-
     protected $expand_enabled = false;
     protected $is_expanded = true;
     protected $bold_title = false;
-
     protected $copy_enabled = true;
-
     protected $details_level = self::DETAILS_ALL;
-
     protected $reference_ref_id = false;
     protected $separate_commands = false;
     protected $search_fragment_enabled = false;
     protected $additional_information = false;
     protected $static_link_enabled = false;
-
     protected $repository_transfer_enabled = false;
     protected $shared = false;
     protected $restrict_to_goto = false;
-
     protected $comments_enabled = false;
     protected $comments_settings_enabled = false;
     protected $notes_enabled = false;
     protected $tags_enabled = false;
-
     protected $rating_enabled = false;
     protected $rating_categories_enabled = false;
     protected $rating_text = false;
     protected $rating_ctrl_path = false;
-
     protected $timings_enabled = true;
     protected $force_visible_only = false;
     protected $prevent_duplicate_commands = array();
     protected $parent_ref_id;
     protected $context;
-
     protected static $cnt_notes = array();
     protected static $cnt_tags = array();
     protected static $tags = array();
     protected static $comments_activation = array();
     protected static $preload_done = false;
-
     protected $title_link = '';
     protected $title_link_disabled = false;
-
     protected static $js_unique_id = 0;
-
-
     protected static $tpl_file_name = "tpl.container_list_item.html";
     protected static $tpl_component = "Services/Container";
-
     protected bool $lp_cmd_enabled = false;
 
     /**
