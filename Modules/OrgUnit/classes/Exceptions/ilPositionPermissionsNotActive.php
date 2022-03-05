@@ -23,10 +23,7 @@ class ilPositionPermissionsNotActive extends ilOrguException
         $this->object_type = $type;
     }
 
-    /**
-     * @return string
-     */
-    public function getObjectType()
+    public function getObjectType(): string
     {
         return $this->object_type;
     }

@@ -8,44 +8,16 @@
  */
 class ilLocalUserGUI
 {
+    protected ilTabsGUI $tabs_gui;
+    protected ilPropertyFormGUI $form;
+    protected ilToolbarGUI $toolbar;
+    protected ilCtrl $ctrl;
+    protected ilTemplate $tpl;
+    public ilObjOrgUnit|ilObjCategory|ilObject $object;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $ilAccess;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilObjOrgUnit|ilObjCategory
-     */
-    public $object;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $ilAccess;
-    /**
-     * @param $parent_gui
-     */
-    //TODO MST 14.11.2013 - we should split this class into ilLocalUserTableGUI and ilLocalUserRoleGUI
-    public function __construct($parent_gui)
+    public function __construct(ilObjectGUI $parent_gui)
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -59,21 +31,18 @@ class ilLocalUserGUI
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->parent_gui = $parent_gui;
-        $this->object = $parent_gui->object;
-        $this->tabs_gui = $this->parent_gui->tabs_gui;
+        $this->object = $parent_gui->getObject();
+        $this->tabs_gui = $DIC->tabs();
         $this->toolbar = $ilToolbar;
         $this->lng = $lng;
         $this->ilAccess = $ilAccess;
         $this->lng->loadLanguageModule('user');
-        if (!$rbacsystem->checkAccess("cat_administrate_users", $this->parent_gui->object->getRefId())) {
+        if (!$rbacsystem->checkAccess("cat_administrate_users", $this->parent_gui->getObject()->getRefId())) {
             $main_tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_admin_users"), true);
         }
     }
 
-    /**
-     * @return bool
-     */
-    public function executeCommand()
+    public function executeCommand(): bool
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -92,11 +61,7 @@ class ilLocalUserGUI
         return true;
     }
 
-    /**
-     * Reset filter
-     * (note: this function existed before data table filter has been introduced
-     */
-    protected function resetFilter()
+    protected function resetFilter(): void
     {
         $table = new ilUserTableGUI($this, "index", ilUserTableGUI::MODE_LOCAL_USER);
         $table->resetOffset();
@@ -104,11 +69,7 @@ class ilLocalUserGUI
         $this->index();
     }
 
-    /**
-     * Apply filter
-     * @return
-     */
-    protected function applyFilter()
+    protected function applyFilter(): void
     {
         $table = new ilUserTableGUI($this, "index", ilUserTableGUI::MODE_LOCAL_USER);
         $table->resetOffset();
@@ -116,7 +77,7 @@ class ilLocalUserGUI
         $this->index();
     }
 
-    public function index($show_delete = false)
+    public function index(bool $show_delete = false): bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -156,10 +117,7 @@ class ilLocalUserGUI
         return true;
     }
 
-    /**
-     * Show auto complete results
-     */
-    protected function addUserAutoCompleteObject()
+    protected function addUserAutoCompleteObject(): void
     {
         $auto = new ilUserAutoComplete();
         $auto->setSearchFields(array('login', 'firstname', 'lastname', 'email'));
@@ -174,10 +132,7 @@ class ilLocalUserGUI
         exit();
     }
 
-    /**
-     * Delete User
-     */
-    public function performDeleteUsers()
+    public function performDeleteUsers(): bool
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -187,7 +142,7 @@ class ilLocalUserGUI
                 $ilLog->write(__FILE__ . ":" . __LINE__ . " User with id $user_id could not be found.");
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_found_to_delete'));
             }
-            if (!$tmp_obj = &ilObjectFactory::getInstanceByObjId($user_id, false)) {
+            if (!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id, false)) {
                 continue;
             }
             $tmp_obj->delete();
@@ -198,14 +153,13 @@ class ilLocalUserGUI
         return true;
     }
 
-    public function deleteUsers()
+    public function deleteUsers(): void
     {
         $this->checkPermission("cat_administrate_users");
         if (!count($_POST['id'])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_users_selected'));
             $this->index();
-
-            return true;
+            return;
         }
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
@@ -223,7 +177,7 @@ class ilLocalUserGUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    public function assignRoles()
+    public function assignRoles(): void
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
@@ -241,10 +195,9 @@ class ilLocalUserGUI
         if (!isset($_GET['obj_id'])) {
             $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->index();
-
-            return true;
+            return;
         }
-        $roles = $this->__getAssignableRoles();
+        $roles = $this->getAssignableRoles();
         $this->tpl->addBlockfile(
             'ADM_CONTENT',
             'adm_content',
@@ -254,7 +207,7 @@ class ilLocalUserGUI
         $ass_roles = $rbacreview->assignedRoles($_GET['obj_id']);
         $counter = 0;
         foreach ($roles as $role) {
-            $role_obj = &ilObjectFactory::getInstanceByObjId($role['obj_id']);
+            $role_obj = ilObjectFactory::getInstanceByObjId($role['obj_id']);
             $disabled = false;
             $f_result[$counter][] = ilLegacyFormElementsUtil::formCheckbox(
                 in_array($role['obj_id'], $ass_roles) ? 1 : 0,
@@ -272,10 +225,10 @@ class ilLocalUserGUI
             unset($role_obj);
             ++$counter;
         }
-        $this->__showRolesTable($f_result, "assignRolesObject");
+        $this->showRolesTable($f_result, "assignRolesObject");
     }
 
-    public function assignSave()
+    public function assignSave(): bool
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
@@ -291,9 +244,9 @@ class ilLocalUserGUI
 
             return true;
         }
-        $roles = $this->__getAssignableRoles();
+        $roles = $this->getAssignableRoles();
         // check minimum one global role
-        if (!$this->__checkGlobalRoles($_POST['role_ids'])) {
+        if (!$this->checkGlobalRoles($_POST['role_ids'])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_global_role_left'));
             $this->assignRolesObject();
 
@@ -315,7 +268,7 @@ class ilLocalUserGUI
         return true;
     }
 
-    public function __checkGlobalRoles($new_assigned)
+    public function checkGlobalRoles($new_assigned): bool
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
@@ -325,7 +278,7 @@ class ilLocalUserGUI
             $this->ctrl->redirect($this, "");
         }
         // return true if it's not a local user
-        $tmp_obj = &ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
+        $tmp_obj = ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
         if ($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
             !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))
         ) {
@@ -354,7 +307,7 @@ class ilLocalUserGUI
         return true;
     }
 
-    public function __getAssignableRoles()
+    public function getAssignableRoles(): array
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
@@ -373,14 +326,14 @@ class ilLocalUserGUI
         return $roles = array_merge($global_roles, $rbacreview->getAssignableChildRoles($this->object->getRefId()));
     }
 
-    public function __showRolesTable($a_result_set, $a_from = "")
+    public function showRolesTable($a_result_set, $a_from = ""): bool
     {
         if (!$this->ilAccess->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
-        $tbl = &$this->__initTableGUI();
-        $tpl = &$tbl->getTemplateObject();
+        $tbl = $this->initTableGUI();
+        $tpl = $tbl->getTemplateObject();
         // SET FORMAACTION
         $tpl->setCurrentBlock("tbl_form_header");
         $this->ctrl->setParameter($this, 'obj_id', $_GET['obj_id']);
@@ -391,9 +344,9 @@ class ilLocalUserGUI
         $tpl->setVariable("BTN_NAME", "assignSave");
         $tpl->setVariable("BTN_VALUE", $this->lng->txt("change_assignment"));
         $tpl->setCurrentBlock("tbl_action_row");
-        $tpl->setVariable("TPLPATH", $this->tpl->tplPath);
+        $tpl->setVariable("TPLPATH", $this->tpl->getValue("TPLPATH"));
         $tpl->parseCurrentBlock();
-        $tmp_obj = &ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
+        $tmp_obj = ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
         $title = $this->lng->txt('role_assignment') . ' (' . $tmp_obj->getFullname() . ')';
         $tbl->setTitle($title, "icon_role.svg", $this->lng->txt("role_assignment"));
         $tbl->setHeaderNames(array(
@@ -426,19 +379,19 @@ class ilLocalUserGUI
             ));
         $tbl->setColumnWidth(array("4%", "35%", "45%", "16%"));
         $this->set_unlimited = true;
-        $this->__setTableGUIBasicData($tbl, $a_result_set, $a_from);
+        $this->setTableGUIBasicData($tbl, $a_result_set, $a_from);
         $tbl->render();
         $this->tpl->setVariable('OBJECTS', $tbl->getTemplateObject()->get());
 
         return true;
     }
 
-    protected function &__initTableGUI()
+    protected function initTableGUI(): ilTableGUI
     {
         return new ilTableGUI([], false);
     }
 
-    protected function __setTableGUIBasicData($tbl, &$result_set, string $a_from = "")
+    protected function setTableGUIBasicData($tbl, &$result_set, string $a_from = ""): void
     {
         switch ($a_from) {
             case "clipboardObject":
@@ -463,10 +416,7 @@ class ilLocalUserGUI
         $tbl->setData($result_set);
     }
 
-    /**
-     * @param $permission
-     */
-    protected function checkPermission($permission)
+    protected function checkPermission(string $permission): void
     {
         if (!$this->ilAccess->checkAccess($permission, "", $_GET["ref_id"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);

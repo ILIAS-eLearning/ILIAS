@@ -6,9 +6,6 @@
  */
 abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
 {
-    /**
-     * @return array
-     */
     public function getParentTypes() : array
     {
         $par_types = array("orgu");
@@ -16,11 +13,6 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
         return $par_types;
     }
 
-    /**
-     * @param $a_type
-     * @param $a_size
-     * @return string
-     */
     public static function _getIcon(string $a_type) : string
     {
         global $DIC;
@@ -34,22 +26,14 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
         );
     }
 
-    /**
-     * @param $a_id
-     * @return string
-     */
-    public static function _getName($a_id) : string
+    public static function _getName(string $a_id) : string
     {
         global $DIC;
         $component_repository = $DIC["component.repository"];
         return $component_repository->getPluginById($a_id)->getName();
     }
 
-    /**
-     * return true iff this item should be displayed in the tree.
-     * @return bool
-     */
-    public function showInTree()
+    public function showInTree(): bool
     {
         return false;
     }

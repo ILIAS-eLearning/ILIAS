@@ -10,33 +10,23 @@
 class ilOrgUnitImporter extends ilXmlImporter
 {
 
-    /**
-     * @var  array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type
-     */
-    public $errors = [];
-    /**
-     * @var  array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type
-     */
-    public $warnings = [];
-    /**
-     * @var array keys in {updated, edited, deleted}
-     */
-    public $stats;
+    /* @var array $lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type */
+    public array $errors = [];
+    /* @var array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type */
+    public array $warnings = [];
+    /* @var array keys in {updated, edited, deleted} */
+    public array $stats;
 
-    /**
-     * @param $id
-     * @param $type
-     * @return bool|int
-     */
-    protected function buildRef($id, $type)
+    /** @return bool|int */
+    protected function buildRef(int $id, string $type) : bool|int
     {
-        if ($type == 'reference_id') {
+        if ($type === 'reference_id') {
             if (!ilObjOrgUnit::_exists($id, true)) {
                 return false;
             }
 
             return $id;
-        } elseif ($type == 'external_id') {
+        } elseif ($type === 'external_id') {
             $obj_id = ilObject::_lookupObjIdByImportId($id);
 
             if (ilObject::_lookupType($obj_id) !== 'orgu') {
@@ -65,11 +55,7 @@ class ilOrgUnitImporter extends ilXmlImporter
         }
     }
 
-    /**
-     * @param string $external_id
-     * @return bool
-     */
-    public function hasMoreThanOneMatch($external_id)
+    final public function hasMoreThanOneMatch(string $external_id) : bool
     {
         global $DIC;
 
@@ -89,75 +75,43 @@ class ilOrgUnitImporter extends ilXmlImporter
         }
     }
 
-    /**
-     * @return bool
-     */
-    public function hasErrors()
+    final public function hasErrors() : bool
     {
         return count($this->errors) != 0;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasWarnings()
+    final public function hasWarnings() : bool
     {
         return count($this->warnings) != 0;
     }
 
-    /**
-     * @param      $lang_var
-     * @param      $import_id
-     * @param null $action
-     */
-    public function addWarning($lang_var, $import_id, $action = null)
+    final public function addWarning(string $lang_var, string $import_id, ?string $action = null) : void
     {
         $this->warnings[] = array('lang_var' => $lang_var, 'import_id' => $import_id, 'action' => $action);
     }
 
-    /**
-     * @param      $lang_var
-     * @param      $import_id
-     * @param null $action
-     */
-    public function addError($lang_var, $import_id, $action = null)
+    final public function addError(string $lang_var, string $import_id, ?string $action = null) : void
     {
         $this->errors[] = array('lang_var' => $lang_var, 'import_id' => $import_id, 'action' => $action);
     }
 
-    /**
-     * @return array
-     */
-    public function getErrors()
+    final public function getErrors() : array
     {
         return $this->errors;
     }
 
-    /**
-     * @return array
-     */
-    public function getWarnings()
+    final public function getWarnings() : array
     {
         return $this->warnings;
     }
 
-    /**
-     * @return array
-     */
-    public function getStats()
+    final public function getStats() : array
     {
         return $this->stats;
     }
 
-    /**
-     * @param string $a_entity
-     * @param string $a_id
-     * @param string $a_xml
-     * @param        $a_mapping ilImportMapping
-     * @return void
-     * @deprecated
-     */
-    public function importXmlRepresentation(
+    /** @deprecated */
+    final public function importXmlRepresentation(
         string $a_entity,
         string $a_id,
         string $a_xml,

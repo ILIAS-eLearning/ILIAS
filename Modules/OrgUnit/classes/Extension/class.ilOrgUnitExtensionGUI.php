@@ -12,13 +12,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
      */
     protected $ilLocator;
 
-    /**
-     * ilOrgUnitExtensionGUI constructor.
-     * @param int $a_ref_id
-     * @param int $a_id_type
-     * @param int $a_parent_node_id
-     */
-    public function __construct($a_ref_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_ref_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -27,17 +21,11 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
         $this->showTree();
     }
 
-    /**
-     * @return bool
-     */
     protected function supportsExport() : bool
     {
         return false;
     }
 
-    /**
-     * @return string
-     */
     protected function lookupParentTitleInCreationMode() : string
     {
         $parent = parent::lookupParentTitleInCreationMode();
@@ -88,7 +76,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
     /**
      * Views in the Org Unit have the Navigation Tree enabled by default. Thus we display it as well in the plugins.
      */
-    public function showTree()
+    public function showTree(): void
     {
         $this->ctrl->setParameterByClass("ilObjPluginDispatchGUI", "ref_id", $_GET["ref_id"]);
         $this->ctrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $_GET["ref_id"]);
@@ -100,10 +88,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function getTreeWhiteList()
+    protected function getTreeWhiteList(): array
     {
         $whiteList = array("orgu");
         $pls = ilOrgUnitExtension::getActivePluginIdsForTree();

@@ -11,10 +11,9 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitUserAssignmentGUI extends BaseCommands
 {
-    const CMD_ASSIGNMENTS_RECURSIVE = 'assignmentsRecursive';
-
-    const SUBTAB_ASSIGNMENTS = 'user_assignments';
-    const SUBTAB_ASSIGNMENTS_RECURSIVE = 'user_assignments_recursive';
+    public const CMD_ASSIGNMENTS_RECURSIVE = 'assignmentsRecursive';
+    public const SUBTAB_ASSIGNMENTS = 'user_assignments';
+    public const SUBTAB_ASSIGNMENTS_RECURSIVE = 'user_assignments_recursive';
     private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
@@ -23,7 +22,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
-    public function executeCommand()
+    public function executeCommand(): void
     {
         if (!ilObjOrgUnitAccess::_checkAccessPositions((int) filter_input(INPUT_GET, "ref_id",
             FILTER_SANITIZE_NUMBER_INT))) {
@@ -53,7 +52,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         }
     }
 
-    protected function index()
+    protected function index(): void
     {
         $this->addSubTabs();
         $this->activeSubTab(self::SUBTAB_ASSIGNMENTS);
@@ -78,7 +77,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->setContent($html);
     }
 
-    protected function assignmentsRecursive()
+    protected function assignmentsRecursive(): void
     {
         $this->addSubTabs();
         $this->activeSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE);
@@ -96,7 +95,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->setContent($html);
     }
 
-    protected function confirm()
+    protected function confirm(): void
     {
         $this->ctrl()->saveParameter($this, 'position_id');
         $r = $this->http()->request();
@@ -115,7 +114,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->setContent($confirmation->getHTML());
     }
 
-    protected function delete()
+    protected function delete(): void
     {
         $r = $this->http()->request();
         $ua = ilOrgUnitUserAssignmentQueries::getInstance()
@@ -126,12 +125,12 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->cancel();
     }
 
-    protected function cancel()
+    protected function cancel(): void
     {
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
 
-    public function addStaff()
+    public function addStaff(): void
     {
         if (!$this->dic()->access()->checkAccess("write", "", $this->getParentRefId())) {
             $this->main_tpl->setOnScreenMessage('failure', $this->txt("permission_denied"), true);
@@ -166,7 +165,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
 
-    public function addSubTabs()
+    public function addSubTabs(): void
     {
         $this->pushSubTab(self::SUBTAB_ASSIGNMENTS, $this->ctrl()
                                                          ->getLinkTarget($this, self::CMD_INDEX));

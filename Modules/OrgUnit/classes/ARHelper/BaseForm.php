@@ -8,29 +8,18 @@ namespace ILIAS\Modules\OrgUnit\ARHelper;
  */
 abstract class BaseForm extends \ilPropertyFormGUI
 {
+    protected BaseCommands $parent_gui;
+    protected \ILIAS\DI\Container $DIC;
+    protected \ActiveRecord $object;
+    protected \ilLanguage $lng;
 
-    /**
-     * @var \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
-     */
-    protected $parent_gui;
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $DIC;
-    /**
-     * @var \ActiveRecord
-     */
-    protected $object;
-
-    /**
-     * BaseForm constructor.
-     * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
-     * @param \ActiveRecord                                $object
-     */
     public function __construct(BaseCommands $parent_gui, \ActiveRecord $object)
     {
+        global $DIC;
+
         $this->parent_gui = $parent_gui;
         $this->object = $object;
+        $this->lng = $DIC->language();
         $this->dic()->ctrl()->saveParameter($parent_gui, 'arid');
         $this->setFormAction($this->dic()->ctrl()->getFormAction($this->parent_gui));
         $this->initFormElements();
@@ -39,18 +28,15 @@ abstract class BaseForm extends \ilPropertyFormGUI
         parent::__construct();
     }
 
-    abstract protected function initFormElements();
+    abstract protected function initFormElements() : void;
 
-    abstract public function fillForm();
+    abstract public function fillForm() : void;
 
-    abstract protected function fillObject();
+    abstract protected function fillObject() : bool;
 
-    /**
-     * @return int ID of the object
-     */
-    public function saveObject()
+    public function saveObject() : bool
     {
-        if (!$this->fillObject()) {
+        if ($this->fillObject() === false) {
             return false;
         }
         if ($this->object->getId()) {
@@ -62,7 +48,7 @@ abstract class BaseForm extends \ilPropertyFormGUI
         return $this->object->getId();
     }
 
-    protected function initButtons()
+    private function initButtons(): void
     {
         if (!$this->object->getId()) {
             $this->setTitle($this->txt('create'));
@@ -75,28 +61,17 @@ abstract class BaseForm extends \ilPropertyFormGUI
         }
     }
 
-    /**
-     * @param $key
-     * @return string
-     */
-    protected function txt($key)
+    private function txt(string $key): string
     {
         return $this->parent_gui->txt($key);
     }
 
-    /**
-     * @param $key
-     * @return string
-     */
-    protected function infoTxt($key)
+    private function infoTxt(string $key): string
     {
         return $this->parent_gui->txt($key . '_info');
     }
 
-    /**
-     * @return \ILIAS\DI\Container
-     */
-    protected function dic()
+    private function dic(): \ILIAS\DI\Container
     {
         return $GLOBALS["DIC"];
     }

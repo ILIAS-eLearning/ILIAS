@@ -9,24 +9,10 @@
  */
 class ilOrgUnitGlobalSettingsGUI
 {
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * Default constructor
-     * @global type $DIC
-     */
     public function __construct()
     {
         global $DIC;
@@ -43,10 +29,7 @@ class ilOrgUnitGlobalSettingsGUI
         }
     }
 
-    /**
-     * Ctrl execute command
-     */
-    public function executeCommand()
+    final public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd('settings');
         $next_class = $this->ctrl->getNextClass($this);
@@ -58,11 +41,7 @@ class ilOrgUnitGlobalSettingsGUI
         }
     }
 
-    /**
-     * Show settings
-     * @param ilPropertyFormGUI $form
-     */
-    protected function settings(ilPropertyFormGUI $form = null)
+    private function settings(ilPropertyFormGUI $form = null) : void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initSettingsForm();
@@ -70,10 +49,7 @@ class ilOrgUnitGlobalSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Init settings form
-     */
-    protected function initSettingsForm()
+    private function initSettingsForm() : ilPropertyFormGUI
     {
         global $DIC;
 
@@ -149,11 +125,8 @@ class ilOrgUnitGlobalSettingsGUI
         return $form;
     }
 
-    protected function saveSettings()
+    private function saveSettings() : void
     {
-        /**
-         * @var $objDefinition \ilObjectDefinition
-         */
         global $DIC;
         $objDefinition = $DIC['objDefinition'];
         $form = $this->initSettingsForm();

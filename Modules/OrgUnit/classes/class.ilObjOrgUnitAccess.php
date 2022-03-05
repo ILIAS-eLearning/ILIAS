@@ -33,11 +33,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return $commands;
     }
 
-    /**
-     * @param integer $ref_id
-     * @return bool
-     */
-    public static function _checkAccessStaff($ref_id) : bool
+    public static function _checkAccessStaff(int $ref_id) : bool
     {
         global $DIC;
 
@@ -46,10 +42,6 @@ class ilObjOrgUnitAccess extends ilObjectAccess
             && $DIC->access()->checkAccess('read', '', $ref_id);
     }
 
-    /**
-     * @param int $ref_id
-     * @return bool
-     */
     public static function _checkAccessSettings(int $ref_id) : bool
     {
         global $DIC;
@@ -57,10 +49,6 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-    /**
-     * @param int $ref_id
-     * @return bool
-     */
     public static function _checkAccessExport(int $ref_id) : bool
     {
         global $DIC;
@@ -68,10 +56,6 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-    /**
-     * @param int $ref_id
-     * @return bool
-     */
     public static function _checkAccessTypes(int $ref_id) : bool
     {
         global $DIC;
@@ -79,10 +63,6 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-    /**
-     * @param int $ref_id
-     * @return bool
-     */
     public static function _checkAccessPositions(int $ref_id) : bool
     {
         global $DIC;
@@ -90,11 +70,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-    /**
-     * @param integer $ref_id
-     * @return bool
-     */
-    public static function _checkAccessStaffRec($ref_id) : bool
+    public static function _checkAccessStaffRec(int $ref_id) : bool
     {
         global $DIC;
 
@@ -103,11 +79,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
             && $DIC->access()->checkAccess('read', '', $ref_id);
     }
 
-    /**
-     * @param integer $ref_id
-     * @return bool
-     */
-    public static function _checkAccessAdministrateUsers($ref_id) : bool
+    public static function _checkAccessAdministrateUsers(int $ref_id) : bool
     {
         global $DIC;
 
@@ -115,12 +87,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
             && $DIC->access()->checkAccess('cat_administrate_users', '', $ref_id);
     }
 
-    /**
-     * @param integer $ref_id
-     * @param integer $usr_id
-     * @return bool
-     */
-    public static function _checkAccessToUserLearningProgress($ref_id, $usr_id) : bool
+    public static function _checkAccessToUserLearningProgress(int $ref_id, int $usr_id) : bool
     {
         global $DIC;
 
@@ -154,10 +121,6 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * @param string $a_target check whether goto script will succeed
-     * @return bool
-     */
     public static function _checkGoto($a_target) : bool
     {
         global $DIC;

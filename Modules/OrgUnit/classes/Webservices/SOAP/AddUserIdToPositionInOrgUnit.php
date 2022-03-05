@@ -12,41 +12,29 @@ use ilOrgUnitPosition;
  */
 class AddUserIdToPositionInOrgUnit extends Base
 {
-
-    /**
-     * @param array $params
-     * @return mixed|void
-     * @throws \ilSoapPluginException
-     */
-    protected function run(array $params)
+    protected function run(array $params): void
     {
         $position_id = $params[self::POSITION_ID];
         $user_id = $params[self::USR_ID];
         $orgu_ref_id = $params[self::ORGU_REF_ID];
 
         if (!ilObjUser::_exists($user_id)) {
-            $this->error("user does not exist");
+            $this->addError("user does not exist");
         } elseif (!ilOrgUnitPosition::find($position_id) instanceof ilOrgUnitPosition) {
-            $this->error("Position does not exist");
+            $this->addError("Position does not exist");
         } elseif (ilObject2::_lookupType($orgu_ref_id, true) !== 'orgu') {
-            $this->error("OrgUnit does not exist");
+            $this->addError("OrgUnit does not exist");
         } else {
             \ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $orgu_ref_id);
         }
     }
 
-    /**
-     * @return string
-     */
     public function getName() : string
     {
         return "addUserToPositionInOrgUnit";
     }
 
-    /**
-     * @return array
-     */
-    protected function getAdditionalInputParams()
+    final protected function getAdditionalInputParams(): array
     {
         return array(self::POSITION_ID => Base::TYPE_INT,
                      self::USR_ID => Base::TYPE_INT,
@@ -54,17 +42,11 @@ class AddUserIdToPositionInOrgUnit extends Base
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getOutputParams() : array
     {
         return [];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getDocumentation() : string
     {
         return "Adds a user to a position in a orgunit";

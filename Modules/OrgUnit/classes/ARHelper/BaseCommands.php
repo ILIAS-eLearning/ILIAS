@@ -10,63 +10,48 @@ abstract class BaseCommands
 {
     use DIC;
 
-    const CMD_INDEX = "index";
-    const CMD_ADD = "add";
-    const CMD_CREATE = "create";
-    const CMD_EDIT = "edit";
-    const CMD_UPDATE = "update";
-    const CMD_CONFIRM = "confirm";
-    const CMD_DELETE = "delete";
-    const CMD_CANCEL = "cancel";
-    const AR_ID = "arid";
-    /**
-     * @var \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
-     */
-    protected $parent_gui = null;
+    public const CMD_INDEX = "index";
+    public const CMD_ADD = "add";
+    public const CMD_CREATE = "create";
+    public const CMD_EDIT = "edit";
+    public const CMD_UPDATE = "update";
+    public const CMD_CONFIRM = "confirm";
+    public const CMD_DELETE = "delete";
+    public const CMD_CANCEL = "cancel";
+    public const AR_ID = "arid";
+    protected ?BaseCommands $parent_gui = null;
 
-    /**
-     * @return \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
-     */
-    public function getParentGui()
+    public function getParentGui() : ?BaseCommands
     {
         return $this->parent_gui;
     }
 
-    /**
-     * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
-     */
-    public function setParentGui($parent_gui)
+    public function setParentGui(BaseCommands $parent_gui)
     {
         $this->parent_gui = $parent_gui;
     }
 
-    abstract protected function index();
+    abstract protected function index() : void;
 
-    /**
-     * @return array of GUI_Class-Names
-     */
-    protected function getPossibleNextClasses()
+    protected function getPossibleNextClasses() : array
     {
         return array();
     }
 
-    /**
-     * @return null|string of active Tab
-     */
-    protected function getActiveTabId()
+    protected function getActiveTabId() : ?string
     {
         return null;
     }
 
-    protected function cancel()
+    /**
+     * @throws \ilCtrlException
+     */
+    protected function cancel() : void
     {
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
 
-    /***
-     * @param $html
-     */
-    protected function setContent($html)
+    protected function setContent(string $html)
     {
         $this->tpl()->setContent($html);
     }
@@ -103,19 +88,12 @@ abstract class BaseCommands
         }
     }
 
-    /**
-     * @param $subtab_id
-     * @param $url
-     */
-    protected function pushSubTab($subtab_id, $url)
+    protected function pushSubTab(string $subtab_id, string $url)
     {
         $this->dic()->tabs()->addSubTab($subtab_id, $this->txt($subtab_id), $url);
     }
 
-    /**
-     * @param $subtab_id
-     */
-    protected function activeSubTab($subtab_id)
+    protected function activeSubTab(string $subtab_id)
     {
         $this->dic()->tabs()->activateSubTab($subtab_id);
     }
@@ -133,10 +111,7 @@ abstract class BaseCommands
         return true;
     }
 
-    /**
-     * @return int|null
-     */
-    protected function getParentRefId()
+    protected function getParentRefId() : ?int
     {
         $http = $this->dic()->http();
         $ref_id = $http->request()->getQueryParams()["ref_id"];
@@ -144,7 +119,7 @@ abstract class BaseCommands
         return $ref_id;
     }
 
-    public function addSubTabs()
+    public function addSubTabs() : void
     {
     }
 }

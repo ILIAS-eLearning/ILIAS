@@ -20,27 +20,21 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     /**
      * @inheritdoc
      */
-    const TYPE_INT_ARRAY = 'tns:intArray';
-    const TYPE_STRING = 'xsd:string';
-    const TYPE_INT = 'xsd:int';
-    const TYPE_DOUBLE_ARRAY = 'tns:doubleArray';
-    const SID = 'sid';
-    const ORGU_REF_ID = 'orgu_ref_id';
-    const POSITION_ID = 'position_id';
-    const USR_IDS = 'usr_ids';
-    const USR_ID = 'usr_id';
+    public const TYPE_INT_ARRAY = 'tns:intArray';
+    public const TYPE_STRING = 'xsd:string';
+    public const TYPE_INT = 'xsd:int';
+    public const TYPE_DOUBLE_ARRAY = 'tns:doubleArray';
+    public const SID = 'sid';
+    public const ORGU_REF_ID = 'orgu_ref_id';
+    public const POSITION_ID = 'position_id';
+    public const USR_IDS = 'usr_ids';
+    public const USR_ID = 'usr_id';
 
-    /**
-     * @inheritdoc
-     */
     public function getServiceStyle() : string
     {
         return 'rpc';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getServiceUse() : string
     {
         return 'encoded';
@@ -53,7 +47,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
      * @param string $session_id
      * @throws ilSoapPluginException
      */
-    protected function initIliasAndCheckSession($session_id)
+    protected function initIliasAndCheckSession(string $session_id): void
     {
         $this->initAuth($session_id);
         $this->initIlias();
@@ -67,9 +61,9 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
      * @param array $params
      * @throws ilSoapPluginException
      */
-    protected function checkParameters(array $params)
+    protected function checkParameters(array $params): void
     {
-        for ($i = 0; $i < count($this->getInputParams()); $i++) {
+        for ($i = 0, $iMax = count($this->getInputParams()); $i < $iMax; $i++) {
             if (!isset($params[$i])) {
                 $names = implode(', ', array_keys($this->getInputParams()));
                 throw new ilSoapPluginException("Request is missing at least one of the following parameters: $names");
@@ -77,22 +71,13 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getServiceNamespace() : string
     {
         return 'urn:' . ilOrgUnitSOAPServicesPlugin::PLUGIN_NAME;
     }
 
-    /**
-     * @return array
-     */
-    abstract protected function getAdditionalInputParams();
+    abstract protected function getAdditionalInputParams(): array;
 
-    /**
-     * @inheritdoc
-     */
     final public function getInputParams() : array
     {
         return array_merge(
@@ -103,18 +88,9 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         );
     }
 
-    /**
-     * @param array $params
-     * @return mixed
-     */
-    abstract protected function run(array $params);
+    abstract protected function run(array $params): array|string|int|bool;
 
-    /**
-     * @param array $params
-     * @return mixed
-     * @throws ilSoapPluginException
-     */
-    public function execute(array $params)
+    public function execute(array $params): array|string
     {
         $this->checkParameters($params);
         $session_id = (isset($params[0])) ? $params[0] : '';
@@ -123,7 +99,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         // Check Permissions
         global $DIC;
         if (!$DIC->access()->checkAccess('write', '', \ilObjOrgUnit::getRootOrgRefId())) {
-            $this->error('Permission denied');
+            $this->addError('Permission denied');
         }
 
         $clean_params = array();
@@ -137,19 +113,17 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     }
 
     /**
-     * @param $message
      * @throws \SoapFault
      */
-    protected function error($message)
+    public function addError(string $message)
     {
         throw $this->__raiseError($message, 'ERROR');
     }
 
     /**
-     * @param $session_id
      * @throws ilSoapPluginException
      */
-    private function init($session_id)
+    private function init(string $session_id): void
     {
         $this->initIliasAndCheckSession($session_id); // Throws exception if session is not valid
     }

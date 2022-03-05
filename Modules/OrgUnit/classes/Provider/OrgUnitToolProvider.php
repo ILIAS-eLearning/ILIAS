@@ -21,16 +21,14 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
 {
     public const SHOW_ORGU_TREE = 'show_orgu_tree';
 
-    /**
-     * @inheritDoc
-     */
     public function isInterestedInContexts() : ContextCollection
     {
         return $this->context_collection->main()->administration();
     }
 
     /**
-     * @inheritDoc
+     * @param CalledContexts $called_contexts
+     * @return \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool[]
      */
     public function getToolsForContextStack(CalledContexts $called_contexts) : array
     {
@@ -72,12 +70,18 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
         $tree = new ilOrgUnitExplorerGUI("orgu_explorer", ilObjOrgUnitGUI::class, "showTree", new ilTree(1));
         $tree->setTypeWhiteList($this->getTreeWhiteList());
         $tree->setRootId(ilObjOrgUnit::getRootOrgRefId());
-        $tree->setPathOpen($_GET['item_ref_id'] ?? $_GET['ref_id'] ?? '');
+        $ref_id = (int)($_GET['item_ref_id'] ?? $_GET['ref_id'] ?? 0);
+        if($ref_id !== 0) {
+            $tree->setPathOpen((int)$ref_id);
+        }
         $tree->setOrderField('title');
 
         return $tree;
     }
 
+    /**
+     * @return int[]
+     */
     private function getTreeWhiteList() : array
     {
         $whiteList = array('orgu');

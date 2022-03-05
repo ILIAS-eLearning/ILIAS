@@ -26,7 +26,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    public function init()
+    final public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -46,23 +46,23 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * no timing commands needed in orgunits.
      */
-    public function insertTimingsCommand()
+    final public function insertTimingsCommand() : void
     {
-        return;
+
     }
 
     /**
      * no social commands needed in orgunits.
      */
-    public function insertCommonSocialCommands($a_header_actions = false)
+    final public function insertCommonSocialCommands(bool $a_header_actions = false) : void
     {
-        return;
+
     }
 
     /**
      * insert info screen command
      */
-    public function insertInfoScreenCommand()
+    final public function insertInfoScreenCommand() : void
     {
         if ($this->std_cmd_only) {
             return;
@@ -74,18 +74,14 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
             ilUtil::getImagePath("icon_info.svg"));
     }
 
-    /**
-     * @param string $a_cmd
-     * @return string
-     */
-    public function getCommandLink($a_cmd)
+    final public function getCommandLink(string $a_cmd) : string
     {
         $this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id", $this->ref_id);
 
         return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $a_cmd);
     }
 
-    public function insertIconsAndCheckboxes()
+    final public function insertIconsAndCheckboxes() : void
     {
         global $DIC;
         $lng = $DIC['lng'];
