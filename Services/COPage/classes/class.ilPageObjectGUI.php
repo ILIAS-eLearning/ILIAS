@@ -119,6 +119,7 @@ class ilPageObjectGUI
     protected string $prependinghtml = "";
     protected string $header = "";
     protected string $int_link_return = "";
+    protected bool $enabled_href = true;
 
     protected ilComponentFactory $component_factory;
 
@@ -673,6 +674,15 @@ class ilPageObjectGUI
         return $this->lng->txt("inactive");
     }
 
+    public function getEnabledHref() : bool
+    {
+        return $this->enabled_href;
+    }
+
+    public function setEnabledHref(bool $enable) : void
+    {
+        $this->enabled_href = $enable;
+    }
 
     /**
      * Activate meda data editor
@@ -896,6 +906,9 @@ class ilPageObjectGUI
                     );
                 }
                 $ret = $this->$cmd();
+                if ($this->getOutputMode() == self::PREVIEW && $cmd == "preview") {
+                    $this->showEditToolbar();
+                }
                 break;
         }
         //echo "+$ret+";
@@ -962,7 +975,7 @@ class ilPageObjectGUI
         $lng = $this->lng;
         if ($this->getEnableEditing()) {
             $b = $ui->factory()->button()->standard(
-                $lng->txt("edit"),
+                $lng->txt("edit_page"),
                 $this->ctrl->getLinkTarget($this, "edit")
             );
             $this->toolbar->addComponent($b);
@@ -976,10 +989,6 @@ class ilPageObjectGUI
     {
         $main_tpl = $this->tpl;
         $sn_arr = [];
-
-        if ($this->getOutputMode() == self::PREVIEW) {
-            $this->showEditToolbar();
-        }
 
         $sel_js_mode = '';
         $paragraph_plugin_string = '';
@@ -1432,6 +1441,12 @@ class ilPageObjectGUI
         $cfg = $this->getPageConfig();
 
         $current_ts = time();
+
+        $enable_href = $this->getEnabledHref();
+        if ($this->getOutputMode() == self::EDIT) {
+            $enable_href = false;
+        }
+
         // added UTF-8 encoding otherwise umlaute are converted too
         $params = array('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title, ENT_QUOTES, "UTF-8"),
                          'enable_placeholder' => $cfg->getEnablePCType("PlaceHolder") ? "y" : "n",
@@ -1481,7 +1496,8 @@ class ilPageObjectGUI
                          'page_perma_link' => $this->getPagePermaLink(),
                          'activated_protection' =>
                             ($this->getPageConfig()->getSectionProtection() == \ilPageConfig::SEC_PROTECT_PROTECTED) ? "y" : "n",
-                        'protection_text' => $this->lng->txt("cont_sec_protected_text")
+                        'protection_text' => $this->lng->txt("cont_sec_protected_text"),
+                        'enable_href' => $enable_href
     );
         if ($this->link_frame != "") {		// todo other link types
             $params["pg_frame"] = $this->link_frame;

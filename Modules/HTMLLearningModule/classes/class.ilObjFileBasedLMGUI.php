@@ -722,8 +722,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $ctrl->redirectByClass(["ilrepositorygui", "ilObjFileBasedLMGUI"], "properties");
     }
 
-    public function learningProgress()
+
+    public function learningProgress() : void
     {
         $this->ctrl->redirectByClass("illearningprogressgui", "");
+    }
+
+    public function redrawHeaderAction() : void
+    {
+        parent::redrawHeaderActionObject();
     }
 }

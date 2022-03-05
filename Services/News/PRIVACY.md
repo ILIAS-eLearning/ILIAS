@@ -2,14 +2,12 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 
 ## General Information 
 
-- The News service can be activated in the global administration. The RSS service
-  can be activated in the global administration and it can be configured, if the
-  feed is presented to the internet or only to registered users.
+- The News service can be activated in the global administration. The RSS service can be activated in the global administration and it can be configured, if the feed is presented to the internet or only to registered users.
 
 
 ## Data being stored
