@@ -1197,7 +1197,7 @@ class ilObjectGUI
      */
     protected function getReturnLocation(string $cmd, string $default_location = "") : string
     {
-        if ($this->return_location[$cmd] != "") {
+        if (array_key_exists($cmd, $this->return_location) && empty($this->return_location[$cmd]) === false) {
             return $this->return_location[$cmd];
         } else {
             return $default_location;

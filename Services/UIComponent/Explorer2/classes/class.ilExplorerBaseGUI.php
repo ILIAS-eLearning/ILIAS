@@ -160,7 +160,7 @@ abstract class ilExplorerBaseGUI
      * @param object|array $a_node node array or object
      * @return string content of the node
      */
-    abstract public function getNodeContent($a_node) : string;
+    abstract public function getNodeContent(object|array $a_node) : string;
 
     /**
      * Get id of a node
@@ -179,7 +179,7 @@ abstract class ilExplorerBaseGUI
      * @param object|array $a_node
      * @return string href attribute
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref(object|array $a_node) : string
     {
         return "#";
     }
@@ -219,7 +219,7 @@ abstract class ilExplorerBaseGUI
      * @param object|array $a_node
      * @return string image file path
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon(array|object $a_node) : string
     {
         return "";
     }
@@ -282,7 +282,7 @@ abstract class ilExplorerBaseGUI
      * @param object|array $a_node node
      * @return bool node clickable true/false
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable(object|array $a_node) : bool
     {
         return true;
     }
@@ -292,7 +292,7 @@ abstract class ilExplorerBaseGUI
      * @param object|array $a_node node
      * @return bool node selectable true/false
      */
-    protected function isNodeSelectable($a_node) : bool
+    protected function isNodeSelectable(object|array$a_node) : bool
     {
         return true;
     }

@@ -128,7 +128,7 @@ class ilObjectFactory
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    public static function getInstanceByRefId($a_ref_id, $stop_on_error = true)
+    public static function getInstanceByRefId($a_ref_id, $stop_on_error = true): bool|ilObject
     {
         global $DIC;
 

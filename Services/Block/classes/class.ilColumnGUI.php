@@ -519,7 +519,7 @@ class ilColumnGUI
         if (!$this->getRepositoryMode() || $this->getEnableEdit()) {
             $add_blocks = array();
             if ($this->getSide() == IL_COL_RIGHT) {
-                if (is_array($this->custom_blocks[$this->getColType()])) {
+                if (array_key_exists($this->getColType(), $this->custom_blocks) && is_array($this->custom_blocks[$this->getColType()])) {
                     foreach ($this->custom_blocks[$this->getColType()] as $block_class) {
                         $block_gui = new $block_class();
                         $block_type = $block_gui->getBlockType();
@@ -655,7 +655,7 @@ class ilColumnGUI
             : 0;
 
         $def_nr = 1000;
-        if (is_array($this->default_blocks[$this->getColType()])) {
+        if (array_key_exists($this->getColType(), $this->default_blocks) && is_array($this->default_blocks[$this->getColType()])) {
             foreach ($this->default_blocks[$this->getColType()] as $class => $def_side) {
                 $type = self::$block_types[$class];
 

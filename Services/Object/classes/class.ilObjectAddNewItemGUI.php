@@ -233,7 +233,7 @@ class ilObjectAddNewItemGUI
                     // #9950
                     if ($ilAccess->checkAccess("create_" . $type, "", $this->parent_ref_id, $parent_type)) {
                         // if only assigned - do not add groups
-                        if (sizeof($pos_group_map) > 1) {
+                        if (sizeof($pos_group_map) > 1 && array_key_exists($type, $grp_map)) {
                             $obj_grp_id = (int) $grp_map[$type];
                             if ($obj_grp_id !== $current_grp) {
                                 // add seperator after last group?
