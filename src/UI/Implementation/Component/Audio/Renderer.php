@@ -40,8 +40,7 @@ class Renderer extends AbstractComponentRenderer
          */
         $this->checkComponent($component);
         $tpl = $this->getTemplate("tpl.audio.html", true, true);
-
-
+        
         $component = $component->withAdditionalOnLoadCode(function ($id) {
             return "$('#$id').mediaelementplayer();";
         });
@@ -51,7 +50,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setCurrentBlock("transcription");
             $tpl->setVariable("TID", $id);
             $tpl->setVariable("TRANSCRIPTION_CONTENT", htmlspecialchars($component->getTranscription()));
-            $tpl->setVariable("TRANSCRIPTION", $this->txt("transcription"));
+            $tpl->setVariable("TRANSCRIPTION", $this->txt("ui_transcription"));
             $tpl->setVariable("CLOSE", $this->txt("close"));
             $tpl->parseCurrentBlock();
         }
