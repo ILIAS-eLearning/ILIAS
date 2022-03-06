@@ -30,7 +30,7 @@ class ilObjectAccess implements \ilWACCheckingClass
     *
     * @return	boolean		true, if everything is ok
     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $a_cmd, string $a_permission, int $a_ref_id, int $a_obj_id, int $a_user_id = 0): bool
     {
 
         // add no access info item and return false if access is not granted
