@@ -8,6 +8,7 @@ require_once('./Modules/Cloud/classes/class.ilCloudPluginListGUI.php');
  * the list is loaded asyncronically by default. Disable if not wanted.
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id:
  * @extends ilCloudPluginListGUI
  * @ingroup ModulesCloud
@@ -24,13 +25,7 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
      */
     protected $node = null;
 
-    /**
-     * @param bool            $delete_item
-     * @param bool            $delete_folder
-     * @param ilCloudFileNode $node
-     * @return string
-     */
-    public function getSelectionListItemsHTML($delete_item = false, $delete_folder = false, ilCloudFileNode $node)
+    public function getSelectionListItemsHTML(bool $delete_item = false, bool $delete_folder = false, ilCloudFileNode $node): string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -43,7 +38,7 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
         $this->node = $node;
 
         if (($delete_item && !$node->getIsDir()) || ($delete_folder && $node->getIsDir()) || $this->checkHasAction()) {
-            include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+            require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
             $this->selection_list = new ilAdvancedSelectionListGUI();
             $this->selection_list->setId("id_action_list_" . $this->node->getId());
             $this->selection_list->setListTitle($lng->txt("actions"));
@@ -64,11 +59,7 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
         }
     }
 
-    /**
-     * @param $delete_item
-     * @param $delete_folder
-     */
-    protected function addSelectionListItems($delete_item, $delete_folder)
+    protected function addSelectionListItems(bool $delete_item, bool $delete_folder): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -82,17 +73,12 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
         $this->addItemsAfter();
     }
 
-    /**
-     * @param bool            $delete_item
-     * @param bool            $delete_folder
-     * @param ilCloudFileNode $node
-     */
-    public function asyncGetContent($delete_item = false, $delete_folder = false, ilCloudFileNode $node)
+    public function asyncGetContent(bool $delete_item = false, bool $delete_folder = false, ilCloudFileNode $node): void
     {
         global $DIC;
         $lng = $DIC['lng'];
         $this->node = $node;
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+        require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $this->selection_list = new ilAdvancedSelectionListGUI();
         $this->selection_list->setId($this->node->getId());
         $this->selection_list->setListTitle($lng->txt("actions"));
@@ -108,22 +94,19 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
         }
     }
 
-    protected function addItemsBefore()
+    protected function addItemsBefore(): void
     {
     }
 
-    protected function addItemsAfter()
+    protected function addItemsAfter(): void
     {
     }
 
-    protected function checkHasAction()
+    protected function checkHasAction(): void
     {
     }
 
-    /**
-     * @return bool
-     */
-    protected function getAsyncMode()
+    protected function getAsyncMode(): bool
     {
         return true;
     }

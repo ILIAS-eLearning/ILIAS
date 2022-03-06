@@ -4,16 +4,13 @@
 /**
  * Class ilObjCloudListGUI
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
  * $Id:
  * @extends ilObjectListGUI
  */
 class ilObjCloudListGUI extends ilObjectListGUI
 {
-
-    /**
-     * initialisation
-     */
-    public function init()
+    public function init() : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -29,12 +26,12 @@ class ilObjCloudListGUI extends ilObjectListGUI
         $this->gui_class_name = "ilobjcloudgui";
 
         // general commands array
-        include_once('./Modules/Cloud/classes/class.ilObjCloudAccess.php');
+        require_once('./Modules/Cloud/classes/class.ilObjCloudAccess.php');
         $this->commands = ilObjCloudAccess::_getCommands();
         $lng->loadLanguageModule("cld");
     }
 
-    public function getCommands()
+    public function getCommands() : array
     {
         $object = ilObjectFactory::getInstanceByRefId($this->ref_id);
         $header_action_gui = ilCloudConnector::getHeaderActionGUIClass(ilCloudConnector::getServiceClass($object->getServiceName(),
@@ -47,7 +44,7 @@ class ilObjCloudListGUI extends ilObjectListGUI
 
             if (is_array($custom_list_actions)) {
                 // Fetch custom URLs from the custom actions, if available
-                $this->fetchCustomUrlsFromCustomActions($custom_list_actions, $custom_urls);
+                $custom_urls = $this->fetchCustomUrlsFromCustomActions($custom_list_actions, $custom_urls);
                 // Adjust commands of this object by adding the new custom ones
                 $this->commands = array_merge($this->commands, $custom_list_actions);
             }
@@ -59,27 +56,24 @@ class ilObjCloudListGUI extends ilObjectListGUI
         // Remove recently added custom actions from dynamic field "commands" as
         // it may pass onto other ListGUIs and mess them up
         if (method_exists($header_action_gui, "getCustomListActions")) {
-            $this->neutralizeCommands($this->commands, $custom_list_actions);
+            $this->commands = $this->neutralizeCommands($this->commands, $custom_list_actions);
         }
 
         // Inject custom urls, if avilable
         if (!empty($custom_urls)) {
-            $this->injectCustomUrlsInCommands($custom_urls, $ref_commands);
+            $ref_commands = $this->injectCustomUrlsInCommands($custom_urls, $ref_commands);
         }
 
         return $ref_commands;
     }
 
-    /**
-     * @return array
-     */
-    public function getProperties()
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
 
         $props = array();
-        include_once('./Modules/Cloud/classes/class.ilObjCloudAccess.php');
+        require_once('./Modules/Cloud/classes/class.ilObjCloudAccess.php');
         if (!ilObjCloudAccess::checkAuthStatus($this->obj_id)) {
             $props[] = array(
                 "alert" => true,
@@ -105,23 +99,22 @@ class ilObjCloudListGUI extends ilObjectListGUI
      * @param array $commands
      * @param array $custom_list_actions
      */
-    private function neutralizeCommands(array &$commands, array $custom_list_actions)
+    private function neutralizeCommands(array $commands, array $custom_list_actions) : array
     {
         foreach ($custom_list_actions as $custom_list_action) {
-            for ($i = 0; $i < count($commands); $i++) {
-                if ($commands[$i]["lang_var"] == $custom_list_action["lang_var"]) {
+            for ($i = 0, $iMax = count($commands); $i < $iMax; $i++) {
+                if ($commands[$i]["lang_var"] === $custom_list_action["lang_var"]) {
                     unset($commands[$i]);
                 }
             }
         }
+        return $commands;
     }
 
     /**
      * Inject predefined custom URLs into ref_commands and change its destination
-     * @param $custom_urls
-     * @param $ref_commands
      */
-    private function injectCustomUrlsInCommands($custom_urls, &$ref_commands)
+    private function injectCustomUrlsInCommands(array $custom_urls, array $ref_commands) : array
     {
         foreach ($custom_urls as $custom_url) {
             foreach ($ref_commands as &$ref_command) {
@@ -130,25 +123,23 @@ class ilObjCloudListGUI extends ilObjectListGUI
                 }
             }
         }
+        return $ref_commands;
     }
 
     /**
      * Fetches custom URLs from predefined actions and structures them appropriately
-     * @param array $custom_list_actions
-     * @param       $custom_urls
      */
-    private function fetchCustomUrlsFromCustomActions(array $custom_list_actions, &$custom_urls)
+    private function fetchCustomUrlsFromCustomActions(array $custom_list_actions, array $custom_urls) : array
     {
         foreach ($custom_list_actions as $custom_list_action) {
             if (array_key_exists("custom_url", $custom_list_action)) {
-                array_push(
-                    $custom_urls,
-                    [
-                        "id" => $custom_list_action["lang_var"],
-                        "link" => $custom_list_action["custom_url"],
-                    ]
-                );
+                $custom_urls[] = [
+                    "id" => $custom_list_action["lang_var"],
+                    "link" => $custom_list_action["custom_url"],
+                ];
             }
         }
+
+        return $custom_urls;
     }
 }
