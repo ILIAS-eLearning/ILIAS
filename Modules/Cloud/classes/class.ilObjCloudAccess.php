@@ -24,11 +24,7 @@ class ilObjCloudAccess extends ilObjectAccess
     }
 
     public function _checkAccess(
-        string $a_cmd,
-        string $a_permission,
-        int $a_ref_id,
-        int $a_obj_id,
-        int $a_user_id = 0
+        $a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = ""
     ) : bool {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -46,7 +42,7 @@ class ilObjCloudAccess extends ilObjectAccess
             return false;
         }
 
-        if ($a_user_id === 0) {
+        if ($a_user_id === "") {
             $a_user_id = $ilUser->getId();
         }
 
