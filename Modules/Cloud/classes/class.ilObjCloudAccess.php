@@ -1,20 +1,19 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("class.ilCloudConnector.php");
-include_once("class.ilObjCloud.php");
+require_once("class.ilCloudConnector.php");
+require_once("class.ilObjCloud.php");
 
 /**
  * Class ilObjCloudAccess
  * @author    Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version   $Id:
- * @extends   ilObjectAccess
+ * @author    Martin Studer martin@fluxlabs.ch
  */
 class ilObjCloudAccess extends ilObjectAccess
 {
-    protected static $access_cache = array();
+    protected static array $access_cache = [];
 
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true),
@@ -24,16 +23,9 @@ class ilObjCloudAccess extends ilObjectAccess
         return $commands;
     }
 
-    /**
-     * @param string $a_cmd
-     * @param string $a_permission
-     * @param int    $a_ref_id
-     * @param int    $a_obj_id
-     * @param string $a_user_id
-     * @return bool
-     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
-    {
+    public function _checkAccess(
+        $a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = ""
+    ) : bool {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $rbacsystem = $DIC['rbacsystem'];
@@ -50,7 +42,7 @@ class ilObjCloudAccess extends ilObjectAccess
             return false;
         }
 
-        if ($a_user_id == "") {
+        if ($a_user_id === "") {
             $a_user_id = $ilUser->getId();
         }
 
@@ -58,16 +50,16 @@ class ilObjCloudAccess extends ilObjectAccess
          * Check if authentication is complete. If not, only the owner of the object has access. This prevents the
          * authentication of an account which does not belong to the owner.
          */
-        if (!ilObjCloudAccess::checkAuthStatus($a_obj_id) && $a_user_id != $object->getOwnerId() && !$rbacreview->isAssigned($a_user_id,
-                2)) {
+        if (self::checkAuthStatus($a_obj_id) && $a_user_id !== $object->getOwnerId() && !$rbacreview->isAssigned($a_user_id,
+                2) === false) {
             return false;
         }
 
         switch ($a_permission) {
             case "visible":
             case "read":
-                if (!ilObjCloudAccess::checkOnline($a_obj_id) && !$rbacsystem->checkAccessOfUser($a_user_id, "write",
-                        $a_ref_id)) {
+                if (self::checkOnline($a_obj_id) && !$rbacsystem->checkAccessOfUser($a_user_id, "write",
+                        $a_ref_id) === false) {
                     return false;
                 }
                 break;
@@ -76,10 +68,6 @@ class ilObjCloudAccess extends ilObjectAccess
         return true;
     }
 
-    /**
-     * @param $a_target
-     * @return bool
-     */
     public static function _checkGoto($a_target)
     {
         global $DIC;
@@ -94,40 +82,32 @@ class ilObjCloudAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * @param $a_id
-     * @return mixed
-     */
-    public static function checkOnline($a_id)
+    public static function checkOnline(int $id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        if (!isset(self::$access_cache[$a_id]["online"])) {
-            $set = $ilDB->query("SELECT is_online FROM il_cld_data " . " WHERE id = " . $ilDB->quote($a_id, "integer"));
+        if (!isset(self::$access_cache[$id]["online"])) {
+            $set = $ilDB->query("SELECT is_online FROM il_cld_data " . " WHERE id = " . $ilDB->quote($id, "integer"));
             $rec = $ilDB->fetchAssoc($set);
-            self::$access_cache[$a_id]["online"] = (boolean) ($rec["is_online"]);
+            self::$access_cache[$id]["online"] = (boolean) ($rec["is_online"]);
         }
 
-        return self::$access_cache[$a_id]["online"];
+        return self::$access_cache[$id]["online"];
     }
 
-    /**
-     * @param $a_id
-     * @return mixed
-     */
-    public static function checkAuthStatus($a_id)
+    public static function checkAuthStatus(int $id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        if (!isset(self::$access_cache[$a_id]["auth_status"])) {
-            $set = $ilDB->query("SELECT auth_complete FROM il_cld_data " . " WHERE id = " . $ilDB->quote($a_id,
+        if (!isset(self::$access_cache[$id]["auth_status"])) {
+            $set = $ilDB->query("SELECT auth_complete FROM il_cld_data " . " WHERE id = " . $ilDB->quote($id,
                     "integer"));
             $rec = $ilDB->fetchAssoc($set);
-            self::$access_cache[$a_id]["auth_status"] = (boolean) $rec["auth_complete"];
+            self::$access_cache[$id]["auth_status"] = (boolean) $rec["auth_complete"];
         }
 
-        return self::$access_cache[$a_id]["auth_status"];
+        return self::$access_cache[$id]["auth_status"];
     }
 }

@@ -1,20 +1,20 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Modules/Cloud/exceptions/class.ilCloudException.php');
-include_once('class.ilCloudPluginItemCreationListGUI.php');
-include_once('class.ilCloudPluginActionListGUI.php');
-include_once('class.ilCloudPlugin.php');
-include_once('class.ilCloudPluginInitGUI.php');
-include_once('class.ilCloudPluginSettingsGUI.php');
-include_once('class.ilCloudPluginService.php');
-include_once('class.ilCloudPluginFileTreeGUI.php');
-include_once('class.ilCloudPluginUploadGUI.php');
-include_once('class.ilCloudPluginDeleteGUI.php');
-include_once('class.ilCloudPluginCreateFolderGUI.php');
-include_once('class.ilCloudPluginHeaderActionGUI.php');
-include_once('class.ilCloudPluginCreationGUI.php');
-include_once('class.ilCloudPluginInfoScreenGUI.php');
+require_once('./Modules/Cloud/exceptions/class.ilCloudException.php');
+require_once('class.ilCloudPluginItemCreationListGUI.php');
+require_once('class.ilCloudPluginActionListGUI.php');
+require_once('class.ilCloudPlugin.php');
+require_once('class.ilCloudPluginInitGUI.php');
+require_once('class.ilCloudPluginSettingsGUI.php');
+require_once('class.ilCloudPluginService.php');
+require_once('class.ilCloudPluginFileTreeGUI.php');
+require_once('class.ilCloudPluginUploadGUI.php');
+require_once('class.ilCloudPluginDeleteGUI.php');
+require_once('class.ilCloudPluginCreateFolderGUI.php');
+require_once('class.ilCloudPluginHeaderActionGUI.php');
+require_once('class.ilCloudPluginCreationGUI.php');
+require_once('class.ilCloudPluginInfoScreenGUI.php');
 
 /**
  * ilCloudConnector class
@@ -22,6 +22,7 @@ include_once('class.ilCloudPluginInfoScreenGUI.php');
  * Further the getXXXClass functions of this class are used to check if a given class is extended and if so returning the extended
  * version and if not returning the core version.
  * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id$
  * @ingroup ModulesCloud
  */
@@ -29,10 +30,9 @@ class ilCloudConnector
 {
 
     /**
-     * @return array
      * @throws ilCloudException
      */
-    public static function getActiveServices()
+    public static function getActiveServices(): array
     {
         global $DIC;
         $component_repository = $DIC['component.repository'];
@@ -50,11 +50,9 @@ class ilCloudConnector
     }
 
     /**
-     * @param string $name
-     * @return bool
      * @throws ilCloudException
      */
-    public static function checkServiceActive($name)
+    public static function checkServiceActive(string $name): bool
     {
         if (!$name) {
             throw new ilCloudException(ilCloudException::NO_SERVICE_SELECTED);
@@ -67,15 +65,10 @@ class ilCloudConnector
         }
     }
 
-    /**
-     * @param string $service_name
-     * @param string $class_name
-     * @return string
-     */
-    protected static function getFullClassName($service_name, $class_name)
+    protected static function getFullClassName(string $service_name, string $class_name): string
     {
         if (file_exists("./Customizing/global/plugins/Modules/Cloud/CloudHook/" . $service_name . "/classes/class.il" . $service_name . $class_name . ".php")) {
-            include_once("./Customizing/global/plugins/Modules/Cloud/CloudHook/" . $service_name . "/classes/class.il" . $service_name . $class_name . ".php");
+            require_once("./Customizing/global/plugins/Modules/Cloud/CloudHook/" . $service_name . "/classes/class.il" . $service_name . $class_name . ".php");
             $class_full_name = "il" . $service_name . $class_name;
 
             return $class_full_name;
@@ -85,20 +78,16 @@ class ilCloudConnector
     }
 
     /**
-     * @param string $name
-     * @param int    $obj_id
-     * @param bool   $connect
-     * @return ilCloudPluginService
      * @throws ilCloudException
      */
-    public static function getServiceClass($service_name, $obj_id, $connect = true)
+    public static function getServiceClass(string $service_name, int $obj_id, bool $connect = true): ilCloudPluginService
     {
         if (!$service_name) {
             throw new ilCloudException(ilCloudException::NO_SERVICE_SELECTED);
         }
 
-        if (array_key_exists($service_name, ilCloudConnector::getActiveServices())) {
-            $class_name = ilCloudConnector::getFullClassName($service_name, "Service");
+        if (array_key_exists($service_name, self::getActiveServices())) {
+            $class_name = self::getFullClassName($service_name, "Service");
 
             return new $class_name($service_name, $obj_id);
         } else {
@@ -106,165 +95,103 @@ class ilCloudConnector
         }
     }
 
-    /**
-     * @param string $name
-     * @param int    $obj_id
-     * @return ilCloudPlugin
-     */
-    public static function getPluginClass($service_name, $obj_id)
+    public static function getPluginClass(string $service_name, int $obj_id): ilCloudPlugin
     {
-        $class_name = ilCloudConnector::getFullClassName($service_name, "");
+        $class_name = self::getFullClassName($service_name, "");
 
         return new $class_name($service_name, $obj_id);
     }
 
-    /**
-     * @param string $name
-     * @param int    $obj_id
-     * @return ilCloudHookPlugin
-     */
-    public static function getPluginHookClass($service_name)
+    public static function getPluginHookClass(string $service_name): ilCloudHookPlugin
     {
-        $class_name = ilCloudConnector::getFullClassName($service_name, "Plugin");
+        $class_name = self::getFullClassName($service_name, "Plugin");
 
         return new $class_name($service_name);
     }
 
-    /**
-     * @param string $name
-     * @param int    $obj_id
-     * @return ilCloudPluginSettingsGUI
-     */
-    public static function getSettingsGUIClass(ilCloudPluginService $plugin_service_class)
+    public static function getSettingsGUIClass(ilCloudPluginService $plugin_service_class): ilCloudPluginSettingsGUI
     {
-        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
+        $class_name = self::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
             "SettingsGUI");
 
         return new $class_name($plugin_service_class);
     }
 
-    /**
-     * @param $service_name
-     * @param $obj_id
-     * @return ilCloudPluginActionListGUI
-     */
-    public static function getActionListGUIClass(ilCloudPluginService $plugin_service_class)
+    public static function getActionListGUIClass(ilCloudPluginService $plugin_service_class): ilCloudPluginActionListGUI
     {
-        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
+        $class_name = self::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
             "ActionListGUI");
 
         return new $class_name($plugin_service_class);
     }
 
-    /**
-     * @param string $name
-     * @param int    $obj_id
-     * @return ilCloudPluginItemCreationListGUI
-     */
-    public static function getItemCreationListGUIClass(ilCloudPluginService $plugin_service_class)
+    public static function getItemCreationListGUIClass(ilCloudPluginService $plugin_service_class): ilCloudPluginItemCreationListGUI
     {
-        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
+        $class_name = self::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
             "ItemCreationListGUI");
 
         return new $class_name($plugin_service_class);
     }
 
-    /**
-     * @param string $name
-     * @param int    $obj_id
-     * @return ilCloudPluginInitGUI
-     */
-    public static function getInitGUIClass(ilCloudPluginService $plugin_service_class)
+    public static function getInitGUIClass(ilCloudPluginService $plugin_service_class): ilCloudPluginInitGUI
     {
-        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
+        $class_name = self::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
             "InitGUI");
 
         return new $class_name($plugin_service_class);
     }
 
-    /**
-     * @param $service_name
-     * @param $obj_id
-     * @param ilCloudPluginFileTree
-     * @return ilCloudPluginFileTreeGUI
-     */
-    public static function getFileTreeGUIClass(ilCloudPluginService $plugin_service_class, ilCloudFileTree $file_tree)
+    public static function getFileTreeGUIClass(ilCloudPluginService $plugin_service_class, ilCloudFileTree $file_tree): ilCloudPluginFileTreeGUI
     {
-        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
+        $class_name = self::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
             "FileTreeGUI");
 
         return new $class_name($plugin_service_class, $file_tree);
     }
 
-    /**
-     * @param string $name
-     * @param int    $obj_id
-     * @return ilCloudPluginCreateFolderGUI
-     */
-    public static function getCreateFolderGUIClass(ilCloudPluginService $plugin_service_class)
+    public static function getCreateFolderGUIClass(ilCloudPluginService $plugin_service_class): ilCloudPluginCreateFolderGUI
     {
-        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
+        $class_name = self::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
             "CreateFolderGUI");
 
         return new $class_name($plugin_service_class);
     }
 
-    /**
-     * @param string $name
-     * @param int    $obj_id
-     * @return ilCloudPluginUploadGUI
-     */
-    public static function getUploadGUIClass(ilCloudPluginService $plugin_service_class)
+    public static function getUploadGUIClass(ilCloudPluginService $plugin_service_class): ilCloudPluginUploadGUI
     {
-        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
+        $class_name = self::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
             "UploadGUI");
 
         return new $class_name($plugin_service_class);
     }
 
-    /**
-     * @param ilCloudPluginService $plugin_service_class
-     * @return ilCloudPluginDeleteGUI
-     */
-    public static function getDeleteGUIClass(ilCloudPluginService $plugin_service_class)
+    public static function getDeleteGUIClass(ilCloudPluginService $plugin_service_class): ilCloudPluginDeleteGUI
     {
-        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
+        $class_name = self::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
             "DeleteGUI");
 
         return new $class_name($plugin_service_class);
     }
 
-    /**
-     * @param ilCloudPluginService $plugin_service_class
-     * @return ilCloudPluginHeaderActionGUI
-     */
-    public static function getHeaderActionGUIClass(ilCloudPluginService $plugin_service_class)
+    public static function getHeaderActionGUIClass(ilCloudPluginService $plugin_service_class): ilCloudPluginHeaderActionGUI
     {
-        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
+        $class_name = self::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
             "HeaderActionGUI");
 
         return new $class_name($plugin_service_class);
     }
 
-    /**
-     * @param ilCloudPluginService $plugin_service_class
-     * @return ilCloudPluginCreationGUI
-     */
-    public static function getCreationGUIClass(ilCloudPluginService $plugin_service_class)
+    public static function getCreationGUIClass(ilCloudPluginService $plugin_service_class): ilCloudPluginCreationGUI
     {
-        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
+        $class_name = self::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
             "CreationGUI");
 
         return new $class_name($plugin_service_class);
     }
 
-    /**
-     * @param ilCloudPluginService $plugin_service_class
-     * @return ilCloudPluginInfoScreenGUI
-     */
-    public static function getInfoScreenGUIClass(ilCloudPluginService $plugin_service_class)
+    public static function getInfoScreenGUIClass(ilCloudPluginService $plugin_service_class): ilCloudPluginInfoScreenGUI
     {
-        $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
+        $class_name = self::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(),
             "InfoScreenGUI");
 
         return new $class_name($plugin_service_class);

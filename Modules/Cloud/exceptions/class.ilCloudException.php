@@ -6,43 +6,38 @@ require_once './Services/Exceptions/classes/class.ilException.php';
 /**
  * Class ilCloudException
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version $Id:
+ * @author  Martin Studer martin@fluxlabs.ch
  * @extends ilException
- * @ingroup ModulesCloud
  */
 class ilCloudException extends ilException
 {
-    const UNKNONW_EXCEPTION = -1;
-    const NO_SERVICE_ACTIVE = 1001;
-    const NO_SERVICE_SELECTED = 1002;
-    const SERVICE_NOT_ACTIVE = 1003;
-    const SERVICE_CLASS_FILE_NOT_FOUND = 1004;
-    const PLUGIN_HOOK_COULD_NOT_BE_INSTANTIATED = 1005;
-    const FOLDER_NOT_EXISTING_ON_SERVICE = 1101;
-    const FILE_NOT_EXISTING_ON_SERVICE = 1102;
-    const FOLDER_ALREADY_EXISTING_ON_SERVICE = 1103;
-    const AUTHENTICATION_FAILED = 2001;
-    const DELETE_FAILED = 2101;
-    const DOWNLOAD_FAILED = 2201;
-    const FOLDER_CREATION_FAILED = 2301;
-    const UPLOAD_FAILED = 2401;
-    const UPLOAD_FAILED_MAX_FILESIZE = 2402;
-    const ADD_ITEMS_FROM_SERVICE_FAILED = 2501;
-    const INVALID_INPUT = 3001;
-    const PATH_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION = 4001;
-    const ID_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION = 4002;
-    const ID_ALREADY_EXISTS_IN_FILE_TREE_IN_SESSION = 4003;
-    const PERMISSION_DENIED = 5001;
-    const PERMISSION_TO_CHANGE_ROOT_FOLDER_DENIED = 5002;
+    public const UNKNONW_EXCEPTION = -1;
+    public const NO_SERVICE_ACTIVE = 1001;
+    public const NO_SERVICE_SELECTED = 1002;
+    public const SERVICE_NOT_ACTIVE = 1003;
+    public const SERVICE_CLASS_FILE_NOT_FOUND = 1004;
+    public const PLUGIN_HOOK_COULD_NOT_BE_INSTANTIATED = 1005;
+    public const FOLDER_NOT_EXISTING_ON_SERVICE = 1101;
+    public const FILE_NOT_EXISTING_ON_SERVICE = 1102;
+    public const FOLDER_ALREADY_EXISTING_ON_SERVICE = 1103;
+    public const AUTHENTICATION_FAILED = 2001;
+    public const DELETE_FAILED = 2101;
+    public const DOWNLOAD_FAILED = 2201;
+    public const FOLDER_CREATION_FAILED = 2301;
+    public const UPLOAD_FAILED = 2401;
+    public const UPLOAD_FAILED_MAX_FILESIZE = 2402;
+    public const ADD_ITEMS_FROM_SERVICE_FAILED = 2501;
+    public  const INVALID_INPUT = 3001;
+    public const PATH_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION = 4001;
+    public  const ID_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION = 4002;
+    public const ID_ALREADY_EXISTS_IN_FILE_TREE_IN_SESSION = 4003;
+    public const PERMISSION_DENIED = 5001;
+    public const PERMISSION_TO_CHANGE_ROOT_FOLDER_DENIED = 5002;
     protected $message;
     protected $code;
     protected $add_info;
 
-    /**
-     * @param string $exception_code
-     * @param string $exception_info
-     */
-    public function __construct($exception_code, $exception_info = "")
+    public function __construct(string $exception_code, string $exception_info = "")
     {
         $this->code = $exception_code;
         $this->add_info = $exception_info;
@@ -50,7 +45,7 @@ class ilCloudException extends ilException
         parent::__construct($this->message, $this->code);
     }
 
-    protected function assignMessageToCode()
+    protected function assignMessageToCode(): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -125,7 +120,7 @@ class ilCloudException extends ilException
         $this->message .= ($this->add_info ? ": " : "") . $this->add_info;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n"
             . "{$this->getTraceAsString()}";
