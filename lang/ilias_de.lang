@@ -625,7 +625,7 @@ administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#obj_blga#:#Blog
 administration#:#obj_blga_desc#:#Globale Blogeinstellungen
 common#:#obj_frma#:#Forum
-common#:#obj_frma_desc#:#Globale Foreneinstellungen
+common#:#obj_frma_desc#:#Globale Einstellungen des Forums
 administration#:#obj_mds#:#Metadaten
 administration#:#obj_mds_desc#:#Einstellungen für Metadaten
 administration#:#obj_otpl#:#Didaktische Vorlagen
@@ -6679,7 +6679,7 @@ forum#:#frm_moderator_m#:#Moderator
 forum#:#frm_moderator_n#:#Moderation
 forum#:#frm_moderator_role_added_successfully#:#Die Person hat jetzt das Recht zu moderieren.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators#:#Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
-forum#:#frm_moderators_detached_role_successfully#:#Das Recht zu moderieren wurde den ausgewählten Personen entzogen.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#frm_moderators_detached_role_successfully#:#Das Recht zu moderieren, wurde den ausgewählten Personen entzogen.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators_not_exist_yet#:#Bitte fügen Sie eine Person für die Moderation hinzu.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens eine Person aus.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer für die Moderation.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -13132,7 +13132,7 @@ common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_login#:#Anmelden
 common#:#clientlist_start_page#:#Öffentlicher Bereich
 common#:#clientlist_login_page#:#Anmelden
-forum#:#file_upload_allowed_fora_desc#:#Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
+forum#:#file_upload_allowed_fora_desc#:#Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
 forum#:#file_upload_option_allow_desc#:#In allen Foren können Dateien an Beiträge angehangen werden.###Modified as part of gender mainstreaming activities for ILIAS 8
