@@ -10,11 +10,7 @@ use ILIAS\DI\Container;
  */
 class ilMStListUsers
 {
-
-    /**
-     * @var Container
-     */
-    protected $dic;
+    protected Container $dic;
 
     /**
      * ilMStListUsers constructor.
@@ -25,12 +21,7 @@ class ilMStListUsers
         $this->dic = $dic;
     }
 
-    /**
-     * @param array $arr_usr_ids
-     * @param array $options
-     * @return array|int
-     */
-    public function getData(array $arr_usr_ids = array(), array $options = array())
+    final public function getData(array $arr_usr_ids = array(), array $options = array()): array|int
     {
         //Permissions
         if (count($arr_usr_ids) == 0) {
@@ -122,11 +113,8 @@ class ilMStListUsers
 
     /**
      * Returns the WHERE Part for the Queries using parameter $user_ids AND local variable $filters
-     * @param array $arr_usr_ids
-     * @param array $arr_filter
-     * @return string
      */
-    private function createWhereStatement(array $arr_usr_ids, array $arr_filter)
+    private function createWhereStatement(array $arr_usr_ids, array $arr_filter): string
     {
         $where = array();
 

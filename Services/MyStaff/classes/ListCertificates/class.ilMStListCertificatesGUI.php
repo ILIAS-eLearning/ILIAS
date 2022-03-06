@@ -16,19 +16,10 @@ class ilMStListCertificatesGUI
     const CMD_INDEX = 'index';
     const CMD_GET_ACTIONS = "getActions";
     const CMD_RESET_FILTER = 'resetFilter';
-    /**
-     * @var ilTable2GUI
-     */
-    protected $table;
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
+    protected ilTable2GUI $table;
+    protected ilMyStaffAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     *
-     */
     public function __construct()
     {
         global $DIC;
@@ -36,10 +27,7 @@ class ilMStListCertificatesGUI
         $this->access = ilMyStaffAccess::getInstance();
     }
 
-    /**
-     *
-     */
-    protected function checkAccessOrFail()
+    protected function checkAccessOrFail(): void
     {
         global $DIC;
 
@@ -51,10 +39,7 @@ class ilMStListCertificatesGUI
         }
     }
 
-    /**
-     *
-     */
-    public function executeCommand()
+    final public function executeCommand(): void
     {
         global $DIC;
 
@@ -90,18 +75,12 @@ class ilMStListCertificatesGUI
         }
     }
 
-    /**
-     *
-     */
-    public function index()
+    final public function index(): void
     {
         $this->listUsers();
     }
 
-    /**
-     *
-     */
-    public function listUsers()
+    final public function listUsers(): void
     {
         global $DIC;
 
@@ -112,10 +91,7 @@ class ilMStListCertificatesGUI
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-    /**
-     *
-     */
-    public function applyFilter()
+    final public function applyFilter(): void
     {
         $this->table = new ilMStListCertificatesTableGUI($this, self::CMD_APPLY_FILTER);
         $this->table->writeFilterToSession();
@@ -123,10 +99,7 @@ class ilMStListCertificatesGUI
         $this->index();
     }
 
-    /**
-     *
-     */
-    public function resetFilter()
+    final public function resetFilter(): void
     {
         $this->table = new ilMStListCertificatesTableGUI($this, self::CMD_RESET_FILTER);
         $this->table->resetOffset();
@@ -134,30 +107,21 @@ class ilMStListCertificatesGUI
         $this->index();
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    final public function getId(): string
     {
         $this->table = new ilMStListCertificatesTableGUI($this, self::CMD_INDEX);
 
         return $this->table->getId();
     }
 
-    /**
-     *
-     */
-    public function cancel()
+    final public function cancel(): void
     {
         global $DIC;
 
         $DIC->ctrl()->redirect($this);
     }
 
-    /**
-     *
-     */
-    public function getActions()
+    final public function getActions(): void
     {
         global $DIC;
 

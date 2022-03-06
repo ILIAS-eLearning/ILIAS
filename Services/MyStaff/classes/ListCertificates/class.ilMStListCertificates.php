@@ -7,7 +7,6 @@ use Certificate\API\Filter\UserDataFilter;
 use Certificate\API\UserCertificateAPI;
 use ILIAS\DI\Container;
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ilLPStatus;
 use ilMStListCertificatesGUI;
 use ilMyStaffGUI;
 use ilOrgUnitOperation;
@@ -18,11 +17,7 @@ use ilOrgUnitOperation;
  */
 class ilMStListCertificates
 {
-
-    /**
-     * @var Container
-     */
-    protected $dic;
+    protected Container $dic;
 
     /**
      * ilMStListCertificates constructor.
@@ -34,11 +29,9 @@ class ilMStListCertificates
     }
 
     /**
-     * @param array $arr_usr_ids
-     * @param array $options
      * @return UserCertificateDto[]
      */
-    public function getData(array $options = array()) : array
+    final public function getData(array $options = array()) : array
     {
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_CERTIFICATES;
@@ -67,15 +60,13 @@ class ilMStListCertificates
                 $usr_data_filter = $usr_data_filter->withObjectTitle($options['filters']['obj_title']);
             }
 
-            $data = array_merge($data, $cert_api->getUserCertificateData($usr_data_filter,
+            array_merge($data, $cert_api->getUserCertificateData($usr_data_filter,
                 [ilMyStaffGUI::class, ilMStListCertificatesGUI::class]));
         }
 
         $unique_cert_data = [];
         foreach ($data as $cert_data) {
-            /**
-             * @var UserCertificateDto $cert_data
-             */
+            assert($cert_data instanceof UserCertificateDto);
             $unique_cert_data[$cert_data->getCertificateId()] = $cert_data;
         }
 
