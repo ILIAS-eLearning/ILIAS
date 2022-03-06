@@ -24,24 +24,10 @@ use ilTextInputGUI;
  */
 class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 {
+    protected int $usr_id;
+    protected array $filter = array();
+    protected ilMyStaffAccess $access;
 
-    /**
-     * @var int
-     */
-    protected $usr_id;
-    /**
-     * @var array
-     */
-    protected $filter = array();
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
-
-    /**
-     * @param ilMStShowUserCoursesGUI $parent_obj
-     * @param string                  $parent_cmd
-     */
     public function __construct(ilMStShowUserCoursesGUI $parent_obj, $parent_cmd = ilMStShowUserCoursesGUI::CMD_INDEX)
     {
         global $DIC;
@@ -74,10 +60,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    /**
-     *
-     */
-    protected function parseData()
+    protected function parseData() : void
     {
         global $DIC;
 
@@ -116,10 +99,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    /**
-     *
-     */
-    public function initFilter() : void
+    final public function initFilter() : void
     {
         global $DIC;
 
@@ -170,10 +150,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getSelectableColumns() : array
+    final public function getSelectableColumns() : array
     {
         global $DIC;
 
@@ -203,10 +180,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    /**
-     *
-     */
-    private function addColumns()
+    private function addColumns() : void
     {
         global $DIC;
 
@@ -226,14 +200,11 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param array $a_set
-     */
     public function fillRow(array $a_set) : void
     {
         global $DIC;
 
-        $propGetter = Closure::bind(function($prop) {
+        $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
         }, $a_set, $a_set);
 
@@ -283,11 +254,6 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
     }
 
-    /**
-     * @param ilExcel $a_excel excel wrapper
-     * @param int     $a_row
-     * @param array   $a_set
-     */
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $col = 0;
@@ -297,10 +263,6 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilCSVWriter $a_csv
-     * @param array       $a_set
-     */
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
@@ -309,12 +271,9 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    /**
-     * @param ilMStListCourse $my_staff_course
-     */
-    protected function getFieldValuesForExport(ilMStListCourse $my_staff_course)
+    protected function getFieldValuesForExport(ilMStListCourse $my_staff_course) : array
     {
-        $propGetter = Closure::bind(function($prop) {
+        $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
         }, $my_staff_course, $my_staff_course);
 
@@ -337,7 +296,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         return $field_values;
     }
 
-    protected function getSpaceOrValue(string $string)
+    protected function getSpaceOrValue(string $string) : string
     {
         if (!$this->getExportMode()) {
             if (empty($string)) {

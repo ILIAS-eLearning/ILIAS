@@ -11,23 +11,14 @@ use ILIAS\MyStaff\ListCourses\ilMStListCoursesTableGUI;
  */
 class ilMStListCoursesGUI
 {
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_INDEX = 'index';
-    const CMD_GET_ACTIONS = "getActions";
-    const CMD_RESET_FILTER = 'resetFilter';
-    /**
-     * @var ilTable2GUI
-     */
-    protected $table;
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_INDEX = 'index';
+    public const CMD_GET_ACTIONS = "getActions";
+    public const CMD_RESET_FILTER = 'resetFilter';
+    protected ilTable2GUI $table;
+    protected ilMyStaffAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     *
-     */
     public function __construct()
     {
         global $DIC;
@@ -35,10 +26,7 @@ class ilMStListCoursesGUI
         $this->access = ilMyStaffAccess::getInstance();
     }
 
-    /**
-     *
-     */
-    protected function checkAccessOrFail()
+    protected function checkAccessOrFail() : void
     {
         global $DIC;
 
@@ -50,10 +38,7 @@ class ilMStListCoursesGUI
         }
     }
 
-    /**
-     *
-     */
-    public function executeCommand()
+    final public function executeCommand() : void
     {
         global $DIC;
 
@@ -85,18 +70,12 @@ class ilMStListCoursesGUI
         }
     }
 
-    /**
-     *
-     */
-    public function index()
+    final public function index() : void
     {
         $this->listUsers();
     }
 
-    /**
-     *
-     */
-    public function listUsers()
+    final public function listUsers() : void
     {
         global $DIC;
 
@@ -107,10 +86,7 @@ class ilMStListCoursesGUI
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-    /**
-     *
-     */
-    public function applyFilter()
+    final public function applyFilter() : void
     {
         $this->table = new ilMStListCoursesTableGUI($this, self::CMD_APPLY_FILTER);
         $this->table->writeFilterToSession();
@@ -118,10 +94,7 @@ class ilMStListCoursesGUI
         $this->index();
     }
 
-    /**
-     *
-     */
-    public function resetFilter()
+    final public function resetFilter() : void
     {
         $this->table = new ilMStListCoursesTableGUI($this, self::CMD_RESET_FILTER);
         $this->table->resetOffset();
@@ -129,30 +102,20 @@ class ilMStListCoursesGUI
         $this->index();
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    final public function getId() : string
     {
         $this->table = new ilMStListCoursesTableGUI($this, self::CMD_INDEX);
 
         return $this->table->getId();
     }
 
-    /**
-     *
-     */
-    public function cancel()
+    final  public function cancel() : void
     {
         global $DIC;
-
         $DIC->ctrl()->redirect($this);
     }
 
-    /**
-     *
-     */
-    public function getActions()
+    final public function getActions() : void
     {
         global $DIC;
 

@@ -13,27 +13,12 @@ class ilMStShowUserCompetencesGUI
     const CMD_SHOW_SKILLS = 'showSkills';
     const CMD_INDEX = self::CMD_SHOW_SKILLS;
     const SUB_TAB_SKILLS = 'skills';
-    /**
-     * @var int
-     */
-    protected $usr_id;
-    /**
-     * @var ilTable2GUI
-     */
-    protected $table;
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
-    /**
-     * @var Container
-     */
-    private $dic;
+    private int $usr_id;
+    protected ilTable2GUI $table;
+    protected ilMyStaffAccess $access;
+    private Container $dic;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * @param Container $dic
-     */
     public function __construct(Container $dic)
     {
         global $DIC;
@@ -45,10 +30,7 @@ class ilMStShowUserCompetencesGUI
         $this->dic->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
     }
 
-    /**
-     *
-     */
-    protected function checkAccessOrFail()
+    protected function checkAccessOrFail() : void
     {
         if (!$this->usr_id) {
             $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
@@ -65,10 +47,7 @@ class ilMStShowUserCompetencesGUI
         }
     }
 
-    /**
-     *
-     */
-    public function executeCommand()
+    final public function executeCommand() : void
     {
         $this->checkAccessOrFail();
 
@@ -88,10 +67,7 @@ class ilMStShowUserCompetencesGUI
         }
     }
 
-    /**
-     * @param string $active_sub_tab
-     */
-    protected function addSubTabs(string $active_sub_tab)
+    protected function addSubTabs(string $active_sub_tab) : void
     {
         $this->dic->language()->loadLanguageModule('skmg');
         $this->dic->tabs()->addSubTab(
@@ -103,10 +79,7 @@ class ilMStShowUserCompetencesGUI
         $this->dic->tabs()->activateSubTab($active_sub_tab);
     }
 
-    /**
-     *
-     */
-    protected function showSkills()
+    protected function showSkills() : void
     {
         $skills_gui = new ilPersonalSkillsGUI();
         $skills = ilPersonalSkill::getSelectedUserSkills($this->usr_id);

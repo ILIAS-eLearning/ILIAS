@@ -10,419 +10,230 @@ use ilObjUser;
  */
 class ilMStListUser
 {
+    protected int $usr_id;
+    protected int $gender;
+    protected int $time_limit_owner;
+    protected int $active;
+    protected string $login;
+    protected string $title;
+    protected string $hobby;
+    protected string $institution;
+    protected string $department;
+    protected string $street;
+    protected string $zipcode;
+    protected string $city;
+    protected string $country;
+    protected string $sel_country;
+    protected string $matriculation;
+    protected string $firstname;
+    protected string $lastname;
+    protected string $email;
+    protected string $phone;
+    protected string $mobile_phone;
+    protected ilObjUser $il_user_obj;
 
-    /**
-     * @var int
-     */
-    protected $usr_id;
-    /**
-     * @var int
-     */
-    protected $gender;
-    /**
-     * @var int
-     */
-    protected $time_limit_owner;
-    /**
-     * @var int
-     */
-    protected $active;
-    /**
-     * @var string
-     */
-    protected $login;
-    /**
-     * @var string
-     */
-    protected $title;
-    /**
-     * @var string
-     */
-    protected $hobby;
-    /**
-     * @var string
-     */
-    protected $institution;
-    /**
-     * @var string
-     */
-    protected $department;
-    /**
-     * @var string
-     */
-    protected $street;
-    /**
-     * @var string
-     */
-    protected $zipcode;
-    /**
-     * @var string
-     */
-    protected $city;
-    /**
-     * @var string
-     */
-    protected $country;
-    /**
-     * @var string
-     */
-    protected $sel_country;
-    /**
-     * @var string
-     */
-    protected $matriculation;
-    /**
-     * @var string
-     */
-    protected $firstname;
-    /**
-     * @var string
-     */
-    protected $lastname;
-    /**
-     * @var string
-     */
-    protected $email;
-    /**
-     * @var string
-     */
-    protected $phone;
-    /**
-     * @var string
-     */
-    protected $mobile_phone;
-    /**
-     * @var ilObjUser
-     */
-    protected $il_user_obj;
-
-    /**
-     * @return int
-     */
-    public function getUsrId()
+    final public function getUsrId() : int
     {
         return $this->usr_id;
     }
 
-    /**
-     * @param int $usr_id
-     */
-    public function setUsrId($usr_id)
+    final public function setUsrId(int $usr_id)
     {
         $this->usr_id = $usr_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getTimeLimitOwner()
+    final public function getTimeLimitOwner() : int
     {
         return $this->time_limit_owner;
     }
 
-    /**
-     * @param int $time_limit_owner
-     */
-    public function setTimeLimitOwner($time_limit_owner)
+    final public function setTimeLimitOwner(int $time_limit_owner)
     {
         $this->time_limit_owner = $time_limit_owner;
     }
 
-    /**
-     * @return int
-     */
-    public function getActive()
+    final  public function getActive() : int
     {
         return $this->active;
     }
 
-    /**
-     * @param int $active
-     */
-    public function setActive($active)
+    final public function setActive(int $active)
     {
         $this->active = $active;
     }
 
-    /**
-     * @return string
-     */
-    public function getLogin()
+    final  public function getLogin() : string
     {
         return $this->login;
     }
 
-    /**
-     * @param string $login
-     */
-    public function setLogin($login)
+    final  public function setLogin(string $login)
     {
         $this->login = $login;
     }
 
-    /**
-     * @return string
-     */
-    public function getFirstname()
+    final public function getFirstname() : string
     {
         return $this->firstname;
     }
 
-    /**
-     * @param string $firstname
-     */
-    public function setFirstname($firstname)
+    final public function setFirstname(string $firstname)
     {
         $this->firstname = $firstname;
     }
 
-    /**
-     * @return string
-     */
-    public function getLastname()
+    final public function getLastname() : string
     {
         return $this->lastname;
     }
 
-    /**
-     * @param string $lastname
-     */
-    public function setLastname($lastname)
+    final public function setLastname(string $lastname)
     {
         $this->lastname = $lastname;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail()
+    final public function getEmail() : string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
+    final public function setEmail(string $email)
     {
         $this->email = $email;
     }
 
-    /**
-     * @return string
-     */
-    public function getPhone()
+    final public function getPhone() : string
     {
         return $this->phone;
     }
 
-    /**
-     * @param string $phone
-     */
-    public function setPhone($phone)
+    final public function setPhone(string $phone)
     {
         $this->phone = $phone;
     }
 
-    /**
-     * @return string
-     */
-    public function getMobilePhone()
+    final public function getMobilePhone() : string
     {
         return $this->mobile_phone;
     }
 
-    /**
-     * @param string $mobile_phone
-     */
-    public function setMobilePhone($mobile_phone)
+    final public function setMobilePhone(string $mobile_phone)
     {
         $this->mobile_phone = $mobile_phone;
     }
 
-    /**
-     * @return int
-     */
-    public function getGender()
+    final  public function getGender() : int
     {
         return $this->gender;
     }
 
-    /**
-     * @param int $gender
-     */
-    public function setGender($gender)
+    final  public function setGender(int $gender)
     {
         $this->gender = $gender;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    final  public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
+    final  public function setTitle(string $title)
     {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
-    public function getHobby()
+    final public function getHobby() : string
     {
         return $this->hobby;
     }
 
-    /**
-     * @param string $hobby
-     */
-    public function setHobby($hobby)
+    final public function setHobby(string $hobby)
     {
         $this->hobby = $hobby;
     }
 
-    /**
-     * @return string
-     */
-    public function getInstitution()
+    final public function getInstitution() : string
     {
         return $this->institution;
     }
 
-    /**
-     * @param string $institution
-     */
-    public function setInstitution($institution)
+    final public function setInstitution(string $institution)
     {
         $this->institution = $institution;
     }
 
-    /**
-     * @return string
-     */
-    public function getDepartment()
+    final public function getDepartment() : string
     {
         return $this->department;
     }
 
-    /**
-     * @param string $department
-     */
-    public function setDepartment($department)
+    final public function setDepartment(string $department)
     {
         $this->department = $department;
     }
 
-    /**
-     * @return string
-     */
-    public function getStreet()
+    final public function getStreet() : string
     {
         return $this->street;
     }
 
-    /**
-     * @param string $street
-     */
-    public function setStreet($street)
+    final public function setStreet(string $street)
     {
         $this->street = $street;
     }
 
-    /**
-     * @return string
-     */
-    public function getZipcode()
+    final public function getZipcode() : string
     {
         return $this->zipcode;
     }
 
-    /**
-     * @param string $zipcode
-     */
-    public function setZipcode($zipcode)
+    final public function setZipcode(string $zipcode)
     {
         $this->zipcode = $zipcode;
     }
 
-    /**
-     * @return string
-     */
-    public function getCity()
+    final public function getCity() : string
     {
         return $this->city;
     }
 
-    /**
-     * @param string $city
-     */
-    public function setCity($city)
+    final  public function setCity(string $city)
     {
         $this->city = $city;
     }
 
-    /**
-     * @return string
-     */
-    public function getCountry()
+    final  public function getCountry() : string
     {
         return $this->country;
     }
 
-    /**
-     * @param string $country
-     */
-    public function setCountry($country)
+    final public function setCountry(string $country)
     {
         $this->country = $country;
     }
 
-    /**
-     * @return string
-     */
-    public function getSelCountry()
+    final public function getSelCountry() : string
     {
         return $this->sel_country;
     }
 
-    /**
-     * @param string $sel_country
-     */
-    public function setSelCountry($sel_country)
+    final public function setSelCountry(string $sel_country)
     {
         $this->sel_country = $sel_country;
     }
 
-    /**
-     * @return string
-     */
-    public function getMatriculation()
+    final public function getMatriculation() : string
     {
         return $this->matriculation;
     }
 
-    /**
-     * @param string $matriculation
-     */
-    public function setMatriculation($matriculation)
+    final public function setMatriculation(string $matriculation)
     {
         $this->matriculation = $matriculation;
     }
 
-    /**
-     * @return ilObjUser
-     */
-    public function returnIlUserObj()
+    final public function returnIlUserObj() : ilObjUser
     {
-        $il_obj_user = new ilObjUser($this->usr_id);
-
-        return $il_obj_user;
+        return new ilObjUser($this->usr_id);
     }
 }
