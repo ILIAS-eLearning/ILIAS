@@ -315,7 +315,7 @@ class ilMyStaffAccess extends ilObjectAccess
             $ref_ids = $this->getIdsForPositionAndOperation($user_assignment->getPositionId(), $operation,
                 $return_ref_id);
             if (count($ref_ids) > 0) {
-                $ids = array_merge($ids, $ref_ids);
+                array_merge($ids, $ref_ids);
             }
         }
 
@@ -329,7 +329,7 @@ class ilMyStaffAccess extends ilObjectAccess
             $ref_ids = $this->getIdsForPositionAndOperationAndContext($position_id, $operation, $context,
                 $return_ref_id);
             if (count($ref_ids) > 0) {
-                $ids = array_merge($ids, $ref_ids);
+                array_merge($ids, $ref_ids);
             }
         }
 
@@ -399,8 +399,9 @@ class ilMyStaffAccess extends ilObjectAccess
     ) : array {
         global $DIC;
 
-        assert($operation instanceof ilOrgUnitOperation);
+
         $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+        assert($operation instanceof ilOrgUnitOperation);
 
         $tmp_table_name = 'tmp_ilobj_user_matrix_' . $operation->getOperationId();
 
@@ -430,8 +431,8 @@ class ilMyStaffAccess extends ilObjectAccess
 
         $temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
 
-        assert($operation instanceof ilOrgUnitOperation);
         $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+        assert($operation instanceof ilOrgUnitOperation);
 
         $all_users_for_user = $this->getUsersForUser($GLOBALS['DIC']->user()->getId());
 
@@ -559,8 +560,8 @@ class ilMyStaffAccess extends ilObjectAccess
 
         $temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
 
-        assert($operation instanceof ilOrgUnitOperation);
         $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+        assert($operation instanceof ilOrgUnitOperation);
 
         if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
             . self::DEFAULT_CONTEXT

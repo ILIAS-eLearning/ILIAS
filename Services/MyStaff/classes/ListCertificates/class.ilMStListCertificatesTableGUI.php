@@ -262,7 +262,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
     }
 
-    private function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
             $a_csv->addColumn($v);
