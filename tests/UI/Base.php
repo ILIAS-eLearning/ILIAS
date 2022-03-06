@@ -113,7 +113,7 @@ class NoUIFactory implements Factory
     public function toast() : C\Toast\Factory
     {
     }
-    public function audio(string $src, string $transcript) : C\Audio\Audio
+    public function player() : C\Player\Factory
     {
     }
 }

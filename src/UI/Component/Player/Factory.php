@@ -33,7 +33,9 @@ interface Factory
      * rules:
      *   accessibility:
      *     1: >
-     *        A transcript text SHOULD be provided, if the audio content contains speech.
+     *        A transcript text SHOULD be provided, if the audio content contains speech. This mainly
+     *        adresses the "Text Alternatives" accessibility guideline, for details visit:
+     *        https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/accessibility.md#guideline-text-alternatives
      * context:
      *   - Listing Items in Panels
      * ----

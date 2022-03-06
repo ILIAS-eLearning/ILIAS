@@ -77,7 +77,7 @@ interface Factory
      * description:
      *   purpose: >
      *       The Player component is used to play and control a media source. The source
-     *       is either a local path on the filesystem or a URL of an external resource.
+     *       is either a relative web root path or a URL of an external resource.
      *   composition: >
      *       The Player component is composed by a play/pause button, a playtime presentation,
      *       a volume button, a volume slider and a time slider. Players dedicated to
@@ -95,9 +95,6 @@ interface Factory
      *     1: >
      *        The widget will be presented with the full width of its container. The controls will use a default
      *        high contrast presentation provided by the respective library being used.
-     * context:
-     *   - Listing Items in Panels
-     *   - Main Content Section
      * ----
      * @return  \ILIAS\UI\Component\Player\Factory
      */
