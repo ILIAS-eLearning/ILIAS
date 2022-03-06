@@ -15,15 +15,8 @@ require_once('./Modules/Cloud/classes/class.ilCloudPluginListGUI.php');
  */
 class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
 {
-
-    /**
-     * @var ilAdvancedSelectionListGUI
-     */
-    protected $selection_list;
-    /**
-     * @var ilcloudFileNode
-     */
-    protected $node = null;
+    protected ilAdvancedSelectionListGUI $selection_list;
+    protected ?ilcloudFileNode $node = null;
 
     public function getSelectionListItemsHTML(bool $delete_item = false, bool $delete_folder = false, ilCloudFileNode $node): string
     {
