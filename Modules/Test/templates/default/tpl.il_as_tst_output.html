@@ -42,36 +42,36 @@
 					<!-- END next_locks_changed_modal -->
 					<!-- BEGIN next_locks_unchanged_modal -->{NEXT_LOCKS_UNCHANGED_MODAL}
 					<!-- END next_locks_unchanged_modal -->
+					<!-- BEGIN instant_response_header -->
+					<div<!-- BEGIN inst_resp_id --> id="{INSTANT_RESPONSE_FOCUS_ID}"
+						<!-- END inst_resp_id -->><h2 class="ilc_page_title_PageTitle">{INSTANT_RESPONSE_HEADER}</h2>
+					</div>
+					<!-- END instant_response_header -->
+					<!-- BEGIN received_points_information -->
+					<p>{RECEIVED_POINTS_INFORMATION}</p>
+					<!-- END received_points_information -->
+					<!-- BEGIN answer_feedback -->
+					<div class="{ILC_FB_CSS_CLASS}">{ANSWER_FEEDBACK}</div>
+					<!-- END answer_feedback -->
+					<!-- BEGIN specific_feedback -->
+					<div class="test_specific_feedback">{SPECIFIC_FEEDBACK}</div>
+					<!-- END specific_feedback -->
+					<!-- BEGIN solution_output -->
+					<!-- BEGIN solution_output_details -->
+					<p><strong>{CORRECT_SOLUTION}</strong></p>
+					<div class="ilc_question_Standard">
+						{QUESTION_FEEDBACK}
+					</div>
+					<!-- END solution_output_details -->
+					<!-- END solution_output -->
+					<!-- fau: testNav - add block for instant feedback  modal -->
+					<!-- BEGIN instant_response_modal -->
+					<div class="ilc_Page readonly">
+						{INSTANT_RESPONSE_MODAL}
+					</div>
+					<!-- END instant_response_modal -->
+					<!-- fau. -->
 				</div>
-				<!-- BEGIN instant_response_header -->
-				<div<!-- BEGIN inst_resp_id --> id="{INSTANT_RESPONSE_FOCUS_ID}"
-					<!-- END inst_resp_id -->><h2 class="ilc_page_title_PageTitle">{INSTANT_RESPONSE_HEADER}</h2>
-				</div>
-				<!-- END instant_response_header -->
-				<!-- BEGIN received_points_information -->
-				<p>{RECEIVED_POINTS_INFORMATION}</p>
-				<!-- END received_points_information -->
-				<!-- BEGIN answer_feedback -->
-				<div class="{ILC_FB_CSS_CLASS}">{ANSWER_FEEDBACK}</div>
-				<!-- END answer_feedback -->
-				<!-- BEGIN specific_feedback -->
-				<div class="test_specific_feedback">{SPECIFIC_FEEDBACK}</div>
-				<!-- END specific_feedback -->
-				<!-- BEGIN solution_output -->
-				<!-- BEGIN solution_output_details -->
-				<p><strong>{CORRECT_SOLUTION}</strong></p>
-				<div class="ilc_question_Standard">
-					{QUESTION_FEEDBACK}
-				</div>
-				<!-- END solution_output_details -->
-				<!-- END solution_output -->
-				<!-- fau: testNav - add block for instant feedback  modal -->
-				<!-- BEGIN instant_response_modal -->
-				<div class="ilc_Page readonly">
-					{INSTANT_RESPONSE_MODAL}
-				</div>
-				<!-- END instant_response_modal -->
-				<!-- fau. -->
 			</div>
 			<!-- BEGIN navigation_bottom -->
 			<div class="ilTstNavigation">
