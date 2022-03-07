@@ -73,29 +73,29 @@ interface Factory
      *      measurement-item-value-pair. The composition of the axes in a Bar Chart depends
      *      on whether it is a Vertical Bar Chart or Horizontal Bar Chart. The legend
      *      comprises the label and color of each key. The keys represent the
-     *      types of formation of the bars displayed.
+     *      dimensions of the bars displayed.
      *   effect: >
      *      Hovering over a bar within the Bar Chart triggers a tooltip displaying its
-     *      measurement-item-value-pair and its type of formation.
-     *      Clicking on a key in the legend hides the bars of that type of formation.
+     *      measurement-item-value-pair and its dimension.
+     *      Clicking on a key in the legend hides the bars of that dimension.
      *      Clicking again on it will show the respective bars.
      * context:
      *     - Bar Charts are to be used to visualize competence records.
      * rules:
      *   composition:
      *     1: >
-     *        Especially when multiple types of formation are used, Bar Charts SHOULD
+     *        Especially when multiple dimensions are used, Bar Charts SHOULD
      *        display a legend, which shows the label and color of the keys.
      *   style:
      *     1: >
-     *        Bars of different types of formation SHOULD have different colors to be
+     *        Bars of different dimensions SHOULD have different colors to be
      *        distinguishable.
      *   responsiveness:
      *     1: >
      *        On smaller screens, the Bar Chart MUST shrink until it reaches its minimum size.
      *   accessibility:
      *     1: >
-     *        For each type of formation, the measurement-item-value-pairs MUST be presented
+     *        For each dimension, the measurement-item-value-pairs MUST be presented
      *        in a textual form, which MUST be accessible for screen readers.
      * ---
      * @return \ILIAS\UI\Component\Chart\Bar\Factory
