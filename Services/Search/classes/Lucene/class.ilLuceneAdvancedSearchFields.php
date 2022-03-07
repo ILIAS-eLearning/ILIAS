@@ -450,7 +450,7 @@ class ilLuceneAdvancedSearchFields
                 // #17071 - reload search values
                 if (is_array($a_query) &&
                     array_key_exists($a_field_name, $a_query)) {
-                    $field_form->importFromPost($a_query);
+                    $field_form->importFromPost((array) $a_query);
                     $field_form->validate();
                 }
                 
