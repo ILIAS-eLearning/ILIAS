@@ -18975,34 +18975,36 @@ span.ilProfileBadge .modal .img-responsive {
   font-size: 100%;
   margin-top: 0;
 }
-#tst_output #taForm {
+#tst_output {
   display: flex;
+}
+#tst_output #taForm {
   background: transparent;
 }
-#tst_output #taForm #tst_left {
+#tst_output #tst_left {
   width: 20%;
   min-width: 200px;
   margin-right: 12px;
 }
-#tst_output #taForm #tst_left:empty {
+#tst_output #tst_left:empty {
   display: none;
   visibility: hidden;
 }
 @media screen and (max-width: 768px) {
-  #tst_output #taForm #tst_left {
+  #tst_output #tst_left {
     margin-right: 0;
     width: 100%;
   }
 }
-#tst_output #taForm #tst_right {
+#tst_output #tst_right {
   flex-grow: 1;
 }
-#tst_output #taForm #tst_right .ilc_Page {
+#tst_output #tst_right .ilc_Page {
   background-color: white;
   padding: 6px 12px;
 }
 @media screen and (max-width: 768px) {
-  #tst_output #taForm {
+  #tst_output {
     flex-direction: column-reverse;
   }
 }
@@ -19011,28 +19013,6 @@ span.ilProfileBadge .modal .img-responsive {
   padding: 6px 12px;
   justify-content: space-between;
   background-color: #f9f9f9;
-}
-#tst_output .ilTstNavigation #bottomprevbutton .glyphicon-arrow-left:before {
-  font-family: 'il-icons';
-  content: "\e605";
-}
-#tst_output .ilTstNavigation #bottomnextbutton .glyphicon-arrow-right:before {
-  font-family: 'il-icons';
-  content: "\e606";
-}
-#tst_output #tst_left {
-  /*
-    ul.shortlist li.listEntry a
-    {
-        text-decoration:none;
-        color:#0033AA;
-    }
-    
-    ul.shortlist li.listEntry a:hover
-    {
-        text-decoration: underline;
-    }
-    */
 }
 #tst_output #tst_left ul.shortlist {
   list-style-type: none;

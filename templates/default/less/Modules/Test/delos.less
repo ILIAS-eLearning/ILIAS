@@ -1,7 +1,9 @@
 // general layout
-#tst_output #taForm {
+#tst_output {
     display: flex;
-    background: transparent;
+	#taForm {
+		background: transparent;
+	}
     // left column: list of questions
     #tst_left {
         width: 20%;
@@ -34,20 +36,6 @@
     padding: @il-test-padding-large-vertical @il-test-padding-large-horizontal; // like a panel
     justify-content: space-between;
     background-color: @il-main-dark-bg;
-    #bottomprevbutton {
-        // can correct glyph be selected in php?
-        .glyphicon-arrow-left:before {
-            font-family: 'il-icons';
-            content: "\e605";
-        }
-    }
-    #bottomnextbutton {
-        // can correct glyph be selected in php?
-        .glyphicon-arrow-right:before {
-            font-family: 'il-icons';
-            content: "\e606";
-        }
-    }
 }
 
 // question list
@@ -71,18 +59,6 @@
             }
         }
     }
-    /*
-    ul.shortlist li.listEntry a
-    {
-        text-decoration:none;
-        color:#0033AA;
-    }
-    
-    ul.shortlist li.listEntry a:hover
-    {
-        text-decoration: underline;
-    }
-    */
 }
 
 // main page area elements
