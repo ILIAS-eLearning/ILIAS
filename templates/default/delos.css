@@ -18975,80 +18975,7 @@ span.ilProfileBadge .modal .img-responsive {
   font-size: 100%;
   margin-top: 0;
 }
-#tst_output {
-  display: flex;
-}
-#tst_output #taForm {
-  background: transparent;
-}
-#tst_output #tst_left {
-  width: 20%;
-  min-width: 200px;
-  margin-right: 12px;
-}
-#tst_output #tst_left:empty {
-  display: none;
-  visibility: hidden;
-}
-@media screen and (max-width: 768px) {
-  #tst_output #tst_left {
-    margin-right: 0;
-    width: 100%;
-  }
-}
-#tst_output #tst_right {
-  flex-grow: 1;
-}
-#tst_output #tst_right .ilc_Page {
-  background-color: white;
-  padding: 6px 12px;
-}
-@media screen and (max-width: 768px) {
-  #tst_output {
-    flex-direction: column-reverse;
-  }
-}
-#tst_output .ilTstNavigation {
-  display: flex;
-  padding: 6px 12px;
-  justify-content: space-between;
-  background-color: #f9f9f9;
-}
-#tst_output #tst_left ul.shortlist {
-  list-style-type: none;
-  padding: 0;
-}
-#tst_output #tst_left ul.shortlist li {
-  padding: 0 0 6px 18px;
-  background-repeat: no-repeat;
-  background-size: 10px;
-  background-position: 0px 5px;
-}
-#tst_output #tst_left ul.shortlist li.unanswered {
-  background-image: url('images/answered_not.svg');
-}
-#tst_output #tst_left ul.shortlist li.answered {
-  background-image: url('images/answered.svg');
-}
-#tst_output #tst_left ul.shortlist li.active {
-  font-weight: bold;
-}
-#tst_output #tst_right .ilTstWorkingFormBlock_WorkingTime {
-  text-align: center;
-  clear: both;
-}
-#tst_output #tst_right .ilTstWorkingFormBlock_WorkingTime .ilTstWorkingFormInfo_UserWorkingTime {
-  visibility: hidden;
-  display: none;
-}
-#tst_output #tst_right .ilTstWorkingFormBlock_WorkingTime .ilTstWorkingFormInfo_ProcessTimeLeft {
-  font-size: 18px;
-  font-weight: bold;
-}
-#tst_output #tst_right h1.ilc_page_title_PageTitle {
-  margin-bottom: 6px;
-}
-/* former ta.css */
+/* leftover from former ta.css */
 .kiosk {
   padding: 2em;
   background-color: #fafafa;
@@ -19536,6 +19463,79 @@ div.ilc_Page.readonly textarea[disabled] {
 }
 .ilc_question_SingleChoice .ilc_qanswer_Answer > div {
   vertical-align: top;
+}
+#tst_output {
+  display: flex;
+}
+#tst_output #taForm {
+  background: transparent;
+}
+#tst_output #tst_left {
+  width: 20%;
+  min-width: 200px;
+  margin-right: 12px;
+}
+#tst_output #tst_left:empty {
+  display: none;
+  visibility: hidden;
+}
+@media screen and (max-width: 768px) {
+  #tst_output #tst_left {
+    margin-right: 0;
+    width: 100%;
+  }
+}
+#tst_output #tst_right {
+  flex-grow: 1;
+}
+#tst_output #tst_right .ilc_Page {
+  background-color: white;
+  padding: 6px 12px;
+}
+@media screen and (max-width: 768px) {
+  #tst_output {
+    flex-direction: column-reverse;
+  }
+}
+#tst_output .ilTstNavigation {
+  display: flex;
+  padding: 6px 12px;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+}
+#tst_output #tst_left ul.shortlist {
+  list-style-type: none;
+  padding: 0;
+}
+#tst_output #tst_left ul.shortlist li {
+  padding: 0 0 6px 18px;
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: 0px 5px;
+}
+#tst_output #tst_left ul.shortlist li.unanswered {
+  background-image: url('images/answered_not.svg');
+}
+#tst_output #tst_left ul.shortlist li.answered {
+  background-image: url('images/answered.svg');
+}
+#tst_output #tst_left ul.shortlist li.active {
+  font-weight: bold;
+}
+#tst_output #tst_right .ilTstWorkingFormBlock_WorkingTime {
+  text-align: center;
+  clear: both;
+}
+#tst_output #tst_right .ilTstWorkingFormBlock_WorkingTime .ilTstWorkingFormInfo_UserWorkingTime {
+  visibility: hidden;
+  display: none;
+}
+#tst_output #tst_right .ilTstWorkingFormBlock_WorkingTime .ilTstWorkingFormInfo_ProcessTimeLeft {
+  font-size: 18px;
+  font-weight: bold;
+}
+#tst_output #tst_right h1.ilc_page_title_PageTitle {
+  margin-bottom: 6px;
 }
 .noMargin {
   margin: 0;
