@@ -288,7 +288,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $button->setId('bottomnextbutton');
 
         $this->tpl->setCurrentBlock("next_bottom");
-        $this->tpl->setVariable("BTN_NEXT", $button->render());
+        $this->tpl->setVariable("BTN_NEXT_BOTTOM", $button->render());
         $this->tpl->parseCurrentBlock();
     }
 
@@ -308,7 +308,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $button->setId('bottomprevbutton');
 
         $this->tpl->setCurrentBlock("prev_bottom");
-        $this->tpl->setVariable("BTN_PREV", $button->render());
+        $this->tpl->setVariable("BTN_PREV_BOTTOM", $button->render());
         $this->tpl->parseCurrentBlock();
     }
 
