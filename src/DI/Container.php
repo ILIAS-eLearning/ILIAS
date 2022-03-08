@@ -4,7 +4,6 @@
 namespace ILIAS\DI;
 
 use ILIAS\BackgroundTasks\BackgroundTaskServices;
-use ILIAS\Data\Clock\ClockFactoryImpl;
 use ILIAS\Repository;
 use ILIAS\Skill\Service\SkillService;
 
@@ -15,7 +14,7 @@ use ILIAS\Skill\Service\SkillService;
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
  * of said license along with the source code.
  *
- * If this is not the case or you just want to try ILIAS, you'll find
+ * If this is not the case, or you just want to try ILIAS, you'll find
  * us at:
  *      https://www.ilias.de
  *      https://github.com/ILIAS-eLearning
@@ -24,7 +23,7 @@ use ILIAS\Skill\Service\SkillService;
 /**
  * Customizing of pimple-DIC for ILIAS.
  *
- * This just exposes some of the services in the container as plain methods
+ * This just exposes some services in the container as plain methods
  * to help IDEs when using ILIAS.
  */
 class Container extends \Pimple\Container
