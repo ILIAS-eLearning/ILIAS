@@ -599,10 +599,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $mode = \ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES;
         }
         if ($a_start_obj) {
-
             $operation_stack = [];
             if ($a_operation_mode !== \ilObjRole::MODE_READ_OPERATIONS) {
-                $operation_stack[] = $review->getAllOperationsOfRole($a_source_role, $a_start_obj);
+                $operation_stack[] = $review->getAllOperationsOfRole($a_source_role, $this->ref_id);
             }
 
             $this->logger->debug('Current operation stack');
