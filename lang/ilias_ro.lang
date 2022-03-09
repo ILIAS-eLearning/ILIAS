@@ -15827,8 +15827,6 @@ prg#:#modal_categories_title#:#Category to be monitored###07 02 2020 new variabl
 prg#:#category#:#Category###07 02 2020 new variable
 common#:#obj_prgr#:#Link to Study Programme###07 02 2020 new variable
 common#:#obj_prgrs#:#Links to Study Programmes###07 02 2020 new variable
-prg#:#prgr_new#:#Create Study Programme Link###07 02 2020 new variable
-prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###07 02 2020 new variable
 prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.###07 02 2020 new variable
 prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry###07 02 2020 new variable
 prg#:#prg_validity_of_qualification_restart#:#Restart###07 02 2020 new variable
@@ -16618,3 +16616,22 @@ common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
 content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
 forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable
+assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###09 03 2022 new variable
+assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###09 03 2022 new variable
+common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service###09 03 2022 new variable
+content#:#cont_pc_media#:#Image/Media###09 03 2022 new variable
+dateplaner#:#cal_change_calendar_view#:#Change Calendar View###09 03 2022 new variable
+common#:#obj_chtr_duplicate#:#Copy Chat Room###09 03 2022 new variable
+assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
+assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+common#:#prgr_new#:#Create Study Programme Link###09 03 2022 new variable
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###09 03 2022 new variable
+file#:#migrated#:#Status###09 03 2022 new variable
+exc#:#exc_fullscreen#:#Fullscreen###09 03 2022 new variable
+rating#:#rating_avg_rating#:#Average Rating###09 03 2022 new variable
+rating#:#rating_personal_rating#:#Your Rating###09 03 2022 new variable
+rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars###09 03 2022 new variable
+rating#:#rating_open_dialog#:#Open rating dialog###09 03 2022 new variable
+tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###09 03 2022 new variable
+rep#:#rep_favourites#:#Favourites###09 03 2022 new variable
+rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###09 03 2022 new variable
