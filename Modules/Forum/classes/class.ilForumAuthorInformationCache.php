@@ -54,7 +54,6 @@ class ilForumAuthorInformationCache
                 $user->setTitle($row['title']);
                 $user->setFirstname($row['firstname']);
                 $user->setLastname($row['lastname']);
-                $user->create_date = $row['create_date']; // create_date is currently a public member, has to be changed in future evtl.
                 $user->setPref('public_profile', $row['public_profile']);
                 $user->setPref('public_gender', $row['public_gender']);
                 $user->setPref('public_upload', $row['public_upload']);

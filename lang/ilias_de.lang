@@ -382,7 +382,7 @@ forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des
 forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
 adve#:#adve_grp_frm#:#Foren
 itgr#:#itgr_show_title#:#Titel anzeigen
-itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner angezeigt.
+itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird angezeigt.###Modified as part of gender mainstreaming activities for ILIAS 8
 itgr#:#itgr_behaviour#:#Verhalten
 itgr#:#itgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
 itgr#:#itgr_always_open#:#Immer offen
@@ -491,7 +491,7 @@ administration#:#adm_db_benchmark_user#:#Benutzer-Login
 administration#:#adm_db_benchmark_user_desc#:#Für diesen Benutzer wird die Messung durchgeführt. Sie sollten nicht den gleichen Benutzer verwenden, der die Funktion aktiviert.
 administration#:#adm_edit_settings_template#:#Vorlagen bearbeiten
 administration#:#adm_hide#:#Im Einstellungsformular ausblenden
-administration#:#adm_hide_tabs#:#Tabs ausblenden
+administration#:#adm_hide_tabs#:#Reiter ausblenden
 administration#:#adm_item_cmd_asynch#:#Asynchrones Laden der Aktionsmenüs im Magazin
 administration#:#adm_item_cmd_asynch_info#:#Aktionsmenüs, z. B. im Magazin, werden asynchron geladen. Dies erhöht die Performanz allgemein. In Einzelfällen kann es zu kurzen Verzögerungen beim Anzeigen des Popup-Menüs kommen.
 administration#:#adm_locale#:#Locale
@@ -625,7 +625,7 @@ administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#obj_blga#:#Blog
 administration#:#obj_blga_desc#:#Globale Blogeinstellungen
 common#:#obj_frma#:#Forum
-common#:#obj_frma_desc#:#Globale Foreneinstellungen
+common#:#obj_frma_desc#:#Globale Einstellungen des Forums
 administration#:#obj_mds#:#Metadaten
 administration#:#obj_mds_desc#:#Einstellungen für Metadaten
 administration#:#obj_otpl#:#Didaktische Vorlagen
@@ -4388,7 +4388,7 @@ common#:#shib_country#:#Attribut für Land
 common#:#shib_data_conv#:#Pfad zum Daten Manipulations-API
 common#:#shib_data_conv_warning#:#Das angegebene Daten-Manipulations-API kann nicht gelesen werden.
 common#:#shib_department#:#Attribut für Departement
-common#:#shib_email#:#Attribut für E-Mailadresse
+common#:#shib_email#:#Attribut für E-Mail-Adresse
 common#:#shib_federation_name#:#Name der Shibboleth-Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
 common#:#shib_gender#:#Attribut für Anrede (muss 'n', 'm' oder 'f' sein)
@@ -4924,7 +4924,7 @@ content#:#cont_could_not_determine_resource_size#:#ILIAS konnte die Abmessungen 
 content#:#cont_cp_question_diff_formats_info#:#Beachten Sie bitte, dass einige Formatierungen in Content-Modulen nicht unterstützt werden.
 content#:#cont_create_link#:#Link erzeugen
 content#:#cont_create_mob#:#Medienobjekt anlegen
-content#:#cont_credit_mode#:#Bewertung / Steuerung der Lerneraktivitäten
+content#:#cont_credit_mode#:#Bewertung###Modified as part of gender mainstreaming activities for ILIAS 8
 content#:#cont_credit_off#:#Ohne Bewertung
 content#:#cont_credit_on#:#Mit Bewertung (bestanden | nicht bestanden)
 content#:#cont_credits#:#Punkte
@@ -5861,7 +5861,7 @@ crs#:#crs_status_determination#:#Bestimmung des Status "Bestanden"
 crs#:#crs_status_determination_lp#:#Aus Lernfortschritt ableiten
 crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf "Bearbeitet", wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben.
 crs#:#crs_status_determination_manual#:#Nur manuell durch Tutor
-crs#:#crs_status_determination_sync#:#Der Bestanden-Status des Kurses wird automatisch gesetzt, sobald ein Lerner alle Lernfortschritts-relevanten Aktivitäten abgeschlossen hat. Bereits bestehender Fortschritt wird berücksichtigt, manuell gesetzte Bestanden-Status bleiben unverändert. Möchten Sie den Bestanden-Status jetzt auf Basis des jeweiligen aktuellen Lernfortschritts setzen?
+crs#:#crs_status_determination_sync#:#Der Lernfortschritt dieses Kurses wird automatisch auf „Bestanden“ gesetzt, sobald jemand alle dafür erforderlichen Aktivitäten abgeschlossen hat. Bereits erzielte Lernfortschritte werden berücksichtigt. Ein manuell gesetzter Status bleibt unverändert. Möchten Sie den Status „Bestanden“ jetzt automatisch bestimmen?###Modified as part of gender mainstreaming activities for ILIAS 8
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subject_course_group_notification#:#Mail-Zusammenfassung für %s
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
@@ -6055,10 +6055,11 @@ dateplaner#:#cal_cg_registrations#:#Anmeldung für Kurs/Gruppentermine
 dateplaner#:#cal_ch_add_sequence#:#Neue Sprechstundenreihe anlegen
 dateplaner#:#cal_ch_book#:#Sprechstunde buchen
 dateplaner#:#cal_ch_booking#:#Ressourcen-Buchung
-dateplaner#:#cal_ch_booking_owner#:#Inhaber
+dateplaner#:#cal_ch_booking_owner#:#Sprechstunde bei###Modified as part of gender mainstreaming activities for ILIAS 8
 dateplaner#:#cal_ch_bookings#:#Teilnehmer
 dateplaner#:#cal_ch_cancel_booking#:#Buchung stornieren
 dateplaner#:#cal_ch_ch#:#Sprechstundentermine
+dateplaner#:#cal_change_calendar_view#:#Kalenderansicht ändern
 dateplaner#:#cal_ch_current_bookings#:#Aktuelle Teilnehmer
 dateplaner#:#cal_ch_deadline#:#Späteste Anmeldung
 dateplaner#:#cal_ch_deadline_info#:#Bitte legen Sie fest, bis zu wie viel Stunden vor der Sprechstunde eine Anmeldung ermöglicht werden soll.
@@ -6478,7 +6479,7 @@ exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur
 exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für Sie hochgeladen.
 exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
-exc#:#exc_msg_saved_grades#:#Note(n)/Kommentar(e) für Lerner wurden gespeichert.
+exc#:#exc_msg_saved_grades#:#Die Änderungen wurden gespeichert.###Modified as part of gender mainstreaming activities for ILIAS 8
 exc#:#exc_msg_sure_to_deassign_participant#:#Wollen Sie wirklich die folgenden Teilnehmer aus allen Übungseinheiten der Übung entfernen? Alle Lösungsabgaben aus allen Übungseinheiten der Teilnehmer werden gelöscht.
 exc#:#exc_new_assignment#:#Neue Übungseinheit
 exc#:#exc_no_assignments_available#:#Keine Übungseinheiten vorhanden. Bitte wählen Sie "Übungseinheiten" und "Bearbeiten", um eine Übungseinheit zu erstellen.
@@ -6678,7 +6679,7 @@ forum#:#frm_moderator_m#:#Moderator
 forum#:#frm_moderator_n#:#Moderation
 forum#:#frm_moderator_role_added_successfully#:#Die Person hat jetzt das Recht zu moderieren.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators#:#Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
-forum#:#frm_moderators_detached_role_successfully#:#Das Recht zu moderieren wurde den ausgewählten Personen entzogen.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#frm_moderators_detached_role_successfully#:#Das Recht zu moderieren, wurde den ausgewählten Personen entzogen.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators_not_exist_yet#:#Bitte fügen Sie eine Person für die Moderation hinzu.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens eine Person aus.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer für die Moderation.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -7119,21 +7120,21 @@ mail#:#mail_external_test_sent#:#An die in Ihrem Profil hinterlegte E-Mail-Adres
 mail#:#mail_smtp_user#:#Benutzer
 mail#:#mail_smtp_password#:#Passwort
 mail#:#mail_smtp_password_req#:#Sofern Sie einen Benutzer angeben, ist das Passwort obligatorisch.
-mail#:#mail_system_usr_from_addr#:#E-Mail-Adresse des Absenders (From)
-mail#:#mail_system_usr_from_addr_info#:#Tragen Sie hier die Absender-Adresse ein. Der Wert aus dem 'FROM'-Header wird dazu genutzt, den Sender einer E-Mail im E-Mail-Client der Empfänger anzuzeigen. Die E-Mail-Adresse jenes Benutzerkontos, das eine manuell erstellte Nachricht versendet, wird automatisch in den 'Reply-To'-Header übernommen.<br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>
-mail#:#mail_system_usr_from_name#:#Name des Absenders (From)
-mail#:#mail_system_usr_from_name_info#:#Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch die jeweiligen Daten des Absenders der E-Mail ersetzt.
-mail#:#mail_system_usr_env_from_addr#:#Technischer Absender
-mail#:#mail_system_usr_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
-mail#:#mail_system_sys_env_from_addr_info#:#Sofern dieses Feld leer gelassen wird, wird die E-Mail-Adresse des Absenders genutzt, sofern der SMTP-Versand genutzt wird. Andernfalls ist es die Aufgabe des Server-Administrators, den Header zu konfigurieren.
-mail#:#mail_system_sys_from_addr#:#E-Mail-Adresse des Absenders (From)
-mail#:#mail_system_sys_from_addr_info#:#Tragen Sie hier die Absender-Adresse ein. Der Wert aus dem 'FROM'-Header wird dazu genutzt, den Sender einer E-Mail im E-Mail-Client der Empfänger anzuzeigen.<br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>
-mail#:#mail_system_sys_from_name#:#Name des Absenders (From)
+mail#:#mail_system_usr_from_addr#:#„FROM”-Adresse für manuell versendete E-Mails###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_usr_from_addr_info#:#Damit die manuell aus ILIAS versendeten E-Mails nicht als Spam abgelehnt werden, muss hier eine absendende Adresse (technisch: „FROM”-Header) eingetragen werden. Bei manuell verschickten E-Mails wird die zu einem Benutzerkonto gehörige Adresse als Antwortadresse (technisch: „REPLY- TO”-Header) übernommen. <br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_usr_from_name#:#„FROM”-Name und Format###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_usr_from_name_info#:#Dieser Name wird üblicherweise im E-Mail-Client in der Spalte „Von“ angezeigt. Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch die jeweiligen Daten der Person ersetzt, die eine manuelle E-Mail versendet hat.###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_usr_env_from_addr#:#Technische Absendeadresse („SENDER“)###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_usr_env_from_addr_info#:#Tragen Sie hier die technische Absendeadresse („SENDER”-Header) ein. Lassen Sie das Feld leer, wird bei externem Versand die E-Mail-Adresse der absendenden Person („FROM“-Header) genutzt. Andernfalls ist es die Aufgabe der Server-Administration, den Header zu konfigurieren.###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_sys_env_from_addr_info#:#Tragen Sie hier die technische Absendeadresse („SENDER”-Header) ein. Lassen Sie das Feld leer, wird bei externem Versand die E-Mail-Adresse der absendenden Person („FROM“-Header) genutzt. Andernfalls ist es die Aufgabe der Server-Administration, den Header zu konfigurieren.###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_sys_from_addr#:#„FROM”-Adresse für automatisch versendete E-Mails
+mail#:#mail_system_sys_from_addr_info#:#Damit die automatisch aus ILIAS versendeten E-Mails nicht als Spam abgelehnt werden, muss hier eine absendende Adresse (technisch: „FROM”-Header) eingetragen werden. <br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_sys_from_name#:#„FROM”-Name###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
-mail#:#mail_system_sys_env_from_addr#:#Technischer Absender
+mail#:#mail_system_sys_env_from_addr#:#Technische Absendeadresse („SENDER“)###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_use_global_reply_to_addr#:#Globale Reply-To-Adresse nutzen
-mail#:#mail_use_global_reply_to_addr_info#:#Falls aktiviert, wird die unten eingetragene globale E-Mail-Adresse für den 'Reply-To'-Header der E-Mail genutzt. Somit wird die E-Mail-Adresse eines Senders nicht offengelegt. Eine direkte Antwort auf eine E-Mail ist dann nicht mehr möglich.
+mail#:#mail_use_global_reply_to_addr_info#:#Tragen Sie eine E-Mail-Adresse ein, die plattformweit als Antwortadresse (technisch: „REPLY-TO“) verwendet wird. Sie verhindern damit die Offenlegung der E-Mail-Adressen der absendenden Personen. Eine direkte Antwort auf eine E-Mail ist dann nicht mehr möglich.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Bitte tragen Sie hier die gewünschte 'Reply-To'-E-Mail-Adresse ein.
 mail#:#mail_s#:#Mails
@@ -8483,33 +8484,33 @@ scormdebug#:#cmi.comments_from_lms.n.location#:#Position innerhalb des SCO, auf 
 scormdebug#:#cmi.comments_from_lms.n.timestamp#:#Zeitpunkt, an dem der Kommentar erstellt oder zuletzt ge&auml;ndert wurde
 scormdebug#:#cmi.completion_status#:#kennzeichnet, ob und in welchem Umfang das SCO bearbeitet wurde
 scormdebug#:#cmi.completion_threshold#:#bestimmt, ab welchem Grad ein SCO als vollst&auml;ndig bearbeitet (completed) gilt.
-scormdebug#:#cmi.credit#:#bestimmt, ob der Lernfortschritt f&uuml;r die/den Lernende(n) erfasst werden soll
-scormdebug#:#cmi.entry#:#&uuml;bermittelt, ob die/der Lernende das SCO bereits bearbeitet hat
-scormdebug#:#cmi.exit#:#&uuml;bermittelt, warum und wie die/der Lernende das SCO verlassen hat
+scormdebug#:#cmi.credit#:#bestimmt, ob der Lernfortschritt erfasst werden soll.###Modified as part of gender mainstreaming activities for ILIAS 8
+scormdebug#:#cmi.entry#:#übermittelt, ob das SCO bereits bearbeitet wurde.###Modified as part of gender mainstreaming activities for ILIAS 8
+scormdebug#:#cmi.exit#:#übermittelt, warum und wie das SCO verlassen wurde.###Modified as part of gender mainstreaming activities for ILIAS 8
 scormdebug#:#cmi.interactions._children#:#Auflistung der hier unterst&uuml;tzten Elemente des Datenmodells
 scormdebug#:#cmi.interactions._count#:#aktuelle Anzahl der vom LMS gespeicherten Interaktionen
 scormdebug#:#cmi.interactions.n.correct_responses._count#:#aktuelle Anzahl richtiger Antworten, die vom LMS f&uuml;r diese Interaktion gespeichert wurden
 scormdebug#:#cmi.interactions.n.correct_responses.n.pattern#:#eine richtige Antwort f&uuml;r diese Interaktion
 scormdebug#:#cmi.interactions.n.description#:#Beschreibung der Interaktion
 scormdebug#:#cmi.interactions.n.id#:#eindeutige ID der Interaktion
-scormdebug#:#cmi.interactions.n.latency#:#verstrichene Zeit zwischen der Bereitstellung der Interaktion und der Antwort der/des Lernenden
-scormdebug#:#cmi.interactions.n.learner_response#:#Antwort der/des Lernenden zu dieser Interaktion
-scormdebug#:#cmi.interactions.n.objectives._count#:#aktuelle Anzahl der Lernziele, die vom LMS f&uuml;r diese Interaktion gespeichert wurde
+scormdebug#:#cmi.interactions.n.latency#:#verstrichene Zeit zwischen der Bereitstellung der Interaktion und der Antwort###Modified as part of gender mainstreaming activities for ILIAS 8
+scormdebug#:#cmi.interactions.n.learner_response#:#Antwort zu dieser Interaktion###Modified as part of gender mainstreaming activities for ILIAS 8
+scormdebug#:#cmi.interactions.n.objectives._count#:#aktuelle Anzahl der Lernziele, die vom LMS für diese Interaktion gespeichert wurde
 scormdebug#:#cmi.interactions.n.objectives.n.id#:#ID des Lernziels, das mit dieser Interaktion verkn&uuml;pft ist
-scormdebug#:#cmi.interactions.n.result#:#Bewertung zur Richtigkeit der Antwort der/des Lernenden
+scormdebug#:#cmi.interactions.n.result#:#Bewertung, ob die Antwort richig ist###Modified as part of gender mainstreaming activities for ILIAS 8
 scormdebug#:#cmi.interactions.n.timestamp#:#Zeitpunkt, an dem die Interaktion zur Bearbeitung bereitgestellt wurde
 scormdebug#:#cmi.interactions.n.type#:#Typ der Interaktion
 scormdebug#:#cmi.interactions.n.weighting#:#Gewichtung dieser Interaktion bezogen auf andere Interaktionen
 scormdebug#:#cmi.launch_data#:#Daten, die dem SCO beim Start bereitgestellt werden
-scormdebug#:#cmi.learner_id#:#ID der/des Lernenden, wie sie im LMS gespeichert ist
-scormdebug#:#cmi.learner_name#:#Name der/des Lernenden, wie er im LMS gespeichert ist
+scormdebug#:#cmi.learner_id#:#ID der/des Lernenden, wie sie im LMS gespeichert ist###Modified as part of gender mainstreaming activities for ILIAS 8
+scormdebug#:#cmi.learner_name#:#Name, wie er im LMS gespeichert wird
 scormdebug#:#cmi.learner_preference._children#:#Auflistung der hier unterst&uuml;tzten Elemente des Datenmodells
 scormdebug#:#cmi.learner_preference.audio_captioning#:#stellt ein, ob Audio-erg&auml;nzender Text angezeigt werden soll
 scormdebug#:#cmi.learner_preference.audio_level#:#stellt die zu merkende Lautst&auml;rke ein bzw. ruft sie ab
 scormdebug#:#cmi.learner_preference.delivery_speed#:#stellt die zu merkende Geschwindigkeit der Contentdarbietung ein bzw. ruft sie ab
 scormdebug#:#cmi.learner_preference.language#:#stellt die zu merkende Sprache ein bzw. ruft sie ab
-scormdebug#:#cmi.location#:#aktuelle Position der/des Lernenden innerhalb des SCO
-scormdebug#:#cmi.max_time_allowed#:#gibt die der/dem Lernenden maximal erlaubten Lernzeit f&uuml;r das SCO aus
+scormdebug#:#cmi.location#:#aktuelle Position der Person innerhalb des SCO###Modified as part of gender mainstreaming activities for ILIAS 8
+scormdebug#:#cmi.max_time_allowed#:#gibt die maximal erlaubten Lernzeit für das SCO aus###Modified as part of gender mainstreaming activities for ILIAS 8
 scormdebug#:#cmi.mode#:#gibt an, in welchem Modus sich das SCO befindet
 scormdebug#:#cmi.objectives._children#:#Auflistung der hier unterst&uuml;tzten Elemente des Datenmodells
 scormdebug#:#cmi.objectives._count#:#aktuelle Anzahl der Lernziele, die vom LMS f&uuml;r das SCO gespeichert wurde
@@ -10585,8 +10586,8 @@ tax#:#tax_please_select_target#:#Bitte wählen Sie ein Ziel aus!
 tax#:#tax_confirm_deletion#:#Wollen Sie wirklich die gesamte Taxonomie mit allen Beziehungen löschen?
 tax#:#tax_tax_deleted#:#Die Taxonomie wurde gelöscht.
 tax#:#tax_add_taxonomy#:#Taxonomie hinzufügen
-content#:#cont_show_activation_info#:#Aktivierungsinformationen anzeigen
-content#:#cont_show_activation_info_info#:#Wenn die Aktivierung in der Zukunft liegt, wird die Seite nicht übersprungen. Dem Lerner wird eine Meldung mit dem Aktivierungszeitpunkt angezeigt.
+content#:#cont_show_activation_info#:#Hinweis###Modified as part of gender mainstreaming activities for ILIAS 8
+content#:#cont_show_activation_info_info#:#Bis zum Startdatum wird die Seite nicht übersprungen, sondern ein Hinweis auf ihre zeitliche Aktivierung angezeigt.###Modified as part of gender mainstreaming activities for ILIAS 8
 content#:#cont_page_activation_on#:#Der Inhalt wird aktiviert am %s.
 content#:#cont_hover#:#Hover
 content#:#cont_always#:#Immer
@@ -10689,7 +10690,7 @@ forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
 ecs#:#ecs_cms_tree_synchronize#:#Synchronisieren
 ecs#:#ecs_cms_tree_synchronized#:#Der Baum wurde synchronisiert.
-rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Repository aus.
+rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Magazin aus.
 rep#:#rep_activation_access_ref_info#:#Dieses Einstellung betrifft nur die aktuelle und keine andere Referenz.
 poll#:#poll_block_results_available_on#:#Die Ergebnisse werden am %s veröffentlicht.
 survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen.
@@ -10768,7 +10769,7 @@ dateplaner#:#cal_notification_users#:#Benachrichtigung für ausgewählte Benutze
 dateplaner#:#cal_adm_notification_user_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung an einzelne, auswählbare Benutzer versenden zu können.
 dateplaner#:#cal_err_invalid_notification_rcps#:#Die Empfänger für die E-Mail-Benachrichtigung sind nicht gültig. Bitte wählen geben Sie ausschließlich ILIAS-Benutzerkontennamen oder gültige E-Mail-Adressen an.
 dateplaner#:#cal_user_notification#:#Benutzerbenachrichtigung
-dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten eine E-Mail mit den Termindetails. Bitte geben Sie ILIAS-Benutzernamen oder gültige E-Mailadressen ein.
+dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten eine E-Mail mit den Termindetails. Bitte geben Sie ILIAS-Benutzernamen oder gültige E-Mail-Adressen ein.
 dateplaner#:#cal_cg_notification#:#Kurs/Gruppenbenachrichtigung
 dateplaner#:#cal_mail_notification_subject#:#Termineinladung: "%s"
 dateplaner#:#cal_mail_notification_body#:#Sie wurden zu einem Termin eingeladen.
@@ -11934,7 +11935,7 @@ bibl#:#ris_default_ty#:#Typ
 bibl#:#ris_default_ep#:#letzte Seite
 bibl#:#bibl_copy#:#Literaturliste kopieren
 mail#:#mail_filter#:#Filter
-mail#:#mail_filter_sender#:#Sender
+mail#:#mail_filter_sender#:#Von###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_filter_recipients#:#Empfänger
 mail#:#mail_filter_subject#:#Betreff
 mail#:#mail_filter_body#:#Nachricht
@@ -12323,7 +12324,7 @@ adve#:#advanced_editing_tst_editing#:#Seiteneditor für zusätzliche Frageninhal
 adve#:#advanced_editing_tst_editing_desc#:#Aktiviert den ILIAS-Seiteneditor für Feedback- und Hinweistexte.
 ecs#:#ecs_server_title#:#Name der ECS-Konfiguration
 assessment#:#fq_precision_info#:#Geben Sie hier die Anzahl der gewünschten Nachkommastellen an.
-assessment#:#result_units_info#:#Die hier ausgewählten Einheiten werden dem Lernenden zur Antwort angeboten. Der Lernende muss sich hier für eine Einheit entscheiden.
+assessment#:#result_units_info#:#Zum Beantworten der Frage werden die aktivierten Einheiten angeboten.###Modified as part of gender mainstreaming activities for ILIAS 8
 assessment#:#fq_no_restriction_info#:#Sowohl Dezimalzahlen als auch Brüche werden als Eingabe akzeptiert.
 assessment#:#additional_rating_info#:#Bitte beachten Sie, dass die hier angegebenen Werte in Prozent angegeben werden und sich diese auf 100 summieren müssen.
 assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Variablenerzeugung, wenn der Wert für die Präzision 0 beträgt. In diesem Fall legt "Teilbar durch" fest, durch welche ganze Zahl die erzeugte Variable teilbar sein muss. Ein Wert von 10 erzeugt also nur ganze Zahlen, die durch 10 teilbar sind, ein Wert von 5 erzeugt ganze Zahlen, die durch 5 teilbar sind usw. Bei einer Präzision von 0 ist "Teilbar durch" ein Pflichtfeld und muss eine positive, ganze Zahl enthalten. Voreingestellt ist der Werte 1 für beliebige ganze Zahlen.
@@ -13131,7 +13132,7 @@ common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_login#:#Anmelden
 common#:#clientlist_start_page#:#Öffentlicher Bereich
 common#:#clientlist_login_page#:#Anmelden
-forum#:#file_upload_allowed_fora_desc#:#Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
+forum#:#file_upload_allowed_fora_desc#:#Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
 forum#:#file_upload_option_allow_desc#:#In allen Foren können Dateien an Beiträge angehangen werden.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -13396,7 +13397,7 @@ mail#:#mail_template_no_valid_context#:#Der gewählte Kontext ist nicht gültig.
 mail#:#mail_template_client#:#Textvorlage
 mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Bei der Wahl einer Textvorlage werden Nachricht und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
 itgr#:#itgr_hide_title#:#Titel verbergen
-itgr#:#itgr_hide_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner nicht angezeigt.
+itgr#:#itgr_hide_title_info#:#Der Titel des Objektblocks wird nicht angezeigt.###Modified as part of gender mainstreaming activities for ILIAS 8
 content#:#cont_all_languages#:#Alle Sprachen
 mob#:#mob_upload_multi_srt#:#Hochladen als ZIP-Datei
 mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
@@ -14617,7 +14618,7 @@ dateplaner#:#cal_grp_curr_crs#:#Aktueller Kurs
 dateplaner#:#cal_grp_personal#:#Persönlich
 dateplaner#:#cal_grp_others#:#Andere
 dateplaner#:#cal_download_all_files#:#Alle Dateien herunterladen
-dateplaner#:#cal_owner#:#Eigentümer
+dateplaner#:#cal_owner#:#Im Besitz von###Modified as part of gender mainstreaming activities for ILIAS 8
 dateplaner#:#cal_contained_in#:#Enthalten in
 dateplaner#:#cal_app_info#:#Information zum Kalendertermin
 dateplaner#:#cal_crs_info#:#Course Information

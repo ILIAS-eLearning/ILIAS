@@ -5,39 +5,26 @@
  * Class ilCloudPluginService
  * Basic frame for the plugin service class probably needs to be overwritten
  * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
- * @version $Id$
- * @ingroup ModulesCloud
+ * @author  Martin Studer martin@fluxlabs.ch
  */
 class ilCloudPluginService
 {
+    protected ?ilCloudPlugin $plugin_object = null;
 
-    /**
-     * @var ilCloudPlugin $object
-     */
-    protected $plugin_object = null;
-
-    /**
-     * @param $service_name
-     * @param $obj_id
-     */
-    public function __construct($service_name, $obj_id)
+    public function __construct(string $service_name, int $obj_id)
     {
         $this->plugin_object = ilCloudConnector::getPluginClass($service_name, $obj_id);
     }
 
-    /**
-     * @return ilCloudPlugin
-     */
-    public function getPluginObject()
+    public function getPluginObject() : ilCloudPlugin
     {
         return $this->plugin_object;
     }
 
     /**
      * For shorter access
-     * @return ilCloudHookPlugin
      */
-    public function getPluginHookObject()
+    public function getPluginHookObject() : ilCloudHookPlugin
     {
         return $this->getPluginObject()->getPluginHookObject();
     }
@@ -46,7 +33,7 @@ class ilCloudPluginService
      * For shorter access
      * @return ilCloudPluginConfig
      */
-    public function getAdminConfigObject()
+    public function getAdminConfigObject() : ilCloudPluginConfig
     {
         return $this->getPluginObject()->getAdminConfigObject();
     }
@@ -56,7 +43,7 @@ class ilCloudPluginService
      * back to the correct place in ILIAS (the afterAuth Method) after the remote authentication.
      * @param string $callback_url
      */
-    public function authService($callback_url = "")
+    public function authService(string $callback_url = "")
     {
         header("Location: " . htmlspecialchars_decode($callback_url));
     }
@@ -65,128 +52,100 @@ class ilCloudPluginService
      * Place were the callback should lead to after authentication. Can be used to updated plugin settings.
      * @return bool
      */
-    public function afterAuthService()
+    public function afterAuthService() : bool
     {
         return true;
     }
 
-    public function getServiceObject()
+    public function getServiceObject() : object
     {
     }
 
     /**
      * Called when RootId (id of the folder which is set to root) is needed.
      * Mostly after the base directory is changed by the user or after creating the cloud Obect
-     * @param $root_path
-     * @return string
      */
-    public function getRootId($root_path)
+    public function getRootId(string $root_path) : string
     {
         return "root";
     }
 
     /**
      * Updates the file tree when the user navigates through files and folders
-     * @param ilCloudFileTree $file_tree
-     * @param string          $parent_folder
      */
-    public function addToFileTree(ilCloudFileTree $file_tree, $parent_folder = "/")
+    public function addToFileTree(ilCloudFileTree $file_tree, string $parent_folder = "/") : void
     {
     }
 
     /**
      * Updates the file tree when the user navigates through files and folders.
      * Uses the id instead of the path.
-     * @param ilCloudFileTree $file_tree
-     * @param string          $id
-     * @return bool
      */
-    public function addToFileTreeWithId(ilCloudFileTree $file_tree, $id)
+    public function addToFileTreeWithId(ilCloudFileTree $file_tree, string $id) : bool
     {
         return false;
     }
 
     /**
      * Called when a file is accessed for download by the user
-     * @param null            $path
-     * @param ilCloudFileTree $file_tree
      */
-    public function getFile($path = null, ilCloudFileTree $file_tree = null)
+    public function getFile(?string $path = null, ilCloudFileTree $file_tree = null) : object
     {
     }
 
     /**
      * Called when a file is accessed for download by the user
      * Uses the id instead of the path.
-     * @param string $id
-     * @return bool
      */
-    public function getFileById($id)
+    public function getFileById(string $id) : bool
     {
         return false;
     }
 
     /**
      * Called when a folder is created by the user
-     * @param null            $path
-     * @param ilCloudFileTree $file_tree
      */
-    public function createFolder($path = null, ilCloudFileTree $file_tree = null)
+    public function createFolder(?string $path = null, ilCloudFileTree $file_tree = null) : void
     {
     }
 
     /**
      * Called when a folder is created by the user
      * Uses the id instead of the path.
-     * @param string $parent_id
-     * @param string $folder_name
-     * @return string|bool
      */
-    public function createFolderById($parent_id, $folder_name)
+    public function createFolderById(string $parent_id, string $folder_name) : bool
     {
         return false;
     }
 
     /**
      * Called when a file is uploaded by the user
-     * @param                 $file
-     * @param                 $name
-     * @param string          $path
-     * @param ilCloudFileTree $file_tree
      */
-    public function putFile($file, $name, $path = '', ilCloudFileTree $file_tree = null)
+    public function putFile(object $file, string $name, string $path = '', ilCloudFileTree $file_tree = null) : void
     {
     }
 
     /**
      * Called when a file is uploaded by the user
      * Uses the id instead of the path.
-     * @param string $tmp_name
-     * @param string $file_name
-     * @param string $id
-     * @return bool
      */
-    public function putFileById($tmp_name, $file_name, $id)
+    public function putFileById(string $tmp_name, string $file_name, string $id) : bool
     {
         return false;
     }
 
     /**
      * Called when an item is deleted by the user
-     * @param null            $path
-     * @param ilCloudFileTree $file_tree
      */
-    public function deleteItem($path = null, ilCloudFileTree $file_tree = null)
+    public function deleteItem(?string $path = null, ilCloudFileTree $file_tree = null) : void
     {
     }
 
     /**
      * Called when an item is deleted by the user
      * Uses the id instead of the path.
-     * @param string $id
-     * @return bool
      */
-    public function deleteItemById($id)
+    public function deleteItemById(string $id) : bool
     {
         return false;
     }
@@ -200,11 +159,7 @@ class ilCloudPluginService
         return false;
     }
 
-    /**
-     * @param int $bytes
-     * @return string
-     */
-    public function formatBytes($bytes)
+    public function formatBytes(int $bytes) : string
     {
         $unit = array('B', 'KB', 'MB', 'GB', 'TB');
         $bytes = max($bytes, 0);
@@ -217,9 +172,8 @@ class ilCloudPluginService
 
     /**
      * A little helper function returning the currently used protocol as string
-     * @return string
      */
-    public function getProtokol()
+    public function getProtocol() : string
     {
         return isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'HTTPS' : 'HTTP';
     }

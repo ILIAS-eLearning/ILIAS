@@ -16,27 +16,19 @@ use ilOrgUnitUserAssignmentQueries;
 class ilMyStaffAccess extends ilObjectAccess
 {
 
-    const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS = 'tmp_obj_spec_perm';
-    const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS = 'tmp_obj_def_perm';
-    const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS = 'tmp_orgu_def_perm';
-    const TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS = 'tmp_crs_members';
-    const TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS = 'tmp_orgu_members';
-    const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX = 'tmp_obj_user_matr';
-    const DEFAULT_ORG_UNIT_OPERATION = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
-    const DEFAULT_CONTEXT = 'crs';
-    /**
-     * @var self
-     */
-    protected static $instance = null;
-    /**
-     * @var
-     */
-    protected static $orgu_users_of_current_user_show_staff_permission;
+    public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS = 'tmp_obj_spec_perm';
+    public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS = 'tmp_obj_def_perm';
+    public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS = 'tmp_orgu_def_perm';
+    public const TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS = 'tmp_crs_members';
+    public const TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS = 'tmp_orgu_members';
+    public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX = 'tmp_obj_user_matr';
+    public const DEFAULT_ORG_UNIT_OPERATION = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
+    public const DEFAULT_CONTEXT = 'crs';
 
-    /**
-     * @return self
-     */
-    public static function getInstance()
+    protected static ?self $instance = null;
+    protected static array $orgu_users_of_current_user_show_staff_permission;
+
+    public static function getInstance() : self
     {
         global $DIC;
 
@@ -58,16 +50,10 @@ class ilMyStaffAccess extends ilObjectAccess
         return self::$instance;
     }
 
-    /**
-     *
-     */
     private function __construct()
     {
     }
 
-    /**
-     * @return bool
-     */
     public function hasCurrentUserAccessToMyStaff() : bool
     {
         global $DIC;
@@ -106,9 +92,6 @@ class ilMyStaffAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * @return bool
-     */
     public function hasCurrentUserAccessToCertificates() : bool
     {
         global $DIC;
@@ -127,9 +110,6 @@ class ilMyStaffAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * @return bool
-     */
     public function hasCurrentUserAccessToCompetences() : bool
     {
         global $DIC;
@@ -148,11 +128,7 @@ class ilMyStaffAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * @param int $usr_id
-     * @return bool
-     */
-    public function hasCurrentUserAccessToUser($usr_id = 0) : bool
+    public function hasCurrentUserAccessToUser(int $usr_id = 0) : bool
     {
         global $DIC;
 
@@ -164,20 +140,13 @@ class ilMyStaffAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * @param int $ref_id
-     * @return bool
-     */
-    public function hasCurrentUserAccessToLearningProgressInObject($ref_id = 0) : bool
+    public function hasCurrentUserAccessToLearningProgressInObject(int $ref_id = 0) : bool
     {
         global $DIC;
 
         return $DIC->access()->checkPositionAccess(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, $ref_id);
     }
 
-    /**
-     * @return bool
-     */
     public function hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser() : bool
     {
         global $DIC;
@@ -192,11 +161,7 @@ class ilMyStaffAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * @param int $user_id
-     * @return int
-     */
-    public function countOrgusOfUserWithAtLeastOneOperation($user_id)
+    public function countOrgusOfUserWithAtLeastOneOperation(int $user_id) : int
     {
         global $DIC;
 
@@ -212,17 +177,11 @@ class ilMyStaffAccess extends ilObjectAccess
         return $rec['cnt'];
     }
 
-    /**
-     * @param int    $user_id
-     * @param string $org_unit_operation_string see ilOrgUnitOperation
-     * @param string $context
-     * @return int
-     */
     public function countOrgusOfUserWithOperationAndContext(
-        $user_id,
-        $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        $context = self::DEFAULT_CONTEXT
-    ) {
+        int $user_id,
+        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
+        string $context = self::DEFAULT_CONTEXT
+    ) : int {
         global $DIC;
 
         /**
@@ -244,19 +203,12 @@ class ilMyStaffAccess extends ilObjectAccess
         return $rec['cnt'];
     }
 
-    /**
-     * @param int    $user_id
-     * @param string $org_unit_operation_string
-     * @param string $context
-     * @param string $tmp_table_name_prefix
-     * @return array
-     */
     public function getUsersForUserOperationAndContext(
-        $user_id,
-        $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        $context = self::DEFAULT_CONTEXT,
-        $tmp_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
-    ) {
+        int $user_id,
+        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
+        string $context = self::DEFAULT_CONTEXT,
+        string $tmp_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
+    ) : array {
         global $DIC;
 
         $tmp_table_name = $this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id,
@@ -275,11 +227,7 @@ class ilMyStaffAccess extends ilObjectAccess
         return $arr_users;
     }
 
-    /**
-     * @param $user_id
-     * @return array
-     */
-    public function getUsersForUserPerPosition($user_id) : array
+    public function getUsersForUserPerPosition(int $user_id) : array
     {
         $users = [];
         $user_assignments = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentsOfUserId($user_id);
@@ -292,11 +240,9 @@ class ilMyStaffAccess extends ilObjectAccess
     }
 
     /**
-     * @param int      $user_id
-     * @param int|null $position_id
      * @return int[]
      */
-    public function getUsersForUser($user_id, ?int $position_id = null) : array
+    public function getUsersForUser(int $user_id, ?int $position_id = null) : array
     {
         global $DIC;
 
@@ -361,12 +307,6 @@ class ilMyStaffAccess extends ilObjectAccess
         return $arr_users;
     }
 
-    /**
-     * @param int    $user_id
-     * @param string $operation
-     * @param bool   $return_ref_id
-     * @return int[]
-     */
     public function getIdsForUserAndOperation(int $user_id, string $operation, bool $return_ref_id = false) : array
     {
         $user_assignments = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentsOfUserId($user_id);
@@ -375,19 +315,13 @@ class ilMyStaffAccess extends ilObjectAccess
             $ref_ids = $this->getIdsForPositionAndOperation($user_assignment->getPositionId(), $operation,
                 $return_ref_id);
             if (count($ref_ids) > 0) {
-                $ids = array_merge($ids, $ref_ids);
+                array_merge($ids, $ref_ids);
             }
         }
 
         return $ids;
     }
 
-    /**
-     * @param int    $position_id
-     * @param string $operation
-     * @param bool   $return_ref_id
-     * @return array
-     */
     public function getIdsForPositionAndOperation(int $position_id, string $operation, bool $return_ref_id) : array
     {
         $ids = [];
@@ -395,7 +329,7 @@ class ilMyStaffAccess extends ilObjectAccess
             $ref_ids = $this->getIdsForPositionAndOperationAndContext($position_id, $operation, $context,
                 $return_ref_id);
             if (count($ref_ids) > 0) {
-                $ids = array_merge($ids, $ref_ids);
+                array_merge($ids, $ref_ids);
             }
         }
 
@@ -406,11 +340,6 @@ class ilMyStaffAccess extends ilObjectAccess
      * returns all obj_ids/ref_ids (depending on flag "ref_id") of objects of type $context,
      * to which the position with $position_id has permissions
      * on the operation with $operation_id
-     * @param int    $position_id
-     * @param string $operation
-     * @param string $context
-     * @param bool   $return_ref_id
-     * @return array
      */
     public function getIdsForPositionAndOperationAndContext(
         int $position_id,
@@ -443,17 +372,11 @@ class ilMyStaffAccess extends ilObjectAccess
             $query .= ' where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations like \'%"' . $operation_id . '"%\' and parent_id <> -1';
         }
 
-        return array_map(function($item) use ($return_ref_id) {
+        return array_map(function ($item) use ($return_ref_id) {
             return $return_ref_id ? $item['ref_id'] : $item['obj_id'];
         }, $DIC->database()->fetchAll($DIC->database()->query($query)));
     }
 
-    /**
-     * @param int $position_id
-     * @param int $operation_id
-     * @param int $context_id
-     * @return bool
-     */
     public function hasPositionDefaultPermissionForOperationInContext(
         int $position_id,
         int $operation_id,
@@ -469,23 +392,16 @@ class ilMyStaffAccess extends ilObjectAccess
         return (bool) $DIC->database()->numRows($res) > 0;
     }
 
-    /**
-     * @param int    $user_id
-     * @param string $org_unit_operation_string
-     * @param string $context
-     * @return array
-     */
     public function getIlobjectsAndUsersForUserOperationAndContext(
-        $user_id,
-        $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        $context = self::DEFAULT_CONTEXT
-    ) {
+        int $user_id,
+        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
+        string $context = self::DEFAULT_CONTEXT
+    ) : array {
         global $DIC;
 
-        /**
-         * @var ilOrgUnitOperation $operation
-         */
+
         $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+        assert($operation instanceof ilOrgUnitOperation);
 
         $tmp_table_name = 'tmp_ilobj_user_matrix_' . $operation->getOperationId();
 
@@ -505,27 +421,18 @@ class ilMyStaffAccess extends ilObjectAccess
         return $arr_user_obj;
     }
 
-    /**
-     * @param int    $user_id
-     * @param string $org_unit_operation_string
-     * @param string $context
-     * @param string $temporary_table_name_prefix
-     * @return string
-     */
     public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
-        $user_id,
-        $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        $context = self::DEFAULT_CONTEXT,
-        $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
-    ) {
+        int $user_id,
+        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
+        string $context = self::DEFAULT_CONTEXT,
+        string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
+    ) : string {
         global $DIC;
 
         $temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
 
-        /**
-         * @var ilOrgUnitOperation $operation
-         */
         $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+        assert($operation instanceof ilOrgUnitOperation);
 
         $all_users_for_user = $this->getUsersForUser($GLOBALS['DIC']->user()->getId());
 
@@ -644,25 +551,17 @@ class ilMyStaffAccess extends ilObjectAccess
         return $temporary_table_name;
     }
 
-    /**
-     * @param string $org_unit_operation_string
-     * @param string $context
-     * @param string $temporary_table_name_prefix
-     * @return string
-     */
     public function buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
-        $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        $context = self::DEFAULT_CONTEXT,
-        $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS
-    ) {
+        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
+        string $context = self::DEFAULT_CONTEXT,
+        string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS
+    ) : string {
         global $DIC;
 
         $temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
 
-        /**
-         * @var ilOrgUnitOperation $operation
-         */
         $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+        assert($operation instanceof ilOrgUnitOperation);
 
         if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
             . self::DEFAULT_CONTEXT
@@ -696,17 +595,11 @@ class ilMyStaffAccess extends ilObjectAccess
         return $temporary_table_name;
     }
 
-    /**
-     * @param string $org_unit_operation_string
-     * @param string $context
-     * @param string $temporary_table_name_prefix
-     * @return string
-     */
     public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext(
-        $org_unit_operation_string = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,
-        $context = self::DEFAULT_CONTEXT,
-        $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS
-    ) {
+        string $org_unit_operation_string = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,
+        string $context = self::DEFAULT_CONTEXT,
+        string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS
+    ) : string {
         global $DIC;
 
         $temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
@@ -765,10 +658,10 @@ class ilMyStaffAccess extends ilObjectAccess
      * @return string
      */
     public function buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext(
-        $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
-        $context = self::DEFAULT_CONTEXT,
-        $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS
-    ) {
+        string $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
+        string $context = self::DEFAULT_CONTEXT,
+        string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS
+    ) : string {
         global $DIC;
 
         $temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
@@ -807,15 +700,10 @@ class ilMyStaffAccess extends ilObjectAccess
         return $temporary_table_name;
     }
 
-    /**
-     * @param string $temporary_table_name_prefix
-     * @param array  $only_courses_of_user_ids
-     * @return string
-     */
     public function buildTempTableCourseMemberships(
-        $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS,
+        string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS,
         array $only_courses_of_user_ids = array()
-    ) {
+    ) : string {
         global $DIC;
 
         $temporary_table_name = $temporary_table_name_prefix . "_user_id_" . $DIC->user()->getId();
@@ -852,15 +740,10 @@ class ilMyStaffAccess extends ilObjectAccess
         return $temporary_table_name;
     }
 
-    /**
-     * @param string $temporary_table_name_prefix
-     * @param array  $only_orgus_of_user_ids
-     * @return string
-     */
     public function buildTempTableOrguMemberships(
-        $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS,
+        string $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS,
         array $only_orgus_of_user_ids = array()
-    ) {
+    ) : string {
         global $DIC;
 
         $temporary_table_name = $temporary_table_name_prefix . "_user_id_" . $DIC->user()->getId();
@@ -898,17 +781,11 @@ class ilMyStaffAccess extends ilObjectAccess
         return $temporary_table_name;
     }
 
-    /**
-     * @param string $temporary_table_name
-     * @return bool
-     */
-    public function dropTempTable($temporary_table_name)
+    public function dropTempTable(string $temporary_table_name) : void
     {
         global $DIC;
 
         $q = "DROP TABLE IF EXISTS " . $temporary_table_name;
         $DIC->database()->manipulate($q);
-
-        return true;
     }
 }

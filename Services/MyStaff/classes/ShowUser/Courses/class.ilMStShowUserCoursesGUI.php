@@ -12,27 +12,15 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  */
 class ilMStShowUserCoursesGUI
 {
-    const CMD_INDEX = 'index';
-    const CMD_RESET_FILTER = 'resetFilter';
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_GET_ACTIONS = "getActions";
-    /**
-     * @var int
-     */
-    protected $usr_id;
-    /**
-     * @var ilTable2GUI
-     */
-    protected $table;
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
+    public const CMD_INDEX = 'index';
+    public const CMD_RESET_FILTER = 'resetFilter';
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_GET_ACTIONS = "getActions";
+    protected int $usr_id;
+    protected ilTable2GUI $table;
+    protected ilMyStaffAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     *
-     */
     public function __construct()
     {
         global $DIC;
@@ -44,9 +32,6 @@ class ilMStShowUserCoursesGUI
         $DIC->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
     }
 
-    /**
-     *
-     */
     protected function checkAccessOrFail()
     {
         global $DIC;
@@ -66,10 +51,7 @@ class ilMStShowUserCoursesGUI
         }
     }
 
-    /**
-     *
-     */
-    public function executeCommand()
+    final public function executeCommand()
     {
         global $DIC;
 
@@ -99,17 +81,11 @@ class ilMStShowUserCoursesGUI
         }
     }
 
-    /**
-     *
-     */
-    protected function index()
+    protected function index() : void
     {
         $this->listUsers();
     }
 
-    /**
-     *
-     */
     protected function listUsers()
     {
         global $DIC;
@@ -122,10 +98,7 @@ class ilMStShowUserCoursesGUI
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-    /**
-     *
-     */
-    protected function applyFilter()
+    protected function applyFilter() : void
     {
         $this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_APPLY_FILTER);
         $this->table->writeFilterToSession();
@@ -133,10 +106,7 @@ class ilMStShowUserCoursesGUI
         $this->index();
     }
 
-    /**
-     *
-     */
-    protected function resetFilter()
+    protected function resetFilter() : void
     {
         $this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_RESET_FILTER);
         $this->table->resetOffset();
@@ -144,30 +114,20 @@ class ilMStShowUserCoursesGUI
         $this->index();
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    final public function getId() : string
     {
         $this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_INDEX);
 
         return $this->table->getId();
     }
 
-    /**
-     *
-     */
-    public function cancel()
+    final public function cancel() : void
     {
         global $DIC;
-
         $DIC->ctrl()->redirect($this);
     }
 
-    /**
-     *
-     */
-    public function getActions()
+    final public function getActions() : void
     {
         global $DIC;
 

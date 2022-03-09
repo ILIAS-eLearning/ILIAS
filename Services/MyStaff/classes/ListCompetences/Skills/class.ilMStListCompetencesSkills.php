@@ -9,11 +9,7 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  */
 class ilMStListCompetencesSkills
 {
-
-    /**
-     * @var Container
-     */
-    protected $dic;
+    protected Container $dic;
 
     /**
      * ilMStListCompetencesSkills constructor.
@@ -28,7 +24,7 @@ class ilMStListCompetencesSkills
      * @param int[] $options
      * @return ilMStListCompetencesSkill[]
      */
-    public function getData(array $options)
+    final public function getData(array $options)
     {
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_COMPETENCES;
@@ -98,10 +94,6 @@ class ilMStListCompetencesSkills
         return $skills;
     }
 
-    /**
-     * @param array $filters
-     * @return string
-     */
     protected function getAdditionalWhereStatement(array $filters) : string
     {
         $wheres = [];

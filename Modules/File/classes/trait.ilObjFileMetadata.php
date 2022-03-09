@@ -20,7 +20,7 @@ trait ilObjFileMetadata
         global $DIC;
     
         // New Item
-        if ($this->ref_id) {
+        if (isset($this->ref_id)) {
             $default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($this->ref_id);
             if ($default_visibility === "public") {
                 ilBlockSetting::_write("news", "public_notifications", 1, 0, $this->getId());

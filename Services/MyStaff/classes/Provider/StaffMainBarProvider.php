@@ -27,7 +27,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    final public function getStaticTopItems() : array
     {
         return [];
     }
@@ -35,7 +35,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    final public function getStaticSubItems() : array
     {
         $this->dic->language()->loadLanguageModule('mst');
         $dic = $this->dic;

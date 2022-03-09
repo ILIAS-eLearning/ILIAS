@@ -13,11 +13,7 @@ use ilOrgUnitOperation;
  */
 class ilMStListCourses
 {
-
-    /**
-     * @var Container
-     */
-    protected $dic;
+    protected Container $dic;
 
     /**
      * ilMStListCourses constructor.
@@ -28,12 +24,7 @@ class ilMStListCourses
         $this->dic = $dic;
     }
 
-    /**
-     * @param array $arr_usr_ids
-     * @param array $options
-     * @return array|int
-     */
-    public function getData(array $arr_usr_ids = array(), array $options = array())
+    final public function getData(array $arr_usr_ids = array(), array $options = array()): array|int
     {
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
@@ -130,12 +121,8 @@ class ilMStListCourses
 
     /**
      * Returns the WHERE Part for the Queries using parameter $user_ids AND local variable $filters
-     * @param array  $arr_usr_ids
-     * @param array  $arr_filter
-     * @param string $tmp_table_user_matrix
-     * @return string
      */
-    protected function createWhereStatement(array $arr_filter)
+    protected function createWhereStatement(array $arr_filter): string
     {
         $where = array();
 

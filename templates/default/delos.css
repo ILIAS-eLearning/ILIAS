@@ -7884,11 +7884,9 @@ ul.dropdown-menu > li > .btn:focus {
   pointer-events: none;
   cursor: default;
 }
-.il-viewcontrol-pagination .btn + .btn,
 .il-viewcontrol-mode .btn + .btn {
   border-left-color: #dddddd;
 }
-.il-viewcontrol-pagination .btn:not(:last-child):hover,
 .il-viewcontrol-mode .btn:not(:last-child):hover {
   border-right-color: #dddddd;
 }
@@ -9609,14 +9607,7 @@ footer {
   /* Remove bullets */
 }
 .il-maincontrols-metabar > li > .btn-bulky > .bulky-label {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
+  display: none;
 }
 .il-maincontrols-metabar .glyphicon {
   filter: invert(50%);

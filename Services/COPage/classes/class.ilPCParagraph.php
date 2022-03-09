@@ -717,10 +717,12 @@ class ilPCParagraph extends ilPageContent
             ? "/"
             : "";
 
+        $slash_chars = '/[]?';
+
         if ($ok) {
             // replace start tag
             $text = preg_replace(
-                '/' . addcslashes($start_tag, '/[]') . '/i',
+                '/' . addcslashes($start_tag, $slash_chars) . '/i',
                 "<" . $xml_tag_name . $attrib_str . $short . ">",
                 $text,
                 1
@@ -728,13 +730,13 @@ class ilPCParagraph extends ilPageContent
 
             // replace end tag
             if ($end_tag != "") {
-                $text = preg_replace('~' . addcslashes($end_tag, '/[]') . '~i', "</" . $xml_tag_name . ">", $text, 1);
+                $text = preg_replace('~' . addcslashes($end_tag, $slash_chars) . '~i', "</" . $xml_tag_name . ">", $text, 1);
             }
         } else {
             // remove start tag
             if (is_int($pos1)) {
                 $text = preg_replace(
-                    '/' . addcslashes($start_tag, '/[]') . '/i',
+                    '/' . addcslashes($start_tag, $slash_chars) . '/i',
                     "",
                     $text,
                     1
@@ -743,7 +745,7 @@ class ilPCParagraph extends ilPageContent
             // remove end tag
             if (is_int($pos2)) {
                 $text = preg_replace(
-                    '~' . addcslashes($end_tag, '/[]') . '~i',
+                    '~' . addcslashes($end_tag, $slash_chars) . '~i',
                     "",
                     $text,
                     1
