@@ -6674,7 +6674,8 @@ CREATE TABLE `il_bt_bucket` (
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `last_heartbeat` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`user_id`)
 ) ;
 
 --
@@ -20399,8 +20400,9 @@ INSERT INTO `settings` VALUES ('common','soap_connect_timeout','0');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','inst_id','0');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','71');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','73');
 INSERT INTO `settings` VALUES ('adve','autosave','30');
+INSERT INTO `settings` VALUES ('common','rep_favourites','1');
 
 --
 -- Table structure for table `settings_deactivated_s`
@@ -25009,4 +25011,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2022-01-26 14:38:29
+-- Dump completed on 2022-03-09 15:22:08
