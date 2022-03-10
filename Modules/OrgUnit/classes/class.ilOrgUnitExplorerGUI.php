@@ -167,7 +167,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         return !($a_node['child'] === $current_node || $this->tree->isGrandChild($current_node, $a_node['child']));
     }
 
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $children = parent::getChildsOfNode($a_parent_node_id);
 
