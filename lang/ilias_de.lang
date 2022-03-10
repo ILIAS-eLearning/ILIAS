@@ -13400,9 +13400,15 @@ buddysystem#:#buddy_bs_action_already_ignored#:#Die Aktion ist nicht möglich, d
 buddysystem#:#buddy_bs_action_already_unlinked#:#Die Aktion ist nicht möglich. Jeglicher Kontakt zu Benutzer '%s' wurde bereits gelöst.
 buddysystem#:#buddy_bs_state_linked#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
+buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
+buddysystem#:#buddy_bs_state_unlinked#:#Nicht vernetzt
 buddysystem#:#buddy_bs_state_unlinked_a#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_unlinked_p#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Auf Reaktion wartend
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Aktion erorderlich
 buddysystem#:#buddy_bs_state_requested#:#Angefragt
 buddysystem#:#buddy_bs_state_requested_a#:#Angefragt
+buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
@@ -13628,7 +13634,6 @@ maps#:#maps_geolocation_server#:#Server für Reverse Geolocation
 mail#:#orphaned_mail_subject#:#Benachrichtigung über verwaiste Mails
 mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den folgenden Postfächern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
 rbac#:#rbac_permissions#:#Rechte
-buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 common#:#obj_prgs#:#Studienprogramme
 forum#:#forums_thread_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge wurde gelöscht.
 forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge wurden gelöscht.

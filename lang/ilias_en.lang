@@ -13397,10 +13397,15 @@ buddysystem#:#buddy_bs_action_already_ignored#:#Action not possible. Already ign
 buddysystem#:#buddy_bs_action_already_unlinked#:#Action not possible. The contact state for user '%s' is already unlinked.
 buddysystem#:#buddy_bs_state_linked#:#Linked
 buddysystem#:#buddy_bs_state_linked_a#:#Linked
+buddysystem#:#buddy_bs_state_linked_p#:#Linked
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
 buddysystem#:#buddy_bs_state_requested#:#Requested
 buddysystem#:#buddy_bs_state_requested_a#:#Requested
 buddysystem#:#buddy_bs_state_requested_p#:#Requested
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored

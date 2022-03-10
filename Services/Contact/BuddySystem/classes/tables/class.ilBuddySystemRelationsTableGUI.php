@@ -95,9 +95,14 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         );
 
         $options = [];
-        $state = ilBuddySystemRelationStateFactory::getInstance()->getStatesAsOptionArray(false);
-        foreach ($state as $key => $option) {
-            $options[$key] = $option;
+        $state_factory = ilBuddySystemRelationStateFactory::getInstance();
+        foreach ($state_factory->getValidStates() as $state) {
+            if ($state->isInitial()) {
+                continue;
+            }
+
+            $state_filter_mapper = $state_factory->getTableFilterStateMapper($state);
+            $options += $state_filter_mapper->optionsForState();
         }
         $relations_state_selection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
         $this->addFilterItem($relations_state_selection);
@@ -108,6 +113,25 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         $this->addFilterItem($public_name);
         $public_name->readFromSession();
         $this->filter['public_name'] = $public_name->getValue();
+    }
+
+    /**
+     * @param string $filterKey
+     * @param mixed $value
+     * @return void
+     */
+    public function applyFilterValue(string $filterKey, $value) : void
+    {
+        foreach ([$this->getFilterItems(), $this->getFilterItems(true)] as $filterItems) {
+            foreach ($filterItems as $item) {
+                /** @var ilTableFilterItem|ilFormPropertyGUI $item */
+                if ($item->getPostVar() === $filterKey) {
+                    $item->setValueByArray([$filterKey => $value]);
+                    $item->writeToSession();
+                    break 2;
+                }
+            }
+        }
     }
 
     /**
@@ -123,8 +147,10 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         $relations = ilBuddyList::getInstanceByGlobalUser()->getRelations();
 
         $state_filter = (string) $this->filter[self::STATE_FILTER_ELM_ID];
-        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter) {
-            return !strlen($state_filter) || strtolower(get_class($relation->getState())) == strtolower($state_filter);
+        $state_factory = ilBuddySystemRelationStateFactory::getInstance();
+        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter, $state_factory) {
+            $state_filter_mapper = $state_factory->getTableFilterStateMapper($relation->getState());
+            return $state_filter === '' || $state_filter_mapper->filterMatchesRelation($state_filter, $relation);
         });
 
         $public_names = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, true, false);
