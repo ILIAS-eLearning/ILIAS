@@ -660,14 +660,9 @@ class ilObjRole extends ilObject
             case self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES:
             case self::MODE_PROTECTED_DELETE_LOCAL_POLICIES:
                 $local_policies = $this->deleteLocalPolicies($a_start_node, $local_policies, $a_filter);
-                #$local_policies = array($a_start_node == ROOT_FOLDER_ID ? SYSTEM_FOLDER_ID : $a_start_node);
                 break;
         }
         $this->adjustPermissions($a_mode, $nodes, $local_policies, $a_filter, $a_exclusion_filter, $a_operation_mode, $a_operation_stack);
-
-
-        #var_dump(memory_get_peak_usage());
-        #var_dump(memory_get_usage());
     }
     
     /**
@@ -712,6 +707,7 @@ class ilObjRole extends ilObject
         $rbacadmin = $DIC['rbacadmin'];
         $rbacreview = $DIC['rbacreview'];
         $tree = $DIC['tree'];
+        $logger = $DIC->logger()->ac();
         
         $operation_stack = array();
         $policy_stack = array();
@@ -729,7 +725,7 @@ class ilObjRole extends ilObject
         }
 
         $this->logger->debug('adjust permissions operation stack');
-        $this->logger->dump($operation_stack);
+        $this->logger->dump($operation_stack, ilLogLevel::DEBUG);
 
         include_once "Services/AccessControl/classes/class.ilRbacLog.php";
         $rbac_log_active = ilRbacLog::isActive();
@@ -741,7 +737,7 @@ class ilObjRole extends ilObject
                 switch ($relation) {
                     case ilTree::RELATION_NONE:
                     case ilTree::RELATION_SIBLING:
-                        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Handling sibling/none relation.');
+                        $logger->debug('Handling sibling/none relation.');
                         array_pop($operation_stack);
                         array_pop($policy_stack);
                         array_pop($node_stack);
@@ -753,7 +749,7 @@ class ilObjRole extends ilObject
                     case ilTree::RELATION_EQUALS:
                     case ilTree::RELATION_PARENT:
                     default:
-                        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Handling child/equals/parent ' . $relation);
+                        $logger->debug('Handling child/equals/parent ' . $relation);
                         break 2;
                 }
             }
@@ -807,24 +803,14 @@ class ilObjRole extends ilObject
                 $rbac_log_old = ilRbacLog::gatherFaPa($node['child'], array_keys($rbac_log_roles));
             }
         
-            // Node is course => create course permission intersection
-            if (($a_mode == self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES or
-                $a_mode == self::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES) and ($node['type'] == 'crs')) {
+            // Node is course or group => create permission intersection
+            if (
+                ($a_mode == self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES || $a_mode == self::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES) &&
+                ($node['type'] == 'crs' || $node['type'] == 'grp')
+            ) {
                 // Copy role permission intersection
                 $perms = end($operation_stack);
-                $this->createPermissionIntersection($policy_stack, $perms['crs'], $node['child'], $node['type']);
-                if ($this->updateOperationStack($operation_stack, $node['child'])) {
-                    $this->updatePolicyStack($policy_stack, $node['child']);
-                    array_push($node_stack, $node);
-                }
-            }
-            
-            // Node is group => create group permission intersection
-            if (($a_mode == self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES or
-                $a_mode == self::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES) and ($node['type'] == 'grp')) {
-                // Copy role permission intersection
-                $perms = end($operation_stack);
-                $this->createPermissionIntersection($policy_stack, $perms['grp'], $node['child'], $node['type']);
+                $this->createPermissionIntersection($policy_stack, $perms[$node['type']], $node['child'], $node['type']);
                 if ($this->updateOperationStack($operation_stack, $node['child'])) {
                     $this->updatePolicyStack($policy_stack, $node['child']);
                     array_push($node_stack, $node);
@@ -833,7 +819,6 @@ class ilObjRole extends ilObject
 
             // Set permission
             $perms = end($operation_stack);
-
             $this->changeExistingObjectsGrantPermissions(
                 $this->getId(),
                 (array) $perms[$node['type']],

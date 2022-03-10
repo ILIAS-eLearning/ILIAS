@@ -3092,8 +3092,6 @@ cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)
 cmix#:#cmix_new#:#Nuovo oggetto xAPI/cmi5
 cmix#:#completed_info#:#L'attività è terminata o completata normalmente.
 cmix#:#completed_label#:#Frasi col verbo 'completato'
-cmix#:#conf_any_window#:#Nuova finestra
-cmix#:#conf_any_window_info#:#Il contenuto viene aperto in una nuova pagina. All'uscita dal contenuto la pagina viene chiusa.
 cmix#:#conf_availability#:#Disponibilità
 cmix#:#conf_availability_0#:#Non disponibile
 cmix#:#conf_availability_1#:#Per oggetti esistenti
@@ -3146,28 +3144,6 @@ cmix#:#conf_privacy_setting_force#:#Le impostazioni non sono modificabili per og
 cmix#:#conf_privacy_setting_info#:#Opzioni configurazione per la protezione dei dati
 cmix#:#conf_remarks#:#Commenti interni
 cmix#:#conf_title#:#Titolo
-cmix#:#conf_user_ident#:#Identificazione utente
-cmix#:#conf_user_ident_il_uuid_ext_account#:#Identificatore utente esterno combinato con un Identificatore unico della piattaforma ILIAS, che è formattato come indirizzo email.
-cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Ciò è identico per ogni visualizzazione, può però permettere una deduzione diretta sull'utente.
-cmix#:#conf_user_ident_il_uuid_login#:#Nome utente ILIAS combinato con un Identificatore unico della piattaforma ILIAS, che è formattato come indirizzo email.
-cmix#:#conf_user_ident_il_uuid_login_info#:#Ciò è identico per ogni visualizzazione, può però permettere una deduzione diretta sull'utente.
-cmix#:#conf_user_ident_il_uuid_random#:#Identificatore casuale combinato con un Identificatore unico della piattaforma ILIAS, che è formattato come indirizzo email.
-cmix#:#conf_user_ident_il_uuid_random_info#:#Per ogni oggetto ed utente ILIAS viene generato un identificatore casuale, che rimane identico per ogni visualizzazione. Deduzioni su un utente sono molto limitate, in quanto è praticamente impossibile creare profili utente, che si estendono su più oggetti.
-cmix#:#conf_user_ident_il_uuid_user_id#:#Identificatore utente ILIAS combinato con un Identificatore unico della piattaforma ILIAS, che è formattato come indirizzo email.
-cmix#:#conf_user_ident_il_uuid_user_id_info#:#Ciò è identico per ogni visualizzazione, però non permette una deduzione diretta sull'utente.
-cmix#:#conf_user_ident_info#:#Come predefinito è spesso l'indirizzo email. L'identificatore univoco della piattaforma ILIAS è:
-cmix#:#conf_user_ident_real_email#:#Indirizzo e-mail
-cmix#:#conf_user_ident_real_email_info#:#Manda l'indirizzo e-mail dell'utente come identificazione (Attenzione: L'indirizzo email potrebbe essere utilizzato da più utentiI).
-cmix#:#conf_user_name#:#Nome utente
-cmix#:#conf_user_name_firstname#:#Nome
-cmix#:#conf_user_name_firstname_info#:#Manda il nome di battesimo
-cmix#:#conf_user_name_fullname#:#Nome completo
-cmix#:#conf_user_name_fullname_info#:#Manda titolo, nome e cognome
-cmix#:#conf_user_name_info#:#L'invio di un nome utente non è, di norma, necessario.
-cmix#:#conf_user_name_lastname#:#Titolo e cognome
-cmix#:#conf_user_name_lastname_info#:#Manda Signore o Signora (se non indicato diversamente) e il cognome.
-cmix#:#conf_user_name_none#:#Nessuno
-cmix#:#conf_user_name_none_info#:#Invia '-' invecedi un nome
 cmix#:#conf_user_registered_mail#:#Indirizzo e-mail registrato
 cmix#:#content_privacy_ident#:#Identificazione utente
 cmix#:#content_privacy_name#:#Nome utente
@@ -3370,7 +3346,6 @@ cntr#:#sorting_new_items_direction#:#Direzione di ordinamento per i nuovi oggett
 cntr#:#sorting_new_items_order#:#Ordine per i nuovi oggetti
 cntr#:#sorting_new_items_position#:#Posizione per i nuovi oggetti
 cntr#:#tab_back_to_repository#:#Torna al repository
-common#:#3rd_party_software#:#Software di terze parti
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#accept_usr_agreement_btn#:#Accettare
@@ -3873,23 +3848,6 @@ common#:#disable_check#:#Disabilita controllo
 common#:#disable_ext_lang_maint#:#Disabilita Manutenzione Estesa
 common#:#disable_hide_user_toggle#:#Il membro è autorizzato per disattivare
 common#:#disclose#:#Disclose
-common#:#disk_quota#:#Quota disco
-common#:#disk_quota_exceeded_headline#:#i seguenti utenti hanno superato la quota disco:
-common#:#disk_quota_is_1_by_2#:#La quota disco effettiva è %1$s dovuta all’appartenenza al ruolo "%2$s".
-common#:#disk_quota_is_1_instead_of_2_by_3#:#La quota disco effettiva è %1$s come definita in questo account utente. La quota disco per appartenenza al ruolo sarebbe stata %2$s per ruolo "%3$s".
-common#:#disk_quota_is_unlimited_by_1#:#La quota disco effettiva è illimitata in base all’appartenenza al ruolo "%1$s".
-common#:#disk_quota_last_reminder_sent#:#Ultimo promemoria di quota inviato
-common#:#disk_quota_last_reminder_sent_desc#:#Ultima data in cui l’utente ha ricevuto una mail di promemoria dovuta al superamento della quota disco.
-common#:#disk_quota_on_role_desc#:#La quota disco specificata in un ruolo influisce su tutti gli account utente assegnati a questo ruolo.
-common#:#disk_quota_reminder_mail#:#Mail di promemoria
-common#:#disk_quota_reminder_mail_desc#:#Questa mail di promemoria quota disco viene inviata agli utenti attivi che hanno superato la propria quota disco. Questa e-mail viene inviata una volta ogni giorno agli utenti quando viene eseguito il processo di cron job giornaliero ILIAS. Gli utenti che hanno appena ricevuto una e-mail di promemoria, la riceveranno ogni 7 giorni fino a quando supereranno la propria quota disco.
-common#:#disk_quota_report#:#Rapporto quota disco
-common#:#disk_quota_report_not_run_yet#:#Nessun rapporto quota disco disponibile. Il cron job giornaliero che determina l’utilizzo del disco deve essere eseguito all’inizio.
-common#:#disk_quota_summary_rctp#:#Recipienti
-common#:#disk_quota_summary_rctp_desc#:#Immettere un elenco separato da virgole di nomi utente per quegli utenti, che dovrebbero ricevere un riepilogo giornaliero della quota del disco superata.
-common#:#disk_quota_summary_subject#:#Riepilogo delle quota disco superata
-common#:#disk_usage#:#Utilizzo del disco
-common#:#disk_usage_details#:#Dettagli utilizzo del disco
 common#:#dislike#:#Non mi piace
 common#:#domain#:#Dominio
 common#:#down#:#Giù
@@ -3931,9 +3889,6 @@ common#:#enable_course_group_notifications#:#Mail giornaliere per le novità sui
 common#:#enable_course_group_notifications_desc#:#Se abilitato, i partecipanti possono sottoscrivere un riepilogo giornaliero delle novità.
 common#:#enable_custom_icons#:#Abilita icone personalizzate
 common#:#enable_custom_icons_info#:#Ciò consente di definire icone personalizzate per singole categorie, corsi e gruppi. La sezione delle proprietà di categorie, corsi e gruppi fornirà una finestra di caricamento delle immagini.
-common#:#enable_disk_quota_reminder_mail#:#Invia mail di promemoria per quota disco
-common#:#enable_disk_quota_summary_mail#:#Invia riepilogo quota disco
-common#:#enable_disk_quota_summary_mail_desc#:#Questo riepilogo quota disco è una notifica giornaliera contenente tutti gli utenti, che hanno superato la loro quota disco.
 common#:#enable_dnd_upload#:#Abilita il caricamento trascina e rilascia
 common#:#enable_dnd_upload_info#:#I file possono essere caricati con il trascinamento della sezione dal computer locale se abilitato.
 common#:#enable_download_folder#:#Abilita le cartelle per il download
@@ -4099,11 +4054,9 @@ common#:#filter_users_without_access#:#Solo utenti senza accesso
 common#:#filter_users_without_disk_usage#:#Solo utenti senza spazio su disco utilizzato
 common#:#filter_users_with_access#:#Solo utenti con accesso
 common#:#filter_users_with_disk_usage#:#Solo utenti con spazio su disco utilizzato
-common#:#filter_users_with_exceeded_disk_quota#:#Solo utenti con quota disco superata
 common#:#first#:#Per prima cosa
 common#:#firstname#:#Nome
 common#:#flatview#:#Indirizzo
-common#:#fm_start#:#Apri con File Manager
 common#:#fold#:#Cartella
 common#:#folder#:#Cartella
 common#:#folders#:#Cartelle
@@ -5293,8 +5246,6 @@ common#:#public_room#:#Stanza pubblica
 common#:#pub_section#:#Sezione pubblica
 common#:#pub_section_info#:#Se abilitato, parti del sistema (ad es. Repository, profili utente) possono essere rese disponibili su Internet senza autenticazione. Le autorizzazioni del ruolo "Anonimo" controlleranno l'accesso alle risorse del repository.
 common#:#purpose#:#Scopo
-common#:#pwsp_recalculate_disk_quota#:#Spazio di lavoro personale: Ricalcolo quota disco
-common#:#pwsp_recalculate_disk_quota_desc#:#Ricalcola tutti i valori delle quote disco per l’area di lavoro personale.
 common#:#qpl#:#Raccolta di domande (per test)
 common#:#qpl_add#:#Aggiungi raccolta di domande
 common#:#qpl_copy#:#Copia il test del gruppo di domande
@@ -5665,7 +5616,6 @@ common#:#time_limit_from#:#A partire da (limite di tempo)
 common#:#time_limit_message#:#Messaggio (limite di tempo)
 common#:#time_limit_not_valid#:#Il periodo non è valido
 common#:#time_limit_no_users_selected#:#Per favore scegli un utente.
-common#:#time_limit_owner#:#Proprietario (limite di tempo)
 common#:#time_limit_reached#:#Il tuo account non è attivo.
 common#:#time_limit_unlimited#:#Illimitato (limite di tempo)
 common#:#time_limit_until#:#Fino a (limite di tempo)
@@ -6233,7 +6183,6 @@ content#:#cont_dir_file#:#Cartella/File
 content#:#cont_dir_renamed#:#Directory rinominata.
 content#:#cont_disable_def_feedback#:#Disattiva feedback domande predefinite
 content#:#cont_disable_def_feedback_info#:#Se disabilitato, le risposte alle domande non mostreranno alcun feedback per l’allievo. È necessario fornire feedback personalizzati per le vostre domande.
-content#:#cont_double_click_to_delete#:#Doppio click sugli elementi per selezionarli per la deattivazione o la cancellazione.
 content#:#cont_download#:#Scarica
 content#:#cont_downloads#:#Download
 content#:#cont_downloads_desc#:#Abilita i download di tutti i file pubblici esportabili.
@@ -6301,44 +6250,32 @@ content#:#cont_ed_grid_col_width#:#Larghezza colonna
 content#:#cont_ed_grid_col_widths#:#Larghezze colonne
 content#:#cont_ed_grid_col_width_info#:#La larghezza della colonna può estendersi su più di 1/12 unità della riga e dipende dalla dimensione complessiva dello schermo. I dispositivi sono riportati come esempi. Le loro dimensioni dello schermo determinano il comportamento concreto. 12/12 corrisponde al 100% di larghezza.
 content#:#cont_ed_insert_amdpl#:#Inserisci lista di pagine
-content#:#cont_ed_insert_amd_page_list#:#Inserisci elenco pagina
-content#:#cont_ed_insert_atable#:#Inserisci Tabella Avanzata
 content#:#cont_ed_insert_blog#:#Inserisci blog
 content#:#cont_ed_insert_cach#:#Inserisci orario colloqui
-content#:#cont_ed_insert_code#:#inserisci codice
-content#:#cont_ed_insert_consultation_hours#:#Inserisci ore di consultazione
 content#:#cont_ed_insert_dtab#:#Inserisci Tabella Dati
-content#:#cont_ed_insert_dtable#:#Inserisci Tabella Dati
-content#:#cont_ed_insert_filelist#:#inserisci lista di file
 content#:#cont_ed_insert_flst#:#Inserisci lista file
 content#:#cont_ed_insert_grid#:#Inserisci layout colonna
 content#:#cont_ed_insert_grid_info#:#Aggiunge un layout di colonna reattivo basato su una griglia con 12 unità per riga.
 content#:#cont_ed_insert_iim#:#Inserisci immagine interattiva
 content#:#cont_ed_insert_incl#:#Inserisci frammento di contenuto
-content#:#cont_ed_insert_learning_history#:#Inserisci la storia dell'apprendimento
 content#:#cont_ed_insert_lhist#:#Inserisci Storico progressi didattici
 content#:#cont_ed_insert_list#:#inserisci lista
-content#:#cont_ed_insert_login_page_element#:#Inserisci elemento nella pagina di accesso
 content#:#cont_ed_insert_lpe#:#Inserisci elemento della pagina di login
 content#:#cont_ed_insert_map#:#Inserisci Mappa
 content#:#cont_ed_insert_mcrs#:#Inserisci i miei corsi
 content#:#cont_ed_insert_media#:#inserisci multimedia
-content#:#cont_ed_insert_my_courses#:#Inserisci Miei corsi
 content#:#cont_ed_insert_par#:#inserisci paragrafo
 content#:#cont_ed_insert_pcqst#:#Inserisci domanda
 content#:#cont_ed_insert_plach#:#Inserisci segnaposto
 content#:#cont_ed_insert_prof#:#Inserisci dati personali
-content#:#cont_ed_insert_profile#:#Inserisci dati personali
 content#:#cont_ed_insert_qover#:#Inserisci panoramica domande
 content#:#cont_ed_insert_repobj#:#Inserisci Elenco Risorse
 content#:#cont_ed_insert_sec#:#Inserisci Sezione
-content#:#cont_ed_insert_section#:#Inserisci Sezione
 content#:#cont_ed_insert_skills#:#Inserisci competenze
 content#:#cont_ed_insert_src#:#Inserisci Codice
 content#:#cont_ed_insert_tab#:#Inserisci Tabella Avanzata
 content#:#cont_ed_insert_tabs#:#Inserisci Tabs
 content#:#cont_ed_insert_templ#:#Inserisci modello di contenuto
-content#:#cont_ed_insert_verification#:#Inserisci verifica
 content#:#cont_ed_insert_vrfc#:#Insert Certificate
 content#:#cont_ed_item_down#:#sposta loggetto in basso
 content#:#cont_ed_item_up#:#Sposta elemento in alto
@@ -6914,8 +6851,6 @@ content#:#cont_select_none#:#Clear Selection
 content#:#cont_select_other_qpool#:#Seleziona altro gruppo
 content#:#cont_select_par_or_section#:#Seleziona almeno un paragrafo o una sezione
 content#:#cont_self_assessment#:#Autovalutazione
-content#:#cont_sel_el_copied_use_paste#:#Gli elementi selezionati sono stati copiati. Fai clic sul segnaposto di destinazione desiderato e seleziona "Incolla".
-content#:#cont_sel_el_cut_use_paste#:#Gli elementi selezionati sono stati tagliati. Fai clic sul segnaposto di destinazione desiderato e seleziona "Incolla".
 content#:#cont_sel_el_use_paste#:#Selected elements are now in the clipboard. Please click the desired target placeholder and select ‘Paste’.
 content#:#cont_Separator#:#Separatore
 content#:#cont_sequencing#:#Sequenziamento e navigazione
@@ -6999,7 +6934,6 @@ content#:#cont_text_code#:#Codice:
 content#:#cont_text_com#:#Commento:
 content#:#cont_text_emp#:#Testo enfatizzato:
 content#:#cont_text_fn#:#Note in calce alla pagina:
-content#:#cont_text_iln#:#Collegamenti interni, per.es:
 content#:#cont_text_iln_link#:#Interal Link
 content#:#cont_text_imp#:#Importante:
 content#:#cont_text_keyword#:#Parola chiave
@@ -9404,17 +9338,10 @@ file#:#file_suffix_default_white_info#:#Elenco predefinito di suffissi di file a
 file#:#file_suffix_overall_white#:#Elenco elementi consentiti suffisso complessivo
 file#:#file_suffix_overall_white_info#:#Risultante elenco complessivo dei suffissi di file accettati.
 file#:#file_uploaded_by#:#Caricato da
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Il file caricato contiene un terminatore critico o sconosciuto. L'estensione di file verra' cambiata in .sec per ogni download.
 file#:#general_upload_error_occured#:#Si è verificato un errore inaspettato alla carica del file.
 file#:#generate_sanitize_report#:#Segnala file inaccessibili
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
-file#:#personal_resources_disk_quota#:#Limite di quota dell'Hard Disk per le risorse personali
-file#:#personal_resources_disk_quota_info#:#Consente la definizione di una quota dell'Hard Disk per ogni account utente e ogni ruolo globale. Questa quota interessa solo i file nelle risorse personali e nei portfolio. Non appena un utente supera la quota definita, ILIAS proibirà all'utente di caricare più file fino a quando lo spazio su disco utilizzato non sarà nuovamente al di sotto della quota.
-file#:#personal_resources_quota_exceeded_warning#:#Hai superato la quota dell'Hard Disk per le tue risorse personali
-file#:#personal_resources_quota_status_legend#:#Stai usando %1$s della quota totale del tuo hard disk di %2$s (%3$d%%).
 file#:#replace_file_info#:#Tutte le versioni del file verranno cancellate.
-file#:#repository_disk_quota#:#Quota disco per l'archivio
-file#:#repository_disk_quota_info#:#Se attivato, la quota del disco della rivista verrà controllata per ciascun utente e le e-mail verranno inviate agli amministratori e agli utenti facoltativamente.
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Gestisci Upload e versioni nella scheda "Versioni"
 fils#:#file_services#:#File Services
@@ -9429,13 +9356,6 @@ fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List
 fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
 fils#:#file_suffix_overall_positive#:#Overall Positive List
 fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.
-fm#:#fm_settings_active#:#Abilita il Gestore file
-fm#:#fm_settings_active_info#:#Gli utenti possono aprire le categorie, i corsi, i gruppi e le cartelle con il comando "Apri con File Manager" nel repository.
-fm#:#fm_settings_filesize#:#Massima dimensione del file in upload
-fm#:#fm_settings_filesize_info#:#Inserisca la grandezza massima ammessa (in Megabyte) per i file da caricare
-fm#:#fm_settings_local#:#mostra il file system locale
-fm#:#fm_settings_local_info#:#Se abilitato, il gestore file inizia con due frame, uno mostra il file system locale, l'altro contiene la vista del repository ILIAS. Se disabilitato, solo il repository ILIAS è visualizzato.
-fm#:#fm_settings_tab#:#Gestore file
 fold#:#fold_copy#:#Copia cartella
 fold#:#fold_import#:#Importa Cartella
 fold#:#fold_presentation#:#Presentazione cartella
@@ -12221,7 +12141,6 @@ pdfgen#:#overwrite_font_info#:#Scrivere qualcosa simile a: 'serif', 'sans-serif'
 pdfgen#:#page_settings#:#Impostazioni pagina
 pdfgen#:#page_size#:#Grandezza pagina
 pdfgen#:#path#:#Percorso di file binario
-pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#preferred_renderer#:#Renderer preferito
 pdfgen#:#print_media_info#:#Usa il tipo di supporto di stampa invece dello schermo
 pdfgen#:#print_media_type#:#Utilizzare il tipo di supporto di stampa anziché lo schermo
@@ -12311,8 +12230,6 @@ prg#:#content_automation#:#Automazione del contenuto
 prg#:#content_automation_title#:#Aggiungi e rimuovi automaticamente i corsi da queste categorie
 prg#:#could_not_add_users_no_permissons#:#Non è stato possibile assegnare %d utenti a causa della mancanza di permessi
 prg#:#deadline_information#:#Informazioni sul periodo di fruizione
-prg#:#dealine_date_info#:#Data di scadenza
-prg#:#dealine_period_info#:#Giorni per la fruizione a seguito dell'assegnazione
 prg#:#edit_participants#:#Modifica membri
 prg#:#error_updating_deadline#:#Errore durante l'aggiornamento della scadenza.
 prg#:#error_updating_expire_date#:#Errore durante l'aggiornamento della data di scadenza.
@@ -12336,9 +12253,7 @@ prg#:#not_a_valid_cat_id#:#%s non è un ref-id valido di una categoria.
 prg#:#no_srctype_or_id#:#Id e tipo non possono essere vuoti
 prg#:#orgu#:#Unità organizzative
 prg#:#percentage#:#%
-prg#:#prgr_edit_info#:#Scegli un programma di studio per creare un nuovo link.
 prg#:#prgr_may_not_create_circular_reference#:#Questo programma di studio non può essere collegato qui poiché l'oggetto padre è già collegato all'interno dell'obiettivo.
-prg#:#prgr_new#:#Crea il link al programma di studio
 prg#:#prg_access_by_orgu#:#Controllo dell'accesso per posizioni dell'unità organizzativa
 prg#:#prg_access_by_orgu_byline#:#Se abilitato, è possibile definire ulteriori regole di controllo dell'accesso per posizioni in unità organizzative.
 prg#:#prg_acknowledge_completed_courses#:#Conferma corsi completati
@@ -12639,7 +12554,6 @@ prtf#:#prtf_template_import_blog_create#:#Crea nuovo blog
 prtf#:#prtf_template_import_blog_ignore#:#Elimina pagine blog
 prtf#:#prtf_template_import_blog_reuse#:#Utilizza blog esistente
 prtf#:#prtf_template_import_new_skills#:#Se attivate, queste voci verranno aggiunte alle proprie competenze personali.
-prtf#:#prtf_template_import_quota_failure#:#Il modello di portfolio non può essere copiato perché supererebbe la quota disco.
 prtf#:#prtf_unset_as_default#:#Non usare come mio profilo
 prtf#:#prtf_unset_default_share_info#:#I cambiamenti sono stati salvati. Controlla per favore l'autorizzazione per il portfolio.
 prtf#:#prtf_use_page_layout#:#Usa il layout della pagina
@@ -12764,7 +12678,6 @@ pwassist#:#pwassist_username_mail_body#:#Questi sono i nomi utente attivi trovat
 pwassist#:#unassist_disabled_no_access#:#L'assistenza per il nome utente non è abilitata. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: %s
 pwsp#:#pwsp_enable_personal_resources#:#Attiva risorse personali
 pwsp#:#pwsp_enable_wsp_blogs#:#Attiva blog
-pwsp#:#pwsp_enable_wsp_certificates#:#Abilita Certificati
 pwsp#:#pwsp_enable_wsp_files#:#Attiva files
 pwsp#:#pwsp_enable_wsp_links#:#Attiva links
 qpl#:#qpl_page_type_qfbg#:#Feedback generale
@@ -13877,158 +13790,6 @@ rep#:#rep_tree_limit_info#:#Il numero di oggetti nell'albero del repository sar�
 rep#:#rep_tree_limit_number#:#Numero massimo
 rep#:#rep_tree_limit_number_info#:#Numero massimo di elementi figli che sono inizialmente mostrati per un nodo espanso. Se sono presenti più elementi figli, viene mostrato un campo di input di ricerca per filtrare gli elementi figli per titolo.
 rep#:#rep_visibility_until#:#Temporaneamente disponibile
-rep_robj_xhfp#:#rep_robj_xhfp_actions#:#Azioni
-rep_robj_xhfp#:#rep_robj_xhfp_add#:#Aggiungi
-rep_robj_xhfp#:#rep_robj_xhfp_added_libraries#:#Aggiunte %%new nuova librerie H5P.
-rep_robj_xhfp#:#rep_robj_xhfp_added_libraries_updated_libraries#:#Aggiunte %%new nuove librerie H5P e aggiornate %%old quelle vecchie.
-rep_robj_xhfp#:#rep_robj_xhfp_added_libraries_updated_library#:#Aggiunte %%new nuove librerie H5P e aggiornata %%old quella vecchia.
-rep_robj_xhfp#:#rep_robj_xhfp_added_library#:#Aggiunta %%new nuova libreria H5P.
-rep_robj_xhfp#:#rep_robj_xhfp_added_library_updated_libraries#:#Aggiunta %%new nuova libreria H5P e aggiornate %%old quelle vecchie.
-rep_robj_xhfp#:#rep_robj_xhfp_added_library_updated_library#:#Aggiunta %%new nuova libreria H5P e aggiornata %%old quella vecchia.
-rep_robj_xhfp#:#rep_robj_xhfp_add_content#:#Aggiungi contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_all#:#Tutti
-rep_robj_xhfp#:#rep_robj_xhfp_author#:#Autore
-rep_robj_xhfp#:#rep_robj_xhfp_by#:#di
-rep_robj_xhfp#:#rep_robj_xhfp_cancel#:#Cancella
-rep_robj_xhfp#:#rep_robj_xhfp_categories#:#Categorie
-rep_robj_xhfp#:#rep_robj_xhfp_close#:#Chiudi
-rep_robj_xhfp#:#rep_robj_xhfp_confirm#:#Conferma
-rep_robj_xhfp#:#rep_robj_xhfp_confirm_action#:#Conferma azione
-rep_robj_xhfp#:#rep_robj_xhfp_confirm_action_text#:#Conferma di voler procedere. Questa azione non è reversibile.
-rep_robj_xhfp#:#rep_robj_xhfp_content#:#Contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_contents#:#Contenuti
-rep_robj_xhfp#:#rep_robj_xhfp_contents()->shows#:#Contenuti
-rep_robj_xhfp#:#rep_robj_xhfp_content_changed#:#Questo contenuto è cambiato dall'ultima volta che lo hai utilizzato.
-rep_robj_xhfp#:#rep_robj_xhfp_content_count#:#Contenuto %1$d di %2$d
-rep_robj_xhfp#:#rep_robj_xhfp_content_not_exists#:#Questo contenuto H5P non esiste più
-rep_robj_xhfp#:#rep_robj_xhfp_content_types#:#Tipi di contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_delete#:#Cancella
-rep_robj_xhfp#:#rep_robj_xhfp_deleted_content#:#Contenuto %s cancellato
-rep_robj_xhfp#:#rep_robj_xhfp_deleted_files#:#Il seguente file è stato eliminato in %s:
-rep_robj_xhfp#:#rep_robj_xhfp_deleted_library#:#Libreria %s cancellata
-rep_robj_xhfp#:#rep_robj_xhfp_deleted_results#:#Risultati di %s cancellati
-rep_robj_xhfp#:#rep_robj_xhfp_delete_content#:#Cancella contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_delete_content_confirm#:#Vuoi davvero eliminare il contenuto: %s ?
-rep_robj_xhfp#:#rep_robj_xhfp_delete_library_confirm#:#Vuoi davvero eliminare questa libreria: %s ?
-rep_robj_xhfp#:#rep_robj_xhfp_delete_library_in_use#:#La libreria è in uso
-rep_robj_xhfp#:#rep_robj_xhfp_delete_old_events#:#Cancella i vecchi registri degli eventi
-rep_robj_xhfp#:#rep_robj_xhfp_delete_old_events_description#:#Cancella i vecchi registri degli eventi generati da H5P
-rep_robj_xhfp#:#rep_robj_xhfp_delete_old_tmp_files#:#Cancella i vecchi file temporanei
-rep_robj_xhfp#:#rep_robj_xhfp_delete_old_tmp_files_description#:#Cancella i vecchi file temporanei generati da H5P
-rep_robj_xhfp#:#rep_robj_xhfp_delete_results_confirm#:#Vuoi davvero eliminare i risultati di %s?
-rep_robj_xhfp#:#rep_robj_xhfp_description#:#Descrizione
-rep_robj_xhfp#:#rep_robj_xhfp_details#:#Dettagli
-rep_robj_xhfp#:#rep_robj_xhfp_disable_fullscreen#:#Disattiva il fullscreen
-rep_robj_xhfp#:#rep_robj_xhfp_download#:#Scarica
-rep_robj_xhfp#:#rep_robj_xhfp_download_content#:#Scarica questo contenuto come file H5P.
-rep_robj_xhfp#:#rep_robj_xhfp_edit#:#Modifica
-rep_robj_xhfp#:#rep_robj_xhfp_edit_content#:#modifica contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_edit_permission#:#Modifica permesso
-rep_robj_xhfp#:#rep_robj_xhfp_embed#:#Incorporato
-rep_robj_xhfp#:#rep_robj_xhfp_embed_include_script#:#Includi questo script nel tuo sito web se desideri il ridimensionamento dinamico del contenuto incorporato:
-rep_robj_xhfp#:#rep_robj_xhfp_enable_lrs_content_types#:#Abilita i tipi di contenuto dipendenti da LRS.
-rep_robj_xhfp#:#rep_robj_xhfp_enable_lrs_content_types_info#:#Rendi possibile utilizzare i tipi di contenuto che si basano su un archivio di record di apprendimento per funzionare correttamente, come il tipo di contenuto Questionario.
-rep_robj_xhfp#:#rep_robj_xhfp_example#:#Esempio
-rep_robj_xhfp#:#rep_robj_xhfp_export#:#Esporta
-rep_robj_xhfp#:#rep_robj_xhfp_export_content#:#Esporta contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_files#:#Files:
-rep_robj_xhfp#:#rep_robj_xhfp_finish#:#Finire
-rep_robj_xhfp#:#rep_robj_xhfp_finished#:#Finito
-rep_robj_xhfp#:#rep_robj_xhfp_fullscreen#:#Schermo Intero
-rep_robj_xhfp#:#rep_robj_xhfp_hide_advanced#:#Nascondi avanzate
-rep_robj_xhfp#:#rep_robj_xhfp_hub#:#HUB
-rep_robj_xhfp#:#rep_robj_xhfp_hub_last_refresh#:#HUB ultimo aggiornamento: %s
-rep_robj_xhfp#:#rep_robj_xhfp_hub_refresh#:#Aggiorna HUB
-rep_robj_xhfp#:#rep_robj_xhfp_hub_refreshed#:#HUB è stato aggiornato correttamente
-rep_robj_xhfp#:#rep_robj_xhfp_import#:#Importa
-rep_robj_xhfp#:#rep_robj_xhfp_import_content#:#Importa contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_incomplete_content#:#Il contenuto H5P è incompleto. Si prega di controllare tutti gli input e i campi obbligatori
-rep_robj_xhfp#:#rep_robj_xhfp_install#:#Installa
-rep_robj_xhfp#:#rep_robj_xhfp_installed#:#Installato
-rep_robj_xhfp#:#rep_robj_xhfp_installed_libraries#:#Librerie installate
-rep_robj_xhfp#:#rep_robj_xhfp_installed_version#:#Versione installata
-rep_robj_xhfp#:#rep_robj_xhfp_keywords#:#Parole chiave
-rep_robj_xhfp#:#rep_robj_xhfp_latest_version#:#Ultima versione
-rep_robj_xhfp#:#rep_robj_xhfp_libraries#:#Librerie
-rep_robj_xhfp#:#rep_robj_xhfp_library#:#Libreria
-rep_robj_xhfp#:#rep_robj_xhfp_license#:#Licenza
-rep_robj_xhfp#:#rep_robj_xhfp_manage_contents#:#Modifica
-rep_robj_xhfp#:#rep_robj_xhfp_msg_content_not_editable#:#I contenuti non possono essere modificati, poiché ci sono già dei risultati.
-rep_robj_xhfp#:#rep_robj_xhfp_next_content#:#Contenuto successivo
-rep_robj_xhfp#:#rep_robj_xhfp_no#:#No
-rep_robj_xhfp#:#rep_robj_xhfp_not_available#:#Non disponibile
-rep_robj_xhfp#:#rep_robj_xhfp_not_installed#:#Non installato
-rep_robj_xhfp#:#rep_robj_xhfp_no_content_copyright#:#Nessuna informazione di copyright disponibile per questo contenuto.
-rep_robj_xhfp#:#rep_robj_xhfp_no_result#:#Nessun risultato
-rep_robj_xhfp#:#rep_robj_xhfp_objs_xhfp_duplicate#:#Copia di H5P
-rep_robj_xhfp#:#rep_robj_xhfp_obj_xhfp#:#H5P
-rep_robj_xhfp#:#rep_robj_xhfp_obj_xhfp_duplicate#:#Copia H5P
-rep_robj_xhfp#:#rep_robj_xhfp_offline#:#Offline
-rep_robj_xhfp#:#rep_robj_xhfp_online#:#Online
-rep_robj_xhfp#:#rep_robj_xhfp_only_not_used#:#Solo non utilizzato
-rep_robj_xhfp#:#rep_robj_xhfp_only_runnable#:#Solo eseguibile
-rep_robj_xhfp#:#rep_robj_xhfp_permission_denied#:#Permesso negato
-rep_robj_xhfp#:#rep_robj_xhfp_previous_content#:#Contenuto precedente
-rep_robj_xhfp#:#rep_robj_xhfp_rbac_create_xhfp#:#Crea H5P
-rep_robj_xhfp#:#rep_robj_xhfp_read#:#Letto
-rep_robj_xhfp#:#rep_robj_xhfp_refresh_hub#:#Aggiorna elenco hub
-rep_robj_xhfp#:#rep_robj_xhfp_refresh_hub_description#:#Ricarica l'elenco degli hub
-rep_robj_xhfp#:#rep_robj_xhfp_rep_robj_xhfp_obj_xhfp#:#H5P
-rep_robj_xhfp#:#rep_robj_xhfp_required_libraries#:#Librerie richieste
-rep_robj_xhfp#:#rep_robj_xhfp_results#:#Risultati
-rep_robj_xhfp#:#rep_robj_xhfp_rights_of_use#:#Diritti di utilizzo
-rep_robj_xhfp#:#rep_robj_xhfp_runnable#:#Eseguibile
-rep_robj_xhfp#:#rep_robj_xhfp_save#:#Salva
-rep_robj_xhfp#:#rep_robj_xhfp_saved_content#:#%s salvato
-rep_robj_xhfp#:#rep_robj_xhfp_send_usage_statistics#:#Contribuisci automaticamente alle statistiche sull'utilizzo
-rep_robj_xhfp#:#rep_robj_xhfp_send_usage_statistics_info#:#I numeri delle statistiche di utilizzo verranno riportati automaticamente per aiutare gli sviluppatori a capire meglio come viene utilizzato H5P e per determinare potenziali aree di miglioramento. Ulteriori informazioni sui dati raccolti su %s.
-rep_robj_xhfp#:#rep_robj_xhfp_settings#:#Impostazioni
-rep_robj_xhfp#:#rep_robj_xhfp_settings_saved#:#Impostazioni salvate
-rep_robj_xhfp#:#rep_robj_xhfp_show#:#Mostra
-rep_robj_xhfp#:#rep_robj_xhfp_show_advanced#:#Mostra avanzato
-rep_robj_xhfp#:#rep_robj_xhfp_show_less#:#Mostra meno
-rep_robj_xhfp#:#rep_robj_xhfp_show_more#:#Mostra di più
-rep_robj_xhfp#:#rep_robj_xhfp_size#:#Dimensione
-rep_robj_xhfp#:#rep_robj_xhfp_solved_all_contents#:#Hai già risolto tutti i contenuti.
-rep_robj_xhfp#:#rep_robj_xhfp_solved_content#:#Hai già risolto questo contenuto.
-rep_robj_xhfp#:#rep_robj_xhfp_solve_only_once#:#Risolvi i contenuti solo una volta
-rep_robj_xhfp#:#rep_robj_xhfp_solve_only_once_info#:#Nota: Per alcuni contenuti potrebbe essere necessario disattivare il pulsante soluzione / riprova
-rep_robj_xhfp#:#rep_robj_xhfp_source#:#Fonte
-rep_robj_xhfp#:#rep_robj_xhfp_start_over#:#Ricomincerai da capo.
-rep_robj_xhfp#:#rep_robj_xhfp_status#:#Stato
-rep_robj_xhfp#:#rep_robj_xhfp_sublevel#:#Sottolivello
-rep_robj_xhfp#:#rep_robj_xhfp_summary#:#Sommario
-rep_robj_xhfp#:#rep_robj_xhfp_thumbnail#:#Miniatura
-rep_robj_xhfp#:#rep_robj_xhfp_title#:#Titolo
-rep_robj_xhfp#:#rep_robj_xhfp_tutorial#:#Tutorial
-rep_robj_xhfp#:#rep_robj_xhfp_updated_libraries#:#Aggiornate le librerie H5P %%old
-rep_robj_xhfp#:#rep_robj_xhfp_updated_library#:#Aggiornata la libreria H5P %%old
-rep_robj_xhfp#:#rep_robj_xhfp_upgrade#:#Aggiornamento
-rep_robj_xhfp#:#rep_robj_xhfp_upgrade_available#:#Aggiornamento disponibile
-rep_robj_xhfp#:#rep_robj_xhfp_upload#:#Carica
-rep_robj_xhfp#:#rep_robj_xhfp_uploaded_files#:#I seguenti file(s) sono stati caricati su %s:
-rep_robj_xhfp#:#rep_robj_xhfp_uploaded_files_failed#:#I seguenti file(s) non sono stati accettati perché hanno un'estensione dannosa:
-rep_robj_xhfp#:#rep_robj_xhfp_upload_file#:#Caricare un file
-rep_robj_xhfp#:#rep_robj_xhfp_upload_file_info#:#Carica un file\nI file zip vengono estratti automaticamente\nInserisci il file iniziale in "Fonte"
-rep_robj_xhfp#:#rep_robj_xhfp_upload_library#:#Carica libreria
-rep_robj_xhfp#:#rep_robj_xhfp_usage_contents#:#Contenuti che lo utilizzano
-rep_robj_xhfp#:#rep_robj_xhfp_usage_libraries#:#Librerie che lo utilizzano
-rep_robj_xhfp#:#rep_robj_xhfp_usage_statistics#:#Statistiche di utilizzo
-rep_robj_xhfp#:#rep_robj_xhfp_user#:#Utente
-rep_robj_xhfp#:#rep_robj_xhfp_version#:#Versione
-rep_robj_xhfp#:#rep_robj_xhfp_view_content_copyright#:#Visualizza le informazioni sul copyright per questo contenuto.
-rep_robj_xhfp#:#rep_robj_xhfp_view_embed_code#:#Visualizza il codice di incorporamento per questo contenuto.
-rep_robj_xhfp#:#rep_robj_xhfp_visible#:#Visibile
-rep_robj_xhfp#:#rep_robj_xhfp_write#:#Scrivi
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_add#:#Aggiungi
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_delete#:#Cancella
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_edit_permission#:#Modifica permessi
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_new#:#Nuovo H5P
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_read#:#Leggi
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_visible#:#Visibile
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_write#:#Modifica
-rep_robj_xhfp#:#rep_robj_xhfp_year#:#Anno
-rep_robj_xhfp#:#rep_robj_xhfp_yes#:#Sì
 rfil#:#rfil_call#:#Richiama file ESC
 rfil#:#rfil_version_tstamp#:#Carica dati
 rglo#:#rglo_call#:#Richiama Glossario ESC
@@ -15197,7 +14958,6 @@ style#:#system_style_activation#:#Stile sistema attivato
 style#:#system_style_activation_description#:#Gli stili di sistema attivi possono essere assegnati agli utenti o anche selezionati dagli utenti se questa impostazione è attivata (vedi Gestione utenti/impostazioni/campi standard/interfaccia predefinita).
 style#:#system_style_default_description#:#Imposta questo stile come stile di sistema predefinito. Lo stile di sistema predefinito viene utilizzato se l’attuale utente non ha uno stile assegnato o se non è connesso.
 style#:#system_style_personal_description#:#Imposta questo stile come il tuo stile di sistema personale. Questo potrebbe essere utile per vedere le modifiche attualmente eseguite.
-style#:#to#:#a:
 style#:#update_colors#:#Aggiornamento colori
 style#:#update_icon#:#Aggiorna icona
 style#:#update_variables#:#Aggiorna variabili
@@ -16794,3 +16554,96 @@ wsp#:#wsp_type_scov#:#Certificato: SCORM
 wsp#:#wsp_type_tstv#:#Certificato: Test
 wsp#:#wsp_type_webr#:#Collegamento web
 wsp#:#wsp_type_wfld#:#Cartella
+auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.###09 03 2022 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###09 03 2022 new variable
+common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:###09 03 2022 new variable
+common#:#msg_no_files_selected#:#No files selected###09 03 2022 new variable
+assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###09 03 2022 new variable
+assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###09 03 2022 new variable
+assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###09 03 2022 new variable
+common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service###09 03 2022 new variable
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###09 03 2022 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###09 03 2022 new variable
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.###09 03 2022 new variable
+common#:#hist_lm_pg_update#:#Page changed.###09 03 2022 new variable
+content#:#cont_link#:#Link###09 03 2022 new variable
+content#:#cont_pc_media#:#Image/Media###09 03 2022 new variable
+dateplaner#:#cal_change_calendar_view#:#Change Calendar View###09 03 2022 new variable
+common#:#obj_chtr_duplicate#:#Copy Chat Room###09 03 2022 new variable
+assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
+assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+style#:#style#:#Style###09 03 2022 new variable
+cmix#:#conf_switch_to_review#:#Switch to Review Mode###09 03 2022 new variable
+cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.###09 03 2022 new variable
+cmix#:#conf_mastery_score#:#Mastery Score###09 03 2022 new variable
+cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'passed'.###09 03 2022 new variable
+cmix#:#conf_new_window#:#New Window###09 03 2022 new variable
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###09 03 2022 new variable
+cmix#:#type_cmi5#:#cmi5 Learning Module###09 03 2022 new variable
+cmix#:#type_generic#:#xAPI Standard Object###09 03 2022 new variable
+cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.###09 03 2022 new variable
+cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###09 03 2022 new variable
+cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###09 03 2022 new variable
+common#:#prgr_new#:#Create Study Programme Link###09 03 2022 new variable
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###09 03 2022 new variable
+prg#:#auto_membership_description#:#Rules are only executed when a criterion gets fulfilled after activation of the rule. Deleting rules will not remove assignments if any other active criterion is fulfilled by that time.###09 03 2022 new variable
+file#:#resource_id#:#Resource ID###09 03 2022 new variable
+file#:#storage_id#:#Storage ID###09 03 2022 new variable
+file#:#versionname#:#Title###09 03 2022 new variable
+file#:#version_uploaded#:#Version uploaded###09 03 2022 new variable
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.###09 03 2022 new variable
+file#:#migrated#:#Status###09 03 2022 new variable
+common#:#il_lti_learner#:#LTI Learner###09 03 2022 new variable
+common#:#il_lti_instructor#:#LTI Instructor###09 03 2022 new variable
+rbac#:#il_lti_global_role#:#LTI User###09 03 2022 new variable
+common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
+common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
+prg#:#msg_mark_relevant#:#%s users successfully marked relevant###09 03 2022 new variable
+prg#:#msg_mark_relevant_failed#:#Not marked marked relevant:###09 03 2022 new variable
+prg#:#msg_mark_not_relevant#:#%s users successfully unmarked relevant###09 03 2022 new variable
+prg#:#msg_mark_not_relevant_failed#:#Not unmarked relevant:###09 03 2022 new variable
+prg#:#msg_mark_accredited#:#%s users successfully marked accredited###09 03 2022 new variable
+prg#:#msg_mark_accredited_failed#:#Not marked accredited:###09 03 2022 new variable
+prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.###09 03 2022 new variable
+prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:###09 03 2022 new variable
+prg#:#msg_update_from_settings#:#Updated %s users from settings:###09 03 2022 new variable
+prg#:#msg_update_from_settings_failed#:#Updated from settings failed:###09 03 2022 new variable
+prg#:#msg_change_deadline_date#:#Updated deadline for %s users.###09 03 2022 new variable
+prg#:#msg_change_deadline_date_failed#:#Deadline not updated for:###09 03 2022 new variable
+prg#:#msg_change_expire_date#:#Updated expire date for %s users.###09 03 2022 new variable
+prg#:#msg_change_expire_date_failed#:#Expire date not updated for:###09 03 2022 new variable
+prg#:#status_transition_not_allowed#:#Status change not allowed###09 03 2022 new variable
+prg#:#will_not_modify_irrelevant_progress#:#No change because not relevant###09 03 2022 new variable
+prg#:#will_not_modify_deadline_on_successful_progress#:#No change because already completed or marked accredited###09 03 2022 new variable
+prg#:#status_changed#:#Updated status###09 03 2022 new variable
+prg#:#validity_updated#:#Updated validity###09 03 2022 new variable
+prg#:#deadline_updated#:#Updated deadline###09 03 2022 new variable
+prg#:#updated_from_settings#:#Updated from settings###09 03 2022 new variable
+prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)###09 03 2022 new variable
+prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed###09 03 2022 new variable
+prg#:#msg_points_must_be_positive#:#Only positive numbers are allowed.###09 03 2022 new variable
+prg#:#msg_impossible_target_status#:#Impossible target status###09 03 2022 new variable
+prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?###09 03 2022 new variable
+prg#:#will_not_set_top_progress_to_irrelevant#:#Cannot change top node to irrelevant.###09 03 2022 new variable
+prg#:#assignments#:#Assignments###09 03 2022 new variable
+prg#:#mail_assignments#:#Mail to assigned Users###09 03 2022 new variable
+prg#:#manage_assignments#:#Manage Assignments###09 03 2022 new variable
+prg#:#prg_manage_members_short#:#Manage Assignments###09 03 2022 new variable
+prg#:#will_not_modify_relevant_progress#:#already relevant###09 03 2022 new variable
+prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when successful###09 03 2022 new variable
+prg#:#status_unchanged#:#Status unchanged###09 03 2022 new variable
+content#:#cont_media#:#Images/Media###09 03 2022 new variable
+content#:#cont_sur_block_format#:#Surrounding Section###09 03 2022 new variable
+ui#:#datetime_required#:#Time/Date required###09 03 2022 new variable
+ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###09 03 2022 new variable
+forum#:#sticky_threads_sorting#:#Sticky Threads Sorting###09 03 2022 new variable
+common#:#actions_for#:#Actions for %s###09 03 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###09 03 2022 new variable
+exc#:#exc_fullscreen#:#Fullscreen###09 03 2022 new variable
+rating#:#rating_avg_rating#:#Average Rating###09 03 2022 new variable
+rating#:#rating_personal_rating#:#Your Rating###09 03 2022 new variable
+rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars###09 03 2022 new variable
+rating#:#rating_open_dialog#:#Open rating dialog###09 03 2022 new variable
+tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###09 03 2022 new variable
+rep#:#rep_favourites#:#Favourites###09 03 2022 new variable
+rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###09 03 2022 new variable

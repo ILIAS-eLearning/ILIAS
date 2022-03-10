@@ -12,7 +12,7 @@ include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
  */
 abstract class ilADTSearchBridge
 {
-    const DEFAULT_SEARCH_COLUMN = 'value';
+    public const DEFAULT_SEARCH_COLUMN = 'value';
 
     protected $form; // [ilPropertyFormGUI]
     protected $table_gui; // [ilTable2GUI]
@@ -256,22 +256,21 @@ abstract class ilADTSearchBridge
     {
         $element_id = $this->getElementId();
         $multi = strpos($this->getElementId(), "[");
-        
-        if (!$a_post) {
+
+        // get rid of this case
+        if ($a_post === null) {
             $a_post = $_POST;
             if ($multi !== false) {
                 $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi + 1, -1)];
             } else {
                 $post = $a_post[$element_id];
             }
+        } elseif ($multi !== false) {
+            $post = $a_post[substr($element_id, $multi + 1, -1)];
         } else {
-            if ($multi !== false) {
-                $post = $a_post[substr($element_id, $multi + 1, -1)];
-            } else {
-                $post = $a_post[$element_id];
-            }
+            $post = $a_post[$element_id];
         }
-        
+
         return $post;
     }
     
@@ -306,7 +305,7 @@ abstract class ilADTSearchBridge
      * Compare directly against ADT
      *
      * @param ilADT $a_adt
-     * @return boolean
+     * @return bool
      */
     public function isInCondition(ilADT $a_adt)
     {
