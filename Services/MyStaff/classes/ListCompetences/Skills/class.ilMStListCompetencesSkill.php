@@ -11,7 +11,7 @@ class ilMStListCompetencesSkill
     protected string $login;
     protected string $last_name;
     protected string $first_name;
-    protected integer $user_id;
+    protected int $user_id;
 
     public function __construct(
         string $skill_title,

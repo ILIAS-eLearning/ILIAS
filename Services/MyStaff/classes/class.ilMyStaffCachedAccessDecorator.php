@@ -32,7 +32,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         $this->origin = $origin;
     }
 
-    final public function hasCurrentUserAccessToMyStaff() : bool
+    public function hasCurrentUserAccessToMyStaff() : bool
     {
         static $cache = null;
 
@@ -46,7 +46,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         return $cache;
     }
 
-    final public function hasCurrentUserAccessToCertificates() : bool
+    public function hasCurrentUserAccessToCertificates() : bool
     {
         static $cache = null;
 
@@ -57,7 +57,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         return $cache;
     }
 
-    final public function hasCurrentUserAccessToCompetences() : bool
+    public function hasCurrentUserAccessToCompetences() : bool
     {
         static $cache = null;
 
@@ -68,7 +68,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         return $cache;
     }
 
-    final public function hasCurrentUserAccessToUser($usr_id = 0) : bool
+    public function hasCurrentUserAccessToUser($usr_id = 0) : bool
     {
         static $cache = [];
 
@@ -79,7 +79,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         return $cache[$usr_id];
     }
 
-    final public function hasCurrentUserAccessToLearningProgressInObject($ref_id = 0) : bool
+    public function hasCurrentUserAccessToLearningProgressInObject($ref_id = 0) : bool
     {
         static $cache = [];
 
@@ -90,7 +90,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         return $cache[$ref_id];
     }
 
-    final  public function hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser() : bool
+    public function hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser() : bool
     {
         static $cache = null;
 
@@ -121,12 +121,12 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         return $cache[$cache_key];
     }
 
-    final public function countOrgusOfUserWithAtLeastOneOperation($user_id) : int
+    public function countOrgusOfUserWithAtLeastOneOperation($user_id) : int
     {
         return $this->origin->countOrgusOfUserWithAtLeastOneOperation($user_id);
     }
 
-    final public function countOrgusOfUserWithOperationAndContext(
+    public function countOrgusOfUserWithOperationAndContext(
         $user_id,
         $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
         $context = self::DEFAULT_CONTEXT
@@ -138,7 +138,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    final public function getUsersForUserOperationAndContext(
+
+    public function getUsersForUserOperationAndContext(
         $user_id,
         $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
         $context = self::DEFAULT_CONTEXT,
@@ -152,17 +153,20 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    final  public function getUsersForUserPerPosition($user_id) : array
+
+    public function getUsersForUserPerPosition($user_id) : array
     {
         return $this->origin->getUsersForUserPerPosition($user_id);
     }
 
-    final public function getUsersForUser($user_id, ?int $position_id = null) : array
+
+    public function getUsersForUser($user_id, ?int $position_id = null) : array
     {
         return $this->origin->getUsersForUser($user_id, $position_id);
     }
 
-    final public function getIdsForUserAndOperation(int $user_id, string $operation, bool $return_ref_id = false) : array
+
+    public function getIdsForUserAndOperation(int $user_id, string $operation, bool $return_ref_id = false) : array
     {
         return $this->origin->getIdsForUserAndOperation(
             $user_id,
@@ -171,7 +175,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    final public function getIdsForPositionAndOperation(int $position_id, string $operation, bool $return_ref_id) : array
+
+    public function getIdsForPositionAndOperation(int $position_id, string $operation, bool $return_ref_id) : array
     {
         return $this->origin->getIdsForPositionAndOperation(
             $position_id,
@@ -180,7 +185,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    final public function getIdsForPositionAndOperationAndContext(
+
+    public function getIdsForPositionAndOperationAndContext(
         int $position_id,
         string $operation,
         string $context,
@@ -194,7 +200,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    final public function getIlobjectsAndUsersForUserOperationAndContext(
+
+    public function getIlobjectsAndUsersForUserOperationAndContext(
         $user_id,
         $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
         $context = self::DEFAULT_CONTEXT
@@ -206,7 +213,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    final  public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
+
+    public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
         $user_id,
         $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
         $context = self::DEFAULT_CONTEXT,
@@ -220,7 +228,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    final  public function buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
+
+    public function buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
         $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
         $context = self::DEFAULT_CONTEXT,
         $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS
@@ -232,7 +241,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    final  public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext(
+
+    public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext(
         $org_unit_operation_string = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,
         $context = self::DEFAULT_CONTEXT,
         $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS
@@ -244,7 +254,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    final  public function buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext(
+
+    public function buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext(
         $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
         $context = self::DEFAULT_CONTEXT,
         $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS
@@ -256,7 +267,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    final  public function buildTempTableCourseMemberships(
+
+    public function buildTempTableCourseMemberships(
         $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS,
         array $only_courses_of_user_ids = []
     ) : string {
@@ -276,7 +288,8 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    final public function dropTempTable($temporary_table_name) : void
+
+    public function dropTempTable($temporary_table_name) : void
     {
         $this->origin->dropTempTable($temporary_table_name);
     }

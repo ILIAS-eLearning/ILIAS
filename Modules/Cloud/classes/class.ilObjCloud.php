@@ -206,7 +206,7 @@ class ilObjCloud extends ilObject2
         return ($ilUser->getId() === $this->getOwnerId());
     }
 
-    public function setAuthComplete(boolean $auth_complete) : void
+    public function setAuthComplete(bool $auth_complete) : void
     {
         $this->auth_complete = $auth_complete;
     }
