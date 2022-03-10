@@ -98,7 +98,7 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
         );
         $buttonTemplate->setVariable(
             'BUTTON_HTML',
-            ilBuddySystemRelationStateFactory::getInstance()->getRendererByOwnerAndRelation(
+            ilBuddySystemRelationStateFactory::getInstance()->getStateButtonRendererByOwnerAndRelation(
                 (int) $this->user->getId(),
                 $relation
             )->getHtml()
