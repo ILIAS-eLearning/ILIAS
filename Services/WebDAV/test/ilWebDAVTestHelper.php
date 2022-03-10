@@ -9,15 +9,14 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
 /**
  * @author Stephan Winiker <stephan.winiker@hslu.ch>
  * @version 1.0.0
  */
-
 class ilWebDAVTestHelper
 {
     protected string $client_id = 'my_client';

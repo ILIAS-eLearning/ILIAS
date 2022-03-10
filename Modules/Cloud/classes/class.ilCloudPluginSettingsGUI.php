@@ -1,48 +1,35 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-include_once("class.ilCloudUtil.php");
+require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+require_once("class.ilCloudUtil.php");
 
 /**
  * Class ilCloudPluginSettingsGUI
  * Base class for the settings. Needs to be overwritten if the plugin needs custom settings.
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id:
  * @ingroup ModulesCloud
  */
 class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
 {
-
-    /**
-     * @var ilObjCloud
-     */
-    protected $cloud_object;
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
+    protected ilObjCloud $cloud_object;
+    protected ilPropertyFormGUI $form;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * ilCloudPluginSettingsGUI constructor.
-     * @param $plugin_service_class
-     */
-    public function __construct($plugin_service_class)
+    public function __construct(string $plugin_service_class_name)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        parent::__construct($plugin_service_class);
+        parent::__construct($plugin_service_class_name);
 
         $DIC->language()->loadLanguageModule('content');
         $DIC->language()->loadLanguageModule('obj');
         $DIC->language()->loadLanguageModule('cntr');
     }
 
-    /**
-     * @param ilObjCloud $object
-     */
-    public function setCloudObject(ilObjCloud $object)
+    public function setCloudObject(ilObjCloud $object): void
     {
         $this->cloud_object = $object;
     }
@@ -50,7 +37,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      * Edit Settings. This commands uses the form class to display an input form.
      */
-    public function editSettings()
+    public function editSettings(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -67,10 +54,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         }
     }
 
-    /**
-     *
-     */
-    public function initSettingsForm()
+    public function initSettingsForm(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -112,10 +96,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $this->form->setFormAction($ilCtrl->getFormActionByClass("ilCloudPluginSettingsGUI"));
     }
 
-    /**
-     *
-     */
-    protected function createPluginSection()
+    protected function createPluginSection(): void
     {
         if (get_class($this) != "ilCloudPluginSettingsGUI" && $this->getMakeOwnPluginSection()) {
             global $DIC;
@@ -126,17 +107,11 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         }
     }
 
-    /**
-     *
-     */
-    protected function initPluginSettings()
+    protected function initPluginSettings(): void
     {
     }
 
-    /**
-     *
-     */
-    protected function initPresentationSection()
+    protected function initPresentationSection(): void
     {
         global $DIC;
         $section_appearance = new ilFormSectionHeaderGUI();
@@ -145,10 +120,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $DIC->object()->commonSettings()->legacyForm($this->form, $this->cloud_object)->addTileImage();
     }
 
-    /**
-     * @return bool
-     */
-    protected function getMakeOwnPluginSection()
+    protected function getMakeOwnPluginSection(): bool
     {
         return true;
     }
@@ -156,7 +128,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      * Get values for edit Settings form
      */
-    public function getSettingsValues()
+    public function getSettingsValues(): void
     {
         $values["title"] = $this->cloud_object->getTitle();
         $values["desc"] = $this->cloud_object->getDescription();
@@ -166,17 +138,11 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $this->form->setValuesByArray($values, true);
     }
 
-    /**
-     * @param $values
-     */
-    protected function getPluginSettingsValues(&$values)
+    protected function getPluginSettingsValues(): array
     {
     }
 
-    /**
-     * Update Settings
-     */
-    public function updateSettings()
+    public function updateSettings(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -214,10 +180,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $tpl->setContent($this->form->getHtml());
     }
 
-    /**
-     *
-     */
-    protected function updatePluginSettings()
+    protected function updatePluginSettings(): void
     {
     }
 }

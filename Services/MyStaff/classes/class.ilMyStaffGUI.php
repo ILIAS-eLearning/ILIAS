@@ -9,16 +9,13 @@ use ILIAS\MyStaff\ListCourses\ilMStListCourse;
  */
 class ilMyStaffGUI
 {
-    const CMD_INDEX = 'index';
-    const TAB_LIST_USERS = 'list_users';
-    const TAB_LIST_COURSES = 'list_courses';
-    const TAB_LIST_CERTIFICATES = 'list_certificates';
-    const TAB_LIST_COMPETENCES = 'list_competences';
-    const TAB_LIST_STUDY_PROGRAMME = 'list_study_programme';
+    public const CMD_INDEX = 'index';
+    public const TAB_LIST_USERS = 'list_users';
+    public const TAB_LIST_COURSES = 'list_courses';
+    public const TAB_LIST_CERTIFICATES = 'list_certificates';
+    public const TAB_LIST_COMPETENCES = 'list_competences';
+    public const TAB_LIST_STUDY_PROGRAMME = 'list_study_programme';
 
-    /**
-     *
-     */
     public function __construct()
     {
         global $DIC;
@@ -31,10 +28,7 @@ class ilMyStaffGUI
         $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_my_staff'));
     }
 
-    /**
-     *
-     */
-    public function executeCommand()
+    final public function executeCommand(): void
     {
         global $DIC;
 
@@ -71,17 +65,11 @@ class ilMyStaffGUI
         $DIC->ui()->mainTemplate()->printToStdout();
     }
 
-    /**
-     * @param ilAdvancedSelectionListGUI $selection
-     * @param int                        $usr_id
-     * @param string                     $return_url
-     * @return ilAdvancedSelectionListGUI
-     */
-    public static function extendActionMenuWithUserActions(
+    final public static function extendActionMenuWithUserActions(
         ilAdvancedSelectionListGUI $selection,
-        $usr_id = 0,
-        $return_url = ""
-    ) {
+        int $usr_id = 0,
+        string $return_url = ""
+    ): ilAdvancedSelectionListGUI {
         global $DIC;
 
         $user_action_collector = ilUserActionCollector::getInstance($DIC->user()->getId(),
@@ -116,11 +104,7 @@ class ilMyStaffGUI
         return $selection;
     }
 
-    /**
-     * @param ilMStListCourse $my_staff_course
-     * @return string
-     */
-    public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course)
+    final public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course): string
     {
         global $DIC;
 
@@ -136,11 +120,7 @@ class ilMyStaffGUI
         return '&nbsp';
     }
 
-    /**
-     * @param ilMStListCourse $my_staff_course
-     * @return string
-     */
-    public static function getUserLpStatusAsText(ilMStListCourse $my_staff_course)
+    final public static function getUserLpStatusAsText(ilMStListCourse $my_staff_course): string
     {
         if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
             return ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));

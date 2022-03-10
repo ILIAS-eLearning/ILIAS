@@ -10,24 +10,15 @@ use ILIAS\MyStaff\ListUsers\ilMStListUsersTableGUI;
  */
 class ilMStListUsersGUI
 {
-    const CMD_RESET_FILTER = 'resetFilter';
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_INDEX = 'index';
-    const CMD_GET_ACTIONS = "getActions";
-    const CMD_ADD_USER_AUTO_COMPLETE = 'addUserAutoComplete';
-    /**
-     * @var ilTable2GUI
-     */
-    protected $table;
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
+    public const CMD_RESET_FILTER = 'resetFilter';
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_INDEX = 'index';
+    public const CMD_GET_ACTIONS = "getActions";
+    public const CMD_ADD_USER_AUTO_COMPLETE = 'addUserAutoComplete';
+    protected ilTable2GUI $table;
+    protected ilMyStaffAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     *
-     */
     public function __construct()
     {
         global $DIC;
@@ -35,9 +26,6 @@ class ilMStListUsersGUI
         $this->access = ilMyStaffAccess::getInstance();
     }
 
-    /**
-     *
-     */
     protected function checkAccessOrFail()
     {
         global $DIC;
@@ -50,10 +38,7 @@ class ilMStListUsersGUI
         }
     }
 
-    /**
-     *
-     */
-    public function executeCommand()
+    final public function executeCommand(): void
     {
         global $DIC;
 
@@ -75,18 +60,12 @@ class ilMStListUsersGUI
         }
     }
 
-    /**
-     *
-     */
-    public function index()
+    final public function index(): void
     {
         $this->listUsers();
     }
 
-    /**
-     *
-     */
-    public function listUsers()
+    final public function listUsers(): void
     {
         global $DIC;
 
@@ -95,10 +74,7 @@ class ilMStListUsersGUI
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-    /**
-     *
-     */
-    public function applyFilter()
+    final  public function applyFilter(): void
     {
         $this->table = new ilMStListUsersTableGUI($this, self::CMD_APPLY_FILTER);
         $this->table->writeFilterToSession();
@@ -106,10 +82,7 @@ class ilMStListUsersGUI
         $this->index();
     }
 
-    /**
-     *
-     */
-    public function resetFilter()
+    final public function resetFilter(): void
     {
         $this->table = new ilMStListUsersTableGUI($this, self::CMD_RESET_FILTER);
         $this->table->resetOffset();
@@ -117,20 +90,14 @@ class ilMStListUsersGUI
         $this->index();
     }
 
-    /**
-     *
-     */
-    public function cancel()
+    final public function cancel(): void
     {
         global $DIC;
 
         $DIC->ctrl()->redirect($this);
     }
 
-    /**
-     *
-     */
-    public function getActions()
+    final public function getActions(): void
     {
         global $DIC;
 

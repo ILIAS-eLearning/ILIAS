@@ -21,6 +21,8 @@
  *
  *
  */
+use ILIAS\FileUpload\FileUpload;
+
 class ilOpenIdConnectSettingsGUI
 {
     const STAB_SETTINGS = 'settings';
@@ -29,61 +31,32 @@ class ilOpenIdConnectSettingsGUI
 
     const DEFAULT_CMD = 'settings';
 
-    /**
-     * @var int
-     */
-    private $ref_id = 0;
+    private int $ref_id = 0;
 
+    private ilOpenIdConnectSettings $settings;
 
-    /**
-     * @var \ilOpenIdConnectSettings
-     */
-    private $settings = null;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLanguage|null
-     */
-    protected $lng = null;
+    protected ilCtrl $ctrl;
 
-    /**
-     * @var ilCtrl|null
-     */
-    protected $ctrl = null;
+    protected ilLogger $logger;
 
-    /**
-     * @var \ilLogger
-     */
-    protected $logger = null;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilAccessHandler|null
-     */
-    protected $access = null;
+    protected ilRbacReview $review;
 
-    /**
-     * @var ilRbacReview
-     */
-    protected $review;
+    protected ilErrorHandling $error;
 
-    /**
-     * @var \ilErrorHandling
-     */
-    protected $error = null;
+    protected ilGlobalTemplateInterface $mainTemplate;
 
-    /**
-     * @var \ilTemplate|null
-     */
-    protected $mainTemplate = null;
+    protected ilTabsGUI $tabs;
 
-    /**
-     * @var ilTabsGUI|null
-     */
-    protected $tabs = null;
+    private FileUpload $upload;
 
     /**
      * ilOpenIdConnectSettingsGUI constructor.
      */
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
         global $DIC;
 
@@ -100,35 +73,24 @@ class ilOpenIdConnectSettingsGUI
         $this->access = $DIC->access();
         $this->review = $DIC->rbac()->review();
         $this->error = $DIC['ilErr'];
-
+        $this->upload = $DIC->upload();
 
         $this->settings = ilOpenIdConnectSettings::getInstance();
     }
 
-    /**
-     * @param string $a_permission
-     */
-    protected function checkAccess($a_permission)
+    protected function checkAccess(string $a_permission) : void
     {
         if (!$this->checkAccessBool($a_permission)) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->WARNING);
         }
     }
 
-    /**
-     * @param string $a_permission
-     * @return bool
-     */
-    protected function checkAccessBool($a_permission)
+    protected function checkAccessBool(string $a_permission) : bool
     {
         return $this->access->checkAccess($a_permission, '', $this->ref_id);
     }
 
-
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $this->checkAccess('read');
 
@@ -140,10 +102,7 @@ class ilOpenIdConnectSettingsGUI
         }
     }
 
-    /**
-     * @param \ilPropertyFormGUI|null $form
-     */
-    protected function settings(ilPropertyFormGUI $form = null)
+    protected function settings(ilPropertyFormGUI $form = null) : void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_SETTINGS);
@@ -156,10 +115,7 @@ class ilOpenIdConnectSettingsGUI
         $this->mainTemplate->setContent($form->getHTML());
     }
 
-    /**
-     * Init general settings form
-     */
-    protected function initSettingsForm()
+    protected function initSettingsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('auth_oidc_settings_title'));
@@ -383,7 +339,7 @@ class ilOpenIdConnectSettingsGUI
     /**
      * Save settings
      */
-    protected function saveSettings()
+    protected function saveSettings() : void
     {
         $this->checkAccess('write');
 
@@ -444,19 +400,16 @@ class ilOpenIdConnectSettingsGUI
     /**
      * Save image from http request
      */
-    protected function saveImageFromHttpRequest()
+    protected function saveImageFromHttpRequest() : void
     {
-        global $DIC;
-
         try {
-            $upload = $DIC->upload();
-            if (!$upload->hasBeenProcessed()) {
-                $upload->process();
+            if (!$this->upload->hasBeenProcessed()) {
+                $this->upload->process();
             }
-            foreach ($upload->getResults() as $single_file_upload) {
+            foreach ($this->upload->getResults() as $single_file_upload) {
                 if ($single_file_upload->isOK()) {
                     $this->settings->deleteImageFile();
-                    $upload->moveFilesTo(
+                    $this->upload->moveFilesTo(
                         ilOpenIdConnectSettings::FILE_STORAGE,
                         \ILIAS\FileUpload\Location::WEB
                     );
@@ -494,11 +447,7 @@ class ilOpenIdConnectSettingsGUI
         return $select;
     }
 
-
-    /**
-     * @param ilPropertyFormGUI|null $form
-     */
-    protected function profile(ilPropertyFormGUI $form = null)
+    protected function profile(ilPropertyFormGUI $form = null) : void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_PROFILE);
@@ -509,9 +458,6 @@ class ilOpenIdConnectSettingsGUI
         $this->mainTemplate->setContent($form->getHTML());
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
     protected function initProfileForm() : \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -525,7 +471,7 @@ class ilOpenIdConnectSettingsGUI
             $form->addItem($text_form);
 
             $checkbox_form = new ilCheckboxInputGUI('');
-            $checkbox_form->setValue(1);
+            $checkbox_form->setValue("1");
             $checkbox_form->setPostVar($field . "_update");
             $checkbox_form->setChecked($this->settings->getProfileMappingFieldUpdate($field));
             $checkbox_form->setOptionTitle($this->lng->txt('auth_oidc_update_field_info'));
@@ -541,7 +487,7 @@ class ilOpenIdConnectSettingsGUI
     /**
      * @return bool
      */
-    protected function saveProfile()
+    protected function saveProfile() : bool
     {
         $this->checkAccessBool('write');
 
@@ -568,10 +514,7 @@ class ilOpenIdConnectSettingsGUI
         $this->ctrl->redirect($this, self::STAB_PROFILE);
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    protected function roles(\ilPropertyFormGUI $form = null)
+    protected function roles(\ilPropertyFormGUI $form = null) : void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_ROLES);
@@ -582,10 +525,7 @@ class ilOpenIdConnectSettingsGUI
         $this->mainTemplate->setContent($form->getHTML());
     }
 
-    /**
-     * @return \ilPropertyFormGUI
-     */
-    protected function initRolesForm()
+    protected function initRolesForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('auth_oidc_role_mapping_table'));
@@ -605,7 +545,7 @@ class ilOpenIdConnectSettingsGUI
                 'role_map_update_' . $role_id
             );
             $update->setOptionTitle($this->lng->txt('auth_oidc_update_role_info'));
-            $update->setValue(1);
+            $update->setValue("1");
             $update->setChecked(!$this->settings->getRoleMappingUpdateForId($role_id));
             $form->addItem($update);
         }
@@ -619,7 +559,7 @@ class ilOpenIdConnectSettingsGUI
     /**
      * save role selection
      */
-    protected function saveRoles()
+    protected function saveRoles() : void
     {
         $this->checkAccess('write');
         $form = $this->initRolesForm();
@@ -667,7 +607,7 @@ class ilOpenIdConnectSettingsGUI
     /**
      * Set sub tabs
      */
-    protected function setSubTabs(string $active_tab)
+    protected function setSubTabs(string $active_tab) : void
     {
         $this->tabs->addSubTab(
             self::STAB_SETTINGS,

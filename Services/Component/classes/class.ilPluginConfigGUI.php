@@ -71,5 +71,5 @@ abstract class ilPluginConfigGUI
         $this->performCommand($ilCtrl->getCmd("configure"));
     }
 
-    abstract public function performCommand($cmd);
+    abstract public function performCommand(string $cmd): void;
 }

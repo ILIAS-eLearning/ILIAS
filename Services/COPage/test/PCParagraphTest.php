@@ -173,6 +173,8 @@ class PCParagraphTest extends TestCase
             => 'xx  xxxx',
             'xx [xln url="http://ilias.de"]www[/xln] xxxx'
             => 'xx <ExtLink Href="http://ilias.de">www</ExtLink> xxxx',
+            'xx [xln url="http://ilias.php?x=1&y=2"]www[/xln] xxxx'
+            => 'xx <ExtLink Href="http://ilias.php?x=1&y=2">www</ExtLink> xxxx',
 
             // anchor
             'xx [anc name="test"]test[/anc] xxxx'

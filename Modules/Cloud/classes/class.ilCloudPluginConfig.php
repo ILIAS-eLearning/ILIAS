@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Modules/Cloud/exceptions/class.ilCloudPluginConfigException.php');
+require_once('./Modules/Cloud/exceptions/class.ilCloudPluginConfigException.php');
 
 /**
  * Class ilCloudPluginConfig
@@ -10,50 +10,30 @@ include_once('./Modules/Cloud/exceptions/class.ilCloudPluginConfigException.php'
  * getMaxFileSize
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @author  fabian Schmid <fs@studer-raimann.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id$
  */
 class ilCloudPluginConfig
 {
+    protected string $table_name = "";
+    protected array $cache = array();
 
-    /**
-     * @var string
-     */
-    protected $table_name = "";
-    /**
-     * @var array
-     */
-    protected $cache = array();
-
-    /**
-     * @param $table_name
-     */
-    public function __construct($table_name)
+    public function __construct(string $table_name)
     {
         $this->table_name = $table_name;
     }
 
-    /**
-     * @param string $table_name
-     */
-    public function setTableName($table_name)
+    public function setTableName(string $table_name) : void
     {
         $this->table_name = $table_name;
     }
 
-    /**
-     * @return string
-     */
-    public function getTableName()
+    public function getTableName() : string
     {
         return $this->table_name;
     }
 
-    /**
-     * @param $method
-     * @param $params
-     * @return bool|null
-     */
-    public function __call($method, $params)
+    public function __call(string $method, array $params) : ?bool
     {
         $index = substr($method, 3);
         if (substr($method, 0, 3) == 'get') {
@@ -78,11 +58,7 @@ class ilCloudPluginConfig
         }
     }
 
-    /**
-     * @param $key
-     * @param $value
-     */
-    public function setValue($key, $value)
+    public function setValue(string $key, string $value) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -92,7 +68,7 @@ class ilCloudPluginConfig
                 $this->table_name);
         }
 
-        if (!is_string($this->getValue($key))) {
+        if ($this->getValue($key) === false) {
             $ilDB->insert($this->table_name,
                 array("config_key" => array("text", $key), "config_value" => array("text", $value)));
         } else {
@@ -102,11 +78,7 @@ class ilCloudPluginConfig
         }
     }
 
-    /**
-     * @param $key
-     * @return bool|string
-     */
-    public function getValue($key)
+    public function getValue(string $key) : bool|string
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -127,10 +99,7 @@ class ilCloudPluginConfig
         return (string) $record['config_value'];
     }
 
-    /**
-     * @return bool
-     */
-    public function initDB()
+    public function initDB() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -158,37 +127,27 @@ class ilCloudPluginConfig
     //
     // Helper
     //
-
-    /**
-     * @param string $str
-     * @return string
-     */
-    public static function _fromCamelCase($str)
+    public static function _fromCamelCase(string $str) : string
     {
         $str[0] = strtolower($str[0]);
 
-        return preg_replace_callback('/([A-Z])/', function($c) {
+        return preg_replace_callback('/([A-Z])/', function ($c) {
             return "_" . strtolower($c[1]);
         }, $str);
     }
 
-    /**
-     * @param string $str
-     * @param bool   $capitalise_first_char
-     * @return string
-     */
-    public static function _toCamelCase($str, $capitalise_first_char = false)
+    public static function _toCamelCase(string $str, bool $capitalise_first_char = false) : string
     {
         if ($capitalise_first_char) {
             $str[0] = strtoupper($str[0]);
         }
 
-        return preg_replace_callback('/-([a-z])/', function($c) {
+        return preg_replace_callback('/-([a-z])/', function ($c) {
             return strtoupper($c[1]);
         }, $str);
     }
 
-    public function tableExists()
+    public function tableExists() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
