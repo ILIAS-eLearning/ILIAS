@@ -24,7 +24,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      * @var ilAccessHandler
      */
     protected $access;
-    
+
     /**
      * @param $a_expl_id
      * @param $a_parent_obj
