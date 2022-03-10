@@ -16,9 +16,9 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      */
     protected $stay_with_command = array('', 'render', 'view', 'infoScreen', 'showStaff', 'performPaste', 'cut');
     /**
-     * @var ilTree
+     * @var
      */
-    protected $tree;
+    protected ?ilTree $tree = null;
 
     /**
      * @var ilAccessHandler

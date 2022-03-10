@@ -69,12 +69,12 @@ class ilCloudFileTree
         return $this->service_name;
     }
 
-    public function isCaseSensitive() : boolean
+    public function isCaseSensitive() : bool
     {
         return $this->case_sensitive;
     }
 
-    public function setCaseSensitive(boolean $case_sensitive)
+    public function setCaseSensitive(bool $case_sensitive)
     {
         $this->case_sensitive = $case_sensitive;
     }
