@@ -2595,11 +2595,16 @@ buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
 buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
+buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked#:#Vernetzt
 buddysystem#:#buddy_bs_state_requested_a#:#Angefragt
 buddysystem#:#buddy_bs_state_requested#:#Angefragt
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Auf Reaktion wartend
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Aktion erorderlich
 buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 buddysystem#:#buddy_bs_state_unlinked_a#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_unlinked#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_unlinked_p#:#Nicht vernetzt
 buddysystem#:#buddy_enable#:#Aktiviere „Benutzerkontakte“
 buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten. Eine zusätzliche persönliche Einstellung ermöglicht jedem Benutzer, Kontaktaufnahmen zuzulassen oder zu verhindern.
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
@@ -7150,8 +7155,16 @@ copg#:#copg_allow_html#:#HTML/Javascript erlauben
 copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen.
 copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
+copg#:#copg_cron_days#:#Einträge älter als x löschen
+copg#:#copg_cron_days_info#:#Löscht Einträge aus dem Verlauf, die älter als der angegebene Zeitraum sind.
+copg#:#copg_cron_keep_entries_info#:#Diese Anzahl an Einträgen wird im Verlauf behalten, auch wenn diese älter als der angegebene Zeitraum sind.
+copg#:#copg_cron_keep_entries#:#Mindestanzahl Einträge
+copg#:#copg_days#:#Tage
 copg#:#copg_details#:#Details
+copg#:#copg_entries#:#Einträge
 copg#:#copg_error#:#Problem
+copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiteneditorverlauf.
+copg#:#copg_history_cleanup_cron#:#Seiteneditor Verlaufsbereinigung
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
@@ -10856,10 +10869,14 @@ mathjax#:#mathjax_test_expression_info_client#:#Dieser Ausdruck wird mit dem Skr
 mathjax#:#mathjax_test_expression_info_server#:#Dieser Ausdruck wird auf dem Server in eine Grafik umgewandelt
 mathjax#:#mathjax_test_expression#:#Test-Ausdruck
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
+mcst#:#mcst_audio_files#:#Audiodateien
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_audioportable_settings_title#:#Dateiendungen für das Audio-Format
 mcst#:#mcst_audioportable_title#:#Zusätzliche Audio-Datei für portable Geräte
 mcst#:#mcst_automatic_detection#:#Automatisch
+mcst#:#mcst_autoplay_active#:#Autoplay (Standard 'an')
+mcst#:#mcst_autoplay#:#Autoplay
+mcst#:#mcst_autoplay_inactive#:#Autoplay (Standard 'aus')
 mcst#:#mcst_clear_purpose_title#:#Löschen
 mcst#:#mcst_converted_file#:#Datei wurde umgewandelt.
 mcst#:#mcst_copy#:#Mediacast kopieren
@@ -10868,9 +10885,11 @@ mcst#:#mcst_default_visibility#:#Standardzugriff
 mcst#:#mcst_det_playtime#:#Laufzeit bestimmen
 mcst#:#mcst_downloadable#:#Download-Link
 mcst#:#mcst_downloadable_info#:#Benutzer können Beiträge direkt herunterladen.
+mcst#:#mcst_download_all#:#Alle herunterladen
 mcst#:#mcst_download_audioportable#:#Audio-Datei herunterladen
 mcst#:#mcst_download_cnt#:#Heruntergeladen
 mcst#:#mcst_download_standard#:#Download
+mcst#:#mcst_download_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
 mcst#:#mcst_download_videoalternative#:#Alternatives Format herunterladen
 mcst#:#mcst_download_videoportable#:#Video-Datei herunterladen
 mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
@@ -10880,6 +10899,7 @@ mcst#:#mcst_edit_settings#:#Einstellungen
 mcst#:#mcst_extract_preview_image#:#Vorschaubild erzeugen
 mcst#:#mcst_gallery#:#Kacheln
 mcst#:#mcst_image_extracted#:#Vorschaubild wurde erzeugt
+mcst#:#mcst_img_gallery#:#Bildergalerie
 mcst#:#mcst_import#:#Mediacast importieren
 mcst#:#mcst_incl_files_in_rss#:#Dateianhänge
 mcst#:#mcst_incl_files_in_rss_info#:#Die Dateien der Mediacast-Beiträge werden als Anhang im Webfeed bereitgestellt.
@@ -10894,9 +10914,14 @@ mcst#:#mcst_mimetype_info#:#Wählen Sie einen MIME-Type aus, um das richtige Plu
 mcst#:#mcst_mimetype#:#MIME-Type
 mcst#:#mcst_mimetypes_info#:#Kommagetrennte Liste von MIME-Types
 mcst#:#mcst_mimetypes#:#MIME-Types
+mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfortschrittsbestimmung hinzugefügt.
+mcst#:#mcst_new_items_det_lp#:#Neue Einträge dem Lernfortschritt zuordnen
 mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
+mcst#:#mcst_next_items#:#Weitere Videos anzeigen
+mcst#:#mcst_no_autoplay#:#Kein Autoplay
 mcst#:#mcst_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mcst#:#mcst_nr_items#:#Zahl der Objekte
+mcst#:#mcst_nr_videos#:#Anzahl initial angezeigter Videos
 mcst#:#mcst_ordering_creation_date_asc#:#Nach Erstellungsdatum, ältester Beitrag oben
 mcst#:#mcst_ordering_creation_date_desc#:#Nach Erstellungsdatum, neuester Beitrag oben
 mcst#:#mcst_ordering_manual#:#Manuell
@@ -10905,18 +10930,24 @@ mcst#:#mcst_ordering_title#:#Alphabetisch nach Titel
 mcst#:#mcst_play#:#Abspielen
 mcst#:#mcst_play_cnt#:#Abgespielt
 mcst#:#mcst_play_time#:#Laufzeit
+mcst#:#mcst_podcast#:#Podcast
 mcst#:#mcst_preview_picture_info#:#Nur von folgenden Dateitypen unterstützt:
 mcst#:#mcst_preview_picture#:#Vorschaubild
+mcst#:#mcst_prev_items#:#Vorherige Videos anzeigen
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
 mcst#:#mcst_save_order#:#Sortierung speichern
 mcst#:#mcst_second#:#Sekunde
 mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
 mcst#:#mcst_settings#:#Einstellungen des Mediacasts
+mcst#:#mcst_show_description#:#Beschreibung anzeigen
 mcst#:#mcst_standard_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_standard_settings_title#:#Dateiendungen für das Standard Format
 mcst#:#mcst_standard_title#:#Standard-Mediendatei
 mcst#:#mcst_unable_to_determin_playtime#:#Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter "Bearbeiten" können Sie die Laufzeit manuell einstellen.
 mcst#:#mcst_videoalternative_title#:#Alternatives Videoformat zur Nutzung im Browser
+mcst#:#mcst_video_cast#:#Videoliste
+mcst#:#mcst_video_completion_threshold#:#"Bearbeitet"-Schwellenwert
+mcst#:#mcst_video_completion_threshold_info#:#Ab diesem Fortschritt wird ein Video als "angesehen" gespeichert. Bitte beachten Sie, dass ILIAS nicht prüft, ob der gesamte Zeitraum auch wirklich angezeigt wurde oder der Benutzer Teile übersprungen hat.
 mcst#:#mcst_videoportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_videoportable_settings_title#:#Dateiendungen für das Video-Format
 mcst#:#mcst_videoportable_title#:#Zusätzliche Video-Datei für portable Geräte
@@ -10924,6 +10955,7 @@ mcst#:#mcst_viewmode#:#Ansicht
 mcst#:#mcst_visibility_info#:#Öffentliche Objekte sind über RSS ohne jegliche Authentifizierung zugänglich.
 mcst#:#mcst_visibility_public#:#Angemeldete Benutzer
 mcst#:#mcst_visibility_users#:#Öffentlich
+mcst#:#mcst_watched#:#angesehen
 mcst#:#mcst_webfeed#:#RSS-Webfeed
 membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da mindestens eine Einstellung dies verhindert.
 membership#:#mem_force_notification#:#Benachrichtigung per Mail
@@ -11572,8 +11604,8 @@ meta#:#meta_no#:#Nein
 meta#:#meta_no_relation#:#Keine Metadaten für den Bereich 'Beziehungen' vorhanden.
 meta#:#meta_no_rights#:#Keine Metadaten für den Bereich 'Rechte und Lizenzen' vorhanden.
 meta#:#meta_no_technical#:#Keine Metadaten für den Bereich 'Technische Angaben' vorhanden.
-meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
 meta#:#meta_obj_type_active#:#Datensatz anbieten
+meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
 meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
 meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
 meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Ressource (OER) gelistet
@@ -11755,6 +11787,7 @@ mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
 mob#:#mob_file#:#Datei
 mob#:#mob_general#:#Allgemein
 mob#:#mob_language#:#Sprache
+mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht erlaubt.
 mob#:#mob_multi_srt_files#:#SRT-Dateien
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 mob#:#mob_object#:#Objekt
@@ -16736,31 +16769,3 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
-mcst#:#mcst_download_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
-mcst#:#mcst_download_all#:#Alle herunterladen
-mcst#:#mcst_img_gallery#:#Bildergalerie
-mcst#:#mcst_podcast#:#Podcast
-mcst#:#mcst_watched#:#angesehen
-mcst#:#mcst_video_completion_threshold#:#"Bearbeitet"-Schwellenwert
-mcst#:#mcst_video_completion_threshold_info#:#Ab diesem Fortschritt wird ein Video als "angesehen" gespeichert. Bitte beachten Sie, dass ILIAS nicht prüft, ob der gesamte Zeitraum auch wirklich angezeigt wurde oder der Benutzer Teile übersprungen hat.
-mcst#:#mcst_prev_items#:#Vorherige Videos anzeigen
-mcst#:#mcst_next_items#:#Weitere Videos anzeigen
-mcst#:#mcst_autoplay#:#Autoplay
-mcst#:#mcst_video_cast#:#Videoliste
-mcst#:#mcst_no_autoplay#:#Kein Autoplay
-mcst#:#mcst_autoplay_active#:#Autoplay (Standard 'an')
-mcst#:#mcst_autoplay_inactive#:#Autoplay (Standard 'aus')
-mcst#:#mcst_nr_videos#:#Anzahl initial angezeigter Videos
-mcst#:#mcst_show_description#:#Beschreibung anzeigen
-mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht erlaubt.
-mcst#:#mcst_new_items_det_lp#:#Neue Einträge dem Lernfortschritt zuordnen
-mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfortschrittsbestimmung hinzugefügt.
-mcst#:#mcst_audio_files#:#Audiodateien
-copg#:#copg_cron_days#:#Einträge älter als x löschen
-copg#:#copg_cron_days_info#:#Löscht Einträge aus dem Verlauf, die älter als der angegebene Zeitraum sind.
-copg#:#copg_cron_keep_entries#:#Mindestanzahl Einträge
-copg#:#copg_cron_keep_entries_info#:#Diese Anzahl an Einträgen wird im Verlauf behalten, auch wenn diese älter als der angegebene Zeitraum sind.
-copg#:#copg_days#:#Tage
-copg#:#copg_entries#:#Einträge
-copg#:#copg_history_cleanup_cron#:#Seiteneditor Verlaufsbereinigung
-copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiteneditorverlauf.
