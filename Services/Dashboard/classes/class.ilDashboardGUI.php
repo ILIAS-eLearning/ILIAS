@@ -705,14 +705,6 @@ class ilDashboardGUI
     }
 
     /**
-     * Jump to contacts
-     */
-    public function jumpToContacts()
-    {
-        $this->ctrl->redirectByClass(array('ildashboardgui', 'ilcontactgui'));
-    }
-
-    /**
      * Jump to personal workspace
      */
     public function jumpToWorkspace()
