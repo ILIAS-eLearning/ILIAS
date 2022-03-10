@@ -340,6 +340,26 @@ class ilContactGUI
         $this->tpl->printToStdout();
     }
 
+    private function showContactRequests() : void
+    {
+        if (!ilBuddySystem::getInstance()->isEnabled()) {
+            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
+        }
+
+        $table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
+
+        $table->resetOffset();
+        $table->resetFilter();
+
+        $table->applyFilterValue(
+            ilBuddySystemRelationsTableGUI::STATE_FILTER_ELM_ID,
+            ilBuddySystemRequestedRelationState::class
+        );
+
+        $this->showContacts();
+        
+    }
+
     /**
      *
      */
