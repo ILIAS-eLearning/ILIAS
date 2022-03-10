@@ -27,7 +27,12 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
     protected int $usr_id;
     protected array $filter = array();
     protected ilMyStaffAccess $access;
+    protected ?array $columnDefinition = null;
 
+    /**
+     * @param ilMStShowUserCoursesGUI $parent_obj
+     * @param string                  $parent_cmd
+     */
     public function __construct(ilMStShowUserCoursesGUI $parent_obj, $parent_cmd = ilMStShowUserCoursesGUI::CMD_INDEX)
     {
         global $DIC;
@@ -154,6 +159,10 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
     {
         global $DIC;
 
+        if ($this->columnDefinition !== null) {
+            return $this->columnDefinition;
+        }
+
         $cols = array();
 
         $cols['crs_title'] = array(
@@ -177,7 +186,9 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
             );
         }
 
-        return $cols;
+        $this->columnDefinition = $cols;
+        
+        return $this->columnDefinition;
     }
 
     private function addColumns() : void
