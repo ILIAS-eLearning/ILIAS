@@ -22,6 +22,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ilUtil;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
+use ilStartUpGUI;
 
 /**
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -56,8 +57,14 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
             ->withPosition(2)
             ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("icon_personal_settings.svg"), $txt("personal_settings")));
 
+        $this->dic->ctrl()->setTargetScript('logout.php');
+        // Actually, we only need the CSRF token, but there is no other way to retrieve this.
+        $logoutUrl = $this->dic->ctrl()->getLinkTargetByClass([ilStartUpGUI::class], 'doLogout');
+        $logoutUrl .= '&lang=' . $this->dic->user()->getCurrentLanguage();
+        $this->dic->ctrl()->setTargetScript('ilias.php');
+
         $children[] = $mb->linkItem($id('logout'))
-            ->withAction("logout.php?lang=" . $this->dic->user()->getCurrentLanguage())
+            ->withAction($logoutUrl)
             ->withPosition(3)
             ->withTitle($txt("logout"))
             ->withSymbol($f->symbol()->glyph()->logout());
