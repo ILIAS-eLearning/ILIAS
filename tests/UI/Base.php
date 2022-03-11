@@ -210,7 +210,116 @@ class TestDefaultRenderer extends DefaultRenderer
     }
 }
 
-class TestDummyRenderer implements Render\ComponentRenderer
+class TestPluginRenderer extends Render\PluginRenderer
+{
+    public function _getRendererFor(IComponent $component)
+    {
+        return $this->getRendererFor($component);
+    }
+}
+
+class TestPluginAppendRenderer extends Render\PluginRenderer
+{
+    public function _getRendererFor(IComponent $component)
+    {
+        $renderer = null;
+        if ($component instanceof C\Test\TestComponent) {
+            $renderer = new class implements Render\AdditionRenderer
+            {
+                public function render(IComponent $component, \ILIAS\UI\Renderer $default_renderer) : string
+                {
+                    return 'append';
+                }
+
+                public function registerResources(ResourceRegistry $registry)
+                {
+                }
+
+                public function append() : bool
+                {
+                    return true;
+                }
+
+                public function prepend() : bool
+                {
+                    return false;
+                }
+            };
+        }
+
+        return $this->getRendererFor($component, $renderer);
+    }
+}
+
+class TestPluginPrependRenderer extends Render\PluginRenderer
+{
+    public function _getRendererFor(IComponent $component)
+    {
+        $renderer = null;
+        if ($component instanceof C\Test\TestComponent) {
+            $renderer = new class implements Render\AdditionRenderer
+            {
+                public function render(IComponent $component, \ILIAS\UI\Renderer $default_renderer) : string
+                {
+                    return 'prepend';
+                }
+
+                public function registerResources(ResourceRegistry $registry)
+                {
+                }
+
+                public function append() : bool
+                {
+                    return false;
+                }
+
+                public function prepend() : bool
+                {
+                    return true;
+                }
+            };
+        }
+
+        return $this->getRendererFor($component, $renderer);
+    }
+}
+
+class TestPluginReplaceRenderer extends Render\PluginRenderer
+{
+    public function _getRendererFor(IComponent $component)
+    {
+        $renderer = null;
+        if ($component instanceof C\Test\TestComponent) {
+            $renderer = new class(
+                new NoUIFactory(),
+                new ilIndependentTemplateFactory(),
+                new ilLanguageMock(),
+                new LoggingJavaScriptBinding()
+            ) extends C\Test\Renderer
+            {
+                public function render(IComponent $component, \ILIAS\UI\Renderer $default_renderer) : string
+                {
+                    return 'replace';
+                }
+            };
+        }
+
+        return $this->getRendererFor($component, $renderer);
+    }
+}
+
+class TestDummyRenderer extends DefaultRenderer
+{
+    public function __construct()
+    {
+    }
+    public function render($component)
+    {
+        return $component->getCanonicalName();
+    }
+}
+
+class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\SignalGenerator
 {
     public function __construct()
     {
@@ -303,10 +412,8 @@ abstract class ILIAS_UI_TestBase extends TestCase
         return new ilImagePathResolver();
     }
 
-    public function getDefaultRenderer(
-        JavaScriptBinding $js_binding = null,
-        array $with_stub_renderings = []
-    ) : TestDefaultRenderer {
+    public function getComponentRendererLoader(JavaScriptBinding $js_binding = null) : Render\Loader
+    {
         $ui_factory = $this->getUIFactory();
         $tpl_factory = $this->getTemplateFactory();
         $resource_registry = $this->getResourceRegistry();
@@ -318,7 +425,7 @@ abstract class ILIAS_UI_TestBase extends TestCase
         $refinery = $this->getRefinery();
         $image_path_resolver = $this->getImagePathResolver();
 
-        $component_renderer_loader = new Render\LoaderCachingWrapper(
+        return new Render\LoaderCachingWrapper(
             new Render\LoaderResourceRegistryWrapper(
                 $resource_registry,
                 new Render\FSLoader(
@@ -349,7 +456,47 @@ abstract class ILIAS_UI_TestBase extends TestCase
                 )
             )
         );
-        return new TestDefaultRenderer($component_renderer_loader, $with_stub_renderings);
+    }
+
+    public function getDefaultRenderer(JavaScriptBinding $js_binding = null, $with_stub_renderings = [])
+    {
+        return new TestDefaultRenderer($this->getComponentRendererLoader($js_binding), $with_stub_renderings);
+    }
+
+    public function getPluginRenderer()
+    {
+        return new TestPluginRenderer(
+            $this->getComponentRendererLoader(),
+            $this->getResourceRegistry(),
+            new TestDefaultRenderer($this->getComponentRendererLoader())
+        );
+    }
+
+    public function getPluginRendererWithAppend()
+    {
+        return new TestPluginAppendRenderer(
+            $this->getComponentRendererLoader(),
+            $this->getResourceRegistry(),
+            new TestDefaultRenderer($this->getComponentRendererLoader())
+        );
+    }
+
+    public function getPluginRendererWithPrepend()
+    {
+        return new TestPluginPrependRenderer(
+            $this->getComponentRendererLoader(),
+            $this->getResourceRegistry(),
+            new TestDefaultRenderer($this->getComponentRendererLoader())
+        );
+    }
+
+    public function getPluginRendererWithReplace()
+    {
+        return new TestPluginReplaceRenderer(
+            $this->getComponentRendererLoader(),
+            $this->getResourceRegistry(),
+            new TestDefaultRenderer($this->getComponentRendererLoader())
+        );
     }
 
     public function normalizeHTML(string $html) : string
