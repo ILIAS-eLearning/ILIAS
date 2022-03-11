@@ -100,7 +100,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     public function getUnsafeGetCommands() : array
     {
-        return [];
+        return [
+            'doLogout'
+        ];
     }
 
     /**
