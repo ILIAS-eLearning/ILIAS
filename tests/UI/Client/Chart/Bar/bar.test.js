@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import horizontal from '../src/bar.horizontal.js';
-import vertical from '../src/bar.vertical.js';
+import horizontal from "../../../../../src/UI/templates/js/Chart/Bar/src/bar.horizontal";
+import vertical from "../../../../../src/UI/templates/js/Chart/Bar/src/bar.vertical";
 
 
 describe('bar', function() {

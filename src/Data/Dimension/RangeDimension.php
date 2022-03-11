@@ -37,10 +37,14 @@ class RangeDimension extends Dimension
         if (is_null($value)) {
             return;
         }
-        if (!is_array($value) || count($value) !== 2) {
+        if (!is_array($value)) {
             throw new \InvalidArgumentException(
-                "Expected parameter to be null or an array with two parameters of int or float.
+                "Expected parameter to be null or an array with exactly two numeric parameters.
                             '$value' is given."
+            );
+        } elseif (count($value) !== 2) {
+            throw new \InvalidArgumentException(
+                "Expected parameter to be an array with exactly two numeric parameters."
             );
         } else {
             foreach ($value as $number) {

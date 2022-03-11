@@ -146,7 +146,7 @@ class Dataset
     /**
      * Returns an empty Dataset clone
      */
-    public function withResetDataSet() : self
+    public function withResetDataset() : self
     {
         $clone = clone $this;
         $clone->points = [];

@@ -31,6 +31,8 @@ class Bar implements C\Chart\Bar\Bar
     use ComponentHelper;
     use JavaScriptBindable;
 
+    protected const ALLOWED_POSITIONS = ["top", "bottom", "left", "right"];
+
     protected string $title;
     protected Dataset $dataset;
     /**
@@ -126,6 +128,11 @@ class Bar implements C\Chart\Bar\Bar
 
     public function withLegendPosition(string $legend_position) : self
     {
+        if (!in_array($legend_position, self::ALLOWED_POSITIONS)) {
+            throw new \InvalidArgumentException(
+                "Position must be 'bottom', 'top', 'left' or 'right'."
+            );
+        }
         $clone = clone $this;
         $clone->legend_position = $legend_position;
         return $clone;

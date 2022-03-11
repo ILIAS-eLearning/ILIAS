@@ -1,1 +1,0 @@
-../src/UI/templates/js/Chart/Bar/test/bar.test.js

@@ -174,7 +174,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($points_per_dimension as $dimension_name => $item_points) {
             $entries = [];
             foreach ($item_points as $messeaurement_item_label => $point) {
-                if ($tooltips_per_dimension[$dimension_name][$messeaurement_item_label]) {
+                if (isset($tooltips_per_dimension[$dimension_name][$messeaurement_item_label])) {
                     // use custom tooltips if defined
                     $entries[] = $messeaurement_item_label . ": " . $tooltips_per_dimension[$dimension_name][$messeaurement_item_label];
                 } elseif (is_array($point)) {
@@ -372,10 +372,10 @@ class Renderer extends AbstractComponentRenderer
 
         foreach ($points_per_dimension as $dimension_name => $item_points) {
             $data[$dimension_name]["label"] = $dimension_name;
-            if ($bar_configs[$dimension_name] && $bar_configs[$dimension_name]->getColor()) {
+            if (isset($bar_configs[$dimension_name]) && $bar_configs[$dimension_name]->getColor()) {
                 $data[$dimension_name]["backgroundColor"] = $bar_configs[$dimension_name]->getColor()->asHex();
             }
-            if ($bar_configs[$dimension_name] && $bar_configs[$dimension_name]->getRelativeWidth()) {
+            if (isset($bar_configs[$dimension_name]) && $bar_configs[$dimension_name]->getRelativeWidth()) {
                 $data[$dimension_name]["barPercentage"] = $bar_configs[$dimension_name]->getRelativeWidth();
             }
 
