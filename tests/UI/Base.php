@@ -175,6 +175,115 @@ class TestDefaultRenderer extends DefaultRenderer
     }
 }
 
+class TestPluginRenderer extends Render\PluginRenderer
+{
+    public function _getRendererFor(IComponent $component)
+    {
+        return $this->getRendererFor($component);
+    }
+}
+
+class TestPluginAppendRenderer extends Render\PluginRenderer
+{
+    public function _getRendererFor(IComponent $component)
+    {
+        $renderer = null;
+        if ($component instanceof C\Test\TestComponent) {
+            $renderer = new class implements Render\AdditionRenderer
+            {
+                public function render(IComponent $component, \ILIAS\UI\Renderer $default_renderer) : string
+                {
+                    return 'append';
+                }
+
+                public function registerResources(ResourceRegistry $registry)
+                {
+                }
+
+                public function append() : bool
+                {
+                    return true;
+                }
+
+                public function prepend() : bool
+                {
+                    return false;
+                }
+            };
+        }
+
+        return $this->getRendererFor($component, $renderer);
+    }
+}
+
+class TestPluginPrependRenderer extends Render\PluginRenderer
+{
+    public function _getRendererFor(IComponent $component)
+    {
+        $renderer = null;
+        if ($component instanceof C\Test\TestComponent) {
+            $renderer = new class implements Render\AdditionRenderer
+            {
+                public function render(IComponent $component, \ILIAS\UI\Renderer $default_renderer) : string
+                {
+                    return 'prepend';
+                }
+
+                public function registerResources(ResourceRegistry $registry)
+                {
+                }
+
+                public function append() : bool
+                {
+                    return false;
+                }
+
+                public function prepend() : bool
+                {
+                    return true;
+                }
+            };
+        }
+
+        return $this->getRendererFor($component, $renderer);
+    }
+}
+
+class TestPluginReplaceRenderer extends Render\PluginRenderer
+{
+    public function _getRendererFor(IComponent $component)
+    {
+        $renderer = null;
+        if ($component instanceof C\Test\TestComponent) {
+            $renderer = new class(
+                new NoUIFactory(),
+                new ilIndependentTemplateFactory(),
+                new ilLanguageMock(),
+                new LoggingJavaScriptBinding()
+            ) extends C\Test\Renderer
+            {
+                public function render(IComponent $component, \ILIAS\UI\Renderer $default_renderer) : string
+                {
+                    return 'replace';
+                }
+            };
+        }
+
+        return $this->getRendererFor($component, $renderer);
+    }
+}
+
+class TestDummyRenderer extends DefaultRenderer
+{
+    public function __construct()
+    {
+    }
+    public function render($component)
+    {
+        return $component->getCanonicalName();
+    }
+}
+
 class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\SignalGenerator
 {
     protected $id = 0;
@@ -244,7 +353,7 @@ abstract class ILIAS_UI_TestBase extends TestCase
             ->getMock();
     }
 
-    public function getDefaultRenderer(JavaScriptBinding $js_binding = null)
+    public function getComponentRendererLoader(JavaScriptBinding $js_binding = null)
     {
         $ui_factory = $this->getUIFactory();
         $tpl_factory = $this->getTemplateFactory();
@@ -256,36 +365,75 @@ abstract class ILIAS_UI_TestBase extends TestCase
 
         $refinery = $this->getRefinery();
 
-        $component_renderer_loader
-            = new Render\LoaderCachingWrapper(
-                new Render\LoaderResourceRegistryWrapper(
-                    $resource_registry,
-                    new Render\FSLoader(
-                        new DefaultRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery
-                        ),
-                        new GlyphRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery
-                        ),
-                        new FieldRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery
-                        )
+        return new Render\LoaderCachingWrapper(
+            new Render\LoaderResourceRegistryWrapper(
+                $resource_registry,
+                new Render\FSLoader(
+                    new DefaultRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery
+                    ),
+                    new GlyphRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery
+                    ),
+                    new FieldRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery
                     )
                 )
-            );
-        return new TestDefaultRenderer($component_renderer_loader);
+            )
+        );
+    }
+
+    public function getDefaultRenderer(JavaScriptBinding $js_binding = null, $with_stub_renderings = [])
+    {
+        return new TestDefaultRenderer($this->getComponentRendererLoader($js_binding), $with_stub_renderings);
+    }
+
+    public function getPluginRenderer()
+    {
+        return new TestPluginRenderer(
+            $this->getComponentRendererLoader(),
+            $this->getResourceRegistry(),
+            new TestDefaultRenderer($this->getComponentRendererLoader())
+        );
+    }
+
+    public function getPluginRendererWithAppend()
+    {
+        return new TestPluginAppendRenderer(
+            $this->getComponentRendererLoader(),
+            $this->getResourceRegistry(),
+            new TestDefaultRenderer($this->getComponentRendererLoader())
+        );
+    }
+
+    public function getPluginRendererWithPrepend()
+    {
+        return new TestPluginPrependRenderer(
+            $this->getComponentRendererLoader(),
+            $this->getResourceRegistry(),
+            new TestDefaultRenderer($this->getComponentRendererLoader())
+        );
+    }
+
+    public function getPluginRendererWithReplace()
+    {
+        return new TestPluginReplaceRenderer(
+            $this->getComponentRendererLoader(),
+            $this->getResourceRegistry(),
+            new TestDefaultRenderer($this->getComponentRendererLoader())
+        );
     }
 
     public function normalizeHTML($html)
