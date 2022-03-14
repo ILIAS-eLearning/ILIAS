@@ -39,7 +39,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      * @param object|array $a_node node array or object
      * @return string content of the node
      */
-    public function getNodeContent(object|array $a_node) : string
+    public function getNodeContent($a_node) : string
     {
         $node = $this->getNodeArrayRepresentation($a_node);
 
