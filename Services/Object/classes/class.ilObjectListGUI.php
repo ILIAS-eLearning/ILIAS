@@ -2714,7 +2714,7 @@ class ilObjectListGUI
      *
      * @param boolean $a_value
      */
-    public function enableNotes($a_value)
+    public function enableNotes(bool $a_value): void
     {
         $ilSetting = $this->settings;
         
@@ -2731,7 +2731,7 @@ class ilObjectListGUI
      *
      * @param boolean $a_value
      */
-    public function enableTags($a_value)
+    public function enableTags(bool $a_value): void
     {
         $tags_set = new ilSetting("tags");
         if (!$tags_set->get("enable")) {
