@@ -28,9 +28,16 @@ class ClientIdTest extends TestCase
     public function clientIdProvider() : array
     {
         return [
-            ['default'],
-            ['default_with_underscore'],
-            ['ilias_with_12345'],
+            'single letter' => ['c'],
+            'multiple letters' => ['client'],
+            'single uppercase letter' => ['C'],
+            'multiple uppercase letters' => ['CLIENT'],
+            'single digit' => ['1'],
+            'multiple digits' => ['12'],
+            'letters + underscores' => ['client_with_underscore'],
+            'letters + underscores + digits' => ['client_with_12345'],
+            'letters + hyphens' => ['client-with-hyphen'],
+            'dots + sharps' => ['.#'] // looks weird, but is considered valid
         ];
     }
 
@@ -40,7 +47,10 @@ class ClientIdTest extends TestCase
     public function invalidClientIdProvider() : array
     {
         return [
-            ['../../some/obscure/path'],
+            'path traversal' => ['../../some/obscure/path'],
+            'space in between' => ['my client'],
+            'wrapped in spaces' => [' myclient '],
+            'umlaut' => ['clüent'],
         ];
     }
 
@@ -58,7 +68,7 @@ class ClientIdTest extends TestCase
      * @param string $value
      * @dataProvider invalidClientIdProvider
      */
-    public function tesInvalidArguments(string $value)
+    public function testInvalidArguments(string $value)
     {
         try {
             $clientId = $this->f->clientId($value);
@@ -66,5 +76,12 @@ class ClientIdTest extends TestCase
         } catch (\InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
+    }
+
+    public function testClientIdCannotBeCreatedByAnEmptyString() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->f->clientId('');
     }
 }
