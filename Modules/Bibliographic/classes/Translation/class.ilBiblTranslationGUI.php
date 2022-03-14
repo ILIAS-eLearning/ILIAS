@@ -1,7 +1,5 @@
 <?php
 
-use ILIAS\Modules\OrgUnit\ARHelper\DIC;
-
 /**
  * Class ilBiblTranslationGUI
  *
@@ -10,7 +8,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\DIC;
  */
 class ilBiblTranslationGUI
 {
-    use DIC;
     const P_TRANSLATIONS = 'translations';
     const P_DELETE = 'delete';
     const CMD_ADD_LANGUAGE = "addLanguages";

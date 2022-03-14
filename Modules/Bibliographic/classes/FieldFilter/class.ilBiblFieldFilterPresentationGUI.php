@@ -7,7 +7,6 @@
  */
 class ilBiblFieldFilterPresentationGUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     protected \ilBiblFactoryFacadeInterface $facade;
     protected \ilBiblFieldFilterInterface $filter;
 

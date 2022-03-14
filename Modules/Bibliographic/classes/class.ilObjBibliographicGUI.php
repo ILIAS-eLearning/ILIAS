@@ -22,8 +22,6 @@ use ILIAS\DI\Container;
  */
 class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-
     const P_ENTRY_ID = 'entry_id';
     const CMD_SHOW_CONTENT = 'showContent';
     const CMD_SEND_FILE = "sendFile";

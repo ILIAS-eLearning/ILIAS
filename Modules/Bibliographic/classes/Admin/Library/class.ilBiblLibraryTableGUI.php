@@ -10,9 +10,6 @@
  */
 class ilBiblLibraryTableGUI extends ilTable2GUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-
-
     /**
      * ilObjBibliographicAdminTableGUI constructor.
      *

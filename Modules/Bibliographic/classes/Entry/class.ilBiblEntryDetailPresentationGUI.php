@@ -8,7 +8,6 @@
  */
 class ilBiblEntryDetailPresentationGUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     public \ilBiblEntry $entry;
     protected \ilBiblFactoryFacade $facade;
 

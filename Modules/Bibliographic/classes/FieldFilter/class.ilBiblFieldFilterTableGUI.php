@@ -8,7 +8,6 @@
  */
 class ilBiblFieldFilterTableGUI extends ilTable2GUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const TBL_ID = 'tbl_bibl_filters';
     protected \ilBiblFactoryFacade $facade;
     protected array $interruptive_modals = [];
