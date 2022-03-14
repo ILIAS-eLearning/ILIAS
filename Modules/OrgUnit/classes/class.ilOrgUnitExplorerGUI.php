@@ -185,25 +185,4 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
             }
         );
     }
-
-    public function getChildsOfNode($a_parent_node_id) : array
-    {
-        $children = parent::getChildsOfNode($a_parent_node_id);
-
-        if (!is_null($this->access)) {
-            $children = $this->filterChildrenByPermission($children);
-        }
-
-        return $children;
-    }
-
-    protected function filterChildrenByPermission(array $children) : array
-    {
-        return array_filter(
-            $children,
-            function ($child) {
-                return $this->access->checkAccess("visible", "", $child["ref_id"]);
-            }
-        );
-    }
 }
