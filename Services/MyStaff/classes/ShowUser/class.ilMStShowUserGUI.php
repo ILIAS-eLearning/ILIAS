@@ -10,27 +10,17 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  */
 class ilMStShowUserGUI
 {
-    const CMD_INDEX = 'index';
-    const CMD_SHOW_USER = 'showUser';
+    public const CMD_INDEX = 'index';
+    public const CMD_SHOW_USER = 'showUser';
+    public const TAB_SHOW_USER = 'show_user';
+    public const TAB_SHOW_COURSES = 'show_courses';
+    public const TAB_SHOW_CERTIFICATES = 'show_certificates';
+    public const TAB_SHOW_COMPETENCES = 'show_competences';
 
-    const TAB_SHOW_USER = 'show_user';
-    const TAB_SHOW_COURSES = 'show_courses';
-    const TAB_SHOW_CERTIFICATES = 'show_certificates';
-    const TAB_SHOW_COMPETENCES = 'show_competences';
-
-    /**
-     * @var int
-     */
-    protected $usr_id;
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
+    protected int $usr_id;
+    protected ilMyStaffAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     *
-     */
     public function __construct()
     {
         global $DIC;
@@ -45,10 +35,7 @@ class ilMStShowUserGUI
         $DIC->ui()->mainTemplate()->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
     }
 
-    /**
-     *
-     */
-    protected function checkAccessOrFail()
+    protected function checkAccessOrFail() : void
     {
         global $DIC;
 
@@ -66,10 +53,7 @@ class ilMStShowUserGUI
         }
     }
 
-    /**
-     *
-     */
-    public function executeCommand()
+    final public function executeCommand() : void
     {
         global $DIC;
 
@@ -113,19 +97,13 @@ class ilMStShowUserGUI
         }
     }
 
-    /**
-     *
-     */
-    protected function index()
+    protected function index() : void
     {
         global $DIC;
         $DIC->ctrl()->redirectByClass(ilMStShowUserCoursesGUI::class);
     }
 
-    /**
-     *
-     */
-    protected function showUser()
+    protected function showUser() : void
     {
         global $DIC;
 
@@ -139,20 +117,14 @@ class ilMStShowUserGUI
         $DIC->ui()->mainTemplate()->setContent($pub_profile->getEmbeddable());
     }
 
-    /**
-     *
-     */
-    public function cancel()
+    public function cancel() : void
     {
         global $DIC;
 
         $DIC->ctrl()->redirect($this);
     }
 
-    /**
-     * @param string $active_tab_id
-     */
-    protected function addTabs($active_tab_id)
+    protected function addTabs(string $active_tab_id) : void
     {
         global $DIC;
 

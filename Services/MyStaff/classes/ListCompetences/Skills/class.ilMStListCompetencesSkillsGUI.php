@@ -11,27 +11,15 @@ use ILIAS\MyStaff\ListCompetences\Skills\ilMStListCompetencesSkillsTableGUI;
  */
 class ilMStListCompetencesSkillsGUI
 {
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_INDEX = 'index';
-    const CMD_GET_ACTIONS = "getActions";
-    const CMD_RESET_FILTER = 'resetFilter';
-    /**
-     * @var ilTable2GUI
-     */
-    protected $table;
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
-    /**
-     * @var Container
-     */
-    private $dic;
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_INDEX = 'index';
+    public const CMD_GET_ACTIONS = "getActions";
+    public const CMD_RESET_FILTER = 'resetFilter';
+    protected ilTable2GUI $table;
+    protected ilMyStaffAccess $access;
+    private Container $dic;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * @param Container $dic
-     */
     public function __construct(Container $dic)
     {
         global $DIC;
@@ -50,7 +38,7 @@ class ilMStListCompetencesSkillsGUI
         }
     }
 
-    public function executeCommand() : void
+    final public function executeCommand() : void
     {
         $cmd = $this->dic->ctrl()->getCmd();
         $next_class = $this->dic->ctrl()->getNextClass();
@@ -71,12 +59,12 @@ class ilMStListCompetencesSkillsGUI
         }
     }
 
-    public function index() : void
+    final public function index() : void
     {
         $this->listUsers();
     }
 
-    public function listUsers() : void
+    final public function listUsers() : void
     {
         $this->checkAccessOrFail();
 
@@ -85,7 +73,7 @@ class ilMStListCompetencesSkillsGUI
         $this->dic->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-    public function applyFilter() : void
+    final public function applyFilter() : void
     {
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_APPLY_FILTER, $this->dic);
         $this->table->writeFilterToSession();
@@ -93,7 +81,7 @@ class ilMStListCompetencesSkillsGUI
         $this->index();
     }
 
-    public function resetFilter() : void
+    final public function resetFilter() : void
     {
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_RESET_FILTER, $this->dic);
         $this->table->resetOffset();
@@ -101,17 +89,14 @@ class ilMStListCompetencesSkillsGUI
         $this->index();
     }
 
-    /**
-     * @return string
-     */
-    public function getId() : string
+    final public function getId() : string
     {
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_INDEX, $this->dic);
 
         return $this->table->getId();
     }
 
-    public function cancel() : void
+    final public function cancel() : void
     {
         $this->dic->ctrl()->redirect($this);
     }

@@ -6,6 +6,19 @@ use Sabre\DAV\Auth\Plugin as AuthPlugin;
 use Sabre\DAV\Locks\Plugin as LocksPlugin;
 use Sabre\DAV\Auth\Backend\BasicCallBack;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilWebDAVDIC extends Container
 {
     public function initWithoutDIC()
@@ -72,6 +85,7 @@ class ilWebDAVDIC extends Container
             $DIC->logger()->root(),
             $DIC->toolbar(),
             $DIC->http(),
+            $DIC->refinery(),
             $DIC->ui(),
             $DIC->filesystem(),
             $DIC->upload(),

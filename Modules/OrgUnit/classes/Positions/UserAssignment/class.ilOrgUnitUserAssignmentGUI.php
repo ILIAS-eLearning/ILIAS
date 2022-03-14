@@ -113,6 +113,22 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
     protected function getConfirmationGUI() : ilConfirmationGUI
     {
+        $confirmation = $this->getConfirmationGUI();
+        $confirmation->setConfirm($this->txt('remove_user'), self::CMD_DELETE);
+
+        $this->setContent($confirmation->getHTML());
+    }
+
+    protected function confirmRecursive()
+    {
+        $confirmation = $this->getConfirmationGUI();
+        $confirmation->setConfirm($this->txt('remove_user'), self::CMD_DELETE_RECURSIVE);
+
+        $this->setContent($confirmation->getHTML());
+    }
+
+    protected function getConfirmationGUI() : ilConfirmationGUI
+    {
         $this->ctrl()->saveParameter($this, 'position_id');
         $r = $this->http()->request();
         $ilOrgUnitPosition = ilOrgUnitPosition::findOrFail($r->getQueryParams()['position_id']);
@@ -121,13 +137,11 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
          */
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl()->getFormAction($this));
-        $confirmation->setCancel($this->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-        $confirmation->setConfirm($this->txt('remove_user'), self::CMD_DELETE);
         $confirmation->setHeaderText(sprintf($this->txt('msg_confirm_remove_user'), $ilOrgUnitPosition->getTitle()));
-        $confirmation->addItem('usr_id', $r->getQueryParams()['usr_id'],
-            ilObjUser::_lookupLogin($r->getQueryParams()['usr_id']));
+        $confirmation->addItem('usr_id', $r->getQueryParams()['usr_id'], ilObjUser::_lookupLogin($r->getQueryParams()['usr_id']));
+        $confirmation->setCancel($this->txt(self::CMD_CANCEL), self::CMD_CANCEL);
 
-        $this->setContent($confirmation->getHTML());
+        return $confirmation;
     }
 
     protected function delete(): void

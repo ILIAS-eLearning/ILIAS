@@ -41,7 +41,9 @@ class ilMailForm
             $search->addProvider(new ilMailAutoCompleteSentMailsRecipientsProvider($quotedTerm, $term));
         }
         $search->addProvider(new ilMailAutoCompleteBuddyRecipientsProvider($quotedTerm, $term));
-        $search->addProvider(new ilMailAutoCompleteUserProvider($quotedTerm, $term));
+        if (ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
+            $search->addProvider(new ilMailAutoCompleteUserProvider($quotedTerm, $term));
+        }
         $search->search();
 
         return $result->getItems();

@@ -2758,14 +2758,14 @@ output {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(129, 152, 183, 0.6);
 }
 .form-control::-moz-placeholder {
-  color: #7c7c7c;
+  color: #6f6f6f;
   opacity: 1;
 }
 .form-control:-ms-input-placeholder {
-  color: #7c7c7c;
+  color: #6f6f6f;
 }
 .form-control::-webkit-input-placeholder {
-  color: #7c7c7c;
+  color: #6f6f6f;
 }
 .form-control::-ms-expand {
   background-color: transparent;
@@ -7101,7 +7101,7 @@ button.list-group-item-danger.active:focus {
 }
 .il-card .caption dl dt {
   font-weight: normal;
-  color: #7c7c7c;
+  color: #6f6f6f;
   padding-top: 6px;
 }
 .il-card .il-card-repository-head {
@@ -7713,7 +7713,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-item .il-item-property-name {
   font-size: 12px;
-  color: #7c7c7c;
+  color: #6f6f6f;
   overflow: hidden;
 }
 .il-item .il-item-property-value {
@@ -7883,6 +7883,12 @@ ul.dropdown-menu > li > .btn:focus {
 .il-viewcontrol-mode .engaged {
   pointer-events: none;
   cursor: default;
+}
+.il-viewcontrol-mode .btn + .btn {
+  border-left-color: #dddddd;
+}
+.il-viewcontrol-mode .btn:not(:last-child):hover {
+  border-right-color: #dddddd;
 }
 .panel-secondary .il-viewcontrol-section .btn-default,
 .panel-secondary .il-viewcontrol-section .btn-default:active {
@@ -8467,58 +8473,111 @@ ul.dropdown-menu > li > .btn:focus {
 .il-table-presentation-viewcontrols > div {
   padding: 6px;
 }
-.il-table-presentation-viewcontrols .btn-default:not(.disabled) {
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged) {
   color: #4c6586;
   background-color: white;
   border-color: #4c6586;
 }
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).focus {
   color: #4c6586;
   background-color: #e6e6e6;
   border-color: #1e2835;
 }
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):hover {
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):hover {
   color: #4c6586;
   background-color: #e6e6e6;
   border-color: #36485f;
 }
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):active,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled).active,
-.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled) {
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):active,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).active,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged) {
   color: #4c6586;
   background-color: #e6e6e6;
   background-image: none;
   border-color: #36485f;
 }
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):active:hover,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled).active:hover,
-.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled):hover,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):active:focus,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled).active:focus,
-.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):active.focus,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled).active.focus,
-.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):active:hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).active:hover,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):active:focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).active:focus,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):active.focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).active.focus,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).focus {
   color: #4c6586;
   background-color: #d4d4d4;
   border-color: #1e2835;
 }
-.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled:hover,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled]:hover,
-fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):hover,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled:focus,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled]:focus,
-fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled.focus,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled].focus,
-fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).disabled:hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged)[disabled]:hover,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).disabled:focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged)[disabled]:focus,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).disabled.focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged)[disabled].focus,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).focus {
   background-color: white;
   border-color: #4c6586;
 }
-.il-table-presentation-viewcontrols .btn-default:not(.disabled) .badge {
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged) .badge {
   color: white;
   background-color: #4c6586;
+}
+.il-table-presentation-viewcontrols .btn-default.engaged {
+  color: white;
+  background-color: #4c6586;
+  border-color: #4c6586;
+}
+.il-table-presentation-viewcontrols .btn-default.engaged:focus,
+.il-table-presentation-viewcontrols .btn-default.engaged.focus {
+  color: white;
+  background-color: #3a4c65;
+  border-color: #1e2835;
+}
+.il-table-presentation-viewcontrols .btn-default.engaged:hover {
+  color: white;
+  background-color: #3a4c65;
+  border-color: #36485f;
+}
+.il-table-presentation-viewcontrols .btn-default.engaged:active,
+.il-table-presentation-viewcontrols .btn-default.engaged.active,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default.engaged {
+  color: white;
+  background-color: #3a4c65;
+  background-image: none;
+  border-color: #36485f;
+}
+.il-table-presentation-viewcontrols .btn-default.engaged:active:hover,
+.il-table-presentation-viewcontrols .btn-default.engaged.active:hover,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default.engaged:hover,
+.il-table-presentation-viewcontrols .btn-default.engaged:active:focus,
+.il-table-presentation-viewcontrols .btn-default.engaged.active:focus,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default.engaged:focus,
+.il-table-presentation-viewcontrols .btn-default.engaged:active.focus,
+.il-table-presentation-viewcontrols .btn-default.engaged.active.focus,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default.engaged.focus {
+  color: white;
+  background-color: #2d3b4f;
+  border-color: #1e2835;
+}
+.il-table-presentation-viewcontrols .btn-default.engaged.disabled:hover,
+.il-table-presentation-viewcontrols .btn-default.engaged[disabled]:hover,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged:hover,
+.il-table-presentation-viewcontrols .btn-default.engaged.disabled:focus,
+.il-table-presentation-viewcontrols .btn-default.engaged[disabled]:focus,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged:focus,
+.il-table-presentation-viewcontrols .btn-default.engaged.disabled.focus,
+.il-table-presentation-viewcontrols .btn-default.engaged[disabled].focus,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focus {
+  background-color: #4c6586;
+  border-color: #4c6586;
+}
+.il-table-presentation-viewcontrols .btn-default.engaged .badge {
+  color: #4c6586;
+  background-color: white;
 }
 .il-table-presentation-viewcontrols .il-viewcontrol-pagination {
   order: 1;
@@ -8633,7 +8692,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
   border-color: rgba(0, 0, 0, 0.15);
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
-  color: #7c7c7c;
+  color: #6f6f6f;
 }
 .il-table-data {
   display: table;
@@ -8824,7 +8883,7 @@ div.alert ul {
   background-color: #f9f9f9;
   padding: 6px 12px;
   font-size: 12px;
-  color: #7c7c7c;
+  color: #6f6f6f;
   list-style-type: none;
 }
 div.alert ul > li:before {
@@ -11921,7 +11980,7 @@ td {
 code {
   font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
   font-size: 90%;
-  color: #7c7c7c;
+  color: #6f6f6f;
 }
 ::selection {
   background: #e2e8ef;
@@ -12540,7 +12599,7 @@ div.Access {
   font-weight: bold;
 }
 .light {
-  color: #7c7c7c;
+  color: #6f6f6f;
 }
 /* ----------------- normal links ------------- */
 a.light:link,
@@ -13389,7 +13448,7 @@ div.ilForumQuoteHead {
   }
 }
 div.ilFrmPostHeader span.small {
-  color: #7c7c7c;
+  color: #6f6f6f;
 }
 .ilFrmPostContentContainer {
   margin: 0 0 10px;
@@ -13597,7 +13656,7 @@ button.copg-add.dropdown-toggle.btn:hover .il-copg-add-text,
 }
 button.copg-add.dropdown-toggle.btn:hover {
   background-color: #e2e8ef;
-  color: #7c7c7c;
+  color: #6f6f6f;
 }
 [data-copg-ed-type='add-area'] ul.dropdown-menu {
   left: 45%;
@@ -13824,7 +13883,7 @@ div.il-copg-button-group-wide {
   margin: 0;
 }
 #iltinymenu .bd div .small {
-  color: #7c7c7c;
+  color: #6f6f6f;
   font-style: italic;
 }
 #iltinymenu .btn-default .mce-ico {
@@ -14220,7 +14279,7 @@ p#copg-auto-save {
 }
 .copg-new-content-placeholder {
   text-align: center;
-  color: #7c7c7c;
+  color: #6f6f6f;
   padding: 20px;
 }
 .il-copg-drag {
@@ -15038,7 +15097,7 @@ div.ilBlogListItemTitle h3 {
 }
 div.ilBlogListItemSubTitle {
   margin-top: 5px;
-  color: #7c7c7c;
+  color: #6f6f6f;
   font-size: 80%;
   text-align: right;
 }
@@ -15065,7 +15124,7 @@ td.ilBlogSideBlockContent {
 }
 td.ilBlogSideBlockCommand {
   font-size: 75%;
-  color: #7c7c7c;
+  color: #6f6f6f;
   border-bottom: 1px solid #dddddd;
   padding: 1px 3px;
   background-color: #f9f9f9;
@@ -15125,7 +15184,7 @@ div.ilSkill > h4 {
   margin: 10px 0;
   padding: 0;
   font-size: 1em;
-  color: #7c7c7c;
+  color: #6f6f6f;
   float: left;
   clear: left;
 }
@@ -15237,7 +15296,7 @@ th.ilSkillEntryHead {
 .ilPollDescription {
   margin: 5px;
   font-size: 80%;
-  color: #7c7c7c;
+  color: #6f6f6f;
 }
 .ilPollQuestion {
   display: inline-block;
@@ -15937,8 +15996,7 @@ div.ilListItemSection {
   max-width: calc(100% - 40px);
 }
 div.ilContainerListItemOuterHighlight {
-  padding: 15px;
-  background-color: #ffffd9;
+  background-color: #e2e8ef;
   zoom: 1;
 }
 .ilCLI {
@@ -16373,12 +16431,12 @@ h3.ilBlockHeader {
 /* possibly deprecated */
 .il_BlockInfo {
   font-size: 80%;
-  color: #7c7c7c;
+  color: #6f6f6f;
 }
 /* new class */
 div.ilBlockInfo {
   font-size: 75%;
-  color: #7c7c7c;
+  color: #6f6f6f;
   padding: 1px 3px;
   background-color: #f9f9f9;
   text-align: right;
@@ -16392,7 +16450,7 @@ div.ilBlockContent {
   border-bottom: 1px solid #f0f0f0;
 }
 div.ilBlockPropertyCaption {
-  color: #7c7c7c;
+  color: #6f6f6f;
 }
 /* Services/UIComponent/Lightbox */
 .ilLightbox {
@@ -16530,6 +16588,9 @@ div.ilStartupSection form.form-horizontal {
 .ilToolbar .form-control {
   width: auto;
   display: inline-block;
+  vertical-align: top;
+}
+.ilToolbar .input-group {
   vertical-align: top;
 }
 .ilToolbar input[type="file"] {
@@ -17252,7 +17313,7 @@ div.ilChecklist ul li a:hover {
 }
 div.ilChecklist ul li p,
 div.ilChecklist ul li p:hover {
-  color: #7c7c7c;
+  color: #6f6f6f;
   font-size: 85%;
   text-decoration: none;
   padding: 0;
@@ -17493,7 +17554,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #awareness-content .ilHighlighted {
   background-color: #e2e8ef;
-  color: #7c7c7c;
+  color: #6f6f6f;
 }
 .ilAwrnBadgeHidden {
   visibility: hidden;

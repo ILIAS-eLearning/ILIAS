@@ -520,14 +520,24 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         $this->settings->set("soap_auth_server", $_POST["soap"]["server"]);
         $this->settings->set("soap_auth_port", $_POST["soap"]["port"]);
-        $this->settings->set("soap_auth_active", $_POST["soap"]["active"]);
+        if(isset($_POST["soap"]["active"])){
+            $this->settings->set("soap_auth_active", $_POST["soap"]["active"]);
+        }
         $this->settings->set("soap_auth_uri", $_POST["soap"]["uri"]);
         $this->settings->set("soap_auth_namespace", $_POST["soap"]["namespace"]);
         $this->settings->set("soap_auth_create_users", $_POST["soap"]["create_users"]);
-        $this->settings->set("soap_auth_allow_local", $_POST["soap"]["allow_local"]);
-        $this->settings->set("soap_auth_account_mail", $_POST["soap"]["account_mail"]);
-        $this->settings->set("soap_auth_use_https", $_POST["soap"]["use_https"]);
-        $this->settings->set("soap_auth_use_dotnet", $_POST["soap"]["use_dotnet"]);
+        if(isset($_POST["soap"]["allow_local"])){
+            $this->settings->set("soap_auth_allow_local", $_POST["soap"]["allow_local"]);
+        }
+        if(isset($_POST["soap"]["account_mail"])){
+            $this->settings->set("soap_auth_account_mail", $_POST["soap"]["account_mail"]);
+        }
+        if(isset($_POST["soap"]["use_https"])){
+            $this->settings->set("soap_auth_use_https", $_POST["soap"]["use_https"]);
+        }
+        if(isset($_POST["soap"]["use_dotnet"])){
+            $this->settings->set("soap_auth_use_dotnet", $_POST["soap"]["use_dotnet"]);
+        }
         $this->settings->set("soap_auth_user_default_role", $_POST["soap"]["user_default_role"]);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("auth_soap_settings_saved"), true);
         

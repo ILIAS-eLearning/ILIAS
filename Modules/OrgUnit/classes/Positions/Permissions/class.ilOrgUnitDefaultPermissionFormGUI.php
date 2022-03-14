@@ -8,7 +8,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
 {
-
     public const F_OPERATIONS = 'operations';
     protected BaseCommands $parent_gui;
     /** @var ilOrgUnitPermission[] */
@@ -17,14 +16,20 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
 
     /**
      * ilOrgUnitDefaultPermissionFormGUI constructor.
-     * @param ilOrgUnitPermission[] $ilOrgUnitPermissionsFilter
+     * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
+     * @param ilOrgUnitPermission[]                        $ilOrgUnitPermissionsFilter
+     * @param ilObjectDefinition                           $objectDefinition
      */
-    public function __construct(BaseCommands $parent_gui, array $ilOrgUnitPermissionsFilter)
-    {
+    public function __construct(
+        BaseCommands $parent_gui,
+        array $ilOrgUnitPermissionsFilter,
+        ilObjectDefinition $objectDefinition
+    ) {
         $this->parent_gui = $parent_gui;
         $this->ilOrgUnitPermissions = $ilOrgUnitPermissionsFilter;
         $this->dic()->ctrl()->saveParameter($parent_gui, 'arid');
         $this->setFormAction($this->dic()->ctrl()->getFormAction($this->parent_gui));
+        $this->objectDefinition = $objectDefinition;
         $this->initFormElements();
         $this->initButtons();
         $this->setTarget('_top');
@@ -56,12 +61,12 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
             $header = new ilFormSectionHeaderGUI();
             $context = $ilOrgUnitPermission->getContext()->getContext();
-            $header->setTitle($this->txt("obj_{$context}", false));
+            $header->setTitle($this->getTitleForFormHeaderByContext($context));
             $this->addItem($header);
 
             // Checkboxes
             foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
-                $title = $this->txt("org_op_{$operation->getOperationString()}", false);
+                $title = $this->txt("org_op_{$operation->getOperationString()}");
                 $id = $operation->getOperationId();
                 $cb = new ilCheckboxInputGUI($title, "operations[{$context}][{$id}]");
                 $this->addItem($cb);
@@ -127,5 +132,15 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     private function txt(string $key) : string
     {
         return $this->parent_gui->txt($key);
+    }
+
+    protected function getTitleForFormHeaderByContext(string $context)
+    {
+        $lang_code = "obj_{$context}";
+        if ($this->objectDefinition->isPlugin($context)) {
+            return ilObjectPlugin::lookupTxtById($context, $lang_code);
+        }
+
+        return $this->txt($lang_code);
     }
 }

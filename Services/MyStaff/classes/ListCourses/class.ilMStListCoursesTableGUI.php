@@ -24,15 +24,8 @@ use ilUserSearchOptions;
  */
 class ilMStListCoursesTableGUI extends ilTable2GUI
 {
-
-    /**
-     * @var array
-     */
-    protected $filter = array();
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
+    protected array $filter = array();
+    protected ilMyStaffAccess $access;
 
     /**
      * @param ilMStListCoursesGUI $parent_obj
@@ -70,9 +63,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    /**
-     *
-     */
     protected function parseData()
     {
         global $DIC;
@@ -108,10 +98,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    /**
-     *
-     */
-    public function initFilter() : void
+    final public function initFilter() : void
     {
         global $DIC;
 
@@ -185,10 +172,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getSelectableColumns() : array
+    final public function getSelectableColumns() : array
     {
         global $DIC;
 
@@ -262,10 +246,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    /**
-     *
-     */
-    private function addColumns()
+    private function addColumns() : void
     {
         global $DIC;
 
@@ -286,14 +267,11 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param array $a_set
-     */
-    public function fillRow(array $a_set) : void
+    final public function fillRow(array $a_set) : void
     {
         global $DIC;
 
-        $propGetter = Closure::bind(function($prop) {
+        $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
         }, $a_set, $a_set);
 
@@ -348,11 +326,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
     }
 
-    /**
-     * @param ilExcel $a_excel excel wrapper
-     * @param int     $a_row
-     * @param array   $a_set
-     */
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $col = 0;
@@ -362,10 +335,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilCSVWriter $a_csv
-     * @param array       $a_set
-     */
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
@@ -374,13 +343,9 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    /**
-     * @param ilMStListCourse $my_staff_course
-     * @return array
-     */
-    protected function getFieldValuesForExport(ilMStListCourse $my_staff_course)
+    protected function getFieldValuesForExport(ilMStListCourse $my_staff_course) : array
     {
-        $propGetter = Closure::bind(function($prop) {
+        $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
         }, $my_staff_course, $my_staff_course);
 

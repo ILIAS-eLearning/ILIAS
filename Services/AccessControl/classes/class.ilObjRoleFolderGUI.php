@@ -552,12 +552,10 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         } else {
             $mode = \ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES;
         }
-
         $operation_stack = [];
         if ($a_operation_mode !== \ilObjRole::MODE_READ_OPERATIONS) {
-            $operation_stack[] = $this->rbac_review->getAllOperationsOfRole($a_source_role, $a_start_obj);
+            $operation_stack[] = $this->rbac_review->getAllOperationsOfRole($a_source_role, $this->ref_id);
         }
-
         $this->logger->debug('Current operation stack');
         $this->logger->dump($operation_stack, ilLogLevel::DEBUG);
 
