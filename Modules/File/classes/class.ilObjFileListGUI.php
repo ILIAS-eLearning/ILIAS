@@ -187,7 +187,7 @@ class ilObjFileListGUI extends ilObjectListGUI
      * @param string $a_cmd The command to get the link for.
      * @return string The command link.
      */
-    public function getCommandLink($a_cmd): string
+    public function getCommandLink(string $a_cmd) : string
     {
         // overwritten to always return the permanent download link
 

@@ -35,7 +35,7 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
         return ilFrameTargetInfo::_getFrame("MainContent");
     }
 
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $a_cmd) : string
     {
         switch ($a_cmd) {
             case 'edit':

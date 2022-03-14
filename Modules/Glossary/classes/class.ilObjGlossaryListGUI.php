@@ -36,7 +36,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
         $this->commands = ilObjGlossaryAccess::_getCommands();
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $a_cmd) : string
     {
         switch ($a_cmd) {
             case "view":

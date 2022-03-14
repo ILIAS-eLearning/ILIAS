@@ -68,7 +68,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
      * @return string
      * @throws ilCtrlException
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $a_cmd): string : string
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();

@@ -35,7 +35,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         $this->commands = ilObjFileBasedLMAccess::_getCommands();
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $a_cmd) : string
     {
         $ilCtrl = $this->ctrl;
         

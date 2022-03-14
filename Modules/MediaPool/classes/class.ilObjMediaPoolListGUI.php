@@ -33,7 +33,7 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
         $this->commands = ilObjMediaPoolAccess::_getCommands();
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $a_cmd): string
     {
         $cmd_link = "ilias.php?baseClass=ilMediaPoolPresentationGUI" .
             "&ref_id=" . $this->ref_id . '&cmd=' . $a_cmd;

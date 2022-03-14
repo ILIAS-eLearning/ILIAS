@@ -48,7 +48,7 @@ class ilObjWorkspaceRootFolderListGUI extends ilObjectListGUI
      * Get command link url.
      * @param	string		$a_cmd			command
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $a_cmd): string : string
     {
         $ilCtrl = $this->ctrl;
 

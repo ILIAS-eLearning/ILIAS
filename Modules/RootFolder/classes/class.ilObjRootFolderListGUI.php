@@ -52,7 +52,7 @@ class ilObjRootFolderListGUI extends ilObjectListGUI
         $this->commands = ilObjRootFolderAccess::_getCommands();
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $a_cmd): string
     {
         global $ilCtrl;
 

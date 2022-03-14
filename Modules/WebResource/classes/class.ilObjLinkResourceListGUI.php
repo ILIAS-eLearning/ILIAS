@@ -130,7 +130,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     * @param	string		$a_cmd			command
     *
     */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $a_cmd): string
     {
         if (
             (isset($_REQUEST["wsp_id"]) && $_REQUEST["wsp_id"]) ||

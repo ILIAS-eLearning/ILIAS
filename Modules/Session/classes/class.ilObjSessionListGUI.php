@@ -83,7 +83,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
         return ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], (bool) $app_info['fullday']) . $title;
     }
 
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $a_cmd): string : string
     {
         $ilCtrl = $this->ctrl;
         

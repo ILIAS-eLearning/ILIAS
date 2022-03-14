@@ -181,7 +181,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
      * @return string
      * @throws ilCtrlException
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $a_cmd): string : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

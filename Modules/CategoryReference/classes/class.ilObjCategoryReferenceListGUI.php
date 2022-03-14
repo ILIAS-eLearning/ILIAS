@@ -152,8 +152,8 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
                 return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
         }
     }
-    
-    public function getCommandLink($a_cmd)
+
+    public function getCommandLink(string $a_cmd) : string
     {
         $ilCtrl = $this->ctrl;
         

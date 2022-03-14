@@ -81,7 +81,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $a_cmd): string
     {
         switch ($a_cmd) {
             case 'downloadFile':

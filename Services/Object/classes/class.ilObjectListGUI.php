@@ -1168,7 +1168,7 @@ class ilObjectListGUI
     *
     * @return	string		command link url
     */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $a_cmd) : string
     {
         if ($this->context == self::CONTEXT_REPOSITORY) {
             // BEGIN WebDAV Get mount webfolder link.
@@ -2385,7 +2385,7 @@ class ilObjectListGUI
      * @param
      * @return
      */
-    public function insertCommonSocialCommands($a_header_actions = false)
+    public function insertCommonSocialCommands(bool $a_header_actions = false): void
     {
         $lng = $this->lng;
         $ilUser = $this->user;

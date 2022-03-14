@@ -89,7 +89,7 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
      * @param string $a_cmd
      * @return string
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $a_cmd) : string
     {
         global $ilCtrl;
         

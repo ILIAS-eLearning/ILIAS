@@ -196,7 +196,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
      * @param string $a_cmd
      * @return
      */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $a_cmd) : string
     {
         global $ilCtrl;
         

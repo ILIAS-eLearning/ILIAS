@@ -49,7 +49,7 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
         $this->commands = ilObjBookingPoolAccess::_getCommands();
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $a_cmd) : string
     {
         $ilCtrl = $this->ctrl;
         

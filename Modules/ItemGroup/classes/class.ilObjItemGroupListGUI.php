@@ -63,7 +63,7 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
         $this->info_screen_enabled = false;
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $a_cmd): string
     {
         $ilCtrl = $this->ctrl;
         

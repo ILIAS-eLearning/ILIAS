@@ -133,7 +133,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
      * @param string $a_cmd
      * @return string
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $a_cmd): string : string
     {
         $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
         switch ($a_cmd) {

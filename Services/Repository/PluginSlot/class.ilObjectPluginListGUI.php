@@ -89,7 +89,7 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
         return [];
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $a_cmd): string
     {
         
         // separate method for this line
