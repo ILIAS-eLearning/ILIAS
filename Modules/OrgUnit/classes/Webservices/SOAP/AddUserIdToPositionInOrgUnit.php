@@ -12,7 +12,7 @@ use ilOrgUnitPosition;
  */
 class AddUserIdToPositionInOrgUnit extends Base
 {
-    protected function run(array $params): void
+    protected function run(array $params): bool
     {
         $position_id = $params[self::POSITION_ID];
         $user_id = $params[self::USR_ID];
@@ -27,6 +27,8 @@ class AddUserIdToPositionInOrgUnit extends Base
         } else {
             \ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $orgu_ref_id);
         }
+
+        return true;
     }
 
     public function getName() : string
