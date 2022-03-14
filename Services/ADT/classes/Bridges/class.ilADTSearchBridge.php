@@ -12,15 +12,14 @@ abstract class ilADTSearchBridge
     public const SQL_LIKE = 2;
     public const SQL_LIKE_END = 3;
     public const SQL_LIKE_START = 4;
-
     public const DEFAULT_SEARCH_COLUMN = 'value';
 
     protected ilPropertyFormGUI $form;
     protected ilTable2GUI $table_gui;
-    protected array $table_filter_fields = []; // [array]
+    protected array $table_filter_fields = [];
     protected string $id = '';
-    protected $title = '';
-    protected $info = '';
+    protected string $title = '';
+    protected string $info = '';
 
     protected ilLanguage $lng;
     protected ilDBInterface $db;
@@ -82,7 +81,6 @@ abstract class ilADTSearchBridge
 
     /**
      * Get table gui
-     * @return ilTable2GUI|null
      */
     public function getTableGUI() : ?ilTable2GUI
     {
@@ -175,23 +173,25 @@ abstract class ilADTSearchBridge
         $element_id = $this->getElementId();
         $multi = strpos($this->getElementId(), "[");
 
-        if (!$a_post) {
+        // get rid of this case
+        if ($a_post === null) {
             $a_post = $_POST;
             if ($multi !== false) {
                 $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi + 1, -1)];
             } else {
                 $post = $a_post[$element_id];
             }
-        } else {
-            if ($multi !== false) {
+        } elseif ($multi !== false) {
                 $post = $a_post[substr($element_id, $multi + 1, -1)];
             } else {
                 $post = $a_post[$element_id];
             }
-        }
         return $post;
     }
 
+    /**
+     * @todo make post required
+     */
     abstract public function importFromPost(array $a_post = null) : bool;
 
     /**
@@ -207,10 +207,6 @@ abstract class ilADTSearchBridge
 
     /**
      * Get SQL condition for current value(s)
-     * @param string $a_element_id
-     * @param int    $mode
-     * @param array  $quotedWords
-     * @return string
      */
     abstract public function getSQLCondition(
         string $a_element_id,
@@ -220,8 +216,6 @@ abstract class ilADTSearchBridge
 
     /**
      * Compare directly against ADT
-     * @param ilADT $a_adt
-     * @return bool
      */
     public function isInCondition(ilADT $a_adt) : bool
     {
@@ -235,13 +229,11 @@ abstract class ilADTSearchBridge
 
     /**
      * Get current value(s) in serialized form (for easy persisting)
-     * @return string
      */
     abstract public function getSerializedValue() : string;
 
     /**
      * Set current value(s) in serialized form (for easy persisting)
-     * @param string
      */
     abstract public function setSerializedValue(string $a_value) : void;
 }

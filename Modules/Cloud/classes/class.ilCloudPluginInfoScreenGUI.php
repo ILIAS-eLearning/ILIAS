@@ -1,33 +1,25 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("class.ilCloudPluginGUI.php");
+require_once("class.ilCloudPluginGUI.php");
 
 /**
  * Class ilCloudPluginInitGUI
  * GUI Class to display Information.
  * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
- * @version $Id$
+ * @author  Martin Studer martin@fluxlabs.ch
  * @extends ilCloudPluginGUI
- * @ingroup ModulesCloud
  */
 class ilCloudPluginInfoScreenGUI extends ilCloudPluginGUI
 {
+    public ?ilInfoScreenGUI $info = null;
 
-    /**
-     * @var ilInfoScreenGUI
-     */
-    public $info = null;
-
-    /**
-     * show information screen
-     */
-    public function getInfoScreen(ilObjCloudGUI $gui_class)
+    public function getInfoScreen(ilObjCloudGUI $gui_class): ilInfoScreenGUI
     {
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+        require_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $this->info = new ilInfoScreenGUI($gui_class);
         $this->info->enablePrivateNotes();
-        $this->info->addMetaDataSections($gui_class->object->getId(), 0, $gui_class->object->getType());
+        $this->info->addMetaDataSections($gui_class->getObject()->getId(), 0, $gui_class->getObject()->getType());
         $this->getPluginInfo();
 
         return $this->info;
@@ -36,7 +28,7 @@ class ilCloudPluginInfoScreenGUI extends ilCloudPluginGUI
     /**
      * To be overriden by plugins to add additional Information
      */
-    public function getPluginInfo()
+    public function getPluginInfo(): void
     {
     }
 }

@@ -6,6 +6,19 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\Location;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 {
     protected ilWebDAVMountInstructionsDocument $document;
@@ -95,9 +108,9 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         $this->addItem($language_selection);
 
         if ($document_already_exists) {
-            $webdav_id = new ilHiddenInputGUI('webdav_id');
-            $webdav_id->setValue((string) $this->document->getId());
-            $this->addItem($webdav_id);
+            $document_id = new ilHiddenInputGUI('document_id');
+            $document_id->setValue((string) $this->document->getId());
+            $this->addItem($document_id);
         } else {
             $document_upload = new ilFileInputGUI($document_label, 'document');
             $document_upload->setInfo($document_by_line);

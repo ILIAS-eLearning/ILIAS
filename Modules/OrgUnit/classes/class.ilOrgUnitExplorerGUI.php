@@ -16,7 +16,14 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
     protected ilAccessHandler $access;
     private ilSetting $settings;
 
-    public function __construct(string $a_expl_id, string $a_parent_obj, string $a_parent_cmd, ilTree $a_tree)
+    /**
+     * @param $a_expl_id
+     * @param $a_parent_obj
+     * @param $a_parent_cmd
+     * @param $a_tree
+     * @param $access
+     */
+    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree, \ilAccessHandler $access = null)
     {
         global $DIC;
         parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree);
@@ -167,6 +174,27 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
     {
         $children = parent::getChildsOfNode($a_parent_node_id);
         return $this->filterChildrenByPermission($children);
+    }
+
+    protected function filterChildrenByPermission(array $children) : array
+    {
+        return array_filter(
+            $children,
+            function ($child) {
+                return $this->access->checkAccess("visible", "", $child["ref_id"]);
+            }
+        );
+    }
+
+    public function getChildsOfNode($a_parent_node_id) : array
+    {
+        $children = parent::getChildsOfNode($a_parent_node_id);
+
+        if (!is_null($this->access)) {
+            $children = $this->filterChildrenByPermission($children);
+        }
+
+        return $children;
     }
 
     protected function filterChildrenByPermission(array $children) : array

@@ -511,11 +511,15 @@ class ilWikiPageGUI extends ilPageObjectGUI
             "from_page",
             ilWikiUtil::makeUrlTitle($this->wiki_request->getPage())
         );
-        $output = ilWikiUtil::replaceInternalLinks(
-            $a_output,
-            $this->getWikiPage()->getWikiId(),
-            ($this->getOutputMode() == "offline")
-        );
+        if ($this->getEnabledHref() && $this->getOutputMode() !== self::EDIT) {
+            $output = ilWikiUtil::replaceInternalLinks(
+                $a_output,
+                $this->getWikiPage()->getWikiId(),
+                ($this->getOutputMode() == "offline")
+            );
+        } else {
+            $output = $a_output;
+        }
         $ilCtrl->setParameterByClass(
             "ilobjwikigui",
             "from_page",

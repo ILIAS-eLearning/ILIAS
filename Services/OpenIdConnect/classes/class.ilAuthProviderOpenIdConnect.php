@@ -25,16 +25,9 @@ use Jumbojett\OpenIDConnectClient;
  */
 class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProviderInterface
 {
-    /**
-     * @var ilOpenIdConnectSettings|null
-     */
-    private $settings = null;
+    private ilOpenIdConnectSettings $settings;
 
 
-    /**
-     * ilAuthProviderOpenIdConnect constructor.
-     * @param ilAuthCredentials $credentials
-     */
     public function __construct(ilAuthCredentials $credentials)
     {
         parent::__construct($credentials);
@@ -44,10 +37,11 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
     /**
      * Handle logout event
      */
-    public function handleLogout()
+    public function handleLogout() : void
     {
         if ($this->settings->getLogoutScope() == ilOpenIdConnectSettings::LOGOUT_SCOPE_LOCAL) {
-            return false;
+            //TODO check if return false is needed
+            return;
         }
 
         $auth_token = ilSession::get('oidc_auth_token');
@@ -66,7 +60,6 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
     /**
      * Do authentication
      * @param \ilAuthStatus $status Authentication status
-     * @return bool
      */
     public function doAuthentication(\ilAuthStatus $status) : bool
     {
@@ -130,12 +123,13 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
         }
     }
 
-
     /**
+     *
      * @param ilAuthStatus $status
      * @param array $user_info
+     * @return boolean|ilAuthStatus
      */
-    private function handleUpdate(ilAuthStatus $status, $user_info)
+    private function handleUpdate(ilAuthStatus $status, array $user_info)
     {
         if (!is_object($user_info)) {
             $this->getLogger()->error('Received invalid user credentials: ');
@@ -182,9 +176,6 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
         return $status;
     }
 
-    /**
-     * @return OpenIDConnectClient
-     */
     private function initClient() : OpenIDConnectClient
     {
         $oidc = new OpenIDConnectClient(

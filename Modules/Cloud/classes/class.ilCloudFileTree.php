@@ -1,10 +1,10 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/Cloud/exceptions/class.ilCloudException.php");
-include_once("class.ilCloudFileNode.php");
-include_once("class.ilCloudConnector.php");
-include_once("class.ilCloudUtil.php");
+require_once("./Modules/Cloud/exceptions/class.ilCloudException.php");
+require_once("class.ilCloudFileNode.php");
+require_once("class.ilCloudConnector.php");
+require_once("class.ilCloudUtil.php");
 
 /**
  * ilCloudFileTree class
@@ -12,56 +12,25 @@ include_once("class.ilCloudUtil.php");
  * (for faster access on the nodes). This class also calls the functions of a service to update the tree (addToFileTree,
  * deleteItem, etc.)
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id$
  * @ingroup ModulesCloud
  */
 class ilCloudFileTree
 {
 
-    /**
-     * id of the ilCloudFileTree, equals the object_id of the calling object or gui_class
-     * @var int id
-     */
-    protected $id = 0;
+    /** id of the ilCloudFileTree, equals the object_id of the calling object or gui_class */
+    protected int $id = 0;
+    protected ?ilCloudFileNode $root_node = null;
+    /** Path to $root_node ($root_node has always path "/", root_path is the path which can be changed in the settings) */
+    protected string $root_path = "";
+    protected array $item_list = [];
+    /** Only for better performance */
+    protected array $id_to_path_map = [];
+    protected string $service_name = "";
+    protected bool $case_sensitive = false;
 
-    /**
-     * @var ilCloudFileNode
-     */
-    protected $root_node = null;
-
-    /**
-     * Path to $root_node ($root_node has always path "/", root_path is the path which can be changed in the settings)
-     * @var string
-     */
-    protected $root_path = "";
-    /**
-     * @var array
-     */
-    protected $item_list = array();
-
-    /**
-     * Only for better performance
-     */
-    protected $id_to_path_map = array();
-
-    /**
-     * @var string $service_name
-     */
-    protected $service_name = "";
-
-    /**
-     * @var bool
-     */
-    protected $case_sensitive = false;
-
-    /**
-     * @param string $root_path
-     * @param string $root_id
-     * @param int    $id
-     * @param string $service_name
-     * @param bool   $case_sensitive
-     */
-    public function __construct($root_path = "/", $root_id = "root", $id, $service_name)
+    public function __construct(string $root_path = "/", string $root_id = "root", int $id, string $service_name)
     {
         $this->setId($id);
         $this->root_node = $this->createNode($root_path, $root_id, true);
@@ -70,84 +39,52 @@ class ilCloudFileTree
         $this->setCaseSensitive($service->isCaseSensitive());
     }
 
-    /**
-     * @param int $id
-     */
-    protected function setId($id)
+    protected function setId(int $id) : void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * @param string $path
-     */
-    protected function setRootPath($path = "/")
+    protected function setRootPath(string $path = "/") : void
     {
         $this->root_path = ilCloudUtil::normalizePath($path);
     }
 
-    /**
-     * @return string
-     */
-    public function getRootPath()
+    public function getRootPath() : string
     {
         return $this->root_path;
     }
 
-    /**
-     * @param string $service_name
-     */
-    protected function setServiceName($service_name)
+    protected function setServiceName(string $service_name) : void
     {
         $this->service_name = $service_name;
     }
 
-    /**
-     * @return string
-     */
-    public function getServiceName()
+    public function getServiceName() : string
     {
         return $this->service_name;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isCaseSensitive()
+    public function isCaseSensitive() : bool
     {
         return $this->case_sensitive;
     }
 
-    /**
-     * @param boolean $case_sensitive
-     */
-    public function setCaseSensitive($case_sensitive)
+    public function setCaseSensitive(bool $case_sensitive)
     {
         $this->case_sensitive = $case_sensitive;
     }
 
-    /**
-     * @return ilCloudFileNode|null
-     */
-    public function getRootNode()
+    public function getRootNode() : ilCloudFileNode|null
     {
         return $this->root_node;
     }
 
-    /**
-     * @param string $path
-     * @param bool   $is_dir
-     * @return ilCloudFileNode
-     */
-    protected function createNode($path = "/", $id, $is_dir = false)
+    protected function createNode(string $path = "/", int $id, bool $is_dir = false) : ilCloudFileNode
     {
         $node = new ilCloudFileNode(ilCloudUtil::normalizePath($path), $id);
         $this->item_list[$node->getPath()] = $node;
@@ -156,15 +93,13 @@ class ilCloudFileTree
         return $node;
     }
 
-    /**
-     * @param      $path
-     * @param      $is_Dir
-     * @param null $modified
-     * @param int  $size
-     * @return ilCloudFileNode
-     */
-    public function addNode($path, $id, $is_Dir, $modified = null, $size = 0)
-    {
+    public function addNode(
+        string $path,
+        int $id,
+        string $is_Dir,
+        bool $modified = null,
+        int $size = 0
+    ) : ilCloudFileNode {
         $path = ilCloudUtil::normalizePath($path);
         $node = $this->getNodeFromPath($path);
 
@@ -192,17 +127,17 @@ class ilCloudFileTree
 
     /**
      * Add node that relies on id's
-     * @param      $path
-     * @param      $id
-     * @param      $parent_id
-     * @param      $is_Dir
-     * @param null $modified
-     * @param int  $size
      * @return ilCloudFileNode
      * @throws ilCloudException
      */
-    public function addIdBasedNode($path, $id, $parent_id, $is_Dir, $modified = null, $size = 0)
-    {
+    public function addIdBasedNode(
+        string $path,
+        int $id,
+        int $parent_id,
+        bool $is_Dir,
+        ?bool $modified = null,
+        int $size = 0
+    ) : ilCloudFileNode {
         $path = ilCloudUtil::normalizePath($path);
         $node = $this->getNodeFromPath($path);
 
@@ -231,10 +166,7 @@ class ilCloudFileTree
         return $node;
     }
 
-    /**
-     * @param $path
-     */
-    public function removeNode($path)
+    public function removeNode(string $path) : void
     {
         $node = $this->getNodeFromPath($path);
         $parent = $this->getNodeFromId($node->getParentId());
@@ -243,19 +175,12 @@ class ilCloudFileTree
         unset($this->id_to_path_map[$node->getId()]);
     }
 
-    /**
-     * @return array
-     */
-    public function getItemList()
+    public function getItemList() : array
     {
         return $this->item_list;
     }
 
-    /**
-     * @param string $path
-     * @return  ilCloudFileNode  node;
-     */
-    public function getNodeFromPath($path = "/")
+    public function getNodeFromPath(string $path = "/") : ?ilCloudFileNode
     {
         if (!$this->isCaseSensitive() || $this->item_list[$path]) {
             return $this->item_list[$path];
@@ -270,20 +195,15 @@ class ilCloudFileTree
         return null;
     }
 
-    /**
-     * @param $id
-     * @return bool|ilCloudFileNode
-     */
-    public function getNodeFromId($id)
+    public function getNodeFromId(int $id) : bool|ilCloudFileNode
     {
         return $this->item_list[$this->id_to_path_map[$id]];
     }
 
     /**
-     * @param $path
      * @throws ilCloudException
      */
-    public function setLoadingOfFolderComplete($path)
+    public function setLoadingOfFolderComplete(string $path) : void
     {
         $node = $this->getNodeFromPath($path);
         if (!$node) {
@@ -292,10 +212,7 @@ class ilCloudFileTree
         $node->setLoadingComplete(true);
     }
 
-    /**
-     * @param $current_path
-     */
-    public function updateFileTree($current_path)
+    public function updateFileTree(string $current_path) : void
     {
         $node = $this->getNodeFromPath($current_path);
 
@@ -310,10 +227,9 @@ class ilCloudFileTree
     }
 
     /**
-     * @param $folder_id
      * @throws ilCloudException
      */
-    public function addItemsFromService($folder_id)
+    public function addItemsFromService(int $folder_id) : void
     {
         try {
             $node = $this->getNodeFromId($folder_id);
@@ -333,12 +249,9 @@ class ilCloudFileTree
     }
 
     /**
-     * @param $id
-     * @param $folder_name
-     * @return bool|ilCloudFileNode|null
      * @throws ilCloudException
      */
-    public function addFolderToService($id, $folder_name)
+    public function addFolderToService(int $id, string $folder_name) : bool|ilCloudFileNode|null
     {
         try {
             if ($folder_name == null) {
@@ -381,12 +294,9 @@ class ilCloudFileTree
     }
 
     /**
-     * @param $current_id
-     * @param $tmp_name
-     * @param $file_name
      * @throws ilCloudException
      */
-    public function uploadFileToService($current_id, $tmp_name, $file_name)
+    public function uploadFileToService(int $current_id, string $tmp_name, string $file_name) : void
     {
         $plugin = ilCloudConnector::getPluginClass($this->getServiceName(), $this->getId());
         $max_file_size = $plugin->getMaxFileSize();
@@ -415,10 +325,9 @@ class ilCloudFileTree
     }
 
     /**
-     * @param $id
      * @throws ilCloudException
      */
-    public function deleteFromService($id)
+    public function deleteFromService(int $id) : void
     {
         $item_node = $this->getNodeFromId($id);
 
@@ -440,10 +349,9 @@ class ilCloudFileTree
     }
 
     /**
-     * @param $id
      * @throws ilCloudException
      */
-    public function downloadFromService($id)
+    public function downloadFromService(int $id) : ilCloudException
     {
         try {
             $service = ilCloudConnector::getServiceClass($this->getServiceName(), $this->getId());
@@ -462,33 +370,24 @@ class ilCloudFileTree
 
     public function storeFileTreeToSession()
     {
-        $_SESSION['ilCloudFileTree'] = null;
         $_SESSION['ilCloudFileTree'] = serialize($this);
     }
 
-    /**
-     * @return    ilCloudFileTree  fileTree;
-     */
-    public static function getFileTreeFromSession()
+    public static function getFileTreeFromSession() : ilCloudFileTree|bool
     {
         if (isset($_SESSION['ilCloudFileTree'])) {
-            return unserialize($_SESSION['ilCloudFileTree']);
+            return unserialize($_SESSION['ilCloudFileTree'], ['allowed_classes' => 'ilCloudFileTree']);
         } else {
             return false;
         }
     }
 
-    public static function clearFileTreeSession()
+    public static function clearFileTreeSession() : void
     {
         $_SESSION['ilCloudFileTree'] = null;
     }
 
-    /**
-     * @param $path1
-     * @param $path2
-     * @return int
-     */
-    public function orderListAlphabet($path1, $path2)
+    public function orderListAlphabet(string $path1, string $path2) : int
     {
         $node1 = $this->getNodeFromPath($path1);
         $node2 = $this->getNodeFromPath($path2);
@@ -500,11 +399,7 @@ class ilCloudFileTree
         return ($nameNode1 > $nameNode2) ? +1 : -1;
     }
 
-    /**
-     * @param ilCloudFileNode $node
-     * @return array|null
-     */
-    public function getSortedListOfChildren(ilCloudFileNode $node)
+    public function getSortedListOfChildren(ilCloudFileNode $node) : ?array
     {
         $children = $node->getChildrenPathes();
         usort($children, array("ilCloudFileTree", "orderListAlphabet"));
@@ -512,9 +407,9 @@ class ilCloudFileTree
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getListForJSONEncode()
+    public function getListForJSONEncode() : array
     {
         $list = array();
         foreach ($this->getItemList() as $path => $node) {

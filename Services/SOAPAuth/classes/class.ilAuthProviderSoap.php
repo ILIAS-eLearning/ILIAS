@@ -1,36 +1,37 @@
-<?php
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilAuthProviderSoap
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterface
 {
-    /** @var string */
-    protected $server_host = '';
-    /** @var string */
-    protected $server_port = '';
-    /** @var string */
-    protected $server_uri = '';
-    /** @var string */
-    protected $server_https = '';
-    /** @var string */
-    protected $server_nms = '';
-    /** @var string */
-    protected $use_dot_net = false;
-    /** @var string */
-    protected $uri = '';
+    protected string $server_host = '';
+    protected string $server_port = '';
+    protected string $server_uri = '';
+    protected string $server_https = '';
+    protected string $server_nms = '';
+    protected bool $use_dot_net = false;
+    protected string $uri = '';
     /** @var nusoap_client */
     protected $client;
-    /** @var ilLogger */
-    protected $logger;
-    /** @var ilSetting */
-    protected $settings;
-    /** @var ilLanguage */
-    protected $language;
-    /** @var ilRbacAdmin */
-    protected $rbacAdmin;
+    protected ilLogger $logger;
+    protected ilSetting $settings;
+    protected ilLanguage $language;
+    protected ilRbacAdmin $rbacAdmin;
 
     /**
      * @inheritDoc
@@ -50,7 +51,7 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      *
      */
-    private function initClient()
+    private function initClient() : void
     {
         $this->server_host = (string) $this->settings->get('soap_auth_server', '');
         $this->server_port = (string) $this->settings->get('soap_auth_port', '');
@@ -68,8 +69,6 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
         if ($this->server_uri) {
             $this->uri .= ('/' . $this->server_uri);
         }
-
-        require_once './webservice/soap/lib/nusoap.php';
         $this->client = new nusoap_client($this->uri);
     }
 
@@ -99,10 +98,6 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
         return false;
     }
 
-    /**
-     * @param ilAuthStatus $status
-     * @return bool
-     */
     private function handleSoapAuth(ilAuthStatus $status) : bool
     {
         $this->logger->debug(sprintf(
