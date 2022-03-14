@@ -45,8 +45,8 @@ class ilSCORMPresentationGUI
         $this->lng->loadLanguageModule('cert');
 
         // Todo: check lm id
-        $this->slm = new ilObjSCORMLearningModule($_GET["ref_id"], true);
-        $this->refId = (int) $_GET["ref_id"];
+        $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
+        $this->slm = new ilObjSCORMLearningModule($this->refId, true);
     }
 
     /**
@@ -375,16 +375,15 @@ class ilSCORMPresentationGUI
         $exp->setFrameTarget($a_target);
         
         //$exp->setFiltered(true);
-        $jsApi = false;
-        if ($_GET["jsApi"] == "1") {
-            $jsApi = true;
-        }
+        $jsApi = true;
 
-        if ($_GET["scexpand"] == "") {
+        $expanded = "";
+        if ($DIC->http()->wrapper()->query()->has('scexpand')) {
+            $expanded = $DIC->http()->wrapper()->query()->retrieve('scexpand', $DIC->refinery()->kindlyTo()->string());
+        }
+        if ($expanded == "") {
             $mtree = new ilSCORMTree($this->slm->getId());
             $expanded = $mtree->readRootId();
-        } else {
-            $expanded = $_GET["scexpand"];
         }
         $exp->setExpand($expanded);
         
@@ -405,8 +404,17 @@ class ilSCORMPresentationGUI
         //$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
         $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
         $this->tpl->setVariable("EXPLORER", $output);
-        $this->tpl->setVariable("ACTION", "ilias.php?baseClass=ilSAHSPresentationGUI&cmd=" . $_GET["cmd"] . "&frame=" . $_GET["frame"] .
-            "&ref_id=" . $this->slm->getRefId() . "&scexpand=" . $_GET["scexpand"]);
+
+        $cmd = "";
+        if ($DIC->http()->wrapper()->query()->has('cmd')) {
+            $cmd = $DIC->http()->wrapper()->query()->retrieve('cmd', $DIC->refinery()->kindlyTo()->string());
+        }
+        $frame = "";
+        if ($DIC->http()->wrapper()->query()->has('frame')) {
+            $frame = $DIC->http()->wrapper()->query()->retrieve('frame', $DIC->refinery()->kindlyTo()->string());
+        }
+        $this->tpl->setVariable("ACTION", "ilias.php?baseClass=ilSAHSPresentationGUI&cmd=" . $cmd . "&frame=" . $frame .
+            "&ref_id=" . $this->slm->getRefId() . "&scexpand=" . $expanded);
         $this->tpl->parseCurrentBlock();
         //BUG 16794? $this->tpl->show();
 //        $this->tpl->show();
@@ -420,7 +428,9 @@ class ilSCORMPresentationGUI
     */
     public function view() : void
     {
-        $sc_gui_object = ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
+        global $DIC;
+        $objId = $DIC->http()->wrapper()->query()->retrieve('obj_id', $DIC->refinery()->kindlyTo()->int());
+        $sc_gui_object = ilSCORMObjectGUI::getInstance($objId);
 
         if (is_object($sc_gui_object)) {
             $sc_gui_object->view();
@@ -449,14 +459,9 @@ class ilSCORMPresentationGUI
      */
     public function apiInitData() : void
     {
-        //		global $DIC;
-        //		$ilias = $DIC['ilias'];
-        //		$ilLog = ilLoggerFactory::getLogger('sahs');
-        //		$ilUser = $DIC->user();
-        //		$lng = $DIC->language();
-        //		$ilDB = $DIC->database();
+        global $DIC;
 
-        if ($_GET["ref_id"] == "") {
+        if (!($DIC->http()->wrapper()->query()->has('ref_id'))) {
             print('alert("no start without ref_id");');
             die;
         }
@@ -497,49 +502,6 @@ class ilSCORMPresentationGUI
         return true;
     }
 
-//    public function logMessage() : void
-//    {
-//        global $DIC;
-//        $ilLog = ilLoggerFactory::getLogger('sahs');
-//        $logString = file_get_contents('php://input');
-//        $ilLog->write("ScormAicc: ApiLog: Message: " . $logString);
-//    }
-//
-//    public function logWarning() : void
-//    {
-//        global $DIC;
-//        $ilLog = ilLoggerFactory::getLogger('sahs');
-//        $logString = file_get_contents('php://input');
-//        $ilLog->write("ScormAicc: ApiLog: Warning: " . $logString, 20);
-//    }
-    
-//    /**
-//    * set single value
-//    */
-//    public function setSingleVariable($a_var, $a_value) : void
-//    {
-//        $this->tpl->setCurrentBlock("set_value");
-//        $this->tpl->setVariable("VAR", $a_var);
-//        $this->tpl->setVariable("VALUE", $a_value);
-//        $this->tpl->parseCurrentBlock();
-//    }
-
-//    /**
-//    * set single value
-//    */
-//    public function setArray($a_left, $a_value, $a_name, &$v_array) : void
-//    {
-//        for ($i = 0; $i < $a_value; $i++) {
-//            $var = $a_left . "." . $i . "." . $a_name;
-//            if (isset($v_array[$var])) {
-//                $this->tpl->setCurrentBlock("set_value");
-//                $this->tpl->setVariable("VAR", $var);
-//                $this->tpl->setVariable("VALUE", $v_array[$var]);
-//                $this->tpl->parseCurrentBlock();
-//            }
-//        }
-//    }
-
     /**
      * Download the certificate for the active user
      * @return void
@@ -552,8 +514,8 @@ class ilSCORMPresentationGUI
         $ilUser = $DIC->user();
         $tree = $DIC['tree'];
         $ilCtrl = $DIC->ctrl();
-
-        $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+        $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
+        $obj_id = ilObject::_lookupObjId($refId);
 
         $certValidator = new ilCertificateDownloadValidator();
         $allowed = $certValidator->isCertificateDownloadable($ilUser->getId(), $obj_id);
@@ -574,7 +536,7 @@ class ilSCORMPresentationGUI
             exit;
         }
         // redirect to parent category if certificate is not accessible
-        $parent = $tree->getParentId($_GET["ref_id"]);
+        $parent = $tree->getParentId($refId);
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent);
         $ilCtrl->redirectByClass("ilrepositorygui", "");
     }

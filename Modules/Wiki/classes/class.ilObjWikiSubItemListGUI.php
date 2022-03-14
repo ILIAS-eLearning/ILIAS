@@ -32,7 +32,7 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
         $this->user = $DIC->user();
     }
 
-    public function getHTML()
+    public function getHTML() : string
     {
         $lng = $this->lng;
 

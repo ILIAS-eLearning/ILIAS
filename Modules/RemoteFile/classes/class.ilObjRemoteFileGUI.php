@@ -37,7 +37,7 @@ class ilObjRemoteFileGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         $this->lng->loadLanguageModule('file');
     }
     
-    public function getType()
+    public function getType() : string
     {
         return 'rfil';
     }

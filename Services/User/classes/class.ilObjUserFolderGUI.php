@@ -534,14 +534,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
      * show possible subobjects (pulldown menu)
      * overwritten to prevent displaying of role templates in local role folders
      */
-    protected function showPossibleSubObjects() : bool
+    protected function showPossibleSubObjects() : void
     {
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
         $subobj = null;
 
-        $d = $this->objDefinition->getCreatableSubObjects($this->object->getType());
+        $d = $this->obj_definition->getCreatableSubObjects($this->object->getType());
 
         if (!$rbacsystem->checkAccess(
             'create_usr',
@@ -588,11 +588,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->lng->txt("add")
             );
             $this->tpl->parseCurrentBlock();
-
-            return true;
         }
-
-        return false;
     }
 
     public function cancelUserFolderActionObject() : void
@@ -1962,12 +1958,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 'listUsers'
             );
         }
-    }
-
-    protected function hitsperpageObject() : void
-    {
-        parent::hitsperpageObject();
-        $this->viewObject();
     }
 
     /**

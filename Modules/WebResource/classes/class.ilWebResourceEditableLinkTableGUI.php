@@ -34,7 +34,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         // Initialize
-        $this->web_res = new ilLinkResourceItems($this->getParentObject()->object->getId());
+        $this->web_res = new ilLinkResourceItems($this->getParentObject()->getObject()->getId());
         
         
         $this->setTitle($lng->txt('webr_edit_links'));

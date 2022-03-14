@@ -23,7 +23,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
     protected PresentationGUIRequest $request;
     private int $child_id = 0;
 
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
@@ -58,11 +58,11 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         return $this->child_id;
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         $ilCtrl = $this->ctrl;
         
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "continue":
                 $cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=" . $this->ref_id .
                     "&amp;cmd=resume";
@@ -102,7 +102,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 
             default:
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->request->getRefId());
                 break;
         }
@@ -110,9 +110,9 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "view":
             case "continue":
             case "properties":
@@ -130,7 +130,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         return $frame;
     }
 
-    public function getProperties()
+    public function getProperties() : array
     {
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
@@ -145,9 +145,9 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandImage($a_cmd)
+    public function getCommandImage(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             default:
                 return "";
         }

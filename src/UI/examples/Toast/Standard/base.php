@@ -2,15 +2,15 @@
 
 namespace ILIAS\UI\examples\Toast\Standard;
 
-/**
- * Base
- */
 function base() : string
 {
     global $DIC;
-    $toast = $DIC->ui()->factory()->toast()->standard(
-        'Example',
-        $DIC->ui()->factory()->symbol()->icon()->standard('info', 'Test')
+    $tc = $DIC->ui()->factory()->toast()->container()->withAdditionalToast(
+        $DIC->ui()->factory()->toast()->standard(
+            'Example',
+            $DIC->ui()->factory()->symbol()->icon()->standard('info', 'Test')
+        )
     );
-    return $DIC->ui()->renderer()->render($toast);
+
+    return $DIC->ui()->renderer()->render($tc);
 }

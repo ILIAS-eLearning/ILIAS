@@ -176,7 +176,7 @@ class ilTestResultHeaderLabelBuilder
 
     private function initCourseTitle()
     {
-        $this->crsTitle = $this->objCache->lookupTitle($this->getObjectiveOrientedContainerId());
+        $this->crsTitle = $this->objCache->lookupTitle((int) $this->getObjectiveOrientedContainerId());
     }
 
     /**

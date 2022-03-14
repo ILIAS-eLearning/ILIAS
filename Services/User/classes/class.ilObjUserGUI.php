@@ -1934,17 +1934,11 @@ class ilObjUserGUI extends ilObjectGUI
         );
     }
 
-    protected function hitsperpageObject() : void
-    {
-        parent::hitsperpageObject();
-        $this->roleassignmentObject();
-    }
-
     /**
      * should be overwritten to add object specific items
      * (repository items are preloaded)
      */
-    protected function addAdminLocatorItems($a_do_not_add_object = false)
+    protected function addAdminLocatorItems(bool $do_not_add_object = false) : void
     {
         global $DIC;
 

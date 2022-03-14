@@ -3,11 +3,9 @@
 
 /**
  * Class ilOrgUnitSimpleUserImport
- *
  * @author : Oskar Truffer <ot@studer-raimann.ch>
  * @author : Martin Studer <ms@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
- *
  */
 class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
 {
@@ -31,7 +29,6 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
             $this->simpleUserImportElement($a);
         }
     }
-
 
     /**
      * @param SimpleXMLElement $a
@@ -67,9 +64,14 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         } elseif ($role === 'superior') {
             $position_id = ilOrgUnitPosition::CORE_POSITION_SUPERIOR;
         } else {
-            $this->addError('not_a_valid_role', $user_id);
-
-            return;
+            //if passed a custom position.
+            $position = ilOrgUnitPosition::where(['title' => $role])->first();
+            if ($position instanceof ilOrgUnitPosition) {
+                $position_id = $position->getId();
+            } else {
+                $this->addError('not_a_valid_role', $user_id);
+                return;
+            }
         }
 
         if ($action == 'add') {
@@ -86,11 +88,9 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         }
     }
 
-
     /**
      * @param $id
      * @param $type
-     *
      * @return bool
      */
     private function buildUserId($id, $type)

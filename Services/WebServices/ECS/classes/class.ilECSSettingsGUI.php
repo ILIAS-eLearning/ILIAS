@@ -692,8 +692,8 @@ class ilECSSettingsGUI
             }
         }
 
-        foreach ((array) $_POST['sci_mid'] as $sid => $tmp) {
-            foreach ((array) $_POST['sci_mid'][$sid] as $mid => $tmp) {
+        foreach ((array) $_POST['sci_mid'] as $sid) {
+            foreach ((array) $_POST['sci_mid'][$sid] as $mid) {
                 $set = new ilECSParticipantSetting($sid, $mid);
                 #$set->enableExport(array_key_exists($mid, (array) $_POST['export'][$sid]) ? true : false);
                 #$set->enableImport(array_key_exists($mid, (array) $_POST['import'][$sid]) ? true : false);
@@ -1343,7 +1343,7 @@ class ilECSSettingsGUI
         $this->objDataCache->preloadReferenceCache($rcourses);
         $obj_ids = array();
         foreach ($rcourses as $rcrs_ref_id) {
-            $obj_id = $this->objDataCache->lookupObjId($rcrs_ref_id);
+            $obj_id = $this->objDataCache->lookupObjId((int) $rcrs_ref_id);
             $obj_ids[$obj_id] = $obj_id;
         }
 
@@ -1419,7 +1419,7 @@ class ilECSSettingsGUI
             }
             $writer->addColumn($dt);
             
-            $writer->addColumn($this->objDataCache->lookupLastUpdate($obj_id));
+            $writer->addColumn($this->objDataCache->lookupLastUpdate((int) $obj_id));
         }
 
         $stream = \ILIAS\Filesystem\Stream\Streams::ofString($writer->getCSVString());
@@ -1552,7 +1552,7 @@ class ilECSSettingsGUI
             }
             $writer->addColumn($dt);
             
-            $writer->addColumn($this->objDataCache->lookupLastUpdate($obj_id));
+            $writer->addColumn($this->objDataCache->lookupLastUpdate((int) $obj_id));
         }
 
         $stream = \ILIAS\Filesystem\Stream\Streams::ofString($writer->getCSVString());

@@ -1,31 +1,31 @@
 <?php
 /******************************************************************************
- *
  * This file is part of ILIAS, a powerful learning management system.
- *
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
  * of said license along with the source code.
- *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
  *****************************************************************************/
+
 /**
-* XML  parser for soap mails
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup
-*/
+ * XML  parser for soap mails
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup
+ */
 class ilSoapMailXmlParser extends ilSaxParser
 {
+    protected array $mails = [];
+    protected array $mail = [];
+    protected array $attachment = [];
+    protected array $lines = [];
+    protected string $cdata = '';
+
     /**
      * Constructor
      */
-    public function __construct($a_xml)
+    public function __construct(string $a_xml)
     {
         parent::__construct('', true);
         $this->setThrowException(true);
@@ -34,33 +34,23 @@ class ilSoapMailXmlParser extends ilSaxParser
 
     /**
      * Get parsed mails
-     * @return
      */
     public function getMails() : array
     {
         return (array) $this->mails;
     }
 
-    /**
-     * starts parsing
-     *
-     * @throws InvalidArgumentException when recipent or sender is invalid.
-     * @return boolean true, if no errors happend.
-     *
-     */
     public function start() : bool
     {
         $this->startParsing();
         return true;
     }
 
-
     /**
-    * set event handlers
-    *
-    * @param	resource	reference to the xml parser
-    * @access	private
-    */
+     * set event handlers
+     * @param resource    reference to the xml parser
+     * @access    private
+     */
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -69,18 +59,17 @@ class ilSoapMailXmlParser extends ilSaxParser
     }
 
     /**
-    * handler for begin of element
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_name				element name
-    * @param	array		$a_attribs			element attributes array
-    */
+     * handler for begin of element
+     * @param resource $a_xml_parser xml parser
+     * @param string   $a_name       element name
+     * @param array    $a_attribs    element attributes array
+     */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
             case 'Mail':
                 $this->mail = array();
-                $this->mail['usePlaceholders'] = $a_attribs['usePlaceholders'] ? true : false;
+                $this->mail['usePlaceholders'] = (bool) $a_attribs['usePlaceholders'];
                 $this->mail['type'] = $a_attribs['type'] == 'System' ? 'system' : 'normal';
                 break;
 
@@ -112,11 +101,10 @@ class ilSoapMailXmlParser extends ilSaxParser
     }
 
     /**
-    * handler for end of element
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_name				element name
-    */
+     * handler for end of element
+     * @param resource $a_xml_parser xml parser
+     * @param string   $a_name       element name
+     */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
@@ -145,18 +133,8 @@ class ilSoapMailXmlParser extends ilSaxParser
         $this->cdata = '';
     }
 
-    /**
-    * handler for character data
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_data				character data
-    */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
-        if ($this->in_metadata) {
-            parent::handlerCharacterData($a_xml_parser, $a_data);
-        }
-
         if ($a_data != "\n") {
             // Replace multiple tabs with one space
             $a_data = preg_replace("/\t+/", " ", $a_data);
@@ -164,12 +142,7 @@ class ilSoapMailXmlParser extends ilSaxParser
         }
     }
 
-    /**
-     * extract user name
-     * @return
-     * @throws InvalidArgumentException if recipient, sender is invalid
-     */
-    protected function parseName(object $a_attribs)
+    protected function parseName(array $a_attribs)
     {
         if ($a_attribs['obj_id']) {
             $il_id = explode('_', $a_attribs['obj_id']);

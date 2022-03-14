@@ -29,7 +29,7 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
         $this->rbacsystem = $DIC->rbac()->system();
     }
 
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array();
         $commands[] = array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true);
@@ -39,13 +39,13 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
         return $commands;
     }
     
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "book" || ((int) $t_arr[1]) <= 0) {
             return false;
@@ -58,25 +58,25 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
         return false;
     }
 
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         $ilUser = $this->user;
         $rbacsystem = $this->rbacsystem;
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if ($user_id == "") {
+            $user_id = $ilUser->getId();
         }
 
         // add no access info item and return false if access is not granted
-        // $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $a_text, $a_data = "");
+        // $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $text, $data = "");
         //
         // for all RBAC checks use checkAccessOfUser instead the normal checkAccess-method:
-        // $rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id)
+        // $rbacsystem->checkAccessOfUser($user_id, $permission, $ref_id)
 
         //TODO refactor this: first check if the object is online and then the permissions.
         #22653
-        if (($a_permission == "visible" || $a_permission == "read") && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
-            $pool = new ilObjBookingPool($a_ref_id);
+        if (($permission == "visible" || $permission == "read") && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
+            $pool = new ilObjBookingPool($ref_id);
             if ($pool->isOffline()) {
                 return false;
             }
@@ -105,7 +105,7 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
         return $status;
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath)
+    public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
 
         // we return always false, since the files in the file/ and post/ directoies

@@ -40,10 +40,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     const SUBTAB_SETTINGS = "settings";
     const CMD_EDIT_OBJECT = 'editObject';
     const CMD_UPDATE_OBJECT = 'updateObject';
-    /**
-     * @var ilObjBibliographic
-     */
-    public $object;
+
+    public ?ilObject $object;
     protected ?\ilBiblFactoryFacade $facade = null;
     protected \ilBiblTranslationFactory $translation_factory;
     protected \ilBiblFieldFactory $field_factory;
@@ -75,7 +73,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $DIC->language()->loadLanguageModule('cntr');
 
         if (is_object($this->object)) {
-            $this->facade = new ilBiblFactoryFacade($this->object);
+            /** @var ilObjBibliographic $obj */
+            $obj = $this->object;
+            $this->facade = new ilBiblFactoryFacade($obj);
         }
     }
 
@@ -99,7 +99,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     /**
      * executeCommand
      */
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         global $DIC;
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
@@ -180,8 +180,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
                 }
                 break;
         }
-
-        return true;
     }
 
     /**
@@ -399,7 +397,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs_gui;
-        $ilErr = $this->ilErr;
+        $ilErr = $this->error;
 
         if (!$this->checkPermissionBool("write")) {
             $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
@@ -463,14 +461,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $a_form->addItem($cb);
     }
 
-    /**
-     * @return mixed[]
-     */
-    public function getEditFormCustomValues(array &$a_values) : array
+    public function getEditFormCustomValues(array &$values) : void
     {
-        $a_values["is_online"] = $this->object->getOnline();
-
-        return $a_values;
+        $values["is_online"] = $this->object->getOnline();
     }
 
     public function render() : void

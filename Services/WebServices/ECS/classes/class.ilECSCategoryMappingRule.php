@@ -18,10 +18,6 @@
 * Defines a rule for the assignment of ECS remote courses to categories.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSCategoryMappingRule
 {

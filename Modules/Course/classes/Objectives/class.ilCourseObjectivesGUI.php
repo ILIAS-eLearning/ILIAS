@@ -528,7 +528,7 @@ class ilCourseObjectivesGUI
             );
         }
         foreach ($materials as $node_id) {
-            $obj_id = $this->objectDataCache->lookupObjId($node_id);
+            $obj_id = $this->objectDataCache->lookupObjId((int) $node_id);
             $type = $this->objectDataCache->lookupType($obj_id);
 
             $this->objectives_lm_obj->setLMRefId($node_id);
@@ -631,7 +631,7 @@ class ilCourseObjectivesGUI
         // Add checked
         foreach ($checked_questions as $question_id) {
             list($test_ref_id, $qst_id) = explode('_', $question_id);
-            $test_obj_id = $this->objectDataCache->lookupObjId($test_ref_id);
+            $test_obj_id = $this->objectDataCache->lookupObjId((int) $test_ref_id);
 
             if ($this->objectives_qst_obj->isSelfAssessmentQuestion($qst_id)) {
                 continue;
@@ -949,7 +949,7 @@ class ilCourseObjectivesGUI
         // Add checked
         foreach ($checked_questions as $question_id) {
             list($test_ref_id, $qst_id) = explode('_', $question_id);
-            $test_obj_id = $this->objectDataCache->lookupObjId($test_ref_id);
+            $test_obj_id = $this->objectDataCache->lookupObjId((int) $test_ref_id);
 
             if ($this->objectives_qst_obj->isFinalTestQuestion($qst_id)) {
                 continue;

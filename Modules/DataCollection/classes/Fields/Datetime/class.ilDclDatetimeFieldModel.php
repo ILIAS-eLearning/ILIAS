@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclBooleanFieldModel
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,9 +10,7 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @param string $filter_value
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
@@ -41,7 +38,6 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
 
         return $sql_obj;
     }
-
 
     public function checkValidity($value, $record_id = null)
     {

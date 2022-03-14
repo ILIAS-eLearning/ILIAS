@@ -380,7 +380,7 @@ class ilCopyWizardOptions
         $res = $this->db->query($query);
         $mappings = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $mappings = unserialize($row->options);
+            $mappings = unserialize((string) $row->options);
         }
         $mappings[$a_source_id] = $a_target_id;
 
@@ -422,7 +422,7 @@ class ilCopyWizardOptions
 
         $this->options = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->options[$row->source_id] = unserialize($row->options);
+            $this->options[(int) $row->source_id] = unserialize((string) $row->options);
         }
     }
 
@@ -435,7 +435,7 @@ class ilCopyWizardOptions
     {
         $this->tmp_tree[] = $this->tree->getNodeData($a_source_id);
         foreach ($this->tree->getChilds($a_source_id) as $sub_nodes) {
-            $sub_node_ref_id = $sub_nodes['child'];
+            $sub_node_ref_id = (int) $sub_nodes['child'];
             // check ommited, linked ...
             $options = $this->options[$sub_node_ref_id];
             if ($options['type'] == self::COPY_WIZARD_COPY or

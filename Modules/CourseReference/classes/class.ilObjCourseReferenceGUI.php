@@ -51,7 +51,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
      * Execute command
      * @access public
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -77,7 +77,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
      * Add tabs
      * @access public
      */
-    protected function getTabs()
+    protected function getTabs() : void
     {
         global $DIC;
 

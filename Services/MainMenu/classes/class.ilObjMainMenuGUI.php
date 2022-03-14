@@ -15,22 +15,10 @@ class ilObjMainMenuGUI extends ilObject2GUI
      */
     protected $rbacsystem;
     protected ilTabsGUI $tabs;
-    /**
-     * @var ilLanguage (not yet typed in ilObject2GUI)
-     */
-    public $lng;
-    /**
-     * @var ilCtrl (not yet typed in ilObject2GUI)
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate  (not yet typed in ilObject2GUI)
-     */
-    public $tpl;
-    /**
-     * @var ilTree (not yet typed in ilObject2GUI)
-     */
-    public $tree;
+    public ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    public ilGlobalTemplateInterface $tpl;
+    public ilTree $tree;
     
     const TAB_PERMISSIONS = 'perm_settings';
     const TAB_MAIN = 'main';
@@ -60,7 +48,7 @@ class ilObjMainMenuGUI extends ilObject2GUI
         $this->assignObject();
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
         
@@ -101,7 +89,7 @@ class ilObjMainMenuGUI extends ilObject2GUI
     /**
      * @inheritDoc
      */
-    public function getType()
+    public function getType() : string
     {
         return null;
     }

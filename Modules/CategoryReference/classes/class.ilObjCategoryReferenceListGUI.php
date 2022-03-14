@@ -21,7 +21,7 @@ use ILIAS\ContainerReference\StandardGUIRequest;
 class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 {
     protected ?int $reference_obj_id = null;
-    protected $reference_ref_id = null;
+    protected int $reference_ref_id;
     protected bool $deleted = false;
     protected StandardGUIRequest $cont_ref_request;
     
@@ -43,12 +43,12 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
             ->standardRequest();
     }
     
-    public function getIconImageType()
+    public function getIconImageType() : string
     {
         return 'catr';
     }
 
-    public function getTypeIcon()
+    public function getTypeIcon() : string
     {
         $reference_obj_id = ilObject::_lookupObjId($this->getCommandId());
         return ilObject::_getIcon(
@@ -58,16 +58,16 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
     }
 
 
-    public function getCommandId()
+    public function getCommandId() : int
     {
         return $this->reference_ref_id;
     }
     
-    public function insertTimingsCommand()
+    public function insertTimingsCommand() : void
     {
     }
     
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->static_link_enabled = false;
@@ -85,20 +85,25 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
         }
     }
     
-    public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
-    {
+    public function initItem(
+        int $ref_id,
+        int $obj_id,
+        string $type,
+        string $title = "",
+        string $description = ""
+    ) : void {
         $ilAccess = $this->access;
         $tree = $this->tree;
         
-        $this->reference_ref_id = $a_ref_id;
-        $this->reference_obj_id = $a_obj_id;
+        $this->reference_ref_id = $ref_id;
+        $this->reference_obj_id = $obj_id;
         
         include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
-        $target_obj_id = ilContainerReference::_lookupTargetId($a_obj_id);
+        $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
         
         $target_ref_ids = ilObject::_getAllReferences($target_obj_id);
         $target_ref_id = current($target_ref_ids);
-        $target_title = ilContainerReference::_lookupTitle($a_obj_id);
+        $target_title = ilContainerReference::_lookupTitle($obj_id);
         $target_description = ilObject::_lookupDescription($target_obj_id);
         
         $this->deleted = $tree->isDeleted($target_ref_id);
@@ -116,7 +121,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
     }
     
     
-    public function getProperties()
+    public function getProperties() : array
     {
         $lng = $this->lng;
         $tree = $this->tree;
@@ -132,35 +137,39 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
         return $props ?: array();
     }
     
-    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
-    {
-
+    public function checkCommandAccess(
+        string $permission,
+        string $cmd,
+        int $ref_id,
+        string $type,
+        ?int $obj_id = null
+    ) : bool {
         // Check edit reference against reference edit permission
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'editReference':
-                return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type, $a_obj_id);
+                return parent::checkCommandAccess($permission, $cmd, $this->getCommandId(), $type, $obj_id);
         }
 
-        switch ($a_permission) {
+        switch ($permission) {
             case 'copy':
             case 'delete':
                 // check against target ref_id
-                return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type, $a_obj_id);
+                return parent::checkCommandAccess($permission, $cmd, $this->getCommandId(), $type, $obj_id);
             
             default:
                 // check against reference
-                return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
+                return parent::checkCommandAccess($permission, $cmd, $ref_id, $type, $obj_id);
         }
     }
     
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         $ilCtrl = $this->ctrl;
         
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'editReference':
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getCommandId());
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
                 $ilCtrl->setParameterByClass(
                     "ilrepositorygui",
                     "ref_id",
@@ -170,7 +179,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 
             default:
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
                 $ilCtrl->setParameterByClass(
                     "ilrepositorygui",
                     "ref_id",

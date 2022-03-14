@@ -41,11 +41,6 @@ class ilMMItemRepository
 
         foreach ($this->main_collector->getRawItems() as $top_item) {
             ilMMItemStorage::register($top_item);
-            if ($top_item instanceof isParent) {
-                foreach ($top_item->getChildren() as $child) {
-                    ilMMItemStorage::register($child);
-                }
-            }
         }
     }
 

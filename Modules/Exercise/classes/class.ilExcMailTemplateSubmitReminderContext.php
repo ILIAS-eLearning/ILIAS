@@ -94,10 +94,10 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         $ilObjDataCache = $this->obj_data_cache;
 
         if ($placeholder_id == 'ass_title') {
-            return ilExAssignment::lookupTitle($context_parameters["ass_id"]);
+            return ilExAssignment::lookupTitle((int) $context_parameters["ass_id"]);
         } else {
             if ($placeholder_id == 'exc_title') {
-                return $ilObjDataCache->lookupTitle($context_parameters["exc_id"]);
+                return $ilObjDataCache->lookupTitle((int) $context_parameters["exc_id"]);
             } else {
                 if ($placeholder_id == 'ass_link') {
                     return ilLink::_getLink(

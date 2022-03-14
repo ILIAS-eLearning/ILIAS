@@ -266,7 +266,7 @@ abstract class ilParticipant
         $users = [];
         $this->member_roles = [];
         foreach ($this->roles as $role_id) {
-            $title = $this->objectDataCache->lookupTitle($role_id);
+            $title = $this->objectDataCache->lookupTitle((int) $role_id);
             switch (substr($title, 0, 8)) {
                 case 'il_crs_m':
                     $this->member_roles[] = $role_id;

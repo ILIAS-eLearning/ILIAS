@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitUserAssignmentQueries
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitUserAssignmentQueries
@@ -12,7 +11,6 @@ class ilOrgUnitUserAssignmentQueries
      * @var \ilOrgUnitUserAssignmentQueries
      */
     protected static $instance;
-
 
     /**
      * @return \ilOrgUnitUserAssignmentQueries
@@ -26,10 +24,8 @@ class ilOrgUnitUserAssignmentQueries
         return self::$instance;
     }
 
-
     /**
      * @param $user_id
-     *
      * @return ilOrgUnitPosition[]
      */
     public function getPositionsOfUserId($user_id)
@@ -45,12 +41,10 @@ class ilOrgUnitUserAssignmentQueries
         return $positions;
     }
 
-
     /**
      * @param int $user_id
      * @param int $position_id
      * @param int $orgu_id Org-Units Ref-ID
-     *
      * @return \ActiveRecord
      * @throws \ilException
      */
@@ -68,15 +62,12 @@ class ilOrgUnitUserAssignmentQueries
         return $ua;
     }
 
-
     public function filterUserIdsDueToAuthorities($user_id, array $user_ids)
     {
     }
 
-
     /**
      * @param $user_id
-     *
      * @return ilOrgUnitUserAssignment[]
      */
     public function getAssignmentsOfUserId($user_id)
@@ -84,51 +75,59 @@ class ilOrgUnitUserAssignmentQueries
         return ilOrgUnitUserAssignment::where(['user_id' => $user_id])->get();
     }
 
+    /**
+     * @param $user_id
+     *
+     * @return ilOrgUnitUserAssignment[]
+     */
+    public function getAssignmentsOfUserIdAndPosition(int $user_id, int $position_id) : array
+    {
+        return ilOrgUnitUserAssignment::where(
+            [
+                'user_id' => $user_id,
+                'position_id' => $position_id
+            ]
+        )->get();
+    }
 
     /**
      * @param $orgunit_ref_id
-     *
      * @return ilOrgUnitUserAssignment[]
      */
     public function getUserIdsOfOrgUnit($orgunit_ref_id)
     {
         return ilOrgUnitUserAssignment::where(['orgu_id' => $orgunit_ref_id])
-            ->getArray(null, 'user_id');
+                                      ->getArray(null, 'user_id');
     }
-
 
     /**
      * @param $orgunit_ref_id
-     *
      * @return ilOrgUnitUserAssignment[]
      */
     public function getUserIdsOfOrgUnits(array $orgunit_ref_id)
     {
         return ilOrgUnitUserAssignment::where(['orgu_id' => $orgunit_ref_id])
-            ->getArray(null, 'user_id');
+                                      ->getArray(null, 'user_id');
     }
-
 
     /**
      * @param      $position_id
      * @param      $user_id
-     *
      * @param bool $recursive
-     *
      * @return \ilOrgUnitUserAssignment[]
      * @internal param $orgunit_ref_id
      */
     public function getUserIdsOfOrgUnitsOfUsersPosition($position_id, $user_id, $recursive = false)
     {
-        return ilOrgUnitUserAssignment::where(['orgu_id' => $this->getOrgUnitIdsOfUsersPosition($position_id, $user_id, $recursive)])
-            ->getArray(null, 'user_id');
+        return ilOrgUnitUserAssignment::where(['orgu_id' => $this->getOrgUnitIdsOfUsersPosition($position_id, $user_id,
+            $recursive)
+        ])
+                                      ->getArray(null, 'user_id');
     }
-
 
     /**
      * @param array $orgu_ids
      * @param       $position_id
-     *
      * @return int[]
      */
     public function getUserIdsOfOrgUnitsInPosition(array $orgu_ids, $position_id)
@@ -139,14 +138,11 @@ class ilOrgUnitUserAssignmentQueries
         ])->getArray(null, 'user_id');
     }
 
-
     /**
      * @param       $user_id
      * @param       $users_position_id
      * @param       $position_id
-     *
      * @param bool  $recursive
-     *
      * @return int[]
      */
     public function getUserIdsOfUsersOrgUnitsInPosition($user_id, $users_position_id, $position_id, $recursive = false)
@@ -157,13 +153,10 @@ class ilOrgUnitUserAssignmentQueries
         ])->getArray(null, 'user_id');
     }
 
-
     /**
      * @param      $position_id
      * @param      $user_id
-     *
      * @param bool $recursive
-     *
      * @return int[]
      */
     public function getOrgUnitIdsOfUsersPosition($position_id, $user_id, $recursive = false)
@@ -186,10 +179,8 @@ class ilOrgUnitUserAssignmentQueries
         return $recursive_orgu_ids;
     }
 
-
     /**
      * @param $position_id
-     *
      * @return int[]
      */
     public function getUserIdsOfPosition($position_id)
@@ -199,10 +190,8 @@ class ilOrgUnitUserAssignmentQueries
         ])->getArray(null, 'user_id');
     }
 
-
     /**
      * @param $position_id
-     *
      * @return ilOrgUnitUserAssignment[]
      */
     public function getUserAssignmentsOfPosition($position_id)
@@ -212,10 +201,8 @@ class ilOrgUnitUserAssignmentQueries
         ])->get();
     }
 
-
     /**
      * @param int $user_id
-     *
      * @return void
      */
     public function deleteAllAssignmentsOfUser($user_id)

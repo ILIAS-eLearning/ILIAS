@@ -34,20 +34,15 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
-        $ilUser = $this->user;
         $lng = $this->lng;
         $ilAccess = $this->access;
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
-        }
-
-        switch ($a_permission) {
+        switch ($permission) {
             case "read":
 
-                if (ilObjFileBasedLMAccess::_determineStartUrl($a_obj_id) == "") {
+                if (ilObjFileBasedLMAccess::_determineStartUrl($obj_id) == "") {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
@@ -56,7 +51,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
         return true;
     }
     
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show",
@@ -102,13 +97,13 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
         return "";
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "htlm" || ((int) $t_arr[1]) <= 0) {
             return false;
@@ -133,14 +128,14 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
         return file_exists($lm_dir) ? ilFileUtils::dirsize($lm_dir) : 0;
     }
 
-    public static function _preloadData($a_obj_ids, $a_ref_ids)
+    public static function _preloadData(array $obj_ids, array $ref_ids) : void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $q = "SELECT id, startfile FROM file_based_lm WHERE " .
-            $ilDB->in("id", $a_obj_ids, false, "integer");
+            $ilDB->in("id", $obj_ids, false, "integer");
 
         $lm_set = $ilDB->query($q);
         while ($rec = $ilDB->fetchAssoc($lm_set)) {

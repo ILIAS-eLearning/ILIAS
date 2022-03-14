@@ -15,24 +15,12 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSExportedContentTableGUI extends ilTable2GUI
 {
     private ilObjectDataCache $ilObjDataCache;
     
-    /**
-     * constructor
-     *
-     * @access public
-     * @param
-     *
-     */
     public function __construct($a_parent_obj, $a_parent_cmd = '')
     {
         global $DIC;
@@ -51,7 +39,6 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
     /**
      * Fill row
      *
-     * @access public
      * @param array row data
      *
      */
@@ -120,7 +107,6 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
     /**
      * Parse
      *
-     * @access public
      * @param array array of released content obj_ids
      *
      */
@@ -142,10 +128,10 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
             $tmp_arr['sids'] = ilECSExportManager::getInstance()->lookupServerIds($obj_id);
             $tmp_arr['ref_id'] = $ref_id;
             $tmp_arr['obj_id'] = $obj_id;
-            $tmp_arr['title'] = $this->ilObjDataCache->lookupTitle($obj_id);
-            $tmp_arr['desc'] = $this->ilObjDataCache->lookupDescription($obj_id);
+            $tmp_arr['title'] = $this->ilObjDataCache->lookupTitle((int) $obj_id);
+            $tmp_arr['desc'] = $this->ilObjDataCache->lookupDescription((int) $obj_id);
             $tmp_arr['md'] = '';
-            $tmp_arr['last_update'] = $this->ilObjDataCache->lookupLastUpdate($obj_id);
+            $tmp_arr['last_update'] = $this->ilObjDataCache->lookupLastUpdate((int) $obj_id);
             $content[] = $tmp_arr;
         }
         $this->setData($content);

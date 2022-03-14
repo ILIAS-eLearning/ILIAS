@@ -69,13 +69,12 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
      * Overwrites the __raiseError method and transforms any raised errors into ilPluginExceptions.
      * Note: These exceptions will be caught by the plugin slot and and the exception message
      * is returned to the SOAP caller.
-     *
      * @param string $a_message
-     * @param int $a_code
-     * @throws ilSoapPluginException
+     * @param int    $a_code
      * @return void
+     *@throws ilSoapPluginException
      */
-    public function __raiseError($a_message, $a_code)
+    protected function __raiseError(string $a_message, $a_code)
     {
         throw new ilSoapPluginException($a_message, $a_code);
     }

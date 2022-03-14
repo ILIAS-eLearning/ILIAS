@@ -27,9 +27,9 @@ class ilExplorer
     protected ilObjectDefinition $obj_definition;
     protected ilErrorHandling $error;
     protected ilRbacSystem $rbacsystem;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
-    public string $id;
+    public string $id = "";
     public string $output;
     public array $format_options;
     public ilTree $tree;
@@ -39,7 +39,7 @@ class ilExplorer
     public array $expanded;
     public string $order_column;
     public string $order_direction = "asc";
-    public string $expand_target;
+    public ?string $expand_target;
     public bool $rbac_check;
     public bool $output_icons;
     public string $expand_variable;
@@ -105,7 +105,7 @@ class ilExplorer
         $this->order_column = "title";
         $this->tree = new ilTree(ROOT_FOLDER_ID);
         $this->tree->initLangCode();
-        $this->expand_target = $_SERVER["PATH_INFO"];
+        $this->expand_target = $_SERVER["PATH_INFO"] ?? "";
         $this->rbac_check = true;
         $this->output_icons = true;
         $this->expand_variable = "expand";

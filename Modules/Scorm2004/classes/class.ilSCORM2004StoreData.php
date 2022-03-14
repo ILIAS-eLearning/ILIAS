@@ -11,11 +11,12 @@ class ilSCORM2004StoreData
 {
     /**
      * @param int      $packageId
+     * @param int      $refId
      * @param bool     $time_from_lms
      * @param int|null $userId
      * @return void
      */
-    public static function scormPlayerUnload(int $packageId, bool $time_from_lms, ?int $userId = null) : void
+    public static function scormPlayerUnload(int $packageId, int $refId, bool $time_from_lms, ?int $userId = null) : void
     {
         global $DIC;
 
@@ -61,7 +62,7 @@ class ilSCORM2004StoreData
 
                 $ilObjDataCache = $DIC["ilObjDataCache"];
                 // sync access number and time in read event table
-                ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", (int) $_GET['ref_id'], $time_from_lms);
+                ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $refId, $time_from_lms);
                 //end sync access number and time in read event table
             }
         } else {
@@ -125,6 +126,7 @@ class ilSCORM2004StoreData
 
     /**
      * @param int         $packageId
+     * @param int         $refId
      * @param string      $defaultLessonMode
      * @param bool        $comments
      * @param bool        $interactions
@@ -136,6 +138,7 @@ class ilSCORM2004StoreData
      */
     public static function persistCMIData(
         int $packageId,
+        int $refId,
         string $defaultLessonMode,
         bool $comments,
         bool $interactions,
@@ -187,7 +190,7 @@ class ilSCORM2004StoreData
             }
         }
 
-        ilSCORM2004StoreData::syncGlobalStatus($userId, $packageId, $data, $new_global_status, $time_from_lms);
+        ilSCORM2004StoreData::syncGlobalStatus($userId, $packageId, $refId, $data, $new_global_status, $time_from_lms);
 
         $ilLog->debug("SCORM: return of persistCMIData: " . json_encode($return));
         if ($jsMode) {
@@ -447,7 +450,7 @@ class ilSCORM2004StoreData
         $changed_seq_utilities = $data->changed_seq_utilities;
         $ilLog->debug("SCORM2004 adl_seq_utilities changed: " . $changed_seq_utilities);
         if ($changed_seq_utilities == 1) {
-            $returnAr = ilSCORM2004StoreData::writeGObjective($userId, $packageId, $data->adl_seq_utilities);
+            $returnAr = ilSCORM2004StoreData::writeGObjective($userId, $packageId, (array) $data->adl_seq_utilities);
         }
     }
 
@@ -673,15 +676,15 @@ class ilSCORM2004StoreData
     /**
      * @param int    $userId
      * @param int    $packageId
+     * @param int    $refId
      * @param object $data
      * @param int    $new_global_status
      * @param bool   $time_from_lms
      * @return void
      */
-    public static function syncGlobalStatus(int $userId, int $packageId, object $data, int $new_global_status, bool $time_from_lms) : void
+    public static function syncGlobalStatus(int $userId, int $packageId, int $refId, object $data, int $new_global_status, bool $time_from_lms) : void
     {
         global $DIC;
-
         $ilDB = $DIC->database();
         $ilLog = $DIC["ilLog"];
         $saved_global_status = $data->saved_global_status;
@@ -709,7 +712,7 @@ class ilSCORM2004StoreData
         }
         // sync access number and time in read event table
         if ($time_from_lms == false) {
-            ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", (int) $_GET['ref_id'], $time_from_lms);
+            ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $refId, $time_from_lms);
         }
         //end sync access number and time in read event table
     }

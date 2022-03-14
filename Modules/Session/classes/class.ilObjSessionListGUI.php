@@ -27,17 +27,11 @@
 */
 class ilObjSessionListGUI extends ilObjectListGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    public ilCtrl $ctrl;
+    protected ilLanguage $lng;
     protected array $app_info = [];
     protected bool $subitems_enabled = false;
-    protected $title = "";
+    protected string $title = "";
 
     public function __construct()
     {
@@ -185,9 +179,10 @@ class ilObjSessionListGUI extends ilObjectListGUI
 
         // booking information
         $repo = ilObjSessionAccess::getBookingInfoRepo();
-        $book_info = new ilBookingInfoListItemPropertiesAdapter($repo);
-        $props = $book_info->appendProperties($this->obj_id, $props);
-
+        if ($repo instanceof ilBookingReservationDBRepository) {
+            $book_info = new ilBookingInfoListItemPropertiesAdapter($repo);
+            $props = $book_info->appendProperties($this->obj_id, $props);
+        }
         return $props;
     }
 

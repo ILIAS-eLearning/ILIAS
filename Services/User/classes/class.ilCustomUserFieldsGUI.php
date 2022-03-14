@@ -715,17 +715,17 @@ class ilCustomUserFieldsGUI
             $user_field_definitions->setFieldName($definition['field_name']);
             $user_field_definitions->setFieldType($definition['field_type']);
             $user_field_definitions->setFieldValues($definition['field_values']);
-            $user_field_definitions->enableVisible($checked['visible_' . $field_id]);
-            $user_field_definitions->enableChangeable($checked['changeable_' . $field_id]);
-            $user_field_definitions->enableRequired($checked['required_' . $field_id]);
-            $user_field_definitions->enableSearchable($checked['searchable_' . $field_id]);
-            $user_field_definitions->enableExport($checked['export_' . $field_id]);
-            $user_field_definitions->enableCourseExport($checked['course_export_' . $field_id]);
-            $user_field_definitions->enableVisibleLocalUserAdministration($checked['visib_lua_' . $field_id]);
-            $user_field_definitions->enableChangeableLocalUserAdministration($checked['changeable_lua_' . $field_id]);
-            $user_field_definitions->enableGroupExport($checked['group_export_' . $field_id]);
-            $user_field_definitions->enableVisibleRegistration($checked['visib_reg_' . $field_id]);
-            $user_field_definitions->enableCertificate($checked['certificate_' . $field_id]);
+            $user_field_definitions->enableVisible((bool) $checked['visible_' . $field_id]);
+            $user_field_definitions->enableChangeable((bool) $checked['changeable_' . $field_id]);
+            $user_field_definitions->enableRequired((bool) $checked['required_' . $field_id]);
+            $user_field_definitions->enableSearchable((bool) $checked['searchable_' . $field_id]);
+            $user_field_definitions->enableExport((bool) $checked['export_' . $field_id]);
+            $user_field_definitions->enableCourseExport((bool) $checked['course_export_' . $field_id]);
+            $user_field_definitions->enableVisibleLocalUserAdministration((bool) $checked['visib_lua_' . $field_id]);
+            $user_field_definitions->enableChangeableLocalUserAdministration((bool) $checked['changeable_lua_' . $field_id]);
+            $user_field_definitions->enableGroupExport((bool) $checked['group_export_' . $field_id]);
+            $user_field_definitions->enableVisibleRegistration((bool) $checked['visib_reg_' . $field_id]);
+            $user_field_definitions->enableCertificate((bool) $checked['certificate_' . $field_id]);
 
             $user_field_definitions->update($field_id);
         }

@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+
 class ilObjLearningSequenceLPPollingGUI
 {
     const PARAM_LSO_LP_OBJID = LSUrlBuilder::PARAM_LSO_PARAMETER;
@@ -8,6 +10,7 @@ class ilObjLearningSequenceLPPollingGUI
     protected int $current_user_id;
     protected ilObjectDataCache $obj_data_cache;
     protected ILIAS\Refinery\Factory $refinery;
+    protected RequestWrapper $request_wrapper;
 
     public function __construct(
         ilCtrl $ctrl,
@@ -39,7 +42,7 @@ class ilObjLearningSequenceLPPollingGUI
     {
         $obj_id = $this->request_wrapper->retrieve(self::PARAM_LSO_LP_OBJID, $this->refinery->kindlyTo()->int());
         $il_lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-        if (ilObjectLP::isSupportedObjectType($this->obj_data_cache->lookupType($obj_id))) {
+        if (ilObjectLP::isSupportedObjectType($this->obj_data_cache->lookupType((int) $obj_id))) {
             $il_lp_status = ilLPStatus::_lookupStatus($obj_id, $this->current_user_id, true);
         }
         print $il_lp_status;

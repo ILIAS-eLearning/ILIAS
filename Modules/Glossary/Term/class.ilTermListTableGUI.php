@@ -36,7 +36,7 @@ class ilTermListTableGUI extends ilTable2GUI
     ) {
         global $DIC;
         
-        $this->glossary = $a_parent_obj->object;
+        $this->glossary = $a_parent_obj->getObject();
         $this->setId("glotl" . $this->glossary->getId());
         $this->tax_node = $a_tax_node;
 

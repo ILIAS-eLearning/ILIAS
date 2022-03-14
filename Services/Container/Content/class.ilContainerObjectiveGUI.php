@@ -562,9 +562,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             
             
             if ($this->loc_settings->getQualifiedTest() == $a_item['ref_id']) {
-                $a_item_list_gui->setConditionTarget($this->getContainerObject()->getRefId(), $a_item['objective_id'], 'lobj');
+                $a_item_list_gui->setConditionTarget($this->getContainerObject()->getRefId(), (int) $a_item['objective_id'], 'lobj');
                 // check conditions of target
-                $fullfilled = ilConditionHandler::_checkAllConditionsOfTarget($this->getContainerObject()->getRefId(), $a_item['objective_id'], 'lobj');
+                $fullfilled = ilConditionHandler::_checkAllConditionsOfTarget($this->getContainerObject()->getRefId(), (int) $a_item['objective_id'], 'lobj');
                 if (!$fullfilled || $a_item['objective_status']) {
                     $a_item_list_gui->disableTitleLink(true);
                 }

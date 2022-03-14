@@ -41,7 +41,7 @@ class ilObjRemoteGlossaryListGUI extends ilRemoteObjectBaseListGUI
      *
      * @access public
      */
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = false;
         $this->static_link_enabled = true;
@@ -71,7 +71,7 @@ class ilObjRemoteGlossaryListGUI extends ilRemoteObjectBaseListGUI
      * @param
      *
      */
-    public function getProperties()
+    public function getProperties() : array
     {
         if ($org = $this->_lookupOrganization(ilObjRemoteGlossary::DB_TABLE_NAME, $this->obj_id)) {
             $this->addCustomProperty($this->lng->txt('organization'), $org, false, true);
@@ -90,9 +90,9 @@ class ilObjRemoteGlossaryListGUI extends ilRemoteObjectBaseListGUI
      * @param
      * @return
      */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'show':
                 if (ilECSExportManager::_isRemote(
                     ilECSImport::lookupServerId($this->obj_id),
@@ -103,7 +103,7 @@ class ilObjRemoteGlossaryListGUI extends ilRemoteObjectBaseListGUI
 
                 // no break
             default:
-                return parent::getCommandFrame($a_cmd);
+                return parent::getCommandFrame($cmd);
         }
     }
 } // END class.ilObjRemoteGlossaryListGUI

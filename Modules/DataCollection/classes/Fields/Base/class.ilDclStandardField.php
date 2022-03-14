@@ -3,13 +3,11 @@
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclStandardField extends ilDclBaseFieldModel
@@ -30,7 +28,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $ilLog->write("[ilDclStandardField] " . $message);
     }
 
-
     public function doCreate()
     {
         global $DIC;
@@ -40,12 +37,10 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $ilLog->write("[ilDclStandardField] " . $message);
     }
 
-
     public function doUpdate()
     {
         $this->updateTableFieldSetting();
     }
-
 
     /**
      * @param ilDclStandardField $original_record
@@ -59,7 +54,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $this->doUpdate();
     }
 
-
     /**
      * @return bool
      */
@@ -67,7 +61,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
     {
         return true;
     }
-
 
     /**
      * @return array
@@ -120,10 +113,8 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return $stdfields;
     }
 
-
     /**
      * @param $table_id
-     *
      * @return array
      */
     public static function _getStandardFields($table_id)
@@ -139,7 +130,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
 
         return $stdFields;
     }
-
 
     /**
      * @return array all possible titles of non-importable (excel import) standardfields (atm all
@@ -174,7 +164,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return $titles;
     }
 
-
     /**
      * @return array all possible titles of importable (excel import) standardfields (atm
      *               exclusively owner), in all languages;
@@ -200,10 +189,8 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return $titles;
     }
 
-
     /**
      * @param $field_id
-     *
      * @return bool
      */
     public static function _isStandardField($field_id)
@@ -218,12 +205,9 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return $return;
     }
 
-
     /**
      * gives you the datatype id of a specified standard field.
-     *
      * @param int $id the id of the standardfield eg. "create_date"
-     *
      * @return int|null
      */
     public static function _getDatatypeForId($id)
@@ -239,7 +223,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return $datatype;
     }
 
-
     /**
      * @return bool
      */
@@ -247,7 +230,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
     {
         return true;
     }
-
 
     /**
      * @return bool
@@ -257,13 +239,10 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return false;
     }
 
-
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @param string  $direction
      * @param boolean $sort_by_status The specific sort object is a status field
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
@@ -288,13 +267,10 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @param string              $filter_value
      * @param ilDclBaseFieldModel $sort_field
-     *
      * @return ilDclRecordQueryObject|null
      */
     public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
@@ -347,7 +323,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     /**
      * @return string
      */
@@ -359,7 +334,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
             return $this->getTitle();
         }
     }
-
 
     /**
      * @return bool
@@ -373,7 +347,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return parent::hasNumericSorting();
     }
 
-
     /**
      * @return bool
      */
@@ -383,7 +356,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return $this->id != 'comments'
             || ilDclCache::getTableCache($this->getTableId())->getPublicCommentsEnabled();
     }
-
 
     /**
      * @param \ilExcel $worksheet
@@ -401,12 +373,10 @@ class ilDclStandardField extends ilDclBaseFieldModel
         }
     }
 
-
     /**
      * @param $excel ilExcel
      * @param $row
      * @param $col
-     *
      * @return mixed
      */
     public function getValueFromExcel($excel, $row, $col)
@@ -419,7 +389,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
                 return $value;
         }
     }
-
 
     /**
      * @param $records

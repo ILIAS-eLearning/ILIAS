@@ -527,8 +527,8 @@ class ilMailSearchGUI
                         (string) $grp['obj_id']
                     );
                 }
-                $result[$counter]['title'] = $this->object_data_cache->lookupTitle($grp['obj_id']);
-                $result[$counter]['description'] = $this->object_data_cache->lookupDescription($grp['obj_id']);
+                $result[$counter]['title'] = $this->object_data_cache->lookupTitle((int) $grp['obj_id']);
+                $result[$counter]['description'] = $this->object_data_cache->lookupDescription((int) $grp['obj_id']);
 
                 ++$counter;
                 $visible_groups[] = $grp;

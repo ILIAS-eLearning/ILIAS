@@ -40,7 +40,7 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
      *
      * @access public
      */
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = false;
         $this->static_link_enabled = true;
@@ -69,7 +69,7 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
      * @param
      *
      */
-    public function getProperties()
+    public function getProperties() : array
     {
         global $lng;
 
@@ -91,9 +91,9 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
      * @param
      * @return
      */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'show':
                 if (ilECSExportManager::getInstance()->_isRemote(
                     ilECSImportManager::getInstance()->lookupServerId($this->obj_id),
@@ -104,7 +104,7 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
                 
                 // no break
             default:
-                return parent::getCommandFrame($a_cmd);
+                return parent::getCommandFrame($cmd);
         }
     }
 }

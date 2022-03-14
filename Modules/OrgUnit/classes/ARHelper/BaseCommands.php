@@ -4,26 +4,27 @@ namespace ILIAS\Modules\OrgUnit\ARHelper;
 
 /**
  * Interface BaseCommands
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class BaseCommands
 {
     use DIC;
+
     const CMD_INDEX = "index";
     const CMD_ADD = "add";
     const CMD_CREATE = "create";
     const CMD_EDIT = "edit";
     const CMD_UPDATE = "update";
     const CMD_CONFIRM = "confirm";
+    const CMD_CONFIRM_RECURSIVE = "confirmRecursive";
     const CMD_DELETE = "delete";
+    const CMD_DELETE_RECURSIVE = "deleteRecursive";
     const CMD_CANCEL = "cancel";
     const AR_ID = "arid";
     /**
      * @var \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
      */
     protected $parent_gui = null;
-
 
     /**
      * @return \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
@@ -33,7 +34,6 @@ abstract class BaseCommands
         return $this->parent_gui;
     }
 
-
     /**
      * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
      */
@@ -42,9 +42,7 @@ abstract class BaseCommands
         $this->parent_gui = $parent_gui;
     }
 
-
     abstract protected function index();
-
 
     /**
      * @return array of GUI_Class-Names
@@ -54,7 +52,6 @@ abstract class BaseCommands
         return array();
     }
 
-
     /**
      * @return null|string of active Tab
      */
@@ -63,12 +60,10 @@ abstract class BaseCommands
         return null;
     }
 
-
     protected function cancel()
     {
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
-
 
     /***
      * @param $html
@@ -77,7 +72,6 @@ abstract class BaseCommands
     {
         $this->tpl()->setContent($html);
     }
-
 
     public function executeCommand()
     {
@@ -111,7 +105,6 @@ abstract class BaseCommands
         }
     }
 
-
     /**
      * @param $subtab_id
      * @param $url
@@ -121,7 +114,6 @@ abstract class BaseCommands
         $this->dic()->tabs()->addSubTab($subtab_id, $this->txt($subtab_id), $url);
     }
 
-
     /**
      * @param $subtab_id
      */
@@ -129,7 +121,6 @@ abstract class BaseCommands
     {
         $this->dic()->tabs()->activateSubTab($subtab_id);
     }
-
 
     protected function checkRequestReferenceId()
     {
@@ -144,7 +135,6 @@ abstract class BaseCommands
         return true;
     }
 
-
     /**
      * @return int|null
      */
@@ -155,7 +145,6 @@ abstract class BaseCommands
 
         return $ref_id;
     }
-
 
     public function addSubTabs()
     {

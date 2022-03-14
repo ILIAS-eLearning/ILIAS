@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitTypeFormGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -17,7 +16,6 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
      * @var
      */
     protected $parent_gui;
-
 
     /**
      * @param               $parent_gui
@@ -39,10 +37,8 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-
     /**
      * Save object (create or update)
-     *
      * @return bool
      */
     public function saveObject()
@@ -61,7 +57,6 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
         }
     }
 
-
     /**
      * Add all fields to the form
      */
@@ -79,10 +74,8 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
         $this->addCommandButton('updateCustomIcons', $this->lng->txt('save'));
     }
 
-
     /**
      * Check validity of form and pass values from form to object
-     *
      * @return bool
      */
     protected function fillObject()

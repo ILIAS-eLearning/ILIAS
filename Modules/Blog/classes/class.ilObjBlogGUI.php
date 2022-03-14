@@ -150,9 +150,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     }
 
     
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        $forms = parent::initCreationForms($a_new_type);
+        $forms = parent::initCreationForms($new_type);
 
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             unset($forms[self::CFORM_IMPORT]);
@@ -162,7 +162,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         return $forms;
     }
     
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -413,31 +413,31 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $a_values["absih"] = $this->object->getAbstractImageHeight() ?: ilObjBlog::ABSTRACT_DEFAULT_IMAGE_HEIGHT;
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form)
+    protected function updateCustom(ilPropertyFormGUI $form) : void
     {
         $lng = $this->lng;
         $obj_service = $this->getObjectService();
         
         if ($this->id_type == self::REPOSITORY_NODE_ID) {
-            $this->object->setApproval($a_form->getInput("approval"));
-            $this->object->setAuthors($a_form->getInput("nav_authors"));
-            $obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+            $this->object->setApproval($form->getInput("approval"));
+            $this->object->setAuthors($form->getInput("nav_authors"));
+            $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
         }
-        $this->object->setKeywords($a_form->getInput("keywords"));
-        $this->object->setNotesStatus($a_form->getInput("notes"));
-        $this->object->setProfilePicture($a_form->getInput("ppic"));
-        $this->object->setRSS($a_form->getInput("rss"));
-        $this->object->setAbstractShorten($a_form->getInput("abss"));
-        $this->object->setAbstractShortenLength($a_form->getInput("abssl"));
-        $this->object->setAbstractImage($a_form->getInput("absi"));
-        $this->object->setAbstractImageWidth($a_form->getInput("absiw"));
-        $this->object->setAbstractImageHeight($a_form->getInput("absih"));
-        $this->object->setNavMode($a_form->getInput("nav"));
-        $this->object->setNavModeListMonthsWithPostings($a_form->getInput("nav_list_mon_with_post"));
-        $this->object->setNavModeListMonths($a_form->getInput("nav_list_mon"));
-        $this->object->setOverviewPostings($a_form->getInput("ov_list_post_num"));
+        $this->object->setKeywords($form->getInput("keywords"));
+        $this->object->setNotesStatus($form->getInput("notes"));
+        $this->object->setProfilePicture($form->getInput("ppic"));
+        $this->object->setRSS($form->getInput("rss"));
+        $this->object->setAbstractShorten($form->getInput("abss"));
+        $this->object->setAbstractShortenLength($form->getInput("abssl"));
+        $this->object->setAbstractImage($form->getInput("absi"));
+        $this->object->setAbstractImageWidth($form->getInput("absiw"));
+        $this->object->setAbstractImageHeight($form->getInput("absih"));
+        $this->object->setNavMode($form->getInput("nav"));
+        $this->object->setNavModeListMonthsWithPostings($form->getInput("nav_list_mon_with_post"));
+        $this->object->setNavModeListMonths($form->getInput("nav_list_mon"));
+        $this->object->setOverviewPostings($form->getInput("ov_list_post_num"));
 
-        $order = (array) $a_form->getInput("order");
+        $order = (array) $form->getInput("order");
         foreach ($order as $idx => $value) {
             if ($value == $lng->txt("blog_navigation")) {
                 $order[$idx] = "navigation";
@@ -449,7 +449,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
         $this->object->setOrder($order);
         // banner field is optional
-        $banner = $a_form->getItemByPostVar("banner");
+        $banner = $form->getItemByPostVar("banner");
         if ($banner) {
             if ($_FILES["banner"]["tmp_name"]) {
                 $this->object->uploadImage($_FILES["banner"]);
@@ -585,10 +585,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 } else {
                     //ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
                 }
-                $ilTabs->setBackTarget(
-                    $lng->txt("back"),
-                    $ilCtrl->getLinkTarget($this, "")
-                );
 
                 $style_sheet_id = $this->content_style_domain->getEffectiveStyleId();
 
@@ -647,6 +643,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->renderToolbarNavigation($this->items, true);
                 }
                 $ret = $ilCtrl->forwardCommand($bpost_gui);
+                if (!$ilTabs->back_target) {
+                    $ilCtrl->setParameter($this, "bmn", "");
+                    $ilTabs->setBackTarget(
+                        $lng->txt("back"),
+                        $ilCtrl->getLinkTarget($this, "")
+                    );
+                }
+
                 if ($ret != "") {
 
                     // $is_owner = $this->object->getOwner() == $ilUser->getId();
@@ -688,7 +692,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                                 }
                             }
                             $public_action = false;
-                            if ($cmd != "history" && $is_active && empty($info)) {
+                            if ($cmd != "history" && $cmd != "edit" && $is_active && empty($info)) {
                                 $info[] = $lng->txt("blog_new_posting_info");
                                 $public_action = true;
                             }
@@ -703,10 +707,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             }
 
                             // revert to edit cmd to avoid confusion
-                            $this->addHeaderActionForCommand("render");
                             $tpl->setContent($ret);
-                            $nav = $this->renderNavigation("render", $cmd, "", $is_owner);
-                            $tpl->setRightContent($nav);
+                            if ($cmd != "edit") {
+                                $this->addHeaderActionForCommand("render");
+                                $nav = $this->renderNavigation("render", $cmd, "", $is_owner);
+                                $tpl->setRightContent($nav);
+                            } else {
+                                $this->tabs->setBackTarget("", "");
+                            }
                             break;
                     }
                 }
@@ -2370,10 +2378,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     }
 
     protected function initHeaderAction(
-        $a_sub_type = null,
-        $a_sub_id = null,
-        bool $a_is_preview = false
-    ) {
+        ?string $sub_type = null,
+        ?int $sub_id = null,
+        bool $is_preview = false
+    ) : ?ilObjectListGUI {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         
@@ -2381,15 +2389,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             return null;
         }
 
-        $a_sub_type = $a_sub_id = null;
+        $sub_type = $sub_id = null;
         if ($this->blpg > 0) {
-            $a_sub_type = "blp";
-            $a_sub_id = $this->blpg;
+            $sub_type = "blp";
+            $sub_id = $this->blpg;
         }
                 
-        $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
+        $lg = parent::initHeaderAction($sub_type, $sub_id);
         
-        if ($a_is_preview) {
+        if ($is_preview) {
             $lg->enableComments(false);
             $lg->enableNotes(false);
             $lg->enableTags(false);
@@ -2427,11 +2435,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $ilCtrl->setParameter($this, "bmn", "");
                 $ilCtrl->setParameter($this, "blpg", "");
                 $link = $ilCtrl->getLinkTarget($this, "");
-                $ilCtrl->setParameter($this, "blpg", $a_sub_id);
+                $ilCtrl->setParameter($this, "blpg", $sub_id);
                 $ilCtrl->setParameter($this, "bmn", $this->month);
                 $lg->addCustomCommand($link, "blog_edit"); // #11868
                                 
-                if ($a_sub_id && $this->mayEditPosting($a_sub_id)) {
+                if ($sub_id && $this->mayEditPosting($sub_id)) {
                     $link = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit");
                     $lg->addCustomCommand($link, "blog_edit_posting");
                 }

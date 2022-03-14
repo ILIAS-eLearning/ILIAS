@@ -966,7 +966,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
      */
     public function update() : bool
     {
-
         $sorting = new ilContainerSortingSettings($this->getId());
         $sorting->setSortMode($this->getOrderType());
         $sorting->update();
@@ -1033,22 +1032,30 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             'auto_notification = ' . $this->db->quote((int) $this->getAutoNotification(), 'integer') . ', ' .
             'status_dt = ' . $this->db->quote($this->getStatusDetermination(), ilDBConstants::T_INTEGER) . ', ' .
             'mail_members_type = ' . $this->db->quote($this->getMailToMembersType(), 'integer') . ', ' .
-            'period_start = ' . $this->db->quote(\ilCalendarUtil::convertDateToUtcDBTimestamp($this->getCourseStart()),
-                \ilDBConstants::T_TIMESTAMP) . ', ' .
-            'period_end = ' . $this->db->quote(\ilCalendarUtil::convertDateToUtcDBTimestamp($this->getCourseEnd()),
-                \ilDBConstants::T_TIMESTAMP) . ', ' .
-            'period_time_indication = ' . $this->db->quote($this->getCourseStartTimeIndication() ? 1 : 0,
-                \ilDBConstants::T_INTEGER) . ', ' .
+            'period_start = ' . $this->db->quote(
+                \ilCalendarUtil::convertDateToUtcDBTimestamp($this->getCourseStart()),
+                \ilDBConstants::T_TIMESTAMP
+            ) . ', ' .
+            'period_end = ' . $this->db->quote(
+                \ilCalendarUtil::convertDateToUtcDBTimestamp($this->getCourseEnd()),
+                \ilDBConstants::T_TIMESTAMP
+            ) . ', ' .
+            'period_time_indication = ' . $this->db->quote(
+                $this->getCourseStartTimeIndication() ? 1 : 0,
+                \ilDBConstants::T_INTEGER
+            ) . ', ' .
             'auto_wait = ' . $this->db->quote((int) $this->hasWaitingListAutoFill(), 'integer') . ', ' .
-            'leave_end = ' . $this->db->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null,
-                'integer') . ', ' .
+            'leave_end = ' . $this->db->quote(
+                ($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null,
+                'integer'
+            ) . ', ' .
             'min_members = ' . $this->db->quote($this->getSubscriptionMinMembers(), 'integer') . '  ' .
             "WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . "";
 
         $res = $this->db->manipulate($query);
 
         // moved activation to ilObjectActivation
-        if ($this->ref_id) {
+        if ($this->ref_id ?? false) {
             ilObjectActivation::getItem($this->ref_id);
 
             $item = new ilObjectActivation();
@@ -1239,7 +1246,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         }
 
         // moved activation to ilObjectActivation
-        if ($this->ref_id) {
+        if ($this->ref_id ?? false) {
             $activation = ilObjectActivation::getItem($this->ref_id);
             switch ($activation["timing_type"]) {
                 case ilObjectActivation::TIMINGS_ACTIVATION:
@@ -1344,8 +1351,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
         $ilDB = $DIC->database();
 
-        $query = 'SELECT obj_id FROM object_data WHERE type = ' . $ilDB->quote('rolt',
-                'text') . ' AND title = ' . $ilDB->quote('il_crs_non_member', 'text');
+        $query = 'SELECT obj_id FROM object_data WHERE type = ' . $ilDB->quote(
+            'rolt',
+            'text'
+        ) . ' AND title = ' . $ilDB->quote('il_crs_non_member', 'text');
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
         return (int) $row['obj_id'];
@@ -1621,7 +1630,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         int $a_role = ilCourseConstants::CRS_MEMBER,
         bool $a_force_registration = false
     ) : void {
-
         if ($this->getMembersObject()->isAssigned($a_user_id)) {
             return;
         }
@@ -1644,18 +1652,22 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
             if ($this->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED) {
                 if (!ilObjCourseAccess::_usingRegistrationCode()) {
-                    throw new ilMembershipRegistrationException('Cant registrate to course ' . $this->getId() .
+                    throw new ilMembershipRegistrationException(
+                        'Cant registrate to course ' . $this->getId() .
                         ', course subscription is deactivated.',
-                        ilMembershipRegistrationException::REGISTRATION_CODE_DISABLED);
+                        ilMembershipRegistrationException::REGISTRATION_CODE_DISABLED
+                    );
                 }
             }
 
             // Time Limitation
             if ($this->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_LIMITED) {
                 if (!$this->inSubscriptionTime()) {
-                    throw new ilMembershipRegistrationException('Cant registrate to course ' . $this->getId() .
+                    throw new ilMembershipRegistrationException(
+                        'Cant registrate to course ' . $this->getId() .
                         ', course is out of registration time.',
-                        ilMembershipRegistrationException::OUT_OF_REGISTRATION_PERIOD);
+                        ilMembershipRegistrationException::OUT_OF_REGISTRATION_PERIOD
+                    );
                 }
             }
 
@@ -1673,8 +1685,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                     $participants = ilCourseParticipants::_getInstanceByObjId($this->getId());
                     $participants->sendNotification($participants->NOTIFY_WAITING_LIST, $a_user_id);
 
-                    throw new ilMembershipRegistrationException($info,
-                        ilMembershipRegistrationException::ADDED_TO_WAITINGLIST);
+                    throw new ilMembershipRegistrationException(
+                        $info,
+                        ilMembershipRegistrationException::ADDED_TO_WAITINGLIST
+                    );
                 }
 
                 if (!$this->enabledWaitingList() && !$free) {
@@ -1751,8 +1765,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         if (ilObjUserTracking::_enabledLearningProgress() &&
             $this->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP) {
             // #13811 - we need to suppress creation if status entry
-            $has_completed = (ilLPStatus::_lookupStatus($this->getId(), $a_member_id,
-                    false) == ilLPStatus::LP_STATUS_COMPLETED_NUM);
+            $has_completed = (ilLPStatus::_lookupStatus(
+                $this->getId(),
+                $a_member_id,
+                false
+            ) == ilLPStatus::LP_STATUS_COMPLETED_NUM);
             $this->getMembersObject()->updatePassed($a_member_id, $has_completed, false, true);
         }
     }

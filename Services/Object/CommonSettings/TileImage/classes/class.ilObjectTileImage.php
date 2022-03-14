@@ -3,13 +3,19 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Util\LegacyPathHelper;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\FileUpload\Location;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 
 class ilObjectTileImage implements ilObjectTileImageInterface
 {
     protected ilObjectService $service;
     protected int $obj_id;
-    protected \ILIAS\Filesystem\Filesystem $web;
-    protected \ILIAS\FileUpload\FileUpload $upload;
+    protected Filesystem $web;
+    protected FileUpload $upload;
     protected string $ext;
 
     public function __construct(ilObjectService $service, int $obj_id)
@@ -61,7 +67,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         ilContainer::_deleteContainerSettings($this->obj_id, 'tile_image');
     }
 
-    public function saveFromHttpRequest(string $tmpname) : void
+    public function saveFromHttpRequest(string $tmp_name) : void
     {
         $this->createDirectory();
 
@@ -75,27 +81,37 @@ class ilObjectTileImage implements ilObjectTileImageInterface
                 $this->upload->process();
             }
 
-            /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+            /** @var UploadResult $result */
             $results = $this->upload->getResults();
-            if (isset($results[$tmpname])) {
-                $result = $results[$tmpname];
+            if (isset($results[$tmp_name])) {
+                $result = $results[$tmp_name];
                 $this->ext = pathinfo($result->getName(), PATHINFO_EXTENSION);
                 $file_name = $this->getRelativePath();
                 if ($result->isOK()) {
                     $this->upload->moveOneFileTo(
                         $result,
                         $this->getRelativeDirectory(),
-                        \ILIAS\FileUpload\Location::WEB,
+                        Location::WEB,
                         $this->getFileName(),
                         true
                     );
 
 
                     $fullpath = CLIENT_WEB_DIR . '/' . $this->getRelativeDirectory() . '/' . $this->getFileName();
-                    [$width, $height, $type, $attr] = getimagesize($fullpath);
+                    [$width, $height, , ] = getimagesize($fullpath);
                     $min = min($width, $height);
                     ilShellUtil::execConvert(
-                        $fullpath . "[0] -geometry " . $min . "x" . $min . "^ -gravity center -extent " . $min . "x" . $min . " " . $fullpath
+                        $fullpath .
+                        "[0] -geometry " .
+                        $min .
+                        "x" .
+                        $min .
+                        "^ -gravity center -extent " .
+                        $min .
+                        "x" .
+                        $min .
+                        " " .
+                        $fullpath
                     );
                 }
             }
@@ -115,7 +131,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
     }
 
     /**
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IOException
      */
     protected function createDirectory() : void
     {
@@ -197,7 +213,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
                 $itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));
                 $stream = $sourceFS->readStream($item->getPath());
                 $targetFS->writeStream($itemPath, $stream);
-            } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+            } catch (FileAlreadyExistsException $e) {
                 // Do nothing with that type of exception
             }
         }

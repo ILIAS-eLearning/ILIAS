@@ -36,7 +36,7 @@ class ilObjRemoteCategoryGUI extends ilRemoteObjectBaseGUI implements ilCtrlBase
         $this->lng->loadLanguageModule('cat');
     }
     
-    public function getType()
+    public function getType() : string
     {
         return 'rcat';
     }

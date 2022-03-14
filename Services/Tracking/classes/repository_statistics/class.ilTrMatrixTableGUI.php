@@ -158,8 +158,8 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                         $this->privacy_cols[] = $obj_id;
                     }
 
-                    $title = $this->ilObjDataCache->lookupTitle($obj_id);
-                    $type = $this->ilObjDataCache->lookupType($obj_id);
+                    $title = $this->ilObjDataCache->lookupTitle((int) $obj_id);
+                    $type = $this->ilObjDataCache->lookupType((int) $obj_id);
                     $icon = ilObject::_getIcon((int) $obj_id, "tiny", $type);
                     if ($type == "sess") {
                         $sess = new ilObjSession($obj_id, false);
@@ -475,7 +475,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             if (substr($c, 0, 4) == "obj_") {
                 $obj_id = substr($c, 4);
 
-                $type = $this->ilObjDataCache->lookupType($obj_id);
+                $type = $this->ilObjDataCache->lookupType((int) $obj_id);
                 if ($DIC['objDefinition']->isPlugin($type)) {
                     $type_text = ilObjectPlugin::lookupTxtById($type, 'obj_' . $type);
                 } else {
@@ -554,7 +554,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             if (substr($c, 0, 4) == "obj_") {
                 $obj_id = substr($c, 4);
 
-                $type = $this->ilObjDataCache->lookupType($obj_id);
+                $type = $this->ilObjDataCache->lookupType((int) $obj_id);
                 if ($DIC['objDefinition']->isPlugin($type)) {
                     $type_text = ilObjectPlugin::lookupTxtById($type, 'obj_' . $type);
                 } else {

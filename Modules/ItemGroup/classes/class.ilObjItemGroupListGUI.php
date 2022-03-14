@@ -49,7 +49,7 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
         $this->commands = ilObjItemGroupAccess::_getCommands();
     }
 
-    public function enableSubscribe($a_status)
+    public function enableSubscribe(bool $status) : void
     {
         $this->subscribe_enabled = false;
     }
@@ -58,23 +58,23 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
      * Prevent enabling info
      * necessary due to bug 11509
      */
-    public function enableInfoScreen($a_info_screen)
+    public function enableInfoScreen(bool $info_screen) : void
     {
         $this->info_screen_enabled = false;
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         $ilCtrl = $this->ctrl;
         
         // separate method for this line
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
         return $cmd_link;
     }
     
-    public function getProperties()
+    public function getProperties() : array
     {
         $props = array();
         return $props;

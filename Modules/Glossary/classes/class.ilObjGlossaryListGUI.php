@@ -20,7 +20,7 @@
  */
 class ilObjGlossaryListGUI extends ilObjectListGUI
 {
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -36,9 +36,9 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
         $this->commands = ilObjGlossaryAccess::_getCommands();
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "view":
                 $cmd_link = "ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id;
                 break;
@@ -49,7 +49,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 
             case "properties":
                 $this->ctrl->setParameterByClass("ilobjglossarygui", "ref_id", $this->ref_id);
-                $cmd_link = $this->ctrl->getLinkTargetByClass(array("ilglossaryeditorgui", "ilobjglossarygui"), $a_cmd);
+                $cmd_link = $this->ctrl->getLinkTargetByClass(array("ilglossaryeditorgui", "ilobjglossarygui"), $cmd);
                 break;
 
             case "infoScreen":
@@ -58,7 +58,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
                 
             default:
                 $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+                $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", $cmd);
                 $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
                 break;
         }
@@ -66,9 +66,9 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "view":
             case "edit":
             case "properties":
@@ -84,7 +84,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
     }
 
 
-    public function getProperties()
+    public function getProperties() : array
     {
         $lng = $this->lng;
         $props = array();

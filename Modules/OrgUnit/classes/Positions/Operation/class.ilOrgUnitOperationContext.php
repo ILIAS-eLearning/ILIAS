@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitOperationContext
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitOperationContext extends ActiveRecord
@@ -32,10 +31,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
         self::CONTEXT_PRG,
     ];
 
-
-
-
-
     /**
      * @return array if own and
      */
@@ -46,7 +41,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
 
         return $contexts;
     }
-
 
     /**
      * @return array if own and
@@ -59,10 +53,8 @@ class ilOrgUnitOperationContext extends ActiveRecord
         return $contexts;
     }
 
-
     /**
      * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
@@ -73,7 +65,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
     protected $id = 0;
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_is_unique  true
      * @con_fieldtype  text
@@ -83,13 +74,11 @@ class ilOrgUnitOperationContext extends ActiveRecord
     protected $context = self::CONTEXT_OBJECT;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
     protected $parent_context_id = 0;
-
 
     /**
      * @return int
@@ -99,7 +88,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
         return $this->id;
     }
 
-
     /**
      * @param int $id
      */
@@ -107,7 +95,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
     {
         $this->id = $id;
     }
-
 
     /**
      * @return string
@@ -117,7 +104,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
         return $this->context;
     }
 
-
     /**
      * @param string $context
      */
@@ -125,7 +111,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
     {
         $this->context = $context;
     }
-
 
     /**
      * @return int
@@ -135,7 +120,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
         return $this->parent_context_id;
     }
 
-
     /**
      * @param int $parent_context_id
      */
@@ -143,7 +127,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
     {
         $this->parent_context_id = $parent_context_id;
     }
-
 
     /**
      * @return string
@@ -153,7 +136,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
         return 'il_orgu_op_contexts';
     }
 
-
     public function create() : void
     {
         if (self::where(array('context' => $this->getContext()))->hasSets()) {
@@ -161,7 +143,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
         }
         parent::create();
     }
-
 
     /**
      * @param $contexts
@@ -179,7 +160,6 @@ class ilOrgUnitOperationContext extends ActiveRecord
             }
         }
     }
-
 
     /**
      * @param $contexts

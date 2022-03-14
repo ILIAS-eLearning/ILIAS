@@ -119,6 +119,7 @@ class ilPageObjectGUI
     protected string $prependinghtml = "";
     protected string $header = "";
     protected string $int_link_return = "";
+    protected bool $enabled_href = true;
 
     protected ilComponentFactory $component_factory;
 
@@ -673,6 +674,15 @@ class ilPageObjectGUI
         return $this->lng->txt("inactive");
     }
 
+    public function getEnabledHref() : bool
+    {
+        return $this->enabled_href;
+    }
+
+    public function setEnabledHref(bool $enable) : void
+    {
+        $this->enabled_href = $enable;
+    }
 
     /**
      * Activate meda data editor
@@ -896,6 +906,9 @@ class ilPageObjectGUI
                     );
                 }
                 $ret = $this->$cmd();
+                if ($this->getOutputMode() == self::PREVIEW && $cmd == "preview") {
+                    $this->showEditToolbar();
+                }
                 break;
         }
         //echo "+$ret+";
@@ -962,7 +975,7 @@ class ilPageObjectGUI
         $lng = $this->lng;
         if ($this->getEnableEditing()) {
             $b = $ui->factory()->button()->standard(
-                $lng->txt("edit"),
+                $lng->txt("edit_page"),
                 $this->ctrl->getLinkTarget($this, "edit")
             );
             $this->toolbar->addComponent($b);
@@ -976,10 +989,6 @@ class ilPageObjectGUI
     {
         $main_tpl = $this->tpl;
         $sn_arr = [];
-
-        if ($this->getOutputMode() == self::PREVIEW) {
-            $this->showEditToolbar();
-        }
 
         $sel_js_mode = '';
         $paragraph_plugin_string = '';
@@ -1002,6 +1011,9 @@ class ilPageObjectGUI
         // init template
         if ($this->getOutputMode() == "edit") {
             $this->initEditing();
+            if (!$this->getPageObject()->getEditLock()) {
+                return "";
+            }
 
             $this->getPageObject()->buildDom();
 
@@ -1429,6 +1441,12 @@ class ilPageObjectGUI
         $cfg = $this->getPageConfig();
 
         $current_ts = time();
+
+        $enable_href = $this->getEnabledHref();
+        if ($this->getOutputMode() == self::EDIT) {
+            $enable_href = false;
+        }
+
         // added UTF-8 encoding otherwise umlaute are converted too
         $params = array('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title, ENT_QUOTES, "UTF-8"),
                          'enable_placeholder' => $cfg->getEnablePCType("PlaceHolder") ? "y" : "n",
@@ -1478,7 +1496,8 @@ class ilPageObjectGUI
                          'page_perma_link' => $this->getPagePermaLink(),
                          'activated_protection' =>
                             ($this->getPageConfig()->getSectionProtection() == \ilPageConfig::SEC_PROTECT_PROTECTED) ? "y" : "n",
-                        'protection_text' => $this->lng->txt("cont_sec_protected_text")
+                        'protection_text' => $this->lng->txt("cont_sec_protected_text"),
+                        'enable_href' => $enable_href
     );
         if ($this->link_frame != "") {		// todo other link types
             $params["pg_frame"] = $this->link_frame;
@@ -2268,30 +2287,20 @@ class ilPageObjectGUI
             $this->ctrl->redirect($this, "preview");
         }
 
-        $this->setEditorToolContext();
-
         // not so nive workaround for container pages, bug #0015831
         $ptype = $this->getParentType();
         if ($ptype == "cont" && $this->requested_ref_id > 0) {
             $ptype = ilObject::_lookupType($this->requested_ref_id, true);
         }
+        $this->setScreenIdComponent();
         $this->help->setScreenId("edit_" . $ptype);
 
         // edit lock
         if (!$this->getPageObject()->getEditLock()) {
-            $info = $this->lng->txt("content_no_edit_lock");
-            $lock = $this->getPageObject()->getEditLockInfo();
-            $info .= "</br>" . $this->lng->txt("content_until") . ": " .
-                ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
-            $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
-                ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
-            if (!$this->ctrl->isAsynch()) {
-                $this->tpl->setOnScreenMessage('info', $info);
-                return;
-            } else {
-                echo ilUtil::getSystemMessageHTML($info);
-                exit;
-            }
+            $this->showEditLockInfo();
+            return;
+        } else {
+            $this->setEditorToolContext();
         }
 
         $this->lng->toJS("paste");
@@ -2302,10 +2311,37 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_ed_par");
         $this->lng->toJS("cont_no_block");
         $this->lng->toJS("copg_error");
+        $this->lng->toJS("cont_ed_click_to_add_pg");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavaScript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
         \ilCalendarUtil::initDateTimePicker();
+    }
+
+    protected function showEditLockInfo() : void
+    {
+        $info = $this->lng->txt("content_no_edit_lock");
+        $lock = $this->getPageObject()->getEditLockInfo();
+        $info .= "</br>" . $this->lng->txt("content_until") . ": " .
+            ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
+        $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
+            ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
+
+        $back_link = $this->ui->factory()->link()->standard(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "finishEditing")
+        );
+
+        $mbox = $this->ui->factory()->messageBox()->info($info)
+            ->withLinks([$back_link]);
+        $rendered_mbox = $this->ui->renderer()->render($mbox);
+
+        if (!$this->ctrl->isAsynch()) {
+            $this->tpl->setContent($rendered_mbox);
+        } else {
+            echo $rendered_mbox;
+            exit;
+        }
     }
 
     public function edit() : string

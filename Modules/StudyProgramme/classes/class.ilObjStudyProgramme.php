@@ -1682,6 +1682,8 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Set all progresses to completed where the object with given id is a leaf
      * and that belong to the user.
+     *
+     * This is exclusively called via event "Services/Tracking, updateStatus" (onServiceTrackingUpdateStatus)
      */
     public static function setProgressesCompletedFor(int $obj_id, int $user_id) : void
     {
@@ -1721,8 +1723,16 @@ class ilObjStudyProgramme extends ilContainer
         if ($prg->getLPMode() != ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
             return;
         }
+
+        $now = new DateTimeImmutable();
         foreach ($prg->getProgressesOf($user_id) as $progress) {
-            $prg->succeed($progress->getId(), $obj_id);
+            $progress_deadline = $progress->getDeadline();
+            if (
+                (is_null($progress_deadline) || $progress_deadline >= $now)
+                && $progress->getStatus() === ilStudyProgrammeProgress::STATUS_IN_PROGRESS
+            ) {
+                $prg->succeed($progress->getId(), $obj_id);
+            }
         }
     }
 

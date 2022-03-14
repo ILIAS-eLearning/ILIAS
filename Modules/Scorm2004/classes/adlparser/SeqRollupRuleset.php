@@ -14,7 +14,7 @@
      *****************************************************************************/
     class SeqRollupRuleset
     {
-        public $mRollupRules = null;
+        public ?array $mRollupRules = null;
 
         public bool $mIsSatisfied = false;
 
@@ -25,7 +25,7 @@
         public bool $mIsIncomplete = false;
         
         
-        public function __construct($iRules)
+        public function __construct(?array $iRules)
         {
             $this->mRollupRules = $iRules;
         }

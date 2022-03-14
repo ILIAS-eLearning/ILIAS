@@ -4,11 +4,9 @@
 
 /**
  * Class ilObjDataCollectionListGUI
- *
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * $Id: class.ilObjRootFolderListGUI.php 23764 2010-05-06 15:11:30Z smeyer $
- *
  * @extends ilObjectListGUI
  */
 class ilObjDataCollectionListGUI extends ilObjectListGUI
@@ -17,7 +15,7 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -32,16 +30,14 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI
         $this->commands = ilObjDataCollectionAccess::_getCommands();
     }
 
-
     /**
      * Get item properties
-     *
      * @return    array        array of property arrays:
      *                    "alert" (boolean) => display as an alert property (usually in red)
      *                    "property" (string) => property name
      *                    "value" (string) => property value
      */
-    public function getProperties()
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];

@@ -6,7 +6,6 @@ use ilOrgUnitPosition;
 
 /**
  * Class PositionIds
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class PositionIds extends Base
@@ -14,14 +13,12 @@ class PositionIds extends Base
 
     /**
      * @param array $params
-     *
      * @return array
      */
     protected function run(array $params)
     {
         return ilOrgUnitPosition::getArray(null, 'id');
     }
-
 
     /**
      * @return string
@@ -31,7 +28,6 @@ class PositionIds extends Base
         return "getPositionIds";
     }
 
-
     /**
      * @return array
      */
@@ -40,7 +36,6 @@ class PositionIds extends Base
         return array();
     }
 
-
     /**
      * @inheritdoc
      */
@@ -48,7 +43,6 @@ class PositionIds extends Base
     {
         return array('position_ids' => Base::TYPE_INT_ARRAY);
     }
-
 
     /**
      * @inheritdoc

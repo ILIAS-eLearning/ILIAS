@@ -455,7 +455,7 @@ class ilContainerRenderer
             // determine view mode and tile size
             $view_mode = $this->getViewMode();
             if ($view_mode == ilContainerContentGUI::VIEW_MODE_TILE) {
-                $tile_size = ilContainer::_lookupContainerSetting($this->container_gui->object->getId(), "tile_size");
+                $tile_size = ilContainer::_lookupContainerSetting($this->container_gui->getObject()->getId(), "tile_size");
             }
             if (is_numeric($a_block_id)) {
                 $item_group = new ilObjItemGroup($a_block_id);
@@ -474,7 +474,7 @@ class ilContainerRenderer
                 $cards = [];
 
                 $order_id = (!$a_is_single && $this->active_block_ordering)
-                    ? $a_block_id
+                    ? (int) $a_block_id
                     : 0;
                 $this->addHeaderRow(
                     $a_block_tpl,

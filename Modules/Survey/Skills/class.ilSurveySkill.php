@@ -378,6 +378,10 @@ class ilSurveySkill
             }
         }
 
+        //write profile completion entries if fulfilment status has changed
+        $prof_manager = new ilSkillProfileCompletionManager($user_id);
+        $prof_manager->writeCompletionEntryForAllProfiles();
+
         // write self evaluation
         $this->writeAndAddSelfEvalSkills($user_id);
     }

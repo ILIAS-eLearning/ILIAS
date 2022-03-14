@@ -46,7 +46,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
     */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -68,9 +68,9 @@ class ilObjGroupListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
     */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             // BEGIN WebDAV: Mount Webfolder.
             case 'mount_webfolder':
                 if (ilDAVActivationChecker::_isActive()) {
@@ -85,7 +85,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
             case "edit":
             default:
                 $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+                $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", $cmd);
                 $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
                 break;
         }
@@ -96,7 +96,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
     */
-    public function getProperties()
+    public function getProperties() : array
     {
         $props = parent::getProperties();
         $info = ilObjGroupAccess::lookupRegistrationInfo($this->obj_id);
@@ -146,10 +146,10 @@ class ilObjGroupListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
         // begin-patch fm
-        return parent::getCommandFrame($a_cmd);
+        return parent::getCommandFrame($cmd);
         // end-patch fm
     }
 
@@ -157,13 +157,18 @@ class ilObjGroupListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
-    {
-        if ($a_permission == 'grp_linked') {
+    public function checkCommandAccess(
+        string $permission,
+        string $cmd,
+        int $ref_id,
+        string $type,
+        ?int $obj_id = null
+    ) : bool {
+        if ($permission == 'grp_linked') {
             return
-                parent::checkCommandAccess('read', '', $a_ref_id, $a_type, $a_obj_id) ||
-                parent::checkCommandAccess('join', 'join', $a_ref_id, $a_type, $a_obj_id);
+                parent::checkCommandAccess('read', '', $ref_id, $type, $obj_id) ||
+                parent::checkCommandAccess('join', 'join', $ref_id, $type, $obj_id);
         }
-        return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
+        return parent::checkCommandAccess($permission, $cmd, $ref_id, $type, $obj_id);
     }
 } // END class.ilObjGroupListGUI

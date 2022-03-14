@@ -38,7 +38,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('assessment');
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         /**
          * @var $rbacsystem ilRbacSystem
@@ -88,7 +88,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
 
 
@@ -96,7 +95,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     * save object
     * @access	public
     */
-    public function saveObject()
+    public function saveObject() : void
     {
         global $DIC;
         $rbacadmin = $DIC['rbacadmin'];
@@ -575,7 +574,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
@@ -616,7 +615,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     *
     * @param	object	tabs gui object
     */
-    public function getTabs()
+    public function getTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];

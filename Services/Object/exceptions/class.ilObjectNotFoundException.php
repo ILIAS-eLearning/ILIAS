@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -10,14 +10,10 @@
 class ilObjectNotFoundException extends ilObjectException
 {
     /**
-     * Constructor
-     *
      * A message is not optional as in build in class Exception
-     *
-     * @param string $a_message message
      */
-    public function __construct($a_message)
+    public function __construct(string $message)
     {
-        parent::__construct($a_message);
+        parent::__construct($message);
     }
 }

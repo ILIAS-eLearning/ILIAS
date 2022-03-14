@@ -69,7 +69,7 @@ class ilPermission2GUI
         $login->setRequired(true);
         $login->setSize(50);
         $login->setInfo($this->lng->txt("chown_warning"));
-        $login->setValue(ilObjUser::_lookupLogin($this->gui_obj->object->getOwner()));
+        $login->setValue(ilObjUser::_lookupLogin($this->gui_obj->getObject()->getOwner()));
         $form->addItem($login);
         $form->addCommandButton("changeOwner", $this->lng->txt("change_owner"));
         $this->tpl->setContent($form->getHTML());
@@ -91,19 +91,19 @@ class ilPermission2GUI
         }
 
         // no need to change?
-        if ($user_id != $this->gui_obj->object->getOwner()) {
-            $this->gui_obj->object->setOwner($user_id);
-            $this->gui_obj->object->updateOwner();
-            $this->objectDataCache->deleteCachedEntry($this->gui_obj->object->getId());
+        if ($user_id != $this->gui_obj->getObject()->getOwner()) {
+            $this->gui_obj->getObject()->setOwner($user_id);
+            $this->gui_obj->getObject()->updateOwner();
+            $this->objectDataCache->deleteCachedEntry($this->gui_obj->getObject()->getId());
 
             if (ilRbacLog::isActive()) {
-                ilRbacLog::add(ilRbacLog::CHANGE_OWNER, $this->gui_obj->object->getRefId(), array($user_id));
+                ilRbacLog::add(ilRbacLog::CHANGE_OWNER, $this->gui_obj->getObject()->getRefId(), array($user_id));
             }
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('owner_updated'), true);
 
-        if (!$this->rbacsystem->checkAccess("edit_permission", $this->gui_obj->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("edit_permission", $this->gui_obj->getObject()->getRefId())) {
             $this->ctrl->redirect($this->gui_obj);
             return;
         }
@@ -128,7 +128,7 @@ class ilPermission2GUI
             $perm
         );
 
-        if (ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->gui_obj->object->getId())) {
+        if (ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->gui_obj->getObject()->getId())) {
             $this->tabs->addSubTabTarget(
                 self::TAB_POSITION_PERMISSION_SETTINGS,
                 $this->ctrl->getLinkTarget($this, ilPermissionGUI::CMD_PERM_POSITIONS),
@@ -176,13 +176,13 @@ class ilPermission2GUI
 
         $this->__initSubTabs("log");
 
-        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->object->getRefId());
+        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->getObject()->getRefId());
         $this->tpl->setContent($table->getHTML());
     }
 
     public function applyLogFilter() : void
     {
-        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->object->getRefId());
+        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->getObject()->getRefId());
         $table->resetOffset();
         $table->writeFilterToSession();
         $this->log();
@@ -190,7 +190,7 @@ class ilPermission2GUI
 
     public function resetLogFilter() : void
     {
-        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->object->getRefId());
+        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->getObject()->getRefId());
         $table->resetOffset();
         $table->resetFilter();
         $this->log();

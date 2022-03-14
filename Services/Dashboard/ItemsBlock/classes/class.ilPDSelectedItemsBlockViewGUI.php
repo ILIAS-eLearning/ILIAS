@@ -271,7 +271,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
                 if ($this->isRootNode($item['parent_ref'])) {
                     $group->setLabel($this->getRepositoryTitle());
                 } else {
-                    $group->setLabel($this->object_cache->lookupTitle($this->object_cache->lookupObjId($item['parent_ref'])));
+                    $group->setLabel($this->object_cache->lookupTitle($this->object_cache->lookupObjId((int) $item['parent_ref'])));
                 }
                 $grouped_items['grp_' . $item['parent_ref']] = $group;
             }

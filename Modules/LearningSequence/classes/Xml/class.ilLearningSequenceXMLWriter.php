@@ -147,7 +147,7 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
 
     protected function encodeImage(string $path = null) : string
     {
-        if (is_null($path) || $path == "") {
+        if ($path == "") {
             return "";
         }
 

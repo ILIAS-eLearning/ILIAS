@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclBooleanRecordRepresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,10 +10,8 @@ class ilDclBooleanRecordRepresentation extends ilDclBaseRecordRepresentation
 
     /**
      * Outputs html of a certain field
-     *
      * @param mixed     $value
      * @param bool|true $link
-     *
      * @return string
      */
     public function getHTML($link = true)

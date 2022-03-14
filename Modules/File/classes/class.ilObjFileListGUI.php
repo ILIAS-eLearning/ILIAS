@@ -24,7 +24,7 @@ class ilObjFileListGUI extends ilObjectListGUI
     /**
      * @var string (not yet defined in parent class)
      */
-    protected $title;
+    protected string $title;
     
     /**
      * initialisation
@@ -72,20 +72,18 @@ class ilObjFileListGUI extends ilObjectListGUI
      * Returns the icon image type.
      * For most objects, this is same as the object type, e.g. 'cat','fold'.
      * We can return here other values, to express a specific state of an object,
-     * e.g. 'crs_offline", and/or to express a specific kind of object, e.g.
+     * e.g. 'crs_offline', and/or to express a specific kind of object, e.g.
      * 'file_inline'.
-     * @return mixed|string
      */
-    public function getIconImageType()
+    public function getIconImageType() : string
     {
         return ilObjFileAccess::_isFileInline($this->title) ? $this->type . '_inline' : $this->type;
     }
 
     /**
      * getTitle overwritten in class.ilObjLinkResourceList.php
-     * @return mixed[]|string|null title
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         // Remove filename extension from title
         return preg_replace('/\\.[a-z0-9]+\\z/i', '', $this->title);
@@ -123,13 +121,13 @@ class ilObjFileListGUI extends ilObjectListGUI
             "value"               => ilObjFileAccess::_getFileExtension($this->title),
             'propertyNameVisible' => false,
         );
-        
+        ilObjFileAccess::_preloadData([$this->obj_id], [$this->ref_id]);
         $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
         
         $props[] = array(
             "alert"               => false,
             "property"            => $DIC->language()->txt("size"),
-            "value"               => ilUtil::formatSize($file_data['size'], 'short'),
+            "value"               => ilUtil::formatSize($file_data['size'] ?? 0, 'short'),
             'propertyNameVisible' => false,
         );
         $version = $file_data['version'];

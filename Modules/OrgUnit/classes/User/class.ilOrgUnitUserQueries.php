@@ -1,7 +1,6 @@
 <?php
 /**
  * Class ilOrgUnitUserQueries
- *
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
@@ -13,7 +12,6 @@ class ilOrgUnitUserQueries implements ilOrgUnitUserQueriesInterface
      */
     protected $dic;
 
-
     /**
      * ilOrgUnitUserQueries constructor.
      */
@@ -22,7 +20,6 @@ class ilOrgUnitUserQueries implements ilOrgUnitUserQueriesInterface
         global $DIC;
         $this->dic = $DIC;
     }
-
 
     /**
      * @inheritdoc
@@ -38,7 +35,6 @@ class ilOrgUnitUserQueries implements ilOrgUnitUserQueriesInterface
 
         return $users;
     }
-
 
     /**
      * @inheritdoc

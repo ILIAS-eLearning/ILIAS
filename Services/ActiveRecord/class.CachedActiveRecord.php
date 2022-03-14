@@ -57,7 +57,7 @@ abstract class CachedActiveRecord extends ActiveRecord
         parent::__construct($primary_key);
     }
 
-    public function afterObjectLoad()
+    public function afterObjectLoad() : void
     {
         parent::afterObjectLoad();
         $this->_hash = $this->buildHash();
@@ -86,6 +86,12 @@ abstract class CachedActiveRecord extends ActiveRecord
     {
         $this->getCache()->flush();
         return parent::copy($new_id);
+    }
+
+    public function read() : void
+    {
+        parent::read();
+        $this->_hash = $this->buildHash();
     }
 
     public function update()

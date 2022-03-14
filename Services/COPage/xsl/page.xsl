@@ -84,6 +84,7 @@
 <xsl:param name="enable_amd_page_list"/>
 <xsl:param name="current_ts"/>
 <xsl:param name="enable_html_mob"/>
+<xsl:param name="enable_href"/>
 <xsl:param name="page_perma_link"/>
 <xsl:param name="activated_protection"/>
 <xsl:param name="protection_text"/>
@@ -1279,7 +1280,9 @@
 			<xsl:variable name="link_target" select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkTarget"/>
 			<xsl:if test="$href != ''">
 				<a class="ilc_link_IntLink">
-					<xsl:attribute name="href"><xsl:value-of select="$href"/></xsl:attribute>
+					<xsl:if test="$enable_href">
+						<xsl:attribute name="href"><xsl:value-of select="$href"/></xsl:attribute>
+					</xsl:if>
 					<xsl:if test="$link_target != ''">
 						<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
 					</xsl:if>
@@ -1317,7 +1320,9 @@
 	<xsl:variable name="on_click">
 		<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@OnClick"/>
 	</xsl:variable>
-	<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
+	<xsl:if test="$enable_href">
+		<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
+	</xsl:if>
 	<xsl:if test="$link_target != ''">
 		<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
 	</xsl:if>
@@ -1351,7 +1356,9 @@
 		<xsl:attribute name="onclick"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick"/></xsl:attribute>
 	</xsl:if>
 	<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
-	<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
+	<xsl:if test="$enable_href">
+		<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
+	</xsl:if>
 </xsl:template>
 
 	<!-- Tables -->
@@ -1369,17 +1376,7 @@
 		<br/>
 	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
-	<xsl:choose>
-		<xsl:when test="@HorizontalAlign = 'Left'">
-			<div style="margin-right:auto; margin-left:0; display: table;"><xsl:call-template name="TableTag" /></div>
-		</xsl:when>
-		<xsl:when test="@HorizontalAlign = 'Right'">
-			<div style="margin-right:0; margin-left:auto; display: table;"><xsl:call-template name="TableTag" /></div>
-		</xsl:when>
-		<xsl:otherwise>
-			<xsl:call-template name="TableTag" />
-		</xsl:otherwise>
-	</xsl:choose>
+	<xsl:call-template name="TableTag" />
 </xsl:template>
 
 <!-- Table Tag -->
@@ -1438,6 +1435,14 @@
 			</xsl:if>
 		</xsl:attribute>
 	</xsl:if>
+	<xsl:choose>
+		<xsl:when test="@HorizontalAlign = 'Left'">
+			<xsl:attribute name="style">margin-right:auto; margin-left:0;</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@HorizontalAlign = 'Right'">
+			<xsl:attribute name="style">margin-right:0; margin-left:auto;</xsl:attribute>
+		</xsl:when>
+	</xsl:choose>
 	<xsl:for-each select="Caption">
 		<caption>
 		<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='caption']/@Value">
@@ -2118,15 +2123,15 @@
 			</xsl:if>
 			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
 				and $mode != 'fullscreen' and $mode != 'media'">
-				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">margin-right:auto; margin-left:0; </xsl:if></xsl:attribute>
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/>margin-right:auto; margin-left:0; </xsl:attribute>
 			</xsl:if>
 			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
 				and $mode != 'fullscreen' and $mode != 'media'">
-				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">margin-right:0; margin-left:auto; </xsl:if></xsl:attribute>
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/>margin-right:0; margin-left:auto; </xsl:attribute>
 			</xsl:if>
 			<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Center'
 				and $mode != 'fullscreen' and $mode != 'media'">
-				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/><xsl:if test="$mode != 'edit'">margin-right:auto; margin-left:auto; </xsl:if></xsl:attribute>
+				<xsl:attribute name="style"><xsl:value-of select="$figuredisplay"/>margin-right:auto; margin-left:auto;</xsl:attribute>
 			</xsl:if>
 
 			<!-- build object tag -->

@@ -52,7 +52,7 @@ class ilObjSession extends ilObject
     protected int $mail_members = self::MAIL_ALLOWED_ADMIN;
     protected array $appointments = [];
     protected array $files = [];
-    protected ilSessionParticipants $members_obj;
+    protected ?ilSessionParticipants $members_obj = null;
     protected bool $registrationNotificationEnabled = false;
     protected string $notificationOption = ilSessionConstants::NOTIFICATION_INHERIT_OPTION;
 

@@ -55,7 +55,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return $this->lng;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -109,12 +109,12 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
-        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget('overview', $this->ctrl->getLinkTarget($this, 'overview'));
         }
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
         }
     }
@@ -196,7 +196,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         $options = array();
         $options[0] = '';
         foreach ($sub_objects as $obj_type) {
-            if (!$this->objDefinition->isRBACObject($obj_type) or !$this->objDefinition->isAllowedInRepository($obj_type)) {
+            if (!$this->obj_definition->isRBACObject($obj_type) or !$this->obj_definition->isAllowedInRepository($obj_type)) {
                 continue;
             }
             $options[$obj_type] = $this->lng->txt('obj_' . $obj_type);

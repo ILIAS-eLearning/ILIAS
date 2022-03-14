@@ -29,7 +29,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     * @param	integer	reference_id or object_id
     * @param	boolean	treat the id as reference_id (true) or object_id (false)
     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "sahs";
         parent::__construct($a_id, $a_call_by_reference);
@@ -563,9 +563,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             $csv = $csv . $data["obj_id"]
                 . ";\"" . $this->getTitle() . "\""
                 . ";" . $data["module_version"]
-                . ";\"" . implode("\";\"", ilSCORMTrackingItems::userDataArrayForExport($data["user_id"], $allowExportPrivacy)) . "\""
+                . ";\"" . implode("\";\"", ilSCORMTrackingItems::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy)) . "\""
                 . ";\"" . $data["last_access"] . "\""
-                . ";\"" . ilLearningProgressBaseGUI::__readStatus($data["obj_id"], $data["user_id"]) . "\"" //not $data["status"] because modifications to learning progress could have made before export
+                . ";\"" . ilLearningProgressBaseGUI::__readStatus((int) $data["obj_id"], (int) $data["user_id"]) . "\"" //not $data["status"] because modifications to learning progress could have made before export
                 . ";" . $data["package_attempts"]
                 . ";" . $data["percentage_completed"]
                 . ";" . $data["sco_total_time_sec"]
@@ -804,7 +804,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 'sco_total_time_sec' => array('integer', $sco_total_time_sec)
             ));
         }
-        ilChangeEvent::_recordReadEvent("sahs", (int) $_GET["ref_id"], $this->getID(), $user_id, false, $attempts, $sco_total_time_sec);
+        ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id, false, $attempts, $sco_total_time_sec);
     }
 
     /**
@@ -1354,7 +1354,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
         ilChangeEvent::_deleteReadEventsForUsers($this->getId(), $a_users);
 
-        foreach ($a_users as $user) {
+        foreach ($a_users as $usr) {
+            $user = (int) $usr;
             $ilDB->manipulateF(
                 '
 				DELETE FROM scorm_tracking

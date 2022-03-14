@@ -165,7 +165,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
             return '';
         }
 
-        $obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
+        $obj_id = $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']);
 
         $tracking = new ilObjUserTracking();
 
@@ -177,7 +177,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 return $ilObjDataCache->lookupTitle($obj_id);
 
             case 'crs_period_start':
-                $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+                $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
                 if ($periodInfo) {
                     $useRelativeDates = ilDatePresentation::useRelativeDates();
                     ilDatePresentation::setUseRelativeDates(false);
@@ -190,7 +190,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 return '';
 
             case 'crs_period_end':
-                $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+                $periodInfo = $this->getCachedPeriodByObjId($ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
                 if ($periodInfo) {
                     $useRelativeDates = ilDatePresentation::useRelativeDates();
                     ilDatePresentation::setUseRelativeDates(false);

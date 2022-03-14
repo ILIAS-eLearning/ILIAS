@@ -18,7 +18,6 @@
  * Explorer for ILIAS tree
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSNodeMappingLocalExplorer extends ilExplorer
 {
@@ -224,7 +223,8 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
                 "TITLE",
                 $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"])
             );
-            $tpl->setVariable("DESC",
+            $tpl->setVariable(
+                "DESC",
                 ilStr::shortenTextExtended(
                     $this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]),
                     $this->textwidth,
@@ -242,7 +242,8 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
                 "OBJ_TITLE",
                 $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"])
             );
-            $tpl->setVariable("OBJ_DESC",
+            $tpl->setVariable(
+                "OBJ_DESC",
                 ilStr::shortenTextExtended(
                     $this->buildDescription($a_option["desc"], $a_node_id, $a_option["type"]),
                     $this->textwidth,
@@ -327,7 +328,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
             $mappings[$ref_id] = array();
         }
         
-        foreach ($mappings as $ref_id => $tmp) {
+        foreach ($mappings as $ref_id) {
             $this->mappings[$ref_id] = $this->tree->getPathId($ref_id, 1);
         }
         return true;
@@ -340,7 +341,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     
     protected function hasParentMapping($a_ref_id)
     {
-        foreach ($this->mappings as $ref_id => $parent_nodes) {
+        foreach (array_values($this->mappings) as $parent_nodes) {
             if (in_array($a_ref_id, $parent_nodes)) {
                 return true;
             }

@@ -3,7 +3,6 @@
 /**
  * Class ilDclFieldFactory
  * This Class handles the creation of all field-classes
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -43,13 +42,10 @@ class ilDclFieldFactory
      */
     protected static $record_field_cache = array();
 
-
     /**
      * Creates a RecordField instance and loads the field and record representation
-     *
      * @param ilDclBaseFieldModel  $field
      * @param ilDclBaseRecordModel $record
-     *
      * @return mixed
      * @throws ilDclException
      */
@@ -78,19 +74,15 @@ class ilDclFieldFactory
         }
     }
 
-
     /**
      * @var array
      */
     protected static $field_class_cache = array();
 
-
     /**
      * Concatenates Classname from datatype and pattern
-     *
      * @param $datatype
      * @param $class_pattern
-     *
      * @return string
      */
     public static function getFieldClass($datatype, $class_pattern)
@@ -107,13 +99,10 @@ class ilDclFieldFactory
         return $class;
     }
 
-
     /**
      * Get Filename from datatype and pattern
-     *
      * @param $datatype
      * @param $class_pattern
-     *
      * @return string
      */
     public static function getFieldClassFile($datatype, $class_pattern)
@@ -121,18 +110,14 @@ class ilDclFieldFactory
         return "class." . self::getFieldClass($datatype, $class_pattern) . ".php";
     }
 
-
     /**
      * @var array
      */
     protected static $field_representation_cache = array();
 
-
     /**
      * Returns FieldRepresentation from BaseFieldModel
-     *
      * @param ilDclBaseFieldModel $field
-     *
      * @return ilDclBaseFieldRepresentation
      * @throws ilDclException
      */
@@ -164,18 +149,14 @@ class ilDclFieldFactory
         return $instance;
     }
 
-
     /**
      * @var array
      */
     protected static $record_representation_cache = array();
 
-
     /**
      * Get RecordRepresentation from RecordFieldModel
-     *
      * @param ilDclBaseRecordFieldModel $record_field
-     *
      * @return ilDclBaseRecordRepresentation
      * @throws ilDclException
      */
@@ -186,7 +167,8 @@ class ilDclFieldFactory
             return self::$record_representation_cache[$record_field->getId()];
         }
 
-        $class_path = self::getClassPathByInstance($record_field->getField(), self::$record_representation_class_pattern);
+        $class_path = self::getClassPathByInstance($record_field->getField(),
+            self::$record_representation_class_pattern);
         $instance = null;
 
         if (file_exists($class_path)) {
@@ -208,13 +190,10 @@ class ilDclFieldFactory
         return $instance;
     }
 
-
     /**
      * Get FieldModel from field-id and datatype
-     *
      * @param      $field_id
      * @param null $datatype
-     *
      * @return mixed
      * @throws ilDclException
      */
@@ -230,20 +209,16 @@ class ilDclFieldFactory
         return $ilDclBaseFieldModel;
     }
 
-
     /**
      * @var array
      */
     protected static $field_model_cache = array();
 
-
     /**
      * Gets the correct instance of a fieldModel class
      * Checks if a field is a plugin a replaces the fieldModel with the necessary class
-     *
      * @param ilDclBaseFieldModel $field
      * @param null                $field_id
-     *
      * @return ilDclBaseFieldModel
      * @throws ilDclException
      */
@@ -278,17 +253,13 @@ class ilDclFieldFactory
         return $instance;
     }
 
-
     /**
      * @var array
      */
     protected static $field_type_cache = array();
 
-
     /**
-     *
      * @param ilDclBaseFieldModel $field
-     *
      * @return string
      */
     public static function getFieldTypeByInstance(ilDclBaseFieldModel $field)
@@ -325,11 +296,9 @@ class ilDclFieldFactory
         return $fieldtype;
     }
 
-
     /**
      * @param ilDclBaseFieldModel $field
      * @param                     $class_pattern
-     *
      * @return string
      */
     public static function getClassByInstance(ilDclBaseFieldModel $field, $class_pattern)
@@ -339,17 +308,14 @@ class ilDclFieldFactory
         return self::getFieldClass($fieldtype, $class_pattern);
     }
 
-
     /**
      * @var array
      */
     protected static $class_path_cache = array();
 
-
     /**
      * @param ilDclBaseFieldModel $field
      * @param                     $class_pattern
-     *
      * @return string
      * @throws ilDclException
      */
@@ -379,10 +345,12 @@ class ilDclFieldFactory
 
                 $class_path = $plugin_data->getDirectory() . "/classes/";
             } else {
-                $class_path = sprintf(self::$field_base_path_patter, ucfirst(self::parseDatatypeTitle($datatype->getTitle())));
+                $class_path = sprintf(self::$field_base_path_patter,
+                    ucfirst(self::parseDatatypeTitle($datatype->getTitle())));
             }
         } else {
-            $class_path = sprintf(self::$field_base_path_patter, ucfirst(self::parseDatatypeTitle($datatype->getTitle())));
+            $class_path = sprintf(self::$field_base_path_patter,
+                ucfirst(self::parseDatatypeTitle($datatype->getTitle())));
         }
 
         $return = $class_path . self::getFieldClassFile(self::getFieldTypeByInstance($field), $class_pattern);
@@ -394,19 +362,16 @@ class ilDclFieldFactory
         return $return;
     }
 
-
     /**
      * Parse string to FieldClass format
      * Replaces _ with camelcase-notation
-     *
      * @param $title
-     *
      * @return string
      */
     public static function parseDatatypeTitle($title)
     {
         $parts = explode("_", $title);
-        $func = function ($value) {
+        $func = function($value) {
             return ucfirst($value);
         };
 
@@ -416,12 +381,9 @@ class ilDclFieldFactory
         return $title;
     }
 
-
     /**
      * Creates a RecordModel instance
-     *
      * @param $record_id
-     *
      * @return ilDclBaseRecordModel
      */
     public static function getRecordModelInstance($record_id)
@@ -429,12 +391,9 @@ class ilDclFieldFactory
         return new ilDclBaseRecordModel($record_id);
     }
 
-
     /**
      * Get plugin-name from FieldModel
-     *
      * @param ilDclBaseFieldModel $object
-     *
      * @return string
      */
     public static function getPluginNameFromFieldModel(ilDclBaseFieldModel $object)

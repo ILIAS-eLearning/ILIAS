@@ -26,6 +26,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('default'));
         $this->addColumn($this->lng->txt('active'));
         $this->addColumn($this->lng->txt('users'), 'users');
+        $this->addColumn($this->lng->txt('version'));
         $this->setRowTemplate('tpl.sys_styles_row.html', 'Services/Style/System');
         $this->setEnableHeader(true);
     }
@@ -81,7 +82,8 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                     'style_id' => '',
                     'skin_name' => 'other',
                     'style_name' => '',
-                    'users' => $users_missing_styles
+                    'users' => $users_missing_styles,
+                    'version' => '-'
                 ];
         }
 
@@ -168,6 +170,8 @@ class ilSystemStylesTableGUI extends ilTable2GUI
             $this->tpl->setVariable('SUB_STYLE_OF');
             $this->tpl->setVariable('CATEGORIES', $this->lng->txt('global'));
         }
+
+        $this->tpl->setVariable('VERSION', $a_set['version']);
 
         if ($this->isWithActions()) {
             /** @noinspection PhpIfWithCommonPartsInspection */

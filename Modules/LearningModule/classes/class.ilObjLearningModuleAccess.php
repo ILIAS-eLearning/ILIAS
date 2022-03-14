@@ -55,7 +55,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
         return self::$lm_set[$a_set] ?? null;
     }
 
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         if (self::_lookupSetting("lm_starting_point") == "first") {
             $commands = array(
@@ -75,7 +75,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
     }
 
 
-    public function canBeDelivered(ilWACPath $ilWACPath)
+    public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
         $ilAccess = $this->access;
         /**
