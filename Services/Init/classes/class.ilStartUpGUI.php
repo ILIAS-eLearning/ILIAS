@@ -1040,7 +1040,7 @@ class ilStartUpGUI
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
             $ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID)) {
             $rtpl->setCurrentBlock("homelink");
-            $rtpl->setVariable("CLIENT_ID", "?client_id=" . $_COOKIE["ilClientId"] . "&lang=" . $lng->getLangKey());
+            $rtpl->setVariable("CLIENT_ID", "?client_id=" . CLIENT_ID . "&lang=" . $lng->getLangKey());
             $rtpl->setVariable("TXT_HOME", $lng->txt("home"));
             $rtpl->parseCurrentBlock();
         }
@@ -1386,11 +1386,10 @@ class ilStartUpGUI
         }
 
         // reset cookie
-        $client_id = $_COOKIE["ilClientId"];
         ilUtil::setCookie("ilClientId", "");
 
         // redirect and show logout information
-        $this->ctrl->setParameter($this, 'client_id', $client_id);
+        $this->ctrl->setParameter($this, 'client_id', CLIENT_ID);
         $this->ctrl->setParameter($this, 'lang', $user_language);
         $this->ctrl->redirect($this, 'showLogout');
     }
@@ -1808,7 +1807,7 @@ class ilStartUpGUI
             $soap_client->call(
                 'deleteExpiredDualOptInUserObjects',
                 [
-                    $_COOKIE[session_name()] . '::' . $_COOKIE['ilClientId'],
+                    $_COOKIE[session_name()] . '::' . CLIENT_ID,
                     $exception->getCode() // user id
                 ]
             );
@@ -1850,7 +1849,7 @@ class ilStartUpGUI
         $view_title = $lng->txt('login_to_ilias');
         if ($a_show_back) {
             // #13400
-            $param = 'client_id=' . $_COOKIE['ilClientId'] . '&lang=' . $lng->getLangKey();
+            $param = 'client_id=' . CLIENT_ID . '&lang=' . $lng->getLangKey();
 
             $tpl->setCurrentBlock('link_item_bl');
             $tpl->setVariable('LINK_TXT', $view_title);

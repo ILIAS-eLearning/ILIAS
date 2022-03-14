@@ -4690,14 +4690,25 @@ class ilUtil
             $secure = IL_COOKIE_SECURE;
         }
 
+        $cookie_parameters = [
+            'expires' => $expire,
+            'path' => IL_COOKIE_PATH,
+            'domain' => IL_COOKIE_DOMAIN,
+            'secure' => $secure,
+            'httponly' => IL_COOKIE_HTTPONLY,
+        ];
+
+        if (
+            $secure &&
+            (!isset(session_get_cookie_params()['samesite']) || strtolower(session_get_cookie_params()['samesite']) !== 'strict')
+        ) {
+            $cookie_parameters['samesite'] = 'Lax';
+        }
+
         setcookie(
             $a_cookie_name,
             $a_cookie_value,
-            $expire,
-            IL_COOKIE_PATH,
-            IL_COOKIE_DOMAIN,
-            $secure,
-            IL_COOKIE_HTTPONLY
+            $cookie_parameters
         );
 
         if ((bool) $a_also_set_super_global) {
