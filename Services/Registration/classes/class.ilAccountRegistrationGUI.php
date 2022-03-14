@@ -345,14 +345,18 @@ class ilAccountRegistrationGUI
         if (!ilUtil::isLogin($login)) {
             $login_obj->setAlert($this->lng->txt("login_invalid"));
             $form_valid = false;
-        } elseif (ilObjUser::_loginExists($login)) {
-            $login_obj->setAlert($this->lng->txt("login_exists"));
-            $form_valid = false;
-        } elseif ((int) $this->settings->get('allow_change_loginname') &&
-            (int) $this->settings->get('reuse_of_loginnames') === 0 &&
-            ilObjUser::_doesLoginnameExistInHistory($login)) {
-            $login_obj->setAlert($this->lng->txt('login_exists'));
-            $form_valid = false;
+        }
+
+        if ($form_valid) {
+            if (ilObjUser::_loginExists($login)) {
+                $login_obj->setAlert($this->lng->txt("login_exists"));
+                $form_valid = false;
+            } elseif ((int) $this->settings->get('allow_change_loginname') &&
+                (int) $this->settings->get('reuse_of_loginnames') === 0 &&
+                ilObjUser::_doesLoginnameExistInHistory($login)) {
+                $login_obj->setAlert($this->lng->txt('login_exists'));
+                $form_valid = false;
+            }
         }
 
         if (!$form_valid) {
