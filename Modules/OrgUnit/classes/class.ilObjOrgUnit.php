@@ -380,7 +380,7 @@ class ilObjOrgUnit extends ilContainer
 
     /**
      * delete orgunit, childs and all related data
-     * @return    boolean    true if all object data were removed; false if only a references were
+     * @return    bool    true if all object data were removed; false if only a references were
      *                       removed
      */
     final public function delete() : bool

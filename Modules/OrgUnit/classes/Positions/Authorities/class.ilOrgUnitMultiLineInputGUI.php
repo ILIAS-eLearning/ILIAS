@@ -77,12 +77,12 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->template_dir = $template_dir;
     }
 
-    final public function isShowLabel() : boolean
+    final public function isShowLabel() : bool
     {
         return $this->show_label;
     }
 
-    final public function setShowLabel(boolean $show_label)
+    final public function setShowLabel(bool $show_label)
     {
         $this->show_label = $show_label;
     }
@@ -135,7 +135,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
 
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
-     * @return    boolean        Input ok, true/false
+     * @return    bool        Input ok, true/false
      */
     final public function checkInput() : bool
     {
@@ -366,7 +366,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return $this->position_movable;
     }
 
-    final public function setPositionMovable(boolean $position_movable)
+    final public function setPositionMovable(bool $position_movable)
     {
         $this->position_movable = $position_movable;
     }
@@ -376,7 +376,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return $this->show_label_once;
     }
 
-    final public function setShowLabelOnce(boolean $show_label_once) : void
+    final public function setShowLabelOnce(bool $show_label_once) : void
     {
         $this->setShowLabel(false);
         $this->show_label_once = $show_label_once;
