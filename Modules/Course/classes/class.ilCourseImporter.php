@@ -70,6 +70,27 @@ class ilCourseImporter extends ilXmlImporter
 
             // set course offline
             $this->course->setOfflineStatus(true);
+
+            // that stuff is so hacky, but IDGAF.
+            // this is as good as it gets, but one can't tell which
+            // language will be the default.
+            $obj_trans = ilObjectTranslation::getInstance($this->course->getId());
+            $md_obj = new ilMD($this->course->getId(), 0, 'crs');
+            $md_obj = $md_obj->getGeneral();
+            if (false !== $md_obj) {
+                foreach ($md_obj->getDescriptionIds() as $description_id) {
+                    $md_desc = $md_obj->getDescription($description_id);
+                    $obj_trans->addLanguage(
+                        $md_desc->getDescriptionLanguageCode(),
+                        $this->course->getTitle(),
+                        $md_desc->getDescription(),
+                        false
+                    );
+                }
+            }
+
+            $obj_trans->save();
+            $this->course->setObjectTranslation($obj_trans);
             $this->course->update();
 
             $a_mapping->addMapping('Modules/Course', 'crs', $a_id, $this->course->getId());
