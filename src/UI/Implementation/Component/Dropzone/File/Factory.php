@@ -9,6 +9,7 @@ use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperInterface;
 use ILIAS\UI\Component\Dropzone\File\Factory as FactoryInterface;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Component\Input\Field\Input;
 use ilLanguage;
 
 /**
@@ -27,13 +28,15 @@ class Factory implements FactoryInterface
 
     public function standard(
         UploadHandler $upload_handler,
-        string $post_url
+        string $post_url,
+        ?Input $metadata_input = null
     ) : StandardInterface {
         return new Standard(
             $this->factory,
             $this->language,
             $upload_handler,
-            $post_url
+            $post_url,
+            $metadata_input
         );
     }
 
@@ -43,14 +46,16 @@ class Factory implements FactoryInterface
     public function wrapper(
         UploadHandler $upload_handler,
         string $post_url,
-        $content
+        $content,
+        ?Input $metadata_input = null
     ) : WrapperInterface {
         return new Wrapper(
             $this->factory,
             $this->language,
             $upload_handler,
             $post_url,
-            $content
+            $content,
+            $metadata_input
         );
     }
 }

@@ -2,7 +2,7 @@
 // @author Thibeau Fuhrer <thibeau@sr.solutions>
 
 .ui-dropzone {
-	border: @il-dropzone-filelist-border-width @il-dropzone-filelist-border-type @il-dropzone-filelist-border-color;
+	border: @il-dropzone-border-width @il-dropzone-filelist-border-type @il-dropzone-filelist-border-color;
 	background: @il-dropzone-bg;
 	display: inline-block;
 	margin-bottom: 5px;
@@ -19,11 +19,13 @@
 	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
 	border-radius: @il-dropzone-border-radius;
 	background: @il-dropzone-highlight-bg;
+	padding: (3 - @il-dropzone-border-width);
 }
 
-.ui-dropzone.highlight:hover {
+.ui-dropzone.highlight-current {
 	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color-hover;
 	background-color: @il-dropzone-hover-bg;
+	padding: (3 - @il-dropzone-border-width);
 }
 
 .ui-dropzone-message {
@@ -34,4 +36,8 @@
 
 .ui-dropzone-container button {
 	font-size: @il-font-size-base;
+}
+
+.ui-dropzone .form-group {
+	width: 100%;
 }

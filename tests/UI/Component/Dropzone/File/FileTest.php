@@ -62,10 +62,14 @@ class FileTest extends FileTestBase
 
     public function testFormGenerationWithMetadataFields() : void
     {
-        $dropzone_form = $this
-            ->dropzone
-            ->withMetadataFields(true)
-            ->getForm();
+        $dropzone_form = (new class(
+            $this->getInputFactory(),
+            $this->getLanguage(),
+            $this->getUploadHandlerMock(),
+            self::FILE_DROPZONE_POST_URL,
+            $this->getFieldFactory()->text('test_input_1')
+        ) extends File {
+        })->getForm();
 
         $this->assertEquals(self::FILE_DROPZONE_POST_URL, $dropzone_form->getPostURL());
         $this->assertCount(1, $dropzone_form->getInputs());
@@ -79,12 +83,7 @@ class FileTest extends FileTestBase
         $dynamic_inputs = $file_input->getTemplateForDynamicInputs()->getInputs();
         $this->assertInstanceOf(
             \ILIAS\UI\Implementation\Component\Input\Field\Text::class,
-            $dynamic_inputs[File::FILE_TITLE_KEY]
-        );
-
-        $this->assertInstanceOf(
-            \ILIAS\UI\Implementation\Component\Input\Field\Textarea::class,
-            $dynamic_inputs[File::FILE_DESCRIPTION_KEY]
+            $dynamic_inputs[0]
         );
     }
 }

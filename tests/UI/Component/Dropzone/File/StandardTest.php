@@ -98,7 +98,7 @@ class StandardTest extends FileTestBase
     public function testRenderStandardWithMetadata() : void
     {
         $expected_html = $this->brutallyTrimHTML('
-            <div id="id_7" class="ui-dropzone ">
+            <div id="id_6" class="ui-dropzone ">
                 <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
@@ -108,11 +108,11 @@ class StandardTest extends FileTestBase
                                     <div class="il-standard-form-header clearfix">
                                         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                                     </div>
-                                    <div class="form-group row"><label for="id_6" class="control-label col-sm-3"></label>
+                                    <div class="form-group row"><label for="id_5" class="control-label col-sm-3"></label>
                                         <div class="col-sm-9">
-                                            <div id="id_6" class="ui-input-file">
+                                            <div id="id_5" class="ui-input-file">
                                                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
-                                                <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_5">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
+                                                <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_4">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -131,8 +131,9 @@ class StandardTest extends FileTestBase
 
         $dropzone = $this->factory->standard(
             $this->getUploadHandlerMock(),
-            '#'
-        )->withMetadataFields(true);
+            '#',
+            $this->getFieldFactory()->text('test_input_1')
+        );
 
         $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
     }

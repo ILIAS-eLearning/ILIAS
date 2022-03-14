@@ -15,10 +15,10 @@ function dropzone_in_dropzone()
     $renderer = $DIC->ui()->renderer();
     $dropzone = $factory
         ->dropzone()->file()->wrapper(
-            (new \ilUIAsyncDemoFileUploadHandlerGUI()),
+            (new \ilUIAsyncDemoFileUploadHandler()),
             '#',
             $factory->dropzone()->file()->standard(
-                (new \ilUIAsyncDemoFileUploadHandlerGUI()),
+                (new \ilUIAsyncDemoFileUploadHandler()),
                 '#'
             )
                     ->withUploadButton(

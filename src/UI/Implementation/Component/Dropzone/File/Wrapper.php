@@ -10,6 +10,7 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Component\Component;
 use LogicException;
 use ilLanguage;
+use ILIAS\UI\Component\Input\Field\Input;
 
 /**
  * @author  nmaerchy <nm@studer-raimann.ch>
@@ -30,9 +31,10 @@ class Wrapper extends File implements WrapperInterface
         ilLanguage $language,
         UploadHandler $upload_handler,
         string $post_url,
-        $content
+        $content,
+        ?Input $metadata_input
     ) {
-        parent::__construct($input_factory, $language, $upload_handler, $post_url);
+        parent::__construct($input_factory, $language, $upload_handler, $post_url, $metadata_input);
 
         $content = $this->toArray($content);
         $this->checkArgListElements('content', $content, [Component::class]);

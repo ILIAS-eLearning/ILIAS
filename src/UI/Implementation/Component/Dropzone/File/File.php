@@ -12,6 +12,7 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Component\Signal;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Transformation;
@@ -25,8 +26,6 @@ abstract class File implements FileInterface
 {
     public const JAVASCRIPT_EVENT = 'drop';
     public const FILE_INPUT_KEY = 'files';
-    public const FILE_TITLE_KEY = 'file_title';
-    public const FILE_DESCRIPTION_KEY = 'file_description';
 
     use FileUploadAwareHelper;
     use JavaScriptBindable;
@@ -34,22 +33,24 @@ abstract class File implements FileInterface
     use Triggerer;
 
     protected ?FormInterface $form = null;
+    protected ?Input $metadata_input;
     protected InputFactory $input_factory;
     protected ilLanguage $language;
     protected string $title = '';
     protected string $post_url;
-    protected bool $with_metadata_fields = false;
 
     public function __construct(
         InputFactory $input_factory,
         ilLanguage $language,
         UploadHandler $upload_handler,
-        string $post_url
+        string $post_url,
+        ?Input $metadata_input = null
     ) {
         $this->input_factory = $input_factory;
         $this->language = $language;
         $this->upload_handler = $upload_handler;
         $this->post_url = $post_url;
+        $this->metadata_input = $metadata_input;
     }
 
     public function withTitle(string $title) : self
@@ -71,19 +72,15 @@ abstract class File implements FileInterface
         }
 
         $file_input = $this->input_factory
-            ->field()->file($this->upload_handler, '')
+            ->field()->file(
+                $this->upload_handler,
+                '',
+                null,
+                $this->metadata_input
+            )
             ->withMaxFiles($this->getMaxFiles())
             ->withMaxFileSize($this->getMaxFileSize())
             ->withAcceptedMimeTypes($this->getAcceptedMimeTypes());
-
-        if ($this->with_metadata_fields) {
-            $file_input = $file_input->withTemplateForDynamicInputs(
-                $this->input_factory->field()->group([
-                    self::FILE_TITLE_KEY => $this->input_factory->field()->text($this->language->txt('dropzone_file_title')),
-                    self::FILE_DESCRIPTION_KEY => $this->input_factory->field()->textarea($this->language->txt('dropzone_file_description')),
-                ])
-            );
-        }
 
         return $this->input_factory->container()->form()->standard(
             $this->post_url,
@@ -119,19 +116,7 @@ abstract class File implements FileInterface
             throw new LogicException(static::class . " ::withRequest must be called first.");
         }
 
-        $data = $this->form->getData();
-        if (null !== $data && isset($data[self::FILE_INPUT_KEY])) {
-            return $data[self::FILE_INPUT_KEY];
-        }
-
-        return null;
-    }
-
-    public function withMetadataFields(bool $is_enabled) : FileInterface
-    {
-        $clone = clone $this;
-        $clone->with_metadata_fields = $is_enabled;
-        return $clone;
+        return $this->form->getData();
     }
 
     public function withOnDrop(Signal $signal) : self

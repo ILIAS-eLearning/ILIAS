@@ -25,6 +25,7 @@ il.UI = il.UI || {};
          */
         const CSS = {
             highlight: 'highlight',
+            highlight_current: 'highlight-current',
         };
 
         /**
@@ -38,6 +39,13 @@ il.UI = il.UI || {};
          * @type {*[]}
          */
         let dropzones = [];
+
+        /**
+         * Keeps track of the amount of 'dragenter' events that got fired.
+         * @see https://stackoverflow.com/a/21002544
+         * @type {number}
+         */
+        let drag_enter_counter = 0;
 
         /**
          * @param {string} dropzone_id
@@ -62,13 +70,18 @@ il.UI = il.UI || {};
          * @param {jQuery} dropzone
          */
         let initDropzoneEventListeners = function (dropzone) {
-            dropzone.on('drop', transferDroppedFilesHook);
+            dropzone.on({
+                dragover: highlightCurrentDropzoneHook,
+                dragenter: highlightCurrentDropzoneHook,
+                dragleave: removeHighlightFromDropzoneHook,
+                drop: transferDroppedFilesHook,
+            });
         }
 
         let initGlobalEventListeners = function () {
             if (!instantiated) {
                 $(document).on({
-                    dragover: highlightPossibleDropzones,
+                    dragenter: highlightPossibleDropzones,
                     dragleave: removeHighlightFromDropzones,
                     drop: removeHighlightFromDropzones,
                 });
@@ -81,6 +94,7 @@ il.UI = il.UI || {};
          * @param {Event} event
          */
         let transferDroppedFilesHook = function (event) {
+            removeHighlightFromDropzoneHook(event);
             removeHighlightFromDropzones(event);
 
             // dataTransfer has to be fetched by triggering event (DragEvent).
@@ -91,8 +105,8 @@ il.UI = il.UI || {};
             if (0 < file_count) {
                 for (let i = 0; i < file_count; i++) {
                     il.UI.Input.File.renderFileEntry(
-                        data_transfer.files[i],
-                        dropzones[$(this).attr('id')].file_input_id
+                      data_transfer.files[i],
+                      dropzones[$(this).attr('id')].file_input_id
                     );
                 }
             }
@@ -101,8 +115,27 @@ il.UI = il.UI || {};
         /**
          * @param {Event} event
          */
+        let highlightCurrentDropzoneHook = function (event) {
+            event.preventDefault();
+            let current_dropzone = $(event.currentTarget);
+            current_dropzone.addClass(CSS.highlight_current);
+        }
+
+        /**
+         * @param {Event} event
+         */
+        let removeHighlightFromDropzoneHook = function (event) {
+            let current_dropzone = $(event.currentTarget);
+            current_dropzone.removeClass(CSS.highlight_current);
+        }
+
+        /**
+         * @param {Event} event
+         */
         let highlightPossibleDropzones = function (event) {
             disableDefaultEventBehaviour(event);
+            drag_enter_counter++;
+
             let dropzones = $(document).find(SELECTOR.dropzone);
             let dropzone_count = dropzones.length;
             if (0 < dropzone_count) {
@@ -117,11 +150,15 @@ il.UI = il.UI || {};
          */
         let removeHighlightFromDropzones = function (event) {
             disableDefaultEventBehaviour(event);
-            let dropzones = $(document).find(SELECTOR.dropzone);
-            let dropzone_count = dropzones.length;
-            if (0 < dropzone_count) {
-                for (let i = 0; i < dropzone_count; i++) {
-                    $(dropzones[i]).removeClass(CSS.highlight);
+            drag_enter_counter--;
+
+            if (0 === drag_enter_counter) {
+                let dropzones = $(document).find(SELECTOR.dropzone);
+                let dropzone_count = dropzones.length;
+                if (0 < dropzone_count) {
+                    for (let i = 0; i < dropzone_count; i++) {
+                        $(dropzones[i]).removeClass(CSS.highlight);
+                    }
                 }
             }
         }

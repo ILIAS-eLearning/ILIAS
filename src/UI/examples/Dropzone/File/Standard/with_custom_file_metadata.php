@@ -10,15 +10,15 @@ function with_custom_file_metadata()
     $renderer = $DIC->ui()->renderer();
     $dropzone = $factory
         ->dropzone()->file()->standard(
-            (new \ilUIAsyncDemoFileUploadHandlerGUI()),
-            '#'
+            (new \ilUIAsyncDemoFileUploadHandler()),
+            '#',
+            $factory->input()->field()->text('title or something')
         )
         ->withUploadButton(
             $factory->button()->shy('Upload files', '#')
         )
         ->withMessage('Drag files in here to upload them!')
-        ->withTitle('Upload your files here')
-        ->withMetadataFields(true);
+        ->withTitle('Upload your files here');
 
     return $renderer->render($dropzone);
 }

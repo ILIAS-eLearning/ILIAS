@@ -17,7 +17,7 @@ use NoUIFactory;
 /**
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class FileTestBase extends ILIAS_UI_TestBase
+abstract class FileTestBase extends ILIAS_UI_TestBase
 {
     protected const FILE_DROPZONE_POST_URL = 'https://test.com/action?param1=123&param2=456';
 

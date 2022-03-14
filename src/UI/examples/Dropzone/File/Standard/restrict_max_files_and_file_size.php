@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Dropzone\File\Wrapper;
+namespace ILIAS\UI\examples\Dropzone\File\Standard;
 
 function restrict_max_files_and_file_size()
 {
@@ -10,7 +10,7 @@ function restrict_max_files_and_file_size()
     $renderer = $DIC->ui()->renderer();
     $dropzone = $factory
         ->dropzone()->file()->standard(
-            (new \ilUIAsyncDemoFileUploadHandlerGUI()),
+            (new \ilUIAsyncDemoFileUploadHandler()),
             '#'
         )
         ->withMaxFiles(2)

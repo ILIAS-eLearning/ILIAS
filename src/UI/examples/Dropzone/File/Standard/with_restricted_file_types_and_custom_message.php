@@ -2,9 +2,7 @@
 
 namespace ILIAS\UI\examples\Dropzone\File\Standard;
 
-use Exception;
-
-function with_restricted_file_types()
+function with_restricted_file_types_and_custom_message()
 {
     global $DIC;
 
@@ -12,7 +10,7 @@ function with_restricted_file_types()
     $renderer = $DIC->ui()->renderer();
     $dropzone = $factory
         ->dropzone()->file()->standard(
-            (new \ilUIAsyncDemoFileUploadHandlerGUI()),
+            (new \ilUIAsyncDemoFileUploadHandler()),
             '#'
         )
         ->withAcceptedMimeTypes(['application/pdf'])

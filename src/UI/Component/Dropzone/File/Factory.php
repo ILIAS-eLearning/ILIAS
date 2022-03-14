@@ -6,6 +6,7 @@ namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Input\Field\Input;
 
 /**
  * Describes a factory for file dropzones.
@@ -36,7 +37,6 @@ interface Factory
      *      Rival 1: >
      *          A wrapper dropzone can hold other ILIAS UI components instead of
      *          a message.
-     *
      * rules:
      *   usage:
      *     1: Standard dropzones MUST contain a message.
@@ -50,15 +50,16 @@ interface Factory
      *     1: >
      *        Standard dropzones MUST offer the possibility to select files
      *        manually from the computer.
-     *
      * ---
      * @param UploadHandler $upload_handler for async file upload
      * @param string        $post_url       for submitting the file data
+     * @param Input|null    $metadata_input optional template for metadata inputs
      * @return \ILIAS\UI\Component\Dropzone\File\Standard
      */
     public function standard(
         UploadHandler $upload_handler,
-        string $post_url
+        string $post_url,
+        ?Input $metadata_input = null
     ) : Standard;
 
     /**
@@ -102,11 +103,13 @@ interface Factory
      * @param UploadHandler         $upload_handler for async file upload
      * @param string                $post_url       for submitting the file data
      * @param Component[]|Component $content        Component(s) wrapped by the dropzone
+     * @param Input|null            $metadata_input optional template for metadata inputs
      * @return \ILIAS\UI\Component\Dropzone\File\Wrapper
      */
     public function wrapper(
         UploadHandler $upload_handler,
         string $post_url,
-        $content
+        $content,
+        ?Input $metadata_input = null
     ) : Wrapper;
 }

@@ -36,11 +36,6 @@ interface File extends FileUploadAware, Component, Droppable
     public function withAdditionalTransformation(Transformation $transformation) : File;
 
     /**
-     * Get a dropzone like this with custom name- and description-fields enabled.
-     */
-    public function withMetadataFields(bool $is_enabled) : File;
-
-    /**
      * Get the data from the dropzone's form if all inputs were OK, otherwise
      * null will be returned.
      * @return mixed|null
