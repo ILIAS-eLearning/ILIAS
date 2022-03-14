@@ -43,9 +43,9 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI
      * @param bool $a_enable_comments_settings
      * @return bool
      */
-    public function enableComments(bool $a_value, bool $a_enable_comments_settings = true): bool
+    public function enableComments(bool $a_value, bool $a_enable_comments_settings = true): void
     {
-        return false;
+
     }
 
     /**

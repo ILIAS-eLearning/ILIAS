@@ -2696,7 +2696,7 @@ class ilObjectListGUI
      *
      * @param boolean $a_value
      */
-    public function enableComments($a_value, $a_enable_comments_settings = true)
+    public function enableComments(bool $a_value, bool $a_enable_comments_settings = true): void
     {
         $ilSetting = $this->settings;
         
@@ -3687,7 +3687,11 @@ class ilObjectListGUI
      * @param bool $a_check_write_access
      * @return bool
      */
-    protected function isCommentsActivated($a_type, $a_ref_id, $a_obj_id, $a_header_actions, $a_check_write_access = true)
+    protected function isCommentsActivated( string $a_type,
+        int $a_ref_id,
+        int $a_obj_id,
+        bool $a_header_actions,
+        bool $a_check_write_access = true): bool
     {
         if ($this->comments_enabled) {
             if (!$this->comments_settings_enabled) {
