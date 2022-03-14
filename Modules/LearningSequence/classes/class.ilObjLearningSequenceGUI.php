@@ -124,7 +124,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
             self::forwardByClass(
                 ilRepositoryGUI::class,
-                [ilRepositoryGUI::class, ilObjLearningSequenceGUI::class],
+                [ilObjLearningSequenceGUI::class],
                 $params,
                 self::CMD_VIEW
             );
