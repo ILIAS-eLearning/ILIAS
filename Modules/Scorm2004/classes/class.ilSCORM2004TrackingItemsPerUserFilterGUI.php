@@ -54,15 +54,15 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 
         $options = array("all" => $lng->txt("all"));
-        $users = ilTrQuery::getParticipantsForObject($this->parent_obj->object->ref_id);
+        $users = ilTrQuery::getParticipantsForObject($this->parent_obj->object->getRefID());
         $privacy = ilPrivacySettings::getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
 
         if ($users && count($users) > 0) {
             foreach ($users as $user) {
-                if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
+                if (ilObject::_exists((integer) $user) && ilObject::_lookUpType((integer) $user) == 'usr') {
                     if ($allowExportPrivacy == true) {
-                        $e_user = new ilObjUser($user);
+                        $e_user = new ilObjUser((integer) $user);
                         $options[$user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
                     } else {
                         $options[$user] = 'User Id: ' . $user;

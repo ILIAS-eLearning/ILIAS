@@ -3,7 +3,6 @@
 
 /**
  * Class ilDclDateSelectionRecordFieldModel
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDclDateSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel

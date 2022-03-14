@@ -248,7 +248,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                 $options,
                 false,
                 true,
-                '',
+                0,
                 '',
                 ['onchange' => 'ilHideFrequencies();', 'id' => 'il_recurrence_1']
             )
@@ -381,7 +381,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $num_options,
             false,
             true,
-            '',
+            0,
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_monthly_radio_1');")
         ));
@@ -399,7 +399,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $days_select,
             false,
             true,
-            '',
+            0,
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_monthly_radio_1');")
         ));
@@ -436,7 +436,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $options,
             false,
             true,
-            '',
+            0,
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_monthly_radio_2');")
         ));
@@ -469,7 +469,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $options,
             false,
             true,
-            '',
+            0,
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_2');")
         ));
@@ -484,7 +484,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $options,
             false,
             true,
-            '',
+            0,
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_2');")
         ));
@@ -524,7 +524,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $num_options,
             false,
             true,
-            '',
+            0,
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_1');")
         ));
@@ -540,7 +540,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $days_select,
             false,
             true,
-            '',
+            0,
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_1');")
         ));
@@ -564,7 +564,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $options,
             false,
             true,
-            '',
+            0,
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_1');")
         ));

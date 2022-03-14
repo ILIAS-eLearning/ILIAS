@@ -6,7 +6,6 @@ use ilOrgUnitExporter;
 
 /**
  * Class OrgUnitTree
- *
  * @author Martin Studer ms@studer-raimann.ch
  */
 class OrgUnitTree extends Base
@@ -14,10 +13,8 @@ class OrgUnitTree extends Base
     const ORGU_REF_ID = 'orgu_ref_id';
     const ORG_UNIT_TREE = 'OrgUnitTree';
 
-
     /**
      * @param array $params
-     *
      * @return mixed|string
      */
     protected function run(array $params)
@@ -31,7 +28,6 @@ class OrgUnitTree extends Base
         return $writer->xmlFormatData($writer->xmlStr);
     }
 
-
     /**
      * @return string
      */
@@ -39,7 +35,6 @@ class OrgUnitTree extends Base
     {
         return "getOrgUnitsSimpleXML";
     }
-
 
     /**
      * @return array
@@ -51,7 +46,6 @@ class OrgUnitTree extends Base
         );
     }
 
-
     /**
      * @inheritdoc
      */
@@ -59,7 +53,6 @@ class OrgUnitTree extends Base
     {
         return array(self::ORG_UNIT_TREE => Base::TYPE_STRING);
     }
-
 
     /**
      * @inheritdoc

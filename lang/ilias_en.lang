@@ -2063,6 +2063,7 @@ common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
 common#:#withdraw_consent_description_internal#:#Please log in again to complete the revocation process.
 common#:#withdraw_consent_description_external#:#Please return to your source installation and log in again to complete the revocation process.
 common#:#withdraw_consent#:#Withdraw Acceptance
+common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service
 common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.
 common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.
 common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here
@@ -2339,6 +2340,7 @@ rbac#:#cat_copy#:#User can copy category
 rbac#:#cat_delete#:#User can move or delete category
 rbac#:#cat_edit_permission#:#User can change permission settings
 common#:#cat_edit#:#Category Settings
+common#:#catr_edit#:#Category Link Settings
 common#:#cat_new#:#New Category
 rbac#:#cat_read_users#:#User can read local user accounts created in this category
 rbac#:#cat_read#:#User has read access to category
@@ -4660,6 +4662,7 @@ content#:#cont_pc_hacc#:#Accordion (Horizontal)
 content#:#cont_pc_incl#:#Content Snippet
 content#:#cont_pc_list#:#Advanced List
 content#:#cont_pc_map#:#Map
+content#:#cont_pc_media#:#Image/Media
 content#:#cont_pc_mob#:#Media
 content#:#cont_pc_modified#:#Modified Content
 content#:#cont_pc_new#:#New Content
@@ -8327,6 +8330,7 @@ dateplaner#:#cal_ch_deadline_info#:#Please define the number of hours until the 
 dateplaner#:#cal_ch_num_appointments_info#:#Please define the number of sequent appointments.
 dateplaner#:#cal_ch_personal_ch#:#Personal Consultation Hours
 dateplaner#:#cal_ch_ch#:#Consultation Hours
+dateplaner#:#cal_change_calendar_view#:#Change Calendar View
 ps#:#rbac_log_age#:#Keep Log Entries
 ps#:#rbac_log_age_info#:#Maximum age of log entries in month
 rbac#:#rbac_role_rights_copy#:#Copy Permissions
@@ -15477,7 +15481,7 @@ rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
 rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
 rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
-dateplaner#:#btn_ical#:#iCal
+dateplaner#:#btn_ical#:#Subscribe
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
@@ -16599,6 +16603,7 @@ file#:#file_suffix_custom_white_info#:#These suffixes will be added to the defau
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.
+file#:#migrated#:#Status
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
@@ -16749,3 +16754,10 @@ svy#:#svy_all_participants#:#All Participants
 svy#:#svy_selected_participants#:#Selected Participants
 svy#:#svy_all_questions#:#All Questions
 svy#:#svy_selected_questions#:#Selected Questions
+rating#:#rating_avg_rating#:#Average Rating
+rating#:#rating_personal_rating#:#Your Rating
+rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars
+rating#:#rating_open_dialog#:#Open rating dialog
+tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.
+rep#:#rep_favourites#:#Favourites
+rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.

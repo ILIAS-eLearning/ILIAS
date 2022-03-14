@@ -288,11 +288,11 @@ class ilAdministrationSettingsFormHandler
                     }
 
                     if ($has_write &&
-                        $rbacsystem->checkAccess("visible,read", $a_gui->object->getRefId())) {
+                        $rbacsystem->checkAccess("visible,read", $a_gui->getObject()->getRefId())) {
                         if (!$cmd) {
                             $cmd = "view";
                         }
-                        $ilCtrl->setParameter($a_gui, "ref_id", $a_gui->object->getRefId());
+                        $ilCtrl->setParameter($a_gui, "ref_id", $a_gui->getObject()->getRefId());
 
                         $ftpl->setCurrentBlock("edit_bl");
                         $ftpl->setVariable("URL_EDIT", $ilCtrl->getLinkTargetByClass(array("ilAdministrationGUI", get_class($a_gui)), $cmd));

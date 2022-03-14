@@ -252,7 +252,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $tpl->setLeftNavContent($left);
     }
     
-    public function edit()
+    public function edit() : void
     {
         parent::edit();
       
@@ -260,7 +260,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $this->tabs_gui->activateSubTab("settings");
     }
     
-    public function update()
+    public function update() : void
     {
         parent::update();
         

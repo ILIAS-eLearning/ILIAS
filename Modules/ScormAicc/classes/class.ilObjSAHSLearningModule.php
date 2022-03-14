@@ -1434,7 +1434,7 @@ class ilObjSAHSLearningModule extends ilObject
         $new_obj->setAPIFunctionsPrefix($this->getAPIFunctionsPrefix());
         $new_obj->setAutoReviewChar($this->getAutoReviewChar());
         $new_obj->setDefaultLessonMode($this->getDefaultLessonMode());
-        $new_obj->setEditable($this->getEditable());
+//        $new_obj->setEditable($this->getEditable());
         $new_obj->setMaxAttempt($this->getMaxAttempt());
         $new_obj->setModuleVersion($this->getModuleVersion());
         $new_obj->setModuleVersion(1);
@@ -1452,7 +1452,7 @@ class ilObjSAHSLearningModule extends ilObject
         $new_obj->setTime_from_lms($this->getTime_from_lms());
         $new_obj->setDebug($this->getDebug());
         $new_obj->setLocalization($this->getLocalization());
-        $new_obj->setSequencingExpertMode(0); //$this->getSequencingExpertMode()
+//        $new_obj->setSequencingExpertMode(0); //$this->getSequencingExpertMode()
 //        $new_obj->setDebugPw($this->getDebugPw());
         $new_obj->setOpenMode($this->getOpenMode());
         $new_obj->setWidth($this->getWidth());

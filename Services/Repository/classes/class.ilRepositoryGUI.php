@@ -205,7 +205,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
                         }
                     } else {
                         if (is_subclass_of($class_name, "ilObject2GUI")) {
-                            $this->gui_obj = new $class_name(null, ilObject2GUI::REPOSITORY_NODE_ID, $this->cur_ref_id);
+                            $this->gui_obj = new $class_name(0, ilObject2GUI::REPOSITORY_NODE_ID, $this->cur_ref_id);
                         } else {
                             $this->gui_obj = new $class_name("", 0, true, false);
                         }

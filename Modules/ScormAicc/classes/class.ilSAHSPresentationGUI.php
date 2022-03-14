@@ -30,9 +30,9 @@
 */
 class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 {
-    protected $tpl;
-    protected $lng;
-    protected $ctrl;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
     protected $slm_gui;
     protected int $refId;
 
@@ -46,7 +46,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->ctrl->saveParameter($this, "ref_id");
-        $this->refId = (int) $_GET["ref_id"];
+        $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
     }
 
     /**
@@ -64,7 +64,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
         $lng->loadLanguageModule("content");
-        $obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
+        $obj_id = ilObject::_lookupObjectId($this->refId);
         
         // add entry to navigation history
         if ($ilAccess->checkAccess("read", "", $this->refId)) {
@@ -85,7 +85,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
             $ret = $this->ctrl->forwardCommand($scorm_gui);
         }
         
-        $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"], true, false);
+        $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
 
         if ($next_class != "ilinfoscreengui" &&
             $cmd != "infoScreen" &&
@@ -95,12 +95,12 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
             switch ($type) {
                 case "scorm2004":
                     $this->ctrl->setCmdClass("ilscorm13playergui");
-                    $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"], true, false);
+                    $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
                     break;
                         
                 case "scorm":
                     $this->ctrl->setCmdClass("ilscormpresentationgui");
-                    $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"], true, false);
+                    $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
                     break;
             }
             $next_class = $this->ctrl->getNextClass($this);
@@ -123,20 +123,20 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 
             case "illearningprogressgui":
                 $this->setInfoTabs("learning_progress");
-                $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $_GET['ref_id']);
+                $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $this->refId);
                 $this->ctrl->forwardCommand($new_gui);
                 $this->tpl->printToStdout();
                 break;
 
             case "ilobjscorm2004learningmodulegui":
-                $new_gui = new ilObjSCORM2004LearningModuleGUI([], $_GET["ref_id"], true, false);
+                $new_gui = new ilObjSCORM2004LearningModuleGUI([], $this->refId, true, false);
                 $this->ctrl->forwardCommand($new_gui);
                 $this->setInfoTabs("cont_tracking_data");
                 $this->tpl->printToStdout();
                 break;
 
             case "ilobjscormlearningmodulegui":
-                $new_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"], true, false);
+                $new_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
                 $this->ctrl->forwardCommand($new_gui);
                 $this->setInfoTabs("cont_tracking_data");
                 $this->tpl->printToStdout();
@@ -204,7 +204,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
      */
     public function view() : void
     {
-        $sc_gui_object = ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
+        $sc_gui_object = ilSCORMObjectGUI::getInstance($this->refId);
 
         if (is_object($sc_gui_object)) {
             $sc_gui_object->view();
@@ -237,7 +237,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     {
         global $DIC;
 
-        $refId = (int) $_GET["ref_id"];
+        $refId = $this->refId;
 
         if (
             !$DIC->access()->checkAccess('visible', '', $refId) &&
@@ -301,7 +301,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     {
         global $DIC;
         $ilAccess = $DIC->access();
-        $refId = (int) $_GET["ref_id"];//$this->slm_gui->object->getRefId();
+        $refId = $this->refId;//$this->slm_gui->object->getRefId();
 
         //$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
 

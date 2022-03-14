@@ -206,7 +206,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
     /**
      * @param string $id
-     * @param        $value
+     * @param string|float|int|null $value
      * @param string $type
      * @return float|mixed|string
      */
@@ -215,12 +215,10 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("trac");
-        switch ($id) {
-            case "status":
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
-                $text = ilLearningProgressBaseGUI::_getStatusText($value);
-                $value = ilUtil::img($path, $text);
-                break;
+        if ($id == "status") {
+            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
+            $text = ilLearningProgressBaseGUI::_getStatusText((integer) $value);
+            $value = ilUtil::img($path, $text);
         }
         //BLUM round
         if ($id == "launch_data" || $id == "suspend_data") {

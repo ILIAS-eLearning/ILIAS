@@ -36,10 +36,8 @@ class ilOrgUnitUser
      */
     protected $superiors = [];
 
-
     /**
      * @param int $user_id
-     *
      * @return ilOrgUnitUser
      */
     public static function getInstanceById(int $user_id) : self
@@ -52,12 +50,10 @@ class ilOrgUnitUser
         return static::$instances[$user_id];
     }
 
-
     /**
      * @param int    $user_id
      * @param string $login
      * @param string $email
-     *
      * @return ilOrgUnitUser
      */
     public static function getInstance(int $user_id, string $login, string $email, string $second_email) : self
@@ -69,7 +65,6 @@ class ilOrgUnitUser
         return static::$instances[$user_id];
     }
 
-
     private function __construct(int $user_id, string $login, string $email, string $second_email)
     {
         $this->user_id = $user_id;
@@ -77,7 +72,6 @@ class ilOrgUnitUser
         $this->email = $email;
         $this->second_email = $second_email;
     }
-
 
     /**
      * @param ilOrgUnitUser $org_unit_user
@@ -87,7 +81,6 @@ class ilOrgUnitUser
         $this->superiors[] = $org_unit_user;
     }
 
-
     /**
      * @param ilOrgUnitPosition $org_unit_position
      */
@@ -96,10 +89,8 @@ class ilOrgUnitUser
         $this->org_unit_positions[] = $org_unit_position;
     }
 
-
     /**
      * @return ilOrgUnitUser[]
-     *
      * eager loading
      * @var array ilOrgUnitUser
      */
@@ -112,17 +103,14 @@ class ilOrgUnitUser
         return $this->superiors;
     }
 
-
     public function loadSuperiors() : void
     {
         $org_unit_user_repository = new ilOrgUnitUserRepository();
         $org_unit_user_repository->loadSuperiors([$this->user_id]);
     }
 
-
     /**
      * @return ilOrgUnitPosition[]
-     *
      * eager loading
      */
     public function getOrgUnitPositions() : array
@@ -134,10 +122,8 @@ class ilOrgUnitUser
         return $this->org_unit_positions;
     }
 
-
     /**
      * @return ilOrgUnitPosition[]
-     *
      * eager loading
      */
     protected function loadOrgUnitPositions() : array
@@ -145,7 +131,6 @@ class ilOrgUnitUser
         $org_unit_user_repository = new ilOrgUnitUserRepository();
         $org_unit_user_repository->loadPositions([$this->user_id]);
     }
-
 
     /**
      * @return int
@@ -155,7 +140,6 @@ class ilOrgUnitUser
         return $this->user_id;
     }
 
-
     /**
      * @return string
      */
@@ -163,7 +147,6 @@ class ilOrgUnitUser
     {
         return $this->login;
     }
-
 
     /**
      * @return string
@@ -173,7 +156,6 @@ class ilOrgUnitUser
         return $this->email;
     }
 
-
     /**
      * @return string
      */
@@ -181,7 +163,6 @@ class ilOrgUnitUser
     {
         return $this->second_email;
     }
-
 
     /**
      * @param string $second_email

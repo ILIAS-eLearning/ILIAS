@@ -3,7 +3,6 @@
 
 /**
  * Class ilExtIdGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  */
@@ -43,7 +42,6 @@ class ilExtIdGUI
      */
     protected $ilAccess;
 
-
     /**
      * @param $parent_gui
      */
@@ -71,7 +69,6 @@ class ilExtIdGUI
         }
     }
 
-
     /**
      * @return bool
      */
@@ -91,13 +88,11 @@ class ilExtIdGUI
         return true;
     }
 
-
     public function edit()
     {
         $form = $this->initForm();
         $this->tpl->setContent($form->getHTML());
     }
-
 
     public function initForm()
     {
@@ -110,7 +105,6 @@ class ilExtIdGUI
 
         return $form;
     }
-
 
     public function update()
     {

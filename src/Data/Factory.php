@@ -4,6 +4,9 @@
 
 namespace ILIAS\Data;
 
+use ILIAS\Data\Clock\ClockFactory;
+use ILIAS\Data\Clock\ClockFactoryImpl;
+
 /**
  * Builds data types.
  *
@@ -153,5 +156,10 @@ class Factory
     public function link(string $label, URI $url) : Link
     {
         return new Link($label, $url);
+    }
+
+    public function clock() : ClockFactory
+    {
+        return new ClockFactoryImpl();
     }
 }

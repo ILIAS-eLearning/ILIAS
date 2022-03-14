@@ -18,10 +18,6 @@
 * Show active rules
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSCategoryMappingTableGUI extends ilTable2GUI
 {

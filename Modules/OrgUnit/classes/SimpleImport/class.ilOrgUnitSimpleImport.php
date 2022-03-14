@@ -3,10 +3,8 @@
 
 /**
  * Class ilOrgUnitSimpleImport
- *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilOrgUnitSimpleImport extends ilOrgUnitImporter
 {
@@ -28,7 +26,6 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
             $this->simpleImportElement($o);
         }
     }
-
 
     public function simpleImportElement(SimpleXMLElement $o)
     {
@@ -143,7 +140,6 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
             $this->addError("no_valid_action_given", $ou_id, $action);
         }
     }
-
 
     /**
      * @param $ref_id        int

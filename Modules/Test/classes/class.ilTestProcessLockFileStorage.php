@@ -20,12 +20,9 @@
  */
 class ilTestProcessLockFileStorage extends ilFileSystemAbstractionStorage
 {
-    /**
-     * @param integer $activeId
-     */
-    public function __construct(int $activeId)
+    public function __construct(int $contextId)
     {
-        parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $activeId);
+        parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $contextId);
     }
 
     /**
@@ -52,7 +49,7 @@ class ilTestProcessLockFileStorage extends ilFileSystemAbstractionStorage
      */
     protected function getPathPostfix() : string
     {
-        return 'active';
+        return 'context';
     }
 
     public function create() : void

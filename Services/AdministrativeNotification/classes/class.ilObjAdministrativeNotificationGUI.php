@@ -18,33 +18,11 @@
  */
 class ilObjAdministrativeNotificationGUI extends ilObject2GUI
 {
-    
-    private \ilADNTabHandling $tab_handling;
-    /**
-     * @var ilRbacSystem (not yet typed in parent class)
-     */
-    protected $rbacsystem;
-    protected ilTabsGUI $tabs;
-    /**
-     * @var ilLanguage  (not yet typed in parent class)
-     */
-    public $lng;
-    /**
-     * @var ilCtrl  (not yet typed in parent class)
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate  (not yet typed in parent class)
-     */
-    public $tpl;
-    /**
-     * @var ilTree  (not yet typed in parent class)
-     */
-    public $tree;
     const TAB_PERMISSIONS = 'perm_settings';
     const TAB_MAIN = 'main';
     
-    protected ilErrorHandling $error_handling;
+    private ilADNTabHandling $tab_handling;
+    private ilObjAdministrativeNotificationAccess $admin_notification_access;
     
     /**
      * ilObjAdministrativeNotificationGUI constructor.
@@ -58,24 +36,17 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
             : null;
         
         parent::__construct($this->ref_id);
-        
-        $this->tabs = $DIC['ilTabs'];
-        $this->lng  = $DIC->language();
+
         $this->lng->loadLanguageModule('adn');
-        $this->ctrl           = $DIC['ilCtrl'];
-        $this->tpl            = $DIC['tpl'];
-        $this->tree           = $DIC['tree'];
-        $this->rbacsystem     = $DIC['rbacsystem'];
         $this->tab_handling   = new ilADNTabHandling($this->ref_id);
-        $this->error_handling = $DIC["ilErr"];
-        $this->access         = new ilObjAdministrativeNotificationAccess();
+        $this->admin_notification_access = new ilObjAdministrativeNotificationAccess();
         
         $this->assignObject();
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $this->access->checkAccessAndThrowException("visible,read");
+        $this->admin_notification_access->checkAccessAndThrowException("visible,read");
         
         $next_class = $this->ctrl->getNextClass();
         
@@ -90,7 +61,7 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
         switch ($next_class) {
             case strtolower(ilPermissionGUI::class):
                 $this->tab_handling->initTabs(self::TAB_PERMISSIONS);
-                $this->tabs->activateTab(self::TAB_PERMISSIONS);
+                $this->tabs_gui->activateTab(self::TAB_PERMISSIONS);
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -103,7 +74,7 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
         }
     }
     
-    public function getType()
+    public function getType() : ?string
     {
         return null;
     }

@@ -228,6 +228,7 @@ class ilObjectLP
     public function getSettingsInfo() : string
     {
         // type-specific
+        return "";
     }
     
     
@@ -630,7 +631,7 @@ class ilObjectLP
     {
         return array(ilLPObjSettings::LP_MODE_UNDEFINED);
     }
-    
+
     protected static function getTypeDefaultFromDB(string $a_type) : ?int
     {
         global $DIC;

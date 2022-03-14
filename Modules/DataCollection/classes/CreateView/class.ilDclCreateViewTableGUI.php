@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclCreateViewTableGUI
- *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class ilDclCreateViewTableGUI extends ilTable2GUI
@@ -45,12 +44,10 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
         $this->parseData($a_parent_obj->tableview->getFieldSettings());
     }
 
-
     public function parseData($data)
     {
         $this->setData($data);
     }
-
 
     /**
      * @param array $a_set

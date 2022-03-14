@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclBooleanFieldModel
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,10 +10,8 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @param string  $direction
      * @param boolean $sort_by_status The specific sort object is a status field
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
@@ -36,12 +33,9 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @param string $filter_value
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
@@ -62,10 +56,8 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     /**
      * Returns supported file-extensions
-     *
      * @return array|string
      */
     public function getSupportedExtensions()
@@ -79,28 +71,24 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return $this->parseSupportedExtensions($file_types);
     }
 
-
     /**
      * @param $input_value
-     *
      * @return array
      */
     protected function parseSupportedExtensions($input_value)
     {
         $supported_extensions = explode(",", $input_value);
 
-        $trim_function = function ($value) {
+        $trim_function = function($value) {
             return trim(trim(strtolower($value)), ".");
         };
 
         return array_map($trim_function, $supported_extensions);
     }
 
-
     /**
      * @param      $value
      * @param null $record_id
-     *
      * @return bool
      * @throws ilDclInputException
      */
@@ -124,7 +112,6 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return true;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -132,7 +119,6 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
     {
         return array(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
     }
-
 
     /**
      * @return bool

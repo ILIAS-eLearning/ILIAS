@@ -18,14 +18,9 @@
  * Connector for course member ressource
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSEnrolmentStatusConnector extends ilECSConnector
 {
-    /**
-     * Constructor
-     * @param ilECSSetting $settings
-     */
     public function __construct(ilECSSetting $settings = null)
     {
         parent::__construct($settings);

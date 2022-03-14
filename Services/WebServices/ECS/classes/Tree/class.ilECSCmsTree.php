@@ -15,14 +15,11 @@
  *****************************************************************************/
 
 /**
- *
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCmsTree extends ilTree
 {
-    public function __construct($a_tree_id)
+    public function __construct(int $a_tree_id)
     {
         parent::__construct($a_tree_id, self::lookupRootId($a_tree_id));
 

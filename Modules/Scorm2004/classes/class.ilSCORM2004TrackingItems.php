@@ -457,7 +457,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $data["scope_id"];
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport((integer) $data["user_id"], $allowExportPrivacy));
             $data["Status"] = "" . $data["status"];
             $data["satisfied"] = "" . $data["satisfied"];
             $data["measure"] = "" . $data["measure"];

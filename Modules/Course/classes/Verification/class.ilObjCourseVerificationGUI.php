@@ -12,7 +12,7 @@ use ILIAS\DI\Container;
 class ilObjCourseVerificationGUI extends ilObject2GUI
 {
     private Container $dic;
-    private ilErrorHandling $error;
+    protected ilErrorHandling $error;
 
     protected ilTabsGUI $tabs;
 

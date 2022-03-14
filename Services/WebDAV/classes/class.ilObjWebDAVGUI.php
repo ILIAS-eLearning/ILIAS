@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * @author       Lukas Zehnder <lz@studer-raimann.ch>
  *
@@ -24,7 +37,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
     }
     
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -34,7 +47,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
         if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
             $this->error_handling->raiseError(
                 $this->lng->txt('no_permission'),
-                $this->error_handling->error_obj->MESSAGE
+                $this->error_handling->MESSAGE
             );
         }
 
@@ -53,13 +66,11 @@ class ilObjWebDAVGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
     
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 'webdav_general_settings',
                 $this->lng->txt("webdav_general_settings"),
@@ -73,7 +84,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
         }
     }
     
-    public function setTitleAndDescription()
+    public function setTitleAndDescription() : void
     {
         parent::setTitleAndDescription();
         $this->tpl->setDescription($this->object->getDescription());
@@ -106,7 +117,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateTab('webdav_general_settings');
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error_handling->raiseError(
                 $this->lng->txt("no_permission"),
                 $this->error_handling->WARNING
@@ -120,7 +131,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
     
     public function saveSettings() : void
     {
-        if (!$this->rbacsystem->checkAccess("write", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $this->ctrl->redirect($this, self::CMD_EDIT_SETTINGS);
         }

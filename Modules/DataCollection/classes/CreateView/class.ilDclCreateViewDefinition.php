@@ -4,9 +4,7 @@
 
 /**
  * Class ilDclCreateViewDefinition
- *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclCreateViewDefinition extends ilPageObject
@@ -22,7 +20,6 @@ class ilDclCreateViewDefinition extends ilPageObject
      */
     protected static $record_view_cache = array();
 
-
     /**
      * Get parent type
      * @return string parent type
@@ -32,14 +29,11 @@ class ilDclCreateViewDefinition extends ilPageObject
         return self::PARENT_TYPE;
     }
 
-
     /**
      * Get all placeholders for table id
-     *
      * @return array
      * @internal param int $a_table_id
      * @internal param bool $a_verbose
-     *
      */
     public function getAvailablePlaceholders()
     {
@@ -70,12 +64,10 @@ class ilDclCreateViewDefinition extends ilPageObject
         return $all;
     }
 
-
     public static function exists($id)
     {
         return parent::_exists(self::PARENT_TYPE, $id);
     }
-
 
     public static function isActive($id)
     {

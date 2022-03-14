@@ -3,10 +3,8 @@
 
 /**
  * Class ilOrgUnitExportGUI
- *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilOrgUnitExportGUI extends ilExportGUI
 {
@@ -27,7 +25,6 @@ class ilOrgUnitExportGUI extends ilExportGUI
      * @var ilObjOrgUnit
      */
     protected $ilObjOrgUnit;
-
 
     /**
      * @param ilObjOrgUnitGUI $a_parent_gui
@@ -53,7 +50,6 @@ class ilOrgUnitExportGUI extends ilExportGUI
         }
     }
 
-
     public function listExportFiles() : void
     {
         if ($this->ilObjOrgUnit->getRefId() != ilObjOrgUnit::getRootOrgRefId()) {
@@ -61,20 +57,18 @@ class ilOrgUnitExportGUI extends ilExportGUI
         }
     }
 
-
     private function extendExportGUI()
     {
         $this->toolbar->addButton($this->lng->txt("simple_xml"), $this->ctrl->getLinkTarget($this, "simpleExport"));
-        $this->toolbar->addButton($this->lng->txt("simple_xls"), $this->ctrl->getLinkTarget($this, "simpleExportExcel"));
+        $this->toolbar->addButton($this->lng->txt("simple_xls"),
+            $this->ctrl->getLinkTarget($this, "simpleExportExcel"));
     }
-
 
     public function simpleExport()
     {
         $ilOrgUnitExporter = new ilOrgUnitExporter();
         $ilOrgUnitExporter->sendAndCreateSimpleExportFile();
     }
-
 
     public function simpleExportExcel()
     {

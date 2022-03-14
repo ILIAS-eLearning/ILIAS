@@ -18,14 +18,9 @@
  * Connector for course member ressource
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCourseMemberConnector extends ilECSConnector
 {
-    /**
-     * Constructor
-     * @param ilECSSetting $settings
-     */
     public function __construct(ilECSSetting $settings = null)
     {
         parent::__construct($settings);
@@ -36,7 +31,7 @@ class ilECSCourseMemberConnector extends ilECSConnector
      * Get single directory tree
      * @return array an array of ecs cms directory tree entries
      */
-    public function getCourseMember($course_member_id, $a_details = false)
+    public function getCourseMember($course_member_id, bool $a_details = false)
     {
         $this->path_postfix = '/campusconnect/course_members/' . (int) $course_member_id;
         

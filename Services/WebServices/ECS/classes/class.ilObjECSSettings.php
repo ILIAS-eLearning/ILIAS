@@ -15,23 +15,17 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilObjECSSettings extends ilObject
 {
 
     /**
     * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
+    * @param	$a_id int reference_id or object_id
+    * @param	$a_call_by_reference bool treat the id as reference_id (true) or object_id (false)
     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "ecss";
         parent::__construct($a_id, $a_call_by_reference);

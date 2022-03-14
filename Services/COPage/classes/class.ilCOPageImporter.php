@@ -109,11 +109,11 @@ class ilCOPageImporter extends ilXmlImporter
                             $new_page->setActive(true);
                             // array_key_exists does NOT work on simplexml!
                             if (isset($page_data["Active"])) {
-                                $new_page->setActive($page_data["Active"]);
+                                $new_page->setActive((string) $page_data["Active"]);
                             }
                             $new_page->setActivationStart($page_data["ActivationStart"]);
                             $new_page->setActivationEnd($page_data["ActivationEnd"]);
-                            $new_page->setShowActivationInfo($page_data["ShowActivationInfo"]);
+                            $new_page->setShowActivationInfo((string) $page_data["ShowActivationInfo"]);
                             $new_page->createFromXML();
                             $this->extractPluginProperties($new_page);
                         }

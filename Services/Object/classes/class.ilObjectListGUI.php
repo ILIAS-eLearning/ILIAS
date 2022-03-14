@@ -2130,7 +2130,7 @@ class ilObjectListGUI
             $this->ctrl->setParameter(
                 $this->container_obj,
                 "ref_id",
-                $this->container_obj->object->getRefId()
+                $this->container_obj->getObject()->getRefId()
             );
             $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
             $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "delete");
@@ -2182,7 +2182,7 @@ class ilObjectListGUI
         $this->ctrl->setParameter(
             $this->container_obj,
             "ref_id",
-            $this->container_obj->object->getRefId()
+            $this->container_obj->getObject()->getRefId()
         );
         $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
         $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "link");
@@ -2224,11 +2224,11 @@ class ilObjectListGUI
         // if the permission is changed here, it  has
         // also to be changed in ilContainerContentGUI, determineAdminCommands
         if ($this->checkCommandAccess('delete', '', $this->ref_id, $this->type) &&
-            $this->container_obj->object) {
+            $this->container_obj->getObject()) {
             $this->ctrl->setParameter(
                 $this->container_obj,
                 "ref_id",
-                $this->container_obj->object->getRefId()
+                $this->container_obj->getObject()->getRefId()
             );
             $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
             
@@ -2277,7 +2277,7 @@ class ilObjectListGUI
                 $this->ctrl->setParameter(
                     $this->container_obj,
                     "ref_id",
-                    $this->container_obj->object->getRefId()
+                    $this->container_obj->getObject()->getRefId()
                 );
                 $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
                 
@@ -2342,9 +2342,9 @@ class ilObjectListGUI
         // note: the setting disable_my_offers is used for
         // presenting the favourites in the main section of the dashboard
         // see also bug #32014
-        //if ((int) $ilSetting->get('disable_my_offers')) {
-        //    return;
-        //}
+        if (!(bool) $ilSetting->get('rep_favourites', "0")) {
+            return;
+        }
         
         $type = ilObject::_lookupType(ilObject::_lookupObjId($this->getCommandId()));
 
@@ -2352,8 +2352,9 @@ class ilObjectListGUI
             // #17467 - add ref_id to link (in repository only!)
             if (is_object($this->container_obj) &&
                 !($this->container_obj instanceof ilAdministrationCommandHandling) &&
-                isset($this->container_obj->object)) {
-                $this->ctrl->setParameter($this->container_obj, "ref_id", $this->container_obj->object->getRefId());
+                method_exists($this->container_obj, "getObject") &&
+                is_object($this->container_obj->getObject())) {
+                $this->ctrl->setParameter($this->container_obj, "ref_id", $this->container_obj->getObject()->getRefId());
             }
 
             if (!$this->fav_manager->ifIsFavourite($ilUser->getId(), $this->getCommandId())) {
@@ -2477,12 +2478,16 @@ class ilObjectListGUI
     */
     public function insertTimingsCommand()
     {
-        if ($this->std_cmd_only || !(isset($this->container_obj->object))) {
+        if (
+            $this->std_cmd_only ||
+            !method_exists($this->container_obj, "getObject") ||
+            !is_object($this->container_obj->getObject())
+        ) {
             return;
         }
         
-        $parent_ref_id = $this->container_obj->object->getRefId();
-        $parent_type = $this->container_obj->object->getType();
+        $parent_ref_id = $this->container_obj->getObject()->getRefId();
+        $parent_type = $this->container_obj->getObject()->getType();
         
         // #18737
         if ($this->reference_ref_id) {

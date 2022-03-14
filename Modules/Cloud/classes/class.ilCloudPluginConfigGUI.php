@@ -1,73 +1,51 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Component/classes/class.ilPluginConfigGUI.php");
-include_once("class.ilCloudPluginConfig.php");
+require_once("./Services/Component/classes/class.ilPluginConfigGUI.php");
+require_once("class.ilCloudPluginConfig.php");
 
 /**
  * Class ilCloudPluginConfigGUI
- *
  * GUI class for the administration settings. Plugin classes can extend this method and override getFields to declare
  * the fields needed for the input of the settings.
- *
  * public function getFields()
  * {
  *  return array(
  *   "app_name"               => array("type" => "ilTextInputGUI", "info" => "config_info_app_name", "subelements" => null),
  *  );
  * }
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id$
  * @extends ilPluginConfigGUI
  * @ingroup ModulesCloud
  */
 abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
 {
+    protected ilCloudPluginConfig $object;
+    protected array $fields = array();
 
-    /**
-     * @var ilCloudPluginConfig
-     */
-    protected $object;
-    /**
-     * @var array
-     */
-    protected $fields = array();
-
-
-    /**
-     * @return array
-     */
-    public function getFields()
+    public function getFields() : ?array
     {
         return null;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getTableName()
+    public function getTableName() : string
     {
         return $this->getPluginObject()->getPluginConfigTableName();
     }
 
-
-    /**
-     * @return ilCloudPluginConfig
-     */
-    public function getObject()
+    public function getObject() : ilCloudPluginConfig
     {
         return $this->object;
     }
 
-
     /**
      * Handles all commmands, default is "configure"
      */
-    public function performCommand($cmd)
+    public function performCommand(string $cmd) : void
     {
-        include_once("class.ilCloudPluginConfig.php");
+        require_once("class.ilCloudPluginConfig.php");
         $this->object = new ilCloudPluginConfig($this->getTableName());
         $this->fields = $this->getFields();
         switch ($cmd) {
@@ -78,11 +56,7 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         }
     }
 
-
-    /**
-     * Configure screen
-     */
-    public function configure()
+    public function configure() : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -92,8 +66,7 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-
-    public function getValues()
+    public function getValues() : array
     {
         foreach ($this->fields as $key => $item) {
             $values[$key] = $this->object->getValue($key);
@@ -107,17 +80,13 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         $this->form->setValuesByArray($values);
     }
 
-
-    /**
-     * @return ilPropertyFormGUI
-     */
-    public function initConfigurationForm()
+    public function initConfigurationForm() : ilPropertyFormGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         foreach ($this->fields as $key => $item) {
@@ -125,7 +94,8 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
             $field->setInfo($this->plugin_object->txt($item["info"]));
             if (is_array($item["subelements"])) {
                 foreach ($item["subelements"] as $subkey => $subitem) {
-                    $subfield = new $subitem["type"]($this->plugin_object->txt($key . "_" . $subkey), $key . "_" . $subkey);
+                    $subfield = new $subitem["type"]($this->plugin_object->txt($key . "_" . $subkey),
+                        $key . "_" . $subkey);
                     $subfield->setInfo($this->plugin_object->txt($subitem["info"]));
                     $field->addSubItem($subfield);
                 }
@@ -142,8 +112,7 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         return $this->form;
     }
 
-
-    public function save()
+    public function save() : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];

@@ -1498,7 +1498,7 @@ abstract class assQuestionGUI
         $this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
         $cont_obj_gui = new ilObjContentObjectGUI('', $_GET['source_id'], true);
-        $cont_obj = $cont_obj_gui->object;
+        $cont_obj = $cont_obj_gui->getObject();
         $pages = ilLMPageObject::getPageList($cont_obj->getId());
         $shownpages = array();
         $tree = $cont_obj->getLMTree();
@@ -1552,7 +1552,7 @@ abstract class assQuestionGUI
         $this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
         $cont_obj_gui = new ilObjContentObjectGUI('', $_GET['source_id'], true);
-        $cont_obj = $cont_obj_gui->object;
+        $cont_obj = $cont_obj_gui->getObject();
         $ctree = $cont_obj->getLMTree();
         $nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
 

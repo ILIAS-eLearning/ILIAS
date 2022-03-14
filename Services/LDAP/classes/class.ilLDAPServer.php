@@ -37,6 +37,8 @@ class ilLDAPServer
 
     private int $server_id;
     private array $fallback_urls = array();
+    private string $url = '';
+    private string $url_string = '';
 
     private bool $enabled_authentication = true;
     private int $authentication_mapping = 0;
@@ -153,7 +155,7 @@ class ilLDAPServer
     /**
      * Check whether there if there is an active server with option role_sync_active
      */
-    public static function _getRoleSyncServerIds()
+    public static function _getRoleSyncServerIds() : array
     {
         global $DIC;
 
@@ -266,7 +268,7 @@ class ilLDAPServer
     }
 
 
-    public static function getAvailableDataSources(int $a_auth_mode)
+    public static function getAvailableDataSources(int $a_auth_mode) : array
     {
         global $DIC;
 
@@ -288,10 +290,8 @@ class ilLDAPServer
 
     /**
      * Check if a data source is active for a specific auth mode
-     * @param int $a_auth_mode
-     * @return bool
      */
-    public static function isDataSourceActive($a_auth_mode)
+    public static function isDataSourceActive(int $a_auth_mode) : bool
     {
         global $DIC;
 
@@ -307,7 +307,7 @@ class ilLDAPServer
         return false;
     }
 
-    public static function getDataSource($a_auth_mode)
+    public static function getDataSource(int $a_auth_mode) : int
     {
         global $DIC;
 
@@ -325,7 +325,7 @@ class ilLDAPServer
     /**
      * Disable data source
      */
-    public static function disableDataSourceForAuthMode($a_authmode)
+    public static function disableDataSourceForAuthMode(int $a_authmode) : bool
     {
         global $DIC;
 
@@ -343,10 +343,8 @@ class ilLDAPServer
     /**
      * Toggle Data Source
      * @todo handle multiple ldap servers
-     * @param int $a_auth_mode
-     * @param int $a_status
      */
-    public static function toggleDataSource($a_ldap_server_id, $a_auth_mode, $a_status)
+    public static function toggleDataSource(int $a_ldap_server_id, int $a_auth_mode, int $a_status) : bool
     {
         global $DIC;
 
@@ -393,9 +391,8 @@ class ilLDAPServer
     
     /**
      * get auth mode by key
-     * @param type $a_auth_key
      */
-    public static function getAuthModeByKey($a_auth_key)
+    public static function getAuthModeByKey(string $a_auth_key) : string
     {
         $auth_arr = explode('_', $a_auth_key);
         if (count((array) $auth_arr) > 1) {
@@ -406,10 +403,9 @@ class ilLDAPServer
     
     /**
      * Get auth id by auth mode
-     * @param string $a_auth_mode
-     * @return int auth_mode
+     * @return int|string auth_mode
      */
-    public static function getKeyByAuthMode($a_auth_mode)
+    public static function getKeyByAuthMode(string $a_auth_mode)
     {
         $auth_arr = explode('_', $a_auth_mode);
         if (count((array) $auth_arr) > 1) {
@@ -417,47 +413,41 @@ class ilLDAPServer
         }
         return ilAuthUtils::AUTH_LDAP;
     }
-
-    // end-patch ldap_multiple
     
     // Set/Get
-    public function getServerId()
+    public function getServerId() : int
     {
         return $this->server_id;
     }
 
     /**
      * Enable authentication for this ldap server
-     * @param bool $a_status
      */
-    public function enableAuthentication($a_status)
+    public function enableAuthentication(bool $a_status) : void
     {
-        $this->enabled_authentication = (bool) $a_status;
+        $this->enabled_authentication = $a_status;
     }
 
     /**
      * Check if authentication is enabled
-     * @return bool
      */
-    public function isAuthenticationEnabled()
+    public function isAuthenticationEnabled() : bool
     {
-        return (bool) $this->enabled_authentication;
+        return $this->enabled_authentication;
     }
 
     /**
      * Set mapped authentication mapping
-     * @param int $a_map
      */
-    public function setAuthenticationMapping($a_map)
+    public function setAuthenticationMapping(int $a_map) : void
     {
         $this->authentication_mapping = $a_map;
     }
 
     /**
      * Get authentication mode that is mapped
-     * @return int
      */
-    public function getAuthenticationMapping()
+    public function getAuthenticationMapping() : int
     {
         return $this->authentication_mapping;
     }
@@ -474,19 +464,19 @@ class ilLDAPServer
         return ilAuthUtils::_getAuthModeName($this->getAuthenticationMapping());
     }
 
-    public function toggleActive($a_status)
+    public function toggleActive(bool $a_status) : void
     {
         $this->active = $a_status;
     }
-    public function isActive()
+    public function isActive() : bool
     {
         return $this->active;
     }
-    public function getUrl()
+    public function getUrl() : string
     {
         return $this->url;
     }
-    public function setUrl($a_url)
+    public function setUrl($a_url) : void
     {
         $this->url_string = $a_url;
         
@@ -503,7 +493,7 @@ class ilLDAPServer
             }
         }
     }
-    public function getUrlString()
+    public function getUrlString() : string
     {
         return $this->url_string;
     }
@@ -515,7 +505,7 @@ class ilLDAPServer
      * @access public
      *
      */
-    public function doConnectionCheck()
+    public function doConnectionCheck() : bool
     {
         foreach (array_merge(array(0 => $this->url), $this->fallback_urls) as $url) {
             try {
@@ -816,10 +806,8 @@ class ilLDAPServer
     
     /**
      * Validate user input
-     * @param
-     * @return boolean
      */
-    public function validate()
+    public function validate() : bool
     {
         $this->ilErr->setMessage('');
         if (!strlen($this->getName()) ||
@@ -844,7 +832,7 @@ class ilLDAPServer
         return strlen($this->ilErr->getMessage()) ? false : true;
     }
     
-    public function create()
+    public function create() : int
     {
         $next_id = $this->db->nextId('ldap_server_settings');
         
@@ -901,7 +889,7 @@ class ilLDAPServer
         return $next_id;
     }
     
-    public function update()
+    public function update() : bool
     {
         $query = "UPDATE ldap_server_settings SET " .
             "active = " . $this->db->quote($this->isActive(), 'integer') . ", " .
@@ -946,10 +934,11 @@ class ilLDAPServer
     /**
      *  delete
      */
-    public function delete()
+    public function delete() : void
     {
         if (!$this->getServerId()) {
-            return false;
+            //TODO check if we need return false
+            return;
         }
         
         ilLDAPAttributeMapping::_delete($this->getServerId());
@@ -973,7 +962,7 @@ class ilLDAPServer
      *
      * @return array auth settings
      */
-    public function toPearAuthArray()
+    public function toPearAuthArray() : array
     {
         $options = array(
             'url' => $this->getUrl(),
@@ -1029,12 +1018,8 @@ class ilLDAPServer
     
     /**
      * Create brackets for filters if they do not exist
-     *
-     * @access private
-     * @param string filter
-     *
      */
-    private function prepareFilter($a_filter)
+    private function prepareFilter(string $a_filter) : string
     {
         $filter = trim($a_filter);
         
@@ -1053,12 +1038,8 @@ class ilLDAPServer
     
     /**
      * Get attribute array for pear auth data
-     *
-     * @access private
-     * @param
-     *
      */
-    private function getPearAtributeArray()
+    private function getPearAtributeArray() : array
     {
         if ($this->enabledSyncOnLogin()) {
             $mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->getServerId());
@@ -1107,17 +1088,17 @@ class ilLDAPServer
             $this->setGroupFilter($row->group_filter);
             $this->setGroupMember($row->group_member);
             $this->setGroupAttribute($row->group_attribute);
-            $this->toggleMembershipOptional($row->group_optional);
+            $this->toggleMembershipOptional((bool) $row->group_optional);
             $this->setGroupUserFilter($row->group_user_filter);
-            $this->enableGroupMemberIsDN($row->group_memberisdn);
+            $this->enableGroupMemberIsDN((bool) $row->group_memberisdn);
             $this->setGroupName($row->group_name);
-            $this->enableSyncOnLogin($row->sync_on_login);
-            $this->enableSyncPerCron($row->sync_per_cron);
+            $this->enableSyncOnLogin((bool) $row->sync_on_login);
+            $this->enableSyncPerCron((bool) $row->sync_per_cron);
             $this->enableRoleSynchronization((bool) $row->role_sync_active);
             $this->setRoleBindDN($row->role_bind_dn);
             $this->setRoleBindPassword($row->role_bind_pass);
-            $this->enableAccountMigration($row->migration);
-            $this->enableAuthentication($row->authentication);
+            $this->enableAccountMigration((bool) $row->migration);
+            $this->enableAuthentication((bool) $row->authentication);
             $this->setAuthenticationMapping((int) $row->authentication_type);
             $this->setUsernameFilter($row->username_filter);
             $this->enableEscapeDN((bool) $row->escape_dn);

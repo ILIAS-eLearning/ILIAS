@@ -65,7 +65,10 @@ class ilPlayerUtil
     
     public static function getJsFilePaths() : array
     {
-        return array(self::getLocalMediaElementJsPath());
+        return array(
+            self::getLocalMediaElementJsPath(),
+            "./Services/MediaObjects/js/MediaElementHelper.js"
+        );
     }
     
     public static function getFlashVideoPlayerDirectory() : string

@@ -306,7 +306,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 
     protected function getDefaultRole() : ?int
     {
-        return $this->getParentGUI()->object->getDefaultMemberRole();
+        return $this->getParentGUI()->getObject()->getDefaultMemberRole();
     }
 
     protected function deliverCertificate() : void

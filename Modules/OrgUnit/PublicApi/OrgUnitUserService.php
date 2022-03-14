@@ -1,4 +1,5 @@
 <?php
+
 namespace OrgUnit\PublicApi;
 
 use OrgUnit\User\ilOrgUnitUser;
@@ -10,12 +11,10 @@ class OrgUnitUserService
     {
     }
 
-
     /**
      * @param array $user_ids
      * @param bool  $with_superios
      * @param bool  $with_positions
-     *
      * @return ilOrgUnitUser[]
      */
     public function getUsers(array $user_ids, $with_superios = false, $with_positions = false)

@@ -2,14 +2,12 @@
 
 /**
  * Class ilOrgUnitPosition
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPosition extends \ActiveRecord
 {
     const CORE_POSITION_EMPLOYEE = 1;
     const CORE_POSITION_SUPERIOR = 2;
-
 
     /**
      * @return string
@@ -19,10 +17,8 @@ class ilOrgUnitPosition extends \ActiveRecord
         return "il_orgu_positions";
     }
 
-
     /**
      * Override for correct on return value
-     *
      * @return \ilOrgUnitPosition[]
      */
     public static function get() : array
@@ -31,10 +27,8 @@ class ilOrgUnitPosition extends \ActiveRecord
         return parent::get();
     }
 
-
     /**
      * @param $core_identifier
-     *
      * @return \ilOrgUnitPosition
      */
     public static function getCorePosition($core_identifier)
@@ -43,17 +37,14 @@ class ilOrgUnitPosition extends \ActiveRecord
         return ilOrgUnitPosition::where(['core_identifier' => $core_identifier])->first();
     }
 
-
     /**
      * @param $core_identifier
-     *
      * @return int
      */
     public static function getCorePositionId($core_identifier)
     {
         return self::getCorePosition($core_identifier)->getId();
     }
-
 
     /**
      * @throws \ilException whenever you try to delete a core-position like employee or superior
@@ -65,7 +56,6 @@ class ilOrgUnitPosition extends \ActiveRecord
         }
         parent::delete();
     }
-
 
     /**
      * @return \ilOrgUnitPosition[] array of Positions (all core-positions and all positions which
@@ -93,10 +83,8 @@ class ilOrgUnitPosition extends \ActiveRecord
         return $positions;
     }
 
-
     /**
      * @param int $orgu_ref_id
-     *
      * @return \ilOrgUnitPosition[] array of Positions (all core-positions and all positions which
      *                              have already UserAssignments at this place)
      */
@@ -122,10 +110,8 @@ class ilOrgUnitPosition extends \ActiveRecord
         return $positions;
     }
 
-
     /**
      * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_sequence   true
@@ -136,7 +122,6 @@ class ilOrgUnitPosition extends \ActiveRecord
     protected $id = 0;
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     512
@@ -144,7 +129,6 @@ class ilOrgUnitPosition extends \ActiveRecord
     protected $title = "";
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     4000
@@ -152,7 +136,6 @@ class ilOrgUnitPosition extends \ActiveRecord
     protected $description = "";
     /**
      * @var bool
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
@@ -160,7 +143,6 @@ class ilOrgUnitPosition extends \ActiveRecord
     protected $core_position = false;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
@@ -171,13 +153,11 @@ class ilOrgUnitPosition extends \ActiveRecord
      */
     protected $authorities = array();
 
-
     public function afterObjectLoad() : void
     {
         $this->authorities = ilOrgUnitAuthority::where(array(ilOrgUnitAuthority::POSITION_ID => $this->getId()))
-            ->get();
+                                               ->get();
     }
-
 
     public function update()
     {
@@ -185,13 +165,11 @@ class ilOrgUnitPosition extends \ActiveRecord
         $this->storeAuthorities();
     }
 
-
     public function create() : void
     {
         parent::create();
         $this->storeAuthorities();
     }
-
 
     /**
      * @return array
@@ -206,7 +184,6 @@ class ilOrgUnitPosition extends \ActiveRecord
         return $return;
     }
 
-
     /**
      * @return string
      */
@@ -215,20 +192,18 @@ class ilOrgUnitPosition extends \ActiveRecord
         return $this->getTitle();
     }
 
-
     /**
      * @return array  it's own authorities and also all which use this position
      */
     public function getDependentAuthorities()
     {
         $dependent = ilOrgUnitAuthority::where(array(ilOrgUnitAuthority::FIELD_OVER => $this->getId()))
-            ->get();
+                                       ->get();
 
         $arr = $dependent + $this->authorities;
 
         return (array) $arr;
     }
-
 
     /**
      * This deletes the Position, it's Authorities, dependent Authorities and all User-Assignements!
@@ -246,7 +221,6 @@ class ilOrgUnitPosition extends \ActiveRecord
         parent::delete();
     }
 
-
     /**
      * @return int
      */
@@ -254,7 +228,6 @@ class ilOrgUnitPosition extends \ActiveRecord
     {
         return $this->id;
     }
-
 
     /**
      * @param int $id
@@ -264,7 +237,6 @@ class ilOrgUnitPosition extends \ActiveRecord
         $this->id = $id;
     }
 
-
     /**
      * @return string
      */
@@ -272,7 +244,6 @@ class ilOrgUnitPosition extends \ActiveRecord
     {
         return $this->title;
     }
-
 
     /**
      * @param string $title
@@ -282,7 +253,6 @@ class ilOrgUnitPosition extends \ActiveRecord
         $this->title = $title;
     }
 
-
     /**
      * @return string
      */
@@ -290,7 +260,6 @@ class ilOrgUnitPosition extends \ActiveRecord
     {
         return $this->description;
     }
-
 
     /**
      * @param string $description
@@ -300,7 +269,6 @@ class ilOrgUnitPosition extends \ActiveRecord
         $this->description = $description;
     }
 
-
     /**
      * @return bool
      */
@@ -308,7 +276,6 @@ class ilOrgUnitPosition extends \ActiveRecord
     {
         return $this->core_position;
     }
-
 
     /**
      * @param bool $core_position
@@ -318,7 +285,6 @@ class ilOrgUnitPosition extends \ActiveRecord
         $this->core_position = $core_position;
     }
 
-
     /**
      * @return \ilOrgUnitAuthority[]
      */
@@ -326,7 +292,6 @@ class ilOrgUnitPosition extends \ActiveRecord
     {
         return $this->authorities;
     }
-
 
     /**
      * @param \ilOrgUnitAuthority[] $authorities
@@ -336,7 +301,6 @@ class ilOrgUnitPosition extends \ActiveRecord
         $this->authorities = $authorities;
     }
 
-
     /**
      * @return int
      */
@@ -345,7 +309,6 @@ class ilOrgUnitPosition extends \ActiveRecord
         return $this->core_identifier;
     }
 
-
     /**
      * @param int $core_identifier
      */
@@ -353,7 +316,6 @@ class ilOrgUnitPosition extends \ActiveRecord
     {
         $this->core_identifier = $core_identifier;
     }
-
 
     private function storeAuthorities()
     {

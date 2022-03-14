@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclRatingFieldModel
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,10 +10,8 @@ class ilDclRatingFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @param string  $direction
      * @param boolean $sort_by_status The specific sort object is a status field
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
@@ -31,12 +28,9 @@ class ilDclRatingFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @param string $filter_value
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)

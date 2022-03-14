@@ -19,9 +19,6 @@
 * This class contains mainly helper functions to work with exported objects.
 *
 * @author Per Pascal Seeland<pascal.seeland@tik.uni-stuttgart.de>
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSExportManager
 {
@@ -29,13 +26,6 @@ class ilECSExportManager
 
     private static ilECSExportManager $instance;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
     private function __construct()
     {
         global $DIC;
@@ -45,7 +35,6 @@ class ilECSExportManager
 
     /**
      * Get the singelton instance of this ilECSExportManager
-     * @return ilECSExportManager
      */
     public static function getInstance() : ilECSExportManager
     {
@@ -57,10 +46,8 @@ class ilECSExportManager
 
     /**
      * Check if object is exported
-     * @param int $a_obj_id
-     * @return bool
      */
-    public function _isExported($a_obj_id)
+    public function _isExported(int $a_obj_id) : bool
     {
         $query = 'SELECT * FROM ecs_export ' .
             'WHERE obj_id = ' . $this->db->quote($a_obj_id, 'integer');
@@ -74,12 +61,8 @@ class ilECSExportManager
 
     /**
      * get all exported econtent ids per server
-     *
-     * @access public
-     * @static
-     *
      */
-    public function _getAllEContentIds($a_server_id)
+    public function _getAllEContentIds(int $a_server_id) : array
     {
         $econtent_ids = array();
         $query = "SELECT econtent_id,obj_id FROM ecs_export " .
@@ -94,10 +77,8 @@ class ilECSExportManager
 
     /**
      * Get exported ids
-     * @global ilDB $ilDB
-     * @return array
      */
-    public function getExportedIds()
+    public function getExportedIds() : array
     {
         $query = "SELECT obj_id FROM ecs_export ";
         $res = $this->db->query($query);
@@ -110,10 +91,8 @@ class ilECSExportManager
 
     /**
      * Get exported ids by type
-     * @global ilDB $ilDB
-     * @return array
      */
-    public function getExportedIdsByType($a_type)
+    public function getExportedIdsByType(string $a_type) : array
     {
         $obj_ids = array();
         $query = "SELECT e.obj_id FROM ecs_export e" .
@@ -128,11 +107,8 @@ class ilECSExportManager
 
     /**
      * lookup server ids of exported materials
-     * @global ilDB $ilDB
-     * @param int $a_obj_id
-     * @return array
      */
-    public function getExportServerIds($a_obj_id)
+    public function getExportServerIds(int $a_obj_id) : array
     {
         $query = 'SELECT * FROM ecs_export ' .
             'WHERE obj_id = ' . $this->db->quote($a_obj_id, 'integer');
@@ -147,29 +123,23 @@ class ilECSExportManager
 
     /**
      * get exported ids for server
-     *
-     * @access public
-     * @return
-     * @static
      */
-    public function _getExportedIDsByServer($a_server_id)
+    public function _getExportedIDsByServer(int $a_server_id) : array
     {
         $query = "SELECT obj_id FROM ecs_export " .
             'WHERE server_id = ' . $this->db->quote($a_server_id, 'integer');
         $res = $this->db->query($query);
+        $obj_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $obj_ids[] = $row->obj_id;
         }
-        return $obj_ids ? $obj_ids : array();
+        return $obj_ids;
     }
 
     /**
      * Lookup server ids of exported objects
-     * @global ilDB $ilDB
-     * @param <type> $a_obj_id
-     * @return <type>
      */
-    public function lookupServerIds($a_obj_id)
+    public function lookupServerIds(int $a_obj_id) : array
     {
         $query = 'SELECT * FROM ecs_export ' .
             'WHERE obj_id = ' . $this->db->quote($a_obj_id, 'integer') . ' ';
@@ -184,17 +154,14 @@ class ilECSExportManager
     /**
      * Delete econtent ids for server
      *
-     * @access public
-     * @static
-     *
-     * @param array array of econtent ids
+     * @param int $a_server_id id of the server
+     * @param int[] $a_ids array of econtent ids
      */
-    public function _deleteEContentIds($a_server_id, $a_ids)
+    public function _deleteEContentIds(int $a_server_id, array $a_ids) : bool
     {
         if (!is_array($a_ids) or !count($a_ids)) {
             return true;
         }
-        #$query = "DELETE FROM ecs_export WHERE econtent_id IN (".implode(',',ilUtil::quoteArray($a_ids)).')';
         $query = "DELETE FROM ecs_export WHERE " . $this->db->in('econtent_id', $a_ids, false, 'integer') . ' ' .
             'AND server_id = ' . $this->db->quote($a_server_id, 'integer');
         $this->db->manipulate($query);
@@ -203,10 +170,8 @@ class ilECSExportManager
 
     /**
      * Delete by server id
-     * @global ilDB $ilDB
-     * @param int $a_server_id
      */
-    public function deleteByServer($a_server_id)
+    public function deleteByServer(int $a_server_id) : void
     {
         $query = 'DELETE FROM ecs_export ' .
             'WHERE server_id = ' . $this->db->quote($a_server_id, 'integer');
@@ -215,13 +180,8 @@ class ilECSExportManager
 
     /**
      * is remote object
-     *
-     * @access public
-     * @static
-     *
-     * @param int econtent_id
      */
-    public function _isRemote($a_server_id, $a_econtent_id)
+    public function _isRemote(int $a_server_id, int $a_econtent_id) : bool
     {
         $query = "SELECT obj_id FROM ecs_export " .
             "WHERE econtent_id = " . $this->db->quote($a_econtent_id, 'integer') . " " .

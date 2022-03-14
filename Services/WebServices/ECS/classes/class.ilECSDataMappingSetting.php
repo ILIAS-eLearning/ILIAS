@@ -15,12 +15,7 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSDataMappingSetting
 {
@@ -35,12 +30,6 @@ class ilECSDataMappingSetting
     private $ecs_field = 0;
     private $advmd_id = 0;
 
-
-    /**
-     * constructor
-     * @access public
-     *
-     */
     public function __construct($a_server_id = 0, $mapping_type = 0, $ecs_field = '')
     {
         global $DIC;

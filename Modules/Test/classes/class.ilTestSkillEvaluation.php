@@ -342,6 +342,9 @@ class ilTestSkillEvaluation
                 ilPersonalSkill::addPersonalSkill($this->getUserId(), $reachedSkillLevel['sklBaseId']);
             }
         }
+        //write profile completion entries if fulfilment status has changed
+        $prof_manager = new ilSkillProfileCompletionManager($this->getUserId());
+        $prof_manager->writeCompletionEntryForAllProfiles();
     }
 
     private function invokeSkillLevelTrigger($skillLevelId, $skillTrefId)
