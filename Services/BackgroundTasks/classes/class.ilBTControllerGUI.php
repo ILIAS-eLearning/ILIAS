@@ -1,7 +1,6 @@
 <?php
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
-use ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
 /******************************************************************************
  *
@@ -24,7 +23,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\DIC;
  */
 class ilBTControllerGUI implements ilCtrlBaseClassInterface
 {
-    use DIC;
     const FROM_URL = 'from_url';
     const OBSERVER_ID = 'observer_id';
     const SELECTED_OPTION = 'selected_option';

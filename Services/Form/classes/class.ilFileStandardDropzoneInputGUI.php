@@ -44,8 +44,6 @@
  */
 class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbarItem
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-
     public const ASYNC_FILEUPLOAD = "async_fileupload";
 
     /**

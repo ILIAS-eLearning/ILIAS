@@ -1,15 +1,11 @@
 <?php
 
-use ILIAS\Modules\OrgUnit\ARHelper\DIC;
-
 /**
  * Class ilMMItemTranslationGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMItemTranslationGUI
 {
-    use DIC;
-    
     const P_TRANSLATIONS = 'translations';
     const P_DELETE = 'delete';
     const CMD_ADD_LANGUAGE = "addLanguages";
