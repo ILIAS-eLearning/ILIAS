@@ -10,7 +10,7 @@ function base()
     $renderer = $DIC->ui()->renderer();
     $dropzone = $factory
         ->dropzone()->file()->wrapper(
-            (new \ilUIAsyncDemoFileUploadHandler()),
+            (new \ilUIAsyncDemoFileUploadHandlerGUI()),
             '#',
             $factory->messageBox()->info('Drag and drop files onto me!')
         )

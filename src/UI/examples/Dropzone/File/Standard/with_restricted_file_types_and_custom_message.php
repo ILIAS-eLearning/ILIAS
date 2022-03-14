@@ -10,7 +10,7 @@ function with_restricted_file_types_and_custom_message()
     $renderer = $DIC->ui()->renderer();
     $dropzone = $factory
         ->dropzone()->file()->standard(
-            (new \ilUIAsyncDemoFileUploadHandler()),
+            (new \ilUIAsyncDemoFileUploadHandlerGUI()),
             '#'
         )
         ->withAcceptedMimeTypes(['application/pdf'])
