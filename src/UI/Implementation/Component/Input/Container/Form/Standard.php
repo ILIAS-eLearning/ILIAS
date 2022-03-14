@@ -17,11 +17,10 @@ class Standard extends Form implements C\Input\Container\Form\Standard
 
     public function __construct(
         Input\Field\Factory $input_factory,
-        Input\NameSource $name_source,
         string $post_url,
         array $inputs
     ) {
-        parent::__construct($input_factory, $name_source, $inputs);
+        parent::__construct($input_factory, $inputs);
         $this->post_url = $post_url;
     }
 

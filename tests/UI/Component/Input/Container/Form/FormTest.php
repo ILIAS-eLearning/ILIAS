@@ -35,10 +35,10 @@ class ConcreteForm extends Form
     protected Group $input_group;
     protected array $inputs;
 
-    public function __construct(Input\Field\Factory $field_factory, NameSource $name_source, array $inputs)
+    public function __construct(Input\Field\Factory $field_factory, array $inputs)
     {
         $this->input_factory = $field_factory;
-        parent::__construct($field_factory, $name_source, $inputs);
+        parent::__construct($field_factory, $inputs);
     }
 
     public function _extractPostData(ServerRequestInterface $request) : Input\InputData
@@ -122,7 +122,7 @@ class FormTest extends ILIAS_UI_TestBase
         $name_source = new FixedNameSource();
 
         $inputs = [$if->text(""), $if->text("")];
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), $inputs);
+        $form = new ConcreteForm($this->buildInputFactory(), $inputs);
 
         $seen_names = [];
         $form_inputs = $form->getInputs();
@@ -147,7 +147,7 @@ class FormTest extends ILIAS_UI_TestBase
 
     public function test_extractPostData() : void
     {
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), []);
         $request = $this->createMock(ServerRequestInterface::class);
         $request
             ->expects($this->once())
@@ -185,7 +185,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("getContent")
             ->willReturn($df->ok(0));
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), []);
         $form->setInputs([$input_1, $input_2]);
         $form->input_data = $input_data;
 
@@ -224,7 +224,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("getContent")
             ->willReturn($df->ok(0));
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), []);
         $form->setInputs(["foo" => $input_1, "bar" => $input_2]);
         $form->input_data = $input_data;
 
@@ -264,7 +264,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("withInput")
             ->willReturn($input_2);
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), []);
         $form->setInputs([$input_1, $input_2]);
         $form = $form->withRequest($request);
         $this->assertEquals([1, 2], $form->getData());
@@ -299,7 +299,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("withInput")
             ->willReturn($input_2);
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), []);
         $form->setInputs(["foo" => $input_1, "bar" => $input_2]);
         $form = $form->withRequest($request);
         $this->assertEquals(["foo" => 1, "bar" => 2], $form->getData());
@@ -334,7 +334,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("withInput")
             ->willReturn($input_2);
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), []);
         $form->setInputs(["foo" => $input_1, "bar" => $input_2]);
 
         $i18n = "THERE IS SOME ERROR IN THIS GROUP";
@@ -378,7 +378,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("withInput")
             ->willReturn($input_2);
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), []);
         $form->setInputs([$input_1, $input_2]);
 
         $form2 = $form->withAdditionalTransformation($this->buildTransformation(function () {
@@ -400,7 +400,7 @@ class FormTest extends ILIAS_UI_TestBase
             1 => $if->text(""),
             $if->text(""),
         ];
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), []);
         $form->setInputs($inputs);
         $named_inputs = $form->getInputs();
         $this->assertEquals(array_keys($inputs), array_keys($named_inputs));

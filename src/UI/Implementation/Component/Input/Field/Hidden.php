@@ -12,7 +12,7 @@ use ILIAS\Data\Factory as DataFactory;
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-class Hidden extends Input
+class Hidden extends Input implements \ILIAS\UI\Component\Input\Field\Hidden
 {
     public function __construct(DataFactory $data_factory, Factory $refinery)
     {

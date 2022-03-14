@@ -29,17 +29,15 @@ abstract class Form implements C\Input\Container\Form\Form
      */
     public function __construct(
         Input\Field\Factory $field_factory,
-        Input\NameSource $name_source,
         array $inputs
     ) {
         $classes = [CI\Input\Field\Input::class];
         $this->checkArgListElements("input", $inputs, $classes);
         // TODO: this is a dependency and should be treated as such. `use` statements can be removed then.
 
-        $this->name_source = $name_source;
         $this->input_group = $field_factory->group(
             $inputs
-        )->withNameFrom($this->name_source);
+        )->withNameFrom(new Input\FormInputNameSource());
 
         $this->transformation = null;
     }

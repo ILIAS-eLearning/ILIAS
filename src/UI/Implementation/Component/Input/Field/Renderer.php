@@ -244,7 +244,7 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
 
         if ($component->getValue()) {
-            $tpl->touchBlock("value");
+            $tpl->touchBlock('value');
         }
 
         $this->maybeDisable($component, $tpl);
@@ -883,14 +883,14 @@ class Renderer extends AbstractComponentRenderer
             $dynamic_input_count
         ) {
             return "
-            $(document).ready(function () {
-                il.UI.Input.DynamicInputsRenderer.init(
-                    '$id',
-                    `$dynamic_inputs_template_html`,
-                    $dynamic_input_count
-                );
-            });
-        ";
+                $(document).ready(function () {
+                    il.UI.Input.DynamicInputsRenderer.init(
+                        '$id',
+                        `$dynamic_inputs_template_html`,
+                        $dynamic_input_count
+                    );
+                });
+            ";
         });
     }
 

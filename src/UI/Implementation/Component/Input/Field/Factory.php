@@ -181,4 +181,12 @@ class Factory implements Field\Factory
     {
         return new Link($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function hidden() : Field\Hidden
+    {
+        return new Hidden($this->data_factory, $this->refinery);
+    }
 }

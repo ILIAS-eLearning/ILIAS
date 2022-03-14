@@ -208,7 +208,6 @@ interface Factory
      */
     public function checkbox(string $label, string $byline = null) : Checkbox;
 
-
     /**
      * ---
      * description:
@@ -601,4 +600,24 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\Link
      */
     public function link(string $label, string $byline = null) : Link;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      Hidden inputs are used for transmitting persistent data which the user should not manipulate.
+     *   composition: >
+     *      Hidden inputs consist of a html-input type hidden.
+     *   effect: >
+     *      A hidden input is rendered where developers can set any kind of value that should be transmitted.
+     * context:
+     *   - The Hidden input is used in UI-forms.
+     * rules:
+     *   usage:
+     *      1: >
+     *        Use this input for persistent data which the user should not manipulate.
+     * ---
+     * @return \ILIAS\UI\Component\Input\Field\Hidden
+     */
+    public function hidden() : Hidden;
 }
