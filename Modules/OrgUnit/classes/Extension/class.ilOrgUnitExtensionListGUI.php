@@ -61,7 +61,7 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI
      * @param bool $a_value
      * @return bool
      */
-    public function enableTags(bool $a_value): bool
+    public function enableTags(bool $a_value): void
     {
 
     }
