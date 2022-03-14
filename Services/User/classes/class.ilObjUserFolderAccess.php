@@ -18,15 +18,15 @@
  */
 class ilObjUserFolderAccess extends ilObjectAccess
 {
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
 
-        $a_target = USER_FOLDER_ID;
+        $target = USER_FOLDER_ID;
 
-        if ($ilAccess->checkAccess("read", "", $a_target)) {
+        if ($ilAccess->checkAccess("read", "", $target)) {
             return true;
         }
         return false;

@@ -35,7 +35,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
     protected array $filter;
     protected ilAdvancedMDRecordGUI $record_gui;
     protected bool $active_management;
-    private \ilGlobalTemplateInterface $main_tpl;
+    protected \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor

@@ -41,38 +41,26 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
         return $commands;
     }
 
-    /**
-     * @param string $a_cmd
-     * @param string $a_permission
-     * @param int $a_ref_id
-     * @param int $a_obj_id
-     * @param string $a_user_id
-     * @return bool
-     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
 
-        if ($rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
+        if ($rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
             return true;
         }
 
-        switch ($a_permission) {
+        switch ($permission) {
             case 'visible':
             case 'read':
-                if (!self::isOnline($a_obj_id)) {
+                if (!self::isOnline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_pool_offline"));
                     return false;
                 }

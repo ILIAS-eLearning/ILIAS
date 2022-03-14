@@ -12,15 +12,15 @@ class ilObjSystemFolderAccess extends ilObjectAccess
     /**
      * check whether goto script will succeed
      */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
 
-        $a_target = SYSTEM_FOLDER_ID;
+        $target = SYSTEM_FOLDER_ID;
 
-        if ($ilAccess->checkAccess("read", "", $a_target)) {
+        if ($ilAccess->checkAccess("read", "", $target)) {
             return true;
         }
         return false;

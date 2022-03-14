@@ -20,7 +20,7 @@
  */
 class ilObjMediaPoolAccess extends ilObjectAccess
 {
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "", "lang_var" => "show",
@@ -37,13 +37,13 @@ class ilObjMediaPoolAccess extends ilObjectAccess
     /**
      * check whether goto script will succeed
      */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
 
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
             $ilAccess->checkAccess("visible", "", $t_arr[1])) {

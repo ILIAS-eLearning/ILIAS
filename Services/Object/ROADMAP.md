@@ -17,7 +17,10 @@ The Common Settings subservice has been introduced with ILIAS 5.4 but is far fro
 
 Factories for `ilObj...`, `ilObj...GUI`, `ilObj...ListGUI`, `ilObj...Access` instances should be provided through `$DIC->object()` service object.
 
+### PHP8 Improvements
 
+There are several places in the Object folder where the $_REQUEST variables has to be refactored. 
+Perhaps the $_SESSION variables can be refactored, too.
 ## Long Term
 
 ### Refactor ilObject and related classes

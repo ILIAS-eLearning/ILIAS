@@ -23,15 +23,15 @@ class ilObjCloudAccess extends ilObjectAccess
         return $commands;
     }
 
-    public function _checkAccess(
-        $a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = ""
-    ) : bool {
+
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $rbacsystem = $DIC['rbacsystem'];
         $rbacreview = $DIC['rbacreview'];
 
-        $object = new ilObjCloud($a_ref_id);
+        $object = new ilObjCloud($ref_id);
 
         /**
          * Check if plugin of object is active
@@ -42,24 +42,22 @@ class ilObjCloudAccess extends ilObjectAccess
             return false;
         }
 
-        if ($a_user_id === "") {
-            $a_user_id = $ilUser->getId();
+        if ($user_id == "") {
+            $user_id = $ilUser->getId();
         }
 
         /**
          * Check if authentication is complete. If not, only the owner of the object has access. This prevents the
          * authentication of an account which does not belong to the owner.
          */
-        if (self::checkAuthStatus($a_obj_id) && $a_user_id !== $object->getOwnerId() && !$rbacreview->isAssigned($a_user_id,
-                2) === false) {
+        if (!ilObjCloudAccess::checkAuthStatus($obj_id) && $user_id != $object->getOwnerId() && !$rbacreview->isAssigned($user_id, 2)) {
             return false;
         }
 
-        switch ($a_permission) {
+        switch ($permission) {
             case "visible":
             case "read":
-                if (self::checkOnline($a_obj_id) && !$rbacsystem->checkAccessOfUser($a_user_id, "write",
-                        $a_ref_id) === false) {
+                if (!ilObjCloudAccess::checkOnline($obj_id) && !$rbacsystem->checkAccessOfUser($user_id, "write", $ref_id)) {
                     return false;
                 }
                 break;
@@ -68,12 +66,12 @@ class ilObjCloudAccess extends ilObjectAccess
         return true;
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
 
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($ilAccess->checkAccess("read", "", $t_arr[1])) {
             return true;

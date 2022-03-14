@@ -128,10 +128,10 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
             $tmp_arr['sids'] = ilECSExportManager::getInstance()->lookupServerIds($obj_id);
             $tmp_arr['ref_id'] = $ref_id;
             $tmp_arr['obj_id'] = $obj_id;
-            $tmp_arr['title'] = $this->ilObjDataCache->lookupTitle($obj_id);
-            $tmp_arr['desc'] = $this->ilObjDataCache->lookupDescription($obj_id);
+            $tmp_arr['title'] = $this->ilObjDataCache->lookupTitle((int) $obj_id);
+            $tmp_arr['desc'] = $this->ilObjDataCache->lookupDescription((int) $obj_id);
             $tmp_arr['md'] = '';
-            $tmp_arr['last_update'] = $this->ilObjDataCache->lookupLastUpdate($obj_id);
+            $tmp_arr['last_update'] = $this->ilObjDataCache->lookupLastUpdate((int) $obj_id);
             $content[] = $tmp_arr;
         }
         $this->setData($content);

@@ -1183,8 +1183,8 @@ class ilTree
 
         if ($this->isCacheUsed() && is_array($a_obj_ids) && is_object($ilObjDataCache)) {
             foreach ($a_obj_ids as $id) {
-                $this->translation_cache[$id . '.']['title'] = $ilObjDataCache->lookupTitle($id);
-                $this->translation_cache[$id . '.']['description'] = $ilObjDataCache->lookupDescription($id);
+                $this->translation_cache[$id . '.']['title'] = $ilObjDataCache->lookupTitle((int) $id);
+                $this->translation_cache[$id . '.']['description'] = $ilObjDataCache->lookupDescription((int) $id);
                 $this->translation_cache[$id . '.']['desc'] =
                     $this->translation_cache[$id . '.']['description'];
             }

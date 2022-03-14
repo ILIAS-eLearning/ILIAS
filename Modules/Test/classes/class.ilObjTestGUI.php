@@ -3328,7 +3328,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             return $this->copyAndLinkToQuestionpoolObject();
         }
 
-        $qplId = $ilObjDataCache->lookupObjId($_REQUEST['sel_qpl']);
+        $qplId = $ilObjDataCache->lookupObjId((int) $_REQUEST['sel_qpl']);
         $result = $this->copyQuestionsToPool($_REQUEST['q_id'], $qplId);
 
         foreach ($result->ids as $oldId => $newId) {

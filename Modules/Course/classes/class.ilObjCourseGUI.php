@@ -559,7 +559,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $form->addItem($area);
 
         $tg = new \ilTextAreaInputGUI($this->lng->txt('crs_target_group'), 'target_group');
-        $tg->setValue($this->object->getTargetGroup());
+        $tg->setValue($this->object->getTargetGroup() ?? "");
         $tg->setRows(6);
         $form->addItem($tg);
 

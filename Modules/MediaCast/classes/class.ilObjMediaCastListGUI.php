@@ -22,7 +22,7 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
 {
     protected int $child_id;
 
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -37,9 +37,9 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
         $this->commands = ilObjMediaCastAccess::_getCommands();
     }
 
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             default:
                 $frame = ilFrameTargetInfo::_getFrame("MainContent");
                 break;
@@ -49,7 +49,7 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
     }
 
 
-    public function getProperties()
+    public function getProperties() : array
     {
         $lng = $this->lng;
         $props = array();
@@ -62,10 +62,10 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         // separate method for this line
-        $cmd_link = "ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$a_cmd";
+        $cmd_link = "ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$cmd";
 
         return $cmd_link;
     }

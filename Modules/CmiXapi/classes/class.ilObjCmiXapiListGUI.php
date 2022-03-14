@@ -85,20 +85,16 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
         return $props;
     }
 
-    /**
-     * @param string $a_cmd
-     * @return string
-     */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd) : string
     {
         global $ilCtrl;
         
-        $a_cmd = explode('::', $a_cmd);
+        $cmd = explode('::', $cmd);
         
-        if (count($a_cmd) == 2) {
-            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjCmiXapiGUI', $a_cmd[0]), $a_cmd[1]);
+        if (count($cmd) == 2) {
+            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjCmiXapiGUI', $cmd[0]), $cmd[1]);
         } else {
-            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjCmiXapiGUI'), $a_cmd[0]);
+            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjCmiXapiGUI'), $cmd[0]);
         }
         
         return $cmd_link;

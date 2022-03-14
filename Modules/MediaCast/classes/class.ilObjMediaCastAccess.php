@@ -33,7 +33,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "showContent", "lang_var" => "show",
@@ -45,22 +45,22 @@ class ilObjMediaCastAccess extends ilObjectAccess
         return $commands;
     }
     
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
         $ilAccess = $this->access;
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
 
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "listItems":
 
-                if (!ilObjMediaCastAccess::_lookupOnline($a_obj_id)
-                    && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
+                if (!ilObjMediaCastAccess::_lookupOnline($obj_id)
+                    && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
@@ -68,7 +68,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
                 
             // for permission query feature
             case "infoScreen":
-                if (!ilObjMediaCastAccess::_lookupOnline($a_obj_id)) {
+                if (!ilObjMediaCastAccess::_lookupOnline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                 } else {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
@@ -76,11 +76,11 @@ class ilObjMediaCastAccess extends ilObjectAccess
                 break;
 
         }
-        switch ($a_permission) {
+        switch ($permission) {
             case "read":
             case "visible":
-                if (!ilObjMediaCastAccess::_lookupOnline($a_obj_id) &&
-                    (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))) {
+                if (!ilObjMediaCastAccess::_lookupOnline($obj_id) &&
+                    (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
@@ -90,13 +90,13 @@ class ilObjMediaCastAccess extends ilObjectAccess
         return true;
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "mcst" || ((int) $t_arr[1]) <= 0) {
             return false;

@@ -133,10 +133,6 @@ class ilObjectGUI
             }
         }
 
-//        $this->requested_ref_id = (int) ($_GET["ref_id"] ?? 0);
-//        $this->ref_id = (int) ($this->call_by_reference ? $this->id : ($_GET["ref_id"] ?? 0));
-//        $this->obj_id = (int) ($this->call_by_reference ? ($_GET["obj_id"] ?? 0) : $this->id);
-
         // TODO: refactor this with post_wrapper or request_wrapper
         // callback after creation
         $this->requested_crtptrefid = (int) ($_REQUEST["crtptrefid"] ?? 0);
@@ -1395,20 +1391,20 @@ class ilObjectGUI
      * Fill object clone template
      * This method can be called from any object GUI class that wants to offer object cloning.
      *
-     * @param string template variable name that will be filled
+     * @param ?string template variable name that will be filled
      * @param string type of new object
-     * @return mixed
+     * @return ?ilPropertyFormGUI
      */
-    protected function fillCloneTemplate(?string $tpl_name, string $type)
+    protected function fillCloneTemplate(?string $tpl_name, string $type) : ?ilPropertyFormGUI
     {
         $cp = new ilObjectCopyGUI($this);
         $cp->setType($type);
         $cp->setTarget($this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int()));
         if ($tpl_name) {
             $cp->showSourceSearch($tpl_name);
-        } else {
-            return $cp->showSourceSearch(null);
         }
+
+        return $cp->showSourceSearch(null);
     }
     
     /**

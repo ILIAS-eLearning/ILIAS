@@ -141,7 +141,7 @@ class ilPermanentLinkGUI
         if ($this->getTitle() != "") {
             $title = $this->getTitle();
         } elseif (is_numeric($this->getId())) {
-            $obj_id = $ilObjDataCache->lookupObjId($this->getId());
+            $obj_id = $ilObjDataCache->lookupObjId((int) $this->getId());
             $title = $ilObjDataCache->lookupTitle($obj_id);
         }
 

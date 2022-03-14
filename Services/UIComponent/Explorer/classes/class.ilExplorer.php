@@ -29,7 +29,7 @@ class ilExplorer
     protected ilRbacSystem $rbacsystem;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
-    public string $id;
+    public string $id = "";
     public string $output;
     public array $format_options;
     public ilTree $tree;
@@ -39,7 +39,7 @@ class ilExplorer
     public array $expanded;
     public string $order_column;
     public string $order_direction = "asc";
-    public string $expand_target;
+    public ?string $expand_target;
     public bool $rbac_check;
     public bool $output_icons;
     public string $expand_variable;

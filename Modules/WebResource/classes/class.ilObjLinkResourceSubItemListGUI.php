@@ -42,7 +42,7 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
      * get html
      * @return
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         global $DIC;
 

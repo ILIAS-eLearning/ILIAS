@@ -35,7 +35,7 @@ class ilObjRemoteGlossaryGUI extends ilRemoteObjectBaseGUI
         $this->lng->loadLanguageModule('rglo');
     }
     
-    public function getType() : ?string
+    public function getType() : string
     {
         return 'rglo';
     }

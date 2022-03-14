@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
@@ -151,7 +152,7 @@ class ilObjectTest //extends TestCase
         }
         
         $d1 = ilObject::_lookupDeletedDate($ref_id);
-        ilObject::_setDeletedDate((int) $ref_id, (int) $ilUser->getId());
+        ilObject::_setDeletedDate($ref_id, $ilUser->getId());
         $d2 = ilObject::_lookupDeletedDate($ref_id);
         ilObject::_resetDeletedDate($ref_id);
         $d3 = ilObject::_lookupDeletedDate($ref_id);
@@ -212,7 +213,7 @@ class ilObjectTest //extends TestCase
             $value .= "tree6-";
         }
         
-        $saved_tree = new ilTree(-(int) $ref_id);
+        $saved_tree = new ilTree(-$ref_id);
         $node_data = $saved_tree->getNodeData($ref_id);
         $saved_tree->deleteTree($node_data);
 

@@ -45,7 +45,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         $this->tpl = $DIC["tpl"];
     }
 
-    public function getType() : ?string
+    public function getType() : string
     {
         return "wiks";
     }

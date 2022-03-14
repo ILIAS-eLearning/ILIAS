@@ -69,7 +69,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->file_service_settings = new ilFileServicesSettings($DIC->settings());
     }
 
-    public function getType() : ?string
+    public function getType() : string
     {
         return ilObjFileServices::TYPE_FILE_SERVICES;
     }

@@ -58,7 +58,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $this->ctrl->saveParameter($this, array("ref_id"));
     }
 
-    final public function getType() : ?string
+    final public function getType() : string
     {
         return "itgr";
     }

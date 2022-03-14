@@ -8,9 +8,6 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
     protected ilObject $object;
     protected ?ilPropertyFormGUI $legacy_form;
 
-    /**
-     * Constructor
-     */
     public function __construct(ilObjectService $service, ilObject $object, ilPropertyFormGUI $legacy_form = null)
     {
         $this->service = $service;

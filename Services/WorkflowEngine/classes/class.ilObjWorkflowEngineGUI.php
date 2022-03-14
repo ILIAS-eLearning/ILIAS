@@ -53,9 +53,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
         $this->assignObject();
     }
 
-    public function getType() : ?string
+    public function getType() : string
     {
-        return null;
+        return "";
     }
 
     /**

@@ -82,7 +82,7 @@ class ilMailMemberSearchDataProvider
             $roleTitles = [];
             foreach ($assignedRoles as $roleId) {
                 $preloadedRoleIds[$roleId] = $roleId;
-                $title = $this->dataCache->lookupTitle($roleId);
+                $title = $this->dataCache->lookupTitle((int) $roleId);
                 $roleTitles[] = $title;
             }
 

@@ -450,7 +450,7 @@ abstract class ilMailSearchObjectGUI
                     'members_id' => $user->getId(),
                     'members_login' => $user->getLogin(),
                     'members_name' => $fullname,
-                    'members_crs_grp' => $this->cache->lookupTitle($obj_id),
+                    'members_crs_grp' => $this->cache->lookupTitle((int) $obj_id),
                     'search_' . $this->getObjectType() => $obj_id
                 ];
 

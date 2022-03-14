@@ -276,8 +276,8 @@ class ilLDAPRoleGroupMappingSettings
             $this->mappings[$row->mapping_id]['role'] = $row->role;
             $this->mappings[$row->mapping_id]['info'] = $row->mapping_info;
             $this->mappings[$row->mapping_id]['info_type'] = $row->mapping_info_type;
-            if ($this->ilObjDataCache->lookupType($row->role) == 'role') {
-                $this->mappings[$row->mapping_id]['role_name'] = $this->ilObjDataCache->lookupTitle($row->role);
+            if ($this->ilObjDataCache->lookupType((int) $row->role) == 'role') {
+                $this->mappings[$row->mapping_id]['role_name'] = $this->ilObjDataCache->lookupTitle((int) $row->role);
             } else {
                 $this->mappings[$row->mapping_id]['role_name'] = $row->role;
             }
