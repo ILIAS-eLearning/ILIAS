@@ -55,7 +55,7 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
     /**
      * @return string
      */
-    public function getOldQuestionSetType()
+    public function getOldQuestionSetType() : string
     {
         return $this->oldQuestionSetType;
     }
@@ -71,7 +71,7 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
     /**
      * @return string
      */
-    public function getNewQuestionSetType()
+    public function getNewQuestionSetType() : string
     {
         return $this->newQuestionSetType;
     }
@@ -87,12 +87,12 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
     /**
      * @return boolean
      */
-    public function isQuestionLossInfoEnabled()
+    public function isQuestionLossInfoEnabled() : bool
     {
         return $this->questionLossInfoEnabled;
     }
 
-    private function buildHeaderText()
+    private function buildHeaderText() : string
     {
         $headerText = sprintf(
             $this->lng->txt('tst_change_quest_set_type_from_old_to_new_with_conflict'),

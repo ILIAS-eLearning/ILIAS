@@ -78,7 +78,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
      * @param string $processName
      * @return string
      */
-    private function getLockFilePath($processName)
+    private function getLockFilePath($processName) : string
     {
         $path = $this->lockFileStorage->getPath();
         return $path . '/' . $processName . '.lock';

@@ -100,7 +100,7 @@ class ilAssQuestionTypeOrderer
      *
      * @return array $orderedQuestionTypes
      */
-    public function getOrderedTypes($withDeprecatedTypes = true)
+    public function getOrderedTypes($withDeprecatedTypes = true) : array
     {
         if ($withDeprecatedTypes) {
             return $this->types;
@@ -127,7 +127,7 @@ class ilAssQuestionTypeOrderer
      * @param array $b
      * @return integer
      */
-    public function fixQuestionTypeOrderSortCallback($a, $b)
+    public function fixQuestionTypeOrderSortCallback($a, $b) : int
     {
         if (self::$flippedQuestionTypeOrder[ $a['type_tag'] ] > self::$flippedQuestionTypeOrder[ $b['type_tag'] ]) {
             return 1;

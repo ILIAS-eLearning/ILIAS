@@ -51,7 +51,7 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
             $this->enable('select_all');
         }
 
-        $this->numericOrdering('nr');
+        //$this->numericOrdering('nr');
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
         

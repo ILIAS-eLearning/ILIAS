@@ -171,7 +171,7 @@ class ilTestEvaluationUserData
         $this->passScoring = $passScoring;
     }
 
-    public function getPassed()
+    public function getPassed() : bool
     {
         return $this->passed;
     }
@@ -181,7 +181,7 @@ class ilTestEvaluationUserData
         $this->passed = ($a_passed ? true : false);
     }
 
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -191,7 +191,7 @@ class ilTestEvaluationUserData
         $this->name = $a_name;
     }
 
-    public function getLogin()
+    public function getLogin() : string
     {
         return $this->login;
     }
@@ -204,7 +204,7 @@ class ilTestEvaluationUserData
     /**
      * @return bool
      */
-    public function isSubmitted()
+    public function isSubmitted() : bool
     {
         return $this->submitted;
     }
@@ -217,7 +217,7 @@ class ilTestEvaluationUserData
         $this->submitted = $submitted;
     }
 
-    public function getReached()
+    public function getReached() : float
     {
         return $this->getReachedPoints($this->getScoredPass());
     }
@@ -242,7 +242,7 @@ class ilTestEvaluationUserData
         return $this->getMaxPoints() ? $this->getReached() / $this->getMaxPoints() * 100.0 : 0;
     }
 
-    public function getMark()
+    public function getMark() : string
     {
         return $this->mark;
     }
@@ -262,7 +262,7 @@ class ilTestEvaluationUserData
         $this->markECTS = $a_mark_ects;
     }
 
-    public function getQuestionsWorkedThrough()
+    public function getQuestionsWorkedThrough() : int
     {
         $questionpass = $this->getScoredPass();
         if (!is_object($this->passes[$questionpass])) {
@@ -279,7 +279,7 @@ class ilTestEvaluationUserData
         $this->questionsWorkedThrough = $a_nr;
     }
 
-    public function getNumberOfQuestions()
+    public function getNumberOfQuestions() : int
     {
         $questionpass = $this->getScoredPass();
         if (!is_object($this->passes[$questionpass])) {
@@ -302,7 +302,7 @@ class ilTestEvaluationUserData
         return $this->getNumberOfQuestions() ? $this->getQuestionsWorkedThrough() / $this->getNumberOfQuestions() * 100.0 : 0;
     }
 
-    public function getTimeOfWork()
+    public function getTimeOfWork() : int
     {
         $time = 0;
         foreach ($this->passes as $pass) {
@@ -316,7 +316,7 @@ class ilTestEvaluationUserData
         $this->timeOfWork = $a_time_of_work;
     }
 
-    public function getFirstVisit()
+    public function getFirstVisit() : string
     {
         return $this->firstVisit;
     }
@@ -326,7 +326,7 @@ class ilTestEvaluationUserData
         $this->firstVisit = $a_time;
     }
 
-    public function getLastVisit()
+    public function getLastVisit() : string
     {
         return $this->lastVisit;
     }
@@ -336,7 +336,7 @@ class ilTestEvaluationUserData
         $this->lastVisit = $a_time;
     }
 
-    public function getPasses()
+    public function getPasses() : array
     {
         return $this->passes;
     }
@@ -354,7 +354,7 @@ class ilTestEvaluationUserData
      * @param $pass_nr
      * @return ilTestEvaluationPassData|null
      */
-    public function getPass($pass_nr)
+    public function getPass($pass_nr) : ?ilTestEvaluationPassData
     {
         if (array_key_exists($pass_nr, $this->passes)) {
             return $this->passes[$pass_nr];
@@ -363,7 +363,7 @@ class ilTestEvaluationUserData
         }
     }
 
-    public function getPassCount()
+    public function getPassCount() : int
     {
         return count($this->passes);
     }
@@ -377,7 +377,7 @@ class ilTestEvaluationUserData
         }
     }
 
-    public function getBestPass()
+    public function getBestPass() : int
     {
         $bestpoints = 0;
         $bestpass = 0;
@@ -449,7 +449,7 @@ class ilTestEvaluationUserData
         }
     }
 
-    public function getQuestionCount($pass = 0)
+    public function getQuestionCount($pass = 0) : int
     {
         $count = 0;
         if (array_key_exists($pass, $this->passes)) {
@@ -458,7 +458,7 @@ class ilTestEvaluationUserData
         return $count;
     }
 
-    public function getReachedPoints($pass = 0)
+    public function getReachedPoints($pass = 0) : float
     {
         $reached = 0;
         if (array_key_exists($pass, $this->passes)) {
@@ -496,7 +496,7 @@ class ilTestEvaluationUserData
         $this->user_id = $a_usr_id;
     }
 
-    public function getUserID()
+    public function getUserID() : int
     {
         return $this->user_id;
     }
@@ -506,7 +506,7 @@ class ilTestEvaluationUserData
         $this->mark_official = $a_mark_official;
     }
 
-    public function getMarkOfficial()
+    public function getMarkOfficial() : string
     {
         return $this->mark_official;
     }
@@ -531,7 +531,7 @@ class ilTestEvaluationUserData
      *
      * @return integer $requestedHintsCount
      */
-    public function getRequestedHintsCountFromScoredPass()
+    public function getRequestedHintsCountFromScoredPass() : int
     {
         return $this->getRequestedHintsCount($this->getScoredPass());
     }
@@ -558,7 +558,7 @@ class ilTestEvaluationUserData
      * @return integer $requestedHintsCount
      * @throws ilTestException
      */
-    public function getRequestedHintsCount($pass)
+    public function getRequestedHintsCount($pass) : int
     {
         if (!isset($this->passes[$pass]) || !($this->passes[$pass] instanceof ilTestEvaluationPassData)) {
             throw new ilTestException("invalid pass index given: $pass");
@@ -600,7 +600,7 @@ class ilTestEvaluationUserData
      *
      * @return ilTestEvaluationPassData $passDataObject
      */
-    public function getLastPassObject()
+    public function getLastPassObject() : ilTestEvaluationPassData
     {
         $lastpassIndex = 0;
 
@@ -621,7 +621,7 @@ class ilTestEvaluationUserData
      *
      * @return boolean
      */
-    public function doesObligationsAnsweredPassExist()
+    public function doesObligationsAnsweredPassExist() : bool
     {
         foreach ($this->passes as $pass) {
             if ($pass->areObligationsAnswered()) {
@@ -638,7 +638,7 @@ class ilTestEvaluationUserData
      *
      * @return boolean
      */
-    public function areObligationsAnswered()
+    public function areObligationsAnswered() : bool
     {
         return $this->getScoredPassObject()->areObligationsAnswered();
     }

@@ -45,10 +45,23 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
                     include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
-                    $answer = new ASS_AnswerBinaryStateImage($value, $a_value['points'][$index], $index, 1, $a_value['imagename'][$index]);
-                    array_push($this->values, $answer);
+                    $answer = new ASS_AnswerBinaryStateImage($value, $a_value['points'][$index], $index, 1, -1);
+                    if (isset($a_value['imagename'][$index])) {
+                        $answer->setImage($a_value['imagename'][$index]);
+                    } else {
+                        $answer->setImage('');
+                    }
+                    $this->values[] = $answer;
                 }
             }
+        }
+    }
+
+
+    public function setValueByArray(array $a_values) : void
+    {
+        if (isset($a_values[$this->getPostVar()])) {
+            $this->setValue($a_values[$this->getPostVar()] ?? []);
         }
     }
 
@@ -77,7 +90,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Accepted Suffixes
     */
-    public function getSuffixes()
+    public function getSuffixes() : array
     {
         return $this->suffixes;
     }
@@ -87,7 +100,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         $this->showPoints = $a_value;
     }
     
-    public function getShowPoints()
+    public function getShowPoints() : bool
     {
         return $this->showPoints;
     }
@@ -107,7 +120,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
@@ -127,7 +140,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Value
     */
-    public function getSingleline()
+    public function getSingleline() : bool
     {
         return $this->singleline;
     }
@@ -147,7 +160,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @return	object	Value
     */
-    public function getQuestionObject()
+    public function getQuestionObject() : ?object
     {
         return $this->qstObject;
     }
@@ -167,7 +180,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }
@@ -238,7 +251,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
                                 case UPLOAD_ERR_NO_FILE:
                                     if ($this->getRequired()) {
-                                        if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
+                                        if ((!isset($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
                                             $this->setAlert($lng->txt("form_msg_file_no_upload"));
                                             return false;
                                         }
@@ -272,15 +285,17 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                 if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image'])) {
                     foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
                         $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
-                        $filename_arr = pathinfo($filename);
-                        $suffix = $filename_arr["extension"];
-                        $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-                        $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-                        // check suffixes
-                        if (strlen($tmpname) && is_array($this->getSuffixes())) {
-                            if (!in_array(strtolower($suffix), $this->getSuffixes())) {
-                                $this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
-                                return false;
+                        if ($filename != '') {
+                            $filename_arr = pathinfo($filename);
+                            $suffix = $filename_arr["extension"];
+                            $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
+                            $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+                            // check suffixes
+                            if (strlen($tmpname) && is_array($this->getSuffixes())) {
+                                if (!in_array(strtolower($suffix), $this->getSuffixes())) {
+                                    $this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
+                                    return false;
+                                }
                             }
                         }
                     }
@@ -289,16 +304,18 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                 if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image'])) {
                     foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
                         $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
-                        $filename_arr = pathinfo($filename);
-                        $suffix = $filename_arr["extension"];
-                        $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-                        $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-                        // virus handling
-                        if (strlen($tmpname)) {
-                            $vir = ilVirusScanner::virusHandling($tmpname, $filename);
-                            if ($vir[0] == false) {
-                                $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
-                                return false;
+                        if ($filename != '') {
+                            $filename_arr = pathinfo($filename);
+                            $suffix = $filename_arr["extension"];
+                            $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
+                            $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+                            // virus handling
+                            if (strlen($tmpname)) {
+                                $vir = ilVirusScanner::virusHandling($tmpname, $filename);
+                                if ($vir[0] == false) {
+                                    $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
+                                    return false;
+                                }
                             }
                         }
                     }
@@ -335,7 +352,8 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                         $tpl->setCurrentBlock('image');
                         $tpl->setVariable('SRC_IMAGE', $imagename);
                         $tpl->setVariable('IMAGE_NAME', $value->getImage());
-                        $tpl->setVariable('ALT_IMAGE',
+                        $tpl->setVariable(
+                            'ALT_IMAGE',
                             ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
                         );
                         $tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
@@ -354,13 +372,15 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
                 if (is_object($value)) {
                     $tpl->setCurrentBlock("prop_text_propval");
-                    $tpl->setVariable("PROPERTY_VALUE",
+                    $tpl->setVariable(
+                        "PROPERTY_VALUE",
                         ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
                     );
                     $tpl->parseCurrentBlock();
                     if ($this->getShowPoints()) {
                         $tpl->setCurrentBlock("prop_points_propval");
-                        $tpl->setVariable("PROPERTY_VALUE",
+                        $tpl->setVariable(
+                            "PROPERTY_VALUE",
                             ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints())
                         );
                         $tpl->parseCurrentBlock();
@@ -380,14 +400,16 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                 if (is_object($value)) {
                     if ($this->getShowPoints()) {
                         $tpl->setCurrentBlock("prop_points_propval");
-                        $tpl->setVariable("PROPERTY_VALUE",
+                        $tpl->setVariable(
+                            "PROPERTY_VALUE",
                             ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints())
                         );
                         $tpl->parseCurrentBlock();
                     }
                 }
                 $tpl->setCurrentBlock('multiline');
-                $tpl->setVariable("PROPERTY_VALUE",
+                $tpl->setVariable(
+                    "PROPERTY_VALUE",
                     ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
                 );
                 $tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][$i]");

@@ -8,7 +8,7 @@ require_once __DIR__ . "/ilTestBaseTestCase.php";
 
 class ilModulesTestSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilModulesTestSuite
     {
         if (!defined("ILIAS_HTTP_PATH")) {
             define("ILIAS_HTTP_PATH", "http://localhost");

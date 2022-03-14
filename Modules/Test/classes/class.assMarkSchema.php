@@ -16,7 +16,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 class ASS_MarkSchema
 {
     /** @var $mark_steps array An array containing all mark steps defined for the test. */
-    public $mark_steps;
+    public array $mark_steps;
 
     /**
      * ASS_MarkSchema constructor
@@ -229,7 +229,7 @@ class ASS_MarkSchema
      */
     public function sort()
     {
-        function level_sort($a, $b)
+        function level_sort($a, $b) : int
         {
             if ($a->getMinimumLevel() == $b->getMinimumLevel()) {
                 $res = strcmp($a->getShortName(), $b->getShortName());
@@ -423,7 +423,7 @@ class ASS_MarkSchema
     /**
      * @return ASS_Mark[]
      */
-    public function getMarkSteps()
+    public function getMarkSteps() : array
     {
         return $this->mark_steps;
     }

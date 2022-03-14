@@ -31,7 +31,7 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
      * @param string $type
      * @param string $filename
      */
-    protected function formatActionsList($type, $filename)
+    protected function formatActionsList($type, $filename) : string
     {
         /**
          * @var $ilCtrl ilCtrl

@@ -70,7 +70,7 @@ class ilAssQuestionSkillAssignmentImport
     /**
      * @return int
      */
-    public function getImportQuestionId()
+    public function getImportQuestionId() : int
     {
         return $this->importQuestionId;
     }
@@ -86,7 +86,7 @@ class ilAssQuestionSkillAssignmentImport
     /**
      * @return int
      */
-    public function getImportSkillBaseId()
+    public function getImportSkillBaseId() : int
     {
         return $this->importSkillBaseId;
     }
@@ -102,7 +102,7 @@ class ilAssQuestionSkillAssignmentImport
     /**
      * @return int
      */
-    public function getImportSkillTrefId()
+    public function getImportSkillTrefId() : int
     {
         return $this->importSkillTrefId;
     }
@@ -110,7 +110,7 @@ class ilAssQuestionSkillAssignmentImport
     /**
      * @return string
      */
-    public function getImportSkillTitle()
+    public function getImportSkillTitle() : string
     {
         return $this->importSkillTitle;
     }
@@ -126,7 +126,7 @@ class ilAssQuestionSkillAssignmentImport
     /**
      * @return string
      */
-    public function getImportSkillPath()
+    public function getImportSkillPath() : string
     {
         return $this->importSkillPath;
     }
@@ -142,7 +142,7 @@ class ilAssQuestionSkillAssignmentImport
     /**
      * @return string
      */
-    public function getEvalMode()
+    public function getEvalMode() : string
     {
         return $this->evalMode;
     }
@@ -158,7 +158,7 @@ class ilAssQuestionSkillAssignmentImport
     /**
      * @return bool
      */
-    public function hasImportEvalModeBySolution()
+    public function hasImportEvalModeBySolution() : bool
     {
         return $this->getEvalMode() == ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION;
     }
@@ -174,7 +174,7 @@ class ilAssQuestionSkillAssignmentImport
     /**
      * @return int
      */
-    public function getSkillPoints()
+    public function getSkillPoints() : int
     {
         return $this->skillPoints;
     }
@@ -189,7 +189,7 @@ class ilAssQuestionSkillAssignmentImport
     /**
      * @return ilAssQuestionSolutionComparisonExpressionImportList
      */
-    public function getImportSolutionComparisonExpressionList()
+    public function getImportSolutionComparisonExpressionList() : ilAssQuestionSolutionComparisonExpressionImportList
     {
         return $this->importSolutionComparisonExpressionList;
     }

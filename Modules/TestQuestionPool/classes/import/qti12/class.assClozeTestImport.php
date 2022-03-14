@@ -377,7 +377,7 @@ class assClozeTestImport extends assQuestionImport
      * @param string $ident
      * @return ilAssSpecificFeedbackIdentifier
      */
-    protected function buildFeedbackIdentifier($ident)
+    protected function buildFeedbackIdentifier($ident) : ilAssSpecificFeedbackIdentifier
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifier.php';
         $fbIdentifier = new ilAssSpecificFeedbackIdentifier();

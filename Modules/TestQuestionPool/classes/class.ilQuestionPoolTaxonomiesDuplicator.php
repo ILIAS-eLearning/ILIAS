@@ -137,12 +137,12 @@ class ilQuestionPoolTaxonomiesDuplicator
     /**
      * @return ilQuestionPoolDuplicatedTaxonomiesKeysMap
      */
-    public function getDuplicatedTaxonomiesKeysMap()
+    public function getDuplicatedTaxonomiesKeysMap() : ilQuestionPoolDuplicatedTaxonomiesKeysMap
     {
         return $this->duplicatedTaxonomiesKeysMap;
     }
     
-    public function getAllTaxonomiesForSourceObject()
+    public function getAllTaxonomiesForSourceObject() : array
     {
         return ilObjTaxonomy::getUsageOfObject($this->getSourceObjId());
     }

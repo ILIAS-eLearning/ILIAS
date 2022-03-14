@@ -193,7 +193,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $this->poolOBJ->saveToDb();
     }
     
-    private function buildForm()
+    private function buildForm() : ilPropertyFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -271,7 +271,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         return $form;
     }
     
-    private function getTaxonomySelectInputOptions()
+    private function getTaxonomySelectInputOptions() : array
     {
         $taxSelectOptions = array(
             '0' => $this->lng->txt('qpl_settings_general_form_property_opt_notax_selected')
@@ -284,7 +284,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         return $taxSelectOptions;
     }
 
-    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId)
+    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId) : bool
     {
         return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
     }

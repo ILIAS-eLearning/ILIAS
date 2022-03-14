@@ -15,7 +15,7 @@ class ilassMarkTest extends TestCase
     protected $backupGlobals = false;
 
     /** @var  $ass_mark ASS_Mark */
-    protected $ass_mark;
+    protected ASS_Mark $ass_mark;
 
     protected function setUp() : void
     {

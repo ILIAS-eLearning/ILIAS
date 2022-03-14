@@ -148,18 +148,17 @@ class assErrorTextTest extends assBaseTestCase
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
         $instance = new assErrorText();
 
-        $errordata = array('passages' => array( 0 => 'drei Matrosen'), 'words' => array());
-        require_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
-        $expected = new assAnswerErrorText($errordata['passages'][0], '', 0);
+        $errordata = array('passages' => array( 0 => 'zwei Matrosen'), 'words' => array());
+        $expected = array('passages' => array( 0 => 'drei Matrosen'), 'words' => array());
         $instance->setErrorData($expected);
 
         // Act
         $instance->setErrorData($errordata);
 
         $all_errors = $instance->getErrorData();
+        /** @var assAnswerErrorText $actual */
         $actual = $all_errors[0];
-
         // Assert
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($errordata['passages'][0], $actual->text_wrong);
     }
 }

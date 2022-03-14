@@ -56,7 +56,7 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
      * @return string The image filename
      * @see $image
      */
-    public function getImage()
+    public function getImage() : string
     {
         return $this->image;
     }

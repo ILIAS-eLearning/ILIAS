@@ -63,7 +63,7 @@ class ilTestParticipantsGUI
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }
@@ -79,7 +79,7 @@ class ilTestParticipantsGUI
     /**
      * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig() : ilTestQuestionSetConfig
     {
         return $this->questionSetConfig;
     }
@@ -176,7 +176,7 @@ class ilTestParticipantsGUI
      * @param array $a_user_ids
      * @return bool
      */
-    public function addParticipants($a_user_ids = array())
+    public function addParticipants($a_user_ids = array()) : bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -212,7 +212,7 @@ class ilTestParticipantsGUI
     /**
      * @return ilTestParticipantsTableGUI
      */
-    protected function buildTableGUI()
+    protected function buildTableGUI() : ilTestParticipantsTableGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -304,7 +304,7 @@ class ilTestParticipantsGUI
      * @param array $in_rows
      * @return array
      */
-    protected function applyFilterCriteria($in_rows)
+    protected function applyFilterCriteria($in_rows) : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

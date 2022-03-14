@@ -40,7 +40,7 @@ class ilAssLacQuestionProvider
     /**
      * @return iQuestionCondition
      */
-    public function getQuestion()
+    public function getQuestion() : iQuestionCondition
     {
         if ($this->question === null && $this->questionId) {
             require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';

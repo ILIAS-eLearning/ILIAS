@@ -33,7 +33,7 @@ class ilQuestionEditGUI
         } elseif ($_GET["qpool_obj_id"]) {
             $this->setPoolObjId($_GET["qpool_obj_id"]);
         }
-        $this->setQuestionId($_GET["q_id"]);
+        $this->setQuestionId($this->request->getQuestionId());
         $this->setQuestionType($_GET["q_type"]);
         $lng->loadLanguageModule("assessment");
         
@@ -58,7 +58,7 @@ class ilQuestionEditGUI
     *
     * @return	boolean	Self-Assessment Editing Mode
     */
-    public function getSelfAssessmentEditingMode()
+    public function getSelfAssessmentEditingMode() : bool
     {
         return $this->selfassessmenteditingmode;
     }
@@ -78,7 +78,7 @@ class ilQuestionEditGUI
     *
     * @return	int	Default Nr of Tries
     */
-    public function getDefaultNrOfTries()
+    public function getDefaultNrOfTries() : int
     {
         return $this->defaultnroftries;
     }
@@ -98,7 +98,7 @@ class ilQuestionEditGUI
      *
      * @return	object	Page Config
      */
-    public function getPageConfig()
+    public function getPageConfig() : object
     {
         return $this->page_config;
     }
@@ -129,7 +129,7 @@ class ilQuestionEditGUI
         $cmd = $ilCtrl->getCmd();
         $next_class = $ilCtrl->getNextClass();
         
-        //echo "-".$cmd."-".$next_class."-".$_GET["q_id"]."-";
+        //echo "-".$cmd."-".$next_class."-".$this->request->getQuestionId()."-";
         
         switch ($next_class) {
             default:
@@ -148,7 +148,7 @@ class ilQuestionEditGUI
                 if (is_object($this->page_config)) {
                     $q_gui->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
                 }
-                $q_gui->object->setObjId((int) $this->getPoolObjId());
+                $q_gui->object->setObjId($this->getPoolObjId());
                 
                 for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
                     $object = $this->new_id_listeners[$i]["object"];
@@ -189,7 +189,7 @@ class ilQuestionEditGUI
     public function setQuestionId($a_questionid)
     {
         $this->questionid = $a_questionid;
-        $_GET["q_id"] = $this->questionid;
+        $_GET["q_id"] = $this->questionid; // TODO / TATS: How to address this?
     }
 
     /**
@@ -197,7 +197,7 @@ class ilQuestionEditGUI
     *
     * @return	int	Question Id
     */
-    public function getQuestionId()
+    public function getQuestionId() : int
     {
         return $this->questionid;
     }
@@ -220,7 +220,7 @@ class ilQuestionEditGUI
     *
     * @return	int	Pool Ref ID
     */
-    public function getPoolRefId()
+    public function getPoolRefId() : int
     {
         return $this->poolrefid;
     }
@@ -242,7 +242,7 @@ class ilQuestionEditGUI
     *
     * @return	int	Pool Obj Id
     */
-    public function getPoolObjId()
+    public function getPoolObjId() : int
     {
         return $this->poolobjid;
     }
@@ -263,7 +263,7 @@ class ilQuestionEditGUI
     *
     * @return	string	Question Type
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return $this->questiontype;
     }

@@ -109,7 +109,7 @@ class ilQuestionpoolExport
     /**
     * build xml export file
     */
-    public function buildExportFileXML()
+    public function buildExportFileXML() : string
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];

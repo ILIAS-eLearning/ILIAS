@@ -81,7 +81,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         }
     }
     
-    private function getPointsColumnHeader()
+    private function getPointsColumnHeader() : string
     {
         return $this->lng->txt("points") . ' (' . $this->getTotalPoints() . ')';
     }
@@ -130,7 +130,8 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') == 0) {
                 $this->tpl->setCurrentBlock('description');
-                $this->tpl->setVariable("DESCRIPTION",
+                $this->tpl->setVariable(
+                    "DESCRIPTION",
                     ilLegacyFormElementsUtil::prepareFormOutput($a_set['description'])
                 );
                 $this->tpl->parseCurrentBlock();

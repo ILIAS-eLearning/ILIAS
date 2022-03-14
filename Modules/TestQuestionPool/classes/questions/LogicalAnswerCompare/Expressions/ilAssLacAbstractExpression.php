@@ -18,7 +18,7 @@ abstract class ilAssLacAbstractExpression extends ilAssLacAbstractComposite impl
      * Get the Pattern to match relevant informations for an Expression
      * @return string
      */
-    protected function getPattern()
+    protected function getPattern() : string
     {
         return '/-?[0-9\.]+/';
     }

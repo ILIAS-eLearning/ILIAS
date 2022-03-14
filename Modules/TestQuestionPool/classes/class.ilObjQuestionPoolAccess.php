@@ -27,7 +27,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "write", "cmd" => "questions", "lang_var" => "tst_edit_questions"),
@@ -49,7 +49,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
      * @param string $a_user_id
      * @return bool
      */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -88,7 +88,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
      * @param integer $a_obj_id
      * @return boolean $online
      */
-    public static function isOnline($a_obj_id)
+    public static function isOnline($a_obj_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

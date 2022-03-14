@@ -166,7 +166,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
     /**
      * @return integer
      */
-    protected function getCurrentQuestionId()
+    protected function getCurrentQuestionId() : int
     {
         return $this->testSession->getCurrentQuestionId();
     }
@@ -469,7 +469,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         $this->nextQuestionCmd();
     }
 
-    protected function isCheckedQuestionResettingConfirmationRequired()
+    protected function isCheckedQuestionResettingConfirmationRequired() : bool
     {
         if (!$this->getResetCheckedParameter()) {
             return false;
@@ -737,12 +737,12 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         $this->tpl->setVariable('QUESTION_OUTPUT', $tpl->get());
     }
     
-    protected function isFirstQuestionInSequence($sequenceElement)
+    protected function isFirstQuestionInSequence($sequenceElement) : bool
     {
         return !$this->testSequence->trackedQuestionExists();
     }
 
-    protected function isLastQuestionInSequence($sequenceElement)
+    protected function isLastQuestionInSequence($sequenceElement) : bool
     {
         return false; // always
     }
@@ -752,7 +752,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
      *
      * @return boolean TRUE if the answers could be saved, FALSE otherwise
      */
-    protected function canSaveResult()
+    protected function canSaveResult() : bool
     {
         return !$this->object->endingTimeReached();
     }
@@ -760,7 +760,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
     /**
      * saves the user input of a question
      */
-    public function saveQuestionSolution($authorized = true, $force = false)
+    public function saveQuestionSolution($authorized = true, $force = false) : bool
     {
         // what is this formtimestamp ??
         if (!$force) {
@@ -816,7 +816,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         return $this->saveResult;
     }
     
-    private function isQuestionAnsweredCorrect($questionId, $activeId, $pass)
+    private function isQuestionAnsweredCorrect($questionId, $activeId, $pass) : bool
     {
         $questionGUI = $this->object->createQuestionGUI("", $questionId);
 
@@ -830,7 +830,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         return true;
     }
     
-    protected function buildQuestionsTableDataArray($questions, $marked_questions)
+    protected function buildQuestionsTableDataArray($questions, $marked_questions) : array
     {
         $data = array();
         
@@ -866,7 +866,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         return $data;
     }
 
-    protected function buildQuestionSetAnswerStatisticRowArray($questions, $trackedQuestions)
+    protected function buildQuestionSetAnswerStatisticRowArray($questions, $trackedQuestions) : array
     {
         $questionAnswerStats = array(
             'total_all' => count($questions),
@@ -900,7 +900,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         return $questionAnswerStats;
     }
 
-    private function buildQuestionSetCompleteStatisticTableGUI()
+    private function buildQuestionSetCompleteStatisticTableGUI() : ilTestDynamicQuestionSetStatisticTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
         $gui = $this->buildQuestionSetStatisticTableGUI(
@@ -913,7 +913,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         return $gui;
     }
     
-    private function buildQuestionSetFilteredStatisticTableGUI()
+    private function buildQuestionSetFilteredStatisticTableGUI() : ilTestDynamicQuestionSetStatisticTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
         $gui = $this->buildQuestionSetStatisticTableGUI(
@@ -939,7 +939,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         return $gui;
     }
         
-    private function buildQuestionSetStatisticTableGUI($tableId)
+    private function buildQuestionSetStatisticTableGUI($tableId) : ilTestDynamicQuestionSetStatisticTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
         $gui = new ilTestDynamicQuestionSetStatisticTableGUI(
@@ -953,7 +953,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         return $gui;
     }
     
-    private function getEnterTestButtonLangVar()
+    private function getEnterTestButtonLangVar() : string
     {
         if ($this->testSequence->trackedQuestionExists()) {
             return 'tst_resume_dyn_test_with_cur_quest_sel';
@@ -989,7 +989,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
     /**
      * @return string
      */
-    private function buildFinishPagePassDeletionLink()
+    private function buildFinishPagePassDeletionLink() : string
     {
         $href = $this->getPassDeletionTarget();
 
@@ -1001,7 +1001,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
     /**
      * @return string
      */
-    private function getPassDeletionTarget()
+    private function getPassDeletionTarget() : string
     {
         require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
         
@@ -1074,7 +1074,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         }
     }
     
-    protected function getStartTestFromQuestionSelectionLink()
+    protected function getStartTestFromQuestionSelectionLink() : string
     {
         $this->ctrl->setParameter($this, 'reset_checked', 1);
         $link = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -1083,12 +1083,12 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         return $link;
     }
 
-    protected function isShowingPostponeStatusReguired($questionId)
+    protected function isShowingPostponeStatusReguired($questionId) : bool
     {
         return false;
     }
 
-    protected function buildTestPassQuestionList()
+    protected function buildTestPassQuestionList() : ilAssQuestionList
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
@@ -1101,12 +1101,12 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         return $questionList;
     }
 
-    protected function isQuestionSummaryFinishTestButtonRequired()
+    protected function isQuestionSummaryFinishTestButtonRequired() : bool
     {
         return false;
     }
     
-    protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceKey)
+    protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceKey) : bool
     {
         return false;
     }

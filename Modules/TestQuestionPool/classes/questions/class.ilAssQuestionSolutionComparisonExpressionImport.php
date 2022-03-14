@@ -55,7 +55,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return int
      */
-    public function getImportQuestionId()
+    public function getImportQuestionId() : ?int
     {
         return $this->importQuestionId;
     }
@@ -71,7 +71,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return int
      */
-    public function getImportSkillBaseId()
+    public function getImportSkillBaseId() : ?int
     {
         return $this->importSkillBaseId;
     }
@@ -87,7 +87,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return int
      */
-    public function getImportSkillTrefId()
+    public function getImportSkillTrefId() : ?int
     {
         return $this->importSkillTrefId;
     }
@@ -103,7 +103,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return int
      */
-    public function getOrderIndex()
+    public function getOrderIndex() : ?int
     {
         return $this->orderIndex;
     }
@@ -119,7 +119,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return string
      */
-    public function getExpression()
+    public function getExpression() : ?string
     {
         return $this->expression;
     }
@@ -135,7 +135,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @return int
      */
-    public function getPoints()
+    public function getPoints() : ?int
     {
         return $this->points;
     }

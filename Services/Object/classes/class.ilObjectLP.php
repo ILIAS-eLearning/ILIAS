@@ -636,9 +636,8 @@ class ilObjectLP
         global $DIC;
 
         $ilDB = $DIC->database();
-
-        if (is_null(self::$type_defaults)) {
-            self::$type_defaults = [];
+        
+        if (self::$type_defaults === []) {
             $set = $ilDB->query("SELECT * FROM ut_lp_defaults");
             while ($row = $ilDB->fetchAssoc($set)) {
                 self::$type_defaults[(string) $row["type_id"]] = (int) $row["lp_mode"];

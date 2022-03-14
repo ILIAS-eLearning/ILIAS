@@ -77,7 +77,7 @@ class ilTestPasswordProtectionGUI
         }
     }
     
-    protected function buildPasswordMsg()
+    protected function buildPasswordMsg() : string
     {
         if (!$this->passwordChecker->wrongUserEnteredPasswordExist()) {
             return '';
@@ -92,7 +92,7 @@ class ilTestPasswordProtectionGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function buildPasswordForm()
+    protected function buildPasswordForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt("tst_password_form"));
@@ -144,7 +144,7 @@ class ilTestPasswordProtectionGUI
         $this->nextCommandClass = $nextCommandClass;
     }
 
-    private function getNextCommandClass()
+    private function getNextCommandClass() : string
     {
         return $this->nextCommandClass;
     }
@@ -154,7 +154,7 @@ class ilTestPasswordProtectionGUI
         $this->nextCommandCmd = $nextCommandCmd;
     }
 
-    private function getNextCommandCmd()
+    private function getNextCommandCmd() : string
     {
         return $this->nextCommandCmd;
     }

@@ -57,7 +57,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     *
     * @return	string		command target frame
     */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame($a_cmd) : string
     {
         $frame = '';
         switch ($a_cmd) {
@@ -83,7 +83,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties()
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -107,7 +107,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     * @param	string		$a_cmd			command
     *
     */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink($a_cmd) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

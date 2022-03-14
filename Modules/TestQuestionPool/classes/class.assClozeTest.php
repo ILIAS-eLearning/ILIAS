@@ -163,7 +163,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      *
      * @return string The cleaned cloze question text
      */
-    public function cleanQuestiontext($text)
+    public function cleanQuestiontext($text) : string
     {
         // fau: fixGapReplace - mask dollars for replacement
         $text = str_replace('$', 'GAPMASKEDDOLLAR', $text);
@@ -182,7 +182,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param string $content	content for the first gap
      * @return string
      */
-    public function replaceFirstGap($gaptext, $content)
+    public function replaceFirstGap($gaptext, $content) : string
     {
         $content = str_replace('$', 'GAPMASKEDDOLLAR', $content);
         $output = preg_replace("/\[gap\].*?\[\/gap\]/", $content, $gaptext, 1);
@@ -211,8 +211,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setId($question_id);
             $this->setNrOfTries($data['nr_of_tries']);
             $this->setObjId($data["obj_fi"]);
-            $this->setTitle($data["title"]);
-            $this->setComment($data["description"]);
+            $this->setTitle((string) $data["title"]);
+            $this->setComment((string) $data["description"]);
             $this->setOriginalId($data["original_id"]);
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
@@ -318,11 +318,15 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      */
     public function saveToDb($original_id = "") : void
     {
-        $this->saveQuestionDataToDb($original_id);
+        if ($original_id == "") {
+            $this->saveQuestionDataToDb();
+        } else {
+            $this->saveQuestionDataToDb($original_id);
+        }
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
 
-        parent::saveToDb($original_id);
+        parent::saveToDb();
     }
 
     /**
@@ -530,7 +534,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @return array Array containing the gap objects of the cloze question gaps
     * @access public
     */
-    public function getGaps()
+    public function getGaps() : array
     {
         return $this->gaps;
     }
@@ -576,7 +580,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @access public
     * @see $cloze_text
     */
-    public function getClozeText()
+    public function getClozeText() : string
     {
         return $this->cloze_text;
     }
@@ -604,7 +608,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @access public
     * @see $start_tag
     */
-    public function getStartTag()
+    public function getStartTag() : string
     {
         return $this->start_tag;
     }
@@ -628,7 +632,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @access public
     * @see $end_tag
     */
-    public function getEndTag()
+    public function getEndTag() : string
     {
         return $this->end_tag;
     }
@@ -648,7 +652,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * @return string
      */
-    public function getFeedbackMode()
+    public function getFeedbackMode() : string
     {
         return $this->feedbackMode;
     }
@@ -736,7 +740,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @access public
     * @see $gaps
     */
-    public function getGapCount()
+    public function getGapCount() : int
     {
         if (is_array($this->gaps)) {
             return count($this->gaps);
@@ -774,7 +778,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @access public
     * @see $gaps
     */
-    public function getGap($gap_index = 0)
+    public function getGap($gap_index = 0) : ?object
     {
         if (array_key_exists($gap_index, $this->gaps)) {
             return $this->gaps[$gap_index];
@@ -984,11 +988,10 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @access public
     */
-    public function copyObject($target_questionpool_id, $title = "")
+    public function copyObject($target_questionpool_id, $title = "") : int
     {
         if ($this->getId() <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
         $thisId = $this->getId();
@@ -1020,11 +1023,10 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $clone->getId();
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -1152,7 +1154,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @param integer $max_points The maximum number of points for the solution
     * @access public
     */
-    public function getTextgapPoints($a_original, $a_entered, $max_points)
+    public function getTextgapPoints($a_original, $a_entered, $max_points) : int
     {
         include_once "./Services/Utilities/classes/class.ilStr.php";
         $result = 0;
@@ -1206,7 +1208,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @param integer $max_points The maximum number of points for the solution
     * @access public
     */
-    public function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound)
+    public function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound) : int
     {
         // fau: fixGapFormula - check entered value by evalMath
         //		if( ! $this->checkForValidFormula($a_entered) )
@@ -1246,7 +1248,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param $value
      * @return int
      */
-    public function checkForValidFormula($value)
+    public function checkForValidFormula($value) : int
     {
         return preg_match("/^-?(\\d*)(,|\\.|\\/){0,1}(\\d*)$/", $value, $matches);
     }
@@ -1260,7 +1262,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorized = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1269,7 +1271,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $pass = $this->getSolutionMaxPass($active_id);
         }
 
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
         $user_result = array();
         while ($data = $ilDB->fetchAssoc($result)) {
             if (strcmp($data["value2"], "") != 0) {
@@ -1291,7 +1293,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $this->calculateReachedPointsForSolution($user_result);
     }
 
-    protected function isValidNumericSubmitValue($submittedValue)
+    protected function isValidNumericSubmitValue($submittedValue) : bool
     {
         if (is_numeric($submittedValue)) {
             return true;
@@ -1322,7 +1324,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return true;
     }
 
-    public function fetchSolutionSubmit($submit)
+    public function fetchSolutionSubmit($submit) : array
     {
         $solutionSubmit = array();
 
@@ -1348,7 +1350,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $solutionSubmit;
     }
 
-    public function getSolutionSubmitValidation()
+    public function getSolutionSubmitValidation() : array
     {
         $submit = $_POST;
         $solutionSubmit = array();
@@ -1373,7 +1375,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $solutionSubmit;
     }
 
-    public function getSolutionSubmit()
+    public function getSolutionSubmit() : array
     {
         return $this->fetchSolutionSubmit($_POST);
     }
@@ -1456,7 +1458,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @see $textgap_rating
     * @access public
     */
-    public function getTextgapRating()
+    public function getTextgapRating() : string
     {
         return $this->textgap_rating;
     }
@@ -1516,18 +1518,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @return string The additional table name
     * @access public
     */
-    public function getAdditionalTableName()
+    public function getAdditionalTableName() : string
     {
         return "qpl_qst_cloze";
     }
 
-    /**
-    * Returns the name of the answer table in the database
-    *
-    * @return string The answer table name
-    * @access public
-    */
-    public function getAnswerTableName()
+    public function getAnswerTableName() : array
     {
         return array("qpl_a_cloze",'qpl_a_cloze_combi_res');
     }
@@ -1586,12 +1582,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         return parent::getRTETextWithMediaObjects() . $this->getClozeText();
     }
-    public function getGapCombinationsExists()
+    public function getGapCombinationsExists() : bool
     {
         return $this->gap_combinations_exists;
     }
 
-    public function getGapCombinations()
+    public function getGapCombinations() : array
     {
         return $this->gap_combinations;
     }
@@ -1663,13 +1659,13 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
-        $result['id'] = (int) $this->getId();
+        $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = (string) $this->getTitle();
+        $result['title'] = $this->getTitle();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['clozetext'] = $this->formatSAQuestion($this->getClozeText());
-        $result['nr_of_tries'] = (int) $this->getNrOfTries();
-        $result['shuffle'] = (bool) $this->getShuffle();
+        $result['nr_of_tries'] = $this->getNrOfTries();
+        $result['shuffle'] = $this->getShuffle();
         $result['feedback'] = array(
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
@@ -1716,7 +1712,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @internal param string $expression_type
      * @return array
      */
-    public function getOperators($expression)
+    public function getOperators($expression) : array
     {
         require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
@@ -1726,7 +1722,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * Get all available expression types for a specific question
      * @return array
      */
-    public function getExpressionTypes()
+    public function getExpressionTypes() : array
     {
         return array(
             iQuestionCondition::PercentageResultExpression,
@@ -1745,7 +1741,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      *
     * @return ilUserQuestionResult
     */
-    public function getUserQuestionResult($active_id, $pass)
+    public function getUserQuestionResult($active_id, $pass) : ilUserQuestionResult
     {
         /** @var ilDBInterface $ilDB */
         global $DIC;
@@ -1812,7 +1808,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         }
     }
 
-    public function calculateCombinationResult($user_result)
+    public function calculateCombinationResult($user_result) : array
     {
         $points = 0;
 
@@ -1995,7 +1991,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $this->ensureNonNegativePoints($reachedPoints);
     }
 
-    public function fetchAnswerValueForGap($userSolution, $gapIndex)
+    public function fetchAnswerValueForGap($userSolution, $gapIndex) : string
     {
         $answerValue = '';
 

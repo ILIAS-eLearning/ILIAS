@@ -88,7 +88,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      *
      * @return bool
      */
-    public function getIsMultipleChoice()
+    public function getIsMultipleChoice() : bool
     {
         return $this->is_multiple_choice;
     }
@@ -124,7 +124,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function saveToDb($original_id = "") : void
     {
-        $this->saveQuestionDataToDb($original_id);
+        if ($original_id == '') {
+            $this->saveQuestionDataToDb();
+        } else {
+            $this->saveQuestionDataToDb($original_id);
+        }
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
         parent::saveToDb($original_id);
@@ -237,11 +241,10 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @access public
     */
-    public function copyObject($target_questionpool_id, $title = "")
+    public function copyObject($target_questionpool_id, $title = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
         // duplicate the question in database
         $clone = $this;
@@ -267,11 +270,10 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -368,8 +370,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
-            $this->setTitle($data["title"]);
-            $this->setComment($data["description"]);
+            $this->setTitle((string) $data["title"]);
+            $this->setComment((string) $data["description"]);
             $this->setOriginalId($data["original_id"]);
             $this->setNrOfTries($data['nr_of_tries']);
             $this->setAuthor($data["author"]);
@@ -377,7 +379,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->setOwner($data["owner"]);
             $this->setIsMultipleChoice($data["is_multiple_choice"] == self::MODE_MULTIPLE_CHOICE);
             include_once("./Services/RTE/classes/class.ilRTE.php");
-            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setImageFilename($data["image_file"]);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
@@ -400,7 +402,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    array_push($this->answers, new ASS_AnswerImagemap($data["answertext"], $data["points"], $data["aorder"], $data["coords"], $data["area"], $data['question_fi'], $data['points_unchecked']));
+                    $image_map_question = new ASS_AnswerImagemap($data["answertext"], $data["points"], $data["aorder"]);
+                    $image_map_question->setCoords($data["coords"]);
+                    $image_map_question->setArea($data["area"]);
+                    $image_map_question->setPointsUnchecked($data['points_unchecked']);
+                    array_push($this->answers, $image_map_question);
                 }
             }
         }
@@ -413,7 +419,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param ASS_AnswerImagemap[] $shapes
      * @return integer number of areas added
      */
-    public function uploadImagemap(array $shapes)
+    public function uploadImagemap(array $shapes) : int
     {
         $added = 0;
 
@@ -427,7 +433,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $added;
     }
 
-    public function getImageFilename()
+    public function getImageFilename() : string
     {
         return $this->image_filename;
     }
@@ -468,7 +474,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $imagemap_contents
     */
-    public function get_imagemap_contents($href = "#")
+    public function get_imagemap_contents($href = "#") : string
     {
         $imagemap_contents = "<map name=\"" . $this->title . "\"> ";
         for ($i = 0; $i < count($this->answers); $i++) {
@@ -506,7 +512,10 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
         if (array_key_exists($order, $this->answers)) {
             // Insert answer
-            $answer = new ASS_AnswerImagemap($answertext, $points, $order, $coords, $area, -1, $points_unchecked);
+            $answer = new ASS_AnswerImagemap($answertext, $points, $order, 0, -1);
+            $answer->setCoords($coords);
+            $answer->setArea($area);
+            $answer->setPointsUnchecked($points_unchecked);
             for ($i = count($this->answers) - 1; $i >= $order; $i--) {
                 $this->answers[$i + 1] = $this->answers[$i];
                 $this->answers[$i + 1]->setOrder($i + 1);
@@ -514,7 +523,10 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->answers[$order] = $answer;
         } else {
             // Append answer
-            $answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), $coords, $area, -1, $points_unchecked);
+            $answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), 0, -1);
+            $answer->setCoords($coords);
+            $answer->setArea($area);
+            $answer->setPointsUnchecked($points_unchecked);
             array_push($this->answers, $answer);
         }
     }
@@ -528,7 +540,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $answers
     */
-    public function getAnswerCount()
+    public function getAnswerCount() : int
     {
         return count($this->answers);
     }
@@ -544,7 +556,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $answers
     */
-    public function getAnswer($index = 0)
+    public function getAnswer($index = 0) : ?object
     {
         if ($index < 0) {
             return null;
@@ -567,7 +579,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $answers
     */
-    public function &getAnswers()
+    public function &getAnswers() : array
     {
         return $this->answers;
     }
@@ -652,7 +664,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false) : int
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -829,7 +841,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return string The additional table name
     * @access public
     */
-    public function getAdditionalTableName()
+    public function getAdditionalTableName() : string
     {
         return "qpl_qst_imagemap";
     }
@@ -842,7 +854,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return string The answer table name
     * @access public
     */
-    public function getAnswerTableName()
+    public function getAnswerTableName() : string
     {
         return "qpl_a_imagemap";
     }
@@ -908,18 +920,18 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
-        $result['id'] = (int) $this->getId();
+        $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = (string) $this->getTitle();
+        $result['title'] = $this->getTitle();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
-        $result['nr_of_tries'] = (int) $this->getNrOfTries();
-        $result['shuffle'] = (bool) $this->getShuffle();
-        $result['is_multiple'] = (bool) $this->getIsMultipleChoice();
+        $result['nr_of_tries'] = $this->getNrOfTries();
+        $result['shuffle'] = $this->getShuffle();
+        $result['is_multiple'] = $this->getIsMultipleChoice();
         $result['feedback'] = array(
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
         );
-        $result['image'] = (string) $this->getImagePathWeb() . $this->getImageFilename();
+        $result['image'] = $this->getImagePathWeb() . $this->getImageFilename();
 
         $answers = array();
         $order = 0;
@@ -928,7 +940,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 "answertext" => (string) $answer_obj->getAnswertext(),
                 "points" => (float) $answer_obj->getPoints(),
                 "points_unchecked" => (float) $answer_obj->getPointsUnchecked(),
-                "order" => (int) $order,
+                "order" => $order,
                 "coords" => $answer_obj->getCoords(),
                 "state" => $answer_obj->getState(),
                 "area" => $answer_obj->getArea(),
@@ -950,7 +962,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param $found_values
      * @return int
      */
-    protected function calculateReachedPointsForSolution($found_values)
+    protected function calculateReachedPointsForSolution($found_values) : int
     {
         $points = 0;
         if (count($found_values) > 0) {
@@ -974,7 +986,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @internal param string $expression_type
      * @return array
      */
-    public function getOperators($expression)
+    public function getOperators($expression) : array
     {
         require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
@@ -984,7 +996,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * Get all available expression types for a specific question
      * @return array
      */
-    public function getExpressionTypes()
+    public function getExpressionTypes() : array
     {
         return array(
             iQuestionCondition::PercentageResultExpression,
@@ -1002,7 +1014,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @return ilUserQuestionResult
     */
-    public function getUserQuestionResult($active_id, $pass)
+    public function getUserQuestionResult($active_id, $pass) : ilUserQuestionResult
     {
         /** @var ilDBInterface $ilDB */
         global $DIC;
@@ -1074,7 +1086,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         return $_GET["selImage"];
     }
-    protected function isAddSolutionSelectionRequest()
+    protected function isAddSolutionSelectionRequest() : bool
     {
         if (!isset($_GET["selImage"])) {
             return false;
@@ -1094,7 +1106,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         return $_GET["remImage"];
     }
-    protected function isRemoveSolutionSelectionRequest()
+    protected function isRemoveSolutionSelectionRequest() : bool
     {
         if (!$this->is_multiple_choice) {
             return false;
@@ -1110,7 +1122,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         return true;
     }
-    protected function getReuseSolutionSelectionParameter()
+    protected function getReuseSolutionSelectionParameter() : ?array
     {
         if (!$this->isReuseSolutionSelectionRequest()) {
             return null;
@@ -1118,7 +1130,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         return assQuestion::explodeKeyValues($_GET["reuseSelection"]);
     }
-    protected function isReuseSolutionSelectionRequest()
+    protected function isReuseSolutionSelectionRequest() : bool
     {
         if (!$this->getTestPresentationConfig()->isPreviousPassSolutionReuseAllowed()) {
             return false;

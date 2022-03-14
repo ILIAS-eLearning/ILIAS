@@ -93,19 +93,4 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         // Assert
         $this->assertEquals($expected, $actual);
     }
-
-    public function test_setGetHokum()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
-        $instance = new assAnswerMatchingTerm();
-        $expected = null;
-
-        // Act
-        $instance->hokum = 'Hokum Value';
-        $actual = $instance->hokum;
-
-        // Assert
-        $this->assertEquals($expected, $actual);
-    }
 }

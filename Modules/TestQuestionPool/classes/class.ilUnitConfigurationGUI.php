@@ -66,25 +66,25 @@ abstract class ilUnitConfigurationGUI
      * @return string
      * @abstract
      */
-    abstract protected function getDefaultCommand();
+    abstract protected function getDefaultCommand() : string;
 
     /**
      * @return string
      * @abstract
      */
-    abstract public function getUnitCategoryOverviewCommand();
+    abstract public function getUnitCategoryOverviewCommand() : string;
 
     /**
      * @return boolean
      * @abstract
      */
-    abstract public function isCRUDContext();
+    abstract public function isCRUDContext() : bool;
 
     /**
      * @return string
      * @abstract
      */
-    abstract public function getUniqueId();
+    abstract public function getUniqueId() : string;
 
     /**
      * @param array $categories
@@ -96,7 +96,7 @@ abstract class ilUnitConfigurationGUI
      * @param bool $for_CRUD
      * @return assFormulaQuestionUnitCategory
      */
-    protected function getCategoryById($id, $for_CRUD = true)
+    protected function getCategoryById($id, $for_CRUD = true) : assFormulaQuestionUnitCategory
     {
         $category = $this->repository->getUnitCategoryById($id);
         if ($for_CRUD && $category->getQuestionFi() != $this->repository->getConsumerId()) {
@@ -425,7 +425,7 @@ abstract class ilUnitConfigurationGUI
      * @param assFormulaQuestionUnit         $unit
      * @return ilPropertyFormGUI
      */
-    protected function initUnitForm(assFormulaQuestionUnitCategory $category = null, assFormulaQuestionUnit $unit = null)
+    protected function initUnitForm(assFormulaQuestionUnitCategory $category = null, assFormulaQuestionUnit $unit = null) : ilPropertyFormGUI
     {
         if ($this->unit_form instanceof ilPropertyFormGUI) {
             return $this->unit_form;
@@ -448,7 +448,7 @@ abstract class ilUnitConfigurationGUI
         $options = array();
         $category_name = '';
         $new_category = false;
-        foreach ((array) $items as $item) {
+        foreach ($items as $item) {
             if (
                 $unit instanceof assFormulaQuestionUnit &&
                 $unit->getId() == $item->getId()
@@ -457,7 +457,7 @@ abstract class ilUnitConfigurationGUI
             }
             
             /**
-             * @var $item assFormulaQuestionUnitCategory|assFormulaQuestionUnitCategory
+             * @var $item assFormulaQuestionUnitCategory
              */
             if ($item instanceof assFormulaQuestionUnitCategory) {
                 if ($category_name != $item->getDisplayString()) {
@@ -718,7 +718,7 @@ abstract class ilUnitConfigurationGUI
      * @param assFormulaQuestionUnitCategory $cat
      * @return ilPropertyFormGUI
      */
-    protected function initUnitCategoryForm(assFormulaQuestionUnitCategory $cat = null)
+    protected function initUnitCategoryForm(assFormulaQuestionUnitCategory $cat = null) : ilPropertyFormGUI
     {
         if ($this->unit_cat_form instanceof ilPropertyFormGUI) {
             return $this->unit_cat_form;

@@ -197,11 +197,11 @@ abstract class assQuestion
         $this->author = $author;
         $this->setQuestion($question);
         if (!$this->author) {
-            $this->author = $this->ilias->account->fullname;
+            $this->author = $DIC->user()->getFullname();
         }
         $this->owner = $owner;
         if ($this->owner <= 0) {
-            $this->owner = $this->ilias->account->id;
+            $this->owner = $DIC->user()->getId();
         }
 
         $this->id = -1;
@@ -213,7 +213,7 @@ abstract class assQuestion
         $this->setExternalId('');
 
         $this->questionActionCmd = 'handleQuestionAction';
-
+        $this->export_image_path = '';
         $this->shuffler = $DIC->refinery()->random()->dontShuffle();
         $this->lifecycle = ilAssQuestionLifecycle::getDraftInstance();
     }
@@ -476,7 +476,7 @@ abstract class assQuestion
 
     public function setEstimatedWorkingTime(int $hour = 0, int $min = 0, int $sec = 0) : void
     {
-        $this->est_working_time = array("h" => (int) $hour, "m" => (int) $min, "s" => (int) $sec);
+        $this->est_working_time = array("h" => $hour, "m" => $min, "s" => $sec);
     }
 
     /**
@@ -905,7 +905,7 @@ abstract class assQuestion
         self::_updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
 
         // Update objective status
-        include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
+        include_once 'Modules/Course/classes/Objectives/class.ilCourseObjectiveResult.php';
         ilCourseObjectiveResult::_updateObjectiveResult($ilUser->getId(), $active_id, $this->getId());
     }
 
@@ -913,7 +913,7 @@ abstract class assQuestion
      * persists the working state for current testactive and testpass
      * @return bool if saving happened
      */
-    final public function persistWorkingState(int $active_id, int $pass, bool $obligationsEnabled = false, bool $authorized = true) : bool
+    final public function persistWorkingState(int $active_id, $pass, bool $obligationsEnabled = false, bool $authorized = true) : bool
     {
         if (!$this->validateSolutionSubmit() && !$this->savePartial()) {
             return false;
@@ -1012,7 +1012,10 @@ abstract class assQuestion
             while ($row = $ilDB->fetchAssoc($res)) {
                 $passedOnceBefore = (int) $row['passed_once'];
             }
-            
+            if ($row == null) {
+                $row['hint_count'] = 0;
+                $row['hint_points'] = 0.0;
+            }
             $passedOnce = (int) ($isPassed || $passedOnceBefore);
                 
             $ilDB->manipulateF(
@@ -1221,7 +1224,7 @@ abstract class assQuestion
     * The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
     *
     */
-    public function getImagePath($question_id = null, $object_id = null)
+    public function getImagePath($question_id = null, $object_id = null) : string
     {
         if ($question_id === null) {
             $question_id = $this->id;
@@ -1234,7 +1237,7 @@ abstract class assQuestion
         return $this->buildImagePath($question_id, $object_id);
     }
     
-    public function buildImagePath($questionId, $parentObjectId)
+    public function buildImagePath($questionId, $parentObjectId) : string
     {
         return CLIENT_WEB_DIR . "/assessment/{$parentObjectId}/{$questionId}/images/";
     }
@@ -1262,7 +1265,9 @@ abstract class assQuestion
         $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            $webdir
+        );
     }
 
     public function getSuggestedSolutionPathWeb() : string
@@ -1271,7 +1276,9 @@ abstract class assQuestion
         $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/solution/";
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            $webdir
+        );
     }
 
     /**
@@ -1286,7 +1293,9 @@ abstract class assQuestion
             $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/images/";
             return str_replace(
                 ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-                ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+                ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+                $webdir
+            );
         }
         return $this->export_image_path;
     }
@@ -1301,7 +1310,7 @@ abstract class assQuestion
     }
     // hey.
     
-    public function getUserSolutionPreferingIntermediate(int $active_id, $pass = null)
+    public function getUserSolutionPreferingIntermediate(int $active_id, $pass = null) : array
     {
         $solution = $this->getSolutionValues($active_id, $pass, false);
         
@@ -1438,7 +1447,7 @@ abstract class assQuestion
     }
 
     /**
-     * @return string Or Array? @see Deletion methods here
+     * @return string|array Or Array? @see Deletion methods here
      */
     public function getAdditionalTableName()
     {
@@ -1446,7 +1455,7 @@ abstract class assQuestion
     }
 
     /**
-     * @return string Or Array? @see Deletion methods here
+     * @return string|array Or Array? @see Deletion methods here
      */
     public function getAnswerTableName()
     {
@@ -1862,7 +1871,7 @@ abstract class assQuestion
         $this->original_id = $original_id;
     }
     
-    public function getOriginalId() : int
+    public function getOriginalId() : ?int
     {
         return $this->original_id;
     }
@@ -2719,7 +2728,7 @@ abstract class assQuestion
      */
     abstract public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false);
 
-    public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $previewSession, $reachedPoints)
+    public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $previewSession, $reachedPoints) : ?int
     {
         global $DIC;
     
@@ -2743,7 +2752,7 @@ abstract class assQuestion
         return $points > 0 ? $points : 0;
     }
     
-    public function isPreviewSolutionCorrect(ilAssQuestionPreviewSession $previewSession)
+    public function isPreviewSolutionCorrect(ilAssQuestionPreviewSession $previewSession) : bool
     {
         $reachedPoints = $this->calculateReachedPointsFromPreviewSession($previewSession);
 
@@ -2761,7 +2770,7 @@ abstract class assQuestion
      * @param integer $active_id
      * @param integer $pass
      */
-    final public function adjustReachedPointsByScoringOptions($points, $active_id, $pass = null)
+    final public function adjustReachedPointsByScoringOptions($points, $active_id, $pass = null) : int
     {
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         $count_system = ilObjTest::_getCountSystem($active_id);
@@ -3934,7 +3943,7 @@ abstract class assQuestion
     /**
      * @return int|null
      */
-    public function getStep()
+    public function getStep() : ?int
     {
         return $this->step;
     }

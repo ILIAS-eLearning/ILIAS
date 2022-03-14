@@ -148,7 +148,7 @@ class ilTestTabsManager
     /**
      * @return ilObjTest
      */
-    public function getTestOBJ()
+    public function getTestOBJ() : ilObjTest
     {
         return $this->testOBJ;
     }
@@ -164,7 +164,7 @@ class ilTestTabsManager
     /**
      * @return ilTestSession
      */
-    public function getTestSession()
+    public function getTestSession() : ilTestSession
     {
         return $this->testSession;
     }
@@ -180,7 +180,7 @@ class ilTestTabsManager
     /**
      * @return ilTestQuestionSetConfig
      */
-    public function getTestQuestionSetConfig()
+    public function getTestQuestionSetConfig() : ilTestQuestionSetConfig
     {
         return $this->testQuestionSetConfig;
     }
@@ -196,7 +196,7 @@ class ilTestTabsManager
     /**
      * @return array
      */
-    public function getHiddenTabs()
+    public function getHiddenTabs() : array
     {
         return $this->hiddenTabs;
     }
@@ -220,7 +220,7 @@ class ilTestTabsManager
     /**
      * @return null|string
      */
-    public function getParentBackLabel()
+    public function getParentBackLabel() : ?string
     {
         return $this->parentBackLabel;
     }
@@ -236,7 +236,7 @@ class ilTestTabsManager
     /**
      * @return null|string
      */
-    public function getParentBackHref()
+    public function getParentBackHref() : ?string
     {
         return $this->parentBackHref;
     }
@@ -287,7 +287,7 @@ class ilTestTabsManager
      * @param string $tabId
      * @return bool
      */
-    protected function isHiddenTab($tabId)
+    protected function isHiddenTab($tabId) : bool
     {
         return in_array($tabId, $this->getHiddenTabs());
     }
@@ -295,7 +295,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    protected function isReadAccessGranted()
+    protected function isReadAccessGranted() : bool
     {
         return $this->access->checkAccess('read', '', $this->getTestOBJ()->getRefId());
     }
@@ -303,7 +303,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    protected function isWriteAccessGranted()
+    protected function isWriteAccessGranted() : bool
     {
         return $this->access->checkAccess('write', '', $this->getTestOBJ()->getRefId());
     }
@@ -311,7 +311,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    protected function isStatisticsAccessGranted()
+    protected function isStatisticsAccessGranted() : bool
     {
         return $this->access->checkAccess('tst_statistics', '', $this->getTestOBJ()->getRefId());
     }
@@ -319,7 +319,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    protected function isPermissionsAccessGranted()
+    protected function isPermissionsAccessGranted() : bool
     {
         return $this->access->checkAccess('edit_permission', '', $this->getTestOBJ()->getRefId());
     }
@@ -327,7 +327,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    protected function isLpAccessGranted()
+    protected function isLpAccessGranted() : bool
     {
         include_once 'Services/Tracking/classes/class.ilLearningProgressAccess.php';
         return ilLearningProgressAccess::checkAccess($this->getTestOBJ()->getRefId());
@@ -336,7 +336,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    protected function checkDashboardTabAccess()
+    protected function checkDashboardTabAccess() : bool
     {
         if ($this->testAccess->checkManageParticipantsAccess()) {
             return true;
@@ -348,7 +348,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    protected function checkScoreParticipantsTabAccess()
+    protected function checkScoreParticipantsTabAccess() : bool
     {
         return $this->testAccess->checkScoreParticipantsAccess();
     }
@@ -356,7 +356,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    protected function checkStatisticsTabAccess()
+    protected function checkStatisticsTabAccess() : bool
     {
         return $this->testAccess->checkStatisticsAccess();
     }
@@ -370,7 +370,7 @@ class ilTestTabsManager
         }
     }
     
-    protected function isTabsConfigSetupRequired()
+    protected function isTabsConfigSetupRequired() : bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -402,8 +402,8 @@ class ilTestTabsManager
         if ($this->hasParentBackLink()) {
             $this->tabs->setBack2Target($this->getParentBackLabel(), $this->getParentBackHref());
         }
-        
-        switch ($DIC->ctrl()->getCmdClass()) {
+
+        switch (strtolower($DIC->ctrl()->getCmdClass())) {
             case 'ilmarkschemagui':
             case 'ilobjtestsettingsgeneralgui':
             case 'ilobjtestsettingsscoringresultsgui':
@@ -776,8 +776,8 @@ class ilTestTabsManager
         }
         */
 
-        include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
-        $template = new ilSettingsTemplate($this->getTestOBJ()->getTemplate(), ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
+        //include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+        //$template = new ilSettingsTemplate($this->getTestOBJ()->getTemplate(), ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
         
         if (!$this->isHiddenTab('questions')) {
             $this->tabs->addSubTab(
@@ -890,22 +890,23 @@ class ilTestTabsManager
                 array("", "ilobjtestgui", "ilcertificategui")
             );
         }
-        
-        $lti_settings = new ilLTIProviderObjectSettingGUI($this->testOBJ->getRefId());
-        if ($lti_settings->hasSettingsAccess()) {
-            $this->tabs->addSubTabTarget(
-                'lti_provider',
-                $DIC->ctrl()->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class),
-                '',
-                [ilLTIProviderObjectSettingGUI::class]
-            );
-        }
+        /* TODO: PHP8 RETRY WHEN LTI IS DONE
+         $lti_settings = new ilLTIProviderObjectSettingGUI($this->testOBJ->getRefId());
+         if ($lti_settings->hasSettingsAccess()) {
+             $this->tabs->addSubTabTarget(
+                 'lti_provider',
+                 $DIC->ctrl()->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class),
+                 '',
+                 [ilLTIProviderObjectSettingGUI::class]
+             );
+         }
+        */
     }
     
     /**
      * @return bool
      */
-    protected function needsDashboardTab()
+    protected function needsDashboardTab() : bool
     {
         if ($this->isHiddenTab(self::TAB_ID_EXAM_DASHBOARD)) {
             return false;
@@ -921,7 +922,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    protected function needsTimeExtensionSubTab()
+    protected function needsTimeExtensionSubTab() : bool
     {
         if (!($this->getTestOBJ()->getProcessingTimeInSeconds() > 0)) {
             return false;
@@ -941,7 +942,7 @@ class ilTestTabsManager
     /**
      * @return string
      */
-    protected function getDashboardTabTarget()
+    protected function getDashboardTabTarget() : string
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -971,7 +972,7 @@ class ilTestTabsManager
         }
     }
     
-    protected function getDashbardParticipantsSubTabLabel()
+    protected function getDashbardParticipantsSubTabLabel() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -985,7 +986,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    protected function needsResultsTab()
+    protected function needsResultsTab() : bool
     {
         return $this->needsParticipantsResultsSubTab() || $this->testOBJ->isScoreReportingEnabled() || $this->needsMySolutionsSubTab();
     }
@@ -993,7 +994,7 @@ class ilTestTabsManager
     /**
      * @return string
      */
-    protected function getResultsTabTarget()
+    protected function getResultsTabTarget() : string
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -1019,7 +1020,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    public function needsMyResultsSubTab()
+    public function needsMyResultsSubTab() : bool
     {
         return $this->getTestSession()->reportableResultsAvailable($this->getTestOBJ());
     }
@@ -1027,7 +1028,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    public function needsLoResultsSubTab()
+    public function needsLoResultsSubTab() : bool
     {
         if (!$this->needsMyResultsSubTab()) {
             return false;
@@ -1039,7 +1040,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    public function needsParticipantsResultsSubTab()
+    public function needsParticipantsResultsSubTab() : bool
     {
         if ($this->testAccess->checkManageParticipantsAccess()) {
             return true;
@@ -1055,7 +1056,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    public function needsHighSoreSubTab()
+    public function needsHighSoreSubTab() : bool
     {
         if (!$this->needsMyResultsSubTab()) {
             return false;
@@ -1067,7 +1068,7 @@ class ilTestTabsManager
     /**
      * @return bool
      */
-    public function needsSkillResultsSubTab()
+    public function needsSkillResultsSubTab() : bool
     {
         if (!$this->needsMyResultsSubTab()) {
             return false;
@@ -1076,7 +1077,7 @@ class ilTestTabsManager
         return $this->getTestOBJ()->isSkillServiceToBeConsidered();
     }
     
-    public function needsMySolutionsSubTab()
+    public function needsMySolutionsSubTab() : bool
     {
         return $this->getTestOBJ()->canShowSolutionPrintview($this->getTestSession()->getUserId());
     }

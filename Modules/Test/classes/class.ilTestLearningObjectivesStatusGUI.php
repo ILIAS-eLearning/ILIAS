@@ -34,7 +34,7 @@ class ilTestLearningObjectivesStatusGUI
     /**
      * @return integer
      */
-    public function getCrsObjId()
+    public function getCrsObjId() : ?int
     {
         return $this->crsObjId;
     }
@@ -50,7 +50,7 @@ class ilTestLearningObjectivesStatusGUI
     /**
      * @return integer
      */
-    public function getUsrId()
+    public function getUsrId() : ?int
     {
         return $this->usrId;
     }
@@ -63,7 +63,7 @@ class ilTestLearningObjectivesStatusGUI
         $this->usrId = $usrId;
     }
     
-    public function getHTML($objectiveId = null)
+    public function getHTML($objectiveId = null) : string
     {
         $this->lng->loadLanguageModule('crs');
         
@@ -81,7 +81,7 @@ class ilTestLearningObjectivesStatusGUI
         return $tpl->get();
     }
     
-    private function getHeaderLangVar($objectiveId)
+    private function getHeaderLangVar($objectiveId) : string
     {
         if ($objectiveId) {
             return 'tst_objective_progress_header';
@@ -133,7 +133,7 @@ class ilTestLearningObjectivesStatusGUI
         $tpl->parseCurrentBlock();
     }
     
-    private function getUsersObjectivesStatus($crsObjId, $usrId)
+    private function getUsersObjectivesStatus($crsObjId, $usrId) : array
     {
         $res = array();
 
@@ -187,7 +187,7 @@ class ilTestLearningObjectivesStatusGUI
         return $res;
     }
 
-    private function getUsersObjectivesResults($crsObjId, $usrId)
+    private function getUsersObjectivesResults($crsObjId, $usrId) : array
     {
         $res = array();
 

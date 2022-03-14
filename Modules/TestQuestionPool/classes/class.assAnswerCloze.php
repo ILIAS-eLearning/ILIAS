@@ -22,15 +22,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assAnswerCloze extends ASS_AnswerSimple
 {
-    /**
-     * Name of the lower bound
-     *
-     * A string value defining the lower bound
-     * of a numeric value
-     *
-     * @var string
-     */
-    protected $lowerBound;
+    protected ?string $lowerBound;
 
     /**
      * Name of the upper bound
@@ -61,9 +53,9 @@ class assAnswerCloze extends ASS_AnswerSimple
      * @return assAnswerCloze
      * @TODO See if the initialization of the bounds to null can be avoided to have them string/numeric at all times.
      */
-    public function __construct($answertext = "", $points = 0.0, $order = 0)
+    public function __construct(string $answertext = "", float $points = 0.0, int $order = 0, int $id = -1, int $state = 0)
     {
-        parent::__construct($answertext, $points, $order, -1);
+        parent::__construct($answertext, $points, $order, $id, $state);
         $this->lowerBound = null;
         $this->upperBound = null;
         $this->gap_size = 0;
@@ -72,11 +64,10 @@ class assAnswerCloze extends ASS_AnswerSimple
     // fau: fixGapFormula - allow formula evaluation when checking bounds, save bound text instead of number
     /**
      * Sets the lower boind
-     *
      * @param $bound string A string defining the lower bound of an answer for numeric gaps.
      * @TODO: Refactor method to get rid of "locale magic".
      */
-    public function setLowerBound($bound)
+    public function setLowerBound(string $bound)
     {
         $boundvalue = $this->getNumericValueFromText($bound);
         $value = $this->getNumericValueFromAnswerText();
@@ -90,11 +81,10 @@ class assAnswerCloze extends ASS_AnswerSimple
 
     /**
      * Sets the upper bound
-     *
      * @param $bound string A string defining the upper bound of an answer for numeric gaps.
      * @TODO: Refactor method to get rid of "locale magic".
      */
-    public function setUpperBound($bound)
+    public function setUpperBound(string $bound)
     {
         $boundvalue = $this->getNumericValueFromText($bound);
         $value = $this->getNumericValueFromAnswerText();
@@ -125,7 +115,7 @@ class assAnswerCloze extends ASS_AnswerSimple
      *
      * @return null|string
      */
-    public function getLowerBound()
+    public function getLowerBound() : ?string
     {
         return $this->lowerBound;
     }
@@ -135,7 +125,7 @@ class assAnswerCloze extends ASS_AnswerSimple
      *
      * @return null|string
      */
-    public function getUpperBound()
+    public function getUpperBound() : ?string
     {
         return $this->upperBound;
     }
@@ -143,7 +133,7 @@ class assAnswerCloze extends ASS_AnswerSimple
     /**
      * @param int $gap_size
      */
-    public function setGapSize($gap_size)
+    public function setGapSize(int $gap_size)
     {
         $this->gap_size = $gap_size;
     }
@@ -151,7 +141,7 @@ class assAnswerCloze extends ASS_AnswerSimple
     /**
      * @return int
      */
-    public function getGapSize()
+    public function getGapSize() : int
     {
         return $this->gap_size;
     }

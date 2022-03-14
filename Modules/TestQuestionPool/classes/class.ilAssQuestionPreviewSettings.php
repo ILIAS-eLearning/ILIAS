@@ -39,7 +39,7 @@ class ilAssQuestionPreviewSettings
         }
     }
     
-    public function isTestRefId()
+    public function isTestRefId() : bool
     {
         $objectType = ilObject::_lookupType($this->contextRefId, true);
         
@@ -101,7 +101,7 @@ class ilAssQuestionPreviewSettings
         $this->genericFeedbackEnabled = $genericFeedbackEnabled;
     }
 
-    public function isGenericFeedbackEnabled()
+    public function isGenericFeedbackEnabled() : bool
     {
         return $this->genericFeedbackEnabled;
     }
@@ -111,7 +111,7 @@ class ilAssQuestionPreviewSettings
         $this->specificFeedbackEnabled = $specificFeedbackEnabled;
     }
 
-    public function isSpecificFeedbackEnabled()
+    public function isSpecificFeedbackEnabled() : bool
     {
         return $this->specificFeedbackEnabled;
     }
@@ -121,7 +121,7 @@ class ilAssQuestionPreviewSettings
         $this->hintProvidingEnabled = $hintProvidingEnabled;
     }
 
-    public function isHintProvidingEnabled()
+    public function isHintProvidingEnabled() : bool
     {
         return $this->hintProvidingEnabled;
     }
@@ -131,12 +131,12 @@ class ilAssQuestionPreviewSettings
         $this->bestSolutionEnabled = $bestSolutionEnabled;
     }
 
-    public function isBestSolutionEnabled()
+    public function isBestSolutionEnabled() : bool
     {
         return $this->bestSolutionEnabled;
     }
 
-    public function isInstantFeedbackNavigationRequired()
+    public function isInstantFeedbackNavigationRequired() : bool
     {
         if ($this->isGenericFeedbackEnabled()) {
             return true;
@@ -153,7 +153,7 @@ class ilAssQuestionPreviewSettings
         return false;
     }
 
-    public function isHintProvidingNavigationRequired()
+    public function isHintProvidingNavigationRequired() : bool
     {
         return $this->isHintProvidingEnabled();
     }

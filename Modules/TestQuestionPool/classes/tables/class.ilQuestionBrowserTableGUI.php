@@ -178,7 +178,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->questionCommentingEnabled = $questionCommentingEnabled;
     }
     
-    protected function isCommentsColumnSelected()
+    protected function isCommentsColumnSelected() : bool
     {
         return in_array('comments', $this->getSelectedColumns());
     }
@@ -536,7 +536,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->editable = $value;
     }
     
-    public function getEditable()
+    public function getEditable() : bool
     {
         return $this->editable;
     }
@@ -546,7 +546,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->writeAccess = $value;
     }
     
-    public function getWriteAccess()
+    public function getWriteAccess() : bool
     {
         return $this->writeAccess;
     }
@@ -564,7 +564,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         return false;
     }
     
-    protected function getCommentsHtml($qData)
+    protected function getCommentsHtml($qData) : string
     {
         if (!$qData['comments']) {
             return '';
@@ -577,7 +577,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             . "' alt='{$qData['comments']}'><span class='ilHActProp'>{$qData['comments']}</span></a>";
     }
     
-    protected function getCommentsAjaxLink($questionId)
+    protected function getCommentsAjaxLink($questionId) : string
     {
         $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $_GET['ref_id'], 'quest', $this->parent_obj->object->getId(), 'quest', $questionId);
         return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');

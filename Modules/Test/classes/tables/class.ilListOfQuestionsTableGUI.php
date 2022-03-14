@@ -185,7 +185,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
     }
 
-    public function isShowPointsEnabled()
+    public function isShowPointsEnabled() : bool
     {
         return $this->showPointsEnabled;
     }
@@ -195,7 +195,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->showPointsEnabled = $showPointsEnabled;
     }
 
-    public function isShowMarkerEnabled()
+    public function isShowMarkerEnabled() : bool
     {
         return $this->showMarkerEnabled;
     }
@@ -205,7 +205,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->showMarkerEnabled = $showMarkerEnabled;
     }
 
-    public function isShowObligationsEnabled()
+    public function isShowObligationsEnabled() : bool
     {
         return $this->showObligationsEnabled;
     }
@@ -215,7 +215,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->showObligationsEnabled = $showObligationsEnabled;
     }
 
-    public function isObligationsFilterEnabled()
+    public function isObligationsFilterEnabled() : bool
     {
         return $this->obligationsFilterEnabled;
     }
@@ -225,7 +225,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->obligationsFilterEnabled = $obligationsFilterEnabled;
     }
 
-    public function areObligationsNotAnswered()
+    public function areObligationsNotAnswered() : bool
     {
         return $this->obligationsNotAnswered;
     }
@@ -238,7 +238,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isFinishTestButtonEnabled()
+    public function isFinishTestButtonEnabled() : bool
     {
         return $this->finishTestButtonEnabled;
     }

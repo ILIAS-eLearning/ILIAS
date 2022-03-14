@@ -115,7 +115,7 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         return false;
     }
     
-    private function getUniqueAssignedSkillsStats()
+    private function getUniqueAssignedSkillsStats() : array
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->myDb);
@@ -127,7 +127,7 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         return $assignmentList->getUniqueAssignedSkills();
     }
     
-    private function buildTableRowsArray($assignedSkills)
+    private function buildTableRowsArray($assignedSkills) : array
     {
         $rows = array();
         

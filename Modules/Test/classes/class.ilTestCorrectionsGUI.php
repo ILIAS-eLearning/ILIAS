@@ -143,7 +143,7 @@ class ilTestCorrectionsGUI
         $this->DIC->ctrl()->redirect($this, 'showQuestion');
     }
     
-    protected function buildQuestionCorrectionForm(assQuestionGUI $questionGUI)
+    protected function buildQuestionCorrectionForm(assQuestionGUI $questionGUI) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->DIC->ctrl()->getFormAction($this));
@@ -469,7 +469,7 @@ class ilTestCorrectionsGUI
      * @param int $qId
      * @return bool
      */
-    protected function checkQuestion($qId)
+    protected function checkQuestion($qId) : bool
     {
         if (!$this->testOBJ->isTestQuestion($qId)) {
             return false;
@@ -492,7 +492,7 @@ class ilTestCorrectionsGUI
      * @param int $qId
      * @return assQuestionGUI
      */
-    protected function getQuestion($qId)
+    protected function getQuestion($qId) : assQuestionGUI
     {
         $question = assQuestion::instantiateQuestionGUI($qId);
         $question->object->setObjId($this->testOBJ->getId());
@@ -500,7 +500,7 @@ class ilTestCorrectionsGUI
         return $question;
     }
     
-    protected function getSolutions(assQuestion $question)
+    protected function getSolutions(assQuestion $question) : array
     {
         $solutionRows = array();
         
@@ -550,7 +550,7 @@ class ilTestCorrectionsGUI
      *
      * @return bool True, if relevant interfaces are implemented to support scoring adjustment.
      */
-    protected function supportsAdjustment(\assQuestionGUI $question_object)
+    protected function supportsAdjustment(\assQuestionGUI $question_object) : bool
     {
         return ($question_object instanceof ilGuiQuestionScoringAdjustable
                 || $question_object instanceof ilGuiAnswerScoringAdjustable)
@@ -564,7 +564,7 @@ class ilTestCorrectionsGUI
      * @param assQuestionGUI $question_object
      * @return bool
      */
-    protected function allowedInAdjustment(\assQuestionGUI $question_object)
+    protected function allowedInAdjustment(\assQuestionGUI $question_object) : bool
     {
         $setting = new ilSetting('assessment');
         $types = explode(',', $setting->get('assessment_scoring_adjustment'));

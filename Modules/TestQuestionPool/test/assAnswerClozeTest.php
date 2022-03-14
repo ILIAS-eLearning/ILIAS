@@ -69,10 +69,10 @@ class assAnswerClozeTest extends assBaseTestCase
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
-        $instance = new assAnswerCloze('2');
+        $instance = new assAnswerCloze('3');
 
         // Act
-        $expected = '2';
+        $expected = '3';
         $instance->setLowerBound('test');
         $actual = $instance->getLowerBound();
 

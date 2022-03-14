@@ -38,7 +38,7 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
         $a_tpl->parseCurrentBlock();
     }
     
-    protected function buildAnswersModal()
+    protected function buildAnswersModal() : ilModalGUI
     {
         $closeButton = ilJsLinkButton::getInstance();
         $closeButton->setCaption('close');
@@ -58,7 +58,7 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
         return $modal;
     }
     
-    protected function buildTagInput()
+    protected function buildTagInput() : ilTagInputGUI
     {
         $tagInput = new ilTagInputGUI('', $this->getPostVar() . '_tags');
         $tagInput->setTypeAhead(true);

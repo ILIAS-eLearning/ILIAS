@@ -91,7 +91,7 @@ abstract class ilTestExport
     /**
      * @return boolean
      */
-    public function isResultExportingEnabledForTestExport()
+    public function isResultExportingEnabledForTestExport() : bool
     {
         return $this->resultExportingEnabledForTestExport;
     }
@@ -107,7 +107,7 @@ abstract class ilTestExport
     /**
      * @return ilTestParticipantList
      */
-    public function getForcedAccessFilteredParticipantList()
+    public function getForcedAccessFilteredParticipantList() : ?ilTestParticipantList
     {
         return $this->forcedAccessFilteredParticipantList;
     }
@@ -123,7 +123,7 @@ abstract class ilTestExport
     /**
      * @return ilTestParticipantList
      */
-    public function getAccessFilteredParticipantList()
+    public function getAccessFilteredParticipantList() : ?ilTestParticipantList
     {
         if ($this->getForcedAccessFilteredParticipantList() instanceof ilTestParticipantList) {
             return $this->getForcedAccessFilteredParticipantList();
@@ -132,7 +132,7 @@ abstract class ilTestExport
         return $this->test_obj->buildStatisticsAccessFilteredParticipantList();
     }
 
-    public function getExtension()
+    public function getExtension() : string
     {
         switch ($this->mode) {
             case "results":
@@ -154,7 +154,7 @@ abstract class ilTestExport
     *   @access public
     *   @return
     */
-    public function buildExportFile()
+    public function buildExportFile() : string
     {
         switch ($this->mode) {
             case "results":
@@ -169,7 +169,7 @@ abstract class ilTestExport
     /**
     * build xml export file
     */
-    public function buildExportResultFile()
+    public function buildExportResultFile() : string
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -208,7 +208,7 @@ abstract class ilTestExport
      * @param boolean $deliver TRUE to directly deliver the file, FALSE to return the binary data
      * @return string
      */
-    protected function aggregatedResultsToExcel($deliver = true)
+    protected function aggregatedResultsToExcel($deliver = true) : string
     {
         $data = $this->test_obj->getAggregatedResultsData();
 
@@ -327,7 +327,7 @@ abstract class ilTestExport
      *
      * @return string
      */
-    public function exportToExcel($deliver = true, $filterby = "", $filtertext = "", $passedonly = false)
+    public function exportToExcel($deliver = true, $filterby = "", $filtertext = "", $passedonly = false) : string
     {
         $this->test_obj->setAccessFilteredParticipantList($this->getAccessFilteredParticipantList());
         
@@ -973,7 +973,7 @@ abstract class ilTestExport
     /**
     * build xml export file
     */
-    public function buildExportFileXML()
+    public function buildExportFileXML() : string
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -1070,7 +1070,7 @@ abstract class ilTestExport
         $ilBench->stop("TestExport", "buildExportFile_zipFile");
 
         // destroy writer object
-        $this->xml->_XmlWriter;
+        $this->xml->_XmlWriter();
 
         $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
         $ilBench->stop("TestExport", "buildExportFile");
@@ -1168,7 +1168,7 @@ abstract class ilTestExport
     /**
      * @return ilAssQuestionSkillAssignmentList
      */
-    protected function buildQuestionSkillAssignmentList()
+    protected function buildQuestionSkillAssignmentList() : ilAssQuestionSkillAssignmentList
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

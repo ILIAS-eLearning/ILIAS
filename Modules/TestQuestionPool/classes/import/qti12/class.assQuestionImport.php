@@ -34,7 +34,7 @@ class assQuestionImport
         $this->object = $a_object;
     }
     
-    public function getFeedbackGeneric($item)
+    public function getFeedbackGeneric($item) : array
     {
         $feedbacksgeneric = array();
         foreach ($item->resprocessing as $resprocessing) {
@@ -93,7 +93,7 @@ class assQuestionImport
      * @param string $prefix
      * @return int
      */
-    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_')
+    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_') : int
     {
         return (int) str_replace($prefix, '', $feedbackIdent);
     }
@@ -103,7 +103,7 @@ class assQuestionImport
      * @param string $prefix
      * @return array
      */
-    protected function getFeedbackAnswerSpecific(ilQTIItem $item, $prefix = 'response_')
+    protected function getFeedbackAnswerSpecific(ilQTIItem $item, $prefix = 'response_') : array
     {
         $feedbacks = array();
         
@@ -184,7 +184,7 @@ class assQuestionImport
      * @param ilQTIItem $item
      * @return ilAssQuestionLifecycle
      */
-    protected function fetchLifecycle(ilQTIItem $item)
+    protected function fetchLifecycle(ilQTIItem $item) : ilAssQuestionLifecycle
     {
         try {
             $lifecycle = ilAssQuestionLifecycle::getInstance(
@@ -210,7 +210,7 @@ class assQuestionImport
     /**
      * returns the full path to extracted qpl import archiv (qpl import dir + qpl archiv subdir)
      */
-    protected function getQplImportArchivDirectory()
+    protected function getQplImportArchivDirectory() : string
     {
         include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         return ilObjQuestionPool::_getImportDirectory() . '/' . $_SESSION["qpl_import_subdir"];
@@ -219,13 +219,13 @@ class assQuestionImport
     /**
      * returns the full path to extracted tst import archiv (tst import dir + tst archiv subdir)
      */
-    protected function getTstImportArchivDirectory()
+    protected function getTstImportArchivDirectory() : string
     {
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         return ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"];
     }
     
-    protected function processNonAbstractedImageReferences($text, $sourceNic)
+    protected function processNonAbstractedImageReferences($text, $sourceNic) : string
     {
         $reg = '/<img.*src=".*\\/mm_(\\d+)\\/(.*?)".*>/m';
         $matches = null;
@@ -259,7 +259,7 @@ class assQuestionImport
      * @param type $qtiItem
      * @return string $additionalContentEditingMode
      */
-    final protected function fetchAdditionalContentEditingModeInformation($qtiItem)
+    final protected function fetchAdditionalContentEditingModeInformation($qtiItem) : string
     {
         $additionalContentEditingMode = $qtiItem->getMetadataEntry('additional_cont_edit_mode');
         

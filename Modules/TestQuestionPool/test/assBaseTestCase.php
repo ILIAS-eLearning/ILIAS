@@ -54,6 +54,8 @@ abstract class assBaseTestCase extends TestCase
         $refineryMock->expects(self::any())->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
         $DIC['refinery'] = $refineryMock;
 
+        $DIC['http'] = $this->getMockBuilder(ILIAS\HTTP\Services::class)->disableOriginalConstructor()->getMock();
+
         parent::setUp();
     }
 

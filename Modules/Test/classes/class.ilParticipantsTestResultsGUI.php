@@ -52,7 +52,7 @@ class ilParticipantsTestResultsGUI
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ?ilObjTest
     {
         return $this->testObj;
     }
@@ -68,7 +68,7 @@ class ilParticipantsTestResultsGUI
     /**
      * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig() : ?ilTestQuestionSetConfig
     {
         return $this->questionSetConfig;
     }
@@ -84,7 +84,7 @@ class ilParticipantsTestResultsGUI
     /**
      * @return ilTestAccess
      */
-    public function getTestAccess()
+    public function getTestAccess() : ?ilTestAccess
     {
         return $this->testAccess;
     }
@@ -100,7 +100,7 @@ class ilParticipantsTestResultsGUI
     /**
      * @return ilTestObjectiveOrientedContainer
      */
-    public function getObjectiveParent()
+    public function getObjectiveParent() : ?ilTestObjectiveOrientedContainer
     {
         return $this->objectiveParent;
     }
@@ -148,7 +148,7 @@ class ilParticipantsTestResultsGUI
     /**
      * @return ilParticipantsTestResultsTableGUI
      */
-    protected function buildTableGUI()
+    protected function buildTableGUI() : ilParticipantsTestResultsTableGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         require_once 'Modules/Test/classes/tables/class.ilParticipantsTestResultsTableGUI.php';
@@ -410,7 +410,7 @@ class ilParticipantsTestResultsGUI
      *
      * @return ilTemplate
      */
-    public function createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results)
+    public function createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results) : ilTemplate
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -527,7 +527,7 @@ class ilParticipantsTestResultsGUI
     /**
      * @return bool
      */
-    protected function isPdfDeliveryRequest()
+    protected function isPdfDeliveryRequest() : bool
     {
         if (!isset($_GET['pdf'])) {
             return false;

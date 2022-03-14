@@ -321,7 +321,7 @@ class assMatchingQuestionImport extends assQuestionImport
      * @param string $prefix
      * @return int
      */
-    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_')
+    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_') : int
     {
         list($termId, $definitionId) = explode('_', str_replace($prefix, '', $feedbackIdent));
         

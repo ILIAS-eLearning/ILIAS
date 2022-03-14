@@ -169,7 +169,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
     /**
      * @return integer
      */
-    protected function getSubmittedSourceQuestionPoolId()
+    protected function getSubmittedSourceQuestionPoolId() : int
     {
         return (int) $_POST['source_qpl_id'];
     }
@@ -251,7 +251,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
      *
      * @return ilPropertyFormGUI $form
      */
-    private function buildForm($sourceQuestionPoolId)
+    private function buildForm($sourceQuestionPoolId) : ilPropertyFormGUI
     {
         $this->questionSetConfig->loadFromDb($this->testOBJ->getTestId());
         
@@ -343,7 +343,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
      * @param array $questionPoolsData
      * @return array
      */
-    private function buildQuestionPoolSelectInputOptionArray($questionPoolsData)
+    private function buildQuestionPoolSelectInputOptionArray($questionPoolsData) : array
     {
         $questionPoolSelectInputOptions = array( '' => $this->lng->txt('please_select') );
         
@@ -354,7 +354,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
         return $questionPoolSelectInputOptions;
     }
     
-    private function buildTaxonomySelectInputOptionArray($questionPoolId)
+    private function buildTaxonomySelectInputOptionArray($questionPoolId) : array
     {
         $taxSelectOptions = array(
             0 => $this->lng->txt('please_select')

@@ -42,7 +42,7 @@ class ilQuestionPoolDuplicatedTaxonomiesKeysMap
      * @param integer $originalTaxonomyId
      * @return integer
      */
-    public function getMappedTaxonomyId($originalTaxonomyId)
+    public function getMappedTaxonomyId($originalTaxonomyId) : int
     {
         return $this->taxonomyKeyMap[$originalTaxonomyId];
     }
@@ -51,7 +51,7 @@ class ilQuestionPoolDuplicatedTaxonomiesKeysMap
      * @param integer $originalTaxNodeId
      * @return integer
      */
-    public function getMappedTaxNodeId($originalTaxNodeId)
+    public function getMappedTaxNodeId($originalTaxNodeId) : int
     {
         return $this->taxNodeKeyMap[$originalTaxNodeId];
     }
@@ -59,7 +59,7 @@ class ilQuestionPoolDuplicatedTaxonomiesKeysMap
     /**
      * @return array
      */
-    public function getTaxonomyRootNodeMap()
+    public function getTaxonomyRootNodeMap() : array
     {
         return $this->taxRootNodeKeyMap;
     }

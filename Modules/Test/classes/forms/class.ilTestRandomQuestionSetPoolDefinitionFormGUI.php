@@ -76,7 +76,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
     /**
      * @return null|string
      */
-    public function getSaveAndNewCommand()
+    public function getSaveAndNewCommand() : ?string
     {
         return $this->saveAndNewCommand;
     }

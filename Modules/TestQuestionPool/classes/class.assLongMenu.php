@@ -76,12 +76,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->correct_answers = $correct_answers;
     }
 
-    private function buildFolderName()
+    private function buildFolderName() : string
     {
         return ilFileUtils::getDataDir() . '/assessment/longMenuQuestion/' . $this->getId() . '/' ;
     }
 
-    public function getAnswerTableName()
+    public function getAnswerTableName() : string
     {
         return "qpl_a_lome";
     }
@@ -110,7 +110,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->answers = $answers;
     }
 
-    public function getAnswers()
+    public function getAnswers() : array
     {
         return $this->answers;
     }
@@ -136,7 +136,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->specificFeedbackSetting = $specificFeedbackSetting;
     }
 
-    public function getSpecificFeedbackSetting()
+    public function getSpecificFeedbackSetting() : int
     {
         return $this->specificFeedbackSetting;
     }
@@ -146,7 +146,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->minAutoComplete = $minAutoComplete;
     }
 
-    public function getMinAutoComplete()
+    public function getMinAutoComplete() : int
     {
         return $this->minAutoComplete ? $this->minAutoComplete  : self::MIN_LENGTH_AUTOCOMPLETE;
     }
@@ -177,12 +177,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param ilPropertyFormGUI|null $form
      * @return bool
      */
-    public function checkQuestionCustomPart($form = null)
+    public function checkQuestionCustomPart($form = null) : bool
     {
         $hidden_text_files = $this->getAnswers();
         $correct_answers = $this->getCorrectAnswers();
         $points = array();
-        if (sizeof($correct_answers) == 0 || sizeof($hidden_text_files) == 0) {
+        if ($correct_answers === null || sizeof($correct_answers) == 0 || $hidden_text_files === null || sizeof($hidden_text_files) == 0) {
             return false;
         }
         if (sizeof($correct_answers) != sizeof($hidden_text_files)) {
@@ -216,7 +216,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param $answer_options
      * @return bool
      */
-    private function correctAnswerDoesNotExistInAnswerOptions($answers, $answer_options)
+    private function correctAnswerDoesNotExistInAnswerOptions($answers, $answer_options) : bool
     {
         foreach ($answers[0] as $key => $answer) {
             if (!in_array($answer, $answer_options)) {
@@ -260,9 +260,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             array(
                 $this->getId(),
                 $this->getLongMenuTextValue(),
-                (int) $this->getSpecificFeedbackSetting(),
-                (int) $this->getMinAutoComplete(),
-                (int) $this->getIdenticalScoring()
+                $this->getSpecificFeedbackSetting(),
+                $this->getMinAutoComplete(),
+                $this->getIdenticalScoring()
             )
         );
 
@@ -284,9 +284,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
                 $this->db->replace(
                     $this->getAnswerTableName(),
                     array(
-                                'question_fi' => array('integer', (int) $this->getId()),
-                                'gap_number' => array('integer', (int) $gap_number),
-                                'position' => array('integer', (int) $position)
+                        'question_fi' => array('integer', $this->getId()),
+                        'gap_number' => array('integer', (int) $gap_number),
+                        'position' => array('integer', (int) $position)
                         ),
                     array(
                                 'answer_text' => array('text', $answer),
@@ -318,7 +318,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         }
     }
 
-    private function createArrayFromFile()
+    private function createArrayFromFile() : array
     {
         $files = glob($this->buildFolderName() . '*.txt');
         
@@ -369,17 +369,17 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
             $this->setNrOfTries($data['nr_of_tries']);
-            $this->setTitle($data["title"]);
-            $this->setComment($data["description"]);
+            $this->setTitle((string) $data["title"]);
+            $this->setComment((string) $data["description"]);
             $this->setOriginalId($data["original_id"]);
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
             $this->setIdenticalScoring($data["identical_scoring"]);
             $this->setOwner($data["owner"]);
             include_once("./Services/RTE/classes/class.ilRTE.php");
-            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data['question_text'], 1));
+            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data['question_text'], 1));
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            $this->setLongMenuTextValue(ilRTE::_replaceMediaObjectImageSrc($data['long_menu_text'], 1));
+            $this->setLongMenuTextValue(ilRTE::_replaceMediaObjectImageSrc((string) $data['long_menu_text'], 1));
             $this->loadCorrectAnswerData($question_id);
             $this->setMinAutoComplete($data["min_auto_complete"]);
             if (isset($data['feedback_setting'])) {
@@ -421,7 +421,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->setCorrectAnswers($correct_answers);
     }
 
-    public function getCorrectAnswersForQuestionSolution($question_id)
+    public function getCorrectAnswersForQuestionSolution($question_id) : array
     {
         $correct_answers = array();
         $res = $this->db->queryF(
@@ -440,7 +440,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $correct_answers;
     }
 
-    private function getCorrectAnswersForGap($question_id, $gap_id)
+    private function getCorrectAnswersForGap($question_id, $gap_id) : array
     {
         $correct_answers = array();
         $res = $this->db->queryF(
@@ -454,7 +454,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $correct_answers;
     }
     
-    private function getPointsForGap($question_id, $gap_id)
+    private function getPointsForGap($question_id, $gap_id) : float
     {
         $points = 0.0;
         $res = $this->db->queryF(
@@ -524,11 +524,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $clone->id;
     }
 
-    public function copyObject($target_questionpool_id, $title = "")
+    public function copyObject($target_questionpool_id, $title = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
         // duplicate the question in database
         $clone = $this;
@@ -550,11 +549,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -811,7 +809,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      *
      * @return ilUserQuestionResult
      */
-    public function getUserQuestionResult($active_id, $pass)
+    public function getUserQuestionResult($active_id, $pass) : ilUserQuestionResult
     {
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
@@ -836,7 +834,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $this->createArrayFromFile();
     }
     
-    public function isShuffleAnswersEnabled()
+    public function isShuffleAnswersEnabled() : bool
     {
         return false;
     }
@@ -871,14 +869,14 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
-        $result['id'] = (int) $this->getId();
+        $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = (string) $this->getTitle();
+        $result['title'] = $this->getTitle();
         $replaced_quesiton_text = $this->getLongMenuTextValue();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['lmtext'] = $this->formatSAQuestion($replaced_quesiton_text);
-        $result['nr_of_tries'] = (int) $this->getNrOfTries();
-        $result['shuffle'] = (bool) $this->getShuffle();
+        $result['nr_of_tries'] = $this->getNrOfTries();
+        $result['shuffle'] = $this->getShuffle();
         $result['feedback'] = array(
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
@@ -891,7 +889,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return json_encode($result);
     }
 
-    public function getIdenticalScoring()
+    public function getIdenticalScoring() : int
     {
         return ($this->identical_scoring) ? 1 : 0;
     }

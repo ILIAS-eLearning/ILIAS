@@ -44,7 +44,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
     /**
      * @return ilTestAccess
      */
-    public function getTestAccess()
+    public function getTestAccess() : ilTestAccess
     {
         return $this->testAccess;
     }
@@ -73,7 +73,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         $ilTabs->setSubTabActive($active_sub_tab);
     }
     
-    private function fetchActiveIdParameter()
+    private function fetchActiveIdParameter() : int
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -141,7 +141,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
     /**
      * @return string
      */
-    protected function getDefaultCommand()
+    protected function getDefaultCommand() : string
     {
         return 'manscoring';
     }
@@ -149,7 +149,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
     /**
      * @return string
      */
-    protected function getActiveSubTabId()
+    protected function getActiveSubTabId() : string
     {
         return 'man_scoring';
     }
@@ -396,7 +396,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         }
     }
 
-    private function buildManScoringParticipantForm($questionGuiList, $activeId, $pass, $initValues = false)
+    private function buildManScoringParticipantForm($questionGuiList, $activeId, $pass, $initValues = false) : ilPropertyFormGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -483,7 +483,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
     /**
      * @return ilTestManScoringParticipantsTableGUI
      */
-    private function buildManScoringParticipantsTable($withData = false)
+    private function buildManScoringParticipantsTable($withData = false) : ilTestManScoringParticipantsTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php';
         $table = new ilTestManScoringParticipantsTableGUI($this);

@@ -95,7 +95,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilObjTest
      */
-    public function getTest()
+    public function getTest() : ilObjTest
     {
         return $this->test;
     }
@@ -111,7 +111,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilObjTestGUI
      */
-    public function getTestGUI()
+    public function getTestGUI() : ilObjTestGUI
     {
         return $this->testGUI;
     }
@@ -127,7 +127,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilTestOutputGUI
      */
-    public function getTestOutputGUI()
+    public function getTestOutputGUI() : ilTestOutputGUI
     {
         return $this->ilTestOutputGUI;
     }

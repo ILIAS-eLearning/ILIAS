@@ -183,7 +183,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      *
      * @return string
      */
-    public function getPresentationMode()
+    public function getPresentationMode() : ?string
     {
         return $this->presentationMode;
     }

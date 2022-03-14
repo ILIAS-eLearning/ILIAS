@@ -41,7 +41,7 @@ class ilAssQuestionPreviewSession
         return $this->questionId;
     }
     
-    private function getSessionContextIndex()
+    private function getSessionContextIndex() : string
     {
         return "u{$this->userId}::q{$this->questionId}";
     }
@@ -51,7 +51,7 @@ class ilAssQuestionPreviewSession
         $_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex] = $value;
     }
     
-    private function issetSessionValue($subIndex)
+    private function issetSessionValue($subIndex) : bool
     {
         return isset($_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex]);
     }
@@ -81,13 +81,16 @@ class ilAssQuestionPreviewSession
         return $this->readSessionValue(self::SESSION_SUBINDEX_PARTICIPANT_SOLUTION);
     }
     
-    public function hasParticipantSolution()
+    public function hasParticipantSolution() : bool
     {
         return $this->issetSessionValue(self::SESSION_SUBINDEX_PARTICIPANT_SOLUTION);
     }
     
-    public function getNumRequestedHints()
+    public function getNumRequestedHints() : int
     {
+        if (!$this->issetSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS)) {
+            return 0;
+        }
         $hints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
 
         if (!is_array($hints)) {
@@ -97,10 +100,14 @@ class ilAssQuestionPreviewSession
         return count($hints);
     }
     
-    public function isHintRequested($hintId)
+    public function isHintRequested($hintId) : bool
     {
-        $requestedHints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
-        return isset($requestedHints[$hintId]);
+        if ($this->issetSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS)) {
+            $requestedHints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
+            return isset($requestedHints[$hintId]);
+        } else {
+            return false;
+        }
     }
     
     public function addRequestedHint($hintId)
@@ -112,7 +119,10 @@ class ilAssQuestionPreviewSession
     
     public function getRequestedHints()
     {
-        return $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
+        if ($this->issetSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS)) {
+            return $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
+        }
+        return array();
     }
     
     public function resetRequestedHints()
@@ -130,7 +140,7 @@ class ilAssQuestionPreviewSession
         return $this->readSessionValue(self::SESSION_SUBINDEX_RANDOMIZER_SEED);
     }
 
-    public function randomizerSeedExists()
+    public function randomizerSeedExists() : bool
     {
         return ($this->getRandomizerSeed() !== null);
     }

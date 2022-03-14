@@ -52,7 +52,7 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	array	Values
     */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
@@ -71,7 +71,7 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	int	Size
     */
-    public function insert(&$a_tpl)
+    public function insert(&$a_tpl) : int
     {
         global $DIC;
         $lng = $DIC['lng'];

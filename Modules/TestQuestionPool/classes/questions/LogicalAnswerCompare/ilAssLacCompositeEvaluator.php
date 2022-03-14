@@ -57,7 +57,7 @@ class ilAssLacCompositeEvaluator
      *
      * @return bool
      */
-    private function evaluateSubTree(ilAssLacAbstractComposite $composite)
+    private function evaluateSubTree(ilAssLacAbstractComposite $composite) : bool
     {
         $result = false;
         if ($composite->nodes[0] instanceof ilAssLacExpressionInterface &&
@@ -188,7 +188,7 @@ class ilAssLacCompositeEvaluator
      * @param ilAssLacAbstractComposite $composite
      * @return bool
      */
-    private function isInstanceOfAnswerIndexProvidingExpression(ilAssLacAbstractComposite $composite)
+    private function isInstanceOfAnswerIndexProvidingExpression(ilAssLacAbstractComposite $composite) : bool
     {
         if ($composite->nodes[0] instanceof ilAssLacResultOfAnswerOfQuestionExpression) {
             return true;

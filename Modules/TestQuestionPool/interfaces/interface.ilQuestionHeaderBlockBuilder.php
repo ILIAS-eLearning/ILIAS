@@ -15,5 +15,5 @@ interface ilQuestionHeaderBlockBuilder
      *
      * @return string
      */
-    public function getHTML();
+    public function getHTML() : string;
 }

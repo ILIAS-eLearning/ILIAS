@@ -196,8 +196,8 @@ class ilassMarkSchemaTest extends TestCase
     {
         // Arrange
         $expected = is_array(array());
-        $this->ass_mark_schema->mark_steps = "a string";
-        $this->assertEquals($this->ass_mark_schema->mark_steps, "a string");
+        $this->ass_mark_schema->mark_steps = array("a string");
+        $this->assertEquals($this->ass_mark_schema->mark_steps, array("a string"));
         $this->ass_mark_schema->flush();
 
         // Act

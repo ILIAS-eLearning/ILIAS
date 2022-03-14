@@ -42,7 +42,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @var		ilAssQuestionHintOrderingClipboard
      */
     private $hintOrderingClipboard = null;
-    
+    private ilLanguage $lng;
+    private ilCtrl $ctrl;
+
     /**
      * @var bool
      */
@@ -59,6 +61,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         parent::__construct($questionGUI);
         
         $this->hintOrderingClipboard = new ilAssQuestionHintsOrderingClipboard($questionGUI->object);
@@ -67,7 +71,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
     /**
      * @return bool
      */
-    public function isEditingEnabled()
+    public function isEditingEnabled() : bool
     {
         return $this->editingEnabled;
     }
@@ -552,8 +556,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $questionHintList = ilAssQuestionHintList::getListByQuestionId($this->questionOBJ->getId());
         
         if (!$questionHintList->hintExists($hintId)) {
-            $this->main_tpl->setOnScreenMessage('failure', $lng->txt('tst_question_hints_invalid_hint_id'), true);
-            $ilCtrl->redirect($this, self::CMD_SHOW_LIST);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('tst_question_hints_invalid_hint_id'), true);
+            $this->ctrl->redirect($this, self::CMD_SHOW_LIST);
         }
     }
     
@@ -565,7 +569,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @param	ilAssQuestionHintList	$questionHintList
      * @return	ilAssQuestionHintList	$filteredQuestionHintList
      */
-    private function getQuestionHintListWithoutHintStoredInOrderingClipboard(ilAssQuestionHintList $questionHintList)
+    private function getQuestionHintListWithoutHintStoredInOrderingClipboard(ilAssQuestionHintList $questionHintList) : ilAssQuestionHintList
     {
         $filteredQuestionHintList = new ilAssQuestionHintList();
         
@@ -612,7 +616,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @static
      * @return	array	$hintIds
      */
-    private static function fetchHintIdsParameter()
+    private static function fetchHintIdsParameter() : array
     {
         $hintIds = array();
         
@@ -636,7 +640,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @static
      * @return	array	$hintIndexes
      */
-    private static function fetchHintIndexesParameter()
+    private static function fetchHintIndexesParameter() : array
     {
         $hintIndexes = array();
         
@@ -659,7 +663,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @static
      * @return	array	$hintIndexes
      */
-    private static function orderHintIndexes($hintIndexes)
+    private static function orderHintIndexes($hintIndexes) : array
     {
         asort($hintIndexes);
 
@@ -678,7 +682,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @param boolean $xmlStyle
      * @return string $linkTarget
      */
-    public function getHintPresentationLinkTarget($hintId, $xmlStyle = true)
+    public function getHintPresentationLinkTarget($hintId, $xmlStyle = true) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

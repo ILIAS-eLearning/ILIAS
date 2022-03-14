@@ -75,7 +75,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @return int
      */
-    public function getTargetParentObjId()
+    public function getTargetParentObjId() : ?int
     {
         return $this->targetParentObjId;
     }
@@ -83,7 +83,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @return int
      */
-    public function getImportInstallationId()
+    public function getImportInstallationId() : ?int
     {
         return $this->importInstallationId;
     }
@@ -99,7 +99,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @return ilImportMapping
      */
-    public function getImportMappingRegistry()
+    public function getImportMappingRegistry() : ?ilImportMapping
     {
         return $this->importMappingRegistry;
     }
@@ -115,7 +115,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @return string
      */
-    public function getImportMappingComponent()
+    public function getImportMappingComponent() : string
     {
         return $this->importMappingComponent;
     }
@@ -131,7 +131,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @return ilAssQuestionSkillAssignmentImportList
      */
-    public function getImportAssignmentList()
+    public function getImportAssignmentList() : ?ilAssQuestionSkillAssignmentImportList
     {
         return $this->importAssignmentList;
     }
@@ -147,7 +147,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @return ilAssQuestionSkillAssignmentImportList
      */
-    public function getFailedImportAssignmentList()
+    public function getFailedImportAssignmentList() : ilAssQuestionSkillAssignmentImportList
     {
         return $this->failedImportAssignmentList;
     }
@@ -155,7 +155,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @return ilAssQuestionSkillAssignmentList
      */
-    public function getSuccessImportAssignmentList()
+    public function getSuccessImportAssignmentList() : ilAssQuestionSkillAssignmentList
     {
         return $this->successImportAssignmentList;
     }
@@ -179,7 +179,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @return bool
      */
-    public function import()
+    public function import() : bool
     {
         foreach ($this->getImportAssignmentList() as $assignment) {
             $foundSkillId = $this->getSkillIdMapping(
@@ -223,7 +223,7 @@ class ilAssQuestionSkillAssignmentImporter
         }
     }
     
-    protected function buildImportableAssignment(ilAssQuestionSkillAssignmentImport $assignment, $foundSkillId)
+    protected function buildImportableAssignment(ilAssQuestionSkillAssignmentImport $assignment, $foundSkillId) : ilAssQuestionSkillAssignment
     {
         $importableAssignment = new ilAssQuestionSkillAssignment($this->db);
         
@@ -246,7 +246,7 @@ class ilAssQuestionSkillAssignmentImporter
         return $importableAssignment;
     }
     
-    protected function buildImportableSolutionComparisonExpression(ilAssQuestionSolutionComparisonExpressionImport $solCompExp)
+    protected function buildImportableSolutionComparisonExpression(ilAssQuestionSolutionComparisonExpressionImport $solCompExp) : ilAssQuestionSolutionComparisonExpression
     {
         $importableSolCompExp = new ilAssQuestionSolutionComparisonExpression($this->db);
         
@@ -257,7 +257,7 @@ class ilAssQuestionSkillAssignmentImporter
         return $importableSolCompExp;
     }
     
-    protected function isValidSkill($foundSkillData)
+    protected function isValidSkill($foundSkillData) : bool
     {
         if (!is_array($foundSkillData) || !isset($foundSkillData['skill_id']) || !$foundSkillData['skill_id']) {
             return false;
@@ -281,7 +281,7 @@ class ilAssQuestionSkillAssignmentImporter
         return current($foundSkillData);
     }
     
-    protected function getLocalInstallationId()
+    protected function getLocalInstallationId() : ?string
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

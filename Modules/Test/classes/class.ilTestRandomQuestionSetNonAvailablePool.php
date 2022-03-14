@@ -39,7 +39,7 @@ class ilTestRandomQuestionSetNonAvailablePool
     /**
      * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -55,7 +55,7 @@ class ilTestRandomQuestionSetNonAvailablePool
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -71,7 +71,7 @@ class ilTestRandomQuestionSetNonAvailablePool
     /**
      * @return string
      */
-    public function getPath()
+    public function getPath() : string
     {
         return $this->path;
     }
@@ -87,7 +87,7 @@ class ilTestRandomQuestionSetNonAvailablePool
     /**
      * @return string
      */
-    public function getUnavailabilityStatus()
+    public function getUnavailabilityStatus() : string
     {
         return $this->unavailabilityStatus;
     }

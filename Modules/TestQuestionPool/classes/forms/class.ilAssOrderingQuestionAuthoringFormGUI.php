@@ -100,7 +100,7 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
     /**
      * @return ilIdentifiedMultiValuesInputGUI
      */
-    public function getOrderingElementInputField()
+    public function getOrderingElementInputField() : ilIdentifiedMultiValuesInputGUI
     {
         return $this->getItemByPostVar(
             assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
@@ -131,7 +131,7 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
         $this->replaceFormItemByPostVar($replacingInput);
     }
     
-    protected function buildCommandButtonId($orderingType)
+    protected function buildCommandButtonId($orderingType) : string
     {
         return self::COMMAND_BUTTON_PREFIX . $orderingType;
     }

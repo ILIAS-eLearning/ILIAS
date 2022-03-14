@@ -58,7 +58,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     *
     * @return	string		command target frame
     */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame($a_cmd) : string
     {
         $frame = '';
         switch ($a_cmd) {
@@ -86,7 +86,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties()
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -95,7 +95,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         $props = parent::getProperties();
 
         // we cannot use ilObjTestAccess::_isOffline() because of text messages
-        $onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $ilUser->id);
+        $onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $ilUser->getId());
         if ($onlineaccess !== true) {
             $props[] = array("alert" => true, "property" => $lng->txt("status"),
                 "value" => $onlineaccess);
@@ -112,7 +112,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     * @param	string		$a_cmd			command
     *
     */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink($a_cmd) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -161,7 +161,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         return $commands;
     }
 
-    private function isObjectiveTest()
+    private function isObjectiveTest() : bool
     {
         require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
         return ilLOSettings::isObjectiveTest($this->ref_id);

@@ -372,7 +372,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         return $this->lng->txt('meta_c_' . $countryCode);
     }
 
-    protected function isFieldEnabledEnoughByAdministration($fieldIdentifier)
+    protected function isFieldEnabledEnoughByAdministration($fieldIdentifier) : bool
     {
         global $DIC;
         $ilSetting = $DIC['ilSetting'];

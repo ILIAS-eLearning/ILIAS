@@ -40,7 +40,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         $this->setEnabledPageFocus(false);
     }
 
-    public function getOriginalPresentationTitle()
+    public function getOriginalPresentationTitle() : string
     {
         return $this->originalPresentationTitle;
     }

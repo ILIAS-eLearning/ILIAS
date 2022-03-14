@@ -67,7 +67,7 @@ class ilAssQuestionHintsOrderingClipboard
      * @access	public
      * @return	integer $hintId
      */
-    public function getStored()
+    public function getStored() : int
     {
         return $_SESSION[__CLASS__][$this->questionId];
     }
@@ -80,7 +80,7 @@ class ilAssQuestionHintsOrderingClipboard
      * @param	integer	$hintId
      * @return	boolean	$isStored
      */
-    public function isStored($hintId)
+    public function isStored($hintId) : bool
     {
         if ($_SESSION[__CLASS__][$this->questionId] === $hintId) {
             return true;
@@ -95,7 +95,7 @@ class ilAssQuestionHintsOrderingClipboard
      * @access	public
      * @return	boolean $hasStored
      */
-    public function hasStored()
+    public function hasStored() : bool
     {
         if ($_SESSION[__CLASS__][$this->questionId] !== null) {
             return true;

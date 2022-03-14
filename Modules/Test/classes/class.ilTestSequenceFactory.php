@@ -81,7 +81,7 @@ class ilTestSequenceFactory
      */
     public function getSequenceByActiveIdAndPass($activeId, $pass)
     {
-        if ($this->testSequences[$activeId][$pass] === null) {
+        if (!isset($this->testSequences[$activeId]) || $this->testSequences[$activeId][$pass] === null) {
             switch ($this->testOBJ->getQuestionSetType()) {
                 case ilObjTest::QUESTION_SET_TYPE_FIXED:
 

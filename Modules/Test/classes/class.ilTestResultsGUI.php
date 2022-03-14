@@ -67,7 +67,7 @@ class ilTestResultsGUI
     /**
      * @return ilTestObjectiveOrientedContainer
      */
-    public function getObjectiveParent()
+    public function getObjectiveParent() : ilTestObjectiveOrientedContainer
     {
         return $this->objectiveParent;
     }
@@ -83,7 +83,7 @@ class ilTestResultsGUI
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }
@@ -99,7 +99,7 @@ class ilTestResultsGUI
     /**
      * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig() : ilTestQuestionSetConfig
     {
         return $this->questionSetConfig;
     }
@@ -115,7 +115,7 @@ class ilTestResultsGUI
     /**
      * @return ilTestAccess
      */
-    public function getTestAccess()
+    public function getTestAccess() : ilTestAccess
     {
         return $this->testAccess;
     }
@@ -131,7 +131,7 @@ class ilTestResultsGUI
     /**
      * @return ilTestSession
      */
-    public function getTestSession()
+    public function getTestSession() : ilTestSession
     {
         return $this->testSession;
     }
@@ -147,7 +147,7 @@ class ilTestResultsGUI
     /**
      * @return ilTestTabsManager
      */
-    public function getTestTabs()
+    public function getTestTabs() : ilTestTabsManager
     {
         return $this->testTabs;
     }

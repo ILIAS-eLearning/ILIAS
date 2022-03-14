@@ -323,6 +323,16 @@ class Container extends \Pimple\Container
         return new \ILIAS\SurveyQuestionPool\Service($this);
     }
 
+    public function test() : \ILIAS\Test\Service
+    {
+        return new \ILIAS\Test\Service($this);
+    }
+
+    public function testQuestionPool() : \ILIAS\TestQuestionPool\Service
+    {
+        return new \ILIAS\TestQuestionPool\Service($this);
+    }
+
     public function mediaPool() : \ILIAS\MediaPool\Service
     {
         return new \ILIAS\MediaPool\Service($this);

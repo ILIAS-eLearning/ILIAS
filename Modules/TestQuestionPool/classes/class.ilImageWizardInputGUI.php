@@ -63,7 +63,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Accepted Suffixes
     */
-    public function getSuffixes()
+    public function getSuffixes() : array
     {
         return $this->suffixes;
     }
@@ -83,7 +83,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
@@ -103,7 +103,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @return	object	Value
     */
-    public function getQuestionObject()
+    public function getQuestionObject() : ?object
     {
         return $this->qstObject;
     }
@@ -123,7 +123,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }

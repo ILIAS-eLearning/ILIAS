@@ -72,7 +72,7 @@ class ilAssQuestionHint
      * @access	public
      * @return	integer	$id
      */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -94,7 +94,7 @@ class ilAssQuestionHint
      * @access	public
      * @return	integer	$questionId
      */
-    public function getQuestionId()
+    public function getQuestionId() : ?int
     {
         return $this->questionId;
     }
@@ -116,7 +116,7 @@ class ilAssQuestionHint
      * @access	public
      * @return	integer	$index
      */
-    public function getIndex()
+    public function getIndex() : ?int
     {
         return $this->index;
     }
@@ -138,7 +138,7 @@ class ilAssQuestionHint
      * @access	public
      * @return	integer	$points
      */
-    public function getPoints()
+    public function getPoints() : ?int
     {
         return $this->points;
     }
@@ -160,7 +160,7 @@ class ilAssQuestionHint
      * @access	public
      * @return	string	$text
      */
-    public function getText()
+    public function getText() : ?string
     {
         return $this->text;
     }
@@ -185,7 +185,7 @@ class ilAssQuestionHint
      * @param	integer	$id
      * @return	boolean	$success
      */
-    public function load($id)
+    public function load($id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -226,7 +226,7 @@ class ilAssQuestionHint
      * @access	public
      * @return	boolean	$success
      */
-    public function save()
+    public function save() : bool
     {
         if ($this->getId()) {
             return $this->update();
@@ -243,7 +243,7 @@ class ilAssQuestionHint
      * @global	ilDBInterface	$ilDB
      * @return	boolean	$success
      */
-    private function update()
+    private function update() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -270,7 +270,7 @@ class ilAssQuestionHint
      * @global	ilDBInterface	$ilDB
      * @return	boolean	$success
      */
-    private function insert()
+    private function insert() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -292,7 +292,7 @@ class ilAssQuestionHint
      *
      * @return	integer	$affectedRows
      */
-    public function delete()
+    public function delete() : int
     {
         return self::deleteById($this->getId());
     }
@@ -331,7 +331,7 @@ class ilAssQuestionHint
      * @param	integer	$hintId
      * @return	integer	$affectedRows
      */
-    public static function deleteById($hintId)
+    public static function deleteById($hintId) : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -357,19 +357,19 @@ class ilAssQuestionHint
      * @param	integer	$hintId
      * @return	self	$hintInstance
      */
-    public static function getInstanceById($hintId)
+    public static function getInstanceById($hintId) : ilAssQuestionHint
     {
         $questionHint = new self();
         $questionHint->load($hintId);
         return $questionHint;
     }
     
-    public function getPageObjectType()
+    public function getPageObjectType() : string
     {
         return self::PAGE_OBJECT_TYPE;
     }
     
-    public static function getHintIndexLabel(ilLanguage $lng, $hintIndex)
+    public static function getHintIndexLabel(ilLanguage $lng, $hintIndex) : string
     {
         return sprintf($lng->txt('tst_question_hints_index_column_label'), $hintIndex);
     }

@@ -39,6 +39,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
      */
     public $object;
 
+    protected ILIAS\TestQuestionPool\InternalRequestService $qplrequest;
+
     /**
     * Constructor
     * @access public
@@ -61,6 +63,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'consumer_context');
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'calling_consumer');
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
+        $this->qplrequest = $DIC->testQuestionPool()->internal()->request();
 
         parent::__construct("", $_GET["ref_id"], true, false);
     }
@@ -118,7 +121,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $next_class = $this->ctrl->getNextClass($this);
 
         if (in_array($next_class, array('', 'ilobjquestionpoolgui')) && $cmd == 'questions') {
-            $_GET['q_id'] = '';
+            $_GET['q_id'] = ''; // TODO TATS: What happens here? How can this be sorted?
         }
 
         $this->prepareOutput();
@@ -197,7 +200,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $q_gui->object->setObjId($this->object->getId());
 
                 $q_gui->setTargetGuiClass(null);
-                $q_gui->setQuestionActionCmd(null);
+                $q_gui->setQuestionActionCmd('');
 
                 if ($this->object->getType() == 'qpl') {
                     $q_gui->addHeaderAction();
@@ -209,7 +212,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $this->lng->loadLanguageModule("content");
                 $this->ctrl->setReturnByClass("ilAssQuestionPageGUI", "view");
                 $this->ctrl->setReturn($this, "questions");
-                $page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
+                $page_gui = new ilAssQuestionPageGUI($this->qplrequest->getQuestionId());
                 $page_gui->obj->addUpdateListener(
                     $question,
                     'updateTimestamp'
@@ -301,7 +304,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 require_once 'Modules/TestQuestionPool/classes/class.ilLocalUnitConfigurationGUI.php';
                 require_once 'Modules/TestQuestionPool/classes/class.ilUnitConfigurationRepository.php';
                 $gui = new ilLocalUnitConfigurationGUI(
-                    new ilUnitConfigurationRepository((int) $_GET['q_id'])
+                    new ilUnitConfigurationRepository($this->qplrequest->getQuestionId())
                 );
                 $ilCtrl->forwardCommand($gui);
                 break;
@@ -615,7 +618,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             if (strcmp($type, "-" . $item["type"] . "-") == 0) {
                 global $DIC;
                 $component_factory = $DIC['component.factory'];
-                $plugins = $component_repository->getPluginSlotById("qst")->getActivePlugins();
+                //$plugins = $component_repository->getPluginSlotById("qst")->getActivePlugins();
                 foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
                     if (strcmp($pl->getQuestionType(), $item["type"]) == 0) {
                         $type = $pl->getQuestionTypeTranslation();
@@ -786,7 +789,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getImportQuestionsForm()
+    protected function getImportQuestionsForm() : ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -888,7 +891,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $questionIdsToDelete = isset($_POST['q_id']) ? (array) $_POST['q_id'] : array();
         if (0 === count($questionIdsToDelete) && isset($_GET['q_id'])) {
-            $questionIdsToDelete = array($_GET['q_id']);
+            $questionIdsToDelete = array($this->qplrequest->getQuestionId());
         }
 
         $questionIdsToDelete = array_filter(array_map('intval', $questionIdsToDelete));
@@ -1114,7 +1117,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
      */
     protected function fetchAuthoringQuestionIdParamater()
     {
-        $qId = (int) $_GET['q_id'];
+        $qId = $this->qplrequest->getQuestionId();
 
         if ($this->object->checkQuestionParent($qId)) {
             return $qId;
@@ -1141,7 +1144,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->tpl->setContent($this->ctrl->getHTML($form));
     }
 
-    private function buildCreateQuestionForm()
+    private function buildCreateQuestionForm() : ilPropertyFormGUI
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -1271,8 +1274,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $this->object->copyToClipboard($value);
             }
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_copy_insert_clipboard"), true);
-        } elseif (isset($_GET['q_id']) && $_GET['q_id'] > 0) {
-            $this->object->copyToClipboard((int) $_GET['q_id']);
+        } elseif (isset($_GET['q_id']) && $this->qplrequest->getQuestionId() > 0) {
+            $this->object->copyToClipboard($this->qplrequest->getQuestionId());
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_copy_insert_clipboard"), true);
         } else {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_copy_select_none"), true);
@@ -1290,8 +1293,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $this->object->moveToClipboard($value);
             }
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_move_insert_clipboard"), true);
-        } elseif (isset($_GET['q_id']) && $_GET['q_id'] > 0) {
-            $this->object->moveToClipboard((int) $_GET['q_id']);
+        } elseif (isset($_GET['q_id']) && $this->qplrequest->getQuestionId() > 0) {
+            $this->object->moveToClipboard($this->qplrequest->getQuestionId());
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_copy_insert_clipboard"), true);
         } else {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_move_select_none"), true);
@@ -1318,11 +1321,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public function &editQuestionForTestObject()
     {
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+        $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->getQuestionId());
         $this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
     }
 
-    protected function initImportForm($a_new_type)
+    protected function initImportForm($a_new_type) : ilPropertyFormGUI
     {
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
@@ -1371,7 +1374,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         if ($_GET["q_id"] > 0) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-            $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+            $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->getQuestionId());
             if ($q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());
                 $title = $q_gui->object->getTitle();
@@ -1395,7 +1398,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         parent::setTitleAndDescription();
         if ($_GET["q_id"] > 0) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-            $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+            $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->getQuestionId());
             if ($q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());
                 $title = $q_gui->object->getTitle();
@@ -1404,7 +1407,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 }
                 $this->tpl->setTitle($title);
                 $this->tpl->setDescription($q_gui->object->getComment());
-                $this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
+                $this->tpl->setTitleIcon(ilObject2::_getIcon($this->object->getId(), "big", $this->object->getType()));
             } else {
                 // Workaround for context issues: If no object was found, redirect without q_id parameter
                 $this->ctrl->setParameter($this, 'q_id', '');
@@ -1413,7 +1416,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         } else {
             $this->tpl->setTitle($this->object->getTitle());
             $this->tpl->setDescription($this->object->getLongDescription());
-            $this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
+            $this->tpl->setTitleIcon(ilObject2::_getIcon($this->object->getId(), "big", $this->object->getType()));
         }
     }
 
@@ -1578,7 +1581,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
     }
 
-    private function isSkillsTabRequired()
+    private function isSkillsTabRequired() : bool
     {
         if (!($this->object instanceof ilObjQuestionPool)) {
             return false;
@@ -1688,7 +1691,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
      * @global ilPluginAdmin $ilPluginAdmin
      * @return ilQuestionBrowserTableGUI
      */
-    private function buildQuestionBrowserTableGUI($taxIds)
+    private function buildQuestionBrowserTableGUI($taxIds) : ilQuestionBrowserTableGUI
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];

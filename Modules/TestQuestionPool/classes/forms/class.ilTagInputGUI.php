@@ -133,7 +133,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
      *
      * @return	array	Options. Array
      */
-    public function getOptions()
+    public function getOptions() : array
     {
         return $this->options ? $this->options : array();
     }
@@ -203,7 +203,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
      * @param string    $a_mode
      * @return string
      */
-    public function render($a_mode = "")
+    public function render($a_mode = "") : string
     {
         if ($this->type_ahead) {
             $tpl = new ilTemplate("tpl.prop_tag_typeahead.html", true, true, "Services/Form");

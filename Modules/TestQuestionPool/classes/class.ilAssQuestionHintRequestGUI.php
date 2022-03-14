@@ -301,7 +301,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         }
     }
     
-    private function isQuestionPreview()
+    private function isQuestionPreview() : bool
     {
         if ($this->questionHintTracking instanceof ilAssQuestionPreviewHintTracking) {
             return true;
@@ -318,7 +318,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @param boolean $xmlStyle
      * @return string $linkTarget
      */
-    public function getHintPresentationLinkTarget($hintId, $xmlStyle = true)
+    public function getHintPresentationLinkTarget($hintId, $xmlStyle = true) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

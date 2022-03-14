@@ -15,12 +15,12 @@ class ilAssQuestionPageCommandForwarder
     /**
      * @var ilObjTest
      */
-    protected $testObj;
+    protected ilObjTest $testObj;
 
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }

@@ -81,7 +81,7 @@ class ilUserQuestionResult
      * @return array
      * @throws Exception
      */
-    public function getUserSolutionsByIdentifier($identifier)
+    public function getUserSolutionsByIdentifier($identifier) : array
     {
         if (
             $identifier != self::$USER_SOLUTION_IDENTIFIER_KEY &&
@@ -100,7 +100,7 @@ class ilUserQuestionResult
     /**
      * @return array
      */
-    public function getSolutions()
+    public function getSolutions() : array
     {
         return $this->solutions;
     }
@@ -110,7 +110,7 @@ class ilUserQuestionResult
      *
      * @return array
      */
-    public function getSolutionForKey($key)
+    public function getSolutionForKey($key) : ?array
     {
         foreach ($this->solutions as $solution) {
             if ($solution[self::$USER_SOLUTION_IDENTIFIER_KEY] == $key) {
@@ -131,7 +131,7 @@ class ilUserQuestionResult
     /**
      * @return int
      */
-    public function getReachedPercentage()
+    public function getReachedPercentage() : int
     {
         return $this->reached_percentage;
     }
@@ -139,7 +139,7 @@ class ilUserQuestionResult
     /**
      * @return boolean
      */
-    public function hasSolutions()
+    public function hasSolutions() : bool
     {
         return count($this->solutions) > 0;
     }

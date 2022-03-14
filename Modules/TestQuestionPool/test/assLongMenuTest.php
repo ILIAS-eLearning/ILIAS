@@ -11,7 +11,7 @@ class assLongmenuTest extends assBaseTestCase
     protected $backupGlobals = false;
 
 
-    protected static function getMethod($name)
+    protected static function getMethod($name) : ReflectionMethod
     {
         $class = new ReflectionClass('assLongMenu');
         $method = $class->getMethod($name);
@@ -120,6 +120,7 @@ class assLongmenuTest extends assBaseTestCase
         $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1'),
                                            1 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1')));
         $obj->setAnswers(array(array(1,2,3,4)));
+        $obj->setAuthor("Tester");
         $obj->setPoints(4.5);
         $obj->setTitle('LongMenu Title');
         $obj->setLongMenuTextValue('LongMenu Question');

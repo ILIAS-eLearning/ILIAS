@@ -62,7 +62,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    protected function hasPostVar()
+    protected function hasPostVar() : bool
     {
         return (bool) strlen($this->getPostVar());
     }
@@ -70,7 +70,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    public function getPostVar()
+    public function getPostVar() : string
     {
         return $this->postVar;
     }
@@ -128,7 +128,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     /**
      * @param $a_set
      */
-    protected function buildFileItemContent($a_set)
+    protected function buildFileItemContent($a_set) : string
     {
         if (!isset($a_set['webpath']) || !strlen($a_set['webpath'])) {
             return ilLegacyFormElementsUtil::prepareFormOutput($a_set['value2']);

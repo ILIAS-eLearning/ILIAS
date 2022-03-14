@@ -29,7 +29,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
         $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
-        $this->setGlobalVariable("component.factory", $component_factory); 
+        $this->setGlobalVariable("component.factory", $component_factory);
         $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin($this->createMock(ilComponentRepository::class)));
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 

@@ -27,7 +27,7 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return ilAssLacOperationManufacturer
      */
-    public static function _getInstance()
+    public static function _getInstance() : ?ilAssLacOperationManufacturer
     {
         if (self::$instance == null) {
             self::$instance = new ilAssLacOperationManufacturer();
@@ -97,7 +97,7 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return string
      */
-    public function getPattern()
+    public function getPattern() : string
     {
         //		return '/[&\|<>=]+/';
         return '/&|\||(?<!<|>)=|<(?!=|>)|>(?!=)|<=|>=|<>/';

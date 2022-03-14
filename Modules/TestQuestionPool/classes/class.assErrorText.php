@@ -74,7 +74,12 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function saveToDb($original_id = "") : void
     {
-        $this->saveQuestionDataToDb($original_id);
+        if ($original_id == '') {
+            $this->saveQuestionDataToDb();
+        } else {
+            $this->saveQuestionDataToDb($original_id);
+        }
+
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
         parent::saveToDb();
@@ -156,15 +161,15 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
-            $this->setTitle($data["title"]);
-            $this->setComment($data["description"]);
+            $this->setTitle((string) $data["title"]);
+            $this->setComment((string) $data["description"]);
             $this->setOriginalId($data["original_id"]);
             $this->setNrOfTries($data['nr_of_tries']);
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
             include_once("./Services/RTE/classes/class.ilRTE.php");
-            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setErrorText($data["errortext"]);
             $this->setTextSize($data["textsize"]);
             $this->setPointsWrong($data["points_wrong"]);
@@ -247,11 +252,10 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Copies an object
     */
-    public function copyObject($target_questionpool_id, $title = "")
+    public function copyObject($target_questionpool_id, $title = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
         // duplicate the question in database
         
@@ -278,11 +282,10 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -337,7 +340,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false) : int
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -449,7 +452,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return string The additional table name
     */
-    public function getAdditionalTableName()
+    public function getAdditionalTableName() : string
     {
         return "qpl_qst_errortext";
     }
@@ -459,7 +462,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return string The answer table name
     */
-    public function getAnswerTableName()
+    public function getAnswerTableName() : string
     {
         return "qpl_a_errortext";
     }
@@ -535,13 +538,13 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return array An associated array containing the best solution
     */
-    public function getBestSolution($active_id, $pass)
+    public function getBestSolution($active_id, $pass) : array
     {
         $user_solution = array();
         return $user_solution;
     }
 
-    public function getErrorsFromText($a_text = "")
+    public function getErrorsFromText($a_text = "") : array
     {
         if (strlen($a_text) == 0) {
             $a_text = $this->getErrorText();
@@ -602,7 +605,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         ksort($this->errordata);
     }
 
-    public function createErrorTextOutput($selections = null, $graphicalOutput = false, $correct_solution = false, $use_link_tags = true)
+    public function createErrorTextOutput($selections = null, $graphicalOutput = false, $correct_solution = false, $use_link_tags = true) : string
     {
         $counter = 0;
         $errorcounter = 0;
@@ -759,7 +762,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return implode("\n", $textarray);
     }
     
-    protected function isTokenSelected($counter, array $selection)
+    protected function isTokenSelected($counter, array $selection) : bool
     {
         foreach ($selection as $data) {
             if (!is_array($data)) {
@@ -774,7 +777,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return false;
     }
 
-    public function createErrorTextExport($selections = null)
+    public function createErrorTextExport($selections = null) : string
     {
         $counter = 0;
         $errorcounter = 0;
@@ -827,7 +830,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return join("\n", $textarray);
     }
 
-    public function getBestSelection($withPositivePointsOnly = true)
+    public function getBestSelection($withPositivePointsOnly = true) : array
     {
         $passages = array();
         $words = array();
@@ -998,7 +1001,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function getErrorData() : array
     {
-        return $this->errordata;
+        return $this->errordata ?? array();
     }
 
     /**
@@ -1006,9 +1009,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return string Error text
     */
-    public function getErrorText()
+    public function getErrorText() : string
     {
-        return $this->errortext;
+        return $this->errortext ?? '';
     }
 
     /**
@@ -1026,7 +1029,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return double Text size in percent
     */
-    public function getTextSize()
+    public function getTextSize() : float
     {
         return $this->textsize;
     }
@@ -1050,7 +1053,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return double Points for wrong selection
     */
-    public function getPointsWrong()
+    public function getPointsWrong() : float
     {
         return $this->points_wrong;
     }
@@ -1111,13 +1114,13 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
-        $result['id'] = (int) $this->getId();
+        $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = (string) $this->getTitle();
+        $result['title'] = $this->getTitle();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
-        $result['text'] = (string) ilRTE::_replaceMediaObjectImageSrc($this->getErrorText(), 0);
-        $result['nr_of_tries'] = (int) $this->getNrOfTries();
-        $result['shuffle'] = (bool) $this->getShuffle();
+        $result['text'] = ilRTE::_replaceMediaObjectImageSrc($this->getErrorText(), 0);
+        $result['nr_of_tries'] = $this->getNrOfTries();
+        $result['shuffle'] = $this->getShuffle();
         $result['feedback'] = array(
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
@@ -1178,7 +1181,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @internal param string $expression_type
      * @return array
      */
-    public function getOperators($expression)
+    public function getOperators($expression) : array
     {
         require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
@@ -1188,7 +1191,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * Get all available expression types for a specific question
      * @return array
      */
-    public function getExpressionTypes()
+    public function getExpressionTypes() : array
     {
         return array(
             iQuestionCondition::PercentageResultExpression,
@@ -1206,7 +1209,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return ilUserQuestionResult
     */
-    public function getUserQuestionResult($active_id, $pass)
+    public function getUserQuestionResult($active_id, $pass) : ilUserQuestionResult
     {
         /** @var ilDBInterface $ilDB */
         global $DIC;
@@ -1260,16 +1263,16 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param $class
      * @return string
      */
-    private function getErrorTokenHtml($item, $class, $useLinkTags)
+    private function getErrorTokenHtml($item, $class, $useLinkTags) : string
     {
         if ($useLinkTags) {
             return '<a class="' . $class . '" href="#">' . ($item == '&nbsp;' ? $item : ilLegacyFormElementsUtil::prepareFormOutput(
-                    $item
-                )) . '</a>';
+                $item
+            )) . '</a>';
         }
         
         return '<span class="' . $class . '">' . ($item == '&nbsp;' ? $item : ilLegacyFormElementsUtil::prepareFormOutput(
-                $item
-            )) . '</span>';
+            $item
+        )) . '</span>';
     }
 }

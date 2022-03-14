@@ -39,7 +39,7 @@ class ilImagemapPreview
         $lng = $DIC['lng'];
         $this->lng = &$lng;
         $this->imagemap_filename = $imagemap_filename;
-        $this->preview_filename = $preview_filename;
+
         if (!@is_file($this->preview_filename)) {
             $extension = ".jpg";
             if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $this->imagemap_filename, $matches)) {
@@ -54,12 +54,12 @@ class ilImagemapPreview
         $this->linewidth_inner = 2;
     }
 
-    public function getAreaCount()
+    public function getAreaCount() : int
     {
         return count($this->areas);
     }
 
-    public function getPointCount()
+    public function getPointCount() : int
     {
         return count($this->points);
     }
@@ -111,7 +111,7 @@ class ilImagemapPreview
         );
     }
 
-    public function getAreaIdent()
+    public function getAreaIdent() : string
     {
         if (count($this->areas) + count($this->points) > 0) {
             $arr = array_merge(array_keys($this->areas), array_keys($this->points));
@@ -230,7 +230,7 @@ class ilImagemapPreview
     * get imagemap html code
     * note: html code should be placed in template files
     */
-    public function getImagemap($title)
+    public function getImagemap($title) : string
     {
         $map = "<map name=\"$title\"> ";
         foreach ($this->areas as $area) {

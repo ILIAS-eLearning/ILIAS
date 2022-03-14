@@ -82,7 +82,7 @@ class ilTestExporter extends ilXmlExporter
      * @param array $testObjIds
      * @return array $taxIds
      */
-    private function getDependingTaxonomyIds($testObjIds)
+    private function getDependingTaxonomyIds($testObjIds) : array
     {
         include_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 

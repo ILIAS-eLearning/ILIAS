@@ -43,28 +43,22 @@ class assLongMenuImport extends assQuestionImport
         // fixLongMenuImageImport - process images in question and long menu text when question is imported
         $questiontext = $this->object->getQuestion();
         $longmenutext = $this->object->getLongMenuTextValue();
-        if (is_array($_SESSION["import_mob_xhtml"]))
-        {
-            foreach ($_SESSION["import_mob_xhtml"] as $mob)
-            {
-                if ($tst_id > 0)
-                {
+        if (is_array($_SESSION["import_mob_xhtml"])) {
+            foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+                if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
-                }
-                else
-                {
+                } else {
                     $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
                 }
 
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
-                $DIC['ilLog']->write(__METHOD__.': import mob from dir: '. $importfile);
+                $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
 
-                $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
+                $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
 
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
                 $longmenutext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $longmenutext);
-
             }
         }
         $this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));

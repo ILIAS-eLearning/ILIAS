@@ -55,7 +55,7 @@ class ilUnitConfigurationRepository
     /**
      * @return int
      */
-    public function getConsumerId()
+    public function getConsumerId() : int
     {
         return $this->consumer_id;
     }
@@ -64,7 +64,7 @@ class ilUnitConfigurationRepository
      * @param int $a_category_id
      * @return bool
      */
-    public function isCRUDAllowed($a_category_id)
+    public function isCRUDAllowed($a_category_id) : bool
     {
         /**
          * @var $ilDB ilDBInterface
@@ -87,7 +87,7 @@ class ilUnitConfigurationRepository
      * @param  string $a_category_name
      * @return int
      */
-    public function copyCategory($a_category_id, $a_question_fi, $a_category_name = null)
+    public function copyCategory($a_category_id, $a_question_fi, $a_category_name = null) : int
     {
         /**
          * @var $ilDB ilDBInterface
@@ -216,7 +216,7 @@ class ilUnitConfigurationRepository
         return $result->numRows();
     }
 
-    public function isUnitInUse($id)
+    public function isUnitInUse($id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -253,7 +253,7 @@ class ilUnitConfigurationRepository
      * @param $id
      * @return null|string
      */
-    public function checkDeleteCategory($id)
+    public function checkDeleteCategory($id) : ?string
     {
         /**
          * @var $ilDB ilDBInterface
@@ -277,7 +277,7 @@ class ilUnitConfigurationRepository
         return null;
     }
 
-    public function deleteUnit($id)
+    public function deleteUnit($id) : ?string
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -320,7 +320,7 @@ class ilUnitConfigurationRepository
         }
     }
 
-    public function getCategorizedUnits()
+    public function getCategorizedUnits() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -371,7 +371,7 @@ class ilUnitConfigurationRepository
         $this->units[$unit->getId()] = $unit;
     }
 
-    public function getUnits()
+    public function getUnits() : array
     {
         if (count($this->units) == 0) {
             $this->loadUnits();
@@ -379,7 +379,7 @@ class ilUnitConfigurationRepository
         return $this->units;
     }
 
-    public function loadUnitsForCategory($category)
+    public function loadUnitsForCategory($category) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -410,7 +410,7 @@ class ilUnitConfigurationRepository
      * @param int $id
      * @return assFormulaQuestionUnit
      */
-    public function getUnit($id)
+    public function getUnit($id) : ?assFormulaQuestionUnit
     {
         if (count($this->units) == 0) {
             $this->loadUnits();
@@ -430,7 +430,7 @@ class ilUnitConfigurationRepository
     }
 
 
-    public function getUnitCategories()
+    public function getUnitCategories() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -458,7 +458,7 @@ class ilUnitConfigurationRepository
         return $categories;
     }
 
-    public function getAdminUnitCategories()
+    public function getAdminUnitCategories() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -510,7 +510,7 @@ class ilUnitConfigurationRepository
         );
     }
 
-    public function checkDeleteUnit($id, $category_id = null)
+    public function checkDeleteUnit($id, $category_id = null) : ?string
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -555,7 +555,7 @@ class ilUnitConfigurationRepository
      * @return assFormulaQuestionUnitCategory
      * @throws ilException
      */
-    public function getUnitCategoryById($id)
+    public function getUnitCategoryById($id) : assFormulaQuestionUnitCategory
     {
         /**
          * @var $ilDB ilDBInterface
@@ -631,7 +631,7 @@ class ilUnitConfigurationRepository
             array(
                 $next_id,
                 $category->getCategory(),
-                (int) $this->getConsumerId()
+                $this->getConsumerId()
             )
         );
         $category->setId($next_id);
@@ -640,7 +640,7 @@ class ilUnitConfigurationRepository
     /**
      * @return array
      */
-    public function getAllUnitCategories()
+    public function getAllUnitCategories() : array
     {
         /**
          * @var $ilDB ilDBInterface
@@ -668,7 +668,7 @@ class ilUnitConfigurationRepository
      * @param $id
      * @return null|string
      */
-    public function deleteCategory($id)
+    public function deleteCategory($id) : ?string
     {
         /**
          * @var $ilDB ilDBInterface
@@ -720,9 +720,9 @@ class ilUnitConfigurationRepository
                 $unit->getUnit(),
                 1,
                 0,
-                (int) $unit->getCategory(),
+                $unit->getCategory(),
                 0,
-                (int) $this->getConsumerId()
+                $this->getConsumerId()
             )
         );
         $unit->setId($next_id);
@@ -758,7 +758,12 @@ class ilUnitConfigurationRepository
             $ar = $ilDB->manipulateF(
                 'UPDATE il_qpl_qst_fq_unit SET unit = %s, factor = %s, baseunit_fi = %s, category_fi = %s, sequence = %s WHERE unit_id = %s AND question_fi = %s',
                 array('text', 'float', 'integer', 'integer', 'integer', 'integer', 'integer'),
-                array($unit->getUnit(), $unit->getFactor(), (int) $unit->getBaseUnit(), (int) $unit->getCategory(), (int) $unit->getSequence(), (int) $unit->getId(), (int) $this->getConsumerId())
+                array($unit->getUnit(), $unit->getFactor(), (int) $unit->getBaseUnit(),
+                      $unit->getCategory(),
+                      $unit->getSequence(),
+                      $unit->getId(),
+                      $this->getConsumerId()
+                )
             );
             if ($ar > 0) {
                 $this->clearUnits();

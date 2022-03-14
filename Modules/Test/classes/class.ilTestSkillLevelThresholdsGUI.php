@@ -59,7 +59,7 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return int
      */
-    public function getQuestionContainerId()
+    public function getQuestionContainerId() : int
     {
         return $this->questionContainerId;
     }
@@ -90,7 +90,7 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return bool
      */
-    public function areQuestionAssignmentColumnsEnabled()
+    public function areQuestionAssignmentColumnsEnabled() : bool
     {
         return $this->questionAssignmentColumnsEnabled;
     }
@@ -98,7 +98,7 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return int
      */
-    public function getTestId()
+    public function getTestId() : int
     {
         return $this->testId;
     }
@@ -197,7 +197,7 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return ilTestSkillLevelThresholdsTableGUI
      */
-    protected function getPopulatedTable()
+    protected function getPopulatedTable() : ilTestSkillLevelThresholdsTableGUI
     {
         $table = $this->buildTableGUI();
 
@@ -214,7 +214,7 @@ class ilTestSkillLevelThresholdsGUI
         return $table;
     }
 
-    private function buildTableGUI()
+    private function buildTableGUI() : ilTestSkillLevelThresholdsTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php';
         $table = new ilTestSkillLevelThresholdsTableGUI(
@@ -230,7 +230,7 @@ class ilTestSkillLevelThresholdsGUI
         return $table;
     }
 
-    private function buildSkillQuestionAssignmentList()
+    private function buildSkillQuestionAssignmentList() : ilAssQuestionSkillAssignmentList
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
@@ -239,7 +239,7 @@ class ilTestSkillLevelThresholdsGUI
         return $assignmentList;
     }
 
-    private function buildSkillLevelThresholdList()
+    private function buildSkillLevelThresholdList() : ilTestSkillLevelThresholdList
     {
         require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
         $thresholdList = new ilTestSkillLevelThresholdList($this->db);

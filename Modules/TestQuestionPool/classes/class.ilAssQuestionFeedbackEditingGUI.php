@@ -123,7 +123,7 @@ class ilAssQuestionFeedbackEditingGUI
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW);
         $nextClass = $this->ctrl->getNextClass($this);
         
-        $this->ctrl->setParameter($this, 'q_id', (int) $_GET['q_id']);
+        $this->ctrl->setParameter($this, 'q_id', $this->request->getQuestionId());
 
         $this->setContentStyle();
 
@@ -212,7 +212,7 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return \ilPropertyFormGUI
      */
-    private function buildForm()
+    private function buildForm() : ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         
@@ -241,7 +241,7 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return boolean $isFormSaveable
      */
-    private function isFormSaveable()
+    private function isFormSaveable() : bool
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()
             && !($this->feedbackOBJ->isSaveableInPageObjectEditingMode())) {
@@ -261,7 +261,7 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return boolean $isSyncAfterSaveRequired
      */
-    private function isSyncAfterSaveRequired()
+    private function isSyncAfterSaveRequired() : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];

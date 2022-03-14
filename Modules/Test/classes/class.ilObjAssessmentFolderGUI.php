@@ -38,7 +38,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('assessment');
     }
     
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         /**
          * @var $rbacsystem ilRbacSystem
@@ -130,7 +130,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
     }
     
-    private function buildSettingsForm()
+    private function buildSettingsForm() : ilPropertyFormGUI
     {
         /**
          * @var $ilAccess ilAccessHandler
@@ -395,7 +395,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getLogDataOutputForm()
+    protected function getLogDataOutputForm() : ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -718,7 +718,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getLogSettingsForm()
+    protected function getLogSettingsForm() : ilPropertyFormGUI
     {
         /**
          * @var $ilAccess ilAccessHandler
@@ -769,7 +769,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @return ilTestSettingsTemplateConfig
      */
-    public static function getSettingsTemplateConfig()
+    public static function getSettingsTemplateConfig() : ilTestSettingsTemplateConfig
     {
         global $DIC;
         $lng = $DIC['lng'];

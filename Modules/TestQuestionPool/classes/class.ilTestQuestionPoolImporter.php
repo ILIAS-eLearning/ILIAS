@@ -173,7 +173,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
      * Create qti and xml file name
      * @return array
      */
-    protected function parseXmlFileNames()
+    protected function parseXmlFileNames() : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $DIC['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
@@ -186,14 +186,14 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         return array($xml,$qti);
     }
 
-    private function getImportDirectoryContainer()
+    private function getImportDirectoryContainer() : string
     {
         $dir = $this->getImportDirectory();
         $dir = dirname($dir);
         return $dir;
     }
 
-    private function getImportPackageName()
+    private function getImportPackageName() : string
     {
         $dir = $this->getImportDirectory();
         $name = basename($dir);

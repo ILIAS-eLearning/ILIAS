@@ -100,7 +100,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
         }
     }
 
-    private function stageQuestionsFromSourcePool($sourcePoolId)
+    private function stageQuestionsFromSourcePool($sourcePoolId) : array
     {
         $questionIdMapping = array();
 
@@ -233,7 +233,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
     }
     // fau.
 
-    private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping)
+    private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping) : ilQuestionPoolDuplicatedTaxonomiesKeysMap
     {
         $duplicator = new ilQuestionPoolTaxonomiesDuplicator();
 

@@ -16,7 +16,17 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
                     include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
-                    $answer = new ASS_AnswerMultipleResponseImage($value, $a_value['points'][$index], $index, $a_value['points_unchecked'][$index], $a_value['imagename'][$index]);
+                    if (isset($a_value['points'])) {
+                        $value = $a_value['points'][$index];
+                    } else {
+                        $value = 0.0;
+                    }
+                    if (isset($a_value['points_unchecked'])) {
+                        $value_unchecked = $a_value['points_unchecked'][$index];
+                    } else {
+                        $value_unchecked = 0.0;
+                    }
+                    $answer = new ASS_AnswerMultipleResponseImage($value, $value, $index, $value_unchecked);
                     array_push($this->values, $answer);
                 }
             }
@@ -93,12 +103,14 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
             if ($this->getSingleline()) {
                 if (is_object($value)) {
                     $tpl->setCurrentBlock("prop_text_propval");
-                    $tpl->setVariable("PROPERTY_VALUE",
+                    $tpl->setVariable(
+                        "PROPERTY_VALUE",
                         ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
                     );
                     $tpl->parseCurrentBlock();
                     $tpl->setCurrentBlock("prop_points_propval");
-                    $tpl->setVariable("PROPERTY_VALUE",
+                    $tpl->setVariable(
+                        "PROPERTY_VALUE",
                         ilLegacyFormElementsUtil::prepareFormOutput($value->getPointsChecked())
                     );
                     $tpl->parseCurrentBlock();
@@ -117,7 +129,8 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 if (!$this->getSingleline()) {
                     if (is_object($value)) {
                         $tpl->setCurrentBlock("prop_points_propval");
-                        $tpl->setVariable("PROPERTY_VALUE",
+                        $tpl->setVariable(
+                            "PROPERTY_VALUE",
                             ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints())
                         );
                         $tpl->parseCurrentBlock();

@@ -63,7 +63,8 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
     {
         $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set['tstamp'], IL_CAL_UNIX)));
         $user = ilObjUser::_lookupName($a_set["user_fi"]);
-        $this->tpl->setVariable("USER",
+        $this->tpl->setVariable(
+            "USER",
             ilLegacyFormElementsUtil::prepareFormOutput(
                 trim($user["title"] . " " . $user["firstname"] . " " . $user["lastname"])
             )

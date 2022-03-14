@@ -53,7 +53,7 @@ class ilTestSkillLevelThresholdImporter
     /**
      * @return int
      */
-    public function getTargetTestId()
+    public function getTargetTestId() : ?int
     {
         return $this->targetTestId;
     }
@@ -69,7 +69,7 @@ class ilTestSkillLevelThresholdImporter
     /**
      * @return int
      */
-    public function getImportInstallationId()
+    public function getImportInstallationId() : ?int
     {
         return $this->importInstallationId;
     }
@@ -85,7 +85,7 @@ class ilTestSkillLevelThresholdImporter
     /**
      * @return ilImportMapping
      */
-    public function getImportMappingRegistry()
+    public function getImportMappingRegistry() : ?ilImportMapping
     {
         return $this->importMappingRegistry;
     }
@@ -101,7 +101,7 @@ class ilTestSkillLevelThresholdImporter
     /**
      * @return ilAssQuestionSkillAssignmentList
      */
-    public function getImportedQuestionSkillAssignmentList()
+    public function getImportedQuestionSkillAssignmentList() : ?ilAssQuestionSkillAssignmentList
     {
         return $this->importedQuestionSkillAssignmentList;
     }
@@ -117,7 +117,7 @@ class ilTestSkillLevelThresholdImporter
     /**
      * @return ilTestSkillLevelThresholdImportList
      */
-    public function getImportThresholdList()
+    public function getImportThresholdList() : ?ilTestSkillLevelThresholdImportList
     {
         return $this->importThresholdList;
     }
@@ -133,7 +133,7 @@ class ilTestSkillLevelThresholdImporter
     /**
      * @return ilAssQuestionAssignedSkillList
      */
-    public function getFailedThresholdImportSkillList()
+    public function getFailedThresholdImportSkillList() : ?ilAssQuestionAssignedSkillList
     {
         return $this->failedThresholdImportSkillList;
     }
@@ -226,7 +226,7 @@ class ilTestSkillLevelThresholdImporter
      * @param $importLevelId
      * @return integer
      */
-    protected function getLevelIdMapping($importLevelId)
+    protected function getLevelIdMapping($importLevelId) : int
     {
         /*
                 $r = ilBasicSkill::getLevelIdForImportId($a_source_inst_id,

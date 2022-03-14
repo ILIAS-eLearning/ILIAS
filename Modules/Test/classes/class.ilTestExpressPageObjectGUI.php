@@ -212,7 +212,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         }
     }
 
-    public function addPageOfQuestions($type = '')
+    public function addPageOfQuestions($type = '') : assQuestionGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -330,7 +330,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         }
     }
 
-    public function addQuestion()
+    public function addQuestion() : string
     {
         global $DIC;
         $lng = $DIC['lng'];

@@ -59,7 +59,7 @@ class ilObjAssessmentFolder extends ilObject
         return true;
     }
 
-    public static function getSkillTriggerAnswerNumberBarrier()
+    public static function getSkillTriggerAnswerNumberBarrier() : ?string
     {
         require_once 'Services/Administration/classes/class.ilSetting.php';
         $assSettings = new ilSetting('assessment');
@@ -115,7 +115,7 @@ class ilObjAssessmentFolder extends ilObject
     /**
      * check wether assessment logging is enabled or not
      */
-    public static function _enabledAssessmentLogging()
+    public static function _enabledAssessmentLogging() : bool
     {
         $setting = new ilSetting("assessment");
 
@@ -156,7 +156,7 @@ class ilObjAssessmentFolder extends ilObject
     /**
     * retrieve the log language for assessment logging
     */
-    public static function _getLogLanguage()
+    public static function _getLogLanguage() : ?string
     {
         $setting = new ilSetting("assessment");
 
@@ -176,7 +176,7 @@ class ilObjAssessmentFolder extends ilObject
      *
      * @return	boolean		$mananuallyScoreableQuestionTypesExists
      */
-    public static function _mananuallyScoreableQuestionTypesExists()
+    public static function _mananuallyScoreableQuestionTypesExists() : bool
     {
         if (count(self::_getManualScoring()) > 0) {
             return true;
@@ -251,7 +251,7 @@ class ilObjAssessmentFolder extends ilObject
         }
     }
 
-    public static function getScoringAdjustmentEnabled()
+    public static function getScoringAdjustmentEnabled() : ?string
     {
         $setting = new ilSetting("assessment");
         return $setting->get('assessment_adjustments_enabled');
@@ -314,7 +314,7 @@ class ilObjAssessmentFolder extends ilObject
     * @param integer $test_id Database id of the ILIAS test object
     * @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
     */
-    public static function getLog($ts_from, $ts_to, $test_id, $test_only = false)
+    public static function getLog($ts_from, $ts_to, $test_id, $test_only = false) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -367,7 +367,7 @@ class ilObjAssessmentFolder extends ilObject
     * @param integer $test_id Database id of the ILIAS test object
     * @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
     */
-    public static function _getLog($ts_from, $ts_to, $test_id, $test_only = false)
+    public static function _getLog($ts_from, $ts_to, $test_id, $test_only = false) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -424,7 +424,7 @@ class ilObjAssessmentFolder extends ilObject
     * @param integer $test_obj_id Database id of the ILIAS test object
     * @return integer The number of log entries for the test object
     */
-    public function getNrOfLogEntries($test_obj_id)
+    public function getNrOfLogEntries($test_obj_id) : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -447,7 +447,7 @@ class ilObjAssessmentFolder extends ilObject
     * @param integer $ref_id The reference id of the object
     * @return string The full path with hyperlinks to the path elements
     */
-    public function getFullPath($ref_id)
+    public function getFullPath($ref_id) : string
     {
         global $DIC;
         $tree = $DIC['tree'];
@@ -491,7 +491,7 @@ class ilObjAssessmentFolder extends ilObject
      * @global ilSetting $ilSetting
      * @return bool $isPageEditorEnabled
      */
-    public static function isAdditionalQuestionContentEditingModePageObjectEnabled()
+    public static function isAdditionalQuestionContentEditingModePageObjectEnabled() : bool
     {
         require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
         
@@ -506,7 +506,7 @@ class ilObjAssessmentFolder extends ilObject
         return $isPageEditorEnabled;
     }
     
-    public function getAssessmentProcessLockMode()
+    public function getAssessmentProcessLockMode() : ?string
     {
         return $this->setting->get('ass_process_lock_mode', self::ASS_PROC_LOCK_MODE_NONE);
     }
@@ -516,12 +516,12 @@ class ilObjAssessmentFolder extends ilObject
         $this->setting->set('ass_process_lock_mode', $lockMode);
     }
     
-    public static function getValidAssessmentProcessLockModes()
+    public static function getValidAssessmentProcessLockModes() : array
     {
         return array(self::ASS_PROC_LOCK_MODE_NONE, self::ASS_PROC_LOCK_MODE_FILE, self::ASS_PROC_LOCK_MODE_DB);
     }
     
-    public function getSkillTriggeringNumAnswersBarrier()
+    public function getSkillTriggeringNumAnswersBarrier() : ?string
     {
         return $this->setting->get(
             'ass_skl_trig_num_answ_barrier',
@@ -539,12 +539,12 @@ class ilObjAssessmentFolder extends ilObject
         $this->setting->set('export_essay_qst_with_html', $value);
     }
 
-    public function getExportEssayQuestionsWithHtml()
+    public function getExportEssayQuestionsWithHtml() : ?string
     {
         return $this->setting->get('export_essay_qst_with_html');
     }
     
-    public function fetchScoringAdjustableTypes($allQuestionTypes)
+    public function fetchScoringAdjustableTypes($allQuestionTypes) : array
     {
         require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
         $scoringAdjustableQuestionTypes = array();
@@ -560,7 +560,7 @@ class ilObjAssessmentFolder extends ilObject
         return $scoringAdjustableQuestionTypes;
     }
     
-    private function questionSupportsScoringAdjustment(\assQuestionGUI $question_object)
+    private function questionSupportsScoringAdjustment(\assQuestionGUI $question_object) : bool
     {
         return ($question_object instanceof ilGuiQuestionScoringAdjustable
             || $question_object instanceof ilGuiAnswerScoringAdjustable)

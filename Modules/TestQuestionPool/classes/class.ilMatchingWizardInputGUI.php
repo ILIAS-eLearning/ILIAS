@@ -59,7 +59,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Accepted Suffixes
     */
-    public function getSuffixes()
+    public function getSuffixes() : array
     {
         return $this->suffixes;
     }
@@ -89,7 +89,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
@@ -119,7 +119,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	object	Value
     */
-    public function getQuestionObject()
+    public function getQuestionObject() : ?object
     {
         return $this->qstObject;
     }
@@ -139,7 +139,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }
@@ -155,7 +155,19 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
                     include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-                    $answer = new assAnswerMatchingTerm($value, $a_value['imagename'][$index], $a_value['identifier'][$index]);
+                    if (isset($a_value['imagename'])) {
+                        $answer = new assAnswerMatchingTerm(
+                            $value,
+                            $a_value['imagename'][$index],
+                            $a_value['identifier'][$index]
+                        );
+                    } else {
+                        $answer = new assAnswerMatchingTerm(
+                            $value,
+                            '',
+                            $a_value['identifier'][$index]
+                        );
+                    }
                     array_push($this->values, $answer);
                 }
             }
@@ -208,9 +220,11 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
                                 case UPLOAD_ERR_NO_FILE:
                                     if ($this->getRequired()) {
-                                        if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
-                                            $this->setAlert($lng->txt("form_msg_file_no_upload"));
-                                            return false;
+                                        if (isset($foundvalues['imagename'])) {
+                                            if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
+                                                $this->setAlert($lng->txt("form_msg_file_no_upload"));
+                                                return false;
+                                            }
                                         }
                                     }
                                     break;
@@ -238,7 +252,10 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
                     foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
                         $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
                         $filename_arr = pathinfo($filename);
-                        $suffix = $filename_arr["extension"];
+                        $suffix = '';
+                        if (isset($filename_arr['extension'])) {
+                            $suffix = $filename_arr["extension"];
+                        }
 
                         // check suffixes
                         if ($tmpname != '' && is_array($this->getSuffixes())) {

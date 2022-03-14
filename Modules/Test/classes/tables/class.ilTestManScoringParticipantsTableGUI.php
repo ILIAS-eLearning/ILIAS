@@ -134,7 +134,7 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_SCORE_PARTICIPANT", $lng->txt('tst_edit_scoring'));
     }
     
-    public function getInternalyOrderedDataValues()
+    public function getInternalyOrderedDataValues() : array
     {
         $this->determineOffsetAndOrder();
         

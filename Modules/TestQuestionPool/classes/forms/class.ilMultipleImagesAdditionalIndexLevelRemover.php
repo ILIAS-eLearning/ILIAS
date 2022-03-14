@@ -23,7 +23,7 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
         $this->postVar = $postVar;
     }
 
-    protected function getFilesSubmissionProperties()
+    protected function getFilesSubmissionProperties() : array
     {
         return $this->filesSubmissionProperties;
     }
@@ -44,7 +44,7 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
 
         return $submitValues;
     }
-    protected function isSubFieldAvailable($values, $subFieldName)
+    protected function isSubFieldAvailable($values, $subFieldName) : bool
     {
         if (!is_array($values)) {
             return false;
@@ -61,17 +61,17 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
         return true;
     }
     
-    protected function isIteratorSubfieldAvailable($values)
+    protected function isIteratorSubfieldAvailable($values) : bool
     {
         return $this->isSubFieldAvailable($values, ilMultipleImagesInputGUI::ITERATOR_SUBFIELD_NAME);
     }
     
-    protected function isUploadSubfieldAvailable($values)
+    protected function isUploadSubfieldAvailable($values) : bool
     {
         return $this->isSubFieldAvailable($values, ilMultipleImagesInputGUI::IMAGE_UPLOAD_SUBFIELD_NAME);
     }
     
-    protected function removeAdditionalSubFieldsLevelFromSubmitValues($values)
+    protected function removeAdditionalSubFieldsLevelFromSubmitValues($values) : array
     {
         if (!$this->isIteratorSubfieldAvailable($values)) {
             return $values;

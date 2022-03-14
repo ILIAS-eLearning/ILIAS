@@ -224,7 +224,7 @@ class assFormulaQuestionResult
      * @param null $unit           user input unit
      * @return bool
      */
-    public function isCorrect($variables, $results, $value, $unit = null)
+    public function isCorrect($variables, $results, $value, $unit = null) : bool
     {
         // The user did not answer the question ....
         if ($value === null || 0 == strlen($value)) {
@@ -405,7 +405,7 @@ class assFormulaQuestionResult
         return $checkvalue && $checkunit && $check_fraction && $check_valid_chars;
     }
 
-    protected function isInTolerance($v1, $v2, $p)
+    protected function isInTolerance($v1, $v2, $p) : bool
     {
         include_once "./Services/Math/classes/class.ilMath.php";
         $v1 = ilMath::_mul($v1, 1, $this->getPrecision());
@@ -418,7 +418,7 @@ class assFormulaQuestionResult
         }
     }
 
-    protected function checkSign($v1, $v2)
+    protected function checkSign($v1, $v2) : bool
     {
         if ((($v1 >= 0) && ($v2 >= 0)) || (($v1 <= 0) && ($v2 <= 0))) {
             return true;
@@ -548,7 +548,7 @@ class assFormulaQuestionResult
         }
     }
 
-    public function getResultInfo($variables, $results, $value, $unit, $units)
+    public function getResultInfo($variables, $results, $value, $unit, $units) : array
     {
         if ($this->getRatingSimple()) {
             if ($this->isCorrect($variables, $results, $value, $units[$unit])) {
@@ -614,7 +614,7 @@ class assFormulaQuestionResult
         $this->result = $result;
     }
 
-    public function getResult()
+    public function getResult() : string
     {
         return $this->result;
     }
@@ -688,7 +688,7 @@ class assFormulaQuestionResult
         $this->tolerance = $tolerance;
     }
 
-    public function getTolerance()
+    public function getTolerance() : float
     {
         return $this->tolerance;
     }
@@ -708,7 +708,7 @@ class assFormulaQuestionResult
         $this->formula = $formula;
     }
 
-    public function getFormula()
+    public function getFormula() : string
     {
         return $this->formula;
     }
@@ -718,7 +718,7 @@ class assFormulaQuestionResult
         $this->points = $points;
     }
 
-    public function getPoints()
+    public function getPoints() : float
     {
         return $this->points;
     }
@@ -728,7 +728,7 @@ class assFormulaQuestionResult
         $this->rating_simple = $rating_simple;
     }
 
-    public function getRatingSimple()
+    public function getRatingSimple() : bool
     {
         return $this->rating_simple;
     }
@@ -768,9 +768,9 @@ class assFormulaQuestionResult
         $this->precision = $precision;
     }
 
-    public function getPrecision()
+    public function getPrecision() : int
     {
-        return (int) $this->precision;
+        return $this->precision;
     }
 
     public function setResultType($a_result_type)
@@ -778,7 +778,7 @@ class assFormulaQuestionResult
         $this->result_type = $a_result_type;
     }
 
-    public function getResultType()
+    public function getResultType() : int
     {
         return (int) $this->result_type;
     }
@@ -823,7 +823,7 @@ class assFormulaQuestionResult
         return $row['result_type'];
     }
     
-    public static function isCoprimeFraction($numerator, $denominator)
+    public static function isCoprimeFraction($numerator, $denominator) : bool
     {
         $gcd = self::getGreatestCommonDivisor(abs($numerator), abs($denominator));
 
@@ -881,7 +881,7 @@ class assFormulaQuestionResult
     }
     
     
-    public function getAvailableResultUnits($question_id)
+    public function getAvailableResultUnits($question_id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

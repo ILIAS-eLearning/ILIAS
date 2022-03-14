@@ -53,12 +53,12 @@ class ilTestProcessLockerFactory
     /**
      * @return int
      */
-    public function getActiveId()
+    public function getActiveId() : ?int
     {
         return $this->activeId;
     }
 
-    private function getLockModeSettingValue()
+    private function getLockModeSettingValue() : ?string
     {
         return $this->settings->get('ass_process_lock_mode', ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
     }

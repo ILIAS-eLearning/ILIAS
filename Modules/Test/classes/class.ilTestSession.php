@@ -17,7 +17,9 @@ class ilTestSession
     const ACCESS_CODE_CHAR_DOMAIN = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     
     const ACCESS_CODE_LENGTH = 5;
-    
+    private int $ref_id;
+    private int $pass;
+
     /**
     * The unique identifier of the test session
     *
@@ -127,12 +129,12 @@ class ilTestSession
      *
      * @return	integer	Ref id
      */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
     
-    protected function activeIDExists($user_id, $test_id)
+    protected function activeIDExists($user_id, $test_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -198,7 +200,7 @@ class ilTestSession
                         'tstamp' => array('integer', time()),
                         'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
                         'last_started_pass' => array('integer', $this->getLastStartedPass()),
-                        'objective_container' => array('integer', (int) $this->getObjectiveOrientedContainerId())
+                        'objective_container' => array('integer', $this->getObjectiveOrientedContainerId())
                     ),
                 array(
                         'active_id' => array('integer', $this->getActiveId())
@@ -225,7 +227,7 @@ class ilTestSession
                     'tstamp' => array('integer', time() - 10),
                     'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
                     'last_started_pass' => array('integer', $this->getPass()),
-                    'objective_container' => array('integer', (int) $this->getObjectiveOrientedContainerId())
+                    'objective_container' => array('integer', $this->getObjectiveOrientedContainerId())
                 ),
                 array(
                     'active_id' => array('integer', $this->getActiveId())
@@ -250,7 +252,7 @@ class ilTestSession
                         'tstamp' => array('integer', time() - 10),
                         'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
                         'last_started_pass' => array('integer', $this->getPass()),
-                        'objective_container' => array('integer', (int) $this->getObjectiveOrientedContainerId())
+                        'objective_container' => array('integer', $this->getObjectiveOrientedContainerId())
                     )
                 );
                 $this->active_id = $next_id;
@@ -345,7 +347,7 @@ class ilTestSession
         }
     }
     
-    public function getActiveId()
+    public function getActiveId() : int
     {
         return $this->active_id;
     }
@@ -355,7 +357,7 @@ class ilTestSession
         $this->user_id = $user_id;
     }
     
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->user_id;
     }
@@ -365,7 +367,7 @@ class ilTestSession
         $this->test_id = $test_id;
     }
     
-    public function getTestId()
+    public function getTestId() : int
     {
         return $this->test_id;
     }
@@ -375,7 +377,7 @@ class ilTestSession
         $this->anonymous_id = $anonymous_id;
     }
     
-    public function getAnonymousId()
+    public function getAnonymousId() : int
     {
         return $this->anonymous_id;
     }
@@ -385,7 +387,7 @@ class ilTestSession
         $this->lastsequence = $lastsequence;
     }
     
-    public function getLastSequence()
+    public function getLastSequence() : int
     {
         return $this->lastsequence;
     }
@@ -395,7 +397,7 @@ class ilTestSession
         $this->pass = $pass;
     }
     
-    public function getPass()
+    public function getPass() : int
     {
         return $this->pass;
     }
@@ -405,7 +407,7 @@ class ilTestSession
         $this->pass += 1;
     }
 
-    public function isSubmitted()
+    public function isSubmitted() : bool
     {
         return $this->submitted;
     }
@@ -440,7 +442,7 @@ class ilTestSession
         $this->objectiveOrientedContainerId = $objectiveOriented;
     }
 
-    public function getObjectiveOrientedContainerId()
+    public function getObjectiveOrientedContainerId() : int
     {
         return $this->objectiveOrientedContainerId;
     }
@@ -448,7 +450,7 @@ class ilTestSession
     /**
      * @return int
      */
-    public function getLastStartedPass()
+    public function getLastStartedPass() : ?int
     {
         return $this->lastStartedPass;
     }
@@ -461,7 +463,7 @@ class ilTestSession
         $this->lastStartedPass = $lastStartedPass;
     }
 
-    public function isObjectiveOriented()
+    public function isObjectiveOriented() : bool
     {
         return (bool) $this->getObjectiveOrientedContainerId();
     }
@@ -512,6 +514,9 @@ class ilTestSession
 
     public function getAccessCodeFromSession()
     {
+        if (!isset($_SESSION[self::ACCESS_CODE_SESSION_INDEX])) {
+            return null;
+        }
         if (!is_array($_SESSION[self::ACCESS_CODE_SESSION_INDEX])) {
             return null;
         }
@@ -523,8 +528,12 @@ class ilTestSession
         return $_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()];
     }
     
-    public function doesAccessCodeInSessionExists()
+    public function doesAccessCodeInSessionExists() : bool
     {
+        if (!isset($_SESSION[self::ACCESS_CODE_SESSION_INDEX])) {
+            return false;
+        }
+
         if (!is_array($_SESSION[self::ACCESS_CODE_SESSION_INDEX])) {
             return false;
         }
@@ -532,7 +541,7 @@ class ilTestSession
         return isset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()]);
     }
 
-    public function createNewAccessCode()
+    public function createNewAccessCode() : string
     {
         do {
             $code = $this->buildAccessCode();
@@ -541,7 +550,7 @@ class ilTestSession
         return $code;
     }
 
-    public function isAccessCodeUsed($code)
+    public function isAccessCodeUsed($code) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -557,7 +566,7 @@ class ilTestSession
         return ($result->numRows() > 0);
     }
 
-    private function buildAccessCode()
+    private function buildAccessCode() : string
     {
         // create a 5 character code
         $codestring = self::ACCESS_CODE_CHAR_DOMAIN;
@@ -574,7 +583,7 @@ class ilTestSession
         return $code;
     }
     
-    public function isAnonymousUser()
+    public function isAnonymousUser() : bool
     {
         return $this->getUserId() == ANONYMOUS_USER_ID;
     }
@@ -588,7 +597,7 @@ class ilTestSession
      * @param ilObjTest $testOBJ
      * @return bool
      */
-    public function reportableResultsAvailable(ilObjTest $testOBJ)
+    public function reportableResultsAvailable(ilObjTest $testOBJ) : ?bool
     {
         if ($this->reportableResultsAvailable === null) {
             $this->reportableResultsAvailable = true;
@@ -608,7 +617,7 @@ class ilTestSession
     /**
      * @return bool
      */
-    public function hasSinglePassReportable(ilObjTest $testObj)
+    public function hasSinglePassReportable(ilObjTest $testObj) : bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

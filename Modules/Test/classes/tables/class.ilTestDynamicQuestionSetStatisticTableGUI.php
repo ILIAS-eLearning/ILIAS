@@ -69,7 +69,7 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
     /**
      * @return ilTestDynamicQuestionSetFilterSelection
      */
-    public function getFilterSelection()
+    public function getFilterSelection() : ?ilTestDynamicQuestionSetFilterSelection
     {
         return $this->filterSelection;
     }
@@ -167,7 +167,7 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
     /**
      * @return array
      */
-    public function getTaxIds()
+    public function getTaxIds() : array
     {
         return $this->taxIds;
     }
@@ -175,7 +175,7 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isAnswerStatusFilterEnabled()
+    public function isAnswerStatusFilterEnabled() : bool
     {
         return $this->answerStatusFilterEnabled;
     }
@@ -191,7 +191,7 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isTaxonomyFilterEnabled()
+    public function isTaxonomyFilterEnabled() : bool
     {
         return $this->taxonomyFilterEnabled;
     }

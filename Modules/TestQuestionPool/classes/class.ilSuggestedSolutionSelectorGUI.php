@@ -45,7 +45,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	array	Options. Array ("value" => "option_text")
     */
-    public function getOptions()
+    public function getOptions() : array
     {
         return $this->options;
     }
@@ -65,7 +65,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	string	Value
     */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
@@ -85,7 +85,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	string	Internal link
     */
-    public function getInternalLink()
+    public function getInternalLink() : string
     {
         return $this->intlink;
     }
@@ -105,7 +105,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	string	Internal link text
     */
-    public function getInternalLinkText()
+    public function getInternalLinkText() : string
     {
         return $this->intlinktext;
     }
@@ -125,7 +125,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	string	add command
     */
-    public function getAddCommand()
+    public function getAddCommand() : string
     {
         return ($this->addCommand) ? $this->addCommand : "addInternalLink";
     }
@@ -164,7 +164,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	int	Size
     */
-    public function insert(&$a_tpl)
+    public function insert(&$a_tpl) : int
     {
         global $DIC;
         $lng = $DIC['lng'];
