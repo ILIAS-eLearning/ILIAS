@@ -355,18 +355,22 @@ class ilAccountRegistrationGUI
         if (!ilUtil::isLogin($login)) {
             $login_obj->setAlert($this->lng->txt("login_invalid"));
             $form_valid = false;
-        } elseif (ilObjUser::_loginExists($login)) {
-            if(!empty($captcha) && empty($captcha->getAlert()) || empty($captcha)) {
-                $login_obj->setAlert($this->lng->txt("login_exists"));
+        }
+
+        if ($form_valid) {
+            if (ilObjUser::_loginExists($login)) {
+                if (empty($captcha) || empty($captcha->getAlert())) {
+                    $login_obj->setAlert($this->lng->txt("login_exists"));
+                }
+                $form_valid = false;
+            } elseif ((int) $ilSetting->get('allow_change_loginname') &&
+                (int) $ilSetting->get('reuse_of_loginnames') == 0 &&
+                ilObjUser::_doesLoginnameExistInHistory($login)) {
+                if (empty($captcha) || empty($captcha->getAlert())) {
+                    $login_obj->setAlert($this->lng->txt("login_exists"));
+                }
+                $form_valid = false;
             }
-            $form_valid = false;
-        } elseif ((int) $ilSetting->get('allow_change_loginname') &&
-            (int) $ilSetting->get('reuse_of_loginnames') == 0 &&
-            ilObjUser::_doesLoginnameExistInHistory($login)) {
-            if(!empty($captcha) && empty($captcha->getAlert()) || empty($captcha)) {
-                $login_obj->setAlert($this->lng->txt("login_exists"));
-            }
-            $form_valid = false;
         }
 
         if (!$form_valid) {
