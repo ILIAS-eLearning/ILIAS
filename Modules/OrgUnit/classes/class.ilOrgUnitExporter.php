@@ -8,6 +8,15 @@
  */
 class ilOrgUnitExporter extends ilCategoryExporter
 {
+    private ilTree $tree;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->tree = $DIC['tree'];
+    }
+
     final public function simpleExport(int $orgu_ref_id): ilXmlWriter
     {
         $nodes = $this->getStructure($orgu_ref_id);
@@ -128,14 +137,12 @@ class ilOrgUnitExporter extends ilCategoryExporter
 
     private function getStructure(int $root_node_ref): array
     {
-        global $DIC;
-        $tree = $DIC['tree'];
         $open = array($root_node_ref);
         $closed = array();
         while (count($open)) {
             $current = array_shift($open);
             $closed[] = $current;
-            foreach ($tree->getChildsByType($current, "orgu") as $new) {
+            foreach ($this->tree->getChildsByType($current, "orgu") as $new) {
                 if (in_array($new["child"], $closed, true) === false && in_array($new["child"], $open, true) === false) {
                     $open[] = $new["child"];
                 }
@@ -147,9 +154,7 @@ class ilOrgUnitExporter extends ilCategoryExporter
 
     private function getAttributesForOrgu(ilObjOrgUnit $orgu): array
     {
-        global $DIC;
-        $tree = $DIC['tree'];
-        $parent_ref = $tree->getParentId($orgu->getRefId());
+        $parent_ref = $this->tree->getParentId($orgu->getRefId());
         if ($parent_ref != ilObjOrgUnit::getRootOrgRefId()) {
             $ou_parent_id = $this->getExternalId($parent_ref);
         } else {

@@ -59,6 +59,20 @@ class ilOrgUnitUserAssignmentQueries
     /**
      * @return ilOrgUnitUserAssignment[]
      */
+    public function getAssignmentsOfUserIdAndPosition(int $user_id, int $position_id) : array
+    {
+        return ilOrgUnitUserAssignment::where(
+            [
+                'user_id' => $user_id,
+                'position_id' => $position_id
+            ]
+        )->get();
+    }
+
+    /**
+     * @param $orgunit_ref_id
+     * @return ilOrgUnitUserAssignment[]
+     */
     final public function getUserIdsOfOrgUnit(int $orgunit_ref_id) : array
     {
         return ilOrgUnitUserAssignment::where(['orgu_id' => $orgunit_ref_id])

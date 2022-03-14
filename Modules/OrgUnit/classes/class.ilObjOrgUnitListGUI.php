@@ -8,19 +8,18 @@
  */
 class ilObjOrgUnitListGUI extends ilObjectListGUI
 {
+    protected ilTemplate $tpl;
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
 
     public function __construct()
     {
         global $DIC;
         $tpl = $DIC['tpl'];
         parent::__construct();
-        $this->tpl = $tpl;
-        //$this->enableComments(false, false);
+        $this->lng =$DIC['lng'];
+        $this->settings =  $DIC['ilias'];
     }
 
     /**
@@ -83,11 +82,9 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
 
     final public function insertIconsAndCheckboxes() : void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilias = $DIC['ilias'];
+
         // FSX removed $this->getCheckboxStatus() in if-Statement: 0014726
-        if (!$ilias->getSetting('custom_icons')) {
+        if (!$this->settings->get('custom_icons')) {
             parent::insertIconsAndCheckboxes();
 
             return;
@@ -119,7 +116,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
             parent::insertIconsAndCheckboxes();
             $this->tpl->setCurrentBlock("icon");
             $this->tpl->setVariable("ALT_ICON",
-                $lng->txt("icon") . " " . $lng->txt("obj_" . $this->getIconImageType()));
+                $this->lng->txt("icon") . " " . $lng->txt("obj_" . $this->getIconImageType()));
             $this->tpl->setVariable("SRC_ICON", $icon_file);
             $this->tpl->parseCurrentBlock();
             $this->enableIcon(true);

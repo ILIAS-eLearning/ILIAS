@@ -12,7 +12,11 @@ abstract class BaseForm extends \ilPropertyFormGUI
     protected \ILIAS\DI\Container $DIC;
     protected \ActiveRecord $object;
     protected \ilLanguage $lng;
+    protected \ilCtrl $ctrl;
 
+    /**
+     * @throws \ilCtrlException
+     */
     public function __construct(BaseCommands $parent_gui, \ActiveRecord $object)
     {
         global $DIC;
@@ -20,8 +24,10 @@ abstract class BaseForm extends \ilPropertyFormGUI
         $this->parent_gui = $parent_gui;
         $this->object = $object;
         $this->lng = $DIC->language();
-        $this->dic()->ctrl()->saveParameter($parent_gui, 'arid');
-        $this->setFormAction($this->dic()->ctrl()->getFormAction($this->parent_gui));
+
+        $this->ctrl = $DIC->ctrl();
+        $this->ctrl->saveParameter($parent_gui, 'arid');
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->initFormElements();
         $this->initButtons();
         $this->setTarget('_top');
@@ -48,7 +54,7 @@ abstract class BaseForm extends \ilPropertyFormGUI
         return $this->object->getId();
     }
 
-    private function initButtons(): void
+    private function initButtons() : void
     {
         if (!$this->object->getId()) {
             $this->setTitle($this->txt('create'));
@@ -61,18 +67,15 @@ abstract class BaseForm extends \ilPropertyFormGUI
         }
     }
 
-    private function txt(string $key): string
+
+    private function txt(string $key) : string
     {
-        return $this->parent_gui->txt($key);
+        return $this->lng->txt($key);
     }
 
     private function infoTxt(string $key): string
     {
-        return $this->parent_gui->txt($key . '_info');
+        return $this->lng->txt($key . '_info');
     }
 
-    private function dic(): \ILIAS\DI\Container
-    {
-        return $GLOBALS["DIC"];
-    }
 }

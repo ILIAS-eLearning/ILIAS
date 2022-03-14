@@ -677,24 +677,16 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     final public function showAdministrationPanel() : void
     {
         parent::showAdministrationPanel();
-        global $DIC;
         //an ugly encapsulation violation in order to remove the "verknüpfen"/"link" and copy button.
-        /** @var $toolbar ilToolbarGUI */
-        /*
-         if (!$toolbar = $DIC->ui()->mainTemplate()->admin_panel_commands_toolbar) {
-             return;
-         }
-
-         if (is_array($toolbar->items)) {
-             foreach ($toolbar->items as $key => $item) {
+        if (empty($this->toolbar->items) === false) {
+             foreach ($this->toolbar->items as $key => $item) {
                  if ($item["cmd"] == "link" || $item["cmd"] == "copy"
                      || $item["cmd"] == "download"
                  ) {
-                     unset($toolbar->items[$key]);
+                     unset($this->toolbar->items[$key]);
                  }
              }
          }
-        */
     }
 
     final public static function _goto(int $ref_id) : void
@@ -710,9 +702,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
     final protected function getTreeSelectorGUI(string $cmd) : ilTreeExplorerGUI
     {
-        global $DIC;
-        $tree = $DIC['tree'];
-        $explorer = new ilOrgUnitExplorerGUI("rep_exp_sel", $this, "showPasteTree", $tree);
+        $explorer = new ilOrgUnitExplorerGUI("rep_exp_sel", $this, "showPasteTree", $this->tree);
         $explorer->setAjax(false);
         $explorer->setSelectMode('nodes[]', false);
 
@@ -755,12 +745,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI
      */
     final public function confirmedDeleteObject() : void
     {
-        global $DIC;
-
         $ids = filter_input(INPUT_POST, 'id', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
         if (count($ids) > 0) {
             ilRepUtil::removeObjectsFromSystem($ids);
-            $this->tpl->setOnScreenMessage('success', $DIC->language()->txt("info_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("info_deleted"), true);
         }
         $this->ctrl->returnToParent($this);
     }
@@ -787,12 +775,14 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         }
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     final public function cancelMoveLinkObject() : void
     {
-        global $DIC;
         $parent_ref_id = $_SESSION["clipboard"]["parent"];
         unset($_SESSION["clipboard"]);
-        $DIC->ctrl()->setParameter($this, 'ref_id', $parent_ref_id);
-        $DIC->ctrl()->redirect($this);
+        $this->ctrl->setParameter($this, 'ref_id', $parent_ref_id);
+        $this->ctrl->redirect($this);
     }
 }

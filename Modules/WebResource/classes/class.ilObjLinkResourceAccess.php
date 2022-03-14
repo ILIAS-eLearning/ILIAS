@@ -46,7 +46,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
 

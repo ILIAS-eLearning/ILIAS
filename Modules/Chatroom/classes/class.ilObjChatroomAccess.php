@@ -20,7 +20,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return $commands;
     }
 
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $a_target): bool
     {
         if (is_string($a_target)) {
             $t_arr = explode('_', $a_target);

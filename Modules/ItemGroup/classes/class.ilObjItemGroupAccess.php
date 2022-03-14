@@ -49,8 +49,8 @@ class ilObjItemGroupAccess extends ilObjectAccess
     {
         return true;
     }
-    
-    public static function _checkGoto($a_target)
+
+    public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
 

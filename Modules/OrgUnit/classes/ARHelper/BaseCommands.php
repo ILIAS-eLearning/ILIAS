@@ -2,24 +2,44 @@
 
 namespace ILIAS\Modules\OrgUnit\ARHelper;
 
+use ILIAS\DI\Container;
+
 /**
  * Interface BaseCommands
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class BaseCommands
 {
-    use DIC;
+    const CMD_INDEX = "index";
+    const CMD_ADD = "add";
+    const CMD_CREATE = "create";
+    const CMD_EDIT = "edit";
+    const CMD_UPDATE = "update";
+    const CMD_CONFIRM = "confirm";
+    const CMD_CONFIRM_RECURSIVE = "confirmRecursive";
+    const CMD_DELETE = "delete";
+    const CMD_DELETE_RECURSIVE = "deleteRecursive";
+    const CMD_CANCEL = "cancel";
+    const AR_ID = "arid";
 
-    public const CMD_INDEX = "index";
-    public const CMD_ADD = "add";
-    public const CMD_CREATE = "create";
-    public const CMD_EDIT = "edit";
-    public const CMD_UPDATE = "update";
-    public const CMD_CONFIRM = "confirm";
-    public const CMD_DELETE = "delete";
-    public const CMD_CANCEL = "cancel";
-    public const AR_ID = "arid";
+    private \ilLanguage $lng;
+    private \ilCtrl $ctrl;
+    private \ilTabsGUI $tabsGUI;
+    private \ilAccess $access;
+    private \ILIAS\HTTP\Services $http;
+
     protected ?BaseCommands $parent_gui = null;
+
+    private function __construct() {
+        global $DIC;
+
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("orgu");
+        $this->ctrl = $DIC->ctrl();
+        $this->tabsGUI = $DIC->tabs();
+        $this->access = $DIC->access();
+        $this->http = $DIC->http();
+    }
 
     public function getParentGui() : ?BaseCommands
     {
@@ -56,11 +76,13 @@ abstract class BaseCommands
         $this->tpl()->setContent($html);
     }
 
+    /**
+     * @throws \ilCtrlException
+     */
     public function executeCommand()
     {
-        $this->dic()->language()->loadLanguageModule("orgu");
-        $cmd = $this->dic()->ctrl()->getCmd(self::CMD_INDEX);
-        $next_class = $this->dic()->ctrl()->getNextClass();
+        $cmd = $this->ctrl->getCmd(self::CMD_INDEX);
+        $next_class = $this->ctrl->getNextClass();
         if ($next_class) {
             foreach ($this->getPossibleNextClasses() as $class) {
                 if (strtolower($class) === $next_class) {
@@ -76,7 +98,7 @@ abstract class BaseCommands
         }
 
         if ($this->getActiveTabId()) {
-            $this->dic()->tabs()->activateTab($this->getActiveTabId());
+            $this->tabsGUI->activateTab($this->getActiveTabId());
         }
 
         switch ($cmd) {
@@ -90,12 +112,12 @@ abstract class BaseCommands
 
     protected function pushSubTab(string $subtab_id, string $url)
     {
-        $this->dic()->tabs()->addSubTab($subtab_id, $this->txt($subtab_id), $url);
+        $this->tabsGUI->addSubTab($subtab_id, $this->txt($subtab_id), $url);
     }
 
     protected function activeSubTab(string $subtab_id)
     {
-        $this->dic()->tabs()->activateSubTab($subtab_id);
+        $this->tabsGUI->activateSubTab($subtab_id);
     }
 
     protected function checkRequestReferenceId()
@@ -105,7 +127,7 @@ abstract class BaseCommands
          */
         $ref_id = $this->getParentRefId();
         if ($ref_id) {
-            return $this->dic()->access()->checkAccess("read", "", $ref_id);
+            return $this->access->checkAccess("read", "", $ref_id);
         }
 
         return true;
@@ -113,8 +135,7 @@ abstract class BaseCommands
 
     protected function getParentRefId() : ?int
     {
-        $http = $this->dic()->http();
-        $ref_id = $http->request()->getQueryParams()["ref_id"];
+        $ref_id = $this->http->request()->getQueryParams()["ref_id"];
 
         return $ref_id;
     }

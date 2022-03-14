@@ -23,6 +23,7 @@ class ilObjOrgUnitTree
     /** @var int[] orgu_ref => parent_ref */
     private array $parent;
     private ilDBInterface $db;
+    private ilObjUser $ilUser;
 
     private function __construct()
     {
@@ -33,6 +34,7 @@ class ilObjOrgUnitTree
         $this->tree = $tree;
         $this->roles = array();
         $this->staff = array();
+        $this->ilUser = $DIC['ilUser'];
     }
 
     public static function _getInstance() : \ilObjOrgUnitTree
@@ -156,8 +158,7 @@ class ilObjOrgUnitTree
      */
     final public function getOrgusWhereUserHasPermissionForOperation($operation) : array
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
+
         /*$q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
         INNER JOIN rbac_operations ON rbac_operations.operation = ".$this->db->quote($operation, "text")."
         INNER JOIN rbac_ua ON rbac_ua.usr_id = ".$this->db->quote($ilUser->getId(), "integer")."
@@ -169,7 +170,7 @@ class ilObjOrgUnitTree
 
         $q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
 		INNER JOIN rbac_operations ON rbac_operations.operation = " . $this->db->quote($operation, "text") . "
-		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($ilUser->getId(), "integer") . "
+		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($this->ilUser->getId(), "integer") . "
 		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', rbac_operations.ops_id, '%')
 		INNER JOIN object_reference ON object_reference.ref_id = rbac_pa.ref_id
 		WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'orgu'";
@@ -196,10 +197,8 @@ class ilObjOrgUnitTree
      */
     final public function getOrgusWhereUserHasPermissionForOperationId(string $operation_id) : array
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
         $q = "SELECT object_data.obj_id, object_data.title, object_data.type, rbac_pa.ops_id FROM object_data
-		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($ilUser->getId(), "integer") . "
+		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($this->ilUser->getId(), "integer") . "
 		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', " . $this->db->quote($operation_id,
                 "integer") . ", '%')
 		INNER JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id

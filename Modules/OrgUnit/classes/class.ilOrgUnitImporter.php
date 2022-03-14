@@ -16,6 +16,13 @@ class ilOrgUnitImporter extends ilXmlImporter
     public array $warnings = [];
     /* @var array keys in {updated, edited, deleted} */
     public array $stats;
+    private ilDBInterface $database;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->database = $DIC->database();
+    }
 
     /** @return bool|int */
     protected function buildRef(int $id, string $type) : bool|int
@@ -57,18 +64,14 @@ class ilOrgUnitImporter extends ilXmlImporter
 
     final public function hasMoreThanOneMatch(string $external_id) : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
         $query = "SELECT * FROM object_data " .
             "INNER JOIN object_reference as ref on ref.obj_id = object_data.obj_id and ref.deleted is null " .
-            'WHERE object_data.type = "orgu" and import_id = ' . $ilDB->quote($external_id, "text") . " " .
+            'WHERE object_data.type = "orgu" and import_id = ' . $this->database->quote($external_id, "text") . " " .
             "ORDER BY create_date DESC";
 
-        $res = $ilDB->query($query);
+        $res = $this->database->query($query);
 
-        if ($ilDB->numRows($res) > 1) {
+        if ($this->database->numRows($res) > 1) {
             return true;
         } else {
             return false;

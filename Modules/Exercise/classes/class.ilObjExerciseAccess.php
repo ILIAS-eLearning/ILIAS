@@ -123,7 +123,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
 

@@ -97,6 +97,22 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
     protected function confirm(): void
     {
+        $confirmation = $this->getConfirmationGUI();
+        $confirmation->setConfirm($this->txt('remove_user'), self::CMD_DELETE);
+
+        $this->setContent($confirmation->getHTML());
+    }
+
+    protected function confirmRecursive()
+    {
+        $confirmation = $this->getConfirmationGUI();
+        $confirmation->setConfirm($this->txt('remove_user'), self::CMD_DELETE_RECURSIVE);
+
+        $this->setContent($confirmation->getHTML());
+    }
+
+    protected function getConfirmationGUI() : ilConfirmationGUI
+    {
         $this->ctrl()->saveParameter($this, 'position_id');
         $r = $this->http()->request();
         $ilOrgUnitPosition = ilOrgUnitPosition::findOrFail($r->getQueryParams()['position_id']);
@@ -122,6 +138,20 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
                                                 $this->getParentRefId());
         $ua->delete();
         $this->main_tpl->setOnScreenMessage('success', $this->txt('remove_successful'), true);
+        $this->cancel();
+    }
+
+    protected function deleteRecursive()
+    {
+        $r = $this->http()->request();
+        $assignments = ilOrgUnitUserAssignmentQueries::getInstance()
+            ->getAssignmentsOfUserIdAndPosition((int) $_POST['usr_id'], (int) $r->getQueryParams()['position_id'])
+        ;
+
+        foreach ($assignments as $assignment) {
+            $assignment->delete();
+        }
+        ilUtil::sendSuccess($this->txt('remove_successful'), true);
         $this->cancel();
     }
 

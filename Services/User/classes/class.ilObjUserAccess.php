@@ -31,7 +31,7 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass
         throw new ilException("_checkAccess must not be called on user object.");
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();

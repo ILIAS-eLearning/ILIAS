@@ -12,6 +12,16 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
     protected ilLogger $log;
     protected ilTree $tree;
 
+    private ilLanguage $lng;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        $this->lng = $DIC['lng'];
+
+    }
+
     final public function getId() : string
     {
         return self::ID;
@@ -19,18 +29,12 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
 
     final public function getTitle() : string
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
-        return $lng->txt("update_orgunits");
+        return $this->lng->txt("update_orgunits");
     }
 
     final public function getDescription() : string
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
-        return $lng->txt("update_orgunits_desc");
+        return $this->lng->txt("update_orgunits_desc");
     }
 
     final public function hasAutoActivation() : bool

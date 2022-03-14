@@ -29,7 +29,7 @@ class ilObjForumAccess extends ilObjectAccess
         ];
     }
 
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
 

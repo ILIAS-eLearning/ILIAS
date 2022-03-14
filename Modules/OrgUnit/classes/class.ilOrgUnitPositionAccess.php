@@ -9,11 +9,16 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     protected static array $ref_id_obj_type_map = array();
     private \ilOrgUnitUserAssignmentQueries $ua;
     private \ilOrgUnitGlobalSettings $set;
+    private ilAccess $access;
+    private ilObjUser $user;
 
     public function __construct()
     {
+        global $DIC;
         $this->set = ilOrgUnitGlobalSettings::getInstance();
         $this->ua = ilOrgUnitUserAssignmentQueries::getInstance();
+        $this->access = $DIC->access();
+        $this->user = $DIC->user();
     }
 
     /** @return int[] Filtered List of ILIAS-User-IDs */
@@ -179,9 +184,8 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
     final public function checkRbacOrPositionPermissionAccess(string $rbac_perm, string $pos_perm, int $ref_id) : bool
     {
-        global $DIC;
         // If RBAC allows, just return true
-        if ($DIC->access()->checkAccess($rbac_perm, '', $ref_id)) {
+        if ($this->access->checkAccess($rbac_perm, '', $ref_id)) {
             return true;
         }
 
@@ -199,9 +203,9 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         int $ref_id,
         array $user_ids
     ) : array {
-        global $DIC;
+
         // If RBAC allows, just return true
-        if ($DIC->access()->checkAccess($rbac_perm, '', $ref_id)) {
+        if ($this->access->checkAccess($rbac_perm, '', $ref_id)) {
             return $user_ids;
         }
         // If context is not activated, return same array of $user_ids
@@ -214,8 +218,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
     final public function hasUserRBACorAnyPositionAccess(string $rbac_perm, int $ref_id) : bool
     {
-        global $DIC;
-        if ($DIC->access()->checkAccess($rbac_perm, '', $ref_id)) {
+        if ($this->access->checkAccess($rbac_perm, '', $ref_id)) {
             return true;
         }
 
@@ -227,18 +230,11 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     // Helpers
     //
 
-    /**
-     * @return \ILIAS\DI\Container
-     */
-    private function dic()
-    {
-        return $GLOBALS['DIC'];
-    }
-
     private function getCurrentUsersId() : int
     {
-        return $this->dic()->user()->getId();
+        return $this->user->getId();
     }
+
 
     private function getTypeForRefId(int $ref_id) : string
     {

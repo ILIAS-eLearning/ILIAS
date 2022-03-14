@@ -6,8 +6,6 @@
 
 class ilBiblAdminFieldTableGUI extends ilTable2GUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-
     const TBL_ID = 'tbl_bibl_fields';
     protected \ilBiblAdminFactoryFacadeInterface $facade;
     protected int $position_index = 1;

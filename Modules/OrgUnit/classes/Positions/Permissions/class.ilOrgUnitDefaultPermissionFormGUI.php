@@ -8,10 +8,12 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
 {
+
     public const F_OPERATIONS = 'operations';
     protected BaseCommands $parent_gui;
     /** @var ilOrgUnitPermission[] */
     protected array $ilOrgUnitPermissions = [];
+    protected ilObjectDefinition $objectDefinition;
 
     /**
      * ilOrgUnitDefaultPermissionFormGUI constructor.

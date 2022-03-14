@@ -41,7 +41,7 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
         );
     }
     
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
 
@@ -49,7 +49,7 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
         
         $t_arr = explode("_", $a_target);
         
-        if (substr($a_target, -3) == "wsp") {
+        if (str_ends_with($a_target, "wsp")) {
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
         

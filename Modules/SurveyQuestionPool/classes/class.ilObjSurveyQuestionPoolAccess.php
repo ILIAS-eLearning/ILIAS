@@ -31,7 +31,7 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
         return $commands;
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
 

@@ -7,8 +7,6 @@
  */
 abstract class ilBiblAdminFieldGUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    
     const CMD_INIT_DEFAULT_FIELDS_AND_SORTING = 'initDefaultFieldsAndSorting';
     const SUBTAB_RIS = 'subtab_ris';
     const SUBTAB_BIBTEX = 'subtab_bibtex';

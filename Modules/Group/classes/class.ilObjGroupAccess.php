@@ -120,7 +120,7 @@ class ilObjGroupAccess extends ilObjectAccess
     /**
      * @inheritDoc
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
 
@@ -129,7 +129,7 @@ class ilObjGroupAccess extends ilObjectAccess
 
         $t_arr = explode("_", $a_target);
         // registration codes
-        if (substr((string) $t_arr[2], 0, 5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID) {
+        if (str_starts_with((string) $t_arr[2], 'rcode') and $ilUser->getId() != ANONYMOUS_USER_ID) {
             self::$using_code = true;
             return true;
         }

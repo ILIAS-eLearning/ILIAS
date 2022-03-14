@@ -16,12 +16,13 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
     public static function _getIcon(string $a_type) : string
     {
         global $DIC;
-        $component_repository = $DIC["component.repository"];
+        $componentRepositoryObject = $DIC["component.repository"];
+
         return ilRepositoryObjectPlugin::_getImagePath(
             ilComponentInfo::TYPE_MODULES,
             "OrgUnit",
             "orguext",
-            $component_repository->getPluginById($a_type)->getName(),
+            $componentRepositoryObject->getPluginById($a_type)->getName(),
             "icon_" . $a_type . ".svg"
         );
     }

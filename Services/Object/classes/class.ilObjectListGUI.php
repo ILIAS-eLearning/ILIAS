@@ -21,40 +21,13 @@ define("IL_LIST_FULL", "full");
 class ilObjectListGUI
 {
     private array $access_cache;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
+    protected ilAccessHandler $access;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilObjectDefinition $obj_definition;
+    protected ilTree $tree;
+    protected ilSetting $settings;
+    protected ilTemplate $tpl;
 
     const DETAILS_MINIMAL = 10;
     const DETAILS_SEARCH = 20 ;
