@@ -52,6 +52,7 @@ class StandardPageBuilder implements PageBuilder
             $main_bar,
             $bread_crumbs,
             $header_image,
+            $responsive_header_image,
             $footer,
             $title,
             $short_title,
@@ -59,7 +60,6 @@ class StandardPageBuilder implements PageBuilder
         );
 
         return $standard->withSystemInfos($parts->getSystemInfos())
-                        ->withResponsiveLogo($responsive_header_image)
                         ->withTextDirection($this->meta->getTextDirection() ?? Standard::LTR);
     }
 }

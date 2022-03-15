@@ -21,83 +21,33 @@ interface Standard extends Page, JavaScriptBindable
     public const LTR = 'ltr';
     public const RTL = 'rtl';
 
-    /**
-     * @param MetaBar $meta_bar
-     *
-     * @return Standard
-     */
     public function withMetabar(MetaBar $meta_bar) : Standard;
 
-    /**
-     * @param Mainbar $main_bar
-     *
-     * @return Standard
-     */
     public function withMainbar(MainBar $main_bar) : Standard;
 
-    /**
-     * @param Image $logo
-     *
-     * @return Standard
-     */
     public function withLogo(Image $logo) : Standard;
 
-    /**
-     * @param Image $logo
-     *
-     * @return Standard
-     */
     public function withResponsiveLogo(Image $logo) : Standard;
 
-    /**
-     * @return bool
-     */
     public function hasMetabar() : bool;
 
-    /**
-     * @return bool
-     */
     public function hasMainbar() : bool;
 
-    /**
-     * @return bool
-     */
     public function hasLogo() : bool;
 
-    /**
-     * @return bool
-     */
     public function hasResponsiveLogo() : bool;
 
-    /**
-     * @return Metabar|null
-     */
-    public function getMetabar();
+    public function getMetabar() : ?Metabar;
 
-    /**
-     * @return Mainbar|null
-     */
-    public function getMainbar();
+    public function getMainbar() : ?Mainbar;
 
-    /**
-     * @return Breadcrumbs|null
-     */
-    public function getBreadcrumbs();
+    public function getBreadcrumbs() : ?Breadcrumbs;
 
-    /**
-     * @return Image|null
-     */
-    public function getLogo();
+    public function getLogo() : ?Image;
 
-    /**
-     * @return Image|null
-     */
-    public function getResponsiveLogo();
+    public function getResponsiveLogo() : ?Image;
 
-    /**
-     * @return Footer|null
-     */
-    public function getFooter();
+    public function getFooter() : ?Footer;
 
     public function withTitle(string $title) : Standard;
 

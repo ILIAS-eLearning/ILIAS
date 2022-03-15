@@ -98,6 +98,7 @@ class Standard implements Page\Standard
         MainBar $mainbar = null,
         Breadcrumbs $locator = null,
         Image $logo = null,
+        Image $responsive_logo = null,
         Footer $footer = null,
         string $title = '',
         string $short_title = '',
@@ -111,15 +112,13 @@ class Standard implements Page\Standard
         $this->mainbar = $mainbar;
         $this->breadcrumbs = $locator;
         $this->logo = $logo;
+        $this->responsive_logo = $responsive_logo;
         $this->footer = $footer;
         $this->title = $title;
         $this->short_title = $short_title;
         $this->view_title = $view_title;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function withMetabar(MetaBar $meta_bar) : Page\Standard
     {
         $clone = clone $this;
@@ -127,9 +126,6 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function withMainbar(MainBar $main_bar) : Page\Standard
     {
         $clone = clone $this;
@@ -137,9 +133,6 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function withLogo(Image $logo) : Page\Standard
     {
         $clone = clone $this;
@@ -147,9 +140,6 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function withResponsiveLogo(Image $logo) : Page\Standard
     {
         $clone = clone $this;
@@ -167,105 +157,68 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function hasMetabar() : bool
     {
         return ($this->metabar instanceof MetaBar);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function hasMainbar() : bool
     {
         return ($this->mainbar instanceof MainBar);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function hasLogo() : bool
     {
         return ($this->logo instanceof Image);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function hasResponsiveLogo() : bool
     {
         return ($this->responsive_logo instanceof Image);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function hasFooter() : bool
     {
         return ($this->footer instanceof Footer);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getContent()
     {
         return $this->content;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getMetabar()
+    public function getMetabar() : ?Metabar
     {
         return $this->metabar;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getMainbar()
+    public function getMainbar() : ?Mainbar
     {
         return $this->mainbar;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getBreadcrumbs()
+    public function getBreadcrumbs() : ?Breadcrumbs
     {
         return $this->breadcrumbs;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getLogo()
+    public function getLogo() : ?Image
     {
         return $this->logo;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getResponsiveLogo()
+    public function getResponsiveLogo() : ?Image
     {
         return $this->responsive_logo;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getFooter()
+    public function getFooter() : ?Footer
     {
         return $this->footer;
     }
 
     /**
      * @param bool $use_headers
-     * @return    Page\Standard
      */
     public function withHeaders($use_headers) : Page\Standard
     {
@@ -274,25 +227,16 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-    /**
-     * @return    bool
-     */
-    public function getWithHeaders()
+    public function getWithHeaders() : bool
     {
         return $this->with_headers;
     }
 
-    /**
-     * @return    bool
-     */
     public function getIsUIDemo() : bool
     {
         return $this->ui_demo;
     }
 
-    /**
-     * @return    bool
-     */
     public function withUIDemo(bool $switch = true) : Standard
     {
         $clone = clone $this;
