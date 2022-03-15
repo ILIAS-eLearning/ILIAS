@@ -375,6 +375,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         if (!$in_player) {
             $this->addHeaderAction();
         }
+
+        $tpl->printToStdOut();
     }
 
     public function addToNavigationHistory() : void
