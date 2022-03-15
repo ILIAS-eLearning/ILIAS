@@ -89,7 +89,6 @@ class Standard implements Page\Standard
         MainBar $mainbar = null,
         Breadcrumbs $locator = null,
         Image $logo = null,
-        Image $responsive_logo = null,
         Footer $footer = null,
         string $title = '',
         string $short_title = '',
@@ -103,7 +102,6 @@ class Standard implements Page\Standard
         $this->mainbar = $mainbar;
         $this->breadcrumbs = $locator;
         $this->logo = $logo;
-        $this->responsive_logo = $responsive_logo;
         $this->footer = $footer;
         $this->title = $title;
         $this->short_title = $short_title;
