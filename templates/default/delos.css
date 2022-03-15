@@ -7343,7 +7343,6 @@ button.close {
 }
 .btn:focus-visible {
   position: relative;
-  border: none;
   outline: 2px solid #FFFFFF;
   outline-offset: 4px;
 }
@@ -10871,7 +10870,6 @@ footer {
 }
 .il-link:focus-visible {
   position: relative;
-  border: none;
   outline: 2px solid #FFFFFF;
   outline-offset: 4px;
 }
@@ -11990,7 +11988,6 @@ a:hover {
 }
 a:focus-visible {
   position: relative;
-  border: none;
   outline: 2px solid #FFFFFF;
   outline-offset: 4px;
 }
@@ -13166,6 +13163,11 @@ form.form-inline {
   -webkit-box-shadow: none;
   box-shadow: none;
   outline: 3px solid #0078D7;
+}
+input[type="file"]:focus:focus-visible::after,
+input[type="radio"]:focus:focus-visible::after,
+input[type="checkbox"]:focus:focus-visible::after {
+  content: none;
 }
 input.btn.btn-default:focus-visible {
   outline: 3px solid #0078D7;
@@ -14612,6 +14614,10 @@ table.calmini td.calminiprev > .il_calmini_monthday > a,
 table.calmini td.calmininext > .il_calmini_monthday > a {
   color: #161616;
   display: none;
+}
+table.calmini a {
+  display: block;
+  width: 100%;
 }
 a.callink:link,
 a.callink:visited {
@@ -17259,7 +17265,6 @@ div#il_startup_logo img {
 }
 .ilToolbar .navbar-toggle:focus-visible {
   position: relative;
-  border: none;
   outline: 2px solid #FFFFFF;
   outline-offset: 4px;
 }
@@ -17982,7 +17987,6 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 .ilAwarenessItem > div[role='button']:focus-visible:focus-visible {
   position: relative;
-  border: none;
   outline: 2px solid #FFFFFF;
   outline-offset: 4px;
 }

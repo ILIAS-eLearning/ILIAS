@@ -40,6 +40,12 @@ form.form-inline {
 	outline: @il-focus-outline-inner;
 }
 
+input[type="file"]:focus:focus-visible::after,
+input[type="radio"]:focus:focus-visible::after,
+input[type="checkbox"]:focus:focus-visible::after {
+	content: none;
+}
+
 input.btn.btn-default:focus-visible {
 	outline: @il-focus-outline-inner;
 	outline-offset: @il-focus-outline-inner-width;
@@ -64,7 +70,7 @@ select.form-control {
 	color: @il-standard-form-label-color;
 	font-size: 100%;
 }
-				
+
 .form-control-static {
 	//needed until bootstrap set min-heigth and padding...
 	//no effect without it!
@@ -121,7 +127,7 @@ select.form-control {
 
 label {
 	font-weight: normal;
-}						
+}
 
 td.form-inline > div.form-group {
 	display: block;
