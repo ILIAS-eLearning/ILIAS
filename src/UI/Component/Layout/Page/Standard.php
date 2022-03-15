@@ -9,6 +9,7 @@ use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\MainControls\Mainbar;
 use ILIAS\UI\Component\MainControls\Metabar;
 use ILIAS\UI\Component\MainControls\ModeInfo;
+use ILIAS\UI\Component\MainControls\Footer;
 
 /**
  * This describes the Page.

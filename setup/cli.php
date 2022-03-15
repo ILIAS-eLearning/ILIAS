@@ -68,7 +68,7 @@ function build_container_for_setup(string $executed_in_directory)
             $c["command.update"],
             $c["command.build-artifacts"],
             $c["command.reload-control-structure"],
-            ["command.replace-logo"]
+            $c["command.replace-logo"]
         );
     };
     $c["command.replace-logo"] = function ($c) {
