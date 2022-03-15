@@ -19,6 +19,7 @@ If it is a visually-whole section is not a control then it MUST have a heading t
   * Year Titles in Blogs
   * Headlines in Forms
   * Accordion titles 
+  * Tables in Tabs (Member or Expert) 
 * H3
   * Primary Sub-Panels
   * Question List in Test 
