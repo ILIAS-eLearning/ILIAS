@@ -2,7 +2,6 @@
 
 namespace ILIAS\UI\Implementation\Component\Toast;
 
-use ilException;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -22,6 +21,9 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component instanceof Component\Toast\Toast) {
             return $this->renderToast($component, $default_renderer);
+        }
+        if ($component instanceof Component\Toast\Container) {
+            return $this->renderContainer($component, $default_renderer);
         }
 
         throw new LogicException("Cannot render: " . get_class($component));
@@ -62,7 +64,31 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ICON", $default_renderer->render($component->getIcon()));
         $tpl->setVariable("CLOSE", $default_renderer->render($this->getUIFactory()->button()->close()));
 
+        $component = $component->withAdditionalOnLoadCode(function ($id) {
+            return "
+                il.UI.toast.setToastSettings($id);
+                il.UI.toast.showToast($id);
+            ";
+        });
+
+        $tpl->setCurrentBlock("id");
+        $tpl->setVariable('ID', $this->bindJavaScript($component));
+        $tpl->parseCurrentBlock();
+
         return $tpl->get();
+    }
+
+    protected function renderContainer(Component\Toast\Container $component, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.container.html", true, true);
+        $tpl->setVariable("TOASTS", $default_renderer->render($component->getToasts()));
+        return $tpl->get();
+    }
+
+    public function registerResources(ResourceRegistry $registry) : void
+    {
+        parent::registerResources($registry);
+        $registry->register('./src/UI/templates/js/Toast/toast.js');
     }
 
     /**
@@ -71,7 +97,8 @@ class Renderer extends AbstractComponentRenderer
     protected function getComponentInterfaceName() : array
     {
         return [
-            Component\Toast\Toast::class
+            Component\Toast\Toast::class,
+            Component\Toast\Container::class
         ];
     }
 }

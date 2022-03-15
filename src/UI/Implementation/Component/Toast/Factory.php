@@ -3,7 +3,6 @@
 namespace ILIAS\UI\Implementation\Component\Toast;
 
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Component\Toast\Container;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements \ILIAS\UI\Component\Toast\Factory
@@ -25,6 +24,6 @@ class Factory implements \ILIAS\UI\Component\Toast\Factory
 
     public function container() : Container
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        return new Container();
     }
 }

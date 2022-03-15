@@ -10872,15 +10872,20 @@ footer {
 .il-link.link-bulky .bulky-label {
   color: #161616;
 }
-.il-toast-wrapper {
-  position: absolute;
+.il-toast-container {
+  position: fixed;
   z-index: 1;
-  top: 0;
+  top: 100px;
   right: 0;
+  width: 300px;
+}
+.il-toast-container:empty {
+  display: none;
+}
+.il-toast-wrapper {
   overflow: hidden;
 }
 .il-toast {
-  width: 300px;
   margin: 20px;
   padding: 8px;
   background-color: white;
