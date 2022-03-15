@@ -76,6 +76,7 @@ interface Factory
         MainControls\Mainbar $mainbar = null,
         Breadcrumbs $locator = null,
         Image $logo = null,
+        Image $responsive_logo = null,
         MainControls\Footer $footer = null,
         string $title = '',
         string $short_title = '',

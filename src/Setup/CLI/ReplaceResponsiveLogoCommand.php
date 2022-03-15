@@ -18,10 +18,23 @@ class ReplaceResponsiveLogoCommand extends Command
     protected const COMMON_LOGO_PATH = '/images/HeaderIcon.svg';
 
     protected static $defaultName = 'replace-responsive-logo';
-    protected ?string $delos_responsive_logo_hash;
-    protected ?string $delos_common_logo_hash;
-    protected string $delos_path;
-    protected string $ilias_path;
+
+    /**
+     * @var string|null
+     */
+    protected $delos_responsive_logo_hash;
+    /**
+     * @var string|null
+     */
+    protected $delos_common_logo_hash;
+    /**
+     * @var string
+     */
+    protected $delos_path;
+    /**
+     * @var string
+     */
+    protected $ilias_path;
 
     public function __construct(string $name = null)
     {

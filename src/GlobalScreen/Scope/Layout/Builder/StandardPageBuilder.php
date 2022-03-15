@@ -50,6 +50,7 @@ class StandardPageBuilder implements PageBuilder
             $main_bar,
             $bread_crumbs,
             $header_image,
+            $responsive_header_image,
             $footer,
             $title,
             $short_title,

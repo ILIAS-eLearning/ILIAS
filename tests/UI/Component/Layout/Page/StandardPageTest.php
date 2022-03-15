@@ -38,12 +38,13 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->mainbar,
             $this->crumbs,
             $this->logo,
+            $this->responsive_logo,
             null,
             $this->title
-        )->withResponsiveLogo($this->responsive_logo);
+        );
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Layout\\Page\\Standard",
@@ -51,7 +52,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetContent()
+    public function testGetContent() : void
     {
         $this->assertEquals(
             $this->contents,
@@ -59,7 +60,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetMetabar()
+    public function testGetMetabar() : void
     {
         $this->assertEquals(
             $this->metabar,
@@ -67,7 +68,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetMainbar()
+    public function testGetMainbar() : void
     {
         $this->assertEquals(
             $this->mainbar,
@@ -75,7 +76,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetBreadcrumbs()
+    public function testGetBreadcrumbs() : void
     {
         $this->assertEquals(
             $this->crumbs,
@@ -83,7 +84,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetLogo()
+    public function testGetLogo() : void
     {
         $this->assertEquals(
             $this->logo,
@@ -91,12 +92,12 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testHasLogo()
+    public function testHasLogo() : void
     {
         $this->assertTrue($this->stdpage->hasLogo());
     }
 
-    public function testGetResponsiveLogo()
+    public function testGetResponsiveLogo() : void
     {
         $this->assertEquals(
             $this->responsive_logo,
@@ -104,12 +105,12 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testHasResponsiveLogo()
+    public function testHasResponsiveLogo() : void
     {
         $this->assertTrue($this->stdpage->hasResponsiveLogo());
     }
 
-    public function testWithWrongContents()
+    public function testWithWrongContents() : void
     {
         $this->expectException(TypeError::class);
         $this->stdpage = $this->factory->standard(
@@ -121,7 +122,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetTitle()
+    public function testGetTitle() : void
     {
         $this->assertEquals(
             $this->title,
@@ -129,7 +130,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithTitle()
+    public function testWithTitle() : void
     {
         $title = 'some title';
         $this->assertEquals(
@@ -137,7 +138,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withTitle($title)->getTitle()
         );
     }
-    public function testWithShortTitle()
+    public function testWithShortTitle() : void
     {
         $title = 'some short title';
         $this->assertEquals(
@@ -145,7 +146,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withShortTitle($title)->getShortTitle()
         );
     }
-    public function testWithViewTitle()
+    public function testWithViewTitle() : void
     {
         $title = 'some view title';
         $this->assertEquals(
@@ -154,7 +155,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithTextDirection()
+    public function testWithTextDirection() : void
     {
         $this->assertEquals("ltr", $this->stdpage->getTextDirection());
         $this->assertEquals(
@@ -165,7 +166,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testRenderingWithTitle()
+    public function testRenderingWithTitle() : void
     {
         $this->stdpage = $this->stdpage
             ->withTitle("Title")
@@ -210,7 +211,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->assertEquals($exptected, $html);
     }
 
-    public function testRenderingWithRtlLanguage()
+    public function testRenderingWithRtlLanguage() : void
     {
         $this->stdpage = $this->stdpage->withTextDirection($this->stdpage::RTL);
 
