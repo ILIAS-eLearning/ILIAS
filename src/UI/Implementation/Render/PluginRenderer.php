@@ -36,6 +36,17 @@ class PluginRenderer extends DefaultRenderer
         parent::__construct($component_renderer_loader);
     }
 
+
+    /**
+     * @inheritdoc
+     */
+    public function withAdditionalContext(Component $context)
+    {
+        $clone = parent::withAdditionalContext($context);
+        $clone->default = $clone->default->withAdditionalContext($context);
+        return $clone;
+    }
+
     protected function getRendererFor(Component $component, $renderer = null) : ComponentRenderer
     {
         if ($renderer) {
