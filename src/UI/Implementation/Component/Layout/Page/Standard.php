@@ -12,6 +12,7 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\ModeInfo;
 use ILIAS\UI\Component\MainControls\SystemInfo;
+use ILIAS\UI\Component\Toast\Container;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Component;
@@ -30,6 +31,7 @@ class Standard implements Page\Standard
     private ?MainBar $mainbar;
     private ?Breadcrumbs $breadcrumbs;
     private ?Image $logo;
+    private ?Container $overlay;
     private ?Footer $footer;
     private string $short_title;
     private string $view_title;
@@ -45,6 +47,7 @@ class Standard implements Page\Standard
         ?MainBar $mainbar = null,
         ?Breadcrumbs $locator = null,
         ?Image $logo = null,
+        ?Container $overlay = null,
         ?Footer $footer = null,
         string $title = '',
         string $short_title = '',
@@ -58,6 +61,7 @@ class Standard implements Page\Standard
         $this->mainbar = $mainbar;
         $this->breadcrumbs = $locator;
         $this->logo = $logo;
+        $this->overlay = $overlay;
         $this->footer = $footer;
         $this->title = $title;
         $this->short_title = $short_title;
@@ -303,5 +307,15 @@ class Standard implements Page\Standard
     public function getTextDirection() : string
     {
         return $this->text_direction;
+    }
+
+    public function hasOverlay() : bool
+    {
+        return $this->overlay instanceof Container;
+    }
+
+    public function getOverlay() : ?Container
+    {
+        return $this->overlay;
     }
 }

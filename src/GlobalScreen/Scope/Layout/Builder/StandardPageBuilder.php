@@ -41,10 +41,10 @@ class StandardPageBuilder implements PageBuilder
      */
     public function build(PagePartProvider $parts) : Page
     {
-        $header_image = $parts->getLogo();
-        $main_bar = $parts->getMainBar();
         $meta_bar = $parts->getMetaBar();
+        $main_bar = $parts->getMainBar();
         $bread_crumbs = $parts->getBreadCrumbs();
+        $header_image = $parts->getLogo();
         $footer = $parts->getFooter();
         $title = $parts->getTitle();
         $short_title = $parts->getShortTitle();
@@ -56,6 +56,7 @@ class StandardPageBuilder implements PageBuilder
             $main_bar,
             $bread_crumbs,
             $header_image,
+            $this->ui->factory()->toast()->container(),
             $footer,
             $title,
             $short_title,
