@@ -377,12 +377,15 @@ class ilPrivacySettings
 
         $this->export_course = (bool) $this->settings->get('ps_export_course', null);
         $this->export_group = (bool) $this->settings->get('ps_export_group', null);
+        $this->export_learning_sequence = (bool) $this->settings->get('ps_export_learning_sequence', null);
         $this->export_confirm_course = (bool) $this->settings->get('ps_export_confirm', null);
         $this->export_confirm_group = (bool) $this->settings->get('ps_export_confirm_group', null);
+        $this->export_confirm_learning_sequence = (bool) $this->settings->get('ps_export_confirm_learning_sequence', null);
         $this->fora_statistics = (bool) $this->settings->get('enable_fora_statistics', null);
         $this->anonymous_fora = (bool) $this->settings->get('enable_anonymous_fora', null);
         $this->show_grp_access_times = (bool) $this->settings->get('ps_access_times', null);
         $this->show_crs_access_times = (bool) $this->settings->get('ps_crs_access_times', null);
+        $this->show_lso_access_times = (bool) $this->settings->get('ps_lso_access_times', null);
         $this->rbac_log = (bool) $this->settings->get('rbac_log', null);
         $this->rbac_log_age = (int) $this->settings->get('rbac_log_age', "6");
         $this->sahs_protocol_data = (int) $this->settings->get('enable_sahs_pd', "0");
