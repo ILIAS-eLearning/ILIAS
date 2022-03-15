@@ -9,7 +9,8 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"php setup/cli.php build-artifacts --yes"
+			"php setup/cli.php build-artifacts --yes",
+			"php setup/cli.php replace-responsive-logo"
 		],
 		"post-install-cmd": [
 			"php libs/composer/rmdirs.php"
