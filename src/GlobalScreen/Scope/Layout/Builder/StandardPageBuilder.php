@@ -46,20 +46,25 @@ class StandardPageBuilder implements PageBuilder
         $short_title = $parts->getShortTitle();
         $view_title = $parts->getViewTitle();
 
-        $standard = $this->ui->factory()->layout()->page()->standard(
+        $page = $this->ui->factory()->layout()->page()->standard(
             [$parts->getContent()],
             $meta_bar,
             $main_bar,
             $bread_crumbs,
             $header_image,
-            $responsive_header_image,
             $footer,
             $title,
             $short_title,
             $view_title
         );
 
-        return $standard->withSystemInfos($parts->getSystemInfos())
+        $page = $page->withSystemInfos($parts->getSystemInfos())
                         ->withTextDirection($this->meta->getTextDirection() ?? Standard::LTR);
+
+        if (null !== $responsive_header_image) {
+            $page = $page->withResponsiveLogo($responsive_header_image);
+        }
+
+        return $page;
     }
 }

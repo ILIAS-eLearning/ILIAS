@@ -71,10 +71,9 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->mainbar,
             $this->crumbs,
             $this->logo,
-            $this->responsive_logo,
             null,
             $this->title
-        );
+        )->withResponsiveLogo($this->responsive_logo);
     }
 
     public function testConstruction() : void
