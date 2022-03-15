@@ -9,7 +9,8 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-		  "php setup/cli.php build-artifacts --yes"
+			"php setup/cli.php build-artifacts --yes",
+			"php setup/cli.php replace-responsive-logo"
 		],
 		"post-install-cmd": [
 		  "rm -rf libs/composer/vendor/geshi/geshi/contrib"
@@ -207,7 +208,7 @@
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
-		},                
+		},
 		"imsglobal/lti" : {
 			"source": "https://github.com/ILIAS-eLearning/LTI-Tool-Provider-Library-PHP",
 			"used_version": "v3.0.0",
