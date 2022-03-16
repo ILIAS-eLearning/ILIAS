@@ -34,8 +34,6 @@ use ILIAS\DI\Container;
 */
 class ilMDTest extends TestCase
 {
-    protected $backupGlobals = false;
-
     protected Container $dic;
 
     protected function setUp() : void
@@ -47,7 +45,7 @@ class ilMDTest extends TestCase
     public function testMDConstruct() : void
     {
         $md = new ilMD();
-        $this->assertTrue($md instanceof ilMD);
+        $this->assertInstanceOf(ilMD::class, $md);
     }
 
     protected function setGlobalVariable(string $name, $value) : void

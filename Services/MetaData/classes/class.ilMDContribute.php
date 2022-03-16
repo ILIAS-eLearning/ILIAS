@@ -119,16 +119,11 @@ class ilMDContribute extends ilMDBase
 
     public function update() : bool
     {
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_contribute',
-                $this->__getFields(),
-                array("meta_contribute_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_contribute',
+            $this->__getFields(),
+            array("meta_contribute_id" => array('integer', $this->getMetaId()))
+        );
     }
 
     public function delete() : bool
@@ -186,9 +181,7 @@ class ilMDContribute extends ilMDBase
     public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('Contribute', array(
-            'Role' => $this->getRole()
-                ? $this->getRole()
-                : 'Author'
+            'Role' => $this->getRole() ?: 'Author'
         ));
 
         // Entities
@@ -205,7 +198,6 @@ class ilMDContribute extends ilMDBase
         $writer->xmlElement('Date', null, $this->getDate());
         $writer->xmlEndTag('Contribute');
     }
-
 
     // STATIC
 
@@ -249,7 +241,7 @@ class ilMDContribute extends ilMDBase
             "AND ent.obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($row->role == 'Author' and $row->parent_type == 'meta_contribute') {
+            if ($row->role === 'Author' && $row->parent_type === 'meta_contribute') {
                 $authors[] = trim($row->entity);
             }
         }

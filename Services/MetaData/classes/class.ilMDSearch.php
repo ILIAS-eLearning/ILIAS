@@ -40,8 +40,8 @@ class ilMDSearch
     {
         global $DIC;
 
-        $this->query_parser  = $qp_obj;
-        $this->db            = $DIC->database();
+        $this->query_parser = $qp_obj;
+        $this->db = $DIC->database();
         $this->search_result = new ilSearchResult();
     }
 
@@ -73,15 +73,15 @@ class ilMDSearch
 
     public function __searchKeywordsOnly() : ilSearchResult
     {
-        $where   = " WHERE ";
-        $field   = " keyword ";
+        $where = " WHERE ";
+        $field = " keyword ";
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
             if ($counter++) {
                 $where .= strtoupper($this->query_parser->getCombination());
             }
             $where .= $field;
-            $where .= ("LIKE (" . $this->db->quote("%" . $word . "%" , ilDBConstants::T_TEXT) . ")");
+            $where .= ("LIKE (" . $this->db->quote("%" . $word . "%", ilDBConstants::T_TEXT) . ")");
         }
 
         $query = "SELECT * FROM il_meta_keyword" .
