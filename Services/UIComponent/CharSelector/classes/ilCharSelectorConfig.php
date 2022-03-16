@@ -367,9 +367,8 @@ class ilCharSelectorConfig
     {
         $this->added_blocks = array();
         foreach ($a_blocks as $block_name) {
-            if ($block_name == "all" or
-                in_array($block_name, array_keys(self::$unicode_blocks))) {
-                array_push($this->added_blocks, $block_name);
+            if ($block_name === "all" || array_key_exists($block_name, self::$unicode_blocks)) {
+                $this->added_blocks[] = $block_name;
             }
         }
     }
@@ -428,9 +427,9 @@ class ilCharSelectorConfig
         $items = explode(' ', $a_definition);
         foreach ($items as $item) {
             if (strlen($block_name = $this->extractUnicodeBlock($item))) {
-                array_push($this->added_blocks, $block_name);
+                $this->added_blocks[] = $block_name;
             } elseif ($item != '') {
-                array_push($this->custom_items, trim($item));
+                $this->custom_items[] = trim($item);
             }
         }
     }
@@ -494,8 +493,7 @@ class ilCharSelectorConfig
         $matches = array();
         if (preg_match('/^\[(.+)\]$/', $a_item, $matches)) {
             $block_name = $matches[1];
-            if ($block_name == 'all'
-                or in_array($block_name, array_keys(self::$unicode_blocks))) {
+            if ($block_name === 'all' || array_key_exists($block_name, self::$unicode_blocks)) {
                 return $block_name;
             }
         }
@@ -523,14 +521,14 @@ class ilCharSelectorConfig
                 $subitems = explode('-', $item);
                 $start = $this->getItemCodepoint($subitems[0]);
                 $end = $this->getItemCodepoint($subitems[1]);
-                array_push($page, array($start, $end));
+                $page[] = array($start, $end);
             } else {
                 // handle normal item
-                array_push($page, $this->getItemParsed($item));
+                $page[] = $this->getItemParsed($item);
             }
         }
         if (count($page) > 1) {
-            array_push($pages, $page);
+            $pages[] = $page;
         }
     
         // add unicode blocks
@@ -543,7 +541,7 @@ class ilCharSelectorConfig
             $start = hexdec(self::$unicode_blocks[$block_name][1]);
             $end = hexdec(self::$unicode_blocks[$block_name][2]);
             $page = array($this->getBlockTitle($block_name), array($start, $end));
-            array_push($pages, $page);
+            $pages[] = $page;
         }
         
         return $pages;

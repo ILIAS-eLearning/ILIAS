@@ -47,6 +47,7 @@ class ilExplorer
     public array $is_clickable;
     public bool $post_sort;
     public bool $filtered = false;
+    protected $filter = [];
     public bool $filter_mode;
     // expand entire tree regardless of values in $expanded
     public bool$expand_all = false;
@@ -684,7 +685,7 @@ class ilExplorer
 
         if (!isset($a_node_id) or !is_array($a_option)) {
             $ilErr->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
-                                    "node_id: " . $a_node_id . " options:" . var_dump($a_option), $ilErr->WARNING);
+                                    "node_id: " . $a_node_id . " options:" . var_export($a_option, true), $ilErr->WARNING);
         }
 
         $pic = false;
@@ -944,7 +945,7 @@ class ilExplorer
 
     public function createLines(int $a_depth) : void
     {
-        for ($i = 0; $i < count($this->format_options); ++$i) {
+        for ($i = 0, $iMax = count($this->format_options); $i < $iMax; ++$i) {
             if ($this->format_options[$i]["depth"] == $a_depth + 1
                and !$this->format_options[$i]["container"]
                 and $this->format_options[$i]["depth"] != 1) {
@@ -971,7 +972,7 @@ class ilExplorer
         int $a_start,
         int $a_depth
     ) : bool {
-        for ($i = $a_start;$i < count($this->format_options);++$i) {
+        for ($i = $a_start, $iMax = count($this->format_options); $i < $iMax; ++$i) {
             if ($this->format_options[$i]["depth"] < $a_depth) {
                 break;
             }
@@ -1130,7 +1131,7 @@ class ilExplorer
 
         // append adm node to end of list
         if (isset($match)) {
-            array_push($a_nodes, $adm_node);
+            $a_nodes[] = $adm_node;
         }
 
         return $a_nodes;

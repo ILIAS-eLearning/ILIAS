@@ -26,7 +26,7 @@ class ilNestedList
     protected array $nodes = [];
     protected array $childs = [];
 
-    public function __constructor()
+    public function __construct()
     {
         $this->list_class[0] = "il_Explorer";
         $this->childs[0] = array();

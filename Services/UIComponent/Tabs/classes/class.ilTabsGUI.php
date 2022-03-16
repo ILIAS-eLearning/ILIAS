@@ -175,9 +175,8 @@ class ilTabsGUI
         string $a_link,
         string $a_frame = ''
     ) : void {
-        for ($i = 0; $i < count($this->target); $i++) {
+        for ($i = 0, $iMax = count($this->target); $i < $iMax; $i++) {
             if ($this->target[$i]['id'] == $a_old_id) {
-                $this->target[$i] = array();
                 $this->target[$i] = array(
                     "text" => $a_text,
                     "link" => $a_link,
@@ -279,7 +278,7 @@ class ilTabsGUI
      */
     public function setSubTabActive(string $a_text) : void
     {
-        for ($i = 0; $i < count($this->sub_target);$i++) {
+        for ($i = 0, $iMax = count($this->sub_target); $i < $iMax; $i++) {
             $this->sub_target[$i]['activate'] = $this->sub_target[$i]['id'] == $a_text;
         }
         $this->subtab_manual_activation = true;
@@ -343,12 +342,10 @@ class ilTabsGUI
         if (isset($DIC["ilUser"])) {
             $ilUser = $DIC->user();
         }
-        if (isset($DIC["component.factory"])) {
-            $component_factory = $DIC["component.factory"];
-        }
+        $component_factory = $DIC["component.factory"] ?? null;
 
         // user interface hook [uihk]
-        if (!$this->getSetupMode() && $component_factory) {
+        if ($component_factory && !$this->getSetupMode()) {
             foreach ($component_factory->getActivePluginsInSlot("uihk") as $plugin) {
                 $gui_class = $plugin->getUIClassInstance();
                 $resp = $gui_class->modifyGUI(

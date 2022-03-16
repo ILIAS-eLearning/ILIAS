@@ -181,7 +181,9 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         if ($this->preloaded) {
             $next_id = $a_node_id;
             while (($next_id = $this->all_childs[$next_id]["next_node_id"]) && $a_type != "" &&
-                $this->all_childs[$next_id]["type"] != $a_type);
+                $this->all_childs[$next_id]["type"] != $a_type) {
+                // do nothing
+            }
             if ($next_id) {
                 return $this->all_childs[$next_id];
             }

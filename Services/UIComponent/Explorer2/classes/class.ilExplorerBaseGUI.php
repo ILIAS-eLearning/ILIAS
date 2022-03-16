@@ -41,6 +41,7 @@ abstract class ilExplorerBaseGUI
     protected string $search_term = "";
     protected array $open_nodes = [];
     protected ilSessionIStorage $store;
+    protected $select_multi = false;
 
     /**
      * @var string|object|array
