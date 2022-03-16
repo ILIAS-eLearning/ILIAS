@@ -16293,3 +16293,9 @@ cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. Th
 cmix#:#no_substatements_label#:#Do not store substatements###02 02 2022 new variable
 cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.###02 02 2022 new variable
 exc#:#exc_fullscreen#:#Fullscreen###02 02 2022 new variable
+assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###16 03 2022 new variable
+assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###16 03 2022 new variable
+common#:#obj_chtr_duplicate#:#Copy Chat Room###16 03 2022 new variable
+assessment#:#err_division#:#This value has to be smaller than the maximum range.###16 03 2022 new variable
+assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###16 03 2022 new variable
+tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###16 03 2022 new variable
