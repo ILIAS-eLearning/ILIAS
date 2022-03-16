@@ -87,10 +87,7 @@ class ilSyntaxHighlighter
      */
     public static function getNewLanguageId(string $a_old_lang_id) : string
     {
-        if (isset(self::$v51_map[$a_old_lang_id])) {
-            return self::$v51_map[$a_old_lang_id];
-        }
-        return $a_old_lang_id;
+        return self::$v51_map[$a_old_lang_id] ?? $a_old_lang_id;
     }
 
 

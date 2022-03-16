@@ -195,11 +195,8 @@ class ilTabsGUI
     {
         global $DIC;
 
-        $ilHelp = null;
-        if (isset($DIC["ilHelp"])) {
-            $ilHelp = $DIC["ilHelp"];
-        }
-        
+        $ilHelp = $DIC["ilHelp"] ?? null;
+
         if (!$this->getSetupMode()) {
             $ilHelp->setScreenIdComponent("");
         }
@@ -331,10 +328,7 @@ class ilTabsGUI
         $sr_pre = "";
         $hash = "";
 
-        $ilHelp = null;
-        if (isset($DIC["ilHelp"])) {
-            $ilHelp = $DIC["ilHelp"];
-        }
+        $ilHelp = $DIC["ilHelp"] ?? null;
 
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

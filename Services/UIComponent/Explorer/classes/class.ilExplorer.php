@@ -178,17 +178,15 @@ class ilExplorer
         return $this->title;
     }
     
-    public function setRoot($a_root_id)
+    public function setRoot($a_root_id) : void
     {
         #$this->tree = new ilTree(ROOT_FOLDER_ID,$a_root_id);
         $this->root_id = $a_root_id;
     }
     
-    public function getRoot()
+    public function getRoot() : ?int
     {
-        return $this->root_id == null ?
-            $this->tree->getRootId() :
-            $this->root_id;
+        return $this->root_id ?? $this->tree->getRootId();
     }
 
     public function setOrderColumn(string $a_column) : void
@@ -416,57 +414,57 @@ class ilExplorer
                         if ($object["child"] != $this->getRoot()) {
                             $parent_index = $this->getIndex($object);
                         }
-                        $this->format_options["$this->counter"]["parent"] = $object["parent"];
-                        $this->format_options["$this->counter"]["child"] = $object["child"];
-                        $this->format_options["$this->counter"]["title"] = $object["title"];
-                        $this->format_options["$this->counter"]["type"] = $object["type"];
-                        $this->format_options["$this->counter"]["obj_id"] = $object["obj_id"];
-                        $this->format_options["$this->counter"]["desc"] = "obj_" . $object["type"];
-                        $this->format_options["$this->counter"]["depth"] = $tab;
-                        $this->format_options["$this->counter"]["container"] = false;
-                        $this->format_options["$this->counter"]["visible"] = true;
-                        $this->format_options["$this->counter"]["highlighted_subtree"] = $a_highlighted_subtree;
+                        $this->format_options[(string) $this->counter]["parent"] = $object["parent"];
+                        $this->format_options[(string) $this->counter]["child"] = $object["child"];
+                        $this->format_options[(string) $this->counter]["title"] = $object["title"];
+                        $this->format_options[(string) $this->counter]["type"] = $object["type"];
+                        $this->format_options[(string) $this->counter]["obj_id"] = $object["obj_id"];
+                        $this->format_options[(string) $this->counter]["desc"] = "obj_" . $object["type"];
+                        $this->format_options[(string) $this->counter]["depth"] = $tab;
+                        $this->format_options[(string) $this->counter]["container"] = false;
+                        $this->format_options[(string) $this->counter]["visible"] = true;
+                        $this->format_options[(string) $this->counter]["highlighted_subtree"] = $a_highlighted_subtree;
 
                         // Create prefix array
                         for ($i = 0; $i < $tab; ++$i) {
-                            $this->format_options["$this->counter"]["tab"][] = 'blank';
+                            $this->format_options[(string) $this->counter]["tab"][] = 'blank';
                         }
 
                         // fix explorer (sometimes explorer disappears)
                         if ($parent_index == 0) {
-                            if (!$this->expand_all and !in_array($object["parent"], $this->expanded)) {
+                            if (!$this->expand_all && !in_array($object["parent"], $this->expanded)) {
                                 $this->expanded[] = $object["parent"];
                             }
                         }
 
                         // only if parent is expanded and visible, object is visible
-                        if ($object["child"] != $this->getRoot() and ((!$this->expand_all and !in_array($object["parent"], $this->expanded))
-                           or !$this->format_options["$parent_index"]["visible"])) {
+                        if ($object["child"] != $this->getRoot() && ((!$this->expand_all && !in_array($object["parent"], $this->expanded))
+                           or !$this->format_options[(string) $parent_index]["visible"])) {
                             if (!$this->forceExpanded($object["child"])) {
                                 // if parent is not expanded, and one child is
                                 // visible we don't need more information and
                                 // can skip the rest of the childs
-                                if ($this->format_options["$this->counter"]["visible"]) {
+                                if ($this->format_options[(string) $this->counter]["visible"]) {
                                     //echo "-setSkipping";
                                     $skip_rest = true;
                                 }
-                                $this->format_options["$this->counter"]["visible"] = false;
+                                $this->format_options[(string) $this->counter]["visible"] = false;
                             }
                         }
 
                         // if object exists parent is container
                         if ($object["child"] != $this->getRoot()) {
-                            $this->format_options["$parent_index"]["container"] = true;
+                            $this->format_options[(string) $parent_index]["container"] = true;
 
-                            if ($this->expand_all or in_array($object["parent"], $this->expanded)) {
+                            if ($this->expand_all || in_array($object["parent"], $this->expanded)) {
                                 //echo "<br>-".$object["child"]."-".$this->forceExpanded($object["child"])."-";
                                 if ($this->forceExpanded($object["parent"])) {
-                                    $this->format_options["$parent_index"]["tab"][($tab - 2)] = 'forceexp';
+                                    $this->format_options[(string) $parent_index]["tab"][($tab - 2)] = 'forceexp';
                                 } else {
-                                    $this->format_options["$parent_index"]["tab"][($tab - 2)] = 'minus';
+                                    $this->format_options[(string) $parent_index]["tab"][($tab - 2)] = 'minus';
                                 }
                             } else {
-                                $this->format_options["$parent_index"]["tab"][($tab - 2)] = 'plus';
+                                $this->format_options[(string) $parent_index]["tab"][($tab - 2)] = 'plus';
                             }
                         }
                         //echo "-"."$parent_index"."-";
@@ -474,7 +472,7 @@ class ilExplorer
                         ++$this->counter;
 
                         // stop recursion if 2. level beyond expanded nodes is reached
-                        if ($this->expand_all or in_array($object["parent"], $this->expanded) or ($object["parent"] == 0)
+                        if ($this->expand_all || in_array($object["parent"], $this->expanded) or ($object["parent"] == 0)
                             or $this->forceExpanded($object["child"])) {
                             $highlighted_subtree = $a_highlighted_subtree ||
                                 ($object["child"] == $this->highlighted);
@@ -679,7 +677,7 @@ class ilExplorer
         $a_node_id,
         array $a_option,
         $a_obj_id = 0
-    ) {
+    ) : void {
         $lng = $this->lng;
         $ilErr = $this->error;
 
@@ -949,20 +947,20 @@ class ilExplorer
             if ($this->format_options[$i]["depth"] == $a_depth + 1
                and !$this->format_options[$i]["container"]
                 and $this->format_options[$i]["depth"] != 1) {
-                $this->format_options[$i]["tab"]["$a_depth"] = "quer";
+                $this->format_options[$i]["tab"][(string) $a_depth] = "quer";
             }
 
             if ($this->format_options[$i]["depth"] == $a_depth + 2) {
                 if ($this->is_in_array($i + 1, $this->format_options[$i]["depth"])) {
-                    $this->format_options[$i]["tab"]["$a_depth"] = "winkel";
+                    $this->format_options[$i]["tab"][(string) $a_depth] = "winkel";
                 } else {
-                    $this->format_options[$i]["tab"]["$a_depth"] = "ecke";
+                    $this->format_options[$i]["tab"][(string) $a_depth] = "ecke";
                 }
             }
 
             if ($this->format_options[$i]["depth"] > $a_depth + 2) {
                 if ($this->is_in_array($i + 1, $a_depth + 2)) {
-                    $this->format_options[$i]["tab"]["$a_depth"] = "hoch";
+                    $this->format_options[$i]["tab"][(string) $a_depth] = "hoch";
                 }
             }
         }

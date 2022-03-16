@@ -58,7 +58,7 @@ class ilNestedList
         string $a_content,
         string $a_id,
         $a_parent = 0
-    ) {
+    ) : void {
         $this->nodes[$a_id] = $a_content;
         $this->childs[$a_parent][] = $a_id;
     }

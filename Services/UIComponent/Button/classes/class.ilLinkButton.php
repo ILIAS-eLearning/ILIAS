@@ -44,7 +44,7 @@ class ilLinkButton extends ilButtonBase
         return $this->url;
     }
     
-    public function setTarget(string $a_value)
+    public function setTarget(string $a_value) : void
     {
         $this->target = trim($a_value);
     }

@@ -237,7 +237,11 @@ class ilCharSelectorGUI
         $tpl->addCss(ilUtil::getStyleSheetLocation('', 'char_selector_style.css', 'Services/UIComponent/CharSelector'));
         $tpl->addJavaScript('./Services/UIComponent/CharSelector/js/ilCharSelector.js');
         $tpl->addLightbox($this->getSelectorHTML(), 2);
-        $tpl->addOnLoadCode('il.CharSelector.init(' . json_encode($this->jsconfig) . ',' . json_encode($this->jstexts) . ')');
+        $tpl->addOnLoadCode(
+            'il.CharSelector.init(' .
+            json_encode($this->jsconfig, JSON_THROW_ON_ERROR) . ',' .
+            json_encode($this->jstexts, JSON_THROW_ON_ERROR) . ')'
+        );
         $this->added_to_page = true;
     }
     
@@ -295,7 +299,7 @@ class ilCharSelectorGUI
             'open' => ilSession::get('char_selector_open'),
             'current_page' => ilSession::get('char_selector_current_page'),
             'current_subpage' => ilSession::get('char_selector_current_subpage'),
-        ));
+        ), JSON_THROW_ON_ERROR);
         exit;
     }
     

@@ -73,7 +73,7 @@ abstract class ilExplorerBaseGUI
         // get open nodes
         $this->store = new ilSessionIStorage("expl2");
         $open_nodes = $this->store->get("on_" . $this->id);
-        $this->open_nodes = unserialize($open_nodes) ?: [];
+        $this->open_nodes = unserialize($open_nodes, ['allowed_classes' => false]) ?: [];
         if (!is_array($this->open_nodes)) {
             $this->open_nodes = array();
         }

@@ -34,7 +34,7 @@ class ilImageLinkButton extends ilLinkButton
     // properties
     //
     
-    public function setImage(string $a_value, bool $a_is_internal = true)
+    public function setImage(string $a_value, bool $a_is_internal = true) : void
     {
         if ($a_is_internal) {
             $a_value = ilUtil::getImagePath($a_value);

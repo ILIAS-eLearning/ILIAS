@@ -442,7 +442,7 @@ class ilCharSelectorConfig
     {
         $definition = implode(' ', $this->custom_items);
         foreach ($this->added_blocks as $block_name) {
-            $definition = $definition . ' [' . $block_name . ']';
+            $definition .= ' [' . $block_name . ']';
         }
         return trim($definition);
     }
