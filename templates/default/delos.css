@@ -13673,7 +13673,7 @@ button.copg-add:hover {
 div.il_droparea {
   padding: 1px 5px;
   border: 1px dashed #dddddd;
-  color: #6f6f6f;
+  color: #7c7c7c;
   text-align: center;
   font-size: 12px;
   background-color: #fffed1;
@@ -13689,7 +13689,7 @@ div.ilCOPGDropActice,
 }
 div.ilCOPGNoPageContent {
   padding: 20px 5px;
-  color: #6f6f6f;
+  color: #7c7c7c;
 }
 div.il_editarea_nojs {
   border-width: 1px dotted #dddddd;
@@ -13712,7 +13712,7 @@ div.il_editarea_disabled {
 div.ilEditLabel {
   position: absolute;
   background-color: #4c6586;
-  color: #6f6f6f;
+  color: #7c7c7c;
   font-size: 70%;
   padding: 1px 3px;
   margin-top: -15px;
@@ -13969,7 +13969,7 @@ td.ilc_PageDisabled {
 div.ilc_DefinitionHeader {
   margin: 20px 0 10px 0;
   padding: 5px 0;
-  border: 1px solid #757575;
+  border: 1px solid #A8A8A8;
   border-width: 1px 0;
 }
 table.ilc_Fullscreen {
@@ -15609,7 +15609,7 @@ h3.ilProfileName {
 div.ilProfileSection {
   margin-top: 20px;
   font-size: 90%;
-  color: #6f6f6f;
+  color: #7c7c7c;
 }
 h3.ilProfileSectionHead {
   margin: 0 0 3px;
@@ -15888,7 +15888,7 @@ td.chatroom {
 }
 .ilChatroomUser .media-body h4,
 .ilChatroomUser .media-body p {
-  color: #6f6f6f;
+  color: #7c7c7c;
   font-size: 12px;
   padding: 5px 3px 0 3px;
   line-height: 1em;
@@ -15896,7 +15896,7 @@ td.chatroom {
 }
 .ilChatroomUser .media-body h4 {
   padding-top: 0;
-  color: #6f6f6f;
+  color: #7c7c7c;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -17752,7 +17752,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body p {
   margin: 0;
-  color: #6f6f6f;
+  color: #7c7c7c;
   font-size: 0.9em;
 }
 #onscreenchat-container .chat-window-wrapper .panel {
@@ -18351,7 +18351,7 @@ span.ilProfileBadge .modal .img-responsive {
   text-align: center;
 }
 #ltiIframe {
-  border: solid #757575 2px !important;
+  border: solid #A8A8A8 2px !important;
   padding: 3px;
   width: 100%;
   height: 500px;
