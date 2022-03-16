@@ -6153,8 +6153,13 @@ class ilObjSurvey extends ilObject
         $html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
         $html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
 
+        $log->debug("--pdf start, ref id " . $this->getRefId());
+        $log->debug("html length: " . strlen($html));
+        $log->debug("html (first 1000 chars): " . substr($html, 0, 1000));
+        //echo $html; exit;
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
         $pdf = $pdf_factory->deliverPDFFromHTMLString($html, "survey.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, "Survey", "Results");
+        $log->debug("--pdf end");
 
         /*
         $log->debug("calling phantom for ref_id: " . $this->getRefId());
