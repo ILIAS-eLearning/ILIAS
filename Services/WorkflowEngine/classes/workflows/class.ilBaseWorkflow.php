@@ -25,35 +25,35 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var \ilNode[] $nodes Array of ilNode
      */
-    protected $nodes;
+    protected array $nodes;
 
     /**
      * Holds a list of references to all external detectors of all nodes attached to the workflow.
      *
      * @var \ilExternalDetector[] $detectors Array of ilDetector
      */
-    protected $detectors;
+    protected array $detectors;
 
     /**
      * Holds a reference to the start node of the workflow.
      *
      * @var ilNode $start_node Node, which is to be activated to start the workflow.
      */
-    protected $start_node;
+    protected ilNode $start_node;
 
     /**
      * Holds the activation state of the workflow.
      *
      * @var boolean $active
      */
-    protected $active;
+    protected bool $active = false;
 
     /**
      * This holds the database id of the workflow
      *
      * @var integer $db_id
      */
-    protected $db_id;
+    protected int $db_id;
 
     /**
      * Holds the type of the workflow.
@@ -65,7 +65,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_type Name of type of the workflow.
      */
-    protected $workflow_type;
+    protected string $workflow_type;
 
     /**
      * Holds a content description of the workflow instance.
@@ -76,19 +76,19 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_content Content description of the workflow.
      */
-    protected $workflow_content;
+    protected string $workflow_content;
 
     /**
      * Holds the classname of the workflow definition.
      * @var string $workflow_class Name of the class. e.g. ComplianceWorkflow1 for class.ilComplianceWorkflow1.php
      */
-    protected $workflow_class;
+    protected string $workflow_class;
 
     /**
      * Holds the path to the workflow definition class relative to the applications root.
      * @var string $workflow_location Path to class, e.g. Services/WorkflowEngine for './Services/WorkflowEngine/classes/class..."
      */
-    protected $workflow_location;
+    protected string $workflow_location;
 
     /**
      * Holding the subject type of the workflow.
@@ -97,7 +97,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * E.g. crs, usr
      * @var string $workflow_subject_type Name of the subject type.
      */
-    protected $workflow_subject_type;
+    protected string $workflow_subject_type;
 
     /**
      * This is the actual identifier of the 'who'. If subject_type is a usr, this
@@ -105,7 +105,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var integer $workflow_subject_identifier Identifier of the events subject.
      */
-    protected $workflow_subject_identifier;
+    protected int $workflow_subject_identifier;
 
     /**
      * Type of the workflows context.
@@ -114,7 +114,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_context_type Type if the events context type.
      */
-    protected $workflow_context_type;
+    protected string $workflow_context_type;
 
     /**
      * Identifier of the workflows context.
@@ -123,23 +123,23 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var integer $workflow_context_identifier Identifier of the events context.
      */
-    protected $workflow_context_identifier;
+    protected int $workflow_context_identifier;
 
     /**
      * Array of instance variables to be shared across the workflow.
      *
      * @var array $instance_vars Associative array of  mixed.
      */
-    protected $instance_vars = array();
+    protected array $instance_vars = array();
 
     /** @var array $data_inputs Input data for the workflow (readonly). */
-    protected $data_inputs;
+    protected array $data_inputs;
 
     /** @var array $data_outputs Output data for the workflow. */
-    protected $data_outputs;
+    protected array $data_outputs;
 
     /** @var bool $require_data_persistence True, if the persistence needs to deal with data. */
-    protected $require_data_persistence = false;
+    protected bool $require_data_persistence = false;
 
     /**
      * Default constructor
@@ -224,19 +224,17 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @return boolean
      */
-    public function isActive()
+    public function isActive() : bool
     {
-        return (bool) $this->active;
+        return $this->active;
     }
 
     /**
      * Handles an event.
-     *
      * The event is passed to all active event handlers.
-     *
      * @param string[] $params
      */
-    public function handleEvent($params)
+    public function handleEvent(array $params)
     {
         $active_nodes_available = false;
         // Hier nur an aktive Nodes dispatchen.
@@ -273,7 +271,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @return  array array('type' => $this->workflow_type, 'content' => $this->workflow_content)
      */
-    public function getWorkflowData()
+    public function getWorkflowData() : array
     {
         return array('type' => $this->workflow_type, 'content' => $this->workflow_content);
     }
@@ -283,7 +281,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @return array array('type' => $this->workflow_subject_type, 'identifier' => $this->workflow_subject_identifier)
      */
-    public function getWorkflowSubject()
+    public function getWorkflowSubject() : array
     {
         return array('type' => $this->workflow_subject_type, 'identifier' => $this->workflow_subject_identifier);
     }
@@ -293,17 +291,16 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @return array array('type' => $this->workflow_context_type, 'identifier' => $this->workflow_context_identifier)
      */
-    public function getWorkflowContext()
+    public function getWorkflowContext() : array
     {
         return array('type' => $this->workflow_context_type, 'identifier' => $this->workflow_context_identifier);
     }
 
     /**
      * Sets the database id of the detector.
-     *
      * @param integer $id
      */
-    public function setDbId($id)
+    public function setDbId(int $id)
     {
         $this->db_id = $id;
     }
@@ -314,7 +311,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * @return int
      * @throws \ilWorkflowObjectStateException
      */
-    public function getDbId()
+    public function getDbId() : int
     {
         if ($this->db_id != null) {
             return $this->db_id;
@@ -328,7 +325,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * Returns, if the detector has a database id.
      * @return boolean If a database id is set.
      */
-    public function hasDbId()
+    public function hasDbId() : bool
     {
         if ($this->db_id == null) {
             return false;
@@ -364,7 +361,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @param string $class
      */
-    public function setWorkflowClass($class)
+    public function setWorkflowClass(string $class)
     {
         $this->workflow_class = $class;
     }
@@ -376,7 +373,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @return string Class name
      */
-    public function getWorkflowClass()
+    public function getWorkflowClass() : string
     {
         return $this->workflow_class;
     }
@@ -388,7 +385,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @param string $path e.g. Services/WorkflowEngine
      */
-    public function setWorkflowLocation($path)
+    public function setWorkflowLocation(string $path)
     {
         $this->workflow_location = $path;
     }
@@ -400,7 +397,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @return string
      */
-    public function getWorkflowLocation()
+    public function getWorkflowLocation() : string
     {
         return $this->workflow_location;
     }
@@ -410,7 +407,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @return ilNode[]
      */
-    public function getNodes()
+    public function getNodes() : array
     {
         return $this->nodes;
     }
@@ -418,10 +415,9 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * Autoloader function to dynamically include files for instantiation of
      * objects during deserialization.
-     *
      * @param string $class_name
      */
-    public static function autoload($class_name)
+    public static function autoload(string $class_name)
     {
         switch (true) {
             case strtolower(substr($class_name, strlen($class_name) - 8, 8)) == 'activity':
@@ -453,7 +449,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * @return bool
      */
-    public function isDataPersistenceRequired()
+    public function isDataPersistenceRequired() : bool
     {
         return $this->require_data_persistence;
     }
@@ -481,37 +477,28 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * @param string $id
      * @param string $name
-     * @param bool   $reference
-     * @param string $reference_target
-     * @param string $type
-     * @param string $role
      */
     public function defineInstanceVar(
-        $id,
-        $name,
-        $reference = false,
-        $reference_target = '',
-        $type = 'mixed',
-        $role = 'undefined'
+        string $id,
+        string $name
     ) {
         $this->instance_vars[] = array(
             'id' => $id,
             'name' => $name,
             'value' => null,
-            'reference' => $reference,
-            'target' => $reference_target,
-            'type' => $type,
-            'role' => $role
+            'reference' => null,
+            'target' => null,
+            'type' => null,
+            'role' => null
         );
     }
 
     /**
      * Returns if an instance variable of the given name is set.
-     *
      * @param string $name
      * @return boolean True, if a variable by that name is set.
      */
-    public function hasInstanceVarByName($name)
+    public function hasInstanceVarByName(string $name) : bool
     {
         foreach ($this->instance_vars as $instance_var) {
             if ($instance_var['name'] == $name) {
@@ -523,12 +510,10 @@ abstract class ilBaseWorkflow implements ilWorkflow
 
     /**
      * Returns if an instance variable of the given id is set.
-     *
      * @param string $id
-     *
-     * @return boolean True, if a variable by that id is set.
+          * @return boolean True, if a variable by that id is set.
      */
-    public function hasInstanceVarById($id)
+    public function hasInstanceVarById(string $id) : bool
     {
         foreach ($this->instance_vars as $instance_var) {
             if ($instance_var['id'] == $id) {
@@ -540,11 +525,10 @@ abstract class ilBaseWorkflow implements ilWorkflow
 
     /**
      * Returns the given instance variables content
-     *
      * @param string $name Name of the variable.
      * @return mixed Content of the variable.
      */
-    public function getInstanceVarByName($name)
+    public function getInstanceVarByName(string $name) : mixed
     {
         foreach ($this->instance_vars as &$instance_var) {
             if ($instance_var['name'] == $name) {
@@ -564,7 +548,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * @param string $name Name of the variable.
      * @return mixed Content of the variable.
      */
-    public function getInstanceVarById($id)
+    public function getInstanceVarById(string $id) : mixed
     {
         foreach ($this->instance_vars as $instance_var) {
             if ($instance_var['id'] == $id) {
@@ -581,9 +565,9 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * Sets the given instance var with the given content.
      * @param string $name Name of the variable
-     * @param mixed $value
+     * @param mixed  $value
      */
-    public function setInstanceVarByName($name, $value)
+    public function setInstanceVarByName(string $name, $value)
     {
         foreach ($this->instance_vars as &$instance_var) {
             if ($instance_var['name'] == $name) {
@@ -598,11 +582,10 @@ abstract class ilBaseWorkflow implements ilWorkflow
 
     /**
      * Sets the given instance var with the given content.
-     *
-     * @param string $id    Name of the variable
+     * @param string $id Name of the variable
      * @param mixed  $value
      */
-    public function setInstanceVarById($id, $value)
+    public function setInstanceVarById(string $id, $value)
     {
         foreach ($this->instance_vars as &$instance_var) {
             if ($instance_var['id'] == $id) {
@@ -619,10 +602,10 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * Sets the given instance var with the given content.
      * *only during startup to write event params*
-     * @param string $role    Role of the variable
+     * @param string $role Role of the variable
      * @param mixed  $value
      */
-    public function setInstanceVarByRole($role, $value)
+    public function setInstanceVarByRole(string $role, mixed $value)
     {
         foreach ($this->instance_vars as &$instance_var) {
             if ($instance_var['role'] == $role) {
@@ -641,7 +624,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @return array Associative array of mixed.
      */
-    public function getInstanceVars()
+    public function getInstanceVars() : array
     {
         return (array) $this->instance_vars;
     }
@@ -690,7 +673,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * @deprecated
      */
-    public function hasInputVar($name)
+    public function hasInputVar($name) : bool
     {
         return array_key_exists($name, (array) $this->data_inputs);
     }
@@ -698,7 +681,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * @deprecated
      */
-    public function hasOutputVar($name)
+    public function hasOutputVar($name) : bool
     {
         return array_key_exists($name, (array) $this->data_outputs);
     }
@@ -732,7 +715,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
         $this->require_data_persistence = true;
     }
 
-    public function getInputVars()
+    public function getInputVars() : array
     {
         return (array) $this->data_inputs;
     }
@@ -740,7 +723,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * @deprecated
      */
-    public function getOutputVars()
+    public function getOutputVars() : array
     {
         return (array) $this->data_outputs;
     }
@@ -749,7 +732,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * @param string $name
      * @param mixed  $definition
      */
-    public function registerInputVar($name, $definition)
+    public function registerInputVar(string $name, mixed $definition)
     {
         $definition['name'] = $name;
         $this->data_inputs[$name] = $definition;
@@ -758,7 +741,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * @param string $name
      */
-    public function registerOutputVar($name)
+    public function registerOutputVar(string $name)
     {
         $this->data_outputs[] = $name;
     }

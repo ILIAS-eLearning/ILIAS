@@ -13,7 +13,7 @@
 class ilWorkflowEngineInstancesGUI
 {
     /** @var  ilObjWorkflowEngineGUI */
-    protected $parent_gui;
+    protected ilObjWorkflowEngineGUI $parent_gui;
 
     /**
      * ilWorkflowEngineInstancesGUI constructor.
@@ -27,10 +27,9 @@ class ilWorkflowEngineInstancesGUI
 
     /**
      * @param string $command
-     *
      * @return string
      */
-    public function handle($command)
+    public function handle(string $command) : string
     {
         return "Hello, world";
     }

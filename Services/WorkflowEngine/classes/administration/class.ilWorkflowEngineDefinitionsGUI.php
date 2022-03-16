@@ -12,13 +12,14 @@
  */
 class ilWorkflowEngineDefinitionsGUI
 {
+    private \ILIAS\WorkflowEngine\Service $service;
     /** @var ilObjWorkflowEngineGUI $parent_gui */
-    protected $parent_gui;
+    protected ilObjWorkflowEngineGUI $parent_gui;
 
     /**
      * @var \ILIAS\DI\Container
      */
-    protected $dic;
+    protected \ILIAS\DI\Container $dic;
     private \ilGlobalTemplateInterface $main_tpl;
 
     /**
@@ -29,24 +30,22 @@ class ilWorkflowEngineDefinitionsGUI
      */
     public function __construct(ilObjWorkflowEngineGUI $parent_gui, \ILIAS\DI\Container $dic = null)
     {
-        global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->parent_gui = $parent_gui;
-
         if ($dic === null) {
-            $dic = $GLOBALS['DIC'];
+            global $DIC;
+            $dic = $DIC;
         }
+        $this->service = $dic->workflowEngine();
+        $this->main_tpl = $dic->ui()->mainTemplate();
+        $this->parent_gui = $parent_gui;
         $this->dic = $dic;
     }
 
     /**
      * Handle the command given.
-     *
      * @param string $command
-     *
      * @return string HTML
      */
-    public function handle($command)
+    public function handle(string $command)
     {
         switch (strtolower($command)) {
             case 'uploadform':
@@ -70,7 +69,7 @@ class ilWorkflowEngineDefinitionsGUI
                 break;
 
             case 'delete':
-                return $this->deleteDefinition();
+                $this->deleteDefinition();
                 break;
 
             case 'confirmdelete':
@@ -82,7 +81,7 @@ class ilWorkflowEngineDefinitionsGUI
                 break;
 
             case'stoplistening':
-                return $this->stopListening();
+                $this->stopListening();
                 break;
 
             case 'view':
@@ -94,9 +93,9 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string HTML
      */
-    public function showDefinitionsTable()
+    public function showDefinitionsTable() : string
     {
-        if ($this->dic->rbac()->system()->checkAccess('write', $_GET['ref_id'])) {
+        if ($this->dic->rbac()->system()->checkAccess('write', $this->service->internal()->request()->getRefId())) {
             $this->initToolbar();
         }
         require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
@@ -111,7 +110,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string HTML
      */
-    public function applyFilter()
+    public function applyFilter() : string
     {
         require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
         $table_gui = new ilWorkflowEngineDefinitionsTableGUI($this->parent_gui, 'definitions.view');
@@ -124,7 +123,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string HTML
      */
-    public function resetFilter()
+    public function resetFilter() : string
     {
         require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
         $table_gui = new ilWorkflowEngineDefinitionsTableGUI($this->parent_gui, 'definitions.view');
@@ -137,7 +136,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string
      */
-    public function showUploadForm()
+    public function showUploadForm() : string
     {
         require_once './Services/WorkflowEngine/classes/administration/class.ilUploadDefinitionForm.php';
         $form_definition = new ilUploadDefinitionForm();
@@ -257,7 +256,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return void
      */
-    public function initToolbar()
+    public function initToolbar() : void
     {
         require_once './Services/UIComponent/Button/classes/class.ilLinkButton.php';
         $upload_wizard_button = ilLinkButton::getInstance();
@@ -271,7 +270,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return void
      */
-    protected function processUploadFormCancellation()
+    protected function processUploadFormCancellation() : void
     {
         if (isset($_POST['cmd']['cancel'])) {
             $this->main_tpl->setOnScreenMessage('info', $this->parent_gui->lng->txt('action_aborted'), true);
@@ -288,7 +287,7 @@ class ilWorkflowEngineDefinitionsGUI
      */
     public function startListening()
     {
-        $identifier = basename($_GET['process_id']);
+        $identifier = basename($this->service->internal()->request()->getProcessId());
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . $identifier . '.php';
         $class = substr($identifier, 4);
@@ -348,9 +347,9 @@ class ilWorkflowEngineDefinitionsGUI
         );
     }
 
-    public function stopListening()
+    public function stopListening() : void
     {
-        $process_id = ilUtil::stripSlashes($_GET['process_id']);
+        $process_id = ilUtil::stripSlashes($this->service->internal()->request()->getProcessId());
 
         require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         ilWorkflowDbHelper::deleteStartEventData($process_id);
@@ -379,7 +378,7 @@ class ilWorkflowEngineDefinitionsGUI
             );
         }
 
-        $identifier = basename($_GET['process_id']);
+        $identifier = basename($this->service->internal()->request()->getProcessId());
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . $identifier . '.php';
         $class = substr($identifier, 4);
@@ -439,7 +438,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      *
      */
-    private function ensureProcessIdInRequest()
+    private function ensureProcessIdInRequest() : void
     {
         if (!isset($this->dic->http()->request()->getQueryParams()['process_id'])) {
             $this->main_tpl->setOnScreenMessage('info', $this->parent_gui->lng->txt('wfe_request_missing_process_id'));
@@ -450,7 +449,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string
      */
-    private function getProcessIdFromRequest()
+    private function getProcessIdFromRequest() : string
     {
         $processId = str_replace(['\\', '/'], '', stripslashes($this->dic->http()->request()->getQueryParams()['process_id']));
 
@@ -460,7 +459,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return void
      */
-    public function deleteDefinition()
+    public function deleteDefinition() : void
     {
         $this->ensureProcessIdInRequest();
 
@@ -487,7 +486,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string
      */
-    public function confirmDeleteDefinition()
+    public function confirmDeleteDefinition() : string
     {
         $this->ensureProcessIdInRequest();
 

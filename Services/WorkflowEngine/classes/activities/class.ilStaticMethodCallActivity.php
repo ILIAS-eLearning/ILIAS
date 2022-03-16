@@ -23,7 +23,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     private $context;
 
     /** @var string $include_file Filename and path of the class to be loaded. */
-    private $include_file = '';
+    private string $include_file = '';
 
     /**
      * Holds the value of the method name to be called.
@@ -31,16 +31,16 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @var string $class_and_method_name Class::Method without parentheses.
      */
-    private $class_and_method_name = '';
+    private string $class_and_method_name = '';
 
     /** @var array $parameters Holds an array with params to be passed as second argument to the method. */
-    private $parameters;
+    private array $parameters;
 
     /** @var array $outputs Holds a list of valid output element IDs passed as third argument to the method. */
-    private $outputs;
+    private array $outputs = [];
 
     /** @var string $name */
-    protected $name;
+    protected string $name;
 
     /**
      * Default constructor.
@@ -54,14 +54,11 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
 
     /**
      * Sets the name of the file to be included prior to calling the method..
-     *
-     * @see $include_file
-     *
      * @param string $filename Name of the file to be included.
-     *
      * @return void
+     *@see $include_file
      */
-    public function setIncludeFilename($filename)
+    public function setIncludeFilename(string $filename) : void
     {
         $this->include_file = $filename;
     }
@@ -71,7 +68,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getIncludeFilename()
+    public function getIncludeFilename() : string
     {
         return $this->include_file;
     }
@@ -79,14 +76,11 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /***
      * Sets the class- and methodname of the method to be called.
      * E.g. ilPonyStable::getPony
-     *
-     * @see $method_name
-     *
      * @param string $name Classname::Methodname.
-     *
      * @return void
+     *@see $method_name
      */
-    public function setClassAndMethodName($name)
+    public function setClassAndMethodName(string $name) : void
     {
         $this->class_and_method_name = $name;
     }
@@ -96,7 +90,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getClassAndMethodName()
+    public function getClassAndMethodName() : string
     {
         return $this->class_and_method_name;
     }
@@ -104,12 +98,10 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * Sets an array with params for the method. This will be set as second
      * parameter.
-     *
      * @param array $params Array with parameters.
-     *
      * @return void
      */
-    public function setParameters($params)
+    public function setParameters(array $params) : void
     {
         $this->parameters = $params;
     }
@@ -119,7 +111,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return array
      */
-    public function getParameters()
+    public function getParameters() : array
     {
         return $this->parameters;
     }
@@ -127,7 +119,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return array
      */
-    public function getOutputs()
+    public function getOutputs() : array
     {
         return $this->outputs;
     }
@@ -135,19 +127,17 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param array $outputs
      */
-    public function setOutputs($outputs)
+    public function setOutputs(array $outputs) : void
     {
         $this->outputs = $outputs;
     }
 
     /**
      * Executes this action according to its settings.
-     *
-     * @todo Use exceptions / internal logging.
-     *
      * @return void
+     *@todo Use exceptions / internal logging.
      */
-    public function execute()
+    public function execute():void
     {
         /** @noinspection PhpIncludeInspection */
         require_once './' . $this->include_file;
@@ -200,7 +190,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
@@ -208,7 +198,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }

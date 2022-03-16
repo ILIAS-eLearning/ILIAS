@@ -23,7 +23,7 @@ class ilCounterDetector extends ilSimpleDetector
      *
      * @var integer Number of trigger events expected.
      */
-    private $expected_trigger_events = 1;
+    private int $expected_trigger_events = 1;
 
     /**
      * This holds the current number of trigger events which have already taken
@@ -31,7 +31,7 @@ class ilCounterDetector extends ilSimpleDetector
      *
      * @var integer Number of past trigger events.
      */
-    private $actual_trigger_events = 0;
+    private int $actual_trigger_events = 0;
 
     /**
      * Default constructor, passing the context to the parent constructor.
@@ -45,10 +45,9 @@ class ilCounterDetector extends ilSimpleDetector
 
     /**
      * Set the expected trigger event count before the detector is satisfied.
-     *
      * @param integer $count
      */
-    public function setExpectedTriggerEvents($count)
+    public function setExpectedTriggerEvents(int $count) : void
     {
         $this->expected_trigger_events = (int) $count;
     }
@@ -58,7 +57,7 @@ class ilCounterDetector extends ilSimpleDetector
      *
      * @return integer
      */
-    public function getExpectedTriggerEvents()
+    public function getExpectedTriggerEvents() : int
     {
         return $this->expected_trigger_events;
     }
@@ -69,22 +68,19 @@ class ilCounterDetector extends ilSimpleDetector
      * @return integer Number of past trigger events.
      *
      */
-    public function getActualTriggerEvents()
+    public function getActualTriggerEvents() : int
     {
         return $this->actual_trigger_events;
     }
 
     /**
      * Sets the actual count of trigger events already taken place.
-     *
      * Reason this method exists, is to allow the workflow controller to
      * "fast forward" workflows to set a non-default state. I.e. a workflow
      * has to be set into a state in the middle of running. Use with care.
-     *
      * @param integer $count Number of past trigger events.
-     *
      */
-    public function setActualTriggerEvents($count)
+    public function setActualTriggerEvents(int $count) : void
     {
         if ($this->expected_trigger_events < (int) $count) {
             $this->actual_trigger_events = $count;
@@ -103,7 +99,7 @@ class ilCounterDetector extends ilSimpleDetector
      *
      * @return boolean False, if detector was already satisfied before.
      */
-    public function trigger($params)
+    public function trigger($params) : bool
     {
         if ($this->actual_trigger_events < $this->expected_trigger_events) {
             $this->actual_trigger_events++;

@@ -25,23 +25,23 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @var ilDetector
      */
-    private $target_detector;
+    private ilDetector $target_detector;
 
     /**
      * This holds a reference to the parent ilNode.
      *
      * @var ilNode
      */
-    private $context;
+    private ilNode $context;
 
     /** @var bool $emitted Holds information if the emitter emitted at least once. */
-    private $emitted;
+    private bool $emitted;
 
     /** @var string $name */
-    protected $name;
+    protected string $name;
 
     /** @var string $var_name */
-    protected $var_name;
+    protected string $var_name = '';
 
     /**
      * Default constructor.
@@ -59,7 +59,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @param ilDetector $target_detector
      */
-    public function setTargetDetector(ilDetector $target_detector)
+    public function setTargetDetector(ilDetector $target_detector) : void
     {
         $this->target_detector = $target_detector;
     }
@@ -69,7 +69,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @return ilDetector Reference to the target detector.
      */
-    public function getTargetDetector()
+    public function getTargetDetector() : ilDetector
     {
         return $this->target_detector;
     }
@@ -79,7 +79,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @return ilNode Reference to the parent node.
      */
-    public function getContext()
+    public function getContext() : ilNode
     {
         return $this->context;
     }
@@ -87,7 +87,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * Executes this emitter after activating the target node.
      */
-    public function emit()
+    public function emit() : void
     {
         $instance_vars = $this->context->getContext()->getInstanceVars();
 
@@ -115,7 +115,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * @return bool
      */
-    public function getActivated()
+    public function getActivated() : bool
     {
         return $this->emitted;
     }
@@ -123,7 +123,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
@@ -131,7 +131,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -139,7 +139,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * @return string
      */
-    public function getVarName()
+    public function getVarName() : string
     {
         return $this->var_name;
     }
@@ -147,7 +147,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * @param string $var_name
      */
-    public function setVarName($var_name)
+    public function setVarName(string $var_name) : void
     {
         $this->var_name = $var_name;
     }

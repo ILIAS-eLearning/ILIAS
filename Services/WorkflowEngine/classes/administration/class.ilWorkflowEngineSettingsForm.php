@@ -16,24 +16,22 @@ require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 class ilWorkflowEngineSettingsForm
 {
     /** @var ilPropertyFormGUI $form */
-    protected $form;
+    protected ilPropertyFormGUI $form;
 
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
+    protected \ILIAS\DI\Container $dic;
 
     /** @var \ilLanguage $lng */
-    protected $lng;
+    protected ilLanguage $lng;
 
     public function __construct()
     {
         global $DIC;
         $this->dic = $DIC;
         $this->lng = $this->dic->language();
+        $this->service = $DIC->workflowEngine();
     }
 
-    public function getForm($action)
+    public function getForm($action) : ilPropertyFormGUI
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($action);
@@ -42,7 +40,7 @@ class ilWorkflowEngineSettingsForm
         $activation_checkbox = new ilCheckboxInputGUI($this->lng->txt('activate'), 'activate');
         $this->form->addItem($activation_checkbox);
 
-        if ($this->dic->rbac()->system()->checkAccess("visible,read", (int) $_GET['ref_id'])) {
+        if ($this->dic->rbac()->system()->checkAccess("visible,read", $this->service->internal()->request()->getRefId())) {
             $this->form->addCommandButton('save', $this->lng->txt('save'));
             $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
         }

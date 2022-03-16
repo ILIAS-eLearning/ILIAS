@@ -14,7 +14,7 @@ require_once './Services/WorkflowEngine/classes/parser/elements/class.ilBaseElem
 class ilBPMN2ElementLoader
 {
     /** @var array $bpmn2_array */
-    protected $bpmn2_array;
+    protected array $bpmn2_array;
 
     /**
      * ilBPMN2ElementLoader constructor.
@@ -28,10 +28,9 @@ class ilBPMN2ElementLoader
 
     /**
      * @param string $element_name
-     *
      * @return mixed
      */
-    public function load($element_name)
+    public function load(string $element_name) : mixed
     {
         preg_match('/[A-Z]/', $element_name, $matches, PREG_OFFSET_CAPTURE);
         $type = strtolower(substr($element_name, (int) ($matches[0][1] ?? 0)));

@@ -26,10 +26,9 @@ interface ilWorkflow
 
     /**
      * @param array $params
-     *
      * @return mixed
      */
-    public function handleEvent($params);
+    public function handleEvent(array $params);
 
     // Node management
 
@@ -113,20 +112,19 @@ interface ilWorkflow
 
     /**
      * @param integer $id
-     *
      * @return mixed
      */
-    public function setDbId($id);
+    public function setDbId(int $id);
 
     /**
      * @return integer
      */
-    public function getDbId();
+    public function getDbId() : int;
 
     /**
      * @return bool
      */
-    public function hasDbId();
+    public function hasDbId() : bool;
 
     /**
      * @return mixed
@@ -143,54 +141,47 @@ interface ilWorkflow
     /**
      * @param string $id
      * @param string $name
-     *
      * @return mixed
      */
-    public function defineInstanceVar($id, $name);
+    public function defineInstanceVar(string $id, string $name);
 
     /**
      * @param string $name
-     *
      * @return mixed
      */
-    public function hasInstanceVarByName($name);
+    public function hasInstanceVarByName(string $name);
 
     /**
      * @param string $id
-     *
      * @return mixed
      */
-    public function hasInstanceVarById($id);
+    public function hasInstanceVarById(string $id);
 
     /**
      * @param string $name
-     *
      * @return mixed
      */
-    public function getInstanceVarByName($name);
+    public function getInstanceVarByName(string $name);
 
     /**
      * @param string $id
-     *
      * @return mixed
      */
-    public function getInstanceVarById($id);
+    public function getInstanceVarById(string $id);
 
     /**
      * @param string $name
      * @param mixed  $value
-     *
      * @return mixed
      */
-    public function setInstanceVarByName($name, $value);
+    public function setInstanceVarByName(string $name, $value);
 
     /**
      * @param string $id
      * @param mixed  $value
-     *
      * @return mixed
      */
-    public function setInstanceVarById($id, $value);
+    public function setInstanceVarById(string $id, $value);
 
     /**
      * @return mixed

@@ -281,26 +281,23 @@ class ilWorkflowDbHelper
 
     /**
      * Gets a list of all listening detectors for the given event.
-     *
-     * @global ilDB   $ilDB
-     *
      * @param string  $type         Type of the event.
      * @param string  $content      Content of the event.
      * @param string  $subject_type Type of the subject, e.g. usr.
      * @param integer $subject_id   Identifier of the subject, eg. 6.
      * @param string  $context_type Type of the context, e.g. crs.
      * @param integer $context_id   Identifier of the context, e.g. 48
-     *
      * @return \integer	Array of workflow ids with listening detectors.
+     *@global ilDB    $ilDB
      */
     public static function getDetectors(
-        $type,
-        $content,
-        $subject_type,
-        $subject_id,
-        $context_type,
-        $context_id
-    ) {
+        string $type,
+        string $content,
+        string $subject_type,
+        int $subject_id,
+        string $context_type,
+        int $context_id
+    ) : array|int {
         global $DIC;
         /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
@@ -332,15 +329,11 @@ class ilWorkflowDbHelper
 
     /**
      * Wakes a workflow from the database.
-     *
-     * @global ilDB   $ilDB
-     *
      * @param integer $id workflow_id.
-     *
      * @return \ilWorkflow An ilWorkflow-implementing instance.
-     *
+     *@global ilDB   $ilDB
      */
-    public static function wakeupWorkflow($id)
+    public static function wakeupWorkflow(int $id) : ?ilWorkflow
     {
         global $DIC;
         /** @var ilDB $ilDB */
@@ -368,12 +361,10 @@ class ilWorkflowDbHelper
 
     /**
      * Takes a detector as an argument and saves it to the database.
-     *
-     * @global ilDB $ilDB
-     *
      * @param array $event
+     *@global ilDB $ilDB
      */
-    public static function writeStartEventData($event, $process_id)
+    public static function writeStartEventData(array $event, $process_id)
     {
         global $DIC;
         /** @var ilDB $ilDB */
@@ -403,7 +394,7 @@ class ilWorkflowDbHelper
      * @param string $value
      * @param string $start_event
      */
-    public static function writeStaticInput($key, $value, $start_event)
+    public static function writeStaticInput(string $key, string $value, string $start_event)
     {
         global $DIC;
         /** @var ilDB $ilDB */
@@ -420,7 +411,7 @@ class ilWorkflowDbHelper
         );
     }
 
-    public static function findApplicableWorkflows($component, $event, $params)
+    public static function findApplicableWorkflows($component, $event, $params) : array
     {
         $query = "SELECT event_id, workflow_id FROM wfe_startup_events WHERE
 		type = '" . $component . "' AND content = '" . $event . "' AND subject_type = '" . $params->getSubjectType() . "'
@@ -441,7 +432,7 @@ class ilWorkflowDbHelper
         return $workflows;
     }
 
-    public static function getStaticInputDataForEvent($event_id)
+    public static function getStaticInputDataForEvent($event_id) : array
     {
         $query = "SELECT name, value FROM wfe_static_inputs WHERE event_id = '" . $event_id . "'";
 

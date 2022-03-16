@@ -19,16 +19,15 @@ class ilWorkflowEngine
      * True, if this instance is made to handle a lot of requests.
      * @var boolean
      */
-    private $mass_action;
+    private bool $mass_action;
 
     /**
      * ilWorkflowEngine constructor.
-     *
      * @param bool $a_mass_action
      */
-    public function __construct($a_mass_action = false)
+    public function __construct(bool $a_mass_action = false)
     {
-        $this->mass_action = (bool) $a_mass_action;
+        $this->mass_action = $a_mass_action;
     }
 
     /**
@@ -40,12 +39,12 @@ class ilWorkflowEngine
      * @param integer $context_id
      */
     public function processEvent(
-        $type,
-        $content,
-        $subject_type,
-        $subject_id,
-        $context_type,
-        $context_id
+        string $type,
+        string $content,
+        string $subject_type,
+        int $subject_id,
+        string $context_type,
+        int $context_id
     ) {
         global $DIC;
         /** @var ilSetting $ilSetting */
@@ -94,7 +93,7 @@ class ilWorkflowEngine
      * @param string $event
      * @param array  $parameter
      */
-    public function handleEvent($component, $event, $parameter)
+    public function handleEvent(string $component, string $event, array $parameter)
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
@@ -150,7 +149,7 @@ class ilWorkflowEngine
     /**
      * @param \ilExtractedParams $extractedParams
      */
-    public function launchArmedWorkflows($component, $event, $extractedParams)
+    public function launchArmedWorkflows($component, $event, ilExtractedParams $extractedParams)
     {
         global $DIC;
         /** @var ilSetting $ilSetting */

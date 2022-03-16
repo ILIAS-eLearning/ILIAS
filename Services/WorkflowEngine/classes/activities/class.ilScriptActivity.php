@@ -19,11 +19,11 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
     /** @var ilWorkflowEngineElement $context Holds a reference to the parent object */
     private $context;
 
-    /** @var string $method */
+
     private $method = '';
 
     /** @var string $name */
-    protected $name;
+    protected string $name;
 
     /**
      * Default constructor.
@@ -35,10 +35,7 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
         $this->context = $context;
     }
 
-    /**
-     * @param string $value
-     */
-    public function setMethod($value)
+    public function setMethod($value) : void
     {
         $this->method = $value;
     }
@@ -57,10 +54,9 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
 
     /**
      * Executes this action according to its settings.
-     *
      * @return void
      */
-    public function execute()
+    public function execute() : void
     {
         $method = $this->method;
         $return_value = $this->context->getContext()->$method($this);
@@ -82,7 +78,7 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
@@ -90,7 +86,7 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }

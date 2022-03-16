@@ -15,10 +15,10 @@ require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
 class ilBasicNode extends ilBaseNode
 {
     /** @var bool $is_forward_condition_event*/
-    public $is_forward_condition_event;
+    public bool $is_forward_condition_event;
 
     /** @var string $ident */
-    public $ident;
+    public string $ident;
 
     /**
      * Default constructor.
@@ -40,7 +40,7 @@ class ilBasicNode extends ilBaseNode
     /**
      * Activates the node.
      */
-    public function activate()
+    public function activate() : void
     {
         if ($this->isActive()) {
             return;
@@ -58,7 +58,7 @@ class ilBasicNode extends ilBaseNode
     /**
      * Deactivates the node.
      */
-    public function deactivate()
+    public function deactivate() : void
     {
         $this->active = false;
         foreach ($this->detectors as $detector) {
@@ -72,7 +72,7 @@ class ilBasicNode extends ilBaseNode
      *
      * @return boolean True, if node is ready to transit.
      */
-    public function checkTransitionPreconditions()
+    public function checkTransitionPreconditions() : ?bool
     {
         // queries the $detectors if their conditions are met.
         $isPreconditionMet = true;
@@ -92,7 +92,7 @@ class ilBasicNode extends ilBaseNode
      *
      * @return boolean True, if transition succeeded.
      */
-    public function attemptTransition()
+    public function attemptTransition() : bool
     {
         if ($this->checkTransitionPreconditions() == true) {
             $this->executeTransition();
@@ -105,7 +105,7 @@ class ilBasicNode extends ilBaseNode
     /**
      * Executes all attached activities.
      */
-    private function executeActivities()
+    private function executeActivities() : void
     {
         if (count($this->activities) != 0) {
             foreach ($this->activities as $activity) {
@@ -117,7 +117,7 @@ class ilBasicNode extends ilBaseNode
     /**
      * Executes all attached emitters.
      */
-    private function executeEmitters()
+    private function executeEmitters() : void
     {
         if (count($this->emitters) != 0) {
             foreach ($this->emitters as $emitter) {
@@ -129,7 +129,7 @@ class ilBasicNode extends ilBaseNode
     /**
      * Executes the transition, calls all activities and emitters to execute.
      */
-    public function executeTransition()
+    public function executeTransition() : void
     {
         $this->deactivate();
         $this->executeActivities();
@@ -154,7 +154,7 @@ class ilBasicNode extends ilBaseNode
     /**
      * @return boolean
      */
-    public function isForwardConditionNode()
+    public function isForwardConditionNode() : bool
     {
         return $this->is_forward_condition_node;
     }
@@ -162,7 +162,7 @@ class ilBasicNode extends ilBaseNode
     /**
      * @param boolean $is_forward_condition_node
      */
-    public function setIsForwardConditionNode($is_forward_condition_node)
+    public function setIsForwardConditionNode(bool $is_forward_condition_node) : void
     {
         $this->is_forward_condition_node = $is_forward_condition_node;
     }
@@ -174,7 +174,7 @@ class ilBasicNode extends ilBaseNode
      *
      * @param ilNode $activated_node
      */
-    public function deactivateForwardConditionNodes(ilNode $activated_node)
+    public function deactivateForwardConditionNodes(ilNode $activated_node) : void
     {
         if ($this->is_forward_condition_node) {
             foreach ($this->emitters as $emitter) {
@@ -192,7 +192,7 @@ class ilBasicNode extends ilBaseNode
         }
     }
 
-    public function pingbackToPredecessorNodes()
+    public function pingbackToPredecessorNodes() : void
     {
         /** @var ilSimpleDetector $detector */
         foreach ($this->detectors as $detector) {

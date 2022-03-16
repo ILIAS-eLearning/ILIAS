@@ -31,7 +31,7 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
     private $context;
 
     /** @var string $name */
-    protected $name;
+    protected string $name;
 
     /**
      * Default constructor.
@@ -59,7 +59,7 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
      * @todo Use exceptions / internal logging.
      *
      */
-    public function execute()
+    public function execute() : void
     {
         /**
          * @var $workflow ilBaseWorkflow
@@ -79,7 +79,7 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
@@ -87,7 +87,7 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }

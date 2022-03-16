@@ -15,7 +15,7 @@
 class ilPluginNodeTest extends ilWorkflowEngineBaseTest
 {
     /** @var ilBaseWorkflow $workflow */
-    public $workflow;
+    public ilEmptyWorkflow|ilBaseWorkflow $workflow;
 
     public function setUp() : void
     {

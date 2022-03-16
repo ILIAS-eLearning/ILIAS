@@ -13,15 +13,15 @@ require_once './Services/Mail/classes/class.ilMailNotification.php';
 class ilWorkflowEngineMailNotification extends ilMailNotification
 {
     /** @var string $subject_text */
-    protected $subject_text;
+    protected string $subject_text;
 
     /** @var string $body_text */
-    protected $body_text;
+    protected string $body_text;
 
     /**
      * @return string
      */
-    public function getSubjectText()
+    public function getSubjectText() : string
     {
         return $this->subject_text;
     }
@@ -29,7 +29,7 @@ class ilWorkflowEngineMailNotification extends ilMailNotification
     /**
      * @param string $subject_text
      */
-    public function setSubjectText($subject_text)
+    public function setSubjectText(string $subject_text) : void
     {
         $this->subject_text = $subject_text;
     }
@@ -37,7 +37,7 @@ class ilWorkflowEngineMailNotification extends ilMailNotification
     /**
      * @return string
      */
-    public function getBodyText()
+    public function getBodyText() : string
     {
         return $this->body_text;
     }
@@ -45,12 +45,12 @@ class ilWorkflowEngineMailNotification extends ilMailNotification
     /**
      * @param string $body_text
      */
-    public function setBodyText($body_text)
+    public function setBodyText(string $body_text) : void
     {
         $this->body_text = $body_text;
     }
 
-    public function send($rcp)
+    public function send($rcp) : void
     {
         $this->initLanguage($rcp);
         $this->initMail();

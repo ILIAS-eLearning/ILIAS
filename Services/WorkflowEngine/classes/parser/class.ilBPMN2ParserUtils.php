@@ -16,10 +16,9 @@ class ilBPMN2ParserUtils
 
     /**
      * @param string $xml_string
-     *
      * @return mixed
      */
-    public function load_string($xml_string)
+    public function load_string(string $xml_string) : mixed
     {
         $node = new SimpleXMLElement($xml_string);
         return $this->add_node($node);
@@ -30,10 +29,9 @@ class ilBPMN2ParserUtils
      * @param null   $parent
      * @param string $namespace
      * @param bool   $recursive
-     *
      * @return mixed
      */
-    private function add_node($node, &$parent = null, $namespace = '', $recursive = false)
+    private function add_node($node, &$parent = null, string $namespace = '', bool $recursive = false) : mixed
     {
         $namespaces = $node->getNameSpaces(true);
         $content = "$node";
@@ -77,10 +75,9 @@ class ilBPMN2ParserUtils
 
     /**
      * @param string $xsID
-     *
      * @return string
      */
-    public static function xsIDToPHPVarname($xsID)
+    public static function xsIDToPHPVarname(string $xsID) : string
     {
         /*
          * The type xsd:ID is used for an attribute that uniquely identifies an element in an XML document. An xsd:ID
@@ -103,13 +100,12 @@ class ilBPMN2ParserUtils
     }
 
     /**
-     * @param srting $start_event_ref
+     * @param string $start_event_ref
      * @param string $type
      * @param array  $bpmn2_array
-     *
      * @return array
      */
-    public static function extractILIASEventDefinitionFromProcess($start_event_ref, $type, $bpmn2_array)
+    public static function extractILIASEventDefinitionFromProcess(string $start_event_ref, string $type, array $bpmn2_array) : array
     {
         $descriptor_extension = array();
         $subject_extension = array();
@@ -162,10 +158,9 @@ class ilBPMN2ParserUtils
      * @param string $start_event_ref
      * @param string $type
      * @param array  $bpmn2_array
-     *
      * @return array
      */
-    public static function extractTimeDateEventDefinitionFromElement($start_event_ref, $type, $bpmn2_array)
+    public static function extractTimeDateEventDefinitionFromElement(string $start_event_ref, string $type, array $bpmn2_array)
     {
         $content = '';
         foreach ($bpmn2_array['children'] as $elements) {
@@ -222,10 +217,9 @@ class ilBPMN2ParserUtils
 
     /**
      * @param array $element
-     *
      * @return array
      */
-    public static function extractILIASLibraryCallDefinitionFromElement($element)
+    public static function extractILIASLibraryCallDefinitionFromElement(array $element) : array
     {
         $library_call = array();
         foreach ($element['children'] as $child) {
@@ -255,10 +249,9 @@ class ilBPMN2ParserUtils
 
     /**
      * @param array $element
-     *
      * @return string
      */
-    public static function extractScriptDefinitionFromElement($element)
+    public static function extractScriptDefinitionFromElement(array $element) : string
     {
         $code = '';
         foreach ($element['children'] as $child) {
@@ -271,10 +264,9 @@ class ilBPMN2ParserUtils
 
     /**
      * @param array $element
-     *
      * @return null
      */
-    public static function extractDataNamingFromElement($element)
+    public static function extractDataNamingFromElement(array $element)
     {
         if (!isset($element['children'])) {
             return null;
@@ -306,10 +298,9 @@ class ilBPMN2ParserUtils
 
     /**
      * @param array $element
-     *
      * @return null|array
      */
-    public static function extractILIASInputPropertiesFromElement($element)
+    public static function extractILIASInputPropertiesFromElement(array $element) : ?array
     {
         if (!isset($element['children'])) {
             return null;
@@ -341,10 +332,9 @@ class ilBPMN2ParserUtils
 
     /**
      * @param array $element
-     *
      * @return null|array
      */
-    public static function extractILIASDataObjectDefinitionFromElement($element)
+    public static function extractILIASDataObjectDefinitionFromElement(array $element) : ?array
     {
         if (!isset($element['children'])) {
             return null;
@@ -377,10 +367,9 @@ class ilBPMN2ParserUtils
 
     /**
      * @param array $element
-     *
      * @return null|array
      */
-    public static function extractILIASMessageDefinitionFromElement($element)
+    public static function extractILIASMessageDefinitionFromElement(array $element) : ?array
     {
         if (!isset($element['children'])) {
             return null;

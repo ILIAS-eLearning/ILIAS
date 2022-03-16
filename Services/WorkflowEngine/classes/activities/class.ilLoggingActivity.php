@@ -26,10 +26,10 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
     private $context;
 
     /** @var string $log_file Path and filename, e.g. 'c:\wfe.log' */
-    private $log_file = 'none.log';
+    private string $log_file = 'none.log';
 
     /** @var string $log_message Messagetext, please be descriptive. */
-    private $log_message = 'no message set';
+    private string $log_message = 'no message set';
 
     /**
      * Log-Level of the message to be logged.
@@ -37,10 +37,10 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @var string One of FATAL, WARNING, MESSAGE
      */
-    private $log_level = 'MESSAGE';
+    private string $log_level = 'MESSAGE';
 
     /** @var string $name */
-    protected $name;
+    protected string $name;
 
     /**
      * Default constructor.
@@ -54,12 +54,10 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
 
     /**
      * Sets the log file name and path.
-     *
      * @param string $a_log_file Path, name and extension of the log file.
-     *
      * @return void
      */
-    public function setLogFile($a_log_file)
+    public function setLogFile(string $a_log_file) : void
     {
         $extension = substr($a_log_file, strlen($a_log_file) - 4, 4);
         $this->checkExtensionValidity($extension);
@@ -76,7 +74,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @throws ilWorkflowFilesystemException
      */
-    private function checkFileWriteability($a_log_file)
+    private function checkFileWriteability($a_log_file) : void
     {
         if (!is_writable(dirname($a_log_file))) {
             throw new ilWorkflowFilesystemException('Could not write to filesystem - no pointer returned.', 1002);
@@ -98,7 +96,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      * @throws ilWorkflowObjectStateException
      */
-    private function checkExtensionValidity($extension)
+    private function checkExtensionValidity($extension) : void
     {
         if ($extension != '.log' && $extension != '.txt') {
             /** @noinspection PhpIncludeInspection */
@@ -112,19 +110,17 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string File name and path of the log file.
      */
-    public function getLogFile()
+    public function getLogFile() : string
     {
         return $this->log_file;
     }
 
     /**
      * Sets the message to be logged.
-     *
      * @param string $a_log_message Text of the log message
-     *
      * @return void
      */
-    public function setLogMessage($a_log_message)
+    public function setLogMessage(string $a_log_message) : void
     {
         $this->checkForExistingLogMessageContent($a_log_message);
         $this->log_message = $a_log_message;
@@ -139,7 +135,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @throws ilWorkflowObjectStateException
      */
-    private function checkForExistingLogMessageContent($a_log_message)
+    private function checkForExistingLogMessageContent($a_log_message) : void
     {
         if ($a_log_message == null || $a_log_message == '') {
             /** @noinspection PhpIncludeInspection */
@@ -153,23 +149,19 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getLogMessage()
+    public function getLogMessage() : string
     {
         return $this->log_message;
     }
 
     /**
      * Sets the log level of the message to be logged.
-     *
-     * @see $log_level
-     *
      * @param string $a_log_level A valid log level.
-     *
-     * @return void
-     *
+          * @return void
      * @throws ilWorkflowObjectStateException on illegal log level.
+     *@see $log_level
      */
-    public function setLogLevel($a_log_level)
+    public function setLogLevel(string $a_log_level) : void
     {
         $valid = $this->determineValidityOfLogLevel($a_log_level);
         if ($valid == false) {
@@ -188,7 +180,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return bool
      */
-    private function determineValidityOfLogLevel($a_log_level)
+    private function determineValidityOfLogLevel($a_log_level) : bool
     {
         switch (strtolower($a_log_level)) {
             case 'trace':
@@ -211,7 +203,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getLogLevel()
+    public function getLogLevel() : string
     {
         return $this->log_level;
     }
@@ -221,17 +213,16 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return ilNode Parent node of this element.
      */
-    public function getContext()
+    public function getContext() : ilNode|ilWorkflowEngineElement
     {
         return $this->context;
     }
 
     /**
      * Executes this action according to its settings.
-     *
      * @return void
      */
-    public function execute()
+    public function execute():void
     {
         $file_pointer = null;
         $file_pointer = $this->acquireFilePointer();
@@ -248,7 +239,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @throws ilWorkflowFilesystemException
      */
-    private function closeFilePointer($file_pointer)
+    private function closeFilePointer($file_pointer) : void
     {
         if (!fclose($file_pointer)) {
             /** @noinspection PhpIncludeInspection */
@@ -264,7 +255,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return void
      */
-    private function writeLogMessage($file_pointer)
+    private function writeLogMessage($file_pointer) : void
     {
         /** @noinspection PhpIncludeInspection */
         require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
@@ -291,12 +282,12 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
         return $file_pointer;
     }
 
-    public function setName($name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
 
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }

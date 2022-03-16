@@ -17,8 +17,8 @@ use org\bovigo\vfs;
 class ilCaseNodeTest extends ilWorkflowEngineBaseTest
 {
     /** @var ilEmptyWorkflow $workflow */
-    public $workflow;
-    private $test_dir;
+    public ilEmptyWorkflow $workflow;
+    private vfs\vfsStreamDirectory $test_dir;
 
     public function setUp() : void
     {

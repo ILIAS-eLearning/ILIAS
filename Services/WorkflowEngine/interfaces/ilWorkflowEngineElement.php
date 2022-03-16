@@ -28,10 +28,9 @@ interface ilWorkflowEngineElement
 
     /**
      * @param string $name
-     *
      * @return mixed
      */
-    public function setName($name);
+    public function setName(string $name);
 
     /**
      * @return mixed

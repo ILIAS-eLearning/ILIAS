@@ -17,43 +17,42 @@ require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilWorkflowArmerGUI
 {
+    private \ILIAS\WorkflowEngine\Service $service;
     /** @var string $form_action */
-    protected $form_action;
+    protected string $form_action;
 
     /** @var \ilLanguage $lng */
-    protected $lng;
+    protected mixed $lng;
 
     /** @var \ilTree $tree */
-    protected $tree;
+    protected mixed $tree;
 
     /**
      * ilWorkflowLauncherGUI constructor.
-     *
      * @param string $form_action
      */
-    public function __construct($form_action)
+    public function __construct(string $form_action)
     {
         global $DIC;
         $this->lng = $DIC['lng'];
         $this->tree = $DIC['tree'];
-
+        $this->service = $DIC->workflowEngine();
         $this->form_action = $form_action;
     }
 
     /**
      * @param array $input_vars
      * @param array $event_definition
-     *
      * @return \ilPropertyFormGUI
      */
-    public function getForm($input_vars, $event_definition)
+    public function getForm(array $input_vars, array $event_definition) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('input_variables_required'));
         $form->setDescription($this->lng->txt('input_static_variables_desc'));
 
         $process_id_input = new ilHiddenInputGUI('process_id');
-        $process_id_input->setValue(stripslashes($_GET['process_id']));
+        $process_id_input->setValue(stripslashes($this->service->internal()->request()->getProcessId()));
         $form->addItem($process_id_input);
 
         $event = $event_definition[0];
@@ -66,7 +65,7 @@ class ilWorkflowArmerGUI
         return $form;
     }
 
-    public function getRepositoryObjectSelector($config)
+    public function getRepositoryObjectSelector($config) : ilSelectInputGUI
     {
         $item = new ilSelectInputGUI($config['caption'], $config['name']);
 
@@ -100,7 +99,7 @@ class ilWorkflowArmerGUI
      * @param array             $input_vars
      * @param ilPropertyFormGUI $form
      */
-    public function addStaticInputItems($lng, $input_vars, $form)
+    public function addStaticInputItems(ilLanguage $lng, array $input_vars, ilPropertyFormGUI $form) : void
     {
         if (count($input_vars)) {
             $section = new ilFormSectionHeaderGUI();
@@ -134,7 +133,7 @@ class ilWorkflowArmerGUI
      * @param array             $event
      * @param ilPropertyFormGUI $form
      */
-    public function addStartEventInputItems($lng, $event, $form)
+    public function addStartEventInputItems(ilLanguage $lng, array $event, ilPropertyFormGUI $form) : void
     {
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($lng->txt('start_event_form_header'));

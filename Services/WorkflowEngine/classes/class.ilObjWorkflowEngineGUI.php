@@ -21,30 +21,30 @@ require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
 class ilObjWorkflowEngineGUI extends ilObject2GUI
 {
     /** @var ilCtrl $ilCtrl */
-    public $ilCtrl;
+    public mixed $ilCtrl;
 
     /** @var ilTabsGUI $ilTabs */
-    public $ilTabs;
+    public mixed $ilTabs;
 
     /** @var ilLanguage $lng */
-    public $lng;
+    public mixed $lng;
 
     /** @var ilTemplate $tpl */
-    public $tpl;
+    public mixed $tpl;
 
     /** @var ilTree $tree */
-    public $tree;
+    public mixed $tree;
 
     /** @var ilLocatorGUI $ilLocator */
-    public $ilLocator;
+    public mixed $ilLocator;
 
     /** @var ilToolbarGUI $ilToolbar */
-    public $ilToolbar;
+    public mixed $ilToolbar;
     
     /**
      * @var \ILIAS\DI\Container
      */
-    protected $dic;
+    protected mixed $dic;
 
     /**
      * ilObjWorkflowEngineGUI constructor.
@@ -62,8 +62,8 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
         $this->ilLocator = $DIC['ilLocator'];
         $this->ilToolbar = $DIC['ilToolbar'];
         $this->dic = $DIC;
-
-        parent::__construct((int) $_GET['ref_id']);
+        $this->service = $DIC->workflowEngine();
+        parent::__construct($this->service->internal()->request()->getRefId());
         $this->assignObject();
     }
 
@@ -77,7 +77,6 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 
     /**
      * Goto-Method for the workflow engine
-     *
      * Handles calls via GOTO, e.g. request
      * http://.../goto.php?target=wfe_WF61235EVT12308154711&client_id=default
      * would end up here with $params = WF61235EVT12308154711
@@ -85,10 +84,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
      *   Workflow 61235
      *   Event 12308154711
      * Used to trigger an event for the engine.
-     *
      * @param string $params Params from $_GET after wfe_
      */
-    public static function _goto($params)
+    public static function _goto(string $params)
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -148,10 +146,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 
     /**
      * @param string $cmd
-     *
      * @return string
      */
-    public function dispatchCommand($cmd)
+    public function dispatchCommand(string $cmd) : string
     {
         $cmd_parts = explode('.', $cmd);
 
@@ -190,7 +187,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
     /**
      * @param string $section
      */
-    public function initTabs($section)
+    public function initTabs(string $section)
     {
         global $DIC;
         /** @var $rbacsystem ilRbacSystem */
@@ -238,7 +235,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
      */
     public function initLocator()
     {
-        $path = $this->tree->getPathFull((int) $_GET["ref_id"]);
+        $path = $this->tree->getPathFull($this->service->internal()->request()->getRefId());
         array_shift($path);
         foreach ((array) $path as $key => $row) {
             if ($row["title"] == "Workflow Engine") {
@@ -253,7 +250,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
                 $row["child"]
             );
 
-            $this->ilCtrl->setParameter($this, "ref_id", $_GET["ref_id"]);
+            $this->ilCtrl->setParameter($this, "ref_id", $this->service->internal()->request()->getRefId());
         }
 
         $this->tpl->setLocator();
@@ -261,10 +258,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 
     /**
      * @param string $command
-     *
      * @return string
      */
-    public function dispatchToDashboard($command)
+    public function dispatchToDashboard(string $command) : string
     {
         $this->initTabs('dashboard');
         /** @noinspection PhpIncludeInspection */
@@ -275,10 +271,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 
     /**
      * @param string $command
-     *
      * @return string
      */
-    public function dispatchToDefinitions($command)
+    public function dispatchToDefinitions(string $command) : string
     {
         $this->initTabs('definitions');
         /** @noinspection PhpIncludeInspection */
@@ -289,10 +284,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 
     /**
      * @param string $command
-     *
      * @return string
      */
-    public function dispatchToInstances($command)
+    public function dispatchToInstances(string $command) : string
     {
         $this->initTabs('instances');
         /** @noinspection PhpIncludeInspection */
@@ -303,10 +297,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 
     /**
      * @param string $command
-     *
      * @return string
      */
-    public function dispatchToSettings($command)
+    public function dispatchToSettings(string $command) : string
     {
         $this->initTabs('settings');
         /** @noinspection PhpIncludeInspection */

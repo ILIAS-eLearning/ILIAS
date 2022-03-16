@@ -23,5 +23,5 @@ abstract class ilComplexGatewayPlugin extends ilPlugin
      *
      * @return boolean
      */
-    abstract public function evaluate(ilNode $context);
+    abstract public function evaluate(ilNode $context) : bool;
 }

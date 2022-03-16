@@ -12,20 +12,20 @@ use PHPUnit\Framework\TestCase;
 class test_case_01 extends TestCase
 {
     #region Helper
-    public $base_path = './Services/WorkflowEngine/test/parser/';
-    public $suite_path = 'case_01/';
+    public string $base_path = './Services/WorkflowEngine/test/parser/';
+    public string $suite_path = 'case_01/';
 
-    public function getTestInputFilename($test_name)
+    public function getTestInputFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '.bpmn2';
     }
 
-    public function getTestOutputFilename($test_name)
+    public function getTestOutputFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '_output.php';
     }
 
-    public function getTestGoldsampleFilename($test_name)
+    public function getTestGoldsampleFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }

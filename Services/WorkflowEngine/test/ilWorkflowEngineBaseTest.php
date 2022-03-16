@@ -9,9 +9,9 @@ abstract class ilWorkflowEngineBaseTest extends TestCase
 {
     /**
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
-    protected function setGlobalVariable($name, $value)
+    protected function setGlobalVariable(string $name, mixed $value)
     {
         global $DIC;
 
