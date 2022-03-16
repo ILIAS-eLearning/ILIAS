@@ -11,6 +11,7 @@
 /extern
 /Services/PHPUnit/config/cfg.phpunit.php
 /nbproject
+config.json
 
 # General Patterns
 *.bak
@@ -19,6 +20,7 @@
 .svn
 *.swp
 *.swo
+*.gitignore
 
 # Generated Files
 /ilias.ini.php
