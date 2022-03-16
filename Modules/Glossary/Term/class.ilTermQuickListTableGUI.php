@@ -62,7 +62,7 @@ class ilTermQuickListTableGUI extends ilTable2GUI
         $ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $a_set["id"]);
         
         $sep = ": ";
-        for ($j = 0; $j < count($defs); $j++) {
+        for ($j = 0, $jMax = count($defs); $j < $jMax; $j++) {
             $def = $defs[$j];
 
             $this->tpl->setCurrentBlock("definition");
