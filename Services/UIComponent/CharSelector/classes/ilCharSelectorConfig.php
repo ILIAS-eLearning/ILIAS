@@ -302,7 +302,7 @@ class ilCharSelectorConfig
         $admin_config = new self(self::CONTEXT_ADMIN);
         $admin_config->setAvailability($ilSetting->get('char_selector_availability'));
         $admin_config->setDefinition($ilSetting->get('char_selector_definition'));
-        if ($admin_config->getAvailability() == self::INACTIVE) {
+        if ($admin_config->getAvailability() === self::INACTIVE) {
             // a globally inactive selector can't be overwritten by users or tests
             return $admin_config;
         }
@@ -312,7 +312,7 @@ class ilCharSelectorConfig
             $test_config = new self(self::CONTEXT_TEST);
             $test_config->setAvailability($a_test_obj->getCharSelectorAvailability());
             $test_config->setDefinition($a_test_obj->getCharSelectorDefinition());
-            if ($test_config->getAvailability() != self::INHERIT) {
+            if ($test_config->getAvailability() !== self::INHERIT) {
                 // a specific test configuration has precedence over user configuration
                 return $test_config;
             }
@@ -322,7 +322,7 @@ class ilCharSelectorConfig
         $user_config = new self(self::CONTEXT_USER);
         $user_config->setAvailability($ilUser->getPref('char_selector_availability'));
         $user_config->setDefinition($ilUser->getPref('char_selector_definition'));
-        if ($user_config->getAvailability() != self::INHERIT) {
+        if ($user_config->getAvailability() !== self::INHERIT) {
             // take user specific config
             return $user_config;
         } else {
@@ -419,16 +419,16 @@ class ilCharSelectorConfig
         $this->custom_items = array();
 
         // set the default definition to all unicode blocks
-        if (trim($a_definition) == '') {
+        if (trim($a_definition) === '') {
             $a_definition = "[all]";
         }
         
         // analyze definition items
         $items = explode(' ', $a_definition);
         foreach ($items as $item) {
-            if (strlen($block_name = $this->extractUnicodeBlock($item))) {
+            if (($block_name = $this->extractUnicodeBlock($item)) !== '') {
                 $this->added_blocks[] = $block_name;
-            } elseif ($item != '') {
+            } elseif ($item !== '') {
                 $this->custom_items[] = trim($item);
             }
         }
@@ -475,7 +475,7 @@ class ilCharSelectorConfig
         global $lng;
         
         $langvar = 'char_selector_unicode_' . $a_block_name;
-        if ($lng->txt($langvar) != '-' . $langvar . '-') {
+        if ($lng->txt($langvar) !== '-' . $langvar . '-') {
             return $lng->txt($langvar);
         } else {
             return self::$unicode_blocks[$a_block_name][0];

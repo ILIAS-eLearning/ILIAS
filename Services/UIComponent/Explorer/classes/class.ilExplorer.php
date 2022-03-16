@@ -196,7 +196,7 @@ class ilExplorer
 
     public function setOrderDirection(string $a_direction) : void
     {
-        if ($a_direction == "desc") {
+        if ($a_direction === "desc") {
             $this->order_direction = $a_direction;
         } else {
             $this->order_direction = "asc";
@@ -318,11 +318,7 @@ class ilExplorer
         // only the type determines, wether an object should be clickable or not
         // but this method can be overwritten and make $exp->setFilterMode(IL_FM_NEGATIVE);use of the ref id
         // (this happens e.g. in class ilRepositoryExplorerGUI)
-        if ($this->is_clickable[$a_type] == "n") {
-            return false;
-        } else {
-            return true;
-        }
+        return $this->is_clickable[$a_type] !== "n";
     }
 
     public function setPostSort(bool $a_sort) : void
@@ -408,7 +404,7 @@ class ilExplorer
                 }
                 //echo "<br>-".$object["child"]."-".$this->forceExpanded($object["child"])."-";
                 //ask for FILTER
-                if ($this->filtered == false or $this->checkFilter($object["type"]) == false) {
+                if ($this->filtered === false || $this->checkFilter($object["type"]) === false) {
                     if ($this->isVisible($object['child'], $object['type'])) {
                         #echo 'CHILD getIndex() '.$object['child'].' parent: '.$this->getRoot();
                         if ($object["child"] != $this->getRoot()) {
@@ -431,7 +427,7 @@ class ilExplorer
                         }
 
                         // fix explorer (sometimes explorer disappears)
-                        if ($parent_index == 0) {
+                        if ($parent_index === 0) {
                             if (!$this->expand_all && !in_array($object["parent"], $this->expanded)) {
                                 $this->expanded[] = $object["parent"];
                             }
@@ -541,9 +537,9 @@ class ilExplorer
         $tpl_tree = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
         
         // updater
-        if (($this->requestStr("ict") != "" ||
-            $this->requestStr("collapseAll") != "" ||
-            $this->requestStr("expandAll") != "") && $this->up_frame != "") {
+        if (($this->requestStr("ict") !== "" ||
+            $this->requestStr("collapseAll") !== "" ||
+            $this->requestStr("expandAll") !== "") && $this->up_frame !== "") {
             $tpl_tree->setCurrentBlock("updater");
             $tpl_tree->setVariable("UPDATE_FRAME", $this->up_frame);
             $tpl_tree->setVariable("UPDATE_SCRIPT", $this->up_script);
@@ -584,12 +580,12 @@ class ilExplorer
         $this->handleListEndTags($tpl_tree, $cur_depth, -1);
         
         $tpl_tree->setVariable("TREE_LEAD", "");
-        if ($this->tree_lead != "") {
+        if ($this->tree_lead !== "") {
             $tpl_tree->setCurrentBlock("tree_lead");
             $tpl_tree->setVariable("TREE_LEAD", $this->tree_lead);
             $tpl_tree->parseCurrentBlock();
         }
-        if ($this->getId() != "") {
+        if ($this->getId() !== "") {
             $tpl_tree->setVariable("TREE_ID", 'id="' . $this->getId() . '_tree"');
         }
 
@@ -600,10 +596,10 @@ class ilExplorer
             $mtpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
             $mtpl->setVariable("BODY_CLASS", "il_Explorer");
             $mtpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-            if ($this->getTitle() != "") {
+            if ($this->getTitle() !== "") {
                 $mtpl->setVariable("TXT_EXPLORER_HEADER", $this->getTitle());
             }
-            if ($this->getId() != "") {
+            if ($this->getId() !== "") {
                 $mtpl->setVariable("ID", 'id="' . $this->getId() . '"');
             }
             $mtpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
@@ -688,7 +684,7 @@ class ilExplorer
 
         $pic = false;
         foreach ((array) $a_option["tab"] as $picture) {
-            if ($picture == 'plus') {
+            if ($picture === 'plus') {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $lng->txt("collapsed"));
                 $tpl->setVariable("LINK_NAME", $a_node_id);
@@ -705,7 +701,7 @@ class ilExplorer
                 $pic = true;
             }
 
-            if ($picture == 'forceexp') {
+            if ($picture === 'forceexp') {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
                 $target = $this->createTarget('+', $a_node_id);
@@ -716,7 +712,7 @@ class ilExplorer
                 $pic = true;
             }
 
-            if ($picture == 'minus' && $this->show_minus) {
+            if ($picture === 'minus' && $this->show_minus) {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
                 $tpl->setVariable("LINK_NAME", $a_node_id);
@@ -753,7 +749,7 @@ class ilExplorer
             $tpl->parseCurrentBlock();
         }
         
-        if (strlen($sel = $this->buildSelect($a_node_id, $a_option['type']))) {
+        if (($sel = $this->buildSelect($a_node_id, $a_option['type'])) !== '') {
             $tpl->setCurrentBlock('select');
             $tpl->setVariable('OBJ_SEL', $sel);
             $tpl->parseCurrentBlock();
@@ -768,7 +764,7 @@ class ilExplorer
                 
             $style_class = $this->getNodeStyleClass($a_node_id, $a_option["type"]);
             
-            if ($style_class != "") {
+            if ($style_class !== "") {
                 $tpl->setVariable("A_CLASS", ' class="' . $style_class . '" ');
             }
 
@@ -794,7 +790,7 @@ class ilExplorer
                 )
             );
             $frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
-            if ($frame_target != "") {
+            if ($frame_target !== "") {
                 $tpl->setVariable("TARGET", " target=\"" . $frame_target . "\"");
             }
         } else {			// output text only
@@ -916,14 +912,14 @@ class ilExplorer
         // SET expand parameter:
         //     positive if object is expanded
         //     negative if object is compressed
-        $a_node_id = $a_type == '+' ? $a_node_id : -(int) $a_node_id;
+        $a_node_id = $a_type === '+' ? $a_node_id : -(int) $a_node_id;
 
         $sep = (is_int(strpos($this->expand_target, "?")))
             ? "&"
             : "?";
         
         // in current tree flag
-        $ict_str = ($a_highlighted_subtree || $this->highlighted == "")
+        $ict_str = ($a_highlighted_subtree || $this->highlighted === "")
             ? "&ict=1"
             : "";
         if ($this->getAsynchExpanding()) {
@@ -1003,7 +999,7 @@ class ilExplorer
         if (is_array($this->filter)) {
             //run through filter
             foreach ($this->filter as $item) {
-                if ($item == $a_item) {
+                if ($item === $a_item) {
                     return false;
                 }
             }
@@ -1024,7 +1020,7 @@ class ilExplorer
             $tmp = array();
 
             foreach ($this->filter as $item) {
-                if ($item != $a_item) {
+                if ($item !== $a_item) {
                     $tmp[] = $item;
                 } else {
                     $deleted = 1;
@@ -1036,11 +1032,7 @@ class ilExplorer
             return false;
         }
 
-        if ($deleted == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return $deleted === 1;
     }
 
     /**
@@ -1099,7 +1091,7 @@ class ilExplorer
             $ret = false;
         }
 
-        if ($this->getFilterMode() == IL_FM_NEGATIVE) {
+        if ($this->getFilterMode() === IL_FM_NEGATIVE) {
             return $ret;
         } else {
             return !$ret;
@@ -1113,7 +1105,7 @@ class ilExplorer
     {
         $adm_node = null;
         foreach ($a_nodes as $key => $node) {
-            if ($node["type"] == "adm") {
+            if ($node["type"] === "adm") {
                 $match = $key;
                 $adm_node = $node;
                 break;

@@ -256,9 +256,9 @@ class ilTabsGUI
     public function setTabActive(string $a_id) : void
     {
         foreach ($this->target as $key => $target) {
-            $this->target[$key]['activate'] = $this->target[$key]['id'] == $a_id;
+            $this->target[$key]['activate'] = $this->target[$key]['id'] === $a_id;
         }
-        if ($a_id != "") {
+        if ($a_id !== "") {
             $this->manual_activation = true;
         } else {
             $this->manual_activation = false;
@@ -276,7 +276,7 @@ class ilTabsGUI
     public function setSubTabActive(string $a_text) : void
     {
         for ($i = 0, $iMax = count($this->sub_target); $i < $iMax; $i++) {
-            $this->sub_target[$i]['activate'] = $this->sub_target[$i]['id'] == $a_text;
+            $this->sub_target[$i]['activate'] = $this->sub_target[$i]['id'] === $a_text;
         }
         $this->subtab_manual_activation = true;
     }
@@ -370,12 +370,12 @@ class ilTabsGUI
             $pre = $pre2 = "";
 
             // back 2 tab
-            if ($this->back_2_title != "") {
+            if ($this->back_2_title !== "") {
                 $tpl->setCurrentBlock("back_2_tab");
                 $tpl->setVariable("BACK_2_ICON", ilGlyphGUI::get(ilGlyphGUI::PREVIOUS, ilGlyphGUI::NO_TEXT));
                 $tpl->setVariable("BACK_2_TAB_LINK", $this->back_2_target);
                 $tpl->setVariable("BACK_2_TAB_TEXT", $this->back_2_title);
-                if ($this->back_2_frame != "") {
+                if ($this->back_2_frame !== "") {
                     $tpl->setVariable("BACK_2_TAB_TARGET", ' target="' . $this->back_2_frame . '" ');
                 }
 
@@ -383,12 +383,12 @@ class ilTabsGUI
             }
             
             // back tab
-            if ($this->back_title != "") {
+            if ($this->back_title !== "") {
                 $tpl->setCurrentBlock("back_tab");
                 $tpl->setVariable("BACK_ICON", ilGlyphGUI::get(ilGlyphGUI::PREVIOUS, ilGlyphGUI::NO_TEXT));
                 $tpl->setVariable("BACK_TAB_LINK", $this->back_target);
                 $tpl->setVariable("BACK_TAB_TEXT", $this->back_title);
-                if ($this->back_frame != "") {
+                if ($this->back_frame !== "") {
                     $tpl->setVariable("BACK_TAB_TARGET", ' target="' . $this->back_frame . '" ');
                 }
                 $tpl->parseCurrentBlock();
@@ -400,7 +400,7 @@ class ilTabsGUI
         $i = 0;
 
         // do not display one tab only
-        if ((count($targets) > 1 || $this->force_one_tab) || ($this->back_title != "" && !$a_get_sub_tabs)
+        if ((count($targets) > 1 || $this->force_one_tab) || ($this->back_title !== "" && !$a_get_sub_tabs)
             || (count($this->non_tabbed_link) > 0 && !$a_get_sub_tabs)) {
             foreach ($targets as $target) {
                 $i++;
@@ -423,7 +423,7 @@ class ilTabsGUI
                     $tabtype = $pre . "tabactive";
                 }
 
-                if ($tabtype == "tabactive" || $tabtype == "subtabactive") {
+                if ($tabtype === "tabactive" || $tabtype === "subtabactive") {
                     $tpl->setCurrentBlock("sel_text");
                     $tpl->setVariable("TXT_SELECTED", $lng->txt("stat_selected"));
                     $tpl->parseCurrentBlock();
@@ -444,7 +444,7 @@ class ilTabsGUI
                 // tooltip
                 if (!$this->getSetupMode()) {
                     $ttext = $ilHelp->getTabTooltipText($target["id"]);
-                    if ($ttext != "") {
+                    if ($ttext !== "") {
                         ilTooltipGUI::addTooltip(
                             $pre . "tab_" . $target["id"],
                             $ttext,
@@ -495,7 +495,7 @@ class ilTabsGUI
                     // tooltip
                     if (!$this->getSetupMode()) {
                         $ttext = $ilHelp->getTabTooltipText($link["id"]);
-                        if ($ttext != "") {
+                        if ($ttext !== "") {
                             ilTooltipGUI::addTooltip(
                                 "nontab_" . $link["id"],
                                 $ttext,

@@ -137,7 +137,7 @@ class ilNestedList
 
     public function listItemStart(ilTemplate $tpl) : void
     {
-        if ($this->getItemClass() != "") {
+        if ($this->getItemClass() !== "") {
             $tpl->setCurrentBlock("list_item_start");
             $tpl->setVariable("LI_CLASS", ' class="' . $this->getItemClass() . '" ');
             $tpl->parseCurrentBlock();
@@ -157,11 +157,11 @@ class ilNestedList
     {
         //echo "<br>listStart";
 
-        $class = ($this->getListClass($depth) != "")
+        $class = ($this->getListClass($depth) !== "")
             ? $this->getListClass($depth)
             : $this->getListClass();
         //echo "-$class-";
-        if ($class != "") {
+        if ($class !== "") {
             $tpl->setCurrentBlock("list_start");
             $tpl->setVariable("UL_CLASS", ' class="' . $class . '" ');
             $tpl->parseCurrentBlock();

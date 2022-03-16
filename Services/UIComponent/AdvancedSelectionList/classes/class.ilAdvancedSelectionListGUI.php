@@ -443,7 +443,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $items = $this->getItems();
 
         // do not show list, if no item is in list
-        if (count($items) == 0 && !$this->getAsynch() && $this->getGroupedList() == null) {
+        if (count($items) === 0 && !$this->getAsynch() && $this->getGroupedList() === null) {
             return "";
         }
 
@@ -477,11 +477,11 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             $tpl->setCurrentBlock("asynch_request");
             $tpl->setVariable("IMG_LOADER", ilUtil::getImagePath("loader.svg"));
             $tpl->parseCurrentBlock();
-        } elseif ($this->getGroupedList() != null) {
+        } elseif ($this->getGroupedList() !== null) {
             $tpl->setVariable("GROUPED_LIST_HTML", $this->getGroupedList()->getHTML());
         } else {
             foreach ($items as $item) {
-                $this->css_row = ($this->css_row != "tblrow1_mo")
+                $this->css_row = ($this->css_row !== "tblrow1_mo")
                     ? "tblrow1_mo"
                     : "tblrow2_mo";
 
@@ -506,16 +506,14 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                     }
                 }
 
-                if ($this->getOnClickMode() ==
-                    self::ON_ITEM_CLICK_HREF ||
-                    $this->getItemLinkClass() != "") {
+                if ($this->getOnClickMode() === self::ON_ITEM_CLICK_HREF || $this->getItemLinkClass() !== "") {
                     if ($item["frame"]) {
                         $tpl->setCurrentBlock("frame");
                         $tpl->setVariable("TARGET_ITEM", $item["frame"]);
                         $tpl->parseCurrentBlock();
                     }
 
-                    if ($this->getItemLinkClass() != "") {
+                    if ($this->getItemLinkClass() !== "") {
                         $tpl->setCurrentBlock("item_link_class");
                         $tpl->setVariable("ITEM_LINK_CLASS", $this->getItemLinkClass());
                         $tpl->parseCurrentBlock();
@@ -543,8 +541,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                 }
 
                 $tpl->setCurrentBlock("item");
-                if ($this->getOnClickMode() ==
-                    self::ON_ITEM_CLICK_HREF) {
+                if ($this->getOnClickMode() === self::ON_ITEM_CLICK_HREF) {
                     if ($item["prevent_background_click"]) {
                         $tpl->setVariable("ONCLICK_ITEM", '');
                     } elseif ($item["onclick"] == "" && $item["frame"] != "") {       // see #28730
@@ -558,24 +555,21 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                             'onclick="' . "return " . $item["onclick"] . ";" . '"'
                         );
                     }
-                } elseif ($this->getOnClickMode() ==
-                    self::ON_ITEM_CLICK_FORM_SUBMIT) {
+                } elseif ($this->getOnClickMode() === self::ON_ITEM_CLICK_FORM_SUBMIT) {
                     $tpl->setVariable(
                         "ONCLICK_ITEM",
                         'onclick="return il.AdvancedSelectionList.submitForm(\'' . $this->getId() . '\'' .
                             ", '" . $this->form_mode["select_name"] . "','" . $item["value"] . "'," .
                             "'" . $this->on_click_form_id . "','" . $this->form_mode["button_cmd"] . "');\""
                     );
-                } elseif ($this->getOnClickMode() ==
-                    self::ON_ITEM_CLICK_FORM_SELECT) {
+                } elseif ($this->getOnClickMode() === self::ON_ITEM_CLICK_FORM_SELECT) {
                     $tpl->setVariable(
                         "ONCLICK_ITEM",
                         'onclick="return il.AdvancedSelectionList.selectForm(\'' . $this->getId() . '\'' .
                             ", '" . $this->form_mode["select_name"] . "','" . $item["value"] . "'," .
                             "'" . $item["title"] . "');\""
                     );
-                } elseif ($this->getOnClickMode() ==
-                    self::ON_ITEM_CLICK_NOP) {
+                } elseif ($this->getOnClickMode() === self::ON_ITEM_CLICK_NOP) {
                     $tpl->setVariable(
                         "ONCLICK_ITEM",
                         'onclick="il.AdvancedSelectionList.clickNop(\'' . $this->getId() . '\'' .
@@ -619,7 +613,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             }
 
             // output hidden input, if click mode is form submission
-            if ($this->getOnClickMode() == self::ON_ITEM_CLICK_FORM_SUBMIT) {
+            if ($this->getOnClickMode() === self::ON_ITEM_CLICK_FORM_SUBMIT) {
                 $tpl->setCurrentBlock("hidden_input");
                 $tpl->setVariable("HID", $this->getId());
                 $tpl->parseCurrentBlock();
@@ -630,7 +624,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             }
 
             // output hidden input and initialize
-            if ($this->getOnClickMode() == self::ON_ITEM_CLICK_FORM_SELECT) {
+            if ($this->getOnClickMode() === self::ON_ITEM_CLICK_FORM_SELECT) {
                 $tpl->setCurrentBlock("hidden_input");
                 $tpl->setVariable("HID", $this->getId());
                 $tpl->parseCurrentBlock();
@@ -649,7 +643,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             return $tpl->get("cmd_table");
         }
 
-        if ($this->getGroupedList() == null) {
+        if ($this->getGroupedList() === null) {
             $tpl->setCurrentBlock("dd_content");
             if ($this->getPullRight()) {
                 $tpl->setVariable("UL_CLASS", "dropdown-menu pull-right");
@@ -660,7 +654,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             $tpl->parseCurrentBlock();
         }
 
-        if ($this->getHeaderIcon() != self::NO_ICON) {
+        if ($this->getHeaderIcon() !== self::NO_ICON) {
             $tpl->setCurrentBlock("top_img");
             switch ($this->getHeaderIcon()) {
                 case self::ICON_CONFIG:
@@ -690,7 +684,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $cfg["trigger_event"] = $this->getTriggerEvent();
         $cfg["auto_hide"] = $this->getAutoHide();
 
-        if ($this->getSelectCallback() != "") {
+        if ($this->getSelectCallback() !== "") {
             $cfg["select_callback"] = $this->getSelectCallback();
         }
         $cfg["anchor_id"] = "ilAdvSelListAnchorElement_" . $this->getId();
@@ -707,8 +701,8 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         //echo htmlentities(ilJsonUtil::encode($cfg));
         
         $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
-        if ($this->getListTitle() == "" || $this->getAriaListTitle() != "") {
-            $aria_title = ($this->getAriaListTitle() != "")
+        if ($this->getListTitle() === "" || $this->getAriaListTitle() !== "") {
+            $aria_title = ($this->getAriaListTitle() !== "")
                 ? $this->getAriaListTitle()
                 : $this->lng->txt("actions");
             $tpl->setVariable("TXT_ARIA_TOP", $aria_title);
@@ -741,7 +735,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         }
 
 
-        if ($this->getSelectionHeaderSpanClass() != "") {
+        if ($this->getSelectionHeaderSpanClass() !== "") {
             $tpl->setVariable(
                 "CLASS_SEL_TOP_SPAN",
                 $this->getSelectionHeaderSpanClass()

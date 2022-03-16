@@ -60,7 +60,7 @@ class ilLightboxGUI
     {
         $tpl = $this->tpl;
         
-        if ($a_tpl == null) {
+        if ($a_tpl === null) {
             $a_tpl = $tpl;
         }
 
@@ -73,7 +73,7 @@ class ilLightboxGUI
         $tpl = new ilTemplate("tpl.lightbox.html", true, true, "Services/UIComponent/Lightbox");
         $tpl->setVariable("LIGHTBOX_CONTENT", "");
         $tpl->setVariable("ID", $this->getId());
-        if ($this->getWidth() != "") {
+        if ($this->getWidth() !== "") {
             $tpl->setVariable("WIDTH", "width: " . $this->getWidth() . ";");
         }
         return $tpl->get();
