@@ -80,19 +80,6 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 
                 //$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
                 switch ($cont_type) {
-                    case "sahs":
-                        $page_obj = new ilSCORM2004Page($usage["id"]); // This class does not exist (anymore?)
-                        $lm_obj = new ilObjSAHSLearningModule($page_obj->getParentId(), false);
-                        $item["obj_type_txt"] = $this->lng->txt("obj_" . $cont_type);
-                        $item["obj_title"] = $lm_obj->getTitle();
-                        $item["sub_txt"] = $this->lng->txt("pg");
-                        $item["sub_title"] = ilSCORM2004PageNode::_lookupTitle($page_obj->getId()); // This class does not exist (anymore?)
-                        $ref_id = $this->getFirstWritableRefId($lm_obj->getId());
-                        if ($ref_id > 0) {
-                            $item["obj_link"] = ilLink::_getStaticLink($ref_id, "sahs");
-                        }
-                        break;
-                    
                     case "lm":
                         $page_obj = new ilLMPage($usage["id"]);
                         $lm_obj = new ilObjLearningModule($page_obj->getParentId(), false);

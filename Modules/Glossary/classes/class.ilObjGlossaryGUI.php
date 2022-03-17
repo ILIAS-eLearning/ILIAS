@@ -23,6 +23,7 @@
  */
 class ilObjGlossaryGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected ilPropertyFormGUI $form;
     protected int $tax_node;
     protected ilObjTaxonomy $tax;
@@ -55,7 +56,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->tabs = $DIC->tabs();
         $this->setting = $DIC["ilSetting"];
         $this->access = $DIC->access();
-        $this->rbacsystem = $DIC->rbac()->system(); // This property is dynamically declared: Should be fixed or discussed
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->help = $DIC["ilHelp"];
 
         $this->edit_request = $DIC->glossary()

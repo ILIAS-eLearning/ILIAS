@@ -54,7 +54,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             ->styleForRefId($this->getRefId());
     }
 
-    public function create($a_upload = false) : int
+    public function create(bool $a_upload = false) : int
     {
         $id = parent::create();
         
