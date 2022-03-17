@@ -70,7 +70,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
      * Note: These exceptions will be caught by the plugin slot and and the exception message
      * is returned to the SOAP caller.
      * @param string $a_message
-     * @param int $a_code
+     * @param string|int $a_code
      * @return void
      * @throws ilSoapPluginException
      */

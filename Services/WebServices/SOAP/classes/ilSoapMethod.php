@@ -8,7 +8,6 @@
  */
 interface ilSoapMethod
 {
-
     /**
      * Get the name of the method. Used as endpoint for SOAP requests.
      * Note that this name must be unique in combination with the service namespace.
@@ -20,7 +19,7 @@ interface ilSoapMethod
      * Get the input parameters. Array keys must correspond to parameter names and values must correspond
      * to a valid SOAP data-type
      * @return array
-     *@see ilNusoapUserAdministrationAdapter::__registerMethods() for examples
+     * @see ilNusoapUserAdministrationAdapter::__registerMethods() for examples
      */
     public function getInputParams() : array;
 
