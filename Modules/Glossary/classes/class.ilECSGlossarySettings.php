@@ -20,12 +20,12 @@
  */
 class ilECSGlossarySettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return '/campusconnect/glossaries';
     }
     
-    protected function buildJson(ilECSSetting $a_server)
+    protected function buildJson(ilECSSetting $a_server) : stdClass
     {
         $json = $this->getJsonCore('application/ecs-glossary');
         

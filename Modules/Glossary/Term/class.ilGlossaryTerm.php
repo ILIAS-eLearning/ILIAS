@@ -79,7 +79,7 @@ class ilGlossaryTerm
             " ORDER BY create_date DESC";
         $term_set = $ilDB->query($q);
         while ($term_rec = $ilDB->fetchAssoc($term_set)) {
-            $glo_id = ilGlossaryTerm::_lookGlossaryID($term_rec["id"]);
+            $glo_id = self::_lookGlossaryID($term_rec["id"]);
 
             $ref_ids = ilObject::_getAllReferences($glo_id);	// will be 0 if import of lm is in progress (new import)
             if (count($ref_ids) == 0 || ilObject::_hasUntrashedReference($glo_id)) {
@@ -294,7 +294,7 @@ class ilGlossaryTerm
         global $DIC;
 
         if (count($a_glo_ref_id) > 1) {
-            $a_glo_id = array_map(function ($id) {
+            $a_glo_id = array_map(static function ($id) : int {
                 return ilObject::_lookupObjectId($id);
             }, $a_glo_ref_id);
         } else {
@@ -449,7 +449,7 @@ class ilGlossaryTerm
 
     public static function getNumberOfUsages(int $a_term_id) : int
     {
-        return count(ilGlossaryTerm::getUsages($a_term_id));
+        return count(self::getUsages($a_term_id));
     }
 
     public static function getUsages(int $a_term_id) : array

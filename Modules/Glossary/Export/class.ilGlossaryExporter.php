@@ -89,7 +89,7 @@ class ilGlossaryExporter extends ilXmlExporter
                     $tax_ids[$t_ids[0]] = $t_ids[0];
                 }
             }
-            if (sizeof($tax_ids)) {
+            if (count($tax_ids)) {
                 $deps[] = array(
                     "component" => "Services/Taxonomy",
                     "entity" => "tax",
@@ -101,13 +101,13 @@ class ilGlossaryExporter extends ilXmlExporter
             $advmd_ids = array();
             foreach ($a_ids as $id) {
                 $rec_ids = $this->getActiveAdvMDRecords($id);
-                if (sizeof($rec_ids)) {
+                if (count($rec_ids)) {
                     foreach ($rec_ids as $rec_id) {
                         $advmd_ids[] = $id . ":" . $rec_id;
                     }
                 }
             }
-            if (sizeof($advmd_ids)) {
+            if (count($advmd_ids)) {
                 $deps[] = array(
                     "component" => "Services/AdvancedMetaData",
                     "entity" => "advmd",
