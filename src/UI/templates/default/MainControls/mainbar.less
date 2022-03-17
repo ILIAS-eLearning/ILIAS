@@ -22,11 +22,16 @@
 		line-height: @il-mainbar-btn-label-size * @line-height-large;
 		&:focus,
 		&:active {
-			box-shadow: none; 
+			box-shadow: none;
 		}
-		&:focus-visible {
-			border: 3px solid @il-focus-color;
+		&:focus-visible,
+		&:active:focus-visible {
+			border: @il-focus-outline-inner;
 			outline: none;
+			
+			&::after {
+				content: none;
+			}
 		}
 	}
 	.bulky-label {
