@@ -13234,8 +13234,8 @@ div.ilHFormFooter .ilFormCmds {
   margin: 0;
 }
 input:invalid {
-  background-color: #a94442;
-  border-color: #f2dede;
+  background-color: #ffebeb;
+  border-color: #d00;
 }
 .bootstrap-datetimepicker-widget {
   z-index: 2000;
