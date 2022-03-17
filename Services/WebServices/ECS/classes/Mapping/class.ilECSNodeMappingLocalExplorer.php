@@ -147,7 +147,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         }
     }
 
-    public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0)
+    public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0) : void
     {
         if (!isset($a_node_id) or !is_array($a_option)) {
             $this->ilias->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .

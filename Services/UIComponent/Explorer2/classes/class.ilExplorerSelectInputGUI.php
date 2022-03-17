@@ -118,8 +118,8 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
         
         // check required
         if ($this->getRequired()) {
-            if ((!$this->multi_nodes && trim($this->getInput()) == "") ||
-                ($this->multi_nodes && count($this->getInput()) == 0)) {
+            if ((!$this->multi_nodes && trim($this->getInput()) === "") ||
+                ($this->multi_nodes && count($this->getInput()) === 0)) {
                 $this->setAlert($lng->txt("msg_input_is_required"));
                 return false;
             }
@@ -151,7 +151,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 
         $tpl = new ilTemplate("tpl.prop_expl_select.html", true, true, "Services/UIComponent/Explorer2");
 
-        if ($a_mode != "property_form") {
+        if ($a_mode !== "property_form") {
             $tpl->touchBlock("tiny_presentation");
         }
 
