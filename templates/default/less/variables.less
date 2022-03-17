@@ -55,6 +55,7 @@ with the il- variable set here.
 
 //** Used to set focus on interactive elements for keyboard navigation.
 @il-focus-color: #0078D7;
+@il-focus-protection-color: #FFFFFF;
 
 //== Extended Colors
 //
@@ -129,7 +130,7 @@ with the il- variable set here.
 @il-padding-large-vertical: 6px;
 @il-padding-large-horizontal: 12px;
 
-@il-padding-small-vertical: 3px;
+@il-padding-small-vertical: 4px;
 @il-padding-small-horizontal: 6px;
 
 @il-padding-xs-vertical: 1px;
@@ -139,9 +140,11 @@ with the il- variable set here.
 @il-border-radius-large: 0px;
 @il-border-radius-small: 0px;
 
-@il-focus-outline: 3px solid @il-focus-color;
+@il-focus-outline-inner: @il-focus-outline-inner-width solid @il-focus-color;
+@il-focus-outline-outer: @il-focus-outline-outer-width solid @il-focus-protection-color;
 // The offset should only be used if the contrast between the focus outline and the component is insufficient.
-@il-focus-outline-offset: 2px;
+@il-focus-outline-inner-width: 3px;
+@il-focus-outline-outer-width: 2px;
 
 //== Layout (UI Layout Page)
 //
@@ -717,7 +720,7 @@ with the il- variable set here.
 @il-background-images-path: "images/";
 
 //** Size for icons: xsmall is used in the tree. e.g.
-@il-icon-size-xsmall: 17px;
+@il-icon-size-xsmall: 15px;
 //** Size for icons: Small is used in the tree. e.g.
 @il-icon-size-small: 20px;
 //** Size for icons: Medium is used in the content-listing. e.g.
