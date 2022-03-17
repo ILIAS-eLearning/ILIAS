@@ -1124,7 +1124,6 @@ class ilObjectListGUI
                 $this->tpl->setVariable("SCRIPT_PREVIEW_CLICK", $preview->getJSCall($this->getUniqueItemId(true)));
                 $this->tpl->parseCurrentBlock();
             }
-
         }
         $this->tpl->parseCurrentBlock();
 
@@ -1492,7 +1491,7 @@ class ilObjectListGUI
             }
 
             $operator = ilConditionHandlerGUI::translateOperator($condition['trigger_obj_id'], $condition['operator']);
-            $cond_txt =  $operator . ' ' . $condition['value'];
+            $cond_txt = $operator . ' ' . $condition['value'];
             
             // display trigger item
             $class = $this->obj_definition->getClassName($condition["trigger_type"]);
@@ -1560,7 +1559,8 @@ class ilObjectListGUI
             return;
         }
 
-        if (isset($this->condition_target) && is_array($this->condition_target)) {
+        if (isset($this->condition_target) && is_array($this->condition_target)
+            && count($this->condition_target) > 0) {
             $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget(
                 (int) $this->condition_target['ref_id'],
                 (int) $this->condition_target['obj_id'],
