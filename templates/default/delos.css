@@ -9627,8 +9627,8 @@ footer {
 }
 .il-maincontrols-slate-close {
   width: 100%;
-  border-bottom: 1px solid #eee;
-  border-top: 1px solid #eee;
+  border-bottom: 1px solid #dddddd;
+  border-top: 1px solid #dddddd;
   height: 50px;
   margin-top: auto;
   bottom: 0;
@@ -9638,7 +9638,7 @@ footer {
   display: none;
 }
 .il-maincontrols-slate-close .btn-bulky {
-  background-color: #fff;
+  background-color: white;
   width: 100%;
   height: 100%;
   padding: 0;
@@ -9649,7 +9649,7 @@ footer {
   padding-right: 20px;
 }
 .il-maincontrols-slate-close .btn-bulky.engaged {
-  background-color: #fff;
+  background-color: white;
   border: 0;
 }
 .il-maincontrols-slate-close .btn-bulky:active {
@@ -11375,7 +11375,7 @@ the il- variable in your less code and not the boostrap variable in your less co
   height: 30px;
 }
 .il-popover .il-popover-title-container {
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
 }
 .il-popover .il-popover-title-container h4.il-popover-title {
   font-size: 17px;
@@ -12263,7 +12263,7 @@ div.ilAdminRow {
 }
 table.std {
   color: #161616;
-  background-color: #bbb;
+  background-color: #f9f9f9;
   border-spacing: 0;
   border-collapse: collapse;
   border: 1px solid #9eadba;
@@ -13805,8 +13805,8 @@ button.copg-add:hover {
 }
 div.il_droparea {
   padding: 1px 5px;
-  border: 1px dashed #d0d0d0;
-  color: #d0d0d0;
+  border: 1px dashed #dddddd;
+  color: #6f6f6f;
   text-align: center;
   font-size: 12px;
   background-color: #fffed1;
@@ -13822,10 +13822,10 @@ div.ilCOPGDropActice,
 }
 div.ilCOPGNoPageContent {
   padding: 20px 5px;
-  color: #a0a0a0;
+  color: #6f6f6f;
 }
 div.il_editarea_nojs {
-  border-width: 1px dotted #999;
+  border-width: 1px dotted #dddddd;
 }
 div.il_editarea,
 div.il_editarea_disabled {
@@ -13845,7 +13845,7 @@ div.il_editarea_disabled {
 div.ilEditLabel {
   position: absolute;
   background-color: #4c6586;
-  color: #f0f0f0;
+  color: #6f6f6f;
   font-size: 70%;
   padding: 1px 3px;
   margin-top: -15px;
@@ -14102,7 +14102,7 @@ td.ilc_PageDisabled {
 div.ilc_DefinitionHeader {
   margin: 20px 0 10px 0;
   padding: 5px 0;
-  border: 1px solid black;
+  border: 1px solid #757575;
   border-width: 1px 0;
 }
 table.ilc_Fullscreen {
@@ -14136,7 +14136,7 @@ div.ilc_LMMenu {
 a.ilc_LMMenu {
   padding: 1px 5px;
   margin: 2px 0;
-  border: 1px solid #b0b0b0;
+  border: 1px solid #dddddd;
   background-color: #e6ecf8;
   white-space: nowrap;
 }
@@ -14144,7 +14144,7 @@ div.ilc_TableOfContents {
   background-color: white;
   padding: 20px;
   border-spacing: 1px;
-  border: 1px solid #eee;
+  border: 1px solid #dddddd;
   margin-bottom: 0;
 }
 table.ilc_media {
@@ -14827,7 +14827,7 @@ th.calminiweek {
   vertical-align: middle;
 }
 span.calminiinactive {
-  color: #CCCCCC;
+  color: #737373;
 }
 .calnewapplink {
   float: right;
@@ -15475,7 +15475,7 @@ img.ilPollQuestionImage {
   height: 18px;
 }
 .ilPollQuestionResultBarInner {
-  background-color: #c2e1ff;
+  background-color: #e2e8ef;
   height: 18px;
 }
 .ilPollQuestionResultPerc {
@@ -15685,7 +15685,7 @@ span.bibl_text_inline_Emph {
   font-size: 85%;
   position: absolute;
   width: 100%;
-  color: #f0f0f0;
+  color: #161616;
   margin-top: -240px;
   background: url("images/black60.png");
 }
@@ -15749,14 +15749,14 @@ h3.ilProfileName {
 div.ilProfileSection {
   margin-top: 20px;
   font-size: 90%;
-  color: #606060;
+  color: #6f6f6f;
 }
 h3.ilProfileSectionHead {
   margin: 0 0 3px;
   padding: 0;
   font-weight: normal;
   font-size: 110%;
-  color: #202020;
+  color: #161616;
 }
 table.il_user_quota_disk_usage_overview {
   background-color: white;
@@ -15933,12 +15933,12 @@ li.smallPad {
 .ilCourseObjectiveProgressBarLimit {
   float: right;
   position: relative;
-  border-right: 2px dotted #888;
+  border-right: 2px dotted #737373;
   height: 20px;
   margin-top: -17px;
 }
 .ilCourseObjectiveProgressBarNeutral {
-  background-color: #888;
+  background-color: #737373;
 }
 .ilCourseObjectiveProgressBarCompleted {
   background-color: #60b060;
@@ -16028,7 +16028,7 @@ td.chatroom {
 }
 .ilChatroomUser .media-body h4,
 .ilChatroomUser .media-body p {
-  color: #a0a0a0;
+  color: #6f6f6f;
   font-size: 12px;
   padding: 5px 3px 0 3px;
   line-height: 1em;
@@ -16036,7 +16036,7 @@ td.chatroom {
 }
 .ilChatroomUser .media-body h4 {
   padding-top: 0;
-  color: #606060;
+  color: #6f6f6f;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -16047,10 +16047,10 @@ td.chatroom {
   font-size: 12px;
 }
 .ilChatroomUser .dropdown-menu a {
-  color: #606060;
+  color: #161616;
 }
 .ilChatroomUser .dropdown-menu a:hover {
-  color: #202020;
+  color: #000000;
 }
 .ilChatroomUser .arrow-down {
   width: 0;
@@ -16062,7 +16062,7 @@ td.chatroom {
   margin-left: 100px;
 }
 .ilChatroomUser .media:hover {
-  background-color: #fea;
+  background-color: #e2e8ef;
 }
 .ilChatroomUser .dropdown-menu {
   position: static;
@@ -16329,8 +16329,8 @@ div#right_area {
   top: 117px;
   position: fixed;
   /* padding: 5px; */
-  background-color: #f5f5f5;
-  border-left: 3px solid #e9e9e9;
+  background-color: #f9f9f9;
+  border-left: 3px solid #dddddd;
   /* box-shadow: inset 0px 2px 2px #d0d0d0; */
   -webkit-overflow-scrolling: touch;
   /* Bug 11209 */
@@ -16413,12 +16413,12 @@ div#right_bottom_area iframe {
 }
 /* Services/UIComponent/AdvancedSelectionList */
 div.il_adv_sel {
-  border: 1px solid #d6d6d6;
+  border: 1px solid #dddddd;
   -webkit-box-shadow: 2px 2px 4px #c0c0c0;
   box-shadow: 2px 2px 4px #c0c0c0;
 }
 table.il_adv_sel {
-  color: black;
+  color: #161616;
   background-color: white;
   border-spacing: 0;
   cursor: pointer;
@@ -16431,7 +16431,7 @@ tr.il_adv_sel_act {
   cursor: pointer;
 }
 td.il_adv_sel {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #dddddd;
   padding: 3px 10px;
   text-align: left;
   white-space: nowrap;
@@ -16442,7 +16442,7 @@ td.il_adv_sel {
   min-width: 150px;
 }
 td.il_adv_sel_ic {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #dddddd;
   padding: 3px 0 3px 10px;
   text-align: left;
   cursor: pointer;
@@ -16604,7 +16604,7 @@ div.ilBlockPropertyCaption {
   bottom: 0;
   right: 0;
   left: 0;
-  background-color: #303030;
+  background-color: #2c2c2c;
   overflow: auto;
   z-index: 1000;
 }
@@ -17924,13 +17924,13 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body p {
   margin: 0;
-  color: #777;
+  color: #6f6f6f;
   font-size: 0.9em;
 }
 #onscreenchat-container .chat-window-wrapper .panel {
   pointer-events: auto;
   margin: 0;
-  border: 1px solid #dcdcdc;
+  border: 1px solid #dddddd;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel-heading {
   font-size: 80%;
@@ -18137,7 +18137,7 @@ span.ilProfileBadge .modal .img-responsive {
 .bootstrap-datetimepicker-widget.dropdown-menu.bottom:before {
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
-  border-bottom: 7px solid #ccc;
+  border-bottom: 7px solid #dddddd;
   border-bottom-color: rgba(0, 0, 0, 0.2);
   top: -7px;
   left: 7px;
@@ -18152,7 +18152,7 @@ span.ilProfileBadge .modal .img-responsive {
 .bootstrap-datetimepicker-widget.dropdown-menu.top:before {
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
-  border-top: 7px solid #ccc;
+  border-top: 7px solid #dddddd;
   border-top-color: rgba(0, 0, 0, 0.2);
   bottom: -7px;
   left: 6px;
@@ -18523,7 +18523,7 @@ span.ilProfileBadge .modal .img-responsive {
   text-align: center;
 }
 #ltiIframe {
-  border: solid #7c7c7c 2px !important;
+  border: solid #757575 2px !important;
   padding: 3px;
   width: 100%;
   height: 500px;
@@ -18570,7 +18570,7 @@ span.ilProfileBadge .modal .img-responsive {
 .ilLikeEmoticons a:hover {
   text-decoration: none;
   /*background-color: @il-highlight-bg;*/
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
 }
 .ilLike .il-item img {
   max-width: 50%;
