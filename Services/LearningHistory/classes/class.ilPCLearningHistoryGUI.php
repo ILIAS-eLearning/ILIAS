@@ -26,7 +26,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPCLearningHistory $a_content_obj = null,
+        ?ilPCLearningHistory $a_content_obj = null,
         string $a_hier_id = "",
         string $a_pc_id = ""
     ) {
