@@ -44,14 +44,16 @@ abstract class ilPluginConfigGUI
         $ilTabs = $DIC->tabs();
         $lng = $DIC->language();
         $tpl = $DIC['tpl'];
+        $request_wrapper = $DIC->http()->wrapper()->query();
+        $string_trafo = $DIC["refinery"]->kindlyTo()->string();
 
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $_GET["ctype"]);
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $_GET["cname"]);
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "slot_id", $_GET["slot_id"]);
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "plugin_id", $_GET["plugin_id"]);
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "pname", $_GET["pname"]);
+        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $request_wrapper->retrieve("ctype", $string_trafo));
+        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $request_wrapper->retrieve("cname", $string_trafo));
+        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "slot_id", $request_wrapper->retrieve("slot_id", $string_trafo));
+        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "plugin_id", $request_wrapper->retrieve("plugin_id", $string_trafo));
+        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "pname", $request_wrapper->retrieve("pname", $string_trafo));
 
-        $tpl->setTitle($lng->txt("cmps_plugin") . ": " . $_GET["pname"]);
+        $tpl->setTitle($lng->txt("cmps_plugin") . ": " . $request_wrapper->retrieve("pname", $string_trafo));
         $tpl->setDescription("");
 
         $ilTabs->clearTargets();
