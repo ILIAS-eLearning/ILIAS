@@ -3044,7 +3044,8 @@ class ilObjSurvey extends ilObject
                 $attribs = array("id" => $question_array[0]["question_id"]);
                 $attribs = array(
                     "showQuestiontext" => $question_array[0]["questionblock_show_questiontext"],
-                    "showBlocktitle" => $question_array[0]["questionblock_show_blocktitle"]
+                    "showBlocktitle" => $question_array[0]["questionblock_show_blocktitle"],
+                    "compressView" => $question_array[0]["questionblock_compress_view"]
                 );
                 $a_xml_writer->xmlStartTag("questionblock", $attribs);
                 if (strlen($question_array[0]["questionblock_title"])) {
