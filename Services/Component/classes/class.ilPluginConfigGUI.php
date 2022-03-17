@@ -58,7 +58,7 @@ abstract class ilPluginConfigGUI
 
         $ilTabs->clearTargets();
         
-        if ($_GET["plugin_id"]) {
+        if ($request_wrapper->retrieve("plugin_id", $string_trafo)) {
             $ilTabs->setBackTarget(
                 $lng->txt("cmps_plugin"),
                 $ilCtrl->getLinkTargetByClass("ilobjcomponentsettingsgui", "showPlugin")
