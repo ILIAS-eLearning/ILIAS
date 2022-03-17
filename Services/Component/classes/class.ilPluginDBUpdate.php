@@ -32,7 +32,6 @@ class ilPluginDBUpdate extends ilDBUpdate
         $this->currentVersion = $plugin->getCurrentDBVersion() ?? 0;
 
         $this->current_file = $this->getFileForStep(0 /* doesn't matter */);
-        ;
         $this->DB_UPDATE_FILE = $this->PATH . $this->getDBUpdateScriptName();
         $this->LAST_UPDATE_FILE = $this->DB_UPDATE_FILE;
 
@@ -47,7 +46,7 @@ class ilPluginDBUpdate extends ilDBUpdate
     /**
      * FROM ilDBUpdate
      */
-    public function getFileForStep(int $_ /* doesn't matter */) : string
+    public function getFileForStep(int $a_version /* doesn't matter */) : string
     {
         return "dbupdate.php";
     }
@@ -68,7 +67,7 @@ class ilPluginDBUpdate extends ilDBUpdate
         $this->currentVersion = $a_version;
     }
 
-    public function loadXMLInfo()
+    public function loadXMLInfo() : bool
     {
         return true;
     }
@@ -82,8 +81,6 @@ class ilPluginDBUpdate extends ilDBUpdate
                 is_int(stripos($q, "drop table")))
             && !is_int(stripos($q, $this->getTablePrefix()))) {
             return false;
-        } else {
-            return true;
         }
 
         return true;

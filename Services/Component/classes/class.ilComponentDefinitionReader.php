@@ -97,10 +97,10 @@ class ilComponentDefinitionReader
      */
     protected function getComponents() : \Iterator
     {
-        foreach($this->getComponentInfo("Modules", "module.xml") as $i) {
+        foreach ($this->getComponentInfo("Modules", "module.xml") as $i) {
             yield $i;
         }
-        foreach($this->getComponentInfo("Services", "service.xml") as $i) {
+        foreach ($this->getComponentInfo("Services", "service.xml") as $i) {
             yield $i;
         }
     }
@@ -126,14 +126,14 @@ class ilComponentDefinitionReader
     protected function getComponentPaths(string $root, string $name) : \Iterator
     {
         $dir = opendir($root);
-        while($sub = readdir($dir)) {
+        while ($sub = readdir($dir)) {
             if ($sub === "." || $sub === "..") {
                 continue;
             }
-            if (!@is_dir($root . "/" . $sub)) {
+            if (!is_dir($root . "/" . $sub)) {
                 continue;
             }
-            if (!@is_file($root . "/" . $sub. "/" . $name)) {
+            if (!is_file($root . "/" . $sub . "/" . $name)) {
                 continue;
             }
             yield $sub;

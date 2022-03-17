@@ -19,14 +19,14 @@
  */
 abstract class ilPluginConfigGUI
 {
-    protected $plugin_object = null;
+    protected ?ilPlugin $plugin_object = null;
     
-    final public function setPluginObject($a_val)
+    final public function setPluginObject(ilPlugin $a_val) : void
     {
         $this->plugin_object = $a_val;
     }
 
-    final public function getPluginObject()
+    final public function getPluginObject() : ?ilPlugin
     {
         return $this->plugin_object;
     }
@@ -71,5 +71,5 @@ abstract class ilPluginConfigGUI
         $this->performCommand($ilCtrl->getCmd("configure"));
     }
 
-    abstract public function performCommand(string $cmd): void;
+    abstract public function performCommand(string $cmd) : void;
 }

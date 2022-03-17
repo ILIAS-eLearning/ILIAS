@@ -8,10 +8,7 @@ use ILIAS\DI;
 
 class ilComponentActivatePluginsObjective implements Setup\Objective
 {
-    /**
-     * @var string
-     */
-    protected $plugin_name;
+    protected string $plugin_name;
 
     public function __construct(string $plugin_name)
     {
@@ -144,7 +141,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
             {
                 return $GLOBALS["DIC"]["ilLog"];
             }
-            public static function getLogger($a) : ilLogger
+            public static function getLogger($a_component_id) : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLog"];
             }

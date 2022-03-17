@@ -83,15 +83,15 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["ilObjDataCache"] = null;
         $GLOBALS["DIC"]["lng"] = new class() {
-            public function loadLanguageModule()
+            public function loadLanguageModule() : void
             {
             }
         };
         $GLOBALS["DIC"]["ilLog"] = new class() {
-            public function write()
+            public function write() : void
             {
             }
-            public function debug()
+            public function debug() : void
             {
             }
         };
@@ -99,7 +99,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             public function getRootLogger()
             {
                 return new class() {
-                    public function write()
+                    public function write() : void
                     {
                     }
                 };
@@ -107,7 +107,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             public function getLogger()
             {
                 return new class() {
-                    public function write()
+                    public function write() : void
                     {
                     }
                 };

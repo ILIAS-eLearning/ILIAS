@@ -2,7 +2,7 @@
 
 use ILIAS\Setup;
 
-class ilComponentRepositoryExistsObjective  implements Setup\Objective
+class ilComponentRepositoryExistsObjective implements Setup\Objective
 {
     /**
      * @inheritdoc
