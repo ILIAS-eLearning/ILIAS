@@ -71,10 +71,10 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
      * is returned to the SOAP caller.
      * @param string $a_message
      * @param string|int $a_code
-     * @return void
+     * @return never
      * @throws ilSoapPluginException
      */
-    protected function __raiseError(string $a_message, $a_code) : void
+    protected function __raiseError(string $a_message, $a_code)
     {
         throw new ilSoapPluginException($a_message, $a_code);
     }
