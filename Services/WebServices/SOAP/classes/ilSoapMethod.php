@@ -52,7 +52,7 @@ interface ilSoapMethod
      * Get the documentation of this method
      * @return string
      */
-    public function getDocumentation():string;
+    public function getDocumentation() : string;
 
     /**
      * Execute the business logic for this SOAP method (when a SOAP request hits the endpoint defined by the name).

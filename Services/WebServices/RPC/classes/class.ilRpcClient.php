@@ -112,7 +112,8 @@ class ilRpcClient
             $this->logger->error('RpcClient recieved error ' . $resp['faultCode'] . ': ' . $resp['faultString']);
             throw new ilRpcClientException(
                 'RPC-Server returned fault message: ' .
-                $resp['faultString'], $resp['faultCode']
+                $resp['faultString'],
+                $resp['faultCode']
             );
         }
         return $resp;

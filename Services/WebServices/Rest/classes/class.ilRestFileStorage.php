@@ -59,7 +59,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
     /**
      * init and create directory
      */
-    protected function init(): bool
+    protected function init() : bool
     {
         parent::init();
         $this->create();
@@ -186,5 +186,4 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
         fclose($fp);
         return true;
     }
-
 }

@@ -68,7 +68,8 @@ class ilRpcIniFileWriter
         $this->ini .= "NicId = " . $this->settings->get('inst_id', '0') . "\n";
         $this->ini .= "IliasIniPath = " . $this->inifile->readVariable(
             'server',
-            'absolute_path') . DIRECTORY_SEPARATOR . "ilias.ini.php\n";
+            'absolute_path'
+        ) . DIRECTORY_SEPARATOR . "ilias.ini.php\n";
         
         return true;
     }
