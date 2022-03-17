@@ -56,7 +56,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($cmd == "" || $cmd == "view") {
+                if ($cmd == "" || $cmd === "view") {
                     $cmd = "settings";
                 }
                 $cmd .= "Object";
@@ -163,7 +163,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
                     : null
             );
 
-            if ($form->getInput("skcust") == "lng") {
+            if ($form->getInput("skcust") === "lng") {
                 $surveySetting->set("skipped_is_custom", false);
             } else {
                 $surveySetting->set("skipped_is_custom", true);

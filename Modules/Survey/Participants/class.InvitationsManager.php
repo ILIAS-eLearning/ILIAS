@@ -88,13 +88,13 @@ class InvitationsManager
         // check if user started already
         $finished_surveys = $this->run_repo->getFinishedSurveysOfUser($user_id);
 
-        $open_surveys = array_filter($survey_ids, function ($i) use ($finished_surveys) {
-            return !in_array($i, $finished_surveys);
+        $open_surveys = array_filter($survey_ids, static function (int $i) use ($finished_surveys) {
+            return !in_array($i, $finished_surveys, true);
         });
 
         // filter all surveys that have ended
         $has_ended = $this->set_repo->hasEnded($open_surveys);
-        $open_surveys = array_filter($open_surveys, function ($i) use ($has_ended) {
+        $open_surveys = array_filter($open_surveys, static function (array $i) use ($has_ended) : bool {
             return !$has_ended[$i];
         });
 

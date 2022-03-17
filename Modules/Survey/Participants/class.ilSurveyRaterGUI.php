@@ -215,7 +215,7 @@ class ilSurveyRaterGUI
         }
     }
 
-    public function addRater(ilPropertyFormGUI $form)
+    public function addRater(ilPropertyFormGUI $form) : void
     {
         // check access
         $ilAccess = $this->access;
@@ -228,8 +228,8 @@ class ilSurveyRaterGUI
         if ($user_id > 0) {
             if ($ilAccess->checkAccess("write", "", $this->survey->getRefId()) ||
                 $this->survey->get360SelfEvaluation() ||
-                $user_id != $ilUser->getId()) {
-                if ($appr_id != $user_id) {
+                $user_id !== $ilUser->getId()) {
+                if ($appr_id !== $user_id) {
                     $this->survey->addRater($appr_id, $user_id);
                     $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 } else {
@@ -288,7 +288,7 @@ class ilSurveyRaterGUI
         if (count($existingdata)) {
             $first = array_shift($existingdata);
             foreach ($first as $key => $value) {
-                if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0 && strcmp($key, 'sent') != 0) {
+                if (strcmp($key, 'code') !== 0 && strcmp($key, 'email') !== 0 && strcmp($key, 'sent') !== 0) {
                     $existingcolumns[] = '[' . $key . ']';
                 }
             }
@@ -304,7 +304,7 @@ class ilSurveyRaterGUI
         $mailmessage_a->setRequired(true);
         $mailmessage_a->setCols(80);
         $mailmessage_a->setRows(10);
-        $mailmessage_a->setInfo(sprintf($this->lng->txt('message_content_info'), join(', ', $existingcolumns)));
+        $mailmessage_a->setInfo(sprintf($this->lng->txt('message_content_info'), implode(', ', $existingcolumns)));
         $form->addItem($mailmessage_a);
 
         $recf = new ilHiddenInputGUI("rtr_id");
@@ -330,7 +330,7 @@ class ilSurveyRaterGUI
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
 
         $rec_ids = $this->edit_request->getRaterIds();
-        if (count($rec_ids) == 0) {
+        if (count($rec_ids) === 0) {
             $this->ctrl->redirect($this, "editRaters");
         }
 
@@ -351,7 +351,7 @@ class ilSurveyRaterGUI
                     $user = $all_data[$rec_id];
 
                     // anonymous
-                    if (substr($rec_id, 0, 1) == "a") {
+                    if (strpos($rec_id, "a") === 0) {
                         $mytxt = $txt_a;
                         $url = $user["href"];
                         $rcp = $user["email"];
@@ -364,10 +364,11 @@ class ilSurveyRaterGUI
                         $rcp = $user["login"]; // #15141
                     }
 
-                    $mytxt = str_replace("[lastname]", $user["lastname"], $mytxt);
-                    $mytxt = str_replace("[firstname]", $user["firstname"], $mytxt);
-                    $mytxt = str_replace("[url]", $url, $mytxt);
-                    $mytxt = str_replace("[code]", $user["code"], $mytxt);
+                    $mytxt = str_replace(
+                        ["[lastname]", "[firstname]", "[url]", "[code]"],
+                        [$user["lastname"], $user["firstname"], $url, $user["code"]],
+                        $mytxt
+                    );
 
                     $mail = new ilMail($sender_id);
                     $mail->enqueue(
@@ -381,8 +382,8 @@ class ilSurveyRaterGUI
 
                     $this->survey->set360RaterSent(
                         $appr_id,
-                        (substr($rec_id, 0, 1) == "a") ? 0 : (int) substr($rec_id, 1),
-                        (substr($rec_id, 0, 1) == "u") ? 0 : (int) substr($rec_id, 1)
+                        (strpos($rec_id, "a") === 0) ? 0 : (int) substr($rec_id, 1),
+                        (strpos($rec_id, "u") === 0) ? 0 : (int) substr($rec_id, 1)
                     );
                 }
             }
@@ -447,7 +448,7 @@ class ilSurveyRaterGUI
             }
         }
 
-        $user_str = implode(";", array_map(function ($u) {
+        $user_str = implode(";", array_map(static function ($u) : string {
             return "u" . $u;
         }, $user_ids));
 

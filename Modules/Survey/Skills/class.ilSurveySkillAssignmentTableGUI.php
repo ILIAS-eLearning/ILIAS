@@ -22,6 +22,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
     protected ilSkillTree $skill_tree;
     protected ilObjSurvey $object;
     protected ilAccessHandler $access;
+    protected ilSurveySkill $skill_survey;
 
     public function __construct(
         object $a_parent_obj,

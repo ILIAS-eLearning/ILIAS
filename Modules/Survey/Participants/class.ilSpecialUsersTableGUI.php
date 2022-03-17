@@ -46,7 +46,7 @@ class ilSpecialUsersTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
-        $user = ilObjUser::_lookupFields($a_set);
+        $user = ilObjUser::_lookupFields($a_set);// TODO PHP8-REVIEW array passed, int expected
         $ilCtrl->setParameterByClass("ilObjSurveyAdministrationGUI", "item_id", $user["usr_id"]);
         $this->tpl->setVariable("USER_ID", $user["usr_id"]);
         $this->tpl->setVariable("LOGIN", $user["login"]);

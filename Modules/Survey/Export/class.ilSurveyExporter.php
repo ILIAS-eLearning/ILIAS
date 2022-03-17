@@ -34,7 +34,7 @@ class ilSurveyExporter extends ilXmlExporter
         string $a_schema_version,
         string $a_id
     ) : string {
-        if ($a_entity == "svy") {
+        if ($a_entity === "svy") {
             $svy = new ilObjSurvey($a_id, false);
             $svy->loadFromDb();
 
@@ -56,7 +56,7 @@ class ilSurveyExporter extends ilXmlExporter
         string $a_target_release,
         array $a_ids
     ) : array {
-        if ($a_entity == "svy") {
+        if ($a_entity === "svy") {
             return array(
                     array(
                             "component" => "Modules/Survey",
@@ -78,7 +78,7 @@ class ilSurveyExporter extends ilXmlExporter
     public function getValidSchemaVersions(
         string $a_entity
     ) : array {
-        if ($a_entity == "svy") {
+        if ($a_entity === "svy") {
             return array(
                     "4.1.0" => array(
                             "namespace" => "https://www.ilias.de/Modules/Survey/htlm/4_1",

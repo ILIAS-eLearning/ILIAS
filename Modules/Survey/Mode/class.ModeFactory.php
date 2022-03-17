@@ -24,6 +24,7 @@ use ILIAS\Survey\InternalService;
  */
 class ModeFactory
 {
+    /** @var \ILIAS\Survey\Mode\ModeProvider[] */
     protected array $providers;
     protected InternalService $service;
 
@@ -45,7 +46,7 @@ class ModeFactory
     public function getModeById(int $id) : ModeProvider
     {
         foreach ($this->providers as $provider) {
-            if ($provider->getId() == $id) {
+            if ($provider->getId() === $id) {
                 $provider->setInternalService($this->service);
                 return $provider;
             }

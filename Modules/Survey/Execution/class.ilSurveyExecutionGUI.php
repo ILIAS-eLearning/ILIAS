@@ -120,7 +120,7 @@ class ilSurveyExecutionGUI
 
         $this->log->debug("- cmd= " . $cmd);
 
-        if (strlen($cmd) == 0) {
+        if ($cmd === null || $cmd === '') {
             $this->ctrl->setParameter(
                 $this,
                 "qid",
@@ -144,7 +144,7 @@ class ilSurveyExecutionGUI
         $ilUser = $this->user;
         
         if ($this->preview) {
-            if (!$rbacsystem->checkAccess("write", $this->object->ref_id)) {
+            if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
                 // only with write access it is possible to preview the survey
                 throw new ilSurveyException($this->lng->txt("survey_cannot_preview_survey"));
             }
@@ -184,7 +184,7 @@ class ilSurveyExecutionGUI
             if ($anonymous_id) {
                 $appraisees = $this->object->getAppraiseesToRate(0, $anonymous_id);
             }
-            if (!$appraisees && $user_id != ANONYMOUS_USER_ID) {
+            if (!$appraisees && $user_id !== ANONYMOUS_USER_ID) {
                 $appraisees = $this->object->getAppraiseesToRate($user_id);
             }
             if (!in_array($appr_id, $appraisees)) {
@@ -194,7 +194,7 @@ class ilSurveyExecutionGUI
         }
         //Self evaluation mode
         #23575 in self eval the appraisee is the current user.
-        if ($this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL) {
+        if ($this->object->getMode() === ilObjSurvey::MODE_SELF_EVAL) {
             $appr_id = $ilUser->getId();
         }
         
@@ -224,18 +224,18 @@ class ilSurveyExecutionGUI
         }
 
         // validate finished id
-        if ($this->object->getActiveID($user_id, $anonymous_code, $appr_id) !=
+        if ($this->object->getActiveID($user_id, $anonymous_code, $appr_id) !==
             $this->run_manager->getCurrentRunId($appr_id)) {
             throw new ilSurveyException("Run ID mismatch");
         }
     }
 
-    public function resume()
+    public function resume() : void
     {
         $this->start(true);
     }
     
-    public function start($resume = false)
+    public function start(bool $resume = false) : void
     {
         if ($this->preview) {
             $this->run_manager->clearAllPreviewData();
@@ -251,8 +251,8 @@ class ilSurveyExecutionGUI
             );
         }
         
-        if (strlen($activepage)) {
-            $this->ctrl->setParameter($this, "qid", $activepage);
+        if ((string) $activepage !== '') {
+            $this->ctrl->setParameter($this, "qid", (string) $activepage);
         }
         $this->ctrl->setParameter($this, "activecommand", "default");
         $this->ctrl->redirect($this, "redirectQuestion");
@@ -298,7 +298,7 @@ class ilSurveyExecutionGUI
         }
         $this->ctrl->setParameter($this, "activecommand", "previous");
         $this->ctrl->setParameter($this, "qid", $this->request->getQuestionId());
-        if (strlen($has_error)) {
+        if (strlen($has_error)) {// TODO PHP8-REVIEW strlen MUST be used with strings, saveUserInput returns an int / A string cast will always evaluate in min. 1 character
             $this->ctrl->setParameter($this, "direction", "0");
         } else {
             $this->ctrl->setParameter($this, "direction", "-1");
@@ -314,7 +314,7 @@ class ilSurveyExecutionGUI
         $result = $this->saveUserInput("next");
         $this->ctrl->setParameter($this, "activecommand", "next");
         $this->ctrl->setParameter($this, "qid", $this->request->getQuestionId());
-        if (strlen($result)) {
+        if (strlen($result)) {// TODO PHP8-REVIEW strlen MUST be used with strings, saveUserInput returns an int / A string cast will always evaluate in min. 1 character
             $this->ctrl->setParameter($this, "direction", "0");
         } else {
             $this->ctrl->setParameter($this, "direction", "1");
@@ -362,10 +362,10 @@ class ilSurveyExecutionGUI
                     }
                     if ($constraint['conjunction'] == 0) {
                         // and
-                        $constraint_true = $constraint_true & $this->object->checkConstraint($constraint, $working_data);
+                        $constraint_true &= $this->object->checkConstraint($constraint, $working_data);
                     } else {
                         // or
-                        $constraint_true = $constraint_true | $this->object->checkConstraint($constraint, $working_data);
+                        $constraint_true |= $this->object->checkConstraint($constraint, $working_data);
                     }
                 }
                 if ($constraint_true == 0) {
@@ -386,9 +386,9 @@ class ilSurveyExecutionGUI
             }
         }
         $first_question = -1;
-        if (is_null($page) && $direction == -1) {
+        if (is_null($page) && $direction === -1) {
             $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
-        } elseif (is_null($page) && $direction == 1) {
+        } elseif (is_null($page) && $direction === 1) {
             $state = $this->object->getUserSurveyExecutionStatus();
             if ($this->preview ||
                 !$state["runs"][$this->getCurrentRunId()]["finished"]) {
@@ -402,8 +402,8 @@ class ilSurveyExecutionGUI
             $ilHelp->setScreenIdComponent("svy");
             $ilHelp->setScreenId("quest_presentation");
             
-            if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                ilLearningProgress::_tracProgress($ilUser->getId(), $this->object->getId(), $this->object->ref_id, "svy");
+            if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
+                ilLearningProgress::_tracProgress($ilUser->getId(), $this->object->getId(), $this->object->getRefId(), "svy");
             }
 
             $required = false;
@@ -420,7 +420,7 @@ class ilSurveyExecutionGUI
             }
 
             // top / bottom nav
-            if (!($this->object->getAnonymize() && $this->object->isAccessibleWithoutCode() && ($ilUser->getId() == ANONYMOUS_USER_ID))) {
+            if (!($this->object->getAnonymize() && $this->object->isAccessibleWithoutCode() && ($ilUser->getId() === ANONYMOUS_USER_ID))) {
                 $stpl->setCurrentBlock("suspend_survey");
 
                 if (!$this->preview) {
@@ -451,7 +451,7 @@ class ilSurveyExecutionGUI
             $working_data = [];
             $errors = $this->run_manager->getErrors();
             foreach ($page as $data) {
-                if ($first_question == -1) {
+                if ($first_question === -1) {
                     $first_question = $data["question_id"];
                 }
                 $question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
@@ -508,8 +508,8 @@ class ilSurveyExecutionGUI
         foreach ($page as $data) {
             $page_error += $this->saveActiveQuestionData($data);
         }
-        if ($page_error && (strcmp($navigationDirection, "previous") != 0)) {
-            if ($page_error == 1) {
+        if ($page_error && (strcmp($navigationDirection, "previous") !== 0)) {
+            if ($page_error === 1) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_page_error"), true);
             } else {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_page_errors"), true);
@@ -528,7 +528,7 @@ class ilSurveyExecutionGUI
     {
         $question = SurveyQuestion::_instanciateQuestion($data["question_id"]);
         $error = $question->checkUserInput($this->raw_post_data, $this->object->getSurveyId());
-        if (strlen($error) == 0) {
+        if (strlen($error) === 0) {
             if (!$this->preview) {
                 // delete old answers
                 $this->object->deleteWorkingData($data["question_id"], $this->getCurrentRunId());
@@ -580,7 +580,7 @@ class ilSurveyExecutionGUI
                     $ilToolbar->addSeparator();
                 }
 
-                if ($ilUser->getId() == ANONYMOUS_USER_ID ||
+                if ($ilUser->getId() === ANONYMOUS_USER_ID ||
                     !$ilUser->getEmail()) {
                     $mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
                     $mail->setSize(25);
@@ -609,7 +609,7 @@ class ilSurveyExecutionGUI
         }
         
         if (!$has_button &&
-            strlen($this->object->getOutro()) == 0) {
+            $this->object->getOutro() === '') {
             $this->exitSurvey();
         } else {
             if ($has_button) {
@@ -621,7 +621,7 @@ class ilSurveyExecutionGUI
             $button->setUrl($this->ctrl->getLinkTarget($this, "exitSurvey"));
             $ilToolbar->addButtonInstance($button);
         
-            if (strlen($this->object->getOutro())) {
+            if ($this->object->getOutro() !== '') {
                 $panel = ilPanelGUI::getInstance();
                 $panel->setBody($this->object->prepareTextareaOutput($this->object->getOutro()));
                 $this->tpl->setContent($panel->getHTML());
@@ -755,7 +755,7 @@ class ilSurveyExecutionGUI
         if (!$this->preview) {
             $this->object->finishSurvey($this->getCurrentRunId(), $this->requested_appr_id);
                         
-            if ($ilUser->getId() != ANONYMOUS_USER_ID) {
+            if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
                 ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
             }
 

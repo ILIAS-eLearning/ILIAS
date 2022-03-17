@@ -41,7 +41,7 @@ class ilSurveyConstraintsGUI
         $this->parent_gui = $a_parent_gui;
 
         /** @var ilObjSurvey $survey */
-        $survey = $this->parent_gui->object;
+        $survey = $this->parent_gui->getObject();
         $this->object = $survey;
         
         $this->ctrl = $ilCtrl;
@@ -103,7 +103,7 @@ class ilSurveyConstraintsGUI
      */
     public function constraintsAddObject() : void
     {
-        if (strlen($this->request->getConstraintPar("v")) == 0) {
+        if ($this->request->getConstraintPar("v") === '') {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_enter_value_for_valid_constraint"));
             $this->constraintStep3Object();
             return;
@@ -113,7 +113,7 @@ class ilSurveyConstraintsGUI
         $include_elements = $this->edit_manager->getConstraintElements();
         foreach ($include_elements as $elementCounter) {
             if (is_array($structure[$elementCounter])) {
-                if (strlen($this->request->getPrecondition())) {
+                if ($this->request->getPrecondition() !== '') {
                     $this->object->updateConstraint(
                         $this->request->getPrecondition(),
                         $this->request->getConstraintPar("q"),
@@ -168,7 +168,7 @@ class ilSurveyConstraintsGUI
                 }
             }
         }
-        if (count($option_questions) == 0) {
+        if (count($option_questions) === 0) {
             $this->edit_manager->clearConstraintElements();
             $this->edit_manager->clearConstraintStructure();
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("constraints_no_nonessay_available"), true);
@@ -200,7 +200,7 @@ class ilSurveyConstraintsGUI
     {
         $survey_questions = $this->object->getSurveyQuestions();
         $option_questions = array();
-        if (strlen($this->request->getPrecondition())) {
+        if ($this->request->getPrecondition() !== '') {
             if (!$this->validateConstraintForEdit($this->request->getPrecondition())) {
                 $this->ctrl->redirect($this, "constraints");
             }
@@ -245,7 +245,7 @@ class ilSurveyConstraintsGUI
         array $survey_questions,
         ?array $questions = null
     ) : void {
-        if (strlen($this->request->getStart())) {
+        if ((string) $this->request->getStart() !== '') {
             $this->ctrl->setParameter($this, "start", $this->request->getStart());
         }
         $this->ctrl->saveParameter($this, "precondition");
@@ -413,7 +413,7 @@ class ilSurveyConstraintsGUI
     public function createConstraintsObject() : void
     {
         $include_elements = $this->request->getIncludeElements();
-        if (count($include_elements) == 0) {
+        if (count($include_elements) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("constraints_no_questions_or_questionblocks_selected"), true);
             $this->ctrl->redirect($this, "constraints");
         } elseif (count($include_elements) >= 1) {

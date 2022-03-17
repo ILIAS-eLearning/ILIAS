@@ -115,7 +115,7 @@ class ilSurveyPageEditGUI
                         $id = (int) $id[1];
 
                         // multi operation
-                        if (substr($this->svy_request->getHForm("subcmd"), 0, 5) == "multi") {
+                        if (strpos($this->svy_request->getHForm("subcmd"), "multi") === 0) {
                             if ($this->svy_request->getHForm("multi")) {
                                 // removing types as we only allow questions anyway
                                 $id = array();
@@ -124,21 +124,19 @@ class ilSurveyPageEditGUI
                                     $id[] = (int) array_pop($item_arr);
                                 }
 
-                                if ($subcmd == "multiDelete") {
+                                if ($subcmd === "multiDelete") {
                                     $subcmd = "deleteQuestion";
                                 }
-                            } else {
+                            } elseif ($subcmd === "multiDelete") {
                                 // #9525
-                                if ($subcmd == "multiDelete") {
-                                    $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
-                                    $ilCtrl->redirect($this, "renderPage");
-                                } else {
-                                    $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"));
-                                }
+                                $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
+                                $ilCtrl->redirect($this, "renderPage");
+                            } else {
+                                $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"));
                             }
                         }
 
-                        if (substr($subcmd, 0, 11) == "addQuestion") {
+                        if (strpos($subcmd, "addQuestion") === 0) {
                             $type = explode("_", $subcmd);
                             $type = (int) $type[1];
                             $has_content = $this->addQuestion(
@@ -243,11 +241,11 @@ class ilSurveyPageEditGUI
             $pos = $this->svy_request->getTargetQuestionPosition();
 
             // a[fter]/b[efore] on same page
-            if (substr($pos, -1) != "c") {
+            if (substr($pos, -1) !== "c") {
                 // block handling
                 $current = $this->object->getSurveyPages();
                 $current = $current[$this->current_page - 1];
-                if (sizeof($current) == 1) {
+                if (count($current) == 1) {
                     // as questions are moved to first block question
                     // always use existing as first
                     // the new question is moved later on (see below)
@@ -265,27 +263,24 @@ class ilSurveyPageEditGUI
                 }
             }
             // c: as new page (from toolbar/pool)
+            elseif ((int) $pos) {
+                $pos = (int) $pos . "a";
+                $this->current_page++;
+            }
+            // at the beginning
             else {
-                // after given question
-                if ((int) $pos) {
-                    $pos = (int) $pos . "a";
-                    $this->current_page++;
-                }
-                // at the beginning
-                else {
-                    $first = $this->object->getSurveyPages();
-                    $first = $first[0];
-                    $first = array_shift($first);
-                    $pos = $first["question_id"] . "b";
-                    $this->current_page = 1;
-                }
+                $first = $this->object->getSurveyPages();
+                $first = $first[0];
+                $first = array_shift($first);
+                $pos = $first["question_id"] . "b";
+                $this->current_page = 1;
             }
 
             // move to target position
             $this->object->moveQuestions(
                 array($a_new_id),
                 (int) $pos,
-                ((substr($pos, -1) == "a") ? 1 : 0)
+                ((substr($pos, -1) === "a") ? 1 : 0)
             );
 
             $this->object->fixSequenceStructure();
@@ -304,7 +299,7 @@ class ilSurveyPageEditGUI
             $new_ids[] = $this->appendNewQuestionToSurvey($qid, true, true);
         }
         
-        if (sizeof($new_ids)) {
+        if (count($new_ids)) {
             $this->object->loadQuestionsFromDb();
             
             $pos = $this->svy_request->getTargetQuestionPosition();
@@ -314,7 +309,7 @@ class ilSurveyPageEditGUI
                 // block handling
                 $current = $this->object->getSurveyPages();
                 $current = $current[$this->current_page - 1];
-                if (sizeof($current) == 1) {
+                if (count($current) === 1) {
                     // as questions are moved to first block question
                     // always use existing as first
                     // the new question is moved later on (see below)
@@ -360,7 +355,7 @@ class ilSurveyPageEditGUI
             $this->object->moveQuestions(
                 $new_ids,
                 (int) $pos,
-                ((substr($pos, -1) == "a") ? 1 : 0)
+                ((substr($pos, -1) === "a") ? 1 : 0)
             );
         }
     }
@@ -394,9 +389,9 @@ class ilSurveyPageEditGUI
         $id = $a_pos;
 
         // new page behind current (from toolbar)
-        if ($a_special_position == "toolbar") {
+        if ($a_special_position === "toolbar") {
             $id = $this->object->getSurveyPages();
-            if ($a_pos && $a_pos != "fst") {
+            if ($a_pos && $a_pos !== "fst") {
                 $id = $id[(int) $a_pos - 1];
                 $id = array_pop($id);
                 $id = $id["question_id"] . "c";
@@ -405,7 +400,7 @@ class ilSurveyPageEditGUI
             }
         }
         // append current page
-        elseif ($a_special_position == "page_end") {
+        elseif ($a_special_position === "page_end") {
             $id = $this->object->getSurveyPages();
             $id = $id[$this->current_page - 1];
             $id = array_pop($id);
@@ -554,7 +549,7 @@ class ilSurveyPageEditGUI
         
         // append to last position?
         $pos = 0;
-        if ($this->svy_request->getHForm("node") == "page_end") {
+        if ($this->svy_request->getHForm("node") === "page_end") {
             $a_id = $target;
             $a_id = array_pop($a_id);
             $a_id = $a_id["question_id"];
@@ -562,11 +557,11 @@ class ilSurveyPageEditGUI
         }
         
         // cut
-        if ($mode == "cut") {
+        if ($mode === "cut") {
             // special case: paste cut on same page (no block handling needed)
             if ($source_page == $this->current_page) {
                 // re-order nodes in page
-                if (sizeof($nodes) <= sizeof($source)) {
+                if (count($nodes) <= count($source)) {
                     $this->object->moveQuestions($nodes, $a_id, $pos);
                 }
                 $this->clearClipboard();
@@ -574,13 +569,13 @@ class ilSurveyPageEditGUI
             } else {
                 // only if source has block
                 $source_block_id = false;
-                if (sizeof($source) > 1) {
+                if (count($source) > 1) {
                     $source_block_id = $source;
                     $source_block_id = array_shift($source_block_id);
                     $source_block_id = $source_block_id["questionblock_id"];
 
                     // remove from block
-                    if (sizeof($source) > sizeof($nodes)) {
+                    if (count($source) > count($nodes)) {
                         foreach ($nodes as $qid) {
                             $this->object->removeQuestionFromBlock($qid, $source_block_id);
                         }
@@ -592,14 +587,14 @@ class ilSurveyPageEditGUI
                 }
 
                 // page will be "deleted" by operation
-                if (sizeof($source) == sizeof($nodes) && $source_page < $this->current_page) {
+                if (count($source) === count($nodes) && $source_page < $this->current_page) {
                     $this->current_page--;
                 }
             }
         }
         
         // copy
-        elseif ($mode == "copy") {
+        elseif ($mode === "copy") {
             $titles = array();
             foreach ($this->object->getSurveyPages() as $page) {
                 foreach ($page as $question) {
@@ -649,7 +644,7 @@ class ilSurveyPageEditGUI
         // paste
 
         // create new block
-        if (sizeof($target) == 1) {
+        if (count($target) === 1) {
             $nodes = array_merge(array($a_id), $nodes);
 
             // moveQuestions() is called within
@@ -685,7 +680,7 @@ class ilSurveyPageEditGUI
         $source_arr = explode("_", $this->svy_request->getHForm("source"));
         $target_arr = explode("_", $this->svy_request->getHForm("target"));
         $source_id = (int) array_pop($source_arr);
-        if ($this->svy_request->getHForm("target") != "droparea_end") {
+        if ($this->svy_request->getHForm("target") !== "droparea_end") {
             $target_id = (int) array_pop($target_arr);
             $pos = 0;
         } else {
@@ -695,7 +690,7 @@ class ilSurveyPageEditGUI
             $target_id = (int) $last["question_id"];
             $pos = 1;
         }
-        if ($source_id != $target_id) {
+        if ($source_id !== $target_id) {
             $this->object->moveQuestions(array($source_id), $target_id, $pos);
         }
     }
@@ -715,7 +710,7 @@ class ilSurveyPageEditGUI
         $page = $page[$this->current_page - 1];
         
         // #10567
-        if ($this->svy_request->getCheckSum() != md5(print_r($page, true))) {
+        if ($this->svy_request->getCheckSum() !== md5(print_r($page, true))) {
             $ilCtrl->redirect($this, "renderPage");
         }
         
@@ -758,9 +753,9 @@ class ilSurveyPageEditGUI
         $block_id = array_shift($block_id);
         $block_id = $block_id["questionblock_id"];
 
-        if (sizeof($ids) && sizeof($source) > sizeof($ids)) {
+        if (count($ids) && count($source) > count($ids)) {
             // block is obsolete
-            if (sizeof($source) - sizeof($ids) == 1) {
+            if (count($source) - count($ids) === 1) {
                 $this->object->unfoldQuestionblocks(array($block_id));
             }
             // block will remain, remove question(s) from block
@@ -867,7 +862,7 @@ class ilSurveyPageEditGUI
         }
 
         // just 1 question left: block is obsolete
-        if ($add == 1) {
+        if ($add === 1) {
             $this->object->unfoldQuestionblocks(array($block_id));
         }
         // remove questions from block
@@ -878,7 +873,7 @@ class ilSurveyPageEditGUI
         }
 
         // more than 1 moved?
-        if (sizeof($block_questions) > 1) {
+        if (count($block_questions) > 1) {
             // create new block and move target questions
             $this->object->createQuestionblock(
                 $this->getAutoBlockTitle(),
@@ -899,20 +894,20 @@ class ilSurveyPageEditGUI
         $pages = $this->object->getSurveyPages();
         $source = $pages[$this->current_page - 1];
         $target = $pages[$this->current_page];
-        if (sizeof($target)) {
+        if (count($target)) {
             $target_id = $target;
             $target_id = array_shift($target_id);
             $target_block_id = $target_id["questionblock_id"];
             $target_id = $target_id["question_id"];
 
             // nothing to do if no block
-            if (sizeof($source) > 1) {
+            if (count($source) > 1) {
                 $block_id = $source;
                 $block_id = array_shift($block_id);
                 $block_id = $block_id["questionblock_id"];
 
                 // source pages block is obsolete
-                if (sizeof($source) == 2) {
+                if (count($source) === 2) {
                     // delete block
                     $this->object->unfoldQuestionblocks(array($block_id));
                 } else {
@@ -925,7 +920,7 @@ class ilSurveyPageEditGUI
             $this->object->moveQuestions(array($a_id), $target_id, 0);
 
             // new page has no block yet
-            if (sizeof($target) < 2) {
+            if (count($target) < 2) {
                 // create block and  move target question and source into block
                 $this->object->createQuestionblock(
                     $this->getAutoBlockTitle(),
@@ -939,7 +934,7 @@ class ilSurveyPageEditGUI
             }
 
             // only if current page is not "deleted"
-            if (sizeof($source) > 1) {
+            if (count($source) > 1) {
                 $this->current_page++;
             }
         }
@@ -954,20 +949,20 @@ class ilSurveyPageEditGUI
         $pages = $this->object->getSurveyPages();
         $source = $pages[$this->current_page - 1];
         $target = $pages[$this->current_page - 2];
-        if (sizeof($target)) {
+        if (count($target)) {
             $target_id = $target;
             $target_id = array_pop($target_id);
             $target_block_id = $target_id["questionblock_id"];
             $target_id = $target_id["question_id"];
 
             // nothing to do if no block
-            if (sizeof($source) > 1) {
+            if (count($source) > 1) {
                 $block_id = $source;
                 $block_id = array_shift($block_id);
                 $block_id = $block_id["questionblock_id"];
 
                 // source pages block is obsolete
-                if (sizeof($source) == 2) {
+                if (count($source) === 2) {
                     // delete block
                     $this->object->unfoldQuestionblocks(array($block_id));
                 } else {
@@ -980,7 +975,7 @@ class ilSurveyPageEditGUI
             $this->object->moveQuestions(array($a_id), $target_id, 1);
 
             // new page has no block yet
-            if (sizeof($target) < 2) {
+            if (count($target) < 2) {
                 // create block and  move target question and source into block
                 $this->object->createQuestionblock(
                     $this->getAutoBlockTitle(),
@@ -1077,7 +1072,7 @@ class ilSurveyPageEditGUI
 
         $pool_active = $this->object->getPoolUsage();
 
-        if ($this->svy_request->getPoolUsage() == 0 && $pool_active) {
+        if ($this->svy_request->getPoolUsage() === 0 && $pool_active) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("select_one"), true);
             $this->addQuestionToolbarForm();
             return;
@@ -1115,7 +1110,7 @@ class ilSurveyPageEditGUI
         $pages = $this->object->getSurveyPages();
         if ($pages) {
             $pages_drop = array();
-            if ($this->current_page != 1) {
+            if ((int) $this->current_page !== 1) {
                 $pages_drop["fst"] = $lng->txt("survey_at_beginning");
             }
             foreach ($pages as $idx => $questions) {
@@ -1161,12 +1156,12 @@ class ilSurveyPageEditGUI
 
         // move to first position
         $position = 0;
-        if ($this->pgov != "fst") {
+        if ($this->pgov !== "fst") {
             $position = 1;
         }
 
         $target = $pages[$target_page];
-        if ($position == 0) {								// before
+        if ($position === 0) {								// before
             $target = array_shift($target);             // ... use always the first question of the page
         } else {											// after
             $target = array_pop($target);             // ... use always the last question of the page
@@ -1213,8 +1208,8 @@ class ilSurveyPageEditGUI
                 $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
                 $ilCtrl->setParameter($this->editor_gui, "pgov_pos", $last_on_page . "c");
 
-                $cmd = ($ilUser->getPref('svy_insert_type') == 1 ||
-                    strlen($ilUser->getPref('svy_insert_type')) == 0)
+                $cmd = ((int) $ilUser->getPref('svy_insert_type') === 1 ||
+                    ($ilUser->getPref('svy_insert_type') ?? '') === '')
                     ? 'browseForQuestions'
                     : 'browseForQuestionblocks';
                                 
@@ -1245,7 +1240,7 @@ class ilSurveyPageEditGUI
             $button->setDisabled(!$this->has_previous_page);
             $ilToolbar->addStickyItem($button);
             
-            $ilCtrl->setParameter($this, "pg", $this->current_page + 1);
+            $ilCtrl->setParameter($this, "pg", (string) ((int) $this->current_page + 1));
             $button = ilLinkButton::getInstance();
             $button->setCaption("survey_next_question");
             if ($this->has_next_page) {
@@ -1262,7 +1257,7 @@ class ilSurveyPageEditGUI
                 if ($page["questionblock_id"]) {
                     $pages_drop[$idx + 1] = $page["questionblock_title"];
 
-                    if (sizeof($questions) > 1) {
+                    if (count($questions) > 1) {
                         foreach ($questions as $question) {
                             $pages_drop[($idx + 1) . "__" . $question["question_id"]] = "- " . $question["title"];
                         }
@@ -1337,7 +1332,7 @@ class ilSurveyPageEditGUI
         $rbacsystem = $this->rbacsystem;
 
         $pages = $this->object->getSurveyPages();
-        $this->has_next_page = ($this->current_page < sizeof($pages));
+        $this->has_next_page = ($this->current_page < count($pages));
         $this->has_previous_page = ($this->current_page > 1);
         $this->has_datasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
 
@@ -1540,7 +1535,7 @@ class ilSurveyPageEditGUI
                 $menu[] = array("cmd" => "cutQuestion", "text" => $lng->txt("cut"));
                 $menu[] = array("cmd" => "copyQuestion", "text" => $lng->txt("copy"));
 
-                if (sizeof($a_questions) > 1 && $idx > 0) {
+                if (count($a_questions) > 1 && $idx > 0) {
                     $menu[] = array("cmd" => "splitPage", "text" => $lng->txt("survey_dnd_split_page"));
                 }
                 if ($a_has_next_page) {
@@ -1733,22 +1728,22 @@ class ilSurveyPageEditGUI
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
         
-        if ($node == "page_end") {
+        if ($node === "page_end") {
             $pages = $this->object->getSurveyPages();
             $page = array_pop($pages[$this->current_page - 1]);
             $pos = $page["question_id"] . "a";
         } else {
-            $pos = $pos . "b";
+            $pos .= "b";
         }
         
         $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
         $ilCtrl->setParameter($this->editor_gui, "pgov_pos", $pos);
         
-        $cmd = ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks';
+        $cmd = ((int) $ilUser->getPref('svy_insert_type') === 1 || ($ilUser->getPref('svy_insert_type') ?? '') === '') ? 'browseForQuestions' : 'browseForQuestionblocks';
         $ilCtrl->redirect($this->editor_gui, $cmd);
     }
 
-    public function printViewSelection()
+    public function printViewSelection() : void
     {
         $view = $this->print->page($this->ref_id);
         $view->sendForm();

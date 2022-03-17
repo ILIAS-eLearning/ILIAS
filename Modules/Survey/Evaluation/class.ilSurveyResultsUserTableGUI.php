@@ -75,7 +75,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
     {
         if (is_null($timeinseconds)) {
             return " ";
-        } elseif ($timeinseconds == 0) {
+        } elseif ($timeinseconds === 0) {
             return $this->lng->txt('not_available');
         } else {
             return sprintf("%02d:%02d:%02d", ($timeinseconds / 3600), ($timeinseconds / 60) % 60, $timeinseconds % 60);
@@ -86,7 +86,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
     {
         $this->tpl->setVariable("USERNAME", $a_set['username']);
         $this->tpl->setVariable("QUESTION", $a_set['question']);
-        $results = array_map(function ($i) {
+        $results = array_map(static function ($i) : string {
             return htmlentities($i);
         }, $a_set["results"]);
         $this->tpl->setVariable("RESULTS", $results
@@ -113,7 +113,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
                 $this->fillRow($subitem);
                 
                 $this->tpl->setCurrentBlock("tbl_content");
-                $this->css_row = ($this->css_row != "tblrow1")
+                $this->css_row = ($this->css_row !== "tblrow1")
                     ? "tblrow1"
                     : "tblrow2";
                 $this->tpl->setVariable("CSS_ROW", $this->css_row);

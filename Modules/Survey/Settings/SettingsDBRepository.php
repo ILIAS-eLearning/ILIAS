@@ -87,10 +87,8 @@ class SettingsDBRepository
     protected function toUnixTS(
         string $date
     ) : int {
-        if ($date > 0) {
-            if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $date, $matches)) {
-                return (int) mktime((int) $matches[4], (int) $matches[5], (int) $matches[6], (int) $matches[2], (int) $matches[3], (int) $matches[1]);
-            }
+        if ($date > 0 && preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $date, $matches)) {
+            return (int) mktime((int) $matches[4], (int) $matches[5], (int) $matches[6], (int) $matches[2], (int) $matches[3], (int) $matches[1]);
         }
         return 0;
     }
@@ -115,7 +113,7 @@ class SettingsDBRepository
             $settings[(int) $rec["survey_id"]] = $this->set_factory->accessSettings(
                 $this->toUnixTS($rec["startdate"]),
                 $this->toUnixTS($rec["enddate"]),
-                in_array($rec["anonymize"], ["1", "3"])
+                in_array($rec["anonymize"], ["1", "3"], true)
             );
         }
         return $settings;

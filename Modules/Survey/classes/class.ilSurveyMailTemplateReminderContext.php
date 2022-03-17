@@ -106,12 +106,12 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
          */
         $ilObjDataCache = $this->obj_data_cache;
 
-        if ('svy_title' == $placeholder_id) {
+        if ('svy_title' === $placeholder_id) {
             return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
-        } else {
-            if ('svy_link' == $placeholder_id) {
-                return ilLink::_getLink($context_parameters['ref_id'], 'svy');
-            }
+        }
+
+        if ('svy_link' === $placeholder_id) {
+            return ilLink::_getLink($context_parameters['ref_id'], 'svy');
         }
 
         return '';
