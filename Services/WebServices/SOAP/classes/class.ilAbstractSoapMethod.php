@@ -57,7 +57,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
      */
     protected function checkParameters(array $params) : void
     {
-        for ($i = 0; $i < count($this->getInputParams()); $i++) {
+        for ($i = 0, $iMax = count($this->getInputParams()); $i < $iMax; $i++) {
             if (!isset($params[$i])) {
                 $names = implode(', ', array_keys($this->getInputParams()));
                 throw new ilSoapPluginException("Request is missing at least one of the following parameters: $names");
@@ -70,11 +70,11 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
      * Note: These exceptions will be caught by the plugin slot and and the exception message
      * is returned to the SOAP caller.
      * @param string $a_message
-     * @param int    $a_code
+     * @param int $a_code
      * @return void
-     *@throws ilSoapPluginException
+     * @throws ilSoapPluginException
      */
-    protected function __raiseError(string $a_message, $a_code)
+    protected function __raiseError(string $a_message, $a_code) : void
     {
         throw new ilSoapPluginException($a_message, $a_code);
     }
