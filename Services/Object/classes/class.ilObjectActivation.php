@@ -587,19 +587,19 @@ class ilObjectActivation
 
         $res = array();
 
-        foreach ($ref_ids as $item_ref_id) {
+        foreach (array_map('intval', $ref_ids) as $item_ref_id) {
             if ($tree->isDeleted($item_ref_id)) {
                 continue;
             }
             // #7571: when node is removed from system, e.g. inactive trashcan, an empty array is returned
             $node = $tree->getNodeData($item_ref_id);
-            if ($node["ref_id"] != $item_ref_id) {
+            if ((int) $node["ref_id"] !== $item_ref_id) {
                 continue;
             }
             $res[$item_ref_id] = $node;
         }
 
-        if (sizeof($res)) {
+        if (count($res)) {
             self::preloadData(array_keys($res));
             foreach ($res as $idx => $item) {
                 self::addAdditionalSubItemInformation($item);
