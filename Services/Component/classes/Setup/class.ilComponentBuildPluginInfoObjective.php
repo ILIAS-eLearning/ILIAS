@@ -4,9 +4,9 @@ use ILIAS\Setup;
 
 class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactObjective
 {
-    const BASE_PATH = "./Customizing/global/plugins/";
-    const PLUGIN_PHP = "plugin.php";
-    const PLUGIN_CLASS_FILE = "classes/class.il%sPlugin.php";
+    protected const BASE_PATH = "./Customizing/global/plugins/";
+    protected const PLUGIN_PHP = "plugin.php";
+    protected const PLUGIN_CLASS_FILE = "classes/class.il%sPlugin.php";
 
     public function getArtifactPath() : string
     {
@@ -18,7 +18,7 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
     {
         $data = [];
         foreach (["Modules", "Services"] as $type) {
-            $components = $this->scanDir(static::BASE_PATH . "$type");
+            $components = $this->scanDir(static::BASE_PATH . $type);
             foreach ($components as $component) {
                 $slots = $this->scanDir(static::BASE_PATH . "$type/$component");
                 foreach ($slots as $slot) {
