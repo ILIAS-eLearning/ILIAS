@@ -91,7 +91,7 @@ class ilWebDAVMountInstructionsGUI
         $view_control = $f->viewControl()->mode($view_control_actions, "mount-instruction-buttons")->withActive($selected);
 
         // Add view control and legacy add the beginning of the array (so they will be rendered first)
-        $header_components = array(
+        $header_components = [ 
             $f->legacy("<div class='webdav-view-control'>"),
             $view_control,
             $f->legacy("</div>"),
