@@ -30,14 +30,11 @@
  * @author Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesWebServicesCurl
  */
-
 class ilCurlConnection
 {
     protected string $url = '';
 
-    /**
-     * php8 CurlHandle
-     */
+    /** @var CurlHandle|resource|null $ch */
     protected $ch = null;
     private string $header_plain = '';
     private array $header_arr = array();
@@ -74,7 +71,7 @@ class ilCurlConnection
     {
         // teminate existing handles
         $this->close();
-        if (strlen($this->url)) {
+        if ($this->url === '') {
             $this->ch = curl_init($this->url);
         } else {
             $this->ch = curl_init();
@@ -111,7 +108,7 @@ class ilCurlConnection
      * @param mixed $a_value
      * @return bool
      */
-    final public function setOpt(int $a_option, $a_value)
+    final public function setOpt(int $a_option, $a_value) : bool
     {
         if (!curl_setopt($this->ch, $a_option, $a_value)) {
             throw new ilCurlConnectionException('Invalid option given for: ' . $a_option, curl_errno($this->ch));
@@ -126,30 +123,30 @@ class ilCurlConnection
     final public function exec()
     {
         // Add header function
-        curl_setopt($this->ch, CURLOPT_HEADERFUNCTION, array($this,'parseHeader'));
+        curl_setopt($this->ch, CURLOPT_HEADERFUNCTION, array($this, 'parseHeader'));
         if (($res = curl_exec($this->ch)) === false) {
-            if (strlen($err = curl_error($this->ch))) {
+            if (($err = curl_error($this->ch)) !== '') {
                 throw new ilCurlConnectionException($err, curl_errno($this->ch));
-            } else {
-                throw new ilCurlConnectionException('Error calling curl_exec().');
             }
+
+            throw new ilCurlConnectionException('Error calling curl_exec().');
         }
         return $res;
     }
-    
+
     public function parseResponse(string $a_response) : void
     {
         $header_size = $this->getInfo(CURLINFO_HEADER_SIZE);
-        
+
         $this->header_plain = substr($a_response, 0, $header_size);
         $this->response_body = substr($a_response, $header_size);
     }
-    
+
     public function getResponseBody() : string
     {
         return $this->response_body;
     }
-    
+
     /**
      * Get information about a specific transfer
      *
@@ -177,7 +174,7 @@ class ilCurlConnection
     {
         $len = strlen($header);
         $header = explode(':', $header, 2);
-        if (count($header) == 2) { // ignore invalid headers
+        if (count($header) === 2) { // ignore invalid headers
             $this->header_arr[strtolower(trim($header[0]))] = trim($header[1]);
         }
         return $len;
@@ -185,12 +182,12 @@ class ilCurlConnection
 
     final public function close() : void
     {
-        if ($this->ch != null) {
+        if ($this->ch !== null) {
             curl_close($this->ch);
             $this->ch = null;
         }
     }
-    
+
     public function __destruct()
     {
         $this->close();

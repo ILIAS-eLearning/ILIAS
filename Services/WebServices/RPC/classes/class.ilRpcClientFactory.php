@@ -28,11 +28,11 @@
  */
 class ilRpcClientFactory
 {
-    
+
     /**
      * Creates an ilRpcClient instance to our ilServer
      *
-     * @param string $a_package	 Package name
+     * @param string $a_package Package name
      * @param int $a_timeout The maximum number of seconds to allow ilRpcClient to connect.
      * @return ilRpcClient
      */

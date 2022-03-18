@@ -28,7 +28,7 @@
 class ilRpcIniFileWriter
 {
     protected string $ini = '';
-    
+
     protected string $host = '';
     protected int $port = 0;
     protected string $indexPath = '';
@@ -36,10 +36,9 @@ class ilRpcIniFileWriter
     protected string $logLevel = '';
     protected int $numThreads = 0;
     protected string $max_file_size = '';
-    
+
     protected ilSetting $settings;
     protected ilIniFile $inifile;
-
 
     public function __construct()
     {
@@ -60,19 +59,20 @@ class ilRpcIniFileWriter
         $this->ini .= "NumThreads = " . $this->getNumThreads() . "\n";
         $this->ini .= "RamBufferSize = 256\n";
         $this->ini .= "IndexMaxFileSizeMB = " . $this->getMaxFileSize() . "\n";
-        
+
         $this->ini .= "\n";
-        
+
         $this->ini .= "[Client1]\n";
         $this->ini .= "ClientId = " . CLIENT_ID . "\n";
         $this->ini .= "NicId = " . $this->settings->get('inst_id', '0') . "\n";
         $this->ini .= "IliasIniPath = " . $this->inifile->readVariable(
             'server',
-            'absolute_path') . DIRECTORY_SEPARATOR . "ilias.ini.php\n";
-        
+            'absolute_path'
+        ) . DIRECTORY_SEPARATOR . "ilias.ini.php\n";
+
         return true;
     }
-    
+
     public function getIniString() : string
     {
         return $this->ini;
@@ -82,50 +82,62 @@ class ilRpcIniFileWriter
     {
         return $this->host;
     }
+
     public function setHost(string $host) : void
     {
         $this->host = $host;
     }
+
     public function getIndexPath() : string
     {
         return $this->indexPath;
     }
+
     public function setIndexPath(string $indexPath) : void
     {
         $this->indexPath = $indexPath;
     }
+
     public function getLogLevel() : string
     {
         return $this->logLevel;
     }
+
     public function setLogLevel(string $logLevel) : void
     {
         $this->logLevel = $logLevel;
     }
+
     public function getLogPath() : string
     {
         return $this->logPath;
     }
+
     public function setLogPath(string $logPath) : void
     {
         $this->logPath = $logPath;
     }
+
     public function getNumThreads() : int
     {
         return $this->numThreads;
     }
+
     public function setNumThreads(int $numThreads) : void
     {
         $this->numThreads = $numThreads;
     }
+
     public function getPort() : int
     {
         return $this->port;
     }
+
     public function setPort(int $port) : void
     {
         $this->port = $port;
     }
+
     public function setMaxFileSize(string $a_fs) : void
     {
         $this->max_file_size = $a_fs;
