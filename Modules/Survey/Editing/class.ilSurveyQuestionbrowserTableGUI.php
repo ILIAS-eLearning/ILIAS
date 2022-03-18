@@ -189,7 +189,8 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass($guiclass, "q_id", $a_set["question_id"]);
         $this->tpl->setVariable("LINK_PREVIEW", "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&amp;ref_id=" . $a_set["ref_id"] . "&amp;cmd=preview&amp;preview=" . $a_set["question_id"]);
 
-        $this->tpl->setVariable("QUESTION_DESCRIPTION",
+        $this->tpl->setVariable(
+            "QUESTION_DESCRIPTION",
             ilLegacyFormElementsUtil::prepareFormOutput(($a_set["description"] ?? '') !== '' ? $a_set["description"] : "")
         );
         $this->tpl->setVariable("QUESTION_TYPE", $a_set["ttype"]);
