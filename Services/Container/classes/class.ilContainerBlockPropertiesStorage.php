@@ -6,7 +6,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @ingroup ServicesContainer
- * @ilCtrl_Calls ilContainerBlockPropertiesStorage:
+ * @ilCtrl_Calls ilContainerBlockPropertiesStorage: ilContainerBlockPropertiesStorage
  */
 class ilContainerBlockPropertiesStorage
 {
