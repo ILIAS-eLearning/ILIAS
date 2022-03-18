@@ -12215,8 +12215,8 @@ pdfgen#:#footer_line#:#Trennlinie
 pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
 pdfgen#:#footer_text#:#Text
 pdfgen#:#footer_text_center#:#Text Mitte
-pdfgen#:#footer_text_left#:#Text Links
-pdfgen#:#footer_text_right#:#Text Rechts
+pdfgen#:#footer_text_left#:#Text links
+pdfgen#:#footer_text_right#:#Text rechts
 pdfgen#:#footer_type#:#Fußzeile
 pdfgen#:#greyscale#:#Graustufen
 pdfgen#:#greyscale_info#:#PDF wird in Graustufen erzeugt
@@ -12225,8 +12225,8 @@ pdfgen#:#header_height#:#Höhe Kopfzeile
 pdfgen#:#header_line#:#Trennlinie
 pdfgen#:#header_show_pages#:#Zeige Seitenzahlen
 pdfgen#:#header_text_center#:#Text Mitte
-pdfgen#:#header_text_left#:#Text Links
-pdfgen#:#header_text_right#:#Text Rechts
+pdfgen#:#header_text_left#:#Text links
+pdfgen#:#header_text_right#:#Text rechts
 pdfgen#:#header_type#:#Kopfzeile
 pdfgen#:#html#:#Html
 pdfgen#:#image_scale#:#Bildskalierung
@@ -12242,8 +12242,8 @@ pdfgen#:#margin_right#:#Margin rechts
 pdfgen#:#margin_top#:#Margin oben
 pdfgen#:#none#:#Keine
 pdfgen#:#orientation#:#Orientierung
-pdfgen#:#output_options#:#Ausgabe Optionen
-pdfgen#:#overwrite_font#:#Schritart überschreiben
+pdfgen#:#output_options#:#Ausgabeoptionen
+pdfgen#:#overwrite_font#:#Schriftart überschreiben
 pdfgen#:#overwrite_font_info#:#Nutzen sie hier Eingaben wie: 'serif', 'sans-serif', 'monospace' usw.
 pdfgen#:#page_settings#:#Seiteneinstellungen
 pdfgen#:#page_size#:#Seitengröße
