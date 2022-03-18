@@ -399,7 +399,6 @@ class ilContainerRenderer
         }
             
         asort($this->block_pos);
-        
         return array_keys($this->block_pos);
     }
     
