@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Slim\Http\Request;
@@ -10,12 +11,11 @@ use Slim\Http\Response;
  */
 class ilRestFileStorage extends ilFileSystemAbstractionStorage
 {
-    const AVAILABILITY_IN_DAYS = 1;
+    private const AVAILABILITY_IN_DAYS = 1;
 
     private $logger;
 
     protected ilSetting $settings;
-
 
     /**
      * Constructor
@@ -59,7 +59,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
     /**
      * init and create directory
      */
-    protected function init(): bool
+    protected function init() : bool
     {
         parent::init();
         $this->create();
@@ -72,7 +72,6 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
         if ($failure instanceof \Slim\Http\Response) {
             return $failure;
         }
-
 
         $file_id = $request->getParam('name');
 
@@ -116,7 +115,6 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
             ->withStatus(\Slim\Http\StatusCode::HTTP_NOT_FOUND)
             ->write('File not found');
     }
-
 
 
     /**
@@ -176,7 +174,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
 
     public function writeToFile($a_data, $a_absolute_path) : bool
     {
-        if (!$fp = fopen($a_absolute_path, 'w+')) {
+        if (!$fp = fopen($a_absolute_path, 'wb+')) {
             return false;
         }
         if (fwrite($fp, $a_data) === false) {
@@ -186,5 +184,4 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
         fclose($fp);
         return true;
     }
-
 }
