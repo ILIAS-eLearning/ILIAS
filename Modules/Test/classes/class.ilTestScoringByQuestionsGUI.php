@@ -132,9 +132,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                             'qst_id' => $questionData['qid'],
                             'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
                             'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
-                            'participant' => $participant,
-                            'feedback' => $feedback,
-                        ];
+			    'name' => $participant->getName()
+                        ] + $feedback;
                     }
                 }
             }
