@@ -230,8 +230,8 @@ abstract class ilDidacticTemplateFilterPattern
             'WHERE pattern_id = ' . $this->db->quote($this->getPatternId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setPatternType($row->pattern_type);
-            $this->setPatternSubType($row->pattern_sub_type);
+            $this->setPatternType((int) $row->pattern_type);
+            $this->setPatternSubType((int) $row->pattern_sub_type);
             $this->setPattern($row->pattern);
         }
     }

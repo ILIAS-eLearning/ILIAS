@@ -164,7 +164,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
             'WHERE action_id = ' . $this->db->quote($this->getActionId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setRoleTemplateId($row->role_template_id);
+            $this->setRoleTemplateId((int) $row->role_template_id);
         }
     }
 }

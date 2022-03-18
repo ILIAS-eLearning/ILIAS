@@ -326,9 +326,9 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             'WHERE action_id = ' . $this->db->quote($this->getActionId());
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setFilterType($row->filter_type);
-            $this->setRoleTemplateType($row->template_type);
-            $this->setRoleTemplateId($row->template_id);
+            $this->setFilterType((int) $row->filter_type);
+            $this->setRoleTemplateType((int) $row->template_type);
+            $this->setRoleTemplateId((int) $row->template_id);
         }
         // Read filter
         foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(
@@ -441,7 +441,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         $res = $this->db->query($query);
         $rolt_id = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $rolt_id = $row->obj_id;
+            $rolt_id = (int) $row->obj_id;
         }
 
         // No template found

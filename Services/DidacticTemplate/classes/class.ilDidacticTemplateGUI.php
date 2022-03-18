@@ -30,7 +30,14 @@ class ilDidacticTemplateGUI
         $this->tpl = $DIC->ui()->mainTemplate();
 
         $this->parent_object = $a_parent_obj;
-        $this->requested_template_id = (int) ($_REQUEST['tplid'] ?? 0);
+        $this->requested_template_id = 0;
+        if ($this->http->wrapper()->query()->has('tplid')) {
+            $this->requested_template_id = $this->http->wrapper()->query()->retrieve(
+                'tplid',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
         if ($requested_template_id > 0) {
             $this->requested_template_id = $requested_template_id;
         }

@@ -69,7 +69,7 @@ class ilDidacticTemplateActionFactory
 
         $actions = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $actions[] = self::factoryByTypeAndId($row->id, $row->type_id);
+            $actions[] = self::factoryByTypeAndId((int) $row->id, (int) $row->type_id);
         }
         return $actions;
     }

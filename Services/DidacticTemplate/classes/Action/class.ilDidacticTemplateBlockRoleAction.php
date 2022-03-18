@@ -250,7 +250,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
             'WHERE action_id = ' . $this->db->quote($this->getActionId());
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setFilterType($row->filter_type);
+            $this->setFilterType((int) $row->filter_type);
         }
 
         // Read filter

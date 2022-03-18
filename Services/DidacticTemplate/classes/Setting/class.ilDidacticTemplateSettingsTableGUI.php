@@ -163,7 +163,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('scope_txt');
             $this->tpl->setVariable(
                 'LOCAL_OR_GLOBAL',
-                $a_set['local'] ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global')
+                isset($a_set['local']) ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global')
             );
             $this->tpl->parseCurrentBlock();
         }
