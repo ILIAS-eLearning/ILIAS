@@ -55,7 +55,7 @@ class ilSurveyPhrasesGUI
         $this->ctrl = $ilCtrl;
         $this->object = new ilSurveyPhrases();
         $this->tree = $tree;
-        $this->ref_id = $a_object->ref_id;
+        $this->ref_id = $a_object->getRefId();
         $this->ctrl->saveParameter($this, "p_id");
         $this->request = $DIC->surveyQuestionPool()
                                   ->internal()
@@ -82,7 +82,7 @@ class ilSurveyPhrasesGUI
      */
     public function deletePhrase() : void
     {
-        $this->tpl->setOnScreenMessage('info');
+        $this->tpl->setOnScreenMessage('info');// TODO PHP8-REVIEW: Missing arguments here
 
         $checked_phrases = $this->request->getPhraseIds();
         if (count($checked_phrases) > 0) {
@@ -117,7 +117,7 @@ class ilSurveyPhrasesGUI
                 $categories = ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
                 $data[] = array('phrase_id' => $phrase_id,
                                 'phrase' => $phrase_array["title"],
-                                'answers' => join(", ", $categories)
+                                'answers' => implode(", ", $categories)
                 );
             }
             $table_gui->setData($data);
@@ -199,7 +199,7 @@ class ilSurveyPhrasesGUI
             $categories = ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
             $data[] = array('phrase_id' => $phrase_id,
                             'phrase' => $phrase_array["title"],
-                            'answers' => join(", ", $categories)
+                            'answers' => implode(", ", $categories)
             );
         }
         $table_gui->setData($data);
@@ -214,7 +214,7 @@ class ilSurveyPhrasesGUI
     public function saveEditPhrase() : void
     {
         $result = $this->writePostData();
-        if ($result == 0) {
+        if ($result === 0) {
             if ($this->request->getPhraseId()) {
                 $this->object->updatePhrase($this->request->getPhraseId());
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('phrase_saved'), true);
@@ -245,7 +245,7 @@ class ilSurveyPhrasesGUI
                     $categories->addCategory($value, $answers['other'][$key], 0, null, $answers['scale'][$key]);
                 }
             }
-            if ($this->request->getNeutral() != "") {
+            if ($this->request->getNeutral() !== "") {
                 $categories->addCategory(
                     $this->request->getNeutral(),
                     0,
@@ -256,9 +256,9 @@ class ilSurveyPhrasesGUI
             }
             $this->object->categories = $categories;
             return 0;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
     
     public function newPhrase() : void
@@ -269,7 +269,7 @@ class ilSurveyPhrasesGUI
     public function editPhrase() : void
     {
         $ids = $this->request->getPhraseIds();
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_phrase_selected'), true);
             $this->ctrl->redirect($this, 'phrases');
         }
@@ -287,7 +287,7 @@ class ilSurveyPhrasesGUI
     public function phraseEditor(
         bool $checkonly = false
     ) : bool {
-        $save = strcmp($this->ctrl->getCmd(), "saveEditPhrase") == 0;
+        $save = strcmp($this->ctrl->getCmd(), "saveEditPhrase") === 0;
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'phraseEditor'));

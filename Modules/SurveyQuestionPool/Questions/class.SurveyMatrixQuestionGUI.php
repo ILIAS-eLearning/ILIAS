@@ -146,7 +146,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         $bipolar1->setValue($this->object->getBipolarAdjective(0));
         $bipolar2->setValue($this->object->getBipolarAdjective(1));
         
-        if ($this->object->getRowCount() == 0) {
+        if ($this->object->getRowCount() === 0) {
             $this->object->getRows()->addCategory("");
         }
         $rows->setValues($this->object->getRows());
@@ -224,7 +224,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                     }
                 }
                 
-                if (!$a_only_user_anwers || $checked == "checked") {
+                if (!$a_only_user_anwers || $checked === "checked") {
                     $cols[$value] = array(
                         "title" => trim($cat->title)
                         ,"neutral" => (bool) $cat->neutral
@@ -233,7 +233,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                 }
             }
             
-            if ($a_only_user_anwers || sizeof($cols) || $text) {
+            if ($a_only_user_anwers || count($cols) || $text) {
                 $row_idx = $i;
                 $options[$row_idx] = array(
                     "title" => trim($rowobj->title)
@@ -268,7 +268,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         }
         
         $tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", true, true, "Modules/SurveyQuestionPool");
-        if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
+        if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
             $tplheaders->setCurrentBlock("bipolar_start");
             $style = array();
             $style[] = sprintf("width: %.2F%s!important", $layout["percent_bipolar_adjective1"], "%");
@@ -291,7 +291,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                 }
             } else {
                 $style = array();
-                if ($this->object->getColumnSeparators() == 1) {
+                if ($this->object->getColumnSeparators()) {
                     if (($i < $this->object->getColumnCount() - 1)) {
                         $style[] = "border-right: 1px solid $bordercolor!important";
                     }
@@ -311,7 +311,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             $tplheaders->parseCurrentBlock();
         }
 
-        if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
+        if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
             $tplheaders->setCurrentBlock("bipolar_end");
             $style = array();
             $style[] = sprintf("width: %.2F%s!important", $layout["percent_bipolar_adjective2"], "%");
@@ -338,8 +338,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             $tplrow = new ilTemplate("tpl.il_svy_qpl_matrix_printview_row.html", true, true, "Modules/SurveyQuestionPool");
             for ($j = 0; $j < $this->object->getColumnCount(); $j++) {
                 $cat = $this->object->getColumn($j);
-                if (($i == 0) && ($j == 0)) {
-                    if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
+                if ($i === 0 && $j === 0) {
+                    if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
                         $tplrow->setCurrentBlock("bipolar_start");
                         $tplrow->setVariable(
                             "TEXT_BIPOLAR_START",
@@ -349,8 +349,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                         $tplrow->parseCurrentBlock();
                     }
                 }
-                if (($i == 0) && ($j == $this->object->getColumnCount() - 1)) {
-                    if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
+                if ($i === 0 && $j === $this->object->getColumnCount() - 1) {
+                    if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
                         $tplrow->setCurrentBlock("bipolar_end");
                         $tplrow->setVariable(
                             "TEXT_BIPOLAR_END",
@@ -398,12 +398,12 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                     $tplrow->setCurrentBlock("answer");
                     $style = array();
                 }
-                if ($this->object->getColumnSeparators() == 1) {
+                if ($this->object->getColumnSeparators()) {
                     if ($j < $this->object->getColumnCount() - 1) {
                         $style[] = "border-right: 1px solid $bordercolor!important";
                     }
                 }
-                if ($this->object->getRowSeparators() == 1) {
+                if ($this->object->getRowSeparators()) {
                     if ($i < $this->object->getRowCount() - 1) {
                         $style[] = "border-bottom: 1px solid $bordercolor!important";
                     }
@@ -425,7 +425,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             #force to have always the title
             #22526
             $row_title = ilLegacyFormElementsUtil::prepareFormOutput($rowobj->title);
-            if ($question_title == 3) {
+            if ($question_title === 3) {
                 if (trim($rowobj->label)) {
                     $row_title .= ' <span class="questionLabel">(' . ilLegacyFormElementsUtil::prepareFormOutput(
                         $rowobj->label
@@ -435,7 +435,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
             $tplrow->setVariable("TEXT_ROW", $row_title);
             $tplrow->setVariable("ROWCLASS", $rowclass[$i % 2]);
-            if ($this->object->getRowSeparators() == 1) {
+            if ($this->object->getRowSeparators()) {
                 if ($i < $this->object->getRowCount() - 1) {
                     $tplrow->setVariable("STYLE", " style=\"border-bottom: 1px solid $bordercolor!important\"");
                 }
@@ -515,7 +515,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
     {
         $percent_values = $this->object->getLayout();
         $template = new ilTemplate("tpl.il_svy_out_matrix_layout.html", true, true, "Modules/SurveyQuestionPool");
-        if (strlen($this->object->getBipolarAdjective(0)) && strlen($this->object->getBipolarAdjective(1))) {
+        if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
             $template->setCurrentBlock("bipolar_start");
             $template->setVariable("VALUE_PERCENT_BIPOLAR_ADJECTIVE1", " value=\"" . $percent_values["percent_bipolar_adjective1"] . "\"");
             $template->setVariable("STYLE", " style=\"width:" . $percent_values["percent_bipolar_adjective1"] . "%\"");
@@ -526,7 +526,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             $template->parseCurrentBlock();
         }
         $counter = $this->object->getColumnCount();
-        if (strlen($this->object->hasNeutralColumn())) {
+        if ($this->object->hasNeutralColumn()) {
             $template->setCurrentBlock("neutral_start");
             $template->setVariable("VALUE_PERCENT_NEUTRAL", " value=\"" . $percent_values["percent_neutral"] . "\"");
             $template->setVariable("STYLE_NEUTRAL", " style=\"width:" . $percent_values["percent_neutral"] . "%\"");
@@ -573,7 +573,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         }
         
         $tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", true, true, "Modules/SurveyQuestionPool");
-        if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
+        if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
             $tplheaders->setCurrentBlock("bipolar_start");
             $style = array();
             $style[] = sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective1"], "%");
@@ -595,7 +595,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                     $style[] = "border-left: $neutralstyle!important;";
                 }
             } else {
-                if ($this->object->getColumnSeparators() == 1) {
+                if ($this->object->getColumnSeparators()) {
                     if (($i < $this->object->getColumnCount() - 1)) {
                         $style[] = "border-right: 1px solid $bordercolor!important";
                     }
@@ -614,7 +614,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             }
             $tplheaders->parseCurrentBlock();
         }
-        if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
+        if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
             $tplheaders->setCurrentBlock("bipolar_end");
             $style = array();
             $style[] = sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective2"], "%");
@@ -640,8 +640,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             $tplrow = new ilTemplate("tpl.il_svy_out_matrix_row.html", true, true, "Modules/SurveyQuestionPool");
             for ($j = 0; $j < $this->object->getColumnCount(); $j++) {
                 $cat = $this->object->getColumn($j);
-                if (($i == 0) && ($j == 0)) {
-                    if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
+                if ($i === 0 && $j === 0) {
+                    if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
                         $tplrow->setCurrentBlock("bipolar_start");
                         $tplrow->setVariable(
                             "TEXT_BIPOLAR_START",
@@ -651,8 +651,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                         $tplrow->parseCurrentBlock();
                     }
                 }
-                if (($i == 0) && ($j == $this->object->getColumnCount() - 1)) {
-                    if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
+                if ($i === 0 && $j === $this->object->getColumnCount() - 1) {
+                    if ($this->object->getBipolarAdjective(0) !== '' && $this->object->getBipolarAdjective(1) !== '') {
                         $tplrow->setCurrentBlock("bipolar_end");
                         $tplrow->setVariable(
                             "TEXT_BIPOLAR_END",
@@ -710,12 +710,12 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                     $tplrow->setCurrentBlock("answer");
                     $style = array();
                 }
-                if ($this->object->getColumnSeparators() == 1) {
+                if ($this->object->getColumnSeparators()) {
                     if ($j < $this->object->getColumnCount() - 1) {
                         $style[] = "border-right: 1px solid $bordercolor!important";
                     }
                 }
-                if ($this->object->getRowSeparators() == 1) {
+                if ($this->object->getRowSeparators()) {
                     if ($i < $this->object->getRowCount() - 1) {
                         $style[] = "border-bottom: 1px solid $bordercolor!important";
                     }
@@ -744,7 +744,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             }
             $tplrow->setVariable("TEXT_ROW", ilLegacyFormElementsUtil::prepareFormOutput($rowobj->title));
             $tplrow->setVariable("ROWCLASS", $rowclass[$i % 2]);
-            if ($this->object->getRowSeparators() == 1) {
+            if ($this->object->getRowSeparators()) {
                 if ($i < $this->object->getRowCount() - 1) {
                     $tplrow->setVariable("STYLE", " style=\"border-bottom: 1px solid $bordercolor!important\"");
                 }
@@ -761,7 +761,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             );
         }
         $template->setCurrentBlock("question_data_matrix");
-        if (strcmp($error_message, "") != 0) {
+        if (strcmp($error_message, "") !== 0) {
             $template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
         }
         if ($show_questiontext) {

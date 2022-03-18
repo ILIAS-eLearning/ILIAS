@@ -54,19 +54,19 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("obligatory"), "");
         
         foreach ($this->getSelectedColumns() as $c) {
-            if (strcmp($c, 'description') == 0) {
+            if (strcmp($c, 'description') === 0) {
                 $this->addColumn($this->lng->txt("description"), 'description', '');
             }
-            if (strcmp($c, 'type') == 0) {
+            if (strcmp($c, 'type') === 0) {
                 $this->addColumn($this->lng->txt("question_type"), 'type', '');
             }
-            if (strcmp($c, 'author') == 0) {
+            if (strcmp($c, 'author') === 0) {
                 $this->addColumn($this->lng->txt("author"), 'author', '');
             }
-            if (strcmp($c, 'created') == 0) {
+            if (strcmp($c, 'created') === 0) {
                 $this->addColumn($this->lng->txt("create_date"), 'created', '');
             }
-            if (strcmp($c, 'updated') == 0) {
+            if (strcmp($c, 'updated') === 0) {
                 $this->addColumn($this->lng->txt("last_update"), 'tstamp', '');
             }
         }
@@ -194,7 +194,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         }
         $this->tpl->parseCurrentBlock();
 
-        if ($a_set["complete"] == 0) {
+        if ((int) $a_set["complete"] === 0) {
             $this->tpl->setCurrentBlock("qpl_warning");
             $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
             $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
@@ -203,27 +203,27 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         }
         
         foreach ($this->getSelectedColumns() as $c) {
-            if (strcmp($c, 'description') == 0) {
+            if (strcmp($c, 'description') === 0) {
                 $this->tpl->setCurrentBlock('description');
-                $this->tpl->setVariable("QUESTION_COMMENT", (strlen($a_set["description"])) ? $a_set["description"] : "&nbsp;");
+                $this->tpl->setVariable("QUESTION_COMMENT", ($a_set["description"] ?? '') !== '' ? $a_set["description"] : "&nbsp;");
                 $this->tpl->parseCurrentBlock();
             }
-            if (strcmp($c, 'type') == 0) {
+            if (strcmp($c, 'type') === 0) {
                 $this->tpl->setCurrentBlock('type');
                 $this->tpl->setVariable("QUESTION_TYPE", SurveyQuestion::_getQuestionTypeName($a_set["type_tag"]));
                 $this->tpl->parseCurrentBlock();
             }
-            if (strcmp($c, 'author') == 0) {
+            if (strcmp($c, 'author') === 0) {
                 $this->tpl->setCurrentBlock('author');
                 $this->tpl->setVariable("QUESTION_AUTHOR", $a_set["author"]);
                 $this->tpl->parseCurrentBlock();
             }
-            if (strcmp($c, 'created') == 0) {
+            if (strcmp($c, 'created') === 0) {
                 $this->tpl->setCurrentBlock('created');
                 $this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($a_set['created'], IL_CAL_UNIX)));
                 $this->tpl->parseCurrentBlock();
             }
-            if (strcmp($c, 'updated') == 0) {
+            if (strcmp($c, 'updated') === 0) {
                 $this->tpl->setCurrentBlock('updated');
                 $this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX)));
                 $this->tpl->parseCurrentBlock();

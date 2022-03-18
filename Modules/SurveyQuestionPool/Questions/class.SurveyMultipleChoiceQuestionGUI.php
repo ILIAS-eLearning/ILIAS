@@ -102,7 +102,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                     $cnt_answers++;
                 }
             }
-            if ($this->request->getNeutral() != "") {
+            if ($this->request->getNeutral() !== "") {
                 $cnt_answers++;
             }
             /* this would be the DB-values
@@ -146,7 +146,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                 $this->object->getCategories()->addCategory($value, $answers['other'][$key], 0, null, $answers['scale'][$key]);
             }
         }
-        if ($this->request->getNeutral() != "") {
+        if ($this->request->getNeutral() !== "") {
             $this->object->getCategories()->addCategory($this->request->getNeutral(), 0, 1, null, $this->request->getNeutralScale());
         }
     }
@@ -181,7 +181,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
             // "other" options have to be last or horizontal will be screwed
             $idx = $cat->other . "_" . $value;
             
-            if (!$a_only_user_anwers || $checked == "checked") {
+            if (!$a_only_user_anwers || $checked === "checked") {
                 $options[$idx] = array(
                 "value" => $value
                 ,"title" => trim($cat->title)
@@ -430,7 +430,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
             }
             $template->parseCurrentBlock();
         }
-        if (strcmp($error_message, "") != 0) {
+        if (strcmp($error_message, "") !== 0) {
             $template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
         }
         if ($show_questiontext) {
