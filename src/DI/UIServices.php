@@ -40,10 +40,8 @@ class UIServices
 
     /**
      * Get the ILIAS main template.
-     *
-     * @return	\ilGlobalTemplateInterface
      */
-    public function mainTemplate()
+    public function mainTemplate() : \ilGlobalTemplateInterface
     {
         return $this->container["tpl"];
     }
