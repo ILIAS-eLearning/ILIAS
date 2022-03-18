@@ -249,7 +249,7 @@ class ilCtrlStructureReader
             $file = substr(realpath($script), strlen(realpath($start_dir)) + 1);
             // store class to file assignment
             $ilDB->manipulate(sprintf(
-                "INSERT INTO ctrl_classfile (class, filename, comp_prefix, plugin_path) " .
+                "INSERT IGNORE INTO ctrl_classfile (class, filename, comp_prefix, plugin_path) " .
                 " VALUES (%s,%s,%s,%s)",
                 $ilDB->quote($class, "text"),
                 $ilDB->quote($file, "text"),
@@ -268,7 +268,7 @@ class ilCtrlStructureReader
                 }
                 // store call entry
                 $ilDB->manipulate(sprintf(
-                    "INSERT INTO ctrl_calls (parent, child, comp_prefix) " .
+                    "INSERT IGNORE INTO ctrl_calls (parent, child, comp_prefix) " .
                     "VALUES (%s,%s,%s)",
                     $ilDB->quote($parent, "text"),
                     $ilDB->quote($child, "text"),
