@@ -94,7 +94,12 @@ class ilSurveyParticipantsGUI
             ->editing()
             ->request();
     }
-    
+
+    public function getObject() : ilObjSurvey
+    {
+        return $this->object;
+    }
+
     protected function handleWriteAccess() : void
     {
         if (!$this->has_write) {

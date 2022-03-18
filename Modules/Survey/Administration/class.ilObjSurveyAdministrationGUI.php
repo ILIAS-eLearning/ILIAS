@@ -56,7 +56,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($cmd == "" || $cmd === "view") {
+                if ($cmd === null || $cmd === "" || $cmd === "view") {
                     $cmd = "settings";
                 }
                 $cmd .= "Object";
@@ -187,7 +187,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
     {
         $lng = $this->lng;
 
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "settings",
                 $lng->txt("settings"),

@@ -284,7 +284,7 @@ class ilSurveySkill
                         $scale_values = array_keys($answer); // scale values of the answer
                         $this->log->debug("User answer (scale values): " . print_r($scale_values, true));
                         $sum += array_sum($scale_values);
-                        $cnt += sizeof($scale_values); // nr of answers (always one in the case of single choice)
+                        $cnt += count($scale_values); // nr of answers (always one in the case of single choice)
                     }
                     if ($cnt > 0) {
                         $qmean = $sum / $cnt;

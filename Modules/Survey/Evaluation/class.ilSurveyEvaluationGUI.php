@@ -446,8 +446,8 @@ class ilSurveyEvaluationGUI
         // :TODO: present subtypes (hrz/vrt, mc/sc mtx, metric scale)?
 
         // answered and skipped users
-        $kv[$this->lng->txt("users_answered")] = (int) $question_res->getUsersAnswered();
-        $kv[$this->lng->txt("users_skipped")] = (int) $question_res->getUsersSkipped();		// #0021671
+        $kv[$this->lng->txt("users_answered")] = $question_res->getUsersAnswered();
+        $kv[$this->lng->txt("users_skipped")] = $question_res->getUsersSkipped();		// #0021671
                 
         $excel_row = 1;
         

@@ -245,7 +245,7 @@ class ilSurveyPageEditGUI
                 // block handling
                 $current = $this->object->getSurveyPages();
                 $current = $current[$this->current_page - 1];
-                if (count($current) == 1) {
+                if (count($current) === 1) {
                     // as questions are moved to first block question
                     // always use existing as first
                     // the new question is moved later on (see below)
@@ -305,7 +305,7 @@ class ilSurveyPageEditGUI
             $pos = $this->svy_request->getTargetQuestionPosition();
         
             // a[fter]/b[efore] on same page
-            if (substr($pos, -1) != "c") {
+            if (substr($pos, -1) !== "c") {
                 // block handling
                 $current = $this->object->getSurveyPages();
                 $current = $current[$this->current_page - 1];
@@ -412,7 +412,7 @@ class ilSurveyPageEditGUI
         if ($a_use_pool) {
             $ilCtrl->setParameter($this->editor_gui, "pgov_pos", $id);
             $ilCtrl->setParameter($this->editor_gui, "sel_question_types", $type_trans);
-            if ($this->svy_request->getPoolUsage() == 0) {
+            if ($this->svy_request->getPoolUsage() === 0) {
                 $ilTabs->clearSubTabs(); // #17193
                 $this->editor_gui->createQuestionObject(null, $type_trans, $id);
             } else {
@@ -1661,7 +1661,7 @@ class ilSurveyPageEditGUI
         
         // add heading to content
         if ($a_content !== null &&
-            $a_type == "question" &&
+            $a_type === "question" &&
             $a_heading) {
             $a_content = "<div class=\"questionheading\">" . $a_heading . "</div>" .
                 $a_content;

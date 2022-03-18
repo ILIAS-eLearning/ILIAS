@@ -2343,7 +2343,7 @@ class ilObjSurvey extends ilObject
                 $rater_id = $run->getUserId();
             } else {
                 foreach ($raters as $id => $rater) {
-                    if ($rater["code"] == $run->getCode()) {
+                    if ($rater["code"] === $run->getCode()) {
                         $rater_id = $id;
                     }
                 }
@@ -2716,14 +2716,14 @@ class ilObjSurvey extends ilObject
                         !$this->hasAnonymizedResults() &&
                         !$this->get360Mode()) ||  // 360° uses ANONYMIZE_CODE_ALL which is wrong - see ilObjSurveyGUI::afterSave()
                         $force_non_anonymous)) {
-                if (strlen(ilObjUser::_lookupLogin($row["user_fi"])) == 0) {
+                if (ilObjUser::_lookupLogin($row["user_fi"]) === '') {
                     $userdata["fullname"] = $userdata["sortname"] = $this->lng->txt("deleted_user");
                 } else {
                     $user = new ilObjUser($row["user_fi"]);
                     $userdata['usr_id'] = $row['user_fi'];
                     $userdata["fullname"] = $user->getFullname();
                     $gender = $user->getGender();
-                    if (strlen($gender) == 1) {
+                    if (strlen($gender) === 1) {
                         $gender = $this->lng->txt("gender_$gender");
                     }
                     $userdata["gender"] = $gender;

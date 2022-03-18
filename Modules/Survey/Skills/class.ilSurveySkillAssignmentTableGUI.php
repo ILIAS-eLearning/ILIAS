@@ -65,7 +65,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
                 // it is only possible to assign  to a subset
                 // of question types: single choice(2)
                 $supported = false;
-                if ($data["questiontype_fi"] == 2) {
+                if ((int) $data["questiontype_fi"] === 2) {
                     $supported = true;
                 }
 

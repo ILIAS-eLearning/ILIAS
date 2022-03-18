@@ -52,7 +52,7 @@ class SettingsDBRepository
         );
         $has_ended = [];
         while ($rec = $db->fetchAssoc($set)) {
-            $has_ended[(int) $rec["survey_id"]] = !($rec["enddate"] == 0 || $this->toUnixTS($rec["enddate"]) > time());
+            $has_ended[(int) $rec["survey_id"]] = !((int) $rec["enddate"] === 0 || $this->toUnixTS($rec["enddate"]) > time());
         }
         return $has_ended;
     }

@@ -249,7 +249,7 @@ class InfoScreenGUI
                     $appr_ids = $survey->getAppraiseesToRate($this->user->getId());
                 }
 
-                if (sizeof($appr_ids)) {
+                if (count($appr_ids)) {
                     // map existing runs to appraisees
                     $active_appraisees = array();
                     foreach ($this->run_manager

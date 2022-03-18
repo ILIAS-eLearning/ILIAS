@@ -187,7 +187,7 @@ class ilSurveyEvaluationResults
     public function getScaleText(
         int $a_value
     ) : string {
-        if (!sizeof($this->variables)) {
+        if (!count($this->variables)) {
             return $a_value;
         } else {
             foreach ($this->variables as $var) {
@@ -202,7 +202,7 @@ class ilSurveyEvaluationResults
     protected function getCatTitle(
         int $a_value
     ) : string {
-        if (!sizeof($this->variables)) {
+        if (!count($this->variables)) {
             return $a_value;
         } else {
             foreach ($this->variables as $var) {

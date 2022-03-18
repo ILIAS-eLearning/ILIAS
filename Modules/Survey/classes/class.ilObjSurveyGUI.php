@@ -834,7 +834,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     ) : string {
         $rtpl = new ilTemplate("tpl.svy_view_user_results.html", true, true, "Modules/Survey");
         
-        $show_titles = (bool) $this->object->getShowQuestionTitles();
+        $show_titles = $this->object->getShowQuestionTitles();
         
         foreach ($this->object->getSurveyPages() as $page) {
             if (count($page) > 0) {
