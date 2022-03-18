@@ -287,7 +287,8 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                     $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($cat->title));
                     $tpl->parseCurrentBlock();
                     $tpl->setCurrentBlock("prop_scale_propval");
-                    $tpl->setVariable("PROPERTY_VALUE",
+                    $tpl->setVariable(
+                        "PROPERTY_VALUE",
                         ilLegacyFormElementsUtil::prepareFormOutput($this->values->getScale($i))
                     );
                     $tpl->parseCurrentBlock();
@@ -357,7 +358,8 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         if ($this->getShowNeutralCategory()) {
             if (is_object($neutral_category) && strlen($neutral_category->title)) {
                 $tpl->setCurrentBlock("prop_text_neutral_propval");
-                $tpl->setVariable("PROPERTY_VALUE",
+                $tpl->setVariable(
+                    "PROPERTY_VALUE",
                     ilLegacyFormElementsUtil::prepareFormOutput($neutral_category->title)
                 );
                 $tpl->parseCurrentBlock();
@@ -365,7 +367,8 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             if (strlen($this->getNeutralCategoryTitle())) {
                 $tpl->setCurrentBlock("neutral_category_title");
                 $tpl->setVariable("NEUTRAL_COLS", ($this->getUseOtherAnswer()) ? 4 : 3);
-                $tpl->setVariable("CATEGORY_TITLE",
+                $tpl->setVariable(
+                    "CATEGORY_TITLE",
                     ilLegacyFormElementsUtil::prepareFormOutput($this->getNeutralCategoryTitle())
                 );
                 $tpl->parseCurrentBlock();

@@ -341,7 +341,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                 if (($i == 0) && ($j == 0)) {
                     if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
                         $tplrow->setCurrentBlock("bipolar_start");
-                        $tplrow->setVariable("TEXT_BIPOLAR_START",
+                        $tplrow->setVariable(
+                            "TEXT_BIPOLAR_START",
                             ilLegacyFormElementsUtil::prepareFormOutput($this->object->getBipolarAdjective(0))
                         );
                         $tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
@@ -351,7 +352,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                 if (($i == 0) && ($j == $this->object->getColumnCount() - 1)) {
                     if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
                         $tplrow->setCurrentBlock("bipolar_end");
-                        $tplrow->setVariable("TEXT_BIPOLAR_END",
+                        $tplrow->setVariable(
+                            "TEXT_BIPOLAR_END",
                             ilLegacyFormElementsUtil::prepareFormOutput($this->object->getBipolarAdjective(1))
                         );
                         $tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
@@ -426,8 +428,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
             if ($question_title == 3) {
                 if (trim($rowobj->label)) {
                     $row_title .= ' <span class="questionLabel">(' . ilLegacyFormElementsUtil::prepareFormOutput(
-                            $rowobj->label
-                        ) . ')</span>';
+                        $rowobj->label
+                    ) . ')</span>';
                 }
             }
 
@@ -641,7 +643,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                 if (($i == 0) && ($j == 0)) {
                     if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
                         $tplrow->setCurrentBlock("bipolar_start");
-                        $tplrow->setVariable("TEXT_BIPOLAR_START",
+                        $tplrow->setVariable(
+                            "TEXT_BIPOLAR_START",
                             ilLegacyFormElementsUtil::prepareFormOutput($this->object->getBipolarAdjective(0))
                         );
                         $tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
@@ -651,7 +654,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                 if (($i == 0) && ($j == $this->object->getColumnCount() - 1)) {
                     if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
                         $tplrow->setCurrentBlock("bipolar_end");
-                        $tplrow->setVariable("TEXT_BIPOLAR_END",
+                        $tplrow->setVariable(
+                            "TEXT_BIPOLAR_END",
                             ilLegacyFormElementsUtil::prepareFormOutput($this->object->getBipolarAdjective(1))
                         );
                         $tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
@@ -729,7 +733,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                 if (is_array($working_data)) {
                     foreach ($working_data as $data) {
                         if ($data["rowvalue"] == $i) {
-                            $tplrow->setVariable("VALUE_OTHER",
+                            $tplrow->setVariable(
+                                "VALUE_OTHER",
                                 ilLegacyFormElementsUtil::prepareFormOutput($data['textanswer'])
                             );
                         }
@@ -750,7 +755,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         }
         
         if ($question_title) {
-            $template->setVariable("QUESTION_TITLE",
+            $template->setVariable(
+                "QUESTION_TITLE",
                 ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle())
             );
         }

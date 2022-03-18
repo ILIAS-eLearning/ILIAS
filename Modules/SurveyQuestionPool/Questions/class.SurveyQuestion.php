@@ -626,7 +626,9 @@ class SurveyQuestion
         $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/images/";
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            $webdir
+        );
     }
 
     /**
@@ -637,7 +639,9 @@ class SurveyQuestion
         $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            $webdir
+        );
     }
 
     /**
@@ -1226,8 +1230,8 @@ class SurveyQuestion
                     break;
                 case "MediaObject":
                     $href = ilFileUtils::removeTrailingPathSeparators(
-                            ILIAS_HTTP_PATH
-                        ) . "/ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=" . $a_parent_ref_id . "&mob_id=" . $target_id;
+                        ILIAS_HTTP_PATH
+                    ) . "/ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=" . $a_parent_ref_id . "&mob_id=" . $target_id;
                     break;
             }
         }

@@ -565,8 +565,8 @@ abstract class SurveyQuestionGUI
                 $title = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle());
                 if (trim($this->object->getLabel())) {
                     $title .= ' <span class="questionLabel">(' . ilLegacyFormElementsUtil::prepareFormOutput(
-                            $this->object->getLabel()
-                        ) . ')</span>';
+                        $this->object->getLabel()
+                    ) . ')</span>';
                 }
                 break;
         }

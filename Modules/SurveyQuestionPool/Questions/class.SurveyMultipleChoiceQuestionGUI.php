@@ -215,7 +215,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                         $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $option["checked"] . ".png")));
                         $template->setVariable("ALT_CHECKBOX", $this->lng->txt($option["checked"]));
                         $template->setVariable("TITLE_CHECKBOX", $this->lng->txt($option["checked"]));
-                        $template->setVariable("OTHER_LABEL",
+                        $template->setVariable(
+                            "OTHER_LABEL",
                             ilLegacyFormElementsUtil::prepareFormOutput($option["title"])
                         );
                         $template->setVariable("OTHER_ANSWER", $option["textanswer"]
@@ -243,7 +244,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                 foreach ($options as $option) {
                     if ($option["other"]) {
                         $template->setCurrentBlock("other_text_col");
-                        $template->setVariable("OTHER_LABEL",
+                        $template->setVariable(
+                            "OTHER_LABEL",
                             ilLegacyFormElementsUtil::prepareFormOutput($option["title"])
                         );
                         $template->setVariable("OTHER_ANSWER", $option["textanswer"]
@@ -316,8 +318,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                                 if (strlen($value["value"])) {
                                     if ($value["value"] == $cat->scale - 1) {
                                         $template->setVariable("OTHER_VALUE", ' value="' . ilLegacyFormElementsUtil::prepareFormOutput(
-                                                $value['textanswer']
-                                            ) . '"');
+                                            $value['textanswer']
+                                        ) . '"');
                                         if (!$value['uncheck']) {
                                             $template->setVariable("CHECKED_MC", " checked=\"checked\"");
                                         }
@@ -389,8 +391,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                                 if (strlen($value["value"])) {
                                     if ($value["value"] == $cat->scale - 1) {
                                         $template->setVariable("OTHER_VALUE", ' value="' . ilLegacyFormElementsUtil::prepareFormOutput(
-                                                $value['textanswer']
-                                            ) . '"');
+                                            $value['textanswer']
+                                        ) . '"');
                                     }
                                 }
                             }
