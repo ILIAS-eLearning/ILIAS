@@ -364,7 +364,7 @@ class ilCtrlStructureReader
     // ILCTRL DECLARATION FINDING
     // ----------------------
 
-    const IL_CTRL_DECLARATION_REGEXP = '~^.*@{WHICH}\s+([\w\\\\]+)\s*:\s*([\w\\\\]+(\s*,\s*[\w\\\\]+)*)\s*$~mi';
+    const IL_CTRL_DECLARATION_REGEXP = '~^.*@{WHICH}\s+([\w\\\\]+)\s*:\s*([\w\\\\]+(\s*,\s*[\w\\\\]+)*)?\s*$~mi';
 
     /**
      * @return null|(string,string[])
@@ -402,7 +402,7 @@ class ilCtrlStructureReader
 
         $declaration = [];
         foreach ($res[2] as $ls) {
-            foreach (explode(",", $ls) as $l) {
+            foreach (array_filter(explode(",", $ls)) as $l) {
                 $declaration[] = strtolower(trim($l));
             }
         }
