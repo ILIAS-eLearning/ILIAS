@@ -41,7 +41,7 @@ class UIServices
     /**
      * Get the ILIAS main template.
      *
-     * @return	\ilTemplate
+     * @return	\ilGlobalTemplateInterface
      */
     public function mainTemplate()
     {
