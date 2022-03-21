@@ -19149,7 +19149,7 @@ span.ilProfileBadge .modal .img-responsive {
   text-align: center;
   padding: 5px;
 }
-/* former ta.css */
+/* not yet refactored code from former ta.css */
 .kiosk {
   padding: 2em;
   background-color: #fafafa;
@@ -19474,24 +19474,6 @@ table.il_tst_answer_aggregation td.answer_option {
 table.il_tst_answer_aggregation td.answer_frequency {
   text-align: right;
 }
-#tst_output {
-  clear: both;
-  overflow: hidden;
-  width: 100%;
-  float: left;
-}
-#tst_left {
-  float: left;
-  width: 0%;
-}
-#tst_left h1 {
-  font-size: 110%;
-  font-weight: bold;
-}
-#tst_right {
-  float: right;
-  width: 100%;
-}
 .question_description {
   font-style: italic;
   font-size: 90%;
@@ -19643,9 +19625,6 @@ table.imagemapareas tr.active-area td {
 td.ilc_Page {
   padding: 15px;
 }
-.ilTestQuestionSubtitleBlocks {
-  margin-top: -12px;
-}
 .ilTestMarkQuestionIcon {
   width: 12px;
   height: 12px;
@@ -19701,6 +19680,57 @@ div.ilc_Page.readonly textarea[disabled] {
 }
 .ilc_question_SingleChoice .ilc_qanswer_Answer > div {
   vertical-align: top;
+}
+#tst_output {
+  display: flex;
+}
+#tst_output #taForm {
+  background: transparent;
+}
+#tst_output #tst_left {
+  width: 20%;
+  min-width: 200px;
+  margin-right: 12px;
+}
+#tst_output #tst_left:empty {
+  display: none;
+  visibility: hidden;
+}
+@media screen and (max-width: 768px) {
+  #tst_output #tst_left {
+    margin-right: 0;
+    width: 100%;
+  }
+}
+#tst_output #tst_right {
+  flex-grow: 1;
+}
+#tst_output #tst_right .ilc_Page {
+  background-color: white;
+  padding: 6px 12px;
+}
+@media screen and (max-width: 768px) {
+  #tst_output {
+    flex-direction: column-reverse;
+  }
+}
+@media screen and (max-width: 1199px) {
+  .il-layout-page.with-mainbar-slates-engaged #tst_output {
+    flex-direction: column-reverse;
+  }
+  .il-layout-page.with-mainbar-slates-engaged #tst_output #tst_left {
+    margin-right: 0;
+    width: 100%;
+  }
+}
+#tst_output .ilTstNavigation {
+  display: flex;
+  padding: 6px 12px;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+}
+#tst_output #tst_right h1.ilc_page_title_PageTitle {
+  margin-bottom: 6px;
 }
 .noMargin {
   margin: 0;
