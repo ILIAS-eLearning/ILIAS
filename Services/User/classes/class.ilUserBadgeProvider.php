@@ -19,7 +19,7 @@
  */
 class ilUserBadgeProvider implements ilBadgeProvider
 {
-    public function getBadgeTypes() : array
+    public function getBadgeTypes() : array // Missing array type.
     {
         return array(
             new ilUserProfileBadge()

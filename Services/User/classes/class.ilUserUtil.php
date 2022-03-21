@@ -221,7 +221,7 @@ class ilUserUtil
     /**
      * Get all valid starting points
      */
-    public static function getPossibleStartingPoints(bool $a_force_all = false) : array
+    public static function getPossibleStartingPoints(bool $a_force_all = false) : array // Missing array type.
     {
         global $DIC;
 

@@ -166,7 +166,7 @@ class ilUserPrivacySettingsGUI
             ->container()
             ->form()
             ->standard($form_action, $sections)
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(static function ($values) : array {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(static function (array $values) : array {
                 return call_user_func_array('array_merge', $values);
             }));
     }

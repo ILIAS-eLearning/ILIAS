@@ -14,37 +14,37 @@
  */
 
 // Address values for the ADR type
-define("ADR_TYPE_NONE", 0);
-define("ADR_TYPE_DOM", 1);
-define("ADR_TYPE_INTL", 2);
-define("ADR_TYPE_POSTAL", 4);
-define("ADR_TYPE_PARCEL", 8);
-define("ADR_TYPE_HOME", 16);
-define("ADR_TYPE_WORK", 32);
-define("ADR_TYPE_PREF", 64);
+const ADR_TYPE_NONE = 0;
+const ADR_TYPE_DOM = 1;
+const ADR_TYPE_INTL = 2;
+const ADR_TYPE_POSTAL = 4;
+const ADR_TYPE_PARCEL = 8;
+const ADR_TYPE_HOME = 16;
+const ADR_TYPE_WORK = 32;
+const ADR_TYPE_PREF = 64;
 
 // Communication values for the TEL type
-define("TEL_TYPE_NONE", 0);
-define("TEL_TYPE_HOME", 1);
-define("TEL_TYPE_MSG", 2);
-define("TEL_TYPE_WORK", 4);
-define("TEL_TYPE_PREF", 8);
-define("TEL_TYPE_VOICE", 16);
-define("TEL_TYPE_FAX", 32);
-define("TEL_TYPE_CELL", 64);
-define("TEL_TYPE_VIDEO", 128);
-define("TEL_TYPE_PAGER", 256);
-define("TEL_TYPE_BBS", 512);
-define("TEL_TYPE_MODEM", 1024);
-define("TEL_TYPE_CAR", 2048);
-define("TEL_TYPE_ISDN", 4096);
-define("TEL_TYPE_PCS", 8192);
+const TEL_TYPE_NONE = 0;
+const TEL_TYPE_HOME = 1;
+const TEL_TYPE_MSG = 2;
+const TEL_TYPE_WORK = 4;
+const TEL_TYPE_PREF = 8;
+const TEL_TYPE_VOICE = 16;
+const TEL_TYPE_FAX = 32;
+const TEL_TYPE_CELL = 64;
+const TEL_TYPE_VIDEO = 128;
+const TEL_TYPE_PAGER = 256;
+const TEL_TYPE_BBS = 512;
+const TEL_TYPE_MODEM = 1024;
+const TEL_TYPE_CAR = 2048;
+const TEL_TYPE_ISDN = 4096;
+const TEL_TYPE_PCS = 8192;
 
 // Communication values for the EMAIL type
-define("EMAIL_TYPE_NONE", 0);
-define("EMAIL_TYPE_INTERNET", 1);
-define("EMAIL_TYPE_x400", 2);
-define("EMAIL_TYPE_PREF", 4);
+const EMAIL_TYPE_NONE = 0;
+const EMAIL_TYPE_INTERNET = 1;
+const EMAIL_TYPE_x400 = 2;
+const EMAIL_TYPE_PREF = 4;
 
 /**
  * RFC 2426 vCard MIME Directory Profile 3.0 class
@@ -53,7 +53,7 @@ define("EMAIL_TYPE_PREF", 4);
 class ilvCard
 {
     // An array containing the vCard types
-    public array $types;
+    public array $types; // Missing array type.
 
     // The filename of the vCard used when saving the vCard
     public string $filename;
@@ -95,7 +95,7 @@ class ilvCard
     /**
      * Encode data with "b" type encoding according to RFC 2045
      */
-    public function encode($string) : string
+    public function encode(string $string) : string
     {
         return $this->escape(quoted_printable_encode($string));
     }
@@ -122,7 +122,7 @@ class ilvCard
     /**
      * Escapes a string according to RFC 2426
      */
-    public function escape($string) : string
+    public function escape(string $string) : string
     {
         $string = preg_replace("/(?<!\\\\)(\\\\)([^;,n\\\\])/", "\${1}\${1}\${2}", $string);
         $string = preg_replace("/(?<!\\\\);/", "\\;", $string);
@@ -134,7 +134,7 @@ class ilvCard
     /**
      * Splits a variable into an array using a separator and escapes every value
      */
-    public function explodeVar(string $variable, string $separator = ",") : array
+    public function explodeVar(string $variable, string $separator = ",") : array // Missing array type.
     {
         $exploded = explode($separator, $variable);
         foreach ($exploded as $index => $var) {
@@ -1161,10 +1161,9 @@ class ilvCard
      * CATEGORIES:INTERNET,IETF,INDUSTRY,INFORMATION TECHNOLOGY
      * Type value: One or more text values separated by a COMMA character
      * (ASCII decimal 44).
-     * @param string $categories Category information
      * @access    public
      */
-    public function setCategories($categories)
+    public function setCategories(string $categories)
     {
         $categories = join(",", $this->explodeVar($categories));
         $this->types["CATEGORIES"] = $categories;

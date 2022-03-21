@@ -26,9 +26,9 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     protected int $userid;
     protected int $portfolioid;
     protected string $backurl;
-    protected array $additional;
+    protected array $additional; // Missing array type.
     protected bool $embedded;
-    protected array $custom_prefs;
+    protected array $custom_prefs; // Missing array type.
     protected ilObjUser $current_user;
     protected \ilSetting $setting;
 
@@ -76,12 +76,12 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     /**
      * Set Additonal Information.
      */
-    public function setAdditional(array $a_additional) : void
+    public function setAdditional(array $a_additional) : void // Missing array type.
     {
         $this->additional = $a_additional;
     }
 
-    public function getAdditional() : array
+    public function getAdditional() : array // Missing array type.
     {
         return $this->additional;
     }
@@ -143,7 +143,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     /**
      * Set custom preferences for public profile fields
      */
-    public function setCustomPrefs(array $a_prefs) : void
+    public function setCustomPrefs(array $a_prefs) : void // Missing array type.
     {
         $this->custom_prefs = $a_prefs;
     }

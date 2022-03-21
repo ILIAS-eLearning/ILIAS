@@ -72,7 +72,7 @@ class ilProfileChecklistStatus
         );
     }
 
-    public function getSteps() : array
+    public function getSteps() : array // Missing array type.
     {
         $lng = $this->lng;
 

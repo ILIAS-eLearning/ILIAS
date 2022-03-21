@@ -21,7 +21,7 @@ class ilUserSettingsConfig
 {
     public const HIDE_PREFIX = "usr_settings_hide_";
     public const DISABLED_PREFIX = "usr_settings_disable_";
-    protected array $setting;
+    protected array $setting; // Missing array type.
     protected ?ilSetting $settings;
 
     public function __construct(

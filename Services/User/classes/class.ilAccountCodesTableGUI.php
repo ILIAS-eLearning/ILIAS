@@ -19,7 +19,7 @@
  */
 class ilAccountCodesTableGUI extends ilTable2GUI
 {
-    public array $filter;
+    public array $filter; // Missing array type.
 
     public function __construct(
         object $a_parent_obj,
@@ -70,8 +70,6 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         global $DIC;
 
         $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
 
         $this->determineOffsetAndOrder();
         
@@ -130,8 +128,6 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         global $DIC;
 
         $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilUser = $DIC['ilUser'];
         
         // code
         $ti = new ilTextInputGUI($lng->txt("user_account_code"), "query");
@@ -154,7 +150,7 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         $this->filter["generated"] = $si->getValue();
     }
     
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void // Missing array type.
     {
         $this->tpl->setVariable("ID", $a_set["code_id"]);
         $this->tpl->setVariable("VAL_CODE", $a_set["code"]);

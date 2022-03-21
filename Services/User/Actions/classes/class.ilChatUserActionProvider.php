@@ -19,7 +19,9 @@
  */
 class ilChatUserActionProvider extends ilUserActionProvider
 {
+    /** @var array<int, bool> */
     protected static array $user_access = array();
+    /** @var array<int, bool> */
     protected static array $accepts_messages_cache = array();
     protected int $pub_ref_id = 0;
     protected bool $chat_enabled = false;
@@ -43,7 +45,7 @@ class ilChatUserActionProvider extends ilUserActionProvider
         return "chtr";
     }
 
-    public function getActionTypes() : array
+    public function getActionTypes() : array // Missing array type.
     {
         return array(
             "invite" => $this->lng->txt('chat_user_action_invite_public_room'),

@@ -34,7 +34,7 @@ class ilUserImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ) : void {
-        $parser = new ilDataSetImportParser(
+        new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),
             $a_xml,

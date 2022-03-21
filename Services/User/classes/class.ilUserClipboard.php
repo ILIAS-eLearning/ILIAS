@@ -21,7 +21,7 @@ class ilUserClipboard
 {
     public const SESSION_KEYWORD = 'usr_clipboard';
     private static ?ilUserClipboard $instance = null;
-    private array $clipboard = array();
+    private array $clipboard = array(); // Missing array type.
     
     protected function __construct(int $a_user_id)
     {
@@ -47,7 +47,7 @@ class ilUserClipboard
     /**
      * Get clipboard content
      */
-    public function get() : array
+    public function get() : array // Missing array type.
     {
         return $this->clipboard;
     }
@@ -55,7 +55,7 @@ class ilUserClipboard
     /**
      * Get validated content of clipboard
      */
-    public function getValidatedContent() : array
+    public function getValidatedContent() : array // Missing array type.
     {
         $valid = array();
         foreach ($this->clipboard as $usr_id) {
@@ -69,7 +69,7 @@ class ilUserClipboard
     /**
      * Add entries to clipboard
      */
-    public function add(array $a_usr_ids) : void
+    public function add(array $a_usr_ids) : void // Missing array type.
     {
         $this->clipboard = array_unique(array_merge($this->clipboard, $a_usr_ids));
     }
@@ -77,7 +77,7 @@ class ilUserClipboard
     /**
      * User ids to delete
      */
-    public function delete(array $a_usr_ids) : void
+    public function delete(array $a_usr_ids) : void // Missing array type.
     {
         $remaining = array();
         foreach ($this->get() as $usr_id) {
@@ -91,7 +91,7 @@ class ilUserClipboard
     /**
      * Replace clipboard content
      */
-    public function replace(array $a_usr_ids) : void
+    public function replace(array $a_usr_ids) : void // Missing array type.
     {
         $this->clipboard = $a_usr_ids;
     }
