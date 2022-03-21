@@ -34,13 +34,14 @@ class ilUserQuery
     private bool $no_groups = false;
     private int $crs_grp = 0;
     private int $role = 0;
-    private ?array $user_folder = null;
-    private array $additional_fields = array();
-    private array $users = array();
+    private ?array $user_folder = null; // Missing array type.
+    private array $additional_fields = array(); // Missing array type.
+    private array $users = array(); // Missing array type.
     private string $first_letter = '';
     private bool $has_access = false;
     private string $authentication_method = '';
-    protected array $udf_filter = array();
+    protected array $udf_filter = array(); // Missing array type.
+    /** @var string[] */
     private array $default_fields = array(
         "usr_id",
         "login",
@@ -63,7 +64,7 @@ class ilUserQuery
      * Set udf filter
      * @param array $a_val udf filter array
      */
-    public function setUdfFilter(array $a_val) : void
+    public function setUdfFilter(array $a_val) : void // Missing array type.
     {
         $valid_udfs = [];
 
@@ -81,7 +82,7 @@ class ilUserQuery
      * Get udf filter
      * @return array udf filter array
      */
-    public function getUdfFilter() : array
+    public function getUdfFilter() : array // Missing array type.
     {
         return $this->udf_filter;
     }
@@ -180,7 +181,7 @@ class ilUserQuery
      * Set user folder filter
      * reference id of user folder or category (local user administration)
      */
-    public function setUserFolder(?array $a_fold_id) : void
+    public function setUserFolder(?array $a_fold_id) : void // Missing array type.
     {
         $this->user_folder = $a_fold_id;
     }
@@ -188,7 +189,7 @@ class ilUserQuery
     /**
      * Set additional fields (columns in usr_data or 'online_time')
      */
-    public function setAdditionalFields(array $a_add) : void
+    public function setAdditionalFields(array $a_add) : void // Missing array type.
     {
         $this->additional_fields = $a_add;
     }
@@ -196,7 +197,7 @@ class ilUserQuery
     /**
      * Array with user ids to query against
      */
-    public function setUserFilter(array $a_filter) : void
+    public function setUserFilter(array $a_filter) : void // Missing array type.
     {
         $this->users = $a_filter;
     }

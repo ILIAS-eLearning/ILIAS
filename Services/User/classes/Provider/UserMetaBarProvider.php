@@ -25,15 +25,15 @@ use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
  */
 class UserMetaBarProvider extends AbstractStaticMetaBarProvider
 {
-    public function getMetaBarItems() : array
+    public function getMetaBarItems() : array // Missing array type.
     {
         $access_checks = BasicAccessCheckClosures::getInstance();
         $f = $this->dic->ui()->factory();
-        $txt = function ($id) {
+        $txt = function (string $id) : string {
             return $this->dic->language()->txt($id);
         };
         $mb = $this->globalScreen()->metaBar();
-        $id = function ($id) : IdentificationInterface {
+        $id = function (string $id) : IdentificationInterface {
             return $this->if->identifier($id);
         };
 

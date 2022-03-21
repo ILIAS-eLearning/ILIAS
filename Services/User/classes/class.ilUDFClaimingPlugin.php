@@ -56,7 +56,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
     /**
      * Get existing field values
      */
-    protected static function getDBField(string $a_field_id) : array
+    protected static function getDBField(string $a_field_id) : array // Missing array type.
     {
         global $DIC;
 

@@ -13,12 +13,11 @@
  * https://github.com/ILIAS-eLearning
  */
 
-define('UDF_TYPE_TEXT', 1);
-define('UDF_TYPE_SELECT', 2);
-define('UDF_TYPE_WYSIWYG', 3);
-define('UDF_NO_VALUES', 1);
-define('UDF_DUPLICATE_VALUES', 2);
-
+const UDF_TYPE_TEXT = 1;
+const UDF_TYPE_SELECT = 2;
+const UDF_TYPE_WYSIWYG = 3;
+const UDF_NO_VALUES = 1;
+const UDF_DUPLICATE_VALUES = 2;
 
 /**
  * Additional user data fields definition
@@ -35,12 +34,12 @@ class ilUserDefinedFields
     protected bool $field_changeable_lua = false;
     protected bool $field_changeable = false;
     protected bool $field_visib_lua = false;
-    protected array $field_values = [];
+    protected array $field_values = []; // Missing array type.
     protected int $field_type = 0;
     protected string $field_name = "";
     protected bool $field_visible = false;
     public ?ilDBInterface $db = null;
-    public array $definitions = array();
+    public array $definitions = array(); // Missing array type.
     private int $field_visible_registration = 0;
 
     private function __construct()
@@ -100,17 +99,17 @@ class ilUserDefinedFields
         return 0;
     }
 
-    public function getDefinitions() : array
+    public function getDefinitions() : array // Missing array type.
     {
         return $this->definitions ?: array();
     }
 
-    public function getDefinition(int $a_id) : array
+    public function getDefinition(int $a_id) : array // Missing array type.
     {
         return is_array($this->definitions[$a_id]) ? $this->definitions[$a_id] : array();
     }
 
-    public function getVisibleDefinitions() : array
+    public function getVisibleDefinitions() : array // Missing array type.
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -121,7 +120,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
     
-    public function getLocalUserAdministrationDefinitions() : array
+    public function getLocalUserAdministrationDefinitions() : array // Missing array type.
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -132,7 +131,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
     
-    public function getChangeableLocalUserAdministrationDefinitions() : array
+    public function getChangeableLocalUserAdministrationDefinitions() : array // Missing array type.
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -143,7 +142,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
 
-    public function getRegistrationDefinitions() : array
+    public function getRegistrationDefinitions() : array // Missing array type.
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -154,7 +153,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
 
-    public function getSearchableDefinitions() : array
+    public function getSearchableDefinitions() : array // Missing array type.
     {
         $searchable_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -165,7 +164,7 @@ class ilUserDefinedFields
         return $searchable_definition;
     }
 
-    public function getRequiredDefinitions() : array
+    public function getRequiredDefinitions() : array // Missing array type.
     {
         $required_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -176,7 +175,7 @@ class ilUserDefinedFields
         return $required_definition;
     }
 
-    public function getCourseExportableFields() : array
+    public function getCourseExportableFields() : array // Missing array type.
     {
         $cexp_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -187,7 +186,7 @@ class ilUserDefinedFields
         return $cexp_definition;
     }
 
-    public function getGroupExportableFields() : array
+    public function getGroupExportableFields() : array // Missing array type.
     {
         $cexp_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -201,7 +200,7 @@ class ilUserDefinedFields
     /**
      * Get exportable field
      */
-    public function getExportableFields(int $a_obj_id) : array
+    public function getExportableFields(int $a_obj_id) : array // Missing array type.
     {
         if (ilObject::_lookupType($a_obj_id) == 'crs') {
             return $this->getCourseExportableFields();
@@ -249,7 +248,7 @@ class ilUserDefinedFields
         return $this->field_type;
     }
 
-    public function setFieldValues(array $a_values) : void
+    public function setFieldValues(array $a_values) : void // Missing array type.
     {
         $this->field_values = array();
         foreach ($a_values as $value) {
@@ -259,7 +258,7 @@ class ilUserDefinedFields
         }
     }
 
-    public function getFieldValues() : array
+    public function getFieldValues() : array // Missing array type.
     {
         return $this->field_values ?: array();
     }
@@ -475,7 +474,7 @@ class ilUserDefinedFields
         // Delete definitions
         $query = "DELETE FROM udf_definition " .
             "WHERE field_id = " . $this->db->quote($a_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+        $ilDB->manipulate($query);
 
         // Delete usr_data entries
         ilUserDefinedData::deleteEntriesOfField($a_id);

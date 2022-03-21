@@ -21,7 +21,7 @@ class ilUserAction
 {
     protected string $text = "";
     protected string $href = "";
-    protected array $data = [];
+    protected array $data = []; // Missing array type.
     protected string $type = "";
 
     public function setText(string $a_val) : void

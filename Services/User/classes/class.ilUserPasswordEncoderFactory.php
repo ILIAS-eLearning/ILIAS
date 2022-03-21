@@ -28,7 +28,7 @@ class ilUserPasswordEncoderFactory
      * @param array $config
      * @throws ilPasswordException
      */
-    public function __construct(array $config = [])
+    public function __construct(array $config = []) // Missing array type.
     {
         if (!empty($config)) {
             foreach ($config as $key => $value) {
@@ -48,7 +48,7 @@ class ilUserPasswordEncoderFactory
      * @return ilPasswordEncoder[]
      * @throws ilPasswordException
      */
-    protected function getValidEncoders(array $config) : array
+    protected function getValidEncoders(array $config) : array // Missing array type.
     {
         return [
             new ilBcryptPhpPasswordEncoder($config),
@@ -61,7 +61,7 @@ class ilUserPasswordEncoderFactory
      * @param array $config
      * @throws ilPasswordException
      */
-    protected function initEncoders(array $config) : void
+    protected function initEncoders(array $config) : void // Missing array type.
     {
         $this->encoders = [];
 

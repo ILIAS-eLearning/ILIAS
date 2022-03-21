@@ -31,7 +31,7 @@ class ilUserExporter extends ilXmlExporter
         $this->ds->setDSPrefix("ds");
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array // Missing array type.
     {
         if ($a_entity == "personal_data") {
             $cal_ids = array();
@@ -74,7 +74,7 @@ class ilUserExporter extends ilXmlExporter
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity) : array // Missing array type.
     {
         return array(
             "4.3.0" => array(

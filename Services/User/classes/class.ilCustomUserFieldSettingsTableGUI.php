@@ -21,7 +21,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 {
     private bool $confirm_change = false;
     private ilClaimingPermissionHelper $permissions;
-    private array $perm_map;
+    private array $perm_map; // Missing array type.
     protected \ILIAS\User\StandardGUIRequest $request;
 
     public function __construct(
@@ -69,12 +69,11 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
         );
     }
     
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void // Missing array type.
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        $ilSetting = $DIC['ilSetting'];
         $ilCtrl = $DIC['ilCtrl'];
         
         $field = $a_set["field_id"];

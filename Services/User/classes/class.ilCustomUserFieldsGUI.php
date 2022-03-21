@@ -24,7 +24,7 @@ class ilCustomUserFieldsGUI
     protected int $ref_id = 0;
     protected bool $confirm_change = false;
     protected int $field_id = 0;
-    protected array $field_definition = [];
+    protected array $field_definition = []; // Missing array type.
     protected ilClaimingPermissionHelper $permissions;
     private \ilGlobalTemplateInterface $main_tpl;
     
@@ -127,7 +127,7 @@ class ilCustomUserFieldsGUI
     /**
      * Get all access options, order is kept in forms
      */
-    public function getAccessOptions() : array
+    public function getAccessOptions() : array // Missing array type.
     {
         global $DIC;
 
@@ -148,7 +148,7 @@ class ilCustomUserFieldsGUI
         return $opts;
     }
     
-    public static function getAccessPermissions() : array
+    public static function getAccessPermissions() : array // Missing array type.
     {
         return array("visible" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL,
             "changeable" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL,
@@ -164,11 +164,10 @@ class ilCustomUserFieldsGUI
         );
     }
     
-    protected function initFieldDefinition() : array
+    protected function initFieldDefinition() : array // Missing array type.
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
                 
         if (ilMemberAgreement::_hasAgreements()) {

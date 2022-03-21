@@ -22,7 +22,7 @@ class ilAccountCodesGUI
     protected ilPropertyFormGUI $form_gui;
     protected \ILIAS\User\StandardGUIRequest $request;
     protected int $ref_id;
-    protected array $filter;
+    protected array $filter; // Missing array type.
     private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(int $a_ref_id)

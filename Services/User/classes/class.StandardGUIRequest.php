@@ -93,17 +93,17 @@ class StandardGUIRequest
         return $role_id;
     }
 
-    public function getActionActive() : array
+    public function getActionActive() : array // Missing array type.
     {
         return $this->intArray("active");
     }
 
-    public function getIds() : array
+    public function getIds() : array // Missing array type.
     {
         return $this->intArray("id");
     }
 
-    public function getChecked() : array
+    public function getChecked() : array // Missing array type.
     {
         return $this->intArray("chb");
     }
@@ -113,7 +113,7 @@ class StandardGUIRequest
         return $this->int("field_type");
     }
 
-    public function getFields() : array
+    public function getFields() : array // Missing array type.
     {
         return $this->intArray("fields");
     }
@@ -128,12 +128,12 @@ class StandardGUIRequest
         return $this->int("frsrch");
     }
 
-    public function getSelect() : array
+    public function getSelect() : array // Missing array type.
     {
         return $this->strArray("select");
     }
 
-    public function getFiles() : array
+    public function getFiles() : array // Missing array type.
     {
         return $this->strArray("file");
     }
@@ -143,22 +143,22 @@ class StandardGUIRequest
         return $this->str("export_type");
     }
 
-    public function getMailSalutation($gender, $lang) : string
+    public function getMailSalutation(string $gender, string $lang) : string
     {
         return $this->str("sal_" . $gender . "_" . $lang);
     }
 
-    public function getMailSubject($lang) : string
+    public function getMailSubject(string $lang) : string
     {
         return $this->str("subject_" . $lang);
     }
 
-    public function getMailBody($lang) : string
+    public function getMailBody(string $lang) : string
     {
         return $this->str("body_" . $lang);
     }
 
-    public function getMailAttDelete($lang) : bool
+    public function getMailAttDelete(string $lang) : bool
     {
         return (bool) $this->int("att_" . $lang . "_delete");
     }
@@ -168,12 +168,12 @@ class StandardGUIRequest
         return (bool) $this->int("select_cmd_all");
     }
 
-    public function getRoleIds() : array
+    public function getRoleIds() : array // Missing array type.
     {
         return $this->intArray("role_id");
     }
 
-    public function getPostedRoleIds() : array
+    public function getPostedRoleIds() : array // Missing array type.
     {
         return $this->intArray("role_id_ctrl");
     }
@@ -193,12 +193,12 @@ class StandardGUIRequest
         return $this->str("passwd");
     }
 
-    public function getUDFs() : array
+    public function getUDFs() : array // Missing array type.
     {
         return $this->strArray("udf");
     }
 
-    public function getPositions() : array
+    public function getPositions() : array // Missing array type.
     {
         return $this->intArray("position");
     }

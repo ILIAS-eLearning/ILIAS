@@ -19,7 +19,7 @@
 class ilUserFilter
 {
     private static ?ilUserFilter $instance = null;
-    private array $folder_ids = array();
+    private array $folder_ids = array(); // Missing array type.
 
     protected function __construct()
     {
@@ -37,7 +37,7 @@ class ilUserFilter
     /**
      * Filter user accounts
      */
-    public function filter(array $a_user_ids) : array
+    public function filter(array $a_user_ids) : array // Missing array type.
     {
         global $DIC;
 
@@ -59,7 +59,7 @@ class ilUserFilter
         return $filtered;
     }
     
-    public function getFolderIds() : array
+    public function getFolderIds() : array // Missing array type.
     {
         return $this->folder_ids;
     }
