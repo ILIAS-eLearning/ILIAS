@@ -50,6 +50,29 @@
     background-color: @il-main-dark-bg;
 }
 
+// question list
+#tst_output #tst_left {
+    ul.shortlist {
+        list-style-type: none;
+        padding: 0;
+        li {
+            padding: 0 0 @il-test-margin-large-vertical (1.5 * @il-test-margin-large-horizontal);
+            background-repeat: no-repeat;
+            background-size: 10px;
+            background-position: 0px 5px;
+            &.unanswered {
+                background-image: url('images/answered_not.svg');
+            }
+            &.answered {
+                background-image: url('images/answered.svg');
+            }
+            &.active {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
 // main page area elements
 #tst_output #tst_right {
     h1.ilc_page_title_PageTitle {
