@@ -13,8 +13,6 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use Psr\Http\Message\RequestInterface;
-
 /**
  * Class ilObjUserGUI
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -42,7 +40,6 @@ class ilObjUserGUI extends ilObjectGUI
     protected string $requested_letter = "";
     protected string $requested_baseClass = "";
     protected string $requested_search = "";
-    private RequestInterface $request;
 
     public function __construct(
         $a_data,
@@ -54,7 +51,6 @@ class ilObjUserGUI extends ilObjectGUI
     ) {
         global $DIC;
 
-        $this->request = $DIC->http()->request();
         if (null === $uiFactory) {
             $uiFactory = $DIC->ui()->factory();
         }
