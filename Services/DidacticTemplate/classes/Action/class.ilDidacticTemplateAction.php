@@ -202,8 +202,8 @@ abstract class ilDidacticTemplateAction
                         break;
                     }
                     foreach ($patterns as $pattern) {
-                        if ($pattern->valid(\ilObject::_lookupTitle($role_id))) {
-                            $this->logger->debug('Role is valid ' . \ilObject::_lookupTitle($role_id));
+                        if ($pattern->valid(ilObject::_lookupTitle($role_id))) {
+                            $this->logger->debug('Role is valid ' . ilObject::_lookupTitle($role_id));
                             $filtered[$role_id] = $role;
                         }
                     }

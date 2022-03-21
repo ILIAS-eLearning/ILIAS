@@ -66,6 +66,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
             $pattern->setParentType(self::PATTERN_PARENT_TYPE);
             $pattern->save();
         }
+
         return $this->getActionId();
     }
 
@@ -90,6 +91,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         foreach ($roles as $role_id => $role) {
             $this->blockRole($role_id, $source);
         }
+
         return true;
     }
 
@@ -109,6 +111,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
             $source->getRefId(),
             $assign
         );
+
         return true;
     }
 
@@ -121,6 +124,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         foreach ($roles as $role_id => $role) {
             $this->deleteLocalPolicy($role_id, $source);
         }
+
         return true;
     }
 
@@ -182,8 +186,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
     {
         parent::__clone();
 
-        // Clone patterns
-        $clones = array();
+        $clones = [];
         foreach ($this->getFilterPattern() as $pattern) {
             $clones[] = clone $pattern;
         }

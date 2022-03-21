@@ -88,7 +88,7 @@ class ilDidacticTemplateIconHandler
                     self::WEBDIR_PREFIX . '/' . $original->getIconIdentifier() . '.svg',
                     self::WEBDIR_PREFIX . '/' . $this->settings->getId() . '.svg'
                 );
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->logger->warning('Copying icon failed with message: ' . $e->getMessage());
             }
             $this->settings->setIconIdentifier((string) $this->settings->getId());

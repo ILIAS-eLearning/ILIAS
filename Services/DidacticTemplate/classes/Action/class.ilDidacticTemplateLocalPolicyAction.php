@@ -137,6 +137,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             }
             $this->createLocalPolicy($source, $role);
         }
+
         return true;
     }
 
@@ -173,6 +174,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                 );
             }
         }
+
         return true;
     }
 
@@ -216,30 +218,30 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             case self::TPL_ACTION_OVERWRITE:
                 $writer->xmlStartTag(
                     'localPolicyTemplate',
-                    array(
+                    [
                         'type' => 'overwrite',
                         'id' => $il_role_id
-                    )
+                    ]
                 );
                 break;
 
             case self::TPL_ACTION_INTERSECT:
                 $writer->xmlStartTag(
                     'localPolicyTemplate',
-                    array(
+                    [
                         'type' => 'intersect',
                         'id' => $il_role_id
-                    )
+                    ]
                 );
                 break;
 
             case self::TPL_ACTION_UNION:
                 $writer->xmlStartTag(
                     'localPolicyTemplate',
-                    array(
+                    [
                         'type' => 'union',
                         'id' => $il_role_id
-                    )
+                    ]
                 );
                 break;
         }
@@ -257,8 +259,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     {
         parent::__clone();
 
-        // Clone patterns
-        $clones = array();
+        $clones = [];
         foreach ($this->getFilterPattern() as $pattern) {
             $clones[] = clone $pattern;
         }
@@ -288,7 +289,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     protected function createLocalPolicy(ilObject $source, array $role) : bool
     {
         // fetch role information
-        $role_data = array();
+        $role_data = [];
         foreach ($this->review->getParentRoleIds($source->getRefId()) as $role_id => $tmp_role) {
             if ((int) $role_id === (int) $role['obj_id']) {
                 $role_data = $tmp_role;
@@ -360,6 +361,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             $role_data['protected'] ? ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
             ['all']
         );
+
         return true;
     }
 
@@ -411,6 +413,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             $role['protected'] ? ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
             ['all']
         );
+
         return true;
     }
 }

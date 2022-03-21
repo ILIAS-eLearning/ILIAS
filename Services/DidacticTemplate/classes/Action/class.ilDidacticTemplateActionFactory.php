@@ -20,7 +20,7 @@ class ilDidacticTemplateActionFactory
                 return new ilDidacticTemplateBlockRoleAction();
 
             default:
-                throw new \InvalidArgumentException('Unknown action type given: ' . $a_action_type);
+                throw new InvalidArgumentException('Unknown action type given: ' . $a_action_type);
         }
     }
 
@@ -37,7 +37,7 @@ class ilDidacticTemplateActionFactory
                 return new ilDidacticTemplateBlockRoleAction($a_action_id);
 
             default:
-                throw new \InvalidArgumentException('Unknown action type given: ' . $a_action_type);
+                throw new InvalidArgumentException('Unknown action type given: ' . $a_action_type);
         }
     }
 

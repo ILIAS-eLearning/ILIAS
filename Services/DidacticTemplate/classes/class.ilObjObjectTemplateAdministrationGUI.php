@@ -57,7 +57,7 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
-                array(),
+                [],
                 'ilpermissiongui'
             );
         }

@@ -61,7 +61,6 @@ class ilDidacticTemplateSettings
     }
 
     /**
-     * Get templates
      * @return ilDidacticTemplateSetting[]
      */
     public function getTemplates() : array

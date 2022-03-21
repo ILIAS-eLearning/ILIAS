@@ -72,7 +72,7 @@ class ilDidacticTemplateGUI
         $tpls = ilDidacticTemplateSettings::getInstanceByObjectType($a_obj_type)->getTemplates();
         $value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId());
 
-        if (!count($tpls) && !$value) {
+        if (0 === $value && 0 === count($tpls)) {
             return false;
         }
 
@@ -99,7 +99,7 @@ class ilDidacticTemplateGUI
             unset($options[0]);
         }
 
-        if (($excl_tpl && $value === 0) || !in_array($value, array_keys($options))) {
+        if (($excl_tpl && $value === 0) || !array_key_exists($value, $options)) {
             $options[$value] = $this->lng->txt('not_available');
         }
 

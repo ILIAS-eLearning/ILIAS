@@ -286,6 +286,7 @@ class ilDidacticTemplateSetting
         $this->getTranslationObject()->delete();
         $this->deleteEffectiveNodes();
         $this->getIconHandler()->delete();
+
         return true;
     }
 
@@ -307,6 +308,7 @@ class ilDidacticTemplateSetting
 
         $this->db->manipulate($query);
         $this->saveAssignments();
+
         return true;
     }
 
@@ -347,7 +349,7 @@ class ilDidacticTemplateSetting
 
     protected function saveEffectiveNodes() : void
     {
-        if (!count($this->getEffectiveFrom())) {
+        if (0 === count($this->getEffectiveFrom())) {
             return;
         }
         $values = [];
@@ -369,12 +371,13 @@ class ilDidacticTemplateSetting
         $query = 'DELETE FROM didactic_tpl_en ' .
             'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
         $this->db->manipulate($query);
+
         return true;
     }
 
     protected function readEffectiveNodes() : void
     {
-        $effective_nodes = array();
+        $effective_nodes = [];
 
         $query = 'SELECT * FROM didactic_tpl_en ' .
             'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
@@ -399,6 +402,7 @@ class ilDidacticTemplateSetting
         $query = 'DELETE FROM didactic_tpl_sa ' .
             'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
         $this->db->manipulate($query);
+
         return true;
     }
 
@@ -419,6 +423,7 @@ class ilDidacticTemplateSetting
         $this->saveAssignments();
         $this->deleteEffectiveNodes();
         $this->saveEffectiveNodes();
+
         return true;
     }
 
@@ -447,6 +452,7 @@ class ilDidacticTemplateSetting
             $this->addAssignment($row->obj_type);
         }
         $this->readEffectiveNodes();
+
         return true;
     }
 
@@ -458,9 +464,9 @@ class ilDidacticTemplateSetting
                 $type = 'creation';
                 break;
         }
-        $writer->xmlStartTag('didacticTemplate', array('type' => $type));
-        $writer->xmlElement('title', array(), $this->getTitle());
-        $writer->xmlElement('description', array(), $this->getDescription());
+        $writer->xmlStartTag('didacticTemplate', ['type' => $type]);
+        $writer->xmlElement('title', [], $this->getTitle());
+        $writer->xmlElement('description', [], $this->getDescription());
         $writer = $this->getIconHandler()->toXml($writer);
         $writer = $this->getTranslationObject()->toXml($writer);
 
@@ -472,7 +478,7 @@ class ilDidacticTemplateSetting
             foreach ($info_lines as $info) {
                 $trimmed_info = trim($info);
                 if ($trimmed_info !== '') {
-                    $writer->xmlElement('p', array(), $trimmed_info);
+                    $writer->xmlElement('p', [], $trimmed_info);
                 }
             }
 
@@ -482,17 +488,17 @@ class ilDidacticTemplateSetting
             $writer->xmlElement("exclusive");
         }
         if (count($this->getEffectiveFrom()) > 0) {
-            $writer->xmlStartTag('effectiveFrom', array('nic_id' => $this->setting->get('inst_id')));
+            $writer->xmlStartTag('effectiveFrom', ['nic_id' => $this->setting->get('inst_id')]);
 
             foreach ($this->getEffectiveFrom() as $node) {
-                $writer->xmlElement('node', array(), $node);
+                $writer->xmlElement('node', [], $node);
             }
             $writer->xmlEndTag('effectiveFrom');
         }
         // Assignments
         $writer->xmlStartTag('assignments');
         foreach ($this->getAssignments() as $assignment) {
-            $writer->xmlElement('assignment', array(), $assignment);
+            $writer->xmlElement('assignment', [], $assignment);
         }
         $writer->xmlEndTag('assignments');
         $writer->xmlStartTag('actions');
@@ -522,7 +528,7 @@ class ilDidacticTemplateSetting
 
     public function isEffective(int $a_node_id) : bool
     {
-        if (!count($this->getEffectiveFrom()) || in_array($a_node_id, $this->getEffectiveFrom())) {
+        if (0 === count($this->getEffectiveFrom()) || in_array($a_node_id, $this->getEffectiveFrom())) {
             return true;
         }
 

@@ -67,6 +67,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         // Set permissions
         $ops = $this->review->getOperationsOfRole($role->getId(), $source->getType(), $source->getRefId());
         $this->admin->grantPermission($role->getId(), $ops, $source->getRefId());
+
         return true;
     }
 
@@ -90,6 +91,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
             $this->db->quote($this->getRoleTemplateId(), 'integer') . ' ' .
             ') ';
         $res = $this->db->manipulate($query);
+
         return $this->getActionId();
     }
 
@@ -110,9 +112,9 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 
         $writer->xmlStartTag(
             'roleTemplate',
-            array(
+            [
                 'id' => $il_id
-            )
+            ]
         );
 
         $exp = new ilRoleXmlExport();

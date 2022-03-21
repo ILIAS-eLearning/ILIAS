@@ -87,7 +87,7 @@ class ilDidacticTemplateObjSettings
         $query = 'SELECT * FROM didactic_tpl_objs ' .
             'WHERE tpl_id = ' . $ilDB->quote($a_tpl_id, 'integer');
         $res = $ilDB->query($query);
-        $assignments = array();
+        $assignments = [];
 
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $assignments[] = ["ref_id" => (int) $row->ref_id, "obj_id" => (int) $row->obj_id];
