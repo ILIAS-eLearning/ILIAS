@@ -31,6 +31,16 @@
         flex-direction: column-reverse;
     }
 }
+// break on medium screen sizes when slate is engaged
+@media screen and (max-width: @screen-md-max) {
+	.il-layout-page.with-mainbar-slates-engaged #tst_output {
+		flex-direction: column-reverse;
+		#tst_left {
+			margin-right: 0;
+            width: 100%;
+		}
+	}
+}
 
 // navigation previous and next buttons
 #tst_output .ilTstNavigation {
