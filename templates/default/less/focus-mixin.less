@@ -1,23 +1,42 @@
 // In order not to manually overwrite the focus in all places, the following bootstrap focus mixin is overwritten ilias/libs/bower/bower_components/bootstrap/less/mixins/tab-focus.less.
 
-.tab-focus() {
+.tab-focus(){
     // WebKit-specific. Other browsers will keep their default outline style.
     // (Initially tried to also force default via `outline: initial`,
     // but that seems to erroneously remove the outline in Firefox altogether.)
     outline: none;
     outline-offset: 0px;
     &:focus-visible {
-        outline: @il-focus-outline;
+        outline: @il-focus-outline-outer;
+        outline-offset: @il-focus-outline-inner-width + @il-focus-outline-outer-width;
+        
+        .il-focus-after();
     }
   }
 
-.il-focus(){
+.il-focus() {
 	&:focus-visible {
-		outline: @il-focus-outline;
-		outline-offset: 0px;
+		position: relative;
+		outline: @il-focus-outline-outer;
+		outline-offset: @il-focus-outline-inner-width + @il-focus-outline-outer-width - 1px;
+		
+		.il-focus-after();
 	}
 
 	&:active,&.engaged{
 		outline: none;
+	}
+}
+
+.il-focus-after() {
+	&::after {
+		content: " ";
+		position: absolute;
+		top: -@il-focus-outline-outer-width;
+		left: -@il-focus-outline-outer-width;
+		right: -@il-focus-outline-outer-width;
+		bottom: -@il-focus-outline-outer-width;
+		border: @il-focus-outline-outer;
+		outline: @il-focus-outline-inner;
 	}
 }

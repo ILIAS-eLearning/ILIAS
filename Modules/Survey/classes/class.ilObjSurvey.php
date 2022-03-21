@@ -1984,7 +1984,7 @@ class ilObjSurvey extends ilObject
     * @return integer The database id of the newly created questionblock
     * @access public
     */
-    public static function _addQuestionblock($title = "", $owner = 0, $show_questiontext = true, $show_blocktitle = false)
+    public static function _addQuestionblock($title = "", $owner = 0, $show_questiontext = true, $show_blocktitle = false, $compress_view = false)
     {
         global $DIC;
 
@@ -1992,10 +1992,10 @@ class ilObjSurvey extends ilObject
         $next_id = $ilDB->nextId('svy_qblk');
         $ilDB->manipulateF(
             "INSERT INTO svy_qblk (questionblock_id, title, show_questiontext," .
-            " show_blocktitle, owner_fi, tstamp) " .
-            "VALUES (%s, %s, %s, %s, %s, %s)",
-            array('integer','text','integer','integer','integer','integer'),
-            array($next_id, $title, $show_questiontext, $show_blocktitle, $owner, time())
+            " show_blocktitle, owner_fi, tstamp, compress_view) " .
+            "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            array('integer','text','integer','integer','integer','integer','integer'),
+            array($next_id, $title, $show_questiontext, $show_blocktitle, $owner, time(),$compress_view)
         );
         return $next_id;
     }
@@ -3388,8 +3388,11 @@ class ilObjSurvey extends ilObject
         foreach ($pages as $question_array) {
             if (count($question_array) > 1) {
                 $attribs = array("id" => $question_array[0]["question_id"]);
-                $attribs = array("showQuestiontext" => $question_array[0]["questionblock_show_questiontext"],
-                    "showBlocktitle" => $question_array[0]["questionblock_show_blocktitle"]);
+                $attribs = array(
+                    "showQuestiontext" => $question_array[0]["questionblock_show_questiontext"],
+                    "showBlocktitle" => $question_array[0]["questionblock_show_blocktitle"],
+                    "compressView" => $question_array[0]["questionblock_compress_view"]
+                );
                 $a_xml_writer->xmlStartTag("questionblock", $attribs);
                 if (strlen($question_array[0]["questionblock_title"])) {
                     $a_xml_writer->xmlElement("questionblocktitle", null, $question_array[0]["questionblock_title"]);
@@ -3762,7 +3765,13 @@ class ilObjSurvey extends ilObject
         // create new questionblocks
         foreach ($questionblocks as $key => $value) {
             $questionblock = self::_getQuestionblock($key);
-            $questionblock_id = self::_addQuestionblock($questionblock["title"], $questionblock["owner_fi"], $questionblock["show_questiontext"], $questionblock["show_blocktitle"]);
+            $questionblock_id = self::_addQuestionblock(
+                $questionblock["title"],
+                $questionblock["owner_fi"],
+                $questionblock["show_questiontext"],
+                $questionblock["show_blocktitle"],
+                $questionblock["compress_view"]
+            );
             $questionblocks[$key] = $questionblock_id;
         }
         // create new questionblock questions
@@ -6181,8 +6190,13 @@ class ilObjSurvey extends ilObject
         $html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
         $html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
 
+        $log->debug("--pdf start, ref id " . $this->getRefId());
+        $log->debug("html length: " . strlen($html));
+        $log->debug("html (first 1000 chars): " . substr($html, 0, 1000));
+        //echo $html; exit;
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
         $pdf = $pdf_factory->deliverPDFFromHTMLString($html, "survey.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, "Survey", "Results");
+        $log->debug("--pdf end");
 
         if (!$pdf ||
             !file_exists($pdf)) {

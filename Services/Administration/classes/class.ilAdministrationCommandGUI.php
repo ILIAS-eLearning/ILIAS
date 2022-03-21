@@ -180,7 +180,7 @@ class ilAdministrationCommandGUI
      * Show target selection
      * @return
      */
-    public function showMoveIntoObjectTree()
+    public function showPasteTree()
     {
         $objDefinition = $this->obj_definition;
 
@@ -195,7 +195,7 @@ class ilAdministrationCommandGUI
         // create instance
         include_once($location . "/class." . $class_name . ".php");
         $container = new $class_name(array(), (int) $_GET['ref_id'], true, false);
-        $container->showMoveIntoObjectTreeObject();
+        $container->showPasteTreeObject();
         return true;
     }
     
