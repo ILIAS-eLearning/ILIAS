@@ -19478,34 +19478,6 @@ table.il_tst_answer_aggregation td.answer_frequency {
   font-style: italic;
   font-size: 90%;
 }
-ul.shortlist {
-  list-style-type: none;
-  padding: 0;
-}
-/* fau: testNav - icon for answered/unanswered questions in shortlist */
-ul.shortlist li {
-  padding: 0 0 6px 15px;
-  background-repeat: no-repeat;
-  background-size: 10px;
-  background-position: 0px 5px;
-}
-ul.shortlist li.answered {
-  background-image: url('../../../../templates/default/images/answered.svg');
-}
-ul.shortlist li.unanswered {
-  background-image: url('../../../../templates/default/images/answered_not.svg');
-}
-/* fau. */
-ul.shortlist li.active {
-  font-weight: bold;
-}
-ul.shortlist li.listEntry a {
-  text-decoration: none;
-  color: #0033AA;
-}
-ul.shortlist li.listEntry a:hover {
-  text-decoration: underline;
-}
 .number {
   text-align: right;
 }
@@ -19728,6 +19700,25 @@ div.ilc_Page.readonly textarea[disabled] {
   padding: 6px 12px;
   justify-content: space-between;
   background-color: #f9f9f9;
+}
+#tst_output #tst_left ul.shortlist {
+  list-style-type: none;
+  padding: 0;
+}
+#tst_output #tst_left ul.shortlist li {
+  padding: 0 0 6px 18px;
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: 0px 5px;
+}
+#tst_output #tst_left ul.shortlist li.unanswered {
+  background-image: url('images/answered_not.svg');
+}
+#tst_output #tst_left ul.shortlist li.answered {
+  background-image: url('images/answered.svg');
+}
+#tst_output #tst_left ul.shortlist li.active {
+  font-weight: bold;
 }
 #tst_output #tst_right h1.ilc_page_title_PageTitle {
   margin-bottom: 6px;
