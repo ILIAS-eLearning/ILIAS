@@ -1209,9 +1209,9 @@ class ilForum
             $query = "SELECT
 					  0 usr_notification_is_enabled,
 					  MAX(pos_date) post_date,
-					  COUNT(DISTINCT(pos_pk)) num_posts,
-					  COUNT(DISTINCT(pos_pk)) num_unread_posts,
-					  COUNT(DISTINCT(pos_pk)) num_new_posts,
+					  COUNT(DISTINCT(tree1.pos_fk)) num_posts,
+					  COUNT(DISTINCT(tree1.pos_fk)) num_unread_posts,
+					  COUNT(DISTINCT(tree1.pos_fk)) num_new_posts,
 					  thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 					  {$optional_fields}
 					  FROM frm_threads
@@ -1219,7 +1219,7 @@ class ilForum
 					  LEFT JOIN frm_posts
 						ON pos_thr_fk = thr_pk $active_query
 					  LEFT JOIN frm_posts_tree tree1
-					    ON tree1.pos_fk = frm_posts.pos_pk 	
+					    ON tree1.pos_fk = frm_posts.pos_pk AND tree1.parent_pos != 0
 					";
 
             $query .= " WHERE thr_top_fk = %s
