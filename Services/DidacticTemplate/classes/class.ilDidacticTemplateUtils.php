@@ -30,6 +30,7 @@ class ilDidacticTemplateUtils
         if ($obj instanceof ilObject) {
             $obj->applyDidacticTemplate($a_new_tpl_id);
         }
+
         return true;
     }
 }

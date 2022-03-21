@@ -14,26 +14,17 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     public const TPL_ACTION_SUBTRACT = 4;
     public const TPL_ACTION_UNION = 5;
 
+    /** @var ilDidacticTemplateFilterPattern[] */
     private array $pattern = [];
     private int $filter_type = self::FILTER_SOURCE_TITLE;
     private int $role_template_type = self::TPL_ACTION_OVERWRITE;
     private int $role_template_id = 0;
 
-    /**
-     * Constructor
-     * @param int $action_id
-     */
     public function __construct(int $action_id = 0)
     {
-        global $DIC;
-
         parent::__construct($action_id);
     }
 
-    /**
-     * Add filter
-     * @param ilDidacticTemplateFilterPattern $pattern
-     */
     public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern) : void
     {
         $this->pattern[] = $pattern;
@@ -57,62 +48,36 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         return $this->pattern;
     }
 
-    /**
-     * Set filter type
-     * @param int $a_type
-     */
     public function setFilterType(int $a_type) : void
     {
         $this->filter_type = $a_type;
     }
 
-    /**
-     * Get filter type
-     * @return int
-     */
     public function getFilterType() : int
     {
         return $this->filter_type;
     }
 
-    /**
-     * Set Role template type
-     * @param int $a_tpl_type
-     */
     public function setRoleTemplateType(int $a_tpl_type) : void
     {
         $this->role_template_type = $a_tpl_type;
     }
 
-    /**
-     * Get role template type
-     */
     public function getRoleTemplateType() : int
     {
         return $this->role_template_type;
     }
 
-    /**
-     * Set role template id
-     * @param int $a_id
-     */
     public function setRoleTemplateId(int $a_id) : void
     {
         $this->role_template_id = $a_id;
     }
 
-    /**
-     * Get role template id
-     * @return int
-     */
     public function getRoleTemplateId() : int
     {
         return $this->role_template_id;
     }
 
-    /**
-     * Save action
-     */
     public function save() : int
     {
         if (!parent::save()) {
@@ -134,13 +99,10 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             $pattern->setParentType(self::PATTERN_PARENT_TYPE);
             $pattern->save();
         }
+
         return $this->getActionId();
     }
 
-    /**
-     * delete action filter
-     * @return void
-     */
     public function delete() : void
     {
         parent::delete();
@@ -153,9 +115,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         }
     }
 
-    /**
-     * Apply action
-     */
     public function apply() : bool
     {
         $source = $this->initSourceObject();
@@ -170,8 +129,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
             // No local policies for protected roles of higher context
             if (
-                $this->review->isProtected($role['parent'], $role_id) &&
-                $role['parent'] != $source->getRefId()
+                (int) $role['parent'] !== $source->getRefId() &&
+                $this->review->isProtected($role['parent'], $role_id)
             ) {
                 $this->getLogger()->debug('Ignoring protected role.');
                 continue;
@@ -181,9 +140,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         return true;
     }
 
-    /**
-     * Revert action
-     */
     public function revert() : bool
     {
         $source = $this->initSourceObject();
@@ -192,8 +148,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         // Delete local policy for filtered roles
         foreach ($roles as $role_id => $role) {
             // Do not delete local policies of auto generated roles
-            if (!$this->review->isGlobalRole($role['obj_id']) and
-                $this->review->isAssignable($role['obj_id'], $source->getRefId()) and
+            if (!$this->review->isGlobalRole($role['obj_id']) &&
+                $this->review->isAssignable($role['obj_id'], $source->getRefId()) &&
                 $this->review->isSystemGeneratedRole($role['obj_id'])) {
                 $this->getLogger()->debug('Reverting local policy of auto generated role: ' . $role['title']);
                 $this->revertLocalPolicy($source, $role);
@@ -225,19 +181,11 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         return self::TYPE_LOCAL_POLICY;
     }
 
-    /**
-     * Export to xml
-     * @param ilXmlWriter $writer
-     * @return void
-     */
     public function toXml(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('localPolicyAction');
 
         switch ($this->getFilterType()) {
-            case self::FILTER_SOURCE_TITLE:
-                $writer->xmlStartTag('roleFilter', ['source' => 'title']);
-                break;
 
             case self::FILTER_SOURCE_OBJ_ID:
                 $writer->xmlStartTag('roleFilter', ['source' => 'objId']);
@@ -251,6 +199,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                 $writer->xmlStartTag('roleFilter', ['source' => 'localRoles']);
                 break;
 
+            case self::FILTER_SOURCE_TITLE:
             default:
                 $writer->xmlStartTag('roleFilter', ['source' => 'title']);
                 break;
@@ -304,9 +253,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         $writer->xmlEndTag('localPolicyAction');
     }
 
-    /**
-     *  clone method
-     */
     public function __clone()
     {
         parent::__clone();
@@ -344,15 +290,15 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         // fetch role information
         $role_data = array();
         foreach ($this->review->getParentRoleIds($source->getRefId()) as $role_id => $tmp_role) {
-            if ($role_id == $role['obj_id']) {
+            if ((int) $role_id === (int) $role['obj_id']) {
                 $role_data = $tmp_role;
             }
         }
 
         // Add local policy
-        if (!$this->review->isRoleAssignedToObject($role['obj_id'], $source->getRefId())) {
+        if (!$this->review->isRoleAssignedToObject((int) $role['obj_id'], $source->getRefId())) {
             $this->admin->assignRoleToFolder(
-                $role['obj_id'],
+                (int) $role['obj_id'],
                 $source->getRefId(),
                 'n'
             );
@@ -361,7 +307,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         // do nothing if role is protected in higher context
         if (
             (int) $role['parent'] !== $source->getRefId() &&
-            $this->review->isProtected($source->getRefId(), $role['obj_id'])
+            $this->review->isProtected($source->getRefId(), (int) $role['obj_id'])
         ) {
             $this->getLogger()->info('Ignoring protected role: ' . $role['title']);
             return false;
@@ -372,11 +318,11 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
                 $this->logger->info('Using ilRbacAdmin::copyRolePermissionUnion()');
                 $this->admin->copyRolePermissionUnion(
-                    $role_data['obj_id'],
-                    $role_data['parent'],
+                    (int) $role_data['obj_id'],
+                    (int) $role_data['parent'],
                     $this->getRoleTemplateId(),
                     ROLE_FOLDER_ID,
-                    $role_data['obj_id'],
+                    (int) $role_data['obj_id'],
                     $source->getRefId()
                 );
                 break;
@@ -388,7 +334,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                     $this->getRoleTemplateId(),
                     ROLE_FOLDER_ID,
                     $source->getRefId(),
-                    $role_data['obj_id'],
+                    (int) $role_data['obj_id'],
                     true
                 );
                 break;
@@ -397,27 +343,27 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
                 $this->logger->info('Using ilRbacAdmin::copyRolePermissionIntersection()' . $this->getRoleTemplateId());
                 $this->admin->copyRolePermissionIntersection(
-                    $role_data['obj_id'],
-                    $role_data['parent'],
+                    (int) $role_data['obj_id'],
+                    (int) $role_data['parent'],
                     $this->getRoleTemplateId(),
                     ROLE_FOLDER_ID,
                     $source->getRefId(),
-                    $role_data['obj_id']
+                    (int) $role_data['obj_id']
                 );
                 break;
 
         }
         // Change existing object
-        $role_obj = new ilObjRole($role_data['obj_id']);
+        $role_obj = new ilObjRole((int) $role_data['obj_id']);
         $role_obj->changeExistingObjects(
             $source->getRefId(),
             $role_data['protected'] ? ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
-            array('all')
+            ['all']
         );
         return true;
     }
 
-    protected function revertLocalPolicy(ilObject $source, $role) : bool
+    protected function revertLocalPolicy(ilObject $source, array $role) : bool
     {
         $this->logger->info('Reverting policy for role ' . $role['title']);
         // Local policies can only be reverted for auto generated roles. Otherwise the
@@ -454,12 +400,12 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             $rolt_id,
             ROLE_FOLDER_ID,
             $source->getRefId(),
-            $role['obj_id'],
+            (int) $role['obj_id'],
             true
         );
 
         // Change existing object
-        $role_obj = new ilObjRole($role['obj_id']);
+        $role_obj = new ilObjRole((int) $role['obj_id']);
         $role_obj->changeExistingObjects(
             $source->getRefId(),
             $role['protected'] ? ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,

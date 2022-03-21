@@ -80,12 +80,10 @@ class ilDidacticTemplateSettingsGUI
                 )
             );
         }
+
         return new SplFixedArray(0);
     }
 
-    /**
-     * @return ilDidacticTemplateSetting
-     */
     protected function initTemplateFromRequest() : ?ilDidacticTemplateSetting
     {
         if ($this->http->wrapper()->query()->has('tplid')) {
@@ -95,6 +93,7 @@ class ilDidacticTemplateSettingsGUI
             );
             return $this->setting = new ilDidacticTemplateSetting($tpl_id);
         }
+
         return null;
     }
 
@@ -114,7 +113,7 @@ class ilDidacticTemplateSettingsGUI
                 }
                 $form = $this->initEditTemplate($setting);
                 $this->ctrl->forwardCommand($form);
-            // no break
+                // no break
             case 'ilmultilingualismgui':
                 $setting = $this->initTemplateFromRequest();
                 if (
@@ -159,7 +158,7 @@ class ilDidacticTemplateSettingsGUI
         $table->parse($filter);
 
         $this->tpl->setContent(
-            $filter->render() . '' . $table->getHTML()
+            $filter->render() . $table->getHTML()
         );
     }
 
@@ -268,10 +267,8 @@ class ilDidacticTemplateSettingsGUI
             $settings = $import->import();
             if ($setting instanceof ilDidacticTemplateSetting) {
                 $this->editImport($settings);
-            } else {
-                if ($settings->hasIconSupport($this->objDefinition)) {
-                    $settings->getIconHandler()->handleUpload($this->upload, $_FILES['icon']['tmp_name']);
-                }
+            } elseif ($settings->hasIconSupport($this->objDefinition)) {
+                $settings->getIconHandler()->handleUpload($this->upload, $_FILES['icon']['tmp_name']);
             }
         } catch (ilDidacticTemplateImportException $e) {
             $this->logger->error('Import failed with message: ' . $e->getMessage());
@@ -314,10 +311,10 @@ class ilDidacticTemplateSettingsGUI
         $form = $this->initEditTemplate($this->setting);
 
         if ($form->checkInput()) {
-            $tmp_file = $_FILES['icon']['tmp_name'];
+            $tmp_file = $_FILES['icon']['tmp_name'] ?? '';
             $upload_element = $form->getItemByPostVar('icon');
             if (
-                (strlen($tmp_file) || (!strlen($tmp_file) && $this->setting->getIconIdentifier())) &&
+                ($tmp_file !== '' || ($tmp_file === '' && $this->setting->getIconIdentifier())) &&
                 !$this->objDefinition->isContainer($form->getInput('type')) &&
                 !$upload_element->getDeletionFlag()
             ) {
@@ -394,7 +391,7 @@ class ilDidacticTemplateSettingsGUI
             $trans = $set->getTranslations();
             $def = $trans[0]; // default
 
-            if (sizeof($trans) > 1) {
+            if (count($trans) > 1) {
                 $languages = ilMDLanguageItem::_getLanguages();
                 $title->setInfo($this->lng->txt("language") . ": " . $languages[$def["lang_code"]] .
                     ' <a href="' . $this->ctrl->getLinkTargetByClass("ilmultilingualismgui", "listTranslations") .
@@ -447,7 +444,7 @@ class ilDidacticTemplateSettingsGUI
             $type->setRequired(true);
             $type->setInfo($this->lng->txt('dtpl_obj_type_info'));
             $assigned = $set->getAssignments();
-            $type->setValue(isset($assigned[0]) ? $assigned[0] : '');
+            $type->setValue($assigned[0] ?? '');
             $subs = $this->objDefinition->getSubObjectsRecursively('root', false);
             $options = array();
             foreach (array_merge($subs, array('fold' => 1)) as $obj => $null) {
@@ -492,6 +489,7 @@ class ilDidacticTemplateSettingsGUI
 
             $form->addItem($excl);
         }
+
         return $form;
     }
 
@@ -547,8 +545,7 @@ class ilDidacticTemplateSettingsGUI
         $confirm->setConfirm($this->lng->txt('delete'), 'deleteTemplates');
         $confirm->setCancel($this->lng->txt('cancel'), 'overview');
 
-        $forbidden = array();
-
+        $forbidden = [];
         foreach ($templates as $tplid) {
             $tpl = new ilDidacticTemplateSetting((int) $tplid);
 
@@ -559,7 +556,7 @@ class ilDidacticTemplateSettingsGUI
             }
         }
 
-        if (count($forbidden) > 0 && count($templates) == 1) {
+        if (count($forbidden) > 0 && count($templates) === 1) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('didactic_cannot_delete_auto_generated'), true);
             $this->ctrl->redirect($this, "overview");
         } elseif (count($forbidden) > 0 && count($templates) > 1) {
@@ -576,7 +573,7 @@ class ilDidacticTemplateSettingsGUI
             $this->ctrl->redirect($this, "overview");
         }
         $templates = $this->initTemplatesFromRequest();
-        if (!$templates) {
+        if (0 === count($templates)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'overview');
             return;
@@ -597,7 +594,7 @@ class ilDidacticTemplateSettingsGUI
             $this->ctrl->redirect($this, "overview");
         }
         $templates = $this->initTemplatesFromRequest();
-        if (!count($templates)) {
+        if (0 === count($templates)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'overview');
             return;
@@ -620,7 +617,7 @@ class ilDidacticTemplateSettingsGUI
         }
 
         $templates = $this->initTemplatesFromRequest();
-        if (!count($templates)) {
+        if (0 === count($templates)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'overview');
         }

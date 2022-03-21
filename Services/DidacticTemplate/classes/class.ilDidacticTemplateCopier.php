@@ -11,9 +11,6 @@ class ilDidacticTemplateCopier
     private int $tpl_id = 0;
     private int $new_tpl_id = 0;
 
-    /**
-     * Constructor
-     */
     public function __construct(int $a_tpl_id)
     {
         $this->tpl_id = $a_tpl_id;

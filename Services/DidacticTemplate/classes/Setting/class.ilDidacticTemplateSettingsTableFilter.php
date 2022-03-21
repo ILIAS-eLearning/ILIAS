@@ -26,35 +26,12 @@ class ilDidacticTemplateSettingsTableFilter
         self::FILTER_NAME_ACTIVE => true
     ];
 
-    /**
-     * @var ilLanguage
-     */
     private ilLanguage $lng;
-
-    /**
-     * @var Factory
-     */
     private Factory $ui_factory;
-
-    /**
-     * @var Renderer
-     */
     private Renderer $ui_renderer;
-
-    /**
-     * @var ilUIService
-     */
     private ilUIService $ui_service;
-
-    /**
-     * @var string
-     */
     private string $target_url;
-
-    /**
-     * @var ILIAS\UI\Component\
-     */
-    private $filter;
+    private ?ILIAS\UI\Component\Input\Container\Filter\Filter $filter = null;
 
     /**
      * @var array
@@ -126,9 +103,6 @@ class ilDidacticTemplateSettingsTableFilter
         );
     }
 
-    /**
-     * @return string
-     */
     public function render() : string
     {
         return $this->ui_renderer->render(
@@ -153,31 +127,28 @@ class ilDidacticTemplateSettingsTableFilter
             }
             $filtered[] = $setting;
         }
+
         return $filtered;
     }
 
-    /**
-     * @param ilDidacticTemplateSetting $setting
-     * @return bool
-     */
     protected function isFiltered(ilDidacticTemplateSetting $setting) : bool
     {
         if (!$this->filter->isActivated()) {
             return false;
         }
 
-        $value = $this->getFilterValue(self::FILTER_NAME_ICON);
+        $value = (string) $this->getFilterValue(self::FILTER_NAME_ICON);
         if ($value) {
-            if ($value == self::FILTER_ON && !strlen((string) $setting->getIconHandler()->getAbsolutePath())) {
+            if ($value === (string) self::FILTER_ON && $setting->getIconHandler()->getAbsolutePath() === '') {
                 return true;
             }
-            if ($value == self::FILTER_OFF && strlen((string) $setting->getIconHandler()->getAbsolutePath())) {
+            if ($value === (string) self::FILTER_OFF && $setting->getIconHandler()->getAbsolutePath() !== '') {
                 return true;
             }
         }
 
         $value = (string) $this->getFilterValue(self::FILTER_NAME_TITLE);
-        if (strlen((string) $value)) {
+        if ($value !== '') {
             $title_string = ($setting->getPresentationTitle() . ' ' . $setting->getPresentationDescription());
             $title_string .= (' ' . $setting->getInfo());
             if (ilStr::strIPos($title_string, $value) === false) {
@@ -186,7 +157,7 @@ class ilDidacticTemplateSettingsTableFilter
         }
 
         $value = (string) $this->getFilterValue(self::FILTER_NAME_TYPE);
-        if (strlen($value)) {
+        if ($value !== '') {
             $assigned = $setting->getAssignments();
             if (!in_array($value, $assigned)) {
                 return true;
@@ -198,36 +169,30 @@ class ilDidacticTemplateSettingsTableFilter
             $is_local = (bool) count($setting->getEffectiveFrom());
 
             print_r($setting->getEffectiveFrom());
-            if ($value == self::FILTER_GLOBAL && $is_local) {
+            if ($value === (string) self::FILTER_GLOBAL && $is_local) {
                 return true;
             }
-            if ($value == self::FILTER_LOCAL && !$is_local) {
+            if ($value === (string) self::FILTER_LOCAL && !$is_local) {
                 return true;
             }
         }
 
         $value = (string) $this->getFilterValue(self::FILTER_NAME_ACTIVE);
         if ($value) {
-            if ($value == self::FILTER_ON && !$setting->isEnabled()) {
+            if ($value === (string) self::FILTER_ON && !$setting->isEnabled()) {
                 return true;
             }
-            if ($value == self::FILTER_OFF && $setting->isEnabled()) {
+            if ($value === (string) self::FILTER_OFF && $setting->isEnabled()) {
                 return true;
             }
         }
+
         return false;
     }
 
-    /**
-     * @param string $name
-     * @return void
-     */
     protected function getFilterValue(string $name)
     {
-        if (isset($this->filter_values[$name])) {
-            return $this->filter_values[$name];
-        }
-        return null;
+        return $this->filter_values[$name] ?? null;
     }
 
     protected function loadFilterValues() : void

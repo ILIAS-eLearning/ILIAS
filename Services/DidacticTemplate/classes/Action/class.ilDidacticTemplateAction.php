@@ -43,19 +43,11 @@ abstract class ilDidacticTemplateAction
         $this->read();
     }
 
-    /**
-     * Get logger
-     * @return ilLogger
-     */
-    public function getLogger() : \ilLogger
+    public function getLogger() : ilLogger
     {
         return $this->logger;
     }
 
-    /**
-     * Get action id
-     * @return int
-     */
     public function getActionId() : int
     {
         return $this->action_id;
@@ -71,10 +63,6 @@ abstract class ilDidacticTemplateAction
         $this->type = $a_type_id;
     }
 
-    /**
-     * Set template id
-     * @param int $a_id
-     */
     public function setTemplateId(int $a_id) : void
     {
         $this->tpl_id = $a_id;
@@ -85,27 +73,19 @@ abstract class ilDidacticTemplateAction
         return $this->tpl_id;
     }
 
-    /**
-     * Set ref id of target object.
-     * @param int ref id
-     * @return void
-     */
     public function setRefId(int $a_ref_id) : void
     {
         $this->ref_id = $a_ref_id;
     }
 
-    /**
-     * Get ref id of target object
-     */
     public function getRefId() : int
     {
         return $this->ref_id;
     }
 
     /**
-     * write action to db
-     * overwrite for filling additional db fields
+     * Write action to db
+     * Overwrite for filling additional db fields
      * @return int
      */
     public function save() : int
@@ -122,12 +102,13 @@ abstract class ilDidacticTemplateAction
             $this->db->quote($this->getType(), 'integer') .
             ')';
         $this->db->manipulate($query);
+
         return $this->getActionId();
     }
 
     /**
      * Delete didactic template action
-     * overwrite for filling additional db fields
+     * Overwrite for filling additional db fields
      */
     public function delete() : void
     {
@@ -164,23 +145,13 @@ abstract class ilDidacticTemplateAction
      */
     abstract public function revert() : bool;
 
-    /**
-     * Clone method
-     */
     public function __clone()
     {
         $this->setActionId(0);
     }
 
-    /**
-     * Write xml for export
-     */
     abstract public function toXml(ilXmlWriter $writer) : void;
 
-    /**
-     * Init the source object
-     * @return ilObject $obj
-     */
     protected function initSourceObject() : ilObject
     {
         $s = ilObjectFactory::getInstanceByRefId($this->getRefId(), false);
@@ -190,7 +161,7 @@ abstract class ilDidacticTemplateAction
     /**
      * Filter roles
      * @param ilObject $source
-     * @return array
+     * @return array<int, array>
      */
     protected function filterRoles(ilObject $source) : array
     {
@@ -201,9 +172,10 @@ abstract class ilDidacticTemplateAction
 
         $filtered = array();
         foreach ($this->review->getParentRoleIds($source->getRefId()) as $role_id => $role) {
+            $role_id = (int) $role_id;
+
             switch ($this->getFilterType()) {
                 case self::FILTER_PARENT_ROLES:
-
                     $this->logger->dump($role);
                     if (
                         $role['assign'] === 'y' &&
@@ -222,7 +194,6 @@ abstract class ilDidacticTemplateAction
                     break;
 
                 case self::FILTER_LOCAL_ROLES:
-
                     if (
                         $role['assign'] === 'n' ||
                         (int) $role['parent'] !== $source->getRefId()

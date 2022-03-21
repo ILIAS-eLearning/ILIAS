@@ -111,7 +111,7 @@ class ilDidacticTemplateImport
         }
         $setting->save();
 
-        if (strlen($icon) && $this->canUseIcons($setting)) {
+        if ($icon !== '' && $this->canUseIcons($setting)) {
             $setting->getIconHandler()->writeSvg($icon);
         }
         $trans = ilMultilingualism::getInstance($setting->getId(), "dtpl");
@@ -119,6 +119,7 @@ class ilDidacticTemplateImport
             $trans->fromXML($root->didacticTemplate->translations);
         }
         $trans->save();
+
         return $setting;
     }
 
@@ -129,6 +130,7 @@ class ilDidacticTemplateImport
                 return false;
             }
         }
+
         return true;
     }
 

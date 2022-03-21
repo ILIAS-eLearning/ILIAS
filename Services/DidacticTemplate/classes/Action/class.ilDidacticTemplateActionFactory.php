@@ -7,12 +7,7 @@
  */
 class ilDidacticTemplateActionFactory
 {
-    /**
-     * Get action class by type
-     * @param string $a_action_type
-     * @return ilDidacticTemplateAction
-     */
-    public static function factoryByType($a_action_type) : ilDidacticTemplateAction
+    public static function factoryByType(int $a_action_type) : ilDidacticTemplateAction
     {
         switch ($a_action_type) {
             case ilDidacticTemplateAction::TYPE_LOCAL_POLICY:
@@ -29,12 +24,6 @@ class ilDidacticTemplateActionFactory
         }
     }
 
-    /**
-     * Get instance by id and type
-     * @param int $a_action_id
-     * @param int $a_actions_type
-     * @return ilDidacticTemplateAction
-     */
     public static function factoryByTypeAndId(int $a_action_id, int $a_action_type) : ilDidacticTemplateAction
     {
         switch ($a_action_type) {
@@ -55,7 +44,7 @@ class ilDidacticTemplateActionFactory
     /**
      * Get actions of one template
      * @param int $a_tpl_id
-     * @return array
+     * @return ilDidacticTemplateAction[]
      */
     public static function getActionsByTemplateId(int $a_tpl_id) : array
     {

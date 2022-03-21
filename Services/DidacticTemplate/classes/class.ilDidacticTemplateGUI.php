@@ -19,9 +19,6 @@ class ilDidacticTemplateGUI
     private \ILIAS\Refinery\Factory $refinery;
     private ilLogger $logger;
 
-    /**
-     * Constructor
-     */
     public function __construct(object $a_parent_obj, int $requested_template_id = 0)
     {
         global $DIC;
@@ -123,7 +120,7 @@ class ilDidacticTemplateGUI
         return true;
     }
 
-    /*
+    /**
      * Show didactic template switch confirmation screen
      */
     protected function confirmTemplateSwitch() : void
@@ -180,9 +177,6 @@ class ilDidacticTemplateGUI
         $this->ctrl->returnToParent($this);
     }
 
-    /**
-     * Switch Template
-     */
     protected function switchTemplate() : void
     {
         $new_tpl_id = $this->requested_template_id;

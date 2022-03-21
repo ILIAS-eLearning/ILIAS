@@ -8,13 +8,10 @@
  */
 class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 {
-    private array $pattern = array();
+    /** @var ilDidacticTemplateFilterPattern[] */
+    private array $pattern = [];
     private int $filter_type = self::FILTER_SOURCE_TITLE;
 
-    /**
-     * Constructor
-     * @param int $action_id
-     */
     public function __construct(int $action_id = 0)
     {
         parent::__construct($action_id);
@@ -27,7 +24,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 
     /**
      * Set filter patterns
-     * @param array $patterns
+     * @param ilDidacticTemplateFilterPattern[] $patterns
      */
     public function setFilterPatterns(array $patterns) : void
     {
@@ -35,35 +32,24 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
     }
 
     /**
-     * Get filter pattern
-     * @return array
+     * Get filter patterns
+     * @return ilDidacticTemplateFilterPattern[]
      */
     public function getFilterPattern() : array
     {
         return $this->pattern;
     }
 
-    /**
-     * Set filter type
-     * @param int $a_type
-     */
     public function setFilterType(int $a_type) : void
     {
         $this->filter_type = $a_type;
     }
 
-    /**
-     * Get filter type
-     * @return int
-     */
     public function getFilterType() : int
     {
         return $this->filter_type;
     }
 
-    /**
-     * Save action
-     */
     public function save() : int
     {
         parent::save();
@@ -83,10 +69,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return $this->getActionId();
     }
 
-    /**
-     * delete action filter
-     * @return void
-     */
     public function delete() : void
     {
         parent::delete();
@@ -99,9 +81,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         }
     }
 
-    /**
-     * Apply action
-     */
     public function apply() : bool
     {
         $source = $this->initSourceObject();
@@ -114,11 +93,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    /**
-     * Block role
-     * @param int      $a_role_id
-     * @param ilObject $source
-     */
     protected function blockRole(int $a_role_id, ilObject $source) : bool
     {
         // Set assign to 'y' only if it is a local role
@@ -138,9 +112,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    /**
-     * Revert action
-     */
     public function revert() : bool
     {
         $source = $this->initSourceObject();
@@ -153,11 +124,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    /**
-     * Delete local policy
-     * @param int      $a_role_id
-     * @param ilObject $source
-     */
     protected function deleteLocalPolicy(int $a_role_id, ilObject $source) : bool
     {
         // Create role folder if it does not exist
@@ -180,20 +146,11 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    /**
-     * Get action type
-     * @return int
-     */
     public function getType() : int
     {
         return self::TYPE_BLOCK_ROLE;
     }
 
-    /**
-     * Export to xml
-     * @param ilXmlWriter $writer
-     * @return void
-     */
     public function toXml(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('blockRoleAction');
@@ -203,14 +160,11 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
                 $writer->xmlStartTag('roleFilter', ['source' => 'objId']);
                 break;
 
-            case self::FILTER_SOURCE_TITLE:
-                $writer->xmlStartTag('roleFilter', ['source' => 'title']);
-                break;
-
             case self::FILTER_PARENT_ROLES:
                 $writer->xmlStartTag('roleFilter', ['source' => 'parentRoles']);
                 break;
 
+            case self::FILTER_SOURCE_TITLE:
             default:
                 $writer->xmlStartTag('roleFilter', ['source' => 'title']);
                 break;
@@ -224,9 +178,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         $writer->xmlEndTag('blockRoleAction');
     }
 
-    /**
-     *  clone method
-     */
     public function __clone()
     {
         parent::__clone();
@@ -239,10 +190,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         $this->setFilterPatterns($clones);
     }
 
-    /**
-     * read action data
-     * @return void
-     */
     public function read() : void
     {
         parent::read();

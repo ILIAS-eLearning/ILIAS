@@ -11,7 +11,8 @@ class ilDidacticTemplateFilterPatternFactory
     /**
      * Get patterns by template id
      * @param int $a_tpl_id
-     * @param ilDidacticTemplateFilterPattern[]
+     * @param string $a_parent_type
+     * @return ilDidacticTemplateFilterPattern[]
      */
     public static function lookupPatternsByParentId(int $a_parent_id, string $a_parent_type) : array
     {
@@ -38,6 +39,7 @@ class ilDidacticTemplateFilterPatternFactory
                     break;
             }
         }
+
         return $patterns;
     }
 }

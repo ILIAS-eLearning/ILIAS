@@ -10,19 +10,11 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 {
     private int $role_template_id = 0;
 
-    /**
-     * Constructor
-     * @param int $a_action_id
-     */
     public function __construct(int $a_action_id = 0)
     {
         parent::__construct($a_action_id);
     }
 
-    /**
-     * Get action type
-     * @return int
-     */
     public function getType() : int
     {
         return self::TYPE_LOCAL_ROLE;
@@ -33,18 +25,11 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         $this->role_template_id = $a_role_template_id;
     }
 
-    /**
-     * get role template id
-     * @return int
-     */
     public function getRoleTemplateId() : int
     {
         return $this->role_template_id;
     }
 
-    /**
-     * Apply action
-     */
     public function apply() : bool
     {
         $source = $this->initSourceObject();
@@ -85,9 +70,6 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    /**
-     * Revert action
-     */
     public function revert() : bool
     {
         // @todo: revert could delete the generated local role. But on the other hand all users
@@ -96,9 +78,6 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         return false;
     }
 
-    /**
-     * Create new action
-     */
     public function save() : int
     {
         if (!parent::save()) {
@@ -114,10 +93,6 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         return $this->getActionId();
     }
 
-    /**
-     * Delete
-     * @return void
-     */
     public function delete() : void
     {
         parent::delete();
@@ -127,10 +102,6 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         $this->db->manipulate($query);
     }
 
-    /**
-     * Write xml of template action
-     * @param ilXmlWriter $writer
-     */
     public function toXml(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('localRoleAction');
@@ -153,10 +124,6 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         $writer->xmlEndTag('localRoleAction');
     }
 
-    /**
-     * Read db entry
-     * @return void
-     */
     public function read() : void
     {
         parent::read();
