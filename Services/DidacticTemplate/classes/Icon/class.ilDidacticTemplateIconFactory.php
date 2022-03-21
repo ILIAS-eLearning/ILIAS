@@ -86,7 +86,7 @@ class ilDidacticTemplateIconFactory
     protected function getIconPathForTemplate(int $template_id) : ?string
     {
         foreach ($this->settings->getTemplates() as $template) {
-            if ($template->getId() == $template_id) {
+            if ($template->getId() === $template_id) {
                 return $template->getIconHandler()->getAbsolutePath();
             }
         }
@@ -130,20 +130,20 @@ class ilDidacticTemplateIconFactory
      */
     protected function supportsCustomIcon(string $type) : bool
     {
-        return in_array($type, $this->icon_types);
+        return in_array($type, $this->icon_types, true);
     }
 
-    private function initTemplates()
+    private function initTemplates() : void
     {
         $this->settings = ilDidacticTemplateSettings::getInstance();
         $this->icon_types = [];
 
         $templates = [];
         foreach ($this->settings->getTemplates() as $tpl) {
-            if ($tpl->getIconIdentifier() != '') {
+            if ($tpl->getIconIdentifier() !== '') {
                 $templates[] = $tpl->getId();
                 foreach ($tpl->getAssignments() as $assignment) {
-                    if (!in_array($assignment, $this->icon_types)) {
+                    if (!in_array($assignment, $this->icon_types, true)) {
                         $this->icon_types[] = $assignment;
                     }
                 }
@@ -151,5 +151,4 @@ class ilDidacticTemplateIconFactory
         }
         $this->assignments = ilDidacticTemplateObjSettings::getAssignmentsForTemplates($templates);
     }
-
 }

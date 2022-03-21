@@ -333,7 +333,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         // Read filter
         foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(
             $this->getActionId(),
-            self::PATTERN_PARENT_TYPE) as $pattern) {
+            self::PATTERN_PARENT_TYPE
+        ) as $pattern) {
             $this->addFilterPattern($pattern);
         }
     }
@@ -359,8 +360,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
         // do nothing if role is protected in higher context
         if (
-            $this->review->isProtected($source->getRefId(), $role['obj_id']) &&
-            $role['parent'] != $source->getRefId()
+            (int) $role['parent'] !== $source->getRefId() &&
+            $this->review->isProtected($source->getRefId(), $role['obj_id'])
         ) {
             $this->getLogger()->info('Ignoring protected role: ' . $role['title']);
             return false;
@@ -421,7 +422,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         $this->logger->info('Reverting policy for role ' . $role['title']);
         // Local policies can only be reverted for auto generated roles. Otherwise the
         // original role settings are unknown
-        if (substr($role['title'], 0, 3) != 'il_') {
+        if (strpos($role['title'], 'il_') !== 0) {
             $this->logger->warning('Cannot revert local policy for role ' . $role['title']);
             return false;
         }

@@ -25,8 +25,8 @@ class ilDidacticTemplateUtils
                 $action->revert();
             }
         }
-        $factory = new ilObjectFactory();
-        $obj = $factory->getInstanceByRefId($a_ref_id, false);
+
+        $obj = ilObjectFactory::getInstanceByRefId($a_ref_id, false);
         if ($obj instanceof ilObject) {
             $obj->applyDidacticTemplate($a_new_tpl_id);
         }

@@ -14,7 +14,10 @@ class ilDidacticTemplateGUI
     private ilCtrl $ctrl;
     private ilTabsGUI $tabs;
     private ilGlobalTemplateInterface $tpl;
-    protected int $requested_template_id = 0;
+    private int $requested_template_id;
+    private \ILIAS\HTTP\GlobalHttpState $http;
+    private \ILIAS\Refinery\Factory $refinery;
+    private ilLogger $logger;
 
     /**
      * Constructor
@@ -28,6 +31,9 @@ class ilDidacticTemplateGUI
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('didactic');
         $this->tpl = $DIC->ui()->mainTemplate();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $this->logger = $DIC->logger()->otpl();
 
         $this->parent_object = $a_parent_obj;
         $this->requested_template_id = 0;
@@ -48,10 +54,7 @@ class ilDidacticTemplateGUI
         return $this->parent_object;
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -94,12 +97,12 @@ class ilDidacticTemplateGUI
             }
         }
 
-        if ($excl_tpl && $value != 0) {
+        if ($excl_tpl && $value !== 0) {
             //remove default entry if an exclusive template exists but only if the actual entry isn't the default
             unset($options[0]);
         }
 
-        if (!in_array($value, array_keys($options)) || ($excl_tpl && $value == 0)) {
+        if (($excl_tpl && $value === 0) || !in_array($value, array_keys($options))) {
             $options[$value] = $this->lng->txt('not_available');
         }
 
@@ -112,7 +115,7 @@ class ilDidacticTemplateGUI
             'tplid'
         );
         $tpl_selection->setOptions($options);
-        $tpl_selection->setValue($value);
+        $tpl_selection->setValue((string) $value);
         $toolbar->addInputItem($tpl_selection);
 
         // Apply templates switch
@@ -127,7 +130,7 @@ class ilDidacticTemplateGUI
     {
         // Check if template is changed
         $new_tpl_id = $this->requested_template_id;
-        if ($new_tpl_id == ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId())) {
+        if ($new_tpl_id === ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId())) {
             $this->logger->debug('Template id: ' . $new_tpl_id);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('didactic_not_changed'), true);
             $this->ctrl->returnToParent($this);

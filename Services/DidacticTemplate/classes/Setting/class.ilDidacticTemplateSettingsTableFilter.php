@@ -236,5 +236,4 @@ class ilDidacticTemplateSettingsTableFilter
             $this->filter_values[$name] = $input->getValue();
         }
     }
-
 }

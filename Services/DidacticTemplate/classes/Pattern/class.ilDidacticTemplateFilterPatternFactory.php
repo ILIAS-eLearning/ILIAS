@@ -26,8 +26,6 @@ class ilDidacticTemplateFilterPatternFactory
 
         $patterns = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-
-
             switch ($row->pattern_type) {
                 case ilDidacticTemplateFilterPattern::PATTERN_INCLUDE:
 

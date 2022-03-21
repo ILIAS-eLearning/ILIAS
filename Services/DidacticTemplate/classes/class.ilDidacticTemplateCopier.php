@@ -36,7 +36,7 @@ class ilDidacticTemplateCopier
         if (!$num) {
             return $a_orig_title;
         }
-        if ($num == 1) {
+        if ($num === 1) {
             return $a_orig_title . ' ' . $lng->txt('copy_of_suffix');
         }
         return $a_orig_title . ' ' . sprintf($lng->txt('copy_n_of_suffix'), $num);

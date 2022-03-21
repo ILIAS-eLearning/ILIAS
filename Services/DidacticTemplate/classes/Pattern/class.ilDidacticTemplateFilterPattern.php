@@ -18,9 +18,10 @@ abstract class ilDidacticTemplateFilterPattern
     private int $parent_id = 0;
     private string $parent_type = '';
 
+    private $pattern = '';
     private int $pattern_type = 0;
     private int $pattern_sub_type = 0;
-
+    
     protected ilDBInterface $db;
     protected ilLogger $logger;
 

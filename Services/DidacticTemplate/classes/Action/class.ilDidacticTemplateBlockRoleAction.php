@@ -163,7 +163,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         // Create role folder if it does not exist
         //$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
 
-        if ($this->review->getRoleFolderOfRole($a_role_id) == $source->getRefId()) {
+        if ($this->review->getRoleFolderOfRole($a_role_id) === $source->getRefId()) {
             $this->logger->debug('Ignoring local role: ' . ilObject::_lookupTitle($a_role_id));
             return false;
         }
@@ -256,7 +256,8 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         // Read filter
         foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(
             $this->getActionId(),
-            self::PATTERN_PARENT_TYPE) as $pattern) {
+            self::PATTERN_PARENT_TYPE
+        ) as $pattern) {
             $this->addFilterPattern($pattern);
         }
     }

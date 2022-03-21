@@ -102,7 +102,7 @@ class ilDidacticTemplateObjSettings
     /**
      * Lookup template id
      * @param int $a_tpl_id
-     * @return array[]
+     * @return array{ref_id: int, obj_id: int}[]
      */
     public static function getAssignmentsByTemplateID(int $a_tpl_id) : array
     {
@@ -116,7 +116,7 @@ class ilDidacticTemplateObjSettings
         $assignments = array();
 
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $assignments[] = array("ref_id" => $row->ref_id, "obj_id" => $row->obj_id);
+            $assignments[] = array("ref_id" => (int) $row->ref_id, "obj_id" => (int) $row->obj_id);
         }
         return $assignments;
     }
@@ -135,7 +135,7 @@ class ilDidacticTemplateObjSettings
         $res = $db->query($query);
         $assignments = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $assignments[$row->tpl_id][] = $row->ref_id;
+            $assignments[(int) $row->tpl_id][] = (int) $row->ref_id;
         }
         return $assignments;
     }
@@ -158,7 +158,7 @@ class ilDidacticTemplateObjSettings
 
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
-        if ($row->auto_generated == 0) {
+        if ((int) $row->auto_generated === 0) {
             return false;
         }
 

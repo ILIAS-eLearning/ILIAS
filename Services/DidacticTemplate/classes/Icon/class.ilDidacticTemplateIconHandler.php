@@ -54,7 +54,7 @@ class ilDidacticTemplateIconHandler
             }
         }
         $this->initWebDir();
-        $result = isset($upload->getResults()[$tmpname]) ? $upload->getResults()[$tmpname] : false;
+        $result = $upload->getResults()[$tmpname] ?? false;
         if ($result instanceof UploadResult && $result->isOK() && $result->getSize()) {
             $this->delete();
             $upload->moveOneFileTo(
@@ -100,7 +100,6 @@ class ilDidacticTemplateIconHandler
     public function copy(ilDidacticTemplateSetting $original) : void
     {
         if ($original->getIconHandler()->getAbsolutePath()) {
-
             try {
                 $this->webDirectory->copy(
                     self::WEBDIR_PREFIX . '/' . $original->getIconIdentifier() . '.svg',
@@ -164,5 +163,4 @@ class ilDidacticTemplateIconHandler
         }
         return $writer;
     }
-
 }

@@ -189,7 +189,8 @@ abstract class ilDidacticTemplateAction
 
     /**
      * Filter roles
-     * @param ilObject $object
+     * @param ilObject $source
+     * @return array
      */
     protected function filterRoles(ilObject $source) : array
     {
@@ -199,14 +200,15 @@ abstract class ilDidacticTemplateAction
         );
 
         $filtered = array();
-        foreach ($this->rbacreview->getParentRoleIds($source->getRefId()) as $role_id => $role) {
+        foreach ($this->review->getParentRoleIds($source->getRefId()) as $role_id => $role) {
             switch ($this->getFilterType()) {
                 case self::FILTER_PARENT_ROLES:
 
                     $this->logger->dump($role);
                     if (
-                        ($role['parent'] == $source->getRefId()) &&
-                        ($role['assign'] == 'y')
+                        $role['assign'] === 'y' &&
+                        (int) $role['parent'] === $source->getRefId()
+                        
                     ) {
                         $this->logger->debug('Excluding local role: ' . $role['title']);
                         break;
@@ -222,8 +224,8 @@ abstract class ilDidacticTemplateAction
                 case self::FILTER_LOCAL_ROLES:
 
                     if (
-                        $role['parent'] != $source->getRefId() ||
-                        $role['assign'] == 'n'
+                        $role['assign'] === 'n' ||
+                        (int) $role['parent'] !== $source->getRefId()
                     ) {
                         $this->logger->debug('Excluding non local role' . $role['title']);
                         break;
@@ -247,6 +249,7 @@ abstract class ilDidacticTemplateAction
                     break;
             }
         }
+
         return $filtered;
     }
 }
