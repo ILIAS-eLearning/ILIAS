@@ -106,7 +106,7 @@ class ilUserActionAdminGUI
     /**
      * Get actions, !!!! note in the future this must depend on the context, currently we only have one
      */
-    public function getActions() : array
+    public function getActions() : array // Missing array type.
     {
         $data = array();
         foreach (ilUserActionProviderFactory::getAllProviders() as $p) {

@@ -85,18 +85,18 @@ class ilObjUser extends ilObject
     public int $last_password_change_ts;
     protected bool $passwd_policy_reset = false;
     public int $login_attempts = 0;
-    public array $user_defined_data = array();
+    public array $user_defined_data = array(); // Missing array type.
     /** @var array<string, string> */
     protected array $oldPrefs = [];
-    public array $prefs = [];
+    public array $prefs = []; // Missing array type.
     public string $skin = "";
     protected static array $personal_image_cache = array();
     protected ?string $inactivation_date = null;
     private bool $is_self_registered = false; // flag for self registered users
     protected string $org_units = "";    // ids of assigned org-units, comma seperated
-    protected array $interests_general = [];
-    protected array $interests_help_offered = [];
-    protected array $interests_help_looking = [];
+    protected array $interests_general = []; // Missing array type.
+    protected array $interests_help_offered = []; // Missing array type.
+    protected array $interests_help_looking = []; // Missing array type.
     protected string $last_profile_prompt = "";	// timestamp
     protected string $first_login = "";	// timestamp
     protected bool $profile_incomplete = false;
@@ -225,7 +225,7 @@ class ilObjUser extends ilObject
     /**
      * loads a record "user" from array
      */
-    public function assignData(array $a_data) : void
+    public function assignData(array $a_data) : void // Missing array type.
     {
         global $DIC;
 
@@ -632,7 +632,7 @@ class ilObjUser extends ilObject
      * lookup fields (deprecated; use more specific methods instead)
      * @deprecated
      */
-    public static function _lookupFields(int $a_user_id) : array
+    public static function _lookupFields(int $a_user_id) : array // Missing array type.
     {
         global $DIC;
 
@@ -1676,7 +1676,7 @@ class ilObjUser extends ilObject
             'WHERE active = ' . $ilDB->quote(1, 'integer') . ' ' .
             'AND usr_id = ' . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        while ($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return true;
         }
         return false;
@@ -1959,8 +1959,6 @@ class ilObjUser extends ilObject
      */
     public function checkUserId() : bool
     {
-        global $DIC;
-
         $login = ilObjUser::getLoginFromAuth();
         $id = ilObjUser::_lookupId($login);
         if ($id > 0) {
@@ -2210,7 +2208,7 @@ class ilObjUser extends ilObject
         }
     }
 
-    public static function getAllUserLogins() : array
+    public static function getAllUserLogins() : array // Missing array type.
     {
         /**
          * @var $ilDB ilDBInterface
@@ -2375,7 +2373,7 @@ class ilObjUser extends ilObject
         return (int) $cnt_rec["cnt"];
     }
 
-    public static function _getAllUserAssignedStyles() : array
+    public static function _getAllUserAssignedStyles() : array // Missing array type.
     {
         global $DIC;
 
@@ -2458,7 +2456,7 @@ class ilObjUser extends ilObject
         );
 
         // only insert if item is not already in clipboard
-        if (!$d = $item_set->fetchRow()) {
+        if (!$item_set->fetchRow()) {
             $ilDB->manipulateF(
                 "INSERT INTO personal_clipboard " .
                 "(item_id, type, user_id, title, parent, insert_time, order_nr) VALUES " .
@@ -2502,7 +2500,7 @@ class ilObjUser extends ilObject
      * Add a page content item to PC clipboard (should go to another class)
      * @todo move to COPage service
      */
-    public function getPCClipboardContent() : array
+    public function getPCClipboardContent() : array // Missing array type.
     {
         $ilDB = $this->db;
 
@@ -2543,7 +2541,7 @@ class ilObjUser extends ilObject
             array("integer", "text", "integer"),
             array(0, $a_type, $this->getId())
         );
-        if ($rec = $ilDB->fetchAssoc($set)) {
+        if ($ilDB->fetchAssoc($set)) {
             return true;
         }
 
@@ -2869,7 +2867,7 @@ class ilObjUser extends ilObject
     /**
      * get number of users per auth mode
      */
-    public static function _getNumberOfUsersPerAuthMode() : array
+    public static function _getNumberOfUsersPerAuthMode() : array // Missing array type.
     {
         global $DIC;
 
@@ -2885,7 +2883,7 @@ class ilObjUser extends ilObject
         return $cnt_arr;
     }
 
-    public static function _getLocalAccountsForEmail(string $a_email) : array
+    public static function _getLocalAccountsForEmail(string $a_email) : array // Missing array type.
     {
         global $DIC;
 
@@ -3056,14 +3054,14 @@ class ilObjUser extends ilObject
     }
     
     
-    public function setUserDefinedData(array $a_data) : void
+    public function setUserDefinedData(array $a_data) : void // Missing array type.
     {
         foreach ($a_data as $field => $data) {
             $this->user_defined_data['f_' . $field] = $data;
         }
     }
 
-    public function getUserDefinedData() : array
+    public function getUserDefinedData() : array // Missing array type.
     {
         return $this->user_defined_data ?: array();
     }
@@ -3098,7 +3096,6 @@ class ilObjUser extends ilObject
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
         $rbacreview = $DIC['rbacreview'];
 
         $language->loadLanguageModule('registration');
@@ -3191,7 +3188,7 @@ class ilObjUser extends ilObject
         } else {
             ilDatePresentation::setUseRelativeDates(false);
             ilDatePresentation::setLanguage($language);
-            $period = ilDatePresentation::formatPeriod(
+            ilDatePresentation::formatPeriod(
                 new ilDateTime($this->getTimeLimitFrom(), IL_CAL_UNIX),
                 new ilDateTime($this->getTimeLimitUntil(), IL_CAL_UNIX)
             );
@@ -3710,7 +3707,6 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        $rbacreview = $DIC->rbac()->review();
 
         $log = ilLoggerFactory::getLogger("user");
 
@@ -3769,7 +3765,7 @@ class ilObjUser extends ilObject
         $log->debug("Found users: " . count($users));
 
         if (ilTermsOfServiceHelper::isEnabled()) {
-            $users = array_filter($users, function ($user) {
+            $users = array_filter($users, static function (array $user) {
                 if ($user['agree_date'] || $user['user_id'] == SYSTEM_USER_ID || 'root' === $user['login']) {
                     return true;
                 }
@@ -4210,12 +4206,12 @@ class ilObjUser extends ilObject
     // MULTI-TEXT / INTERESTS
     //
         
-    public function setGeneralInterests(?array $value = null) : void
+    public function setGeneralInterests(?array $value = null) : void // Missing array type.
     {
         $this->interests_general = $value ?? [];
     }
     
-    public function getGeneralInterests() : array
+    public function getGeneralInterests() : array // Missing array type.
     {
         return $this->interests_general;
     }
@@ -4228,12 +4224,12 @@ class ilObjUser extends ilObject
         return $this->buildTextFromArray($this->interests_general);
     }
     
-    public function setOfferingHelp(?array $value = null) : void
+    public function setOfferingHelp(?array $value = null) : void // Missing array type.
     {
         $this->interests_help_offered = $value ?? [];
     }
     
-    public function getOfferingHelp() : array
+    public function getOfferingHelp() : array // Missing array type.
     {
         return $this->interests_help_offered;
     }
@@ -4246,12 +4242,12 @@ class ilObjUser extends ilObject
         return $this->buildTextFromArray($this->interests_help_offered);
     }
     
-    public function setLookingForHelp(?array $value = null) : void
+    public function setLookingForHelp(?array $value = null) : void // Missing array type.
     {
         $this->interests_help_looking = $value ?? [];
     }
     
-    public function getLookingForHelp() : array
+    public function getLookingForHelp() : array // Missing array type.
     {
         return $this->interests_help_looking;
     }
@@ -4267,7 +4263,7 @@ class ilObjUser extends ilObject
     /**
      * Convert multi-text values to plain text
      */
-    protected function buildTextFromArray(array $a_attr) : string
+    protected function buildTextFromArray(array $a_attr) : string // Missing array type.
     {
         if (count($a_attr) > 0) {
             return implode(", ", $a_attr);

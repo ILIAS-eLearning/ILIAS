@@ -520,16 +520,16 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function afterSave(ilObject $a_new_object) : void
+    protected function afterSave(ilObject $new_object) : void
     {
-        $a_new_object->getObjectTranslation()->addLanguage(
+        $new_object->getObjectTranslation()->addLanguage(
             $this->lng->getDefaultLanguage(),
-            $a_new_object->getTitle(),
-            $a_new_object->getDescription(),
+            $new_object->getTitle(),
+            $new_object->getDescription(),
             true,
             true
         );
-        $a_new_object->getObjectTranslation()->save();
+        $new_object->getObjectTranslation()->save();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
         $this->ctrl->redirect($this, 'edit');
@@ -583,18 +583,18 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $a_values[ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY] = $this->infoScreenEnabled;
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form) : void
+    protected function updateCustom(ilPropertyFormGUI $form) : void
     {
-        $this->object->setOfflineStatus(!(bool) $a_form->getInput('activation_online'));
+        $this->object->setOfflineStatus(!(bool) $form->getInput('activation_online'));
         $this->object->update();
 
         ilObjectServiceSettingsGUI::updateServiceSettingsForm(
             $this->object->getId(),
-            $a_form,
+            $form,
             [
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
             ]
         );
-        $this->obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+        $this->obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
     }
 }

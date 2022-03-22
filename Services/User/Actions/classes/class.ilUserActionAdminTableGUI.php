@@ -47,7 +47,7 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
         }
     }
     
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void // Missing array type.
     {
         if ($a_set["active"]) {
             $this->tpl->touchBlock("checked");

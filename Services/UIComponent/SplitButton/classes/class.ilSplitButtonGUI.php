@@ -67,7 +67,7 @@ class ilSplitButtonGUI extends ilButtonBase
      */
     public function setMenuItems(array $menu_items) : void
     {
-        array_walk($menu_items, function ($item, $idx) {
+        array_walk($menu_items, static function ($item, $idx) : void {
             if (!($item instanceof ilSplitButtonMenuItem)) {
                 throw new ilSplitButtonException(sprintf(
                     "Cannot set menu items, element at index '%s' is not of type 'ilSplitButtonItem'",

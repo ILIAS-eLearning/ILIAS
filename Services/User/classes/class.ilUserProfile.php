@@ -393,8 +393,8 @@ class ilUserProfile
         
         );
     protected string $ajax_href;
-    protected array $skip_fields;
-    protected array $skip_groups;
+    protected array $skip_fields; // Missing array type.
+    protected array $skip_groups; // Missing array type.
 
     protected ilUserSettingsConfig $user_settings_config;
 
@@ -418,7 +418,7 @@ class ilUserProfile
     /**
      * Get standard user fields array
      */
-    public function getStandardFields() : array
+    public function getStandardFields() : array // Missing array type.
     {
         $fields = array();
         foreach (self::$user_field as $f => $p) {
@@ -435,7 +435,7 @@ class ilUserProfile
     /**
      * Get visible fields in local user administration
      */
-    public function getLocalUserAdministrationFields() : array
+    public function getLocalUserAdministrationFields() : array // Missing array type.
     {
         global $DIC;
 
@@ -909,7 +909,7 @@ class ilUserProfile
     /**
      * Returns an array of all ignorable profiel fields
      */
-    public static function getIgnorableRequiredSettings() : array
+    public static function getIgnorableRequiredSettings() : array // Missing array type.
     {
         global $DIC;
 

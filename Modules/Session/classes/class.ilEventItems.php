@@ -233,10 +233,10 @@ class ilEventItems
         $res = $this->db->query($query);
         $this->items = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($tree->isDeleted($row->item_id)) {
+            if ($tree->isDeleted((int) $row->item_id)) {
                 continue;
             }
-            if (!$tree->isInTree($row->item_id)) {
+            if (!$tree->isInTree((int) $row->item_id)) {
                 $query = "DELETE FROM event_items " .
                     "WHERE item_id = " . $ilDB->quote($row->item_id, 'integer');
                 $ilDB->manipulate($query);

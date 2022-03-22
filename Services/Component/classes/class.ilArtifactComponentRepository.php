@@ -29,7 +29,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         $this->buildDatabase();
     }
 
-    protected function buildDatabase()
+    protected function buildDatabase() : void
     {
         $component_data = $this->readComponentData();
         $plugin_data = $this->readPluginData();
@@ -40,7 +40,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         ];
         $this->pluginslot_by_id = [];
         $plugins_per_slot = [];
-        foreach ($component_data as $comp_id => list($type, $comp_name, $slot_data)) {
+        foreach ($component_data as $comp_id => [$type, $comp_name, $slot_data]) {
             $slots = [];
             $component = new ilComponentInfo(
                 $comp_id,
@@ -48,7 +48,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
                 $comp_name,
                 $slots
             );
-            foreach ($slot_data as list($slot_id, $slot_name)) {
+            foreach ($slot_data as [$slot_id, $slot_name]) {
                 $plugins_per_slot[$slot_id] = [];
                 $slots[$slot_id] = new ilPluginSlotInfo(
                     $component,
@@ -64,18 +64,27 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         }
         $this->plugin_by_id = [];
         foreach ($plugin_data as $plugin_id => $data) {
-            list(
-                $type, $comp_name, $slot_name, $plugin_name, $plugin_version,
-                $ilias_min_version, $ilias_max_version, $responsible, $responsible_mail,
-                $learning_progress, $supports_export, $supports_cli_setup
-            ) = $data;
+            [
+                $type,
+                $comp_name,
+                $slot_name,
+                $plugin_name,
+                $plugin_version,
+                $ilias_min_version,
+                $ilias_max_version,
+                $responsible,
+                $responsible_mail,
+                $learning_progress,
+                $supports_export,
+                $supports_cli_setup
+            ] = $data;
             if (!$this->hasComponent($type, $comp_name)) {
                 throw new \InvalidArgumentException(
                     "Can't find component $type/$comp_name for plugin $plugin_name"
                 );
             }
             $component = $this->getComponentByTypeAndName($type, $comp_name);
-            if (!$component->hasPluginslotName($slot_name)) {
+            if (!$component->hasPluginSlotName($slot_name)) {
                 throw new \InvalidArgumentException(
                     "Can't find slot $type/$comp_name/$slot_name for plugin $plugin_name"
                 );
@@ -194,7 +203,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
      */
     public function getPluginSlotById(string $id) : ilPluginSlotInfo
     {
-        if (!$this->hasPluginslotId($id)) {
+        if (!$this->hasPluginSlotId($id)) {
             throw new \InvalidArgumentException(
                 "Unknown pluginslot $id"
             );
@@ -256,7 +265,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         );
     }
 
-    public function setCurrentPluginVersion(string $plugin_id, Data\Version $version, int $db_version)
+    public function setCurrentPluginVersion(string $plugin_id, Data\Version $version, int $db_version) : void
     {
         $plugin = $this->getPluginById($plugin_id);
         if ($plugin->getCurrentVersion() !== null && $plugin->getCurrentVersion()->isGreaterThan($version)) {
@@ -273,7 +282,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         $this->buildDatabase();
     }
 
-    public function setActivation(string $plugin_id, bool $activated)
+    public function setActivation(string $plugin_id, bool $activated) : void
     {
         if (!$this->hasPluginId($plugin_id)) {
             throw new \InvalidArgumentException(
@@ -284,7 +293,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         $this->buildDatabase();
     }
 
-    public function removeStateInformationOf(string $plugin_id)
+    public function removeStateInformationOf(string $plugin_id) : void
     {
         if (!$this->hasPluginId($plugin_id)) {
             throw new \InvalidArgumentException(

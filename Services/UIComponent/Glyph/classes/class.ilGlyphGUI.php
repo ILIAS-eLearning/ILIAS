@@ -61,9 +61,9 @@ class ilGlyphGUI
 
         $lng = $DIC->language();
 
-        $text = ($a_text == "")
+        $text = ($a_text === "")
             ? $lng->txt(self::$map[$a_glyph]["txt"])
-            : (($a_text == self::NO_TEXT)
+            : (($a_text === self::NO_TEXT)
                 ? ""
                 : $a_text);
         switch ($a_glyph) {

@@ -11,16 +11,6 @@ use Slim\App;
 class ilRestServer extends App
 {
     /**
-     * ilRestServer constructor.
-     * @param array $container
-     */
-    public function __construct($container = [])
-    {
-        parent::__construct($container);
-    }
-
-
-    /**
      * Init server / add handlers
      */
     public function init() : void

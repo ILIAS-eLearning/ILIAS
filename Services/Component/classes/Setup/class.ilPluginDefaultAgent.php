@@ -9,10 +9,7 @@ abstract class ilPluginDefaultAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    /**
-     * @var string
-     */
-    protected $plugin_name;
+    protected string $plugin_name;
 
     public function __construct(string $plugin_name)
     {

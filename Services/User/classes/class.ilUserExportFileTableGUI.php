@@ -79,7 +79,7 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         return false;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void // Missing array type.
     {
         $this->tpl->setVariable('CHECKBOX_ID', $a_set['file']);
         $this->tpl->setVariable('TXT_FILENAME', $a_set['file']);
@@ -87,11 +87,11 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         $this->tpl->setVariable('TXT_DATE', $a_set['date']);
     }
 
-    public function parse(array $export_files) : void
+    public function parse(array $export_files) : void // Missing array type.
     {
         $files = [];
         $counter = 0;
-        foreach ($export_files as $num => $file_info) {
+        foreach ($export_files as $file_info) {
             $this->logger->dump($file_info, \ilLogLevel::NOTICE);
 
             $file_info_parts = explode('_', $file_info['filename']);

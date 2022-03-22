@@ -19,7 +19,7 @@
  */
 class ilUserActionCollection
 {
-    protected array $actions = array();
+    protected array $actions = array(); // Missing array type.
 
     public static function getInstance() : ilUserActionCollection
     {
@@ -36,7 +36,7 @@ class ilUserActionCollection
         $this->actions[] = $a_action;
     }
 
-    public function getActions() : array
+    public function getActions() : array // Missing array type.
     {
         return $this->actions;
     }

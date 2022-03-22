@@ -1665,7 +1665,8 @@ class ilObjSurvey extends ilObject
         string $title = "",
         int $owner = 0,
         bool $show_questiontext = true,
-        bool $show_blocktitle = false
+        bool $show_blocktitle = false,
+        bool $compress_view = false
     ) : int {
         global $DIC;
 
@@ -1673,10 +1674,10 @@ class ilObjSurvey extends ilObject
         $next_id = $ilDB->nextId('svy_qblk');
         $ilDB->manipulateF(
             "INSERT INTO svy_qblk (questionblock_id, title, show_questiontext," .
-            " show_blocktitle, owner_fi, tstamp) " .
-            "VALUES (%s, %s, %s, %s, %s, %s)",
-            array('integer','text','integer','integer','integer','integer'),
-            array($next_id, $title, $show_questiontext, $show_blocktitle, $owner, time())
+            " show_blocktitle, owner_fi, tstamp, compress_view) " .
+            "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            array('integer','text','integer','integer','integer','integer','integer'),
+            array($next_id, $title, $show_questiontext, $show_blocktitle, $owner, time(),$compress_view)
         );
         return $next_id;
     }
@@ -3041,8 +3042,11 @@ class ilObjSurvey extends ilObject
         foreach ($pages as $question_array) {
             if (count($question_array) > 1) {
                 $attribs = array("id" => $question_array[0]["question_id"]);
-                $attribs = array("showQuestiontext" => $question_array[0]["questionblock_show_questiontext"],
-                    "showBlocktitle" => $question_array[0]["questionblock_show_blocktitle"]);
+                $attribs = array(
+                    "showQuestiontext" => $question_array[0]["questionblock_show_questiontext"],
+                    "showBlocktitle" => $question_array[0]["questionblock_show_blocktitle"],
+                    "compressView" => $question_array[0]["questionblock_compress_view"]
+                );
                 $a_xml_writer->xmlStartTag("questionblock", $attribs);
                 if (strlen($question_array[0]["questionblock_title"])) {
                     $a_xml_writer->xmlElement("questionblocktitle", null, $question_array[0]["questionblock_title"]);
@@ -3341,7 +3345,13 @@ class ilObjSurvey extends ilObject
         // create new questionblocks
         foreach ($questionblocks as $key => $value) {
             $questionblock = self::_getQuestionblock($key);
-            $questionblock_id = self::_addQuestionblock($questionblock["title"], $questionblock["owner_fi"], $questionblock["show_questiontext"], $questionblock["show_blocktitle"]);
+            $questionblock_id = self::_addQuestionblock(
+                $questionblock["title"],
+                $questionblock["owner_fi"],
+                $questionblock["show_questiontext"],
+                $questionblock["show_blocktitle"],
+                $questionblock["compress_view"]
+            );
             $questionblocks[$key] = $questionblock_id;
         }
         // create new questionblock questions

@@ -53,7 +53,7 @@ class ilComponentPluginAdminInitObjective implements Setup\Objective
         $DIC = $GLOBALS["DIC"];
         $GLOBALS["DIC"] = new DI\Container();
         $GLOBALS["DIC"]["lng"] = new class() {
-            public function loadLanguageModule()
+            public function loadLanguageModule() : void
             {
             }
         };

@@ -64,7 +64,7 @@ class ilTooltipGUI
         // not needed, just make sure the position plugin is included
         //		$addstr.= ", position: {viewport: $('#fixed_content')}";
         
-        if ($a_container != "") {
+        if ($a_container !== "") {
             $addstr .= ", container: '" . $a_container . "'";
         }
 

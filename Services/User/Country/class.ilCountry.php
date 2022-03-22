@@ -21,7 +21,7 @@ class ilCountry
 {
     /**
      * Get country codes (DIN EN 3166-1)
-     * @return	array of country codes
+     * @return string[] array of country codes
      */
     public static function getCountryCodes() : array
     {

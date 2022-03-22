@@ -14,18 +14,15 @@ class ilSoapClient
     public const DEFAULT_CONNECT_TIMEOUT = 10;
     public const DEFAULT_RESPONSE_TIMEOUT = 5;
 
-    private ?ilLogger $log;
+    private ilLogger $log;
+    private ilSetting $settings;
     private ?SoapClient $client = null;
-    
     private string $uri;
-
     private bool $use_wsdl = true;
     private int $connect_timeout = self::DEFAULT_CONNECT_TIMEOUT;
     private int $response_timeout = self::DEFAULT_RESPONSE_TIMEOUT;
     private ?int $stored_socket_timeout = null;
 
-    protected ilSetting $settings;
-    
     public function __construct(string $a_uri = '')
     {
         global $DIC;
@@ -40,48 +37,47 @@ class ilSoapClient
         }
         $this->response_timeout = self::DEFAULT_RESPONSE_TIMEOUT;
     }
-    
+
     public function getServer() : string
     {
         return $this->uri;
     }
-    
+
     public function setTimeout(int $a_timeout) : void
     {
         $this->connect_timeout = $a_timeout;
     }
-    
+
     public function getTimeout() : int
     {
         return $this->connect_timeout;
     }
-    
+
     public function setResponseTimeout(int $a_timeout) : void
     {
         $this->response_timeout = $a_timeout;
     }
-    
+
     public function getResponseTimeout() : int
     {
         return $this->response_timeout;
     }
-    
+
     public function enableWSDL(bool $a_stat) : void
     {
         $this->use_wsdl = $a_stat;
     }
-    
+
     public function enabledWSDL() : bool
     {
         return $this->use_wsdl;
     }
-    
 
     public function init() : bool
     {
-        if (!strlen(trim($this->getServer()))) {
-            if (strlen(trim($this->settings->get('soap_wsdl_path', '')))) {
-                $this->uri = (string) $this->settings->get('soap_wsdl_path', '');
+        if (trim($this->getServer()) === '') {
+            if (trim($this->settings->get('soap_wsdl_path', '')) !== '') {
+                $this->uri = $this->settings->get('soap_wsdl_path', '');
             } else {
                 $this->uri = ilUtil::_getHttpPath() . '/webservice/soap/server.php?wsdl';
             }
@@ -90,7 +86,7 @@ class ilSoapClient
             $this->log->debug('Using wsdl: ' . $this->getServer());
             $this->log->debug('Using connection timeout: ' . $this->getTimeout());
             $this->log->debug('Using response timeout: ' . $this->getResponseTimeout());
-            
+
             $this->setSocketTimeout(true);
             $this->client = new SoapClient(
                 $this->uri,
@@ -109,12 +105,12 @@ class ilSoapClient
             $this->resetSocketTimeout();
         }
     }
-    
+
     protected function setSocketTimeout(bool $a_wsdl_mode) : bool
     {
         $this->stored_socket_timeout = (int) ini_get('default_socket_timeout');
         $this->log->debug('Default socket timeout is: ' . $this->stored_socket_timeout);
-        
+
         if ($a_wsdl_mode) {
             $this->log->debug('WSDL mode, using socket timeout: ' . $this->getTimeout());
             ini_set('default_socket_timeout', (string) $this->getTimeout());
@@ -122,9 +118,10 @@ class ilSoapClient
             $this->log->debug('Non WSDL mode, using socket timeout: ' . $this->getResponseTimeout());
             ini_set('default_socket_timeout', (string) $this->getResponseTimeout());
         }
+
         return true;
     }
-    
+
     /**
      * Reset socket default timeout to defaults
      */
@@ -134,12 +131,13 @@ class ilSoapClient
         $this->log->debug('Restoring default socket timeout to: ' . $this->stored_socket_timeout);
         return true;
     }
-    
+
     /**
-     * Call webservice method
-     * @return mixed
+     * @param string $a_operation
+     * @param array $a_params
+     * @return false|mixed
      */
-    public function call($a_operation, $a_params)
+    public function call(string $a_operation, array $a_params)
     {
         $this->log->debug('Calling webservice: ' . $a_operation);
 
@@ -158,6 +156,7 @@ class ilSoapClient
         } finally {
             $this->resetSocketTimeout();
         }
+
         return false;
     }
 }

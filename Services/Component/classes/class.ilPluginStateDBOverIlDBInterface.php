@@ -78,7 +78,7 @@ class ilPluginStateDBOverIlDBInterface implements ilPluginStateDB
         return $this->data[$id][2] ?? null;
     }
 
-    public function setCurrentPluginVersion(string $id, Version $version, int $db_version)
+    public function setCurrentPluginVersion(string $id, Version $version, int $db_version) : void
     {
         $this->getData();
         if (isset($this->data[$id])) {

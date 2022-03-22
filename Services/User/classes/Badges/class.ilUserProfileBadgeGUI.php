@@ -13,12 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use Psr\Http\Message\RequestInterface;
+
 /**
  * User profile badge gui
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
 {
+    private RequestInterface $request;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        $this->request = $this->http()->request();
+    }
+
     public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id) : void
     {
         global $DIC;
@@ -32,7 +43,7 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
         $gui->showPublicProfileFields($a_form, array(), $fields, true);
     }
     
-    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config) : void
+    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config) : void // Missing array type.
     {
         if (is_array($a_config["profile"])) {
             $group = $a_form->getItemByPostVar("profile");
@@ -47,10 +58,10 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
         }
     }
     
-    public function getConfigFromForm(ilPropertyFormGUI $a_form) : array
+    public function getConfigFromForm(ilPropertyFormGUI $a_form) : array // Missing array type.
     {
         $fields = array();
-        foreach (array_keys($_POST) as $id) {
+        foreach (array_keys($this->request->getParsedBody()) as $id) {
             if (substr($id, 0, 4) == "chk_") {
                 $fields[] = $id;
             }

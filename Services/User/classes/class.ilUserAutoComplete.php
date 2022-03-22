@@ -27,7 +27,7 @@ class ilUserAutoComplete
     private ?ilLogger $logger = null;
     private bool $searchable_check = false;
     private bool $user_access_check = true;
-    private array $possible_fields = array();
+    private array $possible_fields = array(); // Missing array type.
     private string $result_field;
     private int $search_type;
     private int $privacy_mode;
@@ -146,7 +146,7 @@ class ilUserAutoComplete
     /**
      * Set searchable fields
      */
-    public function setSearchFields(array $a_fields) : void
+    public function setSearchFields(array $a_fields) : void // Missing array type.
     {
         $this->possible_fields = $a_fields;
     }
@@ -154,7 +154,7 @@ class ilUserAutoComplete
     /**
      * get possible search fields
      */
-    public function getSearchFields() : array
+    public function getSearchFields() : array // Missing array type.
     {
         return $this->possible_fields;
     }
@@ -162,7 +162,7 @@ class ilUserAutoComplete
     /**
      * Get searchable fields
      */
-    protected function getFields() : array
+    protected function getFields() : array // Missing array type.
     {
         if (!$this->isFieldSearchableCheckEnabled()) {
             return $this->getSearchFields();
@@ -326,7 +326,7 @@ class ilUserAutoComplete
         }
     }
 
-    protected function getWherePart(array $search_query) : string
+    protected function getWherePart(array $search_query) : string // Missing array type.
     {
         global $DIC;
 
@@ -426,7 +426,7 @@ class ilUserAutoComplete
         return 'login ASC';
     }
 
-    protected function getQueryConditionByFieldAndValue(string $field, array $query) : string
+    protected function getQueryConditionByFieldAndValue(string $field, array $query) : string // Missing array type.
     {
         global $DIC;
 
@@ -488,7 +488,7 @@ class ilUserAutoComplete
     /**
      * Parse query string
      */
-    public function parseQueryString(string $a_query) : array
+    public function parseQueryString(string $a_query) : array // Missing array type.
     {
         $query = array();
         

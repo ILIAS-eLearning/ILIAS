@@ -39,12 +39,12 @@ class ilCheckboxListOverlayGUI
         $this->setId($a_id);
     }
 
-    public function setId($a_val)
+    public function setId(string $a_val) : void
     {
         $this->id = $a_val;
     }
     
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }

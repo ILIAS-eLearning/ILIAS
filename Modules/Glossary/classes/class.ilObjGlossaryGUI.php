@@ -23,6 +23,7 @@
  */
 class ilObjGlossaryGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected ilPropertyFormGUI $form;
     protected int $tax_node;
     protected ilObjTaxonomy $tax;
@@ -110,7 +111,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
         if (is_object($this->object)) {
-            $this->content_style_domain = $cs->domain()->styleForRefId((int) $this->object->getRefId());
+            $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
         }
     }
 
@@ -272,10 +273,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
         }
 
         if ($cmd != "quickList") {
-            if (!$this->in_administration) {
-                if (!$this->getCreationMode()) {
-                    $this->tpl->printToStdout();
-                }
+            if (!$this->in_administration && !$this->getCreationMode()) {
+                $this->tpl->printToStdout();
             }
         } else {
             $this->tpl->printToStdout(false);
@@ -398,7 +397,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         }
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
         
-        ilObjGlossaryGUI::addUsagesToInfo($info, $this->object->getId());
+        self::addUsagesToInfo($info, $this->object->getId());
         
         $this->ctrl->forwardCommand($info);
     }
@@ -421,10 +420,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $link = false;
             $refs = ilObject::_getAllReferences($sm);
             foreach ($refs as $ref) {
-                if ($link === false) {
-                    if ($ilAccess->checkAccess("write", "", $ref)) {
-                        $link = ilLink::_getLink($ref, 'sahs');
-                    }
+                if ($link === false && $ilAccess->checkAccess("write", "", $ref)) {
+                    $link = ilLink::_getLink($ref, 'sahs');
                 }
             }
             
@@ -973,15 +970,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         if (strtolower($this->edit_request->getBaseClass()) != "ilglossaryeditorgui") {
             parent::setLocator();
-        } else {
-            if (is_object($this->object)) {
-                $gloss_loc = new ilGlossaryLocatorGUI();
-                if (is_object($this->term)) {
-                    $gloss_loc->setTerm($this->term);
-                }
-                $gloss_loc->setGlossary($this->getGlossary());
-                $gloss_loc->display();
+        } elseif (is_object($this->object)) {
+            $gloss_loc = new ilGlossaryLocatorGUI();
+            if (is_object($this->term)) {
+                $gloss_loc->setTerm($this->term);
             }
+            $gloss_loc->setGlossary($this->getGlossary());
+            $gloss_loc->display();
         }
     }
 
@@ -1030,11 +1025,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
             $this->tpl->setTitle($this->lng->txt("glo") . ": " . $title);
         }
-    }
-
-    protected function setTabs() : void
-    {
-        $this->getTabs();
     }
 
     protected function getTabs() : void
@@ -1398,7 +1388,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->user->clipboardDeleteObjectsOfType("term");
 
         // put them into the clipboard
-        $time = date("Y-m-d H:i:s", time());
+        $time = date("Y-m-d H:i:s");
         $order = 0;
         foreach ($items as $id) {
             $this->user->addObjectToClipboard(
@@ -1430,7 +1420,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->user->clipboardDeleteObjectsOfType("term");
 
         // put them into the clipboard
-        $time = date("Y-m-d H:i:s", time());
+        $time = date("Y-m-d H:i:s");
         $order = 0;
         foreach ($items as $id) {
             $this->user->addObjectToClipboard(

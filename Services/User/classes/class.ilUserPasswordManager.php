@@ -28,7 +28,7 @@ class ilUserPasswordManager
     protected ?ilSetting $settings = null;
     protected ?ilDBInterface $db = null;
     protected ?string $encoderName = null;
-    protected array $config = [];
+    protected array $config = []; // Missing array type.
 
     /**
      * Please use the singleton method for instance creation

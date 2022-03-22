@@ -79,7 +79,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             );
         }
 
-        list($ORIG_DIC, $ORIG_ilDB) = $this->initEnvironment($environment);
+        [$ORIG_DIC, $ORIG_ilDB] = $this->initEnvironment($environment);
         $plugin = $component_factory->getPlugin($info->getId());
         $plugin->update();
         $GLOBALS["DIC"] = $ORIG_DIC;
@@ -177,16 +177,16 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function write(string $a_msg, $a_log_level = ilLogLevel::INFO) : void
             {
             }
-            public function info($msg)
+            public function info($msg) : void
             {
             }
-            public function warning($msg)
+            public function warning($msg) : void
             {
             }
-            public function error($msg)
+            public function error($msg) : void
             {
             }
-            public function debug($msg, $a = [])
+            public function debug($msg, $a = []) : void
             {
             }
             public function dump($a_var, ?int $a_log_level = ilLogLevel::INFO) : void
@@ -201,7 +201,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
-            public static function getLogger($a) : ilLogger
+            public static function getLogger($a_component_id) : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
