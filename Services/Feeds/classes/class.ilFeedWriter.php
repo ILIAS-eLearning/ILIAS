@@ -15,7 +15,6 @@
 
 /**
  * Feed writer class.
- *
  * how to make it "secure"
  * alternative 1:
  * - hash for all objects
@@ -23,7 +22,6 @@
  * - link includes ref id, user id, combined hash (kind of password)
  * - combined hash = hash(user hash + object hash)
  * - ilias checks whether ref id / user id / combined hash match
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilFeedWriter
@@ -46,12 +44,12 @@ class ilFeedWriter
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
     }
-    
+
     public function setEncoding(string $a_enc) : void
     {
         $this->encoding = $a_enc;
     }
-    
+
     public function getEncoding() : string
     {
         return $this->encoding;
@@ -61,7 +59,7 @@ class ilFeedWriter
     {
         $this->ch_about = $a_ab;
     }
-    
+
     public function getChannelAbout() : string
     {
         return $this->ch_about;
@@ -71,7 +69,7 @@ class ilFeedWriter
     {
         $this->ch_title = $a_title;
     }
-    
+
     public function getChannelTitle() : string
     {
         return $this->ch_title;
@@ -81,7 +79,7 @@ class ilFeedWriter
     {
         $this->ch_link = $a_link;
     }
-    
+
     public function getChannelLink() : string
     {
         return $this->ch_link;
@@ -91,7 +89,7 @@ class ilFeedWriter
     {
         $this->ch_desc = $a_desc;
     }
-    
+
     public function getChannelDescription() : string
     {
         return $this->ch_desc;
@@ -101,7 +99,7 @@ class ilFeedWriter
     {
         $this->items[] = $a_item;
     }
-    
+
     public function getItems() : array
     {
         return $this->items;
@@ -118,19 +116,19 @@ class ilFeedWriter
     public function getFeed() : string
     {
         $this->tpl = new ilTemplate("tpl.rss_2_0.xml", true, true, "Services/Feeds");
-        
+
         $this->tpl->setVariable("XML", "xml");
         $this->tpl->setVariable("CONTENT_ENCODING", $this->getEncoding());
         $this->tpl->setVariable("CHANNEL_ABOUT", $this->getChannelAbout());
         $this->tpl->setVariable("CHANNEL_TITLE", $this->getChannelTitle());
         $this->tpl->setVariable("CHANNEL_LINK", $this->getChannelLink());
         $this->tpl->setVariable("CHANNEL_DESCRIPTION", $this->getChannelDescription());
-        
+
         foreach ($this->items as $item) {
             $this->tpl->setCurrentBlock("rdf_seq");
             $this->tpl->setVariable("RESOURCE", $item->getAbout());
             $this->tpl->parseCurrentBlock();
-            
+
             // Date
             if ($item->getDate() != "") {
                 $this->tpl->setCurrentBlock("date");
@@ -147,7 +145,7 @@ class ilFeedWriter
                 );
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             // Enclosure
             if ($item->getEnclosureUrl() != "") {
                 $this->tpl->setCurrentBlock("enclosure");
@@ -156,7 +154,7 @@ class ilFeedWriter
                 $this->tpl->setVariable("ENC_TYPE", $item->getEnclosureType());
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             $this->tpl->setCurrentBlock("item");
             $this->tpl->setVariable("ITEM_ABOUT", $item->getAbout());
             $this->tpl->setVariable("ITEM_TITLE", $item->getTitle());
@@ -164,11 +162,11 @@ class ilFeedWriter
             $this->tpl->setVariable("ITEM_LINK", $item->getLink());
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->parseCurrentBlock();
         return $this->tpl->get();
     }
-    
+
     public function showFeed() : void
     {
         header("Content-Type: text/xml; charset=UTF-8;");

@@ -4,7 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test clipboard repository
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class FeedItemTest extends TestCase

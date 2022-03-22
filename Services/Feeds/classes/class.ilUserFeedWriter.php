@@ -15,7 +15,6 @@
 
 /**
  * Feed writer for personal user feeds.
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserFeedWriter extends ilFeedWriter
@@ -35,18 +34,18 @@ class ilUserFeedWriter extends ilFeedWriter
         $ilSetting = $DIC->settings();
 
         parent::__construct();
-        
+
         if ($a_user_id == "" || $a_hash == "") {
             return;
         }
-        
+
         $news_set = new ilSetting("news");
         if (!$news_set->get("enable_rss_for_internal")) {
             return;
         }
 
         $hash = ilObjUser::_lookupFeedHash($a_user_id);
-        
+
         $rss_period = ilNewsItem::_lookupRSSPeriod();
 
         if ($a_hash == $hash) {
@@ -56,7 +55,7 @@ class ilUserFeedWriter extends ilFeedWriter
             } else {
                 $items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true, true, $rss_period);
             }
-            
+
             if ($ilSetting->get('short_inst_name') != "") {
                 $this->setChannelTitle($ilSetting->get('short_inst_name'));
             } else {
@@ -91,7 +90,7 @@ class ilUserFeedWriter extends ilFeedWriter
 
                 // path
                 $loc = $this->getContextPath($item["ref_id"]);
-                
+
                 // title
                 if ($news_set->get("rss_title_format") == "news_obj") {
                     $feed_item->setTitle($this->prepareStr(str_replace("<br />", " ", $title)) .
@@ -101,10 +100,11 @@ class ilUserFeedWriter extends ilFeedWriter
                     $feed_item->setTitle($this->prepareStr($loc) . " " . $this->prepareStr($obj_title) .
                         ": " . $this->prepareStr(str_replace("<br />", " ", $title)));
                 }
-                                
+
                 // description
                 $content = $this->prepareStr(nl2br(
-                    ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"], $item["content_text_is_lang_var"])
+                    ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"],
+                        $item["content_text_is_lang_var"])
                 ));
                 $feed_item->setDescription($content);
 

@@ -15,7 +15,6 @@
 
 /**
  * Feed writer for objects.
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjectFeedWriter extends ilFeedWriter
@@ -34,13 +33,13 @@ class ilObjectFeedWriter extends ilFeedWriter
         $this->lng = $DIC->language();
         $ilSetting = $DIC->settings();
         $lng = $DIC->language();
-        
+
         parent::__construct();
-        
+
         if ($a_ref_id <= 0) {
             return;
         }
-        
+
         $news_set = new ilSetting("news");
         if (!$news_set->get("enable_rss_for_internal")) {
             return;
@@ -69,7 +68,7 @@ class ilObjectFeedWriter extends ilFeedWriter
         if ($obj_type == "mcst") {
             if (!ilObjMediaCastAccess::_lookupOnline($obj_id)) {
                 $lng->loadLanguageModule("mcst");
-                
+
                 $feed_item = new ilFeedItem();
                 $feed_item->setTitle($lng->txt("mcst_media_cast_not_online"));
                 $feed_item->setDescription($lng->txt("mcst_media_cast_not_online_text"));
@@ -79,7 +78,6 @@ class ilObjectFeedWriter extends ilFeedWriter
                 return;
             }
         }
-
 
         $rss_period = ilNewsItem::_lookupRSSPeriod();
 
@@ -92,7 +90,7 @@ class ilObjectFeedWriter extends ilFeedWriter
         $i = 0;
         foreach ($items as $item) {
             $i++;
-            
+
             if ($a_purpose != false && $obj_type == "mcst") {
                 $mob = ilMediaItem::_getMediaItemsOfMObId($item["mob_id"], $a_purpose);
 
@@ -102,9 +100,9 @@ class ilObjectFeedWriter extends ilFeedWriter
             }
 
             $obj_title = ilObject::_lookupTitle($item["context_obj_id"]);
-            
+
             $feed_item = new ilFeedItem();
-            
+
             $title = ilNewsItem::determineNewsTitle(
                 $item["context_obj_type"],
                 $item["title"],
@@ -126,7 +124,8 @@ class ilObjectFeedWriter extends ilFeedWriter
                     ": " . $this->prepareStr($title));
             }
             $feed_item->setDescription($this->prepareStr(nl2br(
-                ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"], $item["content_text_is_lang_var"])
+                ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"],
+                    $item["content_text_is_lang_var"])
             )));
 
             // lm hack, not nice
@@ -156,10 +155,10 @@ class ilObjectFeedWriter extends ilFeedWriter
                 //echo "<br>".ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 //					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"];
             }
-    
+
             $feed_item->setAbout($feed_item->getLink() . "&amp;il_about_feed=" . $item["id"]);
             $feed_item->setDate($item["creation_date"]);
-            
+
             // Enclosure
             if ($item["content_type"] == NEWS_AUDIO &&
                 $item["mob_id"] > 0 && ilObject::_exists($item["mob_id"])) {
@@ -169,7 +168,7 @@ class ilObjectFeedWriter extends ilFeedWriter
                         $go_on = false;
                     }
                 }
-                
+
                 if ($go_on && isset($mob)) {
                     $url = ilObjMediaObject::_lookupItemPath($item["mob_id"], true, true, $mob["purpose"]);
                     $file = ilObjMediaObject::_lookupItemPath($item["mob_id"], false, false, $mob["purpose"]);
@@ -178,7 +177,7 @@ class ilObjectFeedWriter extends ilFeedWriter
                         $size = filesize($file);
                     }
                     $feed_item->setEnclosureUrl($url);
-                    $feed_item->setEnclosureType((isset($mob["format"]))?$mob["format"]:"audio/mpeg");
+                    $feed_item->setEnclosureType((isset($mob["format"])) ? $mob["format"] : "audio/mpeg");
                     $feed_item->setEnclosureLength($size);
                 }
             }
