@@ -75,6 +75,18 @@
 
 // main page area elements
 #tst_output #tst_right {
+	.ilTstWorkingFormBlock_WorkingTime {
+        text-align: center;
+        clear: both;
+        .ilTstWorkingFormInfo_UserWorkingTime {
+            visibility: hidden;
+            display: none;
+        }
+        .ilTstWorkingFormInfo_ProcessTimeLeft {
+            font-size: @il-test-working-time-font-size;
+            font-weight: @il-test-working-time-font-weight;
+        }
+    }
     h1.ilc_page_title_PageTitle {
         margin-bottom: @il-test-padding-large-vertical;
     }
