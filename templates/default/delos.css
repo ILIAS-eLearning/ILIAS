@@ -2823,11 +2823,7 @@ textarea.form-control {
   .input-group-sm input[type="time"],
   .input-group-sm input[type="datetime-local"],
   .input-group-sm input[type="month"] {
-<<<<<<< HEAD
     line-height: 9rem;
-=======
-    line-height: 28px;
->>>>>>> trunk
   }
   input[type="date"].input-lg,
   input[type="time"].input-lg,
@@ -2909,69 +2905,40 @@ fieldset[disabled] .checkbox-inline {
   padding-left: 0;
 }
 .input-sm {
-<<<<<<< HEAD
   height: 9rem;
   padding: 3px 6px;
   font-size: 0.75rem;
-=======
-  height: 28px;
-  padding: 4px 6px;
-  font-size: 12px;
->>>>>>> trunk
   line-height: 1.5;
   border-radius: 0px;
 }
 select.input-sm {
-<<<<<<< HEAD
   height: 9rem;
   line-height: 9rem;
-=======
-  height: 28px;
-  line-height: 28px;
->>>>>>> trunk
 }
 textarea.input-sm,
 select[multiple].input-sm {
   height: auto;
 }
 .form-group-sm .form-control {
-<<<<<<< HEAD
   height: 9rem;
   padding: 3px 6px;
   font-size: 0.75rem;
-=======
-  height: 28px;
-  padding: 4px 6px;
-  font-size: 12px;
->>>>>>> trunk
   line-height: 1.5;
   border-radius: 0px;
 }
 .form-group-sm select.form-control {
-<<<<<<< HEAD
   height: 9rem;
   line-height: 9rem;
-=======
-  height: 28px;
-  line-height: 28px;
->>>>>>> trunk
 }
 .form-group-sm textarea.form-control,
 .form-group-sm select[multiple].form-control {
   height: auto;
 }
 .form-group-sm .form-control-static {
-<<<<<<< HEAD
   height: 9rem;
   min-height: 1.75rem;
   padding: 4px 6px;
   font-size: 0.75rem;
-=======
-  height: 28px;
-  min-height: 32px;
-  padding: 5px 6px;
-  font-size: 12px;
->>>>>>> trunk
   line-height: 1.5;
 }
 .input-lg {
@@ -3039,15 +3006,9 @@ select[multiple].input-lg {
 .input-sm + .form-control-feedback,
 .input-group-sm + .form-control-feedback,
 .form-group-sm .form-control + .form-control-feedback {
-<<<<<<< HEAD
   width: 9rem;
   height: 9rem;
   line-height: 9rem;
-=======
-  width: 28px;
-  height: 28px;
-  line-height: 28px;
->>>>>>> trunk
 }
 .has-success .help-block,
 .has-success .control-label,
@@ -3235,13 +3196,8 @@ select[multiple].input-lg {
 }
 @media (min-width: 768px) {
   .form-horizontal .form-group-sm .control-label {
-<<<<<<< HEAD
     padding-top: 4px;
     font-size: 0.75rem;
-=======
-    padding-top: 5px;
-    font-size: 12px;
->>>>>>> trunk
   }
 }
 .btn {
@@ -3685,13 +3641,8 @@ fieldset[disabled] .btn-link:focus {
 }
 .btn-sm,
 .btn-group-sm > .btn {
-<<<<<<< HEAD
   padding: 3px 6px;
   font-size: 0.75rem;
-=======
-  padding: 4px 6px;
-  font-size: 12px;
->>>>>>> trunk
   line-height: 1.5;
   border-radius: 0px;
 }
@@ -4106,28 +4057,17 @@ select[multiple].input-group-lg > .input-group-btn > .btn {
 .input-group-sm > .form-control,
 .input-group-sm > .input-group-addon,
 .input-group-sm > .input-group-btn > .btn {
-<<<<<<< HEAD
   height: 9rem;
   padding: 3px 6px;
   font-size: 0.75rem;
-=======
-  height: 28px;
-  padding: 4px 6px;
-  font-size: 12px;
->>>>>>> trunk
   line-height: 1.5;
   border-radius: 0px;
 }
 select.input-group-sm > .form-control,
 select.input-group-sm > .input-group-addon,
 select.input-group-sm > .input-group-btn > .btn {
-<<<<<<< HEAD
   height: 9rem;
   line-height: 9rem;
-=======
-  height: 28px;
-  line-height: 28px;
->>>>>>> trunk
 }
 textarea.input-group-sm > .form-control,
 textarea.input-group-sm > .input-group-addon,
@@ -4165,13 +4105,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-radius: 0;
 }
 .input-group-addon.input-sm {
-<<<<<<< HEAD
   padding: 3px 6px;
   font-size: 0.75rem;
-=======
-  padding: 4px 6px;
-  font-size: 12px;
->>>>>>> trunk
   border-radius: 0px;
 }
 .input-group-addon.input-lg {
@@ -4722,13 +4657,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin-bottom: 19.22px;
 }
 .navbar-btn.btn-sm {
-<<<<<<< HEAD
   margin-top: 15.5px;
   margin-bottom: 15.5px;
-=======
-  margin-top: 6px;
-  margin-bottom: 6px;
->>>>>>> trunk
 }
 .navbar-btn.btn-xs {
   margin-top: 9px;
@@ -5037,13 +4967,8 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 .pagination-sm > li > a,
 .pagination-sm > li > span {
-<<<<<<< HEAD
   padding: 3px 6px;
   font-size: 0.75rem;
-=======
-  padding: 4px 6px;
-  font-size: 12px;
->>>>>>> trunk
   line-height: 1.5;
 }
 .pagination-sm > li:first-child > a,
@@ -8075,15 +8000,9 @@ ul.dropdown-menu > li > .btn:focus {
   text-align: left;
   margin: 0;
   font-weight: 600;
-<<<<<<< HEAD
   font-size: 0.75rem;
   padding: 3px;
   padding-left: 100px;
-=======
-  font-size: 12px;
-  padding: 8px;
-  padding-left: 20px;
->>>>>>> trunk
 }
 .breadcrumb_wrapper .breadcrumb span.crumb a {
   color: #4c6586;
@@ -8298,11 +8217,7 @@ ul.dropdown-menu > li > .btn:focus {
   font-size: 0.75rem;
 }
 .il-standard-form .il-standard-form-header + .il-section-input {
-<<<<<<< HEAD
   margin-top: -5.07142857rem;
-=======
-  margin-top: -22.14285715px;
->>>>>>> trunk
   padding: 0;
 }
 .il-standard-form .il-standard-form-header + .il-section-input .il-section-input-header h2 {
@@ -14025,13 +13940,8 @@ div.il_editarea_disabled {
 div.ilEditLabel {
   position: absolute;
   background-color: #4c6586;
-<<<<<<< HEAD
   color: #f0f0f0;
   font-size: 0.75rem;
-=======
-  color: #6f6f6f;
-  font-size: 70%;
->>>>>>> trunk
   padding: 1px 3px;
   margin-top: -15px;
   margin-left: -2px;
@@ -16400,25 +16310,15 @@ h3.ilProfileName {
 }
 div.ilProfileSection {
   margin-top: 20px;
-<<<<<<< HEAD
   font-size: 0.75rem;
   color: #606060;
-=======
-  font-size: 90%;
-  color: #6f6f6f;
->>>>>>> trunk
 }
 h3.ilProfileSectionHead {
   margin: 0 0 3px;
   padding: 0;
   font-weight: normal;
-<<<<<<< HEAD
   font-size: 1rem;
   color: #202020;
-=======
-  font-size: 110%;
-  color: #161616;
->>>>>>> trunk
 }
 table.il_user_quota_disk_usage_overview {
   background-color: white;
@@ -16690,13 +16590,8 @@ td.chatroom {
 }
 .ilChatroomUser .media-body h4,
 .ilChatroomUser .media-body p {
-<<<<<<< HEAD
   color: #a0a0a0;
   font-size: 0.75rem;
-=======
-  color: #6f6f6f;
-  font-size: 12px;
->>>>>>> trunk
   padding: 5px 3px 0 3px;
   line-height: 1em;
   margin: 0;
@@ -18591,13 +18486,8 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body p {
   margin: 0;
-<<<<<<< HEAD
   color: #777;
   font-size: 0.75rem;
-=======
-  color: #6f6f6f;
-  font-size: 0.9em;
->>>>>>> trunk
 }
 #onscreenchat-container .chat-window-wrapper .panel {
   pointer-events: auto;
