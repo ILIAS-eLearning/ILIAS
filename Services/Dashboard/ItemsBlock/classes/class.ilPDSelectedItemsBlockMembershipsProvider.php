@@ -63,7 +63,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
             $parentTreeLftValue = $item->getParentLftTree();
             $parentTreeLftValue = sprintf("%010d", $parentTreeLftValue);
 
-            if (!$this->access->checkAccess('read', '', $refId) &&
+            if (!$this->access->checkAccess('read', '', $refId) ||
                 !$this->access->checkAccess('visible', '', $refId)) {
                 continue;
             }
