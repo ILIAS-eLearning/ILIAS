@@ -520,7 +520,7 @@ class ilMembershipGUI
 
         // Validate the user ids and role ids in the post data
         foreach ($participants as $usr_id) {
-            $memberIsAdmin = $this->rbacreview->isAssigned($usr_id, $adminRoleId);
+            $memberIsAdmin = $this->rbacreview->isAssigned($usr_id, (int) $adminRoleId);
 
             // If the current user doesn't have the 'edit_permission'
             // permission, make sure he doesn't remove the course
@@ -1313,10 +1313,10 @@ class ilMembershipGUI
 
         $added_users = 0;
         foreach ($waiting_list_ids as $user_id) {
-            if (!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id, false)) {
+            if (!$tmp_obj = ilObjectFactory::getInstanceByObjId((int) $user_id, false)) {
                 continue;
             }
-            if ($this->getMembersObject()->isAssigned($user_id)) {
+            if ($this->getMembersObject()->isAssigned((int) $user_id)) {
                 continue;
             }
 
@@ -1324,21 +1324,21 @@ class ilMembershipGUI
                 $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_MEMBER);
                 $this->getMembersObject()->sendNotification(
                     $this->getMembersObject()->NOTIFY_ACCEPT_USER,
-                    $user_id,
+                    (int) $user_id,
                     true
                 );
-                $this->getParentObject()->checkLPStatusSync($user_id);
+                $this->getParentObject()->checkLPStatusSync((int) $user_id);
             }
             if ($this instanceof ilGroupMembershipGUI) {
                 $this->getMembersObject()->add($user_id, ilParticipants::IL_GRP_MEMBER);
                 $this->getMembersObject()->sendNotification(
                     ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
-                    $user_id,
+                    (int) $user_id,
                     true
                 );
             }
             if ($this instanceof ilSessionMembershipGUI) {
-                $this->getMembersObject()->register($user_id);
+                $this->getMembersObject()->register((int) $user_id);
                 $noti = new ilSessionMembershipMailNotification();
                 $noti->setRefId($this->getParentObject()->getRefId());
                 $noti->setRecipients(array($user_id));
@@ -1346,7 +1346,7 @@ class ilMembershipGUI
                 $noti->send();
             }
 
-            $waiting_list->removeFromList($user_id);
+            $waiting_list->removeFromList((int) $user_id);
             ++$added_users;
         }
 
@@ -1404,19 +1404,19 @@ class ilMembershipGUI
         $waiting_list = $this->initWaitingList();
 
         foreach ($waiting_list_ids as $user_id) {
-            $waiting_list->removeFromList($user_id);
+            $waiting_list->removeFromList((int) $user_id);
 
             if ($this instanceof ilCourseMembershipGUI) {
                 $this->getMembersObject()->sendNotification(
                     $this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,
-                    $user_id,
+                    (int) $user_id,
                     true
                 );
             }
             if ($this instanceof ilGroupMembershipGUI) {
                 $this->getMembersObject()->sendNotification(
                     ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
-                    $user_id,
+                    (int) $user_id,
                     true
                 );
             }
