@@ -11756,6 +11756,9 @@ the il- variable in your less code and not the boostrap variable in your less co
   }
 }
 /* flex grid support start */
+script {
+  display: none!important;
+}
 .row-flex {
   display: -webkit-box;
   display: -moz-box;

@@ -25,6 +25,7 @@ il.UI.toast = ((UI) => {
                 xhr.send();
             }
             element.remove();
+            element.dispatchEvent(new Event('removeToast'));
         })
         element.querySelector('.il-toast').classList.remove('active');
     };
