@@ -58,12 +58,8 @@ function build_container_for_setup(string $executed_in_directory)
             $c["command.build-artifacts"],
             $c["command.achieve"],
             $c["command.status"],
-            $c["command.migrate"],
-            $c["command.replace-logo"]
+            $c["command.migrate"]
         );
-    };
-    $c["command.replace-logo"] = function ($c) {
-        return new \ILIAS\Setup\CLI\ReplaceResponsiveLogoCommand();
     };
     $c["command.install"] = function ($c) {
         return new \ILIAS\Setup\CLI\InstallCommand(
