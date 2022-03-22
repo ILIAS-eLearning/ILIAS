@@ -60,6 +60,9 @@ class ilMembershipRegistrationCodeUtils
      * @param string $a_code
      * @param int    $a_endnode Reference id of node in tree
      * @return void
+     * @throws ilDatabaseException
+     * @throws ilMembershipRegistrationException
+     * @throws ilObjectNotFoundException
      * @todo: throw an error if registration fails (max members, availibility...)
      */
     protected static function useCode(string $a_code, int $a_endnode) : void
@@ -78,8 +81,7 @@ class ilMembershipRegistrationCodeUtils
 
         foreach ($tree->getPathId($a_endnode) as $ref_id) {
             if (in_array(ilObject::_lookupObjId($ref_id), $obj_ids)) {
-                $factory = new ilObjectFactory();
-                $member_obj = $factory->getInstanceByRefId($ref_id, false);
+                $member_obj = ilObjectFactory::getInstanceByRefId($ref_id, false);
                 if ($member_obj instanceof ilObjCourse) {
                     $member_obj->register($ilUser->getId(), ilCourseConstants::CRS_MEMBER);
                 }

@@ -87,7 +87,7 @@ class ilMemberExportGUI
     protected function initSettingsForm(bool $a_is_excel = false) : ilPropertyFormGUI
     {
         // Check user selection
-        $this->exportSettings = new ilUserFormSettings('memexp');
+        $this->exportSettings = new ilUserFormSettings('memexp'); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -228,7 +228,7 @@ class ilMemberExportGUI
         }
 
         // Save (form) settings
-        $this->exportSettings = new ilUserFormSettings('memexp');
+        $this->exportSettings = new ilUserFormSettings('memexp'); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
         $this->exportSettings->set($settings);
         $this->exportSettings->store();
     }
@@ -294,7 +294,16 @@ class ilMemberExportGUI
      */
     public function downloadExportFile() : void
     {
-        $hash = trim($_GET['fl']);
+
+        $fl = '';
+        if ($this->http->wrapper()->query()->has('fl')) {
+            $fl = $this->http->wrapper()->query()->retrieve(
+                'fl',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
+        $hash = trim($fl);
         if (!$hash) {
             $this->ctrl->redirect($this, 'show');
         }

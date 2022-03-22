@@ -339,7 +339,7 @@ class ilMemberAgreementGUI
                     if (in_array($option_id, $open_answer_indexes)) {
                         $value = $form->getInput('cdf_oa_' . $field_obj->getId() . '_' . $option_id);
                     } else {
-                        $value = $field_obj->getValueById($option_id);
+                        $value = $field_obj->getValueById((int) $option_id);
                     }
                     break;
 
@@ -356,7 +356,7 @@ class ilMemberAgreementGUI
 
     private function checkAgreement() : bool
     {
-        $agrement = false;
+        $agreement = false;
         if ($this->http->wrapper()->post()->has('agreement')) {
             $agreement = $this->http->wrapper()->post()->retrieve(
                 'agreement',

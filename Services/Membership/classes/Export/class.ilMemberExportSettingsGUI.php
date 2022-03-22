@@ -13,6 +13,8 @@ class ilMemberExportSettingsGUI
 
     private string $parent_type = '';
     private int $parent_obj_id = 0;
+    private \ILIAS\HTTP\Services $http;
+    private \ILIAS\Refinery\Factory $refinery;
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
@@ -35,6 +37,8 @@ class ilMemberExportSettingsGUI
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('mem');
         $this->rbacsystem = $DIC->rbac()->system();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
     private function getLang() : ilLanguage
@@ -144,7 +148,16 @@ class ilMemberExportSettingsGUI
 
         switch ($a_type) {
             case self::TYPE_PRINT_VIEW_SETTINGS:
-                if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+
+                $ref_id = 0;
+                if ($this->http->wrapper()->query()->has('ref_id')) {
+                    $ref_id = $this->http->wrapper()->query()->retrieve(
+                        'ref_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+
+                if ($this->rbacsystem->checkAccess('write', $ref_id)) {
                     $form->addCommandButton('savePrintViewSettings', $this->getLang()->txt('save'));
                 }
                 break;
@@ -157,10 +170,10 @@ class ilMemberExportSettingsGUI
             $identifier_for_object = $identifier . '_0';
         }
 
-        $settings = new ilUserFormSettings($identifier_for_object, -1);
+        $settings = new ilUserFormSettings($identifier_for_object, -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
         if (!$settings->hasStoredEntry()) {
             // use default settings
-            $settings = new ilUserFormSettings($identifier, -1);
+            $settings = new ilUserFormSettings($identifier, -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
         }
         $settings->exportToForm($form);
 
@@ -184,7 +197,7 @@ class ilMemberExportSettingsGUI
                 $identifier .= '_' . $this->parent_obj_id;
             }
 
-            $settings = new ilUserFormSettings($identifier, -1);
+            $settings = new ilUserFormSettings($identifier, -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
             $settings->importFromForm($form);
             $settings->store();
 

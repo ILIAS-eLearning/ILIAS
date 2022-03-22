@@ -62,7 +62,7 @@ class ilMembershipCronNotificationsData
         // all group/course notifications: ref id => user ids
         $this->objects = ilMembershipNotifications::getActiveUsersforAllObjects();
 
-        if (sizeof($this->objects)) {
+        if (count($this->objects)) {
             $this->log->debug("nr of objects: " . count($this->objects));
 
             // gather news for each user over all objects
@@ -138,7 +138,7 @@ class ilMembershipCronNotificationsData
                 $like_data = new ilLikeData(array_keys($objs["obj_id"]));
                 foreach (array_keys($objs["obj_id"]) as $obj_id) {
                     $this->log->debug("Get like data for obj_id: " . $obj_id);
-                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run) as $like) {
+                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run) as $like) { // TODO PHP8-REVIEW Expected parameter of type 'int|null', 'string' provided
                         reset($user_ids);
                         foreach ($user_ids as $user_id) {
                             $has_perm = false;

@@ -16,7 +16,7 @@ class ilAttendanceList
     protected ilObject $parent_obj;
     protected ?ilParticipants $participants;
     protected ?ilWaitingList $waiting_list;
-    protected $callback;
+    protected $callback;  // TODO PHP8-REVIEW: Missing property's type declaration
     protected array $presets = [];
     protected array $role_data = [];
     protected array $roles = [];
@@ -209,7 +209,7 @@ class ilAttendanceList
             }
         }
 
-        if (sizeof($user_ids)) {
+        if (count($user_ids)) {
             // object specific user data
             $cdfs = ilCourseUserData::_getValuesByObjId($this->parent_obj->getId());
             foreach (array_unique($user_ids) as $user_id) {
@@ -285,7 +285,7 @@ class ilAttendanceList
         $desc->setValue($this->description);
         $form->addItem($desc);
 
-        if (sizeof($this->presets)) {
+        if (count($this->presets)) {
             $preset = new ilCheckboxGroupInputGUI($this->lng->txt('user_detail'), 'preset');
             $preset_value = array();
             foreach ($this->presets as $id => $item) {
@@ -357,19 +357,19 @@ class ilAttendanceList
         $form->addCommandButton($a_cmd, $this->lng->txt('sess_print_attendance_list'));
 
         if ($this->id && $a_cmd) {
-            $settings = new ilUserFormSettings($this->id);
+            $settings = new ilUserFormSettings($this->id); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
             if (!$settings->hasStoredEntry()) {
-                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1);
+                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
             }
 
             $settings->deleteValue('desc'); // #11340
             $settings->exportToForm($form);
         } elseif ($a_cmd == 'printForMembersOutput') {
             $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview_' . $this->parent_obj->getId(),
-                -1);
+                -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
             if (!$settings->hasStoredEntry()) {
                 // init from global defaults
-                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1);
+                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
             }
 
             $settings->deleteValue('desc'); // #11340
@@ -576,7 +576,7 @@ class ilAttendanceList
             }
 
             if ($this->blank_columns) {
-                for ($loop = 0; $loop < sizeof($this->blank_columns); $loop++) {
+                for ($loop = 0; $loop < count($this->blank_columns); $loop++) {
                     $tpl->touchBlock('row_blank');
                 }
             }

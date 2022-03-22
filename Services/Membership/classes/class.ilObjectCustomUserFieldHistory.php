@@ -82,7 +82,7 @@ class ilObjectCustomUserFieldHistory
         $this->db->manipulate($query);
     }
 
-    public function delete()
+    public function delete() : void
     {
         $query = 'DELETE FROM obj_user_data_hist ' .
             'WHERE obj_id = ' . $this->db->quote($this->obj_id, 'integer') . ' ' .
@@ -90,7 +90,7 @@ class ilObjectCustomUserFieldHistory
         $this->db->manipulate($query);
     }
 
-    protected function read()
+    protected function read() : void
     {
         $query = 'SELECT * FROM obj_user_data_hist ' .
             'WHERE obj_id = ' . $this->db->quote($this->obj_id, 'integer') . ' ' .

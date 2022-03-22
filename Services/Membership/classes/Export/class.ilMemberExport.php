@@ -76,7 +76,7 @@ class ilMemberExport
         $this->initGroups();
 
         $this->agreement = ilMemberAgreement::_readByObjId($this->obj_id);
-        $this->settings = new ilUserFormSettings('memexp');
+        $this->settings = new ilUserFormSettings('memexp'); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
         $this->privacy = ilPrivacySettings::getInstance();
     }
 
@@ -254,13 +254,13 @@ class ilMemberExport
                     if (substr($field, 0, 4) == 'udf_') {
                         $field_id = explode('_', $field);
                         $udf = ilUserDefinedFields::_getInstance();
-                        $def = $udf->getDefinition($field_id[1]);
+                        $def = $udf->getDefinition((int) $field_id[1]);
                         #$this->csv->addColumn($def['field_name']);
                         $this->addCol($def['field_name'], $row, $col++);
                     } elseif (substr($field, 0, 4) == 'cdf_') {
                         $field_id = explode('_', $field);
                         #$this->csv->addColumn(ilCourseDefinedFieldDefinition::_lookupName($field_id[1]));
-                        $this->addCol(ilCourseDefinedFieldDefinition::_lookupName($field_id[1]), $row, $col++);
+                        $this->addCol(ilCourseDefinedFieldDefinition::_lookupName((int) $field_id[1]), $row, $col++);
                     } elseif ($field == "username") {//User Name Presentation Guideline; username should be named login
                         $this->addCol($this->lng->txt("login"), $row, $col++);
                     } else {
@@ -520,7 +520,7 @@ class ilMemberExport
     {
         $parent_node = $this->tree->getNodeData($this->ref_id);
         $groups = $this->tree->getSubTree($parent_node, true, ['grp']);
-        if (is_array($groups) && sizeof($groups)) {
+        if (is_array($groups) && count($groups)) {
             $this->groups_rights = [];
             foreach ($groups as $idx => $group_data) {
                 // check for group in group

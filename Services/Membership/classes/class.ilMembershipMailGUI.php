@@ -18,7 +18,7 @@ class ilMembershipMailGUI
 
     protected GlobalHttpState $http;
     protected Factory $refinery;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(ilObjectGUI $object)
     {
@@ -110,12 +110,12 @@ class ilMembershipMailGUI
 
     protected function createMailSignature() : string
     {
-        $GLOBALS['DIC']['lng']->loadLanguageModule($this->getCurrentObject()->object->getType());
+        $GLOBALS['DIC']['lng']->loadLanguageModule($this->getCurrentObject()->getObject()->getType());
 
         $link = chr(13) . chr(10) . chr(13) . chr(10);
-        $link .= $this->lng->txt($this->getCurrentObject()->object->getType() . '_mail_permanent_link');
+        $link .= $this->lng->txt($this->getCurrentObject()->getObject()->getType() . '_mail_permanent_link');
         $link .= chr(13) . chr(10) . chr(13) . chr(10);
-        $link .= ilLink::_getLink($this->getCurrentObject()->object->getRefId());
+        $link .= ilLink::_getLink($this->getCurrentObject()->getObject()->getRefId());
         return rawurlencode(base64_encode($link));
     }
 }

@@ -40,7 +40,7 @@ class ilWaitingListTest extends TestCase
         parent::setUp();
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $obj_id = 0;
         $some_waiting_list = new class($obj_id) extends ilWaitingList {

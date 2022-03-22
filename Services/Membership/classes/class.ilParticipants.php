@@ -99,7 +99,7 @@ abstract class ilParticipants
             default:
                 $logger()->mem()->logStack();
                 $logger()->mem()->warning('Invalid ref_id -> obj_id given: ' . $a_ref_id . ' -> ' . $obj_id);
-                throw new \InvalidArgumentException('Invalid obj_id given.');
+                throw new InvalidArgumentException('Invalid obj_id given.');
         }
     }
 
@@ -275,7 +275,7 @@ abstract class ilParticipants
         $res = $ilDB->query($query);
         $ref_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
-            $ref_ids[] = $row->obj_id;
+            $ref_ids[] = (int) $row->obj_id;
         }
         return $ref_ids;
     }
@@ -381,7 +381,7 @@ abstract class ilParticipants
         $res = $ilDB->manipulate($query);
 
         $query = "DELETE FROM il_subscribers " .
-            "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . "";
+            "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
 
         $query = 'DELETE FROM crs_waiting_list ' .
@@ -451,7 +451,7 @@ abstract class ilParticipants
         $res = $this->ilDB->query($query);
         $recp = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($this->isAdmin($row->usr_id) or $this->isTutor($row->usr_id)) {
+            if ($this->isAdmin((int) $row->usr_id) || $this->isTutor((int) $row->usr_id)) {
                 $recp[] = (int) $row->usr_id;
             }
         }
@@ -584,7 +584,7 @@ abstract class ilParticipants
      * @param int usr_id
      * @param int[] array of new roles
      */
-    public function updateRoleAssignments($a_usr_id, $a_roles)
+    public function updateRoleAssignments($a_usr_id, $a_roles) : void
     {
         foreach ($this->getRoles() as $role_id) {
             if ($this->rbacReview->isAssigned($a_usr_id, $role_id)) {
@@ -1056,7 +1056,7 @@ abstract class ilParticipants
 
     public function assignSubscribers(array $a_usr_ids) : bool
     {
-        if (!is_array($a_usr_ids) or !count($a_usr_ids)) {
+        if (!is_array($a_usr_ids) || !count($a_usr_ids)) {
             return false;
         }
         foreach ($a_usr_ids as $id) {
@@ -1215,10 +1215,10 @@ abstract class ilParticipants
 
         $res = $this->ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (!ilObjectFactory::getInstanceByObjId($row->usr_id, false)) {
-                $this->deleteSubscriber($row->usr_id);
+            if (!ilObjectFactory::getInstanceByObjId((int) $row->usr_id, false)) {
+                $this->deleteSubscriber((int) $row->usr_id);
             }
-            $this->subscribers[] = $row->usr_id;
+            $this->subscribers[] = (int) $row->usr_id;
         }
     }
 

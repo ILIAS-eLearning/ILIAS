@@ -81,14 +81,14 @@ class ilMembershipNotifications
             " WHERE ref_id = " . $this->db->quote($this->ref_id, "integer"));
         if ($this->db->numRows($set)) {
             $row = $this->db->fetchAssoc($set);
-            $this->setMode($row["mode"]);
+            $this->setMode((int) $row["mode"]);
 
-            if ($row["mode"] == self::MODE_CUSTOM) {
+            if ((int) $row["mode"] == self::MODE_CUSTOM) {
                 $set = $this->db->query("SELECT *" .
                     " FROM member_noti_user" .
                     " WHERE ref_id = " . $this->db->quote($this->ref_id, "integer"));
                 while ($row = $this->db->fetchAssoc($set)) {
-                    $this->custom[$row["user_id"]] = $row["status"];
+                    $this->custom[(int) $row["user_id"]] = $row["status"];
                 }
             }
         }
@@ -270,7 +270,13 @@ class ilMembershipNotifications
                 $user = $this->getUser();
                 if ($user) {
                     // blocked value not supported in user pref!
-                    $user->setPref("grpcrs_ntf_" . $this->ref_id, (int) $a_status);
+                    if ($a_status === true) {
+                        $string_value = '1';
+                    } else {
+                        $string_value = '0';
+                    }
+
+                    $user->setPref("grpcrs_ntf_" . $this->ref_id, $string_value);
                     $user->writePrefs();
                     return true;
                 }
@@ -376,7 +382,7 @@ class ilMembershipNotifications
                     $log->debug("get active users");
                     $noti = new self($ref_id);
                     $active = $noti->getActiveUsers();
-                    if (sizeof($active)) {
+                    if (count($active)) {
                         $res[$ref_id] = $active;
                     }
                 }
@@ -462,6 +468,11 @@ class ilMembershipNotifications
 
     public static function importFromForm(int $a_ref_id, ?ilPropertyFormGUI $a_form = null) : void
     {
+        global $DIC;
+
+        $http = $DIC->http();
+        $refinery = $DIC->refinery();
+
         if (self::isActive() &&
             $a_ref_id) {
             $noti = new self($a_ref_id);
@@ -469,9 +480,22 @@ class ilMembershipNotifications
                 $noti->isValidMode(self::MODE_ALL));
             $changeable = null;
             if (!$a_form) {
-                $mode = (int) $_POST["force_noti"];
+                $mode = 0;
+                if ($http->wrapper()->post()->has('force_noti')) {
+                    $mode = $http->wrapper()->post()->retrieve(
+                        'force_noti',
+                        $refinery->kindlyTo()->int()
+                    );
+                }
+
                 if ($has_changeable_cb) {
-                    $changeable = (int) $_POST["force_noti_allblk"];
+                    $changeable = 0;
+                    if ($http->wrapper()->post()->has('force_noti_allblk')) {
+                        $changeable = $http->wrapper()->post()->retrieve(
+                            'force_noti_allblk',
+                            $refinery->kindlyTo()->int()
+                        );
+                    }
                 }
             } else {
                 $mode = $a_form->getInput("force_noti");

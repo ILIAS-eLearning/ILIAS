@@ -348,7 +348,7 @@ class ilMembershipGUI
                 $this->checkRbacOrPermissionAccess('manage_members', 'manage_members');
                 $this->activateSubTab($this->getParentObject()->getType() . "_member_administration");
                 $this->ctrl->setReturn($this, 'participants');
-                $cdf_gui = new ilObjectCustomUserFieldsGUI($this->getParentGUI()->object->getId());
+                $cdf_gui = new ilObjectCustomUserFieldsGUI($this->getParentGUI()->getObject()->getId());
                 $this->ctrl->forwardCommand($cdf_gui);
                 break;
 
@@ -526,13 +526,13 @@ class ilMembershipGUI
             // permission, make sure he doesn't remove the course
             // administrator role of members who are course administrator.
             if (!$hasEditPermissionAccess && $memberIsAdmin &&
-                !in_array($adminRoleId, $_POST['roles'][$usr_id])
+                !in_array($adminRoleId, $_POST['roles'][$usr_id])  // TODO PHP8-REVIEW Please fix this
             ) {
-                $_POST['roles'][$usr_id][] = $adminRoleId;
+                $_POST['roles'][$usr_id][] = $adminRoleId; // TODO PHP8-REVIEW Please fix this
             }
 
             // Validate the role ids in the post data
-            foreach ((array) $_POST['roles'][$usr_id] as $role_id) {
+            foreach ((array) $_POST['roles'][$usr_id] as $role_id) {  // TODO PHP8-REVIEW Please fix this
                 if (!array_key_exists($role_id, $assignableLocalRoles)) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_perm'), true);
                     $this->ctrl->redirect($this, 'participants');
@@ -548,17 +548,17 @@ class ilMembershipGUI
 
         $has_admin = false;
         foreach ($this->getMembersObject()->getAdmins() as $admin_id) {
-            if (!isset($_POST['roles'][$admin_id])) {
+            if (!isset($_POST['roles'][$admin_id])) {  // TODO PHP8-REVIEW Please fix this
                 $has_admin = true;
                 break;
             }
-            if (in_array($adminRoleId, $_POST['roles'][$admin_id])) {
+            if (in_array($adminRoleId, $_POST['roles'][$admin_id])) { // TODO PHP8-REVIEW Please fix this
                 $has_admin = true;
                 break;
             }
         }
 
-        if (!$has_admin && is_array($_POST['roles'])) {
+        if (!$has_admin && is_array($_POST['roles'])) { // TODO PHP8-REVIEW Please fix this
             foreach ($_POST['roles'] as $usrId => $roleIdsToBeAssigned) {
                 if (in_array($adminRoleId, $roleIdsToBeAssigned)) {
                     $has_admin = true;
@@ -573,11 +573,11 @@ class ilMembershipGUI
         }
 
         foreach ($participants as $usr_id) {
-            $this->getMembersObject()->updateRoleAssignments($usr_id, (array) $_POST['roles'][$usr_id]);
+            $this->getMembersObject()->updateRoleAssignments($usr_id, (array) $_POST['roles'][$usr_id]);  // TODO PHP8-REVIEW Please fix this
 
             // Disable notification for all of them
             $this->getMembersObject()->updateNotification($usr_id, false);
-            if (($this->getMembersObject()->isTutor($usr_id) or $this->getMembersObject()->isAdmin($usr_id)) and in_array(
+            if (($this->getMembersObject()->isTutor($usr_id) || $this->getMembersObject()->isAdmin($usr_id)) && in_array(
                 $usr_id,
                 $notifications
             )) {
@@ -585,7 +585,7 @@ class ilMembershipGUI
             }
 
             $this->getMembersObject()->updateBlocked($usr_id, false);
-            if ((!$this->getMembersObject()->isAdmin($usr_id) and !$this->getMembersObject()->isTutor($usr_id)) and in_array(
+            if ((!$this->getMembersObject()->isAdmin($usr_id) && !$this->getMembersObject()->isTutor($usr_id)) && in_array(
                 $usr_id,
                 $blocked
             )) {
@@ -735,7 +735,7 @@ class ilMembershipGUI
         $participants = [];
         if ($this->http->wrapper()->post()->has('participants')) {
             $participants = $this->initParticipantsFromPost();
-        } elseif ($this->wrapper()->query()->has('member_id')) {
+        } elseif ($this->http->wrapper()->query()->has('member_id')) {
             $participants = [$this->initMemberIdFromGet()];
         } elseif ($this->http->wrapper()->post()->has('subscribers')) {
             $participants = $this->initSubscribersFromPost();
@@ -1088,7 +1088,7 @@ class ilMembershipGUI
      */
     protected function initSubscriberTable() : ilSubscriberTableGUI
     {
-        $subscriber = new \ilSubscriberTableGUI($this, $this->getParentObject(), true, true);
+        $subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(), true, true);
         $subscriber->setTitle($this->lng->txt('group_new_registrations'));
         return $subscriber;
     }

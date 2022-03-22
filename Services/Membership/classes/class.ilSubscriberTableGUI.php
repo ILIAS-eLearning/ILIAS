@@ -27,7 +27,7 @@
  */
 class ilSubscriberTableGUI extends ilTable2GUI
 {
-    protected $subscribers = array();
+    protected array $subscribers = array();
 
     protected ilObject $rep_object;
 
@@ -239,7 +239,8 @@ class ilSubscriberTableGUI extends ilTable2GUI
      * read data
      * @access protected
      * @param int[] subscriber ids
-     * @return
+     * @return void
+     * @throws ilDateTimeException
      */
     public function readSubscriberData(array $a_subscriber_ids) : void
     {
@@ -303,7 +304,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
         }
 
         // Custom user data fields
-        if ($udf_ids) {
+        if (is_array($udf_ids)) {
             $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
             foreach ($data as $usr_id => $fields) {
                 if (!$this->checkAcceptance($usr_id)) {
@@ -316,7 +317,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
             }
         }
         // Object specific user data fields
-        if ($odf_ids) {
+        if (is_array($odf_ids)) {
             $data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
             foreach ($data as $usr_id => $fields) {
                 // #7264: as we get data for all course members filter against user data

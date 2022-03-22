@@ -70,8 +70,8 @@ class ilMemberAgreement
         $res = $ilDB->query($query);
         $user_data = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $user_data[$row->usr_id]['accepted'] = $row->accepted;
-            $user_data[$row->usr_id]['acceptance_time'] = $row->acceptance_time;
+            $user_data[(int) $row->usr_id]['accepted'] = $row->accepted;
+            $user_data[(int) $row->usr_id]['acceptance_time'] = $row->acceptance_time;
         }
         return $user_data;
     }

@@ -29,11 +29,10 @@ abstract class ilWaitingList
 {
     private int $obj_id = 0;
     private array $user_ids = [];
-    private $users = [];
+    private array $users = [];
 
     protected ilDBInterface $db;
     protected ilAppEventHandler $eventHandler;
-
 
     public static array $is_on_list = [];
 
@@ -177,7 +176,7 @@ abstract class ilWaitingList
             $ilDB->in("usr_id", $a_usr_ids, false, "integer");
         $res = $ilDB->query($query);
         while ($rec = $ilDB->fetchAssoc($res)) {
-            self::$is_on_list[$rec["usr_id"]][$rec["obj_id"]] = true;
+            self::$is_on_list[(int) $rec["usr_id"]][(int) $rec["obj_id"]] = true;
         }
     }
 
@@ -214,7 +213,7 @@ abstract class ilWaitingList
     /**
      * @return int[]
      */
-    public function getUserIds()
+    public function getUserIds() : array
     {
         return $this->user_ids;
     }
@@ -229,9 +228,9 @@ abstract class ilWaitingList
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             ++$counter;
-            $this->users[$row->usr_id]['position'] = $counter;
-            $this->users[$row->usr_id]['time'] = $row->sub_time;
-            $this->users[$row->usr_id]['usr_id'] = $row->usr_id;
+            $this->users[(int) $row->usr_id]['position'] = $counter;
+            $this->users[(int) $row->usr_id]['time'] = (int) $row->sub_time;
+            $this->users[(int) $row->usr_id]['usr_id'] = (int) $row->usr_id;
 
             $this->user_ids[] = $row->usr_id;
         }
