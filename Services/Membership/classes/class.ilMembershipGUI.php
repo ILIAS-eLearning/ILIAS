@@ -1112,8 +1112,8 @@ class ilMembershipGUI
         $c_gui->setCancel($this->lng->txt("cancel"), "participants");
         $c_gui->setConfirm($this->lng->txt("confirm"), "assignSubscribers");
 
-        foreach ($subscribers as $subscribers) {
-            $name = ilObjUser::_lookupName($subscribers);
+        foreach ($subscribers as $subscriber) {
+            $name = ilObjUser::_lookupName($subscriber);
 
             $c_gui->addItem(
                 'subscribers[]',
