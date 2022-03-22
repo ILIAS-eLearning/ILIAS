@@ -2,22 +2,17 @@
 
 /* Copyright (c) 2022 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup\CLI;
-
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
-use DirectoryIterator;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\Objective;
 
 /**
- * @author Thibeau Fuhrer <thibeau@sr.solutions>
+ * @author       Thibeau Fuhrer <thibeau@sr.solutions>
+ * @noinspection AutoloadingIssuesInspection
  */
-class ReplaceResponsiveLogoCommand extends Command
+class ilStyleReplaceResponsiveLogoObjective implements Objective
 {
     protected const RESPONSIVE_LOGO_PATH = '/images/HeaderIconResponsive.svg';
     protected const COMMON_LOGO_PATH = '/images/HeaderIcon.svg';
-
-    protected static $defaultName = 'replace-responsive-logo';
 
     /**
      * @var string|null
@@ -36,41 +31,64 @@ class ReplaceResponsiveLogoCommand extends Command
      */
     protected $ilias_path;
 
-    public function __construct(string $name = null)
+    public function __construct()
     {
         // determine ilias and delos-skin paths.
-        $this->ilias_path = dirname(__FILE__, 4);
+        $this->ilias_path = dirname(__FILE__, 5);
         $this->delos_path = "$this->ilias_path/templates/default/";
 
         // calculate original logo hashes.
-        $this->delos_responsive_logo_hash = $this->getHash($this->delos_path . self::RESPONSIVE_LOGO_PATH);
-        $this->delos_common_logo_hash = $this->getHash($this->delos_path . self::COMMON_LOGO_PATH);
-
-        parent::__construct($name);
+        $this->delos_responsive_logo_hash = $this->getFileHash($this->delos_path . self::RESPONSIVE_LOGO_PATH);
+        $this->delos_common_logo_hash = $this->getFileHash($this->delos_path . self::COMMON_LOGO_PATH);
     }
 
-    public function configure() : void
+    /**
+     * @inheritDoc
+     */
+    public function getHash() : string
     {
-        $this->setDescription("Replaces the HeaderIconResponsive.svg in custom skins where necessary.");
+        return hash("sha256", self::class);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    /**
+     * @inheritDoc
+     */
+    public function getLabel() : string
     {
-        $io_wrapper = new IOWrapper($input, $output);
-        $io_wrapper->title("Replacing responsive header-icons where necessary.");
+        return 'Replacing responsive logos where necessary.';
+    }
 
+    /**
+     * @inheritDoc
+     */
+    public function isNotable() : bool
+    {
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPreconditions(Environment $environment) : array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function achieve(Environment $environment) : Environment
+    {
         // abort if the header-icons of the delos skin could not be located.
         if (null === $this->delos_common_logo_hash || null === $this->delos_responsive_logo_hash) {
-            $io_wrapper->error("Could not locate header-icons in '$this->delos_path/images'.");
-            return 1;
+            return $environment;
         }
 
         $skin_directory = "$this->ilias_path/Customizing/global/skin/";
 
         // nothing to do if no custom skins were installed/created.
         if (!file_exists($skin_directory) || !is_dir($skin_directory)) {
-            $io_wrapper->success("No custom skins installed or created, nothing to do.");
-            return 0;
+            return $environment;
         }
 
         foreach (new DirectoryIterator($skin_directory) as $skin_name) {
@@ -81,8 +99,7 @@ class ReplaceResponsiveLogoCommand extends Command
             $this->maybeReplaceResponsiveIcon($skin_directory . $skin_name);
         }
 
-        $io_wrapper->success("Replaced all necessary responsive header-icons.");
-        return 0;
+        return $environment;
     }
 
     /**
@@ -94,8 +111,8 @@ class ReplaceResponsiveLogoCommand extends Command
         $responsive_logo = $skin_path . self::RESPONSIVE_LOGO_PATH;
         $common_logo = $skin_path . self::COMMON_LOGO_PATH;
 
-        if ($this->getHash($common_logo) !== $this->delos_common_logo_hash &&
-            $this->getHash($responsive_logo) === $this->delos_responsive_logo_hash
+        if ($this->getFileHash($common_logo) !== $this->delos_common_logo_hash &&
+            $this->getFileHash($responsive_logo) === $this->delos_responsive_logo_hash
         ) {
             copy($common_logo, $responsive_logo);
         }
@@ -104,7 +121,7 @@ class ReplaceResponsiveLogoCommand extends Command
     /**
      * Returns the sha1-sum of the given file if it exists.
      */
-    protected function getHash(string $absolute_file_path) : ?string
+    protected function getFileHash(string $absolute_file_path) : ?string
     {
         if (!file_exists($absolute_file_path)) {
             return null;
