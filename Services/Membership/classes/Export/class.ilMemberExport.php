@@ -347,8 +347,10 @@ class ilMemberExport
                         break;
 
                     case 'consultation_hour':
-                        $bookings = ilBookingEntry::lookupManagedBookingsForObject($this->obj_id,
-                            $GLOBALS['DIC']['ilUser']->getId());
+                        $bookings = ilBookingEntry::lookupManagedBookingsForObject(
+                            $this->obj_id,
+                            $GLOBALS['DIC']['ilUser']->getId()
+                        );
 
                         $uts = array();
                         foreach ((array) $bookings[$usr_id] as $ut) {

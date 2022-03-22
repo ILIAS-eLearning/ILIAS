@@ -82,7 +82,6 @@ abstract class ilRegistrationGUI
         $this->privacy = ilPrivacySettings::getInstance();
         $this->http = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
-
     }
 
     public function getContainer() : ilObject
@@ -331,7 +330,6 @@ abstract class ilRegistrationGUI
                                 $this->refinery->kindlyTo()->string()
                             );
                         }
-
                     } else {
                         $value = $field_obj->getValueById((int) $option_id);
                     }

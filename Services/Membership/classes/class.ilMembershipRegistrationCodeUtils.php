@@ -75,8 +75,10 @@ class ilMembershipRegistrationCodeUtils
         $obj_ids = self::lookupObjectsByCode($a_code);
 
         if (!$obj_ids) {
-            throw new ilMembershipRegistrationException('Admission code is not valid',
-                ilMembershipRegistrationException::ADMISSION_LINK_INVALID);
+            throw new ilMembershipRegistrationException(
+                'Admission code is not valid',
+                ilMembershipRegistrationException::ADMISSION_LINK_INVALID
+            );
         }
 
         foreach ($tree->getPathId($a_endnode) as $ref_id) {

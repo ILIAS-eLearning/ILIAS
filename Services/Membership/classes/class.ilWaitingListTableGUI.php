@@ -187,8 +187,10 @@ class ilWaitingListTableGUI extends ilTable2GUI
                     break;
 
                 case 'birthday':
-                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'],
-                        IL_CAL_DATE)) : $this->lng->txt('no_date');
+                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate(
+                        $a_set['birthday'],
+                        IL_CAL_DATE
+                    )) : $this->lng->txt('no_date');
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', $a_set[$field]);
                     $this->tpl->parseCurrentBlock();
@@ -200,8 +202,10 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable(
+                        'VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
 
@@ -212,8 +216,10 @@ class ilWaitingListTableGUI extends ilTable2GUI
                     break;
             }
         }
-        $this->tpl->setVariable('VAL_SUBTIME',
-            ilDatePresentation::formatDate(new ilDateTime($a_set['sub_time'], IL_CAL_UNIX)));
+        $this->tpl->setVariable(
+            'VAL_SUBTIME',
+            ilDatePresentation::formatDate(new ilDateTime($a_set['sub_time'], IL_CAL_UNIX))
+        );
         $this->showActionLinks($a_set);
     }
 

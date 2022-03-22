@@ -294,7 +294,6 @@ class ilMemberExportGUI
      */
     public function downloadExportFile() : void
     {
-
         $fl = '';
         if ($this->http->wrapper()->query()->has('fl')) {
             $fl = $this->http->wrapper()->query()->retrieve(

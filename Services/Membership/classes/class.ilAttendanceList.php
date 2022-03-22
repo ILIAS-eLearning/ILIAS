@@ -325,8 +325,10 @@ class ilAttendanceList
                 $role_name = 'tut';
             }
 
-            $chk = new ilCheckboxOption(sprintf($this->lng->txt('event_user_selection_include_role'), $role_data[0]),
-                'role_' . $role_name);
+            $chk = new ilCheckboxOption(
+                sprintf($this->lng->txt('event_user_selection_include_role'), $role_data[0]),
+                'role_' . $role_name
+            );
             $checked[] = 'role_' . $role_name;
             $chk_grp->addOption($chk);
         }
@@ -365,8 +367,10 @@ class ilAttendanceList
             $settings->deleteValue('desc'); // #11340
             $settings->exportToForm($form);
         } elseif ($a_cmd == 'printForMembersOutput') {
-            $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview_' . $this->parent_obj->getId(),
-                -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
+            $settings = new ilUserFormSettings(
+                $this->parent_obj->getType() . 's_pview_' . $this->parent_obj->getId(),
+                -1
+            ); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
             if (!$settings->hasStoredEntry()) {
                 // init from global defaults
                 $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided

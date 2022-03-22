@@ -68,5 +68,4 @@ class ilWaitingListTest extends TestCase
             return $value;
         };
     }
-
 }

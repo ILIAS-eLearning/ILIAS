@@ -197,14 +197,14 @@ abstract class ilParticipants
         if ($a_only_member_roles) {
             $j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
             $a2 = 'AND obd2.title = ' . $ilDB->concat(
-                    array(
+                array(
                         array($ilDB->quote('il_', 'text')),
                         array('obd.type'),
                         array($ilDB->quote('_member_', 'text')),
                         array('obr.ref_id'),
                     ),
-                    false
-                );
+                false
+            );
         }
 
         $query = "SELECT DISTINCT obd.obj_id,obr.ref_id,ua.usr_id FROM rbac_ua ua " .
@@ -252,14 +252,14 @@ abstract class ilParticipants
         if ($a_only_member_role) {
             $j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
             $a2 = 'AND obd2.title = ' . $ilDB->concat(
-                    array(
+                array(
                         array($ilDB->quote('il_', 'text')),
                         array('obd.type'),
                         array($ilDB->quote('_member_', 'text')),
                         array('obr.ref_id'),
                     ),
-                    false
-                );
+                false
+            );
         }
 
         // #14290 - no role folder anymore
@@ -873,8 +873,10 @@ abstract class ilParticipants
                 case 'il_crs_m':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
                     $this->role_data[self::IL_CRS_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = array_unique(array_merge($assigned, $this->members));
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -882,8 +884,10 @@ abstract class ilParticipants
                 case 'il_crs_a':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
                     $this->role_data[self::IL_CRS_ADMIN] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->admins = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -891,8 +895,10 @@ abstract class ilParticipants
                 case 'il_crs_t':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_TUTOR;
                     $this->role_data[self::IL_CRS_TUTOR] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->tutors = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -900,8 +906,10 @@ abstract class ilParticipants
                 case 'il_grp_a':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
                     $this->role_data[self::IL_GRP_ADMIN] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->admins = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -909,24 +917,30 @@ abstract class ilParticipants
                 case 'il_grp_m':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
                     $this->role_data[self::IL_GRP_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
 
                 case 'il_sess_':
                     $this->role_data[self::IL_SESS_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = $this->rbacReview->assignedUsers($role_id);
                     break;
 
                 case 'il_lso_m':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
                     $this->role_data[self::IL_LSO_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -934,16 +948,20 @@ abstract class ilParticipants
                 case 'il_lso_a':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
                     $this->role_data[self::IL_LSO_ADMIN] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->admins = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
 
                 default:
                     $additional_roles[$role_id] = $title;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = array_unique(array_merge($assigned, $this->members));
                     $this->role_assignments[$role_id] = $assigned;
                     break;

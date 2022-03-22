@@ -424,13 +424,17 @@ class ilMembershipNotifications
                 $force_noti->addOption($option);
             }
             if ($noti->isValidMode(self::MODE_ALL_BLOCKED)) {
-                $option = new ilRadioOption($lng->txt("mem_force_notification_mode_blocked"),
-                    (string) self::MODE_ALL_BLOCKED);
+                $option = new ilRadioOption(
+                    $lng->txt("mem_force_notification_mode_blocked"),
+                    (string) self::MODE_ALL_BLOCKED
+                );
                 $force_noti->addOption($option);
 
                 if ($noti->isValidMode(self::MODE_ALL)) {
-                    $changeable = new ilCheckboxInputGUI($lng->txt("mem_force_notification_mode_all_sub_blocked"),
-                        "force_noti_allblk");
+                    $changeable = new ilCheckboxInputGUI(
+                        $lng->txt("mem_force_notification_mode_all_sub_blocked"),
+                        "force_noti_allblk"
+                    );
                     $option->addSubItem($changeable);
                 }
             } elseif ($noti->isValidMode(self::MODE_ALL)) {
