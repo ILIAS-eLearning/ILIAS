@@ -46,7 +46,7 @@ class ilWaitingListTest extends TestCase
         $some_waiting_list = new class($obj_id) extends ilWaitingList {
         };
         $instance = new $some_waiting_list($obj_id);
-        $this->assertTrue($instance instanceof ilWaitingList);
+        $this->assertInstanceOf(ilWaitingList::class, $instance);
     }
 
     protected function initDependencies() : void

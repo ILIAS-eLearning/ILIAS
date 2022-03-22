@@ -121,7 +121,7 @@ class ilMemberAgreement
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        return $row->accepted == 1;
+        return (int) $row->accepted === 1;
     }
 
     /**
@@ -246,7 +246,7 @@ class ilMemberAgreement
     /**
      * save acceptance settings
      */
-    public function save()
+    public function save() : void
     {
         $this->delete();
         $query = "INSERT INTO member_agreement (usr_id,obj_id,accepted,acceptance_time) " .

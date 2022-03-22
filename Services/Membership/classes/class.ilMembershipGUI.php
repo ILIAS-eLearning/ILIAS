@@ -260,7 +260,7 @@ class ilMembershipGUI
 
                 $mail = new ilMail($this->user->getId());
                 if (!(
-                    $this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
+                    $this->getParentObject()->getMailToMembersType() === ilCourseConstants::MAIL_ALLOWED_ALL ||
                         $this->access->checkAccess('manage_members', "", $this->getParentObject()->getRefId())
                 ) ||
                     !$this->rbacsystem->checkAccess(
@@ -295,7 +295,7 @@ class ilMembershipGUI
                 if (
                     !$is_admin &&
                     (
-                        $this->getParentObject()->getShowMembers() == 0 ||
+                        $this->getParentObject()->getShowMembers() === 0 ||
                         !$is_participant
                     )
                 ) {
@@ -316,7 +316,7 @@ class ilMembershipGUI
                 $this->checkRbacOrPermissionAccess('manage_members', 'manage_members');
 
                 $cmg_gui = new ilCourseParticipantsGroupsGUI($this->getParentObject()->getRefId());
-                if ($cmd == "show" || $cmd = "") {
+                if ($cmd === "show" || $cmd = "") {
                     $this->showMailToMemberToolbarButton($this->toolbar);
                 }
                 $this->ctrl->forwardCommand($cmg_gui);
@@ -356,10 +356,10 @@ class ilMembershipGUI
                 $this->setSubTabs($this->tabs);
                 //exclude mailMembersBtn cmd from this check
                 if (
-                    $cmd == "mailMembersBtn" ||
-                    $cmd == 'membersMap' ||
-                    $cmd == 'printForMembersOutput' ||
-                    $cmd == 'jump2UsersGallery'
+                    $cmd === "mailMembersBtn" ||
+                    $cmd === 'membersMap' ||
+                    $cmd === 'printForMembersOutput' ||
+                    $cmd === 'jump2UsersGallery'
                 ) {
                     $this->checkPermission('read');
                 } else {
@@ -448,7 +448,7 @@ class ilMembershipGUI
         }
 
         $real_participants = $this->getMembersObject()->getParticipants();
-        $participants = array_intersect((array) $post_participants, (array) $real_participants);
+        $participants = array_intersect($post_participants, $real_participants);
 
         if (!count($participants)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
@@ -795,7 +795,7 @@ class ilMembershipGUI
             ->setEnableCentralMarker(true);
 
         $members = ilParticipants::getInstanceByObjId($this->getParentObject()->getId())->getParticipants();
-        foreach ((array) $members as $user_id) {
+        foreach ($members as $user_id) {
             $map->addUserMarker($user_id);
         }
 
@@ -855,7 +855,7 @@ class ilMembershipGUI
         bool $a_separator = false
     ) : void {
         if (
-            $this->getParentObject()->getType() == 'crs' &&
+            $this->getParentObject()->getType() === 'crs' &&
             $this->getParentObject()->getShowMembersExport()) {
             if ($a_separator) {
                 $toolbar->addSeparator();
@@ -882,7 +882,7 @@ class ilMembershipGUI
         $mail = new ilMail($this->user->getId());
 
         if (
-            ($this->getParentObject()->getMailToMembersType() == 1) ||
+            ($this->getParentObject()->getMailToMembersType() === 1) ||
             (
                 $this->access->checkAccess('manage_members', "", $this->getParentObject()->getRefId()) &&
                 $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId())
@@ -957,7 +957,7 @@ class ilMembershipGUI
                 $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilusersgallerygui'), 'view')
             );
         } elseif (
-            $this->getParentObject()->getMailToMembersType() == 1 &&
+            $this->getParentObject()->getMailToMembersType() === 1 &&
             $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId()) &&
             $a_is_participant
         ) {
@@ -1567,14 +1567,14 @@ class ilMembershipGUI
             $part = ilParticipants::getInstance($member_id);
 
             $list = new ilAttendanceList(
-                $this,
+                $this,// TODO PHP8-REVIEW Argument does not match parameter type
                 $this->getParentObject(),
                 $part,
                 $waiting_list
             );
         } else {
             $list = new ilAttendanceList(
-                $this,
+                $this,// TODO PHP8-REVIEW Argument does not match parameter type
                 $this->getParentObject(),
                 $this->getMembersObject(),
                 $waiting_list

@@ -64,7 +64,7 @@ abstract class ilMembershipRegistrationSettingsGUI
                 'show_cannot_participate_direct'
             );
             $cannot_participate->setInfo($this->txt('reg_cannot_participate_info'));
-            $cannot_participate->setValue((string) 1);
+            $cannot_participate->setValue("1");
             $opt_dir->addSubItem($cannot_participate);
         }
         if (in_array(ilMembershipRegistrationSettings::TYPE_PASSWORD, $this->getOptions())) {
@@ -95,7 +95,7 @@ abstract class ilMembershipRegistrationSettingsGUI
                 'show_cannot_participate_request'
             );
             $cannot_participate->setInfo($this->txt('reg_cannot_participate_info'));
-            $cannot_participate->setValue((string) 1);
+            $cannot_participate->setValue("1");
             $opt_req->addSubItem($cannot_participate);
         }
         if (in_array(ilMembershipRegistrationSettings::TYPE_TUTOR, $this->getOptions())) {
@@ -121,7 +121,7 @@ abstract class ilMembershipRegistrationSettingsGUI
         if (in_array(ilMembershipRegistrationSettings::REGISTRATION_LIMITED_USERS, $this->getOptions())) {
             // max member
             $lim = new ilCheckboxInputGUI($this->txt('reg_max_members_short'), 'registration_membership_limited');
-            $lim->setValue((string) 1);
+            $lim->setValue("1");
             #$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
             #$lim->setChecked($this->object->isMembershipLimited());
 
@@ -152,14 +152,14 @@ abstract class ilMembershipRegistrationSettingsGUI
 
             $wait = new ilRadioGroupInputGUI($this->txt('reg_waiting_list'), 'waiting_list');
 
-            $option = new ilRadioOption($this->txt('reg_waiting_list_none'), (string) 0);
+            $option = new ilRadioOption($this->txt('reg_waiting_list_none'), "0");
             $wait->addOption($option);
 
-            $option = new ilRadioOption($this->txt('reg_waiting_list_no_autofill'), (string) 1);
+            $option = new ilRadioOption($this->txt('reg_waiting_list_no_autofill'), "1");
             $option->setInfo($this->txt('reg_waiting_list_no_autofill_info'));
             $wait->addOption($option);
 
-            $option = new ilRadioOption($this->txt('reg_waiting_list_autofill'), (string) 2);
+            $option = new ilRadioOption($this->txt('reg_waiting_list_autofill'), "2");
             $option->setInfo($this->txt('reg_waiting_list_autofill_info'));
             $wait->addOption($option);
 

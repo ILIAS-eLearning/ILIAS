@@ -352,7 +352,7 @@ abstract class ilRegistrationGUI
             $course_user_data->update();
 
             // #14220
-            if ($field_obj->isRequired() && $value == "") {
+            if ($field_obj->isRequired() && $value === "") {
                 $required_fullfilled = false;
             }
         }

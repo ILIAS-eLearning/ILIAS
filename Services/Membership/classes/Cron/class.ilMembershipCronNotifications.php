@@ -81,7 +81,7 @@ class ilMembershipCronNotifications extends ilCronJob
 
             $status_details = "No previous run found - starting from yesterday.";
         } // migration: used to be date-only value
-        elseif (strlen($last_run) == 10) {
+        elseif (strlen($last_run) === 10) {
             $last_run .= " 00:00:00";
 
             $status_details = "Switched from daily runs to open schedule.";
@@ -161,8 +161,8 @@ class ilMembershipCronNotifications extends ilCronJob
         $sub = null;
         if ($a_item["aggregation"]) {
             $do_sub = true;
-            if ($item_obj_type == "file" &&
-                count($a_item["aggregation"]) == 1) {
+            if ($item_obj_type === "file" &&
+                count($a_item["aggregation"]) === 1) {
                 $do_sub = false;
             }
             if ($do_sub) {
@@ -216,7 +216,7 @@ class ilMembershipCronNotifications extends ilCronJob
 
             case "file":
                 if (!is_array($a_item["aggregation"]) ||
-                    count($a_item["aggregation"]) == 1) {
+                    count($a_item["aggregation"]) === 1) {
                     $res = $this->lng->txt("obj_" . $item_obj_type) .
                         ' "' . $item_obj_title . '" - ' . $title;
                 } else {

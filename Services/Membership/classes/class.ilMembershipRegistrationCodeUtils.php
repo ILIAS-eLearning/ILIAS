@@ -105,7 +105,7 @@ class ilMembershipRegistrationCodeUtils
         $code = "";
         $max = strlen($map) - 1;
         for ($loop = 1; $loop <= self::CODE_LENGTH; $loop++) {
-            $code .= $map[mt_rand(0, $max)];
+            $code .= $map[random_int(0, $max)];
         }
         return $code;
     }

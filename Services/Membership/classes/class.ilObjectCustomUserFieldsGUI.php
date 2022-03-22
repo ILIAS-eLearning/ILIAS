@@ -258,7 +258,7 @@ class ilObjectCustomUserFieldsGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function initFieldForm($a_mode) : ilPropertyFormGUI
+    protected function initFieldForm(int $a_mode) : ilPropertyFormGUI
     {
         if ($this->form instanceof ilPropertyFormGUI) {
             return $this->form;
@@ -294,7 +294,7 @@ class ilObjectCustomUserFieldsGUI
         $ty->setRequired(true);
         $this->form->addItem($ty);
 
-        if ($a_mode == self::MODE_UPDATE) {
+        if ($a_mode === self::MODE_UPDATE) {
             $ty->setDisabled(true); // #14888
         }
 
@@ -316,7 +316,7 @@ class ilObjectCustomUserFieldsGUI
 
         // Required
         $re = new ilCheckboxInputGUI($this->lng->txt('ps_cdf_required'), 're');
-        $re->setValue((string) 1);
+        $re->setValue("1");
         $this->form->addItem($re);
         return $this->form;
     }

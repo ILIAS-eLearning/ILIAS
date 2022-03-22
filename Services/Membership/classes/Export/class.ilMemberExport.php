@@ -251,17 +251,17 @@ class ilMemberExport
                     break;
 
                 default:
-                    if (substr($field, 0, 4) == 'udf_') {
+                    if (strpos($field, 'udf_') === 0) {
                         $field_id = explode('_', $field);
                         $udf = ilUserDefinedFields::_getInstance();
                         $def = $udf->getDefinition((int) $field_id[1]);
                         #$this->csv->addColumn($def['field_name']);
                         $this->addCol($def['field_name'], $row, $col++);
-                    } elseif (substr($field, 0, 4) == 'cdf_') {
+                    } elseif (strpos($field, 'cdf_') === 0) {
                         $field_id = explode('_', $field);
                         #$this->csv->addColumn(ilCourseDefinedFieldDefinition::_lookupName($field_id[1]));
                         $this->addCol(ilCourseDefinedFieldDefinition::_lookupName((int) $field_id[1]), $row, $col++);
-                    } elseif ($field == "username") {//User Name Presentation Guideline; username should be named login
+                    } elseif ($field === "username") {//User Name Presentation Guideline; username should be named login
                         $this->addCol($this->lng->txt("login"), $row, $col++);
                     } else {
                         #$this->csv->addColumn($this->lng->txt($field));
@@ -444,11 +444,11 @@ class ilMemberExport
         foreach ($a_user_ids as $user_id) {
             // Read course related data
             if ($this->members->isAdmin($user_id)) {
-                $this->user_course_data[$user_id]['role'] = $this->getType() == 'crs' ? ilParticipants::IL_CRS_ADMIN : ilParticipants::IL_GRP_ADMIN;
+                $this->user_course_data[$user_id]['role'] = $this->getType() === 'crs' ? ilParticipants::IL_CRS_ADMIN : ilParticipants::IL_GRP_ADMIN;
             } elseif ($this->members->isTutor($user_id)) {
                 $this->user_course_data[$user_id]['role'] = ilParticipants::IL_CRS_TUTOR;
             } elseif ($this->members->isMember($user_id)) {
-                $this->user_course_data[$user_id]['role'] = $this->getType() == 'crs' ? ilParticipants::IL_CRS_MEMBER : ilParticipants::IL_GRP_MEMBER;
+                $this->user_course_data[$user_id]['role'] = $this->getType() === 'crs' ? ilParticipants::IL_CRS_MEMBER : ilParticipants::IL_GRP_MEMBER;
             } else {
                 $this->user_course_data[$user_id]['role'] = 'subscriber';
             }
@@ -465,7 +465,7 @@ class ilMemberExport
      */
     private function addCourseField(int $a_usr_id, string $a_field, int $row, int $col) : bool
     {
-        if (substr($a_field, 0, 4) != 'cdf_') {
+        if (strpos($a_field, 'cdf_') !== 0) {
             return false;
         }
         if (!$this->privacy->courseConfirmationRequired() or $this->agreement[$a_usr_id]['accepted']) {
@@ -485,7 +485,7 @@ class ilMemberExport
      */
     private function addUserDefinedField(ilUserDefinedData $udf_data, string $a_field, int $row, int $col) : bool
     {
-        if (substr($a_field, 0, 4) != 'udf_') {
+        if (strpos($a_field, 'udf_') !== 0) {
             return false;
         }
 
@@ -510,10 +510,10 @@ class ilMemberExport
      */
     protected function initMembers() : void
     {
-        if ($this->getType() == 'crs') {
+        if ($this->getType() === 'crs') {
             $this->members = ilCourseParticipants::_getInstanceByObjId($this->getObjId());
         }
-        if ($this->getType() == 'grp') {
+        if ($this->getType() === 'grp') {
             $this->members = ilGroupParticipants::_getInstanceByObjId($this->getObjId());
         }
     }

@@ -75,11 +75,8 @@ class ilAttendanceList
 
                 case 'il_crs_m':
                 case 'il_grp_m':
-                case 'il_lso_m':
-                    $this->addRole($role_id, $DIC->language()->txt('event_tbl_member'), 'member');
-                    break;
-
                 case 'il_sess_':
+                case 'il_lso_m':
                     $this->addRole($role_id, $DIC->language()->txt('event_tbl_member'), 'member');
                     break;
 
@@ -205,7 +202,7 @@ class ilAttendanceList
         foreach ($udf->getExportableFields($this->parent_obj->getId()) as $field_id => $udf_data) {
             foreach ($profile_data as $user_id => $field) {
                 $udf_data = new ilUserDefinedData($user_id);
-                $a_res[$user_id]['udf_' . $field_id] = (string) $udf_data->get('f_' . $field_id);
+                $a_res[$user_id]['udf_' . $field_id] = $udf_data->get('f_' . $field_id);
             }
         }
 
@@ -253,7 +250,7 @@ class ilAttendanceList
      * Set participant detail callback
      * @param mixed
      */
-    public function setCallback($a_callback)
+    public function setCallback($a_callback) : void
     {
         $this->callback = $a_callback;
     }
@@ -315,13 +312,13 @@ class ilAttendanceList
             $title = ilObject::_lookupTitle($role_id);
 
             $role_name = $role_id;
-            if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_adm') {
+            if (strpos($title, 'il_' . $this->parent_obj->getType() . '_adm') === 0) {
                 $role_name = 'adm';
             }
-            if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_mem') {
+            if (strpos($title, 'il_' . $this->parent_obj->getType() . '_mem') === 0) {
                 $role_name = 'mem';
             }
-            if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_tut') {
+            if (strpos($title, 'il_' . $this->parent_obj->getType() . '_tut') === 0) {
                 $role_name = 'tut';
             }
 
@@ -366,7 +363,7 @@ class ilAttendanceList
 
             $settings->deleteValue('desc'); // #11340
             $settings->exportToForm($form);
-        } elseif ($a_cmd == 'printForMembersOutput') {
+        } elseif ($a_cmd === 'printForMembersOutput') {
             $settings = new ilUserFormSettings(
                 $this->parent_obj->getType() . 's_pview_' . $this->parent_obj->getId(),
                 -1
@@ -409,13 +406,13 @@ class ilAttendanceList
             foreach (array_keys($this->role_data) as $role_id) {
                 $title = ilObject::_lookupTitle($role_id);
                 $role_name = $role_id;
-                if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_adm') {
+                if (strpos($title, 'il_' . $this->parent_obj->getType() . '_adm') === 0) {
                     $role_name = 'adm';
                 }
-                if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_mem') {
+                if (strpos($title, 'il_' . $this->parent_obj->getType() . '_mem') === 0) {
                     $role_name = 'mem';
                 }
-                if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_tut') {
+                if (strpos($title, 'il_' . $this->parent_obj->getType() . '_tut') === 0) {
                     $role_name = 'tut';
                 }
 
@@ -580,7 +577,7 @@ class ilAttendanceList
             }
 
             if ($this->blank_columns) {
-                for ($loop = 0; $loop < count($this->blank_columns); $loop++) {
+                for ($loop = 0, $loopMax = count($this->blank_columns); $loop < $loopMax; $loop++) {
                     $tpl->touchBlock('row_blank');
                 }
             }

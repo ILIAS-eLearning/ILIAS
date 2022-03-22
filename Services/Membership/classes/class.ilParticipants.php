@@ -164,12 +164,12 @@ abstract class ilParticipants
         }
         $part = self::getInstance($ref_id);
         if ($part->isAssigned($a_usr_id)) {
-            if ($part->getType() == 'crs') {
+            if ($part->getType() === 'crs') {
                 if (!ilObjCourse::lookupShowMembersEnabled($a_obj_id)) {
                     return false;
                 }
             }
-            if ($part->getType() == 'grp') {
+            if ($part->getType() === 'grp') {
                 if (!ilObjGroup::lookupShowMembersEnabled($a_obj_id)) {
                     return false;
                 }
@@ -397,10 +397,10 @@ abstract class ilParticipants
         global $DIC;
 
         $ilDB = $DIC->database();
-        $query = "DELETE FROM obj_members WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . "";
+        $query = "DELETE FROM obj_members WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->manipulate($query);
 
-        $query = "DELETE FROM il_subscribers WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . "";
+        $query = "DELETE FROM il_subscribers WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->manipulate($query);
 
         ilCourseWaitingList::_deleteUser($a_usr_id);
@@ -422,7 +422,7 @@ abstract class ilParticipants
         $roles = $rbacreview->getRolesOfRoleFolder($a_ref_id, false);
         foreach ($roles as $role) {
             $title = ilObject::_lookupTitle($role);
-            if (substr($title, 0, 13) == ('il_' . $type . '_member')) {
+            if (strpos($title, ('il_' . $type . '_member')) === 0) {
                 return $role;
             }
         }
@@ -553,7 +553,7 @@ abstract class ilParticipants
      */
     public function isLastAdmin(int $a_usr_id) : bool
     {
-        return in_array($a_usr_id, $this->getAdmins()) && count($this->getAdmins()) == 1;
+        return in_array($a_usr_id, $this->getAdmins()) && count($this->getAdmins()) === 1;
     }
 
     /**
@@ -757,6 +757,8 @@ abstract class ilParticipants
         }
 
         switch ($a_role) {
+            case self::IL_LSO_ADMIN:
+            case self::IL_GRP_ADMIN:
             case self::IL_CRS_ADMIN:
                 $this->admins[] = $a_usr_id;
                 break;
@@ -765,29 +767,13 @@ abstract class ilParticipants
                 $this->tutors[] = $a_usr_id;
                 break;
 
+            case self::IL_SESS_MEMBER:
+            case self::IL_LSO_MEMBER:
+            case self::IL_GRP_MEMBER:
             case self::IL_CRS_MEMBER:
                 $this->members[] = $a_usr_id;
                 break;
 
-            case self::IL_GRP_ADMIN:
-                $this->admins[] = $a_usr_id;
-                break;
-
-            case self::IL_GRP_MEMBER:
-                $this->members[] = $a_usr_id;
-                break;
-
-            case self::IL_LSO_ADMIN:
-                $this->admins[] = $a_usr_id;
-                break;
-
-            case self::IL_LSO_MEMBER:
-                $this->members[] = $a_usr_id;
-                break;
-
-            case self::IL_SESS_MEMBER:
-                $this->members[] = $a_usr_id;
-                break;
         }
 
         $this->participants[] = $a_usr_id;
@@ -994,7 +980,7 @@ abstract class ilParticipants
      */
     public function isGroupingMember(int $a_usr_id, string $a_field = '') : bool
     {
-        if (!strlen($a_field)) {
+        if ($a_field === '') {
             return false;
         }
         // Used for membership limitations -> check membership by given field
@@ -1196,7 +1182,7 @@ abstract class ilParticipants
     {
         $query = "SELECT * FROM il_subscribers " .
             "WHERE usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . " " .
-            "AND obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . "";
+            "AND obj_id = " . $this->ilDB->quote($this->obj_id, 'integer');
 
         $res = $this->ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -1212,7 +1198,7 @@ abstract class ilParticipants
         $ilDB = $DIC->database();
         $query = "SELECT * FROM il_subscribers " .
             "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
-            "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . "";
+            "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -1248,7 +1234,7 @@ abstract class ilParticipants
     {
         $query = "SELECT * FROM il_subscribers " .
             "WHERE obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " " .
-            "AND usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . "";
+            "AND usr_id = " . $this->ilDB->quote($a_usr_id, 'integer');
 
         $res = $this->ilDB->query($query);
         $data = [];

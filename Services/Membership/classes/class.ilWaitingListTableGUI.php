@@ -228,19 +228,21 @@ class ilWaitingListTableGUI extends ilTable2GUI
         $this->determineOffsetAndOrder();
 
         $additional_fields = $this->getSelectedColumns();
-        unset($additional_fields["firstname"]);
-        unset($additional_fields["lastname"]);
-        unset($additional_fields["last_login"]);
-        unset($additional_fields["access_until"]);
-        unset($additional_fields['org_units']);
+        unset(
+            $additional_fields["firstname"],
+            $additional_fields["lastname"],
+            $additional_fields["last_login"],
+            $additional_fields["access_until"],
+            $additional_fields['org_units']
+        );
 
         $udf_ids = $usr_data_fields = $odf_ids = array();
         foreach ($additional_fields as $field) {
-            if (substr($field, 0, 3) == 'udf') {
+            if (strpos($field, 'udf') === 0) {
                 $udf_ids[] = substr($field, 4);
                 continue;
             }
-            if (substr($field, 0, 3) == 'odf') {
+            if (strpos($field, 'odf') === 0) {
                 $odf_ids[] = substr($field, 4);
                 continue;
             }
