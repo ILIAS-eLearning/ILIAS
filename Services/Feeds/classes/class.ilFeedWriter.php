@@ -107,9 +107,7 @@ class ilFeedWriter
 
     public function prepareStr(string $a_str) : string
     {
-        $a_str = str_replace("&", "&amp;", $a_str);
-        $a_str = str_replace("<", "&lt;", $a_str);
-        $a_str = str_replace(">", "&gt;", $a_str);
+        $a_str = str_replace(["&", "<", ">"], ["&amp;", "&lt;", "&gt;"], $a_str);
         return $a_str;
     }
 
