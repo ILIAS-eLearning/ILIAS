@@ -65,7 +65,6 @@ class ilUserFeedWriter extends ilFeedWriter
             $this->setChannelAbout(ILIAS_HTTP_PATH);
             $this->setChannelLink(ILIAS_HTTP_PATH);
             //$this->setChannelDescription("ILIAS Channel Description");
-            $i = 0;
             foreach ($items as $item) {
                 $obj_id = ilObject::_lookupObjId($item["ref_id"]);
                 $obj_type = ilObject::_lookupType($obj_id);
@@ -78,7 +77,6 @@ class ilUserFeedWriter extends ilFeedWriter
                     }
                 }
 
-                $i++;
                 $feed_item = new ilFeedItem();
                 $title = ilNewsItem::determineNewsTitle(
                     $item["context_obj_type"],
@@ -103,13 +101,16 @@ class ilUserFeedWriter extends ilFeedWriter
 
                 // description
                 $content = $this->prepareStr(nl2br(
-                    ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"],
-                        $item["content_text_is_lang_var"])
+                    ilNewsItem::determineNewsContent(
+                        $item["context_obj_type"],
+                        $item["content"],
+                        $item["content_text_is_lang_var"]
+                    )
                 ));
                 $feed_item->setDescription($content);
 
                 // lm page hack, not nice
-                if (in_array($item["context_obj_type"], array("lm")) && $item["context_sub_obj_type"] == "pg"
+                if ($item["context_obj_type"] == "lm" && $item["context_sub_obj_type"] == "pg"
                     && $item["context_sub_obj_id"] > 0) {
                     $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
                         "&amp;target=pg_" . $item["context_sub_obj_id"] . "_" . $item["ref_id"]);
@@ -118,7 +119,7 @@ class ilUserFeedWriter extends ilFeedWriter
                     $wptitle = ilWikiPage::lookupTitle($item["context_sub_obj_id"]);
                     $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
                         "&amp;target=" . $item["context_obj_type"] . "_" . $item["ref_id"] . "_" . urlencode($wptitle)); // #14629
-                } elseif (in_array($item["context_obj_type"], array("frm")) && $item["context_sub_obj_type"] == "pos"
+                } elseif ($item["context_obj_type"] == "frm" && $item["context_sub_obj_type"] == "pos"
                     && $item["context_sub_obj_id"] > 0) {
                     // frm hack, not nice
                     $thread_id = ilObjForumAccess::_getThreadForPosting($item["context_sub_obj_id"]);

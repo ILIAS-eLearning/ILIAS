@@ -124,12 +124,15 @@ class ilObjectFeedWriter extends ilFeedWriter
                     ": " . $this->prepareStr($title));
             }
             $feed_item->setDescription($this->prepareStr(nl2br(
-                ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"],
-                    $item["content_text_is_lang_var"])
+                ilNewsItem::determineNewsContent(
+                    $item["context_obj_type"],
+                    $item["content"],
+                    $item["content_text_is_lang_var"]
+                )
             )));
 
             // lm hack, not nice
-            if (in_array($item["context_obj_type"], array("lm")) && $item["context_sub_obj_type"] == "pg"
+            if ($item["context_obj_type"] == "lm" && $item["context_sub_obj_type"] == "pg"
                 && $item["context_sub_obj_id"] > 0) {
                 $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
                     "&amp;target=pg_" . $item["context_sub_obj_id"] . "_" . $item["ref_id"]);
@@ -138,7 +141,7 @@ class ilObjectFeedWriter extends ilFeedWriter
                 $wptitle = ilWikiUtil::makeUrlTitle(ilWikiPage::lookupTitle($item["context_sub_obj_id"]));
                 $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
                     "&amp;target=" . $item["context_obj_type"] . "_" . $item["ref_id"] . "_" . $wptitle);
-            } elseif (in_array($item["context_obj_type"], array("frm")) && $item["context_sub_obj_type"] == "pos"
+            } elseif ($item["context_obj_type"] == "frm" && $item["context_sub_obj_type"] == "pos"
                 && $item["context_sub_obj_id"] > 0) {
                 // frm hack, not nice
                 $thread_id = ilObjForumAccess::_getThreadForPosting($item["context_sub_obj_id"]);
