@@ -110,7 +110,10 @@ class ilCtrlStructureReader
                 // reload).
                 require_once $path;
 
-                $reflection = new ReflectionClass($class_name);
+                $reflection = ($this->isNamespaced($class_name)) ?
+                    new ReflectionClass("\\$class_name") :
+                    new ReflectionClass($class_name)
+                ;
 
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CID]      = $this->cid_generator->getCid();
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_NAME]     = $class_name;
@@ -239,5 +242,16 @@ class ilCtrlStructureReader
     private function isGuiClass(string $path) : bool
     {
         return (bool) preg_match(self::REGEX_GUI_CLASS_NAME, basename($path));
+    }
+
+    /**
+     * Returns if the given classname is namespaced.
+     *
+     * @param string $class_name
+     * @return bool
+     */
+    private function isNamespaced(string $class_name) : bool
+    {
+        return (false !== strpos($class_name, '\\'));
     }
 }

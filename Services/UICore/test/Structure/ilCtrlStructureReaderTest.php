@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class ilCtrlStructureReaderTest extends TestCase
 {
     /**
-     * @var array<string, string|string[]>
+     * @var array<string, string[]>
      */
     private array $expected_test_gui_structure;
 
@@ -58,34 +58,6 @@ class ilCtrlStructureReaderTest extends TestCase
     {
         $reader = new ilCtrlStructureReader(
             new ilCtrlArrayIterator([]),
-            new ilCtrlStructureCidGenerator()
-        );
-
-        $this->assertFalse($reader->isExecuted());
-        $this->assertEmpty($reader->readStructure());
-        $this->assertTrue($reader->isExecuted());
-    }
-
-    public function testStructureReaderWithValidDirectoryIterator() : void
-    {
-        $reader = new ilCtrlStructureReader(
-            new ilCtrlDirectoryIterator(__DIR__ . '/../Data/GUI'),
-            new ilCtrlStructureCidGenerator()
-        );
-
-        $this->assertFalse($reader->isExecuted());
-        $this->assertEquals(
-            $this->expected_test_gui_structure,
-            $reader->readStructure()
-        );
-
-        $this->assertTrue($reader->isExecuted());
-    }
-
-    public function testStructureReaderWithEmptyDirectoryIterator() : void
-    {
-        $reader = new ilCtrlStructureReader(
-            new ilCtrlDirectoryIterator(__DIR__ . '/../Data/EmptyDirectory'),
             new ilCtrlStructureCidGenerator()
         );
 
