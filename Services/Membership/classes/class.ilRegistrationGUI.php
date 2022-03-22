@@ -27,8 +27,8 @@
  */
 abstract class ilRegistrationGUI
 {
-    private \ILIAS\HTTP\Wrapper\WrapperFactory $http;
-    private \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\HTTP\GlobalHttpState $http;
+    protected \ILIAS\Refinery\Factory $refinery;
     protected ilPrivacySettings $privacy;
 
     protected ilObject $container;
@@ -80,7 +80,7 @@ abstract class ilRegistrationGUI
         $this->initWaitingList();
 
         $this->privacy = ilPrivacySettings::getInstance();
-        $this->http = $DIC->http()->wrapper();
+        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
     }
 
@@ -222,7 +222,7 @@ abstract class ilRegistrationGUI
             return;
         }
 
-        if (!$this->privacy->confirmationRequired($this->type) and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId())) {
+        if (!$this->privacy->confirmationRequired($this->type) && !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId())) {
             return;
         }
 
