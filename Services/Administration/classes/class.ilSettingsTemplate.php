@@ -193,7 +193,7 @@ class ilSettingsTemplate
             "SELECT * FROM adm_set_templ_value WHERE " .
             " template_id = " . $ilDB->quote($this->getId(), "integer")
         );
-        while ($rec = $ilDB->fetchAssoc($set)) {
+        while (null !== ($rec = $ilDB->fetchAssoc($set))) {
             $this->setSetting(
                 $rec["setting"],
                 $rec["value"],
@@ -206,7 +206,7 @@ class ilSettingsTemplate
             "SELECT * FROM adm_set_templ_hide_tab WHERE " .
             " template_id = " . $ilDB->quote($this->getId(), "integer")
         );
-        while ($rec = $ilDB->fetchAssoc($set)) {
+        while (null !== ($rec = $ilDB->fetchAssoc($set))) {
             $this->addHiddenTab($rec["tab_id"]);
         }
     }
@@ -334,7 +334,7 @@ class ilSettingsTemplate
         }
 
         $settings_template = array();
-        while ($rec = $ilDB->fetchAssoc($set)) {
+        while (null !== ($rec = $ilDB->fetchAssoc($set))) {
             $settings_template[] = $rec;
         }
         return $settings_template;

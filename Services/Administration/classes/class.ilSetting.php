@@ -83,7 +83,7 @@ class ilSetting implements \ILIAS\Administration\Setting
         $query = "SELECT * FROM settings WHERE module=" . $ilDB->quote($this->module, "text");
         $res = $ilDB->query($query);
 
-        while ($row = $ilDB->fetchAssoc($res)) {
+        while (null !== ($row = $ilDB->fetchAssoc($res))) {
             $this->setting[$row["keyword"]] = $row["value"];
         }
     }
@@ -123,7 +123,7 @@ class ilSetting implements \ILIAS\Administration\Setting
             " WHERE module = " . $ilDB->quote($this->module, "text") .
             " AND " . $ilDB->like("keyword", "text", $a_like);
         $res = $ilDB->query($query);
-        while ($row = $ilDB->fetchAssoc($res)) {
+        while (null !== ($row = $ilDB->fetchAssoc($res))) {
             $this->delete($row["keyword"]);
         }
     }
@@ -280,7 +280,7 @@ class ilSetting implements \ILIAS\Administration\Setting
 
         $result = $ilDB->query($query);
 
-        while ($row = $ilDB->fetchAssoc($result)) {
+        while (null !== ($row = $ilDB->fetchAssoc($result))) {
             $settings[] = $row;
         }
 
