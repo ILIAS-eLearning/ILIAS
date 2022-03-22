@@ -404,8 +404,7 @@ class ilCalendarPresentationGUI
             $lng->txt("cal_list") => $ctrl->getLinkTargetByClass('ilCalendarInboxGUI', '')
         );
 
-        $aria_label = $lng->txt("cal_change_calendar_view");
-        $view_control = $f->viewControl()->mode($actions, $aria_label)->withActive($lng->txt($a_active));
+        $view_control = $f->viewControl()->mode($actions, "cal_change_calendar_view")->withActive($lng->txt($a_active));
 
         $toolbar->addComponent($view_control);
 

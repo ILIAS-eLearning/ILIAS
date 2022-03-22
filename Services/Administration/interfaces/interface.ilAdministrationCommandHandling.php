@@ -63,7 +63,7 @@ interface ilAdministrationCommandHandling
      * Target selection cut
      * @return
      */
-    public function showMoveIntoObjectTree();
+    public function showPasteTree();
     
     /**
      * Perform paste into multiple objects

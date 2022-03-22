@@ -394,7 +394,7 @@ class Renderer extends AbstractComponentRenderer
                 }
 
                 $js .= "
-                    $(window).resize(il.UI.maincontrols.mainbar.adjustToScreenSize);
+                    window.addEventListener('resize', il.UI.maincontrols.mainbar.adjustToScreenSize);
                     il.UI.maincontrols.mainbar.init('{$inititally_active}');
                 ";
                 return $js;

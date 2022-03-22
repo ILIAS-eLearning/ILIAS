@@ -29,7 +29,7 @@ with the il- variable set here.
 //** Base Border Color, e.g. applied to Meta Bar and Breadcrumbs in Default.
 @il-main-border-color: #dddddd;
 //** Darker version of Base Border Color. Used as e.g. Text Inputs.
-@il-main-border-dark-color: #A8A8A8;
+@il-main-border-dark-color: #757575;
 
 //** Base Background Color, e.g. applied to Meta Bar and Breadcrumbs in Default, but also to panels in main content area.
 @il-main-bg: white;
@@ -46,7 +46,7 @@ with the il- variable set here.
 //** Used if text is hovered in components such a Dropdowns
 @il-text-hover-color: darken(@il-text-color, 10%);
 //** Used e.g. for Bylines in Forms. Used to be @il-light-text-color. For accessibility reasons, the @il-text-color should only be used on the @il-main-bg.
-@il-text-light-color: lighten(@il-text-color, 40%);
+@il-text-light-color: lighten(@il-text-color, 35%);
 
 //** Used to be @link-color
 @il-link-color: @il-main-color;
@@ -55,6 +55,7 @@ with the il- variable set here.
 
 //** Used to set focus on interactive elements for keyboard navigation.
 @il-focus-color: #0078D7;
+@il-focus-protection-color: #FFFFFF;
 
 //== Extended Colors
 //
@@ -123,10 +124,13 @@ with the il- variable set here.
 @il-padding-base-vertical: 3px;
 @il-padding-base-horizontal: 8px;
 
+@il-padding-xlarge-vertical: 9px;
+@il-padding-xlarge-horizontal: 15px;
+
 @il-padding-large-vertical: 6px;
 @il-padding-large-horizontal: 12px;
 
-@il-padding-small-vertical: 3px;
+@il-padding-small-vertical: 4px;
 @il-padding-small-horizontal: 6px;
 
 @il-padding-xs-vertical: 1px;
@@ -136,9 +140,11 @@ with the il- variable set here.
 @il-border-radius-large: 0px;
 @il-border-radius-small: 0px;
 
-@il-focus-outline: 3px solid @il-focus-color;
+@il-focus-outline-inner: @il-focus-outline-inner-width solid @il-focus-color;
+@il-focus-outline-outer: @il-focus-outline-outer-width solid @il-focus-protection-color;
 // The offset should only be used if the contrast between the focus outline and the component is insufficient.
-@il-focus-outline-offset: 2px;
+@il-focus-outline-inner-width: 3px;
+@il-focus-outline-outer-width: 2px;
 
 //== Layout (UI Layout Page)
 //
@@ -714,7 +720,7 @@ with the il- variable set here.
 @il-background-images-path: "images/";
 
 //** Size for icons: xsmall is used in the tree. e.g.
-@il-icon-size-xsmall: 17px;
+@il-icon-size-xsmall: 15px;
 //** Size for icons: Small is used in the tree. e.g.
 @il-icon-size-small: 20px;
 //** Size for icons: Medium is used in the content-listing. e.g.

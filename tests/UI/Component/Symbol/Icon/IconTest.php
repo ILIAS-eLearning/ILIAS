@@ -195,4 +195,17 @@ imgtag;
             $this->assertTrue(file_exists($path), "Missing Outlined Icon: " . $path);
         }
     }
+    
+    /**
+     * @depends testRenderingStandard
+     */
+    public function testRenderingStandardJSBindable($ico)
+    {
+        $ico = $ico->withAdditionalOnLoadCode(function ($id) {
+            return 'alert();';
+        });
+        $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
+        $expected = $this->normalizeHTML('<img id="id_1" class="icon crs medium" src="./templates/default/images/icon_crs.svg" alt="Course"/>');
+        $this->assertEquals($expected, $html);
+    }
 }

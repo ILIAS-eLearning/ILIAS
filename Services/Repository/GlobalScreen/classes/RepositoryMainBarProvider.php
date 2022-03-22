@@ -42,6 +42,9 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
+        $dic = $this->dic;
+        $f = $this->dic->ui()->factory();
+
         $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
         $access_helper = BasicAccessCheckClosures::getInstance();
 
@@ -98,6 +101,34 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 return $this->dic->ui()->factory()->legacy($p->renderLastVisited());
             });
 
+        $title = $this->dic->language()->txt("mm_favorites");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fav.svg"), $title);
+        $entries[] = $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))
+                       ->withSupportsAsynchronousLoading(true)
+                       ->withTitle($title)
+                       ->withSymbol($icon)
+                       ->withContentWrapper(function () use ($f) {
+                           $fav_list = new \ilFavouritesListGUI();
+
+                           return $f->legacy($fav_list->render());
+                       })
+                       ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
+                       ->withPosition(10)
+                       ->withAvailableCallable(
+                           function () use ($dic) {
+                               return (bool) $dic->settings()->get('rep_favourites', "0");
+                           }
+                       )
+                       ->withVisibilityCallable(
+                           $access_helper->isUserLoggedIn($access_helper->isRepositoryReadable(
+                               static function () use ($dic) : bool {
+                                   return true;
+                                   $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
+
+                                   return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
+                               }
+                           ))
+                       );
 
         return $entries;
     }

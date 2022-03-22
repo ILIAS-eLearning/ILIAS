@@ -68,8 +68,9 @@ if (!ilStartUpGUI::_checkGoto($_GET["target"])) {
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))
             ), true);
+        } else {
+            ilUtil::sendFailure($lng->txt('permission_denied'), true);
         }
-    
         ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
     }
 }

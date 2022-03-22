@@ -15483,6 +15483,9 @@ $ilDB->createTable("il_bt_bucket", $fields);
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("il_bt_bucket", $pk_fields);
 
+$in_fields = array("user_id");
+$ilDB->addIndex("il_bt_bucket", $in_fields, "i1", false);
+
 $ilDB->createSequence("il_bt_bucket", 1);
 
 
@@ -48739,10 +48742,13 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'inst_id'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '71')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '73')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'adve'), 'keyword' => array('text', 'autosave'), 'value' => array('clob', '30')));
+
+$ilDB->insert("settings", array(
+'module' => array('text', 'common'), 'keyword' => array('text', 'rep_favourites'), 'value' => array('clob', '1')));
 
 
 //

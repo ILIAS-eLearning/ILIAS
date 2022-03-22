@@ -8,6 +8,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 
 /**
  * Class Map
@@ -29,15 +30,27 @@ class Map implements Filterable, Walkable
      * @var ArrayObject
      */
     private $filtered;
-
+    /**
+     * @var MainMenuItemFactory
+     */
+    private $factory;
+    
     /**
      * Tree constructor.
      */
-    public function __construct()
+    public function __construct(MainMenuItemFactory $factory)
     {
         $this->raw = new ArrayObject();
+        $this->factory = $factory;
     }
-
+    
+    private function getSorter() : Closure
+    {
+        return function (isItem $item_one, isItem $item_two) : int {
+            return $item_one->getPosition() - $item_two->getPosition();
+        };
+    }
+    
     /**
      * @param isItem $item
      */
@@ -146,7 +159,7 @@ class Map implements Filterable, Walkable
     public function walk(Closure $c) : void
     {
         $this->applyFilters();
-        $to_walk = (array) $this->filtered;
+        $to_walk = (array) $this->filtered->getArrayCopy();
         array_walk($to_walk, $c);
         $this->filtered = new ArrayObject($to_walk);
     }
@@ -162,54 +175,27 @@ class Map implements Filterable, Walkable
     public function sort() : void
     {
         $this->applyFilters();
-        $sorter = function (isItem $item_one, isItem $item_two) : int {
-            /**
-             * @var $parent isParent
-             */
-            if ($item_one instanceof isChild) {
-                $parent = $this->getSingleItemFromFilter($item_one->getParent());
-                $position_item_one = ($parent->getPosition() * 1000) + $item_one->getPosition();
-            } else {
-                $position_item_one = $item_one->getPosition();
-            }
 
-            if ($item_two instanceof isChild) {
-                $parent = $this->getSingleItemFromFilter($item_two->getParent());
-                $position_item_two = ($parent->getPosition() * 1000) + $item_two->getPosition();
-            } else {
-                $position_item_two = $item_two->getPosition();
-            }
-
-            return $position_item_one <=> $position_item_two;
-        };
-
-        $this->filtered->uasort($sorter);
-
-        $this->walk(static function (isItem &$item) use ($sorter) : isItem {
+        $this->filtered->uasort($this->getSorter());
+        
+        $replace_children_sorted = function (isItem &$item) {
             if ($item instanceof isParent) {
                 $children = $item->getChildren();
-                uasort($children, $sorter);
+                uasort($children, $this->getSorter());
                 $item = $item->withChildren($children);
             }
-            return $item;
-        });
+        };
+        $this->walk($replace_children_sorted);
     }
-
-    /**
-     * @param IdentificationInterface $identification
-     * @return Lost
-     */
+    
     private function getLostItem(IdentificationInterface $identification) : Lost
     {
-        global $DIC;
-
-        return $DIC->globalScreen()->mainBar()->custom(Lost::class, new NullIdentification($identification))
-                   ->withAlwaysAvailable(true)
-                   ->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('mme_lost_item_reason')}"))
-                   ->withVisibilityCallable(
-                       function () use ($DIC) {
-                           return (bool) ($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
-                       }
-                   )->withTitle($DIC->language()->txt("mme_lost_item_title"));
+        return $this->factory->custom(Lost::class, new NullIdentification($identification))
+                             ->withAlwaysAvailable(true)
+                             ->withVisibilityCallable(
+                                 function () : bool {
+                                     return false;
+                                 }
+                             )->withTitle('Lost');
     }
 }

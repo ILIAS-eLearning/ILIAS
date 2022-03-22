@@ -67,7 +67,10 @@ class ilPlayerUtil
      */
     public static function getJsFilePaths()
     {
-        return array(self::getLocalMediaElementJsPath());
+        return array(
+            self::getLocalMediaElementJsPath(),
+            "./Services/MediaObjects/js/MediaElementHelper.js"
+        );
     }
     
 

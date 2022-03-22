@@ -671,6 +671,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     {
         $q1 = SurveyQuestion::_instanciateQuestion($id1);
         $q2 = SurveyQuestion::_instanciateQuestion($id2);
+        if ($q1->getOrientation() != 1 || $q2->getOrientation() != 1) {
+            return false;
+        }
         if (self::getCompressCompareString($q1) == self::getCompressCompareString($q2)) {
             return true;
         }

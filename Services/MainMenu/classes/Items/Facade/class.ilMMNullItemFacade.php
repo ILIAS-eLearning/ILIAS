@@ -95,21 +95,21 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 
         global $DIC;
         $provider = new CustomMainBarProvider($DIC);
-        $this->gs_item = $provider->getSingleCustomItem($s);
-        if ($this->parent_identification && $this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
+        $this->raw_item = $provider->getSingleCustomItem($s);
+        if ($this->parent_identification && $this->raw_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
             global $DIC;
-            $this->gs_item = $this->gs_item->withParent($DIC->globalScreen()->identification()->fromSerializedIdentification($this->parent_identification));
+            $this->raw_item = $this->raw_item->withParent($DIC->globalScreen()->identification()->fromSerializedIdentification($this->parent_identification));
         }
 
-        $this->identification = $this->gs_item->getProviderIdentification();
+        $this->identification = $this->raw_item->getProviderIdentification();
 
         $this->mm_item = new ilMMItemStorage();
         $this->mm_item->setPosition(9999999); // always the last on the top item
-        $this->mm_item->setIdentification($this->gs_item->getProviderIdentification()->serialize());
+        $this->mm_item->setIdentification($this->raw_item->getProviderIdentification()->serialize());
         $this->mm_item->setParentIdentification($this->parent_identification);
         $this->mm_item->setActive($this->active_status);
-        if ($this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
-            $this->mm_item->setParentIdentification($this->gs_item->getParent()->serialize());
+        if ($this->raw_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
+            $this->mm_item->setParentIdentification($this->raw_item->getParent()->serialize());
         }
 
         parent::create();

@@ -21,6 +21,8 @@ class ilPageObjectGUI
     const OFFLINE = "offline";
     const PRINTING = "print";
 
+    protected $enabled_href = true;
+
     /**
      * @var ilTemplate
      */
@@ -62,7 +64,7 @@ class ilPageObjectGUI
     protected $user;
 
     /**
-     * @var ilHelp
+     * @var ilHelpGUI
      */
     protected $help;
 
@@ -928,6 +930,15 @@ class ilPageObjectGUI
         return $this->lng->txt("inactive");
     }
 
+    public function getEnabledHref() : bool
+    {
+        return $this->enabled_href;
+    }
+
+    public function setEnabledHref(bool $enable) : void
+    {
+        $this->enabled_href = $enable;
+    }
 
     /**
     * Activate meda data editor
@@ -1201,9 +1212,13 @@ class ilPageObjectGUI
                     );
                 }
                 $ret = $this->$cmd();
+                if ($this->getOutputMode() == self::PREVIEW && $cmd == "preview") {
+                    $this->showEditToolbar();
+                }
                 break;
         }
         //echo "+$ret+";
+
         return $ret;
     }
 
@@ -1277,7 +1292,7 @@ class ilPageObjectGUI
         $lng = $this->lng;
         if ($this->getEnableEditing()) {
             $b = $ui->factory()->button()->standard(
-                $lng->txt("edit"),
+                $lng->txt("edit_page"),
                 $this->ctrl->getLinkTarget($this, "edit")
             );
             $this->toolbar->addComponent($b);
@@ -1290,10 +1305,6 @@ class ilPageObjectGUI
     public function showPage()
     {
         $main_tpl = $this->tpl;
-
-        if ($this->getOutputMode() == self::PREVIEW) {
-            $this->showEditToolbar();
-        }
 
         // jquery and jquery ui are always provided for components
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
@@ -1318,6 +1329,9 @@ class ilPageObjectGUI
         //{
         if ($this->getOutputMode() == "edit") {
             $this->initEditing();
+            if (!$this->getPageObject()->getEditLock()) {
+                return;
+            }
 
             $this->getPageObject()->buildDom();
 
@@ -1762,6 +1776,11 @@ class ilPageObjectGUI
         $current_ts = time();
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
+        $enable_href = $this->getEnabledHref();
+        if ($this->getOutputMode() == self::EDIT) {
+            $enable_href = false;
+        }
+
         // added UTF-8 encoding otherwise umlaute are converted too
         include_once("./Services/Maps/classes/class.ilMapUtil.php");
         $params = array('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title, ENT_QUOTES, "UTF-8"),
@@ -1809,7 +1828,8 @@ class ilPageObjectGUI
                          'current_ts' => $current_ts,
                          'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
                          'flv_video_player' => $flv_video_player,
-                         'page_perma_link' => $this->getPagePermaLink()
+                         'page_perma_link' => $this->getPagePermaLink(),
+                          'enable_href' => $enable_href
                         );
         if ($this->link_frame != "") {		// todo other link types
             $params["pg_frame"] = $this->link_frame;
@@ -2663,13 +2683,12 @@ class ilPageObjectGUI
             $this->ctrl->redirect($this, "preview");
         }
 
-        $this->setEditorToolContext();
-
         // not so nive workaround for container pages, bug #0015831
         $ptype = $this->getParentType();
         if ($ptype == "cont" && $_GET["ref_id"] > 0) {
             $ptype = ilObject::_lookupType((int) $_GET["ref_id"], true);
         }
+        $this->setScreenIdComponent();
         $this->help->setScreenId("edit_" . $ptype);
 
         require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
@@ -2688,24 +2707,10 @@ class ilPageObjectGUI
 
         // edit lock
         if (!$this->getPageObject()->getEditLock()) {
-            include_once("./Services/User/classes/class.ilUserUtil.php");
-            $info = $this->lng->txt("content_no_edit_lock");
-            $lock = $this->getPageObject()->getEditLockInfo();
-            $info .= "</br>" . $this->lng->txt("content_until") . ": " .
-                ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
-            $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
-                ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
-            if (!$this->ctrl->isAsynch()) {
-                ilUtil::sendInfo($info);
-                return "";
-            } else {
-                echo ilUtil::getSystemMessageHTML($info);
-                exit;
-            }
+            $this->showEditLockInfo();
+            return;
         } else {
-            /*if ($this->getPageObject()->getEffectiveEditLockTime() > 0) {
-                $mess = $this->getBlockingInfoMessage();
-            }*/
+            $this->setEditorToolContext();
         }
 
         $this->lng->toJS("paste");
@@ -2716,10 +2721,37 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_ed_par");
         $this->lng->toJS("cont_no_block");
         $this->lng->toJS("copg_error");
+        $this->lng->toJS("cont_ed_click_to_add_pg");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
         \ilCalendarUtil::initDateTimePicker();
+    }
+
+    protected function showEditLockInfo()
+    {
+        $info = $this->lng->txt("content_no_edit_lock");
+        $lock = $this->getPageObject()->getEditLockInfo();
+        $info .= "</br>" . $this->lng->txt("content_until") . ": " .
+            ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
+        $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
+            ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
+
+        $back_link = $this->ui->factory()->link()->standard(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "finishEditing")
+        );
+
+        $mbox = $this->ui->factory()->messageBox()->info($info)
+            ->withLinks([$back_link]);
+        $rendered_mbox = $this->ui->renderer()->render($mbox);
+
+        if (!$this->ctrl->isAsynch()) {
+            $this->tpl->setContent($rendered_mbox);
+        } else {
+            echo $rendered_mbox;
+            exit;
+        }
     }
 
     /**

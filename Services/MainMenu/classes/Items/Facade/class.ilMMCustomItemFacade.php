@@ -87,7 +87,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
      */
     private function getCustomStorage()
     {
-        $id = $this->gs_item->getProviderIdentification()->getInternalIdentifier();
+        $id = $this->raw_item->getProviderIdentification()->getInternalIdentifier();
         $mm = ilMMCustomItemStorage::find($id);
 
         return $mm;
@@ -170,7 +170,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
      */
     public function isTopItem() : bool
     {
-        if ($this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem) {
+        if ($this->raw_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem) {
             return parent::isTopItem();
         }
 

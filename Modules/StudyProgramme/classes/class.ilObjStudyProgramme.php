@@ -1778,8 +1778,16 @@ class ilObjStudyProgramme extends ilContainer
         if ($prg->getLPMode() != ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
             return;
         }
+
+        $now = new DateTimeImmutable();
         foreach ($prg->getProgressesOf($a_user_id) as $progress) {
-            $prg->succeed($progress->getId(), $a_obj_id);
+            $progress_deadline = $progress->getDeadline();
+            if (
+                (is_null($progress_deadline) || $progress_deadline >= $now)
+                && $progress->getStatus() === ilStudyProgrammeProgress::STATUS_IN_PROGRESS
+            ) {
+                $prg->succeed($progress->getId(), $obj_id);
+            }
         }
     }
 

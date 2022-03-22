@@ -1,8 +1,10 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
+use ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy as LegacySlate;
 
 /**
  * Page  editing GS tool provider
@@ -12,7 +14,7 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
 {
     const SHOW_EDITOR = 'copg_show_editor';
-
+    use Hasher;
 
     /**
      * @inheritDoc
@@ -40,7 +42,21 @@ class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) {
                 return $this->dic->ui()->factory()->legacy($content);
             };
-            $tools[] = $this->factory->tool($iff("copg_editor"))
+            $identification = $iff("copg_editor");
+            $hashed = $this->hash($identification->serialize());
+            $tools[] = $this->factory->tool($identification)
+                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed) : ILIAS\UI\Component\Component {
+                    if ($c instanceof LegacySlate) {
+                        $signal_id = $c->getToggleSignal()->getId();
+                        return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
+                            return "
+                                 $('body').on('il-copg-editor-slate', function(){
+                                    il.UI.maincontrols.mainbar.engageTool('$hashed');
+                                 });";
+                        });
+                    }
+                    return $c;
+                })
                 ->withSymbol($icon)
                 ->withTitle($title)
                 ->withContent($l($this->getContent()));

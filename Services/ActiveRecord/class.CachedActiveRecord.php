@@ -104,6 +104,7 @@ abstract class CachedActiveRecord extends ActiveRecord implements arStorageInter
     public function read()
     {
         parent::read();
+        $this->_hash = $this->buildHash();
     }
 
     public function update()

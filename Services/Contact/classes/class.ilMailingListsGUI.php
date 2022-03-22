@@ -489,7 +489,7 @@ class ilMailingListsGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Contact');
         $this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 
-        $this->tpl->print();
+        $this->tpl->printToStdout();
         return true;
     }
 

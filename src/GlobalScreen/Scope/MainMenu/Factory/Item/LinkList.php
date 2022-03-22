@@ -113,4 +113,16 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     {
         return $this->supports_async_loading;
     }
+    
+    public function isVisible() : bool
+    {
+        $visible_links = 0;
+        foreach ($this->getLinks() as $link) {
+            if ($link->isVisible()) {
+                $visible_links++;
+            }
+        }
+        return $visible_links > 0 && parent::isVisible();
+    }
+    
 }

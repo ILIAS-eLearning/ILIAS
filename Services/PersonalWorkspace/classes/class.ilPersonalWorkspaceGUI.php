@@ -163,11 +163,10 @@ class ilPersonalWorkspaceGUI
             $gui = new $class_name($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID, false);
         }
         $ilCtrl->forwardCommand($gui);
-        
         if ($ilMainMenu->getMode() == ilMainMenuGUI::MODE_FULL) {
             $this->renderBack();
         }
-        
+
         $tpl->setLocator();
     }
 
@@ -193,7 +192,7 @@ class ilPersonalWorkspaceGUI
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        
+
         $root = $this->tree->getNodeData($this->node_id);
         if ($root["type"] != "wfld" && $root["type"] != "wsrt") {
             // do not override existing back targets, e.g. public user profile gui

@@ -186,7 +186,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             }
         }
         
-        foreach ($data as $item) {
+        foreach ($data as $idx => $item) {
             $item_id = $item["booking_object_id"];
             
             // available for given period?

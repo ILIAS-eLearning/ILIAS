@@ -87,11 +87,11 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		};
 		var _engageButton = function(btn) {
 			btn.addClass(_cls_btn_engaged);
-			btn.attr('aria-pressed', true);
+			btn.attr('aria-expanded', true);
 		};
 		var _disengageButton = function(btn) {
 			btn.removeClass(_cls_btn_engaged);
-			btn.attr('aria-pressed', false);
+			btn.attr('aria-expanded', false);
 		};
 		var _isEngaged = function(btn) {
 			return btn.hasClass(_cls_btn_engaged);
@@ -135,7 +135,6 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			$('.' + _cls_entries).css("visibility","visible");
 			$('#' + id +' .' + _cls_slates).children('.' + _cls_single_slate)
 				.attr('aria-hidden', true)
-				.attr('aria-expanded', false);
 		};
 
 		var _initCondensed = function () {

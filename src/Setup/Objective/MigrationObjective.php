@@ -103,7 +103,7 @@ class MigrationObjective implements Setup\Objective
             $step++;
         }
         $io->stopProgress();
-        $remaining = $this->migration->getRemainingAmountOfSteps() - $steps;
+        $remaining = $this->migration->getRemainingAmountOfSteps();
         $io->inform("{$remaining} step(s) remaining. Run again to proceed.");
 
         return $environment;

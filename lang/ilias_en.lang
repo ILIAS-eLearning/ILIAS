@@ -1997,6 +1997,7 @@ common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
 common#:#withdraw_consent_description_internal#:#Please log in again to complete the revocation process.
 common#:#withdraw_consent_description_external#:#Please return to your source installation and log in again to complete the revocation process.
 common#:#withdraw_consent#:#Withdraw Acceptance
+common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service
 common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.
 common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.
 common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here
@@ -4590,6 +4591,7 @@ content#:#cont_pc_hacc#:#Accordion (Horizontal)
 content#:#cont_pc_incl#:#Content Snippet
 content#:#cont_pc_list#:#Advanced List
 content#:#cont_pc_map#:#Map
+content#:#cont_pc_media#:#Image/Media
 content#:#cont_pc_mob#:#Media
 content#:#cont_pc_modified#:#Modified Content
 content#:#cont_pc_new#:#New Content
@@ -8272,6 +8274,7 @@ dateplaner#:#cal_ch_deadline_info#:#Please define the number of hours until the 
 dateplaner#:#cal_ch_num_appointments_info#:#Please define the number of sequent appointments.
 dateplaner#:#cal_ch_personal_ch#:#Personal Consultation Hours
 dateplaner#:#cal_ch_ch#:#Consultation Hours
+dateplaner#:#cal_change_calendar_view#:#Change Calendar View
 ps#:#rbac_log_age#:#Keep Log Entries
 ps#:#rbac_log_age_info#:#Maximum age of log entries in month
 rbac#:#rbac_role_rights_copy#:#Copy Permissions
@@ -11847,8 +11850,8 @@ content#:#cont_current_lang#:#Current Language
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing
 content#:#cont_edit_language_version#:#Edit Version
 content#:#cont_page_translation_does_not_exist#:#The translation page does not exist yet and will be created by copying the content of the current master page. Language of the translation page
-search#:#search_user_search_form#:#Search in Personal Profiles
-search#:#search_user_search_info_form#:#Data in personal profiles of users is indexed and can be used to search for users.
+search#:#search_user_search_form#:#Global User Search
+search#:#search_user_search_info_form#:#Users can be found in the global search. Furthermore, data in personal profiles of users is indexed if the Lucene fulltext search is enabled. 
 adve#:#adve_blocking_mode#:#Edit Lock
 adve#:#adve_minutes#:#Minutes
 adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.
@@ -13827,7 +13830,7 @@ skmg#:#skmg_import_skills#:#Import
 skmg#:#skmg_input_file#:#Import File
 skmg#:#skmg_skill_in_use#:#This competence is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 form#:#form_no_link#:#No Link
-copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
+copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
 logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
 logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Path
@@ -15428,7 +15431,7 @@ rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
 rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
 rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
-dateplaner#:#btn_ical#:#iCal
+dateplaner#:#btn_ical#:#Subscribe
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
@@ -16554,6 +16557,7 @@ file#:#file_suffix_custom_white_info#:#These suffixes will be added to the defau
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.
+file#:#migrated#:#Status
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
@@ -16636,3 +16640,10 @@ forum#:#sticky_threads_sorting#:#Sticky Threads Sorting
 common#:#actions_for#:#Actions for %s
 forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.
 exc#:#exc_fullscreen#:#Fullscreen
+rating#:#rating_avg_rating#:#Average Rating
+rating#:#rating_personal_rating#:#Your Rating
+rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars
+rating#:#rating_open_dialog#:#Open rating dialog
+tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.
+rep#:#rep_favourites#:#Favourites
+rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.

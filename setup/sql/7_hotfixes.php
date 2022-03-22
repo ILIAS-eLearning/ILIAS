@@ -1369,3 +1369,20 @@ $ilDB->modifyTableColumn(
 
 
 ?>
+<#72>
+<?php
+if(!$ilDB->indexExistsByFields('il_bt_bucket', ['user_id'])) {
+    $ilDB->addIndex('il_bt_bucket', ['user_id'], 'i1');
+}
+?>
+<#73>
+<?php
+$ilDB->replace("settings", [        // pk
+                           "module" => ["text", "common"],
+                           "keyword" => ["text", "rep_favourites"],
+], [
+        "value" => ["text", "1"]
+    ]
+);
+
+?>

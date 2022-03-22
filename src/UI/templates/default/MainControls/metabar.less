@@ -1,13 +1,13 @@
-.il-maincontrols-metabar {
+ .il-maincontrols-metabar {
 	display: flex;
     justify-content: space-between;
     align-items: center;
 
 	list-style-type: none; /* Remove bullets */
 
-	// no display labels in metabar level 1
+	// no display labels in metabar level 1, but make them readable by screenreaders
 	>li >.btn-bulky > .bulky-label {
-		display: none;
+		.sr-only();
 	}
 
 	.glyphicon {

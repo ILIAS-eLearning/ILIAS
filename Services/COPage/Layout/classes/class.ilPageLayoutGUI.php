@@ -60,18 +60,14 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         );
         $tpl->parseCurrentBlock();
         
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
+        $tpl->addCss(ilObjStyleSheet::getPlaceHolderStylePath());
+        $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+
+        $this->setStyleId(
+            ilObjStyleSheet::getEffectiveContentStyleId(
+                $this->layout_object->getStyleId()
+            )
         );
-        $tpl->setVariable(
-            "LOCATION_ADDITIONAL_STYLESHEET",
-            ilObjStyleSheet::getPlaceHolderStylePath()
-        );
-        $tpl->parseCurrentBlock();
-        
-        $this->setStyleId($this->layout_object->getStyleId());
     }
 
     /**

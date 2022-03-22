@@ -62,7 +62,7 @@
 	background-color:  @il-main-bg;
 
 	> div[role='button']:focus-visible {
-		outline: @il-focus-outline;
+		.il-focus();
 	}
 
 	ul {
@@ -86,7 +86,7 @@
 }
 
 #awareness-content .media-body h4, #awareness-content .media-body p {
-	color: @il-text-light-color;
+	color: @il-text-color;
 	font-size: 12px;
 	padding: 5px 3px 0 3px;
 	line-height: 1em;
@@ -95,7 +95,7 @@
 
 #awareness-content .media-body h4 {
 	padding-top: 0px;
-	color: @il-text-color;
+	font-size: bold;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;

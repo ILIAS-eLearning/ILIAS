@@ -67,4 +67,9 @@ class ilGlossaryDefPageGUI extends ilPageObjectGUI
 
         return $a_output;
     }
+
+    public function finishEditing()
+    {
+        $this->ctrl->redirectByClass("ilObjGlossaryGUI", "listTerms");
+    }
 }

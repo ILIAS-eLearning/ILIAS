@@ -13,10 +13,15 @@ use ILIAS\COPage\Editor\Server;
 class ParagraphResponseFactory
 {
     /**
+     * @var \ilLogger
+     */
+    protected $log;
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->log = \ilLoggerFactory::getLogger("copg");
     }
 
     /**
@@ -33,8 +38,16 @@ class ParagraphResponseFactory
         $last_change = null;
 
         if ($updated !== true) {
+            $this->log->debug(print_r($updated, true));
             if (is_array($updated)) {
-                $error = implode("<br />", $updated);
+                $error = "";
+                foreach ($updated as $msg) {
+                    if (is_array($msg)) {
+                        $error.= implode("<br />", $msg);
+                    } else {
+                        $error.= (string) $msg;
+                    }
+                }
             } elseif (is_string($updated)) {
                 $error = $updated;
             } else {
@@ -113,6 +126,7 @@ class ParagraphResponseFactory
         $page_gui->setRawPageContent(true);
         $page_gui->setAbstractOnly(true, $pcid);
         $page_gui->setOutputMode(\ilPageObjectGUI::PRESENTATION);
+        $page_gui->setEnabledHref(false);
         //$html = $page_gui->showPage();
         $html = $DIC->ctrl()->getHTML($page_gui);
 

@@ -174,7 +174,14 @@ class ilRatingGUI
      * @param bool $a_average
      * @return string
      */
-    protected function renderDetails($a_js_id, $a_may_rate, array $a_categories = null, $a_onclick = null, $a_average = false)
+    protected function renderDetails(
+        $a_js_id,
+        $a_may_rate,
+        array $a_categories = null,
+        $a_onclick = null,
+        $a_average = false,
+        bool $add_tooltip = false
+    )
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -256,7 +263,9 @@ class ilRatingGUI
                             ilUtil::getImagePath("icon_rate_off.svg")
                         );
                     }
-                    $ttpl->setVariable("ALT_ICON", "(" . $i . "/5)");
+                    $ttpl->setVariable("ALT_ICON",
+                        sprintf($lng->txt("rating_rate_x_of_5"), $i)
+                    );
                     $ttpl->parseCurrentBlock();
                 }
                 
@@ -291,14 +300,27 @@ class ilRatingGUI
                     $ttpl->parseCurrentBlock();
                 }
                 
-                // user rating text
-                $ttpl->setCurrentBlock("user_rating_simple");
-                                
+
                 if ((bool) $a_average &&
                     $overall_rating["cnt"]) {
+                    $ttpl->setCurrentBlock("number_votes_simple");
                     $ttpl->setVariable("NUMBER_VOTES_SIMPLE", $overall_rating["cnt"]);
+                    $ttpl->parseCurrentBlock();
                 }
 
+                if ($add_tooltip) {
+                    $unique_id = $this->id . "_block";
+                    $ttpl->setVariable("TTID", $unique_id);
+                    $this->addTooltip(
+                        $unique_id,
+                        (int) $overall_rating["cnt"] ?? 0,
+                        (float) $overall_rating["avg"] ?? 0,
+                        (int) $rating ?? 0
+                    );
+                }
+
+                // user rating text
+                $ttpl->setCurrentBlock("user_rating_simple");
                 $ttpl->parseCurrentBlock();
             }
         }
@@ -353,7 +375,10 @@ class ilRatingGUI
                             ilUtil::getImagePath("icon_rate_$nr.svg")
                         );
                     }
-                    $ttpl->setVariable("ALT_ICON", "(" . $i . "/5)");
+                    $ttpl->setVariable(
+                        "ALT_ICON",
+                        sprintf($lng->txt("rating_rate_x_of_5"), $i)
+                    );
                     
                     if ($a_may_rate) {
                         $ttpl->setVariable("HREF_RATING", "il.Rating.setValue(" . $category["id"] . "," . $i . ", '" . $a_js_id . "')");
@@ -372,9 +397,20 @@ class ilRatingGUI
                     $ttpl->setVariable("JS_ID", $a_js_id);
                     $ttpl->setVariable("CATEGORY_ID", $category["id"]);
                     $ttpl->setVariable("CATEGORY_VALUE", $user_rating);
+                    if ($add_tooltip) {
+                        $unique_id = $this->id . "_block_" . $category["id"];
+                        $ttpl->setVariable("CAT_TTID", $unique_id);
+                        $this->addTooltip(
+                            $unique_id,
+                            (int) $overall_rating["cnt"] ?? 0,
+                            (float) $overall_rating["avg"] ?? 0,
+                            (int) $user_rating ?? 0
+                        );
+                    }
                     $ttpl->parseCurrentBlock();
                 }
-                
+
+
                 // category title
                 $ttpl->setCurrentBlock("user_rating_category");
                 $ttpl->setVariable("TXT_RATING_CATEGORY", $category["title"]);
@@ -438,7 +474,6 @@ class ilRatingGUI
     public function getHTML($a_show_overall = true, $a_may_rate = true, $a_onclick = null, $a_additional_id = null)
     {
         $lng = $this->lng;
-        
         $unique_id = $this->id;
         if ($a_additional_id) {
             $unique_id .= "_" . $a_additional_id;
@@ -514,28 +549,25 @@ class ilRatingGUI
                     ilUtil::getImagePath("icon_rate_$nr.svg")
                 );
             }
-            $ttpl->setVariable("ALT_ICON", "(" . $i . "/5)");
+            $ttpl->setVariable("ALT_ICON", "");
             $ttpl->parseCurrentBlock();
         }
         $ttpl->setCurrentBlock("rating_icon");
-        
-        if ($a_show_overall) {
-            if ($rating["cnt"] == 0) {
-                $tt = $lng->txt("rat_not_rated_yet");
-            } elseif ($rating["cnt"] == 1) {
-                $tt = $lng->txt("rat_one_rating");
-            } else {
-                $tt = sprintf($lng->txt("rat_nr_ratings"), $rating["cnt"]);
-            }
-            include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-            ilTooltipGUI::addTooltip($unique_id . "_tt", $tt);
 
+        if ($a_show_overall) {
             if ($rating["cnt"] > 0) {
                 $ttpl->setCurrentBlock("rat_nr");
                 $ttpl->setVariable("RT_NR", $rating["cnt"]);
                 $ttpl->parseCurrentBlock();
             }
         }
+
+        $this->addTooltip(
+            $unique_id . "_tt",
+            (int) $rating["cnt"] ?? 0,
+            (float) $rating["avg"] ?? 0,
+            (int) $user_rating ?? 0
+        );
 
         // add overlay (trigger)
         if ($has_overlay) {
@@ -546,6 +578,7 @@ class ilRatingGUI
             
             $ttpl->setCurrentBlock("act_rat_start");
             $ttpl->setVariable("ID", $unique_id);
+            $ttpl->setVariable("TXT_OPEN_DIALOG", $lng->txt("rating_open_dialog"));
             $ttpl->parseCurrentBlock();
 
             $ttpl->touchBlock("act_rat_end");
@@ -571,7 +604,43 @@ class ilRatingGUI
 
         return $ttpl->get();
     }
-    
+
+    protected function addTooltip(
+        string $id,
+        int $cnt = 0,
+        float $avg = 0,
+        int $user = 0
+    ) : void
+    {
+        $lng = $this->lng;
+
+        $tt = "";
+        if ($cnt == 0) {
+            $tt = $lng->txt("rat_not_rated_yet");
+        } else {
+            if ($cnt == 1) {
+                $tt = $lng->txt("rat_one_rating");
+            } else {
+                $tt = sprintf($lng->txt("rat_nr_ratings"), $cnt);
+            }
+            $tt.= "<br>".$lng->txt("rating_avg_rating").": ".round($avg, 1);
+        }
+
+        if ($user > 0) {
+            $tt.= "<br>".$lng->txt("rating_personal_rating").": ".$user;
+        }
+        if ($tt !== "") {
+            ilTooltipGUI::addTooltip(
+                $id,
+                $tt,
+                "",
+                "bottom center",
+                "top center",
+                false
+            );
+        }
+    }
+
     public function getBlockHTML($a_title)
     {
         $ui = $this->ui;
@@ -587,7 +656,7 @@ class ilRatingGUI
         $panel = $ui->factory()->panel()->secondary()->legacy(
             $a_title,
             $ui->factory()->legacy(
-                $this->renderDetails("rtsb_", $may_rate, $categories, null, true)
+                $this->renderDetails("rtsb_", $may_rate, $categories, null, true, true)
             )
         );
 
