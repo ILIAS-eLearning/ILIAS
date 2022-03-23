@@ -373,7 +373,7 @@ class ilPrivacySettings
             "AND object_reference.obj_id = object_data.obj_id";
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-        $this->ref_id = (int) $row["ref_id"];
+        $this->ref_id = (int) ($row["ref_id"] ?? 0);
 
         $this->export_course = (bool) $this->settings->get('ps_export_course', null);
         $this->export_group = (bool) $this->settings->get('ps_export_group', null);
