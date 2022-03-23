@@ -21,8 +21,8 @@ class ilExportFieldsInfo
 {
     private static array $instances = [];
 
-    private \ilSetting $settings;
-    private \ilLanguage $lng;
+    private ilSetting $settings;
+    private ilLanguage $lng;
     private string $obj_type = '';
     private array $possible_fields = array();
 
@@ -44,7 +44,7 @@ class ilExportFieldsInfo
     /**
      * Get Singleton Instance
      */
-    public static function _getInstanceByType($a_type) : \ilExportFieldsInfo
+    public static function _getInstanceByType($a_type) : ilExportFieldsInfo
     {
         if (!isset(self::$instances[$a_type])) {
             self::$instances[$a_type] = new self($a_type);
@@ -171,7 +171,7 @@ class ilExportFieldsInfo
      */
     private function read() : void
     {
-        $profile = new \ilUserProfile();
+        $profile = new ilUserProfile();
         $profile->skipGroup('settings');
 
         foreach ($profile->getStandardFields() as $key => $data) {

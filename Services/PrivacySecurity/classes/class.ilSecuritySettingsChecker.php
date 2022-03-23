@@ -70,8 +70,8 @@ class ilSecuritySettingsChecker
         
         if ($security->getPasswordNumberOfUppercaseChars() > 0) {
             if (ilStr::strLen($a_passwd) - ilStr::strLen(
-                    preg_replace('/[A-Z]/', '', $a_passwd)
-                ) < $security->getPasswordNumberOfUppercaseChars()) {
+                preg_replace('/[A-Z]/', '', $a_passwd)
+            ) < $security->getPasswordNumberOfUppercaseChars()) {
                 $errors[] = sprintf(
                     $lng->txt('password_must_contain_ucase_chars'),
                     $security->getPasswordNumberOfUppercaseChars()
@@ -82,8 +82,8 @@ class ilSecuritySettingsChecker
         
         if ($security->getPasswordNumberOfLowercaseChars() > 0) {
             if (ilStr::strLen($a_passwd) - ilStr::strLen(
-                    preg_replace('/[a-z]/', '', $a_passwd)
-                ) < $security->getPasswordNumberOfLowercaseChars()) {
+                preg_replace('/[a-z]/', '', $a_passwd)
+            ) < $security->getPasswordNumberOfLowercaseChars()) {
                 $errors[] = sprintf(
                     $lng->txt('password_must_contain_lcase_chars'),
                     $security->getPasswordNumberOfLowercaseChars()
@@ -125,7 +125,7 @@ class ilSecuritySettingsChecker
      * @param bool $a_only_special_chars
      * @return string
      */
-    public static function getPasswordValidChars(bool $a_as_regex = true, bool $a_only_special_chars = false)
+    public static function getPasswordValidChars(bool $a_as_regex = true, bool $a_only_special_chars = false) : ?string
     {
         if ($a_as_regex) {
             if ($a_only_special_chars) {
@@ -140,13 +140,13 @@ class ilSecuritySettingsChecker
     
     /**
      * @param string                 $clear_text_password The validated clear text password
-     * @param ilObjUser|string|array $user                Could be an instance of ilObjUser, the users' loginname as string, or an array containing the users' loginname and id
+     * @param array|ilObjUser|string $user                Could be an instance of ilObjUser, the users' loginname as string, or an array containing the users' loginname and id
      * @param string|null            $error_language_variable
      * @return bool
      */
     public static function isPasswordValidForUserContext(
         string $clear_text_password,
-        $user,
+        array|ilObjUser|string $user,
         ?string &$error_language_variable = null
     ) : bool {
         $security = ilSecuritySettings::_getInstance();
@@ -175,15 +175,14 @@ class ilSecuritySettingsChecker
         
         return true;
     }
-    
+
     /**
      *    infotext for ilPasswordInputGUI setInfo()
-     *
-     * @return <string>  info about allowed chars for password
+     * @return string info about allowed chars for password
      * @static
      * @global <type> $lng
      */
-    public static function getPasswordRequirementsInfo()
+    public static function getPasswordRequirementsInfo() : string
     {
         global $DIC;
         
@@ -236,7 +235,7 @@ class ilSecuritySettingsChecker
      * @static
      *
      */
-    public static function generatePasswords($a_number)
+    public static function generatePasswords($a_number) : array
     {
         $ret = [];
         srand((double) microtime() * 1000000);
@@ -253,7 +252,7 @@ class ilSecuritySettingsChecker
             if ($min > $max) {
                 $max = $max + 1;
             }
-            $random = new \ilRandom();
+            $random = new ilRandom();
             $length = $random->int($min, $max);
             $next = $random->int(1, 2);
             $vowels = "aeiou";
