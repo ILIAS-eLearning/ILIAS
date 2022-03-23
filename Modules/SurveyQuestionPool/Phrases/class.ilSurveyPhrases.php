@@ -60,7 +60,7 @@ class ilSurveyPhrases
             array('1', $ilUser->getId())
         );
         while ($row = $ilDB->fetchObject($result)) {
-            if (($row->defaultvalue == 1) and ($row->owner_fi == 0)) {
+            if ((int) $row->defaultvalue === 1 && (int) $row->owner_fi === 0) {
                 if (!$useronly) {
                     $phrases[$row->phrase_id] = array(
                         "title" => $lng->txt($row->title),
@@ -68,13 +68,11 @@ class ilSurveyPhrases
                         "org_title" => $row->title
                     );
                 }
-            } else {
-                if ($ilUser->getId() == $row->owner_fi) {
-                    $phrases[$row->phrase_id] = array(
-                        "title" => $row->title,
-                        "owner" => $row->owner_fi
-                    );
-                }
+            } elseif ($ilUser->getId() === (int) $row->owner_fi) {
+                $phrases[$row->phrase_id] = array(
+                    "title" => $row->title,
+                    "owner" => $row->owner_fi
+                );
             }
         }
         return $phrases;
@@ -100,7 +98,7 @@ class ilSurveyPhrases
             array($phrase_id)
         );
         while ($row = $ilDB->fetchObject($result)) {
-            if (($row->defaultvalue == 1) and ($row->owner_fi == 0)) {
+            if ((int) $row->defaultvalue === 1 && (int) $row->owner_fi === 0) {
                 $categories[$row->category_id] = $lng->txt($row->title);
             } else {
                 $categories[$row->category_id] = $row->title;
@@ -202,11 +200,7 @@ class ilSurveyPhrases
     {
         switch ($value) {
             default:
-                if (array_key_exists($value, $this->arrData)) {
-                    return $this->arrData[$value];
-                } else {
-                    return null;
-                }
+                return $this->arrData[$value] ?? null;
         }
     }
 

@@ -125,11 +125,7 @@ class SurveyCategories
     public function getCategory(
         int $index
     ) : ?ilSurveyCategory {
-        if (array_key_exists($index, $this->categories)) {
-            return $this->categories[$index];
-        }
-
-        return null;
+        return $this->categories[$index] ?? null;
     }
 
     public function getCategoryForScale(
