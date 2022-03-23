@@ -154,8 +154,7 @@ class ilTestAccess
         if ($this->getAccess()->checkAccess('tst_statistics', '', $this->getRefId())) {
             return true;
         }
-        
-        return $this->checkParticipantsResultsAccess();
+        return false;
     }
     
     /**
