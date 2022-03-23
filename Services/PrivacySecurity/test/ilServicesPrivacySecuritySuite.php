@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesPrivacySecuritySuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilServicesPrivacySecuritySuite
     {
         $suite = new ilServicesPrivacySecuritySuite();
 
