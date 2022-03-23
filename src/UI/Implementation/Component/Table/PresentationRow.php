@@ -47,7 +47,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @var	array
      */
-    private $important_fields;
+    private $important_fields = [];
 
     /**
      * @var
@@ -62,7 +62,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @var	array
      */
-    private $further_fields;
+    private $further_fields = [];
 
     /**
      * @var	array
