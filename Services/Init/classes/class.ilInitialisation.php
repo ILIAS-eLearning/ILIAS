@@ -6,6 +6,7 @@ use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
+use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
 use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
@@ -1397,6 +1398,17 @@ class ilInitialisation
             ilContext::getType() == ilContext::CONTEXT_SOAP ||
             ilContext::getType() == ilContext::CONTEXT_WAC) {
             throw new Exception("Authentication failed.");
+        }
+
+        if (($DIC->http()->request()->getQueryParams()['cmdMode'] ?? 0) === 'asynch') {
+            $DIC->language()->loadLanguageModule('init');
+            $DIC->http()->saveResponse(
+                $DIC->http()->response()
+                    ->withStatus(403)
+                    ->withBody(Streams::ofString($DIC->language()->txt('init_error_authentication_fail')))
+            );
+            $DIC->http()->sendResponse();
+            $DIC->http()->close();
         }
         if (
             $DIC['ilAuthSession']->isExpired() &&

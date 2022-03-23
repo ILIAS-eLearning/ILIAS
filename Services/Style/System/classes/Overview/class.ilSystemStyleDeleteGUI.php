@@ -7,7 +7,7 @@ class ilSystemStyleDeleteGUI
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected array $styles = [];
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(ilLanguage $lng, ilCtrl $ctrl)
     {

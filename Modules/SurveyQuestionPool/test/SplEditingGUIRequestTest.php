@@ -9,13 +9,6 @@ use PHPUnit\Framework\TestCase;
  */
 class SplEditingGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
@@ -34,7 +27,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId()
+    public function testRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -49,7 +42,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testQuestionId()
+    public function testQuestionId() : void
     {
         $request = $this->getRequest(
             [
@@ -64,7 +57,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testQuestionIds()
+    public function testQuestionIds() : void
     {
         $request = $this->getRequest(
             [
@@ -81,7 +74,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testPreview()
+    public function testPreview() : void
     {
         $request = $this->getRequest(
             [
@@ -96,7 +89,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testSelectedQuestionTypes()
+    public function testSelectedQuestionTypes() : void
     {
         $request = $this->getRequest(
             [
@@ -111,7 +104,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testSort()
+    public function testSort() : void
     {
         $request = $this->getRequest(
             [
@@ -136,7 +129,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testPhraseId()
+    public function testPhraseId() : void
     {
         $request = $this->getRequest(
             [
@@ -151,7 +144,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testPhraseIds()
+    public function testPhraseIds() : void
     {
         $request = $this->getRequest(
             [

@@ -571,7 +571,7 @@ class ilBadgeHandler
                 
                 $url = ilLink::_getLink($user_id, "usr", array(), "_bdg");
                 $ntf->addAdditionalInfo("badge_notification_badges_goto", $url);
-                            
+
                 $ntf->setReasonLangId("badge_notification_reason");
 
                 // force email
@@ -589,14 +589,14 @@ class ilBadgeHandler
                 // osd
                 // bug #24562
                 if (ilContext::hasHTML()) {
-                    $osd_params = array("badge_list" => "<br />" . implode("<br />", $user_badges));
+                    $url = new ilNotificationLink(new ilNotificationParameter('badge_notification_badges_goto', [], 'badge'), $url);
+                    $osd_params = array("badge_list" => implode(", ", $user_badges));
 
-                    $notification = new ilNotificationConfig("osd_main");
+                    $notification = new ilNotificationConfig("badge_received");
                     $notification->setTitleVar("badge_notification_subject", array(), "badge");
                     $notification->setShortDescriptionVar("badge_notification_osd", $osd_params, "badge");
-                    $notification->setLongDescriptionVar("", $osd_params, "");
-                    $notification->setAutoDisable(false);
-                    $notification->setLink($url);
+                    $notification->setLongDescriptionVar("");
+                    $notification->setLinks([$url]);
                     $notification->setIconPath(ilUtil::getImagePath('icon_bdga.svg'));
                     $notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
                     $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);

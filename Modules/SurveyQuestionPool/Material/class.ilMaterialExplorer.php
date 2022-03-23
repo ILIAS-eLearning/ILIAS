@@ -62,6 +62,6 @@ class ilMaterialExplorer extends ilTreeExplorerGUI
 
     public function isNodeClickable($a_node) : bool
     {
-        return ($a_node["type"] == $this->current_type);
+        return ($a_node["type"] === $this->current_type);
     }
 }

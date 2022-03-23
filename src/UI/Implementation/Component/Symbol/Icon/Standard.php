@@ -152,6 +152,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::PEUSR,
         self::LSO,
         self::ADN,
+        self::NOTA,
         self::GCON,
         self::CON
     ];

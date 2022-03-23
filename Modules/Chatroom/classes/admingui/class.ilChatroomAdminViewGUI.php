@@ -111,14 +111,11 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
         $settings = array(
             'name' => (string) $form->getInput('client_name'),
-            'enable_osd' => (bool) $form->getInput('enable_osd'),
             'enable_osc' => (bool) $form->getInput('enable_osc'),
             'enable_browser_notifications' => (bool) $form->getInput('enable_browser_notifications'),
             'conversation_idle_state_in_minutes' => $convIdleStateTime,
-            'osd_intervall' => (int) $form->getInput('osd_intervall'),
             'chat_enabled' => (bool) $form->getInput('chat_enabled'),
             'enable_smilies' => (bool) $form->getInput('enable_smilies'),
-            'play_invitation_sound' => (bool) $form->getInput('play_invitation_sound'),
             'auth' => $form->getInput('auth')
         );
 
@@ -126,16 +123,11 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
             $settings['enable_osc'] = false;
         }
 
-        $notificationSettings = new ilSetting('notifications');
-        $notificationSettings->set('osd_polling_intervall', (string) ((int) $form->getInput('osd_intervall')));
-        $notificationSettings->set('enable_osd', (string) ((bool) $form->getInput('enable_osd')));
-
         $chatSettings = new ilSetting('chatroom');
         $chatSettings->set('chat_enabled', (string) $settings['chat_enabled']);
         $chatSettings->set('enable_browser_notifications', (string) $settings['enable_browser_notifications']);
         $chatSettings->set('conversation_idle_state_in_minutes', (string) $convIdleStateTime);
         $chatSettings->set('enable_osc', (string) $settings['enable_osc']);
-        $chatSettings->set('play_invitation_sound', (string) ((bool) $form->getInput('play_invitation_sound')));
 
         $adminSettings = new ilChatroomAdmin($this->gui->object->getId());
         $adminSettings->saveClientSettings((object) $settings);

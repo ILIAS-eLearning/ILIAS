@@ -61,7 +61,7 @@ class ilSystemStyleOverviewGUI
         $this->refinery = $refinery;
         $this->tabs = $tabs;
         $this->style_id = $style_id;
-        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
         $this->skin_factory = $skin_factory;
         $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
         $this->help = $help;
@@ -304,7 +304,7 @@ class ilSystemStyleOverviewGUI
                     $skin = new ilSkin($skin_id, $skin_name);
                     $style = new ilSkinStyle($style_id, $style_name);
                     $skin->addStyle($style);
-                    $container = new ilSkinStyleContainer($this->lng, $skin);
+                    $container = new ilSkinStyleContainer($this->lng, $skin, $this->message_stack);
                     $container->create($this->message_stack);
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $skin->getId());
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $style->getId());
@@ -480,6 +480,7 @@ class ilSystemStyleOverviewGUI
             $new_container = $this->skin_factory->copyFromSkinStyleContainer(
                 $container,
                 $this->file_system,
+                $this->message_stack,
                 $this->lng->txt('sty_acopy')
             );
             $this->message_stack->prependMessage(new ilSystemStyleMessage(
@@ -513,7 +514,7 @@ class ilSystemStyleOverviewGUI
 
         if ($this->checkDeletable($skin_id, $style_id, $this->message_stack)) {
             $delete_form_table = new ilSystemStyleDeleteGUI($this->lng, $this->ctrl);
-            $container = $this->skin_factory->skinStyleContainerFromId($skin_id);
+            $container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
             $delete_form_table->addStyle(
                 $container->getSkin(),
                 $container->getSkin()->getStyle($style_id),
@@ -549,7 +550,7 @@ class ilSystemStyleOverviewGUI
                 $imploded_skin_style_id = explode(':', $skin_style_id);
                 $skin_id = $imploded_skin_style_id[0];
                 $style_id = $imploded_skin_style_id[1];
-                $container = $this->skin_factory->skinStyleContainerFromId($skin_id);
+                $container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
                 $delete_form_table->addStyle(
                     $container->getSkin(),
                     $container->getSkin()->getStyle($style_id),
@@ -594,7 +595,7 @@ class ilSystemStyleOverviewGUI
             $passed = false;
         }
 
-        if ($this->skin_factory->skinStyleContainerFromId($skin_id)->getSkin()->getSubstylesOfStyle($style_id)) {
+        if ($this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack)->getSkin()->getSubstylesOfStyle($style_id)) {
             $message_stack->addMessage(new ilSystemStyleMessage(
                 $style_id . ': ' . $this->lng->txt('cant_delete_style_with_substyles'),
                 ilSystemStyleMessage::TYPE_ERROR
@@ -679,7 +680,7 @@ class ilSystemStyleOverviewGUI
 
     protected function export() : void
     {
-        $container = $this->skin_factory->skinStyleContainerFromId($this->style_container->getSkin()->getId());
+        $container = $this->skin_factory->skinStyleContainerFromId($this->style_container->getSkin()->getId(), $this->message_stack);
         try {
             $container->export();
         } catch (Exception $e) {
@@ -763,7 +764,7 @@ class ilSystemStyleOverviewGUI
                 $parent_skin_id = $skin_style_ids[0];
                 $parent_style_id = $skin_style_ids[1];
 
-                $container = $this->skin_factory->skinStyleContainerFromId($parent_skin_id);
+                $container = $this->skin_factory->skinStyleContainerFromId($parent_skin_id, $this->message_stack);
 
                 $sub_style_id = $this->request_wrapper->post()->retrieve(
                     'sub_style_id',

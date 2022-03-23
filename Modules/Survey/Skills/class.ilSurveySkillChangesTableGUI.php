@@ -21,6 +21,8 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
 {
     protected ilSurveySkill $survey_skill;
     protected ilObjSurvey $survey;
+    protected array $appraisee;
+    protected ilSurveySkillThresholds $thresholds;
 
     public function __construct(
         object $a_parent_obj,

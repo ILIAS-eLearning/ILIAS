@@ -28,6 +28,9 @@ class DomainService
     protected InternalDomainService $domain_service;
     protected InvitationsManager $invitations_manager;
 
+    /**
+     * @var array<string, array<int, array<int, StatusManager>>>
+     */
     protected static array $managers = [];
 
     public function __construct(

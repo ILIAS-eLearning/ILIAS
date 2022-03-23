@@ -63,7 +63,7 @@ class StatusManager
             $feature_config->usesAppraisees() &&
             $survey->get360SelfAppraisee() &&
             !$survey->isAppraisee($user_id) &&
-            $user_id != ANONYMOUS_USER_ID) {
+            $user_id !== ANONYMOUS_USER_ID) {
             return true;
         }
         return false;
@@ -99,7 +99,7 @@ class StatusManager
     public function canViewUserResults() : bool
     {
         if ($this->cantStartAgain() &&
-            $this->user_id != ANONYMOUS_USER_ID &&
+            $this->user_id !== ANONYMOUS_USER_ID &&
             $this->survey->hasViewOwnResults()) {
             return true;
         }
@@ -113,7 +113,7 @@ class StatusManager
     public function canMailUserResults() : bool
     {
         if ($this->cantStartAgain() &&
-            $this->user_id != ANONYMOUS_USER_ID &&
+            $this->user_id !== ANONYMOUS_USER_ID &&
             $this->survey->hasMailConfirmation()) {
             return true;
         }
@@ -128,7 +128,7 @@ class StatusManager
         if ($this->access->canStartSurvey()) {
             // code is mandatory and not given yet
             if (!$this->isAppraisee() &&
-                $code == "" &&
+                $code === "" &&
                 !$this->survey->isAccessibleWithoutCode()) {
                 return true;
             }

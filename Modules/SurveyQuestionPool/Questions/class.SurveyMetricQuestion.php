@@ -90,7 +90,7 @@ class SurveyMetricQuestion extends SurveyQuestion
             array('integer'),
             array($id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             return $ilDB->fetchAssoc($result);
         } else {
             return array();
@@ -106,7 +106,7 @@ class SurveyMetricQuestion extends SurveyQuestion
             array('integer'),
             array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
             $this->setId($data["question_id"]);
             $this->setTitle($data["title"]);
@@ -142,15 +142,11 @@ class SurveyMetricQuestion extends SurveyQuestion
 
     public function isComplete() : bool
     {
-        if (
-            strlen($this->getTitle()) &&
-            strlen($this->getAuthor()) &&
-            strlen($this->getQuestiontext())
-        ) {
-            return true;
-        } else {
-            return false;
-        }
+        return (
+            $this->getTitle() !== '' &&
+            $this->getAuthor() !== '' &&
+            $this->getQuestiontext() !== ''
+        );
     }
     
     public function saveToDb(int $original_id = 0) : int
@@ -158,7 +154,7 @@ class SurveyMetricQuestion extends SurveyQuestion
         $ilDB = $this->db;
 
         $affectedRows = parent::saveToDb($original_id);
-        if ($affectedRows == 1) {
+        if ($affectedRows === 1) {
             $ilDB->manipulateF(
                 "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
                 array('integer'),
@@ -236,10 +232,10 @@ class SurveyMetricQuestion extends SurveyQuestion
                     "id" => "0",
                     "format" => "double"
                 );
-                if (strlen($this->getMinimum())) {
+                if ((string) $this->getMinimum() !== '') {
                     $attrs["min"] = $this->getMinimum();
                 }
-                if (strlen($this->getMaximum())) {
+                if ((string) $this->getMaximum() !== '') {
                     $attrs["max"] = $this->getMaximum();
                 }
                 break;
@@ -248,10 +244,10 @@ class SurveyMetricQuestion extends SurveyQuestion
                     "id" => "0",
                     "format" => "integer"
                 );
-                if (strlen($this->getMinimum())) {
+                if ((string) $this->getMinimum() !== '') {
                     $attrs["min"] = $this->getMinimum();
                 }
-                if (strlen($this->getMaximum())) {
+                if ((string) $this->getMaximum() !== '') {
                     $attrs["max"] = $this->getMaximum();
                 }
                 break;
@@ -261,19 +257,21 @@ class SurveyMetricQuestion extends SurveyQuestion
 
         $a_xml_writer->xmlEndTag("responses");
 
-        if (count($this->material)) {
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches)) {
-                $attrs = array(
-                    "label" => $this->material["title"]
-                );
-                $a_xml_writer->xmlStartTag("material", $attrs);
-                $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
-                if (strcmp($matches[1], "") != 0) {
-                    $intlink = $this->material["internal_link"];
-                }
-                $a_xml_writer->xmlElement("mattext", null, $intlink);
-                $a_xml_writer->xmlEndTag("material");
+        if (count($this->material) && preg_match(
+            "/il_(\d*?)_(\w+)_(\d+)/",
+            $this->material["internal_link"],
+            $matches
+        )) {
+            $attrs = array(
+                "label" => $this->material["title"]
+            );
+            $a_xml_writer->xmlStartTag("material", $attrs);
+            $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+            if (strcmp($matches[1], "") !== 0) {
+                $intlink = $this->material["internal_link"];
             }
+            $a_xml_writer->xmlElement("mattext", null, $intlink);
+            $a_xml_writer->xmlEndTag("material");
         }
         
         $a_xml_writer->xmlEndTag("question");
@@ -339,10 +337,8 @@ class SurveyMetricQuestion extends SurveyQuestion
         if (strlen($this->getMaximum())) {
             if (($this->getMaximum() == 1) && ($this->getMaximum() < $this->getMinimum())) {
                 // old &infty; values as maximum
-            } else {
-                if ($entered_value > $this->getMaximum()) {
-                    return $this->lng->txt("metric_question_out_of_bounds");
-                }
+            } elseif ($entered_value > $this->getMaximum()) {
+                return $this->lng->txt("metric_question_out_of_bounds");
             }
         }
 
@@ -350,7 +346,7 @@ class SurveyMetricQuestion extends SurveyQuestion
             return $this->lng->txt("metric_question_not_a_value");
         }
 
-        if (($this->getSubtype() == self::SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value))) {
+        if ($this->getSubtype() === self::SUBTYPE_RATIO_ABSOLUTE && ((int) $entered_value != (float) $entered_value)) {
             return $this->lng->txt("metric_question_floating_point");
         }
         return "";
@@ -371,7 +367,8 @@ class SurveyMetricQuestion extends SurveyQuestion
         if ($a_return) {
             return array(array("value" => $entered_value, "textanswer" => null));
         }
-        if (strlen($entered_value) == 0) {
+
+        if ($entered_value === '') {
             return null;
         }
         
@@ -381,7 +378,7 @@ class SurveyMetricQuestion extends SurveyQuestion
         $fields['answer_id'] = array("integer", $next_id);
         $fields['question_fi'] = array("integer", $this->getId());
         $fields['active_fi'] = array("integer", $active_id);
-        $fields['value'] = array("float", (strlen($entered_value)) ? $entered_value : null);
+        $fields['value'] = array("float", $entered_value);
         $fields['textanswer'] = array("clob", null);
         $fields['tstamp'] = array("integer", time());
 
@@ -436,13 +433,13 @@ class SurveyMetricQuestion extends SurveyQuestion
      */
     public function getMinMaxText() : string
     {
-        $min = $this->getMinimum();
-        $max = $this->getMaximum();
-        if (strlen($min) && strlen($max)) {
+        $min = (string) $this->getMinimum();
+        $max = (string) $this->getMaximum();
+        if ($min !== '' && $max !== '') {
             return "(" . $min . " " . strtolower($this->lng->txt("to")) . " " . $max . ")";
-        } elseif (strlen($min)) {
+        } elseif ($min !== '') {
             return "(&gt;= " . $min . ")";
-        } elseif (strlen($max)) {
+        } elseif ($max !== '') {
             return "(&lt;= " . $max . ")";
         } else {
             return "";

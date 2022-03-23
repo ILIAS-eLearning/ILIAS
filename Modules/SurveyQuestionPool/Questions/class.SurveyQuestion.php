@@ -73,7 +73,7 @@ class SurveyQuestion
             $this->author = $ilUser->fullname;
         }
         $this->owner = $owner;
-        if ($this->owner == -1) {
+        if ($this->owner === -1) {
             $this->owner = $ilUser->getId();
         }
         $this->id = -1;
@@ -198,7 +198,7 @@ class SurveyQuestion
         string $materials_name = ""
     ) : void {
         foreach ($this->materials as $key => $value) {
-            if (strcmp($key, $materials_name) == 0) {
+            if (strcmp($key, $materials_name) === 0) {
                 if (file_exists($this->getMaterialsPath() . $value)) {
                     unlink($this->getMaterialsPath() . $value);
                 }
@@ -440,7 +440,7 @@ class SurveyQuestion
         );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
-            if ($row["complete"] == 1) {
+            if ((int) $row["complete"] === 1) {
                 return true;
             }
         }
@@ -482,7 +482,7 @@ class SurveyQuestion
         // cleanup RTE images which are not inserted into the question text
         ilRTE::_cleanupMediaObjectUsage($this->getQuestiontext(), "spl:html", $this->getId());
         $affectedRows = 0;
-        if ($this->getId() == -1) {
+        if ($this->getId() === -1) {
             // Write new dataset
             $next_id = $ilDB->nextId('svy_question');
             $affectedRows = $ilDB->insert("svy_question", array(
@@ -626,7 +626,9 @@ class SurveyQuestion
         $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/images/";
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            $webdir
+        );
     }
 
     /**
@@ -637,7 +639,9 @@ class SurveyQuestion
         $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            $webdir
+        );
     }
 
     /**
@@ -660,7 +664,7 @@ class SurveyQuestion
         $insert = true;
         if ($result->numRows()) {
             while ($row = $ilDB->fetchAssoc($result)) {
-                if (strcmp($row["title"], $categorytext) == 0) {
+                if (strcmp($row["title"], $categorytext) === 0) {
                     $returnvalue = $row["category_id"];
                     $insert = false;
                 }
@@ -713,7 +717,7 @@ class SurveyQuestion
             array('integer'),
             array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
             $obj_id = $row["obj_fi"];
         } else {
@@ -827,7 +831,7 @@ class SurveyQuestion
             array('integer'),
             array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
             return $data["type_tag"];
         } else {
@@ -971,13 +975,13 @@ class SurveyQuestion
             array('integer'),
             array($question_id)
         );
-        return $result->numRows() == 1;
+        return $result->numRows() === 1;
     }
 
     public function addInternalLink(string $material_id) : void
     {
         $material_title = "";
-        if (strlen($material_id)) {
+        if ($material_id !== '') {
             if (preg_match("/il__(\w+)_(\d+)/", $material_id, $matches)) {
                 $type = $matches[1];
                 $target_id = $matches[2];
@@ -1055,7 +1059,7 @@ class SurveyQuestion
         }
     }
     
-    public function addMaterial(ilSurveyMaterial $obj_material)
+    public function addMaterial(ilSurveyMaterial $obj_material) : void
     {
         $this->material[] = $obj_material;
     }
@@ -1070,13 +1074,13 @@ class SurveyQuestion
         bool $is_import = false,
         string $material_title = ""
     ) : void {
-        if (strcmp($material_id, "") != 0) {
+        if (strcmp($material_id, "") !== 0) {
             $import_id = "";
             if ($is_import) {
                 $import_id = $material_id;
                 $material_id = self::_resolveInternalLink($import_id);
             }
-            if (strcmp($material_title, "") == 0) {
+            if (strcmp($material_title, "") === 0) {
                 if (preg_match("/il__(\w+)_(\d+)/", $material_id, $matches)) {
                     $type = $matches[1];
                     $target_id = $matches[2];
@@ -1145,7 +1149,7 @@ class SurveyQuestion
                     $resolved_link = ilInternalLink::_getIdForImportId("MediaObject", $internal_link);
                     break;
             }
-            if (strcmp($resolved_link, "") == 0) {
+            if (strcmp($resolved_link, "") === 0) {
                 $resolved_link = $internal_link;
             }
         } else {
@@ -1170,7 +1174,7 @@ class SurveyQuestion
             while ($row = $ilDB->fetchAssoc($result)) {
                 $internal_link = $row["internal_link"];
                 $resolved_link = self::_resolveInternalLink($internal_link);
-                if (strcmp($internal_link, $resolved_link) != 0) {
+                if (strcmp($internal_link, $resolved_link) !== 0) {
                     // internal link was resolved successfully
                     $affectedRows = $ilDB->manipulateF(
                         "UPDATE svy_material SET internal_link = %s, tstamp = %s WHERE material_id = %s",
@@ -1226,8 +1230,8 @@ class SurveyQuestion
                     break;
                 case "MediaObject":
                     $href = ilFileUtils::removeTrailingPathSeparators(
-                            ILIAS_HTTP_PATH
-                        ) . "/ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=" . $a_parent_ref_id . "&mob_id=" . $target_id;
+                        ILIAS_HTTP_PATH
+                    ) . "/ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=" . $a_parent_ref_id . "&mob_id=" . $target_id;
                     break;
             }
         }
@@ -1254,13 +1258,13 @@ class SurveyQuestion
             array('integer'),
             array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
             $qpl_object_id = $row["obj_fi"];
             return ilObjSurveyQuestionPool::_isWriteable($qpl_object_id);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function getQuestionTypeID() : int
@@ -1271,12 +1275,12 @@ class SurveyQuestion
             array('text'),
             array($this->getQuestionType())
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
             return (int) $row["questiontype_id"];
-        } else {
-            return 0;
         }
+
+        return 0;
     }
 
     public function getQuestionType() : string
@@ -1293,9 +1297,9 @@ class SurveyQuestion
         int $gui = 0
     ) : bool {
         $type = $question_type;
-        if ($gui == 1) {
+        if ($gui === 1) {
             $type .= "GUI";
-        } elseif ($gui == 2) {
+        } elseif ($gui === 2) {
             $type .= "Evaluation";
         }
         if (file_exists("./Modules/SurveyQuestionPool/Questions/class." . $type . ".php")) {
@@ -1305,7 +1309,7 @@ class SurveyQuestion
 
             $component_factory = $DIC["component.factory"];
             foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
-                if (strcmp($pl->getQuestionType(), $question_type) == 0) {
+                if (strcmp($pl->getQuestionType(), $question_type) === 0) {
                     return true;
                 }
             }
@@ -1328,7 +1332,7 @@ class SurveyQuestion
         } else {
             $component_factory = $DIC["component.factory"];
             foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
-                if (strcmp($pl->getQuestionType(), $type_tag) == 0) {
+                if (strcmp($pl->getQuestionType(), $type_tag) === 0) {
                     return $pl->getQuestionTypeTranslation();
                 }
             }
@@ -1393,9 +1397,9 @@ class SurveyQuestion
     {
         if (preg_match("/<[^>]*?>/", $a_text)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
     
     /**
@@ -1409,10 +1413,10 @@ class SurveyQuestion
         $result = "";
         for ($i = 0; $i < $a_material->getMaterialCount(); $i++) {
             $material = $a_material->getMaterial($i);
-            if (strcmp($material["type"], "mattext") == 0) {
+            if (strcmp($material["type"], "mattext") === 0) {
                 $result .= $material["material"]->getContent();
             }
-            if (strcmp($material["type"], "matimage") == 0) {
+            if (strcmp($material["type"], "matimage") === 0) {
                 $matimage = $material["material"];
                 if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
                     // import an mediaobject which was inserted using tiny mce
@@ -1435,7 +1439,7 @@ class SurveyQuestion
         bool $close_material_tag = true,
         bool $add_mobs = true,
         ?array $a_attrs = null
-    ) {
+    ) : void {
         $a_xml_writer->xmlStartTag("material");
         $attrs = array(
             "type" => "text/plain"
@@ -1611,9 +1615,9 @@ class SurveyQuestion
             default:
                 if (array_key_exists($value, $this->arrData)) {
                     return (string) $this->arrData[$value];
-                } else {
-                    return null;
                 }
+
+                return null;
         }
     }
 
@@ -1711,7 +1715,7 @@ class SurveyQuestion
     public function stripSlashesAddSpaceFallback(string $a_str) : string
     {
         $str = ilUtil::stripSlashes($a_str);
-        if ($str != $a_str) {
+        if ($str !== $a_str) {
             $str = ilUtil::stripSlashes(str_replace("<", "< ", $a_str));
         }
         return $str;

@@ -130,7 +130,7 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
                 $svy = new ilObjSurvey($context_parameters['ref_id']);
                 $raters = $svy->getRatersData($context_parameters['appr_id']);
                 $href = ilLink::_getLink($context_parameters['ref_id'], 'svy');
-                if (isset($current_rater["href"]) && $current_rater["href"] != "") {
+                if (isset($current_rater["href"]) && $current_rater["href"] !== "") {
                     $href = $current_rater["href"];
                 }
                 return $href;

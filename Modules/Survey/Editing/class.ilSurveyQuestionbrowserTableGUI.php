@@ -93,7 +93,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $data = $a_object->getQuestionsTable($arrFilter);
         
         // translate pools for proper sorting
-        if (sizeof($data)) {
+        if (count($data)) {
             $pools = $this->getQuestionPools();
             foreach ($data as $idx => $row) {
                 $data[$idx]["spl"] = $pools[$row["obj_fi"]];
@@ -189,8 +189,9 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass($guiclass, "q_id", $a_set["question_id"]);
         $this->tpl->setVariable("LINK_PREVIEW", "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&amp;ref_id=" . $a_set["ref_id"] . "&amp;cmd=preview&amp;preview=" . $a_set["question_id"]);
 
-        $this->tpl->setVariable("QUESTION_DESCRIPTION",
-            ilLegacyFormElementsUtil::prepareFormOutput((strlen($a_set["description"])) ? $a_set["description"] : "")
+        $this->tpl->setVariable(
+            "QUESTION_DESCRIPTION",
+            ilLegacyFormElementsUtil::prepareFormOutput(($a_set["description"] ?? '') !== '' ? $a_set["description"] : "")
         );
         $this->tpl->setVariable("QUESTION_TYPE", $a_set["ttype"]);
         $this->tpl->setVariable("QUESTION_AUTHOR", ilLegacyFormElementsUtil::prepareFormOutput($a_set["author"]));

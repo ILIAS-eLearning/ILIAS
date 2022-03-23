@@ -825,8 +825,16 @@ class ilChatroom
         int $subScope = 0,
         string $invitationLink = ''
     ) : void {
-        if ($gui && $invitationLink === '') {
-            $invitationLink = $this->getChatURL($gui, $subScope);
+        $links = [];
+        if ($invitationLink === '') {
+            if ($gui) {
+                $links[] = new ilNotificationLink(
+                    new ilNotificationParameter('chat_join', [], 'chatroom'),
+                    $this->getChatURL($gui, $subScope)
+                );
+            }
+        } else {
+            $links[] = new ilNotificationLink(new ilNotificationParameter('chat_join', [], 'chatroom'), $invitationLink);
         }
 
         if ($recipient_id > 0 && ANONYMOUS_USER_ID !== $recipient_id) {
@@ -851,7 +859,6 @@ class ilChatroom
             $userLang = ilLanguageFactory::_getLanguageOfUser($recipient_id);
             $userLang->loadLanguageModule('mail');
             $bodyParams = [
-                'link' => $invitationLink,
                 'inviter_name' => $public_name,
                 'room_name' => $this->getTitle(),
                 'salutation' => ilMail::getSalutation($recipient_id, $userLang)
@@ -865,8 +872,7 @@ class ilChatroom
             $notification->setTitleVar('chat_invitation', $bodyParams, 'chatroom');
             $notification->setShortDescriptionVar('chat_invitation_short', $bodyParams, 'chatroom');
             $notification->setLongDescriptionVar('chat_invitation_long', $bodyParams, 'chatroom');
-            $notification->setAutoDisable(false);
-            $notification->setLink($invitationLink);
+            $notification->setLinks($links);
             $notification->setIconPath('templates/default/images/icon_chtr.svg');
             $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);

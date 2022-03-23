@@ -145,7 +145,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
                     
         $data = $labels = $legend = array();
         
-        $row_idx = sizeof($a_results);
+        $row_idx = count($a_results);
 
         $row_counter = 0;
         $text_shortened = false;
@@ -333,7 +333,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
             }
             
             // mc
-            if ($this->question->getSubtype() == 1) {
+            if ($this->question->getSubtype() === 1) {
                 for ($index = 0; $index < $this->question->getColumnCount(); $index++) {
                     $col = $this->question->getColumn($index);
                     
@@ -361,7 +361,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
             if ($answers !== null) {
                 foreach ($answers as $answer) {
                     // mc
-                    if ($this->question->getSubtype() == 1) {
+                    if ($this->question->getSubtype() === 1) {
                         $answer_map[$row_title . "|" . $answer[2]] = $answer[2];
                     } else {
                         $answer_map[$row_title] = $answer[3];
@@ -374,7 +374,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
             }
         }
         
-        if (!sizeof($answer_map)) {
+        if (!count($answer_map)) {
             $a_row[] = $this->getSkippedValue();
         } else {
             $a_row[] = "";
@@ -385,7 +385,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
             $row_title = $row->title;
             
             $a_row[] = $answer_map[$row_title];
-            if ($this->question->getSubtype() == 0) {
+            if ($this->question->getSubtype() === 0) {
                 $a_row[] = $answer_map[$row_title . "|scale"];    // see #20646
             }
             
@@ -394,7 +394,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
             }
             
             // mc
-            if ($this->question->getSubtype() == 1) {
+            if ($this->question->getSubtype() === 1) {
                 for ($index = 0; $index < $this->question->getColumnCount(); $index++) {
                     $col = $this->question->getColumn($index);
                     $a_row[] = $answer_map[$row_title . "|" . $col->scale];
@@ -410,7 +410,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 
     protected function isSumScoreValid(int $nr_answer_records) : bool
     {
-        if ($nr_answer_records == $this->question->getRowCount()) {
+        if ($nr_answer_records === $this->question->getRowCount()) {
             return true;
         }
         return false;
