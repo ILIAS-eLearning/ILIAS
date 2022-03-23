@@ -17,13 +17,11 @@ class ilNotificationConfig
     private $type;
 
     /**
-     * a link to send with the notification
+     * links to send with the notification
      * the notification channel decides what to do with this information
-     * e.g. the osd uses the link for linking the message title
-     * @var string
+     * @var ilNotificationLink[]
      */
-    private $link;
-    private $linktarget = '_self';
+    private array $links;
 
     private $title;
 
@@ -87,14 +85,20 @@ class ilNotificationConfig
         return (bool) $this->disableAfterDelivery;
     }
 
-    public function setLink($link)
+    /**
+     * @param ilNotificationLink[] $links
+     */
+    public function setLinks(array $links) : void
     {
-        $this->link = $link;
+        $this->links = $links;
     }
 
-    public function getLink()
+    /**
+     * @return ilNotificationLink[]
+     */
+    public function getLinks() : array
     {
-        return $this->link;
+        return $this->links;
     }
 
     public function setIconPath($path)
@@ -173,21 +177,17 @@ class ilNotificationConfig
 
     public function getLanguageParameters()
     {
-        return array(
+        $params = [
             'title' => $this->title,
             'longDescription' => $this->long_description,
             'shortDescription' => $this->short_description,
-        );
-    }
+        ];
 
-    public function getLinktarget()
-    {
-        return $this->linktarget;
-    }
+        foreach ($this->links as $id => $link) {
+            $params['link_' . $id] = $link->getTitle();
+        }
 
-    public function setLinktarget($linktarget)
-    {
-        $this->linktarget = $linktarget;
+        return $params;
     }
 
     public function setValidForSeconds($seconds)
@@ -264,10 +264,6 @@ class ilNotificationConfig
     {
         $notificationObject = new ilNotificationObject($this, $user);
 
-        $title = '';
-        $short = '';
-        $long = '';
-
         if ($languageVars[$this->title->getName()]->lang[$user->getLanguage()]) {
             $title = $languageVars[$this->title->getName()]->lang[$user->getLanguage()];
         } elseif ($languageVars[$this->title->getName()]->lang[$defaultLanguage]) {
@@ -290,6 +286,16 @@ class ilNotificationConfig
             $long = $languageVars[$this->long_description->getName()]->lang[$defaultLanguage];
         } else {
             $long = $this->long_description->getName();
+        }
+
+        foreach ($this->links as &$link) {
+            if ($languageVars[$link->getTitle()->getName()]->lang[$user->getLanguage()]) {
+                $link->setTitle($languageVars[$link->getTitle()->getName()]->lang[$user->getLanguage()]);
+            } elseif ($languageVars[$link->getTitle()->getName()]->lang[$defaultLanguage]) {
+                $link->setTitle($languageVars[$link->getTitle()->getName()]->lang[$defaultLanguage]);
+            } else {
+                $link->setTitle($link->getTitle()->getName());
+            }
         }
 
         $notificationObject->title = $title;
@@ -345,8 +351,10 @@ class ilNotificationObject
     public $title;
     public $shortDescription;
     public $longDescription;
-    public $link;
-    public $linktarget;
+    /**
+     * @var ilNotificationLink[]
+     */
+    public array $links;
     public $iconPath;
     public $handlerParams;
 
@@ -355,14 +363,13 @@ class ilNotificationObject
         $this->baseNotification = $baseNotification;
         $this->user = $user;
 
-        $this->link = $this->baseNotification->getLink();
-        $this->linktarget = $this->baseNotification->getLinktarget();
+        $this->links = $this->baseNotification->getLinks();
         $this->handlerParams = $this->baseNotification->getHandlerParams();
     }
 
     public function __sleep()
     {
-        return array('title', 'shortDescription', 'longDescription', 'iconPath', 'link', 'linktarget', 'handlerParams');
+        return ['title', 'shortDescription', 'longDescription', 'iconPath', 'links', 'handlerParams'];
     }
 }
 
@@ -397,4 +404,46 @@ class ilNotificationParameter
     {
         return $this->language_module;
     }
+}
+
+class ilNotificationLink
+{
+    /**
+     * @var string|ilNotificationParameter
+     */
+    private $title;
+    private string $url;
+
+    public function __construct($title, string $url)
+    {
+        $this->title = $title;
+        $this->url = $url;
+    }
+
+    /**
+     * @return  string|ilNotificationParameter
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string|ilNotificationParameter $title
+     */
+    public function setTitle($title) : void
+    {
+        $this->title = $title;
+    }
+
+    public function getUrl() : string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url) : void
+    {
+        $this->url = $url;
+    }
+
 }

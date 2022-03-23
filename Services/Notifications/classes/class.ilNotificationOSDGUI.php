@@ -39,23 +39,16 @@ class ilNotificationOSDGUI
         }
 
         $notificationSettings = new \ilSetting('notifications');
-        $chatSettings = new \ilSetting('chatroom');
 
         $osdTemplate = new \ilTemplate('tpl.osd_notifications.js', true, true, 'Services/Notifications');
 
-        $notifications = \ilNotificationOSDHandler::getNotificationsForUser($this->user->getId());
         $osdTemplate->setVariable(
-            'NOTIFICATION_CLOSE_HTML',
-            json_encode($this->ui->renderer()->render($this->ui->factory()->symbol()->glyph()->close()))
-        );
-        $osdTemplate->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
-        $osdTemplate->setVariable(
-            'OSD_POLLING_INTERVALL',
-            $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60'
+            'OSD_INTERVAL',
+            $notificationSettings->get('osd_interval') ? $notificationSettings->get('osd_interval') : '60'
         );
         $osdTemplate->setVariable(
             'OSD_PLAY_SOUND',
-            $chatSettings->get('play_invitation_sound') && $this->user->getPref('chat_play_invitation_sound') ? 'true' : 'false'
+            $notificationSettings->get('play_sound') && $this->user->getPref('play_sound') ? 'true' : 'false'
         );
 
         iljQueryUtil::initjQuery($this->page);

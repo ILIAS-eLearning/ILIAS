@@ -54,36 +54,30 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler
                     'usr_id' => array('integer', $notification->user->getId()),
                     'serialized' => array('text', serialize($notification)),
                     'valid_until' => array('integer', $notification->baseNotification->getValidForSeconds() ? ($notification->baseNotification->getValidForSeconds() + time()) : 0),
-                    'visible_for' => array('integer', $notification->baseNotification->getVisibleForSeconds() ? $notification->baseNotification->getVisibleForSeconds() : 0),
+                    'visible_for' => array('integer', $notification->baseNotification->getVisibleForSeconds() ?? 0),
                     'type' => array('text', $notification->baseNotification->getType()),
                     'time_added' => array('integer', time()),
                 )
         );
     }
 
-    public function showSettings($item)
-    {
-        $txt = new ilTextInputGUI($this->language->txt('polling_intervall'), 'osd_polling_intervall');
-        $txt->setRequired(true);
-        $txt->setInfo($this->language->txt('polling_in_seconds'));
-        $txt->setValue('300');
-
-        $item->addSubItem($txt);
-
-        return array('osd_polling_intervall');
-    }
-
-    public static function getNotificationsForUser($user_id, $append_osd_id_to_link = true, $max_age_seconds = 0)
+    public static function getNotificationsForUser($user_id, $append_osd_id_to_link = true, $max_age_seconds = 0, string $type = '')
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
-        $query = 'SELECT notification_osd_id, serialized, valid_until, visible_for, type FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler
+        $query = 'SELECT notification_osd_id, serialized, valid_until, time_added, visible_for, type FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler
             . ' WHERE usr_id = %s AND (valid_until = 0 OR valid_until > ' . $ilDB->quote(time(), 'integer') . ') AND time_added > %s';
 
         $types = array('integer', 'integer');
         $values = array($user_id, $max_age_seconds ? (time() - $max_age_seconds) : 0);
+
+        if ($type !== '') {
+            $query .= ' AND type = %s';
+            $types[] = 'text';
+            $values[] = $type;
+        }
 
         $rset = $ilDB->queryF($query, $types, $values);
         $notifications = array();
@@ -95,12 +89,9 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler
             $row['data']->handlerParams = array('general' => $row['data']->handlerParams[''], 'osd' => $row['data']->handlerParams['osd']);
 
             if ($append_osd_id_to_link) {
-                if ($row['data']->link) {
-                    $row['data']->link = self::appendParamToLink($row['data']->link, 'osd_id', $row['notification_osd_id']);
+                foreach ($row['data']->links as &$link) {
+                    $link->setUrl(self::appendParamToLink($link->getUrl(), 'osd_id', $row['notification_osd_id']));
                 }
-
-                $row['data']->shortDescription = self::appendOsdIdToLinks($row['data']->shortDescription, $row['notification_osd_id']);
-                $row['data']->longDescription = self::appendOsdIdToLinks($row['data']->longDescription, $row['notification_osd_id']);
             }
             $notifications[] = $row;
         }
@@ -108,19 +99,6 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler
         self::cleanupOnRandom();
 
         return $notifications;
-    }
-
-    private static function appendOsdIdToLinks($subject, $osd_id)
-    {
-        $matches = array();
-        preg_match_all('/href="(.*?)"/', $subject, $matches);
-        if ($matches[1]) {
-            foreach ($matches[1] as $match) {
-                $match_appended = self::appendParamToLink($match, 'osd_id', $osd_id);
-                $subject = str_replace($match, $match_appended, $subject);
-            }
-        }
-        return $subject;
     }
 
     /**
