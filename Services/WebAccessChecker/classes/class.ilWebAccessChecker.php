@@ -178,6 +178,8 @@ class ilWebAccessChecker
      */
     public function initILIAS()
     {
+        global $DIC;
+
         if ($this->isInitialized()) {
             return;
         }
@@ -212,6 +214,10 @@ class ilWebAccessChecker
             }
         }
         $this->setInitialized(true);
+
+        if ($DIC->user()->getId() === 0) {
+            $DIC->user()->setId(ANONYMOUS_USER_ID);
+        }
     }
 
 
