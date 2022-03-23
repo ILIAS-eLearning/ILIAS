@@ -139,9 +139,9 @@ class ilShibbolethWAYF
     {
         if (!$this->isSelection() || $this->isValidSelection()) {
             return '';
-        } else {
-            return $this->lng->txt("shib_invalid_home_organization");
         }
+
+        return $this->lng->txt("shib_invalid_home_organization");
     }
 
     /**
