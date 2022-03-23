@@ -19,7 +19,10 @@
  */
 class ilUserBadgeProvider implements ilBadgeProvider
 {
-    public function getBadgeTypes() : array // Missing array type.
+    /**
+     * @inheritcoc
+     */
+    public function getBadgeTypes() : array
     {
         return array(
             new ilUserProfileBadge()

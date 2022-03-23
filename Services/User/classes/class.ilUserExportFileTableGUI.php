@@ -79,6 +79,9 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         return false;
     }
 
+    /**
+     * @param array<string,mixed> $a_set
+     */
     protected function fillRow(array $a_set) : void // Missing array type.
     {
         $this->tpl->setVariable('CHECKBOX_ID', $a_set['file']);

@@ -19,7 +19,10 @@
  */
 class ilAccountCodesTableGUI extends ilTable2GUI
 {
-    public array $filter; // Missing array type.
+    /**
+     * @var array<string,string>
+     */
+    public array $filter;
 
     public function __construct(
         object $a_parent_obj,
@@ -149,8 +152,11 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         $si->readFromSession();
         $this->filter["generated"] = $si->getValue();
     }
-    
-    protected function fillRow(array $a_set) : void // Missing array type.
+
+    /**
+     * @param array<string,string> $a_set
+     */
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("ID", $a_set["code_id"]);
         $this->tpl->setVariable("VAL_CODE", $a_set["code"]);

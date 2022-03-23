@@ -21,7 +21,10 @@ class ilUserAction
 {
     protected string $text = "";
     protected string $href = "";
-    protected array $data = []; // Missing array type.
+    /**
+     * @var array<string,string>
+     */
+    protected array $data = [];
     protected string $type = "";
 
     public function setText(string $a_val) : void
@@ -55,7 +58,7 @@ class ilUserAction
     }
 
     /**
-     * @param array $a_val array of key => value pairs which will be transformed to data-<key>="value" attributes of link)
+     * @param array<string,string> $a_val array of key => value pairs which will be transformed to data-<key>="value" attributes of link)
      */
     public function setData(array $a_val) : void
     {

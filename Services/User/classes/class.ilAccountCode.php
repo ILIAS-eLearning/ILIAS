@@ -100,8 +100,11 @@ class ilAccountCode
         }
         return array("cnt" => $cnt, "set" => $result);
     }
-    
-    public static function loadCodesByIds(array $ids) : array // Missing array type.
+
+    /**
+     * @return array<string,string>[]
+     */
+    public static function loadCodesByIds(array $ids) : array
     {
         global $DIC;
 
@@ -114,8 +117,11 @@ class ilAccountCode
         }
         return $result;
     }
-    
-    public static function deleteCodes(array $ids) : bool // Missing array type.
+
+    /**
+     * @param string[] $ids
+     */
+    public static function deleteCodes(array $ids) : bool
     {
         global $DIC;
 
@@ -126,8 +132,11 @@ class ilAccountCode
         }
         return false;
     }
-    
-    public static function getGenerationDates() : array // Missing array type.
+
+    /**
+     * @return string[]
+     */
+    public static function getGenerationDates() : array
     {
         global $DIC;
 

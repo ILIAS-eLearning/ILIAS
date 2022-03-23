@@ -45,7 +45,10 @@ class ilChatUserActionProvider extends ilUserActionProvider
         return "chtr";
     }
 
-    public function getActionTypes() : array // Missing array type.
+    /**
+     * @return array<string,string>
+     */
+    public function getActionTypes() : array
     {
         return array(
             "invite" => $this->lng->txt('chat_user_action_invite_public_room'),

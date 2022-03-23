@@ -19,7 +19,10 @@
  */
 class ilUserAppEventListener implements ilAppEventListener
 {
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void // Missing array type.
+    /**
+     * @param array<string,mixed>  $a_parameter
+     */
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         if ('Services/Object' === $a_component && 'beforeDeletion' === $a_event) {
             if (isset($a_parameter['object']) && $a_parameter['object'] instanceof ilObjRole) {

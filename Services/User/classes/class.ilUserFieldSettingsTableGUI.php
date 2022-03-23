@@ -68,7 +68,11 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         );
     }
 
-    protected function fillRow(array $a_set) : void // Missing array type.
+    /**
+     * @param array<string,mixed> $a_set
+     * @throws ilTemplateException
+     */
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
