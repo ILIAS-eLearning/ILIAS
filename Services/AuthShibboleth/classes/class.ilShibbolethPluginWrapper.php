@@ -12,6 +12,7 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class ilShibbolethPluginWrapper
  *
@@ -23,7 +24,6 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     protected ilLog $log;
     protected static ?ilShibbolethPluginWrapper $cache = null;
 
-
     protected function __construct()
     {
         global $DIC;
@@ -32,21 +32,19 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
         $this->component_factory = $DIC["component.factory"];
     }
 
-
-    public static function getInstance() : \ilShibbolethPluginWrapper
+    public static function getInstance() : self
     {
-        if (!self::$cache instanceof ilShibbolethPluginWrapper) {
+        if (!self::$cache instanceof self) {
             self::$cache = new self();
         }
 
         return self::$cache;
     }
 
-
     /**
      * @return ilShibbolethAuthenticationPlugin[]
      */
-    protected function getPluginObjects() : \Iterator
+    protected function getPluginObjects() : Iterator
     {
         return $this->component_factory->getActivePluginsInSlot('shibhk');
     }

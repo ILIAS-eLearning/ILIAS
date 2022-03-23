@@ -78,7 +78,7 @@ class ilShibbolethSettings
     {
         $a_keyword = str_replace(self::PREFIX, '', $a_keyword);
 
-        return (string) isset($this->data[$a_keyword]) ?? $a_default_value;
+        return (string) ($this->data[$a_keyword] ?? $a_default_value);
     }
 
     public function delete(string $a_keyword) : void
@@ -107,7 +107,6 @@ class ilShibbolethSettings
         }
     }
 
-    //
     public function getDefaultRole() : int
     {
         return $this->data['user_default_role'] ?? 4;
