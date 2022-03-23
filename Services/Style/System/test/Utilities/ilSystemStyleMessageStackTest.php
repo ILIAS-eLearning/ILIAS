@@ -209,6 +209,8 @@ class ilSystemStyleMessageStackTest extends TestCase
             $this->messageStringOne,
             ilSystemStyleMessage::TYPE_INFO
         );
-        $this->ilSystemStyleMessageStack = new ilSystemStyleMessageStack();
+        $this->ilSystemStyleMessageStack = new ilSystemStyleMessageStack(
+            $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock()
+        );
     }
 }

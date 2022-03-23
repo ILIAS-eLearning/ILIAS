@@ -43,10 +43,10 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
 
     public function testCreateDelete() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
         $container->getSkin()->setId('newSkin');
-        $container->create(new ilSystemStyleMessageStack());
+        $container->create($this->message_stack);
 
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . 'newSkin'));
         $container->delete();
@@ -55,14 +55,14 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
 
     public function testUpdateSkinNoIdChange() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $container->updateSkin();
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId()));
     }
 
     public function testUpdateSkinWithChangedID() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $old_skin = clone $container->getSkin();
         $container->getSkin()->setId('newSkin2');
         $container->updateSkin($old_skin);
@@ -81,7 +81,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $new_style->setSoundDirectory('style1newsound');
         $new_style->setFontDirectory('style1newfont');
 
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1image'));
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1sound'));
@@ -116,7 +116,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
 
     public function testDeleteStyle() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
         $container->deleteStyle($this->style1);
 
@@ -137,7 +137,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
 
     public function testUpdateStyle() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $skin = $container->getSkin();
 
         $old_style = clone $skin->getStyle($this->style1->getId());
@@ -169,7 +169,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
 
     public function testDeleteSkin() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $skin = $container->getSkin();
 
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId()));
