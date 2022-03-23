@@ -51,7 +51,7 @@ class ilPCTableGUI extends ilPageContentGUI
     /**
      * @return mixed
      */
-    public function executeCommand()
+    public function executeCommand() // @TODO: PHP8 Review: Missing return type.
     {
         $this->getCharacteristicsOfCurrentStyle(["table"]);	// scorm-2004
         
@@ -61,7 +61,7 @@ class ilPCTableGUI extends ilPageContentGUI
         // get current command
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) {
+        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
             default:
                 $this->$cmd();
                 break;
@@ -1009,7 +1009,7 @@ class ilPCTableGUI extends ilPageContentGUI
     /**
      * Set editor tool context
      */
-    protected function setEditorToolContext()
+    protected function setEditorToolContext() // @TODO: PHP8 Review: Missing return type.
     {
         $collection = $this->tool_context->current()->getAdditionalData();
         if ($collection->exists(ilCOPageEditGSToolProvider::SHOW_EDITOR)) {
@@ -1193,7 +1193,7 @@ class ilPCTableGUI extends ilPageContentGUI
         return $dtpl->get();
     }
 
-    protected function getColumnCaption(int $nr)
+    protected function getColumnCaption(int $nr) // @TODO: PHP8 Review: Missing return type.
     {
         $cap = "";
         $base = 26;

@@ -53,7 +53,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         // get current command
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) {
+        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
             default:
                 $ret = $this->$cmd();
                 break;
@@ -293,7 +293,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         // handle input data
         $data = array();
-        foreach ($_POST as $k => $content) {
+        foreach ($_POST as $k => $content) { // @TODO: PHP8 Review: Direct access to $_POST.
             if (substr($k, 0, 5) != "cell_") {
                 continue;
             }

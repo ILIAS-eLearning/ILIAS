@@ -85,7 +85,7 @@ class ilPCList extends ilPageContent
     /**
     * Get list type
     */
-    public function getListType()
+    public function getListType() // @TODO: PHP8 Review: Missing return type.
     {
         if ($this->list_node->get_attribute("Type") == "Unordered") {
             return "Unordered";

@@ -62,7 +62,7 @@ class ilPCFileListGUI extends ilPageContentGUI
         // get current command
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) {
+        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
             default:
                 $this->$cmd();
                 break;
@@ -118,7 +118,7 @@ class ilPCFileListGUI extends ilPageContentGUI
     /**
     * Select file
     */
-    public function selectFile()
+    public function selectFile() // @TODO: PHP8 Review: Missing return type.
     {
         $ilTabs = $this->tabs;
         $ilUser = $this->user;

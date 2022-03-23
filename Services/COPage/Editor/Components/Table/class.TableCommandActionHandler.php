@@ -105,7 +105,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
      * @return array|bool
      * @throws \ilDateTimeException
      */
-    protected function updateData(
+    protected function updateData(// @TODO: PHP8 Review: Missing return type.
         string $pcid,
         string $content
     ) {

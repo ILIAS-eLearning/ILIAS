@@ -84,7 +84,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
             $access_manager = $service->domain()->access(
-                (int) $_GET["ref_id"],
+                (int) $_GET["ref_id"], // @TODO: PHP8 Review: Direct access to $_GET.
                 $DIC->user()->getId()
             );
             $char_manager = $service->domain()->characteristic(
@@ -149,7 +149,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
      * execute command
      * @return mixed
      */
-    public function executeCommand()
+    public function executeCommand() // @TODO: PHP8 Review: Missing return type.
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -163,7 +163,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
         $this->log->debug("ilPCParagraphGUI: executeCommand " . $cmd);
 
-        switch ($next_class) {
+        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
             default:
                 $ret = $this->$cmd();
                 break;
@@ -686,7 +686,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
             )) {
                 $t = "text_inline";
                 $tag = "span";
-                switch ($key) {
+                switch ($key) { // @TODO: PHP8 Review: switch with one case.
                     case "Code": $tag = "code"; break;
                 }
                 $html = '<' . $tag . ' class="ilc_' . $t . '_' . $key . '" style="font-size:90%; margin-top:2px; margin-bottom:2px; position:static;">' . $char["txt"] . "</" . $tag . ">";

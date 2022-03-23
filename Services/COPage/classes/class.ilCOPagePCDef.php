@@ -28,7 +28,7 @@ class ilCOPagePCDef
     public static array $pc_gui_classes_lc = array();
     public static array $pc_def_by_gui_class_cl = array();
     
-    public static function init()
+    public static function init() // @TODO: PHP8 Review: Missing return type.
     {
         global $DIC;
 

@@ -23,7 +23,7 @@ abstract class ilPageComponentPluginGUI
     protected ilLanguage $lng;
     protected ilPageComponentPlugin $plugin;
     protected ilPCPluggedGUI $pc_gui;
-    protected $pc;
+    protected $pc; // @TODO: PHP8 Review: Missing property type.
 
     public function __construct()
     {
@@ -84,12 +84,12 @@ abstract class ilPageComponentPluginGUI
         string $plugin_version
     ) : string;
     
-    public function createElement(array $a_properties)
+    public function createElement(array $a_properties) // @TODO: PHP8 Review: Missing return type.
     {
         return $this->getPCGUI()->createElement($a_properties);
     }
     
-    public function updateElement(array $a_properties)
+    public function updateElement(array $a_properties) // @TODO: PHP8 Review: Missing return type.
     {
         return $this->getPCGUI()->updateElement($a_properties);
     }

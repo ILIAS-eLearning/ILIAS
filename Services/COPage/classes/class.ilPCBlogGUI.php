@@ -47,7 +47,7 @@ class ilPCBlogGUI extends ilPageContentGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() // @TODO: PHP8 Review: Missing return type.
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -55,7 +55,7 @@ class ilPCBlogGUI extends ilPageContentGUI
         // get current command
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) {
+        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
             default:
                 $ret = $this->$cmd();
                 break;

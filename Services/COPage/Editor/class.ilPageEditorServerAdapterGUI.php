@@ -46,7 +46,7 @@ class ilPageEditorServerAdapterGUI
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("invokeServer");
 
-        switch ($next_class) {
+        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
             default:
                 if (in_array($cmd, array("invokeServer"))) {
                     $this->$cmd();

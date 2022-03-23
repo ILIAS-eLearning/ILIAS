@@ -49,7 +49,7 @@ class Server
     {
         $query = $this->request->getQueryParams();
 
-        if (is_array($_POST) && count($_POST) > 0) {
+        if (is_array($_POST) && count($_POST) > 0) { // @TODO: PHP8 Review: Direct access to $_POST.
             $body = $this->request->getParsedBody();
         } else {
             $body = json_decode($this->request->getBody()->getContents(), true);
@@ -69,7 +69,7 @@ class Server
     ) : QueryActionHandler {
         $handler = null;
 
-        switch ($query["component"]) {
+        switch ($query["component"]) { // @TODO: PHP8 Review: switch with one case.
             case "Page":
                 $handler = new Page\PageQueryActionHandler($this->page_gui);
                 break;

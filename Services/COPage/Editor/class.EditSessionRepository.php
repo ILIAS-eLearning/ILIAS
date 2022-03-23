@@ -62,7 +62,7 @@ class EditSessionRepository
     /**
      * @return string|array
      */
-    public function getPageError()
+    public function getPageError() // @TODO: PHP8 Review: Missing return type.
     {
         return \ilSession::get(self::ERROR_KEY) ?? "";
     }

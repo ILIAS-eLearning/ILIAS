@@ -732,7 +732,7 @@ class ilPCTable extends ilPageContent
     /**
      * @return bool|string
      */
-    public function importHtml(
+    public function importHtml(// @TODO: PHP8 Review: Missing return type.
         string $lng,
         string $htmlTable
     ) {

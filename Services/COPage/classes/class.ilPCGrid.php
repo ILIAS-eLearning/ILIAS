@@ -75,7 +75,7 @@ class ilPCGrid extends ilPageContent
         $this->grid_node = $this->node->append_child($this->grid_node);
     }
 
-    public function applyTemplate(
+    public function applyTemplate(// @TODO: PHP8 Review: Missing return type.
         int $post_layout_template,
         int $number_of_cells,
         int $s,
@@ -144,7 +144,7 @@ class ilPCGrid extends ilPageContent
     /**
      * Save widths of cells
      */
-    public function saveWidths(
+    public function saveWidths(// @TODO: PHP8 Review: Missing return type.
         array $a_width_s,
         array $a_width_m,
         array $a_width_l,

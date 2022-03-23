@@ -273,7 +273,7 @@ class ilPageLayout
         return $arr_layouts;
     }
     
-    public static function getLayouts(
+    public static function getLayouts(// @TODO: PHP8 Review: Missing return type.
         bool $a_active = false,
         bool $a_special_page = false,
         int $a_module = 0
@@ -311,7 +311,7 @@ class ilPageLayout
     /**
      * Get active layouts
      */
-    public static function activeLayouts(
+    public static function activeLayouts(// @TODO: PHP8 Review: Missing return type.
         bool $a_special_page = false,
         int $a_module = 0
     ) {

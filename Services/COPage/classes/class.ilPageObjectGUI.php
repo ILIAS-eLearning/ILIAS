@@ -303,7 +303,7 @@ class ilPageObjectGUI
         return $this->page_config;
     }
     
-    public function setPageObject(ilPageObject $a_pg_obj)
+    public function setPageObject(ilPageObject $a_pg_obj) // @TODO: PHP8 Review: Missing return type.
     {
         $this->obj = $a_pg_obj;
     }
@@ -1750,7 +1750,7 @@ class ilPageObjectGUI
             )) {
                 $t = "text_inline";
                 $tag = "span";
-                switch ($key) {
+                switch ($key) { // @TODO: PHP8 Review: switch with one case.
                     case "Code": $tag = "code"; break;
                 }
                 $html = '<' . $tag . ' class="ilc_' . $t . '_' . $key . '" style="font-size:90%; margin-top:2px; margin-bottom:2px; position:static;">' . $char["txt"] . "</" . $tag . ">";
@@ -2013,7 +2013,7 @@ class ilPageObjectGUI
         $this->displayMedia(true);
     }
 
-    public function displayMedia($a_fullscreen = false) : void
+    public function displayMedia($a_fullscreen = false) : void // @TODO: PHP8 Review: Missing parameter type.
     {
         $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
         $tpl->setCurrentBlock("ilMedia");
@@ -2446,7 +2446,7 @@ class ilPageObjectGUI
     *
     * @param	string		$a_error		error string
     */
-    public function displayValidationError($a_error)
+    public function displayValidationError($a_error) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
     {
         if (is_array($a_error)) {
             $error_str = "<b>Error(s):</b><br>";
@@ -3012,7 +3012,7 @@ class ilPageObjectGUI
     /**
      * Add resources to template
      */
-    protected function addResourcesToTemplate(ilGlobalTemplateInterface $tpl)
+    protected function addResourcesToTemplate(ilGlobalTemplateInterface $tpl) // @TODO: PHP8 Review: Missing return type.
     {
         $collector = new \ILIAS\COPage\ResourcesCollector($this->getOutputMode(), $this->getPageObject());
 

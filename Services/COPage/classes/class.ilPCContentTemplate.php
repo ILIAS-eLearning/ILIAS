@@ -42,7 +42,7 @@ class ilPCContentTemplate extends ilPageContent
      * @param string $a_pc_id pc id
      * @param int $a_page_templ template page id
      */
-    public function create($a_pg_obj, $a_hier_id, $a_pc_id, $a_page_templ)
+    public function create($a_pg_obj, $a_hier_id, $a_pc_id, $a_page_templ) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
     {
         $source_id = explode(":", $a_page_templ);
         $source_page = ilPageObjectFactory::getInstance($source_id[1], $source_id[0]);

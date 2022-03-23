@@ -44,7 +44,7 @@ class ilPCProfileGUI extends ilPageContentGUI
         // get current command
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) {
+        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
             default:
                 $this->$cmd();
                 break;
@@ -157,7 +157,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     protected function getFieldsValues() : array
     {
         $fields = array();
-        foreach ($_POST as $name => $value) {
+        foreach ($_POST as $name => $value) { // @TODO: PHP8 Review: Direct access to $_POST.
             if (substr($name, 0, 4) == "chk_") {
                 if ($value) {
                     $fields[] = substr($name, 4);
