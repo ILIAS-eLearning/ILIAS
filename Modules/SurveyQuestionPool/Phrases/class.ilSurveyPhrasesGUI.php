@@ -82,8 +82,6 @@ class ilSurveyPhrasesGUI
      */
     public function deletePhrase() : void
     {
-        $this->tpl->setOnScreenMessage('info');// TODO PHP8-REVIEW: Missing arguments here
-
         $checked_phrases = $this->request->getPhraseIds();
         if (count($checked_phrases) > 0) {
             $this->tpl->setOnScreenMessage('question', $this->lng->txt("qpl_confirm_delete_phrases"));
