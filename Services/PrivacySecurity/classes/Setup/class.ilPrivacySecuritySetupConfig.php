@@ -9,7 +9,7 @@ class ilPrivacySecuritySetupConfig implements Setup\Config
     /**
      * @var bool
      */
-    protected $force_https_on_login;
+    protected bool $force_https_on_login;
 
     public function __construct(bool $force_https_on_login = false)
     {
