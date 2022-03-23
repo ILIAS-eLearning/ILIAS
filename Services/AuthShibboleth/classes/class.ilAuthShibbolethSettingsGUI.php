@@ -128,7 +128,7 @@ class ilAuthShibbolethSettingsGUI
         return $rules_table->getHTML();
     }
 
-    protected function confirmDeleteRules()
+    protected function confirmDeleteRules() : bool
     {
         if (!is_array($_POST['rule_ids'])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
@@ -152,6 +152,7 @@ class ilAuthShibbolethSettingsGUI
             $c_gui->addItem('rule_ids[]', $rule_id, $info);
         }
         $this->tpl->setContent($c_gui->getHTML());
+        return true;
     }
 
     protected function deleteRules() : bool
