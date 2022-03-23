@@ -21,7 +21,7 @@ class ilCOPageObjDef
 {
     public static ?array $page_obj_def = null;
     
-    public static function init()
+    public static function init() // @TODO: PHP8 Review: Missing return type.
     {
         global $DIC;
 

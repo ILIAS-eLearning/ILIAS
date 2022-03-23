@@ -76,7 +76,7 @@ class ilPCDataTable extends ilPCTable
      * Set data of cells
      * @return bool|array
      */
-    public function setData(array $a_data)
+    public function setData(array $a_data) // @TODO: PHP8 Review: Missing return type.
     {
         if (is_array($a_data)) {
             foreach ($a_data as $i => $row) {

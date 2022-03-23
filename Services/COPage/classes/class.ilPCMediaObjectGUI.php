@@ -22,7 +22,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 {
     protected ilPropertyFormGUI $form;
     protected ilPropertyFormGUI $form_gui;
-    protected $page_back_title = "";
+    protected $page_back_title = ""; // @TODO: PHP8 Review: Missing property type.
     protected bool $enabledmapareas;
     protected ilTabsGUI $tabs;
     protected ilAccessHandler $access;
@@ -124,7 +124,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
      * @return mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand() // @TODO: PHP8 Review: Missing return type.
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -993,7 +993,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     /**
     * save table properties in db and return to page edit screen
     */
-    public function saveAliasProperties()
+    public function saveAliasProperties() // @TODO: PHP8 Review: Missing return type.
     {
         $this->initAliasForm();
         $form = $this->form_gui;

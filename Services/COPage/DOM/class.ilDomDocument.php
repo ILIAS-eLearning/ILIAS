@@ -67,7 +67,7 @@ class ilDomDocument
     /**
      * Handle error
      */
-    public function handleError(
+    public function handleError(// @TODO: PHP8 Review: Missing return type.
         int $a_no,
         string $a_string,
         string $a_file = null,

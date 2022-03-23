@@ -31,7 +31,7 @@ class Init
         $this->lng = $DIC->language();
     }
 
-    public function initUI(
+    public function initUI(// @TODO: PHP8 Review: Missing return type.
         \ilGlobalTemplateInterface $main_tpl,
         string $openPlaceHolderPcId = ""
     ) {

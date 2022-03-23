@@ -22,7 +22,7 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db)
+    public function prepare(\ilDBInterface $db) // @TODO: PHP8 Review: Missing return type.
     {
         $this->db = $db;
     }
@@ -39,7 +39,7 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->modifyTableColumn("copg_pc_def", "order_nr", $field);
     }
 
-    public function step_2()
+    public function step_2() // @TODO: PHP8 Review: Missing return type.
     {
         $field = array(
             'type' => 'integer',

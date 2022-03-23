@@ -118,8 +118,10 @@ class ilCOPageHTMLExport
 
         // export content style sheet
         if ($this->getContentStyleId() < 1) {     // basic style
-            ilFileUtils::rCopy(ilObjStyleSheet::getBasicImageDir(),
-                $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir());
+            ilFileUtils::rCopy(
+                ilObjStyleSheet::getBasicImageDir(),
+                $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir()
+            );
             ilFileUtils::makeDirParents($this->exp_dir . "/Services/COPage/css");
             copy("Services/COPage/css/content.css", $this->exp_dir . "/Services/COPage/css/content.css");
         } else {
@@ -300,7 +302,7 @@ class ilCOPageHTMLExport
                 
                 // trying to find user id
                 $user_id = null;
-                switch ($a_type) {
+                switch ($a_type) { // @TODO: PHP8 Review: switch with one case.
                     case "prtf:pg":
                         $page = new ilPortfolioPage($a_id);
                         $user_id = $page->create_user;

@@ -60,7 +60,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
      * @return mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand() // @TODO: PHP8 Review: Missing return type.
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;

@@ -42,7 +42,7 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
         // get current command
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) {
+        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
             default:
                 $this->$cmd();
                 break;
