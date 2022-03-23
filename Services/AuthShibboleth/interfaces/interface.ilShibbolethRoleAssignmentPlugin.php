@@ -12,25 +12,22 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
-* Interface for shibboleth role assignment plugins
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesAuthShibboleth
-*/
+ * Interface for shibboleth role assignment plugins
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesAuthShibboleth
+ */
 interface ilShibbolethRoleAssignmentPlugin
 {
-    
     /**
      * check role assignment for a specific plugin id
      * (defined in the shibboleth role assignment administration).
      *
-     * @param int	$a_plugin_id	Unique plugin id
-     * @param array $a_user_data	Array with user data ($_SERVER)
+     * @param int $a_plugin_id Unique plugin id
+     * @param array $a_user_data Array with user data ($_SERVER)
      * @return bool whether the condition is fullfilled or not
      */
-    public function checkRoleAssignment(int $a_plugin_id, array $a_user_data);
+    public function checkRoleAssignment(int $a_plugin_id, array $a_user_data) : bool;
 }
