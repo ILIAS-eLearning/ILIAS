@@ -86,5 +86,7 @@ class ilAuthProviderShibboleth extends ilAuthProvider
             $this->handleAuthenticationFail($status, 'err_wrong_login');
             return false;
         }
+
+        return true;
     }
 }

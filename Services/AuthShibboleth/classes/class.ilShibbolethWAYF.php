@@ -81,6 +81,7 @@ class ilShibbolethWAYF
     {
         $idp_cookie = $this->generateCookieArray($_COOKIE['_saml_idp']);
 
+        $selectedIDP = null;
         if ($idp_cookie !== [] && isset($this->idp_list[end($idp_cookie)])) {
             $selectedIDP = end($idp_cookie);
             $selectElement = '
@@ -91,6 +92,7 @@ class ilShibbolethWAYF
 		<select name="idp_selection">
 			<option value="-" selected="selected">' . $this->lng->txt("shib_member_of") . '</option>';
         }
+
         foreach ($this->idp_list as $idp_id => $idp_data) {
             if ($idp_id == $selectedIDP) {
                 $selectElement .= '<option value="' . $idp_id . '" selected="selected">' . $idp_data[0] . '</option>';
