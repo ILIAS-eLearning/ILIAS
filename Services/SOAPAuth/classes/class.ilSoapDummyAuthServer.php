@@ -25,13 +25,14 @@ include_once './webservice/soap/lib/nusoap.php';
 /**
 * isValidSession
 */
-function isValidSession($ext_uid, $soap_pw, $new_user)
+function isValidSession(string $ext_uid, string $soap_pw, bool $new_user)
 {
-    $ret = array(
+    $ret = [
         "valid" => false,
         "firstname" => "",
         "lastname" => "",
-        "email" => "");
+        "email" => ""
+    ];
         
     // generate some dummy values
     if ($new_user) {
@@ -41,7 +42,7 @@ function isValidSession($ext_uid, $soap_pw, $new_user)
     }
     
     // return valid authentication if user id equals soap password
-    if ($ext_uid == $soap_pw) {
+    if ($ext_uid === $soap_pw) {
         $ret["valid"] = true;
     } else {
         $ret["valid"] = false;
@@ -52,10 +53,7 @@ function isValidSession($ext_uid, $soap_pw, $new_user)
 
 class ilSoapDummyAuthServer
 {
-    /*
-     * @var object Nusoap-Server
-     */
-    public $server = null;
+    public ?soap_server $server = null;
 
 
     public function __construct($a_use_wsdl = true)
@@ -68,29 +66,27 @@ class ilSoapDummyAuthServer
         $this->server = new soap_server();
 
         if ($a_use_wsdl) {
-            $this->__enableWSDL();
+            $this->enableWSDL();
         }
 
-        $this->__registerMethods();
+        $this->registerMethods();
     }
 
-    public function start()
+    public function start() : void
     {
         $postdata = file_get_contents("php://input");
         $this->server->service($postdata);
         exit();
     }
 
-    // PRIVATE
-    public function __enableWSDL()
+    public function enableWSDL() : bool
     {
         $this->server->configureWSDL(SERVICE_NAME, SERVICE_NAMESPACE);
 
         return true;
     }
 
-
-    public function __registerMethods()
+    public function registerMethods() : bool
     {
 
         // Add useful complex types. E.g. array("a","b") or array(1,2)
@@ -100,8 +96,8 @@ class ilSoapDummyAuthServer
             'array',
             '',
             'SOAP-ENC:Array',
-            array(),
-            array(array('ref' => 'SOAP-ENC:arrayType','wsdl:arrayType' => 'xsd:int[]')),
+            [],
+            [['ref' => 'SOAP-ENC:arrayType','wsdl:arrayType' => 'xsd:int[]']],
             'xsd:int'
         );
 
@@ -112,21 +108,25 @@ class ilSoapDummyAuthServer
             'array',
             '',
             'SOAP-ENC:Array',
-            array(),
-            array(array('ref' => 'SOAP-ENC:arrayType','wsdl:arrayType' => 'xsd:string[]')),
+            [],
+            [['ref' => 'SOAP-ENC:arrayType','wsdl:arrayType' => 'xsd:string[]']],
             'xsd:string'
         );
 
         // isValidSession()
         $this->server->register(
             'isValidSession',
-            array('ext_uid' => 'xsd:string',
+            [
+                'ext_uid' => 'xsd:string',
                                       'soap_pw' => 'xsd:string',
-                                      'new_user' => 'xsd:boolean'),
-            array('valid' => 'xsd:boolean',
+                                      'new_user' => 'xsd:boolean'
+            ],
+            [
+                'valid' => 'xsd:boolean',
                                     'firstname' => 'xsd:string',
                                     'lastname' => 'xsd:string',
-                                    'email' => 'xsd:string'),
+                                    'email' => 'xsd:string'
+            ],
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#isValidSession',
             SERVICE_STYLE,

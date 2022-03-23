@@ -17,7 +17,7 @@
 exit;
 include_once './webservice/soap/lib/nusoap.php';
 
-$server = $_GET["server"]
+$server = $_GET["server"] // TODO PHP8-REVIEW Super global variables should be eliminated
     ? $_GET["server"]
     : "http://www.ilias.de/lt4el/Services/SOAPAuth/dummy_server.php";
     
@@ -86,7 +86,7 @@ function showResult(&$client, $data, $message)
         } else {
             // Display the result
             echo '<h2>Result ' . $message . '</h2><pre>';
-            print_r($data ? $data : 'FAILED');
+            print_r($data ?: 'FAILED');
             echo '</pre>';
         }
     }

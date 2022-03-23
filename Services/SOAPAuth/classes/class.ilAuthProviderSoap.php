@@ -22,20 +22,16 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
     protected string $server_host = '';
     protected string $server_port = '';
     protected string $server_uri = '';
-    protected string $server_https = '';
+    protected bool $server_https = false;
     protected string $server_nms = '';
     protected bool $use_dot_net = false;
     protected string $uri = '';
-    /** @var nusoap_client */
-    protected $client;
+    protected nusoap_client $client;
     protected ilLogger $logger;
     protected ilSetting $settings;
     protected ilLanguage $language;
     protected ilRbacAdmin $rbacAdmin;
 
-    /**
-     * @inheritDoc
-     */
     public function __construct(ilAuthCredentials $credentials)
     {
         global $DIC;
@@ -48,17 +44,14 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
         parent::__construct($credentials);
     }
 
-    /**
-     *
-     */
     private function initClient() : void
     {
         $this->server_host = (string) $this->settings->get('soap_auth_server', '');
         $this->server_port = (string) $this->settings->get('soap_auth_port', '');
         $this->server_uri = (string) $this->settings->get('soap_auth_uri', '');
         $this->server_nms = (string) $this->settings->get('soap_auth_namespace', '');
-        $this->server_https = (bool) $this->settings->get('soap_auth_use_https', false);
-        $this->use_dot_net = (bool) $this->settings->get('use_dotnet', false);
+        $this->server_https = (bool) $this->settings->get('soap_auth_use_https', '0');
+        $this->use_dot_net = (bool) $this->settings->get('use_dotnet', '0');
 
         $this->uri = $this->server_https ? 'https://' : 'http://';
         $this->uri .= $this->server_host;
@@ -151,7 +144,9 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
         if (!$isNewUser) {
             $status->setAuthenticatedUserId(ilObjUser::_lookupId($internalLogin));
             return true;
-        } elseif (!$this->settings->get('soap_auth_create_users')) {
+        }
+
+        if (!$this->settings->get('soap_auth_create_users')) {
             // Translate the reasons, otherwise the default failure is displayed
             $status->setTranslatedReason($this->language->txt('err_valid_login_account_creation_disabled'));
             return false;
@@ -186,22 +181,22 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
         $userObj->setLanguage($this->language->getDefaultLanguage());
 
         $userObj->setTimeLimitOwner(USER_FOLDER_ID);
-        $userObj->setTimeLimitUnlimited(1);
+        $userObj->setTimeLimitUnlimited(true);
         $userObj->setTimeLimitFrom(time());
         $userObj->setTimeLimitUntil(time());
         $userObj->setOwner(0);
         $userObj->create();
-        $userObj->setActive(1);
+        $userObj->setActive(true);
         $userObj->updateOwner();
         $userObj->saveAsNew(false);
         $userObj->writePrefs();
 
         $this->rbacAdmin->assignUser(
-            $this->settings->get('soap_auth_user_default_role', 4),
+            (int) $this->settings->get('soap_auth_user_default_role', '4'),
             $userObj->getId()
         );
 
-        if ($this->settings->get('soap_auth_account_mail', false)) {
+        if ($this->settings->get('soap_auth_account_mail', '0')) {
             $registrationSettings = new ilRegistrationSettings();
             $registrationSettings->setPasswordGenerationStatus(true);
 
