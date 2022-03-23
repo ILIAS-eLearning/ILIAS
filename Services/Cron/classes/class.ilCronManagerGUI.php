@@ -111,7 +111,8 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
         }
 
         $class = $this->ctrl->getNextClass($this);
-
+    
+        /** @noinspection PhpSwitchStatementWitSingleBranchInspection */
         switch (strtolower($class)) {
             case strtolower(ilPropertyFormGUI::class):
                 $job_id = $this->getRequestValue('jid', $this->refinery->kindlyTo()->string());

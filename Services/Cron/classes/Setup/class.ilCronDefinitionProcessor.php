@@ -84,7 +84,8 @@ class ilCronDefinitionProcessor implements ilComponentDefinitionProcessor
                 public function emergency(string $a_message) : void
                 {
                 }
-
+    
+                /** @noinspection PhpInconsistentReturnPointsInspection */
                 public function getLogger() : Logger
                 {
                 }
