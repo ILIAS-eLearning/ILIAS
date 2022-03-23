@@ -20,7 +20,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 
         $this->setId('adv_md_records_tbl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->addColumn('', '', 1);
+        $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('md_adv_col_presentation_ordering'), 'position');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('md_fields'), 'fields');
