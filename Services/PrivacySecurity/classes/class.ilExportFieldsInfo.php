@@ -44,7 +44,7 @@ class ilExportFieldsInfo
     /**
      * Get Singleton Instance
      */
-    public static function _getInstanceByType($a_type) : ilExportFieldsInfo
+    public static function _getInstanceByType(string $a_type) : ilExportFieldsInfo
     {
         if (!isset(self::$instances[$a_type])) {
             self::$instances[$a_type] = new self($a_type);
@@ -91,7 +91,7 @@ class ilExportFieldsInfo
     /**
      * Get selectable fields
      */
-    public function getSelectableFieldsInfo($a_obj_id) : array
+    public function getSelectableFieldsInfo(int $a_obj_id) : array
     {
         global $DIC;
 
