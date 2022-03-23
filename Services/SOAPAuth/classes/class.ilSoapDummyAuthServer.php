@@ -22,32 +22,28 @@
 
 include_once './webservice/soap/lib/nusoap.php';
 
-/**
-* isValidSession
-*/
-function isValidSession(string $ext_uid, string $soap_pw, bool $new_user)
+function isValidSession(string $ext_uid, string $soap_pw, bool $new_user) : array
 {
     $ret = [
-        "valid" => false,
         "firstname" => "",
         "lastname" => "",
         "email" => ""
     ];
-        
+
     // generate some dummy values
     if ($new_user) {
         $ret["firstname"] = "first " . $ext_uid;
         $ret["lastname"] = "last " . $ext_uid;
         $ret["email"] = $ext_uid . "@de.de";
     }
-    
+
     // return valid authentication if user id equals soap password
     if ($ext_uid === $soap_pw) {
         $ret["valid"] = true;
     } else {
         $ret["valid"] = false;
     }
-    
+
     return $ret;
 }
 
@@ -97,7 +93,7 @@ class ilSoapDummyAuthServer
             '',
             'SOAP-ENC:Array',
             [],
-            [['ref' => 'SOAP-ENC:arrayType','wsdl:arrayType' => 'xsd:int[]']],
+            [['ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'xsd:int[]']],
             'xsd:int'
         );
 
@@ -109,7 +105,7 @@ class ilSoapDummyAuthServer
             '',
             'SOAP-ENC:Array',
             [],
-            [['ref' => 'SOAP-ENC:arrayType','wsdl:arrayType' => 'xsd:string[]']],
+            [['ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'xsd:string[]']],
             'xsd:string'
         );
 
@@ -118,14 +114,14 @@ class ilSoapDummyAuthServer
             'isValidSession',
             [
                 'ext_uid' => 'xsd:string',
-                                      'soap_pw' => 'xsd:string',
-                                      'new_user' => 'xsd:boolean'
+                'soap_pw' => 'xsd:string',
+                'new_user' => 'xsd:boolean'
             ],
             [
                 'valid' => 'xsd:boolean',
-                                    'firstname' => 'xsd:string',
-                                    'lastname' => 'xsd:string',
-                                    'email' => 'xsd:string'
+                'firstname' => 'xsd:string',
+                'lastname' => 'xsd:string',
+                'email' => 'xsd:string'
             ],
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#isValidSession',

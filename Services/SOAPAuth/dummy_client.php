@@ -17,19 +17,13 @@
 exit;
 include_once './webservice/soap/lib/nusoap.php';
 
-$server = $_GET["server"] // TODO PHP8-REVIEW Super global variables should be eliminated
-    ? $_GET["server"]
-    : "http://www.ilias.de/lt4el/Services/SOAPAuth/dummy_server.php";
-    
-$ext_uid = $_GET["ext_uid"]
-    ? $_GET["ext_uid"]
-    : "testuser";
+$server = $_GET["server"] ?: "http://www.ilias.de/lt4el/Services/SOAPAuth/dummy_server.php";// TODO PHP8-REVIEW Super global variables should be eliminated
 
-$soap_pw = $_GET["soap_pw"]
-    ? $_GET["soap_pw"]
-    : "testpw";
+$ext_uid = $_GET["ext_uid"] ?: "testuser";// TODO PHP8-REVIEW Super global variables should be eliminated
 
-$new_user = $_GET["new_user"];
+$soap_pw = $_GET["soap_pw"] ?: "testpw";// TODO PHP8-REVIEW Super global variables should be eliminated
+
+$new_user = $_GET["new_user"];// TODO PHP8-REVIEW Super global variables should be eliminated
 
 echo '<form>' .
     'server <input size="80" type="text" name="server" "value="' . $server . '"/>' .
@@ -43,7 +37,7 @@ echo '<form>' .
 echo "<br /><br />----------------------------------------------<br /><br /> Calling Server...";
 
 // initialize soap client
-$client = new soap_client($server);
+$client = new nusoap_client($server);
 if ($err = $client->getError()) {
     echo '<h2>Constructor error</h2><pre>' . $err . '</pre>';
 }
@@ -59,9 +53,11 @@ $namespace = "http://testuri.org";
 
 $valid = $client->call(
     'isValidSession',
-    array('ns1:ext_uid' => $ext_uid,
-            'ns1:soap_pw' => $soap_pw,
-            'ns1:new_user' => $new_user),
+    [
+        'ns1:ext_uid' => $ext_uid,
+        'ns1:soap_pw' => $soap_pw,
+        'ns1:new_user' => $new_user
+    ],
     $namespace,
     $namespace . "/isValidSession"
 );
@@ -70,7 +66,7 @@ showResult($client, $valid, 'isValidSession');
 
 echo "<br />End Test";
 
-function showResult(&$client, $data, $message)
+function showResult(nusoap_client $client, array $data, string $message) : void
 {
     if ($client->fault) {
         echo '<h2>Fault</h2><pre>';
