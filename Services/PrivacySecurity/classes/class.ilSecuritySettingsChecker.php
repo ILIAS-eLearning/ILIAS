@@ -146,7 +146,7 @@ class ilSecuritySettingsChecker
      */
     public static function isPasswordValidForUserContext(
         string $clear_text_password,
-        array|ilObjUser|string $user,
+        $user,
         ?string &$error_language_variable = null
     ) : bool {
         $security = ilSecuritySettings::_getInstance();
@@ -235,7 +235,7 @@ class ilSecuritySettingsChecker
      * @static
      *
      */
-    public static function generatePasswords($a_number) : array
+    public static function generatePasswords(int $a_number) : array
     {
         $ret = [];
         srand((double) microtime() * 1000000);
