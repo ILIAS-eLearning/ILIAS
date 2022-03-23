@@ -95,7 +95,14 @@ class ilSurveySkillGUI
         $ilCtrl = $this->ctrl;
         $ilCtrl->saveParameter($this, "q_id");
 
-        $sel = new ilSkillSelectorGUI($this, "assignSkillToQuestion", $this, "selectSkillForQuestion", '');// TODO PHP8-REVIEW Wrong types are used here
+        $sel = new ilSkillSelectorGUI(
+            0,                              // @todo tfamula check
+            $this,
+            "assignSkillToQuestion",
+            $this,
+            "selectSkillForQuestion",
+            ''
+        );
         if (!$sel->handleCommand()) {
             $tpl->setContent($sel->getHTML());
         }

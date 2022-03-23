@@ -639,8 +639,11 @@ class ilSurveyEditorGUI
         return null;
     }
 
-    public function executeCreateQuestionObject($q_type = null, $pool_usage = null, $pgov_pos = null) : void// TODO PHP8-REVIEW Missing types
-    {
+    public function executeCreateQuestionObject(
+        ?string $q_type = null,
+        ?int $pool_usage = null,
+        ?string $pgov_pos = null
+    ) : void {
         $this->edit_manager->setPoolChoice($this->request->getPoolUsage());
 
         if (is_null($q_type)) {
@@ -663,11 +666,11 @@ class ilSurveyEditorGUI
             $obj_id = $this->object->getId();
         }
         // existing pool
-        elseif ($pool_usage == 3 && strlen($this->request->getSelectedPool())) {// TODO PHP8-REVIEW strlen() vs. int
+        elseif ($pool_usage == 3 && $this->request->getSelectedPool() > 0) {
             $obj_id = ilObject::_lookupObjId($this->request->getSelectedPool());
         }
         // new pool
-        elseif ($pool_usage == 2 && strlen($this->request->getPoolName())) {// TODO PHP8-REVIEW strlen() vs. int
+        elseif ($pool_usage == 2 && $this->request->getPoolName() !== "") {
             $obj_id = $this->createQuestionPool($this->request->getPoolName());
         } else {
             if (!$pool_usage) {
