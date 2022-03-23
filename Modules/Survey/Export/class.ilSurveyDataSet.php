@@ -130,7 +130,7 @@ class ilSurveyDataSet extends ilDataSet
                 $skill_data = ilBasicSkill::getCommonSkillIdForImportId($this->getCurrentInstallationId(), $a_rec["BaseSkillId"], $a_rec["TrefId"]);
                 $q_id = $a_mapping->getMapping("Modules/Survey", "svy_q", $a_rec["QId"]);
                 if ($q_id > 0 && count($skill_data) > 0) {
-                    $skill_survey = new ilSurveySkill($this->getImport()->getSurvey());// TODO PHP8-REVIEW No method `getSurvey`
+                    $skill_survey = new ilSurveySkill($this->getImport()->getSurvey());
                     $skill_survey->addQuestionSkillAssignment($q_id, $skill_data[0]["skill_id"], $skill_data[0]["tref_id"]);
                 }
                 break;
@@ -138,7 +138,7 @@ class ilSurveyDataSet extends ilDataSet
             case "svy_skill_threshold":
                 $l = ilBasicSkill::getLevelIdForImportIdMatchSkill($this->getCurrentInstallationId(), $a_rec["LevelId"], $a_rec["BaseSkillId"], $a_rec["TrefId"]);
                 if (count($l) > 0) {
-                    $skill_thres = new ilSurveySkillThresholds($this->getImport()->getSurvey());// TODO PHP8-REVIEW No method `getSurvey`
+                    $skill_thres = new ilSurveySkillThresholds($this->getImport()->getSurvey());
                     $skill_thres->writeThreshold($l[0]["skill_id"], $l[0]["tref_id"], $l[0]["level_id"], $a_rec["Threshold"]);
                 }
                 break;

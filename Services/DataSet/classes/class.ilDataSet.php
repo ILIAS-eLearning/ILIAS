@@ -52,7 +52,7 @@ abstract class ilDataSet
     protected string $absolute_export_dir;
     protected string $ds_prefix;
     protected string $version;
-    protected ilImport $import;
+    protected ilSurveyImporter $import;
 
     public function __construct()
     {
@@ -460,12 +460,12 @@ abstract class ilDataSet
         return $a_entity;
     }
     
-    public function setImport(ilImport $a_val)
+    public function setImport(ilSurveyImporter $a_val)
     {
         $this->import = $a_val;
     }
     
-    public function getImport() : ilImport
+    public function getImport() : ilSurveyImporter
     {
         return $this->import;
     }

@@ -298,7 +298,7 @@ class ilSurveyExecutionGUI
         }
         $this->ctrl->setParameter($this, "activecommand", "previous");
         $this->ctrl->setParameter($this, "qid", $this->request->getQuestionId());
-        if (strlen($has_error)) {// TODO PHP8-REVIEW strlen MUST be used with strings, saveUserInput returns an int / A string cast will always evaluate in min. 1 character
+        if ($has_error > 0) {
             $this->ctrl->setParameter($this, "direction", "0");
         } else {
             $this->ctrl->setParameter($this, "direction", "-1");
@@ -314,7 +314,7 @@ class ilSurveyExecutionGUI
         $result = $this->saveUserInput("next");
         $this->ctrl->setParameter($this, "activecommand", "next");
         $this->ctrl->setParameter($this, "qid", $this->request->getQuestionId());
-        if (strlen($result)) {// TODO PHP8-REVIEW strlen MUST be used with strings, saveUserInput returns an int / A string cast will always evaluate in min. 1 character
+        if ($result > 0) {
             $this->ctrl->setParameter($this, "direction", "0");
         } else {
             $this->ctrl->setParameter($this, "direction", "1");

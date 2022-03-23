@@ -43,7 +43,7 @@ class ilSurveyImporter extends ilXmlImporter
     {
         $this->ds = new ilSurveyDataSet();
         $this->ds->setDSPrefix("ds");
-        $this->ds->setImport($this);// TODO PHP8-REVIEW Wrong type
+        $this->ds->setImport($this);
 
         $this->svy_log = ilLoggerFactory::getLogger("svy");
     }
