@@ -19,32 +19,25 @@
  */
 class ilOpenIdConnectUserSync
 {
-    const AUTH_MODE = 'oidc';
+    public const AUTH_MODE = 'oidc';
 
-    protected ilOpenIdConnectSettings $settings;
-
-    protected ilLogger $logger;
-
+    private ilOpenIdConnectSettings $settings;
+    private ilLogger $logger;
     private ilXmlWriter $writer;
-
-    private array $user_info = [];
-
+    private stdClass $user_info;
     private string $ext_account = '';
-
     private string $int_account = '';
-
     private int $usr_id = 0;
 
-    public function __construct(\ilOpenIdConnectSettings $settings, array $user_info)
+    public function __construct(ilOpenIdConnectSettings $settings, stdClass $user_info)
     {
         global $DIC;
 
         $this->settings = $settings;
-        $this->logger = $DIC->logger()->auth();
-
-        $this->writer = new ilXmlWriter();
-
         $this->user_info = $user_info;
+
+        $this->logger = $DIC->logger()->auth();
+        $this->writer = new ilXmlWriter();
     }
 
     public function setExternalAccount(string $ext_account) : void
@@ -65,8 +58,9 @@ class ilOpenIdConnectUserSync
 
     public function needsCreation() : bool
     {
-        $this->logger->dump($this->int_account, \ilLogLevel::DEBUG);
-        return strlen($this->int_account) == 0;
+        $this->logger->dump($this->int_account, ilLogLevel::DEBUG);
+
+        return $this->int_account === '';
     }
 
     /**
@@ -90,19 +84,15 @@ class ilOpenIdConnectUserSync
         $importParser->startParsing();
         $debug = $importParser->getProtocol();
 
-
-        // lookup internal account
         $int_account = ilObjUser::_checkExternalAuthAccount(
             self::AUTH_MODE,
             $this->ext_account
         );
         $this->setInternalAccount($int_account);
+
         return true;
     }
 
-    /**
-     * transform user data to xml
-     */
     protected function transformToXml() : void
     {
         $this->writer->xmlStartTag('Users');
@@ -146,7 +136,7 @@ class ilOpenIdConnectUserSync
             }
 
             $value = $this->valueFrom($connect_name);
-            if (!strlen($value)) {
+            if ($value === '') {
                 $this->logger->debug('Cannot find user data in ' . $connect_name);
                 continue;
             }
@@ -177,7 +167,7 @@ class ilOpenIdConnectUserSync
 
     /**
      * Parse role assignments
-     * @return array array of role assignments
+     * @return array<int, int> array of role assignments
      */
     protected function parseRoleAssignments() : array
     {
@@ -187,14 +177,13 @@ class ilOpenIdConnectUserSync
 
         $roles_assignable[$this->settings->getRole()] = $this->settings->getRole();
 
-
-        $this->logger->dump($this->settings->getRoleMappings(), \ilLogLevel::DEBUG);
+        $this->logger->dump($this->settings->getRoleMappings(), ilLogLevel::DEBUG);
 
         foreach ($this->settings->getRoleMappings() as $role_id => $role_info) {
             $this->logger->dump($role_id);
             $this->logger->dump($role_info);
 
-            list($role_attribute, $role_value) = explode('::', $role_info['value']);
+            [$role_attribute, $role_value] = explode('::', $role_info['value']);
 
             if (
                 !$role_attribute ||
@@ -204,32 +193,29 @@ class ilOpenIdConnectUserSync
                 continue;
             }
 
-            if (!isset($this->user_info->$role_attribute)) {
+            if (!isset($this->user_info->{$role_attribute})) {
                 $this->logger->debug('No user info passed');
                 continue;
             }
 
-            if (
-                !$this->needsCreation() &&
-                !$role_info['update']
-            ) {
+            if (!$role_info['update'] && !$this->needsCreation()) {
                 $this->logger->debug('No user role update for role: ' . $role_id);
                 continue;
             }
 
-            if (is_array($this->user_info->$role_attribute)) {
-                if (!in_array($role_value, $this->user_info->$role_attribute)) {
+            if (is_array($this->user_info->{$role_attribute})) {
+                if (!in_array($role_value, $this->user_info->{$role_attribute})) {
                     $this->logger->debug('User account has no ' . $role_value);
                     continue;
                 }
-            } elseif (strcmp($this->user_info->$role_attribute, $role_value) !== 0) {
+            } elseif (strcmp($this->user_info->{$role_attribute}, $role_value) !== 0) {
                 $this->logger->debug('User account has no ' . $role_value);
                 continue;
             }
             $this->logger->debug('Matching role mapping for role_id: ' . $role_id);
 
             $found_role = true;
-            $roles_assignable[$role_id] = $role_id;
+            $roles_assignable[(int) $role_id] = (int) $role_id;
             $long_role_id = ('il_' . IL_INST_ID . '_role_' . $role_id);
 
             $this->writer->xmlElement(
@@ -243,7 +229,7 @@ class ilOpenIdConnectUserSync
             );
         }
 
-        if ($this->needsCreation() && !$found_role) {
+        if (!$found_role && $this->needsCreation()) {
             $long_role_id = ('il_' . IL_INST_ID . '_role_' . $this->settings->getRole());
 
             // add default role
@@ -269,7 +255,8 @@ class ilOpenIdConnectUserSync
             $this->logger->debug('Cannot find property ' . $connect_name . ' in user info ');
             return '';
         }
-        $val = $this->user_info->$connect_name;
+
+        $val = $this->user_info->{$connect_name};
         return $val;
     }
 }

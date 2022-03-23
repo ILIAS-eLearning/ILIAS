@@ -17,12 +17,11 @@
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials implements ilAuthCredentials
+class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials
 {
-    const SESSION_TARGET = 'oidc_target';
+    private const SESSION_TARGET = 'oidc_target';
 
     private ilOpenIdConnectSettings $settings;
-
     private ?string $target = null;
 
     public function __construct()
@@ -41,9 +40,6 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials i
         return $this->target;
     }
 
-    /**
-     * Init credentials from request
-     */
     public function initFromRequest() : void
     {
         $this->setUsername('');
@@ -54,11 +50,11 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials i
 
     protected function parseRedirectionTarget() : void
     {
-        if (!empty($_GET['target'])) {
-            $this->target = $_GET['target'];
-            \ilSession::set(self::SESSION_TARGET, $this->target);
+        if (!empty($_GET['target'])) { // TODO PHP8-REVIEW Please eliminate this.
+            $this->target = $_GET['target']; // TODO PHP8-REVIEW Please eliminate this.
+            ilSession::set(self::SESSION_TARGET, $this->target);
         } elseif (ilSession::get(self::SESSION_TARGET)) {
-            $this->target = \ilSession::get(self::SESSION_TARGET);
+            $this->target = ilSession::get(self::SESSION_TARGET);
         }
     }
 }
