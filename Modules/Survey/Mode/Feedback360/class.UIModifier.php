@@ -52,7 +52,8 @@ class UIModifier extends Mode\AbstractUIModifier
         $cb->setValue("1");
         $cb->setChecked(in_array(
             $survey->getReminderTarget(),
-            array(\ilObjSurvey::NOTIFICATION_APPRAISEES, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS)
+            array(\ilObjSurvey::NOTIFICATION_APPRAISEES, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS),
+            true
         ));
         $items[] = $cb;
 
@@ -63,7 +64,8 @@ class UIModifier extends Mode\AbstractUIModifier
         $cb->setValue("1");
         $cb->setChecked(in_array(
             $survey->getReminderTarget(),
-            array(\ilObjSurvey::NOTIFICATION_RATERS, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS)
+            array(\ilObjSurvey::NOTIFICATION_RATERS, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS),
+            true
         ));
         $items[] = $cb;
 

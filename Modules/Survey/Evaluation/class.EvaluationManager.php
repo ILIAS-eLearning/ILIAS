@@ -65,8 +65,8 @@ class EvaluationManager
         $survey = $this->survey;
         $access = $this->access;
         return ($access->canEditSettings() ||
-            $survey->get360Results() == \ilObjSurvey::RESULTS_360_ALL ||
-            $survey->getSelfEvaluationResults() == \ilObjSurvey::RESULTS_SELF_EVAL_ALL);
+            $survey->get360Results() === \ilObjSurvey::RESULTS_360_ALL ||
+            $survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL);
     }
 
     /**
@@ -89,16 +89,14 @@ class EvaluationManager
                         $appraisee_ids[] = (int) $item["user_id"];
                     }
                 }
-            } elseif ($survey->getMode() == \ilObjSurvey::MODE_SELF_EVAL) {
+            } elseif ($survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL) {
                 foreach ($survey->getSurveyParticipants() as $item) {
                     $appraisee_ids[] = (int) \ilObjUser::_lookupId($item['login']);
                 }
             }
-        } else {
-            if ($feature_config->usesAppraisees() ||
-                $survey->getMode() == \ilObjSurvey::MODE_SELF_EVAL) {
-                $appraisee_ids[] = $user_id;
-            }
+        } elseif ($feature_config->usesAppraisees() ||
+            $survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL) {
+            $appraisee_ids[] = $user_id;
         }
         return $appraisee_ids;
     }
@@ -118,7 +116,7 @@ class EvaluationManager
 
         // if no user is requested, request current user
         $user_id = $this->user_id;
-        if ($req_appr_id == 0) {
+        if ($req_appr_id === 0) {
             $req_appr_id = $user_id;
         }
 
@@ -147,7 +145,7 @@ class EvaluationManager
 
         $appr_id = $this->getCurrentAppraisee();
 
-        if ($survey->getMode() == \ilObjSurvey::MODE_IND_FEEDB
+        if ($survey->getMode() === \ilObjSurvey::MODE_IND_FEEDB
             && !$this->isMultiParticipantsView()) {
             foreach ($survey->getRatersData($appr_id) as $rater) {
                 if ($rater["finished"]) {
@@ -163,10 +161,10 @@ class EvaluationManager
     {
         $req_rater_id = $this->requested_rater_id;
 
-        $valid = array_map(function ($i) {
-            return $i["user_id"];
+        $valid = array_map(static function ($i) : int {
+            return (int) $i["user_id"];
         }, $this->getSelectableRaters());
-        if (in_array($req_rater_id, $valid)) {
+        if (in_array($req_rater_id, $valid, true)) {
             return $req_rater_id;
         }
         return "";
@@ -197,7 +195,7 @@ class EvaluationManager
         $finished_ids = null;
         if ($appr_id > 0) {
             $finished_ids = $this->survey->getFinishedIdsForAppraiseeId($appr_id);
-            if (!sizeof($finished_ids)) {
+            if (!count($finished_ids)) {
                 $finished_ids = [];
             }
         }

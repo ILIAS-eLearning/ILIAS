@@ -24,7 +24,6 @@ class ExecutionGUIRequest
 {
     use BaseGUIRequest;
 
-    protected \ILIAS\HTTP\Services $http;
     protected array $params;
 
     public function __construct(

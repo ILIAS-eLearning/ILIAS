@@ -71,7 +71,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         if (count($existingdata)) {
             $first = array_shift($existingdata);
             foreach ($first as $key => $value) {
-                if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0 && strcmp($key, 'sent') != 0) {
+                if (strcmp($key, 'code') !== 0 && strcmp($key, 'email') !== 0 && strcmp($key, 'sent') !== 0) {
                     $existingcolumns[] = '[' . $key . ']';
                 }
             }
@@ -92,7 +92,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         $this->mailmessage->setRequired(true);
         $this->mailmessage->setCols(80);
         $this->mailmessage->setRows(10);
-        $this->mailmessage->setInfo(sprintf($this->lng->txt('message_content_info'), join(', ', $existingcolumns)));
+        $this->mailmessage->setInfo(sprintf($this->lng->txt('message_content_info'), implode(', ', $existingcolumns)));
         $this->addItem($this->mailmessage);
 
         // save message

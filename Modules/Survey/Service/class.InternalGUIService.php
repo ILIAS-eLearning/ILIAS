@@ -30,7 +30,6 @@ class InternalGUIService
 {
     use GlobalDICGUIServices;
 
-    protected \ilObjectServiceInterface $object_service;
     protected \ilLanguage $lng;
     protected ModeFactory $mode_factory;
     protected InternalDomainService $domain_service;

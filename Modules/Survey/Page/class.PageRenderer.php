@@ -104,12 +104,8 @@ class PageRenderer
             // get show title flag
             $show_title = ($this->survey->getShowQuestionTitles() && !$data["compressed_first"]);
 
-            $working_data = (isset($this->working_data[$data["question_id"]]))
-                ? $this->working_data[$data["question_id"]]
-                : null;
-            $error = (isset($this->errors[$data["question_id"]]))
-                ? $this->errors[$data["question_id"]]
-                : "";
+            $working_data = $this->working_data[$data["question_id"]] ?? null;
+            $error = $this->errors[$data["question_id"]] ?? "";
 
             // get question output
             // getWorkingData($qid)
