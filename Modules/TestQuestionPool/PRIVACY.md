@@ -22,6 +22,8 @@ but always at both.
 - **Ownership of Questions**:
   Owners of questions are stored in the TestQuestionPool as reference to the users id. 
   The data is required to manage detailed access and permissions on usage and editing of the question.
+  
+- The TestQuestions Pool component employs the following services, please consult the respective privacy.mds: [Skill](../../Services/Skill/PRIVACY.md), [Metadata](../../Services/MetaData/Privacy.md)
 
 
 ## Data being presented 
