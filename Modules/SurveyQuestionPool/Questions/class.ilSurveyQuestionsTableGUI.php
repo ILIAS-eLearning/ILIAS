@@ -18,6 +18,7 @@
  */
 class ilSurveyQuestionsTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;
     protected ilRbacReview $rbacreview;
     protected ilObjUser $user;
     protected bool $editable = true;
@@ -35,6 +36,10 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->user = $DIC->user();
         $this->setId("spl");
         $this->setPrefix('q_id'); // #16982
+        $this->edit_manager = $DIC->surveyQuestionPool()
+                                  ->internal()
+                                  ->domain()
+                                  ->editing();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -72,7 +77,8 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         }
         
         $this->addColumn("", "");
-        
+
+        $clip_questions = $this->edit_manager->getQuestionsFromClipboard();
         if ($this->getWriteAccess()) {
             $this->setSelectAllCheckbox('q_id');
         
@@ -81,7 +87,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
             $this->addMultiCommand('exportQuestion', $this->lng->txt('export'));
             $this->addMultiCommand('deleteQuestions', $this->lng->txt('delete'));
             
-            if (array_key_exists("spl_clipboard", $_SESSION)) {
+            if (count($clip_questions) > 0) {
                 $this->addCommandButton('paste', $this->lng->txt('paste'));
             }
             

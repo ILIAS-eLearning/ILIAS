@@ -28,6 +28,7 @@ use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
  */
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;
     protected bool $update;
     protected EditingGUIRequest $edit_request;
     protected ilNavigationHistory $nav_history;
@@ -48,6 +49,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             ->gui()
             ->editing()
             ->request();
+        $this->edit_manager = $DIC->surveyQuestionPool()
+                                  ->internal()
+                                  ->domain()
+                                  ->editing();
 
         $this->type = "spl";
 
@@ -336,7 +341,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function pasteObject() : void
     {
-        if (array_key_exists("spl_clipboard", $_SESSION)) {
+        $clip_questions = $this->edit_manager->getQuestionsFromClipboard();
+        if (count($clip_questions) > 0) {
             $this->object->pasteFromClipboard();
         } else {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("spl_paste_no_objects"), true);
