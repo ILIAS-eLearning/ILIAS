@@ -8,7 +8,6 @@ namespace ILIAS\Refinery;
  */
 class KeyValueAccess implements \ArrayAccess, \Countable
 {
-    
     private array $raw_values;
     protected Transformation $trafo;
 
