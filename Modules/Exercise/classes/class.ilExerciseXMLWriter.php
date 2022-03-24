@@ -71,7 +71,7 @@ class ilExerciseXMLWriter extends ilXmlWriter
         
         $attribs = array("obj_id" => "il_" . IL_INST_ID . "_exc_" . $this->exercise->getId() );
         
-        if ($this->exercise->getOwner()) {
+        if ($this->exercise->getOwner() !== 0) {
             $attribs ["owner"] = "il_" . IL_INST_ID . "_usr_" . $this->exercise->getOwner();
         }
         

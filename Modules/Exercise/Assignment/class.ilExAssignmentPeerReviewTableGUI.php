@@ -127,10 +127,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
     
     public function numericOrdering(string $a_field) : bool
     {
-        if ($a_field === "seq") {
-            return true;
-        }
-        return false;
+        return $a_field === "seq";
     }
 
     /**

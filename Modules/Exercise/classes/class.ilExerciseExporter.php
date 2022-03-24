@@ -93,14 +93,12 @@ class ilExerciseExporter extends ilXmlExporter
             $advmd_ids = array();
             foreach ($a_ids as $id) {
                 $rec_ids = $this->getActiveAdvMDRecords($id);
-                if (sizeof($rec_ids)) {
-                    foreach ($rec_ids as $rec_id) {
-                        $advmd_ids[] = $id . ":" . $rec_id;
-                    }
+                foreach ($rec_ids as $rec_id) {
+                    $advmd_ids[] = $id . ":" . $rec_id;
                 }
             }
 
-            if (sizeof($advmd_ids)) {
+            if ($advmd_ids !== []) {
                 $deps[] = array(
                     "component" => "Services/AdvancedMetaData",
                     "entity" => "advmd",
@@ -112,7 +110,7 @@ class ilExerciseExporter extends ilXmlExporter
             foreach ($a_ids as $exc_id) {
                 $md_ids[] = $exc_id . ":0:exc";
             }
-            if ($md_ids) {
+            if ($md_ids !== []) {
                 $deps[] =
                     array(
                         "component" => "Services/MetaData",

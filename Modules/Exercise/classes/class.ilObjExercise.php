@@ -427,7 +427,7 @@ class ilObjExercise extends ilObject
         $storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
         $files = $storage->getFiles();
         $mfile_obj = null;
-        if (count($files)) {
+        if ($files !== []) {
             $mfile_obj = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
             foreach ($files as $file) {
                 $mfile_obj->copyAttachmentFile($file["fullpath"], $file["name"]);
@@ -458,7 +458,7 @@ class ilObjExercise extends ilObject
         unset($tmp_mail_obj);
 
         // remove tmp files
-        if (sizeof($file_names) && $mfile_obj) {
+        if (count($file_names) && $mfile_obj) {
             $mfile_obj->unlinkFiles($file_names);
             unset($mfile_obj);
         }
@@ -785,7 +785,7 @@ class ilObjExercise extends ilObject
      */
     public function getCertificateVisibility() : int
     {
-        return (strlen($this->certificate_visibility)) ? $this->certificate_visibility : 0;
+        return (strlen($this->certificate_visibility) !== 0) ? $this->certificate_visibility : 0;
     }
 
     /**

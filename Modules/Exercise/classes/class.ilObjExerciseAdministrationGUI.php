@@ -73,7 +73,7 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
     {
         $this->tabs_gui->setTabActive('settings');
         
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initFormSettings();
         }
         $this->tpl->setContent($a_form->getHTML());

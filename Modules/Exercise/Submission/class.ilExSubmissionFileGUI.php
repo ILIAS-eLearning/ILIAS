@@ -426,7 +426,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         if (!is_array($delivered_id) && $delivered_id > 0) {
             $delivered_id = [$delivered_id];
         }
-        if (is_array($delivered_id) && count($delivered_id) > 0) {
+        if (is_array($delivered_id) && $delivered_id !== []) {
             $this->submission->downloadFiles($delivered_id);
             exit;
         } else {

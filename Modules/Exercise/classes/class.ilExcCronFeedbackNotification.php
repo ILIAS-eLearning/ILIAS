@@ -76,7 +76,7 @@ class ilExcCronFeedbackNotification extends ilCronJob
             }
         }
         
-        if ($count) {
+        if ($count !== 0) {
             $status = ilCronJobResult::STATUS_OK;
         }
         

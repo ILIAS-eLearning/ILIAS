@@ -91,7 +91,7 @@ class ilExcCriteriaFile extends ilExcCriteria
     
     public function hasValue($a_value) : bool
     {
-        return sizeof($this->getFiles());
+        return count($this->getFiles()) > 0;
     }
         
     public function validate($a_value) : bool

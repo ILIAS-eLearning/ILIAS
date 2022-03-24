@@ -164,7 +164,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
         $valid_wiki = false;
 
         $team_members = $a_submission->getTeam()->getMembers();
-        $team_available = (sizeof($team_members));
+        $team_available = (count($team_members));
 
         $selected_wiki = $a_submission->getSelectedObject();
         if ($selected_wiki) {

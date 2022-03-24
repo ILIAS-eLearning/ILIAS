@@ -94,10 +94,10 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
             if ($text->isCharLimited()) {
                 $char_msg = "";
-                if ($this->assignment->getMinCharLimit()) {
+                if ($this->assignment->getMinCharLimit() !== 0) {
                     $char_msg .= $lng->txt("exc_min_char_limit") . ": " . $this->assignment->getMinCharLimit();
                 }
-                if ($this->assignment->getMaxCharLimit()) {
+                if ($this->assignment->getMaxCharLimit() !== 0) {
                     $char_msg .= " " . $lng->txt("exc_max_char_limit") . ": " . $this->assignment->getMaxCharLimit();
                 }
                 $text->setInfo($char_msg);
@@ -159,13 +159,13 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $ilHelp->setScreenIdComponent("exc");
         $ilHelp->setScreenId("text_submission");
 
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initAssignmentTextForm();
 
             $files = $this->submission->getFiles();
-            if ($files) {
+            if ($files !== []) {
                 $files = array_shift($files);
-                if (trim($files["atext"])) {
+                if (trim($files["atext"]) !== '' && trim($files["atext"]) !== '0') {
                     $text = $a_form->getItemByPostVar("atxt");
                     // mob id to mob src
                     $text->setValue(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1));
@@ -248,9 +248,9 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $a_form = $this->initAssignmentTextForm(true);
         
         $files = $this->submission->getFiles();
-        if ($files) {
+        if ($files !== []) {
             $files = array_shift($files);
-            if (trim($files["atext"])) {
+            if (trim($files["atext"]) !== '' && trim($files["atext"]) !== '0') {
                 if ($files["late"] &&
                     !$this->submission->hasPeerReviewAccess()) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_late_submission"));

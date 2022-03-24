@@ -67,7 +67,7 @@ class ilExerciseDerivedTaskAction
     {
         $user_exc_ids = $this->tutor_repo->getExerciseIdsBeingTutor($user_id);
         $assignments = [];
-        foreach ($this->state_repo->getAssignmentIdsWithGradingNeeded($user_exc_ids) as $ass_id => $open) {
+        foreach (array_keys($this->state_repo->getAssignmentIdsWithGradingNeeded($user_exc_ids)) as $ass_id) {
             $assignments[] = new ilExAssignment($ass_id);
             // to do: permission check
         }

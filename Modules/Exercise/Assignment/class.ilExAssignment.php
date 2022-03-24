@@ -1874,7 +1874,7 @@ class ilExAssignment
         asort($a_order, SORT_NUMERIC);
 
         $nr = 10;
-        foreach ($a_order as $k => $v) {
+        foreach (array_keys($a_order) as $k) {
             // the check for exc_id is for security reasons. ass ids are unique.
             $db->manipulate(
                 "UPDATE exc_ass_file_order SET " .

@@ -289,7 +289,7 @@ class ilExPeerReviewGUI
         }
         
         $peer_items = $this->submission->getPeerReview()->getPeerReviewsByGiver($this->submission->getUserId());
-        if (!sizeof($peer_items)) {
+        if ($peer_items === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_peer_review_no_peers"), true);
             $this->returnToParentObject();
         }
@@ -325,7 +325,7 @@ class ilExPeerReviewGUI
         $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "returnToParent"));
         
         $peer_items = $this->submission->getPeerReview()->getPeerReviewsByPeerId($this->submission->getUserId(), !$this->submission->isTutor());
-        if (!sizeof($peer_items)) {
+        if ($peer_items === []) {
             // #11373
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_peer_review_no_peers_reviewed_yet"), true);
             $ilCtrl->redirect($this, "returnToParent");
@@ -373,7 +373,7 @@ class ilExPeerReviewGUI
             );
 
             $sub_data = $this->getSubmissionContent($submission);
-            if (!$sub_data) {
+            if ($sub_data === '' || $sub_data === '0') {
                 $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
             }
             $a_info_widget->addProperty($lng->txt("exc_submission"), $sub_data);
@@ -416,7 +416,7 @@ class ilExPeerReviewGUI
                 );
 
                 $sub_data = $this->getSubmissionContent($submission);
-                if (!$sub_data) {
+                if ($sub_data === '' || $sub_data === '0') {
                     $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
                 }
                 $a_info_widget->addProperty($lng->txt("exc_submission"), $sub_data);
@@ -471,13 +471,13 @@ class ilExPeerReviewGUI
         }
         
         $peer_items = $this->submission->getPeerReview()->getPeerReviewsByGiver($this->submission->getUserId());
-        if (!sizeof($peer_items)) {
+        if ($peer_items === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_peer_review_no_peers"), true);
             $this->returnToParentObject();
         }
                         
         $missing = $this->submission->getPeerReview()->getNumberOfMissingFeedbacksForReceived();
-        if ($missing) {
+        if ($missing !== 0) {
             $dl = $this->ass->getPeerReviewDeadline();
             if (!$dl || $dl < time()) {
                 $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("exc_peer_review_missing_info"), $missing));
@@ -510,7 +510,7 @@ class ilExPeerReviewGUI
             $this->returnToParentObject();
         }
         
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initPeerReviewItemForm($this->requested_peer_id);
         }
         
@@ -536,9 +536,9 @@ class ilExPeerReviewGUI
         }
         
         $text = $a_submission->getFiles();
-        if ($text) {
+        if ($text !== []) {
             $text = array_shift($text);
-            if (trim($text["atext"])) {
+            if (trim($text["atext"]) !== '' && trim($text["atext"]) !== '0') {
                 // mob id to mob src
                 return nl2br(ilRTE::_replaceMediaObjectImageSrc($text["atext"], 1));
             }
@@ -595,7 +595,7 @@ class ilExPeerReviewGUI
         $form->addItem($last_sub);
             
         $sub_data = $this->getSubmissionContent($submission);
-        if (!$sub_data) {
+        if ($sub_data === '' || $sub_data === '0') {
             $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
         }
         

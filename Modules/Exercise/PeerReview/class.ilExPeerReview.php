@@ -89,6 +89,9 @@ class ilExPeerReview
         return true;
     }
     
+    /**
+     * @return int[]|string[]
+     */
     public function resetPeerReviews() : array
     {
         $ilDB = $this->db;
@@ -156,9 +159,9 @@ class ilExPeerReview
             }
                         
             return array(
-                "invalid" => (sizeof($missing_user_ids) ||
-                    sizeof($invalid_peer_ids) ||
-                    sizeof($invalid_giver_ids)),
+                "invalid" => (count($missing_user_ids) ||
+                    count($invalid_peer_ids) ||
+                    count($invalid_giver_ids)),
                 "missing_user_ids" => $missing_user_ids,
                 "not_returned_ids" => $not_returned_ids,
                 "invalid_peer_ids" => $invalid_peer_ids,
@@ -415,7 +418,7 @@ class ilExPeerReview
         $max = $this->getMaxPossibleFeedbacks();
         
         // #16160 - forever alone
-        if (!$max) {
+        if ($max === 0) {
             return 0;
         }
         
@@ -446,7 +449,7 @@ class ilExPeerReview
         
         // forever alone - should be valid
         $max = $this->getMaxPossibleFeedbacks();
-        if (!$max) {
+        if ($max === 0) {
             return true;
         }
         

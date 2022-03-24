@@ -249,7 +249,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             } else {
                 asort($a_row["team"]);
                 foreach ($a_row["team"] as $team_member_id => $team_member_name) { // #10749
-                    if (sizeof($a_row["team"]) > 1) {
+                    if (count($a_row["team"]) > 1) {
                         $ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "id", $team_member_id);
                         $url = $ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "confirmRemoveTeamMember");
                         $ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "id", "");
@@ -348,7 +348,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     
                 case "team_members":
                     if ($a_ass->hasTeam()) {
-                        if (!sizeof($a_row["team"])) {
+                        if (count($a_row["team"]) === 0) {
                             $this->tpl->setVariable("VAL_TEAM_MEMBER", $this->lng->txt("exc_no_team_yet"));
                         } else {
                             foreach ($a_row["team"] as $name) {
@@ -541,8 +541,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 $ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showGivenPeerReview")
             );
             
-            $counter = sizeof($peer_review->getPeerReviewsByPeerId($a_user_id, true));
-            $counter = $counter
+            $counter = count($peer_review->getPeerReviewsByPeerId($a_user_id, true));
+            $counter = $counter !== 0
                 ? " (" . $counter . ")"
                 : "";
 

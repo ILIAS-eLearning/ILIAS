@@ -54,7 +54,7 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
 
         $member_id = $a_set["usr_id"];
-        if (!($mem_obj = ilObjectFactory::getInstanceByObjId($member_id, false))) {
+        if (($mem_obj = ilObjectFactory::getInstanceByObjId($member_id, false)) === null) {
             return;
         }
 

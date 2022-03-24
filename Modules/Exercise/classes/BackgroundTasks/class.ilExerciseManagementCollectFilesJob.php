@@ -337,7 +337,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
                     $extra_crit_column = 0;
                     foreach ($files as $file) {
-                        if ($extra_crit_column) {
+                        if ($extra_crit_column !== 0) {
                             $this->title_columns[] = $crit_title . "_" . $extra_crit_column;
                         }
                         $extra_crit_column++;
@@ -515,7 +515,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                 $submission = new ilExSubmission($this->assignment, $participant_id);
                 $submission_files = $submission->getFiles();
 
-                if ($submission_files) {
+                if ($submission_files !== []) {
                     $participant_name = ilObjUser::_lookupName($participant_id);
                     $this->excel->setCell($row, self::PARTICIPANT_LASTNAME_COLUMN, $participant_name['lastname']);
                     $this->excel->setCell($row, self::PARTICIPANT_FIRSTNAME_COLUMN, $participant_name['firstname']);
@@ -548,7 +548,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                             $col = $first_excel_column_for_review;
                         }
                         $reviews = [];
-                        if ($peer_review) {
+                        if ($peer_review !== null) {
                             $reviews = $peer_review->getPeerReviewsByPeerId($participant_id);
                         }
 

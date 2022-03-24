@@ -71,7 +71,7 @@ class ilExcCriteriaTableGUI extends ilTable2GUI
         
         $this->setData($data);
         
-        return (bool) sizeof($data);
+        return (bool) count($data);
     }
     
     public function numericOrdering(string $a_field) : bool

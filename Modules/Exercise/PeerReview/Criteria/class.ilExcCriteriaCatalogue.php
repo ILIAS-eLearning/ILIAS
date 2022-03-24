@@ -137,7 +137,7 @@ class ilExcCriteriaCatalogue
             $set = $ilDB->query("SELECT *" .
                 " FROM exc_crit_cat" .
                 " WHERE id = " . $ilDB->quote($a_id, "integer"));
-            if ($ilDB->numRows($set)) {
+            if ($ilDB->numRows($set) !== 0) {
                 $row = $ilDB->fetchAssoc($set);
                 $this->importFromDB($row);
             }

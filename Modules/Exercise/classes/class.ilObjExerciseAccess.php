@@ -28,10 +28,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
-                if (ilExerciseMembers::_lookupStatus($a_trigger_obj_id, $a_usr_id) == "passed") {
-                    return true;
-                }
-                return false;
+                return ilExerciseMembers::_lookupStatus($a_trigger_obj_id, $a_usr_id) == "passed";
 
             case ilConditionHandler::OPERATOR_FAILED:
                 return ilExerciseMembers::_lookupStatus($a_trigger_obj_id, $a_usr_id) == 'failed';
@@ -112,7 +109,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
         
         return array(
             "mtime" => $dl,
-            "cnt" => sizeof($cnt)
+            "cnt" => count($cnt)
         );
     }
     
@@ -130,12 +127,8 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
         if ($t_arr[0] != "exc" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-
-        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
-            return true;
-        }
-        return false;
+        return $ilAccess->checkAccess("read", "", $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", $t_arr[1]);
     }
 
     public function canBeDelivered(ilWACPath $ilWACPath) : bool

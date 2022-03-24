@@ -106,7 +106,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $buttons_str .= $button->render();
             }
             // #10462
-            $blogs = sizeof($wsp_tree->getObjectsFromType("blog"));
+            $blogs = count($wsp_tree->getObjectsFromType("blog"));
             if ((!$valid_blog && $blogs)
                 || ($valid_blog && $blogs > 1)) {
                 $button = ilLinkButton::getInstance();
@@ -198,7 +198,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             }
             // #10462
             //selectPortfolio ( remove it? )
-            $prtfs = sizeof(ilObjPortfolio::getPortfoliosOfUser($a_submission->getUserId()));
+            $prtfs = count(ilObjPortfolio::getPortfoliosOfUser($a_submission->getUserId()));
             if ((!$valid_prtf && $prtfs)
                 || ($valid_prtf && $prtfs > 1)) {
                 $button = ilLinkButton::getInstance();
@@ -208,7 +208,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             }
             if ($valid_prtf) {
                 $button = ilLinkButton::getInstance();
-                $button->setCaption("exc_select_portfolio" . "_unlink");
+                $button->setCaption('exc_select_portfolio_unlink');
                 $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "askUnlinkPortfolio"));
                 $buttons_str .= " " . $button->render();
             }
@@ -408,10 +408,8 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         
         $items = array();
         $portfolios = ilObjPortfolio::getPortfoliosOfUser($this->submission->getUserId());
-        if ($portfolios) {
-            foreach ($portfolios as $portfolio) {
-                $items[$portfolio["id"]] = $portfolio["title"];
-            }
+        foreach ($portfolios as $portfolio) {
+            $items[$portfolio["id"]] = $portfolio["title"];
         }
         
         $this->renderResourceSelection(
@@ -459,7 +457,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $template_object_id = ilObject::_lookupObjectId($template_id);
 
         // select a template, if available
-        if (count($templates) > 0 && $template_object_id == 0) {
+        if ($templates !== [] && $template_object_id == 0) {
             $this->createPortfolioTemplateObject();
             return;
         }
@@ -485,11 +483,11 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
         
         $templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
-        if (!sizeof($templates)) {
+        if ($templates === []) {
             $this->returnToParentObject();
         }
         
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initPortfolioTemplateForm($templates);
         }
         
@@ -508,7 +506,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
         
         $templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
-        if (!sizeof($templates)) {
+        if ($templates === []) {
             $this->ctrl->redirect($this, "returnToParent");
         }
         

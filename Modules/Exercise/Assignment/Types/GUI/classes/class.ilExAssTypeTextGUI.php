@@ -74,11 +74,11 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
     public function getFormValuesArray(ilExAssignment $ass) : array
     {
         $values = [];
-        if ($ass->getMinCharLimit()) {
+        if ($ass->getMinCharLimit() !== 0) {
             $values['limit_characters'] = 1;
             $values['min_char_limit'] = $ass->getMinCharLimit();
         }
-        if ($ass->getMaxCharLimit()) {
+        if ($ass->getMaxCharLimit() !== 0) {
             $values['limit_characters'] = 1;
             $values['max_char_limit'] = $ass->getMaxCharLimit();
         }

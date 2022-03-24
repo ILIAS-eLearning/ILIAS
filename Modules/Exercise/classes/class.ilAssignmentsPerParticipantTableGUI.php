@@ -22,7 +22,7 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
 
         if ($a_item_id > 0) {
             $name = ilObjUser::_lookupName($a_item_id);
-            if (trim($name["login"])) {
+            if (trim($name["login"]) !== '' && trim($name["login"]) !== '0') {
                 $this->user = new ilObjUser($a_item_id);
 
                 $this->setTitle(
@@ -159,9 +159,6 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
 
     public function numericOrdering(string $a_field) : bool
     {
-        if ($a_field === "order_nr") {
-            return true;
-        }
-        return false;
+        return $a_field === "order_nr";
     }
 }

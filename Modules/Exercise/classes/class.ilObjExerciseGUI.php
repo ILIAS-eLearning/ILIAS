@@ -65,7 +65,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
         if ($this->requested_ass_id > 0 && is_object($this->object) && ilExAssignment::lookupExerciseId(
             $this->requested_ass_id
-        ) == $this->object->getId()) {
+        ) === $this->object->getId()) {
             $this->ass = $this->exercise_request->getAssignment();
         } elseif ($this->requested_ass_id > 0) {
             throw new ilExerciseException("Assignment ID does not match Exercise.");
@@ -88,7 +88,6 @@ class ilObjExerciseGUI extends ilObjectGUI
      */
     public function executeCommand() : void
     {
-        $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
 
@@ -802,7 +801,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         );
 
         $validator = new ilCertificateActiveValidator();
-        if (true === $validator->validate()) {
+        if ($validator->validate()) {
             $this->tabs_gui->addSubTab(
                 "certificate",
                 $this->lng->txt("certificate"),
@@ -992,7 +991,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
             // incoming assignment deeplink
             $force_open = false;
-            if ($this->requested_ass_id_goto == $ass->getId()) {
+            if ($this->requested_ass_id_goto === $ass->getId()) {
                 $force_open = true;
             }
 
@@ -1041,7 +1040,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
         $objectId = $this->object->getId();
 
-        if (false === $this->certificateDownloadValidator->isCertificateDownloadable($ilUser->getId(), $objectId)) {
+        if (!$this->certificateDownloadValidator->isCertificateDownloadable($ilUser->getId(), $objectId)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this);
         }
@@ -1067,7 +1066,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
         $user = $this->user;
 
-        if ($this->ass) {
+        if ($this->ass !== null) {
             $state = ilExcAssMemberState::getInstanceByIds($this->ass->getId(), $user->getId());
             if (!$state->getCommonDeadline() && $state->getRelativeDeadline()) {
                 $idl = $state->getIndividualDeadlineObject();

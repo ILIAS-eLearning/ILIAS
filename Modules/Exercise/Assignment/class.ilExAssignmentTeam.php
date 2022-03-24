@@ -407,7 +407,7 @@ class ilExAssignmentTeam
                     continue;
                 }
                 
-                if (sizeof($map)) {
+                if ($map !== []) {
                     $user_team = null;
                     if ($a_user_id) {
                         $user_team_id = $map[$a_user_id];
@@ -421,10 +421,10 @@ class ilExAssignmentTeam
                     }
                     
                     if (!$a_user_id ||
-                        sizeof($user_team)) {
+                        count($user_team)) {
                         $res[$row["id"]] = array(
                             "title" => $row["title"],
-                            "teams" => sizeof(array_flip($map)),
+                            "teams" => count(array_flip($map)),
                         );
                         
                         if ($a_user_id) {
@@ -478,7 +478,7 @@ class ilExAssignmentTeam
                     }
                 }
                 
-                if (sizeof($missing)) {
+                if ($missing !== []) {
                     // create new team
                     $first = array_shift($missing);
                     $new_team = self::getInstanceByUserId($a_target_ass_id, $first, true);

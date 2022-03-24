@@ -106,7 +106,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     ) : string {
         $path = $this->peer_review_upload_path . "/" . $a_peer_id . "/" . $a_giver_id . "/";
 
-        if ((int) $a_crit_id) {
+        if ((int) $a_crit_id !== 0) {
             $path .= (int) $a_crit_id . "/";
         }
         if (!file_exists($path)) {

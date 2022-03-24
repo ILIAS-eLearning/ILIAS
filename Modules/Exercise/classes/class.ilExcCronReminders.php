@@ -77,7 +77,7 @@ class ilExcCronReminders extends ilCronJob
 
         $this->lng->loadLanguageModule("exc");
 
-        if ($num_reminders) {
+        if ($num_reminders !== 0) {
             $cron_status = ilCronJobResult::STATUS_OK;
             $message = $this->lng->txt('exc_reminder_cron_ok');
         }

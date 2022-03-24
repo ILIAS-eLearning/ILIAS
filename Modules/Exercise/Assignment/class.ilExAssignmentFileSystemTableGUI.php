@@ -60,7 +60,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
     public function getEntries() : array
     {
         $entries = parent::getEntries();
-        if (count($entries) > 0) {
+        if ($entries !== []) {
             $this->addCommandButton("saveFilesOrder", $this->lng->txt("exc_save_order"));
         }
         $ass = new ilExAssignment($this->requested_ass_id);
@@ -93,7 +93,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
             $this->addColumn($this->label_header, "label");
         }
 
-        if (sizeof($this->row_commands)) {
+        if ($this->row_commands !== []) {
             $this->addColumn($this->lng->txt("actions"));
         }
     }

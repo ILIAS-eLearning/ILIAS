@@ -64,7 +64,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
                 return;
             }
 
-            if ($newObj) {
+            if ($newObj !== null) {
                 $parent_id = $this->node_id;
                 $this->node_id = null;
                 $this->putObjectInTree($newObj, $parent_id);

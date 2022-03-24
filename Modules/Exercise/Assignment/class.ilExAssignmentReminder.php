@@ -552,7 +552,7 @@ class ilExAssignmentReminder
         }
 
         $this->updateRemindersLastDate($reminders);
-        return sizeof($reminders);
+        return count($reminders);
     }
 
     //see ilObjSurvey.

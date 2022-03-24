@@ -77,7 +77,7 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
             }
         }
         
-        if (sizeof($protected)) {
+        if ($protected !== []) {
             $this->main_tpl->setOnScreenMessage('info', $lng->txt("exc_crit_cat_protected_assignment_info"));
         }
         
@@ -106,7 +106,7 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
         
         $this->setData($data);
         
-        return (bool) sizeof($data);
+        return (bool) count($data);
     }
     
     public function numericOrdering(string $a_field) : bool
@@ -126,7 +126,7 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
         $ilCtrl->setParameter($this->getParentObject(), "cat_id", $a_set["id"]);
         $url = $ilCtrl->getLinkTarget($this->getParentObject(), "edit");
         
-        if (sizeof($a_set["criterias"])) {
+        if (count($a_set["criterias"]) !== 0) {
             $this->tpl->setCurrentBlock("crit_bl");
             foreach ($a_set["criterias"] as $crit) {
                 $this->tpl->setVariable("CRIT_TYPE", $crit[0]);
