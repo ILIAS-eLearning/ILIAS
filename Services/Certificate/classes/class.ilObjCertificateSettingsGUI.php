@@ -130,9 +130,11 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             if (is_array($this->upload->getResults()) && $this->upload->getResults() !== []) {
                 $results = $this->upload->getResults();
                 $file = array_pop($results);
-                $result = $this->object->uploadBackgroundImage($file->getPath());
-                if ($result === false) {
-                    $bgimage->setAlert($this->lng->txt('certificate_error_upload_bgimage'));
+                if ($file->isOK()) {
+                    $result = $this->object->uploadBackgroundImage($file->getPath());
+                    if ($result === false) {
+                        $bgimage->setAlert($this->lng->txt('certificate_error_upload_bgimage'));
+                    }
                 }
             }
         }
