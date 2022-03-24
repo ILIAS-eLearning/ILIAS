@@ -30,6 +30,9 @@ class Legacy extends Slate implements ISlate\Legacy
         $this->contents = [$content];
     }
 
+    /**
+     * @return \ILIAS\UI\Component\Component[]
+     */
     public function getContents() : array
     {
         return $this->contents;

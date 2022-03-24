@@ -139,7 +139,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(C\Input\Field\Duration::class, $datetime);
     }
 
-    public function test_render()
+    public function test_render() : \ILIAS\UI\Component\Input\Field\Duration
     {
         $datetime = $this->factory->duration('label', 'byline');
         $r = $this->getDefaultRenderer();
@@ -178,7 +178,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
     /**
      * @depends test_render
      */
-    public function testRenderwithDifferentLabels($datetime)
+    public function testRenderwithDifferentLabels($datetime) : void
     {
         $other_start_label = 'other startlabel';
         $other_end_label = 'other endlabel';

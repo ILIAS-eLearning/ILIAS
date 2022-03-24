@@ -31,19 +31,19 @@ class ToastClientHtmlTest extends ILIAS_UI_TestBase
         };
     }
 
-    public function getToastFactory()
+    public function getToastFactory() : \ILIAS\UI\Implementation\Component\Toast\Factory
     {
         return new ILIAS\UI\Implementation\Component\Toast\Factory(
             $this->createMock(ILIAS\UI\Implementation\Component\SignalGenerator::class)
         );
     }
 
-    public function getIconFactory()
+    public function getIconFactory() : \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory
     {
         return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
     }
 
-    public function testRenderClientHtml()
+    public function testRenderClientHtml() : void
     {
         $expected_html = file_get_contents(__DIR__ . "/../../Client/Toast/ToastTest.html");
 

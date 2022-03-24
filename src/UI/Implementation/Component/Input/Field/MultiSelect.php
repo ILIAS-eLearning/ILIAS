@@ -20,6 +20,9 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     protected array $options = [];
     private bool $complex = true;
 
+    /**
+     * @param array<string, string> $options
+     */
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,

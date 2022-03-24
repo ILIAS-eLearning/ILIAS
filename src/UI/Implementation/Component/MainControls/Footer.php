@@ -54,6 +54,9 @@ class Footer implements MainControls\Footer
         return $this->permanent_url;
     }
 
+    /**
+     * @return \ILIAS\UI\Component\Button\Shy[]
+     */
     public function getModals() : array
     {
         return $this->modalsWithTriggers;

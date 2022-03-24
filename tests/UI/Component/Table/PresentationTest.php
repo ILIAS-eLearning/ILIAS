@@ -26,7 +26,7 @@ class PresentationTest extends ILIAS_UI_TestBase
         $f = $this->getFactory();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Factory", $f);
 
-        $pt = $f->presentation('title', [], function () {
+        $pt = $f->presentation('title', [], function () : void {
         });
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Presentation", $pt);
 
@@ -45,7 +45,7 @@ class PresentationTest extends ILIAS_UI_TestBase
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
-        $pt = $f->presentation('title', [], function () {
+        $pt = $f->presentation('title', [], function () : void {
         });
         $expected = '' .
             '<div class="il-table-presentation">' .
@@ -58,7 +58,7 @@ class PresentationTest extends ILIAS_UI_TestBase
     public function testRowConstruction() : void
     {
         $f = $this->getFactory();
-        $pt = $f->presentation('title', [], function () {
+        $pt = $f->presentation('title', [], function () : void {
         });
         $row = new PresentationRow($pt->getSignalGenerator());
 

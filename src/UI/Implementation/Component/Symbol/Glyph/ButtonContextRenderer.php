@@ -14,7 +14,7 @@ class ButtonContextRenderer extends Renderer
         return "tpl.glyph.context_btn.html";
     }
 
-    protected function renderAction(Component\Component $component, Template $tpl)
+    protected function renderAction(Component\Component $component, Template $tpl): Template
     {
         return $tpl;
     }

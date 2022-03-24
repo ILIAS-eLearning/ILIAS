@@ -26,6 +26,9 @@ class Drilldown extends Slate implements ISlate\Drilldown
         $this->drilldown = $drilldown;
     }
 
+    /**
+     * @return \ILIAS\UI\Component\Menu\Drilldown[]
+     */
     public function getContents() : array
     {
         return [$this->drilldown];

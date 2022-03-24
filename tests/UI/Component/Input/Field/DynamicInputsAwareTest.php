@@ -40,7 +40,7 @@ class DynamicInputsAwareTest extends TestCase
         ) extends DynamicInputsAwareInput {
             public function getUpdateOnLoadCode() : Closure
             {
-                return static function () {
+                return static function () : void {
                 };
             }
 
@@ -163,7 +163,7 @@ class DynamicInputsAwareTest extends TestCase
         ) extends \ILIAS\UI\Implementation\Component\Input\Field\Input {
             public function getUpdateOnLoadCode() : Closure
             {
-                return static function () {
+                return static function () : void {
                 };
             }
 

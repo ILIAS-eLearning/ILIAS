@@ -22,17 +22,17 @@ use ILIAS\UI\Implementation\Component\Toast\Toast;
  *****************************************************************************/
 class ToastTest extends ILIAS_UI_TestBase
 {
-    public function getToastFactory()
+    public function getToastFactory() : \ILIAS\UI\Implementation\Component\Toast\Factory
     {
         return new ILIAS\UI\Implementation\Component\Toast\Factory(new ILIAS\UI\Implementation\Component\SignalGenerator());
     }
 
-    public function getIconFactory()
+    public function getIconFactory() : \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory
     {
         return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
     }
 
-    public function getLinkFactory()
+    public function getLinkFactory() : \ILIAS\UI\Implementation\Component\Link\Factory
     {
         return new ILIAS\UI\Implementation\Component\Link\Factory();
     }

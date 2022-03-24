@@ -184,7 +184,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
         if (count($triggered_signals) == 0) {
             return $triggerer;
         }
-        return $triggerer->withAdditionalOnLoadCode(function ($id) use ($triggered_signals) {
+        return $triggerer->withAdditionalOnLoadCode(function ($id) use ($triggered_signals): string {
             $code = "";
             foreach ($triggered_signals as $triggered_signal) {
                 $signal = $triggered_signal->getSignal();

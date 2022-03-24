@@ -13,7 +13,7 @@ class DefaultRendererFactoryForTest extends DefaultRendererFactory
     {
     }
 
-    public function _getRendererNameFor($component) : string
+    public function _getRendererNameFor(\ILIAS\UI\Component\Component $component) : string
     {
         return $this->getRendererNameFor($component);
     }

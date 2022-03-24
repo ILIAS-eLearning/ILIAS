@@ -151,7 +151,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderMinimize($component)
+    protected function renderMinimize(Component\Button\Minimize $component): string
     {
         $tpl = $this->getTemplate("tpl.minimize.html", true, true);
         $tpl->setVariable("ARIA_LABEL", $this->txt("minimize"));
@@ -225,7 +225,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function maybeRenderId(Component\JavaScriptBindable $component, Template $tpl)
+    protected function maybeRenderId(Component\JavaScriptBindable $component, Template $tpl): void
     {
         $id = $this->bindJavaScript($component);
         if ($id !== null) {

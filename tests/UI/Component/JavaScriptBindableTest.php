@@ -40,7 +40,7 @@ class JavaScriptBindableTest extends TestCase
     public function test_withOnLoadCode_false_closure_1() : void
     {
         try {
-            $this->mock->withOnLoadCode(function () {
+            $this->mock->withOnLoadCode(function () : void {
             });
             $this->assertFalse("This should not happen...");
         } catch (InvalidArgumentException $exception) {
@@ -51,7 +51,7 @@ class JavaScriptBindableTest extends TestCase
     public function test_withOnLoadCode_false_closure_2() : void
     {
         try {
-            $this->mock->withOnLoadCode(function ($id, $some_arg) {
+            $this->mock->withOnLoadCode(function ($id, $some_arg) : void {
             });
             $this->assertFalse("This should not happen...");
         } catch (InvalidArgumentException $exception) {

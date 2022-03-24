@@ -57,7 +57,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderAction(Component\Component $component, Template $tpl)
+    protected function renderAction(Component\Component $component, Template $tpl) : Template
     {
         $action = $component->getAction();
         if ($component->isActive() && $action !== null) {
