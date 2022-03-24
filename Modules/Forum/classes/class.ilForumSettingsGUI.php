@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Style\Content\GUIService;
+
 /**
  * Class ilForumSettingsGUI
  * @author  Nadia Matuschek <nmatuschek@databay.de>
@@ -24,15 +26,13 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     public int $ref_id;
     private ilObjectService $obj_service;
     private \ILIAS\DI\Container $dic;
-    private ilForumProperties $properties;
 
-    public function __construct(ilObjForumGUI $parent_obj, ilForumProperties $properties)
+    public function __construct(ilObjForumGUI $parent_obj)
     {
         global $DIC;
 
         $this->dic = $DIC;
         $this->parent_obj = $parent_obj;
-        $this->properties = $properties;
 
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -45,8 +45,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->ref_id = $this->parent_obj->object->getRefId();
         $this->http_wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
-        $cs = $DIC->contentStyle();
-        $this->content_style_gui = $cs->gui();
 
         $this->lng->loadLanguageModule('style');
         $this->lng->loadLanguageModule('cont');
@@ -198,7 +196,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'grp');
             $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'crs');
 
-            if ((int) $grp_ref_id > 0 || (int) $crs_ref_id > 0) {
+            if ($grp_ref_id > 0 || $crs_ref_id > 0) {
                 #show member-tab for notification if forum-notification is enabled in administration
                 if ($this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
                     $cmd = '';

@@ -27,7 +27,7 @@ class ilForumPageGUI extends ilPageObjectGUI implements ilForumObjectConstants
     protected bool $isEmbeddedMode = false;
     protected string $language = '-';
 
-    public function __construct($a_id = 0, $a_old_nr = 0, $isEmbeddedMode = false, $language = '')
+    public function __construct(int $a_id = 0, int $a_old_nr = 0, bool $isEmbeddedMode = false, string $language = '')
     {
         parent::__construct(self::OBJ_TYPE, $a_id, $a_old_nr, false, $language);
         $this->setTemplateTargetVar('ADM_CONTENT');

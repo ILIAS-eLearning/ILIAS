@@ -23,11 +23,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
     private ilSetting $settings;
 
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $ref_id,
+        ilObjForumGUI $a_parent_obj,
+        string $a_parent_cmd,
+        int $ref_id,
         ForumDto $topicData,
-        $is_moderator = false,
+        bool $is_moderator = false,
         int $overview_setting = 0
     ) {
         global $DIC;

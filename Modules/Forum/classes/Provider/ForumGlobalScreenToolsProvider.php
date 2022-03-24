@@ -57,8 +57,6 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                             $root
                         );
 
-                        $exp->setCurrentPage((int) $additionalData->get(self::PAGE));
-
                         return $l($exp->getHTML(true));
                     });
             }
