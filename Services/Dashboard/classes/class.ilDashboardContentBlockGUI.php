@@ -102,6 +102,5 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
     
     public function fillPreviousNext() : void
     {
-        
     }
 }
