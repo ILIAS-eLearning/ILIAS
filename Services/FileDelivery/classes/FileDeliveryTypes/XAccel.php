@@ -49,7 +49,7 @@ final class XAccel implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists($path_to_file): bool
+    public function doesFileExists($path_to_file) : bool// @TODO: PHP8 Review: Signatur missmatch.
     {
         return is_readable($path_to_file);
     }
@@ -59,7 +59,7 @@ final class XAccel implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare($path_to_file): bool
+    public function prepare($path_to_file) : bool
     {
         $response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_TYPE, '');
 
@@ -72,7 +72,7 @@ final class XAccel implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver($path_to_file, $file_marked_to_delete): void
+    public function deliver($path_to_file, $file_marked_to_delete) : void// @TODO: PHP8 Review: Signatur missmatch.
     {
         // There is currently no way to delete the file after delivery
         if (strpos($path_to_file, './' . self::DATA . '/') === 0) {
@@ -81,7 +81,7 @@ final class XAccel implements ilFileDeliveryType
         }
 
         $response = $this->httpService->response();
-        $delivery = function () use ($path_to_file, $response): void {
+        $delivery = function () use ($path_to_file, $response) : void {
             $response = $response->withHeader(self::X_ACCEL_REDIRECT, $path_to_file);
             $this->httpService->saveResponse($response);
             $this->httpService->sendResponse();
@@ -98,7 +98,7 @@ final class XAccel implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsInlineDelivery(): bool
+    public function supportsInlineDelivery() : bool
     {
         return true;
     }
@@ -107,7 +107,7 @@ final class XAccel implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsAttachmentDelivery(): bool
+    public function supportsAttachmentDelivery() : bool
     {
         return true;
     }
@@ -116,7 +116,7 @@ final class XAccel implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsStreaming(): bool
+    public function supportsStreaming() : bool
     {
         return true;
     }
@@ -125,7 +125,7 @@ final class XAccel implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion($path_to_file): void
+    public function handleFileDeletion($path_to_file) : void
     {
         // No possibilities to do this at the moment
     }

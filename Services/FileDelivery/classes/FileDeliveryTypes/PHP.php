@@ -52,7 +52,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists($path_to_file): bool
+    public function doesFileExists($path_to_file) : bool// @TODO: PHP8 Review: Signatur missmatch.
     {
         return is_readable($path_to_file);
     }
@@ -61,7 +61,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare($path_to_file): void
+    public function prepare($path_to_file) : void
     {
         set_time_limit(0);
         $this->file = fopen($path_to_file, "rb");
@@ -71,7 +71,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver($path_to_file, $file_marked_to_delete): void
+    public function deliver($path_to_file, $file_marked_to_delete) : void// @TODO: PHP8 Review: Signatur missmatch.
     {
         $this->httpService->sendResponse();
         fpassthru($this->file);
@@ -83,7 +83,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsInlineDelivery(): bool
+    public function supportsInlineDelivery() : bool
     {
         return true;
     }
@@ -92,7 +92,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsAttachmentDelivery(): bool
+    public function supportsAttachmentDelivery() : bool
     {
         return true;
     }
@@ -101,7 +101,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsStreaming(): bool
+    public function supportsStreaming() : bool
     {
         return false;
     }
@@ -110,7 +110,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion($path_to_file): bool
+    public function handleFileDeletion($path_to_file) : bool
     {
         return unlink($path_to_file);
     }

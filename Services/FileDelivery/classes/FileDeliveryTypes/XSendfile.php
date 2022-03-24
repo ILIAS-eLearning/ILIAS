@@ -49,7 +49,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists($path_to_file): bool
+    public function doesFileExists($path_to_file) : bool// @TODO: PHP8 Review: Signatur missmatch.
     {
         return is_readable($path_to_file);
     }
@@ -58,7 +58,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare($path_to_file): bool
+    public function prepare($path_to_file) : bool
     {
         //	Nothing has to be done here
         return true;
@@ -68,9 +68,9 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver($path_to_file, $file_marked_to_delete): bool
+    public function deliver($path_to_file, $file_marked_to_delete) : bool// @TODO: PHP8 Review: Signatur missmatch.
     {
-        $delivery = function () use ($path_to_file): void {
+        $delivery = function () use ($path_to_file) : void {
             $response = $this->httpService->response()
                 ->withHeader(self::X_SENDFILE, realpath($path_to_file));
             $this->httpService->saveResponse($response);
@@ -90,7 +90,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsInlineDelivery(): bool
+    public function supportsInlineDelivery() : bool
     {
         return true;
     }
@@ -99,7 +99,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsAttachmentDelivery(): bool
+    public function supportsAttachmentDelivery() : bool
     {
         return true;
     }
@@ -108,7 +108,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsStreaming(): bool
+    public function supportsStreaming() : bool
     {
         return true;
     }
@@ -117,7 +117,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion($path_to_file): void
+    public function handleFileDeletion($path_to_file) : void
     {
         unlink($path_to_file);
     }
