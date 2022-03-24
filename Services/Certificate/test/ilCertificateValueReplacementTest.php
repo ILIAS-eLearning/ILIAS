@@ -8,7 +8,7 @@ class ilCertificateValueReplacementTest extends ilCertificateBaseTestCase
 {
     public function testReplace() : void
     {
-        $replacement = new ilCertificateValueReplacement('/some/where');
+        $replacement = new ilCertificateValueReplacement();
 
         $placeholderValues = array('NAME' => 'Peter', 'PRIZE' => 'a fantastic prize');
 
@@ -29,7 +29,7 @@ Hurray Peter you have received a fantastic prize
 
     public function testReplaceClientWebDir() : void
     {
-        $replacement = new ilCertificateValueReplacement('/some/where');
+        $replacement = new ilCertificateValueReplacement();
 
         $placeholderValues = array('NAME' => 'Peter', 'PRIZE' => 'a fantastic prize');
 

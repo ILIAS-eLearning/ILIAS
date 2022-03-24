@@ -6,21 +6,6 @@
  */
 class ilCertificateValueReplacement
 {
-    private string $clientWebDirectory;
-
-    /**
-     * @param string $clientWebDirectory   - Replacement for the placeholder [CLIENT_WEB_DIR], if the string is empty
-     *                                     the constant CLIENT_WEB_DIR will be tried as default value.
-     *                                     If CLIENT_WEB_DIR is not defined the default value will be an empty string.
-     */
-    public function __construct(string $clientWebDirectory = '')
-    {
-        if ('' === $clientWebDirectory && true === defined('CLIENT_WEB_DIR')) {
-            $clientWebDirectory = CLIENT_WEB_DIR;
-        }
-        $this->clientWebDirectory = $clientWebDirectory;
-    }
-
     public function replace(array $placeholderValues, string $certificateContent) : string
     {
         foreach ($placeholderValues as $placeholder => $value) {

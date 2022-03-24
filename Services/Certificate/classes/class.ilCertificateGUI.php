@@ -59,7 +59,6 @@ class ilCertificateGUI
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
     private int $objectId;
     private ilCertificateFormRepository $settingsFormFactory;
-    private ilCertificatePlaceholderValues $placeholderValuesObject;
     private ilXlsFoParser $xlsFoParser;
     private ilCertificateDeleteAction $deleteAction;
     private ilCertificateTemplateExportAction $exportAction;
@@ -111,8 +110,6 @@ class ilCertificateGUI
         $this->ref_id = (int) $DIC->http()->wrapper()->query()->retrieve("ref_id", $DIC->refinery()->kindlyTo()->int());
 
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
-
-        $this->placeholderValuesObject = $placeholderValuesObject;
 
         $this->objectId = $objectId;
 
