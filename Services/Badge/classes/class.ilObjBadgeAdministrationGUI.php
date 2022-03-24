@@ -33,7 +33,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
     ) {
         global $DIC;
 
-        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbacsystem = $DIC->rbac()->system();// @TODO PHP8 Review: Missing property.
         $this->ctrl = $DIC->ctrl();
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
