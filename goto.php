@@ -59,7 +59,7 @@ include_once("Services/Init/classes/class.ilStartUpGUI.php");
 if (!ilStartUpGUI::_checkGoto($_GET["target"])) {
     // if anonymous: go to login page
     if (!$ilUser->getId() || $ilUser->isAnonymous()) {
-        ilUtil::redirect("login.php?target=" . $orig_target . "&cmd=force_login&lang=" . $ilUser->getCurrentLanguage());
+        ilUtil::redirect("login.php?target=" . $orig_target . "&lang=" . $ilUser->getCurrentLanguage());
     } else {
         // message if target given but not accessible
         $tarr = explode("_", $_GET["target"]);
