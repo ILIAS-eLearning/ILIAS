@@ -98,7 +98,8 @@ class ilObjCertificateSettings extends ilObject
         if (is_file($this->getDefaultBackgroundImageTempfilePath())) {
             $result &= unlink($this->getDefaultBackgroundImageTempfilePath());
         }
-        return $result;
+
+        return (bool) $result; // Don't remove the case
     }
 
     private function getBackgroundImageDefaultFolder() : string

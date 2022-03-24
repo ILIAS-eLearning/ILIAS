@@ -35,17 +35,9 @@ class ilCertificatePdfAction
         $this->translatedErrorText = $translatedErrorText;
     }
 
-    /**
-     * @param integer $objectId
-     * @param integer $userId
-     * @return string
-     * @throws ilException
-     */
     public function createPDF(int $userId, int $objectId) : string
     {
-        $pdfScalar = $this->pdfGenerator->generateCurrentActiveCertificate($userId, $objectId);
-
-        return $pdfScalar;
+        return $this->pdfGenerator->generateCurrentActiveCertificate($userId, $objectId);
     }
 
     public function downloadPdf(int $userId, int $objectId) : string
