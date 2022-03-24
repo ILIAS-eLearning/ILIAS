@@ -7,7 +7,6 @@
 class ilObjChatroomAccessTest extends ilChatroomAbstractTest
 {
     protected ilObjChatroomAccess $access;
-
     protected ilDBInterface $db;
 
     public function testCommandDefitionFullfilsExpectations() : void
@@ -128,16 +127,11 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $this->assertTrue($this->access::_checkGoto('chtr_5'));
     }
 
-    public function testGotoChecksFailForInvalidTypes() : void
-    {
-        $this->assertFalse($this->access::_checkGoto(['chtr', '5']));
-        $this->assertFalse($this->access::_checkGoto(5));
-    }
-
     public function testAccessChecksFail() : void
     {
         $userId = 1;
         $refId = 99;
+        $objId = 6;
 
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(
             ['getId']
@@ -157,13 +151,14 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
 
         $this->setGlobalVariable('rbacsystem', $rbacsystem);
 
-        $this->assertFalse($this->access->_checkAccess('unused', 'write', $refId, 'unused'));
+        $this->assertFalse($this->access->_checkAccess('unused', 'write', $refId, $objId));
     }
 
     public function testAccessChecksSucceed() : void
     {
         $userId = 1;
         $refId = 99;
+        $objId = 6;
 
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(
             ['getId']
@@ -187,7 +182,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
 
         $this->setGlobalVariable('rbacsystem', $rbacsystem);
 
-        $this->assertTrue($this->access->_checkAccess('unused', 'write', $refId, 'unused'));
+        $this->assertTrue($this->access->_checkAccess('unused', 'write', $refId, $objId));
     }
 
     protected function setUp() : void

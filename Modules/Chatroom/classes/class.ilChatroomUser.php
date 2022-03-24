@@ -105,13 +105,11 @@ class ilChatroomUser
 
     public function buildAnonymousName() : string
     {
-        $anonymous_name = str_replace(
+        return str_replace(
             '#',
             (string) random_int(0, 10000),
             $this->room->getSetting('autogen_usernames')
         );
-
-        return $anonymous_name;
     }
 
     public function buildFullname() : string

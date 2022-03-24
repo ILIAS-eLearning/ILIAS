@@ -129,7 +129,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $chatSettings->set('conversation_idle_state_in_minutes', (string) $convIdleStateTime);
         $chatSettings->set('enable_osc', (string) $settings['enable_osc']);
 
-        $adminSettings = new ilChatroomAdmin($this->gui->object->getId());
+        $adminSettings = new ilChatroomAdmin($this->gui->getObject()->getId());
         $adminSettings->saveClientSettings((object) $settings);
 
         $fileHandler = new ilChatroomConfigFileHandler();
@@ -146,7 +146,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $this->defaultActions();
         $this->gui->switchToVisibleMode();
 
-        $adminSettings = new ilChatroomAdmin($this->gui->object->getId());
+        $adminSettings = new ilChatroomAdmin($this->gui->getObject()->getId());
         $serverSettings = $adminSettings->loadGeneralSettings();
 
         if ($form === null) {
@@ -159,7 +159,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $this->checkServerConnection($serverSettings);
 
         $form->setTitle($this->ilLng->txt('general_settings_title'));
-        if (ilChatroom::checkUserPermissions('write', $this->gui->ref_id, false)) {
+        if (ilChatroom::checkUserPermissions('write', $this->gui->getRefId(), false)) {
             $form->addCommandButton('view-saveClientSettings', $this->ilLng->txt('save'));
         } else {
             $form->getItemByPostVar('auth')->setIsReadOnly(true);

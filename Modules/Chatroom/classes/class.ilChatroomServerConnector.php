@@ -99,8 +99,7 @@ class ilChatroomServerConnector
         });
 
         try {
-            $response = file_get_contents($url, false, stream_context_create($ctx));
-            return $response;
+            return file_get_contents($url, false, stream_context_create($ctx));
         } catch (Exception $e) {
             ilLoggerFactory::getLogger('chatroom')->alert($e->getMessage());
         } finally {
