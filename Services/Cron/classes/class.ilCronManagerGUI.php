@@ -25,7 +25,7 @@ use ILIAS\UI\Renderer;
  * @ilCtrl_isCalledBy ilCronManagerGUI: ilAdministrationGUI
  * @ingroup ServicesCron
  */
-class ilCronManagerGUI // implements ilCtrlBaseClassInterface
+class ilCronManagerGUI
 {
     private ilLanguage $lng;
     private ilCtrl $ctrl;
@@ -181,7 +181,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
             $this->ctrl->redirect($this, 'render');
         }
 
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initEditForm($job_id);
         }
 
@@ -416,7 +416,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
         }
 
         $jobs = $this->getMultiActionData();
-        if ($jobs) {
+        if ($jobs !== []) {
             foreach ($jobs as $job) {
                 if ($this->cronManager->isJobActive($job->getId())) {
                     $this->cronManager->deactivateJob($job, $this->actor, true);
@@ -441,7 +441,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
         }
 
         $jobs = $this->getMultiActionData();
-        if ($jobs) {
+        if ($jobs !== []) {
             foreach ($jobs as $job) {
                 $this->cronManager->resetJob($job, $this->actor);
             }

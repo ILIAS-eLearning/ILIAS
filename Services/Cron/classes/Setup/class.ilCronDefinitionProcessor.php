@@ -19,7 +19,7 @@ class ilCronDefinitionProcessor implements ilComponentDefinitionProcessor
 {
     private ilDBInterface $db;
     private ilCronJobRepository $cronRepository;
-    private ?string $component;
+    private ?string $component = null;
     /** @var string[] */
     private array $has_cron;
 
