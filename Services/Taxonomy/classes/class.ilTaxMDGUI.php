@@ -45,7 +45,8 @@ class ilTaxMDGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
 
-        $this->request = $DIC->http()->request(); // TODO PHP8 REVIEW: Please use http()->wrapper()
+        // @todo introduce request wrapper
+        $this->request = $DIC->http()->request();
 
         $this->md_rbac_id = $a_md_rbac_id;
         $this->md_obj_id = $a_md_obj_id;

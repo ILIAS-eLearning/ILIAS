@@ -60,13 +60,13 @@ class ilObjTaxonomyAdministration extends ilObject
         while ($row = $ilDB->fetchAssoc($set)) {
             if (!$tree->isDeleted((int) $row["ref_id"])) {
                 $res[$row["tax_id"]][$row["obj_id"]] = array(
-                    "tax_id" => $row["tax_id"],  // TODO PHP8-REVIEW: Please check. Cast to int could be relevant
+                    "tax_id" => (int) $row["tax_id"],
                     "tax_title" => $row["tax_title"],
                     "tax_status" => (bool) $row["tax_status"],
                     "obj_title" => $row["obj_title"],
                     "obj_type" => $row["obj_type"],
-                    "obj_id" => $row["obj_id"], // TODO PHP8-REVIEW: Please check. Cast to int could be relevant
-                    "ref_id" => $row["ref_id"],// TODO PHP8-REVIEW: Please check. Cast to int could be relevant
+                    "obj_id" => (int) $row["obj_id"],
+                    "ref_id" => (int) $row["ref_id"],
                     "path" => $this->getPath((int) $row["ref_id"])
                 );
             }

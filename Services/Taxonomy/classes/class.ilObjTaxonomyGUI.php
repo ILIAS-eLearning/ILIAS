@@ -47,7 +47,8 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 
         $lng->loadLanguageModule("tax");
 
-        $params = $DIC->http()->request()->getQueryParams(); // // TODO PHP8-REVIEW: Please use http()->wrapper()
+        // @todo introduce request wrapper
+        $params = $DIC->http()->request()->getQueryParams();
         $this->current_tax_node = (int) ($params["tax_node"] ?? null);
         $this->requested_tax_id = (int) ($params["tax_id"] ?? null);
         $this->requested_move_ids = (string) ($params["move_ids"] ?? "");

@@ -132,8 +132,8 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
         }
 
         foreach ($post as $p) {
-            if (!in_array($p, $exising)) {
-                $tax_node_ass->addAssignment(ilUtil::stripSlashes($p), $a_item_id); //  // TODO PHP8-REVIEW: Fix this: $p should be of type int
+            if (!in_array((int) $p, $exising)) {
+                $tax_node_ass->addAssignment((int) $p, $a_item_id);
             }
         }
     }

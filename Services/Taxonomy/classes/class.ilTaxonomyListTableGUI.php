@@ -42,7 +42,8 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.taxonomy_list_row.html", "Services/Taxonomy");
 
-        $params = $DIC->http()->request()->getQueryParams();  // TODO PHP8-REVIEW: Please use http()->wrapper()
+        // @todo introduce request wrapper
+        $params = $DIC->http()->request()->getQueryParams();
         $this->requested_tax_id = (int) ($params["tax_id"] ?? null);
     }
 

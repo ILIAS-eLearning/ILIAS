@@ -30,7 +30,8 @@ class ilTaxonomyTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
 
-        $params = $DIC->http()->request()->getQueryParams();  // TODO PHP8-REVIEW: Please user http()->wrapper()
+        // @todo introduce request wrapper
+        $params = $DIC->http()->request()->getQueryParams();
 
         $this->requested_tax_node = $params["tax_node"] ?? "";
 
