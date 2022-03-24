@@ -11,7 +11,7 @@ require_once 'libs/composer/vendor/autoload.php';
  */
 class ilServicesTaxonomySuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilServicesTaxonomySuite
     {
         $suite = new self();
 

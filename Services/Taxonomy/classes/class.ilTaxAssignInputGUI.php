@@ -4,7 +4,6 @@
 
 /**
  * Input GUI class for taxonomy assignments
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxAssignInputGUI extends ilSelectInputGUI
@@ -23,42 +22,40 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 
         $this->lng = $DIC->language();
         $lng = $DIC->language();
-        
+
         $lng->loadLanguageModule("tax");
         $this->setMulti($a_multi);
         $this->include_please_select = $a_include_please_select;
-        
+
         if ($a_title == "") {
             $a_title = $lng->txt("tax_taxonomy");
         }
-        
+
         if ($a_postvar == "") {
             $a_postvar = "tax_node_assign";
         }
-        
+
         parent::__construct($a_title, $a_postvar);
         $this->setType("tax_assign");
-        
+
         if ((int) $a_taxonomy_id == 0) {
             throw new ilTaxonomyException("No taxonomy ID passed to ilTaxAssignInputGUI.");
         }
-        
+
         $this->setTaxonomyId((int) $a_taxonomy_id);
     }
-    
+
     /**
      * Set taxonomy id
-     *
      * @param int $a_val taxonomy id
      */
     public function setTaxonomyId(int $a_val) : void
     {
         $this->taxononmy_id = $a_val;
     }
-    
+
     /**
      * Get taxonomy id
-     *
      * @return int taxonomy id
      */
     public function getTaxonomyId() : int
@@ -68,8 +65,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 
     /**
      * Set Options.
-     *
-     * @param	array	$a_options	Options. Array ("value" => "option_text")
+     * @param array $a_options Options. Array ("value" => "option_text")
      */
     public function setOptions($a_options) : void
     {
@@ -78,8 +74,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 
     /**
      * Get Options.
-     *
-     * @return	array	Options. Array ("value" => "option_text")
+     * @return    array    Options. Array ("value" => "option_text")
      */
     public function getOptions() : array
     {
@@ -89,19 +84,19 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
         if ($this->include_please_select) {
             $options = array("" => $lng->txt("please_select"));
         }
-        
+
         $tax_tree = new ilTaxonomyTree($this->getTaxonomyId());
-        
+
         $nodes = $tax_tree->getSubTree($tax_tree->getNodeData($tax_tree->readRootId()));
         foreach ($nodes as $n) {
             if ($n["type"] == "taxn") {
                 $options[$n["child"]] = str_repeat("&nbsp;", ($n["depth"] - 2) * 2) . $n["title"];
             }
         }
-        
+
         return $options;
     }
-    
+
     /**
      * Save input
      * @throws ilTaxonomyException
@@ -130,19 +125,19 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
         $exising = array();
         foreach ($current_ass as $ca) {
             if (!in_array($ca["node_id"], $post)) {
-                $tax_node_ass->deleteAssignment($ca["node_id"], $a_item_id);
+                $tax_node_ass->deleteAssignment((int) $ca["node_id"], $a_item_id);
             } else {
-                $exising[] = $ca["node_id"];
+                $exising[] = (int) $ca["node_id"];
             }
         }
 
         foreach ($post as $p) {
             if (!in_array($p, $exising)) {
-                $tax_node_ass->addAssignment(ilUtil::stripSlashes($p), $a_item_id);
+                $tax_node_ass->addAssignment(ilUtil::stripSlashes($p), $a_item_id); //  // TODO PHP8-REVIEW: Fix this: $p should be of type int
             }
         }
     }
-    
+
     /**
      * Set current values
      * @throws ilTaxonomyException
@@ -155,7 +150,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
     ) : void {
         $tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
         $ass = $tax_node_ass->getAssignmentsOfItem($a_item_id);
-        
+
         $nodes = array();
         foreach ($ass as $a) {
             $nodes[] = $a["node_id"];
