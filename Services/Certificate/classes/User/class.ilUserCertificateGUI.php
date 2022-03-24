@@ -228,7 +228,7 @@ class ilUserCertificateGUI
                 $objectTypeIcon = $this->uiFactory
                     ->symbol()
                     ->icon()
-                    ->standard($certificateData['obj_type'], $certificateData['obj_type'], 'small');
+                    ->standard($certificateData['obj_type'], $certificateData['obj_type']);
 
                 $objectTitle = $certificateData['title'];
                 $refIds = ilObject::_getAllReferences((int) $certificateData['obj_id']);

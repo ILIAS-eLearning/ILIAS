@@ -86,7 +86,7 @@ class ilFormFieldParser
         // replacements, so we do it in the code as well
         $content = str_replace(["&#xA0;", "&#160;"], "<br />", $content);
 
-        $formFields = [
+        return [
             'pageformat' => $pagesize,
             'pagewidth' => $pagewidth,
             'pageheight' => $pageheight,
@@ -96,7 +96,5 @@ class ilFormFieldParser
             'margin_body_left' => $marginBody_left,
             'certificate_text' => $content
         ];
-
-        return $formFields;
     }
 }

@@ -112,9 +112,7 @@ class ilXlsFoParser
             )
         ];
 
-        $output = $this->xlstProcess->process($args, $params);
-
-        return $output;
+        return $this->xlstProcess->process($args, $params);
     }
 
     private function formatNumberString(string $a_number) : string

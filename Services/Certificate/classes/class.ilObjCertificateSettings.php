@@ -99,6 +99,7 @@ class ilObjCertificateSettings extends ilObject
             $result &= unlink($this->getDefaultBackgroundImageTempfilePath());
         }
 
+        /** @noinspection PhpCastIsUnnecessaryInspection */
         return (bool) $result; // Don't remove the cast, otherwise $result will be 1 or 0
     }
 

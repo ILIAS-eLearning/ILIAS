@@ -57,7 +57,7 @@ class ilCertificateCourseLearningProgressEvaluation
         foreach ($courseTemplates as $courseTemplate) {
             $courseObjectId = $courseTemplate->getObjId();
 
-            $subItems = $this->setting->get('cert_subitems_' . $courseObjectId, null);
+            $subItems = $this->setting->get('cert_subitems_' . $courseObjectId);
             if ($subItems === null) {
                 continue;
             }

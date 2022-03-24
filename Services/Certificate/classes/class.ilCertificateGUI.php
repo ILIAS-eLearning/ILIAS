@@ -601,7 +601,7 @@ class ilCertificateGUI
             $format = $this->settings->get('pageformat', '');
             $formats = $this->pageFormats->fetchPageFormats();
 
-            $formFieldArray = [
+            return [
                 'pageformat' => $format,
                 'pagewidth' => $formats['width'],
                 'pageheight' => $formats['height'],
@@ -611,8 +611,6 @@ class ilCertificateGUI
                 'margin_body_left' => ilPageFormats::DEFAULT_MARGIN_BODY_LEFT,
                 'certificate_text' => $certificateTemplate->getCertificateContent()
             ];
-
-            return $formFieldArray;
         }
         return $this->settingsFormFactory->fetchFormFieldData($certificateTemplate->getCertificateContent());
     }

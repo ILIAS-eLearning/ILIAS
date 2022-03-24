@@ -61,7 +61,7 @@ class ilCertificateTemplateExportAction
 
         $exportPath = $this->certificatePath . $time . '__' . $installationId . '__' . $type . '__' . $certificateId . '__certificate/';
 
-        $this->filesystem->createDir($exportPath, Visibility::PUBLIC_ACCESS);
+        $this->filesystem->createDir($exportPath);
 
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 

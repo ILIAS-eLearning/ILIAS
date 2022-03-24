@@ -80,9 +80,7 @@ class ilPdfGenerator
             throw new ilException(sprintf('The user_id "%s" does NOT reference a user', $userId));
         }
 
-        $pdfFileName = $this->pdfFilenameFactory->create($certificate);
-
-        return $pdfFileName;
+        return $this->pdfFilenameFactory->create($certificate);
     }
 
     private function createPDFScalar(ilUserCertificate $certificate) : string
