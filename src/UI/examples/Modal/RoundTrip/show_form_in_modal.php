@@ -42,6 +42,7 @@ function show_form_in_modal()
     $valid = true;
     if ($post_wrapper->has('cmd') && $post_wrapper->retrieve('cmd', $refinery->kindlyTo()->string()) == 'submit') {
         if ($form->checkInput()) {
+            // TODO PHP8: check superglobal
             $panel = $factory->panel()->standard('Form validation successful', $factory->legacy(print_r($_POST, true)));
             $out = $renderer->render($panel);
         } else {

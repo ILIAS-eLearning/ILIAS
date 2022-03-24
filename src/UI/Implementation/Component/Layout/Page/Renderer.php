@@ -67,7 +67,7 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("LOGO", $default_renderer->render($logo));
             }
         }
-
+        // TODO PHP8: check superglobal
         $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
         if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
             $tpl->touchBlock('slates_engaged');
