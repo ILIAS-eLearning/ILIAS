@@ -31,7 +31,6 @@
 <!-- language file start -->
 acc#:#acc_access_key#:#Access Key
 acc#:#acc_access_keys#:#Access Keys
-lso#:#lso_player_viewmodelabel#:#Learning Sequence
 acc#:#acc_add_document_btn_label#:#Add Document
 acc#:#acc_comp_frm#:#Forum
 acc#:#acc_comp_global#:#Global
@@ -10330,6 +10329,7 @@ lso#:#lso_player_resume#:#Resume Learning Sequence
 lso#:#lso_player_review#:#Review Learning Sequence
 lso#:#lso_player_start#:#Start Learning Sequence
 lso#:#lso_player_suspend#:#Suspend
+lso#:#lso_player_viewmodelabel#:#Learning Sequence
 lso#:#lso_print_list#:#Generate list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search Users
