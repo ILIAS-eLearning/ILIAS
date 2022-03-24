@@ -337,7 +337,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($entries as $id => $entry) {
             $use_block = $block;
             $engaged = (string) $id === $active;
-
+            $slate = null;
             if ($entry instanceof Slate) {
                 $f = $this->getUIFactory();
                 $secondary_signal = $entry->getToggleSignal();

@@ -85,7 +85,8 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
         if ($special) {
             $constraints[] = $pw_validation->hasSpecialChars();
         }
-
+    
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->withAdditionalTransformation($this->refinery->logical()->parallel($constraints));
     }
 
