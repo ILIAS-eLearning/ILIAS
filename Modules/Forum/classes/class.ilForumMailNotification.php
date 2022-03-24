@@ -367,9 +367,7 @@ class ilForumMailNotification extends ilMailNotification
             $date = $this->provider->getPostDate();
         }
 
-        $date = ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
-
-        return $date;
+        return ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
     }
 
     private function addLinkToMail() : void

@@ -135,12 +135,10 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
             ]
         ];
 
-        $tree = $this->ui->factory()->tree()
+        return $this->ui->factory()->tree()
             ->expandable($this->getTreeLabel(), $this)
             ->withData($rootNode)
             ->withHighlightOnNodeClick(false);
-
-        return $tree;
     }
 
     protected function createNode(
@@ -150,7 +148,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $nodeIconPath = $this->getNodeIcon($record);
 
         $icon = null;
-        if (is_string($nodeIconPath) && $nodeIconPath !== '') {
+        if ($nodeIconPath !== '') {
             $icon = $this->ui
                 ->factory()
                 ->symbol()
@@ -208,10 +206,10 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
 
         if (isset($a_node['post_read']) && $a_node['post_read']) {
             $this->ctrl->setParameter($this->parent_obj, 'pos_pk', null);
-            $url = $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd, (string) $a_node['pos_pk'], false, false);
+            $url = $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd, (string) $a_node['pos_pk']);
         } else {
             $this->ctrl->setParameter($this->parent_obj, 'pos_pk', $a_node['pos_pk']);
-            $url = $this->ctrl->getLinkTarget($this->parent_obj, 'markPostRead', (string) $a_node['pos_pk'], false, false);
+            $url = $this->ctrl->getLinkTarget($this->parent_obj, 'markPostRead', (string) $a_node['pos_pk']);
             $this->ctrl->setParameter($this->parent_obj, 'pos_pk', null);
         }
 

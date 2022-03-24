@@ -111,7 +111,7 @@ class ilForumDraftsHistory
         );
         $instances = [];
         while ($row = $ilDB->fetchAssoc($res)) {
-            $draftHistory = new self;
+            $draftHistory = new self();
             $draftHistory = self::populateWithDatabaseRecord($draftHistory, $row);
 
             $instances[] = $draftHistory;
@@ -135,7 +135,7 @@ class ilForumDraftsHistory
 
     public function delete() : void
     {
-        $this->db->manipulatef(
+        $this->db->manipulateF(
             'DELETE FROM frm_drafts_history WHERE history_id = %s',
             ['integer'],
             [$this->getHistoryId()]
