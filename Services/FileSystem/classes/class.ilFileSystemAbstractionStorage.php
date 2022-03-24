@@ -28,10 +28,10 @@ abstract class ilFileSystemAbstractionStorage
     private const FACTOR = 100;
     private const MAX_EXPONENT = 3;
     private const SECURED_DIRECTORY = "sec";
-    private $container_id;
-    private $storage_type;
+    private $container_id;// @TODO: PHP8 Review: Missing property type.
+    private $storage_type;// @TODO: PHP8 Review: Missing property type.
     private bool $path_conversion = false;
-    protected $path;
+    protected $path;// @TODO: PHP8 Review: Missing property type.
     protected \ILIAS\Filesystem\Filesystems $file_system_service;
 
     /**
