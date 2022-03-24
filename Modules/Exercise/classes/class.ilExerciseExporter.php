@@ -132,6 +132,9 @@ class ilExerciseExporter extends ilXmlExporter
         return $deps;
     }
 
+    /**
+     * @return int[]
+     */
     protected function getActiveAdvMDRecords($a_id) : array
     {
         $active = array();

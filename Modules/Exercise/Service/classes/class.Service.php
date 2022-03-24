@@ -9,10 +9,6 @@ namespace ILIAS\Exercise;
  */
 class Service
 {
-    public function __construct()
-    {
-    }
-
     public function internal() : InternalService
     {
         return new InternalService();

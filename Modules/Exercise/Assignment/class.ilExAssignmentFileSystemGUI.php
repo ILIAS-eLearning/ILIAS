@@ -18,7 +18,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
      */
     protected array $requested_file;
 
-    public function __construct($a_main_directory)
+    public function __construct(string $a_main_directory)
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;

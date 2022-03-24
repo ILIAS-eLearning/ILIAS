@@ -35,6 +35,7 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
 
     /**
      * @throws ilExcUnknownAssignmentTypeException
+     * @return \ilDerivedTask[]
      */
     public function getTasks(int $user_id) : array
     {

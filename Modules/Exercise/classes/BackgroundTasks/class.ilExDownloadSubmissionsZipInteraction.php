@@ -28,6 +28,9 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
     }
 
 
+    /**
+     * @return \ILIAS\BackgroundTasks\Types\SingleType[]
+     */
     public function getInputTypes() : array
     {
         return [
@@ -46,6 +49,9 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
         return new SingleType(StringValue::class);
     }
 
+    /**
+     * @return \ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption[]
+     */
     public function getOptions(array $input) : array
     {
         return [

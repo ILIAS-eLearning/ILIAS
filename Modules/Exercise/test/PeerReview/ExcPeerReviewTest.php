@@ -9,12 +9,11 @@ use PHPUnit\Framework\TestCase;
  */
 class ExcPeerReviewTest extends TestCase
 {
-
     protected function tearDown() : void
     {
     }
 
-    protected function getDistribution($user_ids, $num_assignments)
+    protected function getDistribution($user_ids, $num_assignments) : \ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution
     {
         return new \ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution($user_ids, $num_assignments);
     }
@@ -22,7 +21,7 @@ class ExcPeerReviewTest extends TestCase
     /**
      * Test if each rater has $num_assignments peers
      */
-    public function testDistributionNumberOfPeers()
+    public function testDistributionNumberOfPeers() : void
     {
         $user_ids = [100,200,300,400,500];
         $num_assignments = 3;
@@ -37,7 +36,7 @@ class ExcPeerReviewTest extends TestCase
     /**
      * Test if each peer is assigned to $num_assignments raters
      */
-    public function testDistributionNumberOfRaters()
+    public function testDistributionNumberOfRaters() : void
     {
         $user_ids = [10,20,30,40,50];
         $num_assignments = 4;
@@ -61,7 +60,7 @@ class ExcPeerReviewTest extends TestCase
     /**
      * Test if raters are not assigned as peers to themselves
      */
-    public function testDistributionNoSelfAssignment()
+    public function testDistributionNoSelfAssignment() : void
     {
         $user_ids = [10,20,30,40,50];
         $num_assignments = 4;

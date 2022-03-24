@@ -38,7 +38,6 @@ class ExcPeerReviewDistribution
     /**
      * ExcPeerReviewDistribution constructor.
      * @param int[] $user_ids
-     * @param int $num_assignments
      */
     public function __construct(array $user_ids, int $num_assignments)
     {
@@ -84,7 +83,6 @@ class ExcPeerReviewDistribution
     /**
      * Get peers of rater
      *
-     * @param int $user_id
      * @return int[]
      */
     public function getPeersOfRater(int $user_id) : array

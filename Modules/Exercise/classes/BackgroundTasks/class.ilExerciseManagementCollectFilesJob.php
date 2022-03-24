@@ -61,6 +61,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         $this->logger = $DIC->logger()->exc();
     }
 
+    /**
+     * @return \ILIAS\BackgroundTasks\Types\SingleType[]
+     */
     public function getInputTypes() : array
     {
         return
@@ -85,9 +88,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
     /**
      * run the job
-     * @param array    $input
-     * @param Observer $observer
-     * @return Value
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws ilDatabaseException
@@ -128,8 +128,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     /**
      * Copy a file in the Feedback_files directory
      * TODO use the new filesystem.
-     * @param string $a_directory
-     * @param string $a_file
      */
     public function copyFileToSubDirectory(string $a_directory, string $a_file) : void
     {
@@ -256,10 +254,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
     /**
      * Add criteria data to the excel.
-     * @param int $feedback_giver
-     * @param int $participant_id
-     * @param int $row
-     * @param int $col
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     protected function addCriteriaToExcel(

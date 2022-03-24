@@ -27,6 +27,7 @@ class ilExerciseDerivedTaskAction
     /**
      * Get all open assignments of a user
      * @throws ilExcUnknownAssignmentTypeException
+     * @return \ilExAssignment[]
      */
     public function getOpenAssignmentsOfUser(int $user_id) : array
     {
@@ -42,7 +43,6 @@ class ilExerciseDerivedTaskAction
     /**
      * Get all open peer reviews of a user
      *
-     * @param int $user_id
      * @return ilExAssignment[]
      * @throws ilExcUnknownAssignmentTypeException
      */
@@ -60,7 +60,6 @@ class ilExerciseDerivedTaskAction
     /**
      * Get all open gradings of a user
      *
-     * @param int $user_id
      * @return ilExAssignment[]
      * @throws ilExcUnknownAssignmentTypeException
      */

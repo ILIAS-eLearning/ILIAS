@@ -14,21 +14,21 @@ class ilExAssTypeUploadTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form)
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form) : void
     {
     }
 
     /**
      * @inheritdoc
      */
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form)
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form) : void
     {
     }
 
     /**
      * @inheritdoc
      */
-    public function getFormValuesArray(ilExAssignment $ass)
+    public function getFormValuesArray(ilExAssignment $ass) : array
     {
         return [];
     }

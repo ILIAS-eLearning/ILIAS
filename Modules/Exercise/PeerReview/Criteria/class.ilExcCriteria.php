@@ -23,7 +23,7 @@ abstract class ilExcCriteria
     protected bool $required = false;
     protected int $pos = 0;
     protected ?array $def = null;
-    protected ?ilPropertyFormGUI $form;
+    protected ?ilPropertyFormGUI $form = null;
     protected ilExAssignment $ass;
     protected int $giver_id = 0;
     protected int $peer_id = 0;
@@ -144,7 +144,7 @@ abstract class ilExcCriteria
         $this->title = $a_value;
     }
     
-    public function getTitle() : ?string
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -154,7 +154,7 @@ abstract class ilExcCriteria
         $this->desc = $a_value;
     }
     
-    public function getDescription() : ?string
+    public function getDescription() : string
     {
         return $this->desc;
     }
@@ -189,7 +189,7 @@ abstract class ilExcCriteria
         return $this->def;
     }
     
-    public function importDefinition(string $a_def, string $a_def_json)
+    public function importDefinition(string $a_def, string $a_def_json) : void
     {
         // see #23711
         // use json, if given
@@ -317,7 +317,7 @@ abstract class ilExcCriteria
             " WHERE parent = " . $ilDB->quote($a_parent_id, "integer"));
     }
     
-    public function cloneObject(int $a_target_parent_id) : int
+    public function cloneObject(int $a_target_parent_id) : ?int
     {
         $new_obj = ilExcCriteria::getInstanceByType($this->getType());
         $new_obj->setParent($a_target_parent_id);

@@ -715,7 +715,7 @@ class ilExPeerReviewGUI
         $this->editPeerReviewItemObject($form);
     }
     
-    protected function handlePeerReviewChange()
+    protected function handlePeerReviewChange() : void
     {
         // (in)valid peer reviews could change assignment status
         $exercise = new ilObjExercise($this->ass->getExerciseId(), false);

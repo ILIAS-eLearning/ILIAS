@@ -63,7 +63,7 @@ class RandomAssignmentsDBRepository
         int $user_id,
         int $exc_id,
         array $ass_ids
-    ) {
+    ) : void {
         $db = $this->db;
 
         $db->manipulateF(

@@ -504,7 +504,7 @@ class ilExAssignment
         return $this->peer_char;
     }
     
-    public function setPeerReviewCriteriaCatalogue(?int $a_value)
+    public function setPeerReviewCriteriaCatalogue(?int $a_value) : void
     {
         $this->crit_cat = $a_value;
     }
@@ -602,7 +602,7 @@ class ilExAssignment
     }
     
     // Set max number of uploads
-    public function setMaxFile(?int $a_value)
+    public function setMaxFile(?int $a_value) : void
     {
         $this->max_file = $a_value;
     }
@@ -1053,7 +1053,7 @@ class ilExAssignment
         return self::lookup($a_id, "title");
     }
     
-    public static function lookupType(int $a_id) : int
+    public static function lookupType(int $a_id) : string
     {
         return self::lookup($a_id, "type");
     }

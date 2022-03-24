@@ -40,7 +40,7 @@ class ilExAssignmentMemberStatus
         $this->read();
     }
     
-    public function setNotice(string $a_value)
+    public function setNotice(string $a_value) : void
     {
         $this->notice = $a_value;
     }

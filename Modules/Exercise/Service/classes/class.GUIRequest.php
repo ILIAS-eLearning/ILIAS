@@ -43,7 +43,7 @@ class GUIRequest
     }
 
     // get integer parameter kindly
-    protected function int($key) : int
+    protected function int(string $key) : int
     {
         $t = $this->refinery->kindlyTo()->int();
         return (int) ($this->get($key, $t) ?? 0);
@@ -391,7 +391,7 @@ class GUIRequest
     // Workspace related
     //
 
-    public function getSelectedWspObjId() : string
+    public function getSelectedWspObjId() : int
     {
         return $this->int("sel_wsp_obj");
     }

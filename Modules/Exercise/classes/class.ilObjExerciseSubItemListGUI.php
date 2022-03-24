@@ -12,7 +12,7 @@ class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
 {
     protected ilAccessHandler $access;
 
-    public function __construct($a_cmd_class)
+    public function __construct(string $a_cmd_class)
     {
         global $DIC;
         parent::__construct($a_cmd_class);

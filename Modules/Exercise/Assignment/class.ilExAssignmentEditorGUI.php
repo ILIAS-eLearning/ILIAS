@@ -1441,7 +1441,7 @@ class ilExAssignmentEditorGUI
     /**
      * @throws ilDateTimeException
      */
-    protected function getPeerReviewValues($a_form) : void
+    protected function getPeerReviewValues(\ilPropertyFormGUI $a_form) : void
     {
         $values = array();
         

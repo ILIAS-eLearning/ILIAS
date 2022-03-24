@@ -181,9 +181,8 @@ class ilExerciseMailNotification extends ilMailNotification
     
     /**
      * Add language module exc
-     * @param int $a_usr_id
      */
-    protected function initLanguage($a_usr_id) : void
+    protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('exc');

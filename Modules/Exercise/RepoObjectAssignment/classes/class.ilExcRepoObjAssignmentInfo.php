@@ -22,6 +22,9 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
     protected string $exc_title;
     protected int $exc_id;
 
+    /**
+     * @param int[] $a_ref_ids
+     */
     protected function __construct(
         int $a_assignment_id,
         string $a_assignment_title,
@@ -50,6 +53,9 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
         return $this->title;
     }
 
+    /**
+     * @return string[]
+     */
     public function getLinks() : array
     {
         $links = [];
@@ -74,6 +80,9 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
         return $this->exc_title;
     }
 
+    /**
+     * @return int[]
+     */
     public function getReadableRefIds() : array
     {
         return $this->ref_ids;

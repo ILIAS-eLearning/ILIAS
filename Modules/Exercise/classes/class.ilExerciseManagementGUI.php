@@ -2116,7 +2116,7 @@ class ilExerciseManagementGUI
     /**
      * Open HTML view for portfolio submissions
      */
-    public function openSubmissionPrintViewObject()
+    public function openSubmissionPrintViewObject() : void
     {
         $this->openSubmissionViewObject(true);
     }
@@ -2124,7 +2124,7 @@ class ilExerciseManagementGUI
     /**
      * Open HTML view for portfolio submissions
      */
-    public function openSubmissionViewObject(bool $print_version = false)
+    public function openSubmissionViewObject(bool $print_version = false) : void
     {
         global $DIC;
 

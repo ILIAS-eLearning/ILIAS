@@ -75,8 +75,6 @@ class InternalService
 
     /**
      * Booking service repos
-     *
-     * @return InternalRepoService
      */
     public function repo() : InternalRepoService
     {
@@ -85,16 +83,12 @@ class InternalService
 
     /**
      * Booking service data objects
-     * @return InternalDataService
      */
     public function data() : InternalDataService
     {
         return $this->data;
     }
 
-    /**
-     * @return InternalDomainService
-     */
     public function domain() : InternalDomainService
     {
         return $this->domain;

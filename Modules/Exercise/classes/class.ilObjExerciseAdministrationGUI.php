@@ -12,7 +12,7 @@
  */
 class ilObjExerciseAdministrationGUI extends ilObjectGUI
 {
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
 

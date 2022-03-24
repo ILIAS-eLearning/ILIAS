@@ -22,6 +22,9 @@ class ilExcRepoObjAssignment implements ilExcRepoObjAssignmentInterface
         return new self();
     }
 
+    /**
+     * @return \ilExcRepoObjAssignmentInfo[]
+     */
     public function getAssignmentInfoOfObj(int $a_ref_id, int $a_user_id) : array
     {
         return ilExcRepoObjAssignmentInfo::getInfo($a_ref_id, $a_user_id);

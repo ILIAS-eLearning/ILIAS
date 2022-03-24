@@ -43,9 +43,6 @@ class ilSubmissionsZipJob extends AbstractJob
     }
 
     /**
-     * @param array    $input
-     * @param Observer $observer
-     * @return Value
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      *@todo use filesystem service
      */

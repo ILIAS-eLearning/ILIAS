@@ -55,7 +55,7 @@ class ilExcRandomAssignmentGUI
      * @throws ilDateTimeException
      * @throws ilObjectNotFoundException
      */
-    public function renderStartPage()
+    public function renderStartPage() : void
     {
         $toolbar = $this->toolbar;
         $lng = $this->lng;

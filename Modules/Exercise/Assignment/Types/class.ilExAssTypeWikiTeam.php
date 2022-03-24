@@ -63,10 +63,6 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
     /**
      * Submit wiki
      *
-     * @param int $a_ass_id
-     * @param int $a_user_id
-     * @param int $a_wiki_ref_id
-     * @return void
      * @throws ilTemplateException
      * @throws ilWikiExportException
      */

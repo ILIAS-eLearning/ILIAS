@@ -15,6 +15,9 @@ class ilObjExerciseVerification extends ilVerificationObject
         $this->type = 'excv';
     }
 
+    /**
+     * @return array<string, int>
+     */
     protected function getPropertyMap() : array
     {
         return [

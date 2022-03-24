@@ -23,14 +23,14 @@
  */
 class ilExerciseXMLWriter extends ilXmlWriter
 {
-    public static $CONTENT_ATTACH_NO = 0;
-    public static $CONTENT_ATTACH_ENCODED = 1;
-    public static $CONTENT_ATTACH_ZLIB_ENCODED = 2;
-    public static $CONTENT_ATTACH_GZIP_ENCODED = 3;
+    public static int $CONTENT_ATTACH_NO = 0;
+    public static int $CONTENT_ATTACH_ENCODED = 1;
+    public static int $CONTENT_ATTACH_ZLIB_ENCODED = 2;
+    public static int $CONTENT_ATTACH_GZIP_ENCODED = 3;
     
-    public static $STATUS_NOT_GRADED = "NOT_GRADED";
-    public static $STATUS_PASSED = "PASSED";
-    public static $STATUS_FAILED = "FAILED";
+    public static string $STATUS_NOT_GRADED = "NOT_GRADED";
+    public static string $STATUS_PASSED = "PASSED";
+    public static string $STATUS_FAILED = "FAILED";
 
     public bool $attachFileContents; // if true, file contents will be attached as base64
     public bool $attachMembers; // if true, members will be attach to xml

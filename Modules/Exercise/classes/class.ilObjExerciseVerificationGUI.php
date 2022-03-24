@@ -157,7 +157,6 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $key
      * @param mixed $default
      * @return mixed|null
      */

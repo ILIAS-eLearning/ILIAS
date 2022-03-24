@@ -52,7 +52,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * Execute command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
 
@@ -70,7 +70,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form)
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form) : void
     {
         $lng = $this->lng;
 
@@ -102,7 +102,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form)
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form) : void
     {
         $ar = new ilExAssWikiTeamAR();
         $ar->setId($ass->getId());
@@ -117,7 +117,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function getFormValuesArray(ilExAssignment $ass)
+    public function getFormValuesArray(ilExAssignment $ass) : array
     {
         $values = [];
 
@@ -142,7 +142,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
      *
      * @param array $par parameter
      */
-    public function getHTML($par) : string
+    public function getHTML(array $par) : string
     {
         switch ($par["mode"]) {
             case self::MODE_OVERVIEW:
@@ -154,11 +154,8 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 
     /**
      * Render overview content
-     *
-     * @param ilInfoScreenGUI $a_info
-     * @param ilExSubmission $a_submission
      */
-    protected function renderOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
+    protected function renderOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -220,7 +217,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * Create wiki for assignment
      */
-    protected function createWiki()
+    protected function createWiki() : void
     {
         $access = $this->access;
         $lng = $this->lng;

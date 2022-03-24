@@ -12,8 +12,8 @@ class ilExcCriteriaCatalogue
 {
     protected ilDBInterface $db;
     protected ?int $id = null;
-    protected ?int $parent;
-    protected ?string $title;
+    protected ?int $parent = null;
+    protected ?string $title = null;
     protected int $pos = 0;
     
     public function __construct(int $a_id = null)
@@ -25,7 +25,6 @@ class ilExcCriteriaCatalogue
     }
 
     /**
-     * @param int $a_parent_id
      * @return self[]
      */
     public static function getInstancesByParentId(int $a_parent_id) : array
@@ -54,7 +53,7 @@ class ilExcCriteriaCatalogue
     // properties
     //
     
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -130,7 +129,7 @@ class ilExcCriteriaCatalogue
         return (int) $row["pos"];
     }
     
-    protected function read(?int $a_id)
+    protected function read(?int $a_id) : void
     {
         $ilDB = $this->db;
         

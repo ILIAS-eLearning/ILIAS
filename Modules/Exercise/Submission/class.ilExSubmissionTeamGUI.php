@@ -23,7 +23,7 @@ class ilExSubmissionTeamGUI
     protected ilObjExercise $exercise;
     protected ilExAssignment $assignment;
     protected ilExSubmission $submission;
-    protected ?ilExAssignmentTeam $team;
+    protected ?ilExAssignmentTeam $team = null;
     /**
      * @var int[]
      */

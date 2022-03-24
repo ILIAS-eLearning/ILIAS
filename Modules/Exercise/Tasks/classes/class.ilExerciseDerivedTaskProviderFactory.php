@@ -31,6 +31,9 @@ class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFacto
         $this->task_service = $task_service;
     }
 
+    /**
+     * @return \ilExerciseDerivedTaskProvider[]
+     */
     public function getProviders() : array
     {
         return [

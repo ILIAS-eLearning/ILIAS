@@ -14,15 +14,15 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
     protected int $requested_ass_id;
 
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_cur_dir,
-        $a_cur_subdir,
-        $a_label_enable,
-        $a_file_labels,
-        $a_label_header = "",
-        $a_commands = array(),
-        $a_post_dir_path = false
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        string $a_cur_dir,
+        string $a_cur_subdir,
+        bool $a_label_enable,
+        ?array $a_file_labels,
+        ?string $a_label_header = "",
+        ?array $a_commands = array(),
+        ?bool $a_post_dir_path = false
     ) {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;

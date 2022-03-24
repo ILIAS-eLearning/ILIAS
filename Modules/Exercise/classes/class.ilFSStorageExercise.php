@@ -234,6 +234,9 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
         return $result;
     }
 
+    /**
+     * @return string[]
+     */
     public function getFeedbackFiles(
         string $a_user_id
     ) : array {

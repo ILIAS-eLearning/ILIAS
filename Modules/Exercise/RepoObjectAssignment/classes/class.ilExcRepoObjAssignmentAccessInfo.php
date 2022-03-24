@@ -21,7 +21,6 @@ class ilExcRepoObjAssignmentAccessInfo implements ilExcRepoObjAssignmentAccessIn
 
     /**
      * Constructor
-     * @param bool $a_is_granted
      * @param string[] $a_not_granted_reasons
      */
     protected function __construct(bool $a_is_granted, array $a_not_granted_reasons)
@@ -57,7 +56,6 @@ class ilExcRepoObjAssignmentAccessInfo implements ilExcRepoObjAssignmentAccessIn
     /**
      * @param int $a_ref_id ref id
      * @param int $a_user_id user id
-     * @return self
      */
     public static function getInfo(int $a_ref_id, int $a_user_id) : self
     {

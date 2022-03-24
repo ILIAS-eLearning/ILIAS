@@ -21,7 +21,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
     protected int $mode;
     protected array $filter;
     protected array $comment_modals = array();
-    protected ?ilExAssignment $ass;
+    protected ?ilExAssignment $ass = null;
 
     protected array $cols_mandatory = array("name", "status");
     protected array $cols_default = array("login", "submission", "idl", "calc_deadline");

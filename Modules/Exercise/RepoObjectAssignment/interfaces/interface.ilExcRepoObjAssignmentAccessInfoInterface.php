@@ -11,8 +11,6 @@ interface ilExcRepoObjAssignmentAccessInfoInterface
 {
     /**
      * Is access granted due to exercise assignment conditions?
-     *
-     * @return bool
      */
     public function isGranted() : bool;
 

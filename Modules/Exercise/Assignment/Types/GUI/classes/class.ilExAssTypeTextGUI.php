@@ -15,7 +15,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
      * @var ilLanguage
      */
     protected $lng;
-    protected $requested_min_char_limit = 0;
+    protected int $requested_min_char_limit = 0;
 
     /**
      * Constructor
@@ -33,7 +33,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form)
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form) : void
     {
         $lng = $this->lng;
 
@@ -56,7 +56,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
         $form->addItem($rb_limit_chars);
     }
 
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form)
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form) : void
     {
         $ass->setMaxCharLimit(0);
         $ass->setMinCharLimit(0);
@@ -71,7 +71,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function getFormValuesArray(ilExAssignment $ass)
+    public function getFormValuesArray(ilExAssignment $ass) : array
     {
         $values = [];
         if ($ass->getMinCharLimit()) {

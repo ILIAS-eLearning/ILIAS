@@ -138,7 +138,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
     }
 
-    protected static function getOverviewContentPortfolio(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
+    protected static function getOverviewContentPortfolio(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;

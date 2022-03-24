@@ -83,8 +83,6 @@ class ilExAssWikiTeamAR extends ActiveRecord
 
     /**
      * Get template ref id
-     *
-     * @return int
      */
     public function getTemplateRefId() : int
     {
@@ -105,8 +103,6 @@ class ilExAssWikiTeamAR extends ActiveRecord
 
     /**
      * Get container ref id
-     *
-     * @return int
      */
     public function getContainerRefId() : int
     {

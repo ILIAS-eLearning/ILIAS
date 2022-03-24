@@ -23,7 +23,6 @@ interface ilExcRepoObjAssignmentInterface
      *
      * @param int $a_ref_id ref id
      * @param int $a_user_id user id
-     * @return ilExcRepoObjAssignmentAccessInfoInterface
      */
     public function getAccessInfo(
         int $a_ref_id,

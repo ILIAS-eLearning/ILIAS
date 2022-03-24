@@ -26,7 +26,6 @@ class ilExcAssMemberStateRepository
      * Get all assignments for a user where the user may hand in submissions
      *
      * @param int[] $exc_ids	exercises the user is "member" in
-     * @param int $user_id
      * @return int[]
      */
     public function getSubmitableAssignmentIdsOfUser(
@@ -87,7 +86,6 @@ class ilExcAssMemberStateRepository
      * Get all assignments for a user where the user may hand in submissions
      *
      * @param int[] $exc_ids	exercises the user is "member" in
-     * @param int $user_id
      * @return int[]
      */
     public function getAssignmentIdsWithPeerFeedbackNeeded(

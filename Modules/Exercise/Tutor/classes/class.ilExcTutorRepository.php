@@ -16,11 +16,10 @@
  */
 class ilExcTutorRepository
 {
-    public function __construct()
-    {
-    }
-
     // Get exercise IDs of exercises a user is currently tutor (being notified)
+    /**
+     * @return int[]
+     */
     public function getExerciseIdsBeingTutor(int $user_id) : array
     {
         return ilNotification::getActivatedNotifications(ilNotification::TYPE_EXERCISE_SUBMISSION, $user_id);

@@ -29,7 +29,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form)
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form) : void
     {
         $lng = $this->lng;
 
@@ -52,7 +52,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form)
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form) : void
     {
         $ass->setPortfolioTemplateId(0);
         if ($form->getInput("template_id") && $form->getInput("template")) {

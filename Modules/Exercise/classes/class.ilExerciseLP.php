@@ -10,6 +10,9 @@
  */
 class ilExerciseLP extends ilObjectLP
 {
+    /**
+     * @return int[]
+     */
     public static function getDefaultModes(bool $a_lp_active) : array
     {
         return array(
@@ -23,6 +26,9 @@ class ilExerciseLP extends ilObjectLP
         return ilLPObjSettings::LP_MODE_EXERCISE_RETURNED;
     }
     
+    /**
+     * @return int[]
+     */
     public function getValidModes() : array
     {
         return array(

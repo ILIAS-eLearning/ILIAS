@@ -289,7 +289,7 @@ class ilExerciseMembers
         int $a_obj_id,
         int $a_user_id,
         int $a_status
-    ) {
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();

@@ -10,6 +10,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
     
     /**
      * Get possible conditions operators
+     * @return string[]
      */
     public static function getConditionOperators() : array
     {
@@ -22,11 +23,6 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
     
     /**
      * check condition
-     * @param int    $a_trigger_obj_id
-     * @param string $a_operator
-     * @param string $a_value
-     * @param int    $a_usr_id
-     * @return bool
      */
     public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
@@ -142,11 +138,6 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
         return false;
     }
 
-    /**
-     * @param ilWACPath $ilWACPath
-     *
-     * @return bool
-     */
     public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
         return true;

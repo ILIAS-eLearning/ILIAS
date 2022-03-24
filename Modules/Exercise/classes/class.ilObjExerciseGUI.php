@@ -35,7 +35,7 @@ class ilObjExerciseGUI extends ilObjectGUI
     /**
      * @throws ilExerciseException
      */
-    public function __construct($a_data, $a_id, $a_call_by_reference)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
         global $DIC;
 
@@ -1081,7 +1081,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 
     /**
      * Display random assignment start page, if necessary
-     * @return bool
      */
     protected function handleRandomAssignmentEntryPage() : bool
     {
