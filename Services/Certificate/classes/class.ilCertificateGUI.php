@@ -55,7 +55,6 @@ class ilCertificateGUI
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
     private ilCertificateTemplateRepository $templateRepository;
-    private ilFormFieldParser $formFieldParser;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
     private int $objectId;
     private ilCertificateFormRepository $settingsFormFactory;
@@ -80,7 +79,6 @@ class ilCertificateGUI
         ?ilCertificateTemplateRepository $templateRepository = null,
         ?ilPageFormats $pageFormats = null,
         ?ilXlsFoParser $xlsFoParser = null,
-        ?ilFormFieldParser $formFieldParser = null,
         ?ilCertificateTemplateExportAction $exportAction = null,
         ?ilCertificateBackgroundImageUpload $upload = null,
         ?ilCertificateTemplatePreviewAction $previewAction = null,
@@ -138,11 +136,6 @@ class ilCertificateGUI
             $deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
         }
         $this->deleteAction = $deleteAction;
-
-        if (null === $formFieldParser) {
-            $formFieldParser = new ilFormFieldParser();
-        }
-        $this->formFieldParser = $formFieldParser;
 
         if (null === $pageFormats) {
             $pageFormats = new ilPageFormats($DIC->language());
