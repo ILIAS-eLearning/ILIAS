@@ -20,6 +20,7 @@
  */
 class ilPCProfileGUI extends ilPageContentGUI
 {
+    protected \ILIAS\HTTP\Services $http;
     protected ilToolbarGUI $toolbar;
 
     public function __construct(
@@ -33,6 +34,7 @@ class ilPCProfileGUI extends ilPageContentGUI
         $this->tpl = $DIC["tpl"];
         $this->ctrl = $DIC->ctrl();
         $this->toolbar = $DIC->toolbar();
+        $this->http = $DIC->http();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
@@ -44,7 +46,7 @@ class ilPCProfileGUI extends ilPageContentGUI
         // get current command
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
+        switch ($next_class) {
             default:
                 $this->$cmd();
                 break;
@@ -157,7 +159,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     protected function getFieldsValues() : array
     {
         $fields = array();
-        foreach ($_POST as $name => $value) { // @TODO: PHP8 Review: Direct access to $_POST.
+        foreach ($this->http->request()->getParsedBody() as $name => $value) {
             if (substr($name, 0, 4) == "chk_") {
                 if ($value) {
                     $fields[] = substr($name, 4);

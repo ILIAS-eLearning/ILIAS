@@ -93,7 +93,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
      * @throws \ilCOPagePCEditException
      * @throws \ilCOPageUnknownPCTypeException
      */
-    protected function insertParagraph(// @TODO: PHP8 Review: Missing return type.
+    protected function insertParagraph(
         string $pcid,
         string $after_pcid,
         string $content,
@@ -137,7 +137,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
      * @throws \ilCOPagePCEditException
      * @throws \ilCOPageUnknownPCTypeException
      */
-    protected function updateParagraph(// @TODO: PHP8 Review: Missing return type.
+    protected function updateParagraph(
         string $pcid,
         string $content,
         string $characteristic

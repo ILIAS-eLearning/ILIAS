@@ -183,7 +183,7 @@ class ilPCParagraph extends ilPageContent
      * @param bool      $a_auto_split auto split paragraph at headlines true/false
      * @return bool|string
      */
-    public function setText(// @TODO: PHP8 Review: Missing return type.
+    public function setText(
         string $a_text,
         bool $a_auto_split = false
     ) {
@@ -1480,7 +1480,7 @@ class ilPCParagraph extends ilPageContent
      * @throws ilCOPagePCEditException
      * @throws ilCOPageUnknownPCTypeException
      */
-    public function saveJS(// @TODO: PHP8 Review: Missing return type.
+    public function saveJS(
         ilPageObject $a_pg_obj,
         string $a_content,
         string $a_char,
@@ -1784,7 +1784,7 @@ class ilPCParagraph extends ilPageContent
      * @return array|bool
      * @throws ilDateTimeException
      */
-    public function updatePage(ilPageObject $a_page) // @TODO: PHP8 Review: Missing return type.
+    public function updatePage(ilPageObject $a_page)
     {
         $a_page->beforePageContentUpdate($this);
         return $a_page->update();
@@ -1965,10 +1965,10 @@ class ilPCParagraph extends ilPageContent
      * Auto link glossary of whole page
      * @throws ilDateTimeException
      */
-    public static function autoLinkGlossariesPage(// @TODO: PHP8 Review: Missing return type.
+    public static function autoLinkGlossariesPage(
         ilPageObject $a_page,
         array $a_terms
-    ) {
+    ) : void {
         $a_page->buildDom();
         $a_dom = $a_page->getDom();
 
@@ -2213,7 +2213,7 @@ class ilPCParagraph extends ilPageContent
      * @throws ilCOPageUnknownPCTypeException
      * @throws ilDateTimeException
      */
-    public function insert(// @TODO: PHP8 Review: Missing return type.
+    public function insert(
         \ilPageObject $page,
         string $a_content,
         string $a_char,

@@ -76,6 +76,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
     public static function _getCharacteristics(int $a_style_id) : array
     {
         global $DIC;
+        $request = $DIC->copage()->internal()
+            ->gui()
+            ->pc()
+            ->editRequest();
+        $requested_ref_id = $request->getRefId();
 
         $service = $DIC->contentStyle()->internal();
 
@@ -84,7 +89,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
             $access_manager = $service->domain()->access(
-                (int) $_GET["ref_id"], // @TODO: PHP8 Review: Direct access to $_GET.
+                $requested_ref_id,
                 $DIC->user()->getId()
             );
             $char_manager = $service->domain()->characteristic(
@@ -149,7 +154,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
      * execute command
      * @return mixed
      */
-    public function executeCommand() // @TODO: PHP8 Review: Missing return type.
+    public function executeCommand()
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -163,7 +168,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
         $this->log->debug("ilPCParagraphGUI: executeCommand " . $cmd);
 
-        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
+        switch ($next_class) {
             default:
                 $ret = $this->$cmd();
                 break;
@@ -686,7 +691,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
             )) {
                 $t = "text_inline";
                 $tag = "span";
-                switch ($key) { // @TODO: PHP8 Review: switch with one case.
+                switch ($key) {
                     case "Code": $tag = "code"; break;
                 }
                 $html = '<' . $tag . ' class="ilc_' . $t . '_' . $key . '" style="font-size:90%; margin-top:2px; margin-bottom:2px; position:static;">' . $char["txt"] . "</" . $tag . ">";

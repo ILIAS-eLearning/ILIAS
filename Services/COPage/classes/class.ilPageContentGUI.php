@@ -160,7 +160,7 @@ class ilPageContentGUI
         global $DIC;
         $service = $DIC->contentStyle()->internal();
         $access_manager = $service->domain()->access(
-            (int) $_GET["ref_id"], // @TODO: PHP8 Review: Direct access to $_GET.
+            $this->requested_ref_id,
             $DIC->user()->getId()
         );
 
@@ -602,7 +602,7 @@ class ilPageContentGUI
         return $ilCtrl->getParentReturn($this) . "#add" . $pcid;
     }
 
-    protected function updateAndReturn() // @TODO: PHP8 Review: Missing return type.
+    protected function updateAndReturn() : void
     {
         $up = $this->pg_obj->update();
         if ($up === true) {

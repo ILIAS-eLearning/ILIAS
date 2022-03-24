@@ -22,7 +22,7 @@
 class ilPageMultiLangGUI
 {
     protected ilObjectTranslation $ot;
-    protected $ctrl; // @TODO: PHP8 Review: Missing property type.
+    protected \ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected bool $single_page_mode = false;
 
@@ -57,7 +57,7 @@ class ilPageMultiLangGUI
         
         $next_class = $ilCtrl->getNextClass();
         
-        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
+        switch ($next_class) {
             default:
                 $cmd = $ilCtrl->getCmd("settings");
                 if (in_array($cmd, array("settings", "activateMultilinguality", "cancel",

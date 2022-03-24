@@ -51,7 +51,11 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $ilCtrl->saveParameter($this, array("qpool_ref_id"));
     }
 
-    public function executeCommand() // @TODO: PHP8 Review: Missing return type.
+    /**
+     * @return mixed
+     * @throws ilCtrlException
+     */
+    public function executeCommand()
     {
         $ilCtrl = $this->ctrl;
 
@@ -59,7 +63,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $cmd = $ilCtrl->getCmd();
         $next_class = $ilCtrl->getNextClass($this);
 
-        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
+        switch ($next_class) {
             default:
                 //set tabs
                 if ($cmd != "insert") {
@@ -292,7 +296,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
      * @return mixed
      * @throws ilCtrlException
      */
-    public function feedback() // @TODO: PHP8 Review: Missing return type.
+    public function feedback()
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;

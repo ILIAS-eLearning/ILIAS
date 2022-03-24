@@ -19,21 +19,21 @@ class DifferenceEngine
     /**#@+
      * @private
      */
-    public $mOldid; // @TODO: PHP8 Review: Missing property type.
-    public $mNewid; // @TODO: PHP8 Review: Missing property type.
-    public $mTitle; // @TODO: PHP8 Review: Missing property type.
-    public $mOldtitle; // @TODO: PHP8 Review: Missing property type.
-    public $mNewtitle; // @TODO: PHP8 Review: Missing property type.
-    public $mPagetitle; // @TODO: PHP8 Review: Missing property type.
-    public $mOldtext; // @TODO: PHP8 Review: Missing property type.
-    public $mNewtext; // @TODO: PHP8 Review: Missing property type.
-    public $mOldPage; // @TODO: PHP8 Review: Missing property type.
-    public $mNewPage; // @TODO: PHP8 Review: Missing property type.
-    public $mRcidMarkPatrolled; // @TODO: PHP8 Review: Missing property type.
-    public $mOldRev; // @TODO: PHP8 Review: Missing property type.
-    public $mNewRev; // @TODO: PHP8 Review: Missing property type.
+    public $mOldid;
+    public $mNewid;
+    public $mTitle;
+    public $mOldtitle;
+    public $mNewtitle;
+    public $mPagetitle;
+    public $mOldtext;
+    public $mNewtext;
+    public $mOldPage;
+    public $mNewPage;
+    public $mRcidMarkPatrolled;
+    public $mOldRev;
+    public $mNewRev;
     public $mRevisionsLoaded = false; // Have the revisions been loaded
-    public $mTextLoaded = 0; // How many text blobs have been loaded, 0, 1 or 2 ? // @TODO: PHP8 Review: Missing property type.
+    public $mTextLoaded = 0; // How many text blobs have been loaded, 0, 1 or 2 ?
     /**#@-*/
 
     /**
@@ -43,7 +43,7 @@ class DifferenceEngine
      * @param $new String: either 'prev' or 'next'.
      * @param $rcid Integer: ??? FIXME (default 0)
      */
-    public function __construct($titleObj = null, $old = 0, $new = 0, $rcid = 0) // @TODO: PHP8 Review: Missing parameter type.
+    public function __construct($titleObj = null, $old = 0, $new = 0, $rcid = 0)
     {
         $this->mTitle = $titleObj;
         wfDebug("DifferenceEngine old '$old' new '$new' rcid '$rcid'\n");
@@ -73,7 +73,7 @@ class DifferenceEngine
         $this->mRcidMarkPatrolled = intval($rcid);  # force it to be an integer
     }
 
-    public function showDiffPage($diffOnly = false) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function showDiffPage($diffOnly = false)
     {
         global $wgUser, $wgOut, $wgUseExternalEditor, $wgUseRCPatrol;
         $fname = 'DifferenceEngine::showDiffPage';
@@ -227,7 +227,7 @@ CONTROL;
     /**
      * Show the new revision of the page.
      */
-    public function renderNewRevision() // @TODO: PHP8 Review: Missing return type.
+    public function renderNewRevision()
     {
         global $wgOut;
         $fname = 'DifferenceEngine::renderNewRevision';
@@ -261,7 +261,7 @@ CONTROL;
      * Show the first revision of an article. Uses normal diff headers in
      * contrast to normal "old revision" display style.
      */
-    public function showFirstRevision() // @TODO: PHP8 Review: Missing return type.
+    public function showFirstRevision()
     {
         global $wgOut, $wgUser;
 
@@ -314,7 +314,7 @@ CONTROL;
      * Get the diff text, send it to $wgOut
      * Returns false if the diff could not be generated, otherwise returns true
      */
-    public function showDiff($otitle, $ntitle) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function showDiff($otitle, $ntitle)
     {
         global $wgOut;
         $diff = $this->getDiff($otitle, $ntitle);
@@ -332,7 +332,7 @@ CONTROL;
      * Note that the interface has changed, it's no longer static.
      * Returns false on error
      */
-    public function getDiff($otitle, $ntitle) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function getDiff($otitle, $ntitle)
     {
         $body = $this->getDiffBody();
         if ($body === false) {
@@ -348,7 +348,7 @@ CONTROL;
      * Results are cached
      * Returns false on error
      */
-    public function getDiffBody() // @TODO: PHP8 Review: Missing return type.
+    public function getDiffBody()
     {
         global $wgMemc;
         $fname = 'DifferenceEngine::getDiffBody';
@@ -400,7 +400,7 @@ CONTROL;
      * Generate a diff, no caching
      * $otext and $ntext must be already segmented
      */
-    public function generateDiffBody($otext, $ntext) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function generateDiffBody($otext, $ntext)
     {
         global $wgExternalDiffEngine, $wgContLang;
         $fname = 'DifferenceEngine::generateDiffBody';
@@ -475,7 +475,7 @@ CONTROL;
     /**
      * Replace line numbers with the text in the user's language
      */
-    public function localiseLineNumbers($text) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function localiseLineNumbers($text)
     {
         return preg_replace_callback(
             '/<!--LINE (\d+)-->/',
@@ -484,7 +484,7 @@ CONTROL;
         );
     }
 
-    public function localiseLineNumbersCb($matches) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function localiseLineNumbersCb($matches)
     {
         global $wgLang;
         return wfMsgExt('lineno', array('parseinline'), $wgLang->formatNum($matches[1]));
@@ -494,7 +494,7 @@ CONTROL;
     /**
      * If there are revisions between the ones being compared, return a note saying so.
      */
-    public function getMultiNotice() // @TODO: PHP8 Review: Missing return type.
+    public function getMultiNotice()
     {
         if (!is_object($this->mOldRev) || !is_object($this->mNewRev)) {
             return '';
@@ -525,7 +525,7 @@ CONTROL;
     /**
      * Add the header to a diff body
      */
-    public function addHeader($diff, $otitle, $ntitle, $multi = '') // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function addHeader($diff, $otitle, $ntitle, $multi = '')
     {
         global $wgOut;
     
@@ -553,7 +553,7 @@ CONTROL;
     /**
      * Use specified text instead of loading from the database
      */
-    public function setText($oldText, $newText) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function setText($oldText, $newText)
     {
         $this->mOldtext = $oldText;
         $this->mNewtext = $newText;
@@ -570,7 +570,7 @@ CONTROL;
      * to false. This is impossible via ordinary user input, and is provided for
      * API convenience.
      */
-    public function loadRevisionData() // @TODO: PHP8 Review: Missing return type.
+    public function loadRevisionData()
     {
         global $wgLang;
         if ($this->mRevisionsLoaded) {
@@ -649,7 +649,7 @@ CONTROL;
     /**
      * Load the text of the revisions, as well as revision data.
      */
-    public function loadText() // @TODO: PHP8 Review: Missing return type.
+    public function loadText()
     {
         if ($this->mTextLoaded == 2) {
             return true;
@@ -680,7 +680,7 @@ CONTROL;
     /**
      * Load the text of the new revision, not the old one
      */
-    public function loadNewText() // @TODO: PHP8 Review: Missing return type.
+    public function loadNewText()
     {
         if ($this->mTextLoaded >= 1) {
             return true;
@@ -710,21 +710,21 @@ define('USE_ASSERTS', function_exists('assert'));
  */
 class _DiffOp
 {
-    public $type; // @TODO: PHP8 Review: Missing property type.
-    public $orig; // @TODO: PHP8 Review: Missing property type.
-    public $closing; // @TODO: PHP8 Review: Missing property type.
+    public $type;
+    public $orig;
+    public $closing;
 
-    public function reverse() // @TODO: PHP8 Review: Missing return type.
+    public function reverse()
     {
         trigger_error('pure virtual', E_USER_ERROR);
     }
 
-    public function norig() // @TODO: PHP8 Review: Missing return type.
+    public function norig()
     {
         return $this->orig ? sizeof($this->orig) : 0;
     }
 
-    public function nclosing() // @TODO: PHP8 Review: Missing return type.
+    public function nclosing()
     {
         return $this->closing ? sizeof($this->closing) : 0;
     }
@@ -737,9 +737,9 @@ class _DiffOp
  */
 class _DiffOp_Copy extends _DiffOp
 {
-    public $type = 'copy'; // @TODO: PHP8 Review: Missing property type.
+    public $type = 'copy';
 
-    public function __construct($orig, $closing = false) // @TODO: PHP8 Review: Missing parameter type.
+    public function __construct($orig, $closing = false)
     {
         if (!is_array($closing)) {
             $closing = $orig;
@@ -748,7 +748,7 @@ class _DiffOp_Copy extends _DiffOp
         $this->closing = $closing;
     }
 
-    public function reverse() // @TODO: PHP8 Review: Missing return type.
+    public function reverse()
     {
         return new _DiffOp_Copy($this->closing, $this->orig);
     }
@@ -761,15 +761,15 @@ class _DiffOp_Copy extends _DiffOp
  */
 class _DiffOp_Delete extends _DiffOp
 {
-    public $type = 'delete'; // @TODO: PHP8 Review: Missing property type.
+    public $type = 'delete';
 
-    public function __construct($lines) // @TODO: PHP8 Review: Missing parameter type.
+    public function __construct($lines)
     {
         $this->orig = $lines;
         $this->closing = false;
     }
 
-    public function reverse() // @TODO: PHP8 Review: Missing return type.
+    public function reverse()
     {
         return new _DiffOp_Add($this->orig);
     }
@@ -782,15 +782,15 @@ class _DiffOp_Delete extends _DiffOp
  */
 class _DiffOp_Add extends _DiffOp
 {
-    public $type = 'add'; // @TODO: PHP8 Review: Missing property type.
+    public $type = 'add';
 
-    public function __construct($lines) // @TODO: PHP8 Review: Missing parameter type.
+    public function __construct($lines)
     {
         $this->closing = $lines;
         $this->orig = false;
     }
 
-    public function reverse() // @TODO: PHP8 Review: Missing return type.
+    public function reverse()
     {
         return new _DiffOp_Delete($this->closing);
     }
@@ -803,15 +803,15 @@ class _DiffOp_Add extends _DiffOp
  */
 class _DiffOp_Change extends _DiffOp
 {
-    public $type = 'change'; // @TODO: PHP8 Review: Missing property type.
+    public $type = 'change';
 
-    public function __construct($orig, $closing) // @TODO: PHP8 Review: Missing parameter type.
+    public function __construct($orig, $closing)
     {
         $this->orig = $orig;
         $this->closing = $closing;
     }
 
-    public function reverse() // @TODO: PHP8 Review: Missing return type.
+    public function reverse()
     {
         return new _DiffOp_Change($this->closing, $this->orig);
     }
@@ -845,7 +845,7 @@ class _DiffEngine
 {
     const MAX_XREF_LENGTH = 10000;
 
-    public function diff($from_lines, $to_lines) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function diff($from_lines, $to_lines)
     {
         $fname = '_DiffEngine::diff';
         //wfProfileIn( $fname );
@@ -951,7 +951,7 @@ class _DiffEngine
     /**
      * Returns the whole line if it's small enough, or the MD5 hash otherwise
      */
-    public function _line_hash($line) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _line_hash($line)
     {
         if (strlen($line) > self::MAX_XREF_LENGTH) {
             return md5($line);
@@ -977,7 +977,7 @@ class _DiffEngine
      * match.  The caller must trim matching lines from the beginning and end
      * of the portions it is going to specify.
      */
-    public function _diag($xoff, $xlim, $yoff, $ylim, $nchunks) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _diag($xoff, $xlim, $yoff, $ylim, $nchunks)
     {
         $fname = '_DiffEngine::_diag';
         //wfProfileIn( $fname );
@@ -1063,7 +1063,7 @@ class _DiffEngine
         return array($this->lcs, $seps);
     }
 
-    public function _lcs_pos($ypos) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _lcs_pos($ypos)
     {
         $fname = '_DiffEngine::_lcs_pos';
         //wfProfileIn( $fname );
@@ -1106,7 +1106,7 @@ class _DiffEngine
      * Note that XLIM, YLIM are exclusive bounds.
      * All line numbers are origin-0 and discarded lines are not counted.
      */
-    public function _compareseq($xoff, $xlim, $yoff, $ylim) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _compareseq($xoff, $xlim, $yoff, $ylim)
     {
         $fname = '_DiffEngine::_compareseq';
         //wfProfileIn( $fname );
@@ -1169,7 +1169,7 @@ class _DiffEngine
      *
      * This is extracted verbatim from analyze.c (GNU diffutils-2.7).
      */
-    public function _shift_boundaries($lines, &$changed, $other_changed) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _shift_boundaries($lines, &$changed, $other_changed)
     {
         $fname = '_DiffEngine::_shift_boundaries';
         //wfProfileIn( $fname );
@@ -1296,7 +1296,7 @@ class _DiffEngine
  */
 class Diff
 {
-    public $edits; // @TODO: PHP8 Review: Missing property type.
+    public $edits;
 
     /**
      * Constructor.
@@ -1306,7 +1306,7 @@ class Diff
      *		  (Typically these are lines from a file.)
      * @param $to_lines array An array of strings.
      */
-    public function __construct($from_lines, $to_lines) // @TODO: PHP8 Review: Missing parameter type.
+    public function __construct($from_lines, $to_lines)
     {
         $eng = new _DiffEngine;
         $this->edits = $eng->diff($from_lines, $to_lines);
@@ -1323,7 +1323,7 @@ class Diff
      * @return object A Diff object representing the inverse of the
      *				  original diff.
      */
-    public function reverse() // @TODO: PHP8 Review: Missing return type.
+    public function reverse()
     {
         $rev = $this;
         $rev->edits = array();
@@ -1338,7 +1338,7 @@ class Diff
      *
      * @return bool True iff two sequences were identical.
      */
-    public function isEmpty() // @TODO: PHP8 Review: Missing return type.
+    public function isEmpty()
     {
         foreach ($this->edits as $edit) {
             if ($edit->type != 'copy') {
@@ -1355,7 +1355,7 @@ class Diff
      *
      * @return int The length of the LCS.
      */
-    public function lcs() // @TODO: PHP8 Review: Missing return type.
+    public function lcs()
     {
         $lcs = 0;
         foreach ($this->edits as $edit) {
@@ -1374,7 +1374,7 @@ class Diff
      *
      * @return array The original sequence of strings.
      */
-    public function orig() // @TODO: PHP8 Review: Missing return type.
+    public function orig()
     {
         $lines = array();
 
@@ -1394,7 +1394,7 @@ class Diff
      *
      * @return array The sequence of strings.
      */
-    public function closing() // @TODO: PHP8 Review: Missing return type.
+    public function closing()
     {
         $lines = array();
 
@@ -1411,7 +1411,7 @@ class Diff
      *
      * This is here only for debugging purposes.
      */
-    public function _check($from_lines, $to_lines) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _check($from_lines, $to_lines)
     {
         $fname = 'Diff::_check';
         //wfProfileIn( $fname );
@@ -1525,7 +1525,7 @@ class DiffFormatter
      * This should be left at zero for this class, but subclasses
      * may want to set this to other values.
      */
-    public $leading_context_lines = 0; // @TODO: PHP8 Review: Missing property type.
+    public $leading_context_lines = 0;
 
     /**
      * Number of trailing context "lines" to preserve.
@@ -1533,7 +1533,7 @@ class DiffFormatter
      * This should be left at zero for this class, but subclasses
      * may want to set this to other values.
      */
-    public $trailing_context_lines = 0; // @TODO: PHP8 Review: Missing property type.
+    public $trailing_context_lines = 0;
 
     /**
      * Format a diff.
@@ -1541,7 +1541,7 @@ class DiffFormatter
      * @param $diff object A Diff object.
      * @return string The formatted output.
      */
-    public function format($diff) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function format($diff)
     {
         $fname = 'DiffFormatter::format';
         //wfProfileIn( $fname );
@@ -1612,7 +1612,7 @@ class DiffFormatter
         return $end;
     }
 
-    public function _block($xbeg, $xlen, $ybeg, $ylen, $edits) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _block($xbeg, $xlen, $ybeg, $ylen, $edits)
     {
         $fname = 'DiffFormatter::_block';
         //wfProfileIn( $fname );
@@ -1634,19 +1634,19 @@ class DiffFormatter
         //wfProfileOut( $fname );
     }
 
-    public function _start_diff() // @TODO: PHP8 Review: Missing return type.
+    public function _start_diff()
     {
         ob_start();
     }
 
-    public function _end_diff() // @TODO: PHP8 Review: Missing return type.
+    public function _end_diff()
     {
         $val = ob_get_contents();
         ob_end_clean();
         return $val;
     }
 
-    public function _block_header($xbeg, $xlen, $ybeg, $ylen) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _block_header($xbeg, $xlen, $ybeg, $ylen)
     {
         if ($xlen > 1) {
             $xbeg .= "," . ($xbeg + $xlen - 1);
@@ -1658,37 +1658,37 @@ class DiffFormatter
         return $xbeg . ($xlen ? ($ylen ? 'c' : 'd') : 'a') . $ybeg;
     }
 
-    public function _start_block($header) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _start_block($header)
     {
         echo $header;
     }
 
-    public function _end_block() // @TODO: PHP8 Review: Missing return type.
+    public function _end_block()
     {
     }
 
-    public function _lines($lines, $prefix = ' ') // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _lines($lines, $prefix = ' ')
     {
         foreach ($lines as $line) {
             echo "$prefix $line\n";
         }
     }
 
-    public function _context($lines) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _context($lines)
     {
         $this->_lines($lines);
     }
 
-    public function _added($lines) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _added($lines)
     {
         $this->_lines($lines, '>');
     }
-    public function _deleted($lines) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _deleted($lines)
     {
         $this->_lines($lines, '<');
     }
 
-    public function _changed($orig, $closing) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _changed($orig, $closing)
     {
         $this->_deleted($orig);
         echo "---\n";
@@ -1719,7 +1719,7 @@ class _HWLDF_WordAccumulator
         $this->_tag = '';
     }
 
-    public function _flushGroup($new_tag) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _flushGroup($new_tag)
     {
         if ($this->_group !== '') {
             if ($this->_tag == 'ins') {
@@ -1736,7 +1736,7 @@ class _HWLDF_WordAccumulator
         $this->_tag = $new_tag;
     }
 
-    public function _flushLine($new_tag) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _flushLine($new_tag)
     {
         $this->_flushGroup($new_tag);
         if ($this->_line != '') {
@@ -1748,7 +1748,7 @@ class _HWLDF_WordAccumulator
         $this->_line = '';
     }
 
-    public function addWords($words, $tag = '') // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function addWords($words, $tag = '')
     {
         if ($tag != $this->_tag) {
             $this->_flushGroup($tag);
@@ -1768,7 +1768,7 @@ class _HWLDF_WordAccumulator
         }
     }
 
-    public function getLines() // @TODO: PHP8 Review: Missing return type.
+    public function getLines()
     {
         $this->_flushLine('~done');
         return $this->_lines;
@@ -1784,7 +1784,7 @@ class WordLevelDiff extends MappedDiff
 {
     const MAX_LINE_LENGTH = 10000;
 
-    public function __construct($orig_lines, $closing_lines) // @TODO: PHP8 Review: Missing parameter type.
+    public function __construct($orig_lines, $closing_lines)
     {
         $fname = 'WordLevelDiff::WordLevelDiff';
         //wfProfileIn( $fname );
@@ -1801,7 +1801,7 @@ class WordLevelDiff extends MappedDiff
         //wfProfileOut( $fname );
     }
 
-    public function _split($lines) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _split($lines)
     {
         $fname = 'WordLevelDiff::_split';
         //wfProfileIn( $fname );
@@ -1837,7 +1837,7 @@ class WordLevelDiff extends MappedDiff
         return array($words, $stripped);
     }
 
-    public function orig() // @TODO: PHP8 Review: Missing return type.
+    public function orig()
     {
         $fname = 'WordLevelDiff::orig';
         //wfProfileIn( $fname );
@@ -1855,7 +1855,7 @@ class WordLevelDiff extends MappedDiff
         return $lines;
     }
 
-    public function closing() // @TODO: PHP8 Review: Missing return type.
+    public function closing()
     {
         $fname = 'WordLevelDiff::closing';
         //wfProfileIn( $fname );
@@ -1888,50 +1888,50 @@ class TableDiffFormatter extends DiffFormatter
         $this->trailing_context_lines = 2;
     }
 
-    public function _block_header($xbeg, $xlen, $ybeg, $ylen) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _block_header($xbeg, $xlen, $ybeg, $ylen)
     {
         $r = '<tr><td colspan="2" align="left"><strong><!--LINE ' . $xbeg . "--></strong></td>\n" .
           '<td colspan="2" align="left"><strong><!--LINE ' . $ybeg . "--></strong></td></tr>\n";
         return $r;
     }
 
-    public function _start_block($header) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _start_block($header)
     {
         echo $header;
     }
 
-    public function _end_block() // @TODO: PHP8 Review: Missing return type.
+    public function _end_block()
     {
     }
 
-    public function _lines($lines, $prefix = ' ', $color = 'white') // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _lines($lines, $prefix = ' ', $color = 'white')
     {
     }
 
     # HTML-escape parameter before calling this
-    public function addedLine($line) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function addedLine($line)
     {
         return "<td>+</td><td class='diff-addedline'>{$line}</td>";
     }
 
     # HTML-escape parameter before calling this
-    public function deletedLine($line) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function deletedLine($line)
     {
         return "<td>-</td><td class='diff-deletedline'>{$line}</td>";
     }
 
     # HTML-escape parameter before calling this
-    public function contextLine($line) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function contextLine($line)
     {
         return "<td> </td><td class='diff-context'>{$line}</td>";
     }
 
-    public function emptyLine() // @TODO: PHP8 Review: Missing return type.
+    public function emptyLine()
     {
         return '<td colspan="2">&nbsp;</td>';
     }
 
-    public function _added($lines) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _added($lines)
     {
         foreach ($lines as $line) {
             echo '<tr>' . $this->emptyLine() .
@@ -1939,7 +1939,7 @@ class TableDiffFormatter extends DiffFormatter
         }
     }
 
-    public function _deleted($lines) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _deleted($lines)
     {
         foreach ($lines as $line) {
             echo '<tr>' . $this->deletedLine(htmlspecialchars($line)) .
@@ -1947,7 +1947,7 @@ class TableDiffFormatter extends DiffFormatter
         }
     }
 
-    public function _context($lines) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _context($lines)
     {
         foreach ($lines as $line) {
             echo '<tr>' .
@@ -1956,7 +1956,7 @@ class TableDiffFormatter extends DiffFormatter
         }
     }
 
-    public function _changed($orig, $closing) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function _changed($orig, $closing)
     {
         $fname = 'TableDiffFormatter::_changed';
         //wfProfileIn( $fname );

@@ -44,7 +44,7 @@ class ilPCMapGUI extends ilPageContentGUI
         // get current command
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
+        switch ($next_class) {
             default:
                 $this->$cmd();
                 break;
@@ -69,7 +69,7 @@ class ilPCMapGUI extends ilPageContentGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function getValues() // @TODO: PHP8 Review: Missing return type.
+    public function getValues() : array
     {
         $values = array();
         
@@ -84,7 +84,7 @@ class ilPCMapGUI extends ilPageContentGUI
         $this->form->setValuesByArray($values);
     }
 
-    public function initForm($a_mode) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
+    public function initForm(string $a_mode) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -157,7 +157,6 @@ class ilPCMapGUI extends ilPageContentGUI
             $this->form->addCommandButton("update_map", $lng->txt("save"));
             $this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
         }
-        //$html = $form->getHTML();
     }
 
     public function create() : void

@@ -59,17 +59,17 @@ class EditGUIRequest
         return $pc_id;
     }
 
-    public function getInt($key) : int // @TODO: PHP8 Review: Missing parameter type.
+    public function getInt(string $key) : int
     {
         return $this->int($key);
     }
 
-    public function getString($key) : string // @TODO: PHP8 Review: Missing parameter type.
+    public function getString(string $key) : string
     {
         return $this->str($key);
     }
 
-    public function getRaw($key) : string // @TODO: PHP8 Review: Missing parameter type.
+    public function getRaw(string $key) : string
     {
         return $this->raw($key);
     }
@@ -77,7 +77,7 @@ class EditGUIRequest
     /**
      * @return int[]
      */
-    public function getIntArray($key) : array // @TODO: PHP8 Review: Missing parameter type.
+    public function getIntArray(string $key) : array
     {
         return $this->intArray($key);
     }
@@ -85,7 +85,7 @@ class EditGUIRequest
     /**
      * @return string[]
      */
-    public function getStringArray($key) : array // @TODO: PHP8 Review: Missing parameter type.
+    public function getStringArray(string $key) : array
     {
         return $this->strArray($key);
     }
@@ -94,7 +94,7 @@ class EditGUIRequest
     /**
      * @return array[]
      */
-    public function getArrayArray($key) : array // @TODO: PHP8 Review: Missing parameter type.
+    public function getArrayArray(string $key) : array
     {
         return $this->arrayArray($key);
     }

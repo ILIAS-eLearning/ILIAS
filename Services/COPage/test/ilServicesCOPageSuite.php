@@ -22,7 +22,7 @@ require_once 'libs/composer/vendor/autoload.php';
  */
 class ilServicesCOPageSuite extends TestSuite
 {
-    public static function suite() // @TODO: PHP8 Review: Missing return type.
+    public static function suite() : self
     {
         $suite = new self();
 

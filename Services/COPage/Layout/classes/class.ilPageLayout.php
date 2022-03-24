@@ -273,11 +273,11 @@ class ilPageLayout
         return $arr_layouts;
     }
     
-    public static function getLayouts(// @TODO: PHP8 Review: Missing return type.
+    public static function getLayouts(
         bool $a_active = false,
         bool $a_special_page = false,
         int $a_module = 0
-    ) {
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -311,10 +311,10 @@ class ilPageLayout
     /**
      * Get active layouts
      */
-    public static function activeLayouts(// @TODO: PHP8 Review: Missing return type.
+    public static function activeLayouts(
         bool $a_special_page = false,
         int $a_module = 0
-    ) {
+    ) : array {
         return self::getLayouts(true, $a_special_page, $a_module);
     }
     

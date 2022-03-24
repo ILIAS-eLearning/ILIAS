@@ -302,7 +302,7 @@ class ilCOPageHTMLExport
                 
                 // trying to find user id
                 $user_id = null;
-                switch ($a_type) { // @TODO: PHP8 Review: switch with one case.
+                switch ($a_type) {
                     case "prtf:pg":
                         $page = new ilPortfolioPage($a_id);
                         $user_id = $page->create_user;

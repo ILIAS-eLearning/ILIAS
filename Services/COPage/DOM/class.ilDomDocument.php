@@ -67,13 +67,13 @@ class ilDomDocument
     /**
      * Handle error
      */
-    public function handleError(// @TODO: PHP8 Review: Missing return type.
+    public function handleError(
         int $a_no,
         string $a_string,
         string $a_file = null,
         int $a_line = null,
         array $a_context = null
-    ) {
+    ) : void {
         $pos = strpos($a_string, "]:");
         $err = trim(substr($a_string, $pos + 2));
         $this->errors[] = $err;

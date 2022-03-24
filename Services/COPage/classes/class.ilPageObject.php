@@ -178,7 +178,7 @@ abstract class ilPageObject
         return $this->page_config;
     }
     
-    public static function randomhash() // @TODO: PHP8 Review: Missing return type.
+    public static function randomhash() : string
     {
         $random = new \ilRandom();
         return md5($random->int(1, 9999999) + str_replace(" ", "", (string) microtime()));
@@ -334,7 +334,7 @@ abstract class ilPageObject
     /**
      * @return bool|array
      */
-    public function buildDom(bool $a_force = false) // @TODO: PHP8 Review: Missing return type.
+    public function buildDom(bool $a_force = false)
     {
         if ($this->dom_builded && !$a_force) {
             return true;
@@ -2145,8 +2145,11 @@ s     */
     }
 
     // @todo: generalize, internal links usage info
-    public function handleImportRepositoryLink($a_rep_import_id, $a_rep_type, $a_rep_ref_id) // @TODO: PHP8 Review: Missing parameter type. // @TODO: PHP8 Review: Missing return type.
-    {
+    public function handleImportRepositoryLink(
+        string $a_rep_import_id,
+        string $a_rep_type,
+        int $a_rep_ref_id
+    ) : void {
         $this->buildDom();
 
         // resolve normal internal links
@@ -2447,8 +2450,9 @@ s     */
      * update complete page content in db (dom xml content is used)
      * @return array|bool
      * @throws ilDateTimeException
+     * @throws ilWACException
      */
-    public function update(bool $a_validate = true, bool $a_no_history = false) // @TODO: PHP8 Review: Missing return type.
+    public function update(bool $a_validate = true, bool $a_no_history = false)
     {
         $this->log->debug("ilPageObject, update(): start, id: " . $this->getId());
 
@@ -2958,8 +2962,9 @@ s     */
      * delete content object with hierarchical id $a_hid
      * @return array|bool
      * @throws ilDateTimeException
+     * @throws ilWACException
      */
-    public function deleteContent(string $a_hid, bool $a_update = true, string $a_pcid = "") // @TODO: PHP8 Review: Missing return type.
+    public function deleteContent(string $a_hid, bool $a_update = true, string $a_pcid = "")
     {
         $curr_node = $this->getContentNode($a_hid, $a_pcid);
         $this->handleDeleteContent($curr_node);
@@ -2977,7 +2982,7 @@ s     */
      * @return array|bool
      * @throws ilDateTimeException
      */
-    public function deleteContents(// @TODO: PHP8 Review: Missing return type.
+    public function deleteContents(
         array $a_hids,
         bool $a_update = true,
         bool $a_self_ass = false
@@ -3013,7 +3018,7 @@ s     */
      * @return array|bool
      * @throws ilDateTimeException
      */
-    public function cutContents(array $a_hids) // @TODO: PHP8 Review: Missing return type.
+    public function cutContents(array $a_hids)
     {
         $this->copyContents($a_hids);
         return $this->deleteContents($a_hids, true, $this->getPageConfig()->getEnableSelfAssessment());
@@ -3084,7 +3089,7 @@ s     */
      * @return array|bool
      * @throws ilDateTimeException
      */
-    public function pasteContents(// @TODO: PHP8 Review: Missing return type.
+    public function pasteContents(
         string $a_hier_id,
         bool $a_self_ass = false
     ) {
@@ -3128,11 +3133,11 @@ s     */
     /**
      * (De-)activate elements
      * @return array|bool
-     * @throws ilCOPagePCEditException
      * @throws ilCOPageUnknownPCTypeException
      * @throws ilDateTimeException
+     * @throws ilWACException
      */
-    public function switchEnableMultiple(// @TODO: PHP8 Review: Missing return type.
+    public function switchEnableMultiple(
         array $a_hids,
         bool $a_update = true,
         bool $a_self_ass = false
@@ -3173,7 +3178,7 @@ s     */
      * @return array|bool
      * @throws ilDateTimeException
      */
-    public function deleteContentFromHierId(// @TODO: PHP8 Review: Missing return type.
+    public function deleteContentFromHierId(
         string $a_hid,
         bool $a_update = true
     ) {
@@ -3204,7 +3209,7 @@ s     */
      * @return array|bool
      * @throws ilDateTimeException
      */
-    public function deleteContentBeforeHierId(// @TODO: PHP8 Review: Missing return type.
+    public function deleteContentBeforeHierId(
         string $a_hid,
         bool $a_update = true
     ) {
@@ -3471,7 +3476,7 @@ s     */
      * @throws ilCOPageUnknownPCTypeException
      * @throws ilDateTimeException
      */
-    public function moveContentBefore(// @TODO: PHP8 Review: Missing return type.
+    public function moveContentBefore(
         string $a_source,
         string $a_target,
         string $a_spcid = "",
@@ -3507,7 +3512,7 @@ s     */
      * @throws ilCOPageUnknownPCTypeException
      * @throws ilDateTimeException
      */
-    public function moveContentAfter(// @TODO: PHP8 Review: Missing return type.
+    public function moveContentAfter(
         string $a_source,
         string $a_target,
         string $a_spcid = "",
@@ -5068,7 +5073,7 @@ s     */
      * @throws ilCOPageUnknownPCTypeException
      * @throws ilDateTimeException
      */
-    public function assignCharacteristic(// @TODO: PHP8 Review: Missing return type.
+    public function assignCharacteristic(
         array $targets,
         string $char_par,
         string $char_sec,

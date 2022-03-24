@@ -25,7 +25,7 @@ class PCMapEditorSessionRepositoryTest extends TestCase
     /**
      * Test mode
      */
-    public function testMode() // @TODO: PHP8 Review: Missing return type.
+    public function testMode() : void
     {
         $repo = $this->repo;
         $repo->setMode("testmode");
@@ -38,7 +38,7 @@ class PCMapEditorSessionRepositoryTest extends TestCase
     /**
      * Test area nr
      */
-    public function testAreaNr() // @TODO: PHP8 Review: Missing return type.
+    public function testAreaNr() : void
     {
         $repo = $this->repo;
         $repo->setAreaNr("3");

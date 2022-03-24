@@ -47,7 +47,7 @@ class ilPCBlogGUI extends ilPageContentGUI
     /**
     * execute command
     */
-    public function executeCommand() // @TODO: PHP8 Review: Missing return type.
+    public function executeCommand() : string
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -55,13 +55,13 @@ class ilPCBlogGUI extends ilPageContentGUI
         // get current command
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) { // @TODO: PHP8 Review: switch with one case.
+        switch ($next_class) {
             default:
                 $ret = $this->$cmd();
                 break;
         }
 
-        return $ret;
+        return (string) $ret;
     }
 
     public function insert(ilPropertyFormGUI $a_form = null) : void

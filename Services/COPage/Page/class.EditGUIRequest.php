@@ -75,17 +75,17 @@ class EditGUIRequest
         return $this->strArray("ids");
     }
 
-    public function getString($key) : string // @TODO: PHP8 Review: Missing parameter type.
+    public function getString(string $key) : string
     {
         return $this->str($key);
     }
 
-    public function getInt($key) : int // @TODO: PHP8 Review: Missing parameter type.
+    public function getInt(string $key) : int
     {
         return $this->int($key);
     }
 
-    public function getStringArray($key) : array // @TODO: PHP8 Review: Missing parameter type.
+    public function getStringArray(string $key) : array
     {
         return $this->strArray($key);
     }

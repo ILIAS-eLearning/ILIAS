@@ -75,14 +75,14 @@ class ilPCGrid extends ilPageContent
         $this->grid_node = $this->node->append_child($this->grid_node);
     }
 
-    public function applyTemplate(// @TODO: PHP8 Review: Missing return type.
+    public function applyTemplate(
         int $post_layout_template,
         int $number_of_cells,
         int $s,
         int $m,
         int $l,
         int $xl
-    ) {
+    ) : void {
         switch ($post_layout_template) {
             case ilPCGridGUI::TEMPLATE_TWO_COLUMN:
                 $this->addGridCell(12, 6, 6, 6);
@@ -144,12 +144,12 @@ class ilPCGrid extends ilPageContent
     /**
      * Save widths of cells
      */
-    public function saveWidths(// @TODO: PHP8 Review: Missing return type.
+    public function saveWidths(
         array $a_width_s,
         array $a_width_m,
         array $a_width_l,
         array $a_width_xl
-    ) {
+    ) : void {
         $cell_nodes = $this->grid_node->child_nodes();
         for ($i = 0; $i < count($cell_nodes); $i++) {
             if ($cell_nodes[$i]->node_name() == "GridCell") {

@@ -48,9 +48,10 @@ class Server
     public function reply() : void
     {
         $query = $this->request->getQueryParams();
+        $post = $this->request->getParsedBody();
 
-        if (is_array($_POST) && count($_POST) > 0) { // @TODO: PHP8 Review: Direct access to $_POST.
-            $body = $this->request->getParsedBody();
+        if (isset($post) && is_array($post) && count($post) > 0) {
+            $body = $post;
         } else {
             $body = json_decode($this->request->getBody()->getContents(), true);
         }
@@ -69,7 +70,7 @@ class Server
     ) : QueryActionHandler {
         $handler = null;
 
-        switch ($query["component"]) { // @TODO: PHP8 Review: switch with one case.
+        switch ($query["component"]) {
             case "Page":
                 $handler = new Page\PageQueryActionHandler($this->page_gui);
                 break;

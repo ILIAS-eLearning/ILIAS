@@ -51,7 +51,7 @@ class ilCOPageDataSet extends ilDataSet
     {
         // pgtp: page layout template
         if ($a_entity == "pgtp") {
-            switch ($a_version) { // @TODO: PHP8 Review: switch with one case.
+            switch ($a_version) {
                 case "4.2.0":
                     return array(
                         "Id" => "integer",
@@ -74,7 +74,7 @@ class ilCOPageDataSet extends ilDataSet
                 
         // mep_data
         if ($a_entity == "pgtp") {
-            switch ($a_version) { // @TODO: PHP8 Review: switch with one case.
+            switch ($a_version) {
                 case "4.2.0":
                     $this->getDirectDataFromQuery("SELECT layout_id id, title, description, " .
                         " style_id, special_page " .
@@ -100,7 +100,7 @@ class ilCOPageDataSet extends ilDataSet
     
     public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
     {
-        switch ($a_entity) { // @TODO: PHP8 Review: switch with one case.
+        switch ($a_entity) {
             case "pgtp":
                 $pt = new ilPageLayout();
                 $pt->setTitle($a_rec["Title"]);

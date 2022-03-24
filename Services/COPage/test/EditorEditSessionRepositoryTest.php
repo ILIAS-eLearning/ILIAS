@@ -26,7 +26,7 @@ class EditorEditSessionRepositoryTest extends TestCase
     /**
      * Test clear
      */
-    public function testClear() // @TODO: PHP8 Review: Missing return type.
+    public function testClear() : void
     {
         $repo = $this->repo;
         $repo->setPageError("page_error");
@@ -48,7 +48,7 @@ class EditorEditSessionRepositoryTest extends TestCase
     /**
      * Test page error
      */
-    public function testPageError() // @TODO: PHP8 Review: Missing return type.
+    public function testPageError() : void
     {
         $repo = $this->repo;
         $repo->setPageError("page_error");
@@ -61,7 +61,7 @@ class EditorEditSessionRepositoryTest extends TestCase
     /**
      * Test sub-command
      */
-    public function testSubCmd() // @TODO: PHP8 Review: Missing return type.
+    public function testSubCmd() : void
     {
         $repo = $this->repo;
         $repo->setSubCmd("sub");
@@ -74,7 +74,7 @@ class EditorEditSessionRepositoryTest extends TestCase
     /**
      * Test question pool
      */
-    public function testQuestionPool() // @TODO: PHP8 Review: Missing return type.
+    public function testQuestionPool() : void
     {
         $repo = $this->repo;
         $repo->setQuestionPool(15);
@@ -87,7 +87,7 @@ class EditorEditSessionRepositoryTest extends TestCase
     /**
      * Test media pool
      */
-    public function testMediaPool() // @TODO: PHP8 Review: Missing return type.
+    public function testMediaPool() : void
     {
         $repo = $this->repo;
         $repo->setMediaPool(12);
@@ -100,7 +100,7 @@ class EditorEditSessionRepositoryTest extends TestCase
     /**
      * Test text lang
      */
-    public function testTextLang() // @TODO: PHP8 Review: Missing return type.
+    public function testTextLang() : void
     {
         $repo = $this->repo;
         $repo->setTextLang(17, "fr");
