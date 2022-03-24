@@ -56,6 +56,7 @@ class ilExcCriteriaRating extends ilExcCriteria
         $this->form->addItem($input);
         
         // #16993 - making form checkInput() work
+        // TODO PHP8
         if (is_array($_POST) &&
             array_key_exists("cmd", $_POST)) {
             if ($this->isRequired() && !$this->hasValue($a_value)) {

@@ -1926,6 +1926,7 @@ class ilExerciseManagementGUI
         // form "submit"
         else {
             $tmp = array();
+            // TODO PHP8
             foreach (array_keys($_POST) as $id) {
                 if (substr($id, 0, 3) == "dl_") {
                     $tmp[] = substr($id, 3);
