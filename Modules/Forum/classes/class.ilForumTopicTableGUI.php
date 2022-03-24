@@ -181,8 +181,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
             if ($this->parent_obj->objProperties->isIsThreadRatingEnabled()) {
                 $rating = new ilRatingGUI();
                 $rating->setObject(
-                    $this->parent_obj->object->getId(),
-                    $this->parent_obj->object->getType(),
+                    $this->parent_obj->getObject()->getId(),
+                    $this->parent_obj->getObject()->getType(),
                     $thread->getId(),
                     'thread'
                 );

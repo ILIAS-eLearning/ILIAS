@@ -88,7 +88,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $interested_events = $row['interested_events'];
         $form = $this->getNotificationSettingsForm($row);
         $hidden_value = [
-            'ref_id' => $this->parent_obj->ref_id,
+            'ref_id' => $this->parent_obj->getRefId(),
             'notification_id' => $row['notification_id'],
             'usr_id_events' => $row['usr_id_events'],
             'forum_id' => $row['forum_id'],
