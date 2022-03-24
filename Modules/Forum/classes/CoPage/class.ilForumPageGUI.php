@@ -74,7 +74,7 @@ class ilForumPageGUI extends ilPageObjectGUI implements ilForumObjectConstants
 
                 $linkXmlWithBlankTargets = $domDoc->saveXML();
 
-                $this->setLinkXML(str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', $linkXmlWithBlankTargets));
+                $this->setLinkXml(str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', $linkXmlWithBlankTargets));
             } catch (Throwable $e) {
                 $this->log->error(sprintf(
                     'Could not manipulate page editor link XML: %s / Error Message: %s',
