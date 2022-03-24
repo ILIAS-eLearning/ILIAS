@@ -35,7 +35,7 @@ final class ilPHPOutputDelivery
     /**
      * @param        $download_file_name
      */
-    public function start(string $download_file_name, string $mime_type = MimeType::APPLICATION__OCTET_STREAM): void
+    public function start(string $download_file_name, string $mime_type = MimeType::APPLICATION__OCTET_STREAM) : void
     {
         global $DIC;
         $ilClientIniFile = $DIC['ilClientIniFile'];
@@ -52,7 +52,7 @@ final class ilPHPOutputDelivery
     }
 
 
-    public function stop(): void
+    public function stop() : void
     {
         $this->ilFileDelivery->close();
     }

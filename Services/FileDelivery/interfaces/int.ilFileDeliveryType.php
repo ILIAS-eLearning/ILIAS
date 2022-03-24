@@ -35,7 +35,7 @@ interface ilFileDeliveryType
      *
      * @return bool
      */
-    public function prepare($path_to_file);
+    public function prepare($path_to_file);// @TODO: PHP8 Review: Missing parameter type.
 
 
     /**
@@ -54,7 +54,7 @@ interface ilFileDeliveryType
      *
      * @return bool
      */
-    public function handleFileDeletion($path_to_file);
+    public function handleFileDeletion($path_to_file);// @TODO: PHP8 Review: Missing parameter type.
 
 
     /**

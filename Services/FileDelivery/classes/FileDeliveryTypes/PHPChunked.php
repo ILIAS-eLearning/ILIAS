@@ -29,7 +29,6 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 final class PHPChunked implements ilFileDeliveryType
 {
-
     private \ILIAS\HTTP\Services $httpService;
 
 
@@ -47,7 +46,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists($path_to_file): bool
+    public function doesFileExists($path_to_file) : bool// @TODO: PHP8 Review: Signatur missmatch.
     {
         return is_readable($path_to_file);
     }
@@ -56,7 +55,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare($path_to_file): bool
+    public function prepare($path_to_file) : bool
     {
         return true;
     }
@@ -65,7 +64,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver($path_to_file, $file_marked_to_delete): bool
+    public function deliver($path_to_file, $file_marked_to_delete) : bool// @TODO: PHP8 Review: Signatur missmatch.
     {
         $file = $path_to_file;
         $fp = @fopen($file, 'rb');
@@ -176,7 +175,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsInlineDelivery(): bool
+    public function supportsInlineDelivery() : bool
     {
         return true;
     }
@@ -185,7 +184,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsAttachmentDelivery(): bool
+    public function supportsAttachmentDelivery() : bool
     {
         return true;
     }
@@ -194,13 +193,13 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsStreaming(): bool
+    public function supportsStreaming() : bool
     {
         return true;
     }
 
 
-    private function close(): void
+    private function close() : void
     {
         //render response
         $this->httpService->sendResponse();
@@ -211,7 +210,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion($path_to_file): bool
+    public function handleFileDeletion($path_to_file) : bool
     {
         return unlink($path_to_file);
     }

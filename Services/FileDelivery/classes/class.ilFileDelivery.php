@@ -114,7 +114,7 @@ final class ilFileDelivery implements ilFileDeliveryService
     /**
      * @deprecated
      */
-    public static function deliverFileLegacy(
+    public static function deliverFileLegacy(// @TODO: PHP8 Review: Missing return type.
         string $a_file,
         ?string $a_filename = null,
         ?string $a_mime = null,
