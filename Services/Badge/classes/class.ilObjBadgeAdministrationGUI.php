@@ -22,6 +22,7 @@
  */
 class ilObjBadgeAdministrationGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected ilBadgeGUIRequest $badge_request;
     protected ilTabsGUI $tabs;
 
@@ -33,7 +34,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
     ) {
         global $DIC;
 
-        $this->rbacsystem = $DIC->rbac()->system();// @TODO PHP8 Review: Missing property.
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->ctrl = $DIC->ctrl();
         $this->access = $DIC->access();
         $this->lng = $DIC->language();

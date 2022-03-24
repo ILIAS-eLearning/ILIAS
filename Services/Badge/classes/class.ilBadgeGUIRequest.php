@@ -31,30 +31,30 @@ class ilBadgeGUIRequest
         );
     }
 
-    protected function initRequest(// @TODO: PHP8 Review: Missing return type.
+    protected function initRequest(
         HTTP\Services $http,
         Refinery\Factory $refinery
-    ) {
+    ) : void {
         $this->http = $http;
         $this->refinery = $refinery;
     }
 
     // get string parameter kindly
-    protected function str($key) : string// @TODO: PHP8 Review: Missing parameter type.
+    protected function str(string $key) : string
     {
         $t = $this->refinery->kindlyTo()->string();
         return \ilUtil::stripSlashes((string) ($this->get($key, $t) ?? ""));
     }
 
     // get integer parameter kindly
-    protected function int($key) : int// @TODO: PHP8 Review: Missing parameter type.
+    protected function int(string $key) : int
     {
         $t = $this->refinery->kindlyTo()->int();
         return (int) ($this->get($key, $t) ?? 0);
     }
 
     // get integer array kindly
-    protected function intArray($key) : array// @TODO: PHP8 Review: Missing parameter type.
+    protected function intArray(string $key) : array
     {
         if (!$this->isArray($key)) {
             return [];
