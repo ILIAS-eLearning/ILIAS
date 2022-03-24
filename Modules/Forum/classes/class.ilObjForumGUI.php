@@ -3985,7 +3985,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $newPost = $frm->generateThread(
                     $newThread,
                     ilRTE::_replaceMediaObjectImageSrc($form->getInput('message'), 0),
-                    $form->getItemByPostVar('notify') ? (bool) $form->getInput('notify') : false,
+                    $form->getItemByPostVar('notify') && (bool) $form->getInput('notify'),
                     false, // #19980
                     $status
                 );
