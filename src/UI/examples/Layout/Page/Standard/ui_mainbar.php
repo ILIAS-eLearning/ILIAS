@@ -218,7 +218,7 @@ if (
         '?' .
         $_SERVER['QUERY_STRING']
     );
-
+    $mainbar = null;
     if ($request_wrapper->retrieve('ui_mainbar', $refinery->kindlyTo()->string()) == '1') {
         $mainbar = getUIMainbar($f, $uri);
     }

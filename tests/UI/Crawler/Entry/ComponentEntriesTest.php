@@ -60,7 +60,6 @@ class ComponentEntriesTest extends TestCase
         $new_entries = new Entries();
         $new_entries->addEntries($this->entries);
         $this->assertEquals(2, $new_entries->count());
-
     }
 
     public function testAddFromArray() : void

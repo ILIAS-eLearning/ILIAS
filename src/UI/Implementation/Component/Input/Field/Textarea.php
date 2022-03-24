@@ -16,16 +16,10 @@ use Closure;
 class Textarea extends Input implements C\Input\Field\Textarea
 {
     use JavaScriptBindable;
-
-    /**
-     * @var mixed
-     */
-    protected $max_limit;
-
-    /**
-     * @var mixed
-     */
-    protected $min_limit;
+    
+    protected ?int $max_limit = null;
+    
+    protected ?int $min_limit = null;
 
     /**
      * @inheritdoc
@@ -61,7 +55,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
      * get maximum limit of characters
      * @return mixed
      */
-    public function getMaxLimit()
+    public function getMaxLimit() : ?int
     {
         return $this->max_limit;
     }
@@ -85,7 +79,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
      * get minimum limit of characters
      * @return mixed
      */
-    public function getMinLimit()
+    public function getMinLimit() : ?int
     {
         return $this->min_limit;
     }
@@ -114,10 +108,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
      */
     public function isLimited() : bool
     {
-        if ($this->min_limit || $this->max_limit) {
-            return true;
-        }
-        return false;
+        return $this->min_limit > 0 || $this->max_limit > 0;
     }
 
     /**

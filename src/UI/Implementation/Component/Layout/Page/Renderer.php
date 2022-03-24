@@ -68,6 +68,7 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
+        // There is a roadmap entry for this.
         $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
         if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
             $tpl->touchBlock('slates_engaged');

@@ -40,6 +40,11 @@ class Bulky extends Button implements C\Button\Bulky
 
     /**
      * Get a button like this, but with an additional ARIA role.
+     *
+     * ATTENTION: This is intentionally missing on the interface, because thit
+     * is not functionality we want to publicly announce. This was added to fix
+     * a11y problems with the Main Bar. Aria-roles is a detail that can be decided
+     * on internally, so no need for consumers to bother with this...
      */
     public function withAriaRole(string $aria_role) : C\Button\Bulky
     {

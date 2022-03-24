@@ -700,10 +700,9 @@ class Renderer extends AbstractComponentRenderer
     }
 
     /**
-     * @param Input $input
      * @return F\Input|JavaScriptBindable
      */
-    protected function setSignals(Input $input)
+    protected function setSignals(Input $input) : \ILIAS\UI\Implementation\Component\Input\Field\Input
     {
         $signals = null;
         foreach ($input->getTriggeredSignals() as $s) {

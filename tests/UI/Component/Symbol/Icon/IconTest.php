@@ -198,7 +198,7 @@ imgtag;
     /**
      * @depends testRenderingStandard
      */
-    public function testRenderingStandardJSBindable($ico)
+    public function testRenderingStandardJSBindable($ico) : void
     {
         $ico = $ico->withAdditionalOnLoadCode(function ($id) {
             return 'alert();';

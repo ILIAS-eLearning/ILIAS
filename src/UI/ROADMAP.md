@@ -259,6 +259,16 @@ If PHP7.4 is no longer supported by ILIAS we should hint the return type for mut
 like withXYZ in interfaces to static related to this documentation `https://wiki.php.net/rfc/static_return_type`.
 This should be already documented in most of the docstrings of these methods.
 
+### Use PSR-7 (or ILIAS-Wrapper thereof) (advanced, 4h)
+
+There are locations where the Request-Superglobals are accessed directly:
+
+* src/UI/Implementation/Component/Layout/Page/Renderer.php
+
+These should be replaced by PSR-7 (or the ILIAS-Wrapper thereof). For some locations this will
+require to inject the dependency in a proper way, which makes this a little more tedious than
+it might meet the eye.
+
 ## Long Term
 
 ### Make Constraint in Tag Input Field work again

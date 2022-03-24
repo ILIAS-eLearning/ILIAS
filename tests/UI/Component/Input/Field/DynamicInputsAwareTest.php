@@ -30,17 +30,10 @@ class DynamicInputsAwareTest extends TestCase
         $this->data_factory = $this->createMock(DataFactory::class);
         $this->language = $this->createMock(ilLanguage::class);
         $this->refinery = $this->createMock(Refinery::class);
-        $this->input = new class(
-            $this->language,
-            $this->data_factory,
-            $this->refinery,
-            'test_input_name',
-            $this->getTestInputTemplate(),
-            'test_byline'
-        ) extends DynamicInputsAwareInput {
+        $this->input = new class($this->language, $this->data_factory, $this->refinery, 'test_input_name', $this->getTestInputTemplate(), 'test_byline') extends DynamicInputsAwareInput {
             public function getUpdateOnLoadCode() : Closure
             {
-                return static function () {
+                return static function () : void {
                 };
             }
 
@@ -155,15 +148,10 @@ class DynamicInputsAwareTest extends TestCase
 
     protected function getTestInputTemplate() : Input
     {
-        return new class(
-            $this->data_factory,
-            $this->refinery,
-            'input_template_name',
-            'input_template_byline'
-        ) extends \ILIAS\UI\Implementation\Component\Input\Field\Input {
+        return new class($this->data_factory, $this->refinery, 'input_template_name', 'input_template_byline') extends \ILIAS\UI\Implementation\Component\Input\Field\Input {
             public function getUpdateOnLoadCode() : Closure
             {
-                return static function () {
+                return static function () : void {
                 };
             }
 

@@ -24,6 +24,9 @@ abstract class Listing implements C\Panel\Listing\Listing
      */
     protected array $item_groups = array();
 
+    /**
+     * @param \ILIAS\UI\Component\Item\Group[] $item_groups
+     */
     public function __construct(string $title, array $item_groups)
     {
         $this->title = $title;

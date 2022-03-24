@@ -3,7 +3,7 @@
 
 class ProperEntryFixture
 {
-    public $properEntryYamlArray = array(
+    public array $properEntryYamlArray = array(
         array(
             "description" => array(
                 "purpose" => "Description of Purpose",
@@ -33,7 +33,7 @@ class ProperEntryFixture
         )
     );
 
-    public $properEntryYamlString =
+    public string $properEntryYamlString =
 "description:
   purpose: >
       Description of Purpose

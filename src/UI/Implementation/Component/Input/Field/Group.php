@@ -32,6 +32,9 @@ class Group extends Input implements C\Input\Field\Group
     protected array $inputs = [];
     protected ilLanguage $lng;
 
+    /**
+     * @param \ILIAS\UI\Implementation\Component\Input\Field\Input[] $inputs
+     */
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,

@@ -294,10 +294,9 @@ class FilterContextRenderer extends AbstractComponentRenderer
     }
 
     /**
-     * @param Input $input
      * @return FilterInput|JavaScriptBindable
      */
-    protected function setSignals(Input $input)
+    protected function setSignals(Input $input) : \ILIAS\UI\Implementation\Component\Input\Field\Input
     {
         $signals = null;
         foreach ($input->getTriggeredSignals() as $s) {
