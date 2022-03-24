@@ -6,9 +6,9 @@
  */
 class PNGImageBaker
 {
-    private $_contents;
-    private $_size;
-    private $_chunks;
+    private $_contents;// @TODO: PHP8 Review: Missing property type.
+    private $_size;// @TODO: PHP8 Review: Missing property type.
+    private $_chunks;// @TODO: PHP8 Review: Missing property type.
     
     /**
      * Prepares file for handling metadata.

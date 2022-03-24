@@ -113,7 +113,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
         $this->filter["name"] = $name->getValue();
     }
     
-    public function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null, $a_restrict_badge_id = null)
+    public function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null, $a_restrict_badge_id = null)// @TODO: PHP8 Review: Missing return type.// @TODO: PHP8 Review: Missing parameter type.
     {
         $tree = $this->tree;
         $user_ids = null;

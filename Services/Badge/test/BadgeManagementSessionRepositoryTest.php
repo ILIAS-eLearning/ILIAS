@@ -20,7 +20,7 @@ class BadgeManagementSessionRepositoryTest extends TestCase
     {
     }
 
-    public function testClear()
+    public function testClear()// @TODO: PHP8 Review: Missing return type.
     {
         $repo = $this->repo;
         $repo->setBadgeIds([1,3,4]);
@@ -31,7 +31,7 @@ class BadgeManagementSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testBadgeIds()
+    public function testBadgeIds()// @TODO: PHP8 Review: Missing return type.
     {
         $repo = $this->repo;
         $repo->setBadgeIds([1,6,7]);
