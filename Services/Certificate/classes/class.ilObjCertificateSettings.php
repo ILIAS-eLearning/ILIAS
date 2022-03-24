@@ -100,6 +100,7 @@ class ilObjCertificateSettings extends ilObject
         }
 
         /** @noinspection PhpCastIsUnnecessaryInspection */
+        /** @noinspection UnnecessaryCastingInspection */
         return (bool) $result; // Don't remove the cast, otherwise $result will be 1 or 0
     }
 

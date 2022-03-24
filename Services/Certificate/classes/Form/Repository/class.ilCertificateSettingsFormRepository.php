@@ -141,7 +141,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
                 $_FILES["certificate_import"]["tmp_name"],
                 $_FILES["certificate_import"]["name"]
             );
-            if ($result == false) {
+            if ($result === false) {
                 $import->setAlert($this->language->txt("certificate_error_import"));
             } else {
                 $this->ctrl->redirect($certificateGUI, "certificateEditor");
@@ -159,7 +159,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         foreach ($pageformats as $format) {
             $option = new ilRadioOption($format["name"], $format["value"]);
 
-            if (strcmp($format["value"], "custom") == 0) {
+            if (strcmp($format["value"], "custom") === 0) {
                 $pageheight = new ilTextInputGUI($this->language->txt("certificate_pageheight"), "pageheight");
                 $pageheight->setSize(6);
                 $pageheight->setValidationRegexp('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*)))(cm|mm|in|pt|pc|px|em)$/is');
@@ -180,7 +180,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $pageformat->setRequired(true);
 
-        if (strcmp($command, "certificateSave") == 0) {
+        if (strcmp($command, "certificateSave") === 0) {
             $pageformat->checkInput();
         }
 
@@ -239,7 +239,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $rect->setUseUnits(true);
         $rect->setInfo($this->language->txt("certificate_unit_description"));
 
-        if (strcmp($command, "certificateSave") == 0) {
+        if (strcmp($command, "certificateSave") === 0) {
             $rect->checkInput();
         }
 
@@ -274,7 +274,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $certificate->setRteTags($tags);
 
-        if (strcmp($command, "certificateSave") == 0) {
+        if (strcmp($command, "certificateSave") === 0) {
             $certificate->checkInput();
         }
 

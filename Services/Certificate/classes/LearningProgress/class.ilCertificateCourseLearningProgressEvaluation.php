@@ -78,7 +78,7 @@ class ilCertificateCourseLearningProgressEvaluation
                 foreach ($subitem_obj_ids as $subitem_ref_id => $subitem_id) {
                     $status = $this->statusHelper->lookUpStatus($subitem_id, $userId);
 
-                    if ($status != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+                    if ($status !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                         $completed = false;
                         break;
                     }

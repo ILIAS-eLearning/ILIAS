@@ -138,7 +138,7 @@ class ilCertificateTemplateImportAction
         $xsl = $certificate->getCertificateContent();
 
         foreach ($directoryInformation as $file) {
-            if (strcmp($file['type'], 'file') == 0) {
+            if (strcmp($file['type'], 'file') === 0) {
                 $filePath = $importPath . $subDirectoryName . $file['entry'];
                 if (strpos($file['entry'], '.xml') !== false) {
                     $xsl = $this->filesystem->read($filePath);

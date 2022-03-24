@@ -38,12 +38,12 @@ class ilUserCertificateGUI
     private Filesystem $filesystem;
 
     public function __construct(
-        ?ilTemplate $template = null,
+        ?ilGlobalTemplateInterface $template = null,
         ?ilCtrl $ctrl = null,
         ?ilLanguage $language = null,
         ?ilObjUser $user = null,
         ?ilUserCertificateRepository $userCertificateRepository = null,
-        ?GuzzleHttp\Psr7\Request $request = null,
+        ?ServerRequestInterface $request = null,
         ?ilLogger $certificateLogger = null,
         ?ilSetting $certificateSettings = null,
         ?Factory $uiFactory = null,

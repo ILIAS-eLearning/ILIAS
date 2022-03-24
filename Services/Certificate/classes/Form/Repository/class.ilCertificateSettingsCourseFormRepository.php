@@ -105,7 +105,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         $objectLearningProgressSettings = new ilLPObjSettings($this->object->getId());
 
         $mode = $objectLearningProgressSettings->getMode();
-        if (!$this->trackingHelper->enabledLearningProgress() || $mode == ilLPObjSettings::LP_MODE_DEACTIVATED) {
+        if (!$this->trackingHelper->enabledLearningProgress() || $mode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
             $subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
 
             $formSection = new ilFormSectionHeaderGUI();

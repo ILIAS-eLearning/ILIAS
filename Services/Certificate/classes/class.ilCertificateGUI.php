@@ -412,7 +412,7 @@ class ilCertificateGUI
 
             /** @var ilObject $object */
             $object = ilObjectFactory::getInstanceByObjId($this->objectId);
-            if (ilLPObjSettings::LP_MODE_DEACTIVATED == $mode && $object->getType() !== 'crs') {
+            if (ilLPObjSettings::LP_MODE_DEACTIVATED === $mode && $object->getType() !== 'crs') {
                 global $DIC;
 
                 $renderer = $DIC->ui()->renderer();

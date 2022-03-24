@@ -21,7 +21,7 @@ class ilCertificatePdfAction
     ) {
         $this->logger = $logger;
         $this->pdfGenerator = $pdfGenerator;
-        if (null == $ilUtilHelper) {
+        if (null === $ilUtilHelper) {
             $ilUtilHelper = new ilCertificateUtilHelper();
         }
         $this->ilUtilHelper = $ilUtilHelper;
