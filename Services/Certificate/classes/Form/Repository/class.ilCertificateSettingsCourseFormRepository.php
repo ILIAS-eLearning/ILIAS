@@ -145,7 +145,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
     /**
      * @param array $formFields
-     * @throws ilException|JsonException
+     * @throws ilException
      */
     public function save(array $formFields) : void
     {
@@ -202,6 +202,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         foreach ($sub_items as $node) {
             if ($this->lpHelper->isSupportedObjectType($node['type'])) {
                 $class = $this->lpHelper->getTypeClass($node['type']);
+                /** @var ilObjectLP $class */
                 $modes = $class::getDefaultModes($this->trackingHelper->enabledLearningProgress());
 
                 if (count($modes) > 1) {

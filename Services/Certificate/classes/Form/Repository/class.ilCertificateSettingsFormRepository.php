@@ -165,14 +165,14 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
                 $pageheight->setValidationRegexp('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*)))(cm|mm|in|pt|pc|px|em)$/is');
                 $pageheight->setInfo($this->language->txt("certificate_unit_description"));
                 $pageheight->setRequired(true);
-                $option->addSubitem($pageheight);
+                $option->addSubItem($pageheight);
 
                 $pagewidth = new ilTextInputGUI($this->language->txt("certificate_pagewidth"), "pagewidth");
                 $pagewidth->setSize(6);
                 $pagewidth->setValidationRegexp('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*)))(cm|mm|in|pt|pc|px|em)$/is');
                 $pagewidth->setInfo($this->language->txt("certificate_unit_description"));
                 $pagewidth->setRequired(true);
-                $option->addSubitem($pagewidth);
+                $option->addSubItem($pagewidth);
             }
 
             $pageformat->addOption($option);
@@ -190,13 +190,13 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $bgimage->setRequired(false);
         $bgimage->setUseCache(false);
 
-        $bgimage->setALlowDeletion(true);
+        $bgimage->setAllowDeletion(true);
         if (!$this->backGroundImageFileService->hasBackgroundImage($certificateTemplate)) {
             if (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
                 ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
                 $imagePath = ilWACSignedPath::signFile(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb());
                 $bgimage->setImage($imagePath);
-                $bgimage->setALlowDeletion(false);
+                $bgimage->setAllowDeletion(false);
             }
         } else {
             ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
@@ -205,7 +205,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
             if (!is_file($thumbnailPath)) {
                 $thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPath();
-                $bgimage->setALlowDeletion(false);
+                $bgimage->setAllowDeletion(false);
             }
             $imagePath = ilWACSignedPath::signFile($thumbnailPath);
             $bgimage->setImage($imagePath);

@@ -148,7 +148,7 @@ class ilUserCertificateGUI
 
     /**
      * @throws ilDateTimeException
-     * @throws ilWACException|JsonException
+     * @throws ilWACException
      */
     public function listCertificates() : void
     {
@@ -162,7 +162,6 @@ class ilUserCertificateGUI
         $provider = new ilUserCertificateTableProvider(
             $DIC->database(),
             $this->certificateLogger,
-            $this->ctrl,
             $this->language->txt('certificate_no_object_title')
         );
 
@@ -290,7 +289,7 @@ class ilUserCertificateGUI
 
     /**
      * @throws ilWACException
-     * @throws ilDateTimeException|JsonException
+     * @throws ilDateTimeException
      */
     protected function applySortation() : void
     {
@@ -304,7 +303,7 @@ class ilUserCertificateGUI
     }
 
     /**
-     * @throws ilException|JsonException
+     * @throws ilException
      */
     public function download() : void
     {
