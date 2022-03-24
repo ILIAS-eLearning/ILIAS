@@ -24,7 +24,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private ilFormFieldParser $formFieldParser;
     private ilCertificateTemplateImportAction $importAction;
     private ilCertificateTemplateRepository $templateRepository;
-    private string $certificatePath;
     private bool $hasAdditionalElements;
     private ilCertificateBackgroundImageFileService $backGroundImageFileService;
     private WrapperFactory $httpWrapper;
@@ -56,7 +55,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->access = $access;
         $this->toolbar = $toolbar;
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
-        $this->certificatePath = $certificatePath;
         $this->hasAdditionalElements = $hasAdditionalElements;
 
         $database = $DIC->database();
