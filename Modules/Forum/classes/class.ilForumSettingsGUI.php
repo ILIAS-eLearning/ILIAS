@@ -195,12 +195,12 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         if ($this->settings->get('forum_notification') > 0) {
             // check if there a parent-node is a grp or crs
-            $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->ref_id, 'grp');
-            $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->ref_id, 'crs');
+            $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'grp');
+            $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'crs');
 
             if ((int) $grp_ref_id > 0 || (int) $crs_ref_id > 0) {
                 #show member-tab for notification if forum-notification is enabled in administration
-                if ($this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+                if ($this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
                     $cmd = '';
                     if ($this->dic->http()->wrapper()->query()->has('cmd')) {
                         $cmd = $this->dic->http()->wrapper()->query()->retrieve(
@@ -316,7 +316,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function showMembers() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -497,7 +497,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function enableAdminForceNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -536,7 +536,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function disableAdminForceNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -573,7 +573,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function enableHideUserToggleNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -614,7 +614,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function disableHideUserToggleNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -667,8 +667,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->object->getRefId(), 'grp');
         if ($grp_ref_id > 0) {
             $parent_obj = ilObjectFactory::getInstanceByRefId($grp_ref_id);
-            $oParticipants = ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
-            return $oParticipants;
+            return ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
         }
 
         $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->object->getRefId(), 'crs');
@@ -763,7 +762,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function updateNotificationSettings() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
