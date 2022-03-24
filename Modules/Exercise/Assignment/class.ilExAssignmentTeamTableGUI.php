@@ -37,7 +37,7 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 
         $access = $this->access;
         $user = $DIC->user();
-        $this->edit_permission = (bool) $access->checkAccessOfUser($user->getId(), "edit", "", $a_parent_ref_id);
+        $this->edit_permission = $access->checkAccessOfUser($user->getId(), "edit", "", $a_parent_ref_id);
 
         $this->mode = $a_mode;
         $this->team = $a_team;

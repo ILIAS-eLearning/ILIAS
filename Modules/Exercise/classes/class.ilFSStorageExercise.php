@@ -25,7 +25,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
     /**
      * Append ass_<ass_id> to path (assignment id)
      */
-    public function init() : bool
+    protected function init() : bool
     {
         if (parent::init()) {
             if ($this->ass_id > 0) {
@@ -282,7 +282,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
             foreach ($a_files["name"] as $k => $name) {
                 if ($name != "") {
                     $tmp_name = $a_files["tmp_name"][$k];
-                    ilUtil::moveUploadedFile(
+                    ilFileUtils::moveUploadedFile(
                         $tmp_name,
                         basename($name),
                         $this->path . DIRECTORY_SEPARATOR . basename($name),

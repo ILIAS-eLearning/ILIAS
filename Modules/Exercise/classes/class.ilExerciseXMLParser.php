@@ -59,11 +59,7 @@ class ilExerciseXMLParser extends ilSaxParser
         $this->result = false;
     }
 
-
-    /**
-     * @param resource $a_xml_parser reference to the xml parser
-     * @return void
-     */
+    
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -85,17 +81,20 @@ class ilExerciseXMLParser extends ilSaxParser
             case 'Exercise':
                 if (isset($a_attribs["obj_id"])) {
                     $read_obj_id = ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID);
-                    if ($this->obj_id != -1 && (int) $read_obj_id != -1 && (int) $this->obj_id != (int) $read_obj_id) {
+                    if ($this->obj_id != -1 && (int) $read_obj_id != -1 && $this->obj_id !== (int) $read_obj_id) {
                         throw new ilExerciseException("Object IDs (xml $read_obj_id and argument " . $this->obj_id . ") do not match!", ilExerciseException::$ID_MISMATCH);
                     }
                 }
                 break;
             case 'Member':
+                // TODO PHP8: Property declared dynamically
                 $this->usr_action = $a_attribs["action"];
+                // TODO PHP8: Property declared dynamically
                 $this->usr_id = ilUtil::__extractId($a_attribs["usr_id"], IL_INST_ID);
                 break;
 
             case 'File':
+                // TODO PHP8: Property declared dynamically
                 $this->file_action = $a_attribs["action"];
                 break;
             case 'Content':
@@ -115,6 +114,7 @@ class ilExerciseXMLParser extends ilSaxParser
                 }
                 break;
             case 'Marking':
+                // TODO PHP8: Property declared dynamically
                  $this->status = $a_attribs["status"];
                  if ($this->status == ilExerciseXMLWriter::$STATUS_NOT_GRADED) {
                      $this->status = "notgraded";
@@ -143,49 +143,57 @@ class ilExerciseXMLParser extends ilSaxParser
                 $this->result = true;
                 break;
             case 'Title':
+                // TODO PHP8: Property declared dynamically
                 $this->exercise->setTitle(trim($this->cdata));
                 $this->assignment->setTitle(trim($this->cdata));
                 break;
             case 'Description':
+                // TODO PHP8: Property declared dynamically
                 $this->exercise->setDescription(trim($this->cdata));
                 break;
             case 'Instruction':
+                // TODO PHP8: Property declared dynamically
                 $this->assignment->setInstruction(trim($this->cdata));
                 break;
             case 'DueDate':
+                // TODO PHP8: Property declared dynamically
                 $this->assignment->setDeadLine(trim($this->cdata));
                 break;
             case 'Member':
+                // TODO PHP8: Property declared dynamically
                 $this->updateMember($this->usr_id, $this->usr_action);
                 // update marking after update member.
                 $this->updateMarking($this->usr_id);
                 break;
             case 'Filename':
+                // TODO PHP8: Property declared dynamically
                 $this->file_name = trim($this->cdata);
                 break;
             case 'Content':
+                // TODO PHP8: Property declared dynamically
                 $this->file_content = trim($this->cdata);
                 break;
             case 'File':
                    $this->updateFile($this->file_name, $this->file_content, $this->file_action);
                 break;
             case 'Comment':
+                // TODO PHP8: Property declared dynamically
                  $this->comment = trim($this->cdata);
                  break;
             case 'Notice':
+                // TODO PHP8: Property declared dynamically
                  $this->notice = trim($this->cdata);
                  break;
             case 'Mark':
+                // TODO PHP8: Property declared dynamically
                  $this->mark = trim($this->cdata);
                  break;
             case 'Marking':
                  // see Member end tag
                  break;
         }
-
+        // TODO PHP8: Property declared dynamically
         $this->cdata = '';
-
-        return;
     }
 
     /**
@@ -197,6 +205,7 @@ class ilExerciseXMLParser extends ilSaxParser
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {
+            // TODO PHP8: Property declared dynamically
             $this->cdata .= $a_data;
         }
     }
@@ -239,7 +248,7 @@ class ilExerciseXMLParser extends ilSaxParser
         $filename = $this->storage->getAbsolutePath() . "/" . $filename;
         
         if ($action == "Attach") {
-            $content = base64_decode((string) $b64encodedContent);
+            $content = base64_decode($b64encodedContent);
             if ($this->mode == ilExerciseXMLParser::$CONTENT_GZ_COMPRESSED) {
                 $content = gzdecode($content);
             } elseif ($this->mode == ilExerciseXMLParser::$CONTENT_ZLIB_COMPRESSED) {
@@ -247,9 +256,11 @@ class ilExerciseXMLParser extends ilSaxParser
             }
           
             //echo $filename;
+            // TODO PHP8: undefined method call
             $this->storage->writeToFile($content, $filename);
         }
         if ($action == "Detach") {
+            // TODO PHP8: undefined method call
             $this->storage->deleteFile($filename);
         }
     }
@@ -290,6 +301,7 @@ class ilExerciseXMLParser extends ilSaxParser
         $member_status->update();
         
         // reset variables
+        // TODO PHP8: Property declared dynamically
         $this->mark = null;
         $this->status = null;
         $this->notice = null;

@@ -77,7 +77,7 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
             if (!is_null($path) && $filesystem->has($path)) {
                 $filesystem->deleteDir(dirname($path));
             }
-
+            // TODO PHP8: return type not compatible with declared
             return $input;
         }
 
@@ -95,7 +95,8 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
         //Download_name->getValue should return the complete path to the file
         //Zip name is just an string
         ilFileDelivery::deliverFileAttached($download_name->getValue(), $zip_name);
-
+    
+        // TODO PHP8: return type not compatible with declared
         return $input;
     }
 }

@@ -61,7 +61,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, array("createWiki"))) {
+                if ($cmd === "createWiki") {
                     $this->$cmd();
                 }
         }
@@ -197,7 +197,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
                 $button->setCaption("exc_create_wiki");
                 $button->setUrl($ctrl->getLinkTarget($this, "createWiki"));
 
-                $files_str .= "" . $button->render();
+                $files_str .= $button->render();
             }
         }
         if ($files_str) {

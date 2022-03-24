@@ -57,6 +57,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
             ilExAssignment::TYPE_BLOG,
             ilExAssignment::TYPE_PORTFOLIO
         );
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->exc();
     }
 

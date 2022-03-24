@@ -159,7 +159,7 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
 
     public function numericOrdering(string $a_field) : bool
     {
-        if (in_array($a_field, ["order_nr"])) {
+        if ($a_field === "order_nr") {
             return true;
         }
         return false;

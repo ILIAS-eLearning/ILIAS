@@ -111,7 +111,7 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
     
     public function numericOrdering(string $a_field) : bool
     {
-        return in_array($a_field, array("pos"));
+        return $a_field === "pos";
     }
     
     protected function fillRow(array $a_set) : void

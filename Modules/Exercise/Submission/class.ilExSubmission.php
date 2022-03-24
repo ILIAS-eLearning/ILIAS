@@ -329,6 +329,7 @@ class ilExSubmission
         $success = true;
         
         try {
+            $filearray = [];
             ilFileUtils::processZipFile($newDir, $fileTmp, false);
             ilFileUtils::recursive_dirscan($newDir, $filearray);
 
@@ -499,7 +500,7 @@ class ilExSubmission
 
                 // see 22301, 22719
                 if (is_file($row["filename"]) || (!$this->assignment->getAssignmentType()->usesFileUpload())) {
-                    array_push($delivered_files, $row);
+                    $delivered_files[] = $row;
                 }
             }
         }
@@ -629,7 +630,7 @@ class ilExSubmission
                 $result_array = array();
                 while ($row = $ilDB->fetchAssoc($result)) {
                     $row["timestamp"] = $row["ts"];
-                    array_push($result_array, $row);
+                    $result_array[] = $row;
                 }
                 
                 // delete the entries in the database

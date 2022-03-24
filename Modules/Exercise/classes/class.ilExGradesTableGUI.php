@@ -113,7 +113,7 @@ class ilExGradesTableGUI extends ilTable2GUI
     
     public function numericOrdering(string $a_field) : bool
     {
-        if (in_array($a_field, array("order_val"))) {
+        if ($a_field === "order_val") {
             return true;
         }
         return false;

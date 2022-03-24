@@ -194,7 +194,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $button->setCaption("exc_create_portfolio");
                 $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createPortfolioFromAssignment"));
 
-                $buttons_str .= "" . $button->render();
+                $buttons_str .= $button->render();
             }
             // #10462
             //selectPortfolio ( remove it? )
@@ -697,8 +697,8 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         
         $blog_id = $a_blog_id;
 
-        $blog_gui = new ilObjBlogGUI($blog_id, ilObjBlogGUI::WORKSPACE_NODE_ID);
-        if ($blog_gui->object) {
+        $blog_gui = new ilObjBlogGUI($blog_id, ilObject2GUI::WORKSPACE_NODE_ID);
+        if ($blog_gui->getObject()) {
             $file = $blog_gui->buildExportFile();
             $size = filesize($file);
             if ($size) {

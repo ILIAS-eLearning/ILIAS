@@ -39,6 +39,7 @@ class ilDownloadSubmissionsBackgroundTask
 
         $this->task_factory = $DIC->backgroundTasks()->taskFactory();
         $this->task_manager = $DIC->backgroundTasks()->taskManager();
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->exc();
     }
 

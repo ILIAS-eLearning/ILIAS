@@ -50,6 +50,7 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
     protected function translateUserIds(
         array $a_user_ids
     ) : array {
+        // TODO PHP8: check unnecessary condition
         if (!is_array($a_user_ids) && is_numeric($a_user_ids)) {
             $a_user_ids = array($a_user_ids);
         }

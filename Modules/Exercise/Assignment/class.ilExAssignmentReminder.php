@@ -253,7 +253,7 @@ class ilExAssignmentReminder
             if ($rec["last_send_day"] == "" || $next_send <= $today) {
                 if ($end_day >= $today) {
                     $this->log->debug("included");
-                    array_push($array_data, $rem);
+                    $array_data[] = $rem;
                 }
             }
         }
@@ -332,7 +332,7 @@ class ilExAssignmentReminder
                                     "reminder_type" => $rem["type"],
                                     "template_id" => $rem["template_id"]
                                 );
-                                array_push($users_to_remind, $member_data);
+                                $users_to_remind[] = $member_data;
                             }
                         }
                     }
@@ -383,8 +383,8 @@ class ilExAssignmentReminder
                                     "reminder_type" => $rem["type"],
                                     "template_id" => $rem["template_id"]
                                 );
-                                array_push($users_to_remind, $member_data);
-                                array_push($unike_usr_id, $user_id);
+                                $users_to_remind[] = $member_data;
+                                $unike_usr_id[] = $user_id;
                             }
                         }
                     }
@@ -426,7 +426,7 @@ class ilExAssignmentReminder
                                 "reminder_type" => $reminder["type"],
                                 "template_id" => $reminder["template_id"]
                             );
-                            array_push($users_to_remind, $member_data);
+                            $users_to_remind[] = $member_data;
                         }
                     }
                 }

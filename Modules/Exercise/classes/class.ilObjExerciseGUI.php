@@ -115,7 +115,7 @@ class ilObjExerciseGUI extends ilObjectGUI
             case "illearningprogressgui":
                 $ilTabs->activateTab("learning_progress");
                 $new_gui = new ilLearningProgressGUI(
-                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                    ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
                     $this->lp_user_id
                 );
@@ -969,7 +969,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         );
 
         if ($this->certificateDownloadValidator->isCertificateDownloadable(
-            (int) $ilUser->getId(),
+            $ilUser->getId(),
             $this->object->getId()
         )) {
             $ilToolbar->addButton(
@@ -1056,7 +1056,7 @@ class ilObjExerciseGUI extends ilObjectGUI
             $this->lng->txt('error_creating_certificate_pdf')
         );
 
-        $pdfAction->downloadPdf((int) $ilUser->getId(), $objectId);
+        $pdfAction->downloadPdf($ilUser->getId(), $objectId);
     }
 
     /**

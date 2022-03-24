@@ -479,7 +479,7 @@ class ilExPeerReview
         );
 
         while ($row = $ilDB->fetchAssoc($set)) {
-            array_push($user_ids, $row["giver_id"]);
+            $user_ids[] = $row["giver_id"];
         }
 
         return $user_ids;

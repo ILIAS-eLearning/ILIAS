@@ -43,7 +43,7 @@ class ilExcRandomAssignmentGUI
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, array("startExercise"))) {
+                if ($cmd === "startExercise") {
                     $this->$cmd();
                 }
         }

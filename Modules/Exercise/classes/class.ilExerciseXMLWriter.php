@@ -178,7 +178,9 @@ class ilExerciseXMLWriter extends ilXmlWriter
                 $this->xmlElement("Filename", null, $file ["name"]);
                 if ($this->attachFileContents) {
                     $filename = $file ["fullpath"];
+                    // TODO PHP8: check silenced function call
                     if (@is_file($filename)) {
+                        // TODO PHP8: check silenced function call
                         $content = @file_get_contents($filename);
                         $attribs = array("mode" => "PLAIN" );
                         if ($this->attachFileContents == ilExerciseXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED) {
