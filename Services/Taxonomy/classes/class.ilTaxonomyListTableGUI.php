@@ -4,12 +4,11 @@
 
 /**
  * TableGUI class for taxonomy list
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxonomyListTableGUI extends ilTable2GUI
 {
-    protected \ilAccessHandler $access;
+    protected ilAccessHandler $access;
     protected int $requested_tax_id;
     protected int $assigned_object_id;
 
@@ -25,10 +24,10 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->assigned_object_id = $a_assigned_object_id;
-        
+
         $this->setData(ilObjTaxonomy::getUsageOfObject($this->assigned_object_id, true));
         $this->setTitle($lng->txt("obj_taxf"));
         $this->setDescription($a_info);
@@ -36,17 +35,17 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("description"));
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.taxonomy_list_row.html", "Services/Taxonomy");
 
-        $params = $DIC->http()->request()->getQueryParams();
+        $params = $DIC->http()->request()->getQueryParams();  // TODO PHP8-REVIEW: Please use http()->wrapper()
         $this->requested_tax_id = (int) ($params["tax_id"] ?? null);
     }
-    
+
     /**
      * @inheritDoc
      */

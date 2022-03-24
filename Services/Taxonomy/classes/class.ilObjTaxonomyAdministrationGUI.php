@@ -4,16 +4,12 @@
 
 /**
  * Taxonomy Administration Settings
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjTaxonomyAdministrationGUI: ilPermissionGUI
  */
 class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected ilRbacSystem $rbacsystem;
 
     /**
      * @inheritDoc
@@ -74,7 +70,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
             );
         }
     }
-    
+
     /**
      * List taxonomies of repository objects
      */
