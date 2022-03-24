@@ -62,12 +62,10 @@ class ilMailExplorer extends ilTreeExplorerGUI
     {
         $f = $this->ui->factory();
 
-        $tree = $f->tree()
+        return $f->tree()
             ->expandable($this->getTreeLabel(), $this)
             ->withData($this->tree->getChilds($this->tree->readRootId()))
             ->withHighlightOnNodeClick(false);
-
-        return $tree;
     }
 
     public function build(
@@ -75,9 +73,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $record,
         $environment = null
     ) : Node {
-        $node = parent::build($factory, $record, $environment);
-
-        return $node->withHighlighted($this->currentFolderId === (int) $record['child']);
+        return parent::build($factory, $record, $environment)->withHighlighted($this->currentFolderId === (int) $record['child']);
     }
 
     protected function getNodeStateToggleCmdClasses($record) : array

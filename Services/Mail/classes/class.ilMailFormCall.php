@@ -90,7 +90,7 @@ class ilMailFormCall
             foreach ($gui_params as $key => $value) {
                 $ilCtrlTmp->setParameter($gui, $key, $value);
             }
-            $referer = $ilCtrlTmp->getLinkTarget($gui, $cmd, '', false, false);
+            $referer = $ilCtrlTmp->getLinkTarget($gui, $cmd, '');
         } elseif (is_string($gui)) {
             $referer = $gui;
         }

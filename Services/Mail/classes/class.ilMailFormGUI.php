@@ -524,6 +524,7 @@ class ilMailFormGUI
 
                 $mailData['m_subject'] = $this->umail->formatReplySubject();
                 $mailData['m_message'] = $this->umail->formatReplyMessage();
+                // TODO This looks strange, but it is correct. Further refactoring is needed.
                 $mailData['m_message'] = $this->umail->prependSignature();
                 $mailData['attachments'] = [];
                 $mailData['rcp_cc'] = '';
