@@ -23,7 +23,7 @@ class HistCompareTest extends TestCase
     /**
      * Test compare
      */
-    public function testCompare()
+    public function testCompare() : void
     {
         $this->assertEquals(
             1,
@@ -37,7 +37,7 @@ class HistCompareTest extends TestCase
     /**
      * Test compare 2
      */
-    public function testCompare2()
+    public function testCompare2() : void
     {
         $this->assertEquals(
             -1,
@@ -51,7 +51,7 @@ class HistCompareTest extends TestCase
     /**
      * Test compare 3
      */
-    public function testCompare3()
+    public function testCompare3() : void
     {
         $this->assertEquals(
             0,

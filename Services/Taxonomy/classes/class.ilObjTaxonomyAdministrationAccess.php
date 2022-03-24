@@ -4,7 +4,6 @@
 
 /**
  * Class ilObjTaxonomyAdministrationAccess
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilObjTaxonomyAdministrationAccess extends ilObjectAccess

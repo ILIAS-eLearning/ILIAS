@@ -16,6 +16,12 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
 
+use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
+use ILIAS\UI\Component\Layout\Page\Page;
+use ILIAS\Data\URI;
+
 /**
  * Class ilLSViewLayoutProvider
  *
@@ -71,11 +77,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
                 function (MetaBar $metabar) : ?Metabar {
-                    $metabar = $metabar->withClearedEntries();
-                    foreach ($this->data_collection->get(ilLSPlayer::GS_DATA_LS_METABARCONTROLS) as $key => $entry) {
-                        $metabar = $metabar->withAdditionalEntry($key, $entry);
-                    }
-                    return $metabar;
+                    return $metabar->withClearedEntries();
                 }
             )
             ->withHighPriority();
@@ -110,6 +112,30 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
                 function (Legacy $content) use ($html) : Legacy {
                     $ui = $this->dic->ui();
                     return $ui->factory()->legacy($html);
+                }
+            )
+            ->withHighPriority();
+    }
+
+    public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
+    {
+        if (!$this->isKioskModeEnabled($screen_context_stack)) {
+            return null;
+        }
+
+        $exit = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_METABARCONTROLS)['exit'];
+        $label = $this->dic['lng']->txt('lso_player_viewmodelabel');
+
+        $lnk = new URI($exit->getAction());
+
+        return $this->factory->page()
+            ->withModification(
+                function (PagePartProvider $parts) use ($label, $lnk) : Page {
+                    $p = new StandardPageBuilder();
+                    $f = $this->dic['ui.factory'];
+                    $page = $p->build($parts);
+                    $modeinfo = $f->mainControls()->modeInfo($label, $lnk);
+                    return $page->withModeInfo($modeinfo);
                 }
             )
             ->withHighPriority();

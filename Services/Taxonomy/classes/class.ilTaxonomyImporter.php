@@ -4,7 +4,6 @@
 
 /**
  * Importer class for taxonomies
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxonomyImporter extends ilXmlImporter
@@ -20,12 +19,12 @@ class ilTaxonomyImporter extends ilXmlImporter
         $this->ds->setDSPrefix("ds");
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ) : void {
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),
