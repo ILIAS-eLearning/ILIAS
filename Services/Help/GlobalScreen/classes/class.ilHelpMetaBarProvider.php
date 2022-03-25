@@ -18,7 +18,7 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\UI\Implementation\Component\Button\Bulky;
 
-class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements StaticMetaBarProvider
+class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider
 {
     use ilHelpDisplayed;
 
@@ -51,7 +51,6 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
                            }
                            return null;
                        })
-//                       ->withAction($this->dic->ctrl()->getLinkTargetByClass(ilDashboardGUI::class, "toggleHelp"))
                        ->withSymbol($f->symbol()->glyph()->help())
                        ->withTitle($title)
                        ->withPosition(0);
