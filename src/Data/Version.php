@@ -23,7 +23,7 @@ class Version
         }
         $this->major = (int) $match["major"];
         $this->minor = (int) ($match["minor"] ?? 0);
-        $this->patch = (int) ($match["patch"] ?? 0); 
+        $this->patch = (int) ($match["patch"] ?? 0);
     }
 
     public function getMajor() : int

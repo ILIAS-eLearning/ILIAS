@@ -6,10 +6,10 @@ namespace ILIAS\Data\Result;
 
 use ILIAS\Data;
 use ILIAS\Data\Result;
+use phpDocumentor\Reflection\Types\Mixed_;
 
 /**
  * A result encapsulates a value or an error and simplifies the handling of those.
- *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class Error implements Data\Result
@@ -27,6 +27,7 @@ class Error implements Data\Result
         }
         $this->error = $error;
     }
+
     /**
      * @inheritdoc
      */
@@ -38,7 +39,7 @@ class Error implements Data\Result
     /**
      * @inheritdoc
      */
-    public function value()
+    public function value() : mixed
     {
         if ($this->error instanceof \Exception) {
             throw $this->error;
@@ -66,7 +67,7 @@ class Error implements Data\Result
     /**
      * @inheritdoc
      */
-    public function valueOr($default)
+    public function valueOr($default) : mixed
     {
         return $default;
     }

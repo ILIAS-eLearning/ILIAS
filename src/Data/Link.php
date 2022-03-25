@@ -4,7 +4,6 @@ namespace ILIAS\Data;
 
 /**
  * A Link is the often used combination of a label and an URL.
- *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class Link
@@ -12,12 +11,12 @@ class Link
     /**
      * @var string
      */
-    protected $label;
+    protected string $label;
 
     /**
      * @var URI
      */
-    protected $url;
+    protected URI $url;
 
     public function __construct(string $label, URI $url)
     {

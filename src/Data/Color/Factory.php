@@ -8,7 +8,6 @@ use ILIAS\Data\Color;
 
 /**
  * Builds a Color from either hex- or rgb values.
- *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class Factory
@@ -18,8 +17,7 @@ class Factory
      * Determine type of input and validate it, then build a color.
      * A Color can be constructed with an array of rgb-integers or from
      * a hex-value both short and longhand notation.
-     *
-     * @param  string|int[] $value
+     * @param string|int[] $value
      * @throws \InvalidArgumentException
      */
     public function build($value) : Color
@@ -39,11 +37,10 @@ class Factory
     }
 
     /**
-    * Validate hex value.
-    *
-    * @throws \InvalidArgumentException
-    */
-    private function checkHex(string $hex)
+     * Validate hex value.
+     * @throws \InvalidArgumentException
+     */
+    private function checkHex(string $hex) : void
     {
         $hexpattern = '/^([a-f0-9]{6}|[a-f0-9]{3})$/i';
         if (!preg_match($hexpattern, $hex)) {
@@ -52,11 +49,10 @@ class Factory
     }
 
     /**
-    * Validate rgb-values.
-    *
-    * @throws \InvalidArgumentException
-    */
-    private function checkRGB(array $rgb)
+     * Validate rgb-values.
+     * @throws \InvalidArgumentException
+     */
+    private function checkRGB(array $rgb) : void
     {
         if (count($rgb) !== 3) {
             throw new \InvalidArgumentException("Array with three values (RGB) needed.", 1);
@@ -72,8 +68,8 @@ class Factory
     }
 
     /**
-    * Build a color from hex-value.
-    */
+     * Build a color from hex-value.
+     */
     private function fromHex(string $hex) : Color
     {
         $hex = $this->unshorten($this->trimHash($hex));
@@ -106,7 +102,6 @@ class Factory
 
     /**
      * Build a color from RGB-values.
-     *
      * @param int[] $rgb
      */
     private function fromRGB(array $rgb) : Color
