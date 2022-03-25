@@ -54,7 +54,7 @@ final class PHPStreamFunctions
      *
      * @see fclose()
      */
-    public static function fclose($handle): void
+    public static function fclose($handle) : void// @TODO: PHP8 Review: Missing parameter type.
     {
         fclose($handle);
     }
@@ -69,7 +69,7 @@ final class PHPStreamFunctions
      *
      * @return int 0 or -1
      */
-    public static function fseek($stream, $offset, $whence): int
+    public static function fseek($stream, $offset, $whence) : int// @TODO: PHP8 Review: Missing parameter type.
     {
         return fseek($stream, $offset, $whence);
     }
@@ -85,7 +85,7 @@ final class PHPStreamFunctions
      *
      * @see fread()
      */
-    public static function fread($handle, $length)
+    public static function fread($handle, $length)// @TODO: PHP8 Review: Missing parameter type.
     {
         return fread($handle, $length);
     }
@@ -101,7 +101,7 @@ final class PHPStreamFunctions
      *
      * @see stream_get_contents()
      */
-    public static function stream_get_contents($handle, $length = -1)
+    public static function stream_get_contents($handle, $length = -1)// @TODO: PHP8 Review: Missing parameter type.
     {
         return stream_get_contents($handle, $length);
     }
@@ -118,7 +118,7 @@ final class PHPStreamFunctions
      *
      * @see fwrite()
      */
-    public static function fwrite($handle, $string, $length = null)
+    public static function fwrite($handle, $string, $length = null)// @TODO: PHP8 Review: Missing parameter type.
     {
 
         //it seems like php juggles the null to 0 and pass it to the function which leads to a write operation of zero length ...
