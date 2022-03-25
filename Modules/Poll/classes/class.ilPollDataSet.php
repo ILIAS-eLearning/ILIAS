@@ -43,7 +43,7 @@ class ilPollDataSet extends ilDataSet
      */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "poll") {
+        if ($a_entity === "poll") {
             switch ($a_version) {
                 case "4.3.0":
                     return array(
@@ -79,7 +79,7 @@ class ilPollDataSet extends ilDataSet
             }
         }
         
-        if ($a_entity == "poll_answer") {
+        if ($a_entity === "poll_answer") {
             switch ($a_version) {
                 case "4.3.0":
                 case "5.0.0":
@@ -100,7 +100,7 @@ class ilPollDataSet extends ilDataSet
     {
         $ilDB = $this->db;
         
-        if ($a_entity == "poll") {
+        if ($a_entity === "poll") {
             switch ($a_version) {
                 case "4.3.0":
                     $this->getDirectDataFromQuery("SELECT pl.id,od.title,od.description," .
@@ -123,7 +123,7 @@ class ilPollDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "poll_answer") {
+        if ($a_entity === "poll_answer") {
             switch ($a_version) {
                 case "4.3.0":
                 case "5.0.0":
@@ -152,7 +152,7 @@ class ilPollDataSet extends ilDataSet
 
     public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
     {
-        if ($a_entity == "poll") {
+        if ($a_entity === "poll") {
             $dir = ilObjPoll::initStorage($a_set["Id"]);
             $a_set["Dir"] = $dir;
             
@@ -173,7 +173,7 @@ class ilPollDataSet extends ilDataSet
             case "poll":
                 // container copy
                 if ($new_id = $a_mapping->getMapping("Services/Container", "objs", (string) ($a_rec["Id"] ?? "0"))) {
-                    $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+                    $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
                 } else {
                     $newObj = new ilObjPoll();
                     $newObj->create();
@@ -201,7 +201,7 @@ class ilPollDataSet extends ilDataSet
                 // handle image(s)
                 if ($a_rec["Image"]) {
                     $dir = str_replace("..", "", (string) ($a_rec["Dir"] ?? ''));
-                    if ($dir != "" && $this->getImportDirectory() != "") {
+                    if ($dir !== "" && $this->getImportDirectory() !== "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = ilObjPoll::initStorage($newObj->getId());
                         ilFileUtils::rCopy($source_dir, $target_dir);

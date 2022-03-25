@@ -82,11 +82,6 @@ class ilPollBlockGUI extends ilBlockGUI
         return "ilobjpollgui";
     }
 
-    public static function getScreenMode() : string
-    {
-        return IL_SCREEN_SIDE;
-    }
-
     public function setBlock(ilPollBlock $a_block) : void
     {
         $this->setBlockId((string) $a_block->getId());
@@ -234,8 +229,8 @@ class ilPollBlockGUI extends ilBlockGUI
                         }
 
                         // pie chart
-                        if ($this->poll_block->showResultsAs() == ilObjPoll::SHOW_RESULTS_AS_PIECHART) {
-                            $chart = ilChart::getInstanceByType(ilCHart::TYPE_PIE, "poll_results_pie_" . $this->getRefId());
+                        if ($this->poll_block->showResultsAs() === ilObjPoll::SHOW_RESULTS_AS_PIECHART) {
+                            $chart = ilChart::getInstanceByType(ilChart::TYPE_PIE, "poll_results_pie_" . $this->getRefId());
                             $chart->setSize(400, 200);
                             $chart->setAutoResize(true);
 
@@ -433,10 +428,7 @@ class ilPollBlockGUI extends ilBlockGUI
         );
 
 
-        $comment = new ilNoteGUI();
-        $jsCall = $comment->getListCommentsJSCall($ajaxHash, "ilPoll.redrawComments(" . $refId . ");");
-
-        return $jsCall;
+        return ilNoteGUI::getListCommentsJSCall($ajaxHash, "ilPoll.redrawComments(" . $refId . ");");
     }
 
     public function getNumberOfCommentsForRedraw() : void
@@ -467,7 +459,7 @@ class ilPollBlockGUI extends ilBlockGUI
         $obj_id = ilObject2::_lookupObjectId($ref_id);
         $number = ilNote::_countNotesAndComments($obj_id);
 
-        if (count($number) == 0) {
+        if (count($number) === 0) {
             return 0;
         }
 
