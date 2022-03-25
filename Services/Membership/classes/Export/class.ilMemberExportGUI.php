@@ -87,7 +87,7 @@ class ilMemberExportGUI
     protected function initSettingsForm(bool $a_is_excel = false) : ilPropertyFormGUI
     {
         // Check user selection
-        $this->exportSettings = new ilUserFormSettings('memexp'); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
+        $this->exportSettings = new ilUserFormSettings('memexp');
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -228,7 +228,7 @@ class ilMemberExportGUI
         }
 
         // Save (form) settings
-        $this->exportSettings = new ilUserFormSettings('memexp'); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
+        $this->exportSettings = new ilUserFormSettings('memexp');
         $this->exportSettings->set($settings);
         $this->exportSettings->store();
     }

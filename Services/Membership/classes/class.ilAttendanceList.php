@@ -356,9 +356,9 @@ class ilAttendanceList
         $form->addCommandButton($a_cmd, $this->lng->txt('sess_print_attendance_list'));
 
         if ($this->id && $a_cmd) {
-            $settings = new ilUserFormSettings($this->id); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
+            $settings = new ilUserFormSettings($this->id);
             if (!$settings->hasStoredEntry()) {
-                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
+                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1);
             }
 
             $settings->deleteValue('desc'); // #11340
@@ -370,7 +370,7 @@ class ilAttendanceList
             ); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
             if (!$settings->hasStoredEntry()) {
                 // init from global defaults
-                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
+                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1);
             }
 
             $settings->deleteValue('desc'); // #11340

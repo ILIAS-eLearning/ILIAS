@@ -170,10 +170,10 @@ class ilMemberExportSettingsGUI
             $identifier_for_object = $identifier . '_0';
         }
 
-        $settings = new ilUserFormSettings($identifier_for_object, -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
+        $settings = new ilUserFormSettings($identifier_for_object, -1);
         if (!$settings->hasStoredEntry()) {
             // use default settings
-            $settings = new ilUserFormSettings($identifier, -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
+            $settings = new ilUserFormSettings($identifier, -1);
         }
         $settings->exportToForm($form);
 
@@ -197,7 +197,7 @@ class ilMemberExportSettingsGUI
                 $identifier .= '_' . $this->parent_obj_id;
             }
 
-            $settings = new ilUserFormSettings($identifier, -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
+            $settings = new ilUserFormSettings($identifier, -1);
             $settings->importFromForm($form);
             $settings->store();
 

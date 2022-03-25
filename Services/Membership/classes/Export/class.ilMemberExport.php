@@ -76,7 +76,7 @@ class ilMemberExport
         $this->initGroups();
 
         $this->agreement = ilMemberAgreement::_readByObjId($this->obj_id);
-        $this->settings = new ilUserFormSettings('memexp'); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
+        $this->settings = new ilUserFormSettings('memexp');
         $this->privacy = ilPrivacySettings::getInstance();
     }
 
