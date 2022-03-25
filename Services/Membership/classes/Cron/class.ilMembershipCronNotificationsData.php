@@ -9,7 +9,11 @@
  */
 class ilMembershipCronNotificationsData
 {
-    protected string $last_run;
+    /**
+     * @todo convert to DateTime
+     */
+    protected int $last_run_unix;
+    protected string $last_run_date;
     protected string $cron_id;
     protected ilLogger $log;
     protected array $objects;
@@ -40,13 +44,14 @@ class ilMembershipCronNotificationsData
 
     protected ilAccessHandler $access;
 
-    public function __construct(string $last_run, string $cron_id)
+    public function __construct(int $last_run, string $cron_id)
     {
         global $DIC;
 
         $this->access = $DIC->access();
 
-        $this->last_run = $last_run;
+        $this->last_run_unix = $last_run;
+        $this->last_run_date = date('Y-m-d H:i:s', $last_run);
         $this->cron_id = $cron_id;
         $this->log = ilLoggerFactory::getLogger("mmbr");
         $this->load();
@@ -77,7 +82,7 @@ class ilMembershipCronNotificationsData
                 if (
                     isset($objs["obj_id"]) &&
                     is_array($objs["obj_id"]) &&
-                    $news_item->checkNewsExistsForObjects($objs["obj_id"], (int) $this->last_run)
+                    $news_item->checkNewsExistsForObjects($objs["obj_id"], $this->last_run_unix)
                 ) {
                     $this->log->debug("Got news");
                     foreach ($user_ids as $user_id) {
@@ -86,7 +91,7 @@ class ilMembershipCronNotificationsData
                             $ref_id,
                             false,
                             false,
-                            $this->last_run,
+                            $this->last_run_unix,
                             false,
                             false,
                             false,
@@ -136,7 +141,7 @@ class ilMembershipCronNotificationsData
                 $like_data = new ilLikeData(array_keys($objs["obj_id"]));
                 foreach (array_keys($objs["obj_id"]) as $obj_id) {
                     $this->log->debug("Get like data for obj_id: " . $obj_id);
-                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run) as $like) { // TODO PHP8-REVIEW Expected parameter of type 'int|null', 'string' provided
+                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run_unix) as $like) {
                         reset($user_ids);
                         foreach ($user_ids as $user_id) {
                             $has_perm = false;
@@ -164,7 +169,7 @@ class ilMembershipCronNotificationsData
                         ilNote::PUBLIC,
                         false,
                         false,
-                        $this->last_run
+                        $this->last_run_date
                     );
                     foreach ($coms as $c) {
                         if ($c->getNewsId() == 0) {

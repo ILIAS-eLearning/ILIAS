@@ -12,11 +12,14 @@ class ilAttendanceList
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilObjectGUI $parent_gui;
+    protected object $parent_gui;
     protected ilObject $parent_obj;
     protected ?ilParticipants $participants;
     protected ?ilWaitingList $waiting_list;
-    protected $callback;  // TODO PHP8-REVIEW: Missing property's type declaration
+    /**
+     * @var ?callable
+     */
+    protected $callback = null;
     protected array $presets = [];
     protected array $role_data = [];
     protected array $roles = [];
@@ -31,7 +34,7 @@ class ilAttendanceList
     protected array $user_filters = [];
 
     public function __construct(
-        ilObjectGUI $a_parent_gui,
+        object $a_parent_gui,
         ilObject $a_parent_obj,
         ?ilParticipants $a_participants_object = null,
         ?ilWaitingList $a_waiting_list = null
@@ -248,9 +251,8 @@ class ilAttendanceList
 
     /**
      * Set participant detail callback
-     * @param mixed
      */
-    public function setCallback($a_callback) : void
+    public function setCallback(callable $a_callback) : void
     {
         $this->callback = $a_callback;
     }
@@ -367,7 +369,7 @@ class ilAttendanceList
             $settings = new ilUserFormSettings(
                 $this->parent_obj->getType() . 's_pview_' . $this->parent_obj->getId(),
                 -1
-            ); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
+            );
             if (!$settings->hasStoredEntry()) {
                 // init from global defaults
                 $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1);

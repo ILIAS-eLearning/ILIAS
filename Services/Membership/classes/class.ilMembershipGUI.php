@@ -518,6 +518,18 @@ class ilMembershipGUI
             $assignableLocalRoles[$role_id] = $title;
         }
 
+        $post_roles = [];
+        if ($this->http->wrapper()->post()->has('roles')) {
+            $post_roles = $this->http->wrapper()->post()->retrieve(
+                'roles',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->dictOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+        }
+
         // Validate the user ids and role ids in the post data
         foreach ($participants as $usr_id) {
             $memberIsAdmin = $this->rbacreview->isAssigned($usr_id, (int) $adminRoleId);
@@ -525,14 +537,19 @@ class ilMembershipGUI
             // If the current user doesn't have the 'edit_permission'
             // permission, make sure he doesn't remove the course
             // administrator role of members who are course administrator.
-            if (!$hasEditPermissionAccess && $memberIsAdmin &&
-                !in_array($adminRoleId, $_POST['roles'][$usr_id])  // TODO PHP8-REVIEW Please fix this
+            if (
+                !$hasEditPermissionAccess &&
+                $memberIsAdmin &&
+                (
+                    !is_array($post_roles[$usr_id]) ||
+                    !in_array($adminRoleId, $post_roles[$usr_id])
+                )
             ) {
-                $_POST['roles'][$usr_id][] = $adminRoleId; // TODO PHP8-REVIEW Please fix this
+                $post_roles[$usr_id][] = $adminRoleId;
             }
 
             // Validate the role ids in the post data
-            foreach ((array) $_POST['roles'][$usr_id] as $role_id) {  // TODO PHP8-REVIEW Please fix this
+            foreach ((array) $post_roles[$usr_id] as $role_id) {
                 if (!array_key_exists($role_id, $assignableLocalRoles)) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_perm'), true);
                     $this->ctrl->redirect($this, 'participants');
@@ -548,17 +565,17 @@ class ilMembershipGUI
 
         $has_admin = false;
         foreach ($this->getMembersObject()->getAdmins() as $admin_id) {
-            if (!isset($_POST['roles'][$admin_id])) {  // TODO PHP8-REVIEW Please fix this
+            if (!isset($post_roles[$admin_id])) {
                 $has_admin = true;
                 break;
             }
-            if (in_array($adminRoleId, $_POST['roles'][$admin_id])) { // TODO PHP8-REVIEW Please fix this
+            if (in_array($adminRoleId, (array) $post_roles[$admin_id])) {
                 $has_admin = true;
                 break;
             }
         }
 
-        if (!$has_admin && is_array($_POST['roles'])) { // TODO PHP8-REVIEW Please fix this
+        if (!$has_admin && is_array($post_roles)) {
             foreach ($_POST['roles'] as $usrId => $roleIdsToBeAssigned) {
                 if (in_array($adminRoleId, $roleIdsToBeAssigned)) {
                     $has_admin = true;
@@ -573,7 +590,7 @@ class ilMembershipGUI
         }
 
         foreach ($participants as $usr_id) {
-            $this->getMembersObject()->updateRoleAssignments($usr_id, (array) $_POST['roles'][$usr_id]);  // TODO PHP8-REVIEW Please fix this
+            $this->getMembersObject()->updateRoleAssignments($usr_id, (array) $post_roles[$usr_id]);
 
             // Disable notification for all of them
             $this->getMembersObject()->updateNotification($usr_id, false);
@@ -1567,14 +1584,14 @@ class ilMembershipGUI
             $part = ilParticipants::getInstance($member_id);
 
             $list = new ilAttendanceList(
-                $this,// TODO PHP8-REVIEW Argument does not match parameter type
+                $this,
                 $this->getParentObject(),
                 $part,
                 $waiting_list
             );
         } else {
             $list = new ilAttendanceList(
-                $this,// TODO PHP8-REVIEW Argument does not match parameter type
+                $this,
                 $this->getParentObject(),
                 $this->getMembersObject(),
                 $waiting_list

@@ -252,6 +252,17 @@ abstract class ilRegistrationGUI
         if (!count($cdf_fields = ilCourseDefinedFieldDefinition::_getFields($this->container->getId()))) {
             return;
         }
+
+        $cdf_values = [];
+        if ($this->http->wrapper()->post()->has('cdf')) {
+            $cdf_values = $this->http->wrapper()->post()->retrieve(
+                'cdf',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
+
         $cdf = new ilNonEditableValueGUI($this->lng->txt('ps_crs_user_fields'));
         $cdf->setValue($this->lng->txt($this->type . '_ps_cdf_info'));
         $cdf->setRequired(true);
@@ -261,7 +272,7 @@ abstract class ilRegistrationGUI
             switch ($field_obj->getType()) {
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
                     $select = new ilSelectInputGUI($field_obj->getName(), 'cdf[' . $field_obj->getId() . ']');
-                    $select->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));  // TODO PHP8-REVIEW Please fix this
+                    $select->setValue($cdf_values[$field_obj->getId()] ?? '');
                     $select->setOptions($field_obj->prepareSelectBox());
                     if ($field_obj->isRequired()) {
                         $select->setRequired(true);
@@ -271,7 +282,7 @@ abstract class ilRegistrationGUI
 
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
                     $text = new ilTextInputGUI($field_obj->getName(), 'cdf[' . $field_obj->getId() . ']');
-                    $text->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));  // TODO PHP8-REVIEW Please fix this
+                    $text->setValue($cdf_values[$field_obj->getId()] ?? '');
                     $text->setSize(32);
                     $text->setMaxLength(255);
                     if ($field_obj->isRequired()) {

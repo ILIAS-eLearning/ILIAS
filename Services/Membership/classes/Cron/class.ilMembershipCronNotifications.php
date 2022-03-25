@@ -86,11 +86,11 @@ class ilMembershipCronNotifications extends ilCronJob
 
             $status_details = "Switched from daily runs to open schedule.";
         }
-        //$last_run = date("Y-m-d H:i:s", strtotime("yesterday"));
+        $last_run_unix = strtotime($last_run);
 
         $this->logger->debug("Last run: " . $last_run);
 
-        $this->data = new ilMembershipCronNotificationsData($last_run, $this->getId());
+        $this->data = new ilMembershipCronNotificationsData($last_run_unix, $this->getId());
 
         $this->logger->debug("prepare sending mails");
 
