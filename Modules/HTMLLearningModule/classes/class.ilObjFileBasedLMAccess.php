@@ -42,7 +42,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
         switch ($permission) {
             case "read":
 
-                if (ilObjFileBasedLMAccess::_determineStartUrl($obj_id) == "") {
+                if (self::_determineStartUrl($obj_id) === "") {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
@@ -53,14 +53,14 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
     
     public static function _getCommands() : array
     {
-        $commands = array(
-            array("permission" => "read", "cmd" => "view", "lang_var" => "show",
-                "default" => true),
-            array("permission" => "write", "cmd" => "edit", "lang_var" => "edit_content"),
-            array("permission" => "write", "cmd" => "properties", "lang_var" => "settings")
-        );
-        
-        return $commands;
+        return [
+            [
+                "permission" => "read", "cmd" => "view", "lang_var" => "show",
+                "default" => true
+            ],
+            ["permission" => "write", "cmd" => "edit", "lang_var" => "edit_content"],
+            ["permission" => "write", "cmd" => "properties", "lang_var" => "settings"]
+        ];
     }
 
     //
@@ -85,7 +85,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
         
         $dir = ilFileUtils::getWebspaceDir() . "/lm_data/lm_" . $a_id;
         
-        if (($start_file != "") &&
+        if (($start_file !== "") &&
             (is_file($dir . "/" . $start_file))) {
             return "./" . $dir . "/" . $start_file;
         } elseif (is_file($dir . "/index.html")) {
@@ -105,7 +105,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
         
         $t_arr = explode("_", $target);
 
-        if ($t_arr[0] != "htlm" || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] !== "htlm" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 
