@@ -9703,7 +9703,8 @@ footer {
   list-style-type: none;
   /* Remove bullets */
 }
-.il-maincontrols-metabar > li > .btn-bulky > .bulky-label {
+.il-maincontrols-metabar > li > .btn-bulky > .bulky-label,
+.il-maincontrols-metabar > li > .link-bulky > .bulky-label {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -9732,7 +9733,8 @@ footer {
 .il-maincontrols-metabar .badge {
   position: absolute;
 }
-.il-maincontrols-metabar .btn {
+.il-maincontrols-metabar .btn,
+.il-maincontrols-metabar .il-link {
   position: relative;
 }
 .il-maincontrols-metabar .il-counter-novelty {
@@ -9743,29 +9745,35 @@ footer {
   margin-top: 0;
   top: 32px;
 }
-.il-maincontrols-metabar .btn-bulky {
+.il-maincontrols-metabar .btn-bulky,
+.il-maincontrols-metabar .link-bulky {
   background-color: transparent;
   height: 60px;
   min-width: 60px;
 }
 @media only screen and (max-width: 768px) {
-  .il-maincontrols-metabar .btn-bulky {
+  .il-maincontrols-metabar .btn-bulky,
+  .il-maincontrols-metabar .link-bulky {
     height: 45px;
     min-width: 45px;
   }
 }
 .il-maincontrols-metabar .btn-bulky:focus,
-.il-maincontrols-metabar .btn-bulky:active {
+.il-maincontrols-metabar .link-bulky:focus,
+.il-maincontrols-metabar .btn-bulky:active,
+.il-maincontrols-metabar .link-bulky:active {
   box-shadow: none;
 }
-.il-maincontrols-metabar .btn-bulky.engaged {
+.il-maincontrols-metabar .btn-bulky.engaged,
+.il-maincontrols-metabar .link-bulky.engaged {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
   border: none;
   color: initial;
   outline-color: transparent;
 }
-.il-maincontrols-metabar .btn-bulky .glyphicon {
+.il-maincontrols-metabar .btn-bulky .glyphicon,
+.il-maincontrols-metabar .link-bulky .glyphicon {
   color: #737373;
   font-size: 2.3rem;
 }
