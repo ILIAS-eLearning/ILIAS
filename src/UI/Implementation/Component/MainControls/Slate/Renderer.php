@@ -51,12 +51,10 @@ class Renderer extends AbstractComponentRenderer
                     $triggerer = $triggerer
                         ->withOnClick($trigger_signal)
                         ->withAdditionalOnLoadCode(
-                            function ($id) use ($mb_id, $trigger_signal) {
-                                return "
+                            fn($id) => "
                                     il.UI.maincontrols.mainbar.addTriggerSignal('{$trigger_signal}');
                                     il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'triggerer', '{$id}');
-                                ";
-                            }
+                                "
                         );
                 }
                 $contents[] = $triggerer;

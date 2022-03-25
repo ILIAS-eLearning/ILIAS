@@ -55,9 +55,7 @@ class File extends Input implements C\Input\Field\File
 
     public function getUpdateOnLoadCode() : Closure
     {
-        return function () {
-            return '';
-        };
+        return fn() => '';
     }
 
     public function withMaxFileSize(int $size_in_bytes) : C\Input\Field\File

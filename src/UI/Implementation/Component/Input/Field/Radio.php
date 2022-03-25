@@ -111,11 +111,9 @@ class Radio extends Input implements C\Input\Field\Radio
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
-            return"$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id input:checked').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id input:checked').val());";
-        };
     }
 }
