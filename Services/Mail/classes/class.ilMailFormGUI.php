@@ -27,7 +27,6 @@ class ilMailFormGUI
     private ilObjUser $user;
     private ilTabsGUI $tabs;
     private ilToolbarGUI $toolbar;
-    private ilRbacSystem $rbacsystem;
     private ilFormatMail $umail;
     private ilMailBox $mbox;
     private ilFileDataMail $mfile;
@@ -52,7 +51,6 @@ class ilMailFormGUI
         $this->user = $DIC->user();
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC->toolbar();
-        $this->rbacsystem = $DIC->rbac()->system();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->umail = new ilFormatMail($this->user->getId());

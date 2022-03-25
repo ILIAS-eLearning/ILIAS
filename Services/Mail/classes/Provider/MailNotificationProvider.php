@@ -101,7 +101,7 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
                         function () : void {
-                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, time());
+                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
                         }
                     )
                     ->withNewAmount(1)

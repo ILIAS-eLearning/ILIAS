@@ -66,7 +66,7 @@ class ilFileDataMail extends ilFileData
             return null;
         }
 
-        return (float) $this->ilias->getSetting('mail_maxsize_attach', 0) * 1024;
+        return (float) $this->ilias->getSetting('mail_maxsize_attach', '0') * 1024;
     }
 
     public function getMailPath() : string

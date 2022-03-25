@@ -31,12 +31,12 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
             return $this->settings->get('global_reply_to_addr', '');
         }
 
-        return (string) $this->user->getEmail();
+        return $this->user->getEmail();
     }
 
     public function getReplyToName() : string
     {
-        return (string) $this->user->getFullname();
+        return $this->user->getFullname();
     }
 
     public function hasEnvelopFromAddress() : bool
@@ -58,12 +58,12 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
     {
         $from = $this->settings->get('mail_system_usr_from_name', '');
         if ($from === '') {
-            return (string) $this->user->getFullname();
+            return $this->user->getFullname();
         }
 
-        $name = str_ireplace('[FULLNAME]', (string) $this->user->getFullname(), $from);
-        $name = str_ireplace('[FIRSTNAME]', (string) $this->user->getFirstname(), $name);
-        $name = str_ireplace('[LASTNAME]', (string) $this->user->getLastname(), $name);
+        $name = str_ireplace('[FULLNAME]', $this->user->getFullname(), $from);
+        $name = str_ireplace('[FIRSTNAME]', $this->user->getFirstname(), $name);
+        $name = str_ireplace('[LASTNAME]', $this->user->getLastname(), $name);
         if ($name !== $from) {
             return $name;
         }
