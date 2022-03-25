@@ -242,7 +242,7 @@ class ilObjPoll extends ilObject2
         if ($this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
             $this->setAccessType((int) ($activation["timing_type"] ?? ilObjectActivation::TIMINGS_DEACTIVATED));
-            if ($this->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION) {
+            if ($this->getAccessType() === ilObjectActivation::TIMINGS_ACTIVATION) {
                 // default entry values should not be loaded if not activated
                 $this->setAccessBegin((int) ($activation["timing_start"] ?? time()));
                 $this->setAccessEnd((int) ($activation["timing_end"] ?? time()));
@@ -253,7 +253,7 @@ class ilObjPoll extends ilObject2
     
     protected function propertiesToDB() : array
     {
-        $fields = array(
+        return array(
             "question" => array("text", $this->getQuestion()),
             "image" => array("text", $this->getImage()),
             "view_results" => array("integer", $this->getViewResults()),
@@ -265,8 +265,6 @@ class ilObjPoll extends ilObject2
             "non_anon" => array("integer", $this->getNonAnonymous()),
             "show_results_as" => array("integer", $this->getShowResultsAs()),
         );
-                        
-        return $fields;
     }
 
     protected function doCreate() : void
@@ -344,7 +342,7 @@ class ilObjPoll extends ilObject2
      */
     protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = 0) : ilObjPoll
     {
-        assert($new_obj instanceof ilObjPoll);
+        assert($new_obj instanceof self);
         
         // question/image
         $new_obj->setQuestion($this->getQuestion());
@@ -387,7 +385,7 @@ class ilObjPoll extends ilObject2
     {
         $img = $this->getImage();
         if ($img) {
-            $path = $this->initStorage((int) $this->id);
+            $path = $this->initStorage($this->id);
             if (!$a_as_thumb) {
                 return $path . $img;
             } else {
@@ -401,7 +399,7 @@ class ilObjPoll extends ilObject2
     public function deleteImage() : void
     {
         if ($this->id) {
-            $storage = new ilFSStoragePoll((int) $this->id);
+            $storage = new ilFSStoragePoll($this->id);
             $storage->delete();
 
             $this->setImage("");
@@ -439,7 +437,7 @@ class ilObjPoll extends ilObject2
         $tmp_name = (string) ($a_upload['tmp_name'] ?? '');
         $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $name);
     
-        $path = $this->initStorage((int) $this->id);
+        $path = self::initStorage($this->id);
         $original = "org_" . $this->id . "_" . $clean_name;
         $thumb = "thb_" . $this->id . "_" . $clean_name;
         $processed = $this->id . "_" . $clean_name;
@@ -634,7 +632,7 @@ class ilObjPoll extends ilObject2
                 // existing answer?
                 $found = false;
                 foreach ($existing as $idx => $item) {
-                    if (trim($answer) == (string) ($item["answer"] ?? '')) {
+                    if (trim($answer) === (string) ($item["answer"] ?? '')) {
                         $found = true;
                         unset($existing[$idx]);
 
@@ -655,7 +653,7 @@ class ilObjPoll extends ilObject2
         }
         
         // remove obsolete answers
-        if (sizeof($existing)) {
+        if (count($existing)) {
             foreach ($existing as $item) {
                 if (isset($item["id"])) {
                     $this->deleteAnswer((int) $item["id"]);
@@ -664,11 +662,11 @@ class ilObjPoll extends ilObject2
         }
         
         // save current order
-        if (sizeof($ids)) {
+        if (count($ids)) {
             $this->updateAnswerPositions($ids);
         }
         
-        return sizeof($ids);
+        return count($ids);
     }
     
     
@@ -722,8 +720,8 @@ class ilObjPoll extends ilObject2
             " GROUP BY answer_id";
         $set = $this->db->query($sql);
         while ($row = $this->db->fetchAssoc($set)) {
-            $cnt += $row["cnt"];
-            $res[$row["answer_id"]] = array("abs" => $row["cnt"], "perc" => 0);
+            $cnt += (int) $row["cnt"];
+            $res[(int) $row["answer_id"]] = array("abs" => (int) $row["cnt"], "perc" => 0);
         }
 
         foreach ($res as $id => $item) {

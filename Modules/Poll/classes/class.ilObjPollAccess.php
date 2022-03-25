@@ -42,20 +42,20 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
     /**
     * @inheritdoc
     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
         $ilAccess = $this->access;
 
-        if ($a_user_id == "") {
+        if (!$user_id) {
             $a_user_id = $ilUser->getId();
         }
 
         if (
-            $a_cmd == 'preview' &&
-            $a_permission == 'read'
+            $cmd === 'preview' &&
+            $permission === 'read'
         ) {
             return false;
         }
@@ -85,32 +85,31 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
      */
     public static function _getCommands() : array
     {
-        $commands = array(
-            array("permission" => "read", "cmd" => "preview", "lang_var" => "show", "default" => true),
-            array("permission" => "write", "cmd" => "render", "lang_var" => "edit")
-        );
-        
-        return $commands;
+        return [
+            ["permission" => "read", "cmd" => "preview", "lang_var" => "show", "default" => true],
+            ["permission" => "write", "cmd" => "render", "lang_var" => "edit"]
+        ];
     }
     
     /**
     * @inheritdoc
     */
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
         
-        if ($t_arr[0] != "poll" || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] !== "poll" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 
         if ($ilAccess->checkAccess("read", "", (int) $t_arr[1])) {
             return true;
         }
+
         return false;
     }
 

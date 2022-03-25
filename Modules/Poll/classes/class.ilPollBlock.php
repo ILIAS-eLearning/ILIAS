@@ -57,7 +57,7 @@ class ilPollBlock extends ilCustomBlock
      */
     public function hasAnyContent(int $a_user_id, int $a_ref_id) : bool
     {
-        if (!sizeof($this->answers)) {
+        if (!count($this->answers)) {
             return false;
         }
 
@@ -80,7 +80,7 @@ class ilPollBlock extends ilCustomBlock
             return false;
         }
         
-        if ($a_user_id == ANONYMOUS_USER_ID) {
+        if ($a_user_id === ANONYMOUS_USER_ID) {
             return false;
         }
         
@@ -99,7 +99,7 @@ class ilPollBlock extends ilCustomBlock
     
     public function mayNotResultsYet() : bool
     {
-        if ($this->poll->getViewResults() == ilObjPoll::VIEW_RESULTS_AFTER_PERIOD &&
+        if ($this->poll->getViewResults() === ilObjPoll::VIEW_RESULTS_AFTER_PERIOD &&
             $this->poll->getVotingPeriod() &&
             $this->poll->getVotingPeriodEnd() > time()) {
             return true;
@@ -135,7 +135,7 @@ class ilPollBlock extends ilCustomBlock
     
     public function getMessage(int $a_user_id) : ?string
     {
-        if (!sizeof($this->answers)) {
+        if (!count($this->answers)) {
             return $this->lng->txt("poll_block_message_no_answers");
         }
         

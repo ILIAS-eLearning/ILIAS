@@ -335,8 +335,7 @@ class ilPollBlockGUI extends ilBlockGUI
                     $this,
                     "getNumberOfCommentsForRedraw",
                     "",
-                    true,
-                    false
+                    true
                 );
                 $this->tpl->setVariable("COMMENTS_REDRAW_URL", $redraw_url);
 
