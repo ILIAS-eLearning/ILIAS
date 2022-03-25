@@ -385,7 +385,7 @@ class ilObjPoll extends ilObject2
     {
         $img = $this->getImage();
         if ($img) {
-            $path = $this->initStorage($this->id);
+            $path = self::initStorage($this->id);
             if (!$a_as_thumb) {
                 return $path . $img;
             } else {
