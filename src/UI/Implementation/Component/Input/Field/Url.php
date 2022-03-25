@@ -34,9 +34,7 @@ class Url extends Input implements C\Input\Field\Url
     protected function addValidation() : void
     {
         $txt_id = 'ui_invalid_url';
-        $error = function (callable $txt, $value) use ($txt_id) {
-            return $txt($txt_id, $value);
-        };
+        $error = fn(callable $txt, $value) => $txt($txt_id, $value);
         $is_ok = function ($v) {
             if (is_string($v) && trim($v) === '') {
                 return true;
@@ -108,11 +106,9 @@ class Url extends Input implements C\Input\Field\Url
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
-            return "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
-        };
     }
 }

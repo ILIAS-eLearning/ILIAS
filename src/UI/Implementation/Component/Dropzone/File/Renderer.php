@@ -81,9 +81,7 @@ class Renderer extends AbstractComponentRenderer
             /**
              * @var $button Button
              */
-            $button = $button->withUnavailableAction()->withAdditionalOnLoadCode(function ($id) use ($dropzoneId) {
-                return "$ (function() {il.UI.uploader.bindUploadButton('$dropzoneId', $('#$id'));});";
-            });
+            $button = $button->withUnavailableAction()->withAdditionalOnLoadCode(fn($id) => "$ (function() {il.UI.uploader.bindUploadButton('$dropzoneId', $('#$id'));});");
             $tpl->setCurrentBlock('with_upload_button');
             $tpl->setVariable('BUTTON', $r->render($button));
             $tpl->parseCurrentBlock();
@@ -124,13 +122,10 @@ class Renderer extends AbstractComponentRenderer
 
     protected function registerSignals(Droppable $dropzone) : JavaScriptBindable
     {
-        $signals = array_map(function ($triggeredSignal) {
-            /** @var $triggeredSignal TriggeredSignal */
-            return array(
-                'id' => $triggeredSignal->getSignal()->getId(),
-                'options' => $triggeredSignal->getSignal()->getOptions(),
-            );
-        }, $dropzone->getTriggeredSignals());
+        $signals = array_map(fn($triggeredSignal) => array(
+            'id' => $triggeredSignal->getSignal()->getId(),
+            'options' => $triggeredSignal->getSignal()->getOptions(),
+        ), $dropzone->getTriggeredSignals());
 
         return $dropzone->withAdditionalOnLoadCode(function ($id) use ($dropzone, $signals) {
             $options = json_encode(

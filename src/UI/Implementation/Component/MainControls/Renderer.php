@@ -87,9 +87,7 @@ class Renderer extends AbstractComponentRenderer
             $this->trigger_signals[] = $trigger_signal;
             $btn_removetool = $close_buttons[$entry_id]
                ->withAdditionalOnloadCode(
-                   function ($id) use ($mb_id) {
-                       return "il.UI.maincontrols.mainbar.addPartIdAndEntry('$mb_id', 'remover', '$id', true);";
-                   }
+                   fn($id) => "il.UI.maincontrols.mainbar.addPartIdAndEntry('$mb_id', 'remover', '$id', true);"
                )
                 ->withOnClick($trigger_signal);
 
@@ -307,17 +305,13 @@ class Renderer extends AbstractComponentRenderer
             $close = $close->withOnClick($signal);
             $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($close));
             $tpl->setVariable('CLOSE_URI', (string) $component->getDismissAction());
-            $component = $component->withAdditionalOnLoadCode(function ($id) use ($signal) {
-                return "$(document).on('$signal', function() { il.UI.maincontrols.system_info.close('$id'); });";
-            });
+            $component = $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$signal', function() { il.UI.maincontrols.system_info.close('$id'); });");
         }
 
         $more = $this->getUIFactory()->symbol()->glyph()->more("#");
         $tpl->setVariable('MORE_BUTTON', $default_renderer->render($more));
 
-        $component = $component->withAdditionalOnLoadCode(function ($id) {
-            return "il.UI.maincontrols.system_info.init('$id')";
-        });
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.maincontrols.system_info.init('$id')");
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
