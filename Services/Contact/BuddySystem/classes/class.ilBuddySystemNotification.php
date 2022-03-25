@@ -64,22 +64,22 @@ class ilBuddySystemNotification
                 );
             }
             $links[] = new ilNotificationLink(
-                    new ilNotificationParameter('buddy_notification_contact_request_link_osd', [], 'buddysystem'),
-                    ilLink::_getStaticLink(
-                        $this->sender->getId(),
-                        'usr',
-                        true,
-                        '_contact_approved'
-                    )
+                new ilNotificationParameter('buddy_notification_contact_request_link_osd', [], 'buddysystem'),
+                ilLink::_getStaticLink(
+                    $this->sender->getId(),
+                    'usr',
+                    true,
+                    '_contact_approved'
+                )
             );
             $links[] = new ilNotificationLink(
-                    new ilNotificationParameter('buddy_notification_contact_request_ignore_osd', [], 'buddysystem'),
-                    ilLink::_getStaticLink(
-                        $this->sender->getId(),
-                        'usr',
-                        true,
-                        '_contact_ignored'
-                    )
+                new ilNotificationParameter('buddy_notification_contact_request_ignore_osd', [], 'buddysystem'),
+                ilLink::_getStaticLink(
+                    $this->sender->getId(),
+                    'usr',
+                    true,
+                    '_contact_ignored'
+                )
             );
 
             $bodyParams = [

@@ -117,7 +117,7 @@ abstract class ilChatroomGUIHandler
      */
     public function redirectIfNoPermission($permission) : void
     {
-        if (!ilChatroom::checkUserPermissions($permission, $this->gui->ref_id)) {
+        if (!ilChatroom::checkUserPermissions($permission, $this->gui->getRefId())) {
             $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
             $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
         }
@@ -206,6 +206,6 @@ abstract class ilChatroomGUIHandler
 
     public function hasPermission(string $permission) : bool
     {
-        return ilChatroom::checkUserPermissions($permission, (int) $this->gui->ref_id);
+        return ilChatroom::checkUserPermissions($permission, $this->gui->getRefId());
     }
 }

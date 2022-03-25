@@ -47,7 +47,7 @@ class ilForumAuthorInformationCache
             );
 
             while ($row = $ilDB->fetchAssoc($res)) {
-                $user = new ilObjUser;
+                $user = new ilObjUser();
                 $user->setId((int) $row['usr_id']);
                 $user->setLogin($row['login']);
                 $user->setGender($row['gender']);

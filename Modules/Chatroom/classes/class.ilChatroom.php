@@ -44,7 +44,7 @@ class ilChatroom
     /**
      * Checks user permissions by given array and ref_id.
      * @param string|string[] $permissions
-     * @param integer $ref_id
+     * @param int $ref_id
      * @param bool $send_info
      * @return bool
      */
@@ -70,9 +70,9 @@ class ilChatroom
     /**
      * Checks user permissions in question for a given user id in relation
      * to a given ref_id.
-     * @param integer $usr_id
+     * @param int $usr_id
      * @param string|string[] $permissions
-     * @param integer $ref_id
+     * @param int $ref_id
      * @return bool
      */
     public static function checkPermissionsOfUser(int $usr_id, $permissions, int $ref_id) : bool
@@ -484,11 +484,7 @@ class ilChatroom
         $values = [$this->roomId, $chat_userid];
         $res = $DIC->database()->queryF($query, $types, $values);
 
-        if (($row = $DIC->database()->fetchAssoc($res)) && (int) $row['cnt'] === 1) {
-            return true;
-        }
-
-        return false;
+        return ($row = $DIC->database()->fetchAssoc($res)) && (int) $row['cnt'] === 1;
     }
 
     public function isAllowedToEnterPrivateRoom(int $chat_userid, int $proom_id) : bool
@@ -513,11 +509,7 @@ class ilChatroom
         $values = [$proom_id, $chat_userid];
         $res = $DIC->database()->queryF($query, $types, $values);
 
-        if (($row = $DIC->database()->fetchAssoc($res)) && (int) $row['cnt'] === 1) {
-            return true;
-        }
-
-        return false;
+        return ($row = $DIC->database()->fetchAssoc($res)) && (int) $row['cnt'] === 1;
     }
 
     public function getHistory(
@@ -688,11 +680,7 @@ class ilChatroom
 
         $res = $DIC->database()->queryF($query, $types, $values);
 
-        if (($row = $DIC->database()->fetchAssoc($res)) && $row['cnt']) {
-            return true;
-        }
-
-        return false;
+        return ($row = $DIC->database()->fetchAssoc($res)) && $row['cnt'];
     }
 
     public function getBannedUsers() : array
@@ -811,7 +799,7 @@ class ilChatroom
     }
 
     /**
-     * @param null|object $gui
+     * @param null|ilChatroomObjectGUI $gui
      * @param int|ilChatroomUser $sender (can be an instance of ilChatroomUser or an user id of an ilObjUser instance
      * @param int $recipient_id
      * @param int $subScope
@@ -819,7 +807,7 @@ class ilChatroom
      * @throws InvalidArgumentException
      */
     public function sendInvitationNotification(
-        ?object $gui,
+        ?ilChatroomObjectGUI $gui,
         $sender,
         int $recipient_id,
         int $subScope = 0,
@@ -883,15 +871,13 @@ class ilChatroom
         }
     }
 
-    public function getChatURL(?object $gui, int $scope_id = 0) : string
+    public function getChatURL(ilChatroomObjectGUI $gui, int $scope_id = 0) : string
     {
         $url = '';
-        if (is_object($gui)) {
-            if ($scope_id) {
-                $url = ilLink::_getStaticLink($gui->object->getRefId(), $gui->object->getType(), true, '_' . $scope_id);
-            } else {
-                $url = ilLink::_getStaticLink($gui->object->getRefId(), $gui->object->getType());
-            }
+        if ($scope_id) {
+            $url = ilLink::_getStaticLink($gui->getObject()->getRefId(), $gui->getObject()->getType(), true, '_' . $scope_id);
+        } else {
+            $url = ilLink::_getStaticLink($gui->getObject()->getRefId(), $gui->getObject()->getType());
         }
 
         return $url;
@@ -1126,7 +1112,7 @@ class ilChatroom
 
     /**
      * Fetches and returns a Array<Integer, String> of all accessible repository object chats in the main tree
-     * @param integer $user_id
+     * @param int $user_id
      * @return array<int, string>
      */
     public function getAccessibleRoomIdByTitleMap(int $user_id) : array

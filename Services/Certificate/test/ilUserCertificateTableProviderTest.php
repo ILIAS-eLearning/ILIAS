@@ -36,32 +36,10 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->getMock();
-
-        $controller->method('getLinkTargetByClass')
-            ->willReturn('something');
-
-        $objectMock = $this->getMockBuilder(ilObject::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectMock->method('getTitle')
-            ->willReturn('CourseTest');
-
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectHelper->method('getInstanceByObjId')
-            ->willReturn($objectMock);
-
         $provider = new ilUserCertificateTableProvider(
             $database,
             $logger,
-            $controller,
-            'default_title',
-            $objectHelper
+            'default_title'
         );
 
         $dataSet = $provider->fetchDataSet(100, array('language' => 'de'), array());
@@ -117,32 +95,10 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->getMock();
-
-        $controller->method('getLinkTargetByClass')
-            ->willReturn('something');
-
-        $objectMock = $this->getMockBuilder(ilObject::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectMock->method('getTitle')
-            ->willReturn('CourseTest');
-
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectHelper->method('getInstanceByObjId')
-            ->willReturn($objectMock);
-
         $provider = new ilUserCertificateTableProvider(
             $database,
             $logger,
-            $controller,
-            'default_title',
-            $objectHelper
+            'default_title'
         );
 
         $dataSet = $provider->fetchDataSet(100, array('language' => 'de', 'limit' => 2), array());
@@ -198,32 +154,10 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->getMock();
-
-        $controller->method('getLinkTargetByClass')
-            ->willReturn('something');
-
-        $objectMock = $this->getMockBuilder(ilObject::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectMock->method('getTitle')
-            ->willReturn('CourseTest');
-
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectHelper->method('getInstanceByObjId')
-            ->willReturn($objectMock);
-
         $provider = new ilUserCertificateTableProvider(
             $database,
             $logger,
-            $controller,
-            'default_title',
-            $objectHelper
+            'default_title'
         );
 
         $dataSet = $provider->fetchDataSet(
@@ -281,32 +215,10 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->getMock();
-
-        $controller->method('getLinkTargetByClass')
-            ->willReturn('something');
-
-        $objectMock = $this->getMockBuilder(ilObject::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectMock->method('getTitle')
-            ->willReturn('CourseTest');
-
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectHelper->method('getInstanceByObjId')
-            ->willReturn($objectMock);
-
         $provider = new ilUserCertificateTableProvider(
             $database,
             $logger,
-            $controller,
-            'default_title',
-            $objectHelper
+            'default_title'
         );
 
         $dataSet = $provider->fetchDataSet(
@@ -348,32 +260,10 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->getMock();
-
-        $controller->method('getLinkTargetByClass')
-            ->willReturn('something');
-
-        $objectMock = $this->getMockBuilder(ilObject::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectMock->method('getTitle')
-            ->willReturn('CourseTest');
-
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectHelper->method('getInstanceByObjId')
-            ->willReturn($objectMock);
-
         $provider = new ilUserCertificateTableProvider(
             $database,
             $logger,
-            $controller,
-            'default_title',
-            $objectHelper
+            'default_title'
         );
 
         $dataSet = $provider->fetchDataSet(
@@ -415,32 +305,10 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->getMock();
-
-        $controller->method('getLinkTargetByClass')
-            ->willReturn('something');
-
-        $objectMock = $this->getMockBuilder(ilObject::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectMock->method('getTitle')
-            ->willReturn('CourseTest');
-
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectHelper->method('getInstanceByObjId')
-            ->willReturn($objectMock);
-
         $provider = new ilUserCertificateTableProvider(
             $database,
             $logger,
-            $controller,
-            'default_title',
-            $objectHelper
+            'default_title'
         );
 
         $dataSet = $provider->fetchDataSet(
@@ -487,32 +355,10 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->getMock();
-
-        $controller->method('getLinkTargetByClass')
-            ->willReturn('something');
-
-        $objectMock = $this->getMockBuilder(ilObject::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectMock->method('getTitle')
-            ->willReturn('CourseTest');
-
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectHelper->method('getInstanceByObjId')
-            ->willReturn($objectMock);
-
         $provider = new ilUserCertificateTableProvider(
             $database,
             $logger,
-            $controller,
-            'default_title',
-            $objectHelper
+            'default_title'
         );
 
         $dataSet = $provider->fetchDataSet(
@@ -559,32 +405,10 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->getMock();
-
-        $controller->method('getLinkTargetByClass')
-            ->willReturn('something');
-
-        $objectMock = $this->getMockBuilder(ilObject::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectMock->method('getTitle')
-            ->willReturn('CourseTest');
-
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectHelper->method('getInstanceByObjId')
-            ->willReturn($objectMock);
-
         $provider = new ilUserCertificateTableProvider(
             $database,
             $logger,
-            $controller,
-            'default_title',
-            $objectHelper
+            'default_title'
         );
 
         $dataSet = $provider->fetchDataSet(

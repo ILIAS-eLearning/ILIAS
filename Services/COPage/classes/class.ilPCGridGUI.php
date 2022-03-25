@@ -153,10 +153,10 @@ class ilPCGridGUI extends ilPageContentGUI
             $this->content_obj->applyTemplate(
                 $post_layout_template,
                 (int) $form->getInput("number_of_cells"),
-                $form->getInput("s"),
-                $form->getInput("m"),
-                $form->getInput("l"),
-                $form->getInput("xl")
+                (int) $form->getInput("s"),
+                (int) $form->getInput("m"),
+                (int) $form->getInput("l"),
+                (int) $form->getInput("xl")
             );
             $this->updated = $this->pg_obj->update();
 

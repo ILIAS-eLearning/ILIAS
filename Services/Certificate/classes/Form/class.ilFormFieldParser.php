@@ -28,23 +28,23 @@ class ilFormFieldParser
         }
 
         $pagesize = 'custom';
-        if (((strcmp($pageheight, "29.7cm") == 0) || (strcmp($pageheight, "297mm") == 0))
-            && ((strcmp($pagewidth, "21cm") == 0) || (strcmp($pagewidth, "210mm") == 0))) {
+        if (((strcmp($pageheight, "29.7cm") === 0) || (strcmp($pageheight, "297mm") === 0))
+            && ((strcmp($pagewidth, "21cm") === 0) || (strcmp($pagewidth, "210mm") === 0))) {
             $pagesize = "a4";
-        } elseif (((strcmp($pagewidth, "29.7cm") == 0) || (strcmp($pagewidth, "297mm") == 0))
-            && ((strcmp($pageheight, "21cm") == 0) || (strcmp($pageheight, "210mm") == 0))) {
+        } elseif (((strcmp($pagewidth, "29.7cm") === 0) || (strcmp($pagewidth, "297mm") === 0))
+            && ((strcmp($pageheight, "21cm") === 0) || (strcmp($pageheight, "210mm") === 0))) {
             $pagesize = "a4landscape";
-        } elseif (((strcmp($pageheight, "21cm") == 0) || (strcmp($pageheight, "210mm") == 0))
-            && ((strcmp($pagewidth, "14.8cm") == 0) || (strcmp($pagewidth, "148mm") == 0))) {
+        } elseif (((strcmp($pageheight, "21cm") === 0) || (strcmp($pageheight, "210mm") === 0))
+            && ((strcmp($pagewidth, "14.8cm") === 0) || (strcmp($pagewidth, "148mm") === 0))) {
             $pagesize = "a5";
-        } elseif (((strcmp($pagewidth, "21cm") == 0) || (strcmp($pagewidth, "210mm") == 0))
-            && ((strcmp($pageheight, "14.8cm") == 0) || (strcmp($pageheight, "148mm") == 0))) {
+        } elseif (((strcmp($pagewidth, "21cm") === 0) || (strcmp($pagewidth, "210mm") === 0))
+            && ((strcmp($pageheight, "14.8cm") === 0) || (strcmp($pageheight, "148mm") === 0))) {
             $pagesize = "a5landscape";
-        } elseif (((strcmp($pageheight, "11in") == 0))
-            && ((strcmp($pagewidth, "8.5in") == 0))) {
+        } elseif (((strcmp($pageheight, "11in") === 0))
+            && ((strcmp($pagewidth, "8.5in") === 0))) {
             $pagesize = "letter";
-        } elseif (((strcmp($pagewidth, "11in") == 0))
-            && ((strcmp($pageheight, "8.5in") == 0))) {
+        } elseif (((strcmp($pagewidth, "11in") === 0))
+            && ((strcmp($pageheight, "8.5in") === 0))) {
             $pagesize = "letterlandscape";
         }
 
@@ -86,7 +86,7 @@ class ilFormFieldParser
         // replacements, so we do it in the code as well
         $content = str_replace(["&#xA0;", "&#160;"], "<br />", $content);
 
-        $formFields = [
+        return [
             'pageformat' => $pagesize,
             'pagewidth' => $pagewidth,
             'pageheight' => $pageheight,
@@ -96,7 +96,5 @@ class ilFormFieldParser
             'margin_body_left' => $marginBody_left,
             'certificate_text' => $content
         ];
-
-        return $formFields;
     }
 }

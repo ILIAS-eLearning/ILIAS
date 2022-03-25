@@ -18,7 +18,7 @@ class ilCertificateCron extends ilCronJob
     private ?ilLogger $logger;
     private ?ilCertificateValueReplacement $valueReplacement;
     private ?ilCertificateObjectHelper $objectHelper;
-    private Container $dic;
+    private ?Container $dic = null;
     private ?ilSetting $settings;
     private ?ilCronManager $cronManager;
 
@@ -206,7 +206,7 @@ class ilCertificateCron extends ilCronJob
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilInvalidCertificateException
-     * @throws ilObjectNotFoundException|JsonException
+     * @throws ilObjectNotFoundException
      */
     public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations) : array
     {

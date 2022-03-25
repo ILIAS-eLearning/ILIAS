@@ -7,7 +7,7 @@
 */
 class ilObjMailAccess extends ilObjectAccess
 {
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 

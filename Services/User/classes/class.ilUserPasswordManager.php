@@ -28,13 +28,17 @@ class ilUserPasswordManager
     protected ?ilSetting $settings = null;
     protected ?ilDBInterface $db = null;
     protected ?string $encoderName = null;
-    protected array $config = []; // Missing array type.
+    /**
+     * @var array<string, mixed>
+     */
+    protected array $config = [];
 
     /**
      * Please use the singleton method for instance creation
      * The constructor is still public because of the unit tests
      * @param array<string, mixed> $config
      * @throws ilUserException
+     * @throws JsonException
      */
     public function __construct(array $config = [])
     {

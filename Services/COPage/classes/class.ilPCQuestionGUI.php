@@ -51,6 +51,10 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $ilCtrl->saveParameter($this, array("qpool_ref_id"));
     }
 
+    /**
+     * @return mixed
+     * @throws ilCtrlException
+     */
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;

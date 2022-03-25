@@ -322,8 +322,6 @@ class ilForum
             $status,
             false
         );
-
-        return $rootNodeId;
     }
 
     /**
@@ -1090,8 +1088,8 @@ class ilForum
 
         $role_arr = $rbacreview->getRolesOfRoleFolder($a_ref_id);
         foreach ($role_arr as $role_id) {
-            if (ilObject::_lookupTitle((int) $role_id) === 'il_frm_moderator_' . $a_ref_id) {
-                return array_map('intval', $rbacreview->assignedUsers((int) $role_id));
+            if (ilObject::_lookupTitle($role_id) === 'il_frm_moderator_' . $a_ref_id) {
+                return array_map('intval', $rbacreview->assignedUsers($role_id));
             }
         }
 
@@ -1308,13 +1306,13 @@ class ilForum
             }
         }
 
-        $data = [
+        return [
             'type' => 'post',
             'pos_pk' => (int) $a_row->pos_pk,
             'child' => (int) $a_row->pos_pk,
             'author' => (int) $a_row->pos_display_user_id,
             'alias' => (string) $a_row->pos_usr_alias,
-            'title' => (string) $fullname,
+            'title' => $fullname,
             'loginname' => $loginname,
             'message' => (string) $a_row->pos_message,
             'subject' => (string) $a_row->pos_subject,
@@ -1334,8 +1332,6 @@ class ilForum
             'import_name' => $a_row->import_name,
             'pos_status' => (int) $a_row->pos_status
         ];
-
-        return $data;
     }
 
     /**
@@ -1534,7 +1530,7 @@ class ilForum
                 [$user_id, $this->id]
             );
 
-            if (is_object($res) && $res->numRows() > 0) {
+            if ($res->numRows() > 0) {
                 $thread_data = [];
                 $thread_data_types = [];
 

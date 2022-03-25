@@ -71,10 +71,10 @@ class GridCommandActionHandler implements Server\CommandActionHandler
         $grid->applyTemplate(
             $post_layout_template,
             (int) $body["number_of_cells"],
-            $body["s"],
-            $body["m"],
-            $body["l"],
-            $body["xl"]
+            (int) $body["s"],
+            (int) $body["m"],
+            (int) $body["l"],
+            (int) $body["xl"]
         );
         $updated = $page->update();
 

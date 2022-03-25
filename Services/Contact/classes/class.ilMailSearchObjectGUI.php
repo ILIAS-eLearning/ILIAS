@@ -476,7 +476,7 @@ abstract class ilMailSearchObjectGUI
             $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
         }
 
-        $searchTpl->setVariable('TABLE', $table->getHtml());
+        $searchTpl->setVariable('TABLE', $table->getHTML());
         $this->tpl->setContent($searchTpl->get());
 
         if ($this->isDefaultRequestContext()) {
@@ -513,7 +513,7 @@ abstract class ilMailSearchObjectGUI
                 $ref_ids = array_keys(ilObject::_getAllReferences($object->getId()));
                 $ref_id = $ref_ids[0];
                 $object->setRefId($ref_id);
-                $showMemberListEnabled = (bool) $object->getShowMembers();
+                $showMemberListEnabled = $object->getShowMembers();
 
                 if ($this->doesExposeMembers($object)) {
                     $participants = ilParticipants::getInstanceByObjId($object->getId());
@@ -596,7 +596,7 @@ abstract class ilMailSearchObjectGUI
         $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
 
         $table->setData($tableData);
-        $searchTpl->setVariable('TABLE', $table->getHtml());
+        $searchTpl->setVariable('TABLE', $table->getHTML());
         $this->tpl->setContent($searchTpl->get());
 
         if ($this->isDefaultRequestContext()) {

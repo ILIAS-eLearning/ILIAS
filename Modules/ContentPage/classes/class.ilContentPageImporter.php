@@ -58,7 +58,6 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
                 if (!$copa || !($copa instanceof ilObjContentPage)) {
                     continue;
                 }
-                $copa->writeStyleSheetId($newStyleId);
                 $copa->update();
             }
         }

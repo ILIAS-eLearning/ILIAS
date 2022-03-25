@@ -61,12 +61,12 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         }
         if ($this->getInlineStyle() !== '') {
             $tpl->setCurrentBlock('stylecss');
-            $tpl->setVariable('CSS_STYLE', ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getInlineStyle()));
+            $tpl->setVariable('CSS_STYLE', ilLegacyFormElementsUtil::prepareFormOutput($this->getInlineStyle()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getCssClass() !== '') {
             $tpl->setCurrentBlock('classcss');
-            $tpl->setVariable('CLASS_CSS', ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getCssClass()));
+            $tpl->setVariable('CLASS_CSS', ilLegacyFormElementsUtil::prepareFormOutput($this->getCssClass()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getSubmitFormOnEnter()) {

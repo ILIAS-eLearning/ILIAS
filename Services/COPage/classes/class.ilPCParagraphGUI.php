@@ -76,6 +76,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
     public static function _getCharacteristics(int $a_style_id) : array
     {
         global $DIC;
+        $request = $DIC->copage()->internal()
+            ->gui()
+            ->pc()
+            ->editRequest();
+        $requested_ref_id = $request->getRefId();
 
         $service = $DIC->contentStyle()->internal();
 
@@ -84,7 +89,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
             $access_manager = $service->domain()->access(
-                (int) $_GET["ref_id"],
+                $requested_ref_id,
                 $DIC->user()->getId()
             );
             $char_manager = $service->domain()->characteristic(

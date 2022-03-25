@@ -39,7 +39,10 @@ class ilMailUserActionProvider extends ilUserActionProvider
         return "mail";
     }
 
-    public function getActionTypes() : array // Missing array type.
+    /**
+     * @return array<string,string>
+     */
+    public function getActionTypes() : array
     {
         return array(
             "compose" => $this->lng->txt("mail")

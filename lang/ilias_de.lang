@@ -10343,6 +10343,7 @@ lso#:#lso_player_resume#:#Lernsequenz wieder aufnehmen
 lso#:#lso_player_review#:#Lernsequenz überarbeiten
 lso#:#lso_player_start#:#Lernsequenz starten
 lso#:#lso_player_suspend#:#Unterbrechen
+lso#:#lso_player_viewmodelabel#:#Bearbeitung der Lernsequenz 
 lso#:#lso_print_list#:#Liste erstellen
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_search_users#:#Benutzer suchen

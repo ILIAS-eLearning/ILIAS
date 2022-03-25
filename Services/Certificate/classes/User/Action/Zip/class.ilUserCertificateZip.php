@@ -65,12 +65,6 @@ class ilUserCertificateZip
         fclose($fh);
     }
 
-    /**
-     * Create a ZIP file from a directory with certificates
-     * @param string  $dir     Directory containing the certificates
-     * @param boolean $deliver TRUE to deliver the ZIP file, FALSE to return the filename only
-     * @return string The created ZIP archive path
-     */
     public function zipCertificatesInArchiveDirectory(string $dir, bool $deliver = true) : string
     {
         $zipFile = time() . '__' . $this->installionId . '__' . $this->typeInFileName . '__' . $this->objectId . '__certificates.zip';

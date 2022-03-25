@@ -87,7 +87,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             $this->populateForm($form);
         }
 
-        $this->tpl->setContent($form->getHtml());
+        $this->tpl->setContent($form->getHTML());
     }
 
     public function saveSettings() : void

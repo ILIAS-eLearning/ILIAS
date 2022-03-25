@@ -24,7 +24,10 @@ class ilUserUserActionProvider extends ilUserActionProvider
         return "user";
     }
 
-    public function getActionTypes() : array // Missing array type.
+    /**
+     * @return array<string,string>
+     */
+    public function getActionTypes() : array
     {
         return array(
             "profile" => $this->lng->txt("profile")

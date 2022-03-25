@@ -39,7 +39,10 @@ class ilUserDefinedFields
     protected string $field_name = "";
     protected bool $field_visible = false;
     public ?ilDBInterface $db = null;
-    public array $definitions = array(); // Missing array type.
+    /**
+     * @var array<int,array<string,mixed>>
+     */
+    public array $definitions = array();
     private int $field_visible_registration = 0;
 
     private function __construct()
@@ -248,7 +251,10 @@ class ilUserDefinedFields
         return $this->field_type;
     }
 
-    public function setFieldValues(array $a_values) : void // Missing array type.
+    /**
+     * @param array $a_values<mixed, mixed>
+     */
+    public function setFieldValues(array $a_values) : void
     {
         $this->field_values = array();
         foreach ($a_values as $value) {

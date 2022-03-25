@@ -88,15 +88,19 @@ class ilObjUser extends ilObject
     public array $user_defined_data = array(); // Missing array type.
     /** @var array<string, string> */
     protected array $oldPrefs = [];
-    public array $prefs = []; // Missing array type.
+    /** @var array<string, string> */
+    public array $prefs = [];
     public string $skin = "";
     protected static array $personal_image_cache = array();
     protected ?string $inactivation_date = null;
     private bool $is_self_registered = false; // flag for self registered users
     protected string $org_units = "";    // ids of assigned org-units, comma seperated
-    protected array $interests_general = []; // Missing array type.
-    protected array $interests_help_offered = []; // Missing array type.
-    protected array $interests_help_looking = []; // Missing array type.
+    /** @var string[] */
+    protected array $interests_general = [];
+    /** @var string[] */
+    protected array $interests_help_offered = [];
+    /** @var string[] */
+    protected array $interests_help_looking = [];
     protected string $last_profile_prompt = "";	// timestamp
     protected string $first_login = "";	// timestamp
     protected bool $profile_incomplete = false;
@@ -224,8 +228,9 @@ class ilObjUser extends ilObject
 
     /**
      * loads a record "user" from array
+     * @param array $a_data<string,mixed>
      */
-    public function assignData(array $a_data) : void // Missing array type.
+    public function assignData(array $a_data) : void
     {
         global $DIC;
 
@@ -2208,7 +2213,10 @@ class ilObjUser extends ilObject
         }
     }
 
-    public static function getAllUserLogins() : array // Missing array type.
+    /**
+     * @return string[]
+     */
+    public static function getAllUserLogins() : array
     {
         /**
          * @var $ilDB ilDBInterface
@@ -2373,7 +2381,10 @@ class ilObjUser extends ilObject
         return (int) $cnt_rec["cnt"];
     }
 
-    public static function _getAllUserAssignedStyles() : array // Missing array type.
+    /**
+     * @return string[]
+     */
+    public static function _getAllUserAssignedStyles() : array
     {
         global $DIC;
 
@@ -4205,13 +4216,19 @@ class ilObjUser extends ilObject
     //
     // MULTI-TEXT / INTERESTS
     //
-        
-    public function setGeneralInterests(?array $value = null) : void // Missing array type.
+
+    /**
+     * @param string[]|null $value
+     */
+    public function setGeneralInterests(?array $value = null) : void
     {
         $this->interests_general = $value ?? [];
     }
-    
-    public function getGeneralInterests() : array // Missing array type.
+
+    /**
+     * @return string[]
+     */
+    public function getGeneralInterests() : array
     {
         return $this->interests_general;
     }
@@ -4223,13 +4240,19 @@ class ilObjUser extends ilObject
     {
         return $this->buildTextFromArray($this->interests_general);
     }
-    
-    public function setOfferingHelp(?array $value = null) : void // Missing array type.
+
+    /**
+     * @param string[]|null $value
+     */
+    public function setOfferingHelp(?array $value = null) : void
     {
         $this->interests_help_offered = $value ?? [];
     }
-    
-    public function getOfferingHelp() : array // Missing array type.
+
+    /**
+     * @return string[]
+     */
+    public function getOfferingHelp() : array
     {
         return $this->interests_help_offered;
     }
@@ -4241,13 +4264,19 @@ class ilObjUser extends ilObject
     {
         return $this->buildTextFromArray($this->interests_help_offered);
     }
-    
-    public function setLookingForHelp(?array $value = null) : void // Missing array type.
+
+    /**
+     * @param string[]|null $value
+     */
+    public function setLookingForHelp(?array $value = null) : void
     {
         $this->interests_help_looking = $value ?? [];
     }
-    
-    public function getLookingForHelp() : array // Missing array type.
+
+    /**
+     * @return string[]
+     */
+    public function getLookingForHelp() : array
     {
         return $this->interests_help_looking;
     }
@@ -4262,8 +4291,10 @@ class ilObjUser extends ilObject
     
     /**
      * Convert multi-text values to plain text
+     * @param string[]
+     * @return string
      */
-    protected function buildTextFromArray(array $a_attr) : string // Missing array type.
+    protected function buildTextFromArray(array $a_attr) : string
     {
         if (count($a_attr) > 0) {
             return implode(", ", $a_attr);

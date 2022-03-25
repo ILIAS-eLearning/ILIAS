@@ -6,7 +6,6 @@
  */
 class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private array $placeholder;
     private ilCertificateObjectHelper $objectHelper;
     private ilUserDefinedFields $userDefinedFieldsObject;
     private ilCertificateUtilHelper $ilUtilHelper;
@@ -16,8 +15,6 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
         ?ilUserDefinedFields $userDefinedFieldsObject = null,
         ?ilCertificateUtilHelper $ilUtilHelper = null
     ) {
-        $this->placeholder = [];
-
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
         }
