@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -9,19 +10,15 @@ use PHPUnit\Framework\TestCase;
  */
 class ilContextTest extends TestCase
 {
-    protected $backupGlobals = false;
-
     protected function setUp() : void
     {
         require_once("Services/Context/test/class.ilContextExtended.php");
     }
-    
+
     /**
-    * test init ilContext
-    *
-    * @dataProvider contextProvider
-    */
-    public function testInit($context, $className)
+     * @dataProvider contextProvider
+     */
+    public function testInit(string $context, string $className) : void
     {
         $context_obj = ilContextExtended::init($context);
         $this->assertTrue($context_obj);
@@ -29,22 +26,22 @@ class ilContextTest extends TestCase
         $this->assertEquals(ilContextExtended::getClassName(), $className);
     }
 
-    public function contextProvider()
+    public function contextProvider() : array
     {
-        require_once("Services/Context/test/class.ilContextExtended.php");
-
-        return array(array(ilContext::CONTEXT_WEB, "ilContextWeb"),
-                     array(ilContext::CONTEXT_CRON, "ilContextCron"),
-                     array(ilContext::CONTEXT_RSS, "ilContextRss"),
-                     array(ilContext::CONTEXT_ICAL, "ilContextIcal"),
-                     array(ilContext::CONTEXT_SOAP, "ilContextSoap"),
-                     array(ilContext::CONTEXT_WEBDAV, "ilContextWebdav"),
-                     array(ilContext::CONTEXT_RSS_AUTH, "ilContextRssAuth"),
-                     array(ilContext::CONTEXT_SESSION_REMINDER, "ilContextSessionReminder"),
-                     array(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT, "ilContextSoapWithoutClient"),
-                     array(ilContext::CONTEXT_UNITTEST, "ilContextUnitTest"),
-                     array(ilContext::CONTEXT_REST, "ilContextRest"),
-                     array(ilContext::CONTEXT_SCORM, "ilContextScorm"),
-                     array(ilContext::CONTEXT_WAC, "ilContextWAC"));
+        return [
+            [ilContext::CONTEXT_WEB, ilContextWeb::class],
+            [ilContext::CONTEXT_CRON, ilContextCron::class],
+            [ilContext::CONTEXT_RSS, ilContextRss::class],
+            [ilContext::CONTEXT_ICAL, ilContextIcal::class],
+            [ilContext::CONTEXT_SOAP, ilContextSoap::class],
+            [ilContext::CONTEXT_WEBDAV, ilContextWebdav::class],
+            [ilContext::CONTEXT_RSS_AUTH, ilContextRssAuth::class],
+            [ilContext::CONTEXT_SESSION_REMINDER, ilContextSessionReminder::class],
+            [ilContext::CONTEXT_SOAP_WITHOUT_CLIENT, ilContextSoapWithoutClient::class],
+            [ilContext::CONTEXT_UNITTEST, ilContextUnitTest::class],
+            [ilContext::CONTEXT_REST, ilContextRest::class],
+            [ilContext::CONTEXT_SCORM, ilContextScorm::class],
+            [ilContext::CONTEXT_WAC, ilContextWAC::class],
+        ];
     }
 }
