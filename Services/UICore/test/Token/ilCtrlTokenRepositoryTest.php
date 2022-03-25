@@ -28,7 +28,8 @@ class ilCtrlTokenRepositoryTest extends TestCase
     public function testTokenGeneration() : void
     {
         $repository = new class() extends ilCtrlTokenRepository {
-            public function generate() {
+            public function generate()
+            {
                 return $this->generateToken();
             }
         };
