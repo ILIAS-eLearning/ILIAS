@@ -305,8 +305,8 @@ class StandardPageTest extends ILIAS_UI_TestBase
     {
         $this->stdpage = $this->stdpage->withAdditionalMetaDatum('meta_datum_key_1', 'meta_datum_value_1');
         $this->stdpage = $this->stdpage->withAdditionalMetaDatum('meta_datum_key_2', 'meta_datum_value_2');
-        
-        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo]);
+    
+        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]);
         $html = $this->brutallyTrimHTML($r->render($this->stdpage));
         $expected = $this->brutallyTrimHTML('
 <!DOCTYPE html>
@@ -321,6 +321,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
       <meta name="meta_datum_key_2" content="meta_datum_value_2" />
    </head>
    <body>
+      <div class="il-page-overlay">Overlay Stub</div>
       <div class="il-layout-page">
          <header>
             <div class="header-inner">
