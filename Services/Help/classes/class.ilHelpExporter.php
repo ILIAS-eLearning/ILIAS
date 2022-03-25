@@ -34,7 +34,7 @@ class ilHelpExporter extends ilXmlExporter
         string $a_target_release,
         array $a_ids
     ) : array {
-        if ($a_entity == "help") {
+        if ($a_entity === "help") {
             $lm_node_ids = array();
             foreach ($a_ids as $lm_id) {
                 $chaps = ilLMObject::getObjectList($lm_id, "st");
