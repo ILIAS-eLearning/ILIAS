@@ -77,7 +77,7 @@ class ilObjHelpSettings extends ilObject2
             $imp = new ilImport();
             $conf = $imp->getConfig("Services/Help");
             $conf->setModuleId($id);
-            $new_id = $imp->importObject(""/* TODO PHP8-REVIEW This must be NULl or an object */, $a_file["tmp_name"], $a_file["name"], "lm", "Modules/LearningModule"); //
+            $new_id = $imp->importObject(null, $a_file["tmp_name"], $a_file["name"], "lm", "Modules/LearningModule"); //
             $newObj = new ilObjLearningModule($new_id, false);
 
             self::writeHelpModuleLmId($id, $newObj->getId());
