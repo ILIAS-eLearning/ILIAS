@@ -16,7 +16,7 @@ class ilAttendanceList
     protected ilObject $parent_obj;
     protected ?ilParticipants $participants;
     protected ?ilWaitingList $waiting_list;
-    protected $callback;
+    protected $callback;  // TODO PHP8-REVIEW: Missing property's type declaration
     protected array $presets = [];
     protected array $role_data = [];
     protected array $roles = [];
@@ -75,11 +75,8 @@ class ilAttendanceList
 
                 case 'il_crs_m':
                 case 'il_grp_m':
-                case 'il_lso_m':
-                    $this->addRole($role_id, $DIC->language()->txt('event_tbl_member'), 'member');
-                    break;
-
                 case 'il_sess_':
+                case 'il_lso_m':
                     $this->addRole($role_id, $DIC->language()->txt('event_tbl_member'), 'member');
                     break;
 
@@ -205,11 +202,11 @@ class ilAttendanceList
         foreach ($udf->getExportableFields($this->parent_obj->getId()) as $field_id => $udf_data) {
             foreach ($profile_data as $user_id => $field) {
                 $udf_data = new ilUserDefinedData($user_id);
-                $a_res[$user_id]['udf_' . $field_id] = (string) $udf_data->get('f_' . $field_id);
+                $a_res[$user_id]['udf_' . $field_id] = $udf_data->get('f_' . $field_id);
             }
         }
 
-        if (sizeof($user_ids)) {
+        if (count($user_ids)) {
             // object specific user data
             $cdfs = ilCourseUserData::_getValuesByObjId($this->parent_obj->getId());
             foreach (array_unique($user_ids) as $user_id) {
@@ -253,7 +250,7 @@ class ilAttendanceList
      * Set participant detail callback
      * @param mixed
      */
-    public function setCallback($a_callback)
+    public function setCallback($a_callback) : void
     {
         $this->callback = $a_callback;
     }
@@ -285,7 +282,7 @@ class ilAttendanceList
         $desc->setValue($this->description);
         $form->addItem($desc);
 
-        if (sizeof($this->presets)) {
+        if (count($this->presets)) {
             $preset = new ilCheckboxGroupInputGUI($this->lng->txt('user_detail'), 'preset');
             $preset_value = array();
             foreach ($this->presets as $id => $item) {
@@ -315,18 +312,20 @@ class ilAttendanceList
             $title = ilObject::_lookupTitle($role_id);
 
             $role_name = $role_id;
-            if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_adm') {
+            if (strpos($title, 'il_' . $this->parent_obj->getType() . '_adm') === 0) {
                 $role_name = 'adm';
             }
-            if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_mem') {
+            if (strpos($title, 'il_' . $this->parent_obj->getType() . '_mem') === 0) {
                 $role_name = 'mem';
             }
-            if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_tut') {
+            if (strpos($title, 'il_' . $this->parent_obj->getType() . '_tut') === 0) {
                 $role_name = 'tut';
             }
 
-            $chk = new ilCheckboxOption(sprintf($this->lng->txt('event_user_selection_include_role'), $role_data[0]),
-                'role_' . $role_name);
+            $chk = new ilCheckboxOption(
+                sprintf($this->lng->txt('event_user_selection_include_role'), $role_data[0]),
+                'role_' . $role_name
+            );
             $checked[] = 'role_' . $role_name;
             $chk_grp->addOption($chk);
         }
@@ -357,19 +356,21 @@ class ilAttendanceList
         $form->addCommandButton($a_cmd, $this->lng->txt('sess_print_attendance_list'));
 
         if ($this->id && $a_cmd) {
-            $settings = new ilUserFormSettings($this->id);
+            $settings = new ilUserFormSettings($this->id); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
             if (!$settings->hasStoredEntry()) {
-                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1);
+                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
             }
 
             $settings->deleteValue('desc'); // #11340
             $settings->exportToForm($form);
-        } elseif ($a_cmd == 'printForMembersOutput') {
-            $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview_' . $this->parent_obj->getId(),
-                -1);
+        } elseif ($a_cmd === 'printForMembersOutput') {
+            $settings = new ilUserFormSettings(
+                $this->parent_obj->getType() . 's_pview_' . $this->parent_obj->getId(),
+                -1
+            ); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
             if (!$settings->hasStoredEntry()) {
                 // init from global defaults
-                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1);
+                $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1); // TODO PHP8-REVIEW Expected parameter of type 'int', 'string' provided
             }
 
             $settings->deleteValue('desc'); // #11340
@@ -405,13 +406,13 @@ class ilAttendanceList
             foreach (array_keys($this->role_data) as $role_id) {
                 $title = ilObject::_lookupTitle($role_id);
                 $role_name = $role_id;
-                if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_adm') {
+                if (strpos($title, 'il_' . $this->parent_obj->getType() . '_adm') === 0) {
                     $role_name = 'adm';
                 }
-                if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_mem') {
+                if (strpos($title, 'il_' . $this->parent_obj->getType() . '_mem') === 0) {
                     $role_name = 'mem';
                 }
-                if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_tut') {
+                if (strpos($title, 'il_' . $this->parent_obj->getType() . '_tut') === 0) {
                     $role_name = 'tut';
                 }
 
@@ -576,7 +577,7 @@ class ilAttendanceList
             }
 
             if ($this->blank_columns) {
-                for ($loop = 0; $loop < sizeof($this->blank_columns); $loop++) {
+                for ($loop = 0, $loopMax = count($this->blank_columns); $loop < $loopMax; $loop++) {
                     $tpl->touchBlock('row_blank');
                 }
             }

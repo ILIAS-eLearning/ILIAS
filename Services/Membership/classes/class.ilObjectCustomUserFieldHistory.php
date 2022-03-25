@@ -76,13 +76,15 @@ class ilObjectCustomUserFieldHistory
             $this->db->quote($this->obj_id, 'integer') . ', ' .
             $this->db->quote($this->user_id, 'integer') . ', ' .
             $this->db->quote($this->getUpdateUser(), 'integer') . ', ' .
-            $this->db->quote($this->getEditingTime()->get(IL_CAL_DATETIME, '', ilTimeZone::UTC),
-                ilDBConstants::T_INTEGER) . ' ' .
+            $this->db->quote(
+                $this->getEditingTime()->get(IL_CAL_DATETIME, '', ilTimeZone::UTC),
+                ilDBConstants::T_INTEGER
+            ) . ' ' .
             ')';
         $this->db->manipulate($query);
     }
 
-    public function delete()
+    public function delete() : void
     {
         $query = 'DELETE FROM obj_user_data_hist ' .
             'WHERE obj_id = ' . $this->db->quote($this->obj_id, 'integer') . ' ' .
@@ -90,7 +92,7 @@ class ilObjectCustomUserFieldHistory
         $this->db->manipulate($query);
     }
 
-    protected function read()
+    protected function read() : void
     {
         $query = 'SELECT * FROM obj_user_data_hist ' .
             'WHERE obj_id = ' . $this->db->quote($this->obj_id, 'integer') . ' ' .

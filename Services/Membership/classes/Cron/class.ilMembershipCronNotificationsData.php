@@ -62,7 +62,7 @@ class ilMembershipCronNotificationsData
         // all group/course notifications: ref id => user ids
         $this->objects = ilMembershipNotifications::getActiveUsersforAllObjects();
 
-        if (sizeof($this->objects)) {
+        if (count($this->objects)) {
             $this->log->debug("nr of objects: " . count($this->objects));
 
             // gather news for each user over all objects
@@ -103,18 +103,16 @@ class ilMembershipCronNotificationsData
                                         $this->news[$n["id"]] = $n;
                                         $this->news_per_user[$user_id][$ref_id][$n["id"]] = $n["id"];
                                     }
-                                } else {
-                                    if (is_array($agg_news)) {
-                                        if (isset($agg_news["id"])) {
-                                            $this->news[$agg_news["id"]] = $agg_news;
-                                            $this->news_per_user[$user_id][$ref_id][$agg_news["id"]] = $agg_news["id"];
-                                        } else {
-                                            foreach ($agg_news as $agg_news_items) {
-                                                foreach ($agg_news_items as $agg_news_item) {
-                                                    if (isset($agg_news_item["id"])) {
-                                                        $this->news[$agg_news_item["id"]] = $agg_news_item;
-                                                        $this->news_per_user[$user_id][$ref_id][$agg_news_item["id"]] = $agg_news_item["id"];
-                                                    }
+                                } elseif (is_array($agg_news)) {
+                                    if (isset($agg_news["id"])) {
+                                        $this->news[$agg_news["id"]] = $agg_news;
+                                        $this->news_per_user[$user_id][$ref_id][$agg_news["id"]] = $agg_news["id"];
+                                    } else {
+                                        foreach ($agg_news as $agg_news_items) {
+                                            foreach ($agg_news_items as $agg_news_item) {
+                                                if (isset($agg_news_item["id"])) {
+                                                    $this->news[$agg_news_item["id"]] = $agg_news_item;
+                                                    $this->news_per_user[$user_id][$ref_id][$agg_news_item["id"]] = $agg_news_item["id"];
                                                 }
                                             }
                                         }
@@ -138,7 +136,7 @@ class ilMembershipCronNotificationsData
                 $like_data = new ilLikeData(array_keys($objs["obj_id"]));
                 foreach (array_keys($objs["obj_id"]) as $obj_id) {
                     $this->log->debug("Get like data for obj_id: " . $obj_id);
-                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run) as $like) {
+                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run) as $like) { // TODO PHP8-REVIEW Expected parameter of type 'int|null', 'string' provided
                         reset($user_ids);
                         foreach ($user_ids as $user_id) {
                             $has_perm = false;
@@ -245,7 +243,7 @@ class ilMembershipCronNotificationsData
 
             $node = $tree->getNodeData($a_ref_id);
             foreach ($tree->getSubTree($node) as $child) {
-                if ($child["type"] != "rolf") {
+                if ($child["type"] !== "rolf") {
                     $nodes["obj_id"][$child["obj_id"]] = array(
                         "obj_id" => $child["obj_id"],
                         "type" => $child["type"]

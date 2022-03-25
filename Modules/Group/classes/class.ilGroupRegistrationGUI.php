@@ -21,9 +21,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory;
-
 /**
 * GUI class for group registrations
 *
@@ -35,9 +32,6 @@ use ILIAS\Refinery\Factory;
 */
 class ilGroupRegistrationGUI extends ilRegistrationGUI
 {
-    protected GlobalHttpState $http;
-    protected Factory $refinery;
-
     /**
      * Constructor
      *
@@ -49,8 +43,6 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         global $DIC;
 
         parent::__construct($a_container);
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
     }
     
     protected function executeCommand() : void
