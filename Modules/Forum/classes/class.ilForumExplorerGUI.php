@@ -47,7 +47,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
 
     private function getRootNodeId() : int
     {
-        return (int) $this->root_node->getId();
+        return $this->root_node->getId();
     }
 
     private function getAuthorInformationByNode(array $node) : ilForumAuthorInformation

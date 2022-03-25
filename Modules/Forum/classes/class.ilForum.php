@@ -1312,7 +1312,7 @@ class ilForum
             'child' => (int) $a_row->pos_pk,
             'author' => (int) $a_row->pos_display_user_id,
             'alias' => (string) $a_row->pos_usr_alias,
-            'title' => (string) $fullname,
+            'title' => $fullname,
             'loginname' => $loginname,
             'message' => (string) $a_row->pos_message,
             'subject' => (string) $a_row->pos_subject,

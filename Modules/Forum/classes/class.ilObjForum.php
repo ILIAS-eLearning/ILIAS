@@ -23,7 +23,6 @@ class ilObjForum extends ilObject
     private static array $forum_statistics_cache = [];
     /** @var array<int, array>  */
     private static array $forum_last_post_cache = [];
-    private ilSetting $settings;
     private \ILIAS\DI\RBACServices $rbac;
     protected ilObjUser $user;
     private ilLogger $logger;
@@ -32,7 +31,6 @@ class ilObjForum extends ilObject
     {
         global $DIC;
 
-        $this->settings = $DIC->settings();
         $this->rbac = $DIC->rbac();
         $this->db = $DIC->database();
         $this->user = $DIC->user();
@@ -40,12 +38,13 @@ class ilObjForum extends ilObject
         $this->type = 'frm';
         parent::__construct($a_id, $a_call_by_reference);
 
+        $settings = $DIC->settings();
         $weeks = self::NEWS_NEW_CONSIDERATION_WEEKS;
-        if ($this->settings->get('frm_store_new')) {
-            $weeks = (int) $this->settings->get('frm_store_new');
+        if ($settings->get('frm_store_new')) {
+            $weeks = (int) $settings->get('frm_store_new');
         }
         $new_deadline = time() - 60 * 60 * 24 * 7 * $weeks;
-        $this->settings->set('frm_new_deadline', (string) $new_deadline);
+        $settings->set('frm_new_deadline', (string) $new_deadline);
 
         $this->Forum = new ilForum();
     }
