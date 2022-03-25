@@ -15,7 +15,7 @@ use ilDatePresentation;
  * Class MailNotificationProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class MailNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
+class MailNotificationProvider extends AbstractNotificationProvider
 {
     public const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
 
