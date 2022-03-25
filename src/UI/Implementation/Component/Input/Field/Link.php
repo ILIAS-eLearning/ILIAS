@@ -56,9 +56,9 @@ class Link extends Group implements C\Input\Field\Link
     }
 
 
-    protected function addTransformation(): void
+    protected function addTransformation() : void
     {
-        $trafo = $this->refinery->custom()->transformation(function ($v): \ILIAS\Data\Link {
+        $trafo = $this->refinery->custom()->transformation(function ($v) : \ILIAS\Data\Link {
             list($label, $url) = $v;
             return $this->data_factory->link($label, $url);
         });

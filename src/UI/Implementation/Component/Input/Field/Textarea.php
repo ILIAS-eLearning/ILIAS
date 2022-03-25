@@ -55,7 +55,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
      * get maximum limit of characters
      * @return mixed
      */
-    public function getMaxLimit(): ?int
+    public function getMaxLimit() : ?int
     {
         return $this->max_limit;
     }
@@ -79,7 +79,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
      * get minimum limit of characters
      * @return mixed
      */
-    public function getMinLimit(): ?int
+    public function getMinLimit() : ?int
     {
         return $this->min_limit;
     }

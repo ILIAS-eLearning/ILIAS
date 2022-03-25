@@ -30,7 +30,6 @@ class FormFactoryTest extends AbstractFactoryTest
                 $language
             ),
             new DefNamesource()
-
         );
     }
 

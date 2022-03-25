@@ -55,7 +55,7 @@ class Url extends Input implements C\Input\Field\Url
 
     protected function addTransformation() : void
     {
-        $trafo = $this->refinery->custom()->transformation(function ($v): ?\ILIAS\Data\URI {
+        $trafo = $this->refinery->custom()->transformation(function ($v) : ?\ILIAS\Data\URI {
             if (is_string($v) && trim($v) === '') {
                 return null;
             }

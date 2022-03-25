@@ -45,10 +45,10 @@ class CounterClientHtmlTest extends ILIAS_UI_TestBase
 
         $r = $this->getDefaultRenderer();
         $rendered_html_of_test_1 = $r->render($glyph_with_counter);
-        $rendered_html_of_test_2 = $rendered_html_of_test_1.$rendered_html_of_test_1;
+        $rendered_html_of_test_2 = $rendered_html_of_test_1 . $rendered_html_of_test_1;
 
-        $rendered_html = str_replace("RENDERED_HTML_OF_TEST_1",$rendered_html_of_test_1,$rendered_html);
-        $rendered_html = str_replace("RENDERED_HTML_OF_TEST_2",$rendered_html_of_test_2,$rendered_html);
+        $rendered_html = str_replace("RENDERED_HTML_OF_TEST_1", $rendered_html_of_test_1, $rendered_html);
+        $rendered_html = str_replace("RENDERED_HTML_OF_TEST_2", $rendered_html_of_test_2, $rendered_html);
 
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $this->brutallyTrimHTML($rendered_html));
     }

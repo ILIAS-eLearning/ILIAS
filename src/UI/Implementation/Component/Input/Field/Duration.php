@@ -56,7 +56,7 @@ class Duration extends Group implements C\Input\Field\Duration
      */
     protected function addTransformation() : void
     {
-        $duration = $this->refinery->custom()->transformation(function ($v): ?array {
+        $duration = $this->refinery->custom()->transformation(function ($v) : ?array {
             list($from, $until) = $v;
             if ($from && $until) {
                 return ['start' => $from, 'end' => $until, 'interval' => $from->diff($until)];
@@ -132,7 +132,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * apply format to inputs
      */
-    protected function applyMinValue(): void
+    protected function applyMinValue() : void
     {
         $this->inputs = array_map(
             function ($input) {

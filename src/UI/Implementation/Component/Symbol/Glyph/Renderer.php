@@ -29,7 +29,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl_file = $this->getTemplateFilename();
         $tpl = $this->getTemplate($tpl_file, true, true);
 
-        $tpl = $this->renderAction($component,$tpl);
+        $tpl = $this->renderAction($component, $tpl);
 
         if ($component->isHighlighted()) {
             $tpl->touchBlock("highlighted");

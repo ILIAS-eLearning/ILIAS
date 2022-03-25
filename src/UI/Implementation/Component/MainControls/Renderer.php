@@ -136,7 +136,7 @@ class Renderer extends AbstractComponentRenderer
             }
 
             $button = $button->withAdditionalOnLoadCode(
-                function ($id) use ($js, $mb_id, $k, $is_tool): string {
+                function ($id) use ($js, $mb_id, $k, $is_tool) : string {
                     $add_as_tool = $is_tool ? 'true':'false';
                     $js .= "
                         il.UI.maincontrols.mainbar.addPartIdAndEntry('$mb_id', 'triggerer', '$id', $add_as_tool);
@@ -377,7 +377,7 @@ class Renderer extends AbstractComponentRenderer
         $inititally_active = $component->getActive();
 
         $component = $component->withOnLoadCode(
-            function ($id) use ($component, $trigger_signals, $inititally_active): string {
+            function ($id) use ($component, $trigger_signals, $inititally_active) : string {
                 $disengage_all_signal = $component->getDisengageAllSignal();
                 $tools_toggle_signal = $component->getToggleToolsSignal();
 

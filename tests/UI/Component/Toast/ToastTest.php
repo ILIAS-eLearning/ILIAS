@@ -52,12 +52,12 @@ class ToastTest extends ILIAS_UI_TestBase
      */
     public function test_toast(string $title, string $description, int $vanish_time, int $delay_time, string $action) : void
     {
-        $toast = $this->getToastFactory()->standard($title, $this->getIconFactory()->standard('',''))
+        $toast = $this->getToastFactory()->standard($title, $this->getIconFactory()->standard('', ''))
                       ->withDescription($description)
                       ->withVanishTime($vanish_time)
                       ->withDelayTime($delay_time)
                       ->withAction($action)
-                      ->withAdditionalLink($this->getLinkFactory()->standard('',''));
+                      ->withAdditionalLink($this->getLinkFactory()->standard('', ''));
 
         $this->assertNotNull($toast);
         $this->assertEquals($title, $toast->getTitle());
