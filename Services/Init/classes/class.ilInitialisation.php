@@ -808,7 +808,7 @@ class ilInitialisation
         define("RECOVERY_FOLDER_ID", (int) $ilSetting->get("recovery_folder_id"));
 
         // installation id
-        define("IL_INST_ID", $ilSetting->get("inst_id", 0));
+        define("IL_INST_ID", $ilSetting->get("inst_id", '0'));
 
         // define default suffix replacements
         define("SUFFIX_REPL_DEFAULT", "php,php3,php4,inc,lang,phtml,htaccess");
