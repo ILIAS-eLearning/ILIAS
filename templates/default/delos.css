@@ -7919,7 +7919,10 @@ ul.dropdown-menu > li > .btn:focus {
   vertical-align: top;
 }
 .il-viewcontrol-pagination .btn.engaged {
-  font-weight: 600;
+  background-color: white;
+  padding: 0px 6px 0px 6px;
+  border: 1px solid #4c6586;
+  font-weight: normal;
 }
 .il-viewcontrol-pagination .dropdown-toggle {
   padding-top: 0;
