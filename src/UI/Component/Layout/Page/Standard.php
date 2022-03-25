@@ -102,6 +102,10 @@ interface Standard extends Page, JavaScriptBindable
 
 
     public function hasModeInfo() : bool;
+    
+    public function withAdditionalMetaDatum(string $key, string $value) : Standard;
+    
+    public function getMetaData() : array;
 
     /**
      * @param SystemInfo[] $system_infos
