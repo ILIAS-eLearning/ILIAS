@@ -7,7 +7,6 @@ namespace ILIAS\Data;
 /**
  * Color expresses a certain color by giving the mixing ratio
  * in the RGB color space.
- *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class Color
@@ -58,7 +57,6 @@ class Color
 
     /**
      * Return array with RGB-values.
-     *
      * @return int[]
      */
     public function asArray() : array
@@ -91,11 +89,11 @@ class Color
     }
 
     /**
-    * Based on https://de.wikipedia.org/wiki/Luminanz
-    * this function decides if the color can be considered "dark".
-    * With a dark background, i.e., a lighter (white) color should be used
-    * for the foreground.
-    */
+     * Based on https://de.wikipedia.org/wiki/Luminanz
+     * this function decides if the color can be considered "dark".
+     * With a dark background, i.e., a lighter (white) color should be used
+     * for the foreground.
+     */
     public function isDark() : bool
     {
         $sum = 0.299 * $this->r + 0.587 * $this->g + 0.114 * $this->b;

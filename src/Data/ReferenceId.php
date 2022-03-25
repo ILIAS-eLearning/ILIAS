@@ -6,9 +6,7 @@ use ilObject2;
 
 /**
  * Class ReferenceId
- *
  * @package ILIAS\Data
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
 class ReferenceId

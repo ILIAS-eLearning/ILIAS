@@ -7,7 +7,7 @@ namespace ILIAS\Data;
 /**
  * Class ClientId
  * @package ILIAS\Data
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 class ClientId
 {
