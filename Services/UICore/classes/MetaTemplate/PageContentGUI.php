@@ -309,7 +309,7 @@ class PageContentGUI
             $resp = $gui_class->getHTML(
                 "",
                 "template_show",
-                array("tpl_id" => $this->tplIdentifier ?? "", "tpl_obj" => $this, "html" => $html)
+                array("tpl_id" => $this->tplIdentifier ?? "", "tpl_obj" => $this, "html" => $html)// @TODO PHP8 Review: Missing property.
             );
 
             if (\ilUIHookPluginGUI::KEEP !== $resp["mode"]) {
@@ -339,20 +339,20 @@ class PageContentGUI
         }
     }
     
-    private function getMessageBox(string $type, string $message):MessageBox {
-
+    private function getMessageBox(string $type, string $message) : MessageBox
+    {
         $box_factory = $this->ui_service->factory()->messageBox();
         switch ($type) {
-            case 'info';
+            case 'info':
                 $box = $box_factory->info($message);
                 break;
-            case 'success';
+            case 'success':
                 $box = $box_factory->success($message);
                 break;
-            case 'question';
+            case 'question':
                 $box = $box_factory->confirmation($message);
                 break;
-            case 'failure';
+            case 'failure':
                 $box = $box_factory->failure($message);
                 break;
             default:

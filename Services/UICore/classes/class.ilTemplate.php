@@ -336,8 +336,11 @@ class ilTemplate extends HTML_Template_ITX
         } elseif (strpos($a_tplname, "src/UI") === 0) {
             if (class_exists("ilStyleDefinition") // for testing
                 && ilStyleDefinition::getCurrentSkin() !== "default") {
-                $fname = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/" . str_replace("src/UI/templates/default",
-                        "UI", $a_tplname);
+                $fname = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/" . str_replace(
+                    "src/UI/templates/default",
+                    "UI",
+                    $a_tplname
+                );
             }
             if ($fname === "" || !file_exists($fname)) {
                 $fname = $a_tplname;

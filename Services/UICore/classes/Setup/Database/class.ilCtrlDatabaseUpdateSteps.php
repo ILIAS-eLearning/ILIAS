@@ -72,7 +72,7 @@ class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     }
 
     /**
-     * Deletes the table 'service_class' from the database, since information 
+     * Deletes the table 'service_class' from the database, since information
      * is now stored in an artifact.
      */
     public function step_5() : void
@@ -84,7 +84,7 @@ class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     }
     
     /**
-     * Deletes the table 'module_class' from the database, since information 
+     * Deletes the table 'module_class' from the database, since information
      * is now stored in an artifact.
      */
     public function step_6() : void
