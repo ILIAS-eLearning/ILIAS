@@ -7,7 +7,6 @@
 */
 class ilSearchAutoComplete
 {
-
     public static function getLuceneList(string $a_str) : string
     {
         $qp = new ilLuceneQueryParser('title:' . $a_str . '*');

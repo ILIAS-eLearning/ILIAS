@@ -3,7 +3,6 @@
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
-
 /**
  * Unit tests for class ilDidacticTemplate
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -11,7 +10,7 @@ use ILIAS\DI\Container;
  */
 class ilSearchLuceneQueryParserTest extends TestCase
 {
-    protected $backupGlobals = false;
+    protected $backupGlobals = false;// @TODO: PHP8 Review: Missing property type.
 
     protected Container $dic;
 

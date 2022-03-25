@@ -15,7 +15,7 @@
 class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 {
     public static string $block_type = "objectsearch";
-    public static $st_data;
+    public static $st_data;// @TODO: PHP8 Review: Missing property type.
 
 
     public function __construct(string $a_title)
@@ -79,7 +79,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected $new_rendering = true;// @TODO: PHP8 Review: Missing property type.
 
 
     /**
@@ -95,7 +95,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
         $tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass('ilrepositoryobjectsearchgui', 'performSearch'));
         $tpl->setVariable(
             "SEARCH_TERM",
-            ilLegacyFormElementsUtil::prepareFormOutput(ilUtil::stripSlashes($_POST["search_term"] ?? ""))
+            ilLegacyFormElementsUtil::prepareFormOutput(ilUtil::stripSlashes($_POST["search_term"] ?? ""))// @TODO: PHP8 Review: Direct access to $_POST.
         );
 
         return $tpl->get();

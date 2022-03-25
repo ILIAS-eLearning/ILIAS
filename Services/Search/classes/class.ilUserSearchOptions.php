@@ -190,7 +190,7 @@ class ilUserSearchOptions
         return in_array($a_key, ilUserSearchOptions::_getPossibleFields());
     }
 
-    public static function _isEnabled($a_key)
+    public static function _isEnabled($a_key)// @TODO: PHP8 Review: Missing return type.// @TODO: PHP8 Review: Missing parameter type.
     {
         global $DIC;
 

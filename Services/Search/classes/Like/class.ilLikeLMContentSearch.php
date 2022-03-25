@@ -36,7 +36,6 @@ class ilLikeLMContentSearch extends ilLMContentSearch
 {
     public function __createWhereCondition() : string
     {
-
         $concat = " content ";
 
         $and = "  WHERE ( ";

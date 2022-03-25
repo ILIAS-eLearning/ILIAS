@@ -217,7 +217,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
             return;
         }
 
-        unset($_SESSION['max_page']);
+        unset($_SESSION['max_page']);// @TODO: PHP8 Review: Direct access to $_SESSION.
         $this->search_cache->deleteCachedEntries();
 
         // Reset details
@@ -230,7 +230,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function performSearch() : void
     {
-        unset($_SESSION['vis_references']);
+        unset($_SESSION['vis_references']);// @TODO: PHP8 Review: Direct access to $_SESSION.
 
         $filter_query = '';
         if ($this->search_cache->getItemFilter() and ilSearchSettings::getInstance()->isLuceneItemFilterEnabled()) {
@@ -357,12 +357,12 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         if ($page_number) {
             $this->search_cache->setResultPageNumber($page_number);
         }
-        if (isset($_POST['term'])) {
-            $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['term']));
-            if ($_POST['item_filter_enabled']) {
+        if (isset($_POST['term'])) {// @TODO: PHP8 Review: Direct access to $_POST.
+            $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['term']));// @TODO: PHP8 Review: Direct access to $_POST.
+            if ($_POST['item_filter_enabled']) {// @TODO: PHP8 Review: Direct access to $_POST.
                 $filtered = array();
                 foreach (ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data) {
-                    if ($_POST['filter_type'][$type]) {
+                    if ($_POST['filter_type'][$type]) {// @TODO: PHP8 Review: Direct access to $_POST.
                         $filtered[$type] = 1;
                     }
                 }
@@ -371,19 +371,19 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
                 // Mime filter
                 $mime = array();
                 foreach (ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions() as $type => $data) {
-                    if ($_POST['filter_type'][$type]) {
+                    if ($_POST['filter_type'][$type]) {// @TODO: PHP8 Review: Direct access to $_POST.
                         $mime[$type] = 1;
                     }
                 }
                 $this->search_cache->setMimeFilter($mime);
             }
             $this->search_cache->setCreationFilter($this->loadCreationFilter());
-            if (!$_POST['item_filter_enabled']) {
+            if (!$_POST['item_filter_enabled']) {// @TODO: PHP8 Review: Direct access to $_POST.
                 // @todo: keep item filter settings
                 $this->search_cache->setItemFilter(array());
                 $this->search_cache->setMimeFilter(array());
             }
-            if (!$_POST['screation']) {
+            if (!$_POST['screation']) {// @TODO: PHP8 Review: Direct access to $_POST.
                 $this->search_cache->setCreationFilter(array());
             }
         }

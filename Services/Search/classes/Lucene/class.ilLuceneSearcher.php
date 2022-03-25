@@ -58,7 +58,7 @@ class ilLuceneSearcher
     /**
      * Get singleton instance
      */
-    public static function getInstance(ilLuceneQueryParser $qp)
+    public static function getInstance(ilLuceneQueryParser $qp)// @TODO: PHP8 Review: Missing return type.
     {
         if (self::$instance instanceof ilLuceneSearcher) {
             return self::$instance;
@@ -107,7 +107,7 @@ class ilLuceneSearcher
                 CLIENT_ID . '_' . $this->setting->get('inst_id', '0'),
                 $a_obj_ids,
                 $this->query_parser->getQuery()
-                );
+            );
         } catch (Exception $e) {
             ilLoggerFactory::getLogger('src')->error('Highlighting failed with message: ' . $e->getMessage());
             return new ilLuceneHighlighterResultParser();
@@ -140,7 +140,7 @@ class ilLuceneSearcher
     /**
      * Get result
      */
-    public function getResult()
+    public function getResult()// @TODO: PHP8 Review: Missing return type.
     {
         return $this->result;
     }

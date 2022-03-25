@@ -36,7 +36,6 @@ class ilLikeUserSearch extends ilUserSearch
 {
     public function __createWhereCondition() : string
     {
-        
         $fields = $this->getFields();
         $field = $fields[0] . ' ';
 

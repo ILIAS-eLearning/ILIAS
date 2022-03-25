@@ -42,7 +42,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         $this->prepareOutput();
         switch ($next_class) {
             case "ilpublicuserprofilegui":
-                $profile = new ilPublicUserProfileGUI((int) $_REQUEST['user']);
+                $profile = new ilPublicUserProfileGUI((int) $_REQUEST['user']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
                 $profile->setBackUrl($this->ctrl->getLinkTarget($this, 'showSavedResults'));
                 $ret = $this->ctrl->forwardCommand($profile);
                 $this->tpl->setContent($ret);
@@ -72,7 +72,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      * @todo rename
      * Needed for base class search form
      */
-    protected function getType()
+    protected function getType()// @TODO: PHP8 Review: Missing return type.
     {
         return self::SEARCH_DETAILS;
     }
@@ -81,7 +81,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      * Needed for base class search form
      * @todo rename
      */
-    protected function getDetails()
+    protected function getDetails()// @TODO: PHP8 Review: Missing return type.
     {
         return $this->search_cache->getItemFilter();
     }
@@ -118,7 +118,6 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      */
     protected function showSavedResults() : void
     {
-        
         if (strlen($this->search_cache->getQuery())) {
             $this->performSearch();
             return;
@@ -141,7 +140,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
             return;
         }
         
-        unset($_SESSION['max_page']);
+        unset($_SESSION['max_page']);// @TODO: PHP8 Review: Direct access to $_SESSION.
         $this->search_cache->deleteCachedEntries();
         
         // Reset details
@@ -162,7 +161,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         
         $this->showSearchForm();
         
-                $user_table = new ilRepositoryUserResultTableGUI(
+        $user_table = new ilRepositoryUserResultTableGUI(
             $this,
             'performSearch',
             false,
@@ -171,7 +170,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         $user_table->setLuceneResult($searcher->getResult());
         $user_table->parseUserIds($searcher->getResult()->getCandidates());
 
-       $this->tpl->setVariable('SEARCH_RESULTS', $user_table->getHTML());
+        $this->tpl->setVariable('SEARCH_RESULTS', $user_table->getHTML());
     }
     
     /**
@@ -179,7 +178,6 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      */
     protected function getTabs() : void
     {
-
         $this->help->setScreenIdComponent("src_luc");
 
         $this->tabs->addTarget('search', $this->ctrl->getLinkTargetByClass('illucenesearchgui'));
@@ -204,7 +202,6 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      */
     protected function initUserSearchCache() : void
     {
-        
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_USER_SEARCH);
         $page_number = $this->initPageNumberFromQuery();
@@ -232,7 +229,6 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      */
     protected function showSearchForm()
     {
-        
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_usr_search.html', 'Services/Search');
 
         ilOverlayGUI::initJavascript();

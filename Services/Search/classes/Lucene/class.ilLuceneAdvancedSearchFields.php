@@ -317,7 +317,7 @@ class ilLuceneAdvancedSearchFields
                         'query[' . 'lom_level_end' . ']',
                         array(0 => $this->lng->txt('search_any'))
                     )
-                    );
+                );
                 $range->setHtml($html);
                 return $range;
                         
@@ -336,7 +336,7 @@ class ilLuceneAdvancedSearchFields
                         'query[' . 'lom_density_end' . ']',
                         array(0 => $this->lng->txt('search_any'))
                     )
-                    );
+                );
                 $range->setHtml($html);
                 return $range;
 
@@ -378,7 +378,7 @@ class ilLuceneAdvancedSearchFields
                         'query[' . 'lom_difficulty_end' . ']',
                         array(0 => $this->lng->txt('search_any'))
                     )
-                    );
+                );
                 $range->setHtml($html);
                 return $range;
 
@@ -476,6 +476,7 @@ class ilLuceneAdvancedSearchFields
                 }
 
             // General
+            // no break
             case 'lom_language':
                 return 'lomLanguage:' . $a_query;
                 
@@ -655,7 +656,6 @@ class ilLuceneAdvancedSearchFields
      */
     protected function readSections() : void
     {
-
         foreach ($this->getActiveFields() as $field_name => $translation) {
             switch ($field_name) {
                 // Default section
@@ -795,9 +795,8 @@ class ilLuceneAdvancedSearchFields
         string $txt_from,
         string $select_from,
         string $txt_until,
-        string $select_until)
-    : string
-    {
+        string $select_until
+    ) : string {
         $tpl = new ilTemplate('tpl.range_search.html', true, true, 'Services/Search');
         $tpl->setVariable('TXT_FROM', $txt_from);
         $tpl->setVariable('FROM', $select_from);

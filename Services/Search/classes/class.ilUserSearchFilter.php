@@ -111,12 +111,12 @@ class ilUserSearchFilter
     
     public function storeQueryStrings(array $a_strings) : void
     {
-        $_SESSION['search_usr_filter'] = $a_strings;
+        $_SESSION['search_usr_filter'] = $a_strings;// @TODO: PHP8 Review: Direct access to $_SESSION.
     }
 
     public function getQueryString(string $a_field) : string
     {
-        return $_SESSION['search_usr_filter'][$a_field] ?? '';
+        return $_SESSION['search_usr_filter'][$a_field] ?? '';// @TODO: PHP8 Review: Direct access to $_SESSION.
     }
 
 
@@ -127,7 +127,7 @@ class ilUserSearchFilter
             if (!$enabled) {
                 continue;
             }
-            if (strlen($_SESSION['search_usr_filter'][$field])) {
+            if (strlen($_SESSION['search_usr_filter'][$field])) {// @TODO: PHP8 Review: Direct access to $_SESSION.
                 $search = true;
                 break;
             }
@@ -144,7 +144,7 @@ class ilUserSearchFilter
                 continue;
             }
 
-            $query_string = $_SESSION['search_usr_filter'][$field];
+            $query_string = $_SESSION['search_usr_filter'][$field];// @TODO: PHP8 Review: Direct access to $_SESSION.
             if (!$query_string) {
                 continue;
             }

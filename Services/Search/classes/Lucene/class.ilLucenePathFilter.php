@@ -35,7 +35,7 @@ class ilLucenePathFilter implements ilLuceneResultFilter
     protected array $subnodes = [];
     protected ilTree $tree;
     
-    public function __construct($a_root)
+    public function __construct($a_root)// @TODO: PHP8 Review: Missing parameter type.
     {
         global $DIC;
 
@@ -48,7 +48,6 @@ class ilLucenePathFilter implements ilLuceneResultFilter
      */
     public function filter(int $a_ref_id) : bool
     {
-        
         if ($this->root == ROOT_FOLDER_ID) {
             return true;
         }
@@ -64,7 +63,6 @@ class ilLucenePathFilter implements ilLuceneResultFilter
      */
     protected function init() : void
     {
-        
         if ($this->root == ROOT_FOLDER_ID) {
             $this->subnodes = array();
         } else {
