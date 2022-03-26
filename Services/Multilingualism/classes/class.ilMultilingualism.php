@@ -40,6 +40,7 @@ class ilMultilingualism
     protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected int $obj_id;
+    /** @var array<string, array{lang_code: string, lang_default: bool|int, title: string, description: string}> */
     protected array $languages = array();
     protected string $type = "";
     protected static array $instances = array();
@@ -99,9 +100,9 @@ class ilMultilingualism
     }
 
     /**
-     * @return array array of language codes
+     * @return array<string, array{lang_code: string, lang_default: bool|int, title: string, description: string}>
      */
-    public function getLanguages() : string
+    public function getLanguages() : array
     {
         return $this->languages;
     }
