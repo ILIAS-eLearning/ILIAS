@@ -62,24 +62,24 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
                 $us_arr = explode(":", $usage["type"]);
 
                 // try to figure out object id of pages
-                if ($us_arr[1] == "pg") {
+                if ($us_arr[1] === "pg") {
                     $page_obj = ilPageObjectFactory::getInstance($us_arr[0], $usage["id"]);
                     $usage["page"] = $page_obj;
                     $repo_tree = $this->repo_tree;
                     $ref_ids = array_filter(
                         ilObject::_getAllReferences($page_obj->getRepoObjId()),
-                        function ($ref_id) use ($repo_tree) {
+                        static function ($ref_id) use ($repo_tree) : bool {
                             return $repo_tree->isInTree($ref_id);
                         }
                     );
                     $usage["ref_ids"] = $ref_ids;
-                    if (count($ref_ids) == 0) {
+                    if (count($ref_ids) === 0) {
                         $usage["trash"] = true;
                     }
                 }
             }
 
-            if ($usage["type"] == "clip") {
+            if ($usage["type"] === "clip") {
                 $clip_cnt++;
             } else {
                 if ($this->incl_hist || !$usage["trash"]) {
@@ -223,7 +223,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($usage["type"] != "clip") {
+        if ($usage["type"] !== "clip") {
             if ($item["obj_link"]) {
                 $this->tpl->setCurrentBlock("linked_item");
                 $this->tpl->setVariable("TXT_OBJECT", $item["obj_title"]);

@@ -38,7 +38,7 @@ class ilMediaPoolDataSet extends ilDataSet
         return array("5.1.0", "4.1.0");
     }
     
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "https://www.ilias.de/xml/Modules/MediaPool/" . $a_entity;
     }
@@ -90,7 +90,7 @@ class ilMediaPoolDataSet extends ilDataSet
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         // mep
-        if ($a_entity == "mep") {
+        if ($a_entity === "mep") {
             switch ($a_version) {
                 case "4.1.0":
                     return array(
@@ -113,7 +113,7 @@ class ilMediaPoolDataSet extends ilDataSet
         }
     
         // mep_tree
-        if ($a_entity == "mep_tree") {
+        if ($a_entity === "mep_tree") {
             switch ($a_version) {
                 case "4.1.0":
                 case "5.1.0":
@@ -137,7 +137,7 @@ class ilMediaPoolDataSet extends ilDataSet
         $ilDB = $this->db;
 
         // mep_data
-        if ($a_entity == "mep") {
+        if ($a_entity === "mep") {
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, title, description, " .
@@ -175,7 +175,7 @@ class ilMediaPoolDataSet extends ilDataSet
         }
 
         // mep_tree
-        if ($a_entity == "mep_tree") {
+        if ($a_entity === "mep_tree") {
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT mep_id, child " .
@@ -326,11 +326,11 @@ class ilMediaPoolDataSet extends ilDataSet
 
                     }
                 } else {
-                    if ($a_rec["Type"] == "pg") {
+                    if ($a_rec["Type"] === "pg") {
                         $imp_id = explode("_", $a_rec["ImportId"]);
-                        if ($imp_id[0] == "il" &&
+                        if ($imp_id[0] === "il" &&
                             (int) $imp_id[1] == (int) IL_INST_ID &&
-                            $imp_id[2] == "pg"
+                            $imp_id[2] === "pg"
                         ) {
                             $pg_id = $imp_id[3];
                             $pool = ilMediaPoolItem::getPoolForItemId($pg_id);

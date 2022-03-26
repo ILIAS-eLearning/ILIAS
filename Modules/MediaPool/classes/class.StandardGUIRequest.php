@@ -53,7 +53,7 @@ class StandardGUIRequest
     public function getUploadHash() : string
     {
         $hash = $this->str("mep_hash");
-        if ($hash == "") {
+        if ($hash === "") {
             $hash = $this->str("ilfilehash");
         }
         return $hash;

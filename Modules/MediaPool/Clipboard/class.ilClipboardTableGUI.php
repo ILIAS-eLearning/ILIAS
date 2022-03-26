@@ -55,7 +55,7 @@ class ilClipboardTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("title");
         
         // action commands
-        if ($this->parent_obj->mode == "getObject") {
+        if ($this->parent_obj->mode === "getObject") {
             $this->addMultiCommand("insert", $this->parent_obj->getInsertButtonTitle());
         }
         $this->addMultiCommand("remove", $lng->txt("remove"));
@@ -82,7 +82,7 @@ class ilClipboardTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
 
         $mob = null;
-        if ($a_set["type"] == "mob") {
+        if ($a_set["type"] === "mob") {
             // output thumbnail
             $mob = new ilObjMediaObject($a_set["id"]);
             $med = $mob->getMediaItem("Standard");
@@ -93,7 +93,7 @@ class ilClipboardTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
             }
             if (ilUtil::deducibleSize($med->getFormat()) &&
-                $med->getLocationType() == "Reference") {
+                $med->getLocationType() === "Reference") {
                 $size = getimagesize($med->getLocation());
                 if ($size[0] > 0 && $size[1] > 0) {
                     $wr = $size[0] / 80;
@@ -107,7 +107,7 @@ class ilClipboardTableGUI extends ilTable2GUI
                     );
                 }
             }
-        } elseif ($a_set["type"] == "incl") {
+        } elseif ($a_set["type"] === "incl") {
             $this->tpl->setCurrentBlock("thumbnail");
             $this->tpl->setVariable(
                 "IMG_THUMB",
@@ -117,7 +117,7 @@ class ilClipboardTableGUI extends ilTable2GUI
         }
 
         // allow editing of media objects
-        if ($this->parent_obj->mode != "getObject" && $a_set["type"] == "mob") {
+        if ($this->parent_obj->mode !== "getObject" && $a_set["type"] === "mob") {
             // output edit link
             $this->tpl->setCurrentBlock("edit");
             $ilCtrl->setParameter($this->parent_obj, "clip_item_id", $a_set["id"]);
@@ -138,7 +138,7 @@ class ilClipboardTableGUI extends ilTable2GUI
         }
         $this->tpl->parseCurrentBlock();
 
-        if ($a_set["type"] == "mob") {
+        if ($a_set["type"] === "mob") {
             $this->tpl->setVariable(
                 "MEDIA_INFO",
                 ilObjMediaObjectGUI::_getMediaInfoHTML($mob)

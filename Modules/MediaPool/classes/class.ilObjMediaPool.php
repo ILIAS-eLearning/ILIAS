@@ -86,7 +86,7 @@ class ilObjMediaPool extends ilObject
             $this->setDefaultHeight($rec["default_height"]);
             $this->setForTranslation($rec["for_translation"]);
         }
-        $this->mep_tree = ilObjMediaPool::_getPoolTree($this->getId());
+        $this->mep_tree = self::_getPoolTree($this->getId());
     }
 
 
@@ -178,7 +178,7 @@ class ilObjMediaPool extends ilObject
             $fid = ilMediaPoolItem::lookupForeignId($child["obj_id"]);
             switch ($child["type"]) {
                 case "mob":
-                    if (ilObject::_lookupType($fid) == "mob") {
+                    if (ilObject::_lookupType($fid) === "mob") {
                         $mob = new ilObjMediaObject($fid);
                         $mob->delete();
                     }
@@ -203,16 +203,16 @@ class ilObjMediaPool extends ilObject
             $obj_id = $this->mep_tree->getRootId();
         }
 
-        if ($a_type == "fold" || $a_type == "") {
+        if ($a_type === "fold" || $a_type == "") {
             $objs = $this->mep_tree->getChildsByType($obj_id, "fold");
         }
-        if ($a_type == "mob" || $a_type == "") {
+        if ($a_type === "mob" || $a_type == "") {
             $mobs = $this->mep_tree->getChildsByType($obj_id, "mob");
         }
         foreach ($mobs as $key => $mob) {
             $objs[] = $mob;
         }
-        if ($a_type == "pg" || $a_type == "") {
+        if ($a_type === "pg" || $a_type == "") {
             $pgs = $this->mep_tree->getChildsByType($obj_id, "pg");
         }
         foreach ($pgs as $key => $pg) {
@@ -261,7 +261,7 @@ class ilObjMediaPool extends ilObject
             $query .= " AND " . $ilDB->like("object_data.title", "text", "%" . trim($a_title_filter) . "%");
         }
         if ($a_format_filter != "") {			// format
-            $filter = ($a_format_filter == "unknown")
+            $filter = ($a_format_filter === "unknown")
                 ? ""
                 : $a_format_filter;
             $query .= " AND " . $ilDB->equals("media_item.format", $filter, "text", true);
@@ -395,21 +395,21 @@ class ilObjMediaPool extends ilObject
         // delete objects
         foreach ($subtree as $node) {
             $fid = ilMediaPoolItem::lookupForeignId($node["child"]);
-            if ($node["type"] == "mob") {
-                if (ilObject::_lookupType($fid) == "mob") {
+            if ($node["type"] === "mob") {
+                if (ilObject::_lookupType($fid) === "mob") {
                     $obj = new ilObjMediaObject($fid);
                     $obj->delete();
                 }
             }
 
-            if ($node["type"] == "fold") {
-                if ($fid > 0 && ilObject::_lookupType($fid) == "fold") {
+            if ($node["type"] === "fold") {
+                if ($fid > 0 && ilObject::_lookupType($fid) === "fold") {
                     $obj = new ilObjFolder($fid, false);
                     $obj->delete();
                 }
             }
 
-            if ($node["type"] == "pg") {
+            if ($node["type"] === "pg") {
                 if (ilPageObject::_exists("mep", $node["child"])) {
                     $pg = new ilMediaPoolPage($node["child"]);
                     $pg->delete();
@@ -489,10 +489,10 @@ class ilObjMediaPool extends ilObject
      * @param int target ref_id
      * @param int copy id
      */
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         /** @var ilObjMediaPool $new_obj */
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         
         $new_obj->setTitle($this->getTitle());
         $new_obj->setDescription($this->getDescription());
@@ -565,7 +565,7 @@ class ilObjMediaPool extends ilObject
         if (in_array($a_mode, array("master", "masternomedia"))) {
             $exp = new ilExport();
             $conf = $exp->getConfig("Modules/MediaPool");
-            $conf->setMasterLanguageOnly(true, ($a_mode == "master"));
+            $conf->setMasterLanguageOnly(true, ($a_mode === "master"));
             $exp->exportObject($this->getType(), $this->getId(), "4.4.0");
         }
     }
