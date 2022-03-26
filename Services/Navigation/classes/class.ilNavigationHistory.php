@@ -137,7 +137,7 @@ class ilNavigationHistory
                 " WHERE usr_id = " . $ilDB->quote($ilUser->getId(), "integer")
             );
             $rec = $ilDB->fetchAssoc($set);
-            $db_entries = unserialize($rec["last_visited"]);
+            $db_entries = unserialize($rec["last_visited"], ["allowed_classes" => false]);
             $cnt = count($items);
             if (is_array($db_entries)) {
                 foreach ($db_entries as $rec) {
@@ -146,7 +146,7 @@ class ilNavigationHistory
                             $tree->isInTree($rec["ref_id"]) &&
                             (
                                 !$objDefinition->isPluginTypeName($rec["type"]) ||
-                                $component_repository->getPluginById($it["type"])->isActive()
+                                $component_repository->getPluginById($it["type"])->isActive()// TODO PHP8-REVIEW $it is based on the laste iteration above. I suggest to use an ecplit new variable for this case.
                             )
                         ) {
                             $link = ($rec["goto_link"] != "")

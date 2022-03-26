@@ -121,7 +121,7 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
         $ilNavigationHistory = $this->nav_history;
         $ilCtrl = $this->ctrl;
         
-        if ($this->request->getTarget() == "navi_request") {
+        if ($this->request->getTarget() === "navi_request") {
             $items = $ilNavigationHistory->getItems();
             foreach ($items as $item) {
                 if ($item["ref_id"] == $this->request->getUrlRefId()) {
