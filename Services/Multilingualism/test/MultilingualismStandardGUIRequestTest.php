@@ -9,13 +9,6 @@ use PHPUnit\Framework\TestCase;
  */
 class MultilingualismStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
@@ -34,7 +27,7 @@ class MultilingualismStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId()
+    public function testRefId() : void
     {
         $request = $this->getRequest(
             [
