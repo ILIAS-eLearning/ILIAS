@@ -25,7 +25,7 @@ class ilMediaPoolPage extends ilPageObject
         return "mep";
     }
 
-    public static function deleteAllPagesOfMediaPool($a_media_pool_id) : void// TODO PHP8-REVIEW Type hint missing
+    public static function deleteAllPagesOfMediaPool(int $a_media_pool_id) : void
     {
         // @todo deletion process of snippets
     }
@@ -33,7 +33,7 @@ class ilMediaPoolPage extends ilPageObject
     /**
      * Checks whether a page with given title exists
      */
-    public static function exists($a_media_pool_id, $a_title) : void// TODO PHP8-REVIEW Type hints missing
+    public static function exists(int $a_media_pool_id, string $a_title) : void
     {
         // @todo: check if we need this
     }
