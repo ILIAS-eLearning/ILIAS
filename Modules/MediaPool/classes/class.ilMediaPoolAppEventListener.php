@@ -36,7 +36,7 @@ class ilMediaPoolAppEventListener
             case "Services/Object":
                 switch ($a_event) {
                     case "update":
-                        if ($a_parameter["obj_type"] == "mob") {
+                        if ($a_parameter["obj_type"] === "mob") {
                             ilMediaPoolItem::updateObjectTitle($a_parameter["obj_id"]);
                         }
                         break;
