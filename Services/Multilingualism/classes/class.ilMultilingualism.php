@@ -146,7 +146,7 @@ class ilMultilingualism
         bool $a_default,
         bool $a_force = false
     ) : void {
-        if ($a_lang != "" && (!isset($this->languages[$a_lang]) || $a_force)) {
+        if ($a_lang !== "" && (!isset($this->languages[$a_lang]) || $a_force)) {
             if ($a_default) {
                 foreach ($this->languages as $k => $l) {
                     $this->languages[$k]["lang_default"] = false;
@@ -214,7 +214,7 @@ class ilMultilingualism
      */
     public function removeLanguage(string $a_lang) : void
     {
-        if ($a_lang != $this->getDefaultLanguage()) {
+        if ($a_lang !== $this->getDefaultLanguage()) {
             unset($this->languages[$a_lang]);
         }
     }
@@ -295,7 +295,7 @@ class ilMultilingualism
      * xml import
      * @param SimpleXMLElement $root
      */
-    public function fromXML(SimpleXMLElement $root)
+    public function fromXML(SimpleXMLElement $root) : void
     {
         if ($root->translations) {
             $root = $root->translations;
@@ -306,7 +306,7 @@ class ilMultilingualism
                 trim($trans["language"]),
                 trim($trans->title),
                 trim($trans->description),
-                (int) $trans["default"] != 0
+                (int) $trans["default"] !== 0
             );
         }
     }

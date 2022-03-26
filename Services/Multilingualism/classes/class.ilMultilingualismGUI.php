@@ -151,7 +151,7 @@ class ilMultilingualismGUI
         $descs = $this->request->getDescriptions();
 
         // default language set?
-        if ($default == "") {
+        if ($default === "") {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
             $this->listTranslations(true);
             return;
@@ -203,9 +203,7 @@ class ilMultilingualismGUI
             if ($check[$k]) {
                 // default translation cannot be deleted
                 if ($k != $default) {
-                    unset($titles[$k]);
-                    unset($descs[$k]);
-                    unset($langs[$k]);
+                    unset($titles[$k], $descs[$k], $langs[$k]);
                 } else {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
                     $this->listTranslations();
@@ -351,7 +349,7 @@ class ilMultilingualismGUI
         $lng->loadLanguageModule("meta");
         $langs = $this->request->getLanguages();
 
-        if (count($langs) == 0) {
+        if (count($langs) === 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listTranslations");
         } else {
