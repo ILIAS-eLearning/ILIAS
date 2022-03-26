@@ -141,18 +141,18 @@ class ilNavigationHistory
             $cnt = count($items);
             if (is_array($db_entries)) {
                 foreach ($db_entries as $rec) {
-                    if ($cnt <= 10 && !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]]) && $tree->isInTree($rec["ref_id"]) &&
+                    if ($cnt <= 10 && !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]]) && $tree->isInTree((int) $rec["ref_id"]) &&
                         (
                             !$objDefinition->isPluginTypeName($rec["type"]) ||
                             $component_repository->getPluginById($rec["type"])->isActive()
                         )) {
                         $link = ($rec["goto_link"] != "")
                                 ? $rec["goto_link"]
-                                : ilLink::_getLink($rec["ref_id"]);
+                                : ilLink::_getLink((int) $rec["ref_id"]);
                         if ($rec["sub_obj_id"] != "") {
                             $title = $rec["title"];
                         } else {
-                            $title = ilObject::_lookupTitle(ilObject::_lookupObjId($rec["ref_id"]));
+                            $title = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $rec["ref_id"]));
                         }
                         $items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]] = array("id" => $rec["ref_id"] . ":" . $rec["sub_obj_id"],
                                 "ref_id" => $rec["ref_id"], "link" => $link, "title" => $title,
