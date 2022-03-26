@@ -199,20 +199,20 @@ class ilObjMediaPool extends ilObject
         $objs = array();
         $mobs = array();
         $pgs = array();
-        if ($obj_id == 0) {
+        if ($obj_id === 0) {
             $obj_id = $this->mep_tree->getRootId();
         }
 
-        if ($a_type === "fold" || $a_type == "") {
+        if ($a_type === "fold" || $a_type === "") {
             $objs = $this->mep_tree->getChildsByType($obj_id, "fold");
         }
-        if ($a_type === "mob" || $a_type == "") {
+        if ($a_type === "mob" || $a_type === "") {
             $mobs = $this->mep_tree->getChildsByType($obj_id, "mob");
         }
         foreach ($mobs as $key => $mob) {
             $objs[] = $mob;
         }
-        if ($a_type === "pg" || $a_type == "") {
+        if ($a_type === "pg" || $a_type === "") {
             $pgs = $this->mep_tree->getChildsByType($obj_id, "pg");
         }
         foreach ($pgs as $key => $pg) {
@@ -225,12 +225,11 @@ class ilObjMediaPool extends ilObject
     public function getChildsExceptFolders(
         int $obj_id = 0
     ) : array {
-        if ($obj_id == 0) {
+        if ($obj_id === 0) {
             $obj_id = $this->mep_tree->getRootId();
         }
 
-        $objs = $this->mep_tree->getFilteredChilds(array("fold", "dummy"), $obj_id);
-        return $objs;
+        return $this->mep_tree->getFilteredChilds(array("fold", "dummy"), $obj_id);
     }
 
     /**
@@ -248,7 +247,7 @@ class ilObjMediaPool extends ilObject
             "FROM mep_tree JOIN mep_item ON (mep_tree.child = mep_item.obj_id) " .
             " JOIN object_data ON (mep_item.foreign_id = object_data.obj_id) ";
             
-        if ($a_format_filter != "" or $a_caption_filter != '') {
+        if ($a_format_filter !== "" || $a_caption_filter !== '') {
             $query .= " JOIN media_item ON (media_item.mob_id = object_data.obj_id) ";
         }
             
@@ -257,10 +256,10 @@ class ilObjMediaPool extends ilObject
             " AND object_data.type = " . $ilDB->quote("mob", "text");
             
         // filter
-        if (trim($a_title_filter) != "") {	// title
+        if (trim($a_title_filter) !== "") {	// title
             $query .= " AND " . $ilDB->like("object_data.title", "text", "%" . trim($a_title_filter) . "%");
         }
-        if ($a_format_filter != "") {			// format
+        if ($a_format_filter !== "") {			// format
             $filter = ($a_format_filter === "unknown")
                 ? ""
                 : $a_format_filter;
@@ -350,10 +349,10 @@ class ilObjMediaPool extends ilObject
     
     public function getParentId(int $obj_id = 0) : ?int
     {
-        if ($obj_id == 0) {
+        if ($obj_id === 0) {
             return null;
         }
-        if ($obj_id == $this->mep_tree->getRootId()) {
+        if ($obj_id === $this->mep_tree->getRootId()) {
             return null;
         }
 
@@ -373,9 +372,9 @@ class ilObjMediaPool extends ilObject
                 : $a_parent;
             $this->mep_tree->insertNode($a_obj_id, $parent);
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
 
@@ -395,25 +394,19 @@ class ilObjMediaPool extends ilObject
         // delete objects
         foreach ($subtree as $node) {
             $fid = ilMediaPoolItem::lookupForeignId($node["child"]);
-            if ($node["type"] === "mob") {
-                if (ilObject::_lookupType($fid) === "mob") {
-                    $obj = new ilObjMediaObject($fid);
-                    $obj->delete();
-                }
+            if ($node["type"] === "mob" && ilObject::_lookupType($fid) === "mob") {
+                $obj = new ilObjMediaObject($fid);
+                $obj->delete();
             }
 
-            if ($node["type"] === "fold") {
-                if ($fid > 0 && ilObject::_lookupType($fid) === "fold") {
-                    $obj = new ilObjFolder($fid, false);
-                    $obj->delete();
-                }
+            if ($node["type"] === "fold" && $fid > 0 && ilObject::_lookupType($fid) === "fold") {
+                $obj = new ilObjFolder($fid, false);
+                $obj->delete();
             }
 
-            if ($node["type"] === "pg") {
-                if (ilPageObject::_exists("mep", $node["child"])) {
-                    $pg = new ilMediaPoolPage($node["child"]);
-                    $pg->delete();
-                }
+            if ($node["type"] === "pg" && ilPageObject::_exists("mep", $node["child"])) {
+                $pg = new ilMediaPoolPage($node["child"]);
+                $pg->delete();
             }
 
             $item = new ilMediaPoolItem($node["child"]);

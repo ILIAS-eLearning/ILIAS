@@ -65,7 +65,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             ->standardRequest();
 
         $this->mep_item_id = $this->mep_request->getItemId();
-        $this->mode = ($this->mep_request->getMode() != "")
+        $this->mode = ($this->mep_request->getMode() !== "")
             ? $this->mep_request->getMode()
             : "listMedia";
     }
@@ -119,7 +119,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $new_type = $this->mep_request->getNewType();
         $tree = null;
 
-        if ($new_type != "" && ($cmd !== "confirmRemove" && $cmd !== "copyToClipboard"
+        if ($new_type !== "" && ($cmd !== "confirmRemove" && $cmd !== "copyToClipboard"
             && $cmd !== "pasteFromClipboard")) {
             $this->setCreationMode(true);
         }
@@ -252,13 +252,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                         break;
 
                     case "saveObject":
-                        //$folder_gui->setReturnLocation("save", $this->ctrl->getLinkTarget($this, "listMedia"));
                         $parent = ($this->mep_item_id == 0)
                             ? $tree->getRootId()
                             : $this->mep_item_id;
                         $folder_gui->setFolderTree($tree);
-                        $folder_gui->saveObject($parent);
-                        //$this->ctrl->redirect($this, "listMedia");
+                        $folder_gui->saveObject();
                         break;
 
                     case "editObject":
@@ -704,9 +702,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $par_id = $this->object->getPoolTree()->getParentId($this->mep_item_id);
         if ($par_id != $this->object->getPoolTree()->getRootId()) {
             return (int) $par_id;
-        } else {
-            return null;
         }
+
+        return null;
     }
     
     /**
@@ -836,7 +834,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->checkPermission("write");
 
         $ids = $this->mep_request->getItemIds();
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "");
         }
@@ -997,7 +995,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->checkPermission("write");
 
         $ids = $this->mep_request->getItemIds();
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, $this->mode);
         }
@@ -2056,7 +2054,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             $form->checkInput();
             $title = $form->getInput("title_" . $mi["mob_id"]);
             $desc = $form->getInput("description_" . $mi["mob_id"]);
-            if (trim($title) != "") {
+            if (trim($title) !== "") {
                 $mob->setTitle($title);
             }
             $mob->setDescription($desc);

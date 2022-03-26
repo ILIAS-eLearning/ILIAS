@@ -74,7 +74,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
             ->standardRequest();
 
         if ($a_parent_tpl === null) {
-            $a_parent_tpl = $GLOBALS["tpl"];
+            $a_parent_tpl = $DIC->ui()->mainTemplate();
         }
         $this->parent_tpl = $a_parent_tpl;
         if ($a_all_objects) {
@@ -144,7 +144,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
             );
             $adv_th_record_gui->setTableGUI($this);
             $adv_th_record_gui->parse();
-            if ($a_mode == self::IL_MEP_SELECT) {
+            if ($a_mode === self::IL_MEP_SELECT) {
                 $this->setFilterCommand("insert_applyFilter");
                 $this->setResetCommand("insert_resetFilter");
             }
@@ -157,8 +157,8 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $this->getItems();
 
         // title
-        if ($a_mode != self::IL_MEP_EDIT) {
-            if ($this->current_folder != $this->tree->getRootId() && !$this->all_objects) {
+        if ($a_mode !== self::IL_MEP_EDIT) {
+            if ($this->current_folder !== $this->tree->getRootId() && !$this->all_objects) {
                 $node = $this->tree->getNodeData($this->current_folder);
                 $this->setTitle(
                     $lng->txt("mep_choose_from_folder") . ": " . $node["title"],
@@ -177,17 +177,17 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         
         // action commands
         if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
-            $this->getMode() == self::IL_MEP_EDIT) {
+            $this->getMode() === self::IL_MEP_EDIT) {
             $this->addMultiCommand("copyToClipboard", $lng->txt("cont_copy_to_clipboard"));
             $this->addMultiCommand("confirmRemove", $lng->txt("remove"));
         }
 
-        if ($this->getMode() == self::IL_MEP_SELECT_SINGLE) {
+        if ($this->getMode() === self::IL_MEP_SELECT_SINGLE) {
             // ... even more coupling with ilpcmediaobjectgui
             $this->addMultiCommand("selectObjectReference", $lng->txt("cont_select"));
         }
         
-        if ($this->getMode() == self::IL_MEP_EDIT &&
+        if ($this->getMode() === self::IL_MEP_EDIT &&
             $ilAccess->checkAccess("write", "", $this->media_pool->getRefId())) {
             $this->setSelectAllCheckbox("id");
         }
@@ -305,9 +305,9 @@ class ilMediaPoolTableGUI extends ilTable2GUI
             ksort($f2objs);
             
             // get current media objects / pages
-            if ($this->getMode() == self::IL_MEP_SELECT) {
+            if ($this->getMode() === self::IL_MEP_SELECT) {
                 $mobjs = $this->media_pool->getChilds($this->current_folder, "mob");
-            } elseif ($this->getMode() == self::IL_MEP_SELECT_CONTENT) {
+            } elseif ($this->getMode() === self::IL_MEP_SELECT_CONTENT) {
                 $mobjs = $this->media_pool->getChilds($this->current_folder, "pg");
             } else {
                 $mobjs = $this->media_pool->getChildsExceptFolders($this->current_folder);
@@ -350,8 +350,8 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         
-        if ($this->getMode() == self::IL_MEP_SELECT ||
-            $this->getMode() == self::IL_MEP_SELECT_CONTENT) {
+        if ($this->getMode() === self::IL_MEP_SELECT ||
+            $this->getMode() === self::IL_MEP_SELECT_CONTENT) {
             $this->addMultiCommand($this->getInsertCommand(), $lng->txt("insert"));
             $this->addCommandButton("cancelCreate", $lng->txt("cancel"));
         }
@@ -390,7 +390,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
                 
                 if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
-                    $this->getMode() == self::IL_MEP_EDIT) {
+                    $this->getMode() === self::IL_MEP_EDIT) {
                     $this->tpl->setCurrentBlock("edit");
                     $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
                     $ilCtrl->setParameter($this->parent_obj, $this->folder_par, $a_set["obj_id"]);
@@ -412,8 +412,8 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 break;
 
             case "pg":
-                if ($this->getMode() == self::IL_MEP_SELECT ||
-                    $this->getMode() == self::IL_MEP_SELECT_SINGLE) {
+                if ($this->getMode() === self::IL_MEP_SELECT ||
+                    $this->getMode() === self::IL_MEP_SELECT_SINGLE) {
                     $this->tpl->setVariable("TXT_NO_LINK_TITLE", $a_set["title"]);
                 } else {
                     $this->tpl->setVariable("ONCLICK", "il.MediaPool.preview('" . $a_set["child"] . "'); return false;");
@@ -421,8 +421,8 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                     $ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", $a_set["child"]);
                 }
                 
-                if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
-                    $this->getMode() == self::IL_MEP_EDIT) {
+                if ($this->getMode() === self::IL_MEP_EDIT &&
+                    $ilAccess->checkAccess("write", "", $this->media_pool->getRefId())) {
                     $this->tpl->setCurrentBlock("edit");
                     $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
                     $ilCtrl->setParameterByClass("ilmediapoolpagegui", "mepitem_id", $a_set["child"]);
@@ -446,7 +446,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
                 // edit link
                 if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
-                    $this->getMode() == self::IL_MEP_EDIT) {
+                    $this->getMode() === self::IL_MEP_EDIT) {
                     $this->tpl->setCurrentBlock("edit");
                     $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
                     $this->tpl->setVariable(
@@ -467,7 +467,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                     if ($med) {
                         $target = $med->getThumbnailTarget();
                     }
-                    if ($target != "") {
+                    if ($target !== "") {
                         $this->tpl->setVariable("IMG", ilUtil::img(ilWACSignedPath::signFile($target)));
                     } else {
                         $this->tpl->setVariable(
@@ -503,15 +503,15 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
         if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId())) {
             if ((
-                $this->getMode() == self::IL_MEP_EDIT ||
-                    ($this->getMode() == self::IL_MEP_SELECT && $a_set["type"] === "mob") ||
-                    ($this->getMode() == self::IL_MEP_SELECT_CONTENT && $a_set["type"] === "pg")
+                $this->getMode() === self::IL_MEP_EDIT ||
+                    ($this->getMode() === self::IL_MEP_SELECT && $a_set["type"] === "mob") ||
+                    ($this->getMode() === self::IL_MEP_SELECT_CONTENT && $a_set["type"] === "pg")
             )) {
                 $this->tpl->setCurrentBlock("chbox");
                 $this->tpl->setVariable("CHECKBOX_ID", $a_set["child"]);
                 $this->tpl->parseCurrentBlock();
                 $this->tpl->setCurrentBlock("tbl_content");
-            } elseif ($this->getMode() == self::IL_MEP_SELECT_SINGLE && $a_set["type"] === "mob") {
+            } elseif ($this->getMode() === self::IL_MEP_SELECT_SINGLE && $a_set["type"] === "mob") {
                 $this->tpl->setCurrentBlock("radio");
                 $this->tpl->setVariable("RADIO_ID", $a_set["child"]);
                 $this->tpl->parseCurrentBlock();
@@ -527,7 +527,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $mtpl = new ilTemplate("tpl.media_sel_table.html", true, true, "Modules/MediaPool");
         
         $pre = "";
-        if ($this->current_folder != $this->tree->getRootId() && !$this->all_objects) {
+        if ($this->current_folder !== $this->tree->getRootId() && !$this->all_objects) {
             $path = $this->tree->getPathFull($this->current_folder);
 
             $loc = new ilLocatorGUI();

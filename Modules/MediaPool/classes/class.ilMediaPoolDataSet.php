@@ -60,7 +60,7 @@ class ilMediaPoolDataSet extends ilDataSet
         ?ilObjMediaPool $a_mep,
         string $a_lang = ""
     ) : void {
-        if ($a_mep != null) {
+        if ($a_mep !== null) {
             $this->transl_into = true;
             $this->transl_into_mep = $a_mep;
             $this->transl_lang = $a_lang;
@@ -325,25 +325,23 @@ class ilMediaPoolDataSet extends ilDataSet
                             break;
 
                     }
-                } else {
-                    if ($a_rec["Type"] === "pg") {
-                        $imp_id = explode("_", $a_rec["ImportId"]);
-                        if ($imp_id[0] === "il" &&
-                            (int) $imp_id[1] == (int) IL_INST_ID &&
-                            $imp_id[2] === "pg"
-                        ) {
-                            $pg_id = $imp_id[3];
-                            $pool = ilMediaPoolItem::getPoolForItemId($pg_id);
-                            $pool = current($pool);
-                            if ($pool == $this->getTranslationMep()->getId()) {
-                                $a_mapping->addMapping("Modules/MediaPool", "pg", $a_rec["Child"], $pg_id);
-                                $a_mapping->addMapping(
-                                    "Services/COPage",
-                                    "pg",
-                                    "mep:" . $a_rec["Child"],
-                                    "mep:" . $pg_id
-                                );
-                            }
+                } elseif ($a_rec["Type"] === "pg") {
+                    $imp_id = explode("_", $a_rec["ImportId"]);
+                    if ($imp_id[0] === "il" &&
+                        (int) $imp_id[1] == (int) IL_INST_ID &&
+                        $imp_id[2] === "pg"
+                    ) {
+                        $pg_id = $imp_id[3];
+                        $pool = ilMediaPoolItem::getPoolForItemId($pg_id);
+                        $pool = current($pool);
+                        if ($pool == $this->getTranslationMep()->getId()) {
+                            $a_mapping->addMapping("Modules/MediaPool", "pg", $a_rec["Child"], $pg_id);
+                            $a_mapping->addMapping(
+                                "Services/COPage",
+                                "pg",
+                                "mep:" . $a_rec["Child"],
+                                "mep:" . $pg_id
+                            );
                         }
                     }
                 }

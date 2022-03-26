@@ -81,16 +81,14 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
 
             if ($usage["type"] === "clip") {
                 $clip_cnt++;
-            } else {
-                if ($this->incl_hist || !$usage["trash"]) {
-                    if (empty($agg_usages[$usage["type"] . ":" . $usage["id"]])) {
-                        $agg_usages[$usage["type"] . ":" . $usage["id"]] = $usage;
-                    }
-                    $agg_usages[$usage["type"] . ":" . $usage["id"]]["versions"][] =
-                        ["hist_nr" => $usage["hist_nr"],
-                         "lang" => $usage["lang"]
-                        ];
+            } elseif ($this->incl_hist || !$usage["trash"]) {
+                if (empty($agg_usages[$usage["type"] . ":" . $usage["id"]])) {
+                    $agg_usages[$usage["type"] . ":" . $usage["id"]] = $usage;
                 }
+                $agg_usages[$usage["type"] . ":" . $usage["id"]]["versions"][] =
+                    ["hist_nr" => $usage["hist_nr"],
+                     "lang" => $usage["lang"]
+                    ];
             }
         }
 

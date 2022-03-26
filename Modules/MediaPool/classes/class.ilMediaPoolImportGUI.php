@@ -107,7 +107,7 @@ class ilMediaPoolImportGUI
 
         $target_lang = $this->request->getImportLang();
         $ot = ilObjectTranslation::getInstance($this->mep->getId());
-        if ($target_lang == $ot->getMasterLanguage()) {
+        if ($target_lang === $ot->getMasterLanguage()) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("mep_transl_master_language_not_allowed"), true);
             $ilCtrl->redirect($this, "showTranslationImportForm");
         }

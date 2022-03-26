@@ -87,7 +87,7 @@ class ilClipboardTableGUI extends ilTable2GUI
             $mob = new ilObjMediaObject($a_set["id"]);
             $med = $mob->getMediaItem("Standard");
             $target = $med->getThumbnailTarget();
-            if ($target != "") {
+            if ($target !== "") {
                 $this->tpl->setCurrentBlock("thumbnail");
                 $this->tpl->setVariable("IMG_THUMB", $target);
                 $this->tpl->parseCurrentBlock();
