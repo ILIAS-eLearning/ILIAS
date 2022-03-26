@@ -144,7 +144,7 @@ class ilNavigationHistory
                     if ($cnt <= 10 && !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]]) && $tree->isInTree($rec["ref_id"]) &&
                         (
                             !$objDefinition->isPluginTypeName($rec["type"]) ||
-                            $component_repository->getPluginById($it["type"])->isActive()// TODO PHP8-REVIEW $it is based on the laste iteration above. I suggest to use an explicit new variable for this case.
+                            $component_repository->getPluginById($rec["type"])->isActive()
                         )) {
                         $link = ($rec["goto_link"] != "")
                                 ? $rec["goto_link"]
