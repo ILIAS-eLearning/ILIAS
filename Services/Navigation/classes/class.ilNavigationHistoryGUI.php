@@ -88,7 +88,7 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
             }
             if (!isset($item["ref_id"]) || $this->request->getRefId() === 0 ||
                 $item["ref_id"] != $this->request->getRefId() || $k > 0) {			// do not list current item
-                $obj_id = ilObject::_lookupObjId($item["ref_id"]);
+                $obj_id = ilObject::_lookupObjId((int) $item["ref_id"]);
                 $selection->addItem(
                     $item["title"],
                     $item["ref_id"],
