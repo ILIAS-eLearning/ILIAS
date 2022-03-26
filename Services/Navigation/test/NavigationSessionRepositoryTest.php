@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
  */
 class NavigationSessionRepositoryTest extends TestCase
 {
-    //protected $backupGlobals = false;
     protected \ILIAS\Navigation\NavigationSessionRepository $repo;
 
     protected function setUp() : void
@@ -25,7 +24,7 @@ class NavigationSessionRepositoryTest extends TestCase
     /**
      * Test history
      */
-    public function testSortAscending()
+    public function testSortAscending() : void
     {
         $repo = $this->repo;
         $repo->setHistory([
