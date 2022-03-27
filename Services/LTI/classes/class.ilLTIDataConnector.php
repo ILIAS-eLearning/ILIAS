@@ -82,7 +82,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 $consumer->consumerName = $row->consumer_name;
                 $consumer->consumerVersion = $row->consumer_version;
                 $consumer->consumerGuid = $row->consumer_guid;
-                $consumer->profile = json_decode($row->profile);
+                $consumer->profile = json_decode((string) $row->profile);
                 $consumer->toolProxy = $row->tool_proxy;
                 $settings = unserialize($row->settings);
                 if (!is_array($settings)) {
@@ -217,7 +217,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 $consumer->consumerName = $row->consumer_name;
                 $consumer->consumerVersion = $row->consumer_version;
                 $consumer->consumerGuid = $row->consumer_guid;
-                $consumer->profile = json_decode($row->profile);
+                $consumer->profile = json_decode((string) $row->profile);
                 $consumer->toolProxy = $row->tool_proxy;
                 $settings = unserialize($row->settings);
                 if (!is_array($settings)) {
@@ -242,8 +242,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 $consumer->updated = strtotime($row->updated);
 
                 //ILIAS specific
-                $consumer->setExtConsumerId($row->ext_consumer_id);
-                $consumer->setRefId($row->ref_id);
+                $consumer->setExtConsumerId((int) $row->ext_consumer_id);
+                $consumer->setRefId((int) $row->ref_id);
                 #$consumer->setTitle($row->title);
                 #$consumer->setDescription($row->description);
                 #$consumer->setPrefix($row->prefix);
@@ -277,7 +277,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             'AND ref_id = ' . $db->quote($consumer->getRefId(), 'integer');
         $res = $db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->consumer_pk;
+            return (int) $row->consumer_pk;
         }
         return null;
     }
@@ -1541,10 +1541,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         try {
             $res = $ilDB->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $user->setRecordId($row->user_pk);
-                $user->setResourceLinkId($row->resource_link_pk);
-                $user->ltiUserId = $row->lti_user_id;
-                $user->ltiResultSourcedId = $row->lti_result_sourcedid;
+                $user->setRecordId((int) $row->user_pk);
+                $user->setResourceLinkId((int) $row->resource_link_pk);
+                $user->ltiUserId = (string) $row->lti_user_id;
+                $user->ltiResultSourcedId = (string) $row->lti_result_sourcedid;
                 $user->created = strtotime($row->created);
                 $user->updated = strtotime($row->updated);
                 $ok = true;

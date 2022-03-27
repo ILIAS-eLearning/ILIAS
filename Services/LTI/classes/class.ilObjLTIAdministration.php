@@ -77,7 +77,7 @@ class ilObjLTIAdministration extends ilObject
     /**
      * @return array consumer active objects
      */
-    public function getActiveObjectTypes(int $a_consumer_id) : array
+    public static function getActiveObjectTypes(int $a_consumer_id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -131,7 +131,7 @@ class ilObjLTIAdministration extends ilObject
         $connector = new ilLTIDataConnector();
         $consumers = array();
         while ($row = $res->fetchObject()) {
-            $consumers[] = ilLTIToolConsumer::fromExternalConsumerId($row->id, $connector);
+            $consumers[] = ilLTIToolConsumer::fromExternalConsumerId((int) $row->id, $connector);
         }
         return $consumers;
     }

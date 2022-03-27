@@ -957,7 +957,7 @@ abstract class OAuthDataStore
     /**
      * @param callable|null $callback
      */
-    abstract public function new_request_token(OAuthConsumer $consumer, $callback = null);
+    abstract public function new_request_token(OAuthConsumer $consumer, ?string $callback = null);
 
 
     /**
