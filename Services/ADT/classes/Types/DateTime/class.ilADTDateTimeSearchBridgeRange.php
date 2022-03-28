@@ -79,7 +79,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
         }
     }
 
-    protected function shouldBeImportedFromPost(mixed $a_post) : bool
+    protected function shouldBeImportedFromPost($a_post) : bool
     {
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             return (bool) $a_post["tgl"];
@@ -92,10 +92,8 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
         $post = $this->extractPostValues($a_post);
 
         if ($post && $this->shouldBeImportedFromPost($post)) {
-            //Todo-PHP8-Review Begin: ilCalendarUtil::parseIncomingDate expects bool as second parameter not an int
-            $start = ilCalendarUtil::parseIncomingDate($post["lower"], 1);
-            $end = ilCalendarUtil::parseIncomingDate($post["upper"], 1);
-            //Todo-PHP8-Review End
+            $start = ilCalendarUtil::parseIncomingDate($post["lower"], true);
+            $end = ilCalendarUtil::parseIncomingDate($post["upper"], true);
             if ($start && $end && $start->get(IL_CAL_UNIX) > $end->get(IL_CAL_UNIX)) {
                 $tmp = $start;
                 $start = $end;

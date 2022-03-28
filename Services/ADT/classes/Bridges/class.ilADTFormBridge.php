@@ -11,7 +11,10 @@ abstract class ilADTFormBridge
 {
     protected ilADT $adt;
     protected ilPropertyFormGUI $form;
-    protected mixed $parent;
+    /**
+     * @var mixed
+     */
+    protected $parent;
     protected string $id;
     protected string $title = '';
     protected string $info = '';
@@ -96,7 +99,7 @@ abstract class ilADTFormBridge
     /**
      * @param mixed $a_value
      */
-    public function setParentElement(mixed $a_value) : void
+    public function setParentElement($a_value) : void
     {
         if (!is_array($a_value)) {
             $a_value = (string) $a_value;
@@ -108,7 +111,7 @@ abstract class ilADTFormBridge
      * Get parent element
      * @return mixed
      */
-    public function getParentElement() : mixed
+    public function getParentElement()
     {
         return $this->parent;
     }
@@ -209,7 +212,7 @@ abstract class ilADTFormBridge
      * @param mixed|null $a_parent_option
      * @return bool
      */
-    protected function isActiveForSubItems(mixed $a_parent_option = null) : bool
+    protected function isActiveForSubItems($a_parent_option = null) : bool
     {
         return !$this->getADT()->isNull();
     }

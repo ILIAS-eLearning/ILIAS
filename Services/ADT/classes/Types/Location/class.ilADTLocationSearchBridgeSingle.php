@@ -5,6 +5,16 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
     protected ?int $radius;
     protected bool $force_valid = false;
 
+    protected ilLanguage $lng;
+
+    public function __construct(ilADTDefinition $a_adt_def)
+    {
+        global $DIC;
+
+        $this->lng = $DIC->language();
+        parent::__construct($a_adt_def);
+    }
+
     protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
     {
         return ($a_adt_def instanceof ilADTLocationDefinition);
@@ -51,9 +61,9 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         $loc->setZoom($adt->getZoom());
         $optional->addSubItem($loc);
 
-        $rad = new ilNumberInputGUI($lng->txt("form_location_radius"), $this->addToElementId("rad"));
+        $rad = new ilNumberInputGUI($this->lng->txt("form_location_radius"), $this->addToElementId("rad"));
         $rad->setSize(4);
-        $rad->setSuffix($lng->txt("form_location_radius_km"));
+        $rad->setSuffix($this->lng->txt("form_location_radius_km"));
         $rad->setValue($this->radius);
         $rad->setRequired(true);
         $optional->addSubItem($rad);
@@ -61,7 +71,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($optional);
     }
 
-    protected function shouldBeImportedFromPost(mixed $a_post) : bool
+    protected function shouldBeImportedFromPost($a_post) : bool
     {
         return (bool) $a_post["tgl"];
     }

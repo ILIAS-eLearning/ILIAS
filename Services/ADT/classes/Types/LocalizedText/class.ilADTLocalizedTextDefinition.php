@@ -11,29 +11,14 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
      * @var array
      */
     private array $active_languages = [];
-
-    /**
-     * @var string
-     */
-    //Todo-PHP8-Review Begin: Missing property type declarations
-    private $default_language = '';
-    //Todo-PHP8-Review End
-    /**
-     * @var int
-     */
+    private string $default_language = '';
     private int $max_length;
 
-    /**
-     * @return mixed
-     */
     public function getMaxLength() : ?int
     {
         return $this->max_length;
     }
 
-    /**
-     * @param mixed $max_length
-     */
     public function setMaxLength(int $max_length) : void
     {
         $this->max_length = $max_length;

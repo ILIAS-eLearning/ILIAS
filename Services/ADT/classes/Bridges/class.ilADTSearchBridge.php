@@ -23,6 +23,7 @@ abstract class ilADTSearchBridge
 
     protected ilLanguage $lng;
     protected ilDBInterface $db;
+    protected HTTP\Services $http;
 
     public function __construct(ilADTDefinition $a_adt_def)
     {
@@ -31,6 +32,7 @@ abstract class ilADTSearchBridge
 
         $this->lng = $DIC->language();
         $this->db = $DIC->database();
+        $this->http = $DIC->http();
     }
 
     abstract protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool;
@@ -89,9 +91,9 @@ abstract class ilADTSearchBridge
 
     /**
      * Write value(s) to filter store (in session)
-     * @param mixed|null $a_value
+     * @param ?$a_value
      */
-    protected function writeFilter(mixed $a_value = null) : void
+    protected function writeFilter($a_value = null) : void
     {
         if (!$this->table_gui instanceof ilTable2GUI) {
             return;
@@ -105,9 +107,9 @@ abstract class ilADTSearchBridge
 
     /**
      * Load value(s) from filter store (in session)
-     * @return mixed
+     * @return
      */
-    protected function readFilter() : mixed
+    protected function readFilter()
     {
         if (!$this->table_gui instanceof ilTable2GUI) {
             return null;
@@ -132,11 +134,12 @@ abstract class ilADTSearchBridge
     {
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             $this->getForm()->addItem($a_field);
-        } elseif ($this->getTableGUI() instanceof ilTable2GUI) {
+        } elseif (
+            $this->getTableGUI() instanceof ilTable2GUI &&
+            $a_field instanceof ilTableFilterItem
+        ) {
             $this->table_filter_fields[$a_field->getFieldId()] = $a_field;
-            //Todo-PHP8-Review Begin: Functions expects ilTableFilterItem not ilPropertyFormGUI
             $this->getTableGUI()->addFilterItem($a_field);
-            //Todo-PHP8-Review End
         }
     }
 
@@ -157,10 +160,10 @@ abstract class ilADTSearchBridge
 
     /**
      * Check if incoming values should be imported at all
-     * @param mixed $a_post
+     * @param string|int $a_post
      * @return bool
      */
-    protected function shouldBeImportedFromPost(mixed $a_post) : bool
+    protected function shouldBeImportedFromPost($a_post) : bool
     {
         return true;
     }
@@ -170,14 +173,14 @@ abstract class ilADTSearchBridge
      * @param array $a_post
      * @return mixed
      */
-    protected function extractPostValues(array $a_post = null) : mixed
+    protected function extractPostValues(array $a_post = null)
     {
         $element_id = $this->getElementId();
         $multi = strpos($this->getElementId(), "[");
 
         // get rid of this case
         if ($a_post === null) {
-            $a_post = $_POST;
+            $a_post = $this->http->request()->getParsedBody();
             if ($multi !== false) {
                 $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi + 1, -1)];
             } else {

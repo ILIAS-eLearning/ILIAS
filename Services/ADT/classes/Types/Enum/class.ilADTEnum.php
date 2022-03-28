@@ -2,7 +2,10 @@
 
 abstract class ilADTEnum extends ilADT
 {
-    protected mixed $value;
+    /**
+     * @var mixed
+     */
+    protected $value;
 
     protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
@@ -17,7 +20,11 @@ abstract class ilADTEnum extends ilADT
 
     // properties
 
-    abstract protected function handleSelectionValue($a_value) : mixed;
+    /**
+     * @param string|int $a_value
+     * @return string|int
+     */
+    abstract protected function handleSelectionValue($a_value);
 
     public function setSelection($a_value = null)
     {
@@ -30,7 +37,10 @@ abstract class ilADTEnum extends ilADT
         $this->value = $a_value;
     }
 
-    public function getSelection() : mixed
+    /**
+     * @return mixed
+     */
+    public function getSelection()
     {
         return $this->value;
     }

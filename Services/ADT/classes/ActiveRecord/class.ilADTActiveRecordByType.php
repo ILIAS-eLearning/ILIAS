@@ -9,7 +9,7 @@
  */
 class ilADTActiveRecordByType
 {
-    protected ilADTGroupDBBridge $properties;
+    protected ilADTDBBridge $properties;
     protected string $element_column = '';
     protected string $element_column_type = '';
     protected array $tables_map = [];
@@ -21,11 +21,7 @@ class ilADTActiveRecordByType
 
     protected ilDBInterface $db;
 
-    /**
-     * Constructor
-     * @param ilADTGroupDBBridge $a_properties
-     */
-    public function __construct(ilADTGroupDBBridge $a_properties)
+    public function __construct(ilADTDBBridge $a_properties)
     {
         global $DIC;
 
@@ -593,9 +589,9 @@ class ilADTActiveRecordByType
      * @param string $a_table
      * @param array  $a_primary
      * @param string $a_type
-     * @param mixed  $a_value
+     * @param        $a_value
      */
-    public static function writeByPrimary(string $a_table, array $a_primary, string $a_type, mixed $a_value) : void
+    public static function writeByPrimary(string $a_table, array $a_primary, string $a_type, $a_value) : void
     {
         global $DIC;
 

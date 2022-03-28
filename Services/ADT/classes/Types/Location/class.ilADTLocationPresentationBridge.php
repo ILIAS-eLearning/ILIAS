@@ -2,10 +2,9 @@
 
 class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 {
-    //Todo-PHP8-Review Begin: Missing property type declarations
-    protected $width;
-    protected $height;
-    //Todo-PHP8-Review End
+    protected int $width = 0;
+    protected int $height = 0;
+
     protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTLocation);
@@ -31,10 +30,10 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
                     ->setEnableCentralMarker(true);
 
             if ($this->width) {
-                $map_gui->setWidth($this->width);
+                $map_gui->setWidth((string) $this->width);
             }
             if ($this->height) {
-                $map_gui->setHeight($this->height);
+                $map_gui->setHeight((string) $this->height);
             }
 
             return $this->decorate($map_gui->getHtml());
@@ -51,7 +50,7 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: probably does not make much sense

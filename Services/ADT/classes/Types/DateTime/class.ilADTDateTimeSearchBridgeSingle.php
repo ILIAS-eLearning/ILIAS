@@ -31,7 +31,10 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($date);
     }
 
-    protected function shouldBeImportedFromPost(mixed $a_post) : bool
+    /**
+     * @inheritDoc
+     */
+    protected function shouldBeImportedFromPost($a_post) : bool
     {
         // @todo check if this assumption is correct:
         // text_input_mode is alway false
@@ -47,9 +50,7 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
         $post = $this->extractPostValues($a_post);
 
         if ($post && $this->shouldBeImportedFromPost($post)) {
-            //Todo-PHP8-Review Begin: ilCalendarUtil::parseIncomingDate expects bool as second parameter not an int
-            $date = ilCalendarUtil::parseIncomingDate($post, 1);
-            //Todo-PHP8-Review End
+            $date = ilCalendarUtil::parseIncomingDate($post, true);
 
             if ($this->getForm() instanceof ilPropertyFormGUI) {
                 $item = $this->getForm()->getItemByPostVar($this->getElementId());

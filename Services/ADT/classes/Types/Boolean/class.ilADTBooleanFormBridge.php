@@ -10,16 +10,10 @@ class ilADTBooleanFormBridge extends ilADTFormBridge
     public function addToForm() : void
     {
         $bool = new ilCheckboxInputGUI($this->getTitle(), $this->getElementId());
-        //Todo-PHP8-Review Begin: ilCheckboxInputGUI->setValue expects string not int
-        $bool->setValue(1);
-        //Todo-PHP8-Review End
+        $bool->setValue('1');
         $this->addBasicFieldProperties($bool, $this->getADT()->getCopyOfDefinition());
-
-        // :TODO: required checkboxes do not make sense
         $bool->setRequired(false);
-
         $bool->setChecked($this->getADT()->getStatus());
-
         $this->addToParentElement($bool);
     }
 
@@ -42,7 +36,7 @@ class ilADTBooleanFormBridge extends ilADTFormBridge
         return true;
     }
 
-    protected function isActiveForSubItems(mixed $a_parent_option = null) : bool
+    protected function isActiveForSubItems($a_parent_option = null) : bool
     {
         return ($this->getADT()->getStatus() === true);
     }

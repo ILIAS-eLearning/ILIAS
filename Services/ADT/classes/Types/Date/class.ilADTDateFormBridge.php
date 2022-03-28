@@ -5,9 +5,8 @@
  */
 class ilADTDateFormBridge extends ilADTFormBridge
 {
-    //Todo-PHP8-Review Begin: Missing property type declarations
-    protected $invalid_input; // [bool]
-    //Todo-PHP8-Review End
+    protected bool $invalid_input = false;
+
     protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTDate);
@@ -50,6 +49,6 @@ class ilADTDateFormBridge extends ilADTFormBridge
     public function validate() : bool
     {
         // :TODO: error handling is done by ilDateTimeInputGUI
-        return !(bool) $this->invalid_input;
+        return !$this->invalid_input;
     }
 }
