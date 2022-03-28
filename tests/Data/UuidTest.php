@@ -9,15 +9,15 @@ use Ramsey\Uuid\Exception\InvalidUuidStringException;
 
 class UuidTest extends TestCase
 {
-    const VALID_UUID4 = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}$/';
+    public const VALID_UUID4 = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}$/';
 
-    const UUID4 = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
-    const NO_UUID = 'lorem ipsum dolor';
+    public const UUID4 = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
+    public const NO_UUID = 'lorem ipsum dolor';
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_init()
+    public function test_init() : Factory
     {
         return new Factory();
     }
@@ -25,7 +25,7 @@ class UuidTest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_uuid4()
+    public function test_uuid4() : void
     {
         $factory = new Factory();
         $uuid = $factory->uuid4();
@@ -36,7 +36,7 @@ class UuidTest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_uuid4_string()
+    public function test_uuid4_string() : void
     {
         $factory = new Factory();
         $uuid = $factory->uuid4AsString();
@@ -48,7 +48,7 @@ class UuidTest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_from_string()
+    public function test_from_string() : void
     {
         $factory = new Factory();
         $uuid = $factory->fromString(self::UUID4);
@@ -60,7 +60,7 @@ class UuidTest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_from_illegal_string()
+    public function test_from_illegal_string() : void
     {
         $this->expectException(InvalidUuidStringException::class);
 

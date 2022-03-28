@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 class ClientIdTest extends TestCase
 {
     /** @var Data\Factory */
-    private $f;
+    private Data\Factory $f;
 
     /**
      *
@@ -59,7 +59,7 @@ class ClientIdTest extends TestCase
      * @param string $value
      * @dataProvider clientIdProvider
      */
-    public function testValidArguments(string $value)
+    public function testValidArguments(string $value) : void
     {
         $clientId = $this->f->clientId($value);
         $this->assertEquals($value, $clientId->toString());
@@ -69,12 +69,12 @@ class ClientIdTest extends TestCase
      * @param string $value
      * @dataProvider invalidClientIdProvider
      */
-    public function testInvalidArguments(string $value)
+    public function testInvalidArguments(string $value) : void
     {
         try {
             $clientId = $this->f->clientId($value);
             $this->fail('This should not happen');
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
     }
