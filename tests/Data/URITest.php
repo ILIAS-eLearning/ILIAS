@@ -7,59 +7,59 @@ use PHPUnit\Framework\TestCase;
 
 class URITest extends TestCase
 {
-    const URI_COMPLETE = 'g+it://github.com:8080/someaccount/somerepo/somerepo.git?query_par_1=val_1&query_par_2=val_2#fragment';
+    public const URI_COMPLETE = 'g+it://github.com:8080/someaccount/somerepo/somerepo.git?query_par_1=val_1&query_par_2=val_2#fragment';
 
-    const URI_COMPLETE_IPV4 = 'g+it://10.0.0.86:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
+    public const URI_COMPLETE_IPV4 = 'g+it://10.0.0.86:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
-    const URI_COMPLETE_LOCALHOST = 'g+it://localhost:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
-
-
-    const URI_NO_PATH_1 = 'g-it://ilias%2Da.de:8080?query_par_1=val_1&query_par_2=val_2#fragment';
-    const URI_NO_PATH_2 = 'g.it://amaz;on.co.uk:8080/?query_par_1=val_1&query_par_2=val_2#fragment';
-
-    const URI_NO_QUERY_1 = 'git://one-letter-top-level.a:8080/someaccount/somerepo/somerepo.git/#fragment';
-    const URI_NO_QUERY_2 = 'git://github.com:8080/someaccount/somerepo/somerepo.git#fragment';
-
-    const URI_AUTHORITY_AND_QUERY_1 = 'git://github.com?query_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
-    const URI_AUTHORITY_AND_QUERY_2 = 'git://github.com/?qu/ery_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
-
-    const URI_AUTHORITY_AND_FRAGMENT = 'git://github.com:8080/#fragment$,;:A!\'*+()ar_1=val_1&';
-
-    const URI_AUTHORITY_PATH_FRAGMENT = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git#frag:A!\'*+()arment';
-
-    const URI_PATH = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git/';
-
-    const URI_AUTHORITY_ONLY = 'git://git$,;hub.com';
-
-    const URI_NO_SCHEMA = 'git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git/';
-
-    const URI_NO_AUTHORITY = 'git://:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
-
-    const URI_WRONG_SCHEMA = 'gi$t://git$,;hub.com';
-
-    const URI_WRONG_AUTHORITY_1 = 'git://git$,;hu<b.com:8080/someacc$,;ount/somerepo/somerepo.git/';
-    const URI_WRONG_AUTHORITY_2 = 'git://git$,;hu=b.com/someacc$,;ount/somerepo/somerepo.git/';
+    public const URI_COMPLETE_LOCALHOST = 'g+it://localhost:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
 
-    const URI_INVALID = 'https://host.de/ilias.php/"><script>alert(1)</script>?baseClass=ilObjChatroomGUI&cmd=getOSDNotifications&cmdMode=asynch&max_age=15192913';
+    public const URI_NO_PATH_1 = 'g-it://ilias%2Da.de:8080?query_par_1=val_1&query_par_2=val_2#fragment';
+    public const URI_NO_PATH_2 = 'g.it://amaz;on.co.uk:8080/?query_par_1=val_1&query_par_2=val_2#fragment';
 
-    const URI_FAKEPCENC = 'g+it://github.com:8080/someaccoun%t/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
+    public const URI_NO_QUERY_1 = 'git://one-letter-top-level.a:8080/someaccount/somerepo/somerepo.git/#fragment';
+    public const URI_NO_QUERY_2 = 'git://github.com:8080/someaccount/somerepo/somerepo.git#fragment';
+
+    public const URI_AUTHORITY_AND_QUERY_1 = 'git://github.com?query_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
+    public const URI_AUTHORITY_AND_QUERY_2 = 'git://github.com/?qu/ery_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
+
+    public const URI_AUTHORITY_AND_FRAGMENT = 'git://github.com:8080/#fragment$,;:A!\'*+()ar_1=val_1&';
+
+    public const URI_AUTHORITY_PATH_FRAGMENT = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git#frag:A!\'*+()arment';
+
+    public const URI_PATH = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git/';
+
+    public const URI_AUTHORITY_ONLY = 'git://git$,;hub.com';
+
+    public const URI_NO_SCHEMA = 'git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git/';
+
+    public const URI_NO_AUTHORITY = 'git://:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
+
+    public const URI_WRONG_SCHEMA = 'gi$t://git$,;hub.com';
+
+    public const URI_WRONG_AUTHORITY_1 = 'git://git$,;hu<b.com:8080/someacc$,;ount/somerepo/somerepo.git/';
+    public const URI_WRONG_AUTHORITY_2 = 'git://git$,;hu=b.com/someacc$,;ount/somerepo/somerepo.git/';
+
+
+    public const URI_INVALID = 'https://host.de/ilias.php/"><script>alert(1)</script>?baseClass=ilObjChatroomGUI&cmd=getOSDNotifications&cmdMode=asynch&max_age=15192913';
+
+    public const URI_FAKEPCENC = 'g+it://github.com:8080/someaccoun%t/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
    
-    const URI_REALPCTENC = 'g+it://github.com:8080/someaccount%2Fsomerepo/som%2brepo.git/?par_lower=val_%2b&par_upper=val_%C3%A1#fragment';
-    const PATH_REALPCTENC = 'someaccount%2Fsomerepo/som%2brepo.git';
-    const PARAMS_REALPCTENC =[
+    public const URI_REALPCTENC = 'g+it://github.com:8080/someaccount%2Fsomerepo/som%2brepo.git/?par_lower=val_%2b&par_upper=val_%C3%A1#fragment';
+    public const PATH_REALPCTENC = 'someaccount%2Fsomerepo/som%2brepo.git';
+    public const PARAMS_REALPCTENC = [
         'par_lower' => 'val_+',
         'par_upper' => 'val_á'
     ];
 
-    const URI_HOST_ALPHADIG_START_1 = 'g+it://-github.com:8080/someaccount';
-    const URI_HOST_ALPHADIG_START_2 = 'g+it://github-.com:8080/someaccount';
-    const URI_HOST_ALPHADIG_START_3 = 'http://.';
-    const URI_HOST_ALPHADIG_START_4 = 'http://../';
-    const URI_HOST_ALPHADIG_START_5 = 'http://-error-.invalid/';
+    public const URI_HOST_ALPHADIG_START_1 = 'g+it://-github.com:8080/someaccount';
+    public const URI_HOST_ALPHADIG_START_2 = 'g+it://github-.com:8080/someaccount';
+    public const URI_HOST_ALPHADIG_START_3 = 'http://.';
+    public const URI_HOST_ALPHADIG_START_4 = 'http://../';
+    public const URI_HOST_ALPHADIG_START_5 = 'http://-error-.invalid/';
 
-    const URI_BASE = 'git://github.com:8080/someaccount/somerepo/somerepo.git';
-    const PARAMS = [
+    public const URI_BASE = 'git://github.com:8080/someaccount/somerepo/somerepo.git';
+    public const PARAMS = [
         'par_1' => 'val_1',
         'par_2' => 'val_2'
     ];
@@ -68,7 +68,7 @@ class URITest extends TestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function test_init()
+    public function test_init() : \ILIAS\Data\URI
     {
         return new ILIAS\Data\URI(self::URI_COMPLETE);
     }
@@ -76,7 +76,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_ipv4()
+    public function test_ipv4() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE_IPV4);
         $this->assertEquals($uri->getSchema(), 'g+it');
@@ -92,7 +92,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_localhost()
+    public function test_localhost() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE_LOCALHOST);
         $this->assertEquals($uri->getSchema(), 'g+it');
@@ -108,7 +108,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_components($uri)
+    public function test_components($uri) : void
     {
         $this->assertEquals($uri->getSchema(), 'g+it');
         $this->assertEquals($uri->getAuthority(), 'github.com:8080');
@@ -122,7 +122,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_base_uri($uri)
+    public function test_base_uri($uri) : void
     {
         $this->assertEquals($uri->getBaseURI(), 'g+it://github.com:8080/someaccount/somerepo/somerepo.git');
     }
@@ -130,7 +130,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_base_uri_idempotent($uri)
+    public function test_base_uri_idempotent($uri) : void
     {
         $base_uri = $uri->getBaseURI();
         $this->assertEquals($base_uri, 'g+it://github.com:8080/someaccount/somerepo/somerepo.git');
@@ -157,7 +157,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_no_path()
+    public function test_no_path() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_NO_PATH_1);
         $this->assertEquals($uri->getSchema(), 'g-it');
@@ -181,7 +181,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_no_query()
+    public function test_no_query() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_NO_QUERY_1);
         $this->assertEquals($uri->getSchema(), 'git');
@@ -205,7 +205,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_authority_and_query()
+    public function test_authority_and_query() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_AUTHORITY_AND_QUERY_1);
         $this->assertEquals($uri->getSchema(), 'git');
@@ -229,7 +229,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_authority_and_fragment()
+    public function test_authority_and_fragment() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_AUTHORITY_AND_FRAGMENT);
         $this->assertEquals($uri->getSchema(), 'git');
@@ -243,7 +243,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_authority_path_fragment()
+    public function test_authority_path_fragment() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_AUTHORITY_PATH_FRAGMENT);
         $this->assertEquals($uri->getSchema(), 'git');
@@ -258,7 +258,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_path()
+    public function test_path() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_PATH);
         $this->assertEquals($uri->getSchema(), 'git');
@@ -274,7 +274,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_authority_only()
+    public function test_authority_only() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_AUTHORITY_ONLY);
         $this->assertEquals($uri->getSchema(), 'git');
@@ -290,61 +290,61 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_no_schema()
+    public function test_no_schema() : void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeError::class);
         new ILIAS\Data\URI(self::URI_NO_SCHEMA);
     }
 
     /**
      * @depends test_init
      */
-    public function test_no_authority()
+    public function test_no_authority() : void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeError::class);
         new ILIAS\Data\URI(self::URI_NO_AUTHORITY);
     }
 
     /**
      * @depends test_init
      */
-    public function test_wrong_char_in_schema()
+    public function test_wrong_char_in_schema() : void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeError::class);
         new ILIAS\Data\URI(self::URI_WRONG_SCHEMA);
     }
 
     /**
      * @depends test_init
      */
-    public function test_wrong_authority_in_schema_1()
+    public function test_wrong_authority_in_schema_1() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new ILIAS\Data\URI(self::URI_WRONG_AUTHORITY_1);
     }
 
     /**
      * @depends test_init
      */
-    public function test_wrong_authority_in_schema_2()
+    public function test_wrong_authority_in_schema_2() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new ILIAS\Data\URI(self::URI_WRONG_AUTHORITY_2);
     }
 
     /**
      * @depends test_init
      */
-    public function test_uri_invalid()
+    public function test_uri_invalid() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new ILIAS\Data\URI(self::URI_INVALID);
     }
 
     /**
      * @depends test_init
      */
-    public function test_realpctenc()
+    public function test_realpctenc() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_REALPCTENC);
         $this->assertEquals(self::PATH_REALPCTENC, $uri->getPath());
@@ -354,61 +354,61 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_fakepcenc()
+    public function test_fakepcenc() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new ILIAS\Data\URI(self::URI_FAKEPCENC);
     }
 
     /**
      * @depends test_init
      */
-    public function test_alphadigit_start_host()
+    public function test_alphadigit_start_host() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_1);
     }
 
     /**
      * @depends test_init
      */
-    public function test_alphadigit_start_host_2()
+    public function test_alphadigit_start_host_2() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_2);
     }
 
     /**
      * @depends test_init
      */
-    public function test_alphadigit_start_host_3()
+    public function test_alphadigit_start_host_3() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_3);
     }
 
     /**
      * @depends test_init
      */
-    public function test_alphadigit_start_host_4()
+    public function test_alphadigit_start_host_4() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_4);
     }
 
     /**
      * @depends test_init
      */
-    public function test_alphadigit_start_host_5()
+    public function test_alphadigit_start_host_5() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new ILIAS\Data\URI(self::URI_HOST_ALPHADIG_START_5);
     }
 
     /**
      * @depends test_init
      */
-    public function test_with_schema($uri)
+    public function test_with_schema($uri) : void
     {
         $this->assertEquals($uri->getSchema(), 'g+it');
         $this->assertEquals($uri->getAuthority(), 'github.com:8080');
@@ -430,9 +430,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_schema
      */
-    public function test_with_schema_invalid_1()
+    public function test_with_schema_invalid_1() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withSchema('');
     }
@@ -440,9 +440,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_schema
      */
-    public function test_with_schema_invalid_2()
+    public function test_with_schema_invalid_2() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withSchema('1aa');
     }
@@ -450,7 +450,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_with_port($uri)
+    public function test_with_port($uri) : void
     {
         $this->assertEquals($uri->getSchema(), 'g+it');
         $this->assertEquals($uri->getAuthority(), 'github.com:8080');
@@ -481,9 +481,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_port
      */
-    public function test_with_port_invalid_1()
+    public function test_with_port_invalid_1() : void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeError::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withPort('a111');
     }
@@ -491,9 +491,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_port
      */
-    public function test_with_port_invalid_2()
+    public function test_with_port_invalid_2() : void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeError::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withPort('foo');
     }
@@ -501,7 +501,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_with_host($uri)
+    public function test_with_host($uri) : void
     {
         $this->assertEquals($uri->getSchema(), 'g+it');
         $this->assertEquals($uri->getAuthority(), 'github.com:8080');
@@ -524,9 +524,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_host
      */
-    public function test_with_host_invalid_1()
+    public function test_with_host_invalid_1() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withHost('-foo-.de');
     }
@@ -534,9 +534,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_host
      */
-    public function test_with_host_invalid_3()
+    public function test_with_host_invalid_3() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withHost('');
     }
@@ -544,9 +544,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_host
      */
-    public function test_with_host_invalid_4()
+    public function test_with_host_invalid_4() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withHost('ilias.de"><script');
     }
@@ -554,7 +554,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_with_authority($uri)
+    public function test_with_authority($uri) : void
     {
         $this->assertEquals($uri->getSchema(), 'g+it');
         $this->assertEquals($uri->getAuthority(), 'github.com:8080');
@@ -632,9 +632,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_authority
      */
-    public function test_with_authority_invalid_1()
+    public function test_with_authority_invalid_1() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withAuthority('-foo-.de');
     }
@@ -642,9 +642,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_authority
      */
-    public function test_with_authority_invalid_2()
+    public function test_with_authority_invalid_2() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withAuthority('-bar-.de:6060');
     }
@@ -653,9 +653,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_authority
      */
-    public function test_with_authority_invalid_3()
+    public function test_with_authority_invalid_3() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withHost('ilias.de:');
     }
@@ -663,9 +663,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_authority
      */
-    public function test_with_authority_invalid_4()
+    public function test_with_authority_invalid_4() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withHost('ilias.de: ');
     }
@@ -673,9 +673,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_authority
      */
-    public function test_with_authority_invalid_5()
+    public function test_with_authority_invalid_5() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withHost('ilias.de:aaa');
     }
@@ -683,9 +683,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_authority
      */
-    public function test_with_authority_invalid_6()
+    public function test_with_authority_invalid_6() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withAuthority('foo.de&<script>');
     }
@@ -694,9 +694,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_authority
      */
-    public function test_with_authority_invalid_7()
+    public function test_with_authority_invalid_7() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withAuthority('foo.de"><script>alert');
     }
@@ -705,9 +705,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_authority
      */
-    public function test_with_authority_invalid_8()
+    public function test_with_authority_invalid_8() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withAuthority('   :80');
     }
@@ -715,7 +715,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_with_path($uri)
+    public function test_with_path($uri) : void
     {
         $this->assertEquals($uri->getSchema(), 'g+it');
         $this->assertEquals($uri->getAuthority(), 'github.com:8080');
@@ -745,9 +745,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_path
      */
-    public function test_with_path_invalid_1()
+    public function test_with_path_invalid_1() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withPath('/<script>/a');
     }
@@ -755,9 +755,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_path
      */
-    public function test_with_path_invalid_2()
+    public function test_with_path_invalid_2() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withPath('//a/b');
     }
@@ -765,9 +765,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_path
      */
-    public function test_with_path_invalid_3()
+    public function test_with_path_invalid_3() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withPath(':a/b');
     }
@@ -775,7 +775,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_with_query($uri)
+    public function test_with_query($uri) : void
     {
         $this->assertEquals($uri->getSchema(), 'g+it');
         $this->assertEquals($uri->getAuthority(), 'github.com:8080');
@@ -805,9 +805,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_query
      */
-    public function test_with_query_invalid_1()
+    public function test_with_query_invalid_1() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withQuery('<script>a');
     }
@@ -815,9 +815,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_query
      */
-    public function test_with_query_invalid_2()
+    public function test_with_query_invalid_2() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withQuery('aa[]');
     }
@@ -825,7 +825,7 @@ class URITest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_with_fragment($uri)
+    public function test_with_fragment($uri) : void
     {
         $this->assertEquals($uri->getSchema(), 'g+it');
         $this->assertEquals($uri->getAuthority(), 'github.com:8080');
@@ -855,9 +855,9 @@ class URITest extends TestCase
     /**
      * @depends test_with_fragment
      */
-    public function test_with_fragment_invalid_1()
+    public function test_with_fragment_invalid_1() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withFragment('aaa[]');
     }
@@ -865,14 +865,14 @@ class URITest extends TestCase
     /**
      * @depends test_with_fragment
      */
-    public function test_with_fragment_invalid_2()
+    public function test_with_fragment_invalid_2() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withFragment('script>');
     }
 
-    public function testToString()
+    public function testToString() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $this->assertEquals(
@@ -895,7 +895,7 @@ class URITest extends TestCase
     /**
      * @depends testGetParameters
      */
-    public function testGetParameter(ILIAS\Data\URI $uri)
+    public function testGetParameter(ILIAS\Data\URI $uri) : void
     {
         $k = array_keys(self::PARAMS)[0];
         $this->assertEquals(
@@ -921,7 +921,7 @@ class URITest extends TestCase
     /**
      * @depends testWithParameters
      */
-    public function testSubstituteParameter(ILIAS\Data\URI $uri)
+    public function testSubstituteParameter(ILIAS\Data\URI $uri) : void
     {
         $uri = $uri->withParameter('x', 5);
         $this->assertEquals(
@@ -932,7 +932,7 @@ class URITest extends TestCase
     /**
      * @depends testWithParameters
      */
-    public function testAppendParameter(ILIAS\Data\URI $uri)
+    public function testAppendParameter(ILIAS\Data\URI $uri) : void
     {
         $params = [
             'x' => 1, 'y' => 2,
@@ -948,7 +948,7 @@ class URITest extends TestCase
     /**
      * @depends testGetParameters
      */
-    public function testWithArrayParameters(ILIAS\Data\URI $uri)
+    public function testWithArrayParameters(ILIAS\Data\URI $uri) : void
     {
         $params = ['x' => 1, 'y' => [10, 11, 12]];
         $uri = $uri->withParameters($params);
@@ -966,7 +966,7 @@ class URITest extends TestCase
         );
     }
 
-    public function testWithOutParameters()
+    public function testWithOutParameters() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_NO_QUERY_2);
         $this->assertEquals(
