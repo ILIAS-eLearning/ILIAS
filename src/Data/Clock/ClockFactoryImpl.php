@@ -20,16 +20,25 @@ use DateTimeZone;
 
 class ClockFactoryImpl implements ClockFactory
 {
+    /**
+     * @inheritDoc
+     */
     public function system() : ClockInterface
     {
         return new SystemClock();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function utc() : ClockInterface
     {
         return new UtcClock();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function local(DateTimeZone $time_zone) : ClockInterface
     {
         return new LocalClock($time_zone);
