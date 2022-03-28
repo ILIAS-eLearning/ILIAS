@@ -39,7 +39,7 @@ class Error implements Data\Result
     /**
      * @inheritdoc
      */
-    public function value() : mixed
+    public function value()
     {
         if ($this->error instanceof \Exception) {
             throw $this->error;
@@ -67,7 +67,7 @@ class Error implements Data\Result
     /**
      * @inheritdoc
      */
-    public function valueOr($default) : mixed
+    public function valueOr($default)
     {
         return $default;
     }

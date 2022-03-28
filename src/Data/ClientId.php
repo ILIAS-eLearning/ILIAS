@@ -11,7 +11,7 @@ namespace ILIAS\Data;
  */
 class ClientId
 {
-    private string $clientId = '';
+    private string $clientId;
 
     /**
      * ClientId constructor.
