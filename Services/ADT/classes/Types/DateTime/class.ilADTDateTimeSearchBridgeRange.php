@@ -92,9 +92,10 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
         $post = $this->extractPostValues($a_post);
 
         if ($post && $this->shouldBeImportedFromPost($post)) {
+            //Todo-PHP8-Review Begin: ilCalendarUtil::parseIncomingDate expects bool as second parameter not an int
             $start = ilCalendarUtil::parseIncomingDate($post["lower"], 1);
             $end = ilCalendarUtil::parseIncomingDate($post["upper"], 1);
-
+            //Todo-PHP8-Review End
             if ($start && $end && $start->get(IL_CAL_UNIX) > $end->get(IL_CAL_UNIX)) {
                 $tmp = $start;
                 $start = $end;

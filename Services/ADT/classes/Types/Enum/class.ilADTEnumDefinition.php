@@ -31,8 +31,9 @@ class ilADTEnumDefinition extends ilADTDefinition
     {
         $this->numeric = $a_value;
     }
-
+    //Todo-PHP8-Review Begin: Missing return type declaration
     public function getOptions()
+    //Todo-PHP8-Review End
     {
         return $this->options;
     }
@@ -59,8 +60,9 @@ class ilADTEnumDefinition extends ilADTDefinition
     }
 
     // ADT instance
-
+    //Todo-PHP8-Review Begin: Missing return type declaration
     public function getADTInstance()
+    //Todo-PHP8-Review End
     {
         if ($this->isNumeric()) {
             $class = "ilADTEnumNumeric";

@@ -45,7 +45,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
             $optional->setChecked(true);
         }
 
-        $loc = new ilLocationInputGUI($lng->txt("location"), $this->getElementId());
+        $loc = new ilLocationInputGUI($this->lng->txt("location"), $this->getElementId());
         $loc->setLongitude($adt->getLongitude());
         $loc->setLatitude($adt->getLatitude());
         $loc->setZoom($adt->getZoom());

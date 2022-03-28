@@ -66,7 +66,9 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
                 if (!is_array($quotedWords)) {
                     return $a_element_id . " = " . $this->db->quote($quotedWords, "text");
                 } else {
+                    //Todo-PHP8-Review Begin: $this->db->in expects bool as third parameter not a string
                     return $this->db->in($a_element_id, $quotedWords, "", "text");
+                    //Todo-PHP8-Review End
                 }
 
             case self::SQL_LIKE:

@@ -15,8 +15,9 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     /**
      * @var string
      */
+    //Todo-PHP8-Review Begin: Missing property type declarations
     private $default_language = '';
-
+    //Todo-PHP8-Review End
     /**
      * @var int
      */

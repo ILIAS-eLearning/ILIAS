@@ -102,8 +102,9 @@ class ilADTActiveRecordByType
         }
         return $res;
     }
-
+    //Todo-PHP8-Review Begin: Missing return type declaration
     protected function processTableRowForElement(string $a_sub_table, string $a_element_id, array $a_row)
+    //Todo-PHP8-Review End
     {
         switch ($a_sub_table) {
             case "location":
@@ -144,7 +145,7 @@ class ilADTActiveRecordByType
      * @param bool $a_return_additional_data
      * @return bool | array
      */
-    public function read($a_return_additional_data = false)
+    public function read(bool $a_return_additional_data = false)
     {
         // reset all group elements
         $this->properties->getADT()->reset();

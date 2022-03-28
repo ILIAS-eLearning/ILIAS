@@ -2,9 +2,10 @@
 
 class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 {
+    //Todo-PHP8-Review Begin: Missing property type declarations
     protected $width;
     protected $height;
-
+    //Todo-PHP8-Review End
     protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTLocation);

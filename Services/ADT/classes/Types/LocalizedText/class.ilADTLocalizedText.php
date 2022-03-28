@@ -10,8 +10,9 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @var array
      */
+    //Todo-PHP8-Review Begin: Missing property type declaration
     private $translations = [];
-
+    //Todo-PHP8-Review End
     public function getTextForLanguage(string $language) : string
     {
         if (strlen($this->getTranslations()[$language])) {
