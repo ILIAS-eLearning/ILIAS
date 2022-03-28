@@ -378,9 +378,9 @@ class ilWikiUtil
     
     /**
      * From mediawiki GlobalFunctions.php
-     * @return string|string[]
+     * @return string
      */
-    public static function wfUrlProtocols()
+    public static function wfUrlProtocols() : string
     {
         $wgUrlProtocols = array(
             'http://',
@@ -397,16 +397,12 @@ class ilWikiUtil
 
         // Support old-style $wgUrlProtocols strings, for backwards compatibility
         // with LocalSettings files from 1.5
-        if (is_array($wgUrlProtocols)) {
-            $protocols = array();
-            foreach ($wgUrlProtocols as $protocol) {
-                $protocols[] = preg_quote($protocol, '/');
-            }
-    
-            return implode('|', $protocols);
-        } else {
-            return $wgUrlProtocols;
+        $protocols = array();
+        foreach ($wgUrlProtocols as $protocol) {
+            $protocols[] = preg_quote($protocol, '/');
         }
+
+        return implode('|', $protocols);
     }
     
     public static function wfUrlencode(

@@ -619,9 +619,9 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         return (bool) ilObjWiki::_lookup($a_wiki_id, "page_toc");
     }
 
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $target, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target, $copy_id, $omit_tree);
 
         // Custom meta data activation is stored in a container setting
         ilContainer::_writeContainerSetting(
@@ -635,7 +635,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         );
 
         //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+        $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
 
         if (!$cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOnline($this->getOnline());
