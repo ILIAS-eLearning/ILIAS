@@ -198,11 +198,11 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                     $ilCtrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord'));
             }
 
-            if ($record->hasPermissionToEdit($this->parent_obj->parent_obj->ref_id)) {
+            if ($record->hasPermissionToEdit($this->parent_obj->parent_obj->getRefId())) {
                 $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildclrecordeditgui", 'edit'));
             }
 
-            if ($record->hasPermissionToDelete($this->parent_obj->parent_obj->ref_id)) {
+            if ($record->hasPermissionToDelete($this->parent_obj->parent_obj->getRefId())) {
                 $alist->addItem($lng->txt('delete'), 'delete',
                     $ilCtrl->getLinkTargetByClass("ildclrecordeditgui", 'confirmDelete'));
             }
@@ -258,7 +258,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ACTIONS", $a_set["_actions"]);
 
         if ($this->mode == ilDclRecordListGUI::MODE_MANAGE) {
-            if ($record_obj->hasPermissionToDelete($this->parent_obj->parent_obj->ref_id)) {
+            if ($record_obj->hasPermissionToDelete($this->parent_obj->parent_obj->getRefId())) {
                 $this->tpl->setCurrentBlock('mode_manage');
                 $this->tpl->setVariable('RECORD_ID', $record_obj->getId());
                 $this->tpl->parseCurrentBlock();
@@ -360,6 +360,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
             return $tab_prop->getProperty($this->getId(), $ilUser->getId(), $type);
         }
+        return "";
     }
 
     /**
@@ -369,8 +370,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      */
     protected function getCommentsAjaxLink($recordId)
     {
-        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $_GET['ref_id'], 'dcl', $this->parent_obj->obj_id,
-            'dcl', $recordId);
+        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, (int) $_GET['ref_id'], 'dcl', $this->parent_obj->obj_id, 'dcl', $recordId);
 
         return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
     }

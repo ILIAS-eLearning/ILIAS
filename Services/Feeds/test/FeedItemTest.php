@@ -4,18 +4,10 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test clipboard repository
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class FeedItemTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
@@ -23,7 +15,7 @@ class FeedItemTest extends TestCase
     /**
      * Test get HTML return an array
      */
-    public function testFeedItemProperties()
+    public function testFeedItemProperties() : void
     {
         $feed_item = new ilFeedItem();
 

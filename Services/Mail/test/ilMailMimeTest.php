@@ -110,10 +110,6 @@ class ilMailMimeTest extends ilMailBaseTest
             }
 
 
-            if ('mail_smtp_status' === $key) {
-                return '1';
-            }
-
             return '1';
         });
         $this->setGlobalVariable('ilSetting', $settings);

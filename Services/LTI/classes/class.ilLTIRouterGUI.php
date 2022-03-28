@@ -25,7 +25,6 @@
  */
 class ilLTIRouterGUI implements ilCtrlBaseClassInterface
 {
-    
     protected ilCtrl $ilCtrl;
     protected ilGlobalTemplateInterface $main_tpl;
     
@@ -43,7 +42,7 @@ class ilLTIRouterGUI implements ilCtrlBaseClassInterface
     {
         $next_class = $this->ilCtrl->getNextClass($this);
         $class_file = $this->ilCtrl->lookupClassPath($next_class);
-        
+
         if (is_file($class_file)) {
             $gui = $next_class::getInstance(); // Singleton!
             $this->ilCtrl->forwardCommand($gui);

@@ -19,9 +19,9 @@
  */
 class ilPrivacySettings
 {
-    private static ?\ilPrivacySettings $instance = null;
-    private \ilDBInterface $db;
-    private \ilSetting $settings;
+    private static ?ilPrivacySettings $instance = null;
+    private ilDBInterface $db;
+    private ilSetting $settings;
 
     private bool $export_course;
     private bool $export_group;
@@ -59,9 +59,9 @@ class ilPrivacySettings
         $this->read();
     }
 
-    public static function getInstance() : \ilPrivacySettings
+    public static function getInstance() : ilPrivacySettings
     {
-        if (!self::$instance instanceof \ilPrivacySettings) {
+        if (!self::$instance instanceof ilPrivacySettings) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -181,7 +181,7 @@ class ilPrivacySettings
     /**
      * write access to property anonymous fora
      */
-    public function enableAnonymousFora(bool $a_status)
+    public function enableAnonymousFora(bool $a_status) : void
     {
         $this->anonymous_fora = $a_status;
     }
@@ -213,7 +213,7 @@ class ilPrivacySettings
     /**
      * write access to property rbac log age
      */
-    public function setRbacLogAge(int $a_age)
+    public function setRbacLogAge(int $a_age) : void
     {
         $this->rbac_log_age = $a_age;
     }
@@ -290,7 +290,7 @@ class ilPrivacySettings
     /**
      * show course access times
      */
-    public function showCourseAccessTimes(bool $a_status)
+    public function showCourseAccessTimes(bool $a_status) : void
     {
         $this->show_crs_access_times = $a_status;
     }
@@ -373,16 +373,19 @@ class ilPrivacySettings
             "AND object_reference.obj_id = object_data.obj_id";
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-        $this->ref_id = (int) $row["ref_id"];
+        $this->ref_id = (int) ($row["ref_id"] ?? 0);
 
         $this->export_course = (bool) $this->settings->get('ps_export_course', null);
         $this->export_group = (bool) $this->settings->get('ps_export_group', null);
+        $this->export_learning_sequence = (bool) $this->settings->get('ps_export_learning_sequence', null);
         $this->export_confirm_course = (bool) $this->settings->get('ps_export_confirm', null);
         $this->export_confirm_group = (bool) $this->settings->get('ps_export_confirm_group', null);
+        $this->export_confirm_learning_sequence = (bool) $this->settings->get('ps_export_confirm_learning_sequence', null);
         $this->fora_statistics = (bool) $this->settings->get('enable_fora_statistics', null);
         $this->anonymous_fora = (bool) $this->settings->get('enable_anonymous_fora', null);
         $this->show_grp_access_times = (bool) $this->settings->get('ps_access_times', null);
         $this->show_crs_access_times = (bool) $this->settings->get('ps_crs_access_times', null);
+        $this->show_lso_access_times = (bool) $this->settings->get('ps_lso_access_times', null);
         $this->rbac_log = (bool) $this->settings->get('rbac_log', null);
         $this->rbac_log_age = (int) $this->settings->get('rbac_log_age', "6");
         $this->sahs_protocol_data = (int) $this->settings->get('enable_sahs_pd', "0");
@@ -396,7 +399,7 @@ class ilPrivacySettings
 
     /**
      * validate settings
-     * @return 0, if everything is ok, an error code otherwise
+     * @return int 0, if everything is ok, an error code otherwise
      */
     public function validate() : int
     {

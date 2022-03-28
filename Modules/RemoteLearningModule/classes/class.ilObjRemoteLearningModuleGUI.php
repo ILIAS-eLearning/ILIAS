@@ -36,7 +36,7 @@ class ilObjRemoteLearningModuleGUI extends ilRemoteObjectBaseGUI implements ilCt
         // $this->lng->loadLanguageModule('lres');
     }
     
-    public function getType() : ?string
+    public function getType() : string
     {
         return 'rlm';
     }

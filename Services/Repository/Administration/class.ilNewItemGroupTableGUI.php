@@ -21,7 +21,7 @@
 class ilNewItemGroupTableGUI extends ilTable2GUI
 {
     protected bool $has_write;
-    private \ilGlobalTemplateInterface $main_tpl;
+    protected \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
         object $a_parent_obj,

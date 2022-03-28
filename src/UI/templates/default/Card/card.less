@@ -15,8 +15,16 @@
 		overflow: hidden;
 	}
 
-	.thumbnail{
+	&.thumbnail{
 		margin-bottom: 0px;
+		
+		&:focus-within .il-card-repository-head {
+			z-index: 1;
+		}
+		
+		a:focus-visible {
+			overflow: visible;
+		}
 	}
 	.card-highlight {
 		background: @il-card-highlight-bg;
@@ -97,6 +105,11 @@
 						display: block;
 						margin-left: auto;
 						margin-right: auto;
+					}
+					
+					&:focus-visible {
+						overflow: visible;
+						outline-offset: @il-focus-outline-inner-width + @il-focus-outline-outer-width - 1;
 					}
 				}
 			}

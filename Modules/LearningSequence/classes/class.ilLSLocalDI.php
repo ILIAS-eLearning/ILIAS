@@ -158,10 +158,7 @@ class ilLSLocalDI extends Container
 
         $this["player.kioskrenderer"] = function ($c) use ($dic) : ilKioskPageRenderer {
             $kiosk_template = new ilTemplate("tpl.kioskpage.html", true, true, 'Modules/LearningSequence');
-            $window_title = $dic['ilSetting']->get('short_inst_name');
-            if ($window_title === false) {
-                $window_title = 'ILIAS';
-            }
+            $window_title = $dic['ilSetting']->get('short_inst_name', 'ILIAS');
 
             return new ilKioskPageRenderer(
                 $dic["tpl"],

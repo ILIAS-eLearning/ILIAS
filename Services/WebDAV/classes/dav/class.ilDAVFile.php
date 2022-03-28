@@ -9,6 +9,19 @@ use ILIAS\ResourceStorage\Consumer\Consumers;
 use Sabre\DAV\IFile;
 use Psr\Http\Message\RequestInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * @author Raphael Heer <raphael.heer@hslu.ch>
  */
@@ -94,7 +107,7 @@ class ilDAVFile implements IFile
         
         if (($r_id = $this->obj->getResourceId()) &&
             ($identification = $this->resource_manager->find($r_id))) {
-            return $this->resource_consumer->stream($identification)->getStream();
+            return $this->resource_consumer->stream($identification)->getStream()->getContents();
         }
         
         throw new NotFound("File not found");

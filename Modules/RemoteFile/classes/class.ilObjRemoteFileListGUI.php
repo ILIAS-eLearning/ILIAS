@@ -40,7 +40,7 @@ class ilObjRemoteFileListGUI extends ilRemoteObjectBaseListGUI
      *
      * @access public
      */
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = false;
         $this->static_link_enabled = true;
@@ -70,7 +70,7 @@ class ilObjRemoteFileListGUI extends ilRemoteObjectBaseListGUI
      * @param
      *
      */
-    public function getProperties()
+    public function getProperties() : array
     {
         global $lng;
 
@@ -93,9 +93,9 @@ class ilObjRemoteFileListGUI extends ilRemoteObjectBaseListGUI
      * @param
      * @return
      */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'show':
                 if (ilECSExportManager::_isRemote(
                     ilECSImport::lookupServerId($this->obj_id),
@@ -106,7 +106,7 @@ class ilObjRemoteFileListGUI extends ilRemoteObjectBaseListGUI
 
                 // no break
             default:
-                return parent::getCommandFrame($a_cmd);
+                return parent::getCommandFrame($cmd);
         }
     }
 } // END class.ilObjRemoteFileListGUI

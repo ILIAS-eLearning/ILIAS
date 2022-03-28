@@ -22,15 +22,8 @@ use ilUserSearchOptions;
  */
 class ilMStListUsersTableGUI extends ilTable2GUI
 {
-
-    /**
-     * @var array
-     */
-    protected $filter = array();
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
+    protected array $filter = array();
+    protected ilMyStaffAccess $access;
 
     /**
      * @param ilMStListUsersGUI $parent_obj
@@ -67,10 +60,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    /**
-     *
-     */
-    protected function parseData()
+    protected function parseData() : void
     {
         global $DIC;
 
@@ -107,10 +97,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    /**
-     *
-     */
-    public function initFilter() : void
+    final public function initFilter() : void
     {
         global $DIC;
 
@@ -143,10 +130,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getSelectableColumns() : array
+    final public function getSelectableColumns() : array
     {
         $arr_fields_without_table_sort = array(
             'org_units',
@@ -165,10 +149,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    /**
-     *
-     */
-    private function addColumns()
+    private function addColumns() : void
     {
         global $DIC;
 
@@ -193,14 +174,11 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param array $a_set
-     */
-    public function fillRow(array $a_set) : void
+    final public function fillRow(array $a_set) : void
     {
         global $DIC;
 
-        $propGetter = Closure::bind(function($prop) {
+        $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
         }, $a_set, $a_set);
 
@@ -275,11 +253,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
     }
 
-    /**
-     * Get profile back url
-     * @return string
-     */
-    private function getProfileBackUrl()
+    private function getProfileBackUrl() : string
     {
         global $DIC;
 
@@ -287,11 +261,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI
             ilMyStaffGUI::CMD_INDEX));
     }
 
-    /**
-     * @param ilExcel $a_excel excel wrapper
-     * @param int     $a_row
-     * @param array   $a_set
-     */
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $col = 0;
@@ -301,10 +270,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilCSVWriter $a_csv
-     * @param array       $a_set
-     */
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
@@ -313,15 +278,11 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    /**
-     * @param ilMStListUser $my_staff_user
-     * @return array
-     */
-    protected function getFieldValuesForExport(ilMStListUser $my_staff_user)
+    protected function getFieldValuesForExport(ilMStListUser $my_staff_user) : array
     {
         global $DIC;
 
-        $propGetter = Closure::bind(function($prop) {
+        $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
         }, $my_staff_user, $my_staff_user);
 

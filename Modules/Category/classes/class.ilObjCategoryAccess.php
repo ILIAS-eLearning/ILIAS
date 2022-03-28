@@ -33,7 +33,7 @@ class ilObjCategoryAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands() :array
     {
         $commands = array();
         $commands[] = array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true);
@@ -54,13 +54,13 @@ class ilObjCategoryAccess extends ilObjectAccess
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "cat" || ((int) $t_arr[1]) <= 0) {
             return false;

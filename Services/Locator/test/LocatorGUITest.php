@@ -16,7 +16,7 @@ class LocatorGUITest extends TestCase
     {
     }
 
-    public function testValue()
+    public function testValue() : void
     {
         $loc = new ilLocatorGUI();
         $loc->setOffline(true);

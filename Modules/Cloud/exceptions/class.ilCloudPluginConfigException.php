@@ -6,9 +6,8 @@ require_once 'class.ilCloudException.php';
 /**
  * Class ilCloudPluginConfigException
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version $Id:
+ * @author  Martin Studer martin@fluxlabs.ch
  * @extends ilCloudException
- * @ingroup ModulesCloud
  */
 class ilCloudPluginConfigException extends ilCloudException
 {
@@ -17,7 +16,7 @@ class ilCloudPluginConfigException extends ilCloudException
     const NO_VALID_GET_OR_SET_FUNCTION = 100003;
     const PLUGIN_NOT_PROPERLY_CONFIGURED = 100004;
 
-    protected function assignMessageToCode()
+    protected function assignMessageToCode(): void
     {
         global $DIC;
         $lng = $DIC['lng'];

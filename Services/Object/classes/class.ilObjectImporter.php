@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -9,21 +9,11 @@
  */
 class ilObjectImporter extends ilXmlImporter
 {
-    private $logger = null;
-    
-    
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         parent::__construct();
-        $this->logger = $GLOBALS['DIC']->logger()->obj();
     }
 
-    /**
-     * Initialisation
-     */
     public function init() : void
     {
         $this->ds = new ilObjectDataSet();
@@ -31,20 +21,19 @@ class ilObjectImporter extends ilXmlImporter
         $this->ds->setImportDirectory($this->getImportDirectory());
     }
 
-
-    /**
-     * Import XML
-     *
-     * @param
-     */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(
+        string $entity,
+        string $id,
+        string $xml,
+        ilImportMapping $mapping
+    ) : void
     {
-        $parser = new ilDataSetImportParser(
-            $a_entity,
+        new ilDataSetImportParser(
+            $entity,
             $this->getSchemaVersion(),
-            $a_xml,
+            $xml,
             $this->ds,
-            $a_mapping
+            $mapping
         );
     }
 }

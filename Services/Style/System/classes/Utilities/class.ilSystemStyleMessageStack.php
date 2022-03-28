@@ -13,11 +13,10 @@ class ilSystemStyleMessageStack
      * @var ilSystemStyleMessage[]
      */
     protected array $messages = [];
-    private \ilGlobalTemplateInterface $main_tpl;
-    public function __construct()
+    private ilGlobalTemplateInterface $main_tpl;
+    public function __construct(ilGlobalTemplateInterface $main_tpl)
     {
-        global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->main_tpl = $main_tpl;
     }
 
     /**

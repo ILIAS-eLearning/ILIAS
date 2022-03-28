@@ -9,7 +9,11 @@
  */
 class ilMembershipCronNotificationsData
 {
-    protected string $last_run;
+    /**
+     * @todo convert to DateTime
+     */
+    protected int $last_run_unix;
+    protected string $last_run_date;
     protected string $cron_id;
     protected ilLogger $log;
     protected array $objects;
@@ -40,13 +44,14 @@ class ilMembershipCronNotificationsData
 
     protected ilAccessHandler $access;
 
-    public function __construct(string $last_run, string $cron_id)
+    public function __construct(int $last_run, string $cron_id)
     {
         global $DIC;
 
         $this->access = $DIC->access();
 
-        $this->last_run = $last_run;
+        $this->last_run_unix = $last_run;
+        $this->last_run_date = date('Y-m-d H:i:s', $last_run);
         $this->cron_id = $cron_id;
         $this->log = ilLoggerFactory::getLogger("mmbr");
         $this->load();
@@ -62,7 +67,7 @@ class ilMembershipCronNotificationsData
         // all group/course notifications: ref id => user ids
         $this->objects = ilMembershipNotifications::getActiveUsersforAllObjects();
 
-        if (sizeof($this->objects)) {
+        if (count($this->objects)) {
             $this->log->debug("nr of objects: " . count($this->objects));
 
             // gather news for each user over all objects
@@ -77,7 +82,7 @@ class ilMembershipCronNotificationsData
                 if (
                     isset($objs["obj_id"]) &&
                     is_array($objs["obj_id"]) &&
-                    $news_item->checkNewsExistsForObjects($objs["obj_id"], (int) $this->last_run)
+                    $news_item->checkNewsExistsForObjects($objs["obj_id"], $this->last_run_unix)
                 ) {
                     $this->log->debug("Got news");
                     foreach ($user_ids as $user_id) {
@@ -86,7 +91,7 @@ class ilMembershipCronNotificationsData
                             $ref_id,
                             false,
                             false,
-                            $this->last_run,
+                            $this->last_run_unix,
                             false,
                             false,
                             false,
@@ -103,18 +108,16 @@ class ilMembershipCronNotificationsData
                                         $this->news[$n["id"]] = $n;
                                         $this->news_per_user[$user_id][$ref_id][$n["id"]] = $n["id"];
                                     }
-                                } else {
-                                    if (is_array($agg_news)) {
-                                        if (isset($agg_news["id"])) {
-                                            $this->news[$agg_news["id"]] = $agg_news;
-                                            $this->news_per_user[$user_id][$ref_id][$agg_news["id"]] = $agg_news["id"];
-                                        } else {
-                                            foreach ($agg_news as $agg_news_items) {
-                                                foreach ($agg_news_items as $agg_news_item) {
-                                                    if (isset($agg_news_item["id"])) {
-                                                        $this->news[$agg_news_item["id"]] = $agg_news_item;
-                                                        $this->news_per_user[$user_id][$ref_id][$agg_news_item["id"]] = $agg_news_item["id"];
-                                                    }
+                                } elseif (is_array($agg_news)) {
+                                    if (isset($agg_news["id"])) {
+                                        $this->news[$agg_news["id"]] = $agg_news;
+                                        $this->news_per_user[$user_id][$ref_id][$agg_news["id"]] = $agg_news["id"];
+                                    } else {
+                                        foreach ($agg_news as $agg_news_items) {
+                                            foreach ($agg_news_items as $agg_news_item) {
+                                                if (isset($agg_news_item["id"])) {
+                                                    $this->news[$agg_news_item["id"]] = $agg_news_item;
+                                                    $this->news_per_user[$user_id][$ref_id][$agg_news_item["id"]] = $agg_news_item["id"];
                                                 }
                                             }
                                         }
@@ -138,7 +141,7 @@ class ilMembershipCronNotificationsData
                 $like_data = new ilLikeData(array_keys($objs["obj_id"]));
                 foreach (array_keys($objs["obj_id"]) as $obj_id) {
                     $this->log->debug("Get like data for obj_id: " . $obj_id);
-                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run) as $like) {
+                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run_unix) as $like) {
                         reset($user_ids);
                         foreach ($user_ids as $user_id) {
                             $has_perm = false;
@@ -166,7 +169,7 @@ class ilMembershipCronNotificationsData
                         ilNote::PUBLIC,
                         false,
                         false,
-                        $this->last_run
+                        $this->last_run_date
                     );
                     foreach ($coms as $c) {
                         if ($c->getNewsId() == 0) {
@@ -245,7 +248,7 @@ class ilMembershipCronNotificationsData
 
             $node = $tree->getNodeData($a_ref_id);
             foreach ($tree->getSubTree($node) as $child) {
-                if ($child["type"] != "rolf") {
+                if ($child["type"] !== "rolf") {
                     $nodes["obj_id"][$child["obj_id"]] = array(
                         "obj_id" => $child["obj_id"],
                         "type" => $child["type"]

@@ -260,7 +260,7 @@ class ilToolbarGUI
         $groups = array();
         $group = array();
         foreach ($this->items as $item) {
-            if ($item['type'] == 'separator') {
+            if ($item['type'] === 'separator') {
                 $groups[] = $group;
                 $group = array();
             } else {
@@ -309,7 +309,7 @@ class ilToolbarGUI
             }
 
             // Hide toggle button if only sticky items are in the toolbar
-            if (count($this->items) == 0) {
+            if (count($this->items) === 0) {
                 $tpl->setVariable('HIDE_TOGGLE_CLASS', ' hidden');
             }
 
@@ -442,7 +442,7 @@ class ilToolbarGUI
             }
 
             // form?
-            if ($this->getFormAction() != "") {
+            if ($this->getFormAction() !== "") {
                 // #18947
                 $GLOBALS["tpl"]->addJavaScript("Services/Form/js/Form.js");
 
@@ -455,10 +455,10 @@ class ilToolbarGUI
                     if ($this->multipart) {
                         $tpl->setVariable("ENC_TYPE", 'enctype="multipart/form-data"');
                     }
-                    if ($this->form_target != "") {
+                    if ($this->form_target !== "") {
                         $tpl->setVariable("TARGET", ' target="' . $this->form_target . '" ');
                     }
-                    if ($this->form_name != "") {
+                    if ($this->form_name !== "") {
                         $tpl->setVariable("FORMNAME", 'name="' . $this->getFormName() . '"');
                     }
 
@@ -470,7 +470,7 @@ class ilToolbarGUI
             }
 
             // id
-            if ($this->getId() != "") {
+            if ($this->getId() !== "") {
                 $tpl->setVariable("ID", ' id="' . $this->getId() . '" ');
             }
 

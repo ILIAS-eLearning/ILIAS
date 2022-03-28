@@ -1,60 +1,36 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("class.ilCloudUtil.php");
-include_once("class.ilCloudConnector.php");
+require_once("class.ilCloudUtil.php");
+require_once("class.ilCloudConnector.php");
 
 /**
  * Class ilObjCloud
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
  * $Id$
  * @extends ilObject2
  */
 class ilObjCloud extends ilObject2
 {
+    protected string $root_id = '';
+    protected bool $online = false;
+    protected string $service = '';
+    protected string $root_folder = '';
+    protected int $owner_id = 0;
+    protected bool $auth_complete = false;
 
-    /**
-     * @var bool
-     */
-    protected $online = false;
-    /**
-     * @var string
-     */
-    protected $service = "";
-    /**
-     * @var string
-     */
-    protected $root_folder = "";
-    /**
-     * @var int
-     */
-    protected $owner_id = 0;
-    /**
-     * @var bool
-     */
-    protected $auth_complete = false;
-
-    /**
-     * Constructor
-     * @access    public
-     */
-    public function __construct($a_ref_id = 0, $a_reference = true)
+    public function __construct(int $a_ref_id = 0, bool $a_reference = true)
     {
         parent::__construct($a_ref_id, $a_reference);
     }
 
-    /*
- * initType
- */
-    public function initType()
+    public function initType() : void
     {
         $this->type = "cld";
     }
 
-    /**
-     * Create object
-     */
-    public function doCreate()
+    public function doCreate() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -77,10 +53,7 @@ class ilObjCloud extends ilObject2
             ")");
     }
 
-    /**
-     * Read data from db
-     */
-    public function doRead()
+    public function doRead() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -98,10 +71,7 @@ class ilObjCloud extends ilObject2
         }
     }
 
-    /**
-     * Update data
-     */
-    public function doUpdate()
+    public function doUpdate() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -118,10 +88,7 @@ class ilObjCloud extends ilObject2
         );
     }
 
-    /**
-     * Delete data from db
-     */
-    public function doDelete()
+    public function doDelete() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -139,10 +106,7 @@ class ilObjCloud extends ilObject2
         );
     }
 
-    /**
-     * Do Cloning
-     */
-    public function doClone($a_target_id, $a_copy_id, $new_obj)
+    public function doClone(int $a_target_id, int $a_copy_id, ilObjCloud $new_obj) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -155,9 +119,9 @@ class ilObjCloud extends ilObject2
         }
 
         $new_obj->setRootFolder($this->getRootFolder());
-        $new_obj->getRootId($this->getRootId());
+        $new_obj->setRootId($this->getRootId());
         $new_obj->setServiceName($this->getServiceName());
-        $new_obj->serOwnerId($this->getOwnerId());
+        $new_obj->setOwnerId($this->getOwnerId());
         $new_obj->setAuthComplete($this->getAuthComplete());
         $new_obj->update();
     }
@@ -165,21 +129,15 @@ class ilObjCloud extends ilObject2
     //
     // Set/Get Methods for our example properties
     //
-
-    /**
-     * Set online
-     * @param boolean        online
-     */
-    public function setOnline($a_val)
+    public function setOnline(bool $a_val) : void
     {
         $this->online = $a_val;
     }
 
     /**
      * Get online
-     * @return    boolean        online
      */
-    public function getOnline()
+    public function getOnline() : bool
     {
         return $this->online;
     }
@@ -187,9 +145,8 @@ class ilObjCloud extends ilObject2
     /**
      * Set root_folder, this may only be changed by the owner of the object. This is due too security constraints.
      * The parameter $no_check could be used by plugins for which these constraint is not an issue.
-     * @param string        root_folder
      */
-    public function setRootFolder($a_val, $no_check = false)
+    public function setRootFolder(string $a_val, bool $no_check = false) : void
     {
         if ($this->currentUserIsOwner() || $no_check || $this->getRootFolder() == null) {
             $a_val = ilCloudUtil::normalizePath($a_val);
@@ -201,18 +158,13 @@ class ilObjCloud extends ilObject2
 
     /**
      * Get root_folder
-     * @return    string        root_folder
      */
-    public function getRootFolder()
+    public function getRootFolder() : string
     {
         return $this->root_folder;
     }
 
-    /**
-     * Set root_id
-     * @param string        root_id
-     */
-    public function setRootId($a_val, $no_check = false)
+    public function setRootId(string $a_val, bool $no_check = false) : void
     {
         if ($this->currentUserIsOwner() || $no_check || $this->getRootId() == null) {
             $this->root_id = $a_val;
@@ -221,72 +173,45 @@ class ilObjCloud extends ilObject2
         }
     }
 
-    /**
-     * Get root_id
-     * @return    string        root_id
-     */
-    public function getRootId()
+    public function getRootId() : string
     {
         return $this->root_id;
     }
 
-    /**
-     * Set service
-     * @param string        service
-     */
-    public function setServiceName($a_val)
+    public function setServiceName(string $service_name) : void
     {
-        $this->service_name = $a_val;
+        $this->service_name = $service_name;
     }
 
-    /**
-     * Get service
-     * @return    string        service
-     */
-    public function getServiceName()
+    public function getServiceName() : string
     {
         return $this->service_name;
     }
 
-    /**
-     * @param int $owner_id
-     */
-    public function setOwnerId($owner_id)
+    public function setOwnerId(int $owner_id) : void
     {
         $this->owner_id = $owner_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getOwnerId()
+    public function getOwnerId() : int
     {
         return $this->owner_id;
     }
 
-    /**
-     * @return bool
-     */
-    public function currentUserIsOwner()
+    public function currentUserIsOwner() : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        return $ilUser->getId() == $this->getOwnerId();
+        return ($ilUser->getId() === $this->getOwnerId());
     }
 
-    /**
-     * @param boolean $auth_complete
-     */
-    public function setAuthComplete($auth_complete)
+    public function setAuthComplete(bool $auth_complete) : void
     {
         $this->auth_complete = $auth_complete;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getAuthComplete()
+    public function getAuthComplete() : bool
     {
         return $this->auth_complete;
     }

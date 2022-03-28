@@ -42,7 +42,10 @@ class ilCustomUserFieldsHelper
         }
         return self::$instance = new self();
     }
-    
+
+    /**
+     * @return array<int,string>
+     */
     public function getUDFTypes() : array
     {
         $types = array(

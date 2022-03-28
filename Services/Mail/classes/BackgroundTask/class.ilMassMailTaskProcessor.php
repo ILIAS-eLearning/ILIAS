@@ -155,11 +155,9 @@ class ilMassMailTaskProcessor
 
         $parameters = [$task, $userId];
 
-        $interaction = $this->taskFactory->createTask(
+        return $this->taskFactory->createTask(
             ilMailDeliveryJobUserInteraction::class,
             $parameters
         );
-
-        return $interaction;
     }
 }

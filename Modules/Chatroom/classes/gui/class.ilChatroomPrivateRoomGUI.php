@@ -37,7 +37,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission('read');
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $chat_user = new ilChatroomUser($this->ilUser, $room);
@@ -65,7 +65,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
 
     public function delete() : void
     {
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
         $this->exitIfNoRoomExists($room);
 
@@ -85,7 +85,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission('read');
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
         $this->exitIfNoRoomExists($room);
         
@@ -107,7 +107,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission('read');
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $subRoom = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
@@ -128,7 +128,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission('read');
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $response = $room->listUsersInPrivateRoom(

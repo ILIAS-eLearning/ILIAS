@@ -25,31 +25,12 @@ il.UI.toast = ((UI) => {
                 xhr.send();
             }
             element.remove();
+            element.dispatchEvent(new Event('removeToast'));
         })
         element.querySelector('.il-toast').classList.remove('active');
     };
 
-    let getRelativeAnchestor = (x) => {
-        let pos = window.getComputedStyle(x).position;
-        if (pos ==='relative' || pos === 'fixed' || pos === 'sticky' || !x.parentNode) {
-            return x;
-        } else {
-            return getRelativeAnchestor(x.parentNode);
-        }
-    };
-
     let appearToast = (element) => {
-        let item = getRelativeAnchestor(element);
-        let height = 0;
-        let item_top = item.getBoundingClientRect().top;
-        item.querySelectorAll('.il-toast').forEach((e) => {
-            let temp_height = e.getBoundingClientRect().bottom - item_top;
-            if(e !== element.querySelector('.il-toast') && e.classList.contains('active') && height < temp_height) {
-                height = temp_height;
-            }
-        })
-
-        element.style.top = height + 'px';
         element.querySelector('.il-toast').classList.add('active');
         element.querySelector('.il-toast .close').addEventListener('click', () => {closeToast(element, true);});
         setTimeout(() => {closeToast(element);}, vanishTime);
@@ -60,8 +41,5 @@ il.UI.toast = ((UI) => {
         closeToast: closeToast,
         appearToast: appearToast,
         setToastSettings: setToastSettings,
-        getRelativeAnchestor: getRelativeAnchestor
     }
 })(il.UI)
-il.UI.toast.setToastSettings(document.currentScript.parentElement);
-il.UI.toast.showToast(document.currentScript.parentElement);

@@ -22,7 +22,7 @@
 class ilPageMultiLangGUI
 {
     protected ilObjectTranslation $ot;
-    protected $ctrl;
+    protected \ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected bool $single_page_mode = false;
 

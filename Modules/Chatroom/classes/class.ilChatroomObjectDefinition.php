@@ -51,9 +51,7 @@ class ilChatroomObjectDefinition
      */
     public static function getDefaultDefinition(string $moduleName) : self
     {
-        $object = new self($moduleName, 'Modules/' . $moduleName . '/');
-
-        return $object;
+        return new self($moduleName, 'Modules/' . $moduleName . '/');
     }
 
     /**
@@ -65,14 +63,12 @@ class ilChatroomObjectDefinition
      */
     public static function getDefaultDefinitionWithCustomGUIPath(string $moduleName, string $guiScope = '') : self
     {
-        $object = new self(
+        return new self(
             $moduleName,
             'Modules/' . $moduleName . '/',
             'classes',
             $guiScope
         );
-
-        return $object;
     }
 
     /**
@@ -128,8 +124,6 @@ class ilChatroomObjectDefinition
     public function buildGUI(string $gui, ilChatroomObjectGUI $chatroomObjectGUI) : ilChatroomGUIHandler
     {
         $className = $this->getGUIClassName($gui);
-        $guiInstance = new $className($chatroomObjectGUI);
-
-        return $guiInstance;
+        return new $className($chatroomObjectGUI);
     }
 }

@@ -46,7 +46,7 @@ with the il- variable set here.
 //** Used if text is hovered in components such a Dropdowns
 @il-text-hover-color: darken(@il-text-color, 10%);
 //** Used e.g. for Bylines in Forms. Used to be @il-light-text-color. For accessibility reasons, the @il-text-color should only be used on the @il-main-bg.
-@il-text-light-color: lighten(@il-text-color, 40%);
+@il-text-light-color: lighten(@il-text-color, 35%);
 
 //** Used to be @link-color
 @il-link-color: @il-main-color;
@@ -55,6 +55,7 @@ with the il- variable set here.
 
 //** Used to set focus on interactive elements for keyboard navigation.
 @il-focus-color: #0078D7;
+@il-focus-protection-color: #FFFFFF;
 
 //== Extended Colors
 //
@@ -127,7 +128,7 @@ with the il- variable set here.
 @il-padding-large-vertical: 6px;
 @il-padding-large-horizontal: 12px;
 
-@il-padding-small-vertical: 3px;
+@il-padding-small-vertical: 4px;
 @il-padding-small-horizontal: 6px;
 
 @il-padding-xs-vertical: 1px;
@@ -137,9 +138,11 @@ with the il- variable set here.
 @il-border-radius-large: 0px;
 @il-border-radius-small: 0px;
 
-@il-focus-outline: 3px solid @il-focus-color;
+@il-focus-outline-inner: @il-focus-outline-inner-width solid @il-focus-color;
+@il-focus-outline-outer: @il-focus-outline-outer-width solid @il-focus-protection-color;
 // The offset should only be used if the contrast between the focus outline and the component is insufficient.
-@il-focus-outline-offset: 2px;
+@il-focus-outline-inner-width: 3px;
+@il-focus-outline-outer-width: 2px;
 
 //== Layout (UI Layout Page)
 //
@@ -659,7 +662,7 @@ with the il- variable set here.
 @il-background-images-path: "images/";
 
 //** Size for icons: xsmall is used in the tree. e.g.
-@il-icon-size-xsmall: 17px;
+@il-icon-size-xsmall: 15px;
 //** Size for icons: Small is used in the tree. e.g.
 @il-icon-size-small: 20px;
 //** Size for icons: Medium is used in the content-listing. e.g.
@@ -731,7 +734,7 @@ with the il- variable set here.
 @il-vc-glyph-padding-horizontal: @padding-base-horizontal;
 @il-vc-glyph-hover-bg: lighten(@il-main-color, 5%);
 @il-vc-mode-btn-active: @il-vc-glyph-hover-bg;
-
+@il-vc-pagination-btn-active-bg: @il-main-bg;
 
 //== Card
 //
@@ -795,6 +798,7 @@ with the il- variable set here.
 //== Toast
 //
 //##
+@il-toast-container-top: 100px;
 @il-toast-margin: 20px;
 @il-toast-horizontal-division: 20px 1fr 20px;
 @il-toast-transition: all .25s ease-in-out;

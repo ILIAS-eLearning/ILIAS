@@ -81,7 +81,7 @@ class ilForumProperties
     private function read() : void
     {
         if ($this->obj_id) {
-            $res = $this->db->queryf(
+            $res = $this->db->queryF(
                 'SELECT * FROM frm_settings WHERE obj_id = %s',
                 ['integer'],
                 [$this->obj_id]
@@ -255,7 +255,7 @@ class ilForumProperties
         global $DIC;
         $ilDB = $DIC->database();
 
-        $result = $ilDB->queryf(
+        $result = $ilDB->queryF(
             'SELECT anonymized FROM frm_settings WHERE obj_id = %s',
             ['integer'],
             [$a_obj_id]

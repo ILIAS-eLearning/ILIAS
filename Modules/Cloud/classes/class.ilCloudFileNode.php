@@ -5,138 +5,75 @@
  * ilCloudFileTree class
  * Representation of a node (a file or a folder) in the file tree
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id$
  * @ingroup ModulesCloud
  */
 class ilCloudFileNode
 {
+    protected int $id = 0;
+    protected string $path = "";
+    protected int $parent_id = -1;
+    protected array $children = array();
+    protected bool $loading_complete = false;
+    protected bool $is_dir = false;
+    protected int $size = 0;
+    protected int $modified = 0;
+    protected int $created = 0;
+    protected string $icon_path = "";
+    protected mixed $mixed;
 
-    /**
-     * @var int
-     */
-    protected $id = 0;
-    /**
-     * @var string
-     */
-    protected $path = "";
-    /**
-     * @var int
-     */
-    protected $parent_id = -1;
-    /**
-     * @var array
-     */
-    protected $children = array();
-    /**
-     * @var bool
-     */
-    protected $loading_complete = false;
-    /**
-     * @var bool
-     */
-    protected $is_dir = false;
-    /**
-     * @var int
-     */
-    protected $size = 0;
-    /**
-     * @var int
-     */
-    protected $modified = 0;
-    /**
-     * @var int
-     */
-    protected $created = 0;
-    /**
-     * @var string
-     */
-    protected $icon_path = "";
-    /**
-     * @var mixed
-     */
-    protected $mixed;
-
-    /**
-     * @param string $path
-     */
-    public function __construct($path, $id)
+    public function __construct(string $path, int $id)
     {
         $this->setPath($path);
         $this->setId($id);
     }
 
-    /**
-     * @param $id
-     */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * @param bool $complete
-     */
-    public function setLoadingComplete($complete)
+    public function setLoadingComplete(bool $complete)
     {
         $this->loading_complete = $complete;
     }
 
-    /**
-     * @return bool
-     */
-    public function getLoadingComplete()
+    public function getLoadingComplete() : bool
     {
         return $this->loading_complete;
     }
 
-    /**
-     * @param string $path
-     */
-    public function setPath($path = "/")
+    public function setPath(string $path = "/") : void
     {
         $this->path = ilCloudUtil::normalizePath($path, $this->is_dir);
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath() : string
     {
         return $this->path;
     }
 
-    /**
-     * @param $path
-     */
-    public function addChild($path)
+    public function addChild(string $path)
     {
         if (!isset($this->children[$path])) {
             $this->children[$path] = $path;
         }
     }
 
-    /**
-     * @param $path
-     */
-    public function removeChild($path)
+    public function removeChild(string $path)
     {
         if (isset($this->children[$path])) {
             unset($this->children[$path]);
         }
     }
 
-    /**
-     * @return array|null
-     */
-    public function getChildrenPathes()
+    public function getChildrenPathes() : ?array
     {
         if ($this->hasChildren()) {
             return $this->children;
@@ -145,114 +82,72 @@ class ilCloudFileNode
         return null;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasChildren()
+    public function hasChildren() : bool
     {
         return (count($this->children) > 0);
     }
 
-    /**
-     * @param $id
-     */
-    public function setParentId($id)
+    public function setParentId(int $id)
     {
         $this->parent_id = $id;
     }
 
-    /**
-     * @return int
-     */
-    public function getParentId()
+    public function getParentId() : int
     {
         return $this->parent_id;
     }
 
-    /**
-     * @param $is_dir
-     */
-    public function setIsDir($is_dir)
+    public function setIsDir(bool $is_dir)
     {
         $this->is_dir = $is_dir;
     }
 
-    /**
-     * @return bool
-     */
-    public function getIsDir()
+    public function getIsDir() : bool
     {
         return $this->is_dir;
     }
 
-    /**
-     * @param $size
-     */
-    public function setSize($size)
+    public function setSize(int $size)
     {
         $this->size = $size;
     }
 
-    /**
-     * @return int
-     */
-    public function getSize()
+    public function getSize() : int
     {
         return $this->size;
     }
 
-    /**
-     * @param $modified
-     */
-    public function setModified($modified)
+    public function setModified(bool $modified) : void
     {
         $this->modified = $modified;
     }
 
-    /**
-     * @return int
-     */
-    public function getModified()
+    public function getModified() : bool
     {
         return $this->modified;
     }
 
-    /**
-     * @param $path
-     */
-    public function setIconPath($path)
+    public function setIconPath(string $path) : void
     {
         $this->icon_path = $path;
     }
 
-    /**
-     * @return string
-     */
-    public function getIconPath()
+    public function getIconPath() : string
     {
         return $this->icon_path;
     }
 
-    /**
-     * @param mixed $mixed
-     */
-    public function setMixed($mixed)
+    public function setMixed(string $mixed)
     {
         $this->mixed = $mixed;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMixed()
+    public function getMixed() : string
     {
         return $this->mixed;
     }
 
-    /**
-     * @return array
-     */
-    public function getJSONEncode()
+    public function getJSONEncode() : array
     {
         $node = array();
         $node["id"] = $this->getId();

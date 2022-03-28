@@ -9,15 +9,8 @@
  */
 class ilStudyProgrammeCourseListGUI extends ilObjCourseListGUI
 {
-    /**
-     * @var string
-     */
-    protected static $tpl_file_name = "tpl.course_list_item.html";
-
-    /**
-     * @var string
-     */
-    protected static $tpl_component = "Modules/StudyProgramme";
+    protected static string $tpl_file_name = "tpl.course_list_item.html";
+    protected static string $tpl_component = "Modules/StudyProgramme";
     
     protected int $indent = 0;
     

@@ -20,11 +20,12 @@
  */
 class ilPCProfileGUI extends ilPageContentGUI
 {
+    protected \ILIAS\HTTP\Services $http;
     protected ilToolbarGUI $toolbar;
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -33,6 +34,7 @@ class ilPCProfileGUI extends ilPageContentGUI
         $this->tpl = $DIC["tpl"];
         $this->ctrl = $DIC->ctrl();
         $this->toolbar = $DIC->toolbar();
+        $this->http = $DIC->http();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
@@ -157,7 +159,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     protected function getFieldsValues() : array
     {
         $fields = array();
-        foreach ($_POST as $name => $value) {
+        foreach ($this->http->request()->getParsedBody() as $name => $value) {
             if (substr($name, 0, 4) == "chk_") {
                 if ($value) {
                     $fields[] = substr($name, 4);

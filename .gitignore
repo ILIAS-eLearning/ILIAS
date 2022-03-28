@@ -51,6 +51,7 @@ virtual-data
 captainhook.config.json
 captainhook.local.json
 .phpunit.result.cache
+.php-cs-fixer.cache
 
 # File Delivery
 override.php

@@ -2,6 +2,10 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\FileUpload\Exception\IllegalStateException;
+use ILIAS\Filesystem\Exception\IOException;
+
 interface ilObjectTileImageInterface
 {
     public function getExtension() : string;
@@ -12,12 +16,11 @@ interface ilObjectTileImageInterface
 
     /**
      * Save image from request
-     * @param string $tmpname
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IllegalStateException
+     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public function saveFromHttpRequest(string $tmpname) : void;
+    public function saveFromHttpRequest(string $tmp_name) : void;
 
     public function exists() : bool;
 

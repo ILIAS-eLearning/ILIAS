@@ -124,7 +124,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
             self::forwardByClass(
                 ilRepositoryGUI::class,
-                [ilRepositoryGUI::class, ilObjLearningSequenceGUI::class],
+                [ilObjLearningSequenceGUI::class],
                 $params,
                 self::CMD_VIEW
             );
@@ -375,6 +375,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         if (!$in_player) {
             $this->addHeaderAction();
         }
+
+        $tpl->printToStdOut();
     }
 
     public function addToNavigationHistory() : void

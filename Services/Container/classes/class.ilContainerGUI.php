@@ -1374,7 +1374,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                         $newNode_data['obj_id'],
                         $ilUser->getId(),
                         'add',
-                        $ilObjDataCache->lookupObjId($folder_ref_id)
+                        $ilObjDataCache->lookupObjId((int) $folder_ref_id)
                     );
                     ilChangeEvent::_catchupWriteEvents($newNode_data['obj_id'], $ilUser->getId());
                     // END PATCH ChangeEvent: Record cut event.
@@ -1408,7 +1408,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                         $node_data['obj_id'],
                         $ilUser->getId(),
                         'add',
-                        $ilObjDataCache->lookupObjId($folder_ref_id)
+                        $ilObjDataCache->lookupObjId((int) $folder_ref_id)
                     );
                     ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());
                     // END PATCH ChangeEvent: Record cut event.
@@ -1430,7 +1430,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
             foreach ($nodes as $folder_ref_id) {
                 $linked_to_folders[$folder_ref_id] = $ilObjDataCache->lookupTitle(
-                    $ilObjDataCache->lookupObjId($folder_ref_id)
+                    $ilObjDataCache->lookupObjId((int) $folder_ref_id)
                 );
 
                 foreach ($ref_ids as $ref_id) {
@@ -1462,7 +1462,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                         $node_data['obj_id'],
                         $ilUser->getId(),
                         'add',
-                        $ilObjDataCache->lookupObjId($folder_ref_id)
+                        $ilObjDataCache->lookupObjId((int) $folder_ref_id)
                     );
                     ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());
                     // END PATCH ChangeEvent: Record link event.

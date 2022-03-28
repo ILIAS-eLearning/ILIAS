@@ -25,16 +25,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     *
     * Please do not check any preconditions handled by
     * ilConditionHandler here.
-    *
-    * @param	string		$a_cmd		command (not permission!)
-    * @param	string		$a_permission	permission
-    * @param	int			$a_ref_id	reference id
-    * @param	int			$a_obj_id	object id
-    * @param	int			$a_user_id	user id (if not provided, current user is taken)
-    *
-    * @return	boolean		true, if everything is ok
     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, int $user_id = null) : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -42,17 +34,17 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
         
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
         
-        $is_admin = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+        $is_admin = $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
         
 
-        switch ($a_permission) {
+        switch ($permission) {
             case "visible":
             case "read":
-                if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id) &&
+                if (!ilObjTestAccess::_lookupCreationComplete($obj_id) &&
                     !$is_admin) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
                     return false;
@@ -60,10 +52,10 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 break;
         }
         
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "eval_a":
             case "eval_stat":
-                if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id)) {
+                if (!ilObjTestAccess::_lookupCreationComplete($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
                     return false;
                 }
@@ -332,7 +324,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"),
@@ -713,12 +705,12 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "tst" || ((int) $t_arr[1]) <= 0) {
             return false;
@@ -735,17 +727,14 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * returns the objects's OFFline status
      *
      * Used in ListGUI and Learning Progress
-     *
-     * @param int $a_obj_id
-     * @return bool
      */
-    public static function _isOffline($a_obj_id)
+    public static function _isOffline(int $obj_id) : bool
     {
         //		global $DIC;
         //		$ilUser = $DIC['ilUser'];
-        //		return (self::_lookupOnlineTestAccess($a_obj_id, $ilUser->getId()) !== true) ||
-        //			(!ilObjTestAccess::_lookupCreationComplete($a_obj_id));
-        return ilObject::lookupOfflineStatus($a_obj_id);
+        //		return (self::_lookupOnlineTestAccess($obj_id, $ilUser->getId()) !== true) ||
+        //			(!ilObjTestAccess::_lookupCreationComplete($obj_id));
+        return ilObject::lookupOfflineStatus($obj_id);
     }
 
 

@@ -41,7 +41,7 @@ class ilObjLTIConsumer extends ilObject2
     /**
      * @var ilLTIConsumeProvider
      */
-    protected $provider = null;
+    protected ?ilLTIConsumeProvider $provider = null;
     
     const LAUNCH_METHOD_OWN_WIN = 'ownWin';
     const LAUNCH_METHOD_NEW_WIN = 'newWin';
@@ -56,16 +56,18 @@ class ilObjLTIConsumer extends ilObject2
     /**
      * @var string
      */
-    protected $launchMethod = self::LAUNCH_METHOD_NEW_WIN;
+    protected string $launchMethod = self::LAUNCH_METHOD_NEW_WIN;
 
     /**
      * @var string
      */
-    protected $customLaunchKey = '';
+    protected string $customLaunchKey = '';
     /**
      * @var string
      */
-    protected $customLaunchSecret = '';
+    protected string $customLaunchSecret = '';
+
+    protected int $ref_id = 0;
     
     /**
      * ilObjLTIConsumer constructor.
@@ -425,7 +427,7 @@ class ilObjLTIConsumer extends ilObject2
     
     protected function loadRepositoryActivationSettings() : void
     {
-        if ($this->ref_id) {
+        if ($this->ref_id > 0) {
             $activation = ilObjectActivation::getItem($this->ref_id);
             switch ($activation["timing_type"]) {
                 case ilObjectActivation::TIMINGS_ACTIVATION:
@@ -444,7 +446,7 @@ class ilObjLTIConsumer extends ilObject2
     
     protected function saveRepositoryActivationSettings() : void
     {
-        if ($this->ref_id) {
+        if ($this->ref_id > 0) {
             ilObjectActivation::getItem($this->ref_id);
             
             $item = new ilObjectActivation;

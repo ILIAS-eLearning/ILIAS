@@ -19,7 +19,7 @@
  */
 class ilObjFileBasedLMListGUI extends ilObjectListGUI
 {
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -35,11 +35,11 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         $this->commands = ilObjFileBasedLMAccess::_getCommands();
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         $ilCtrl = $this->ctrl;
         
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "view":
                 $cmd_link = "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->ref_id;
                 break;
@@ -50,7 +50,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 
             default:
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
                 break;
         }
@@ -58,9 +58,9 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "view":
                 $frame = "ilContObj" . $this->obj_id;
                 break;
@@ -77,7 +77,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         return $frame;
     }
 
-    public function getProperties()
+    public function getProperties() : array
     {
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;

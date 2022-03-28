@@ -35,9 +35,9 @@ class ilCharSelectorRadioGroupInputGUI extends ilRadioGroupInputGUI
             return false;
         }
 
-        if ($this->int('char_selector_availability') == ilCharSelectorConfig::ENABLED
-            and trim(implode("", $this->strArray('char_selector_blocks'))) == ""
-            and trim($this->str('char_selector_custom_items')) == '') {
+        if ($this->int('char_selector_availability') === ilCharSelectorConfig::ENABLED
+            && trim(implode("", $this->strArray('char_selector_blocks'))) === ""
+            && trim($this->str('char_selector_custom_items')) === '') {
             $this->setAlert($lng->txt("char_selector_msg_blocks_or_custom_needed"));
             return false;
         } else {

@@ -171,7 +171,7 @@ class ilStartingPoint
                 $sp = new self((int) $data['id']);
                 $sp->delete();
             } elseif (
-                false === ($maybeDeletedRole = ilObjectFactory::getInstanceByObjId((int) $roleId, false)) ||
+                is_null($maybeDeletedRole = ilObjectFactory::getInstanceByObjId((int) $roleId, false)) ||
                 !($maybeDeletedRole instanceof ilObjRole)
             ) {
                 $sp = new self((int) $data['id']);

@@ -32,7 +32,7 @@ class ilObjRootFolderAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "render", "lang_var" => "show",

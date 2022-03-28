@@ -62,7 +62,7 @@ class SurveyTextQuestionEvaluation extends SurveyQuestionEvaluation
         $a_results
     ) : void {
         $answer = $a_results->getUserResults($a_user_id);
-        if (count($answer) == 0) {
+        if (count($answer) === 0) {
             $a_row[] = $this->getSkippedValue();
         } else {
             $a_row[] = $answer[0][1];

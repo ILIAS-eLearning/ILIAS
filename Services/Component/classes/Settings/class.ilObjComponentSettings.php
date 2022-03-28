@@ -24,33 +24,21 @@
 require_once "./Services/Object/classes/class.ilObject.php";
 
 /**
-* Settings for components (modules, services, plugins).
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesComponent
-*/
+ * Settings for components (modules, services, plugins).
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ServicesComponent
+ */
 class ilObjComponentSettings extends ilObject
 {
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "cmps";
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    /**
-    * update object data
-    *
-    * @access	public
-    * @return	boolean
-    */
     public function update() : bool
     {
         global $DIC;
@@ -63,9 +51,6 @@ class ilObjComponentSettings extends ilObject
         return true;
     }
     
-    /**
-    * read style folder data
-    */
     public function read() : void
     {
         global $DIC;
@@ -74,12 +59,6 @@ class ilObjComponentSettings extends ilObject
         parent::read();
     }
 
-    /**
-    * delete object and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
     public function delete() : bool
     {
         // always call parent delete function first!!

@@ -34,7 +34,7 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands($a_ref_id = null)
+    public static function _getCommands($a_ref_id = null) : array
     {
         global $DIC;
 

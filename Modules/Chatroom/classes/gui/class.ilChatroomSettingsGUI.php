@@ -13,33 +13,33 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
     {
         $formFactory = new ilChatroomFormFactory();
         $settingsForm = $formFactory->getSettingsForm();
-        $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->object)->addTileImage();
+        $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->getObject())->addTileImage();
 
         if (!$settingsForm->checkInput()) {
             $settingsForm->setValuesByPost();
             $this->general($settingsForm);
         } else {
-            $this->gui->object->setTitle($settingsForm->getInput('title'));
-            $this->gui->object->setDescription($settingsForm->getInput('desc'));
+            $this->gui->getObject()->setTitle($settingsForm->getInput('title'));
+            $this->gui->getObject()->setDescription($settingsForm->getInput('desc'));
 
             $period = $settingsForm->getItemByPostVar('access_period');
             if ($period->getStart() && $period->getEnd()) {
-                $this->gui->object->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);
-                $this->gui->object->setAccessBegin($period->getStart()->get(IL_CAL_UNIX));
-                $this->gui->object->setAccessEnd($period->getEnd()->get(IL_CAL_UNIX));
-                $this->gui->object->setAccessVisibility((int) $settingsForm->getInput('access_visibility'));
+                $this->gui->getObject()->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);
+                $this->gui->getObject()->setAccessBegin($period->getStart()->get(IL_CAL_UNIX));
+                $this->gui->getObject()->setAccessEnd($period->getEnd()->get(IL_CAL_UNIX));
+                $this->gui->getObject()->setAccessVisibility((int) $settingsForm->getInput('access_visibility'));
             } else {
-                $this->gui->object->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
+                $this->gui->getObject()->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
             }
 
-            $this->gui->object->update();
-            $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->object)->saveTileImage();
+            $this->gui->getObject()->update();
+            $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->getObject())->saveTileImage();
             // @todo: Do not rely on raw post data
             $settings = $this->http->request()->getParsedBody();
-            $room = ilChatroom::byObjectId($this->gui->object->getId());
+            $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
             if (!$room) {
                 $room = new ilChatroom();
-                $settings['object_id'] = $this->gui->object->getId();
+                $settings['object_id'] = $this->gui->getObject()->getId();
             }
             $room->saveSettings($settings);
 
@@ -50,7 +50,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 
     public function general(ilPropertyFormGUI $settingsForm = null) : void
     {
-        if (!ilChatroom::checkUserPermissions(['visible', 'read'], $this->gui->ref_id)) {
+        if (!ilChatroom::checkUserPermissions(['visible', 'read'], $this->gui->getRefId())) {
             $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
             $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
         }
@@ -64,31 +64,31 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 
         $formFactory = new ilChatroomFormFactory();
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
         if (!$settingsForm) {
             $settingsForm = $formFactory->getSettingsForm();
 
             $settings = [
-                'title' => $this->gui->object->getTitle(),
-                'desc' => $this->gui->object->getDescription(),
+                'title' => $this->gui->getObject()->getTitle(),
+                'desc' => $this->gui->getObject()->getDescription(),
                 'access_period' => [
-                    'start' => $this->gui->object->getAccessBegin() ? new ilDateTime(
-                        $this->gui->object->getAccessBegin(),
+                    'start' => $this->gui->getObject()->getAccessBegin() ? new ilDateTime(
+                        $this->gui->getObject()->getAccessBegin(),
                         IL_CAL_UNIX
                     ) : null,
-                    'end' => $this->gui->object->getAccessEnd() ? new ilDateTime(
-                        $this->gui->object->getAccessEnd(),
+                    'end' => $this->gui->getObject()->getAccessEnd() ? new ilDateTime(
+                        $this->gui->getObject()->getAccessEnd(),
                         IL_CAL_UNIX
                     ) : null
                 ],
-                'access_visibility' => $this->gui->object->getAccessVisibility()
+                'access_visibility' => $this->gui->getObject()->getAccessVisibility()
             ];
 
             $presentationHeader = new ilFormSectionHeaderGUI();
             $presentationHeader->setTitle($this->ilLng->txt('settings_presentation_header'));
             $settingsForm->addItem($presentationHeader);
-            $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->object)->addTileImage();
+            $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->getObject())->addTileImage();
 
             if ($room) {
                 ilChatroomFormFactory::applyValues(
@@ -104,7 +104,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         $settingsForm->addCommandButton('settings-saveGeneral', $this->ilLng->txt('save'));
         $settingsForm->setFormAction($this->ilCtrl->getFormAction($this->gui, 'settings-saveGeneral'));
 
-        $this->mainTpl->setVariable('ADM_CONTENT', $settingsForm->getHtml());
+        $this->mainTpl->setVariable('ADM_CONTENT', $settingsForm->getHTML());
     }
 
     public function executeDefault(string $requestedMethod) : void

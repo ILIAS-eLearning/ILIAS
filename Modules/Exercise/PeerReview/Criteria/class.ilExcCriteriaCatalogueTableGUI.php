@@ -11,7 +11,7 @@
 class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
 {
     protected int $exc_id;
-    private \ilGlobalTemplateInterface $main_tpl;
+    protected \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         object $a_parent_obj,

@@ -21,8 +21,8 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("CONTINUE_YES", "1");
-define("CONTINUE_NO", "2");
+const CONTINUE_YES = "1";
+const CONTINUE_NO = "2";
 
 /**
 * QTI respcondition class
@@ -34,12 +34,24 @@ define("CONTINUE_NO", "2");
 */
 class ilQTIRespcondition
 {
+    /** @var string|null */
     public $continue;
+
+    /** @var string|null */
     public $title;
+
+    /** @var string|null */
     public $comment;
+
+    /** @var ilQTIConditionvar|null */
     public $conditionvar;
+
+    /** @var ilQTISetvar[] */
     public $setvar;
+
+    /** @var ilQTIDisplayfeedback[] */
     public $displayfeedback;
+
     public $respcond_extension;
     
     public function __construct()
@@ -47,8 +59,11 @@ class ilQTIRespcondition
         $this->setvar = array();
         $this->displayfeedback = array();
     }
-    
-    public function setContinue($a_continue)
+
+    /**
+     * @param string
+     */
+    public function setContinue($a_continue) : void
     {
         switch (strtolower($a_continue)) {
             case "1":
@@ -61,43 +76,64 @@ class ilQTIRespcondition
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getContinue()
     {
         return $this->continue;
     }
-    
-    public function setTitle($a_title)
+
+    /**
+     * @param string $a_title
+     */
+    public function setTitle($a_title) : void
     {
         $this->title = $a_title;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getTitle()
     {
         return $this->title;
     }
-    
-    public function setComment($a_comment)
+
+    /**
+     * @param string $a_comment
+     */
+    public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getComment()
     {
         return $this->comment;
     }
-    
-    public function setConditionvar($a_conditionvar)
+
+    /**
+     * @param ilQTIConditionvar $a_conditionvar
+     */
+    public function setConditionvar($a_conditionvar) : void
     {
         $this->conditionvar = $a_conditionvar;
     }
-    
+
+    /**
+     * @return ilQTIConditionvar|null
+     */
     public function getConditionvar()
     {
         return $this->conditionvar;
     }
     
-    public function setRespcond_extension($a_respcond_extension)
+    public function setRespcond_extension($a_respcond_extension) : void
     {
         $this->respcond_extension = $a_respcond_extension;
     }
@@ -107,13 +143,13 @@ class ilQTIRespcondition
         return $this->respcond_extension;
     }
     
-    public function addSetvar($a_setvar)
+    public function addSetvar($a_setvar) : void
     {
-        array_push($this->setvar, $a_setvar);
+        $this->setvar[] = $a_setvar;
     }
     
-    public function addDisplayfeedback($a_displayfeedback)
+    public function addDisplayfeedback($a_displayfeedback) : void
     {
-        array_push($this->displayfeedback, $a_displayfeedback);
+        $this->displayfeedback[] = $a_displayfeedback;
     }
 }

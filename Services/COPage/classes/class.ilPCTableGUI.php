@@ -26,7 +26,7 @@ class ilPCTableGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -1009,7 +1009,7 @@ class ilPCTableGUI extends ilPageContentGUI
     /**
      * Set editor tool context
      */
-    protected function setEditorToolContext()
+    protected function setEditorToolContext() : void
     {
         $collection = $this->tool_context->current()->getAdditionalData();
         if ($collection->exists(ilCOPageEditGSToolProvider::SHOW_EDITOR)) {
@@ -1193,7 +1193,7 @@ class ilPCTableGUI extends ilPageContentGUI
         return $dtpl->get();
     }
 
-    protected function getColumnCaption(int $nr)
+    protected function getColumnCaption(int $nr) : string
     {
         $cap = "";
         $base = 26;

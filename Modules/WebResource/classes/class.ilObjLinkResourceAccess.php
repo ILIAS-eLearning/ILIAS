@@ -30,7 +30,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "", "lang_var" => "show",
@@ -46,13 +46,13 @@ class ilObjLinkResourceAccess extends ilObjectAccess
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "webr" || ((int) $t_arr[1]) <= 0) {
             return false;
@@ -66,31 +66,23 @@ class ilObjLinkResourceAccess extends ilObjectAccess
     }
 
     /**
-     * checks wether a user may invoke a command or not
+     * checks whether a user may invoke a command or not
      * (this method is called by ilAccessHandler::checkAccess)
-     *
-     * @param	string		$a_cmd		command (not permission!)
-     * @param	string		$a_permission	permission
-     * @param	int			$a_ref_id	reference id
-     * @param	int			$a_obj_id	object id
-     * @param	int			$a_user_id	user id (if not provided, current user is taken)
-     *
-     * @return	boolean		true, if everything is ok
      */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
         
         // Set offline if no valid link exists
-        if ($a_permission == 'read') {
-            if (!self::_getFirstLink($a_obj_id) && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
+        if ($permission == 'read') {
+            if (!self::_getFirstLink($obj_id) && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
                 return false;
             }
         }
 
-        return parent::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id);
+        return parent::_checkAccess($cmd, $permission, $ref_id, $obj_id, $user_id);
     }
 
     /**
@@ -131,12 +123,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         return $item ? $item : array();
     }
 
-    /**
-     * Preload data
-     *
-     * @param array $a_obj_ids array of object ids
-     */
-    public static function _preloadData($a_obj_ids, $a_ref_ids)
+    public static function _preloadData(array $obj_ids, array $ref_ids) : void
     {
         global $DIC;
 
@@ -145,10 +132,10 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         
         $res = $ilDB->query(
             "SELECT * FROM webr_items WHERE " .
-                $ilDB->in("webr_id", $a_obj_ids, false, "integer") .
+                $ilDB->in("webr_id", $obj_ids, false, "integer") .
                 " AND active = " . $ilDB->quote(1, 'integer')
         );
-        foreach ($a_obj_ids as $id) {
+        foreach ($obj_ids as $id) {
             self::$item[$id] = array();
         }
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

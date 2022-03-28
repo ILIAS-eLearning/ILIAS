@@ -31,7 +31,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         $this->lng->loadLanguageModule('meta');
     }
 
-    public function getType() : ?string
+    public function getType() : string
     {
         return 'tos';
     }

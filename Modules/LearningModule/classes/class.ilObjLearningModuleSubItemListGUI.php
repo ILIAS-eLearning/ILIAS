@@ -29,7 +29,7 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
     }
 
     
-    public function getHTML()
+    public function getHTML() : string
     {
         $lng = $this->lng;
 

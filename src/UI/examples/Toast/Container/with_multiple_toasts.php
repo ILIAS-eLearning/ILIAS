@@ -5,23 +5,35 @@ namespace ILIAS\UI\examples\Toast\Container;
 function with_multiple_toasts() : string
 {
     global $DIC;
-    $tc = $DIC->ui()->factory()->toast()->container()
-        ->withAdditionalToast(
-            $DIC->ui()->factory()->toast()->standard(
-                'Example 1',
-                $DIC->ui()->factory()->symbol()->icon()->standard('info', 'Test')
-            )
-        )->withAdditionalToast(
-            $DIC->ui()->factory()->toast()->standard(
-                'Example 2',
-                $DIC->ui()->factory()->symbol()->icon()->standard('info', 'Test')
-            )
-        )->withAdditionalToast(
-            $DIC->ui()->factory()->toast()->standard(
-                'Example 3',
-                $DIC->ui()->factory()->symbol()->icon()->standard('info', 'Test')
-            )
-        );
+    $tc = $DIC->ui()->factory()->toast()->container();
 
-    return $DIC->ui()->renderer()->render($tc);
+    $toasts = [
+        $DIC->ui()->factory()->toast()->standard(
+            'Example 1',
+            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')->withIsOutlined(true)
+        ),
+        $DIC->ui()->factory()->toast()->standard(
+            'Example 2',
+            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')->withIsOutlined(true)
+        ),
+        $DIC->ui()->factory()->toast()->standard(
+            'Example 3',
+            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')->withIsOutlined(true)
+        )
+    ];
+
+    $toasts = base64_encode($DIC->ui()->renderer()->renderAsync($toasts));
+    $button = $DIC->ui()->factory()->button()->standard($DIC->language()->txt('show'), '');
+    $button = $button->withAdditionalOnLoadCode(function ($id) use ($toasts) {
+        return "$id.addEventListener('click', () => {
+            $id.parentNode.querySelector('.il-toast-container').innerHTML = atob('$toasts');
+            $id.parentNode.querySelector('.il-toast-container').querySelectorAll('script').forEach(element => {
+                let newScript = document.createElement('script');
+                newScript.innerHTML = element.innerHTML;
+                element.parentNode.appendChild(newScript);
+            })
+        });";
+    });
+
+    return $DIC->ui()->renderer()->render([$button,$tc]);
 }

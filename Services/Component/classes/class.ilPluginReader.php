@@ -57,11 +57,9 @@ class ilPluginReader extends ilSaxParser
 
     public function startParsing() : void
     {
-        if ($this->getInputType() == 'file') {
-            if (!file_exists($this->xml_file)) {
-                // not every plugin has a plugin.xml yet
-                return;
-            }
+        if ($this->getInputType() === 'file' && !file_exists($this->xml_file)) {
+            // not every plugin has a plugin.xml yet
+            return;
         }
         parent::startParsing();
     }
@@ -86,7 +84,7 @@ class ilPluginReader extends ilSaxParser
         global $DIC;
         $ilDB = $DIC->database();
 
-        if ($a_name == "event") {
+        if ($a_name === "event") {
             $component = "Plugins/" . $this->pname;
             $q = "INSERT INTO il_event_handling (component, type, id) VALUES (" .
                 $ilDB->quote($component, "text") . "," .
@@ -107,7 +105,6 @@ class ilPluginReader extends ilSaxParser
     {
     }
 
-
     /**
     * end tag handler
     *
@@ -117,14 +114,5 @@ class ilPluginReader extends ilSaxParser
     */
     public function handlerCharacterData($a_xml_parser, $a_data) : void
     {
-        // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
-        $a_data = preg_replace("/\n/", "", $a_data);
-        $a_data = preg_replace("/\t+/", "", $a_data);
-
-        if (!empty($a_data)) {
-            switch ($this->current_tag) {
-                case '':
-            }
-        }
     }
 }

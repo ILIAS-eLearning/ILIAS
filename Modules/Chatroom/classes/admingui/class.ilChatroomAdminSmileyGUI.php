@@ -24,7 +24,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
      */
     public function view() : void
     {
-        ilChatroom::checkUserPermissions('read', $this->gui->ref_id);
+        ilChatroom::checkUserPermissions('read', $this->gui->getRefId());
 
         $this->gui->switchToVisibleMode();
 
@@ -121,10 +121,10 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
      */
     public function editSmiliesObject() : void
     {
-        if (!$this->rbacsystem->checkAccess('read', $this->gui->ref_id)) {
+        if (!$this->rbacsystem->checkAccess('read', $this->gui->getRefId())) {
             $this->ilias->raiseError(
                 $this->ilLng->txt('msg_no_perm_read'),
-                $this->gui->ilias->error_obj->MESSAGE
+                $this->ilias->error_obj->MESSAGE
             );
         }
 
@@ -143,7 +143,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             'Modules/Chatroom'
         );
         $tpl_smilies->setVariable('SMILEY_TABLE', $table);
-        $tpl_smilies->setVariable('SMILEY_FORM', $this->form_gui->getHtml());
+        $tpl_smilies->setVariable('SMILEY_FORM', $this->form_gui->getHTML());
 
         $this->mainTpl->setContent($tpl_smilies->get());
     }
@@ -188,7 +188,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->form_gui->addItem($inp);
 
 
-        if ($this->rbacsystem->checkAccess('write', $this->gui->ref_id)) {
+        if ($this->rbacsystem->checkAccess('write', $this->gui->getRefId())) {
             $this->form_gui->addCommandButton(
                 'smiley-uploadSmileyObject',
                 $DIC->language()->txt('chatroom_upload_smiley')
@@ -206,7 +206,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
     {
         $this->gui->switchToVisibleMode();
 
-        if (!$this->rbacsystem->checkAccess('read', $this->gui->ref_id)) {
+        if (!$this->rbacsystem->checkAccess('read', $this->gui->getRefId())) {
             $this->ilias->raiseError(
                 $this->ilLng->txt('msg_no_perm_read'),
                 $this->ilias->error_obj->MESSAGE
@@ -239,13 +239,11 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
     {
         $smiley = ilChatroomSmilies::_getSmiley($smileyId);
 
-        $form_data = [
+        return [
             'chatroom_smiley_id' => $smiley['smiley_id'],
             'chatroom_smiley_keywords' => $smiley['smiley_keywords'],
             'chatroom_current_smiley_image_path' => $smiley['smiley_fullpath'],
         ];
-
-        return $form_data;
     }
 
     /**
@@ -322,7 +320,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
     {
         $this->gui->switchToVisibleMode();
 
-        if (!$this->rbacsystem->checkAccess('write', $this->gui->ref_id)) {
+        if (!$this->rbacsystem->checkAccess('write', $this->gui->getRefId())) {
             $this->ilias->raiseError(
                 $this->ilLng->txt('msg_no_perm_write'),
                 $this->ilias->error_obj->MESSAGE
@@ -349,7 +347,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
     public function deleteSmileyObject() : void
     {
-        if (!$this->rbacsystem->checkAccess('write', $this->gui->ref_id)) {
+        if (!$this->rbacsystem->checkAccess('write', $this->gui->getRefId())) {
             $this->ilias->raiseError(
                 $this->ilLng->txt('msg_no_perm_write'),
                 $this->ilias->error_obj->MESSAGE
@@ -368,7 +366,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
     public function updateSmiliesObject() : void
     {
-        if (!$this->rbacsystem->checkAccess('write', $this->gui->ref_id)) {
+        if (!$this->rbacsystem->checkAccess('write', $this->gui->getRefId())) {
             $this->ilias->raiseError(
                 $this->ilLng->txt('msg_no_perm_write'),
                 $this->ilias->error_obj->MESSAGE
@@ -434,7 +432,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
     {
         $this->gui->switchToVisibleMode();
 
-        if (!$this->rbacsystem->checkAccess('write', $this->gui->ref_id)) {
+        if (!$this->rbacsystem->checkAccess('write', $this->gui->getRefId())) {
             $this->ilias->raiseError(
                 $this->ilLng->txt('msg_no_perm_write'),
                 $this->ilias->error_obj->MESSAGE
@@ -478,7 +476,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
     public function confirmedDeleteMultipleObject() : void
     {
-        if (!$this->rbacsystem->checkAccess('write', $this->gui->ref_id)) {
+        if (!$this->rbacsystem->checkAccess('write', $this->gui->getRefId())) {
             $this->ilias->raiseError(
                 $this->ilLng->txt('msg_no_perm_write'),
                 $this->ilias->error_obj->MESSAGE
@@ -504,7 +502,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
     public function uploadSmileyObject() : void
     {
-        if (!$this->rbacsystem->checkAccess('write', $this->gui->ref_id)) {
+        if (!$this->rbacsystem->checkAccess('write', $this->gui->getRefId())) {
             $this->ilias->raiseError(
                 $this->ilLng->txt('msg_no_perm_write'),
                 $this->ilias->error_obj->MESSAGE

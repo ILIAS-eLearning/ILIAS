@@ -178,7 +178,7 @@ abstract class ilPageObject
         return $this->page_config;
     }
     
-    public static function randomhash()
+    public static function randomhash() : string
     {
         $random = new \ilRandom();
         return md5($random->int(1, 9999999) + str_replace(" ", "", (string) microtime()));
@@ -2145,8 +2145,11 @@ s     */
     }
 
     // @todo: generalize, internal links usage info
-    public function handleImportRepositoryLink($a_rep_import_id, $a_rep_type, $a_rep_ref_id)
-    {
+    public function handleImportRepositoryLink(
+        string $a_rep_import_id,
+        string $a_rep_type,
+        int $a_rep_ref_id
+    ) : void {
         $this->buildDom();
 
         // resolve normal internal links
@@ -2447,6 +2450,7 @@ s     */
      * update complete page content in db (dom xml content is used)
      * @return array|bool
      * @throws ilDateTimeException
+     * @throws ilWACException
      */
     public function update(bool $a_validate = true, bool $a_no_history = false)
     {
@@ -2958,6 +2962,7 @@ s     */
      * delete content object with hierarchical id $a_hid
      * @return array|bool
      * @throws ilDateTimeException
+     * @throws ilWACException
      */
     public function deleteContent(string $a_hid, bool $a_update = true, string $a_pcid = "")
     {
@@ -3128,9 +3133,9 @@ s     */
     /**
      * (De-)activate elements
      * @return array|bool
-     * @throws ilCOPagePCEditException
      * @throws ilCOPageUnknownPCTypeException
      * @throws ilDateTimeException
+     * @throws ilWACException
      */
     public function switchEnableMultiple(
         array $a_hids,

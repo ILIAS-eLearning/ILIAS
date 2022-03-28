@@ -17,15 +17,12 @@ input.btn{
 .btn-default {
   .button-variant(@il-btn-standard-color; @il-btn-standard-bg; @il-btn-standard-border);
   &:focus-visible {
-    outline-offset: @il-focus-outline-offset;
+    position: relative;
   }
 }
 
 .btn-primary {
   .button-variant(@il-btn-primary-color; @il-btn-primary-bg; @il-btn-primary-border);
-  &:focus-visible {
-    outline-offset: @il-focus-outline-offset;
-  }
 }
 
 .btn, .btn.btn-tag{

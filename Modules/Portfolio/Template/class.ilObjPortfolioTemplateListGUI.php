@@ -19,7 +19,7 @@
  */
 class ilObjPortfolioTemplateListGUI extends ilObjectListGUI
 {
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;

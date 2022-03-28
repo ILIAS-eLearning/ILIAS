@@ -118,8 +118,10 @@ class ilCOPageHTMLExport
 
         // export content style sheet
         if ($this->getContentStyleId() < 1) {     // basic style
-            ilFileUtils::rCopy(ilObjStyleSheet::getBasicImageDir(),
-                $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir());
+            ilFileUtils::rCopy(
+                ilObjStyleSheet::getBasicImageDir(),
+                $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir()
+            );
             ilFileUtils::makeDirParents($this->exp_dir . "/Services/COPage/css");
             copy("Services/COPage/css/content.css", $this->exp_dir . "/Services/COPage/css/content.css");
         } else {

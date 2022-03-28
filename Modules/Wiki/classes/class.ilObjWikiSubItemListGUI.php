@@ -32,13 +32,14 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
         $this->user = $DIC->user();
     }
 
-    public function getHTML()
+    public function getHTML() : string
     {
         $lng = $this->lng;
 
         $lng->loadLanguageModule('content');
         foreach ($this->getSubItemIds(true) as $sub_item) {
-            if (is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent($this->getObjId(), $sub_item))) {
+            if (is_object($this->getHighlighter()) &&
+                $this->getHighlighter()->getContent($this->getObjId(), $sub_item) !== '') {
                 $this->tpl->setCurrentBlock('sea_fragment');
                 $this->tpl->setVariable('TXT_FRAGMENT', $this->getHighlighter()->getContent($this->getObjId(), $sub_item));
                 $this->tpl->parseCurrentBlock();

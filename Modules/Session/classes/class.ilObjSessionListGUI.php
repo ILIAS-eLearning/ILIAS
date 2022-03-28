@@ -27,17 +27,11 @@
 */
 class ilObjSessionListGUI extends ilObjectListGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    public ilCtrl $ctrl;
+    protected ilLanguage $lng;
     protected array $app_info = [];
     protected bool $subitems_enabled = false;
-    protected $title = "";
+    protected string $title = "";
 
     public function __construct()
     {
@@ -97,7 +91,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
     /**
      * Only check cmd access for cmd 'register' and 'unregister'
      */
-    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "") : bool
+    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = null) : bool
     {
         if ($a_cmd != 'register' && $a_cmd != 'unregister') {
             $a_cmd = '';

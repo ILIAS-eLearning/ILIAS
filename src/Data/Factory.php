@@ -4,6 +4,9 @@
 
 namespace ILIAS\Data;
 
+use ILIAS\Data\Clock\ClockFactory;
+use ILIAS\Data\Clock\ClockFactoryImpl;
+
 /**
  * Builds data types.
  *
@@ -156,6 +159,11 @@ class Factory
         return new Link($label, $url);
     }
 
+    public function clock() : ClockFactory
+    {
+        return new ClockFactoryImpl();
+    }
+    
     public function dimension() : Dimension\Factory
     {
         if (!$this->dimensionfactory) {

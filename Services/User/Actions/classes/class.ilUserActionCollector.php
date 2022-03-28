@@ -25,7 +25,7 @@ class ilUserActionCollector
     protected int $user_id;
     protected ilUserActionContext $action_context;
 
-    protected function __construct($a_user_id, ilUserActionContext $a_context)
+    protected function __construct(int $a_user_id, ilUserActionContext $a_context)
     {
         $this->user_id = $a_user_id;
         $this->action_context = $a_context;

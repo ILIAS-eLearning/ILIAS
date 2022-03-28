@@ -137,7 +137,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
         $this->setData($result);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void // Missing array type.
     {
         global $DIC;
 

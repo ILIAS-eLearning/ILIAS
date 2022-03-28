@@ -68,7 +68,7 @@ class ilSystemStyleMainGUI
         $this->skin_factory = new ilSkinFactory($this->lng);
         $this->user = $DIC->user();
 
-        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
         $this->ref_id = $this->request_wrapper->query()->retrieve('ref_id', $this->refinery->kindlyTo()->string());
     }
 
@@ -337,7 +337,7 @@ class ilSystemStyleMainGUI
      */
     protected function setUnderworldTitle(string $skin_id, string $style_id, bool $read_only = false)
     {
-        $skin = $this->skin_factory->skinStyleContainerFromId($skin_id)->getSkin();
+        $skin = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack)->getSkin();
         $style = $skin->getStyle($style_id);
 
         if ($read_only) {

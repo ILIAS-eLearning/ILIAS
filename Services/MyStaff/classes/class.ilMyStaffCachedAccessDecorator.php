@@ -138,6 +138,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
+
     public function getUsersForUserOperationAndContext(
         $user_id,
         $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
@@ -152,15 +153,18 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
+
     public function getUsersForUserPerPosition($user_id) : array
     {
         return $this->origin->getUsersForUserPerPosition($user_id);
     }
 
+
     public function getUsersForUser($user_id, ?int $position_id = null) : array
     {
         return $this->origin->getUsersForUser($user_id, $position_id);
     }
+
 
     public function getIdsForUserAndOperation(int $user_id, string $operation, bool $return_ref_id = false) : array
     {
@@ -171,6 +175,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
+
     public function getIdsForPositionAndOperation(int $position_id, string $operation, bool $return_ref_id) : array
     {
         return $this->origin->getIdsForPositionAndOperation(
@@ -179,6 +184,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
             $return_ref_id
         );
     }
+
 
     public function getIdsForPositionAndOperationAndContext(
         int $position_id,
@@ -194,6 +200,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
+
     public function getIlobjectsAndUsersForUserOperationAndContext(
         $user_id,
         $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
@@ -205,6 +212,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
             $context
         );
     }
+
 
     public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
         $user_id,
@@ -220,6 +228,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
+
     public function buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
         $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
         $context = self::DEFAULT_CONTEXT,
@@ -231,6 +240,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
             $temporary_table_name_prefix
         );
     }
+
 
     public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext(
         $org_unit_operation_string = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,
@@ -244,6 +254,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
+
     public function buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext(
         $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
         $context = self::DEFAULT_CONTEXT,
@@ -255,6 +266,7 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
             $temporary_table_name_prefix
         );
     }
+
 
     public function buildTempTableCourseMemberships(
         $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS,
@@ -276,8 +288,9 @@ class ilMyStaffCachedAccessDecorator extends ilMyStaffAccess
         );
     }
 
-    public function dropTempTable($temporary_table_name) : bool
+
+    public function dropTempTable($temporary_table_name) : void
     {
-        return $this->origin->dropTempTable($temporary_table_name);
+        $this->origin->dropTempTable($temporary_table_name);
     }
 }

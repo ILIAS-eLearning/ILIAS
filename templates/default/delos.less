@@ -154,6 +154,10 @@ All parts that aren't checked yet are actually marked with "rtl-review"
   .col(1); // kickstart it
 }
 
+script {
+	display: none!important;
+}
+
 .row-flex {
 	display: -webkit-box;
 	display: -moz-box;
@@ -289,7 +293,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 
 // warning inline text
 span.ilAlert {
-	color: @brand-warning;
+	color: @il-warning-color;
 }
 
 /* Drop Downs */
@@ -477,6 +481,8 @@ a {
 		color: @link-hover-color;
 		text-decoration: underline;
 	}
+	
+	.il-focus();
 }
 
 hr {
@@ -717,7 +723,7 @@ div.ilAdminRow {
 
 table.std {
 	color: @il-text-color;
-	background-color: #bbb;
+	background-color: @il-main-dark-bg;
 	border-spacing: 0;
 	border-collapse: collapse;
 	border: 1px solid #9eadba;
@@ -939,7 +945,7 @@ a.il_ItemProperty:hover {
 }
 
 span.il_ItemAlertProperty {
-	color: @brand-warning;
+	color: @il-warning-color;
 }
 
 /* Table Links */
@@ -1066,7 +1072,7 @@ div.ilHeaderAlert {
 	font-size: 90%;
 	padding: 0;
 	font-weight: 300;
-	color: @brand-warning;
+	color: @il-warning-color;
 }
 
 div.il_HeaderInner {
@@ -1096,6 +1102,11 @@ div.il_TreeIcons {
 #current_perma_link {
 	color: @il-text-color;
 	font-size: 90%;
+	
+	&:focus-visible {
+		outline: @il-focus-outline-inner-width solid @il-focus-protection-color;
+		outline-offset: @il-focus-outline-outer-width;
+	}
 }
 a.permalink_label {
 	> span.glyphicon {
@@ -1625,6 +1636,7 @@ span.ilIcalIcon {
 @import "less/Modules/LearningSequence/delos.less";
 @import "less/Services/LearningHistory/delos.less";
 @import "less/Services/Preview/delos.less";
+@import "less/Services/WebDAV/delos.less";
 
 .noMargin {
 	margin: 0;

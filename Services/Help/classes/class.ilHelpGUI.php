@@ -142,7 +142,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $lng->loadLanguageModule("help");
         $ui = $this->ui;
 
-        if ($this->help_request->getHelpScreenId() != "") {
+        if ($this->help_request->getHelpScreenId() !== "") {
             ilSession::set("help_screen_id", $this->help_request->getHelpScreenId());
             $help_screen_id = $this->help_request->getHelpScreenId();
         } else {
@@ -310,7 +310,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
         $module_id = (int) $ilSetting->get("help_module");
 
-        if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de") {
+        if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() === "de") {
             if (ilSession::get("help_pg") > 0) {
                 $a_tpl->addOnLoadCode("il.Help.showCurrentPage(" . ilSession::get("help_pg") . ");", 3);
             } else {
@@ -350,7 +350,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $link_info = "<IntLinkInfos>";
         foreach ($a_int_links as $int_link) {
             $target = $int_link["Target"];
-            if (substr($target, 0, 4) == "il__") {
+            if (strpos($target, "il__") === 0) {
                 $target_arr = explode("_", $target);
                 $target_id = $target_arr[count($target_arr) - 1];
                 $type = $int_link["Type"];
@@ -366,7 +366,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
                 switch ($type) {
                     case "PageObject":
                     case "StructureObject":
-                            if ($type == "PageObject") {
+                            if ($type === "PageObject") {
                                 $href = "#pg_" . $target_id;
                             } else {
                                 $href = "#";
@@ -402,7 +402,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
         $term = $this->help_request->getTerm();
 
-        if ($term == "") {
+        if ($term === "") {
             $term = ilSession::get("help_search_term");
         }
 

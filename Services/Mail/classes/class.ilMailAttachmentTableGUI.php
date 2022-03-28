@@ -76,7 +76,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
                 return ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
 
             case 'filesize':
-                return ilUtil::formatSize($value);
+                return ilUtil::formatSize((int) $value);
 
             default:
                 return $value;

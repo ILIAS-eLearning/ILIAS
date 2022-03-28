@@ -206,7 +206,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             ));
 
         // create start page
-        if ($this->getStartPage() != "" && !$a_prevent_start_page_creation) {
+        if ($this->getStartPage() !== "" && !$a_prevent_start_page_creation) {
             $start_page = new ilWikiPage();
             $start_page->setWikiId($this->getId());
             $start_page->setTitle($this->getStartPage());
@@ -313,7 +313,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         global $DIC;
         $ilDB = $DIC->database();
 
-        if ($a_short_title == "") {
+        if ($a_short_title === "") {
             return true;
         }
         $res = $ilDB->queryF(
@@ -333,7 +333,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
      */
     public static function _lookupRatingOverall(int $a_wiki_id) : bool
     {
-        return (bool) ilObjWiki::_lookup($a_wiki_id, "rating_overall");
+        return (bool) self::_lookup($a_wiki_id, "rating_overall");
     }
     
     /**
@@ -341,7 +341,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
      */
     public static function _lookupRating(int $a_wiki_id) : bool
     {
-        return (bool) ilObjWiki::_lookup($a_wiki_id, "rating");
+        return (bool) self::_lookup($a_wiki_id, "rating");
     }
     
     /**
@@ -349,7 +349,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
      */
     public static function _lookupRatingCategories(int $a_wiki_id) : bool
     {
-        return (bool) ilObjWiki::_lookup($a_wiki_id, "rating_ext");
+        return (bool) self::_lookup($a_wiki_id, "rating_ext");
     }
     
     /**
@@ -357,7 +357,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
      */
     public static function _lookupRatingAsBlock(int $a_wiki_id) : bool
     {
-        return (bool) ilObjWiki::_lookup($a_wiki_id, "rating_side");
+        return (bool) self::_lookup($a_wiki_id, "rating_side");
     }
 
     /**
@@ -365,7 +365,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
      */
     public static function _lookupPublicNotes(int $a_wiki_id) : bool
     {
-        return (bool) ilObjWiki::_lookup($a_wiki_id, "public_notes");
+        return (bool) self::_lookup($a_wiki_id, "public_notes");
     }
 
     /**
@@ -373,7 +373,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
      */
     public static function _lookupLinkMetadataValues(int $a_wiki_id) : bool
     {
-        return (bool) ilObjWiki::_lookup($a_wiki_id, "link_md_values");
+        return (bool) self::_lookup($a_wiki_id, "link_md_values");
     }
 
     /**
@@ -395,7 +395,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
     public static function _lookupStartPage(int $a_wiki_id) : string
     {
-        return (string) ilObjWiki::_lookup($a_wiki_id, "startpage");
+        return (string) self::_lookup($a_wiki_id, "startpage");
     }
 
     public static function writeStartPage(int $a_id, string $a_name) : void
@@ -492,8 +492,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $ilDB = $this->db;
 
         if (!$this->isImportantPage($a_page_id)) {
-            if ($a_nr == 0) {
-                $a_nr = ilObjWiki::_lookupMaxOrdNrImportantPages($this->getId()) + 10;
+            if ($a_nr === 0) {
+                $a_nr = self::_lookupMaxOrdNrImportantPages($this->getId()) + 10;
             }
 
             $ilDB->manipulate("INSERT INTO il_wiki_imp_pages " .
@@ -542,7 +542,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
     ) : bool {
         $ilDB = $this->db;
 
-        $ipages = ilObjWiki::_lookupImportantPagesList($this->getId());
+        $ipages = self::_lookupImportantPagesList($this->getId());
 
         foreach ($ipages as $k => $v) {
             if (isset($a_ord[$v["page_id"]])) {
@@ -585,7 +585,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
     {
         $ilDB = $this->db;
 
-        $ipages = ilObjWiki::_lookupImportantPagesList($this->getId());
+        $ipages = self::_lookupImportantPagesList($this->getId());
 
         // fix indentation: no 2 is allowed after a 0
         $c_indent = 0;
@@ -616,12 +616,12 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
     public static function _lookupPageToc(
         int $a_wiki_id
     ) : bool {
-        return (bool) ilObjWiki::_lookup($a_wiki_id, "page_toc");
+        return (bool) self::_lookup($a_wiki_id, "page_toc");
     }
 
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
         // Custom meta data activation is stored in a container setting
         ilContainer::_writeContainerSetting(
@@ -635,7 +635,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         );
 
         //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+        $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
 
         if (!$cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOnline($this->getOnline());
@@ -686,7 +686,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         }
         
         // copy important pages
-        foreach (ilObjWiki::_lookupImportantPagesList($this->getId()) as $ip) {
+        foreach (self::_lookupImportantPagesList($this->getId()) as $ip) {
             $new_obj->addImportantPage($map[$ip["page_id"]], $ip["ord"], $ip["indent"]);
         }
 
@@ -727,11 +727,11 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         int $a_template_page = 0
     ) : ilWikiPage {
         // check if template has to be used
-        if ($a_template_page == 0) {
+        if ($a_template_page === 0) {
             if (!$this->getEmptyPageTemplate()) {
                 $wt = new ilWikiPageTemplate($this->getId());
                 $ts = $wt->getAllInfo(ilWikiPageTemplate::TYPE_NEW_PAGES);
-                if (count($ts) == 1) {
+                if (count($ts) === 1) {
                     $t = current($ts);
                     $a_template_page = $t["wpage_id"];
                 }
@@ -769,13 +769,13 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         return $page;
     }
 
-    public static function getAdvMDSubItemTitle($a_obj_id, $a_sub_type, $a_sub_id)
+    public static function getAdvMDSubItemTitle($a_obj_id, $a_sub_type, $a_sub_id) : string // TODO PHP8-REVIEW Type hints are missing here
     {
         global $DIC;
 
         $lng = $DIC->language();
     
-        if ($a_sub_type == "wpg") {
+        if ($a_sub_type === "wpg") {
             $lng->loadLanguageModule("wiki");
             return $lng->txt("wiki_wpg") . ' "' . ilWikiPage::lookupTitle($a_sub_id) . '"';
         }

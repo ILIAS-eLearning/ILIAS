@@ -21,7 +21,7 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
         return $DIC;
     }
 
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -35,7 +35,7 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
         $this->commands = ilObjLearningSequenceAccess::_getCommands();
     }
 
-    public function getProperties()
+    public function getProperties() : array
     {
         $props = parent::getProperties();
 

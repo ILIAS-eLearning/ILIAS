@@ -105,10 +105,7 @@ class ilExercisePlaceholderValues implements ilCertificatePlaceholderValues
         $placeHolders['DATE_COMPLETED'] = '';
         $placeHolders['DATETIME_COMPLETED'] = '';
 
-        if ($completionDate !== false &&
-            $completionDate !== null &&
-            $completionDate !== ''
-        ) {
+        if ($completionDate !== '') {
             $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
             $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
         }

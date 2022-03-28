@@ -28,7 +28,7 @@ class ilMediaPoolImportConfig extends ilImportConfig
         ?ilObjMediaPool $a_mep,
         string $a_lang = ""
     ) : void {
-        if ($a_mep != null) {
+        if ($a_mep !== null) {
             $this->transl_into = true;
             $this->transl_into_mep = $a_mep;
             $this->transl_lang = $a_lang;

@@ -147,7 +147,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         $template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
         $template->parseCurrentBlock();
 
-        if ($this->object->getTextHeight() == 1) {
+        if ($this->object->getTextHeight() === 1) {
             $template->setCurrentBlock("textinput");
             if (is_array($working_data)) {
                 if (isset($working_data[0]["textanswer"])) {
@@ -178,7 +178,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         }
         $template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
         $template->setVariable("LABEL_QUESTION_ID", $this->object->getId());
-        if (strcmp($error_message, "") != 0) {
+        if (strcmp($error_message, "") !== 0) {
             $template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
         }
         if ($this->object->getMaxChars()) {

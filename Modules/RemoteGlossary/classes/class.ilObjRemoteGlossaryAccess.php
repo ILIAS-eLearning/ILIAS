@@ -28,29 +28,21 @@
 class ilObjRemoteGlossaryAccess extends ilObjectAccess
 {
     /**
-    * checks wether a user may invoke a command or not
+    * checks whether a user may invoke a command or not
     * (this method is called by ilAccessHandler::checkAccess)
-    *
-    * @param	string		$a_cmd		command (not permission!)
-    * @param	string		$a_permission	permission
-    * @param	int			$a_ref_id	reference id
-    * @param	int			$a_obj_id	object id
-    * @param	int			$a_user_id	user id (if not provided, current user is taken)
-    *
-    * @return	boolean		true, if everything is ok
     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
-        global $ilUser, $lng, $rbacsystem, $ilAccess, $ilias;
+        global $ilUser, $lng, $rbacsystem, $ilAccess;
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
 
-        switch ($a_permission) {
+        switch ($permission) {
             case "visible":
-                $active = ilObjRemoteGlossary::_lookupOnline($a_obj_id);
-                $tutor = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+                $active = ilObjRemoteGlossary::_lookupOnline($obj_id);
+                $tutor = $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
 
                 if (!$active) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
@@ -61,11 +53,11 @@ class ilObjRemoteGlossaryAccess extends ilObjectAccess
                 break;
 
             case 'read':
-                $tutor = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+                $tutor = $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
                 if ($tutor) {
                     return true;
                 }
-                $active = ilObjRemoteGlossary::_lookupOnline($a_obj_id);
+                $active = ilObjRemoteGlossary::_lookupOnline($obj_id);
 
                 if (!$active) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
@@ -88,7 +80,7 @@ class ilObjRemoteGlossaryAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "show", "lang_var" => "info",

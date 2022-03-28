@@ -161,7 +161,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
     
     public function numericOrdering(string $a_field) : bool
     {
-        if (substr($a_field, 0, 3) == "md_") {
+        if (strpos($a_field, "md_") === 0) {
             $md_id = (int) substr($a_field, 3);
             if ($this->adv_fields[$md_id]["type"] == ilAdvancedMDFieldDefinition::TYPE_DATE) {
                 return true;
@@ -187,14 +187,11 @@ class ilPresentationListTableGUI extends ilTable2GUI
             );
             $this->tpl->parseCurrentBlock();
         } else {
-            if (sizeof($defs)) {
-                for ($j = 0; $j < count($defs); $j++) {
+            if (count($defs)) {
+                for ($j = 0, $jMax = count($defs); $j < $jMax; $j++) {
                     $def = $defs[$j];
                     if (count($defs) > 1) {
                         if (!$this->offline) {
-                            if (!empty($filter)) {
-                                $this->ctrl->setParameter($this->parent_obj, "term", $filter);
-                            }
                             $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
                             $def_href = $this->ctrl->getLinkTarget($this->parent_obj, "listDefinitions");
                             $this->ctrl->clearParameters($this->parent_obj);
@@ -221,8 +218,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
                     }
 
                     if (!$this->page_config->getPreventHTMLUnmasking()) {
-                        $short_str = str_replace("&lt;", "<", $short_str);
-                        $short_str = str_replace("&gt;", ">", $short_str);
+                        $short_str = str_replace(["&lt;", "&gt;"], ["<", ">"], $short_str);
                     }
 
                     // replace tex
@@ -244,9 +240,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
                         $short_str = ilMathJax::getInstance()->insertLatexImages(
                             $short_str,
                             '[tex]',
-                            '[/tex]',
-                            $this->parent_obj->getOfflineDirectory() . '/teximg',
-                            './teximg'
+                            '[/tex]'
                         );
                     }
 
@@ -278,9 +272,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
             if ($c["id"] == 0) {
                 $this->tpl->setCurrentBlock("link_start");
                 if (!$this->offline) {
-                    if (!empty($filter)) {
-                        $this->ctrl->setParameter($this->parent_obj, "term", $filter);
-                    }
                     $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
                     $this->tpl->setVariable(
                         "LINK_VIEW_TERM",

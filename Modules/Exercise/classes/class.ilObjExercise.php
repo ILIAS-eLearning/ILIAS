@@ -31,23 +31,23 @@ class ilObjExercise extends ilObject
     protected ilObjUser $user;
     protected ilFileDataMail $file_obj;
     public ilExerciseMembers $members_obj;
-    protected int $timestamp;
-    protected int  $hour;
-    protected int  $minutes;
-    protected int  $day;
-    protected int  $month;
-    protected int  $year;
-    protected string  $instruction;
-    protected int $certificate_visibility;
+    protected int $timestamp = 0;
+    protected int  $hour = 0;
+    protected int  $minutes = 0;
+    protected int  $day = 0;
+    protected int  $month = 0;
+    protected int  $year = 0;
+    protected string  $instruction = "";
+    protected int $certificate_visibility = 0;
     protected int $tutor_feedback = 7; // [int]
-    protected int $nr_random_mand; // number of mandatory assignments in random pass mode
+    protected int $nr_random_mand = 0; // number of mandatory assignments in random pass mode
     protected bool $completion_by_submission = false; // completion by submission is enabled or not
     protected Filesystem $webFilesystem;
     protected MandatoryAssignmentsManager $mandatory_manager;
     protected int $pass_nr = 0;
     protected InternalService $service;
     protected string $pass_mode = self::PASS_MODE_ALL;
-    protected bool $show_submissions;
+    protected bool $show_submissions = false;
 
     /**
      * @throws ilExcUnknownAssignmentTypeException

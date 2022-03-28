@@ -97,7 +97,7 @@ class ilCourseObjectiveQuestion
             $question_ref_id = $question['ref_id'];
             $question_obj_id = $question['obj_id'];
             $question_qst_id = $question['question_id'];
-            $new_ref_id = $mappings[$question_ref_id];
+            $new_ref_id = (int) $mappings[$question_ref_id];
             $new_obj_id = $this->objectDataCache->lookupObjId($new_ref_id);
 
             if ($new_obj_id == $question_obj_id) {

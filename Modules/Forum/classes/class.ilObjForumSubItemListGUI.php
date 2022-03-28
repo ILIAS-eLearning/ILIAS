@@ -9,7 +9,7 @@
  */
 class ilObjForumSubItemListGUI extends ilSubItemListGUI
 {
-    public function getHTML()
+    public function getHTML() : string
     {
         global $DIC;
 

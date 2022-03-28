@@ -69,7 +69,7 @@ class ilEditClipboardGUI
            ->domain()
            ->clipboard();
 
-        if ($this->requested_return_cmd != "") {
+        if ($this->requested_return_cmd !== "") {
             $this->mode = "getObject";
         } else {
             $this->mode = "";
@@ -138,7 +138,7 @@ class ilEditClipboardGUI
     {
         $lng = $this->lng;
         
-        if ($this->insertbuttontitle == "") {
+        if ($this->insertbuttontitle === "") {
             return $lng->txt("insert");
         }
         
@@ -179,20 +179,20 @@ class ilEditClipboardGUI
         
         // check number of objects
         $ids = $this->request->getItemIds();
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "view");
         }
 
         foreach ($ids as $obj_id) {
             $id = explode(":", $obj_id);
-            if ($id[0] == "mob") {
+            if ($id[0] === "mob") {
                 $ilUser->removeObjectFromClipboard($id[1], "mob");
                 include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                 $mob = new ilObjMediaObject($id[1]);
                 $mob->delete();			// this method don't delete, if mob is used elsewhere
             }
-            if ($id[0] == "incl") {
+            if ($id[0] === "incl") {
                 $ilUser->removeObjectFromClipboard($id[1], "incl");
             }
         }
@@ -211,16 +211,14 @@ class ilEditClipboardGUI
         $ids = $this->request->getItemIds();
 
         // check number of objects
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             ilUtil::redirect($return);
         }
         
-        if (!$this->getMultipleSelections()) {
-            if (count($ids) > 1) {
-                $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_select_max_one_item"), true);
-                ilUtil::redirect($return);
-            }
+        if (!$this->getMultipleSelections() && count($ids) > 1) {
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_select_max_one_item"), true);
+            ilUtil::redirect($return);
         }
 
         $this->clipboard_manager->setIds($ids);

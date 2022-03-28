@@ -19,6 +19,9 @@
  */
 class ilUserBadgeProvider implements ilBadgeProvider
 {
+    /**
+     * @inheritcoc
+     */
     public function getBadgeTypes() : array
     {
         return array(

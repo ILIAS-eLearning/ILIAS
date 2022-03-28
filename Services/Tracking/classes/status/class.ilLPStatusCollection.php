@@ -100,7 +100,7 @@ class ilLPStatusCollection extends ilLPStatus
                 $grouping_completed = array();
                 $grouping_completed_users_num = array();
                 foreach ((array) $grouping['items'] as $item) {
-                    $item_id = $ilObjDataCache->lookupObjId($item);
+                    $item_id = $ilObjDataCache->lookupObjId((int) $item);
                     $tmp_users = ilLPStatusWrapper::_getCompleted($item_id);
                     if ($isGrouping) {
                         // Iterated through all grouped items and count the number of fullfiled items
@@ -160,7 +160,7 @@ class ilLPStatusCollection extends ilLPStatus
                 $gr_failed_users_num = array();
                 $counter = 0;
                 foreach ((array) $grouping['items'] as $item) {
-                    $item_id = $ilObjDataCache->lookupObjId($item);
+                    $item_id = $ilObjDataCache->lookupObjId((int) $item);
                     $tmp_users = ilLPStatusWrapper::_getFailed($item_id);
 
                     if ($isGrouping) {
@@ -221,7 +221,7 @@ class ilLPStatusCollection extends ilLPStatus
         $tlt = 0;
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         foreach ($status_info['collections'] as $item) {
-            $tlt += ilLPStatusWrapper::_getTypicalLearningTime($ilObjDataCache->lookupObjId($item));
+            $tlt += ilLPStatusWrapper::_getTypicalLearningTime($ilObjDataCache->lookupObjId((int) $item));
         }
         return $tlt;
     }
@@ -302,7 +302,7 @@ class ilLPStatusCollection extends ilLPStatus
         $num_completed = 0;
 
         foreach ($items as $item_id) {
-            $item_id = $ilObjDataCache->lookupObjId($item_id);
+            $item_id = $ilObjDataCache->lookupObjId((int) $item_id);
             $gr_status = ilLPStatusWrapper::_determineStatus($item_id, $user_id);
 
             if ($gr_status == self::LP_STATUS_FAILED_NUM) {

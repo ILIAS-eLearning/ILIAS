@@ -50,11 +50,11 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
             array('integer'),
             array($id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             return $ilDB->fetchAssoc($result);
-        } else {
-            return array();
         }
+
+        return array();
     }
     
     public function loadFromDb(int $question_id) : void
@@ -66,7 +66,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
             array('integer'),
             array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
             $this->setId($data["question_id"]);
             $this->setTitle($data["title"]);
@@ -101,16 +101,12 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 
     public function isComplete() : bool
     {
-        if (
-            strlen($this->getTitle()) &&
-            strlen($this->getAuthor()) &&
-            strlen($this->getQuestiontext()) &&
+        return (
+            $this->getTitle() !== '' &&
+            $this->getAuthor() !== '' &&
+            $this->getQuestiontext() !== '' &&
             $this->categories->getCategoryCount()
-        ) {
-            return 1;
-        } else {
-            return 0;
-        }
+        );
     }
 
     public function saveToDb(int $original_id = 0) : int
@@ -118,7 +114,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         $ilDB = $this->db;
 
         $affectedRows = parent::saveToDb($original_id);
-        if ($affectedRows == 1) {
+        if ($affectedRows === 1) {
             $ilDB->manipulateF(
                 "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
                 array('integer'),
@@ -241,7 +237,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
                 );
                 $a_xml_writer->xmlStartTag("material", $attrs);
                 $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
-                if (strcmp($matches[1], "") != 0) {
+                if (strcmp($matches[1], "") !== 0) {
                     $intlink = $this->material["internal_link"];
                 }
                 $a_xml_writer->xmlElement("mattext", null, $intlink);
@@ -317,11 +313,11 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         int $survey_id
     ) : string {
         $entered_value = (array) $post_data[$this->getId() . "_value"];
-        if (!$this->getObligatory() && (count($entered_value) == 0)) {
+        if (!$this->getObligatory() && (count($entered_value) === 0)) {
             return "";
         }
 
-        if ($this->use_min_answers && $this->nr_min_answers > 0 && $this->nr_max_answers > 0 && $this->nr_min_answers == $this->nr_max_answers && count($entered_value) != $this->nr_max_answers) {
+        if ($this->use_min_answers && $this->nr_min_answers > 0 && $this->nr_max_answers > 0 && $this->nr_min_answers == $this->nr_max_answers && count($entered_value) !== $this->nr_max_answers) {
             return sprintf($this->lng->txt("err_no_exact_answers"), $this->nr_min_answers);
         }
         if ($this->use_min_answers && $this->nr_min_answers > 0 && count($entered_value) < $this->nr_min_answers) {
@@ -340,10 +336,8 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
                     if (array_key_exists($this->getId() . "_" . $i . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
                         return $this->lng->txt("question_mr_no_other_answer");
                     }
-                } else {
-                    if (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
-                        return $this->lng->txt("question_mr_no_other_answer_checked");
-                    }
+                } elseif (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
+                    return $this->lng->txt("question_mr_no_other_answer_checked");
                 }
             }
         }

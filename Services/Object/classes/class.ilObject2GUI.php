@@ -478,7 +478,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         parent::redirectToRefId($ref_id, $cmd);
     }
-    final protected function fillCloneTemplate(?string $tpl_varname, string $type)
+    final protected function fillCloneTemplate(?string $tpl_varname, string $type) : ?ilPropertyFormGUI
     {
         return parent::fillCloneTemplate($tpl_varname, $type);
     }
@@ -581,7 +581,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Functions that must be overwritten
      */
-    abstract public function getType() : ?string;
+    abstract public function getType() : string;
 
     /**
      * CRUD
@@ -698,7 +698,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         if ($callback_ref_id) {
             $callback_type = ilObject::_lookupType($callback_ref_id, true);
             $class_name = "ilObj" . $objDefinition->getClassName($callback_type) . "GUI";
-            if (in_array(strtolower($class_name), array("ilobjitemgroupgui"))) {
+            if (strtolower($class_name) == "ilobjitemgroupgui") {
                 $callback_obj = new $class_name($callback_ref_id);
             } else {
                 $callback_obj = new $class_name(null, $callback_ref_id, true, false);

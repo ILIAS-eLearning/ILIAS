@@ -21,17 +21,15 @@
  */
 class ilOpenIdConnectAppEventListener
 {
-    /**
-     * @var ilLogger|null
-     */
-    private $logger = null;
+    private ilLogger $logger;
     
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->logger = ilLoggerFactory::getInstance()->getLogger('auth');
+        global $DIC;
+        $this->logger = $DIC->logger()->auth();
     }
 
     /**

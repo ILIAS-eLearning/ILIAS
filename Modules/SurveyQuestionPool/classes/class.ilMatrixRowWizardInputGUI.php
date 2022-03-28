@@ -65,11 +65,9 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
     public function setValue($a_value) : void
     {
         $this->values = new SurveyCategories();
-        if (is_array($a_value)) {
-            if (is_array($a_value['answer'])) {
-                foreach ($a_value['answer'] as $index => $value) {
-                    $this->values->addCategory($value, $a_value['other'][$index]);
-                }
+        if (is_array($a_value) && is_array($a_value['answer'])) {
+            foreach ($a_value['answer'] as $index => $value) {
+                $this->values->addCategory($value, $a_value['other'][$index]);
             }
         }
     }

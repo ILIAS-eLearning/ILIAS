@@ -1,13 +1,14 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/JSON/classes/class.ilJsonUtil.php");
-include_once("./Modules/Cloud/exceptions/class.ilCloudException.php");
+require_once("./Services/JSON/classes/class.ilJsonUtil.php");
+require_once("./Modules/Cloud/exceptions/class.ilCloudException.php");
 
 /**
  * Class ilCloudPluginCreateFolderGUI
  * Standard GUI when creating a new folder. Could be overwritten by the plugin if needed.
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id:
  * @extends ilCloudPluginGUI
  * @ingroup ModulesCloud
@@ -35,17 +36,13 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         exit;
     }
 
-    /**
-     * Init  form.
-     * @param int $a_mode Edit Mode
-     */
-    public function initCreateFolder()
+    public function initCreateFolder() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setId("cld_create_folder");
 
@@ -66,10 +63,7 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         $this->form->setTarget("cld_blank_target");
     }
 
-    /**
-     * Update properties
-     */
-    public function createFolder()
+    public function createFolder() : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -81,7 +75,7 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         $response->folder_id = null;
         try {
             $response->status = "done";
-            include_once("class.ilCloudFileTree.php");
+            require_once("class.ilCloudFileTree.php");
             $file_tree = ilCloudFileTree::getFileTreeFromSession();
             $new_node = $file_tree->addFolderToService($_POST["parent_folder_id"], $_POST["folder_name"]);
             $response->folder_id = $new_node->getId();
@@ -95,10 +89,7 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         exit;
     }
 
-    /**
-     * Update properties
-     */
-    public function cancel()
+    public function cancel() : void
     {
         $response = new stdClass();
         $response->status = "cancel";

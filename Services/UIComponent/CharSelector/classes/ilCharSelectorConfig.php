@@ -302,7 +302,7 @@ class ilCharSelectorConfig
         $admin_config = new self(self::CONTEXT_ADMIN);
         $admin_config->setAvailability($ilSetting->get('char_selector_availability'));
         $admin_config->setDefinition($ilSetting->get('char_selector_definition'));
-        if ($admin_config->getAvailability() == self::INACTIVE) {
+        if ($admin_config->getAvailability() === self::INACTIVE) {
             // a globally inactive selector can't be overwritten by users or tests
             return $admin_config;
         }
@@ -312,7 +312,7 @@ class ilCharSelectorConfig
             $test_config = new self(self::CONTEXT_TEST);
             $test_config->setAvailability($a_test_obj->getCharSelectorAvailability());
             $test_config->setDefinition($a_test_obj->getCharSelectorDefinition());
-            if ($test_config->getAvailability() != self::INHERIT) {
+            if ($test_config->getAvailability() !== self::INHERIT) {
                 // a specific test configuration has precedence over user configuration
                 return $test_config;
             }
@@ -322,7 +322,7 @@ class ilCharSelectorConfig
         $user_config = new self(self::CONTEXT_USER);
         $user_config->setAvailability($ilUser->getPref('char_selector_availability'));
         $user_config->setDefinition($ilUser->getPref('char_selector_definition'));
-        if ($user_config->getAvailability() != self::INHERIT) {
+        if ($user_config->getAvailability() !== self::INHERIT) {
             // take user specific config
             return $user_config;
         } else {
@@ -367,9 +367,8 @@ class ilCharSelectorConfig
     {
         $this->added_blocks = array();
         foreach ($a_blocks as $block_name) {
-            if ($block_name == "all" or
-                in_array($block_name, array_keys(self::$unicode_blocks))) {
-                array_push($this->added_blocks, $block_name);
+            if ($block_name === "all" || array_key_exists($block_name, self::$unicode_blocks)) {
+                $this->added_blocks[] = $block_name;
             }
         }
     }
@@ -420,17 +419,17 @@ class ilCharSelectorConfig
         $this->custom_items = array();
 
         // set the default definition to all unicode blocks
-        if (trim($a_definition) == '') {
+        if (trim($a_definition) === '') {
             $a_definition = "[all]";
         }
         
         // analyze definition items
         $items = explode(' ', $a_definition);
         foreach ($items as $item) {
-            if (strlen($block_name = $this->extractUnicodeBlock($item))) {
-                array_push($this->added_blocks, $block_name);
-            } elseif ($item != '') {
-                array_push($this->custom_items, trim($item));
+            if (($block_name = $this->extractUnicodeBlock($item)) !== '') {
+                $this->added_blocks[] = $block_name;
+            } elseif ($item !== '') {
+                $this->custom_items[] = trim($item);
             }
         }
     }
@@ -443,7 +442,7 @@ class ilCharSelectorConfig
     {
         $definition = implode(' ', $this->custom_items);
         foreach ($this->added_blocks as $block_name) {
-            $definition = $definition . ' [' . $block_name . ']';
+            $definition .= ' [' . $block_name . ']';
         }
         return trim($definition);
     }
@@ -476,7 +475,7 @@ class ilCharSelectorConfig
         global $lng;
         
         $langvar = 'char_selector_unicode_' . $a_block_name;
-        if ($lng->txt($langvar) != '-' . $langvar . '-') {
+        if ($lng->txt($langvar) !== '-' . $langvar . '-') {
             return $lng->txt($langvar);
         } else {
             return self::$unicode_blocks[$a_block_name][0];
@@ -494,8 +493,7 @@ class ilCharSelectorConfig
         $matches = array();
         if (preg_match('/^\[(.+)\]$/', $a_item, $matches)) {
             $block_name = $matches[1];
-            if ($block_name == 'all'
-                or in_array($block_name, array_keys(self::$unicode_blocks))) {
+            if ($block_name === 'all' || array_key_exists($block_name, self::$unicode_blocks)) {
                 return $block_name;
             }
         }
@@ -523,14 +521,14 @@ class ilCharSelectorConfig
                 $subitems = explode('-', $item);
                 $start = $this->getItemCodepoint($subitems[0]);
                 $end = $this->getItemCodepoint($subitems[1]);
-                array_push($page, array($start, $end));
+                $page[] = array($start, $end);
             } else {
                 // handle normal item
-                array_push($page, $this->getItemParsed($item));
+                $page[] = $this->getItemParsed($item);
             }
         }
         if (count($page) > 1) {
-            array_push($pages, $page);
+            $pages[] = $page;
         }
     
         // add unicode blocks
@@ -543,7 +541,7 @@ class ilCharSelectorConfig
             $start = hexdec(self::$unicode_blocks[$block_name][1]);
             $end = hexdec(self::$unicode_blocks[$block_name][2]);
             $page = array($this->getBlockTitle($block_name), array($start, $end));
-            array_push($pages, $page);
+            $pages[] = $page;
         }
         
         return $pages;

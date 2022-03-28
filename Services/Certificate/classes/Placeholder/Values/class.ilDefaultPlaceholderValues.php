@@ -109,7 +109,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 
         $salutation = '';
         $gender = $user->getGender();
-        if (is_string($gender) && trim($gender) !== '' && strtolower($gender) !== 'n') {
+        if (trim($gender) !== '' && strtolower($gender) !== 'n') {
             $salutation = $this->utilHelper->prepareFormOutput($this->language->txt("salutation_" . trim($gender)));
         }
 
@@ -133,17 +133,15 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             time(),
             $this->dateFormat
         ))));
-        $placeholder['DATETIME'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(
+        $placeholder['DATETIME'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
             time(),
             $this->dateFormat
         ))));
 
-        $placeholder = array_merge(
+        return array_merge(
             $placeholder,
             $this->userDefinedFieldsPlaceholderValues->getPlaceholderValues($userId, $objId)
         );
-
-        return $placeholder;
     }
 
     /**
@@ -182,7 +180,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
                 time(),
                 $this->dateFormat
             )))),
-            'DATETIME' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(
+            'DATETIME' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
                 time(),
                 $this->dateFormat
             )))),
@@ -190,7 +188,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
                 time(),
                 $this->dateFormat
             )))),
-            'DATETIME_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(
+            'DATETIME_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
                 time(),
                 $this->dateFormat
             ))))

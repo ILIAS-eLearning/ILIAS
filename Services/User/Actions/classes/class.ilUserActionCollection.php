@@ -19,6 +19,9 @@
  */
 class ilUserActionCollection
 {
+    /**
+     * @var ilUserAction[]
+     */
     protected array $actions = array();
 
     public static function getInstance() : ilUserActionCollection
@@ -36,6 +39,9 @@ class ilUserActionCollection
         $this->actions[] = $a_action;
     }
 
+    /**
+     * @return ilUserAction[]
+     */
     public function getActions() : array
     {
         return $this->actions;

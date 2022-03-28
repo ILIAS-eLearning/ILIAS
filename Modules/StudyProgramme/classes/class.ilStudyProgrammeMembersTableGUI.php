@@ -507,7 +507,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                 // This case should only occur if the status completed is set
                 // by an already deleted crs.
                 if (!$rec["completion_by"]) {
-                    $title = ilObjectDataDeletionLog::get($rec["completion_by_id"]);
+                    $title = ilObjectDataDeletionLog::get((int) $rec["completion_by_id"]);
                     if (!is_null($title["title"])) {
                         $rec["completion_by"] = $title["title"];
                     }

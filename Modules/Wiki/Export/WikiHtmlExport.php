@@ -81,7 +81,7 @@ class WikiHtmlExport
      * @throws \ilTemplateException
      * @throws \ilWikiExportException
      */
-    public function buildExportFile($print_version = false)
+    public function buildExportFile(bool $print_version = false) : string
     {
         $global_screen = $this->global_screen;
         $ilDB = $this->db;
@@ -92,7 +92,7 @@ class WikiHtmlExport
         \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
 
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
-            $this->user_html_exp = new \ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser, ($this->getMode() == self::MODE_USER_COMMENTS));
+            $this->user_html_exp = new \ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser, ($this->getMode() === self::MODE_USER_COMMENTS));
         }
 
         $ascii_name = str_replace(" ", "_", ilFileUtils::getASCIIFilename($this->wiki->getTitle()));
@@ -212,7 +212,7 @@ class WikiHtmlExport
     /**
      * Export all pages as one print version
      */
-    public function exportHTMLPagesPrint()
+    public function exportHTMLPagesPrint() : void
     {
         // collect page elements
         $pages = \ilWikiPage::getAllWikiPages($this->wiki->getId());
@@ -315,7 +315,7 @@ class WikiHtmlExport
 
         // open file
         $this->log->debug("write file: " . $file);
-        if (!($fp = fopen($file, "w+"))) {
+        if (!($fp = fopen($file, 'wb+'))) {
             $this->log->error("Could not open " . $file . " for writing.");
             throw new \ilWikiExportException("Could not open \"" . $file . "\" for writing.");
         }
@@ -330,7 +330,7 @@ class WikiHtmlExport
         // close file
         fclose($fp);
 
-        if ($this->wiki->getStartPage() == $wpg_gui->getPageObject()->getTitle()) {
+        if ($this->wiki->getStartPage() === $wpg_gui->getPageObject()->getTitle()) {
             copy($file, $this->export_dir . "/index.html");
         }
     }
@@ -348,7 +348,7 @@ class WikiHtmlExport
         }
         foreach (new \DirectoryIterator($exp_dir) as $fileInfo) {
             $this->log->debug("file: " . $fileInfo->getFilename());
-            if (pathinfo($fileInfo->getFilename(), PATHINFO_EXTENSION) == "zip") {
+            if (pathinfo($fileInfo->getFilename(), PATHINFO_EXTENSION) === "zip") {
                 $this->log->debug("return: " . $exp_dir . "/" . $fileInfo->getFilename());
                 return $exp_dir . "/" . $fileInfo->getFilename();
             }

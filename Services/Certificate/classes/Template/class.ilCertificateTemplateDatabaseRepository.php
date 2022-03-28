@@ -155,7 +155,7 @@ ORDER BY id DESC
 
         return new ilCertificateTemplate(
             $objId,
-            $this->objectDataCache->lookUpType($objId),
+            $this->objectDataCache->lookupType($objId),
             '',
             '',
             '',
@@ -203,7 +203,7 @@ AND currently_active = 1
 
         $resultTemplate = new ilCertificateTemplate(
             $objId,
-            $this->objectDataCache->lookUpType($objId),
+            $this->objectDataCache->lookupType($objId),
             '',
             '',
             '',

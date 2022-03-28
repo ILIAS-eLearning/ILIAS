@@ -7,6 +7,9 @@ use PHPUnit\Framework\TestCase;
  */
 class PCParagraphTest extends TestCase
 {
+    /**
+     * @param mixed $value
+     */
     protected function setGlobalVariable(string $name, $value) : void
     {
         global $DIC;
@@ -49,7 +52,7 @@ class PCParagraphTest extends TestCase
     /**
      * Test _input2xml (empty)
      */
-    public function test_input2xmlEmpty()
+    public function test_input2xmlEmpty() : void
     {
         $res = ilPCParagraph::_input2xml("", "en", true, false);
         $this->assertEquals(
@@ -61,7 +64,7 @@ class PCParagraphTest extends TestCase
     /**
      * Test _input2xml for validity
      */
-    public function test_input2xmlValidXml()
+    public function test_input2xmlValidXml() : void
     {
         $cases = [
             '',
@@ -90,7 +93,7 @@ class PCParagraphTest extends TestCase
     /**
      * Test _input2xml
      */
-    public function test_input2xmlResult()
+    public function test_input2xmlResult() : void
     {
         $cases = [
             ''
@@ -173,6 +176,8 @@ class PCParagraphTest extends TestCase
             => 'xx  xxxx',
             'xx [xln url="http://ilias.de"]www[/xln] xxxx'
             => 'xx <ExtLink Href="http://ilias.de">www</ExtLink> xxxx',
+            'xx [xln url="http://ilias.php?x=1&y=2"]www[/xln] xxxx'
+            => 'xx <ExtLink Href="http://ilias.php?x=1&y=2">www</ExtLink> xxxx',
 
             // anchor
             'xx [anc name="test"]test[/anc] xxxx'
@@ -201,7 +206,7 @@ class PCParagraphTest extends TestCase
     /**
      * Test handleAjaxContentPost
      */
-    public function testHandleAjaxContentPost()
+    public function testHandleAjaxContentPost() : void
     {
         $cases = [
             '&lt;ul class="ilc_list_u_BulletedList"&gt;&lt;li class="ilc_list_item_StandardListItem"&gt;aa&lt;/li&gt;&lt;li class="ilc_list_item_StandardListItem"&gt;bb&lt;/li&gt;&lt;li class="ilc_list_item_StandardListItem"&gt;cc&lt;/li&gt;&lt;/ul&gt;'

@@ -8,6 +8,7 @@ use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Component\MainControls;
+use ILIAS\UI\Component\Toast\Container;
 
 class Factory implements Page\Factory
 {
@@ -20,6 +21,7 @@ class Factory implements Page\Factory
         MainControls\MainBar $mainbar = null,
         Breadcrumbs $locator = null,
         Image $logo = null,
+        Container $overlay = null,
         MainControls\Footer $footer = null,
         string $title = '',
         string $short_title = '',
@@ -31,6 +33,7 @@ class Factory implements Page\Factory
             $mainbar,
             $locator,
             $logo,
+            $overlay,
             $footer,
             $title,
             $short_title,

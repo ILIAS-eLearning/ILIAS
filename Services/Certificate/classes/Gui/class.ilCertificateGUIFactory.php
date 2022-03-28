@@ -160,10 +160,9 @@ class ilCertificateGUIFactory
                 break;
             default:
                 throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));
-                break;
         }
 
-        $gui = new ilCertificateGUI(
+        return new ilCertificateGUI(
             $placeholderDescriptionObject,
             $placeholderValuesObject,
             $objectId,
@@ -171,7 +170,5 @@ class ilCertificateGUIFactory
             $formFactory,
             $deleteAction
         );
-
-        return $gui;
     }
 }

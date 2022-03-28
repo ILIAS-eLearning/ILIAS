@@ -67,7 +67,7 @@ class SurveySingleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
         }
         
         $answer = $a_results->getUserResults($a_user_id);
-        if (count($answer) == 0) {
+        if (count($answer) === 0) {
             $a_row[] = $this->getSkippedValue();
             $a_row[] = "";	// see #20646
             foreach ($other as $dummy) {

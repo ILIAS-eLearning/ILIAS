@@ -227,9 +227,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         }
 
         $contextParameters = ilMailFormCall::getContextParameters();
-        if (is_array($contextParameters)) {
-            $contextParameters = [];
-        }
 
         $processor = new ilMassMailTaskProcessor();
 
@@ -307,9 +304,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             $pos_message = preg_replace("/<\/ul([^>]*)>(?!\s*?(<p|<ul))/i", "</ul$1>\n", $pos_message);
             $pos_message = preg_replace("/<br(\s*)(\/?)>/i", "\n", $pos_message);
             $pos_message = preg_replace("/<p([^>]*)>/i", "\n\n", $pos_message);
-            $pos_message = preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
-
-            return $pos_message;
+            return preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
         }
 
         return $pos_message;
@@ -347,7 +342,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $attachmentText = $this->createAttachmentLinkText();
         $bodyText .= $attachmentText;
 
-        $mailObject = new ilMailValueObject(
+        return new ilMailValueObject(
             '',
             ilObjUser::_lookupLogin($recipientUserId),
             '',
@@ -358,8 +353,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             false,
             false
         );
-
-        return $mailObject;
     }
 
     /**
@@ -388,7 +381,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             $date
         );
 
-        $mailObject = new ilMailValueObject(
+        return new ilMailValueObject(
             '',
             ilObjUser::_lookupLogin($recipientUserId),
             '',
@@ -399,8 +392,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             false,
             false
         );
-
-        return $mailObject;
     }
 
     private function createMailBodyText(
@@ -483,9 +474,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             $date = $this->provider->getPostDate();
         }
 
-        $date = ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
-
-        return $date;
+        return ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
     }
 
     private function createSubjectText(string $subject) : string

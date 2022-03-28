@@ -5,8 +5,14 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 /**
  * Methods for building the administration forms
  */
-class ilNotificationAdminSettingsForm
+class ilNotificationAdminSettingsForm extends ilPropertyFormGUI
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+    }
+
     public static function getTypeForm($types)
     {
         global $DIC;

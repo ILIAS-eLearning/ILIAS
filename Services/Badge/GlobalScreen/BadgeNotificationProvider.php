@@ -19,7 +19,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 
-class BadgeNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
+class BadgeNotificationProvider extends AbstractNotificationProvider
 {
     public function getNotifications() : array
     {

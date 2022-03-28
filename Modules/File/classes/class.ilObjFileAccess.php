@@ -42,7 +42,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         return false;
     }
     
-    public function canBeDelivered(ilWACPath $ilWACPath)
+    public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
         switch ($ilWACPath->getSecurePathId()) {
             case 'previews':

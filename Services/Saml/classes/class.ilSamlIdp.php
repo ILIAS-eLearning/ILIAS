@@ -158,8 +158,7 @@ class ilSamlIdp
 
     public static function isAuthModeSaml(string $a_auth_mode) : bool
     {
-        if (!$a_auth_mode) {
-            $GLOBALS['DIC']->logger()->auth()->write(__METHOD__ . ': No auth mode given..............');
+        if ('' === $a_auth_mode) {
             return false;
         }
 

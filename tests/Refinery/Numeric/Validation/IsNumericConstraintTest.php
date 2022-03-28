@@ -79,7 +79,9 @@ class IsNumericConstraintTest extends TestCase
     {
         $this->lng
             ->method('txt')
-            ->will($this->returnCallback(function($value) { return $value; }))
+            ->will($this->returnCallback(function ($value) {
+                return $value;
+            }))
         ;
         $this->expectException(\UnexpectedValueException::class);
         $this->c->check("");

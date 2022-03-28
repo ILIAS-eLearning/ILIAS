@@ -20,12 +20,12 @@ class ilUserFormSettings
 {
     protected ilDBInterface $db;
     protected int $user_id;
-    protected int $id;
-    protected array $settings = array();
+    protected string $id;
+    protected array $settings = array(); // Missing array type.
     private bool $has_stored_entry = false;
     
     public function __construct(
-        int $a_id,
+        string $a_id,
         ?int $a_user_id = null
     ) {
         global $DIC;
@@ -34,7 +34,7 @@ class ilUserFormSettings
         $ilUser = $DIC['ilUser'];
         
         $this->user_id = (int) $a_user_id;
-        $this->id = (string) $a_id;
+        $this->id = $a_id;
         $this->db = $ilDB;
         
         if (!$this->user_id) {
@@ -55,7 +55,7 @@ class ilUserFormSettings
     /**
      * @param array Array of Settings
      */
-    public function set(array $a_data) : void
+    public function set(array $a_data) : void // Missing array type.
     {
         $this->settings = $a_data;
     }
