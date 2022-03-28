@@ -9666,7 +9666,8 @@ footer {
   .il-maincontrols-slate .il-avatar {
     margin-right: 22.5px;
   }
-  .il-maincontrols-slate .link-bulky .icon.small {
+  .il-maincontrols-slate .link-bulky .icon.small,
+  .il-maincontrols-slate .btn-bulky .icon.small {
     margin-right: 25px;
   }
 }
