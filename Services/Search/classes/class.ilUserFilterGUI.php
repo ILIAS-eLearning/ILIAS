@@ -83,7 +83,6 @@ class ilUserFilterGUI
 
     public function getHTML() : string
     {
-
         $tpl = new ilTemplate('tpl.search_user_filter.html', true, true, 'Services/Search');
 
         $tpl->setVariable("FILTER_ACTION", $this->ctrl->getFormAction($this));
@@ -94,10 +93,12 @@ class ilUserFilterGUI
         $tpl->setVariable("BTN_REFRESH", $this->lng->txt('trac_refresh'));
 
         $tpl->setVariable("QUERY", ilLegacyFormElementsUtil::prepareFormOutput($this->filter->getQueryString('login')));
-        $tpl->setVariable("FIRSTNAME",
+        $tpl->setVariable(
+            "FIRSTNAME",
             ilLegacyFormElementsUtil::prepareFormOutput($this->filter->getQueryString('firstname'))
         );
-        $tpl->setVariable("LASTNAME",
+        $tpl->setVariable(
+            "LASTNAME",
             ilLegacyFormElementsUtil::prepareFormOutput($this->filter->getQueryString('lastname'))
         );
 
@@ -108,9 +109,9 @@ class ilUserFilterGUI
         
     public function refresh() : bool
     {
-        $_GET['offset'] = 0;
+        $_GET['offset'] = 0;// @TODO: PHP8 Review: Direct access to $_GET.
         $this->ctrl->saveParameter($this, 'offset');
-        $this->filter->storeQueryStrings($_POST['filter']);
+        $this->filter->storeQueryStrings($_POST['filter']);// @TODO: PHP8 Review: Direct access to $_POST.
         $this->ctrl->returnToParent($this);
 
         return true;

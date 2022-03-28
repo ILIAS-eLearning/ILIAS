@@ -41,22 +41,22 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
 
     public function getLastClass() : string
     {
-                if (ilSearchSettings::getInstance()->enabledLucene()) {
+        if (ilSearchSettings::getInstance()->enabledLucene()) {
             $default = 'illucenesearchgui';
         } else {
             $default = 'ilsearchgui';
         }
-        if ($_REQUEST['root_id'] == self::TYPE_USER_SEARCH) {
+        if ($_REQUEST['root_id'] == self::TYPE_USER_SEARCH) {// @TODO: PHP8 Review: Direct access to $_REQUEST.
             $default = 'illuceneusersearchgui';
         }
         
         $this->setLastClass($default);
         
-        return $_SESSION['search_last_class'] ?: $default;
+        return $_SESSION['search_last_class'] ?: $default;// @TODO: PHP8 Review: Direct access to $_SESSION.
     }
     public function setLastClass(string $a_class) : void
     {
-        $_SESSION['search_last_class'] = $a_class;
+        $_SESSION['search_last_class'] = $a_class;// @TODO: PHP8 Review: Direct access to $_SESSION.
     }
 
     public function executeCommand() : void

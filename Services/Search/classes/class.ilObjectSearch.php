@@ -53,7 +53,6 @@ class ilObjectSearch extends ilAbstractSearch
 
     public function performSearch() : ilSearchResult
     {
-        
         $in = $this->__createInStatement();
         $where = $this->__createWhereCondition();
         

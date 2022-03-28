@@ -172,7 +172,6 @@ class ilAdvancedSearch extends ilAbstractSearch
 
     public function __searchLanguage() : ?ilSearchResult
     {
-        
         if (!$this->options['lom_language']) {
             return null;
         }
@@ -192,7 +191,6 @@ class ilAdvancedSearch extends ilAbstractSearch
 
     public function __searchContribute() : ?ilSearchResult
     {
-        
         if (!$this->options['lom_role']) {
             return null;
         }
@@ -373,7 +371,6 @@ class ilAdvancedSearch extends ilAbstractSearch
     }
     public function __searchLifecycle() : ilSearchResult
     {
-        
         $this->setFields(array('meta_version'));
 
         $locate = '';
@@ -407,7 +404,6 @@ class ilAdvancedSearch extends ilAbstractSearch
 
     public function __searchFormat() : ?ilSearchResult
     {
-        
         if (!$this->options['lom_format']) {
             return null;
         }
@@ -427,7 +423,6 @@ class ilAdvancedSearch extends ilAbstractSearch
 
     public function __createRightsWhere() : string
     {
-        
         $counter = 0;
         $where = 'WHERE ';
 
@@ -444,7 +439,6 @@ class ilAdvancedSearch extends ilAbstractSearch
     }
     public function __createClassificationWhere() : string
     {
-
         $counter = 0;
         $where = 'WHERE ';
 
@@ -457,7 +451,6 @@ class ilAdvancedSearch extends ilAbstractSearch
     }
     public function __createEducationalWhere() : string
     {
-
         $counter = 0;
         $where = 'WHERE ';
 
@@ -516,7 +509,6 @@ class ilAdvancedSearch extends ilAbstractSearch
     }
     public function __createRequirementWhere() : string
     {
-
         $counter = 0;
         $where = 'WHERE ';
 

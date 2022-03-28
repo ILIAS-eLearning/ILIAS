@@ -63,7 +63,7 @@ abstract class ilAbstractSearch
         $this->object_types = $a_filter;
     }
 
-    public function setIdFilter(array $a_id_filter)
+    public function setIdFilter(array $a_id_filter)// @TODO: PHP8 Review: Missing return type.
     {
         $this->id_filter = $a_id_filter;
     }
@@ -103,7 +103,6 @@ abstract class ilAbstractSearch
                 $tmp_fields[] = array($field,'text');
             }
             $complete_str = $this->db->concat($tmp_fields);
-
         } else {
             $complete_str = $this->fields[0];
         }
