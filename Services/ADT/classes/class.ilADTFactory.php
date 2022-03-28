@@ -205,6 +205,8 @@ class ilADTFactory
     public static function getActiveRecordByTypeInstance(ilADTDBBridge $a_properties) : ilADTActiveRecordByType
     {
         self::initActiveRecordByType();
+        //Todo-PHP8-Review Begin: Class expects ilADTGroupDBBridge
         return new ilADTActiveRecordByType($a_properties);
+        //Todo-PHP8-Review End
     }
 }

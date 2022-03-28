@@ -2,10 +2,11 @@
 
 class ilADTEnumFormBridge extends ilADTFormBridge
 {
+    //Todo-PHP8-Review Begin: Missing property type declarations
     protected $force_radio; // [bool]
     protected $option_infos = []; // [array]
     protected $auto_sort = true; // [bool]
-
+    //Todo-PHP8-Review End
     protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTEnum);

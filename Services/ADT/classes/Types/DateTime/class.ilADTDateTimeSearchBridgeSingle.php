@@ -47,7 +47,9 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
         $post = $this->extractPostValues($a_post);
 
         if ($post && $this->shouldBeImportedFromPost($post)) {
+            //Todo-PHP8-Review Begin: ilCalendarUtil::parseIncomingDate expects bool as second parameter not an int
             $date = ilCalendarUtil::parseIncomingDate($post, 1);
+            //Todo-PHP8-Review End
 
             if ($this->getForm() instanceof ilPropertyFormGUI) {
                 $item = $this->getForm()->getItemByPostVar($this->getElementId());

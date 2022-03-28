@@ -8,7 +8,9 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
      * Build sub-table name
      * @return string
      */
+    //Todo-PHP8-Review Begin: Missing return type declaration
     protected function getSubTableName()
+    //Todo-PHP8-Review End
     {
         // getElementId? => adv_md_values_enum_123
         return $this->getTable() . "_" . $this->getElementId();

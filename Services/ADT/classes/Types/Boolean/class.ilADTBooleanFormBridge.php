@@ -10,8 +10,9 @@ class ilADTBooleanFormBridge extends ilADTFormBridge
     public function addToForm() : void
     {
         $bool = new ilCheckboxInputGUI($this->getTitle(), $this->getElementId());
+        //Todo-PHP8-Review Begin: ilCheckboxInputGUI->setValue expects string not int
         $bool->setValue(1);
-
+        //Todo-PHP8-Review End
         $this->addBasicFieldProperties($bool, $this->getADT()->getCopyOfDefinition());
 
         // :TODO: required checkboxes do not make sense

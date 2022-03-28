@@ -134,7 +134,9 @@ abstract class ilADTSearchBridge
             $this->getForm()->addItem($a_field);
         } elseif ($this->getTableGUI() instanceof ilTable2GUI) {
             $this->table_filter_fields[$a_field->getFieldId()] = $a_field;
+            //Todo-PHP8-Review Begin: Functions expects ilTableFilterItem not ilPropertyFormGUI
             $this->getTableGUI()->addFilterItem($a_field);
+            //Todo-PHP8-Review End
         }
     }
 
@@ -182,10 +184,10 @@ abstract class ilADTSearchBridge
                 $post = $a_post[$element_id];
             }
         } elseif ($multi !== false) {
-                $post = $a_post[substr($element_id, $multi + 1, -1)];
-            } else {
-                $post = $a_post[$element_id];
-            }
+            $post = $a_post[substr($element_id, $multi + 1, -1)];
+        } else {
+            $post = $a_post[$element_id];
+        }
         return $post;
     }
 

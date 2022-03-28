@@ -76,6 +76,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
                     return $this->db->in($a_element_id, $quotedWords, false, "text");
                 }
 
+                // no break
             case self::SQL_LIKE:
                 if (!is_array($quotedWords)) {
                     return $this->db->like($a_element_id, "text", "%" . $quotedWords . "%");

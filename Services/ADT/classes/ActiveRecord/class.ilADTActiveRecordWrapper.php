@@ -102,7 +102,9 @@ class ilADTActiveRecordWrapper extends ActiveRecord
         return false;
     }
 
+    //Todo-PHP8-Review Begin: Missing return type and parameter declaration
     public function wakeUp($field_name, $field_value)
+    //Todo-PHP8-Review End
     {
         if (array_key_exists($field_name, $this->field_element_map)) {
             $element = $this->properties->getElement($this->field_element_map[$field_name]);

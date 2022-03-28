@@ -3,7 +3,9 @@
 class ilADTMultiEnumFormBridge extends ilADTFormBridge
 {
     protected ?array $option_infos = [];
+    //Todo-PHP8-Review Begin: Missing property type declarations
     protected $auto_sort = true;
+    //Todo-PHP8-Review End
 
     protected function isValidADT(ilADT $a_adt) : bool
     {

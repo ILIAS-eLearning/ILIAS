@@ -5,8 +5,9 @@
  */
 class ilADTDateFormBridge extends ilADTFormBridge
 {
+    //Todo-PHP8-Review Begin: Missing property type declarations
     protected $invalid_input; // [bool]
-
+    //Todo-PHP8-Review End
     protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTDate);
