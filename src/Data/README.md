@@ -22,6 +22,8 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [Range](#Range)
 * [Order](#order)
 * [Clock](#clock)
+* [Dimension](#dimension)
+* [Dataset](#dataset)
 
 Other examples for data types that could (and maybe should) be added here:
 
@@ -511,19 +513,19 @@ dimension of the dataset.
 $f = new \ILIAS\Data\Factory;
 
 // construct dimensions and dataset
-$cardinal = $f->dimension()->cardinal(
+$cardinal = $f->dimension()->cardinal([
     0 => "very low",
     1 => "low",
     2 => "medium",
     3 => "high",
     4 => "very high"
-);
+]);
 $range = $f->dimension()->range($cardinal);
-$dataset = $f->dataset(
+$dataset = $f->dataset([
     "Measurement 1" => $cardinal,
     "Measurement 2" => $cardinal,
     "Target" => $range
-);
+]);
 $dataset = $dataset->withPoints(
     "Item 1",
     [

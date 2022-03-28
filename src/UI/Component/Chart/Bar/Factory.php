@@ -41,7 +41,7 @@ interface Factory
      * @param string      $title        Title which is shown above the chart. Also used as aria-label.
      * @param Dataset     $dataset      Dataset with points for each defined Dimension. Will be shown as bars in the chart.
      * @param BarConfig[] $bar_configs  Configurations for Bars for each defined Dimension
-     * @return Vertical
+     * @return \ILIAS\UI\Component\Chart\Bar\Vertical
      */
     public function vertical(
         string $title,
@@ -69,7 +69,7 @@ interface Factory
      * @param string      $title        Title which is shown above the chart. Also used as aria-label.
      * @param Dataset     $dataset      Dataset with points for each defined Dimension. Will be shown as bars in the chart.
      * @param BarConfig[] $bar_configs  Configurations for Bars for each defined Dimension
-     * @return Horizontal
+     * @return \ILIAS\UI\Component\Chart\Bar\Horizontal
      */
     public function horizontal(
         string $title,
