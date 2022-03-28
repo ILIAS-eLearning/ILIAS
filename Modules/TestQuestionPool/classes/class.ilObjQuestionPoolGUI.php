@@ -1255,7 +1255,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     */
     public function pasteObject()
     {
-        if (ilSession::get("qpl_clipboard") != null)) {
+        if (ilSession::get("qpl_clipboard") != null) {
             if ($this->object->pasteFromClipboard()) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("qpl_paste_success"), true);
             } else {
