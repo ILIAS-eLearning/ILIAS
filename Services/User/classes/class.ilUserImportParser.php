@@ -305,7 +305,7 @@ class ilUserImportParser extends ilSaxParser
     * should be overwritten by inherited class
     * @access	private
     *
-    * @param resource<xml>|\XMLParser $a_xml_parser
+    * @param resource|\XMLParser $a_xml_parser
     */
     public function setHandlers($a_xml_parser) : void
     {
@@ -377,7 +377,7 @@ class ilUserImportParser extends ilSaxParser
     }
 
     /**
-     * @param \XMLParser|resource<xml> $a_xml_parser
+     * @param \XMLParser|resource $a_xml_parser
      */
     public function extractRolesBeginTag(
         $a_xml_parser,
@@ -397,7 +397,7 @@ class ilUserImportParser extends ilSaxParser
     }
 
     /**
-     * @param \XMLParser|resource<xml> $a_xml_parser
+     * @param \XMLParser|resource $a_xml_parser
      */
     public function importBeginTag(
         $a_xml_parser,
@@ -554,7 +554,7 @@ class ilUserImportParser extends ilSaxParser
     }
 
     /**
-     * @param \XMLParser|resource<xml> $a_xml_parser
+     * @param \XMLParser|resource $a_xml_parser
      */
     public function verifyBeginTag(
         $a_xml_parser,
@@ -696,7 +696,7 @@ class ilUserImportParser extends ilSaxParser
     }
 
     /**
-     * @param \XMLParser|resource<xml> $a_xml_parser
+     * @param \XMLParser|resource $a_xml_parser
      */
     public function extractRolesEndTag(
         $a_xml_parser,
@@ -876,7 +876,7 @@ class ilUserImportParser extends ilSaxParser
     }
 
     /**
-     * @param \XMLParser|resource<xml> $a_xml_parser
+     * @param \XMLParser|resource $a_xml_parser
      */
     public function importEndTag(
         $a_xml_parser,
@@ -1972,7 +1972,7 @@ class ilUserImportParser extends ilSaxParser
 
     /**
      * handler for character data
-     * @param \XMLParser|resource<xml> $a_xml_parser
+     * @param \XMLParser|resource $a_xml_parser
      */
     public function handlerCharacterData(
         $a_xml_parser,
