@@ -26,9 +26,9 @@
  * the ilWikiUtil::makeUrlTitle($mTextform) ("_" for " ")for embedding things in URLs.
  *
  */
-define("IL_WIKI_MODE_REPLACE", "replace");
-define("IL_WIKI_MODE_COLLECT", "collect");
-define("IL_WIKI_MODE_EXT_COLLECT", "ext_collect");
+const IL_WIKI_MODE_REPLACE = "replace";
+const IL_WIKI_MODE_COLLECT = "collect";
+const IL_WIKI_MODE_EXT_COLLECT = "ext_collect";
 
 /**
  * Utility class for wiki.
@@ -90,11 +90,11 @@ class ilWikiUtil
 
         // dummies for wiki globals
         $GLOBALS["wgContLang"] = new class {
-            public function getNsIndex($a_p)
+            public function getNsIndex($a_p) : bool
             {
                 return false;
             }
-            public function lc($a_key)
+            public function lc($a_key) : bool
             {
                 return false;
             }
@@ -227,7 +227,7 @@ class ilWikiUtil
             }
 
             // Media wiki performs an intermediate step here (Parser->makeLinkHolder)
-            if ($a_mode == IL_WIKI_MODE_REPLACE) {
+            if ($a_mode === IL_WIKI_MODE_REPLACE) {
                 $s .= self::makeLink(
                     $nt,
                     $a_wiki_id,
@@ -238,7 +238,7 @@ class ilWikiUtil
                     $a_offline
                 );
             }
-            if ($a_mode == IL_WIKI_MODE_EXT_COLLECT) {
+            if ($a_mode === IL_WIKI_MODE_EXT_COLLECT) {
                 if (is_object($nt)) {
                     $url_title = self::makeUrlTitle($nt->mTextform);
                     $db_title = self::makeDbTitle($nt->mTextform);
@@ -261,8 +261,8 @@ class ilWikiUtil
 
         //wfProfileOut( $fname );
 
-        if ($a_mode == IL_WIKI_MODE_COLLECT ||
-            $a_mode == IL_WIKI_MODE_EXT_COLLECT) {
+        if ($a_mode === IL_WIKI_MODE_COLLECT ||
+            $a_mode === IL_WIKI_MODE_EXT_COLLECT) {
             return $collect;
         } else {
             return $s;
@@ -312,8 +312,7 @@ class ilWikiUtil
             // remove anchor from text, define anchor
             $anc = "";
             if ($nt->mFragment != "") {
-                if (substr($text, strlen($text) - strlen("#" . $nt->mFragment))
-                    == "#" . $nt->mFragment) {
+                if (substr($text, strlen($text) - strlen("#" . $nt->mFragment)) === "#" . $nt->mFragment) {
                     $text = substr($text, 0, strlen($text) - strlen("#" . $nt->mFragment));
                 }
                 $anc = "#" . $nt->mFragment;
@@ -447,7 +446,7 @@ class ilWikiUtil
 
     public static function sendNotification(
         string $a_action,
-        string $a_type,
+        string $a_type, // TODO PHP8-REVIEW Type is a `string` but is passed to methods expecting an `int`
         int $a_wiki_ref_id,
         int $a_page_id,
         ?string $a_comment = null
@@ -463,10 +462,10 @@ class ilWikiUtil
         $page = new ilWikiPage($a_page_id);
         
         // #11138
-        $ignore_threshold = ($a_action == "comment");
+        $ignore_threshold = ($a_action === "comment");
         
         // 1st update will be converted to new - see below
-        if ($a_action == "new") {
+        if ($a_action === "new") {
             return;
         }
 
@@ -514,7 +513,7 @@ class ilWikiUtil
         $hist = $page->getHistoryEntries();
         $current_version = array_shift($hist);
         $current_version = $current_version["nr"];
-        if (!$current_version && $a_action != "comment") {
+        if (!$current_version && $a_action !== "comment") {
             $a_type = ilNotification::TYPE_WIKI;
             $a_action = "new";
         }
@@ -526,7 +525,7 @@ class ilWikiUtil
                 $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
                 $ulng->loadLanguageModule('wiki');
 
-                if ($a_action == "comment") {
+                if ($a_action === "comment") {
                     $subject = sprintf($ulng->txt('wiki_notification_comment_subject'), $wiki->getTitle(), $page->getTitle());
                     $message = sprintf($ulng->txt('wiki_change_notification_salutation'), ilObjUser::_lookupFullname($user_id)) . "\n\n";
 

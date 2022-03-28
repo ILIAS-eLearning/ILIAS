@@ -318,7 +318,7 @@ class ilWikiStatGUI
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_WORDS
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_CHARS
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_FOOTNOTES
-            ))) {
+            ), true)) {
             $series = $chart->getDataInstance(ilChartGrid::DATA_LINES);
             $series->setLineSteps(true);
             $series->setFill(true, "#E0F0FF");
@@ -382,7 +382,7 @@ class ilWikiStatGUI
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_CHARS
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_FOOTNOTES
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_RATINGS
-            ))) {
+            ), true)) {
             $chart->setYAxisToInteger(true);
         }
         

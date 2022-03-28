@@ -149,7 +149,7 @@ class ilWikiStat
         if (!$a_user_id) {
             $a_user_id = $ilUser->getId();
         }
-        if (!$a_user_id || $a_user_id == ANONYMOUS_USER_ID) {
+        if (!$a_user_id || $a_user_id === ANONYMOUS_USER_ID) {
             return;
         }
         

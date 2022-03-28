@@ -92,7 +92,7 @@ class WikiHtmlExport
         \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
 
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
-            $this->user_html_exp = new \ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser, ($this->getMode() == self::MODE_USER_COMMENTS));
+            $this->user_html_exp = new \ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser, ($this->getMode() === self::MODE_USER_COMMENTS));
         }
 
         $ascii_name = str_replace(" ", "_", ilFileUtils::getASCIIFilename($this->wiki->getTitle()));
@@ -330,7 +330,7 @@ class WikiHtmlExport
         // close file
         fclose($fp);
 
-        if ($this->wiki->getStartPage() == $wpg_gui->getPageObject()->getTitle()) {
+        if ($this->wiki->getStartPage() === $wpg_gui->getPageObject()->getTitle()) {
             copy($file, $this->export_dir . "/index.html");
         }
     }

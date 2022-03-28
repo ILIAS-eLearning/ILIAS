@@ -80,7 +80,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $lng->loadLanguageModule("wiki");
 
         $this->requested_page = $this->edit_request->getPage();
-        if ($this->requested_page != "") {
+        if ($this->requested_page !== "") {
             $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($this->requested_page));
         }
 
@@ -394,7 +394,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $info = new ilInfoScreenGUI($this);
         $info->enablePrivateNotes();
-        if (trim($this->object->getIntroduction()) != "") {
+        if (trim($this->object->getIntroduction()) !== "") {
             $info->addSection($lng->txt("wiki_introduction"));
             $info->addProperty("", nl2br($this->object->getIntroduction()));
         }
@@ -403,28 +403,28 @@ class ilObjWikiGUI extends ilObjectGUI
         $lpcomment = ilLPMarks::_lookupComment($ilUser->getId(), $this->object->getId());
         $mark = ilLPMarks::_lookupMark($ilUser->getId(), $this->object->getId());
         $status = ilWikiContributor::_lookupStatus($this->object->getId(), $ilUser->getId());
-        if ($lpcomment != "" || $mark != "" || $status != ilWikiContributor::STATUS_NOT_GRADED) {
+        if ($lpcomment !== "" || $mark !== "" || (int) $status !== ilWikiContributor::STATUS_NOT_GRADED) {
             $info->addSection($this->lng->txt("wiki_feedback_from_tutor"));
-            if ($lpcomment != "") {
+            if ($lpcomment !== "") {
                 $info->addProperty(
                     $this->lng->txt("wiki_comment"),
                     $lpcomment
                 );
             }
-            if ($mark != "") {
+            if ($mark !== "") {
                 $info->addProperty(
                     $this->lng->txt("wiki_mark"),
                     $mark
                 );
             }
 
-            if ($status == ilWikiContributor::STATUS_PASSED) {
+            if ((int) $status === ilWikiContributor::STATUS_PASSED) {
                 $info->addProperty(
                     $this->lng->txt("status"),
                     $this->lng->txt("wiki_passed")
                 );
             }
-            if ($status == ilWikiContributor::STATUS_FAILED) {
+            if ((int) $status === ilWikiContributor::STATUS_FAILED) {
                 $info->addProperty(
                     $this->lng->txt("status"),
                     $this->lng->txt("wiki_failed")
@@ -535,7 +535,7 @@ class ilObjWikiGUI extends ilObjectGUI
             "ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
             "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui'
             ), true) || $ilCtrl->getNextClass() === "ilpermissiongui") {
-            if ($this->requested_page != "") {
+            if ($this->requested_page !== "") {
                 $this->tabs_gui->setBackTarget(
                     $lng->txt("wiki_last_visited_page"),
                     self::getGotoLink(
@@ -982,9 +982,9 @@ class ilObjWikiGUI extends ilObjectGUI
                 $new_comment = ilUtil::stripSlashes($comments[$user_id]);
                 $new_status = ilUtil::stripSlashes($status[$user_id]);
 
-                if ($marks_obj->getMark() != $new_mark ||
-                    $marks_obj->getComment() != $new_comment ||
-                    ilWikiContributor::_lookupStatus($this->object->getId(), $user_id) != $new_status) {
+                if ($marks_obj->getMark() !== $new_mark ||
+                    $marks_obj->getComment() !== $new_comment ||
+                    (int) ilWikiContributor::_lookupStatus($this->object->getId(), $user_id) !== (int) $new_status) {
                     ilWikiContributor::_writeStatus($this->object->getId(), $user_id, $new_status);
                     $marks_obj->setMark($new_mark);
                     $marks_obj->setComment($new_comment);
@@ -1081,7 +1081,7 @@ class ilObjWikiGUI extends ilObjectGUI
         int $a_ref_id,
         string $a_page = ""
     ) : string {
-        if ($a_page == "") {
+        if ($a_page === "") {
             $a_page = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($a_ref_id));
         }
         
@@ -1104,7 +1104,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilTabs->clearTargets();
         $tpl->setHeaderActionMenu("");
 
-        $page = ($this->requested_page != "")
+        $page = ($this->requested_page !== "")
             ? $this->requested_page
             : $this->object->getStartPage();
 
@@ -1223,7 +1223,7 @@ class ilObjWikiGUI extends ilObjectGUI
     ) : void {
         $ilCtrl = $this->ctrl;
         
-        if ($a_page == "") {
+        if ($a_page === "") {
             $a_page = $this->requested_page;
         }
         
@@ -1233,32 +1233,30 @@ class ilObjWikiGUI extends ilObjectGUI
         )) {
             // to do: get rid of this redirect
             ilUtil::redirect(self::getGotoLink($this->object->getRefId(), $a_page));
-        } else {
-            if (!$this->object->getTemplateSelectionOnCreation()) {
-                // check length
-                if (ilStr::strLen(ilWikiUtil::makeDbTitle($a_page)) > 200) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("wiki_page_title_too_long") . " (" . $a_page . ")", true);
-                    $ilCtrl->setParameterByClass(
-                        "ilwikipagegui",
-                        "page",
-                        ilWikiUtil::makeUrlTitle($this->edit_request->getFromPage())
-                    );
-                    $ilCtrl->redirectByClass("ilwikipagegui", "preview");
-                }
-                $this->object->createWikiPage($a_page);
-
-                // redirect to newly created page
-                $ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($a_page)));
-                $ilCtrl->redirectByClass("ilwikipagegui", "edit");
-            } else {
-                $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($this->requested_page));
-                $ilCtrl->setParameter(
-                    $this,
-                    "from_page",
+        } elseif (!$this->object->getTemplateSelectionOnCreation()) {
+            // check length
+            if (ilStr::strLen(ilWikiUtil::makeDbTitle($a_page)) > 200) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("wiki_page_title_too_long") . " (" . $a_page . ")", true);
+                $ilCtrl->setParameterByClass(
+                    "ilwikipagegui",
+                    "page",
                     ilWikiUtil::makeUrlTitle($this->edit_request->getFromPage())
                 );
-                $ilCtrl->redirect($this, "showTemplateSelection");
+                $ilCtrl->redirectByClass("ilwikipagegui", "preview");
             }
+            $this->object->createWikiPage($a_page);
+
+            // redirect to newly created page
+            $ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($a_page)));
+            $ilCtrl->redirectByClass("ilwikipagegui", "edit");
+        } else {
+            $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($this->requested_page));
+            $ilCtrl->setParameter(
+                $this,
+                "from_page",
+                ilWikiUtil::makeUrlTitle($this->edit_request->getFromPage())
+            );
+            $ilCtrl->redirect($this, "showTemplateSelection");
         }
     }
 
@@ -1437,7 +1435,7 @@ class ilObjWikiGUI extends ilObjectGUI
         
         $ilTabs->setTabActive("wiki_search_results");
         
-        if ($this->edit_request->getSearchTerm() == "") {
+        if ($this->edit_request->getSearchTerm() === "") {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("wiki_please_enter_search_term"), true);
             $ilCtrl->redirectByClass("ilwikipagegui", "preview");
         }
@@ -1596,7 +1594,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->checkPermission("edit_wiki_navigation");
 
         $imp_page_ids = $this->edit_request->getImportantPageIds();
-        if (count($imp_page_ids) != 1) {
+        if (count($imp_page_ids) !== 1) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("wiki_select_one_item"), true);
         } else {
             $this->object->removeImportantPage($imp_page_ids[0]);
@@ -1631,7 +1629,7 @@ class ilObjWikiGUI extends ilObjectGUI
      * Get title for wiki page (used in ilNotesGUI)
      */
     public static function lookupSubObjectTitle(
-        string $a_wiki_id,
+        string $a_wiki_id,// TODO PHP8-REVIEW This is a `string`, but it is passed to a constructor expecting and `int`. Furthermore it is compared to an `int` below.
         string $a_page_id
     ) : string {
         $page = new ilWikiPage($a_page_id);

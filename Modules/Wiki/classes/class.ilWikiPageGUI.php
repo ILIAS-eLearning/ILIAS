@@ -103,7 +103,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             ": " . $this->getWikiPage()->getTitle();
         $tpl->setHeaderPageTitle($head_title);
         // see #13804
-        if ($this->wiki_request->getPage() != "") {
+        if ($this->wiki_request->getPage() !== "") {
             $tpl->setPermanentLink(
                 "wiki",
                 $this->requested_ref_id,
@@ -211,6 +211,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     public function getWikiPage() : ilWikiPage
     {
         /** @var ilWikiPage $wp */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getPageObject();
     }
 
@@ -276,7 +277,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         }
 
         // notification
-        if ($ilUser->getId() != ANONYMOUS_USER_ID) {
+        if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
             if (ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $wiki_id)) {
                 $this->ctrl->setParameter($this, "ntf", 1);
                 if (ilNotification::hasOptOut($wiki_id)) {
@@ -435,7 +436,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     
     public function showPage() : string
     {
-        if ($this->getOutputMode() == ilPageObjectGUI::PRESENTATION) {
+        if ($this->getOutputMode() === ilPageObjectGUI::PRESENTATION) {
             $this->initToolbar();
         }
         $this->setTemplateOutput(false);
@@ -526,7 +527,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         if ($this->getOutputMode() === "print" && $this->wiki instanceof ilObjWiki) {
             $mdgui = new ilObjectMetaDataGUI($this->wiki, "wpg", $this->getId());
             $md = $mdgui->getKeyValueList();
-            if ($md != "") {
+            if ($md !== "") {
                 $output = str_replace("<!--COPage-PageTop-->", "<p>" . $md . "</p>", $output);
             }
         }
@@ -710,7 +711,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         
         // coming from type selection
         $ordering = $this->wiki_request->getPrintOrdering();
-        if (count($ordering) == 0) {
+        if (count($ordering) === 0) {
             switch ($this->wiki_request->getSelectedPrintType()) {
                 case "wiki":
                     $all_pages = ilWikiPage::getAllWikiPages($this->getPageObject()->getWikiId());
@@ -721,7 +722,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
                 case "selection":
                     $pg_ids = $this->wiki_request->getWikiPageIds();
-                    if (count($pg_ids) == 0) {
+                    if (count($pg_ids) === 0) {
                         $pg_ids = [$this->wiki_request->getWikiPageId()];
                     }
                     if (count($pg_ids) > 1) {
@@ -1180,9 +1181,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $tpl->parseCurrentBlock();
         }
 
-        if (count($pages) == 0) {
+        if (count($pages) === 0) {
             $tpl->setVariable("INFOTEXT", str_replace("$1", $term, $lng->txt("wiki_no_page_found")));
-        } elseif ($term == '') {
+        } elseif ($term === '') {
             $tpl->setVariable("INFOTEXT", $lng->txt("wiki_no_search_term"));
         } else {
             $tpl->setVariable("INFOTEXT", str_replace("$1", $term, $lng->txt("wiki_pages_found")));

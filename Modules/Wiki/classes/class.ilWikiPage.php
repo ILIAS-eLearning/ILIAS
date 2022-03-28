@@ -470,7 +470,7 @@ class ilWikiPage extends ilPageObject
             $set = $ilDB->query($query);
             $rec = $ilDB->fetchAssoc($set);
             if ($rec["cnt"] == 0 &&
-                ilObjWiki::_lookupStartPage($a_wiki_id) != $page["title"]) {
+                ilObjWiki::_lookupStartPage($a_wiki_id) !== $page["title"]) {
                 $orphaned[] = $page;
             }
         }
@@ -783,7 +783,7 @@ class ilWikiPage extends ilPageObject
                 }
             }
 
-            if (ilObjWiki::_lookupStartPage($this->getWikiId()) == $this->getTitle()) {
+            if (ilObjWiki::_lookupStartPage($this->getWikiId()) === $this->getTitle()) {
                 ilObjWiki::writeStartPage($this->getWikiId(), $a_new_name);
             }
 

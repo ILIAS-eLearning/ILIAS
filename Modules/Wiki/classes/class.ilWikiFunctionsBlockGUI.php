@@ -241,7 +241,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         if (ilWikiPerm::check("delete_wiki_pages", $this->ref_id)) {
             // delete page
             $st_page = ilObjWiki::_lookupStartPage($this->getPageObject()->getParentId());
-            if ($st_page != $this->getPageObject()->getTitle()) {
+            if ($st_page !== $this->getPageObject()->getTitle()) {
                 $list->addItem(
                     $lng->txt("wiki_delete_page"),
                     "",

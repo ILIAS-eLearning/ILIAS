@@ -313,7 +313,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         global $DIC;
         $ilDB = $DIC->database();
 
-        if ($a_short_title == "") {
+        if ($a_short_title === "") {
             return true;
         }
         $res = $ilDB->queryF(
@@ -492,7 +492,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $ilDB = $this->db;
 
         if (!$this->isImportantPage($a_page_id)) {
-            if ($a_nr == 0) {
+            if ($a_nr === 0) {
                 $a_nr = self::_lookupMaxOrdNrImportantPages($this->getId()) + 10;
             }
 
@@ -727,11 +727,11 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         int $a_template_page = 0
     ) : ilWikiPage {
         // check if template has to be used
-        if ($a_template_page == 0) {
+        if ($a_template_page === 0) {
             if (!$this->getEmptyPageTemplate()) {
                 $wt = new ilWikiPageTemplate($this->getId());
                 $ts = $wt->getAllInfo(ilWikiPageTemplate::TYPE_NEW_PAGES);
-                if (count($ts) == 1) {
+                if (count($ts) === 1) {
                     $t = current($ts);
                     $a_template_page = $t["wpage_id"];
                 }
