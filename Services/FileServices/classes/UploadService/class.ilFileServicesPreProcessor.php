@@ -15,7 +15,6 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  */
 class ilFileServicesPreProcessor extends BlacklistExtensionPreProcessor
 {
-    
     protected ilRbacSystem $rbac;
     
     private int $fileadmin_ref_id;
@@ -41,13 +40,11 @@ class ilFileServicesPreProcessor extends BlacklistExtensionPreProcessor
     /**
      * @return int
      */
-    private function determineFileAdminRefId(): int
+    private function determineFileAdminRefId() : int
     {
         $objects_by_type = ilObject2::_getObjectsByType('facs');
         $id = (int) reset($objects_by_type)['obj_id'];
         $references = ilObject2::_getAllReferences($id);
         return (int) reset($references);
     }
-    
 }
-

@@ -1067,8 +1067,7 @@ class ilFileUtils
      */
     public static function getUploadSizeLimitBytes() : string
     {
-        $convertPhpIniSizeValueToBytes = function ($phpIniSizeValue)
-        {
+        $convertPhpIniSizeValueToBytes = function ($phpIniSizeValue) {
             if (is_numeric($phpIniSizeValue)) {
                 return $phpIniSizeValue;
             }
