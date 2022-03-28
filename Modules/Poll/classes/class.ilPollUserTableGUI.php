@@ -105,9 +105,9 @@ class ilPollUserTableGUI extends ilTable2GUI
         $a_csv->addColumn((string) ($a_set["firstname"] ?? ''));
         foreach ($this->answer_ids as $answer_id) {
             if ($a_set["answer" . $answer_id]) {
-                $a_csv->addColumn('true');// TODO PHP8-REVIEW I am not sure if my fix is correct
+                $a_csv->addColumn('1');
             } else {
-                $a_csv->addColumn('false');// TODO PHP8-REVIEW I am not sure if my fix is correct
+                $a_csv->addColumn('');
             }
         }
         $a_csv->addRow();
