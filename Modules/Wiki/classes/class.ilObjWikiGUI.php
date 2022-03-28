@@ -108,7 +108,7 @@ class ilObjWikiGUI extends ilObjectGUI
         
         // see ilWikiPageGUI::printViewOrderList()
         // printView() cannot be in ilWikiPageGUI because of stylesheet confusion
-        if ($cmd == "printView") {
+        if ($cmd === "printView") {
             $next_class = null;
         }
     
@@ -280,8 +280,8 @@ class ilObjWikiGUI extends ilObjectGUI
                     $cmd = "infoScreen";
                 }
                 $cmd .= "Object";
-                if ($cmd != "cancelObject") {
-                    if ($cmd != "infoScreenObject") {
+                if ($cmd !== "cancelObject") {
+                    if ($cmd !== "infoScreenObject") {
                         if (!in_array($cmd, array("createObject", "saveObject", "importFileObject"))) {
                             $this->checkPermission("read");
                         }
@@ -363,7 +363,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
-        ilUtil::redirect(ilObjWikiGUI::getGotoLink($new_object->getRefId()));
+        ilUtil::redirect(self::getGotoLink($new_object->getRefId()));
     }
 
     /**
@@ -433,7 +433,7 @@ class ilObjWikiGUI extends ilObjectGUI
         }
         
         if ($ilAccess->checkAccess("read", "", $this->object->getRefId())) {
-            $info->addButton($lng->txt("wiki_start_page"), ilObjWikiGUI::getGotoLink($this->object->getRefId()));
+            $info->addButton($lng->txt("wiki_start_page"), self::getGotoLink($this->object->getRefId()));
         }
         
         // general information
@@ -446,7 +446,7 @@ class ilObjWikiGUI extends ilObjectGUI
     
     public function gotoStartPageObject() : void
     {
-        ilUtil::redirect(ilObjWikiGUI::getGotoLink($this->object->getRefId()));
+        ilUtil::redirect(self::getGotoLink($this->object->getRefId()));
     }
 
     public function addPageTabs() : void
@@ -534,11 +534,11 @@ class ilObjWikiGUI extends ilObjectGUI
         if (in_array($ilCtrl->getCmdClass(), array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
             "ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
             "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui'
-            )) || (in_array($ilCtrl->getNextClass(), array("ilpermissiongui")))) {
+            ), true) || $ilCtrl->getNextClass() === "ilpermissiongui") {
             if ($this->requested_page != "") {
                 $this->tabs_gui->setBackTarget(
                     $lng->txt("wiki_last_visited_page"),
-                    $this->getGotoLink(
+                    self::getGotoLink(
                         $this->requested_ref_id,
                         ilWikiUtil::makeDbTitle($this->requested_page)
                     )
@@ -742,7 +742,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
         // Start Page
         $options = [];
-        if ($a_mode == "edit") {
+        if ($a_mode === "edit") {
             $pages = ilWikiPage::getAllWikiPages($this->object->getId());
             foreach ($pages as $p) {
                 $options[$p["id"]] = ilStr::shortenTextExtended($p["title"], 60, true);
@@ -752,7 +752,7 @@ class ilObjWikiGUI extends ilObjectGUI
             $this->form_gui->addItem($si);
         } else {
             $sp = new ilTextInputGUI($lng->txt("wiki_start_page"), "startpage");
-            if ($a_mode == "edit") {
+            if ($a_mode === "edit") {
                 $sp->setInfo($lng->txt("wiki_start_page_info"));
             }
             $sp->setMaxLength(200);
@@ -802,7 +802,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $page_toc->setInfo($lng->txt("wiki_page_toc_info"));
         $this->form_gui->addItem($page_toc);
         
-        if ($a_mode == "edit") {
+        if ($a_mode === "edit") {
             // advanced metadata auto-linking
             if (count(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->object->getRefId(), "wpg")) > 0) {
                 $link_md = new ilCheckboxInputGUI($lng->txt("wiki_link_md_values"), "link_md_values");
@@ -837,7 +837,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
         // Form action and save button
         $this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_wiki.svg"));
-        if ($a_mode != "create") {
+        if ($a_mode !== "create") {
             $this->form_gui->setTitle($lng->txt("wiki_settings"));
             $this->form_gui->addCommandButton("saveSettings", $lng->txt("save"));
         } else {
@@ -847,7 +847,7 @@ class ilObjWikiGUI extends ilObjectGUI
         }
         
         // set values
-        if ($a_mode == "create") {
+        if ($a_mode === "create") {
             $ilCtrl->setParameter($this, "new_type", "wiki");
         }
 
@@ -857,7 +857,7 @@ class ilObjWikiGUI extends ilObjectGUI
     public function getSettingsFormValues(string $a_mode = "edit") : void
     {
         // set values
-        if ($a_mode == "create") {
+        if ($a_mode === "create") {
             $values["rating_new"] = true;
             
             $values["rating_overall"] = ilObject::hasAutoRating("wiki", $this->requested_ref_id);
@@ -1008,7 +1008,7 @@ class ilObjWikiGUI extends ilObjectGUI
         if (is_object($this->object)) {
             $ilLocator->addItem(
                 $this->object->getTitle(),
-                $this->getGotoLink($this->object->getRefId()),
+                self::getGotoLink($this->object->getRefId()),
                 "",
                 $this->requested_ref_id
             );
@@ -1031,7 +1031,7 @@ class ilObjWikiGUI extends ilObjectGUI
             $a_target = substr($a_target, 0, $i);
         }
         
-        if ($a_target == "wpage") {
+        if ($a_target === "wpage") {
             $a_page_arr = explode("_", $a_page);
             $wpg_id = (int) $a_page_arr[0];
             $ref_id = (int) $a_page_arr[1];
@@ -1232,7 +1232,7 @@ class ilObjWikiGUI extends ilObjectGUI
             ilWikiUtil::makeDbTitle($a_page)
         )) {
             // to do: get rid of this redirect
-            ilUtil::redirect(ilObjWikiGUI::getGotoLink($this->object->getRefId(), $a_page));
+            ilUtil::redirect(self::getGotoLink($this->object->getRefId(), $a_page));
         } else {
             if (!$this->object->getTemplateSelectionOnCreation()) {
                 // check length
@@ -1290,7 +1290,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
     public function setSideBlock(int $a_wpg_id = 0) : void
     {
-        ilObjWikiGUI::renderSideBlock($a_wpg_id, $this->object->getRefId());
+        self::renderSideBlock($a_wpg_id, $this->object->getRefId());
     }
 
     public static function renderSideBlock(
@@ -1420,7 +1420,7 @@ class ilObjWikiGUI extends ilObjectGUI
         );
     }
 
-    public function printViewObject()
+    public function printViewObject() : void
     {
         $print_view = $this->getPrintView();
         $print_view->sendPrintView();
@@ -1620,7 +1620,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $cont_exp = new Export\WikiHtmlExport($wiki);
 
         $format = explode("_", $this->edit_request->getFormat());
-        if ($format[1] == "comments") {
+        if ($format[1] === "comments") {
             $cont_exp->setMode(Export\WikiHtmlExport::MODE_COMMENTS);
         }
 
@@ -1751,7 +1751,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
     protected function checkPermissionBool(string $perm, string $cmd = "", string $type = "", ?int $ref_id = null) : bool
     {
-        if ($perm == "create") {
+        if ($perm === "create") {
             return parent::checkPermissionBool($perm, $cmd, $type, $ref_id);
         } else {
             if (!$ref_id) {
@@ -1830,7 +1830,7 @@ class ilObjWikiGUI extends ilObjectGUI
             $this->user->getId()
         );
         if (count($ass_info) > 0) {
-            $ass_ids = array_map(function ($i) {
+            $ass_ids = array_map(static function ($i) : int {
                 return $i->getId();
             }, $ass_info);
             $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::SHOW_EXC_ASSIGNMENT_INFO, true);

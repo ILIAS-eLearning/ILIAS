@@ -20,7 +20,7 @@
  */
 class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableGUI
 {
-    public function parse()
+    public function parse() : void
     {
         $ilCtrl = $this->ctrl;
         

@@ -163,7 +163,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
     
     public function numericOrdering(string $a_field) : bool
     {
-        if ($a_field == "cnt") {
+        if ($a_field === "cnt") {
             return true;
         }
         return false;

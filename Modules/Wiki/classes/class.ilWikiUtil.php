@@ -46,7 +46,7 @@ class ilWikiUtil
         int $a_wiki_id,
         bool $a_offline = false
     ) : string {
-        return ilWikiUtil::processInternalLinks(
+        return self::processInternalLinks(
             $s,
             $a_wiki_id,
             IL_WIKI_MODE_REPLACE,
@@ -63,7 +63,7 @@ class ilWikiUtil
         int $a_wiki_id,
         bool $a_collect_non_ex = false
     ) : array {
-        return ilWikiUtil::processInternalLinks(
+        return self::processInternalLinks(
             $s,
             $a_wiki_id,
             IL_WIKI_MODE_COLLECT,
@@ -163,7 +163,7 @@ class ilWikiUtil
                 # and no image is in sight. See bug 2095.
                 #
                 if ($text !== '' &&
-                    substr($m[3], 0, 1) === ']' &&
+                    strpos($m[3], ']') === 0 &&
                     strpos($text, '[') !== false
                 ) {
                     $text .= ']'; # so that replaceExternalLinks($text) works later
@@ -193,7 +193,7 @@ class ilWikiUtil
             # Don't allow internal links to pages containing
             # PROTO: where PROTO is a valid URL protocol; these
             # should be external links.
-            if (preg_match('/^\b%na' . ilWikiUtil::wfUrlProtocols() . 'me/', $m[1])) {
+            if (preg_match('/^\b%na' . self::wfUrlProtocols() . 'me/', $m[1])) {
                 $s .= $prefix . '[[' . $line ;
                 continue;
             }
@@ -205,7 +205,7 @@ class ilWikiUtil
             $link = $m[1];
             //			}
 
-            $noforce = (substr($m[1], 0, 1) != ':');
+            $noforce = (strpos($m[1], ':') !== 0);
             if (!$noforce) {
                 # Strip off leading ':'
                 $link = substr($link, 1);
@@ -228,7 +228,7 @@ class ilWikiUtil
 
             // Media wiki performs an intermediate step here (Parser->makeLinkHolder)
             if ($a_mode == IL_WIKI_MODE_REPLACE) {
-                $s .= ilWikiUtil::makeLink(
+                $s .= self::makeLink(
                     $nt,
                     $a_wiki_id,
                     $text,
@@ -240,15 +240,15 @@ class ilWikiUtil
             }
             if ($a_mode == IL_WIKI_MODE_EXT_COLLECT) {
                 if (is_object($nt)) {
-                    $url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
-                    $db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
-                    list($inside, $trail) = ilWikiUtil::splitTrail($trail);
+                    $url_title = self::makeUrlTitle($nt->mTextform);
+                    $db_title = self::makeDbTitle($nt->mTextform);
+                    [$inside, $trail] = self::splitTrail($trail);
                     $collect[] = array("nt" => $nt, "text" => $text,
                         "trail" => $trail, "db_title" => $db_title,
                         "url_title" => $url_title);
                 }
             } else {
-                $db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
+                $db_title = self::makeDbTitle($nt->mTextform);
 
                 if ((ilWikiPage::_wikiPageExists($a_wiki_id, $db_title) ||
                     $a_collect_non_ex)
@@ -324,8 +324,8 @@ class ilWikiUtil
             //			list( $inside, $trail ) = ilWikiUtil::splitTrail( $trail );
             
             $retVal = '***' . $text . "***" . $trail;
-            $url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
-            $db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
+            $url_title = self::makeUrlTitle($nt->mTextform);
+            $db_title = self::makeDbTitle($nt->mTextform);
             if ($db_title != "") {
                 $pg_exists = ilWikiPage::_wikiPageExists($a_wiki_id, $db_title);
             } else {
@@ -415,16 +415,16 @@ class ilWikiUtil
     public static function makeDbTitle(
         string $a_par
     ) : string {
-        $a_par = ilWikiUtil::removeUnsafeCharacters($a_par);
+        $a_par = self::removeUnsafeCharacters($a_par);
         return str_replace("_", " ", $a_par);
     }
 
     public static function makeUrlTitle(
         string $a_par
     ) : string {
-        $a_par = ilWikiUtil::removeUnsafeCharacters($a_par);
+        $a_par = self::removeUnsafeCharacters($a_par);
         $a_par = str_replace(" ", "_", $a_par);
-        return ilWikiUtil::wfUrlencode($a_par);
+        return self::wfUrlencode($a_par);
     }
     
     public static function splitTrail(
@@ -474,14 +474,14 @@ class ilWikiUtil
             $users = ilNotification::getNotificationsForObject($a_type, $a_page_id, null, $ignore_threshold);
             $wiki_users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
             $users = array_merge($users, $wiki_users);
-            if (!sizeof($users)) {
+            if (!count($users)) {
                 return;
             }
 
             ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI_PAGE, $a_page_id, $users);
         } else {
             $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
-            if (!sizeof($users)) {
+            if (!count($users)) {
                 return;
             }
         }
@@ -506,10 +506,7 @@ class ilWikiUtil
         $snippet = ilPageObject::truncateHTML($snippet, 500, "...");
 
         // making things more readable
-        $snippet = str_replace('<br/>', "\n", $snippet);
-        $snippet = str_replace('<br />', "\n", $snippet);
-        $snippet = str_replace('</p>', "\n", $snippet);
-        $snippet = str_replace('</div>', "\n", $snippet);
+        $snippet = str_replace(['<br/>', '<br />', '</p>', '</div>'], "\n", $snippet);
 
         $snippet = trim(strip_tags($snippet));
 

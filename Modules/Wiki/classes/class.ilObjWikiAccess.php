@@ -59,7 +59,7 @@ class ilObjWikiAccess extends ilObjectAccess
         switch ($cmd) {
             case "view":
 
-                if (!ilObjWikiAccess::_lookupOnline($obj_id)
+                if (!self::_lookupOnline($obj_id)
                     && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
@@ -68,7 +68,7 @@ class ilObjWikiAccess extends ilObjectAccess
                 
             // for permission query feature
             case "infoScreen":
-                if (!ilObjWikiAccess::_lookupOnline($obj_id)) {
+                if (!self::_lookupOnline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                 } else {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
@@ -79,7 +79,7 @@ class ilObjWikiAccess extends ilObjectAccess
         switch ($permission) {
             case "read":
             case "visible":
-                if (!ilObjWikiAccess::_lookupOnline($obj_id) &&
+                if (!self::_lookupOnline($obj_id) &&
                     (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
@@ -104,11 +104,11 @@ class ilObjWikiAccess extends ilObjectAccess
         //	echo "-".$target."-"; exit;
         $t_arr = explode("_", $target);
 
-        if ($t_arr[0] != "wiki" || (((int) $t_arr[1]) <= 0) && $t_arr[1] != "wpage") {
+        if ($t_arr[0] !== "wiki" || (((int) $t_arr[1]) <= 0) && $t_arr[1] !== "wpage") {
             return false;
         }
         
-        if ($t_arr[1] == "wpage") {
+        if ($t_arr[1] === "wpage") {
             $wpg_id = (int) $t_arr[2];
             $w_id = ilWikiPage::lookupWikiId($wpg_id);
             if ((int) $t_arr[3] > 0) {

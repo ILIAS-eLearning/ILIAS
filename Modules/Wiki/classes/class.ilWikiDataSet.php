@@ -48,7 +48,7 @@ class ilWikiDataSet extends ilDataSet
     
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "wiki") {
+        if ($a_entity === "wiki") {
             switch ($a_version) {
                 case "4.1.0":
                     return array(
@@ -134,7 +134,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wpg") {
+        if ($a_entity === "wpg") {
             switch ($a_version) {
                 case "4.1.0":
                     return array(
@@ -165,7 +165,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wiki_imp_page") {
+        if ($a_entity === "wiki_imp_page") {
             switch ($a_version) {
                 case "5.1.0":
                 case "5.4.0":
@@ -187,7 +187,7 @@ class ilWikiDataSet extends ilDataSet
             $a_ids = array($a_ids);
         }
                 
-        if ($a_entity == "wiki") {
+        if ($a_entity === "wiki") {
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, title, description," .
@@ -230,7 +230,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wpg") {
+        if ($a_entity === "wpg") {
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, title, wiki_id" .
@@ -269,7 +269,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wiki_imp_page") {
+        if ($a_entity === "wiki_imp_page") {
             switch ($a_version) {
                 case "5.1.0":
                 case "5.4.0":

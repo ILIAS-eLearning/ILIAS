@@ -56,11 +56,6 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
     {
         return false;
     }
-    
-    public static function getScreenMode() : string
-    {
-        return IL_SCREEN_SIDE;
-    }
 
     /**
     * execute command
@@ -206,7 +201,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         if ($ilAccess->checkAccess("write", "", $this->ref_id) ||
             $ilAccess->checkAccess("edit_page_meta", "", $this->ref_id)) {
             // unhide advmd?
-            if (sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg")) &&
+            if (count(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg")) &&
                 ilWikiPage::lookupAdvancedMetadataHidden($this->getPageObject()->getId())) {
                 $list->addItem(
                     $lng->txt("wiki_unhide_meta_adv_records"),

@@ -158,15 +158,15 @@ class ilWikiPage extends ilPageObject
         string $xml
     ) : void {
         // internal == wiki links
-        $int_links = sizeof(ilWikiUtil::collectInternalLinks($xml, $this->getWikiId(), true));
+        $int_links = count(ilWikiUtil::collectInternalLinks($xml, $this->getWikiId(), true));
         
         $xpath = new DOMXPath($domdoc);
     
         // external = internal + external links
-        $ext_links = sizeof($xpath->query('//IntLink'));
-        $ext_links += sizeof($xpath->query('//ExtLink'));
+        $ext_links = count($xpath->query('//IntLink'));
+        $ext_links += count($xpath->query('//ExtLink'));
         
-        $footnotes = sizeof($xpath->query('//Footnote'));
+        $footnotes = count($xpath->query('//Footnote'));
         
         
         // words/characters (xml)
@@ -174,7 +174,7 @@ class ilWikiPage extends ilPageObject
         $xml = strip_tags($xml);
 
         $num_chars = ilStr::strLen($xml);
-        $num_words = sizeof(explode(" ", $xml));
+        $num_words = count(explode(" ", $xml));
                         
         $page_data = array(
             "int_links" => $int_links,
@@ -247,7 +247,7 @@ class ilWikiPage extends ilPageObject
         $ilDB = $this->db;
         
         // get other pages that link to this page
-        $linking_pages = ilWikiPage::getLinksToPage(
+        $linking_pages = self::getLinksToPage(
             $this->getWikiId(),
             $this->getId()
         );
@@ -423,7 +423,7 @@ class ilWikiPage extends ilPageObject
         
         $ids = array();
         foreach ($sources as $source) {
-            if ($source["type"] == "wpg:pg") {
+            if ($source["type"] === "wpg:pg") {
                 $ids[] = $source["id"];
             }
         }
@@ -451,7 +451,7 @@ class ilWikiPage extends ilPageObject
 
         $ilDB = $DIC->database();
         
-        $pages = ilWikiPage::getAllWikiPages($a_wiki_id);
+        $pages = self::getAllWikiPages($a_wiki_id);
         
         $orphaned = array();
         foreach ($pages as $k => $page) {
@@ -459,7 +459,7 @@ class ilWikiPage extends ilPageObject
             
             $ids = array();
             foreach ($sources as $source) {
-                if ($source["type"] == "wpg:pg") {
+                if ($source["type"] === "wpg:pg") {
                     $ids[] = $source["id"];
                 }
             }
@@ -566,7 +566,7 @@ class ilWikiPage extends ilPageObject
         $xml = $a_domdoc->saveXML();
         $int_wiki_links = ilWikiUtil::collectInternalLinks($xml, $this->getWikiId(), true);
         foreach ($int_wiki_links as $wlink) {
-            $page_id = ilWikiPage::_getPageIdForWikiTitle($this->getWikiId(), $wlink);
+            $page_id = self::_getPageIdForWikiTitle($this->getWikiId(), $wlink);
             
             if ($page_id > 0) {		// save internal link for existing page
                 ilInternalLink::_saveLink(
@@ -648,7 +648,7 @@ class ilWikiPage extends ilPageObject
 
         $ilDB = $DIC->database();
         
-        $cnt = ilWikiPage::countPages($a_wiki_id);
+        $cnt = self::countPages($a_wiki_id);
         
         if ($cnt < 1) {
             return "";
@@ -672,7 +672,7 @@ class ilWikiPage extends ilPageObject
     ) : array {
         $pages = parent::getNewPages("wpg", $a_wiki_id);
         foreach ($pages as $k => $page) {
-            $pages[$k]["title"] = ilWikiPage::lookupTitle($page["id"]);
+            $pages[$k]["title"] = self::lookupTitle($page["id"]);
         }
         
         return $pages;
@@ -714,7 +714,7 @@ class ilWikiPage extends ilPageObject
         $a_new_name = trim(preg_replace('!\s+!', ' ', $a_new_name));
                 
         $page_title = ilWikiUtil::makeDbTitle($a_new_name);
-        $pg_id = ilWikiPage::_getPageIdForWikiTitle($this->getWikiId(), $page_title);
+        $pg_id = self::_getPageIdForWikiTitle($this->getWikiId(), $page_title);
         
         $xml_new_name = str_replace("&", "&amp;", $a_new_name);
 
@@ -722,7 +722,7 @@ class ilWikiPage extends ilPageObject
             $sources = ilInternalLink::_getSourcesOfTarget("wpg", $this->getId(), 0);
 
             foreach ($sources as $s) {
-                if ($s["type"] == "wpg:pg" && ilPageObject::_exists("wpg", $s["id"])) {
+                if ($s["type"] === "wpg:pg" && ilPageObject::_exists("wpg", $s["id"])) {
                     $wpage = new ilWikiPage($s["id"]);
                     
                     $col = ilWikiUtil::collectInternalLinks(

@@ -13,8 +13,6 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use ILIAS\DI\HTTPServices;
-
 /**
  * Class ilWikiPage GUI class
  *
@@ -173,7 +171,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
             default:
 
-                if (strtolower($ilCtrl->getNextClass()) == "ilpageeditorgui") {
+                if (strtolower($ilCtrl->getNextClass()) === "ilpageeditorgui") {
                     self::initEditingJS($this->tpl);
                 }
 
@@ -213,8 +211,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     public function getWikiPage() : ilWikiPage
     {
         /** @var ilWikiPage $wp */
-        $wp = $this->getPageObject();
-        return $wp;
+        return $this->getPageObject();
     }
 
     /**
@@ -227,9 +224,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         int $a_wiki_ref_id = 0
     ) : ilWikiPageGUI {
         $id = ilWikiPage::getPageIdForTitle($a_wiki_id, $a_title);
-        $page_gui = new ilWikiPageGUI($id, $a_old_nr, $a_wiki_ref_id);
-        
-        return $page_gui;
+        return new ilWikiPageGUI($id, $a_old_nr, $a_wiki_ref_id);
     }
     
     public function setSideBlock() : void
@@ -359,7 +354,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->addHeaderAction();
         
         // content
-        if ($ilCtrl->getNextClass() != "ilnotegui") {
+        if ($ilCtrl->getNextClass() !== "ilnotegui") {
             $this->setSideBlock();
         }
 
@@ -485,7 +480,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         );
     }
 
-    protected function increaseViewCount()
+    protected function increaseViewCount() : void
     {
         $ilUser = $this->user;
         
@@ -515,7 +510,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $output = ilWikiUtil::replaceInternalLinks(
                 $a_output,
                 $this->getWikiPage()->getWikiId(),
-                ($this->getOutputMode() == "offline")
+                ($this->getOutputMode() === "offline")
             );
         } else {
             $output = $a_output;
@@ -528,7 +523,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 
         // metadata in print view
-        if ($this->getOutputMode() == "print" && $this->wiki instanceof ilObjWiki) {
+        if ($this->getOutputMode() === "print" && $this->wiki instanceof ilObjWiki) {
             $mdgui = new ilObjectMetaDataGUI($this->wiki, "wpg", $this->getId());
             $md = $mdgui->getKeyValueList();
             if ($md != "") {
@@ -696,7 +691,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     //// Print view selection
     ////
 
-    public function printViewSelection()
+    public function printViewSelection() : void
     {
         $view = $this->getPrintView();
         $view->sendForm();
@@ -729,7 +724,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
                     if (count($pg_ids) == 0) {
                         $pg_ids = [$this->wiki_request->getWikiPageId()];
                     }
-                    if (sizeof($pg_ids) > 1) {
+                    if (count($pg_ids) > 1) {
                         break;
                     } else {
                         $wiki_page_id = array_pop($pg_ids);
@@ -764,7 +759,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $this->ctrl->getLinkTarget($this, "preview")
         );
         
-        if (!sizeof($all_pages)) {
+        if (!count($all_pages)) {
             $all_pages = ilWikiPage::getAllWikiPages($this->getPageObject()->getWikiId());
         }
         

@@ -50,11 +50,6 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
     {
         return false;
     }
-    
-    public static function getScreenMode() : string
-    {
-        return IL_SCREEN_SIDE;
-    }
 
     /**
      * @return mixed

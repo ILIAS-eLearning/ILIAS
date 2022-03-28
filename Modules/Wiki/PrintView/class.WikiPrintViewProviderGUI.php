@@ -53,7 +53,7 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         $this->selected_pages = (!is_null($selected_pages))
             ? $selected_pages
             : array_map(
-                function ($p) {
+                static function ($p) {
                     return $p["id"];
                 },
                 \ilWikiPage::getAllWikiPages($this->wiki->getId())

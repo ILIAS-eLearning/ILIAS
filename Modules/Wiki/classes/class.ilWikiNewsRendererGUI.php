@@ -24,7 +24,7 @@ class ilWikiNewsRendererGUI extends ilNewsDefaultRendererGUI
     {
         $add = "";
         $n = $this->getNewsItem();
-        if ($n->getContextSubObjType() == "wpg"
+        if ($n->getContextSubObjType() === "wpg"
             && $n->getContextSubObjId() > 0) {
             $wptitle = ilWikiPage::lookupTitle($n->getContextSubObjId());
             if ($wptitle != "") {

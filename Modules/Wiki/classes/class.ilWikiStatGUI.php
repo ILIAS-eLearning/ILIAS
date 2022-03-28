@@ -288,7 +288,7 @@ class ilWikiStatGUI
         int $a_figure,
         array $a_data
     ) : string {
-        $scope = ceil(sizeof($a_data) / 31);
+        $scope = ceil(count($a_data) / 31);
 
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "wikistat");
         $chart->setSize("100%", 400);
@@ -346,7 +346,7 @@ class ilWikiStatGUI
                 }
             } else {
                 // 1st/15th
-                if ($day == 1 || $day == 15 || $x == sizeof($a_data) - 1) {
+                if ($day == 1 || $day == 15 || $x == count($a_data) - 1) {
                     $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
                 }
             }

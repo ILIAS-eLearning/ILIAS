@@ -170,7 +170,7 @@ class EditingGUIRequest
     public function getPageTemplateId() : int
     {
         $templ_id = $this->int("page_templ");
-        if ($templ_id == 0) {
+        if ($templ_id === 0) {
             $templ_id = $this->int("templ_page_id");
         }
         return $templ_id;
