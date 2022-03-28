@@ -44,6 +44,7 @@ class DateFormat
         self::YEAR_TWO_DIG
     ];
 
+    /** @var string[] */
     protected array $format = [];
 
     public function __construct(array $format)
@@ -63,6 +64,7 @@ class DateFormat
 
     /**
      * Get the elements of the format as array.
+     * @return string[]
      */
     public function toArray() : array
     {
