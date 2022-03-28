@@ -37,9 +37,6 @@ class ilFileServicesPreProcessor extends BlacklistExtensionPreProcessor
         return parent::process($stream, $metadata);
     }
     
-    /**
-     * @return int
-     */
     private function determineFileAdminRefId() : int
     {
         $objects_by_type = ilObject2::_getObjectsByType('facs');

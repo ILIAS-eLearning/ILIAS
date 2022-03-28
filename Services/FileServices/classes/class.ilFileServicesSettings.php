@@ -66,9 +66,6 @@ class ilFileServicesSettings
         $this->white_list_overall = array_unique($this->white_list_overall);
     }
     
-    /**
-     * @return void
-     */
     private function readBlackList() : void
     {
         $cleaner = $this->getCleaner();
