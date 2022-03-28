@@ -134,15 +134,13 @@ class ilBadgeBackpack
 
             if ($a_is_post) {
                 $curl->setOpt(CURLOPT_POST, 1);
-                if (sizeof($a_param)) {
+                if (count($a_param)) {
                     $curl->setOpt(CURLOPT_POSTFIELDS, http_build_query($a_param));
                 }
             } else {
                 $curl->setOpt(CURLOPT_HTTPGET, 1);
-                if (sizeof($a_param)) {
-                    $a_url = $a_url .
-                        (strpos($a_url, "?") === false ? "?" : "") .
-                        http_build_query($a_param);
+                if (count($a_param)) {
+                    $a_url .= (strpos($a_url, "?") === false ? "?" : "") . http_build_query($a_param);
                 }
             }
             $curl->setOpt(CURLOPT_URL, $a_url);

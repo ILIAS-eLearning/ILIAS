@@ -203,7 +203,7 @@ class ilBadgeManagementGUI
                 $lng->loadLanguageModule("content");
                 $ilToolbar->addButton(
                     $lng->txt("cont_paste_from_clipboard") .
-                        " (" . sizeof($tt) . ")",
+                        " (" . count($tt) . ")",
                     $ilCtrl->getLinkTarget($this, "pasteBadges"),
                     "",
                     "",
@@ -316,7 +316,7 @@ class ilBadgeManagementGUI
             // templates
             
             $valid_templates = ilBadgeImageTemplate::getInstancesByType($a_type_unique_id);
-            if (sizeof($valid_templates)) {
+            if (count($valid_templates)) {
                 $options = array();
                 $options[""] = $lng->txt("please_select");
                 foreach ($valid_templates as $tmpl) {
@@ -532,7 +532,7 @@ class ilBadgeManagementGUI
         foreach ($badge_ids as $badge_id) {
             $badge = new ilBadge($badge_id);
             $confirmation_gui->addItem("id[]", $badge_id, $badge->getTitle() .
-                " (" . sizeof(ilBadgeAssignment::getInstancesByBadgeId($badge_id)) . ")");
+                " (" . count(ilBadgeAssignment::getInstancesByBadgeId($badge_id)) . ")");
         }
 
         $tpl->setContent($confirmation_gui->getHTML());
@@ -670,7 +670,7 @@ class ilBadgeManagementGUI
         
         if ($this->hasWrite()) {
             $manual = ilBadgeHandler::getInstance()->getAvailableManualBadges($this->parent_obj_id, $this->parent_obj_type);
-            if (sizeof($manual)) {
+            if (count($manual)) {
                 $drop = new ilSelectInputGUI($lng->txt("badge_badge"), "bid");
                 $drop->setOptions($manual);
                 $ilToolbar->addInputItem($drop, true);

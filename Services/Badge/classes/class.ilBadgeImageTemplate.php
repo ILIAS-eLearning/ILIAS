@@ -68,7 +68,7 @@ class ilBadgeImageTemplate
         $res = array();
         
         foreach (self::getInstances() as $tmpl) {
-            if (!sizeof($tmpl->getTypes()) ||
+            if (!count($tmpl->getTypes()) ||
                 in_array($a_type_unique_id, $tmpl->getTypes())) {
                 $res[] = $tmpl;
             }
@@ -215,7 +215,7 @@ class ilBadgeImageTemplate
             $res[] = $row["type_id"];
         }
         
-        if (!sizeof($res)) {
+        if (!count($res)) {
             $res = null;
         }
         
@@ -279,7 +279,7 @@ class ilBadgeImageTemplate
         }
         
         $path = $this->getFilePath($this->getId());
-        ilUtil::delDir($path);
+        ilUtil::delDir($path);// @TODO: PHP8 Review: Undefined method.
         
         $ilDB->manipulate("DELETE FROM badge_image_template" .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));

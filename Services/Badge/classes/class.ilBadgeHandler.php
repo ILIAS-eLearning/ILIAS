@@ -110,7 +110,7 @@ class ilBadgeHandler
     {
         $components = $this->settings->get("components", null);
         if ($components) {
-            return unserialize($components);
+            return unserialize($components, ["allowed_classes" => false]);
         }
         return array();
     }
@@ -118,7 +118,7 @@ class ilBadgeHandler
     public function setComponents(array $a_components = null) : void
     {
         if (is_array($a_components) &&
-            !sizeof($a_components)) {
+            !count($a_components)) {
             $a_components = null;
         }
         $this->settings->set("components", $a_components !== null
@@ -203,7 +203,7 @@ class ilBadgeHandler
     {
         $types = $this->settings->get("inactive_types", null);
         if ($types) {
-            return unserialize($types);
+            return unserialize($types, ["allowed_classes" => false]);
         }
         return array();
     }
@@ -211,7 +211,7 @@ class ilBadgeHandler
     public function setInactiveTypes(array $a_types = null) : void
     {
         if (is_array($a_types) &&
-            !sizeof($a_types)) {
+            !count($a_types)) {
             $a_types = null;
         }
         $this->settings->set("inactive_types", $a_types !== null
@@ -553,7 +553,7 @@ class ilBadgeHandler
                 $user_badges[] = $badge->getTitle();
             }
             
-            if (sizeof($user_badges)) {
+            if (count($user_badges)) {
                 // compose and send mail
                 
                 $ntf = new ilSystemNotification(false);

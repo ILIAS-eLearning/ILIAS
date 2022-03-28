@@ -412,7 +412,7 @@ class ilBadgeProfileGUI
         if (!is_array($bp_groups)) {
             $this->tpl->setOnScreenMessage('info', sprintf($lng->txt("badge_backpack_connect_failed"), $this->getBackpackMail()));
             return;
-        } elseif (!sizeof($bp_groups)) {
+        } elseif (!count($bp_groups)) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("badge_backpack_no_groups"));
             return;
         }
@@ -425,7 +425,7 @@ class ilBadgeProfileGUI
 
         foreach ($bp_groups as $group_id => $group) {
             $bp_badges = $bp->getBadges($group_id);
-            if (sizeof($bp_badges)) {
+            if (count($bp_badges)) {
                 foreach ($bp_badges as $idx => $badge) {
                     $tmpl->setCurrentBlock("badge_bl");
                     $tmpl->setVariable("BADGE_TITLE", $badge["title"]);

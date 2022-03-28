@@ -147,7 +147,7 @@ class ilBadgeAssignment
         foreach (ilBadge::getInstancesByParentId($a_parent_obj_id) as $badge) {
             $badge_ids[] = $badge->getId();
         }
-        if (sizeof($badge_ids)) {
+        if (count($badge_ids)) {
             $set = $ilDB->query("SELECT * FROM badge_user_badge" .
             " WHERE " . $ilDB->in("badge_id", $badge_ids, "", "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {

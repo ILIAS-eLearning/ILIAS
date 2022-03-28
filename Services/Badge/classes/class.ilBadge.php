@@ -266,7 +266,7 @@ class ilBadge
     public function setConfiguration(array $a_value = null) : void
     {
         if (is_array($a_value) &&
-            !sizeof($a_value)) {
+            !count($a_value)) {
             $a_value = null;
         }
         $this->config = $a_value;
@@ -381,7 +381,7 @@ class ilBadge
         $this->setImage($a_row["image"]);
         $this->setValid($a_row["valid"]);
         $this->setConfiguration($a_row["conf"]
-                ? unserialize($a_row["conf"])
+                ? unserialize($a_row["conf"], ["allowed_classes" => false])
                 : null);
     }
     

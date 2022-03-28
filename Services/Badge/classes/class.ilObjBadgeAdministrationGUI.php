@@ -724,7 +724,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 $badge_id,
                 $container . " - " .
                 $badge->getTitle() .
-                " (" . sizeof(ilBadgeAssignment::getInstancesByBadgeId($badge_id)) . ")"
+                " (" . count(ilBadgeAssignment::getInstancesByBadgeId($badge_id)) . ")"
             );
         }
 
