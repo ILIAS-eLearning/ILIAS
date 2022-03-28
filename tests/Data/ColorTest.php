@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ColorTest extends TestCase
 {
-    private Data\Factory $f;
+    private ?Data\Factory $f;
 
     protected function setUp() : void
     {

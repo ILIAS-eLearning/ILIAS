@@ -7,59 +7,59 @@ use PHPUnit\Framework\TestCase;
 
 class URITest extends TestCase
 {
-    public const URI_COMPLETE = 'g+it://github.com:8080/someaccount/somerepo/somerepo.git?query_par_1=val_1&query_par_2=val_2#fragment';
+    private const URI_COMPLETE = 'g+it://github.com:8080/someaccount/somerepo/somerepo.git?query_par_1=val_1&query_par_2=val_2#fragment';
 
-    public const URI_COMPLETE_IPV4 = 'g+it://10.0.0.86:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
+    private const URI_COMPLETE_IPV4 = 'g+it://10.0.0.86:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
-    public const URI_COMPLETE_LOCALHOST = 'g+it://localhost:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
-
-
-    public const URI_NO_PATH_1 = 'g-it://ilias%2Da.de:8080?query_par_1=val_1&query_par_2=val_2#fragment';
-    public const URI_NO_PATH_2 = 'g.it://amaz;on.co.uk:8080/?query_par_1=val_1&query_par_2=val_2#fragment';
-
-    public const URI_NO_QUERY_1 = 'git://one-letter-top-level.a:8080/someaccount/somerepo/somerepo.git/#fragment';
-    public const URI_NO_QUERY_2 = 'git://github.com:8080/someaccount/somerepo/somerepo.git#fragment';
-
-    public const URI_AUTHORITY_AND_QUERY_1 = 'git://github.com?query_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
-    public const URI_AUTHORITY_AND_QUERY_2 = 'git://github.com/?qu/ery_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
-
-    public const URI_AUTHORITY_AND_FRAGMENT = 'git://github.com:8080/#fragment$,;:A!\'*+()ar_1=val_1&';
-
-    public const URI_AUTHORITY_PATH_FRAGMENT = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git#frag:A!\'*+()arment';
-
-    public const URI_PATH = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git/';
-
-    public const URI_AUTHORITY_ONLY = 'git://git$,;hub.com';
-
-    public const URI_NO_SCHEMA = 'git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git/';
-
-    public const URI_NO_AUTHORITY = 'git://:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
-
-    public const URI_WRONG_SCHEMA = 'gi$t://git$,;hub.com';
-
-    public const URI_WRONG_AUTHORITY_1 = 'git://git$,;hu<b.com:8080/someacc$,;ount/somerepo/somerepo.git/';
-    public const URI_WRONG_AUTHORITY_2 = 'git://git$,;hu=b.com/someacc$,;ount/somerepo/somerepo.git/';
+    private const URI_COMPLETE_LOCALHOST = 'g+it://localhost:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
 
-    public const URI_INVALID = 'https://host.de/ilias.php/"><script>alert(1)</script>?baseClass=ilObjChatroomGUI&cmd=getOSDNotifications&cmdMode=asynch&max_age=15192913';
+    private const URI_NO_PATH_1 = 'g-it://ilias%2Da.de:8080?query_par_1=val_1&query_par_2=val_2#fragment';
+    private const URI_NO_PATH_2 = 'g.it://amaz;on.co.uk:8080/?query_par_1=val_1&query_par_2=val_2#fragment';
 
-    public const URI_FAKEPCENC = 'g+it://github.com:8080/someaccoun%t/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
+    private const URI_NO_QUERY_1 = 'git://one-letter-top-level.a:8080/someaccount/somerepo/somerepo.git/#fragment';
+    private const URI_NO_QUERY_2 = 'git://github.com:8080/someaccount/somerepo/somerepo.git#fragment';
+
+    private const URI_AUTHORITY_AND_QUERY_1 = 'git://github.com?query_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
+    private const URI_AUTHORITY_AND_QUERY_2 = 'git://github.com/?qu/ery_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
+
+    private const URI_AUTHORITY_AND_FRAGMENT = 'git://github.com:8080/#fragment$,;:A!\'*+()ar_1=val_1&';
+
+    private const URI_AUTHORITY_PATH_FRAGMENT = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git#frag:A!\'*+()arment';
+
+    private const URI_PATH = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git/';
+
+    private const URI_AUTHORITY_ONLY = 'git://git$,;hub.com';
+
+    private const URI_NO_SCHEMA = 'git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git/';
+
+    private const URI_NO_AUTHORITY = 'git://:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
+
+    private const URI_WRONG_SCHEMA = 'gi$t://git$,;hub.com';
+
+    private const URI_WRONG_AUTHORITY_1 = 'git://git$,;hu<b.com:8080/someacc$,;ount/somerepo/somerepo.git/';
+    private const URI_WRONG_AUTHORITY_2 = 'git://git$,;hu=b.com/someacc$,;ount/somerepo/somerepo.git/';
+
+
+    private const URI_INVALID = 'https://host.de/ilias.php/"><script>alert(1)</script>?baseClass=ilObjChatroomGUI&cmd=getOSDNotifications&cmdMode=asynch&max_age=15192913';
+
+    private const URI_FAKEPCENC = 'g+it://github.com:8080/someaccoun%t/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
    
-    public const URI_REALPCTENC = 'g+it://github.com:8080/someaccount%2Fsomerepo/som%2brepo.git/?par_lower=val_%2b&par_upper=val_%C3%A1#fragment';
-    public const PATH_REALPCTENC = 'someaccount%2Fsomerepo/som%2brepo.git';
-    public const PARAMS_REALPCTENC = [
+    private const URI_REALPCTENC = 'g+it://github.com:8080/someaccount%2Fsomerepo/som%2brepo.git/?par_lower=val_%2b&par_upper=val_%C3%A1#fragment';
+    private const PATH_REALPCTENC = 'someaccount%2Fsomerepo/som%2brepo.git';
+    private const PARAMS_REALPCTENC = [
         'par_lower' => 'val_+',
         'par_upper' => 'val_á'
     ];
 
-    public const URI_HOST_ALPHADIG_START_1 = 'g+it://-github.com:8080/someaccount';
-    public const URI_HOST_ALPHADIG_START_2 = 'g+it://github-.com:8080/someaccount';
-    public const URI_HOST_ALPHADIG_START_3 = 'http://.';
-    public const URI_HOST_ALPHADIG_START_4 = 'http://../';
-    public const URI_HOST_ALPHADIG_START_5 = 'http://-error-.invalid/';
+    private const URI_HOST_ALPHADIG_START_1 = 'g+it://-github.com:8080/someaccount';
+    private const URI_HOST_ALPHADIG_START_2 = 'g+it://github-.com:8080/someaccount';
+    private const URI_HOST_ALPHADIG_START_3 = 'http://.';
+    private const URI_HOST_ALPHADIG_START_4 = 'http://../';
+    private const URI_HOST_ALPHADIG_START_5 = 'http://-error-.invalid/';
 
-    public const URI_BASE = 'git://github.com:8080/someaccount/somerepo/somerepo.git';
-    public const PARAMS = [
+    private const URI_BASE = 'git://github.com:8080/someaccount/somerepo/somerepo.git';
+    private const PARAMS = [
         'par_1' => 'val_1',
         'par_2' => 'val_2'
     ];
@@ -79,13 +79,13 @@ class URITest extends TestCase
     public function test_ipv4() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE_IPV4);
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), '10.0.0.86:8080');
-        $this->assertEquals($uri->getHost(), '10.0.0.86');
-        $this->assertEquals($uri->getPort(), 8080);
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('10.0.0.86:8080', $uri->getAuthority());
+        $this->assertEquals('10.0.0.86', $uri->getHost());
+        $this->assertEquals(8080, $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
     }
 
 
@@ -95,13 +95,13 @@ class URITest extends TestCase
     public function test_localhost() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE_LOCALHOST);
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'localhost:8080');
-        $this->assertEquals($uri->getHost(), 'localhost');
-        $this->assertEquals($uri->getPort(), 8080);
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('localhost:8080', $uri->getAuthority());
+        $this->assertEquals('localhost', $uri->getHost());
+        $this->assertEquals(8080, $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
     }
 
 
@@ -110,13 +110,13 @@ class URITest extends TestCase
      */
     public function test_components($uri) : void
     {
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
     }
 
     /**
@@ -124,7 +124,7 @@ class URITest extends TestCase
      */
     public function test_base_uri($uri) : void
     {
-        $this->assertEquals($uri->getBaseURI(), 'g+it://github.com:8080/someaccount/somerepo/somerepo.git');
+        $this->assertEquals('g+it://github.com:8080/someaccount/somerepo/somerepo.git', $uri->getBaseURI());
     }
 
     /**
@@ -133,22 +133,22 @@ class URITest extends TestCase
     public function test_base_uri_idempotent($uri) : void
     {
         $base_uri = $uri->getBaseURI();
-        $this->assertEquals($base_uri, 'g+it://github.com:8080/someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it://github.com:8080/someaccount/somerepo/somerepo.git', $base_uri);
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
 
         $uri = new ILIAS\Data\URI($base_uri);
         $this->assertEquals($base_uri, $uri->getBaseURI());
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
         $this->assertNull($uri->getQuery());
         $this->assertNull($uri->getFragment());
     }
@@ -160,22 +160,22 @@ class URITest extends TestCase
     public function test_no_path() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_NO_PATH_1);
-        $this->assertEquals($uri->getSchema(), 'g-it');
-        $this->assertEquals($uri->getAuthority(), 'ilias%2Da.de:8080');
-        $this->assertEquals($uri->getHost(), 'ilias%2Da.de');
-        $this->assertEquals($uri->getPort(), '8080');
+        $this->assertEquals('g-it', $uri->getSchema());
+        $this->assertEquals('ilias%2Da.de:8080', $uri->getAuthority());
+        $this->assertEquals('ilias%2Da.de', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
         $this->assertNull($uri->getPath());
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
 
         $uri = new ILIAS\Data\URI(self::URI_NO_PATH_2);
-        $this->assertEquals($uri->getSchema(), 'g.it');
-        $this->assertEquals($uri->getAuthority(), 'amaz;on.co.uk:8080');
-        $this->assertEquals($uri->getHost(), 'amaz;on.co.uk');
-        $this->assertEquals($uri->getPort(), '8080');
+        $this->assertEquals('g.it', $uri->getSchema());
+        $this->assertEquals('amaz;on.co.uk:8080', $uri->getAuthority());
+        $this->assertEquals('amaz;on.co.uk', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
         $this->assertNull($uri->getPath());
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
     }
 
     /**
@@ -184,22 +184,22 @@ class URITest extends TestCase
     public function test_no_query() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_NO_QUERY_1);
-        $this->assertEquals($uri->getSchema(), 'git');
-        $this->assertEquals($uri->getAuthority(), 'one-letter-top-level.a:8080');
-        $this->assertEquals($uri->getHost(), 'one-letter-top-level.a');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
+        $this->assertEquals('git', $uri->getSchema());
+        $this->assertEquals('one-letter-top-level.a:8080', $uri->getAuthority());
+        $this->assertEquals('one-letter-top-level.a', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
         $this->assertNull($uri->getQuery());
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('fragment', $uri->getFragment());
 
         $uri = new ILIAS\Data\URI(self::URI_NO_QUERY_2);
-        $this->assertEquals($uri->getSchema(), 'git');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
+        $this->assertEquals('git', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
         $this->assertNull($uri->getQuery());
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('fragment', $uri->getFragment());
     }
 
     /**
@@ -208,21 +208,21 @@ class URITest extends TestCase
     public function test_authority_and_query() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_AUTHORITY_AND_QUERY_1);
-        $this->assertEquals($uri->getSchema(), 'git');
-        $this->assertEquals($uri->getAuthority(), 'github.com');
-        $this->assertEquals($uri->getHost(), 'github.com');
+        $this->assertEquals('git', $uri->getSchema());
+        $this->assertEquals('github.com', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
         $this->assertNull($uri->getPort());
         $this->assertNull($uri->getPath());
-        $this->assertEquals($uri->getQuery(), 'query_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2');
+        $this->assertEquals('query_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2', $uri->getQuery());
         $this->assertNull($uri->getFragment());
 
         $uri = new ILIAS\Data\URI(self::URI_AUTHORITY_AND_QUERY_2);
-        $this->assertEquals($uri->getSchema(), 'git');
-        $this->assertEquals($uri->getAuthority(), 'github.com');
-        $this->assertEquals($uri->getHost(), 'github.com');
+        $this->assertEquals('git', $uri->getSchema());
+        $this->assertEquals('github.com', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
         $this->assertNull($uri->getPort());
         $this->assertNull($uri->getPath());
-        $this->assertEquals($uri->getQuery(), 'qu/ery_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2');
+        $this->assertEquals('qu/ery_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2', $uri->getQuery());
         $this->assertNull($uri->getFragment());
     }
 
@@ -232,13 +232,13 @@ class URITest extends TestCase
     public function test_authority_and_fragment() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_AUTHORITY_AND_FRAGMENT);
-        $this->assertEquals($uri->getSchema(), 'git');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
+        $this->assertEquals('git', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
         $this->assertNull($uri->getPath());
         $this->assertNull($uri->getQuery());
-        $this->assertEquals($uri->getFragment(), 'fragment$,;:A!\'*+()ar_1=val_1&');
+        $this->assertEquals('fragment$,;:A!\'*+()ar_1=val_1&', $uri->getFragment());
     }
     /**
      * @depends test_init
@@ -246,13 +246,13 @@ class URITest extends TestCase
     public function test_authority_path_fragment() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_AUTHORITY_PATH_FRAGMENT);
-        $this->assertEquals($uri->getSchema(), 'git');
-        $this->assertEquals($uri->getAuthority(), 'git$,;hub.com:8080');
-        $this->assertEquals($uri->getHost(), 'git$,;hub.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someacc$,;ount/somerepo/somerepo.git');
+        $this->assertEquals('git', $uri->getSchema());
+        $this->assertEquals('git$,;hub.com:8080', $uri->getAuthority());
+        $this->assertEquals('git$,;hub.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someacc$,;ount/somerepo/somerepo.git', $uri->getPath());
         $this->assertNull($uri->getQuery());
-        $this->assertEquals($uri->getFragment(), 'frag:A!\'*+()arment');
+        $this->assertEquals('frag:A!\'*+()arment', $uri->getFragment());
     }
 
     /**
@@ -261,14 +261,14 @@ class URITest extends TestCase
     public function test_path() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_PATH);
-        $this->assertEquals($uri->getSchema(), 'git');
-        $this->assertEquals($uri->getAuthority(), 'git$,;hub.com:8080');
-        $this->assertEquals($uri->getHost(), 'git$,;hub.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someacc$,;ount/somerepo/somerepo.git');
+        $this->assertEquals('git', $uri->getSchema());
+        $this->assertEquals('git$,;hub.com:8080', $uri->getAuthority());
+        $this->assertEquals('git$,;hub.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someacc$,;ount/somerepo/somerepo.git', $uri->getPath());
         $this->assertNull($uri->getQuery());
         $this->assertNull($uri->getFragment());
-        $this->assertEquals($uri->getBaseURI(), 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git');
+        $this->assertEquals('git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git', $uri->getBaseURI());
     }
 
     /**
@@ -277,14 +277,14 @@ class URITest extends TestCase
     public function test_authority_only() : void
     {
         $uri = new ILIAS\Data\URI(self::URI_AUTHORITY_ONLY);
-        $this->assertEquals($uri->getSchema(), 'git');
-        $this->assertEquals($uri->getAuthority(), 'git$,;hub.com');
-        $this->assertEquals($uri->getHost(), 'git$,;hub.com');
+        $this->assertEquals('git', $uri->getSchema());
+        $this->assertEquals('git$,;hub.com', $uri->getAuthority());
+        $this->assertEquals('git$,;hub.com', $uri->getHost());
         $this->assertNull($uri->getPort());
         $this->assertNull($uri->getPath());
         $this->assertNull($uri->getQuery());
         $this->assertNull($uri->getFragment());
-        $this->assertEquals($uri->getBaseURI(), 'git://git$,;hub.com');
+        $this->assertEquals('git://git$,;hub.com', $uri->getBaseURI());
     }
 
     /**
@@ -410,21 +410,21 @@ class URITest extends TestCase
      */
     public function test_with_schema($uri) : void
     {
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withSchema('http');
-        $this->assertEquals($uri->getSchema(), 'http');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('http', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
     }
 
     /**
@@ -452,29 +452,29 @@ class URITest extends TestCase
      */
     public function test_with_port($uri) : void
     {
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withPort(80);
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:80');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '80');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:80', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('80', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withPort();
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com');
-        $this->assertEquals($uri->getHost(), 'github.com');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
         $this->assertNull($uri->getPort());
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
     }
 
 
@@ -503,21 +503,21 @@ class URITest extends TestCase
      */
     public function test_with_host($uri) : void
     {
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withHost('ilias.de');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'ilias.de:8080');
-        $this->assertEquals($uri->getHost(), 'ilias.de');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('ilias.de:8080', $uri->getAuthority());
+        $this->assertEquals('ilias.de', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
     }
 
 
@@ -556,77 +556,77 @@ class URITest extends TestCase
      */
     public function test_with_authority($uri) : void
     {
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withAuthority('www1.ilias.de');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'www1.ilias.de');
-        $this->assertEquals($uri->getHost(), 'www1.ilias.de');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('www1.ilias.de', $uri->getAuthority());
+        $this->assertEquals('www1.ilias.de', $uri->getHost());
         $this->assertNull($uri->getPort());
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withAuthority('ilias.de:80');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'ilias.de:80');
-        $this->assertEquals($uri->getHost(), 'ilias.de');
-        $this->assertEquals($uri->getPort(), '80');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('ilias.de:80', $uri->getAuthority());
+        $this->assertEquals('ilias.de', $uri->getHost());
+        $this->assertEquals('80', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withAuthority('a:1');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'a:1');
-        $this->assertEquals($uri->getHost(), 'a');
-        $this->assertEquals($uri->getPort(), 1);
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('a:1', $uri->getAuthority());
+        $this->assertEquals('a', $uri->getHost());
+        $this->assertEquals(1, $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withAuthority('a');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'a');
-        $this->assertEquals($uri->getHost(), 'a');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('a', $uri->getAuthority());
+        $this->assertEquals('a', $uri->getHost());
         $this->assertNull($uri->getPort());
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withAuthority('1.2.3.4');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), '1.2.3.4');
-        $this->assertEquals($uri->getHost(), '1.2.3.4');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('1.2.3.4', $uri->getAuthority());
+        $this->assertEquals('1.2.3.4', $uri->getHost());
         $this->assertNull($uri->getPort());
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withAuthority('1.2.3.4:5');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), '1.2.3.4:5');
-        $this->assertEquals($uri->getHost(), '1.2.3.4');
-        $this->assertEquals($uri->getPort(), 5);
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('1.2.3.4:5', $uri->getAuthority());
+        $this->assertEquals('1.2.3.4', $uri->getHost());
+        $this->assertEquals(5, $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withAuthority('localhost1');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'localhost1');
-        $this->assertEquals($uri->getHost(), 'localhost1');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('localhost1', $uri->getAuthority());
+        $this->assertEquals('localhost1', $uri->getHost());
         $this->assertNull($uri->getPort());
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withAuthority('localhost1:10');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'localhost1:10');
-        $this->assertEquals($uri->getHost(), 'localhost1');
-        $this->assertEquals($uri->getPort(), 10);
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('localhost1:10', $uri->getAuthority());
+        $this->assertEquals('localhost1', $uri->getHost());
+        $this->assertEquals(10, $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
     }
 
     /**
@@ -717,29 +717,29 @@ class URITest extends TestCase
      */
     public function test_with_path($uri) : void
     {
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withPath('a/b');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'a/b');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('a/b', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withPath();
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
         $this->assertNull($uri->getPath());
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
     }
 
     /**
@@ -777,29 +777,29 @@ class URITest extends TestCase
      */
     public function test_with_query($uri) : void
     {
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withQuery('query_par_a1=val_a1');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_a1=val_a1');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_a1=val_a1', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withQuery();
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
         $this->assertNull($uri->getQuery());
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('fragment', $uri->getFragment());
     }
 
     /**
@@ -827,28 +827,28 @@ class URITest extends TestCase
      */
     public function test_with_fragment($uri) : void
     {
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'fragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('fragment', $uri->getFragment());
         $uri = $uri->withFragment('someFragment');
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
-        $this->assertEquals($uri->getFragment(), 'someFragment');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('someFragment', $uri->getFragment());
         $uri = $uri->withFragment();
-        $this->assertEquals($uri->getSchema(), 'g+it');
-        $this->assertEquals($uri->getAuthority(), 'github.com:8080');
-        $this->assertEquals($uri->getHost(), 'github.com');
-        $this->assertEquals($uri->getPort(), '8080');
-        $this->assertEquals($uri->getPath(), 'someaccount/somerepo/somerepo.git');
-        $this->assertEquals($uri->getQuery(), 'query_par_1=val_1&query_par_2=val_2');
+        $this->assertEquals('g+it', $uri->getSchema());
+        $this->assertEquals('github.com:8080', $uri->getAuthority());
+        $this->assertEquals('github.com', $uri->getHost());
+        $this->assertEquals('8080', $uri->getPort());
+        $this->assertEquals('someaccount/somerepo/somerepo.git', $uri->getPath());
+        $this->assertEquals('query_par_1=val_1&query_par_2=val_2', $uri->getQuery());
         $this->assertNull($uri->getFragment());
     }
 

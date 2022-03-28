@@ -14,46 +14,46 @@ namespace ILIAS\Data;
  */
 class URI
 {
-    public const PATH_DELIM = '/';
+    private const PATH_DELIM = '/';
 
     /**
      * Relevant character-groups as defined in RFC 3986 Appendix 1
      */
-    public const ALPHA = '[A-Za-z]';
-    public const DIGIT = '[0-9]';
-    public const ALPHA_DIGIT = '[A-Za-z0-9]';
-    public const HEXDIG = '[0-9A-Fa-f]';
-    public const PCTENCODED = '%' . self::HEXDIG . self::HEXDIG;
+    private const ALPHA = '[A-Za-z]';
+    private const DIGIT = '[0-9]';
+    private const ALPHA_DIGIT = '[A-Za-z0-9]';
+    private const HEXDIG = '[0-9A-Fa-f]';
+    private const PCTENCODED = '%' . self::HEXDIG . self::HEXDIG;
     /**
      * point|minus|plus to be used in schema.
      */
-    public const PIMP = '[\\+\\-\\.]';
+    private const PIMP = '[\\+\\-\\.]';
 
     /**
      * valid subdelims according to RFC 3986 Appendix 1:
      * "!" "$" "&" "'" "(" ")" "*" "+" "," ";" "="
      */
-    public const SUBDELIMS = '[\\$,;=!&\'\\(\\)\\*\\+]';
+    private const SUBDELIMS = '[\\$,;=!&\'\\(\\)\\*\\+]';
     /**
      * subdelims without jsf**k characters +!() and =
      */
-    public const BASEURI_SUBDELIMS = '[\\$,;&\'\\*]';
+    private const BASEURI_SUBDELIMS = '[\\$,;&\'\\*]';
 
-    public const UNRESERVED = self::ALPHA_DIGIT . '|[\\-\\._~]';
-    public const UNRESERVED_NO_DOT = self::ALPHA_DIGIT . '|[\\-_~]';
+    private const UNRESERVED = self::ALPHA_DIGIT . '|[\\-\\._~]';
+    private const UNRESERVED_NO_DOT = self::ALPHA_DIGIT . '|[\\-_~]';
 
-    public const PCHAR = self::UNRESERVED . '|' . self::SUBDELIMS . '|' . self::PCTENCODED . '|:|@';
-    public const BASEURI_PCHAR = self::UNRESERVED . '|' . self::BASEURI_SUBDELIMS . '|' . self::PCTENCODED . '|:|@';
+    private const PCHAR = self::UNRESERVED . '|' . self::SUBDELIMS . '|' . self::PCTENCODED . '|:|@';
+    private const BASEURI_PCHAR = self::UNRESERVED . '|' . self::BASEURI_SUBDELIMS . '|' . self::PCTENCODED . '|:|@';
 
-    public const SCHEMA = '#^' . self::ALPHA . '(' . self::ALPHA_DIGIT . '|' . self::PIMP . ')*$#';
-    public const DOMAIN_LABEL = self::ALPHA_DIGIT . '((' . self::UNRESERVED_NO_DOT . '|' . self::PCTENCODED . '|' . self::BASEURI_SUBDELIMS . ')*' . self::ALPHA_DIGIT . ')*';
-    public const HOST_REG_NAME = '^' . self::DOMAIN_LABEL . '(\\.' . self::DOMAIN_LABEL . ')*$';
-    public const HOST_IPV4 = '^(' . self::DIGIT . '{1,3})(\\.' . self::DIGIT . '{1,3}){3}$';
-    public const HOST = '#' . self::HOST_IPV4 . '|' . self::HOST_REG_NAME . '#';
-    public const PORT = '#^' . self::DIGIT . '+$#';
-    public const PATH = '#^(?!//)(?!:)(' . self::PCHAR . '|' . self::PATH_DELIM . ')+$#';
-    public const QUERY = '#^(' . self::PCHAR . '|' . self::PATH_DELIM . '|\\?)+$#';
-    public const FRAGMENT = '#^(' . self::PCHAR . '|' . self::PATH_DELIM . '|\\?|\\#)+$#';
+    private const SCHEMA = '#^' . self::ALPHA . '(' . self::ALPHA_DIGIT . '|' . self::PIMP . ')*$#';
+    private const DOMAIN_LABEL = self::ALPHA_DIGIT . '((' . self::UNRESERVED_NO_DOT . '|' . self::PCTENCODED . '|' . self::BASEURI_SUBDELIMS . ')*' . self::ALPHA_DIGIT . ')*';
+    private const HOST_REG_NAME = '^' . self::DOMAIN_LABEL . '(\\.' . self::DOMAIN_LABEL . ')*$';
+    private const HOST_IPV4 = '^(' . self::DIGIT . '{1,3})(\\.' . self::DIGIT . '{1,3}){3}$';
+    private const HOST = '#' . self::HOST_IPV4 . '|' . self::HOST_REG_NAME . '#';
+    private const PORT = '#^' . self::DIGIT . '+$#';
+    private const PATH = '#^(?!//)(?!:)(' . self::PCHAR . '|' . self::PATH_DELIM . ')+$#';
+    private const QUERY = '#^(' . self::PCHAR . '|' . self::PATH_DELIM . '|\\?)+$#';
+    private const FRAGMENT = '#^(' . self::PCHAR . '|' . self::PATH_DELIM . '|\\?|\\#)+$#';
 
     protected string $schema;
     protected string $host;
@@ -93,10 +93,7 @@ class URI
      */
     protected function digestPort(int $port = null) : ?int
     {
-        if ($port === null) {
-            return null;
-        }
-        return $port;
+        return $port ?? null;
     }
 
     /**
@@ -321,10 +318,8 @@ class URI
     public function getParameter(string $param)
     {
         $params = $this->getParameters();
-        if (!array_key_exists($param, $params)) {
-            return null;
-        }
-        return $params[$param];
+
+        return $params[$param] ?? null;
     }
 
     /**

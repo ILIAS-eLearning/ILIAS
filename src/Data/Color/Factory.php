@@ -35,7 +35,7 @@ class Factory
             return $this->fromHex($hex);
         }
 
-        throw new \InvalidArgumentException("Cannot construct color from " . $value, 1);
+        throw new \InvalidArgumentException("Cannot construct color from " . var_export($value, true), 1);
     }
 
     /**
@@ -62,7 +62,7 @@ class Factory
             throw new \InvalidArgumentException("Array with three values (RGB) needed.", 1);
         }
         foreach ($rgb as $value) {
-            if (!is_integer($value)) {
+            if (!is_int($value)) {
                 throw new \InvalidArgumentException("RGB-value must be an integer", 1);
             }
             if ($value > 255 || $value < 0) {
@@ -87,7 +87,7 @@ class Factory
      */
     private function trimHash(string $hex) : string
     {
-        if (substr($hex, 0, 1) === '#') {
+        if ($hex[0] === '#') {
             $hex = ltrim($hex, '#');
         }
         return $hex;

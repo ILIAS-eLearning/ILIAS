@@ -9,10 +9,10 @@ use Ramsey\Uuid\Exception\InvalidUuidStringException;
 
 class UuidTest extends TestCase
 {
-    public const VALID_UUID4 = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}$/';
+    private const VALID_UUID4 = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}$/';
 
-    public const UUID4 = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
-    public const NO_UUID = 'lorem ipsum dolor';
+    private const UUID4 = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
+    private const NO_UUID = 'lorem ipsum dolor';
 
     /**
      * @doesNotPerformAssertions
@@ -30,7 +30,7 @@ class UuidTest extends TestCase
         $factory = new Factory();
         $uuid = $factory->uuid4();
 
-        $this->assertEquals(1, preg_match(self::VALID_UUID4, $uuid->toString()));
+        $this->assertMatchesRegularExpression(self::VALID_UUID4, $uuid->toString());
     }
 
     /**
@@ -41,8 +41,8 @@ class UuidTest extends TestCase
         $factory = new Factory();
         $uuid = $factory->uuid4AsString();
 
-        $this->assertTrue(is_string($uuid));
-        $this->assertEquals(1, preg_match(self::VALID_UUID4, $uuid));
+        $this->assertIsString($uuid);
+        $this->assertMatchesRegularExpression(self::VALID_UUID4, $uuid);
     }
 
     /**
@@ -53,7 +53,7 @@ class UuidTest extends TestCase
         $factory = new Factory();
         $uuid = $factory->fromString(self::UUID4);
 
-        $this->assertEquals(1, preg_match(self::VALID_UUID4, $uuid->toString()));
+        $this->assertMatchesRegularExpression(self::VALID_UUID4, $uuid->toString());
         $this->assertEquals(self::UUID4, $uuid->toString());
     }
 

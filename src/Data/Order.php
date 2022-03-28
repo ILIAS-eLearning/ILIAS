@@ -13,7 +13,7 @@ class Order
     public const DESC = 'DESC';
 
     /**
-     * @var array <subject, direction>
+     * @var array<string, string>
      */
     protected array $order = [];
 

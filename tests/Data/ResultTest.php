@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ResultTest extends TestCase
 {
-    private Data\Factory $f;
+    private ?Data\Factory $f;
 
     protected function setUp() : void
     {
@@ -121,8 +121,7 @@ class ResultTest extends TestCase
         $result = $this->f->ok(3);
         $multiplicator = 3;
         $new_result = $result->then(function ($v) use ($multiplicator) {
-            $ret = $this->f->ok(($v * $multiplicator));
-            return $ret;
+            return $this->f->ok(($v * $multiplicator));
         });
 
         $this->assertInstanceOf(Data\Result::class, $new_result);
@@ -146,8 +145,7 @@ class ResultTest extends TestCase
         $result = $this->f->error("Something went wrong");
         $multiplicator = 3;
         $new_result = $result->then(function ($v) use ($multiplicator) {
-            $ret = $this->f->ok(($v * $multiplicator));
-            return $ret;
+            return $this->f->ok(($v * $multiplicator));
         });
 
         $this->assertInstanceOf(Data\Result::class, $new_result);
@@ -177,8 +175,7 @@ class ResultTest extends TestCase
         $exception = "Something else went wrong";
 
         $new_result = $result->except(function ($v) use ($exception) {
-            $ret = $this->f->error($exception);
-            return $ret;
+            return $this->f->error($exception);
         });
 
         $this->assertInstanceOf(Data\Result::class, $new_result);
@@ -205,8 +202,7 @@ class ResultTest extends TestCase
         $exception = "Something else went wrong";
 
         $new_result = $result->except(function ($v) use ($exception) {
-            $ret = $this->f->error($exception);
-            return $ret;
+            return $this->f->error($exception);
         });
 
         $this->assertInstanceOf(Data\Result::class, $new_result);

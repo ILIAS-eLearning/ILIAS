@@ -55,7 +55,7 @@ class DateFormat
     public function validateFormatElelements(array $format) : void
     {
         foreach ($format as $entry) {
-            if (!in_array($entry, self::TOKENS)) {
+            if (!in_array($entry, self::TOKENS, true)) {
                 throw new \InvalidArgumentException("not a valid token for date-format", 1);
             }
         }
