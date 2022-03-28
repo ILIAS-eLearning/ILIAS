@@ -93,9 +93,6 @@ class ilExcel
     /**
      * Add sheet
      *
-     * @param string $a_name
-     * @param bool $a_activate
-     * @return int index
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function addSheet(
@@ -431,7 +428,7 @@ class ilExcel
     
     /**
      * Save workbook to file
-     * @param string $a_file full path
+     *
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     public function writeToFile(string $a_file) : void
@@ -453,10 +450,9 @@ class ilExcel
         
         return $filename;
     }
-
+    
     /**
      * Set cell(s) to bold
-     * @param string $a_coords Cell coordinate (or range) to get style for, eg: 'A1'
      */
     public function setBold(string $a_coords) : void
     {
@@ -465,10 +461,6 @@ class ilExcel
     
     /**
      * Set cell(s) colors
-     *
-     * @param string $a_coords
-     * @param string $a_background
-     * @param ?string $a_font
      */
     public function setColors(
         string $a_coords,
@@ -493,11 +485,6 @@ class ilExcel
     
     /**
      * Toggle cell(s) borders
-     * @param string $a_coords
-     * @param bool $a_top
-     * @param bool $a_right
-     * @param bool $a_bottom
-     * @param bool $a_left
      */
     public function setBorders(
         string $a_coords,
