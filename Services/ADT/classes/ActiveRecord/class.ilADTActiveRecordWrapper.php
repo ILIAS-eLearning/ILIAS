@@ -93,6 +93,9 @@ class ilADTActiveRecordWrapper extends ActiveRecord
         return $primary[1];
     }
 
+    /**
+     * @todo types extended from ActiveRecord
+     */
     public function sleep($field_name)
     {
         if (array_key_exists($field_name, $this->field_element_map)) {
@@ -102,9 +105,11 @@ class ilADTActiveRecordWrapper extends ActiveRecord
         return false;
     }
 
-    //Todo-PHP8-Review Begin: Missing return type and parameter declaration
+
+    /**
+     * @todo types extended from ActiveRecord
+     */
     public function wakeUp($field_name, $field_value)
-    //Todo-PHP8-Review End
     {
         if (array_key_exists($field_name, $this->field_element_map)) {
             $element = $this->properties->getElement($this->field_element_map[$field_name]);

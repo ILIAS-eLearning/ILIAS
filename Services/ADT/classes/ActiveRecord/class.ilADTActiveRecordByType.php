@@ -102,9 +102,8 @@ class ilADTActiveRecordByType
         }
         return $res;
     }
-    //Todo-PHP8-Review Begin: Missing return type declaration
-    protected function processTableRowForElement(string $a_sub_table, string $a_element_id, array $a_row)
-    //Todo-PHP8-Review End
+
+    protected function processTableRowForElement(string $a_sub_table, string $a_element_id, array $a_row) : array
     {
         switch ($a_sub_table) {
             case "location":
