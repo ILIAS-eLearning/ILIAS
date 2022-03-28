@@ -420,7 +420,7 @@ class ilRepositorySearchGUI
         if ($this->http->wrapper()->post()->has('obj')) {
             $obj_ids = $this->http->wrapper()->post()->retrieve(
                 'obj',
-                $this->refinery->kindlyTo()->listOf($this->refinery->int())
+                $this->refinery->kindlyTo()->listOf($this->refinery->int())// @TODO: PHP8 Review: Invalid argument.
             );
         }
         $role_ids = array();

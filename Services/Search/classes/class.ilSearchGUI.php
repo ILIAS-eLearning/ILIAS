@@ -92,7 +92,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             case 'ilobjectcopygui':
                 $this->prepareOutput();
                 $this->ctrl->setReturn($this, '');
-                                $cp = new ilObjectCopyGUI($this);
+                                $cp = new ilObjectCopyGUI($this);// @TODO: PHP8 Review: Invalid argument.
                 $this->ctrl->forwardCommand($cp);
                 break;
             

@@ -71,7 +71,7 @@ class ilUserSearchFilter
         $this->ilias = $DIC['ilias'];
 
         // Limit of filtered objects is search max hits
-        $this->limit = (int) $this->ilias->getSetting('search_max_hits', 50);
+        $this->limit = (int) $this->ilias->getSetting('search_max_hits', 50);// @TODO: PHP8 Review: Invalid argument.
         $this->result_obj = new ilSearchResult();
     }
 
