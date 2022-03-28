@@ -327,7 +327,7 @@ class ilSearchSettings
     }
     
     
-    public function setLastIndexTime(ilDateTime $time)// @TODO: PHP8 Review: Missing return type.
+    public function setLastIndexTime(ilDateTime $time) : void
     {
         $this->last_index_date = $time;
     }

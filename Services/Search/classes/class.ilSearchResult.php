@@ -122,7 +122,7 @@ class ilSearchResult
     {
         $this->max_hits = $a_max_hits;
     }
-    public function getMaxHits()// @TODO: PHP8 Review: Missing return type.
+    public function getMaxHits() : int
     {
         return $this->max_hits;
     }

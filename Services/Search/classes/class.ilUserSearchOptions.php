@@ -190,18 +190,17 @@ class ilUserSearchOptions
         return in_array($a_key, ilUserSearchOptions::_getPossibleFields());
     }
 
-    public static function _isEnabled($a_key)// @TODO: PHP8 Review: Missing return type.// @TODO: PHP8 Review: Missing parameter type.
+    public static function _isEnabled($a_key) : bool
     {
         global $DIC;
 
-        $ilias = $DIC['ilias'];
+        $settings = $DIC->settings();
 
         // login is always enabled
         if ($a_key == 'login') {
             return true;
         }
-
-        return (bool) $ilias->getSetting('search_enabled_' . $a_key);
+        return (bool) $settings->get('search_enabled_' . $a_key);
     }
 
     public static function _saveStatus(string $a_key, bool $a_enabled) : bool

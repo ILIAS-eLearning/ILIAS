@@ -63,7 +63,7 @@ abstract class ilAbstractSearch
         $this->object_types = $a_filter;
     }
 
-    public function setIdFilter(array $a_id_filter)// @TODO: PHP8 Review: Missing return type.
+    public function setIdFilter(array $a_id_filter) : void
     {
         $this->id_filter = $a_id_filter;
     }

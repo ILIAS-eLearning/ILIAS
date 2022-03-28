@@ -134,7 +134,7 @@ class ilRepositorySearchGUI
         return $this->search_title;
     }
 
-    public function enableSearchableCheck(bool $a_status)// @TODO: PHP8 Review: Missing return type.
+    public function enableSearchableCheck(bool $a_status) : void
     {
         $this->searchable_check = $a_status;
     }

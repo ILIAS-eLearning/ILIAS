@@ -45,7 +45,7 @@ class ilRepositoryObjectDetailSearch
     }
     
     
-    public function setQueryString(string $a_query)// @TODO: PHP8 Review: Missing return type.
+    public function setQueryString(string $a_query) : void
     {
         $this->query_string = $a_query;
     }

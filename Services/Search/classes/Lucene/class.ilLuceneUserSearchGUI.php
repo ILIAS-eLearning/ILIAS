@@ -72,7 +72,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      * @todo rename
      * Needed for base class search form
      */
-    protected function getType()// @TODO: PHP8 Review: Missing return type.
+    protected function getType() : int
     {
         return self::SEARCH_DETAILS;
     }
@@ -81,7 +81,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      * Needed for base class search form
      * @todo rename
      */
-    protected function getDetails()// @TODO: PHP8 Review: Missing return type.
+    protected function getDetails() : array
     {
         return $this->search_cache->getItemFilter();
     }

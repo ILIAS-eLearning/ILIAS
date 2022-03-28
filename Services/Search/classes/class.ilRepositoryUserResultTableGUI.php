@@ -91,7 +91,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         return $this->type;
     }
 
-    public function setLuceneResult(ilLuceneSearchResult $res)// @TODO: PHP8 Review: Missing return type.
+    public function setLuceneResult(ilLuceneSearchResult $res) : void
     {
         $this->lucene_result = $res;
     }
@@ -101,7 +101,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         return $this->lucene_result;
     }
 
-    public function setUserLimitations(bool $a_limitations)// @TODO: PHP8 Review: Missing return type.
+    public function setUserLimitations(bool $a_limitations) : void
     {
         $this->user_limitations = $a_limitations;
     }

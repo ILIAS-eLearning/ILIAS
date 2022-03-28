@@ -263,7 +263,7 @@ class ilUserSearchCache
     /**
      * set root node of search
      */
-    public function setRoot(int $a_root)// @TODO: PHP8 Review: Missing return type.
+    public function setRoot(int $a_root) : void
     {
         $this->root = $a_root;
     }

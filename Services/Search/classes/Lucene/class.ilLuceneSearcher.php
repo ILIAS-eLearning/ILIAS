@@ -58,7 +58,7 @@ class ilLuceneSearcher
     /**
      * Get singleton instance
      */
-    public static function getInstance(ilLuceneQueryParser $qp)// @TODO: PHP8 Review: Missing return type.
+    public static function getInstance(ilLuceneQueryParser $qp) : self
     {
         if (self::$instance instanceof ilLuceneSearcher) {
             return self::$instance;
@@ -140,7 +140,7 @@ class ilLuceneSearcher
     /**
      * Get result
      */
-    public function getResult()// @TODO: PHP8 Review: Missing return type.
+    public function getResult() : ilLuceneSearchResult
     {
         return $this->result;
     }
