@@ -54,10 +54,12 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 			//close metabar slate when focus moves out
 			$('.'+_cls_slates+' > .'+_cls_slate).on('focusout', function(event) {
-				let next_focus_target = event.relatedTarget;
-				let current_slate = event.currentTarget;
-				if(!$.contains(current_slate,next_focus_target)) {
-					onClickDisengageAll();
+				if(!il.UI.page.isSmallScreen()) {
+					let next_focus_target = event.relatedTarget;
+					let current_slate = event.currentTarget;
+					if (!$.contains(current_slate, next_focus_target)) {
+						onClickDisengageAll();
+					}
 				}
 			});
 		};
