@@ -16,7 +16,8 @@
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
-use ILIAS\UI\Implementation\Component\Button\Bulky;
+use ILIAS\UI\Implementation\Component\Button\Bulky as BulkyButton;
+use ILIAS\UI\Implementation\Component\Link\Bulky as BulkyLink;
 
 class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider
 {
@@ -41,7 +42,7 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider
             // position should be 0, see bug #26794
             $item = $mb->topLinkItem($this->getId())
                        ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ?ILIAS\UI\Component\Component {
-                           if ($c instanceof Bulky) {
+                           if ($c instanceof BulkyButton || $c instanceof BulkyLink) {
                                return $c->withAdditionalOnLoadCode(static function (string $id) : string {
                                    return "$('#$id').on('click', function() {
                                     console.log('trigger help slate');
