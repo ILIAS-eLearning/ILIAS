@@ -14,7 +14,7 @@ function custom()
     $renderer = $DIC->ui()->renderer();
 
     //Generating Dimensions
-    $c_dimension = $df->dimension()->cardinal(["", "low", "medium", "high", "very high"]);
+    $c_dimension = $df->dimension()->cardinal(["", "low", "medium", "high"]);
     $r_dimension = $df->dimension()->range($c_dimension);
 
     //Generating Dataset with points and tooltips
