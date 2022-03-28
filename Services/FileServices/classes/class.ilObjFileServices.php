@@ -19,7 +19,7 @@
  */
 class ilObjFileServices extends ilObject
 {
-    const TYPE_FILE_SERVICES = "fils";
+    public const TYPE_FILE_SERVICES = "fils";
 
     /**
      * ilObjFileServices constructor.
