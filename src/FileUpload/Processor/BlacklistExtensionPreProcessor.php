@@ -108,7 +108,7 @@ class BlacklistExtensionPreProcessor implements PreProcessor
      * @param $filename
      * @return null|string
      */
-    private function getExtensionForFilename($filename) : string
+    private function getExtensionForFilename($filename) : string// @TODO: PHP8 Review: Missing parameter type.
     {
         $extensions = explode('.', $filename);
 
