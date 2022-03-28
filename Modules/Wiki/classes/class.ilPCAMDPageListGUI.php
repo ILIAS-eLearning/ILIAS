@@ -111,7 +111,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         
         $this->record_gui->parse();
 
-        $no_fields = (count($form->getItems()) == 1);
+        $no_fields = (count($form->getItems()) === 1);
         if ($no_fields) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("wiki_pg_list_no_search_fields"));
         }

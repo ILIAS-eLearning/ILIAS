@@ -112,7 +112,7 @@ class ilPCAMDPageList extends ilPageContent
             $set = $ilDB->query("SELECT * FROM pg_amd_page_list" .
                 " WHERE id = " . $ilDB->quote($a_data_id, "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
-                $res[$row["field_id"]] = unserialize($row["data"]);
+                $res[$row["field_id"]] = unserialize($row["data"], ["allowed_classes" => false]);
             }
         }
         return $res;
@@ -212,7 +212,7 @@ class ilPCAMDPageList extends ilPageContent
         string $a_mode,
         bool $a_abstract_only = false
     ) : string {
-        if ($this->getPage()->getParentType() != "wpg") {
+        if ($this->getPage()->getParentType() !== "wpg") {
             return $a_output;
         }
         $end = 0;
@@ -226,14 +226,14 @@ class ilPCAMDPageList extends ilPageContent
             $parts = explode(";", substr($a_output, $start + 17, $end - $start - 17));
             
             $list_id = (int) $parts[0];
-            $list_mode = (sizeof($parts) == 2)
+            $list_mode = (count($parts) === 2)
                 ? (int) $parts[1]
                 : 0;
             
             $ltpl = new ilTemplate("tpl.wiki_amd_page_list.html", true, true, "Modules/Wiki");
                 
             $pages = $this->findPages($list_id);
-            if (sizeof($pages)) {
+            if (count($pages)) {
                 $ltpl->setCurrentBlock("page_bl");
                 foreach ($pages as $page_id => $page_title) {
                     // see ilWikiUtil::makeLink()
@@ -283,7 +283,7 @@ class ilPCAMDPageList extends ilPageContent
         $set = $ilDB->query("SELECT * FROM pg_amd_page_list" .
             " WHERE field_id = " . $ilDB->quote($a_field_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
-            $data = unserialize(unserialize($row["data"]));
+            $data = unserialize(unserialize($row["data"], ["allowed_classes" => false]), ["allowed_classes" => false]);
             if (is_array($data) &&
                 in_array($old_option, $data)) {
                 $idx = array_search($old_option, $data);

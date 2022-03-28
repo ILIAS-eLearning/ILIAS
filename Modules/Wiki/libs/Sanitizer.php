@@ -768,7 +768,7 @@ class Sanitizer
             '%' => '.'
         );
 
-        $id = urlencode(Sanitizer::decodeCharReferences(strtr($id, ' ', '_')));
+        $id = urlencode(Sanitizer::decodeCharReferences(str_replace(' ', '_', $id)));
 
         return str_replace(array_keys($replace), array_values($replace), $id);
     }
@@ -1098,9 +1098,8 @@ class Sanitizer
         if (!isset($list)) {
             $list = Sanitizer::setupAttributeWhitelist();
         }
-        return isset($list[$element])
-            ? $list[$element]
-            : array();
+
+        return $list[$element] ?? array();
     }
 
     /**

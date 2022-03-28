@@ -164,7 +164,7 @@ class ilWikiPageTemplateGUI
         $this->ctrl->redirect($this, "listTemplates");
     }
     
-    public function addPageTemplateFromPageAction()
+    public function addPageTemplateFromPageAction() : void
     {
         $page_id = $this->request->getWikiPageId();
         if ($page_id) {
