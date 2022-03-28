@@ -9719,6 +9719,13 @@ footer {
   margin-top: 0;
   top: 32px;
 }
+.il-maincontrols-metabar > li > .il-link.link-bulky {
+  display: block;
+  text-align: center;
+  padding: 3px 8px;
+  line-height: 60px;
+  border: 1px solid transparent;
+}
 .il-maincontrols-metabar .btn-bulky,
 .il-maincontrols-metabar .link-bulky {
   background-color: transparent;
