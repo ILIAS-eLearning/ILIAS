@@ -29,7 +29,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
     protected ilHelpGUI $help;
 
     public function __construct(
-        ?int $a_id = 0,
+        int $a_id = 0,
         int $a_id_type = self::REPOSITORY_NODE_ID,
         int $a_parent_node_id = 0
     ) {
