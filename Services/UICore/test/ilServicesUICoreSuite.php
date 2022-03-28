@@ -16,7 +16,7 @@ class ilServicesUICoreSuite extends TestSuite
     {
         if (defined('ILIAS_PHPUNIT_CONTEXT')) {
             include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
+            ilUnitUtil::performInitialisation();// @TODO: PHP8 Review: Undefined class.
         } else {
             chdir(__DIR__);
             chdir('../../../');
