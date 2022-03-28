@@ -144,5 +144,7 @@ final class ilFileDelivery implements ilFileDeliveryService
         $delivery->setDeleteFile($removeAfterDelivery);
         $delivery->setExitAfter($a_exit_after);
         $delivery->deliver();
+
+        // @TODO: PHP8 Review: Missing return statement.
     }
 }
