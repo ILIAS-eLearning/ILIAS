@@ -31,7 +31,6 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class RawHTTPServices implements GlobalHttpState
 {
-
     private \ILIAS\HTTP\Response\Sender\ResponseSenderStrategy $sender;
     private \ILIAS\HTTP\Cookies\CookieJarFactory $cookieJarFactory;
     private \ILIAS\HTTP\Request\RequestFactory $requestFactory;

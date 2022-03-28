@@ -38,7 +38,6 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 interface GlobalHttpState
 {
-
     public function wrapper() : WrapperFactory;
 
     /**
