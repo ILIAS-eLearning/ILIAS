@@ -81,7 +81,7 @@ class Migrator
         return false;
     }
 
-    public function removeEmptySubFolders($path) : bool
+    public function removeEmptySubFolders($path) : bool// @TODO: PHP8 Review: Missing parameter type.
     {
         $empty = true;
         foreach (glob($path . DIRECTORY_SEPARATOR . "*") as $file) {

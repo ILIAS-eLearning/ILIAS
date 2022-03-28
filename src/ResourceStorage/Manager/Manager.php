@@ -77,7 +77,6 @@ class Manager
         ResourceStakeholder $stakeholder,
         string $revision_title = null
     ) : ResourceIdentification {
-
         $info_resolver = new StreamInfoResolver(
             $stream,
             1,

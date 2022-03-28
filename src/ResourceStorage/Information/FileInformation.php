@@ -23,7 +23,6 @@ use DateTimeImmutable;
  */
 class FileInformation implements Information
 {
-
     protected string $title = '';
     protected string $suffix = '';
     protected string $mime_type = '';

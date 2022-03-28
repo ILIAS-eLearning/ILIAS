@@ -35,7 +35,6 @@ use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
  */
 interface RevisionRepository extends LockingRepository, PreloadableRepository
 {
-
     public function blankFromUpload(
         InfoResolver $info_resolver,
         StorableResource $resource,

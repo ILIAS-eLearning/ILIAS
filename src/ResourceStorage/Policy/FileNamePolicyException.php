@@ -21,5 +21,4 @@ namespace ILIAS\ResourceStorage\Policy;
  */
 class FileNamePolicyException extends \ilException
 {
-
 }

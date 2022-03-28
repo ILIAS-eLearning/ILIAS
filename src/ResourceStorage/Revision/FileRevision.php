@@ -25,7 +25,6 @@ use ILIAS\ResourceStorage\Information\Information;
  */
 class FileRevision implements Revision
 {
-
     protected bool $available = true;
     protected \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
     protected int $version_number = 0;
@@ -112,5 +111,4 @@ class FileRevision implements Revision
     {
         return $this->title;
     }
-
 }

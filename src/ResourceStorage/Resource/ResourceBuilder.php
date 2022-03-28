@@ -45,7 +45,6 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
  */
 class ResourceBuilder
 {
-
     private \ILIAS\ResourceStorage\Information\Repository\InformationRepository $information_repository;
     private \ILIAS\ResourceStorage\Resource\Repository\ResourceRepository $resource_repository;
     private \ILIAS\ResourceStorage\Revision\Repository\RevisionRepository $revision_repository;
@@ -212,7 +211,6 @@ class ResourceBuilder
             return $resource;
         }
         return $resource;
-
     }
 
     /**
@@ -238,8 +236,7 @@ class ResourceBuilder
             $this->revision_repository->getNamesForLocking(),
             $this->information_repository->getNamesForLocking(),
             $this->stakeholder_repository->getNamesForLocking(),
-
-        ), function () use ($resource): void {
+        ), function () use ($resource) : void {
             $this->resource_repository->store($resource);
 
             foreach ($resource->getAllRevisions() as $revision) {
@@ -285,7 +282,6 @@ class ResourceBuilder
         }
         $this->store($new_resource);
         return $new_resource;
-
     }
 
     /**

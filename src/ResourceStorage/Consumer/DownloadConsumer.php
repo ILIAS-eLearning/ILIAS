@@ -23,7 +23,6 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 class DownloadConsumer extends BaseConsumer implements DeliveryConsumer
 {
-
     public function run() : void
     {
         global $DIC;
@@ -54,5 +53,4 @@ class DownloadConsumer extends BaseConsumer implements DeliveryConsumer
         $DIC->http()->sendResponse();
         $DIC->http()->close();
     }
-
 }

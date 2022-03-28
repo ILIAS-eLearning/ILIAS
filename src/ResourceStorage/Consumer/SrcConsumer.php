@@ -57,5 +57,4 @@ class SrcConsumer
         $this->revision_number = $revision_number;
         return $this;
     }
-
 }

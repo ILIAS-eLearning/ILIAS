@@ -55,5 +55,4 @@ class FileStreamConsumer implements StreamConsumer
         $this->revision_number = $revision_number;
         return $this;
     }
-
 }

@@ -26,7 +26,6 @@ use ILIAS\ResourceStorage\Information\Information;
  */
 class NullRevision implements Revision
 {
-
     private \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
 
     /**
@@ -94,11 +93,11 @@ class NullRevision implements Revision
     public function setTitle(string $title) : Revision
     {
         // do nothing
+        // @TODO: PHP8 Review: Missing return statement.
     }
 
     public function getTitle() : string
     {
         return '';
     }
-
 }
