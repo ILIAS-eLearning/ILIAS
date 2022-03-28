@@ -4,6 +4,7 @@ namespace ILIAS\Data;
 
 /**
  * A Link is the often used combination of a label and an URL.
+ *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class Link

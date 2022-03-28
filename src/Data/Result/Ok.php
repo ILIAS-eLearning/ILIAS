@@ -8,6 +8,7 @@ use ILIAS\Data\Result;
 
 /**
  * A result encapsulates a value or an error and simplifies the handling of those.
+ *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class Ok implements Result

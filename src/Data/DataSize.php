@@ -4,8 +4,10 @@ namespace ILIAS\Data;
 
 /**
  * Class DataSize
+ *
  * This class provides the data size with additional information to
  * remove the work to calculate the size to different unit like GiB, GB usw.
+ *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since   5.3
  * @version 1.0
@@ -104,9 +106,12 @@ final class DataSize
 
     /**
      * DataSize constructor.
+     *
      * @param int $size The data size in bytes.
      * @param int $unit The unit which is used to calculate the data size.
+     *
      * @throws \InvalidArgumentException If the given unit is not valid or the arguments are not of the type int.
+     *
      * @since 5.3
      */
     public function __construct(int $size, int $unit)
@@ -122,6 +127,7 @@ final class DataSize
 
     /**
      * The calculated data size.
+     *
      * @since 5.3
      */
     public function getSize() : float
@@ -131,6 +137,7 @@ final class DataSize
 
     /**
      * The unit which equals the class constant used to calculate the data size. (self::GiB, ...)
+     *
      * @since 5.3
      */
     public function getUnit() : int
@@ -148,9 +155,11 @@ final class DataSize
 
     /**
      * Returns the data size with the corresponding suffix.
+     *
      * Example output:
      * 1024 B
      * 4096 GiB
+     *
      * @since 5.3
      */
     public function __toString() : string

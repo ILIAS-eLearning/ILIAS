@@ -8,6 +8,7 @@ use ILIAS\Data\Color;
 
 /**
  * Builds a Color from either hex- or rgb values.
+ *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class Factory
@@ -17,6 +18,7 @@ class Factory
      * Determine type of input and validate it, then build a color.
      * A Color can be constructed with an array of rgb-integers or from
      * a hex-value both short and longhand notation.
+     *
      * @param string|int[] $value
      * @throws \InvalidArgumentException
      */
@@ -38,6 +40,7 @@ class Factory
 
     /**
      * Validate hex value.
+    *
      * @throws \InvalidArgumentException
      */
     private function checkHex(string $hex) : void
@@ -50,6 +53,7 @@ class Factory
 
     /**
      * Validate rgb-values.
+    *
      * @throws \InvalidArgumentException
      */
     private function checkRGB(array $rgb) : void
@@ -102,6 +106,7 @@ class Factory
 
     /**
      * Build a color from RGB-values.
+     *
      * @param int[] $rgb
      */
     private function fromRGB(array $rgb) : Color

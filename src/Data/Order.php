@@ -4,6 +4,7 @@ namespace ILIAS\Data;
 
 /**
  * Both the subject and the direction need to be specified when expressing an order.
+ *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class Order
