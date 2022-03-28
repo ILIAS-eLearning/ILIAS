@@ -63,7 +63,7 @@ class ilObjPollGUI extends ilObject2GUI
         return "poll";
     }
     
-    protected function afterSave(ilObject $a_new_object) : void
+    protected function afterSave(ilObject $new_object) : void
     {
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirect($this, "render");
@@ -80,7 +80,7 @@ class ilObjPollGUI extends ilObject2GUI
         
         // additional info only with multiple references
         $act_obj_info = $act_ref_info = "";
-        if (sizeof(ilObject::_getAllReferences($this->object->getId())) > 1) {
+        if (count(ilObject::_getAllReferences($this->object->getId())) > 1) {
             $act_obj_info = ' ' . $this->lng->txt('rep_activation_online_object_info');
             $act_ref_info = $this->lng->txt('rep_activation_access_ref_info');
         }
@@ -173,27 +173,27 @@ class ilObjPollGUI extends ilObject2GUI
         $a_values["show_results_as"] = $this->object->getShowResultsAs();
     }
     
-    protected function validateCustom(ilPropertyFormGUI $a_form) : bool
+    protected function validateCustom(ilPropertyFormGUI $form) : bool
     {
         #20594
-        if (!$a_form->getInput("voting_period") &&
-            (int) $a_form->getInput("results") == ilObjPoll::VIEW_RESULTS_AFTER_PERIOD) {
+        if (!$form->getInput("voting_period") &&
+            (int) $form->getInput("results") === ilObjPoll::VIEW_RESULTS_AFTER_PERIOD) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
-            $a_form->getItemByPostVar("results")->setAlert($this->lng->txt("poll_view_results_after_period_impossible"));
+            $form->getItemByPostVar("results")->setAlert($this->lng->txt("poll_view_results_after_period_impossible"));
             return false;
         }
-        return parent::validateCustom($a_form);
+        return parent::validateCustom($form);
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form) : void
+    protected function updateCustom(ilPropertyFormGUI $form) : void
     {
-        $this->object->setViewResults((int) $a_form->getInput("results"));
-        $this->object->setOfflineStatus($a_form->getInput("online") == "1" ? false : true);
-        $this->object->setSortResultByVotes((bool) $a_form->getInput("sort"));
-        $this->object->setShowComments((bool) $a_form->getInput("comment"));
-        $this->object->setShowResultsAs((int) $a_form->getInput("show_results_as"));
+        $this->object->setViewResults((int) $form->getInput("results"));
+        $this->object->setOfflineStatus(!((string) $form->getInput("online") === "1"));
+        $this->object->setSortResultByVotes((bool) $form->getInput("sort"));
+        $this->object->setShowComments((bool) $form->getInput("comment"));
+        $this->object->setShowResultsAs((int) $form->getInput("show_results_as"));
 
-        $period = $a_form->getItemByPostVar("access_period");
+        $period = $form->getItemByPostVar("access_period");
         if ($period->getStart() && $period->getEnd()) {
             $this->object->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);
             $this->object->setAccessBegin($period->getStart()->get(IL_CAL_UNIX));
@@ -202,7 +202,7 @@ class ilObjPollGUI extends ilObject2GUI
             $this->object->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
         }
                                                     
-        $period = $a_form->getItemByPostVar("voting_period");
+        $period = $form->getItemByPostVar("voting_period");
         if ($period->getStart() && $period->getEnd()) {
             $this->object->setVotingPeriod(true);
             $this->object->setVotingPeriodBegin($period->getStart()->get(IL_CAL_UNIX));
@@ -512,16 +512,14 @@ class ilObjPollGUI extends ilObject2GUI
 
         $valid = true;
         if ($this->object->getMaxNumberOfAnswers() > 1) {
-            if (sizeof($aw) > $this->object->getMaxNumberOfAnswers()) {
+            if (count($aw) > $this->object->getMaxNumberOfAnswers()) {
                 $valid = false;
             }
-            if (!sizeof($aw)) {
+            if (!count($aw)) {
                 $valid = false;
             }
-        } else {
-            if ((int) !$aw) {
-                $valid = false;
-            }
+        } elseif ((int) !$aw) {
+            $valid = false;
         }
 
         $session_last_poll_vote = ilSession::get('last_poll_vote');
@@ -564,7 +562,7 @@ class ilObjPollGUI extends ilObject2GUI
             null,
             true
         );
-        if (!sizeof($users)) {
+        if (!count($users)) {
             return;
         }
 
