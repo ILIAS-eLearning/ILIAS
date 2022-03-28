@@ -130,16 +130,19 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
 
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
-
         if (!$this->isNull() && $this->isValid()) {
             $sql = array();
             if (!$this->getLowerADT()->isNull()) {
-                $sql[] = $a_element_id . " >= " . $this->db->quote($this->getLowerADT()->getDate()->get(IL_CAL_DATETIME),
-                        "timestamp");
+                $sql[] = $a_element_id . " >= " . $this->db->quote(
+                    $this->getLowerADT()->getDate()->get(IL_CAL_DATETIME),
+                    "timestamp"
+                );
             }
             if (!$this->getUpperADT()->isNull()) {
-                $sql[] = $a_element_id . " <= " . $this->db->quote($this->getUpperADT()->getDate()->get(IL_CAL_DATETIME),
-                        "timestamp");
+                $sql[] = $a_element_id . " <= " . $this->db->quote(
+                    $this->getUpperADT()->getDate()->get(IL_CAL_DATETIME),
+                    "timestamp"
+                );
             }
             return "(" . implode(" AND ", $sql) . ")";
         }

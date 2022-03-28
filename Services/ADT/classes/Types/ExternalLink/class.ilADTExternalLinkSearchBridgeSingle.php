@@ -84,6 +84,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
                     //Todo-PHP8-Review End
                 }
 
+                // no break
             case self::SQL_LIKE:
                 if (!is_array($quotedWords)) {
                     return $this->db->like($a_element_id, "text", "%" . $quotedWords . "%");

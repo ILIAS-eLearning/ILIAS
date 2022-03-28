@@ -71,6 +71,7 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
                     //Todo-PHP8-Review End
                 }
 
+                // no break
             case self::SQL_LIKE:
                 if (!is_array($quotedWords)) {
                     return $this->db->like($a_element_id, "text", "%" . $quotedWords . "%");

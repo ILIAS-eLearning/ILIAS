@@ -8,7 +8,6 @@ class ilADTTextFormBridge extends ilADTFormBridge
 
     public function __construct(ilADT $a_adt)
     {
-
         parent::__construct($a_adt);
         $this->lng->loadLanguageModule('meta');
     }

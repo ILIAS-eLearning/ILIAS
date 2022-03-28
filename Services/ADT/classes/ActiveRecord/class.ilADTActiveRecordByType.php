@@ -276,8 +276,10 @@ class ilADTActiveRecordByType
                     }
 
                     if (isset($a_additional_data[$element_id])) {
-                        $tmp[$table][$element_id] = array_merge($tmp[$table][$element_id],
-                            $a_additional_data[$element_id]);
+                        $tmp[$table][$element_id] = array_merge(
+                            $tmp[$table][$element_id],
+                            $a_additional_data[$element_id]
+                        );
                     }
                 }
             }
