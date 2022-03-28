@@ -4,8 +4,8 @@
 
 namespace ILIAS\Wiki;
 
-use \ILIAS\COPage;
-use \ILIAS\Export;
+use ILIAS\COPage;
+use ILIAS\Export;
 use ilPropertyFormGUI;
 
 /**

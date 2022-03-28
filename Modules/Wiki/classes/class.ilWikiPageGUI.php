@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use \ILIAS\DI\HTTPServices;
+use ILIAS\DI\HTTPServices;
 
 /**
  * Class ilWikiPage GUI class
@@ -141,7 +141,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $gui->enableCommentsSettings(false);
-                $gui->setRatingCallback($this, "preview");
+                $gui->setRatingCallback($this, "preview");// TODO PHP8-REVIEW This cannot work because the type defined in \ilCommonActionDispatcherGUI::setRatingCallback is `ilObjectGUI`
                 $this->ctrl->forwardCommand($gui);
                 break;
             

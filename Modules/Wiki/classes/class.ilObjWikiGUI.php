@@ -1541,7 +1541,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $lng = $this->lng;
 
         $imp_page_ids = $this->edit_request->getImportantPageIds();
-        if (count($imp_page_ids) == 0) {
+        if (count($imp_page_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editImportantPages");
         } else {
