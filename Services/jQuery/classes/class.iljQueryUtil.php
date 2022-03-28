@@ -37,7 +37,7 @@ class iljQueryUtil
         global $DIC;
 
         self::$min = "";
-        if ($a_tpl == null) {
+        if ($a_tpl === null) {
             $a_tpl = $DIC["tpl"];
         }
 
@@ -54,7 +54,7 @@ class iljQueryUtil
     {
         global $DIC;
 
-        if ($a_tpl == null) {
+        if ($a_tpl === null) {
             $a_tpl = $DIC["tpl"];
         }
 
