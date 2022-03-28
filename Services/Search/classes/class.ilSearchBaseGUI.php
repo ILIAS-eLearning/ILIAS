@@ -230,13 +230,29 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     
     public function addToDeskObject() : void
     {
-        $this->favourites->add($this->user->getId(), (int) $_GET["item_ref_id"]);// @TODO: PHP8 Review: Direct access to $_GET.
+        if ($this->http->wrapper()->query()->has('item_ref_id')) {
+            $this->favourites->add(
+                $this->user->getId(),
+                $this->http->wrapper()->query()->retrieve(
+                    'item_ref_id',
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
         $this->showSavedResults();
     }
      
     public function removeFromDeskObject() : void
     {
-        $this->favourites->remove($this->user->getId(), (int) $_GET["item_ref_id"]);// @TODO: PHP8 Review: Direct access to $_GET.
+        if ($this->http->wrapper()->query()->has('item_ref_id')) {
+            $this->favourites->remove(
+                $this->user->getId(),
+                $this->http->wrapper()->query()->retrieve(
+                    'item_ref_id',
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
         $this->showSavedResults();
     }
      

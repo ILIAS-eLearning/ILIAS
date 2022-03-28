@@ -21,6 +21,9 @@
     +-----------------------------------------------------------------------------+
 */
 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
 /**
 * GUI class for learning progress filter functionality
 * Used for object and learning progress presentation
@@ -45,6 +48,9 @@ class ilUserFilterGUI
     protected ilCtrl $ctrl;
     protected ilUserSearchFilter $filter;
     protected ilObjUser $user;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
+
 
     public function __construct(int $a_usr_id)
     {
@@ -54,7 +60,8 @@ class ilUserFilterGUI
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->user = $DIC->user();
-
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->lng->loadLanguageModule('trac');
         $this->usr_id = $a_usr_id;
@@ -109,9 +116,12 @@ class ilUserFilterGUI
         
     public function refresh() : bool
     {
-        $_GET['offset'] = 0;// @TODO: PHP8 Review: Direct access to $_GET.
-        $this->ctrl->saveParameter($this, 'offset');
-        $this->filter->storeQueryStrings($_POST['filter']);// @TODO: PHP8 Review: Direct access to $_POST.
+        $filter = [];
+        if ($this->http->wrapper()->post()->has('filter')) {
+            $filter = (array) ($this->http->request()->getParsedBody()['filter'] ?? []);
+        }
+        $this->ctrl->setParameter($this, 'offset', 0);
+        $this->filter->storeQueryStrings($filter);
         $this->ctrl->returnToParent($this);
 
         return true;

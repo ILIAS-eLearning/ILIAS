@@ -34,7 +34,14 @@ class ilLuceneQueryInputGUI extends ilTextInputGUI
     public function checkInput() : bool
     {
         $ok = parent::checkInput();
-        $query = ilUtil::stripSlashes($_POST[$this->getPostVar()]);// @TODO: PHP8 Review: Direct access to $_POST.
+
+        $query = '';
+        if ($this->http->wrapper()->post()->has($this->getPostVar())) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                $this->getPostVar(),
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         if (!$ok or !strlen($query)) {
             return false;
         }
