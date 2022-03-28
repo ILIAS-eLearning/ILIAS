@@ -24,6 +24,9 @@ class Ok implements Result
         $this->value = $value;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isOK() : bool
     {
         return true;
@@ -37,11 +40,17 @@ class Ok implements Result
         return $this->value;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isError() : bool
     {
         return false;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function error()
     {
         throw new \LogicException("This is a OK result. No error message available");
@@ -55,6 +64,9 @@ class Ok implements Result
         return $this->value;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function map(callable $f) : Result
     {
         $clone = clone $this;
@@ -63,6 +75,9 @@ class Ok implements Result
         return $clone;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function then(callable $f) : Result
     {
         $result = $f($this->value);
@@ -78,6 +93,9 @@ class Ok implements Result
         return $result;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function except(callable $f) : Result
     {
         return $this;
