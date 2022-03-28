@@ -106,7 +106,7 @@ class ilWikiExporter extends ilXmlExporter
 
         foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType("wiki", "wpg") as $record_obj) {
             // local ones and globally activated for the object
-            if ($record_obj->getParentObject() == $a_id || in_array($record_obj->getRecordId(), $sel_globals)) {
+            if ($record_obj->getParentObject() === $a_id || in_array($record_obj->getRecordId(), $sel_globals)) {
                 $active[] = $record_obj->getRecordId();
             }
         }

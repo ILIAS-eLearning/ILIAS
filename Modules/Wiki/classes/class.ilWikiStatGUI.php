@@ -344,11 +344,9 @@ class ilWikiStatGUI
                 if (!($x % 7)) {
                     $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
                 }
-            } else {
+            } elseif ($day === 1 || $day === 15 || $x === count($a_data) - 1) {
                 // 1st/15th
-                if ($day == 1 || $day == 15 || $x == count($a_data) - 1) {
-                    $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
-                }
+                $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
             }
                         
             $x++;

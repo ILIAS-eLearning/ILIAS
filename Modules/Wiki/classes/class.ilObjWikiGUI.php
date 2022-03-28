@@ -896,7 +896,7 @@ class ilObjWikiGUI extends ilObjectGUI
         
         if ($this->form_gui->checkInput()) {
             if (!ilObjWiki::checkShortTitleAvailability($this->form_gui->getInput("shorttitle")) &&
-                $this->form_gui->getInput("shorttitle") != $this->object->getShortTitle()) {
+                $this->form_gui->getInput("shorttitle") !== $this->object->getShortTitle()) {
                 $short_item = $this->form_gui->getItemByPostVar("shorttitle");
                 $short_item->setAlert($lng->txt("wiki_short_title_already_in_use"));
             } else {

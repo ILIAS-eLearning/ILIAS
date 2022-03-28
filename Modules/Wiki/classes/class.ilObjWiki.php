@@ -206,7 +206,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             ));
 
         // create start page
-        if ($this->getStartPage() != "" && !$a_prevent_start_page_creation) {
+        if ($this->getStartPage() !== "" && !$a_prevent_start_page_creation) {
             $start_page = new ilWikiPage();
             $start_page->setWikiId($this->getId());
             $start_page->setTitle($this->getStartPage());

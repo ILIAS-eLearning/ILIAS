@@ -1171,7 +1171,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         }
 
         // sort if all pages are listed
-        if ($term == "") {
+        if ($term === "") {
             $found = ilArrayUtil::sortArray($found, "title", "asc");
         }
 
