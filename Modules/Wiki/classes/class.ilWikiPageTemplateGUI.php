@@ -42,9 +42,7 @@ class ilWikiPageTemplateGUI
 
         $this->wiki_gui = $a_wiki_gui;
         /** @var ilObjWiki $wiki */
-        //Todo-PHP8-Review Begin: ->object is protected
-        $wiki = $this->wiki_gui->object;
-        //Todo-PHP8-Review End: ->object is protected
+        $wiki = $this->wiki_gui->getObject();
         $this->wiki = $wiki;
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
