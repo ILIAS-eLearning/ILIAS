@@ -10,7 +10,11 @@ use ILIAS\DI\Container;
  */
 class ilSearchLuceneQueryParserTest extends TestCase
 {
-    protected $backupGlobals = false;// @TODO: PHP8 Review: Missing property type.
+    /**
+     * Inherited
+     * @var bool
+     */
+    protected $backupGlobals = false;
 
     protected Container $dic;
 

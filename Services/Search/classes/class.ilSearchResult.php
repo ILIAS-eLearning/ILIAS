@@ -42,8 +42,8 @@ class ilSearchResult
     private array $observers = array();
     private int $max_hits = 0;
 
-    protected $search_cache = null;// @TODO: PHP8 Review: Missing property type.
-    protected $offset = 0;// @TODO: PHP8 Review: Missing property type.
+    protected ilUserSearchCache $search_cache;
+    protected int $offset = 0;
 
     // OBJECT VARIABLES
     protected ILIAS $ilias;

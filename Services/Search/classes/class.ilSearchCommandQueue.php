@@ -31,7 +31,7 @@
 */
 class ilSearchCommandQueue
 {
-    private static $instance = null;// @TODO: PHP8 Review: Missing property type.
+    private static ?self $instance = null;
 
     protected ilDBInterface $db;
 

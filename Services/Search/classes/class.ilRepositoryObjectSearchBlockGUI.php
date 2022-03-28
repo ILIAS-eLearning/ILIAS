@@ -15,8 +15,6 @@
 class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 {
     public static string $block_type = "objectsearch";
-    public static $st_data;// @TODO: PHP8 Review: Missing property type.
-
 
     public function __construct(string $a_title)
     {
@@ -26,6 +24,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
         
         $this->setTitle($a_title);
         $this->allow_moving = false;
+        $this->new_rendering = true;
     }
 
     /**
@@ -74,13 +73,6 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
     {
         $this->setDataSection($this->getLegacyContent());
     }
-
-    //
-    // New rendering
-    //
-
-    protected $new_rendering = true;// @TODO: PHP8 Review: Missing property type.
-
 
     /**
      * @inheritdoc
