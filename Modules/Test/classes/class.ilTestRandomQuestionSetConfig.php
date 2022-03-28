@@ -290,27 +290,14 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public function isQuestionSetConfigured()
+    public function isQuestionSetConfigured() : bool
     {
-        // fau: delayCopyRandomQuestions - question set is not configured if date of last synchronisation is empty
-        if ($this->getLastQuestionSyncTimestamp() == 0) {
-            return false;
-        }
-        // fau.
-        
-        if (!$this->isQuestionAmountConfigComplete()) {
-            return false;
-        }
-
-        if (!$this->hasSourcePoolDefinitions()) {
-            return false;
-        }
-
-        if (!$this->isQuestionSetBuildable()) {
-            return false;
-        }
-
-        return true;
+        return (
+            $this->getLastQuestionSyncTimestamp() != 0
+            && $this->isQuestionAmountConfigComplete()
+            && $this->hasSourcePoolDefinitions()
+            && $this->isQuestionSetBuildable()
+        );
     }
 
     public function isQuestionAmountConfigComplete()
