@@ -46,6 +46,11 @@ class ilDerivedTasksGUI
     protected $lng;
 
     /**
+     * @var ilHelp
+     */
+    protected $help;
+
+    /**
      * Constructor
      * @param \ILIAS\DI\Container|null $dic
      */
@@ -63,7 +68,9 @@ class ilDerivedTasksGUI
         $this->user = $DIC->user();
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
+        $this->help = $DIC->help();
 
+        $this->help->setScreenIdComponent('task');
         $this->lng->loadLanguageModule("task");
     }
 
@@ -98,6 +105,7 @@ class ilDerivedTasksGUI
         $main_tpl = $this->main_tpl;
 
         $main_tpl->setTitle($lng->txt("task_derived_tasks"));
+        $this->help->setScreenId('derived_tasks');
 
         $f = $ui->factory();
         $renderer = $ui->renderer();
