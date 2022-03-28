@@ -577,12 +577,12 @@ class ilFileSystemGUI
 
         ilFileUtils::renameExecutables($this->main_dir);
         if (is_dir($dir . $new_name)) {
-            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_dir_renamed"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_dir_renamed"), true);// @TODO: PHP8 Review: Undefined variable.
             $this->setPerformedCommand("rename_dir", [self::PARAM_OLD_NAME => $old_name,
                                                       self::POST_PARAM_NEW_NAME => $new_name
             ]);
         } else {
-            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_file_renamed"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_file_renamed"), true);// @TODO: PHP8 Review: Undefined variable.
             $this->setPerformedCommand("rename_file", array(self::PARAM_OLD_NAME => $old_name,
                                                             self::POST_PARAM_NEW_NAME => $new_name
             ));
