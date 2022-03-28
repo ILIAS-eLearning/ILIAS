@@ -120,10 +120,7 @@ class AgentDetermination
         }
     }
     
-    /**
-     * @return bool
-     */
-    public function isMobile()
+    public function isMobile() : bool
     {
         if ($this->is_mobile) {
             return true;
@@ -145,7 +142,6 @@ class AgentDetermination
     /**
      * @param string $name
      * @param array  $arguments
-     * @return bool
      * @throws ilException
      */
     public function __call($name, $arguments)
