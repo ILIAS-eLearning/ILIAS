@@ -1629,11 +1629,11 @@ class ilObjWikiGUI extends ilObjectGUI
      * Get title for wiki page (used in ilNotesGUI)
      */
     public static function lookupSubObjectTitle(
-        string $a_wiki_id,// TODO PHP8-REVIEW This is a `string`, but it is passed to a constructor expecting and `int`. Furthermore it is compared to an `int` below.
+        int $a_wiki_id,
         string $a_page_id
     ) : string {
         $page = new ilWikiPage($a_page_id);
-        if ($page->getWikiId() == $a_wiki_id) {
+        if ($page->getWikiId() === $a_wiki_id) {
             return $page->getTitle();
         }
         return "";

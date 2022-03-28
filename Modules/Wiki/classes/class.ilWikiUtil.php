@@ -446,7 +446,7 @@ class ilWikiUtil
 
     public static function sendNotification(
         string $a_action,
-        string $a_type, // TODO PHP8-REVIEW Type is a `string` but is passed to methods expecting an `int`
+        int $a_type,
         int $a_wiki_ref_id,
         int $a_page_id,
         ?string $a_comment = null

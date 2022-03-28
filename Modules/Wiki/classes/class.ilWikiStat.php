@@ -766,7 +766,7 @@ class ilWikiStat
                         break;
                     
                     default:
-                        var_dump("unsupport aggr " . $a_aggr_value);// TODO PHP8-REVIEW We should not use debugging code here
+                        throw new ilWikiException("Wiki: unsupport aggr " . $a_aggr_value);
                         break;
                 }
             }
