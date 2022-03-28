@@ -322,7 +322,7 @@ class ilCOPageHTMLExport
                     }
 
                     // walk skill tree
-                    $vtree = new ilVirtualSkillTree();
+                    $vtree = new ilVirtualSkillTree();// @TODO: PHP8 Review: Missing argument.
                     $tref_id = 0;
                     $skill_id = (int) $skill_id;
                     if (ilSkillTreeNode::_lookupType($skill_id) == "sktr") {
@@ -608,7 +608,7 @@ class ilCOPageHTMLExport
             $term_gui = new ilGlossaryTermGUI($term_id);
             $term_gui->setPageLinker($this->page_linker);
             $term_gui->setOfflineDirectory($this->exp_dir);
-            $term_gui->output(true, $tpl);
+            $term_gui->output(true, $tpl);// @TODO: PHP8 Review: Invalid argument.
 
             // write file
             $html = $tpl->printToString();

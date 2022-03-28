@@ -221,8 +221,8 @@ class ilPCFileListGUI extends ilPageContentGUI
             $fileObj->setMode("filelist");
             $fileObj->create();
             // upload file to filesystem
-            $fileObj->createDirectory();
-            $fileObj->raiseUploadError(false);
+            $fileObj->createDirectory();// @TODO: PHP8 Review: Undefined method.
+            $fileObj->raiseUploadError(false);// @TODO: PHP8 Review: Undefined method.
 
             $upload = $DIC->upload();
             if ($upload->hasBeenProcessed() !== true) {
@@ -691,7 +691,7 @@ class ilPCFileListGUI extends ilPageContentGUI
         $fileObj->setMode("filelist");
         $fileObj->create();
         // upload file to filesystem
-        $fileObj->createDirectory();
+        $fileObj->createDirectory();// @TODO: PHP8 Review: Undefined method.
 
         $upload = $DIC->upload();
         if ($upload->hasBeenProcessed() !== true) {

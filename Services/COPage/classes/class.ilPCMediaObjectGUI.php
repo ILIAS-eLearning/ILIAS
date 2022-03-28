@@ -1242,7 +1242,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         );
         //$this->setBasicTableCellStyles();
         $this->setCharacteristics([]);
-        $this->getCharacteristicsOfCurrentStyle("media_caption");
+        $this->getCharacteristicsOfCurrentStyle("media_caption");// @TODO: PHP8 Review: Invalid argument.
         $chars = $this->getCharacteristics();
         $options = $chars;
         //$options = array_merge(array("" => $this->lng->txt("none")), $chars);

@@ -779,7 +779,7 @@ class ilPageObjectGUI
                 $md_gui = new ilObjectMetaDataGUI($this->meta_data_rep_obj, $this->meta_data_type, $this->meta_data_sub_obj_id);
                 if (is_object($this->meta_data_observer_obj)) {
                     $md_gui->addMDObserver(
-                        $this->meta_data_observer_obj,
+                        $this->meta_data_observer_obj,// @TODO: PHP8 Review: Invalid argument. If $this->meta_data_observer_obj can only be ilObject, please change it's type.
                         $this->meta_data_observer_func,
                         "General"
                     );
