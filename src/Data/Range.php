@@ -4,6 +4,7 @@ namespace ILIAS\Data;
 
 /**
  * A simple class to express a naive range of whole positive numbers.
+ *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class Range

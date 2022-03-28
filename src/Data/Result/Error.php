@@ -6,10 +6,10 @@ namespace ILIAS\Data\Result;
 
 use ILIAS\Data;
 use ILIAS\Data\Result;
-use phpDocumentor\Reflection\Types\Mixed_;
 
 /**
  * A result encapsulates a value or an error and simplifies the handling of those.
+ *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class Error implements Data\Result

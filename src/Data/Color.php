@@ -7,6 +7,7 @@ namespace ILIAS\Data;
 /**
  * Color expresses a certain color by giving the mixing ratio
  * in the RGB color space.
+ *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class Color
@@ -57,6 +58,7 @@ class Color
 
     /**
      * Return array with RGB-values.
+     *
      * @return int[]
      */
     public function asArray() : array
