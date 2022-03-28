@@ -46,6 +46,9 @@ class Order
         return $clone;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function get() : array
     {
         return $this->order;

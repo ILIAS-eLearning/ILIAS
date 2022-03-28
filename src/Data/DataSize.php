@@ -36,7 +36,7 @@ final class DataSize
     public const ZB = 1000000000000000000000;          //zettabyte
     public const YB = 1000000000000000000000000;       //yottabyte
     /**
-     * @var string[] $suffixMap
+     * @var array<int, string>
      */
     private static array $suffixMap = [
         self::Byte => 'B',
@@ -66,6 +66,9 @@ final class DataSize
         self::YiB => 'YiB'
     ];
 
+    /**
+     * @var array<string, int>
+     */
     public static array $abbreviations = [
         'B' => self::Byte,
 

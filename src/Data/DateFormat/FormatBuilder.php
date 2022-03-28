@@ -10,6 +10,7 @@ namespace ILIAS\Data\DateFormat;
  */
 class FormatBuilder
 {
+    /** @var string[] */
     private array $format = [];
 
     /**
