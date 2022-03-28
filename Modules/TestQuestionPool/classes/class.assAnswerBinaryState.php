@@ -35,7 +35,6 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @param integer $order      A nonnegative value representing a possible display or sort order
      * @param integer $state      A integer value indicating the state of the answer
      * @param integer $id         The database id of the answer
-     * @return ASS_AnswerBinaryState
      */
     public function __construct($answertext = "", $points = 0.0, $order = 0, $checked = false, $id = -1)
     {

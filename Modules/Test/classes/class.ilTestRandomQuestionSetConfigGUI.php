@@ -43,6 +43,7 @@ class ilTestRandomQuestionSetConfigGUI
     const CMD_DERIVE_NEW_POOLS = 'deriveNewPools';
     
     const HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD = 'afterRebuildQuestionStageCmd';
+    private \ILIAS\Test\InternalRequestService $testrequest;
     /**
      * @var ilCtrl
      */
@@ -134,6 +135,9 @@ class ilTestRandomQuestionSetConfigGUI
         ilObjTest $testOBJ,
         ilTestProcessLockerFactory $processLockerFactory
     ) {
+        global $DIC;
+        $this->testrequest = $DIC->test()->internal()->request();
+
         $this->ctrl = $ctrl;
         $this->access = $access;
         $this->tabs = $tabs;
@@ -305,7 +309,7 @@ class ilTestRandomQuestionSetConfigGUI
     {
         if ($this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
             $locker = $this->processLockerFactory->retrieveLockerForNamedOperation();
-            $locker->executeNamedOperation(__FUNCTION__, function() : void {
+            $locker->executeNamedOperation(__FUNCTION__, function () : void {
                 $this->stagingPool->rebuild($this->sourcePoolDefinitionList);
                 $this->sourcePoolDefinitionList->saveDefinitions();
 
@@ -315,7 +319,8 @@ class ilTestRandomQuestionSetConfigGUI
 
                 $this->testOBJ->saveCompleteStatus($this->questionSetConfig);
 
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_msg_random_question_set_synced"), true);});
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_msg_random_question_set_synced"), true);
+            });
         }
         
         $this->ctrl->redirect($this, $this->fetchAfterRebuildQuestionStageCmdParameter());
@@ -372,7 +377,8 @@ class ilTestRandomQuestionSetConfigGUI
         $form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
 
         if ($errors) {
-            return $this->showGeneralConfigFormCmd($form);
+            $this->showGeneralConfigFormCmd($form);
+            return;
         }
         
         $form->save();
@@ -637,7 +643,8 @@ class ilTestRandomQuestionSetConfigGUI
         $form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
 
         if ($errors) {
-            return $this->showCreateSourcePoolDefinitionFormCmd($form);
+            $this->showCreateSourcePoolDefinitionFormCmd($form);
+            return;
         }
 
         $form->applySubmit($sourcePoolDefinition, $availableTaxonomyIds);
@@ -662,6 +669,7 @@ class ilTestRandomQuestionSetConfigGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_msg_random_question_set_config_modified"), true);
             $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
         }
+        return null;
     }
 
     private function buildCreateSourcePoolDefinitionFormGUI() : ilTestRandomQuestionSetPoolDefinitionFormGUI
@@ -713,7 +721,8 @@ class ilTestRandomQuestionSetConfigGUI
         $form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
 
         if ($errors) {
-            return $this->showSourcePoolDefinitionListCmd($form);
+            $this->showSourcePoolDefinitionListCmd();
+            return;
         }
 
         $form->applySubmit($sourcePoolDefinition, $availableTaxonomyIds);
@@ -727,6 +736,7 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_msg_random_question_set_config_modified"), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
+        return null;
     }
 
     private function buildEditSourcePoolDefinitionFormGUI() : ilTestRandomQuestionSetPoolDefinitionFormGUI

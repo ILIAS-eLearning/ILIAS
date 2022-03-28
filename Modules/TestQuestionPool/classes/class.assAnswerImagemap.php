@@ -14,6 +14,10 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class ASS_AnswerImagemap extends ASS_AnswerBinaryState
 {
+    /**
+     * @var mixed|string
+     */
+    protected $area;
     public string $coords;
 
     /**

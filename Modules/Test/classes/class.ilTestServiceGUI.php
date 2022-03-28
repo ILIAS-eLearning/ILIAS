@@ -20,6 +20,7 @@ include_once 'Modules/Test/classes/class.ilTestService.php';
 */
 class ilTestServiceGUI
 {
+    protected \ILIAS\Test\InternalRequestService $testrequest;
     /**
      * @var ilObjTest
      */
@@ -133,7 +134,7 @@ class ilTestServiceGUI
         $this->ref_id = $a_object->getRefId();
 
         $this->service = new ilTestService($a_object);
-        
+        $this->testrequest = $DIC->test()->internal()->request();
         require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
         $this->testSessionFactory = new ilTestSessionFactory($this->object);
 
@@ -809,7 +810,7 @@ class ilTestServiceGUI
                     $result_array,
                     $active_id,
                     $pass,
-                    $_SESSION['tst_results_show_best_solutions'],
+                    ilSession::get('tst_results_show_best_solutions'),
                     $showAllAnswers,
                     $show_question_only,
                     $show_reached_points,
@@ -924,9 +925,8 @@ class ilTestServiceGUI
      *
      * @param integer $question_id The original id of the question
      * @param integer $test_id The test id
-     * @return string HTML code of the question results
      */
-    public function getQuestionResultForTestUsers($question_id, $test_id) : string
+    public function getQuestionResultForTestUsers($question_id, $test_id)
     {
         // prepare generation before contents are processed (for mathjax)
         ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);

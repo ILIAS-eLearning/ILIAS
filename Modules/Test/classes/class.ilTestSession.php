@@ -181,14 +181,18 @@ class ilTestSession
         $this->increasePass();
         $this->setLastSequence(0);
         $submitted = ($this->isSubmitted()) ? 1 : 0;
-        
-        if (!isset($_SESSION[$this->active_id]['tst_last_increase_pass'])) {
-            $_SESSION[$this->active_id]['tst_last_increase_pass'] = 0;
+        $active = ilSession::get($this->active_id);
+        if ($active['tst_last_increase_pass'] !== null) {
+
+            $active['tst_last_increase_pass'] = 0;
+            ilSession::set($this->active_id, $active);
+            //$_SESSION[$this->active_id]['tst_last_increase_pass'] = 0;
         }
         
         // there has to be at least 10 seconds between new test passes (to ensure that noone double clicks the finish button and increases the test pass by more than 1)
-        if (time() - $_SESSION[$this->active_id]['tst_last_increase_pass'] > 10) {
-            $_SESSION[$this->active_id]['tst_last_increase_pass'] = time();
+        if (time() - $active['tst_last_increase_pass'] > 10) {
+            $active['tst_last_increase_pass'] = time();
+            ilSession::set($this->active_id, $active);
             $this->tstamp = time();
             $ilDB->update(
                 'tst_active',
@@ -500,45 +504,47 @@ class ilTestSession
 
     public function setAccessCodeToSession($access_code)
     {
-        if (!is_array($_SESSION[self::ACCESS_CODE_SESSION_INDEX])) {
-            $_SESSION[self::ACCESS_CODE_SESSION_INDEX] = array();
+        if (!is_array(ilSession::get(self::ACCESS_CODE_SESSION_INDEX))) {
+            ilSession::set(self::ACCESS_CODE_SESSION_INDEX, array());
         }
-        
-        $_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()] = $access_code;
+        $session_code = ilSession::get(self::ACCESS_CODE_SESSION_INDEX);
+        $session_code[$this->getTestId()] = $access_code;
+        ilSession::set(self::ACCESS_CODE_SESSION_INDEX, $session_code);
+        //$_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()] = $access_code;
     }
 
     public function unsetAccessCodeInSession()
     {
-        unset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()]);
+        $session_code = ilSession::get(self::ACCESS_CODE_SESSION_INDEX);
+        unset($session_code[$this->getTestId()]);
+        ilSession::set(self::ACCESS_CODE_SESSION_INDEX, $session_code);
+        //unset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()]);
     }
 
     public function getAccessCodeFromSession()
     {
-        if (!isset($_SESSION[self::ACCESS_CODE_SESSION_INDEX])) {
+        if (!is_array(ilSession::get(self::ACCESS_CODE_SESSION_INDEX))) {
             return null;
         }
-        if (!is_array($_SESSION[self::ACCESS_CODE_SESSION_INDEX])) {
-            return null;
-        }
-
-        if (!isset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()])) {
+        $session_code = ilSession::get(self::ACCESS_CODE_SESSION_INDEX);
+        if (!isset($session_code[$this->getTestId()])) {
             return null;
         }
 
-        return $_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()];
+        return $session_code[$this->getTestId()];
     }
     
     public function doesAccessCodeInSessionExists() : bool
     {
-        if (!isset($_SESSION[self::ACCESS_CODE_SESSION_INDEX])) {
+        if (!is_array(ilSession::get(self::ACCESS_CODE_SESSION_INDEX))) {
+            return false;
+        }
+        $session_code = ilSession::get(self::ACCESS_CODE_SESSION_INDEX);
+        if (!isset($session_code[$this->getTestId()])) {
             return false;
         }
 
-        if (!is_array($_SESSION[self::ACCESS_CODE_SESSION_INDEX])) {
-            return false;
-        }
-
-        return isset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()]);
+        return isset($session_code[$this->getTestId()]);
     }
 
     public function createNewAccessCode() : string

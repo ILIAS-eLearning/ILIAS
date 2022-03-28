@@ -15,7 +15,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 {
 
     /**
-     * @var ilLogger|ilComponentLogger|Logger
+     * @var ilLogger|ilComponentLogger
      */
     protected $log;
 
@@ -24,9 +24,6 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
      */
     protected $lng;
 
-    /**
-     * @var $ilDB ilDB
-     */
     protected $db;
 
     /**
@@ -56,7 +53,6 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
     public function __construct()
     {
         /**
-         * @var $ilDB ilDB
          * @var $ilObjDataCache ilObjectDataCache
          */
 

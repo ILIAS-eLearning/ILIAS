@@ -49,8 +49,6 @@ class assAnswerCloze extends ASS_AnswerSimple
      * @param string $answertext A string defining the answer text
      * @param double $points The number of points given for the selected answer
      * @param integer $order A nonnegative value representing a possible display or sort order
-     *
-     * @return assAnswerCloze
      * @TODO See if the initialization of the bounds to null can be avoided to have them string/numeric at all times.
      */
     public function __construct(string $answertext = "", float $points = 0.0, int $order = 0, int $id = -1, int $state = 0)

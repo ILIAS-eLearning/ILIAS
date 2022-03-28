@@ -50,9 +50,6 @@ class ilTestRandomQuestionCollectionSubsetApplicationList implements Iterator
         return $this->collectionSubsetApplications;
     }
     
-    /**
-     * @param ilTestRandomQuestionCollectionSubsetApplicant $collectionSubsetApplicant
-     */
     public function addCollectionSubsetApplication(ilTestRandomQuestionCollectionSubsetApplication $collectionSubsetApplication)
     {
         $this->collectionSubsetApplications[$collectionSubsetApplication->getApplicantId()] = $collectionSubsetApplication;

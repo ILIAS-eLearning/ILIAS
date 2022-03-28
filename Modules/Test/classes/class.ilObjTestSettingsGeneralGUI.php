@@ -75,8 +75,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
      * @param ilTemplate      $tpl
      * @param ilDBInterface   $db
      * @param ilObjTestGUI    $testGUI
-     *
-     * @return \ilObjTestSettingsGeneralGUI
      */
     public function __construct(
         ilCtrl $ctrl,
@@ -102,9 +100,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $this->testGUI = $testGUI;
 
         require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $testGUI->object);
+        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $testGUI->getObject());
 
-        parent::__construct($testGUI->object);
+        parent::__construct($testGUI->getObject());
     }
 
     /**
@@ -116,7 +114,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         
         // allow only write access
 
-        if (!$this->access->checkAccess("write", "", $this->testGUI->ref_id)) {
+        if (!$this->access->checkAccess("write", "", $this->testGUI->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
             $this->ctrl->redirect($this->testGUI, "infoScreen");
         }
@@ -197,7 +195,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
     private function confirmedSaveFormCmd()
     {
-        return $this->saveFormCmd(true);
+        $this->saveFormCmd(true);
     }
 
 
@@ -240,7 +238,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
         if ($errors) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-            return $this->showFormCmd($form);
+            $this->showFormCmd($form);
+            return;
         }
         
         // return to form when online is to be set, but no questions are configured
@@ -252,7 +251,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             );
 
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-            return $this->showFormCmd($form);
+            $this->showFormCmd($form);
+            return;
         }
         
         // avoid settings conflict "ctm" and "do not show question titles"
@@ -265,7 +265,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $qTitleSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_conflict_message'));
-            return $this->showFormCmd($form);
+            $this->showFormCmd($form);
+            return;
         }
         
         // avoid settings conflict "obligate questions" and "freeze answer"
@@ -278,7 +279,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $answerFixationSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_conflict_message'));
-            return $this->showFormCmd($form);
+            $this->showFormCmd($form);
+            return;
         }
         
         // avoid settings conflict "freeze answer on followup question" and "question postponing"
@@ -292,7 +294,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $answerFixationSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_conflict_message'));
-            return $this->showFormCmd($form);
+            $this->showFormCmd($form);
+            return;
         }
         
         // avoid settings conflict "freeze answer on followup question" and "question shuffling"
@@ -306,7 +309,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $answerFixationSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
             
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_conflict_message'));
-            return $this->showFormCmd($form);
+            $this->showFormCmd($form);
+            return;
         }
 
         $infoMsg = array();
@@ -328,20 +332,22 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
                 if ($oldQuestionSetConfig->doesQuestionSetRelatedDataExist()) {
                     if (!$isConfirmedSave) {
                         if ($oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_FIXED) {
-                            return $this->showConfirmation(
+                            $this->showConfirmation(
                                 $form,
                                 $oldQuestionSetType,
                                 $newQuestionSetType,
                                 $this->testOBJ->hasQuestionsWithoutQuestionpool()
                             );
+                            return;
                         }
 
-                        return $this->showConfirmation(
+                        $this->showConfirmation(
                             $form,
                             $oldQuestionSetType,
                             $newQuestionSetType,
                             false
                         );
+                        return;
                     }
 
                     $questionSetTypeRelatingDataCleanupRequired = true;

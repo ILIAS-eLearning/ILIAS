@@ -154,7 +154,7 @@ class assQuestionImport
     *
     * Receives parameters from a QTI parser and creates a valid ILIAS question object
     *
-    * @param object $item The QTI item object
+    * @param ilQtiItem $item The QTI item object
     * @param integer $questionpool_id The id of the parent questionpool
     * @param integer $tst_id The id of the parent test if the question is part of a test
     * @param object $tst_object A reference to the parent test object
@@ -213,7 +213,7 @@ class assQuestionImport
     protected function getQplImportArchivDirectory() : string
     {
         include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-        return ilObjQuestionPool::_getImportDirectory() . '/' . $_SESSION["qpl_import_subdir"];
+        return ilObjQuestionPool::_getImportDirectory() . '/' . ilSession::get("qpl_import_subdir");
     }
     
     /**
@@ -222,7 +222,7 @@ class assQuestionImport
     protected function getTstImportArchivDirectory() : string
     {
         include_once "./Modules/Test/classes/class.ilObjTest.php";
-        return ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"];
+        return ilObjTest::_getImportDirectory() . '/' . ilSession::get("tst_import_subdir");
     }
     
     protected function processNonAbstractedImageReferences($text, $sourceNic) : string
@@ -231,19 +231,22 @@ class assQuestionImport
         $matches = null;
         
         if (preg_match_all($reg, $text, $matches)) {
+            $mobs = array();
             for ($i = 0, $max = count($matches[1]); $i < $max; $i++) {
                 $mobSrcId = $matches[1][$i];
                 $mobSrcName = $matches[2][$i];
                 $mobSrcLabel = 'il_' . $sourceNic . '_mob_' . $mobSrcId;
 
-                if (!is_array($_SESSION["import_mob_xhtml"])) {
-                    $_SESSION["import_mob_xhtml"] = array();
-                }
+                //if (!is_array(ilSession::get("import_mob_xhtml"))) {
+                //    ilSession::set("import_mob_xhtml", array());
+                //}
 
-                $_SESSION["import_mob_xhtml"][] = array(
+                //$_SESSION["import_mob_xhtml"][] = array(
+                $mobs[] = array(
                     "mob" => $mobSrcLabel, "uri" => 'objects/' . $mobSrcLabel . '/' . $mobSrcName
                 );
             }
+            ilSession::set('import_mob_xhtml', $mobs);
         }
 
         include_once "./Services/RTE/classes/class.ilRTE.php";
@@ -256,7 +259,6 @@ class assQuestionImport
      *
      * @final
      * @access protected
-     * @param type $qtiItem
      * @return string $additionalContentEditingMode
      */
     final protected function fetchAdditionalContentEditingModeInformation($qtiItem) : string

@@ -34,7 +34,8 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
      * @var ilDBInterface
      */
     private $myDb;
-    
+    private int $poolId;
+
     /**
      * @param ilCtrl $myCtrl
      * @param ilGlobalTemplateInterface $myTpl
@@ -68,13 +69,14 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
             case '':
 
                 $command = $this->myCtrl->getCmd(self::CMD_SHOW) . 'Cmd';
-                $this->$command();
+                return (bool) $this->$command();
                 break;
             
             default:
                 
                 throw new ilTestQuestionPoolException('unsupported next class');
         }
+        return false;
     }
     
     private function showCmd()

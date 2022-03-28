@@ -17,13 +17,6 @@ class ilTestExportTableGUI extends ilExportTableGUI
     protected $counter;
     protected $confirmdelete;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);

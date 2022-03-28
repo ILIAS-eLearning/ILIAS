@@ -354,9 +354,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
         $this->tpl->setOnScreenMessage('success', sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1, $name_real_or_anon), true);
         if ($redirect == true) {
             $ilCtrl->redirect($this, 'showManScoringParticipantScreen');
-        } else {
-            return true;
         }
+        return true;
     }
 
     private function saveNextManScoringParticipantScreen()

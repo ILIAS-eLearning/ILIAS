@@ -34,6 +34,10 @@ class InternalRequestService
         );
     }
 
+    public function isset(string $key) : bool
+    {
+        return $this->raw($key) !== null;
+    }
     public function hasRefId() : int
     {
         return $this->raw('ref_id') !== null;

@@ -49,7 +49,8 @@ class ilAssQuestionTypeOrderer
         'assFileUpload',
         'assLongMenu'
     );
-    
+    private array $types;
+
     /**
      * @var array
      */

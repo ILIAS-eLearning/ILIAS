@@ -93,6 +93,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             return $this->buildFolderName() . $gap_id . '.txt';
         } catch (ilException $e) {
         }
+        return null;
     }
 
     public function setLongMenuTextValue($long_menu_text = "")

@@ -10,34 +10,16 @@
  */
 class ilAssQuestionUserSolutionAdopter
 {
-    /**
-     * @var ressource
-     */
     protected static $preparedDeleteSolutionRecordsStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedSelectSolutionRecordsStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedInsertSolutionRecordStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedDeleteResultRecordStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedSelectResultRecordStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedInsertResultRecordStatement = null;
 
     /**

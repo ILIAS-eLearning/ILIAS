@@ -194,10 +194,8 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
     
     /**
      * saves the question set config for current test to the database
-     *
-     * @return boolean
      */
-    public function saveToDb() : bool
+    public function saveToDb()
     {
         if ($this->dbRecordExists($this->testOBJ->getTestId())) {
             $this->updateDbRecord($this->testOBJ->getTestId());

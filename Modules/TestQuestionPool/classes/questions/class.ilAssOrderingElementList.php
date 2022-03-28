@@ -523,11 +523,12 @@ class ilAssOrderingElementList implements Iterator
      */
     protected function fetchIdentifier(ilAssOrderingElement $element, $identifierType) : int
     {
-        switch ($identifierType) {
-            case self::IDENTIFIER_TYPE_SOLUTION: return $element->getSolutionIdentifier();
-            case self::IDENTIFIER_TYPE_RANDOM: return $element->getRandomIdentifier();
+        if ($identifierType == self::IDENTIFIER_TYPE_SOLUTION) {
+            return $element->getSolutionIdentifier();
+        } else {
+            return $element->getRandomIdentifier();
         }
-        
+
         $this->throwUnknownIdentifierTypeException($identifierType);
     }
     
@@ -545,13 +546,8 @@ class ilAssOrderingElementList implements Iterator
             default: $this->throwUnknownIdentifierTypeException($identifierType);
         }
     }
-    
-    /**
-     * @param string $identifierType
-     * @param $identifier
-     * @return mixed
-     * @throws ilTestQuestionPoolException
-     */
+
+    /** @noinspection PhpInconsistentReturnPointsInspection */
     protected function isValidIdentifier($identifierType, $identifier)
     {
         switch ($identifierType) {
@@ -565,16 +561,13 @@ class ilAssOrderingElementList implements Iterator
         $this->throwUnknownIdentifierTypeException($identifierType);
     }
     
-    /**
-     * @param string $identifierType
-     * @return integer
-     * @throws ilTestQuestionPoolException
-     */
-    protected function buildIdentifier($identifierType) : ?int
+    protected function buildIdentifier($identifierType) : int
     {
         switch ($identifierType) {
-            case self::IDENTIFIER_TYPE_SOLUTION: return $this->buildSolutionIdentifier();
-            case self::IDENTIFIER_TYPE_RANDOM: return $this->buildRandomIdentifier();
+            case self::IDENTIFIER_TYPE_SOLUTION:
+                return $this->buildSolutionIdentifier();
+            case self::IDENTIFIER_TYPE_RANDOM:
+                return $this->buildRandomIdentifier();
         }
         
         $this->throwUnknownIdentifierTypeException($identifierType);
@@ -815,7 +808,6 @@ class ilAssOrderingElementList implements Iterator
     
     /**
      * @param $randomIdentifiers
-     * @return ilAssOrderingElementList
      * @throws ilTestQuestionPoolException
      */
     public function reorderByRandomIdentifiers($randomIdentifiers)

@@ -20,7 +20,7 @@ class assImagemapQuestionExport extends assQuestionExport
     * Returns a QTI xml representation of the question and sets the internal
     * domxml variable with the DOM XML representation of the QTI xml representation
     *
-    * @return The QTI xml representation of the question
+    * @return string The QTI xml representation of the question
     * @access public
     */
     public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
@@ -124,7 +124,6 @@ class assImagemapQuestionExport extends assQuestionExport
                     global $DIC;
                     $ilErr = $DIC['ilErr'];
                     $ilErr->raiseError($GLOBALS['DIC']['lng']->txt("error_open_image_file"), $ilErr->MESSAGE);
-                    return;
                 }
                 $imagefile = fread($fh, filesize($imagepath));
                 fclose($fh);

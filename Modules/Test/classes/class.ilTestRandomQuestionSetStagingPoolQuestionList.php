@@ -62,10 +62,6 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
      */
     private $questions = array();
 
-    /**
-     * @param ilDB $db
-     * @param ilPluginAdmin $pluginAdmin
-     */
     public function __construct(ilDBInterface $db, ilPluginAdmin $pluginAdmin)
     {
         $this->db = $db;

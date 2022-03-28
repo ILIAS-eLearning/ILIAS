@@ -18,13 +18,6 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     protected $postVar = '';
     // hey.
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $formname = 'test_output')
     {
         global $DIC;

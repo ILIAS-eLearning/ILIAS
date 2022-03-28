@@ -69,8 +69,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
      * @param ilTemplate      $tpl
      * @param ilDBInterface   $db
      * @param ilObjTestGUI    $testGUI
-     *
-     * @return \ilObjTestSettingsGeneralGUI
      */
     public function __construct(
         ilCtrl $ctrl,
@@ -92,7 +90,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $this->pluginAdmin = $pluginAdmin;
 
         $this->testGUI = $testGUI;
-        $this->testOBJ = $testGUI->object;
+        $this->testOBJ = $testGUI->getObject();
 
         require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
         $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $this->testOBJ);
@@ -112,7 +110,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     {
         // allow only write access
         
-        if (!$this->access->checkAccess('write', '', $this->testGUI->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->testGUI->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
             $this->ctrl->redirect($this->testGUI, 'infoScreen');
         }
@@ -825,7 +823,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
     private function getAvailableTaxonomyIds() : array
     {
-        if ($this->getAvailableTaxonomyIds === null) {
+        if ($this->getAvailableTaxonomyIds() === null) {
             require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
             $this->availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($this->testOBJ->getId());
         }

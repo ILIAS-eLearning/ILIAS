@@ -392,9 +392,6 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         return isset($value['title']) && strlen($value['title']);
     }
     
-    /**
-     * @param string $value
-     */
     protected function fetchContentImageTitleFromValue($value) : ?string
     {
         if ($this->valueHasContentImageTitle($value)) {

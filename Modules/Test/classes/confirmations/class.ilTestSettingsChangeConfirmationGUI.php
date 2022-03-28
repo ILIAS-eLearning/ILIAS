@@ -127,9 +127,6 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
         }
     }
 
-    /**
-     * @param ilPropertyForm $form
-     */
     public function populateParametersFromPropertyForm(ilPropertyFormGUI $form, $timezone)
     {
         foreach ($form->getInputItemsRecursive() as $key => $item) {

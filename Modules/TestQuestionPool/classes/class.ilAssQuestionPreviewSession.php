@@ -48,17 +48,24 @@ class ilAssQuestionPreviewSession
     
     private function saveSessionValue($subIndex, $value)
     {
-        $_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex] = $value;
+        $val = ilSession::get(self::SESSION_BASEINDEX);
+        $val[$this->getSessionContextIndex()][$subIndex] = $value;
+        ilSession::set(self::SESSION_BASEINDEX, $val);
+        //$_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex] = $value;
     }
     
     private function issetSessionValue($subIndex) : bool
     {
-        return isset($_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex]);
+        $val = ilSession::get(self::SESSION_BASEINDEX);
+        return isset($val[$this->getSessionContextIndex()][$subIndex]);
+        //return isset($_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex]);
     }
     
     private function readSessionValue($subIndex)
     {
-        return $_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex];
+        $val = ilSession::get(self::SESSION_BASEINDEX);
+        return $val[$this->getSessionContextIndex()][$subIndex];
+        //return $_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex];
     }
 
     public function setInstantResponseActive($instantResponseActive)
@@ -147,14 +154,15 @@ class ilAssQuestionPreviewSession
 
     private function ensureSessionStructureExists()
     {
-        if (!isset($_SESSION[self::SESSION_BASEINDEX]) || !is_array($_SESSION[self::SESSION_BASEINDEX])) {
-            $_SESSION[self::SESSION_BASEINDEX] = array();
+        if (!is_array(ilSession::get(self::SESSION_BASEINDEX))) {
+            ilSession::set(self::SESSION_BASEINDEX, array());
         }
 
-        $baseSession = &$_SESSION[self::SESSION_BASEINDEX];
+        $baseSession = ilSession::get(self::SESSION_BASEINDEX);
 
         if (!isset($baseSession[$this->getSessionContextIndex()])) {
             $baseSession[$this->getSessionContextIndex()] = array();
+
         }
 
         $contextSession = &$baseSession[$this->getSessionContextIndex()];
@@ -170,5 +178,7 @@ class ilAssQuestionPreviewSession
         if (!isset($contextSession[self::SESSION_SUBINDEX_RANDOMIZER_SEED])) {
             $contextSession[self::SESSION_SUBINDEX_RANDOMIZER_SEED] = null;
         }
+
+        ilSession::set(self::SESSION_BASEINDEX, $baseSession);
     }
 }

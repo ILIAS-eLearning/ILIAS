@@ -25,13 +25,6 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
     
     protected $finishTestButtonEnabled = false;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);

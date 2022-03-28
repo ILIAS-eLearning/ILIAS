@@ -777,9 +777,6 @@ class ilUnitConfigurationRepository
      */
     public function cloneUnits($a_from_consumer_id, $a_to_consumer_id)
     {
-        /**
-         * @var $ilDB ilDB
-         */
         global $DIC;
         $ilDB = $DIC['ilDB'];
 

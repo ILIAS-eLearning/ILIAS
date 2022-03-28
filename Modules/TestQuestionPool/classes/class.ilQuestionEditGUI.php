@@ -18,6 +18,8 @@
 class ilQuestionEditGUI
 {
     private \ilGlobalTemplateInterface $main_tpl;
+    private \ILIAS\TestQuestionPool\InternalRequestService $request;
+
     /**
     * Constructor
     */
@@ -33,6 +35,7 @@ class ilQuestionEditGUI
         } elseif ($_GET["qpool_obj_id"]) {
             $this->setPoolObjId($_GET["qpool_obj_id"]);
         }
+        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->setQuestionId($this->request->getQuestionId());
         $this->setQuestionType($_GET["q_type"]);
         $lng->loadLanguageModule("assessment");
@@ -169,7 +172,7 @@ class ilQuestionEditGUI
                 if ($count > 0) {
                     global $DIC;
                     $rbacsystem = $DIC['rbacsystem'];
-                    if ($rbacsystem->checkAccess("write", $this->pool_ref_id)) {
+                    if ($rbacsystem->checkAccess("write", $this->getPoolRefId())) {
                         $this->main_tpl->setOnScreenMessage('info', sprintf($lng->txt("qpl_question_is_in_use"), $count));
                     }
                 }

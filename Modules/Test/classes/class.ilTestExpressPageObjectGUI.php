@@ -23,6 +23,8 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  */
 class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 {
+    public $test_object;
+
     public function nextQuestion()
     {
         $obj = new ilObjTest($_REQUEST['ref_id']);
@@ -83,9 +85,9 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                 $nodeParts = explode(':', $_GET['cmdNode']);
 
                 $params = array(
-                    'ref_id' => $_GET['ref_id'],
-                    'calling_test' => $_GET['ref_id'],
-                    'q_id' => $_GET['q_id'],
+                    'ref_id' => $this->testrequest->getRefId(),
+                    'calling_test' => $this->testrequest->getRefId(),
+                    'q_id' => $this->testrequest->getQuestionId(),
                     'cmd' => $_GET['cmd'],
                     'cmdClass' => $_GET['cmdClass'],
                     'baseClass' => 'ilObjQuestionPoolGUI',
@@ -210,6 +212,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                 $this->ctrl->forwardCommand($q_gui);
                 break;
         }
+        return '';
     }
 
     public function addPageOfQuestions($type = '') : assQuestionGUI
@@ -239,7 +242,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
         
         if ($_REQUEST['qtype']) {

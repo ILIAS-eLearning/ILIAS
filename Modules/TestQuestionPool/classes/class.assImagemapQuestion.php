@@ -57,7 +57,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param string  $question 		The question string of the imagemap question.
      * @param string  $image_filename
      *
-     * @return \assImagemapQuestion
      */
     public function __construct(
         $title = "",
@@ -1055,7 +1054,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      *
      * @param null|int $index
      *
-     * @return array|ASS_AnswerSimple
      */
     public function getAvailableAnswerOptions($index = null)
     {

@@ -15,6 +15,7 @@ class ilTestPasswordProtectionGUI
     const CMD_SHOW_PASSWORD_FORM = 'showPasswordForm';
     const CMD_SAVE_ENTERED_PASSWORD = 'saveEnteredPassword';
     const CMD_BACK_TO_INFO_SCREEN = 'backToInfoScreen';
+    private \ILIAS\Test\InternalRequestService $testrequest;
 
     /**
      * @var ilCtrl
@@ -53,6 +54,8 @@ class ilTestPasswordProtectionGUI
     
     public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilTestPlayerAbstractGUI $parentGUI, ilTestPasswordChecker $passwordChecker)
     {
+        global $DIC;
+        $this->testrequest = $DIC->test()->internal()->request();
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;
         $this->lng = $lng;
@@ -63,7 +66,7 @@ class ilTestPasswordProtectionGUI
     public function executeCommand()
     {
         $this->ctrl->saveParameter($this, 'nextCommand');
-        $nextCommand = explode('::', $_GET['nextCommand']);
+        $nextCommand = explode('::', $this->testrequest->getNextCommand());
         $this->setNextCommandClass($nextCommand[0]);
         $this->setNextCommandCmd($nextCommand[1]);
 

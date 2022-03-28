@@ -15,6 +15,9 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilObjQuestionPool extends ilObject
 {
+    private array $mob_ids;
+    private array $file_ids;
+    private array $import_mapping;
     /**
     * Online status of questionpool
     *
@@ -281,20 +284,13 @@ class ilObjQuestionPool extends ilObject
         }
     }
 
-    /**
-    * Returns the question type of a question with a given id
-    *
-    * @param integer $question_id The database id of the question
-    * @result string The question type string
-    * @access private
-    */
     public function getQuestiontype($question_id)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
         if ($question_id < 1) {
-            return;
+            return null;
         }
 
         $result = $ilDB->queryF(
@@ -302,12 +298,12 @@ class ilObjQuestionPool extends ilObject
             array('integer'),
             array($question_id)
         );
+
         if ($result->numRows() == 1) {
             $data = $ilDB->fetchAssoc($result);
             return $data["type_tag"];
-        } else {
-            return;
         }
+        return null;
     }
 
     /**
@@ -600,12 +596,6 @@ class ilObjQuestionPool extends ilObject
         }
     }
 
-    /**
-    * export media objects to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
     public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
     {
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
@@ -725,9 +715,9 @@ class ilObjQuestionPool extends ilObject
     public static function _setImportDirectory($a_import_dir = null)
     {
         if (strlen($a_import_dir)) {
-            $_SESSION["qpl_import_dir"] = $a_import_dir;
+            ilSession::set("qpl_import_dir", $a_import_dir);
         } else {
-            unset($_SESSION["qpl_import_dir"]);
+            ilSession::clear("qpl_import_dir");
         }
     }
 
@@ -736,10 +726,7 @@ class ilObjQuestionPool extends ilObject
     */
     public static function _getImportDirectory()
     {
-        if (strlen($_SESSION["qpl_import_dir"])) {
-            return $_SESSION["qpl_import_dir"];
-        }
-        return null;
+        return ilSession::get("qpl_import_dir");
     }
 
     public function getImportDirectory()
@@ -997,9 +984,9 @@ class ilObjQuestionPool extends ilObject
         $ilDB = $DIC['ilDB'];
 
         $success = false;
-        if (array_key_exists("qpl_clipboard", $_SESSION)) {
+        if (ilSession::get("qpl_clipboard") != null) {
             $success = true;
-            foreach ($_SESSION["qpl_clipboard"] as $question_object) {
+            foreach (ilSession::get("qpl_clipboard") as $question_object) {
                 if (strcmp($question_object["action"], "move") == 0) {
                     $result = $ilDB->queryF(
                         "SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
@@ -1042,7 +1029,7 @@ class ilObjQuestionPool extends ilObject
         }
         // update question count of question pool
         ilObjQuestionPool::_updateQuestionCount($this->getId());
-        unset($_SESSION["qpl_clipboard"]);
+        ilSession::clear("qpl_clipboard");
 
         return $success;
     }
@@ -1055,10 +1042,13 @@ class ilObjQuestionPool extends ilObject
     */
     public function copyToClipboard($question_id)
     {
-        if (!array_key_exists("qpl_clipboard", $_SESSION)) {
-            $_SESSION["qpl_clipboard"] = array();
+        if (ilSession::get("qpl_clipboard") == null) {
+            ilSession::set("qpl_clipboard", array());
         }
-        $_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "copy");
+        $clip = ilSession::get('qpl_clipboard');
+        $clip[$question_id] = array("question_id" => $question_id, "action" => "copy");
+        ilSession::set('qpl_clipboard', $clip);
+        //$_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "copy");
     }
 
     /**
@@ -1069,26 +1059,32 @@ class ilObjQuestionPool extends ilObject
     */
     public function moveToClipboard($question_id)
     {
-        if (!array_key_exists("qpl_clipboard", $_SESSION)) {
-            $_SESSION["qpl_clipboard"] = array();
+        if (ilSession::get("qpl_clipboard") == null) {
+            ilSession::set("qpl_clipboard", array());
         }
-        $_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "move");
+        $clip = ilSession::get('qpl_clipboard');
+        $clip[$question_id] = array("question_id" => $question_id, "action" => "move");
+        ilSession::set('qpl_clipboard', $clip);
+        //$_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "move");
     }
 
     public function cleanupClipboard($deletedQuestionId)
     {
-        if (!isset($_SESSION['qpl_clipboard'])) {
+        if (ilSession::get('qpl_clipboard') == null) {
             return;
         }
 
-        if (!isset($_SESSION['qpl_clipboard'][$deletedQuestionId])) {
+        $clip = ilSession::get('qpl_clipboard');
+        if (!isset($clip[$deletedQuestionId])) {
             return;
         }
 
-        unset($_SESSION['qpl_clipboard'][$deletedQuestionId]);
+        unset($clip[$deletedQuestionId]);
 
-        if (!count($_SESSION['qpl_clipboard'])) {
-            unset($_SESSION['qpl_clipboard']);
+        if (!count($clip)) {
+            ilSession::clear('qpl_clipboard');
+        } else {
+            ilSession::set('qpl_clipboard', $clip);
         }
     }
 
@@ -1424,6 +1420,7 @@ class ilObjQuestionPool extends ilObject
         if ($row = $ilDB->fetchAssoc($result)) {
             return $row['type_tag'];
         }
+        return null;
     }
 
     public static function getQuestionTypeTranslations() : array

@@ -1246,8 +1246,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      * Else it returns the specific answer option
      *
      * @param null|int $index
-     *
-     * @return array|ASS_AnswerSimple
      */
     public function getAvailableAnswerOptions($index = null)
     {

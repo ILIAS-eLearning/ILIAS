@@ -20,10 +20,6 @@ class ASS_MarkSchema
 
     /**
      * ASS_MarkSchema constructor
-     *
-     * The constructor takes possible arguments an creates an instance of the ASS_MarkSchema object.
-     *
-     * @return ASS_MarkSchema
      */
     public function __construct()
     {
@@ -450,6 +446,6 @@ class ASS_MarkSchema
         global $DIC;
         $ilUser = $DIC['ilUser'];
         include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
-        ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", true, $_GET["ref_id"]);
+        ilObjAssessmentFolder::_addLog($ilUser->getId(), ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", true);
     }
 }

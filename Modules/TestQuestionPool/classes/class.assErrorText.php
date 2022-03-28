@@ -35,8 +35,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param string 	$author 	A string containing the name of the questions author.
      * @param integer 	$owner 		A numerical ID to identify the owner/creator.
      * @param string 	$question 	The question string of the single choice question.
-     *
-     * @return \assErrorText
     */
     public function __construct(
         $title = '',
@@ -506,7 +504,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * Receives parameters from a QTI parser and creates a valid ILIAS question object
     *
-    * @param object $item The QTI item object
+    * @param ilQTIItem $item The QTI item object
     * @param integer $questionpool_id The id of the parent questionpool
     * @param integer $tst_id The id of the parent test if the question is part of a test
     * @param object $tst_object A reference to the parent test object
@@ -1068,9 +1066,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->points_wrong = $a_value;
     }
 
-    /**
-    * Object getter
-    */
     public function __get($value)
     {
         switch ($value) {
@@ -1080,9 +1075,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                 return $this->getTextSize();
             case "points_wrong":
                 return $this->getPointsWrong();
-            default:
-                return parent::__get($value);
         }
+        return null;
     }
 
     /**
@@ -1099,9 +1093,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                 break;
             case "points_wrong":
                 $this->setPointsWrong($value);
-                break;
-            default:
-                parent::__set($key, $value);
                 break;
         }
     }
@@ -1128,6 +1119,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
         $answers = array();
         foreach ($this->getErrorData() as $idx => $answer_obj) {
+            /** @var assAnswerErrorText $answer_obj */
             array_push($answers, array(
                 "answertext_wrong" => (string) $answer_obj->text_wrong,
                 "answertext_correct" => (string) $answer_obj->text_correct,
@@ -1242,7 +1234,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      *
      * @param null|int $index
      *
-     * @return array|ASS_AnswerSimple
      */
     public function getAvailableAnswerOptions($index = null)
     {

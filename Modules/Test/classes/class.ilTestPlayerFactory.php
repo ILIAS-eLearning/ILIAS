@@ -46,7 +46,7 @@ class ilTestPlayerFactory
                 
                 require_once 'Modules/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php';
                 return new ilTestPlayerRandomQuestionSetGUI($this->testOBJ);
-                
+            default:
             case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
                 
                 require_once 'Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php';

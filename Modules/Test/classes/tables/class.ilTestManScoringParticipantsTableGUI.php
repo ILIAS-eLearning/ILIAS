@@ -20,11 +20,6 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
     
     const PARENT_EDIT_SCORING_CMD = 'showManScoringParticipantScreen';
     
-    /**
-     * @global	ilCtrl		$ilCtrl
-     * @global	ilLanguage	$lng
-     * @param	ilObjectGUI	$parentObj
-     */
     public function __construct($parentObj)
     {
         $this->setPrefix('manScorePartTable');
@@ -58,7 +53,7 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
         global $DIC;
         $lng = $DIC['lng'];
         
-        if ($this->parent_obj->object->getAnonymity()) {
+        if ($this->parent_obj->getObject()->getAnonymity()) {
             $this->addColumn($lng->txt("name"), 'lastname', '100%');
         } else {
             $this->addColumn($lng->txt("lastname"), 'lastname', '');

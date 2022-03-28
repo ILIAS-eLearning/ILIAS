@@ -10,9 +10,6 @@
  */
 class ilTestEvaluation
 {
-    /**
-     * @var ilDB
-     */
     protected $db;
 
     /**

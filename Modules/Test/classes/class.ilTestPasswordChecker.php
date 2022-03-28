@@ -84,18 +84,18 @@ class ilTestPasswordChecker
 
     public function setUserEnteredPassword($enteredPassword)
     {
-        $_SESSION[$this->buildSessionKey()] = $enteredPassword;
+        ilSession::set($this->buildSessionKey(), $enteredPassword);
     }
     
     protected function getUserEnteredPassword()
     {
-        return $_SESSION[$this->buildSessionKey()];
+        return ilSession::get($this->buildSessionKey());
     }
 
     protected function initSession()
     {
-        if (!isset($_SESSION[$this->buildSessionKey()])) {
-            $_SESSION[$this->buildSessionKey()] = null;
+        if (ilSession::get($this->buildSessionKey()) !== null) {
+            ilSession::clear($this->buildSessionKey());
         }
     }
     

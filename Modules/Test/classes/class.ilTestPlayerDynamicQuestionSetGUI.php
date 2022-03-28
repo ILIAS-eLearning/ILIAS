@@ -72,7 +72,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         $this->dynamicQuestionSetConfig->loadFromDb();
 
         $testSessionFactory = new ilTestSessionFactory($this->object);
-        $this->testSession = $testSessionFactory->getSession($_GET['active_id']);
+        $this->testSession = $testSessionFactory->getSession($this->testrequest->getActiveId());
 
         $this->ensureExistingTestSession($this->testSession);
         $this->checkTestSessionUser($this->testSession);
@@ -177,7 +177,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
     protected function resumePlayerCmd()
     {
         if ($this->object->checkMaximumAllowedUsers() == false) {
-            return $this->showMaximumAllowedUsersReachedMessage();
+            $this->showMaximumAllowedUsersReachedMessage();
+            return;
         }
         
         $this->handleUserSettings();
@@ -197,11 +198,14 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         
         $this->ctrl->setParameter($this, 'active_id', $this->testSession->getActiveId());
 
-        assQuestion::_updateTestPassResults($this->testSession->getActiveId(), $this->testSession->getPass(), false, null, $this->object->id);
+        assQuestion::_updateTestPassResults($this->testSession->getActiveId(), $this->testSession->getPass(), false, null, $this->object->getId());
 
-        $_SESSION['active_time_id'] = $this->object->startWorkingTime(
-            $this->testSession->getActiveId(),
-            $this->testSession->getPass()
+        ilSession::set(
+            'active_time_id',
+            $this->object->startWorkingTime(
+                $this->testSession->getActiveId(),
+                $this->testSession->getPass()
+            )
         );
         
         $this->ctrl->saveParameter($this, 'tst_javascript');
@@ -379,7 +383,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
     protected function submitSolutionAndNextCmd()
     {
         if ($this->object->isForceInstantFeedbackEnabled()) {
-            return $this->submitSolutionCmd();
+            $this->submitSolutionCmd();
+            return;
         }
 
         if ($this->saveQuestionSolution(true, false)) {
@@ -768,8 +773,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             if (strlen($formtimestamp) == 0) {
                 $formtimestamp = $_GET["formtimestamp"];
             }
-            if ($formtimestamp != $_SESSION["formtimestamp"]) {
-                $_SESSION["formtimestamp"] = $formtimestamp;
+            if ($formtimestamp != ilSession::get("formtimestamp")) {
+                ilSession::set("formtimestamp", $formtimestamp);
             } else {
                 return false;
             }
@@ -810,7 +815,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         
         if ($this->saveResult == false) {
             $this->ctrl->setParameter($this, "save_error", "1");
-            $_SESSION["previouspost"] = $_POST;
+            ilSession::set("previouspost", $_POST);
         }
         
         return $this->saveResult;

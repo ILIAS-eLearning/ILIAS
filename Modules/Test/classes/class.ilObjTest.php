@@ -73,6 +73,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     private $specific_answer_feedback;
     private $activation_limited;
+    /**
+     * @var false
+     */
+    private bool $express_mode;
+    private array $mob_ids;
+    private array $file_ids;
+    private $import_mapping;
+    private bool $online;
 
     /**
     * Kiosk mode
@@ -601,8 +609,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      *
      * @param	$a_id 					integer		Reference_id or object_id.
      * @param	$a_call_by_reference	boolean		Treat the id as reference_id (true) or object_id (false).
-     *
-     * @return \ilObjTest
      */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
@@ -946,9 +952,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public static function _setImportDirectory($a_import_dir = null)
     {
         if (strlen($a_import_dir)) {
-            $_SESSION["tst_import_dir"] = $a_import_dir;
+            ilSession::set('tst_import_dir', $a_import_dir);
         } else {
-            unset($_SESSION["tst_import_dir"]);
+            ilSession::clear('tst_import_dir');
         }
     }
 
@@ -960,8 +966,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public static function _getImportDirectory() : ?string
     {
-        if (strlen($_SESSION["tst_import_dir"])) {
-            return $_SESSION["tst_import_dir"];
+        if (strlen(ilSession::get('tst_import_dir'))) {
+            return ilSession::get('tst_import_dir');
         }
         return null;
     }
@@ -1820,8 +1826,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      * Checkes wheather a random test has already created questions for a given pass or not
      *
      * @access private
-     * @param $active_id Active id of the test
-     * @param $pass Pass of the test
+     * @param int $active_id Active id of the test
+     * @param int $pass Pass of the test
      * @return boolean TRUE if the test already contains questions, FALSE otherwise
      *
      * @deprecated: still in use?
@@ -2421,8 +2427,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-     * Sets the reporting date of the ilObjTest object
-     * @param timestamp $reporting_date The date and time the score reporting is available
+     * Sets the reporting date of the ilObjTest object when the score reporting is available
      */
     public function setReportingDate($reporting_date)
     {
@@ -2932,7 +2937,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Returns the processing time for the test
     *
-    * @return string The processing time for the test
     * @see $processing_time
     */
     public function getProcessingTimeAsArray()
@@ -3247,13 +3251,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->passwordEnabled = $passwordEnabled;
     }
 
-    /**
-     * Returns the password for test access
-     *
-     * @return striong  Password for test access
-     * @access public
-     * @see $password
-     */
     public function getPassword()
     {
         return (strlen($this->password)) ? $this->password : null;
@@ -3985,11 +3982,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         if (!$user_id) {
             $user_id = $ilUser->getId();
         }
-        if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$this->getTestId()]))) {
+        $tst_access_code = ilSession::get('tst_access_code');
+        if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && (strlen($tst_access_code[$this->getTestId()]))) {
             $result = $ilDB->queryF(
                 "SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
                 array('integer','integer','text'),
-                array($user_id, $this->test_id, $_SESSION["tst_access_code"][$this->getTestId()])
+                array($user_id, $this->test_id, $tst_access_code[$this->getTestId()])
             );
         } elseif (strlen($anonymous_id)) {
             $result = $ilDB->queryF(
@@ -4015,14 +4013,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
     }
 
-    /**
-    * Gets the active id of the tst_active table for the active user
-    *
-    * @param integer $user_id The database id of the user
-    * @param integer $test_id The database id of the test
-    * @return object The database row of the tst_active table
-    * @access	public
-    */
     public static function _getActiveIdOfUser($user_id = "", $test_id = "")
     {
         global $DIC;
@@ -4474,8 +4464,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Returns the statistical evaluation of the test for a specified user
     *
-    * @return arrary The statistical evaluation array of the test
-    * @access public
+    * @return array The statistical evaluation array of the test
     */
     public function &evalStatistical($active_id)
     {
@@ -4654,7 +4643,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Returns all persons who started the test
     *
-    * @return arrary The user id's and names of the persons who started the test
+    * @return array The user id's and names of the persons who started the test
     * @access public
     */
     public function &evalTotalPersonsArray($name_sort_order = "asc")
@@ -4692,7 +4681,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Returns all participants who started the test
     *
-    * @return arrary The active user id's and names of the persons who started the test
+    * @return array The active user id's and names of the persons who started the test
     * @access public
     */
     public function &evalTotalParticipantsArray($name_sort_order = "asc")
@@ -5523,17 +5512,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * Creates an instance of a question with a given question id
     *
     * @param integer $question_id The question id
-    * @return object The question instance
     * @access public
      *
      * @deprecated use assQuestion::_instanciateQuestion($question_id) instead
     */
-    public static function _instanciateQuestion($question_id) : object
+    public static function _instanciateQuestion($question_id) : ?assQuestion
     {
         if (strcmp($question_id, "") != 0) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             return assQuestion::instantiateQuestion($question_id);
         }
+        return null;
     }
 
     /**
@@ -5707,7 +5696,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function fromXML(ilQTIAssessment $assessment)
     {
-        unset($_SESSION["import_mob_xhtml"]);
+        ilSession::clear('import_mob_xhtml');
 
         $this->setDescription($assessment->getComment());
         $this->setTitle($assessment->getTitle());
@@ -6070,12 +6059,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             }
         }
         // handle the import of media objects in XHTML code
-        if (is_array($_SESSION["import_mob_xhtml"])) {
+        if (is_array(ilSession::get("import_mob_xhtml"))) {
             include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
             include_once "./Services/RTE/classes/class.ilRTE.php";
             include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-            foreach ($_SESSION["import_mob_xhtml"] as $mob) {
-                $importfile = ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"] . '/' . $mob["uri"];
+            foreach (ilSession::get("import_mob_xhtml") as $mob) {
+                $importfile = ilObjTest::_getImportDirectory() . '/' . ilSession::get('tst_import_subdir') . '/' . $mob["uri"];
                 if (file_exists($importfile)) {
                     $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                     ilObjMediaObject::_saveUsage($media_object->getId(), "tst:html", $this->getId());
@@ -6780,9 +6769,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     /**
     * export media objects to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
     */
     public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
     {
@@ -7728,7 +7714,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Returns a data of all users specified by id list
     *
-    * @param $usr_ids kommaseparated list of ids
     * @return array The user data "usr_id, login, lastname, firstname, clientip" of the users with id as key
     * @access public
     */
@@ -9260,7 +9245,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Reads an QTI material tag an creates a text string
     *
-    * @param string $a_material QTI material tag
     * @return string text or xhtml string
     * @access public
     */
@@ -9276,16 +9260,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $matimage = $material["material"];
                 if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
                     // import an mediaobject which was inserted using tiny mce
-                    if (!is_array($_SESSION["import_mob_xhtml"])) {
-                        $_SESSION["import_mob_xhtml"] = array();
+                    if (!is_array(ilSession::get("import_mob_xhtml"))) {
+                        ilSession::set("import_mob_xhtml", array());
                     }
-                    array_push($_SESSION["import_mob_xhtml"], array("mob" => $matimage->getLabel(), "uri" => $matimage->getUri()));
+                    $import_mob_xhtml = ilSession::get("import_mob_xhtml");
+                    array_push($import_mob_xhtml, array("mob" => $matimage->getLabel(), "uri" => $matimage->getUri()));
                 }
             }
         }
         global $DIC;
         $ilLog = $DIC['ilLog'];
-        $ilLog->write(print_r($_SESSION["import_mob_xhtml"], true));
+        $ilLog->write(print_r(ilSession::get("import_mob_xhtml"), true));
         return $result;
     }
 
@@ -9294,10 +9279,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     *
     * @param object $a_xml_writer Reference to the ILIAS XML writer
     * @param string $a_material plain text or html text containing the material
-    * @return string QTI material tag
-    * @access public
     */
-    public function addQTIMaterial(&$a_xml_writer, $a_material) : string
+    public function addQTIMaterial(&$a_xml_writer, $a_material)
     {
         include_once "./Services/RTE/classes/class.ilRTE.php";
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
@@ -10493,19 +10476,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $test_exp->buildExportFile();
     }
     
-    /**
-    * Get mail notification settings
-    */
     public function getMailNotification() : int
     {
         return $this->mailnotification;
     }
-    
-    /**
-    * Set mail notification settings
-    *
-    * @param $a_notification Mail notification setting
-    */
+
     public function setMailNotification($a_notification)
     {
         $this->mailnotification = $a_notification;
@@ -10845,11 +10820,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'solution_signature' => 'setShowSolutionSignature',
                 'solution_suggested' => 'setShowSolutionSuggested',
                 );
-        foreach ($setter as $key => $setter) {
+        foreach ($setter as $key => $method) {
             if (in_array($key, $options)) {
-                $this->$setter(1);
+                $this->$method(1);
             } else {
-                $this->$setter(0);
+                $this->$method(0);
             }
         }
     }
@@ -11533,11 +11508,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $this->passDeletionAllowed;
     }
 
-    /**
-     * setter for the test setting passDeletionAllowed
-     *
-     * @return integer
-     */
     public function setPassDeletionAllowed($passDeletionAllowed)
     {
         $this->passDeletionAllowed = (bool) $passDeletionAllowed;
@@ -11783,12 +11753,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return null;
     }
 
-    /**
-     * @param  $active_id
-     * @param  $pass
-     * @param  $test_obj_id
-     * @return array
-     */
     public static function buildExamId($active_id, $pass, $test_obj_id = null)
     {
         global $DIC;
@@ -12221,9 +12185,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     
     public function adjustTestSequence()
     {
-        /**
-         * @var $ilDB ilDB
-         */
         global $DIC;
         $ilDB = $DIC['ilDB'];
         

@@ -22,7 +22,7 @@ class assKprimChoiceImport extends assQuestionImport
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        unset($_SESSION["import_mob_xhtml"]);
+        ilSession::clear('import_mob_xhtml');
 
         $duration = $item->getDuration();
         $shuffle = 0;
@@ -252,10 +252,10 @@ class assKprimChoiceImport extends assQuestionImport
         }
         $questiontext = $this->object->getQuestion();
         $answers = $this->object->getAnswers();
-        if (is_array($_SESSION["import_mob_xhtml"])) {
+        if (is_array(ilSession::get("import_mob_xhtml"))) {
             include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
             include_once "./Services/RTE/classes/class.ilRTE.php";
-            foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+            foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
                 } else {

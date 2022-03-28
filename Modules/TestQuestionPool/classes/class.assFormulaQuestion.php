@@ -130,6 +130,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         }
     }
 
+    public function getAllResultUnits()
+    {
+        return $this->resultunits;
+    }
+
     public function hasResultUnit($result, $unit_id) : bool
     {
         if (array_key_exists($result->getResult(), $this->resultunits)) {
@@ -1315,21 +1320,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     {
         parent::setId($id);
         $this->unitrepository->setConsumerId($this->getId());
-    }
-
-    /**
-     * Object getter
-     */
-    public function __get($value)
-    {
-        switch ($value) {
-            case "resultunits":
-                return $this->resultunits;
-                break;
-            default:
-                return parent::__get($value);
-                break;
-        }
     }
 
     /**

@@ -21,14 +21,6 @@ class ilTestExporter extends ilXmlExporter
     {
     }
 
-
-    /**
-     * Get xml representation
-     * @param	string		entity
-     * @param	string		schema version
-     * @param	string		id
-     * @return	string		xml string
-     */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         include_once './Modules/Test/classes/class.ilObjTest.php';

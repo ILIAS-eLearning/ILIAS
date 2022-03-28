@@ -20,7 +20,8 @@ class ilAssQuestionFeedbackEditingGUI
     const CMD_SHOW = 'showFeedbackForm';
     const CMD_SAVE = 'saveFeedbackForm';
     const CMD_SHOW_SYNC = 'showSync';
-    
+    private \ILIAS\TestQuestionPool\InternalRequestService $request;
+
     /**
      * gui instance of current question
      *
@@ -101,7 +102,8 @@ class ilAssQuestionFeedbackEditingGUI
         $this->questionGUI = $questionGUI;
         $this->questionOBJ = $questionGUI->object;
         $this->feedbackOBJ = $questionGUI->object->feedbackOBJ;
-        
+        global $DIC;
+        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->ctrl = $ctrl;
         $this->access = $access;
         $this->tpl = $tpl;
@@ -248,7 +250,7 @@ class ilAssQuestionFeedbackEditingGUI
             return false;
         }
         
-        $hasWriteAccess = $this->access->checkAccess("write", "", $_GET['ref_id']);
+        $hasWriteAccess = $this->access->checkAccess("write", "", $this->request->getRefId());
         $isSelfAssessmentEditingMode = $this->questionOBJ->getSelfAssessmentEditingMode();
         
         return $hasWriteAccess || $isSelfAssessmentEditingMode;

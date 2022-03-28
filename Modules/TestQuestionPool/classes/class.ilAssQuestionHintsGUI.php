@@ -35,12 +35,6 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
     const CMD_RESET_ORDERING_CLIPBOARD = 'resetOrderingClipboard';
     const CMD_CONFIRM_SYNC = 'confirmSync';
     
-    /**
-     * object that handles the current ordering clipboard state
-     *
-     * @access	private
-     * @var		ilAssQuestionHintOrderingClipboard
-     */
     private $hintOrderingClipboard = null;
     private ilLanguage $lng;
     private ilCtrl $ctrl;
@@ -84,13 +78,6 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $this->editingEnabled = $editingEnabled;
     }
 
-    /**
-     * Execute Command
-     *
-     * @access	public
-     * @global	ilCtrl	$ilCtrl
-     * @return	mixed
-     */
     public function executeCommand()
     {
         global $DIC;

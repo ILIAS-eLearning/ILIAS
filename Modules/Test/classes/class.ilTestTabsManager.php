@@ -39,7 +39,8 @@ class ilTestTabsManager
     const SUBTAB_ID_HIGHSCORE = 'highscore';
     const SUBTAB_ID_SKILL_RESULTS = 'skillresults';
     const SUBTAB_ID_MY_SOLUTIONS = 'mysolutions';
-    
+    private \ILIAS\Test\InternalRequestService $testrequest;
+
     /**
      * @var ilTabsGUI
      */
@@ -104,6 +105,7 @@ class ilTestTabsManager
         $this->objectiveParent = $objectiveParent;
         
         global $DIC; /* @var ILIAS\DI\Container $DIC */
+        $this->testrequest = $DIC->test()->internal()->request();
         $this->tabs = $DIC['ilTabs'];
         $this->access = $DIC['ilAccess'];
         $this->lng = $DIC['lng'];

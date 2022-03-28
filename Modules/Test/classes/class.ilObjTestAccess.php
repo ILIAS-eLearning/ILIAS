@@ -121,7 +121,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                     $pass = $points[count($points) - 1]["pass"];
                     if (strlen($active_id) && strlen($pass)) {
                         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-                        $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
+                        $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                         $max = $res['maxpoints'];
                         $reached = $res['points'];
                     }
@@ -136,7 +136,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                             $pass = $row["pass"];
                             if (strlen($active_id) && strlen($pass)) {
                                 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-                                $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
+                                $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                                 $max = $res['maxpoints'];
                                 $reached = $res['points'];
                             }
@@ -198,7 +198,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                     $pass = $points[count($points) - 1]["pass"];
                     if (strlen($active_id) && strlen($pass)) {
                         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-                        $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
+                        $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                         $max = $res['maxpoints'];
                         $reached = $res['points'];
                     }
@@ -213,7 +213,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                             $pass = $row["pass"];
                             if (strlen($active_id) && strlen($pass)) {
                                 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-                                $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
+                                $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                                 $max = $res['maxpoints'];
                                 $reached = $res['points'];
                             }
@@ -231,11 +231,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         }
     }
     
-    /**
-     * Update test result cache
-     * @param type $a_user_id
-     * @param type $a_obj_id
-     */
     protected static function updateTestResultCache($a_user_id, $a_obj_id) : bool
     {
         global $DIC;
@@ -396,9 +391,10 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             
             $activeId = $partData->getActiveIdByUserId($a_user_id);
 
+            /** @noinspection PhpParamsInspection */
             $testSessionFactory = new ilTestSessionFactory($testOBJ);
             $testSession = $testSessionFactory->getSession($activeId);
-            
+            /** @noinspection PhpParamsInspection */
             $testPassesSelector = new ilTestPassesSelector($ilDB, $testOBJ);
             $testPassesSelector->setActiveId($activeId);
             $testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());

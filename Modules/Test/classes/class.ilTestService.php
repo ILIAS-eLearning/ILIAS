@@ -115,7 +115,6 @@ class ilTestService
      * @access public
      * @param integer $active_id Active ID of the active user
      * @param integer $pass Test pass
-     * @return string HTML code of the list of answers
      */
     public function getManScoringQuestionGuiList($activeId, $pass)
     {

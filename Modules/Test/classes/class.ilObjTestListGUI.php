@@ -193,7 +193,6 @@ class ilObjTestListGUI extends ilObjectListGUI
      *
      * @access public
      * @param array (param => value)
-     * @return
      */
     public function addCommandLinkParameter($a_param)
     {

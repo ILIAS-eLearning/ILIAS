@@ -115,8 +115,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param string  $author  A string containing the name of the questions author
      * @param integer $owner   A numerical ID to identify the owner/creator
      * @param string  $question
-     *
-     * @return \assClozeTest
      */
     public function __construct(
         $title = "",
@@ -406,8 +404,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      *
      * @param $next_id			int	Next Id for the record.
      * @param $key				int Gap Id
-     * @param $item				gap Gap item data object.
-     * @param $gap				gap Gap data object.
+     * @param $item				mixed Gap item data object.
+     * @param $gap				mixed Gap data object.
      */
     protected function saveClozeTextGapRecordToDb($next_id, $key, $item, $gap)
     {
@@ -443,8 +441,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      *
      * @param $next_id			int	Next Id for the record.
      * @param $key				int Gap Id
-     * @param $item				gap Gap item data object.
-     * @param $gap				gap Gap data object.
+     * @param $item				mixed Gap item data object.
+     * @param $gap				mixed Gap data object.
      */
     protected function saveClozeSelectGapRecordToDb($next_id, $key, $item, $gap)
     {
@@ -480,8 +478,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      *
      * @param $next_id			int	Next Id for the record.
      * @param $key				int Gap Id
-     * @param $item				gap Gap item data object.
-     * @param $gap				gap Gap data object.
+     * @param $item				mixed Gap item data object.
+     * @param $gap				mixed Gap data object.
      */
     protected function saveClozeNumericGapRecordToDb($next_id, $key, $item, $gap)
     {
@@ -774,11 +772,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * Returns the gap at a given index
     *
     * @param integer $gap_index A nonnegative index of the n-th gap
-    * @return object The gap of the given index
-    * @access public
     * @see $gaps
     */
-    public function getGap($gap_index = 0) : ?object
+    public function getGap($gap_index = 0)
     {
         if (array_key_exists($gap_index, $this->gaps)) {
             return $this->gaps[$gap_index];
@@ -1260,7 +1256,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $active_id
      * @param integer $pass
      * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
      */
     public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
     {

@@ -58,14 +58,14 @@ class ilObjQuestionPoolSettingsGeneralGUI
     /**
      * gui instance for current question pool
      *
-     * @var ilObjTestQuestionPoolGUI
+     * @var ilObjQuestionPoolGUI
      */
     protected $poolGUI = null;
     
     /**
      * object instance for current question pool
      *
-     * @var ilObjTestQuestionPool
+     * @var ilObjQuestionPool
      */
     protected $poolOBJ = null;
     
@@ -91,7 +91,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
     {
         // allow only write access
         
-        if (!$this->access->checkAccess('write', '', $this->poolGUI->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->poolGUI->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_question_pool'), true);
             $this->ctrl->redirectByClass('ilObjQuestionPoolGUI', 'infoScreen');
         }
@@ -133,7 +133,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         
         if ($errors) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-            return $this->showFormCmd($form);
+            $this->showFormCmd($form);
         }
         
         // perform saving the form data

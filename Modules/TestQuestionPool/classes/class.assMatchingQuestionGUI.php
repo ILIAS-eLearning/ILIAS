@@ -29,8 +29,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      *
      * @param integer $id The database id of a image map question object
      * @param integer $id The database id of a image map question object
-     *
-     * @return \assMatchingQuestionGUI
      */
     public function __construct($id = -1)
     {
@@ -988,7 +986,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
                     "edit_page",
@@ -1004,7 +1002,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $url = "";
             if ($classname) {
                 $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");

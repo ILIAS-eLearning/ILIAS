@@ -17,13 +17,6 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
     
     protected $totalPoints;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $outputmode = '')
     {
         $this->setId("qpl_print");

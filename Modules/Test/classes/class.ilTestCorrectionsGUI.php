@@ -12,6 +12,7 @@
  */
 class ilTestCorrectionsGUI
 {
+    private \ILIAS\Test\InternalRequestService $testrequest;
     /**
      * @var \ILIAS\DI\Container
      */
@@ -36,7 +37,7 @@ class ilTestCorrectionsGUI
     {
         $this->DIC = $DIC;
         $this->testOBJ = $testOBJ;
-        
+        $this->testrequest = $DIC->test()->internal()->request();
         $this->testAccess = new ilTestAccess($testOBJ->getRefId(), $testOBJ->getTestId());
     }
     

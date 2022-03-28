@@ -17,13 +17,8 @@ class assMultipleChoiceTest extends assBaseTestCase
     protected function setUp() : void
     {
         require_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
         require_once './Services/Utilities/classes/class.ilUtil.php';
     }
     
@@ -31,7 +26,6 @@ class assMultipleChoiceTest extends assBaseTestCase
     * Create a sample question and save it to the database
     *
     * @param integer $obj_id Object ID of the containing question pool object (optional)
-    * @return integer ID of the newly created question
     */
     /*	public static function createSampleQuestion($obj_id = null)
         {
@@ -68,11 +62,7 @@ class assMultipleChoiceTest extends assBaseTestCase
             return $mc->getId();
         }
     */
-    /**
-     * Question creation test
-     * @param
-     * @return
-     */
+
     /*	public function t_e_stCreation()
         {
             global $DIC;

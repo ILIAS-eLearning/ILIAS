@@ -15,6 +15,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilEvaluationAllTableGUI extends ilTable2GUI
 {
+    private array $filter;
     protected $anonymity;
     
     /**
@@ -29,7 +30,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
-        
+
         $this->setId("tst_eval_all");
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
@@ -92,7 +93,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         
         $this->addColumn($lng->txt("tst_mark"), "mark", "");
         
-        if ($this->parent_obj->object->getECTSOutput()) {
+        if ($this->parent_obj->getObject()->getECTSOutput()) {
             foreach ($this->getSelectedColumns() as $c) {
                 if (strcmp($c, 'ects_grade') == 0) {
                     $this->addColumn($this->lng->txt("ects_grade"), 'ects_grade', '');
@@ -195,14 +196,14 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                 "txt" => $lng->txt("matriculation"),
                 "default" => false
             );
-            if ($this->parent_obj->object->isShowExamIdInTestResultsEnabled()) {
+            if ($this->parent_obj->getObject()->isShowExamIdInTestResultsEnabled()) {
                 $cols["exam_id"] = array(
                     "txt" => $lng->txt("exam_id_label"),
                     "default" => false
                 );
             }
         }
-        if ($this->parent_obj->object->getECTSOutput()) {
+        if ($this->parent_obj->getObject()->getECTSOutput()) {
             $cols["ects_grade"] = array(
                 "txt" => $lng->txt("ects_grade"),
                 "default" => false

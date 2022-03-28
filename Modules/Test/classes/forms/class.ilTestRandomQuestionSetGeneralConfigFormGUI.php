@@ -173,7 +173,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         return ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST;
     }
     
-    public function save() : bool
+    public function save()
     {
         $this->questionSetConfig->setPoolsWithHomogeneousScoredQuestionsRequired(
             $this->getItemByPostVar('quest_points_equal_per_pool')->getChecked()
@@ -203,6 +203,6 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
                 break;
         }
         
-        return $this->questionSetConfig->saveToDb($this->testOBJ->getTestId());
+        $this->questionSetConfig->saveToDb();
     }
 }

@@ -315,7 +315,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     }
     
     /**
-     * @param array $element
      * @return string
      */
     protected function getThumbnailFilename($element) : string
@@ -324,7 +323,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     }
     
     /**
-     * @param array $element
      * @return string
      */
     protected function getThumbnailSource($element) : string
@@ -335,7 +333,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @param ilAssOrderingElement $element
      * @param string $identifier
-     * @param iunteger $position
+     * @param int $position
      * @param string $itemSubFieldPostVar
      * @param string $itemSubFieldId
      * @return string

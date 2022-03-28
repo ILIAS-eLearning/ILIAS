@@ -162,12 +162,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        $_SESSION['tst_pass_finish'] = 0;
+        ilSession::set('tst_pass_finish', 0);
 
         // ensure existing test session
         $this->testSession->setUserId($ilUser->getId());
-        if (isset($_SESSION["tst_access_code"]) && isset($_SESSION["tst_access_code"][$this->object->getTestId()])) {
-            $this->testSession->setAnonymousId($_SESSION["tst_access_code"][$this->object->getTestId()]);
+        $access_code = ilSession::get('tst_access_code');
+        if ($access_code != null && isset($access_code[$this->object->getTestId()])) {
+            $this->testSession->setAnonymousId($access_code[$this->object->getTestId()]);
         }
         $this->testSession->setObjectiveOrientedContainerId($this->getObjectiveOrientedContainer()->getObjId());
         $this->testSession->saveToDb();
@@ -224,7 +225,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $this->testSession->getActiveId(),
             $this->testSession->getPass()
         );
-        $_SESSION["active_time_id"] = $active_time_id;
+        ilSession::set("active_time_id", $active_time_id);
 
         $this->updateLearningProgressOnTestStart();
 
@@ -269,11 +270,14 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     
     protected function showQuestionCmd()
     {
-        $_SESSION['tst_pass_finish'] = 0;
+        ilSession::set('tst_pass_finish', 0);
 
-        $_SESSION["active_time_id"] = $this->object->startWorkingTime(
-            $this->testSession->getActiveId(),
-            $this->testSession->getPass()
+        ilSession::set(
+            "active_time_id",
+            $this->object->startWorkingTime(
+                $this->testSession->getActiveId(),
+                $this->testSession->getPass()
+            )
         );
 
         $sequenceElement = $this->getCurrentSequenceElement();
@@ -414,7 +418,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     protected function submitSolutionAndNextCmd()
     {
         if ($this->object->isForceInstantFeedbackEnabled()) {
-            return $this->submitSolutionCmd();
+            $this->submitSolutionCmd();
+            return;
         }
         
         if ($this->saveQuestionSolution(true, false)) {
@@ -615,8 +620,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             if (strlen($formtimestamp) == 0) {
                 $formtimestamp = $_GET["formtimestamp"];
             }
-            if (!isset($_SESSION['formtimestamp']) || $formtimestamp != $_SESSION["formtimestamp"]) {
-                $_SESSION["formtimestamp"] = $formtimestamp;
+            if (ilSession::get('formtimestamp') == null || $formtimestamp != ilSession::get("formtimestamp")) {
+                ilSession::set("formtimestamp", $formtimestamp);
             } else {
                 return false;
             }
@@ -667,7 +672,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         if ($this->saveResult == false || (!$questionOBJ->validateSolutionSubmit() && $questionOBJ->savePartial())) {
             $this->ctrl->setParameter($this, "save_error", "1");
-            $_SESSION["previouspost"] = $_POST;
+            ilSession::set("previouspost", $_POST);
         }
 
         return $this->saveResult;
@@ -800,8 +805,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->ctrl->setParameter($this, "active_id", $active_id);
 
         $active_time_id = $this->object->startWorkingTime($active_id, $this->testSession->getPass());
-        $_SESSION["active_time_id"] = $active_time_id;
-        $_SESSION['tst_pass_finish'] = 0;
+        ilSession::set("active_time_id", $active_time_id);
+        ilSession::set('tst_pass_finish', 0);
 
         if ($this->object->isRandomTest()) {
             if (!$this->testSequence->hasRandomQuestionsForPass($active_id, $this->testSession->getPass())) {

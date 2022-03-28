@@ -19,13 +19,9 @@ class ilassMarkTest extends TestCase
 
     protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            require_once './Services/PHPUnit/classes/class.ilUnitUtil.php';
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
+
 
         // Arrange
         require_once './Modules/Test/classes/class.assMark.php';

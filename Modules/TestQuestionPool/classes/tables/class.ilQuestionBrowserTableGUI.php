@@ -17,6 +17,7 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 
 class ilQuestionBrowserTableGUI extends ilTable2GUI
 {
+    private \ILIAS\TestQuestionPool\InternalRequestService $request;
     protected $editable = true;
     protected $writeAccess = false;
     protected $totalPoints = 0;
@@ -30,13 +31,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
      */
     protected $questionCommentingEnabled = false;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false, $taxIds = array(), $enableCommenting = false)
     {
         $this->setQuestionCommentingEnabled($enableCommenting);
@@ -53,7 +47,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-
+        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
     
@@ -579,7 +573,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     
     protected function getCommentsAjaxLink($questionId) : string
     {
-        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, (int) $_GET['ref_id'], 'quest', $this->parent_obj->object->getId(), 'quest', $questionId);
+        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $this->request->getRefId(), 'quest', $this->parent_obj->object->getId(), 'quest', $questionId);
         return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
     }
 }

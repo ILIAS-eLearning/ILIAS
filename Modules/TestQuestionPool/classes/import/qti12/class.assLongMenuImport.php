@@ -11,7 +11,7 @@ class assLongMenuImport extends assQuestionImport
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        unset($_SESSION["import_mob_xhtml"]);
+        ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
         $duration = $item->getDuration();
@@ -43,8 +43,8 @@ class assLongMenuImport extends assQuestionImport
         // fixLongMenuImageImport - process images in question and long menu text when question is imported
         $questiontext = $this->object->getQuestion();
         $longmenutext = $this->object->getLongMenuTextValue();
-        if (is_array($_SESSION["import_mob_xhtml"])) {
-            foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+        if (is_array(ilSession::get("import_mob_xhtml"))) {
+            foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
                 } else {

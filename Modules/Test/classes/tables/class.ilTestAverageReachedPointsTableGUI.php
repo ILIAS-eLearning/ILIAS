@@ -11,12 +11,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
  */
 class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         $this->setId('tstAvgReachedPointsTbl');

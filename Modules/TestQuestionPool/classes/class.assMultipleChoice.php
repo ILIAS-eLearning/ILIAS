@@ -1371,8 +1371,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      * Else it returns the specific answer option
      *
      * @param null|int $index
-     *
-     * @return array|ASS_AnswerSimple
      */
     public function getAvailableAnswerOptions($index = null)
     {

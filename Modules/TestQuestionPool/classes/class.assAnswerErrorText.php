@@ -22,7 +22,6 @@ class assAnswerErrorText
      * @param string $text_wrong   Wrong text
      * @param string $text_correct Correct text
      * @param double $points       Points
-     * @return assAnswerErrorText
      */
     public function __construct(string $text_wrong = "", string $text_correct = "", float $points = 0.0)
     {
