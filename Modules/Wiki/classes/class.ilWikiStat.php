@@ -721,7 +721,7 @@ class ilWikiStat
             $set = $ilDB->query($sql);
             while ($row = $ilDB->fetchAssoc($set)) {
                 if (!in_array($row[$a_aggr_by], $all_aggr_ids)) {
-                    var_dump("unexpected wiki_stat_page_entry", $row);// TODO PHP8-REVIEW We should not use debugging code here
+                    throw new ilWikiException("Unexpected wiki_stat_page_entry: " . print_r($row, true));
                 }
                 $tmp[$row[$a_aggr_by]][$row["ts_day"]] = $row[$a_field];
             }
