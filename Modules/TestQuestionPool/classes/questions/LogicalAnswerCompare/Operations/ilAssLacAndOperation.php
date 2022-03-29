@@ -21,7 +21,7 @@ class ilAssLacAndOperation extends ilAssLacAbstractOperation
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return "und ";
     }
@@ -29,7 +29,7 @@ class ilAssLacAndOperation extends ilAssLacAbstractOperation
     /**
      * @return string
      */
-    public function getPattern()
+    public function getPattern() : string
     {
         return self::$pattern;
     }

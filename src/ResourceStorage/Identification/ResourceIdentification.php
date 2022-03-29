@@ -26,7 +26,6 @@ use Serializable;
  */
 class ResourceIdentification implements Serializable
 {
-
     private string $unique_id;
 
 

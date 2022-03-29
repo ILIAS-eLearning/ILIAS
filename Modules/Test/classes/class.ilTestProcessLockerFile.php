@@ -108,7 +108,7 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
         flock($this->lockFileHandles[$processName], LOCK_EX);
     }
     
-    private function getLockFilePath($processName)
+    private function getLockFilePath($processName) : string
     {
         $path = $this->lockFileStorage->getPath();
         return $path . '/' . $processName . '.lock';

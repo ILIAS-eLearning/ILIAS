@@ -39,7 +39,7 @@ class ilTestQuestionRelatedObjectivesList
      * @param integer $questionId
      * @return bool
      */
-    public function hasQuestionRelatedObjectives($questionId)
+    public function hasQuestionRelatedObjectives($questionId) : bool
     {
         if (!isset($this->objectivesByQuestion[$questionId])) {
             return false;
@@ -50,7 +50,6 @@ class ilTestQuestionRelatedObjectivesList
 
     /**
      * @param integer $questionId
-     * @return string
      */
     public function getQuestionRelatedObjectives($questionId)
     {
@@ -75,7 +74,7 @@ class ilTestQuestionRelatedObjectivesList
      * @param integer $questionId
      * @return string
      */
-    public function getQuestionRelatedObjectiveTitles($questionId)
+    public function getQuestionRelatedObjectiveTitles($questionId) : string
     {
         $titles = array();
         
@@ -86,12 +85,12 @@ class ilTestQuestionRelatedObjectivesList
         return implode(', ', $titles);
     }
     
-    public function getUniqueObjectivesString()
+    public function getUniqueObjectivesString() : string
     {
         return implode(', ', $this->objectivesTitles);
     }
 
-    public function getUniqueObjectivesStringForQuestions($questionIds)
+    public function getUniqueObjectivesStringForQuestions($questionIds) : string
     {
         $objectiveTitles = array();
 
@@ -113,12 +112,12 @@ class ilTestQuestionRelatedObjectivesList
         return $this->objectivesTitles[$objectiveId];
     }
 
-    public function getObjectives()
+    public function getObjectives() : array
     {
         return $this->objectivesTitles;
     }
 
-    public function isQuestionRelatedToObjective($questionId, $objectiveId)
+    public function isQuestionRelatedToObjective($questionId, $objectiveId) : bool
     {
         foreach ($this->objectivesByQuestion[$questionId] as $relatedObjectiveId) {
             if ($relatedObjectiveId == $objectiveId) {
@@ -129,7 +128,7 @@ class ilTestQuestionRelatedObjectivesList
         return false;
     }
 
-    public function filterResultsByObjective($testResults, $objectiveId)
+    public function filterResultsByObjective($testResults, $objectiveId) : array
     {
         $filteredResults = array();
 

@@ -17,7 +17,6 @@ use ILIAS\Filesystem\MetadataType;
  */
 final class Metadata
 {
-
     private string $path;
     private string $type;
 

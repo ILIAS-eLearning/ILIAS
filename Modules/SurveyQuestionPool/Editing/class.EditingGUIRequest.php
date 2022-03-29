@@ -25,7 +25,6 @@ class EditingGUIRequest
 {
     use BaseGUIRequest;
 
-    protected \ILIAS\HTTP\Services $http;
     protected array $params;
 
     public function __construct(
@@ -56,7 +55,7 @@ class EditingGUIRequest
     public function getQuestionIds() : array
     {
         $ids = $this->intArray("q_id");
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             $ids = $this->intArray("qid");  // this one is used in SurveyQuestionGUI
         }
         return $ids;

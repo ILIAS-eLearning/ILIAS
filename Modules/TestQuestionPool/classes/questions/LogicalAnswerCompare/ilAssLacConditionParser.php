@@ -69,7 +69,7 @@ class ilAssLacConditionParser
      * @see CompositeBuilder::create()
      * @return array
      */
-    public function parse($condition)
+    public function parse($condition) : array
     {
         $this->condition = $condition;
         $this->checkBrackets();
@@ -165,7 +165,7 @@ class ilAssLacConditionParser
      *
      * @return array
      */
-    protected function createNodeArray()
+    protected function createNodeArray() : array
     {
         $expected = array("n", "(", "!");
         $group = array();
@@ -205,7 +205,7 @@ class ilAssLacConditionParser
     /**
      * @return array
      */
-    public function getExpressions()
+    public function getExpressions() : array
     {
         return $this->expressions;
     }

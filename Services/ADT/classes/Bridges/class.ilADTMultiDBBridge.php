@@ -2,13 +2,10 @@
 
 abstract class ilADTMultiDBBridge extends ilADTDBBridge
 {
-    // CRUD
-
     /**
      * Build sub-table name
-     * @return string
      */
-    protected function getSubTableName()
+    protected function getSubTableName() : string
     {
         // getElementId? => adv_md_values_enum_123
         return $this->getTable() . "_" . $this->getElementId();

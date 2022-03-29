@@ -70,8 +70,9 @@ class ilObjUserFolder extends ilObject
 
     /**
      * Get a list of the already exported files in the export directory
+     * @return array<string,string>[]
      */
-    public function getExportFiles() : array // Missing array type.
+    public function getExportFiles() : array
     {
         $dir = $this->getExportDirectory();
 

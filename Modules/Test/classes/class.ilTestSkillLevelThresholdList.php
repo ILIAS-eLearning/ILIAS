@@ -42,7 +42,7 @@ class ilTestSkillLevelThresholdList
     /**
      * @return int
      */
-    public function getTestId()
+    public function getTestId() : int
     {
         return $this->testId;
     }
@@ -95,7 +95,7 @@ class ilTestSkillLevelThresholdList
      * @param array $data
      * @return ilTestSkillLevelThreshold
      */
-    private function buildSkillLevelThresholdByArray($data)
+    private function buildSkillLevelThresholdByArray($data) : ilTestSkillLevelThreshold
     {
         $threshold = new ilTestSkillLevelThreshold($this->db);
 
@@ -114,7 +114,7 @@ class ilTestSkillLevelThresholdList
      * @param $skillLevelId
      * @return ilTestSkillLevelThreshold
      */
-    public function getThreshold($skillBaseId, $skillTrefId, $skillLevelId, $forceObject = false)
+    public function getThreshold($skillBaseId, $skillTrefId, $skillLevelId, $forceObject = false) : ?ilTestSkillLevelThreshold
     {
         $skillKey = $skillBaseId . ':' . $skillTrefId;
 

@@ -47,7 +47,7 @@ class ilTestVirtualSequence implements ilTestQuestionSequence
         $this->questionsPassMap = array();
     }
 
-    public function getActiveId()
+    public function getActiveId() : ?int
     {
         return $this->activeId;
     }
@@ -57,17 +57,17 @@ class ilTestVirtualSequence implements ilTestQuestionSequence
         $this->activeId = $activeId;
     }
 
-    public function getQuestionIds()
+    public function getQuestionIds() : array
     {
         return array_keys($this->questionsPassMap);
     }
 
-    public function getQuestionsPassMap()
+    public function getQuestionsPassMap() : array
     {
         return $this->questionsPassMap;
     }
 
-    public function getUniquePasses()
+    public function getUniquePasses() : array
     {
         return array_unique(array_values($this->questionsPassMap));
     }
@@ -78,7 +78,7 @@ class ilTestVirtualSequence implements ilTestQuestionSequence
         $this->fetchQuestionsFromPasses($this->getActiveId(), $passes);
     }
 
-    private function getExistingPassesDescendent($activeId)
+    private function getExistingPassesDescendent($activeId) : array
     {
         require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
         $passesSelector = new ilTestPassesSelector($this->db, $this->testOBJ);
@@ -103,7 +103,7 @@ class ilTestVirtualSequence implements ilTestQuestionSequence
         return $testSequence;
     }
 
-    protected function wasAnsweredInThisPass(ilTestSequence $testSequence, $questionId)
+    protected function wasAnsweredInThisPass(ilTestSequence $testSequence, $questionId) : bool
     {
         if ($testSequence->isHiddenQuestion($questionId)) {
             return false;

@@ -25,7 +25,6 @@ use ILIAS\ResourceStorage\Information\FileInformation;
  */
 class FileStreamRevision extends FileRevision implements Revision
 {
-
     private \ILIAS\Filesystem\Stream\FileStream $stream;
     protected bool $keep_original = true;
 
@@ -50,5 +49,4 @@ class FileStreamRevision extends FileRevision implements Revision
     {
         return $this->keep_original;
     }
-
 }

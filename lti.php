@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * LTI launch target script
@@ -12,6 +12,7 @@ require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 // authentication is done here ->
-$ilCtrl->setCmd('doLTIAuthentication');
-$ilCtrl->setTargetScript('ilias.php');
-$ilCtrl->callBaseClass('ilStartUpGUI');
+global $DIC;
+$DIC->ctrl()->setCmd('doLTIAuthentication');
+$DIC->ctrl()->setTargetScript('ilias.php');
+$DIC->ctrl()->callBaseClass('ilStartUpGUI');

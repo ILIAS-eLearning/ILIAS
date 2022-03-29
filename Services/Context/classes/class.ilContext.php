@@ -24,24 +24,24 @@ class ilContext
     protected static string $class_name = "";
     protected static string $type = "";
     
-    public const CONTEXT_WEB = "ilContextWeb";
-    public const CONTEXT_CRON = "ilContextCron";
-    public const CONTEXT_RSS = "ilContextRss";
-    public const CONTEXT_ICAL = "ilContextIcal";
-    public const CONTEXT_SOAP = "ilContextSoap";
-    public const CONTEXT_SOAP_NO_AUTH = 'ilContextSoapNoAuth';
-    public const CONTEXT_WEBDAV = "ilContextWebdav";
-    public const CONTEXT_RSS_AUTH = "ilContextRssAuth";
-    public const CONTEXT_SESSION_REMINDER = "ilContextSessionReminder";
-    public const CONTEXT_SOAP_WITHOUT_CLIENT = "ilContextSoapWithoutClient";
-    public const CONTEXT_UNITTEST = "ilContextUnitTest";
-    public const CONTEXT_REST = "ilContextRest";
-    public const CONTEXT_SCORM = "ilContextScorm";
-    public const CONTEXT_WAC = "ilContextWAC";
-    public const CONTEXT_APACHE_SSO = 'ilContextApacheSSO';
-    public const CONTEXT_SHIBBOLETH = 'ilContextShibboleth';
-    public const CONTEXT_LTI_PROVIDER = 'ilContextLTIProvider';
-    public const CONTEXT_SAML = 'ilContextSaml';
+    public const CONTEXT_WEB = ilContextWeb::class;
+    public const CONTEXT_CRON = ilContextCron::class;
+    public const CONTEXT_RSS = ilContextRss::class;
+    public const CONTEXT_ICAL = ilContextIcal::class;
+    public const CONTEXT_SOAP = ilContextSoap::class;
+    public const CONTEXT_SOAP_NO_AUTH = ilContextSoapNoAuth::class;
+    public const CONTEXT_WEBDAV = ilContextWebdav::class;
+    public const CONTEXT_RSS_AUTH = ilContextRssAuth::class;
+    public const CONTEXT_SESSION_REMINDER = ilContextSessionReminder::class;
+    public const CONTEXT_SOAP_WITHOUT_CLIENT = ilContextSoapWithoutClient::class;
+    public const CONTEXT_UNITTEST = ilContextUnitTest::class;
+    public const CONTEXT_REST = ilContextRest::class;
+    public const CONTEXT_SCORM = ilContextScorm::class;
+    public const CONTEXT_WAC = ilContextWAC::class;
+    public const CONTEXT_APACHE_SSO = ilContextApacheSSO::class;
+    public const CONTEXT_SHIBBOLETH = ilContextShibboleth::class;
+    public const CONTEXT_LTI_PROVIDER = ilContextLTIProvider::class;
+    public const CONTEXT_SAML = ilContextSaml::class;
 
     /**
      * Init context by type
@@ -61,11 +61,10 @@ class ilContext
     public static function directCall(string $a_type, string $a_method)
     {
         $class_name = $a_type;
-        if ($class_name) {
-            if (method_exists($class_name, $a_method)) {
-                return call_user_func(array($class_name, $a_method));
-            }
+        if ($class_name && method_exists($class_name, $a_method)) {
+            return call_user_func(array($class_name, $a_method));
         }
+
         return null;
     }
 

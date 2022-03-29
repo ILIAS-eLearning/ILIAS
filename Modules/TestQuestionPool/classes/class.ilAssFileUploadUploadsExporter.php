@@ -75,7 +75,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @return int
      */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->refId;
     }
@@ -91,7 +91,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @return int
      */
-    public function getTestId()
+    public function getTestId() : int
     {
         return $this->testId;
     }
@@ -107,7 +107,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @return string
      */
-    public function getTestTitle()
+    public function getTestTitle() : string
     {
         return $this->testTitle;
     }
@@ -123,7 +123,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @return ilObjFileHandlingQuestionType
      */
-    public function getQuestion()
+    public function getQuestion() : ilObjFileHandlingQuestionType
     {
         return $this->question;
     }
@@ -136,10 +136,7 @@ class ilAssFileUploadUploadsExporter
         $this->question = $question;
     }
 
-    /**
-     * @return string
-     */
-    public function build()
+    public function build() : void
     {
         $this->initFilenames();
         
@@ -154,7 +151,7 @@ class ilAssFileUploadUploadsExporter
         $this->removeFileUploadCollection();
     }
     
-    private function initFilenames()
+    private function initFilenames() : void
     {
         $this->tempDirPath = ilFileUtils::ilTempnam();
         
@@ -165,7 +162,7 @@ class ilAssFileUploadUploadsExporter
         );
     }
     
-    private function getFileUploadSolutionData()
+    private function getFileUploadSolutionData() : array
     {
         $query = "
 			SELECT tst_solutions.solution_id, tst_solutions.pass, tst_solutions.active_fi, tst_solutions.question_fi, 
@@ -201,7 +198,7 @@ class ilAssFileUploadUploadsExporter
         return $solutionData;
     }
     
-    private function getParticipantData($solutionData)
+    private function getParticipantData($solutionData) : ilTestParticipantData
     {
         $activeIds = array();
             
@@ -252,7 +249,7 @@ class ilAssFileUploadUploadsExporter
         }
     }
     
-    private function getPassSubDirName($pass)
+    private function getPassSubDirName($pass) : string
     {
         return $this->lng->txt('pass') . '_' . ($pass + 1);
     }
@@ -276,19 +273,19 @@ class ilAssFileUploadUploadsExporter
         ilFileUtils::delDir($this->tempDirPath);
     }
     
-    public function getFinalZipFilePath()
+    public function getFinalZipFilePath() : string
     {
         return $this->finalZipFilePath;
     }
     
-    public function getDispoZipFileName()
+    public function getDispoZipFileName() : string
     {
         return ilFileUtils::getASCIIFilename(
             $this->mainFolderName . self::ZIP_FILE_EXTENSION
         );
     }
     
-    public function getZipFileMimeType()
+    public function getZipFileMimeType() : string
     {
         return self::ZIP_FILE_MIME_TYPE;
     }

@@ -51,7 +51,7 @@ class ilTestPlayerNavButton extends ilLinkButton
     /**
      * @return string
      */
-    public function getNextCommand()
+    public function getNextCommand() : string
     {
         return $this->nextCommand;
     }

@@ -37,9 +37,6 @@ class ilAssLacQuestionProvider
         $this->question = $question;
     }
 
-    /**
-     * @return iQuestionCondition
-     */
     public function getQuestion()
     {
         if ($this->question === null && $this->questionId) {

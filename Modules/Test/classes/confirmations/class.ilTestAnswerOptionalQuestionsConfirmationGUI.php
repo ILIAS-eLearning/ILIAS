@@ -34,7 +34,7 @@ class ilTestAnswerOptionalQuestionsConfirmationGUI extends ilConfirmationGUI
     /**
      * @return string
      */
-    public function getCancelCmd()
+    public function getCancelCmd() : ?string
     {
         return $this->cancelCmd;
     }
@@ -50,7 +50,7 @@ class ilTestAnswerOptionalQuestionsConfirmationGUI extends ilConfirmationGUI
     /**
      * @return string
      */
-    public function getConfirmCmd()
+    public function getConfirmCmd() : ?string
     {
         return $this->confirmCmd;
     }
@@ -70,7 +70,7 @@ class ilTestAnswerOptionalQuestionsConfirmationGUI extends ilConfirmationGUI
         $this->setConfirm($this->lng->txt('proceed'), $this->getConfirmCmd());
     }
     
-    private function buildHeaderText($isFixedTest)
+    private function buildHeaderText($isFixedTest) : string
     {
         if ($isFixedTest) {
             return $this->lng->txt('tst_optional_questions_confirmation_fixed_test');

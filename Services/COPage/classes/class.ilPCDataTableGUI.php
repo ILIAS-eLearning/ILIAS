@@ -20,6 +20,7 @@
  */
 class ilPCDataTableGUI extends ilPCTableGUI
 {
+    protected \ILIAS\HTTP\Services $http;
     protected ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
@@ -37,6 +38,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         $this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
         $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->http = $DIC->http();
     }
 
     /**
@@ -293,7 +295,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         // handle input data
         $data = array();
-        foreach ($_POST as $k => $content) {
+        $post = $this->http->request()->getParsedBody();
+        foreach ($post as $k => $content) {
             if (substr($k, 0, 5) != "cell_") {
                 continue;
             }

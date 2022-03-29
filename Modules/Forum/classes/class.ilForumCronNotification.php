@@ -113,7 +113,7 @@ class ilForumCronNotification extends ilCronJob
         $cj_start_date = date('Y-m-d H:i:s');
 
         if ($last_run_datetime !== null &&
-            checkDate(
+            checkdate(
                 (int) date('m', strtotime($last_run_datetime)),
                 (int) date('d', strtotime($last_run_datetime)),
                 (int) date('Y', strtotime($last_run_datetime))
@@ -356,7 +356,7 @@ class ilForumCronNotification extends ilCronJob
         $types = ['integer', 'timestamp', 'timestamp'];
         $values = [1, $threshold_date, $threshold_date];
 
-        $res = $this->ilDB->queryf(
+        $res = $this->ilDB->queryF(
             $this->createForumPostSql($condition),
             $types,
             $values
@@ -378,7 +378,7 @@ class ilForumCronNotification extends ilCronJob
         $types = ['integer', 'integer', 'integer', 'timestamp'];
         $values = [ilForumNotificationEvents::UPDATED, 0, 1, $threshold_date];
 
-        $res = $this->ilDB->queryf(
+        $res = $this->ilDB->queryF(
             $this->createForumPostSql($condition),
             $types,
             $values
@@ -400,7 +400,7 @@ class ilForumCronNotification extends ilCronJob
         $types = ['integer', 'integer', 'integer', 'timestamp'];
         $values = [ilForumNotificationEvents::CENSORED, 1, 1, $threshold_date];
 
-        $res = $this->ilDB->queryf(
+        $res = $this->ilDB->queryF(
             $this->createForumPostSql($condition),
             $types,
             $values
@@ -422,7 +422,7 @@ class ilForumCronNotification extends ilCronJob
         $types = ['integer', 'integer', 'integer', 'timestamp'];
         $values = [ilForumNotificationEvents::UNCENSORED, 0, 1, $threshold_date];
 
-        $res = $this->ilDB->queryf(
+        $res = $this->ilDB->queryF(
             $this->createForumPostSql($condition),
             $types,
             $values

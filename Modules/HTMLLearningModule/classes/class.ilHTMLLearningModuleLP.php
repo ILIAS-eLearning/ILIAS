@@ -19,9 +19,9 @@
  */
 class ilHTMLLearningModuleLP extends ilObjectLP
 {
-    public static function getDefaultModes(bool $a_lp_active) : array
+    public static function getDefaultModes(bool $lp_active) : array
     {
-        if (!$a_lp_active) {
+        if (!$lp_active) {
             return array(
                 ilLPObjSettings::LP_MODE_DEACTIVATED
             );

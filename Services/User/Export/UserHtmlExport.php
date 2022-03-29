@@ -26,7 +26,10 @@ class UserHtmlExport
     {
     }
 
-    public function exportUserImages(string $dir, array $user_ids) : void // Missing array type.
+    /**
+     * @param int[]  $user_ids
+     */
+    public function exportUserImages(string $dir, array $user_ids) : void
     {
         $base_dir = $dir . "/data/" . CLIENT_ID . "/usr_images";
         ilFileUtils::makeDirParents($base_dir);

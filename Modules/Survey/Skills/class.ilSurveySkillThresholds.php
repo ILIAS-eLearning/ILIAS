@@ -21,6 +21,7 @@ class ilSurveySkillThresholds
 {
     protected ilObjSurvey $survey;
     protected ilDBInterface $db;
+    /** @var array<int, array<int, int>>  */
     protected array $threshold;
 
     public function __construct(ilObjSurvey $a_survey)
@@ -41,11 +42,13 @@ class ilSurveySkillThresholds
             " WHERE survey_id = " . $ilDB->quote($this->survey->getId(), "integer")
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $this->threshold[$rec['level_id']][$rec['tref_id']] =
-                $rec['threshold'];
+            $this->threshold[(int) $rec['level_id']][(int) $rec['tref_id']] = (int) $rec['threshold'];
         }
     }
 
+    /**
+     * @return array<int, array<int, int>>
+     */
     public function getThresholds() : array
     {
         return $this->threshold;
@@ -56,7 +59,7 @@ class ilSurveySkillThresholds
         int $a_tref_id,
         int $a_level_id,
         int $a_threshold
-    ) {
+    ) : void {
         $ilDB = $this->db;
         
         $ilDB->replace(

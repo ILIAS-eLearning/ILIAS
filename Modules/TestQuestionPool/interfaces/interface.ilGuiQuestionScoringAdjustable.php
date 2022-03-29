@@ -50,7 +50,7 @@ interface ilGuiQuestionScoringAdjustable
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionQuestionPostVars();
+    public function getAfterParticipationSuppressionQuestionPostVars() : array;
 
     /**
      * Returns an html string containing a question specific representation of the answers so far
@@ -60,5 +60,5 @@ interface ilGuiQuestionScoringAdjustable
      *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers);
+    public function getAggregatedAnswersView($relevant_answers) : string;
 }

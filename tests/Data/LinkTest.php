@@ -8,6 +8,10 @@ use PHPUnit\Framework\TestCase;
  */
 class DataLinkTest extends TestCase
 {
+    private \ILIAS\Data\Factory $f;
+    private string $label;
+    private \ILIAS\Data\URI $url;
+
     protected function setUp() : void
     {
         $this->f = new ILIAS\Data\Factory();
@@ -25,7 +29,7 @@ class DataLinkTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testValues(Link $link)
+    public function testValues(Link $link) : void
     {
         $this->assertEquals(
             $this->label,

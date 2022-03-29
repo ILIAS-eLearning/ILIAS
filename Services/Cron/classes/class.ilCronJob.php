@@ -260,7 +260,6 @@ abstract class ilCronJob
 
     /**
      * Is to be activated on "installation", does only work for ILIAS core cron jobs
-     * @return bool
      */
     abstract public function hasAutoActivation() : bool;
 

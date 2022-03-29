@@ -14,30 +14,25 @@ class assErrorTextTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
+        chdir(dirname(__FILE__));
+        chdir('../../../');
 
-            parent::setUp();
+        parent::setUp();
 
-            require_once './Services/UICore/classes/class.ilCtrl.php';
-            $ilCtrl_mock = $this->createMock('ilCtrl');
-            $ilCtrl_mock->expects($this->any())->method('saveParameter');
-            $ilCtrl_mock->expects($this->any())->method('saveParameterByClass');
-            $this->setGlobalVariable('ilCtrl', $ilCtrl_mock);
+        require_once './Services/UICore/classes/class.ilCtrl.php';
+        $ilCtrl_mock = $this->createMock('ilCtrl');
+        $ilCtrl_mock->expects($this->any())->method('saveParameter');
+        $ilCtrl_mock->expects($this->any())->method('saveParameterByClass');
+        $this->setGlobalVariable('ilCtrl', $ilCtrl_mock);
 
-            require_once './Services/Language/classes/class.ilLanguage.php';
-            $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
-            //$lng_mock->expects( $this->once() )->method( 'txt' )->will( $this->returnValue('Test') );
-            $this->setGlobalVariable('lng', $lng_mock);
+        require_once './Services/Language/classes/class.ilLanguage.php';
+        $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
+        //$lng_mock->expects( $this->once() )->method( 'txt' )->will( $this->returnValue('Test') );
+        $this->setGlobalVariable('lng', $lng_mock);
 
-            $this->setGlobalVariable('ilias', $this->getIliasMock());
-            $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
-            $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
-        }
+        $this->setGlobalVariable('ilias', $this->getIliasMock());
+        $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
+        $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
     }
 
     public function test_instantiateObjectSimple()
@@ -148,18 +143,17 @@ class assErrorTextTest extends assBaseTestCase
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
         $instance = new assErrorText();
 
-        $errordata = array('passages' => array( 0 => 'drei Matrosen'), 'words' => array());
-        require_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
-        $expected = new assAnswerErrorText($errordata['passages'][0], '', 0);
+        $errordata = array('passages' => array( 0 => 'zwei Matrosen'), 'words' => array());
+        $expected = array('passages' => array( 0 => 'drei Matrosen'), 'words' => array());
         $instance->setErrorData($expected);
 
         // Act
         $instance->setErrorData($errordata);
 
         $all_errors = $instance->getErrorData();
+        /** @var assAnswerErrorText $actual */
         $actual = $all_errors[0];
-
         // Assert
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($errordata['passages'][0], $actual->text_wrong);
     }
 }

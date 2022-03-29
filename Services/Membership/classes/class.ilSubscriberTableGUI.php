@@ -27,7 +27,7 @@
  */
 class ilSubscriberTableGUI extends ilTable2GUI
 {
-    protected $subscribers = array();
+    protected array $subscribers = array();
 
     protected ilObject $rep_object;
 
@@ -70,7 +70,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt('application_date'), 'sub_time', "60%");
         }
         $this->addColumn('', 'mail', '20%');
-        if ($this->getRepositoryObject()->getType() == "sess") {
+        if ($this->getRepositoryObject()->getType() === "sess") {
             $this->addMultiCommand('confirmAssignSubscribers', $this->lng->txt('sess_accept_request'));
         } else {
             $this->addMultiCommand('confirmAssignSubscribers', $this->lng->txt('assign'));
@@ -115,7 +115,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
             return self::$all_columns;
         }
 
-        if ($this->getRepositoryObject()->getType() == 'sess') {
+        if ($this->getRepositoryObject()->getType() === 'sess') {
             self::$all_columns['login'] = [
                 'txt' => $this->lng->txt('login'),
                 'width' => '15%',
@@ -162,8 +162,10 @@ class ilSubscriberTableGUI extends ilTable2GUI
                     break;
 
                 case 'birthday':
-                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'],
-                        IL_CAL_DATE)) : $this->lng->txt('no_date');
+                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate(
+                        $a_set['birthday'],
+                        IL_CAL_DATE
+                    )) : $this->lng->txt('no_date');
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', $a_set[$field]);
                     $this->tpl->parseCurrentBlock();
@@ -175,8 +177,10 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable(
+                        'VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
 
@@ -188,8 +192,10 @@ class ilSubscriberTableGUI extends ilTable2GUI
             }
         }
 
-        $this->tpl->setVariable('VAL_SUBTIME',
-            ilDatePresentation::formatDate(new ilDateTime($a_set['sub_time'], IL_CAL_UNIX)));
+        $this->tpl->setVariable(
+            'VAL_SUBTIME',
+            ilDatePresentation::formatDate(new ilDateTime($a_set['sub_time'], IL_CAL_UNIX))
+        );
         $this->showActionLinks($a_set);
         if ($this->getShowSubject()) {
             if (strlen($a_set['subject'])) {
@@ -239,7 +245,8 @@ class ilSubscriberTableGUI extends ilTable2GUI
      * read data
      * @access protected
      * @param int[] subscriber ids
-     * @return
+     * @return void
+     * @throws ilDateTimeException
      */
     public function readSubscriberData(array $a_subscriber_ids) : void
     {
@@ -253,19 +260,21 @@ class ilSubscriberTableGUI extends ilTable2GUI
         $this->determineOffsetAndOrder();
 
         $additional_fields = $this->getSelectedColumns();
-        unset($additional_fields["firstname"]);
-        unset($additional_fields["lastname"]);
-        unset($additional_fields["last_login"]);
-        unset($additional_fields["access_until"]);
-        unset($additional_fields['org_units']);
+        unset(
+            $additional_fields["firstname"],
+            $additional_fields["lastname"],
+            $additional_fields["last_login"],
+            $additional_fields["access_until"],
+            $additional_fields['org_units']
+        );
 
         $udf_ids = $usr_data_fields = $odf_ids = array();
         foreach ($additional_fields as $field) {
-            if (substr($field, 0, 3) == 'udf') {
+            if (strpos($field, 'udf') === 0) {
                 $udf_ids[] = substr($field, 4);
                 continue;
             }
-            if (substr($field, 0, 3) == 'odf') {
+            if (strpos($field, 'odf') === 0) {
                 $odf_ids[] = substr($field, 4);
                 continue;
             }
@@ -303,7 +312,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
         }
 
         // Custom user data fields
-        if ($udf_ids) {
+        if (is_array($udf_ids)) {
             $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
             foreach ($data as $usr_id => $fields) {
                 if (!$this->checkAcceptance($usr_id)) {
@@ -316,7 +325,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
             }
         }
         // Object specific user data fields
-        if ($odf_ids) {
+        if (is_array($odf_ids)) {
             $data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
             foreach ($data as $usr_id => $fields) {
                 // #7264: as we get data for all course members filter against user data

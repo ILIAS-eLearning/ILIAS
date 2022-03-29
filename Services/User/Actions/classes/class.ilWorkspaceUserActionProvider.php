@@ -38,7 +38,10 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
         return "pwsp";
     }
 
-    public function getActionTypes() : array // Missing array type.
+    /**
+     * @return array<string,string>
+     */
+    public function getActionTypes() : array
     {
         return array(
             "shared_res" => $this->lng->txt("wsp_shared_resources")

@@ -60,13 +60,6 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
      */
     private $position = 0;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $parentRefId)
     {
         $this->setId('tst_qst_lst_' . $parentRefId);

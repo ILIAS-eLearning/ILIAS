@@ -136,7 +136,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         }
         self::$export_allowed = ilPrivacySettings::getInstance()->checkExportAccess($this->getRepositoryObject()->getRefId());
 
-        self::$confirmation_required = ($this->getRepositoryObject()->getType() == 'crs')
+        self::$confirmation_required = ($this->getRepositoryObject()->getType() === 'crs')
             ? ilPrivacySettings::getInstance()->courseConfirmationRequired()
             : ilPrivacySettings::getInstance()->groupConfirmationRequired();
 
@@ -148,11 +148,11 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
     protected function showActionLinks($a_set) : void
     {
         $loc_enabled = (
-            $this->getRepositoryObject()->getType() == 'crs' and
-            $this->getRepositoryObject()->getViewMode() == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE
+            $this->getRepositoryObject()->getType() === 'crs' and
+            $this->getRepositoryObject()->getViewMode() === ilCourseConstants::IL_CRS_VIEW_OBJECTIVE
         );
 
-        if (!self::$has_odf_definitions and !$loc_enabled) {
+        if (!self::$has_odf_definitions && !$loc_enabled) {
             $this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
             $this->tpl->setCurrentBlock('link');
             $this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTarget($this->parent_obj, 'editMember'));

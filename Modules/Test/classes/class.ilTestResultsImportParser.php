@@ -21,6 +21,13 @@ class ilTestResultsImportParser extends ilSaxParser
     private $user_criteria_field;
     private $user_criteria_type;
     private bool $user_criteria_checked = false;
+    /**
+     * @var false
+     */
+    private bool $sametag;
+    private string $characterbuffer;
+    private $depth;
+    private $qti_element;
 
     protected $src_pool_def_id_mapping;
 
@@ -39,7 +46,7 @@ class ilTestResultsImportParser extends ilSaxParser
     }
 
     /**
-     * @return mixed[]
+     * @return array
      */
     public function getQuestionIdMapping() : array
     {
@@ -47,7 +54,7 @@ class ilTestResultsImportParser extends ilSaxParser
     }
 
     /**
-     * @param mixed[] $question_id_mapping
+     * @param array $question_id_mapping
      */
     public function setQuestionIdMapping(array $question_id_mapping) : void
     {
@@ -55,7 +62,7 @@ class ilTestResultsImportParser extends ilSaxParser
     }
 
     /**
-     * @return mixed[]
+     * @return array
      */
     public function getSrcPoolDefIdMapping() : array
     {
@@ -63,7 +70,7 @@ class ilTestResultsImportParser extends ilSaxParser
     }
 
     /**
-     * @param mixed[] $src_pool_def_id_mapping
+     * @param array $src_pool_def_id_mapping
      */
     public function setSrcPoolDefIdMapping(array $src_pool_def_id_mapping) : void
     {
@@ -292,7 +299,7 @@ class ilTestResultsImportParser extends ilSaxParser
         return null;
     }
 
-    private function fetchLastFinishedPass($attribs)
+    private function fetchLastFinishedPass($attribs) : ?int
     {
         if (isset($attribs['last_finished_pass'])) {
             return $attribs['last_finished_pass'];
@@ -305,7 +312,7 @@ class ilTestResultsImportParser extends ilSaxParser
         return null;
     }
 
-    private function fetchLastStartedPass($attribs)
+    private function fetchLastStartedPass($attribs) : ?int
     {
         if (isset($attribs['last_started_pass'])) {
             return $attribs['last_started_pass'];

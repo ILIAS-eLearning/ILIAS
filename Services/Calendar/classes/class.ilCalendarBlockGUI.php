@@ -584,7 +584,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
     public function setSeed() : void
     {
-        $_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"] = $this->initSeedFromQuery();
+        ilSession::set(
+            "il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed",
+            $this->initSeedFromQuery()
+        );
         if ($this->ctrl->isAsynch()) {
             echo $this->getHTML();
             exit;

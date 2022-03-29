@@ -1069,13 +1069,15 @@ class ilObjRoleGUI extends ilObjectGUI
 
     public function mailToRoleObject() : void
     {
+        $mail_roles = (array) (ilSession::get('mail_roles') ?? []);
+
         $obj_ids = ilObject::_getIdsForTitle($this->object->getTitle(), $this->object->getType());
         if (count($obj_ids) > 1) {
-            $_SESSION['mail_roles'][] = '#il_role_' . $this->object->getId();
+            $mail_roles[] = '#il_role_' . $this->object->getId();
         } else {
-            $_SESSION['mail_roles'][] = (new \ilRoleMailboxAddress($this->object->getId()))->value();
+            $mail_roles[] = (new \ilRoleMailboxAddress($this->object->getId()))->value();
         }
-
+        ilSession::set('mail_roles', $mail_roles);
         $script = ilMailFormCall::getRedirectTarget($this, 'userassignment', array(), array('type' => 'role'));
         ilUtil::redirect($script);
     }

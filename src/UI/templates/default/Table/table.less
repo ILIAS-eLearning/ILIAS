@@ -6,7 +6,7 @@
     justify-content: space-between;
 
     > div {
-        padding: @padding-large-vertical;
+        padding: @il-padding-large-vertical;
     }
 
     .btn-default:not(.disabled):not(.engaged)  {
@@ -34,8 +34,8 @@
     background-color: @il-main-dark-bg;
     border-top: @il-table-presentation-rowborder-top;
     margin: 0;
-    padding-top: @padding-large-vertical;
-    padding-bottom: @padding-large-vertical;
+    padding-top: @il-padding-large-vertical;
+    padding-bottom: @il-padding-large-vertical;
     position: relative;
     white-space: nowrap;
 
@@ -52,7 +52,7 @@
 
     .il-table-presentation-row-controls {
         width: @il-table-presentation-rowcontrol-colwidth;
-        padding-left: @padding-small-horizontal;
+        padding-left: @il-padding-small-horizontal;
         .il-table-presentation-row-controls-collapser {
             display: none; /*initially hidden*/
         }
@@ -89,13 +89,13 @@
         //Using row mixin, to make this responsive
         .make-row;
         display: none; /*initially hidden*/
-        margin-top:  @padding-large-vertical;
+        margin-top:  @il-margin-large-vertical;
         margin-left: 0;
         margin-right: 0;
 
         .il-table-presentation-desclist {
             //Using column mixin, to make this responsive
-            padding-right: @padding-small-horizontal;
+            padding-right: @il-padding-small-horizontal;
             &.desclist-column {
                 .make-sm-column(7);
                 padding-left: 0;
@@ -106,7 +106,7 @@
             //Using column mixin, to make this responsive
             .make-sm-column(5);
             .il-table-presentation-actions {
-                margin-bottom: @padding-large-vertical;
+                margin-bottom: @il-margin-large-vertical;
             }
 
             .il-table-presentation-fields {

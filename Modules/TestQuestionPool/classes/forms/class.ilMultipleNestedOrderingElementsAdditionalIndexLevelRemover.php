@@ -17,7 +17,7 @@ class ilMultipleNestedOrderingElementsAdditionalIndexLevelRemover implements ilF
         return $this->fetchIndentationsFromSubmitValues($submitValues);
     }
     
-    protected function hasContentSubLevel($values)
+    protected function hasContentSubLevel($values) : bool
     {
         if (!is_array($values) || !isset($values['content'])) {
             return false;
@@ -26,7 +26,7 @@ class ilMultipleNestedOrderingElementsAdditionalIndexLevelRemover implements ilF
         return true;
     }
     
-    protected function hasIndentationsSubLevel($values)
+    protected function hasIndentationsSubLevel($values) : bool
     {
         if (!is_array($values) || !isset($values['indentation'])) {
             return false;
@@ -35,7 +35,7 @@ class ilMultipleNestedOrderingElementsAdditionalIndexLevelRemover implements ilF
         return true;
     }
     
-    protected function fetchIndentationsFromSubmitValues($values)
+    protected function fetchIndentationsFromSubmitValues($values) : array
     {
         if ($this->hasContentSubLevel($values) && $this->hasIndentationsSubLevel($values)) {
             $actualValues = array();

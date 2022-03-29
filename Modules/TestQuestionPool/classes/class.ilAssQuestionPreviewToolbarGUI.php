@@ -22,7 +22,12 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
     
     public function build()
     {
-        $this->addFormButton($this->lng->txt('qpl_reset_preview'), $this->getResetPreviewCmd(), '', true);
+        $button = \ilSubmitButton::getInstance();
+        $button->setCaption("qpl_reset_preview");
+        $button->setCommand($this->getResetPreviewCmd());
+        $button->setOmitPreventDoubleSubmission(true);
+        $this->addButtonInstance($button);
+        //$this->addFormButton($this->lng->txt('qpl_reset_preview'), $this->getResetPreviewCmd(), '', true);
     }
 
     public function setResetPreviewCmd($resetPreviewCmd)

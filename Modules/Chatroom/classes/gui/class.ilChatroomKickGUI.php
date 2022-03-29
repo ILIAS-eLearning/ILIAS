@@ -13,7 +13,7 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
     {
         $data = new stdClass();
 
-        $data->user = $this->gui->object->getPersonalInformation($chat_user);
+        $data->user = $this->gui->getObject()->getPersonalInformation($chat_user);
         $data->userToKick = $messageString;
         $data->timestamp = date('c');
         $data->type = 'kick';
@@ -25,7 +25,7 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission(['read', 'moderate']);
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $userToKick = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());
@@ -44,7 +44,7 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 
     public function main() : void
     {
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $userToKick = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());
@@ -66,11 +66,11 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
      */
     public function sub() : void
     {
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         if ($room) {
             $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
             if (
-                !ilChatroom::checkUserPermissions(['read', 'moderate'], $this->gui->ref_id) &&
+                !ilChatroom::checkUserPermissions(['read', 'moderate'], $this->gui->getRefId()) &&
                 !$room->isOwnerOfPrivateRoom(
                     $this->ilUser->getId(),
                     $subRoomId

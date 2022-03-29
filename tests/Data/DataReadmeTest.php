@@ -31,7 +31,7 @@ class DataReadmeTest extends TestCase
         ini_set("assert.warning", $this->old_warninig);
     }
 
-    public function testReadme()
+    public function testReadme() : void
     {
         ob_start();
         require_once(__DIR__ . "/../../src/Data/README.md");

@@ -4,7 +4,7 @@
 
 namespace ILIAS\Survey\PrintView;
 
-use \ILIAS\Export;
+use ILIAS\Export;
 use ilPropertyFormGUI;
 use ILIAS\Survey\Page\PageRenderer;
 
@@ -59,7 +59,7 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
     public function getTemplateInjectors() : array
     {
         return [
-            function ($tpl) {
+            static function (\ilGlobalTemplate $tpl) : void {
                 //$tpl add js/css
             }
         ];
@@ -118,7 +118,7 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
         foreach ($this->survey->getSurveyQuestions() as $qdata) {
             $q_eval = \SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
 
-            if ($selection != "all" && !in_array($qdata["question_id"], $qids)) {
+            if ($selection !== "all" && !in_array($qdata["question_id"], $qids)) {
                 continue;
             }
 

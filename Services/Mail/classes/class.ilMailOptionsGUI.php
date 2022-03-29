@@ -15,8 +15,6 @@ class ilMailOptionsGUI
     private ilLanguage $lng;
     private ilSetting $settings;
     private ilObjUser $user;
-    private ilFormatMail $umail;
-    private ilMailbox $mbox;
     protected GlobalHttpState $http;
     protected Refinery $refinery;
     protected ilMailOptionsFormGUI $form;
@@ -40,8 +38,6 @@ class ilMailOptionsGUI
         $this->user = $user ?? $DIC->user();
         $this->http = $http ?? $DIC->http();
         $this->refinery = $refinery ?? $DIC->refinery();
-        $this->umail = $mail ?? new ilFormatMail($this->user->getId());
-        $this->mbox = $malBox ?? new ilMailbox($this->user->getId());
 
         $this->lng->loadLanguageModule('mail');
         $this->ctrl->saveParameter($this, 'mobj_id');

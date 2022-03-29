@@ -250,7 +250,7 @@ class SettingsFormGUI
 
         // additional info only with multiple references
         $act_obj_info = $act_ref_info = "";
-        if (sizeof(\ilObject::_getAllReferences($survey->getId())) > 1) {
+        if (count(\ilObject::_getAllReferences($survey->getId())) > 1) {
             $act_obj_info = ' ' . $lng->txt('rep_activation_online_object_info');
             $act_ref_info = $lng->txt('rep_activation_access_ref_info');
         }
@@ -796,12 +796,10 @@ class SettingsFormGUI
         if ($form->getInput("rmd")) {
             $rmd_start = $form->getItemByPostVar("rmd_start")->getDate();
             $rmd_end = $form->getItemByPostVar("rmd_end")->getDate();
-            if ($rmd_end) {
-                if ($rmd_start->get(IL_CAL_UNIX) > $rmd_end->get(IL_CAL_UNIX)) {
-                    $tmp = $rmd_start;
-                    $rmd_start = $rmd_end;
-                    $rmd_end = $tmp;
-                }
+            if ($rmd_end && $rmd_start->get(IL_CAL_UNIX) > $rmd_end->get(IL_CAL_UNIX)) {
+                $tmp = $rmd_start;
+                $rmd_start = $rmd_end;
+                $rmd_end = $tmp;
             }
             $survey->setReminderStatus(true);
             $survey->setReminderStart($rmd_start);
@@ -840,7 +838,7 @@ class SettingsFormGUI
         }
 
         // #10055
-        if ($form->getInput('online') && count($survey->questions) == 0) {
+        if ($form->getInput('online') && count($survey->questions) === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("cannot_switch_to_online_no_questions"), true);
         } else {
             $survey->setOfflineStatus(!$form->getInput('online'));

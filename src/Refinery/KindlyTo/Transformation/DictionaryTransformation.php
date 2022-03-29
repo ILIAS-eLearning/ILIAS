@@ -43,7 +43,7 @@ class DictionaryTransformation implements Transformation
                 );
             }
             $transformedValue = $this->transformation->transform($value);
-            $result[(string)$key] = $transformedValue;
+            $result[(string) $key] = $transformedValue;
         }
         return $result;
     }

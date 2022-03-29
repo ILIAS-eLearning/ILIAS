@@ -31,7 +31,7 @@ abstract class ilAssLacAbstractComposite implements ilAssLacCompositeInterface
      * Describes a Composite tree Structure as human readable string
      * @return string
      */
-    public function describe()
+    public function describe() : string
     {
         $description = "";
         if (\count($this->nodes) > 0) {

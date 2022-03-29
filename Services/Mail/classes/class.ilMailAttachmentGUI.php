@@ -87,7 +87,7 @@ class ilMailAttachmentGUI
             $sizeOfSelectedFiles > $this->mfile->getAttachmentsTotalSizeLimit()
         ) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_max_size_attachments_total_error') . ' ' .
-            ilUtil::formatSize($this->mfile->getAttachmentsTotalSizeLimit()));
+            ilUtil::formatSize((int) $this->mfile->getAttachmentsTotalSizeLimit()));
             $this->showAttachments();
             return;
         }

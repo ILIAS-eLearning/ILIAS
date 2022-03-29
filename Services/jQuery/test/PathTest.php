@@ -22,11 +22,6 @@ use PHPUnit\Framework\TestCase;
  */
 class PathTest extends TestCase
 {
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
@@ -34,7 +29,7 @@ class PathTest extends TestCase
     /**
      * Check if we got non empty paths
      */
-    public function testPath()
+    public function testPath() : void
     {
         $this->assertNotEquals(
             "",

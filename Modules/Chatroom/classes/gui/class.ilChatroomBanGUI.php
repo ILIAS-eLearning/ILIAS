@@ -52,7 +52,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
             $this->ilCtrl->redirect($this->gui, 'ban-show');
         }
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $room->unbanUser($users);
@@ -74,7 +74,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 
         $this->gui->switchToVisibleMode();
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $table = new ilBannedUsersTableGUI($this->gui, 'ban-show');
@@ -100,14 +100,14 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 
         $table->setData($data);
 
-        $this->gui->tpl->setVariable('ADM_CONTENT', $table->getHTML());
+        $this->mainTpl->setVariable('ADM_CONTENT', $table->getHTML());
     }
 
     public function active() : void
     {
         $this->redirectIfNoPermission(['read', 'moderate']);
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $userToBan = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());

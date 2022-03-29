@@ -38,7 +38,7 @@ class ilMediaPoolDataSet extends ilDataSet
         return array("5.1.0", "4.1.0");
     }
     
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "https://www.ilias.de/xml/Modules/MediaPool/" . $a_entity;
     }
@@ -60,7 +60,7 @@ class ilMediaPoolDataSet extends ilDataSet
         ?ilObjMediaPool $a_mep,
         string $a_lang = ""
     ) : void {
-        if ($a_mep != null) {
+        if ($a_mep !== null) {
             $this->transl_into = true;
             $this->transl_into_mep = $a_mep;
             $this->transl_lang = $a_lang;
@@ -90,7 +90,7 @@ class ilMediaPoolDataSet extends ilDataSet
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         // mep
-        if ($a_entity == "mep") {
+        if ($a_entity === "mep") {
             switch ($a_version) {
                 case "4.1.0":
                     return array(
@@ -113,7 +113,7 @@ class ilMediaPoolDataSet extends ilDataSet
         }
     
         // mep_tree
-        if ($a_entity == "mep_tree") {
+        if ($a_entity === "mep_tree") {
             switch ($a_version) {
                 case "4.1.0":
                 case "5.1.0":
@@ -137,7 +137,7 @@ class ilMediaPoolDataSet extends ilDataSet
         $ilDB = $this->db;
 
         // mep_data
-        if ($a_entity == "mep") {
+        if ($a_entity === "mep") {
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, title, description, " .
@@ -175,7 +175,7 @@ class ilMediaPoolDataSet extends ilDataSet
         }
 
         // mep_tree
-        if ($a_entity == "mep_tree") {
+        if ($a_entity === "mep_tree") {
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT mep_id, child " .
@@ -325,25 +325,23 @@ class ilMediaPoolDataSet extends ilDataSet
                             break;
 
                     }
-                } else {
-                    if ($a_rec["Type"] == "pg") {
-                        $imp_id = explode("_", $a_rec["ImportId"]);
-                        if ($imp_id[0] == "il" &&
-                            (int) $imp_id[1] == (int) IL_INST_ID &&
-                            $imp_id[2] == "pg"
-                        ) {
-                            $pg_id = $imp_id[3];
-                            $pool = ilMediaPoolItem::getPoolForItemId($pg_id);
-                            $pool = current($pool);
-                            if ($pool == $this->getTranslationMep()->getId()) {
-                                $a_mapping->addMapping("Modules/MediaPool", "pg", $a_rec["Child"], $pg_id);
-                                $a_mapping->addMapping(
-                                    "Services/COPage",
-                                    "pg",
-                                    "mep:" . $a_rec["Child"],
-                                    "mep:" . $pg_id
-                                );
-                            }
+                } elseif ($a_rec["Type"] === "pg") {
+                    $imp_id = explode("_", $a_rec["ImportId"]);
+                    if ($imp_id[0] === "il" &&
+                        (int) $imp_id[1] == (int) IL_INST_ID &&
+                        $imp_id[2] === "pg"
+                    ) {
+                        $pg_id = $imp_id[3];
+                        $pool = ilMediaPoolItem::getPoolForItemId($pg_id);
+                        $pool = current($pool);
+                        if ($pool == $this->getTranslationMep()->getId()) {
+                            $a_mapping->addMapping("Modules/MediaPool", "pg", $a_rec["Child"], $pg_id);
+                            $a_mapping->addMapping(
+                                "Services/COPage",
+                                "pg",
+                                "mep:" . $a_rec["Child"],
+                                "mep:" . $pg_id
+                            );
                         }
                     }
                 }

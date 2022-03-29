@@ -35,7 +35,7 @@ class ilTestSkillLevelThresholdExporter
     /**
      * @return ilXmlWriter
      */
-    public function getXmlWriter()
+    public function getXmlWriter() : ?ilXmlWriter
     {
         return $this->xmlWriter;
     }
@@ -51,7 +51,7 @@ class ilTestSkillLevelThresholdExporter
     /**
      * @return ilAssQuestionSkillAssignmentList
      */
-    public function getAssignmentList()
+    public function getAssignmentList() : ilAssQuestionSkillAssignmentList
     {
         return $this->assignmentList;
     }
@@ -67,7 +67,7 @@ class ilTestSkillLevelThresholdExporter
     /**
      * @return ilTestSkillLevelThresholdList
      */
-    public function getThresholdList()
+    public function getThresholdList() : ilTestSkillLevelThresholdList
     {
         return $this->thresholdList;
     }

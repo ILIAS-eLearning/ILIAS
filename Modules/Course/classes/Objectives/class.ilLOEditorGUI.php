@@ -202,7 +202,7 @@ class ilLOEditorGUI
 
     protected function returnFromObjectives() : void
     {
-        $_SESSION['objective_mode'] = ilCourseObjectivesGUI::MODE_UNDEFINED;
+        ilSession::set('objective_mode', ilCourseObjectivesGUI::MODE_UNDEFINED);
         $this->listObjectives();
     }
 
@@ -997,8 +997,7 @@ class ilLOEditorGUI
 
     protected function listObjectives() : void
     {
-        $_SESSION['objective_mode'] = ilCourseObjectivesGUI::MODE_UNDEFINED;
-
+        ilSession::set('objective_mode', ilCourseObjectivesGUI::MODE_UNDEFINED);
         $this->tabs->activateSubTab('objectives');
 
         $objectives = ilCourseObjective::_getObjectiveIds(

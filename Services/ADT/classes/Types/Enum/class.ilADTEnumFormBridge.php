@@ -2,9 +2,9 @@
 
 class ilADTEnumFormBridge extends ilADTFormBridge
 {
-    protected $force_radio; // [bool]
-    protected $option_infos = []; // [array]
-    protected $auto_sort = true; // [bool]
+    protected bool $force_radio = false;
+    protected array $option_infos = [];
+    protected bool $auto_sort = true;
 
     protected function isValidADT(ilADT $a_adt) : bool
     {
@@ -20,7 +20,7 @@ class ilADTEnumFormBridge extends ilADTFormBridge
     {
         $this->force_radio = (bool) $a_value;
         if ($this->force_radio) {
-            $this->option_infos = $a_info;
+            $this->option_infos = (array) $a_info;
         }
     }
 
@@ -41,7 +41,7 @@ class ilADTEnumFormBridge extends ilADTFormBridge
             $options = array("" => $this->lng->txt("please_select")) + $options;
         }
 
-        if (!(bool) $this->force_radio) {
+        if (!$this->force_radio) {
             $select = new ilSelectInputGUI($this->getTitle(), $this->getElementId());
 
             $select->setOptions($options);
@@ -73,7 +73,7 @@ class ilADTEnumFormBridge extends ilADTFormBridge
         $field->setValue($this->getADT()->getSelection());
     }
 
-    protected function isActiveForSubItems(mixed $a_parent_option = null) : bool
+    protected function isActiveForSubItems($a_parent_option = null) : bool
     {
         return ($this->getADT()->getSelection() == $a_parent_option);
     }

@@ -15,7 +15,6 @@
 
 /**
  * A FeedItem represents an item in a News Feed.
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilFeedItem
@@ -100,7 +99,7 @@ class ilFeedItem
     }
 
     /**
-     * @param	string	$a_date	Date (yyyy-mm-dd hh:mm:ss)
+     * @param string $a_date Date (yyyy-mm-dd hh:mm:ss)
      */
     public function setDate(string $a_date) : void
     {

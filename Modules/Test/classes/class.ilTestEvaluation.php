@@ -10,9 +10,6 @@
  */
 class ilTestEvaluation
 {
-    /**
-     * @var ilDB
-     */
     protected $db;
 
     /**
@@ -35,7 +32,7 @@ class ilTestEvaluation
      * @param $testId
      * @return array
      */
-    public function getAllActivesPasses()
+    public function getAllActivesPasses() : array
     {
         $query = "
 			SELECT active_fi, pass

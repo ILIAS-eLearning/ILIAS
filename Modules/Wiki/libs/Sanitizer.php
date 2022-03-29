@@ -419,16 +419,16 @@ class Sanitizer
                                 # Pop all elements with an optional close tag
                                 # and see if we find a match below them
                                 $optstack = array();
-                                array_push($optstack, $ot);
+                                $optstack[] = $ot;
                                 while ((($ot = @array_pop($tagstack)) != $t) &&
                                         isset($htmlsingleallowed[$ot])) {
-                                    array_push($optstack, $ot);
+                                    $optstack[] = $ot;
                                 }
                                 if ($t != $ot) {
                                     # No match. Push the optinal elements back again
                                     $badtag = 1;
                                     while ($ot = @array_pop($optstack)) {
-                                        array_push($tagstack, $ot);
+                                        $tagstack[] = $ot;
                                     }
                                 }
                             } else {
@@ -468,10 +468,10 @@ class Sanitizer
                             $text .= "</$t>";
                         } else {
                             if ($t == 'table') {
-                                array_push($tablestack, $tagstack);
+                                $tablestack[] = $tagstack;
                                 $tagstack = array();
                             }
-                            array_push($tagstack, $t);
+                            $tagstack[] = $t;
                         }
 
                         # Replace any variables or template parameters with
@@ -768,7 +768,7 @@ class Sanitizer
             '%' => '.'
         );
 
-        $id = urlencode(Sanitizer::decodeCharReferences(strtr($id, ' ', '_')));
+        $id = urlencode(Sanitizer::decodeCharReferences(str_replace(' ', '_', $id)));
 
         return str_replace(array_keys($replace), array_values($replace), $id);
     }
@@ -1098,9 +1098,8 @@ class Sanitizer
         if (!isset($list)) {
             $list = Sanitizer::setupAttributeWhitelist();
         }
-        return isset($list[$element])
-            ? $list[$element]
-            : array();
+
+        return $list[$element] ?? array();
     }
 
     /**

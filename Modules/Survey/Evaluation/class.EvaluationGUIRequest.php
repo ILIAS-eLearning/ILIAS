@@ -24,7 +24,6 @@ class EvaluationGUIRequest
 {
     use BaseGUIRequest;
 
-    protected \ILIAS\HTTP\Services $http;
     protected array $params;
 
     public function __construct(
@@ -44,13 +43,13 @@ class EvaluationGUIRequest
     public function getShowTable() : bool
     {
         $vw = $this->str("vw");
-        return $vw == "" || is_int(strpos($vw, "t"));
+        return $vw === "" || is_int(strpos($vw, "t"));
     }
 
     public function getShowChart() : bool
     {
         $vw = $this->str("vw");
-        return $vw == "" || is_int(strpos($vw, "c"));
+        return $vw === "" || is_int(strpos($vw, "c"));
     }
 
     public function getVW() : string
@@ -61,13 +60,13 @@ class EvaluationGUIRequest
     public function getShowAbsolute() : bool
     {
         $cp = $this->str("cp");
-        return $cp == "" || is_int(strpos($cp, "a"));
+        return $cp === "" || is_int(strpos($cp, "a"));
     }
 
     public function getShowPercentage() : bool
     {
         $cp = $this->str("cp");
-        return $cp == "" || is_int(strpos($cp, "p"));
+        return $cp === "" || is_int(strpos($cp, "p"));
     }
 
     public function getCP() : string

@@ -24,7 +24,7 @@ class ilTestRandomQuestionCollectionSubsetApplication extends ilTestRandomQuesti
     /**
      * @return int
      */
-    public function getApplicantId()
+    public function getApplicantId() : int
     {
         return $this->applicantId;
     }
@@ -40,7 +40,7 @@ class ilTestRandomQuestionCollectionSubsetApplication extends ilTestRandomQuesti
     /**
      * @return int
      */
-    public function getRequiredAmount()
+    public function getRequiredAmount() : int
     {
         return $this->requiredAmount;
     }
@@ -56,7 +56,7 @@ class ilTestRandomQuestionCollectionSubsetApplication extends ilTestRandomQuesti
     /*
      * returns the fact if required amount is still positive
      */
-    public function hasRequiredAmountLeft()
+    public function hasRequiredAmountLeft() : bool
     {
         return $this->getRequiredAmount() > 0;
     }
@@ -72,7 +72,7 @@ class ilTestRandomQuestionCollectionSubsetApplication extends ilTestRandomQuesti
     /**
      * @return bool
      */
-    public function hasQuestion($questionId)
+    public function hasQuestion($questionId) : bool
     {
         return $this->getQuestion($questionId) !== null;
     }
@@ -80,7 +80,7 @@ class ilTestRandomQuestionCollectionSubsetApplication extends ilTestRandomQuesti
     /**
      * @return ilTestRandomQuestionSetQuestion
      */
-    public function getQuestion($questionId)
+    public function getQuestion($questionId) : ?ilTestRandomQuestionSetQuestion
     {
         foreach ($this as $question) {
             if ($question->getQuestionId() != $questionId) {

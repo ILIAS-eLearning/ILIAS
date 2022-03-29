@@ -33,7 +33,6 @@ class ilDashObjectsTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        //$this->setData($this->getItems());
         $this->setTitle($this->lng->txt(""));
 
         $this->addColumn("", "", "", true);
@@ -41,26 +40,10 @@ class ilDashObjectsTableGUI extends ilTable2GUI
         $this->setEnableNumInfo(false);
         $this->setEnableHeader(false);
 
-        //$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.dash_obj_row.html", "Services/Dashboard");
 
-        //$this->addMultiCommand("", $this->lng->txt(""));
-        //$this->addCommandButton("", $this->lng->txt(""));
         $this->setLimit(9999);
     }
-
-    /**
-     * Get items
-     *
-     * @return array[]
-     */
-    /*
-    protected function getItems()
-    {
-        $items = [];
-
-        return $items;
-    }*/
 
     /**
      * Fill table row

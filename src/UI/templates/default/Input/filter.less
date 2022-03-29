@@ -1,7 +1,7 @@
 .il-filter {
 	.col-md-4, .col-md-6{
-		padding-top: @padding-large-vertical;
-		padding-bottom: @padding-large-vertical;
+		padding-top: @il-padding-large-vertical;
+		padding-bottom: @il-padding-large-vertical;
 		padding-right: 0px;
 	}
 
@@ -51,7 +51,7 @@
 
 .il-filter-bar {
 	display: flex;
-	padding: @padding-small-vertical @padding-large-horizontal;
+	padding: @il-padding-small-vertical @il-padding-large-horizontal;
 
 	.il-filter-bar-opener {
 		flex: 1;
@@ -89,12 +89,12 @@
 
 .il-filter-inputs-active {
 	background-color: @il-main-dark-bg;
-	padding: @padding-small-vertical @padding-base-horizontal;
+	padding: @il-padding-small-vertical @il-padding-base-horizontal;
 
 	span {
 		display: inline-block;
-		margin: @padding-small-vertical @padding-base-horizontal @padding-small-vertical @il-standard-filter-active-inputs-margin-left;
-		padding: @il-standard-filter-active-inputs-padding-vertical @padding-base-horizontal;
+		margin: @il-margin-small-vertical @il-margin-base-horizontal @il-margin-small-vertical @il-standard-filter-active-inputs-margin-left;
+		padding: @il-standard-filter-active-inputs-padding-vertical @il-padding-base-horizontal;
 		float: left;
 		background-color: @il-main-bg;
 		font-size: @il-standard-filter-active-inputs-font-size;
@@ -158,7 +158,7 @@
 	padding: @il-standard-filter-add-input-popover-list-padding;
 
 	li > button {
-		padding: @padding-large-vertical @padding-large-horizontal;
+		padding: @il-padding-large-vertical @il-padding-large-horizontal;
 		display: block;
 		width: @il-standard-filter-add-input-popover-list-button-width;
 	}

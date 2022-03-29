@@ -52,7 +52,7 @@ class SurveyTextQuestion extends SurveyQuestion
             array('integer'),
             array($id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             return $ilDB->fetchAssoc($result);
         } else {
             return array();
@@ -68,7 +68,7 @@ class SurveyTextQuestion extends SurveyQuestion
             array('integer'),
             array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
             $this->setId($data["question_id"]);
             $this->setTitle($data["title"]);
@@ -117,7 +117,7 @@ class SurveyTextQuestion extends SurveyQuestion
         $ilDB = $this->db;
         
         $affectedRows = parent::saveToDb($original_id);
-        if ($affectedRows == 1) {
+        if ($affectedRows === 1) {
             $ilDB->manipulateF(
                 "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
                 array('integer'),

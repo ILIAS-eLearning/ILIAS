@@ -63,7 +63,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
     /**
      * @return boolean
      */
-    public function isEditModeEnabled()
+    public function isEditModeEnabled() : bool
     {
         return $this->editModeEnabled;
     }
@@ -78,7 +78,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
     
     public function build()
     {
-        $this->setFormAction((string) $this->ctrl->getFormAction($this->questionSetConfigGUI));
+        $this->setFormAction($this->ctrl->getFormAction($this->questionSetConfigGUI));
         
         $this->setTitle($this->lng->txt('tst_rnd_quest_set_cfg_general_form'));
         $this->setId('tstRndQuestSetCfgGeneralForm');
@@ -161,7 +161,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         }
     }
 
-    private function fetchValidQuestionAmountConfigModeWithFallbackModePerTest(ilTestRandomQuestionSetConfig $config)
+    private function fetchValidQuestionAmountConfigModeWithFallbackModePerTest(ilTestRandomQuestionSetConfig $config) : ?string
     {
         switch ($config->getQuestionAmountConfigurationMode()) {
             case ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST:
@@ -203,6 +203,6 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
                 break;
         }
         
-        return $this->questionSetConfig->saveToDb($this->testOBJ->getTestId());
+        $this->questionSetConfig->saveToDb();
     }
 }

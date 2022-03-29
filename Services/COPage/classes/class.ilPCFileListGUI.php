@@ -115,14 +115,9 @@ class ilPCFileListGUI extends ilPageContentGUI
         }
     }
 
-    /**
-    * Select file
-    */
-    public function selectFile()
+    public function selectFile() : void
     {
         $ilTabs = $this->tabs;
-        $ilUser = $this->user;
-        
         $this->setTabs();
         $ilTabs->setSubTabActive("cont_file_from_repository");
 

@@ -14,7 +14,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
     /**
      * @return bool
      */
-    public function checkBuildable()
+    public function checkBuildable() : bool
     {
         $questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 

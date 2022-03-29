@@ -44,7 +44,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     const DEFAULT_CMD = 'infoScreen';
 
-    public ?ilObject $object;
+    public ?ilObject $object = null;
     protected ilLTIConsumerAccess $ltiAccess;
 
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
@@ -198,7 +198,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     protected function createNewObject(string $newType, string $title, string $description) : ilObject
     {
-        $classname = "ilObj" . $this->objDefinition->getClassName($newType);
+        $classname = "ilObj" . $this->obj_definition->getClassName($newType);
 
         $newObj = new $classname();
         $newObj->setType($newType);

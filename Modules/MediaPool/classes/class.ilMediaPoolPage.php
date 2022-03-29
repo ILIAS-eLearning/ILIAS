@@ -25,7 +25,7 @@ class ilMediaPoolPage extends ilPageObject
         return "mep";
     }
 
-    public static function deleteAllPagesOfMediaPool($a_media_pool_id)
+    public static function deleteAllPagesOfMediaPool(int $a_media_pool_id) : void
     {
         // @todo deletion process of snippets
     }
@@ -33,7 +33,7 @@ class ilMediaPoolPage extends ilPageObject
     /**
      * Checks whether a page with given title exists
      */
-    public static function exists($a_media_pool_id, $a_title)
+    public static function exists(int $a_media_pool_id, string $a_title) : void
     {
         // @todo: check if we need this
     }
@@ -85,10 +85,8 @@ class ilMediaPoolPage extends ilPageObject
 
             // check whether page exists
             $skip = false;
-            if ($ut == "pg") {
-                if (!ilPageObject::_exists($ct, $us_rec["usage_id"])) {
-                    $skip = true;
-                }
+            if ($ut === "pg" && !ilPageObject::_exists($ct, $us_rec["usage_id"])) {
+                $skip = true;
             }
                 
             if (!$skip) {
@@ -104,8 +102,10 @@ class ilMediaPoolPage extends ilPageObject
             $ilDB->quote($a_id, "integer") . " AND mep_item.type = " . $ilDB->quote("pg", "text");
         $us_set = $ilDB->query($q);
         while ($us_rec = $ilDB->fetchAssoc($us_set)) {
-            $ret[] = array("type" => "mep",
-                "id" => $us_rec["mep_id"]);
+            $ret[] = [
+                "type" => "mep",
+                "id" => (int) $us_rec["mep_id"]
+            ];
         }
         
         return $ret;

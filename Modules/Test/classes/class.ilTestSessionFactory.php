@@ -41,9 +41,6 @@ class ilTestSessionFactory
         $this->testSession = array();
     }
 
-
-
-
     /**
      * Creates and returns an instance of a test sequence
      * that corresponds to the current test mode
@@ -53,7 +50,7 @@ class ilTestSessionFactory
      */
     public function getSession($activeId = null)
     {
-        if ($activeId === null || $this->testSession[$activeId] === null) {
+        if ($activeId === null || $this->testSession === array() || $this->testSession[$activeId] === null) {
             $testSession = $this->getNewTestSessionObject();
 
             $testSession->setRefId($this->testOBJ->getRefId());
@@ -127,7 +124,7 @@ class ilTestSessionFactory
      * @param $userId
      * @return string
      */
-    private function buildCacheKey($userId)
+    private function buildCacheKey($userId) : string
     {
         return "{$this->testOBJ->getTestId()}::{$userId}";
     }

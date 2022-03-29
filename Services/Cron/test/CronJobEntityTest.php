@@ -35,7 +35,7 @@ class CronJobEntityTest extends TestCase
         int $schedule_value = 5,
         bool $is_plugin = false
     ) : ilCronJobEntity {
-        $job_instance = $job_instance ?? $this->createMock(ilCronJob::class);
+        $job_instance ??= $this->createMock(ilCronJob::class);
 
         return new ilCronJobEntity($job_instance, [
             'job_id' => 'phpunit',

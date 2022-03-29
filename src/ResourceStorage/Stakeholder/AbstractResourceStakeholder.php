@@ -23,7 +23,6 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 abstract class AbstractResourceStakeholder implements ResourceStakeholder
 {
-
     private string $provider_name_cache = '';
 
     /**

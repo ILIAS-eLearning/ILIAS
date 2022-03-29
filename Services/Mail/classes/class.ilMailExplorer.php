@@ -15,17 +15,15 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailExplorer extends ilTreeExplorerGUI
 {
-    protected GlobalHttpState $http;
-    protected Refinery $refinery;
-    private ilMailGUI $parentObject;
-    protected int $currentFolderId = 0;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
+    private int $currentFolderId = 0;
 
     public function __construct(ilMailGUI $parentObject, int $userId)
     {
         global $DIC;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $this->parentObject = $parentObject;
 
         $this->tree = new ilTree($userId);
         $this->tree->setTableNames('mail_tree', 'mail_obj_data');
@@ -62,12 +60,10 @@ class ilMailExplorer extends ilTreeExplorerGUI
     {
         $f = $this->ui->factory();
 
-        $tree = $f->tree()
+        return $f->tree()
             ->expandable($this->getTreeLabel(), $this)
             ->withData($this->tree->getChilds($this->tree->readRootId()))
             ->withHighlightOnNodeClick(false);
-
-        return $tree;
     }
 
     public function build(
@@ -75,9 +71,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $record,
         $environment = null
     ) : Node {
-        $node = parent::build($factory, $record, $environment);
-
-        return $node->withHighlighted($this->currentFolderId === (int) $record['child']);
+        return parent::build($factory, $record, $environment)->withHighlighted($this->currentFolderId === (int) $record['child']);
     }
 
     protected function getNodeStateToggleCmdClasses($record) : array

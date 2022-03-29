@@ -42,7 +42,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $this->user = $DIC->user();
         $this->locator = $DIC["ilLocator"];
         $this->tabs = $DIC->tabs();
-        $this->rbacsystem = $DIC->rbac()->system();
         $this->tree = $DIC->repositoryTree();
         $this->tpl = $DIC["tpl"];
         $this->access = $DIC->access();
@@ -75,15 +74,15 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
     
-        if (strtolower($this->lm_request->getBaseClass()) == "iladministrationgui" ||
-            $this->getCreationMode() == true) {
+        if (
+            $this->getCreationMode() === true ||
+            strtolower($this->lm_request->getBaseClass()) === "iladministrationgui"
+        ) {
             $this->prepareOutput();
-        } else {
-            if (!in_array($cmd, array("", "framset")) || $next_class != "") {
-                $this->getTemplate();
-                $this->setLocator();
-                $this->setTabs();
-            }
+        } elseif (!in_array($cmd, array("", "framset")) || $next_class != "") {
+            $this->getTemplate();
+            $this->setLocator();
+            $this->setTabs();
         }
 
         switch ($next_class) {
@@ -101,7 +100,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 $fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
                 $fs_gui->setUseUploadDirectory(true);
                 $fs_gui->setTableId("htlmfs" . $this->object->getId());
-                if ($this->object->getStartFile() != "") {
+                if ($this->object->getStartFile() !== "") {
                     $fs_gui->labelFile(
                         $this->object->getStartFile(),
                         $this->lng->txt("cont_startfile")
@@ -116,35 +115,33 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                     $do_update = false;
                                         
                     $pcommand = $fs_gui->getLastPerformedCommand();
-                    if (is_array($pcommand)) {
-                        $valid = array("index.htm", "index.html", "start.htm", "start.html");
-                        if ($pcommand["cmd"] == "create_file") {
-                            $file = strtolower(basename($pcommand["name"]));
-                            if (in_array($file, $valid)) {
-                                $this->object->setStartFile($pcommand["name"]);
-                                $do_update = $pcommand["name"];
-                            }
-                        } elseif ($pcommand["cmd"] == "unzip_file") {
-                            $zip_file = strtolower(basename($pcommand["name"]));
-                            $suffix = strrpos($zip_file, ".");
-                            if ($suffix) {
-                                $zip_file = substr($zip_file, 0, $suffix);
-                            }
-                            foreach ($pcommand["added"] as $file) {
-                                $chk_file = null;
-                                if (stristr($file, ".htm")) {
-                                    $chk_file = strtolower(basename($file));
-                                    $suffix = strrpos($chk_file, ".");
-                                    if ($suffix) {
-                                        $chk_file = substr($chk_file, 0, $suffix);
-                                    }
+                    $valid = array("index.htm", "index.html", "start.htm", "start.html");
+                    if ($pcommand["cmd"] === "create_file") {
+                        $file = strtolower(basename($pcommand["name"]));
+                        if (in_array($file, $valid)) {
+                            $this->object->setStartFile($pcommand["name"]);
+                            $do_update = $pcommand["name"];
+                        }
+                    } elseif ($pcommand["cmd"] === "unzip_file") {
+                        $zip_file = strtolower(basename($pcommand["name"]));
+                        $suffix = strrpos($zip_file, ".");
+                        if ($suffix) {
+                            $zip_file = substr($zip_file, 0, $suffix);
+                        }
+                        foreach ($pcommand["added"] as $file) {
+                            $chk_file = null;
+                            if (stripos($file, ".htm") !== false) {
+                                $chk_file = strtolower(basename($file));
+                                $suffix = strrpos($chk_file, ".");
+                                if ($suffix) {
+                                    $chk_file = substr($chk_file, 0, $suffix);
                                 }
-                                if (in_array(basename($file), $valid) ||
-                                    ($zip_file && $chk_file && $chk_file == $zip_file)) {
-                                    $this->object->setStartFile($file);
-                                    $do_update = $file;
-                                    break;
-                                }
+                            }
+                            if (in_array(basename($file), $valid) ||
+                                ($zip_file && $chk_file && $chk_file == $zip_file)) {
+                                $this->object->setStartFile($file);
+                                $do_update = $file;
+                                break;
                             }
                         }
                     }
@@ -196,8 +193,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             
             default:
                 $cmd = $this->ctrl->getCmd("frameset");
-                if (strtolower($this->lm_request->getBaseClass()) == "iladministrationgui" ||
-                    $this->getCreationMode() == true) {
+                if (
+                    $this->getCreationMode() === true ||
+                    strtolower($this->lm_request->getBaseClass()) === "iladministrationgui"
+                ) {
                     $cmd .= "Object";
                 }
                 $ret = $this->$cmd();
@@ -209,9 +208,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
     protected function initCreationForms(string $new_type) : array
     {
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type),
-            self::CFORM_IMPORT => $this->initImportForm($new_type));
-        return $forms;
+        return [
+            self::CFORM_NEW => $this->initCreateForm($new_type),
+            self::CFORM_IMPORT => $this->initImportForm($new_type)
+        ];
     }
 
     final public function cancelCreationObject() : void
@@ -264,7 +264,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
 
         $ne = new ilNonEditableValueGUI($lng->txt("cont_startfile"), "");
-        if ($startfile != "") {
+        if ($startfile !== "") {
             $ne->setValue(basename($startfile));
         } else {
             $ne->setValue(basename($this->lng->txt("no_start_file")));
@@ -304,7 +304,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
         $values = array();
         $values['cobj_online'] = !$this->object->getOfflineStatus();
-        if ($startfile != "") {
+        if ($startfile !== "") {
             $startfile = basename($startfile);
         } else {
             $startfile = $this->lng->txt("no_start_file");
@@ -361,9 +361,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
     public function editObject() : void
     {
-        $rbacsystem = $this->rbacsystem;
-
-        if (!$rbacsystem->checkAccess("visible,write", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,write", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt("permission_denied"));
         }
     }
@@ -387,7 +385,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             ilFileUtils::recursive_dirscan($new_object->getDataDirectory(), $files);
             if (is_array($files["file"])) {
                 $zip_file = null;
-                if (stristr($new_object->getTitle(), ".zip")) {
+                if (stripos($new_object->getTitle(), ".zip") !== false) {
                     $zip_file = strtolower($new_object->getTitle());
                     $suffix = strrpos($zip_file, ".");
                     if ($suffix) {
@@ -397,7 +395,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 $valid = array("index.htm", "index.html", "start.htm", "start.html");
                 foreach ($files["file"] as $idx => $file) {
                     $chk_file = null;
-                    if (stristr($file, ".htm")) {
+                    if (stripos($file, ".htm") !== false) {
                         $chk_file = strtolower($file);
                         $suffix = strrpos($chk_file, ".");
                         if ($suffix) {
@@ -442,7 +440,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $ilUser = $this->user;
 
         // #9483
-        if ($ilUser->getId() != ANONYMOUS_USER_ID) {
+        if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
             ilLearningProgress::_tracProgress(
                 $ilUser->getId(),
                 $this->object->getId(),
@@ -455,7 +453,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
         $startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
         ilWACSignedPath::signFolderOfStartFile($startfile);
-        if ($startfile != "") {
+        if ($startfile !== "") {
             ilUtil::redirect($startfile);
         }
     }
@@ -537,14 +535,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             );
         }
 
-        if ($ilAccess->checkAccess('visible', '', $this->ref_id)) {
-            if ($this->object->isInfoEnabled()) {
-                $ilTabs->addTab(
-                    "id_info",
-                    $lng->txt("info_short"),
-                    $this->ctrl->getLinkTargetByClass(array("ilobjfilebasedlmgui", "ilinfoscreengui"), "showSummary")
-                );
-            }
+        if ($ilAccess->checkAccess('visible', '', $this->ref_id) && $this->object->isInfoEnabled()) {
+            $ilTabs->addTab(
+                "id_info",
+                $lng->txt("info_short"),
+                $this->ctrl->getLinkTargetByClass(array("ilobjfilebasedlmgui", "ilinfoscreengui"), "showSummary")
+            );
         }
 
         if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
@@ -594,15 +590,13 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         }
 
         $startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
-        if ($ilAccess->checkAccess('read', '', $this->ref_id)) {
-            if ($startfile != "") {
-                $ilTabs->addNonTabbedLink(
-                    "presentation_view",
-                    $this->lng->txt("glo_presentation_view"),
-                    "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->object->getRefId(),
-                    "_blank"
-                );
-            }
+        if ($startfile !== "" && $ilAccess->checkAccess('read', '', $this->ref_id)) {
+            $ilTabs->addNonTabbedLink(
+                "presentation_view",
+                $this->lng->txt("glo_presentation_view"),
+                "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->object->getRefId(),
+                "_blank"
+            );
         }
     }
     
@@ -661,7 +655,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
     public function createFromDirectory(string $a_dir) : void
     {
-        if (!$this->checkPermissionBool("create", "", "htlm") || $a_dir == "") {
+        if ($a_dir === "" || !$this->checkPermissionBool("create", "", "htlm")) {
             throw new ilPermissionException($this->lng->txt("no_create_permission"));
         }
         
@@ -730,6 +724,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
     public function redrawHeaderAction() : void
     {
-        parent::redrawHeaderActionObject();
+        $this->redrawHeaderActionObject();
     }
 }

@@ -13,5 +13,4 @@ class ilFileServicesFilenameSanitizer extends FilenameSanitizerImpl
     {
         parent::__construct($settings->getWhiteListedSuffixes());
     }
-    
 }

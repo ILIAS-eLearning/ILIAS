@@ -21,7 +21,7 @@ abstract class ilAssLacAbstractManufacturer implements ilAssLacManufacturerInter
      * @see ManufacturerInterface::getPattern()
      * @return array
      */
-    public function match($subject)
+    public function match($subject) : array
     {
         $matches = array();
         $num_matches = preg_match_all($this->getPattern(), $subject, $matches);

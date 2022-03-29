@@ -15,12 +15,14 @@ class ilAssQuestionPageCommandForwarder
     /**
      * @var ilObjTest
      */
-    protected $testObj;
+    protected ilObjTest $testObj;
+
+    protected \ILIAS\Test\InternalRequestService $testrequest;
 
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }
@@ -36,7 +38,7 @@ class ilAssQuestionPageCommandForwarder
     public function forward()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+        $this->testrequest = $DIC->test()->internal()->request();
         require_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php";
         //echo $_REQUEST['prev_qid'];
         if ($_REQUEST['prev_qid']) {
@@ -62,7 +64,7 @@ class ilAssQuestionPageCommandForwarder
         );
         $DIC->ui()->mainTemplate()->parseCurrentBlock();
         require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+        $q_gui = assQuestionGUI::_getQuestionGUI("", $this->testrequest->getQuestionId());
         $q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
         $q_gui->setQuestionTabs();
         $q_gui->outAdditionalOutput();
@@ -72,7 +74,7 @@ class ilAssQuestionPageCommandForwarder
         $DIC->language()->loadLanguageModule("content");
         $DIC->ctrl()->setReturnByClass("ilAssQuestionPageGUI", "view");
         $DIC->ctrl()->setReturnByClass("ilObjTestGUI", "questions");
-        $page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
+        $page_gui = new ilAssQuestionPageGUI($this->testrequest->getQuestionId());
         $page_gui->setEditPreview(true);
         if (strlen($DIC->ctrl()->getCmd()) == 0) {
             $DIC->ctrl()->setCmdClass(get_class($page_gui));

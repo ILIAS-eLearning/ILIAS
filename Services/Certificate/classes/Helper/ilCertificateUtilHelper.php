@@ -32,19 +32,11 @@ class ilCertificateUtilHelper
         ilShellUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
     }
 
-    /**
-     * @param string $string
-     * @return mixed|null|string|string[]
-     */
-    public function stripSlashes(string $string)
+    public function stripSlashes(string $string) : string
     {
         return ilUtil::stripSlashes($string);
     }
 
-    /**
-     * @param string $exportPath
-     * @param string $zipPath
-     */
     public function zip(string $exportPath, string $zipPath) : void
     {
         ilFileUtils::zip($exportPath, $zipPath);

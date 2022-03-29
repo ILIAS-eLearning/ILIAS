@@ -52,8 +52,11 @@ const EMAIL_TYPE_PREF = 4;
  */
 class ilvCard
 {
-    // An array containing the vCard types
-    public array $types; // Missing array type.
+    /**
+     * An array containing the vCard types
+     * @var array<string,mixed>
+     */
+    public array $types;
 
     // The filename of the vCard used when saving the vCard
     public string $filename;
@@ -133,8 +136,9 @@ class ilvCard
 
     /**
      * Splits a variable into an array using a separator and escapes every value
+     * @return array<string,string>
      */
-    public function explodeVar(string $variable, string $separator = ",") : array // Missing array type.
+    public function explodeVar(string $variable, string $separator = ",") : array
     {
         $exploded = explode($separator, $variable);
         foreach ($exploded as $index => $var) {

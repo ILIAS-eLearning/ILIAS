@@ -267,7 +267,7 @@ class ilCalendarPresentationGUI
 
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, '');
-                $this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
+                $this->tabs_gui->activateTab((string) ilSession::get('cal_last_tab'));
 
                 $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, $this->initAppointmentIdFromQuery());
                 $this->ctrl->forwardCommand($app);
@@ -275,7 +275,6 @@ class ilCalendarPresentationGUI
 
             case 'ilcalendarsubscriptiongui':
                 $this->ctrl->setReturn($this, '');
-                //$this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
                 $this->tabs_gui->activateTab("cal_agenda");
 
                 $ref_id = 0;
@@ -297,15 +296,8 @@ class ilCalendarPresentationGUI
                 $this->tabs_gui->activateTab("cal_manage");
                 $category = new ilCalendarCategoryGUI($this->user->getId(), $this->seed, $this->ref_id);
                 if ($this->ctrl->forwardCommand($category)) {
-                    //$this->tabs_gui->activateTab("cal_manage");
-
-                    // no side blocks
                     return;
                 } else {
-                    if ($this->getRepositoryMode()) {
-                        #$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, ""));
-                    }
-                    //$this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
                     $this->showSideBlocks();
                     break;
                 }
@@ -451,7 +443,7 @@ class ilCalendarPresentationGUI
         switch ($a_class) {
             case 'ilcalendarmonthgui':
                 $this->user->writePref('cal_last_class', $a_class);
-                $_SESSION['cal_last_tab'] = 'app_month';
+                ilSession::set('cal_last_tab', 'app_month');
                 $this->setCmdClass('ilcalendarmonthgui');
                 $month_gui = new ilCalendarMonthGUI($this->seed);
                 $this->ctrl->forwardCommand($month_gui);
@@ -459,7 +451,7 @@ class ilCalendarPresentationGUI
 
             case 'ilcalendarweekgui':
                 $this->user->writePref('cal_last_class', $a_class);
-                $_SESSION['cal_last_tab'] = 'app_week';
+                ilSession::set('cal_last_tab', 'app_week');
                 $this->setCmdClass('ilcalendarweekgui');
                 $week_gui = new ilCalendarWeekGUI($this->seed);
                 $this->ctrl->forwardCommand($week_gui);
@@ -467,7 +459,7 @@ class ilCalendarPresentationGUI
 
             case 'ilcalendardaygui':
                 $this->user->writePref('cal_last_class', $a_class);
-                $_SESSION['cal_last_tab'] = 'app_day';
+                ilSession::set('cal_last_tab', 'app_day');
                 $this->setCmdClass('ilcalendardaygui');
                 $day_gui = new ilCalendarDayGUI($this->seed);
                 $this->ctrl->forwardCommand($day_gui);
@@ -475,7 +467,7 @@ class ilCalendarPresentationGUI
 
             case 'ilcalendarinboxgui':
                 $this->user->writePref('cal_last_class', $a_class);
-                $_SESSION['cal_last_tab'] = 'cal_upcoming_events_header';
+                ilSession::set('cal_last_tab', 'cal_upcoming_events_header');
                 $this->setCmdClass('ilcalendarinboxgui');
                 $inbox_gui = new ilCalendarInboxGUI($this->seed);
                 $this->ctrl->forwardCommand($inbox_gui);

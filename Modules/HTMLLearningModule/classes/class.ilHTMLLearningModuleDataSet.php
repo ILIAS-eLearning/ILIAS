@@ -26,14 +26,14 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
         return array("4.1.0");
     }
     
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "https://www.ilias.de/xml/Modules/HTMLLearningModule/" . $a_entity;
     }
     
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "htlm") {
+        if ($a_entity === "htlm") {
             switch ($a_version) {
                 case "4.1.0":
                     return array(
@@ -51,7 +51,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
     {
         $ilDB = $this->db;
 
-        if ($a_entity == "htlm") {
+        if ($a_entity === "htlm") {
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, title, description, " .
@@ -63,16 +63,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
             }
         }
     }
-    
-    protected function getDependencies(
-        string $a_entity,
-        string $a_version,
-        ?array $a_rec = null,
-        ?array $a_ids = null
-    ) : array {
-        return [];
-    }
-    
+
     public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
     {
         $lm = new ilObjFileBasedLM($a_set["Id"], false);
@@ -103,7 +94,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
                 $this->current_obj = $newObj;
 
                 $dir = str_replace("..", "", $a_rec["Dir"]);
-                if ($dir != "" && $this->getImportDirectory() != "") {
+                if ($dir !== "" && $this->getImportDirectory() !== "") {
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
                     $target_dir = $newObj->getDataDirectory();
                     ilFileUtils::rCopy($source_dir, $target_dir);

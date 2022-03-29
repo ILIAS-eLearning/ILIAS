@@ -159,7 +159,7 @@ class ilBuddySystemGUI
         } catch (ilBuddySystemRelationStateAlreadyGivenException | ilBuddySystemRelationStateTransitionException $e) {
             $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $this->lng->txt($e->getMessage()),
-                (string) ilObjUser::_lookupLogin($usrId)
+                ilObjUser::_lookupLogin($usrId)
             ), true);
         } catch (ilException $e) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);
@@ -200,7 +200,7 @@ class ilBuddySystemGUI
             }
 
             $login = ilObjUser::_lookupLogin($usr_id);
-            if ($login === false || $login === '') {
+            if ($login === '') {
                 throw new ilBuddySystemException(sprintf(
                     'You cannot perform a state transition for a non existing user (id: %s)',
                     $usr_id

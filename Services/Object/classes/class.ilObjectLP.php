@@ -160,7 +160,7 @@ class ilObjectLP
         // see ilLPCollectionOfRepositoryObjects::validateEntry()
         return false;
     }
-    
+
     public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_UNDEFINED;
@@ -620,8 +620,7 @@ class ilObjectLP
         global $DIC;
         $ilDB = $DIC->database();
 
-        if (is_null(self::$type_defaults)) {
-            self::$type_defaults = [];
+        if (self::$type_defaults === []) {
             $result = $ilDB->query("SELECT type_id, lp_mode FROM ut_lp_defaults");
             while ($row = $ilDB->fetchAssoc($result)) {
                 self::$type_defaults[(string) $row["type_id"]] = (int) $row["lp_mode"];

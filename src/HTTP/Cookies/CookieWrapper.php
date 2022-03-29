@@ -27,7 +27,6 @@ use Dflydev\FigCookies\SetCookie;
  */
 class CookieWrapper implements Cookie
 {
-    
     private SetCookie $cookie;
     
     /**
@@ -107,7 +106,7 @@ class CookieWrapper implements Cookie
      */
     public function withValue(string $value = null) : Cookie
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->cookie = $this->cookie->withValue($value);
         
         return $clone;
@@ -118,7 +117,7 @@ class CookieWrapper implements Cookie
      */
     public function withExpires($expires = null) : Cookie
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->cookie = $this->cookie->withExpires($expires);
         
         return $clone;
@@ -129,7 +128,7 @@ class CookieWrapper implements Cookie
      */
     public function rememberForLongTime() : Cookie
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->cookie = $this->cookie->rememberForever();
         
         return $clone;
@@ -140,7 +139,7 @@ class CookieWrapper implements Cookie
      */
     public function expire() : Cookie
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->cookie = $this->cookie->expire();
         
         return $clone;
@@ -151,7 +150,7 @@ class CookieWrapper implements Cookie
      */
     public function withMaxAge(int $maxAge = null) : Cookie
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->cookie = $this->cookie->withMaxAge($maxAge);
         
         return $clone;
@@ -162,7 +161,7 @@ class CookieWrapper implements Cookie
      */
     public function withPath(string $path = null) : Cookie
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->cookie = $this->cookie->withPath($path);
         
         return $clone;
@@ -173,7 +172,7 @@ class CookieWrapper implements Cookie
      */
     public function withDomain(string $domain = null) : Cookie
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->cookie = $this->cookie->withDomain($domain);
         
         return $clone;
@@ -184,7 +183,7 @@ class CookieWrapper implements Cookie
      */
     public function withSecure(bool $secure = null) : Cookie
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->cookie = $this->cookie->withSecure($secure);
         
         return $clone;
@@ -195,7 +194,7 @@ class CookieWrapper implements Cookie
      */
     public function withHttpOnly(bool $httpOnly = null) : Cookie
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->cookie = $this->cookie->withHttpOnly($httpOnly);
         
         return $clone;

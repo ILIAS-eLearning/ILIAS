@@ -11,12 +11,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
  */
 class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         $this->setId('tstAvgReachedPointsTbl');
@@ -87,7 +81,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
      * @param array $data
      * @return string
      */
-    protected function formatPoints(array $data)
+    protected function formatPoints(array $data) : string
     {
         return sprintf("%.2f", $data['points_reached']) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $data['points_max']);
     }

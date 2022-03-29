@@ -105,8 +105,13 @@ class ilUserLPTableGUI extends ilTable2GUI
         
         $this->lp_active = ilObjUserTracking::_enabledLearningProgress();
     }
-    
-    protected function fillRow(array $a_set) : void // Missing array type.
+
+    /**
+     * @param array<string,mixed> $a_set
+     * @throws ilDateTimeException
+     * @throws ilTemplateException
+     */
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 

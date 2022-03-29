@@ -68,7 +68,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
             $sub = ilExSubmission::getSubmissionsForFilename($this->ref_id, array(ilExAssignment::TYPE_WIKI_TEAM));
             foreach ($sub as $s) {
                 $team = new ilExAssignmentTeam($s["team_id"]);
-                $mem = array_map(function ($id) {
+                $mem = array_map(static function ($id) : string {
                     $name = ilObjUser::_lookupName($id);
                     return $name["firstname"] . " " . $name["lastname"];
                 }, $team->getMembers());

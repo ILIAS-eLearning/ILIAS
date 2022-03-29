@@ -51,7 +51,7 @@ abstract class ilTestExportPlugin extends ilPlugin
     /**
      * @return ilObjTest
      */
-    final protected function getTest()
+    final protected function getTest() : ilObjTest
     {
         return $this->test;
     }
@@ -67,7 +67,7 @@ abstract class ilTestExportPlugin extends ilPlugin
     /**
      * @return int
      */
-    public function getTimestmap()
+    public function getTimestmap() : int
     {
         return $this->timestmap;
     }
@@ -76,7 +76,7 @@ abstract class ilTestExportPlugin extends ilPlugin
      * @return string
      * @throws ilException
      */
-    final public function getFormat()
+    final public function getFormat() : string
     {
         $format_id = $this->getFormatIdentifier();
 
@@ -146,11 +146,11 @@ abstract class ilTestExportPlugin extends ilPlugin
      *
      * @return string
      */
-    abstract protected function getFormatIdentifier();
+    abstract protected function getFormatIdentifier() : string;
 
     /**
      * This method should return a human readable label for your export
      * @return string
      */
-    abstract public function getFormatLabel();
+    abstract public function getFormatLabel() : string;
 }

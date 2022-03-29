@@ -32,10 +32,6 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
     }
 
-    /**
-    * Set Value.
-    * @param    $a_value Value
-    */
     public function setValue($a_value) : void
     {
         $this->values = array();
@@ -63,7 +59,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	Key size
     */
-    public function getKeySize()
+    public function getKeySize() : int
     {
         return $this->key_size;
     }
@@ -83,7 +79,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	value size
     */
-    public function getValueSize()
+    public function getValueSize() : int
     {
         return $this->value_size;
     }
@@ -103,7 +99,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	Key maxlength
     */
-    public function getKeyMaxlength()
+    public function getKeyMaxlength() : int
     {
         return $this->key_maxlength;
     }
@@ -123,7 +119,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	value maxlength
     */
-    public function getValueMaxlength()
+    public function getValueMaxlength() : int
     {
         return $this->value_maxlength;
     }
@@ -143,7 +139,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	string	value name
     */
-    public function getValueName()
+    public function getValueName() : string
     {
         return $this->value_name;
     }
@@ -163,7 +159,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	string	value name
     */
-    public function getKeyName()
+    public function getKeyName() : string
     {
         return $this->key_name;
     }
@@ -183,7 +179,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
@@ -203,7 +199,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }

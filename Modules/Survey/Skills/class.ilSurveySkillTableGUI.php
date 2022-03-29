@@ -22,6 +22,8 @@ class ilSurveySkillTableGUI extends ilTable2GUI
     protected ilSurveySkillThresholds $skill_thres;
     protected ilSkillTree $skill_tree;
     protected ilObjSurvey $survey;
+    /** @var array<int, array<int, int>> */
+    protected array $thresholds;
 
     public function __construct(
         object $a_parent_obj,
@@ -113,7 +115,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
             $this->tpl->setVariable("LEV", $l["title"]);
 
             $tr = $this->thresholds[$l["id"]][$a_set["tref_id"]];
-            if ((int) $tr != 0) {
+            if ((int) $tr !== 0) {
                 $this->tpl->setVariable("THRESHOLD", (int) $tr);
             } else {
                 $this->tpl->setVariable("THRESHOLD", "");

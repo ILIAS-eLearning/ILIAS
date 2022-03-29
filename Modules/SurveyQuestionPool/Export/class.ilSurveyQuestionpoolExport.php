@@ -88,7 +88,7 @@ class ilSurveyQuestionpoolExport
         $expLog->setLogFormat("");
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
         // write qti file
-        $qti_file = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->filename, "w");
+        $qti_file = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->filename, 'wb');
         fwrite($qti_file, $this->spl_obj->toXML($questions));
         fclose($qti_file);
 

@@ -35,7 +35,7 @@ class ilGlossaryTermGUI
     public ilGlossaryTerm $term;
     protected ilLogger $log;
     protected ?ilObjGlossary $term_glossary = null;
-    protected $toolbar;
+    protected ilToolbarGUI $toolbar;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 

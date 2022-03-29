@@ -4,8 +4,7 @@
 
 /**
  * Select taxonomy nodes input GUI
- *
- * @author Alexander Killing <killing@leifos.de>
+ * @author            Alexander Killing <killing@leifos.de>
  * @ilCtrl_IsCalledBy ilTaxSelectInputGUI: ilFormPropertyDispatchGUI
  */
 class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
@@ -22,7 +21,7 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        
+
         $lng->loadLanguageModule("tax");
         $this->multi_nodes = $a_multi;
         $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $a_postvar);
@@ -37,22 +36,27 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
         $this->explorer_gui->setSelectMode($a_postvar . "_sel", $this->multi_nodes);
         $this->explorer_gui->setSkipRootNode(true);
 
-        parent::__construct(ilObject::_lookupTitle($a_taxonomy_id), $a_postvar, $this->explorer_gui, $this->multi_nodes);
+        parent::__construct(
+            ilObject::_lookupTitle($a_taxonomy_id),
+            $a_postvar,
+            $this->explorer_gui,
+            $this->multi_nodes
+        );
         $this->setType("tax_select");
-        
+
         if ((int) $a_taxonomy_id == 0) {
             throw new ilTaxonomyException("No taxonomy ID passed to ilTaxSelectInputGUI.");
         }
-        
+
         $this->setTaxonomyId((int) $a_taxonomy_id);
         $this->tax = new ilObjTaxonomy($this->getTaxonomyId());
     }
-    
+
     public function setTaxonomyId(int $a_val) : void
     {
         $this->taxononmy_id = $a_val;
     }
-    
+
     public function getTaxonomyId() : int
     {
         return $this->taxononmy_id;

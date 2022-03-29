@@ -34,28 +34,20 @@ use ILIAS\Refinery\Factory;
  */
 class ilObjCertificateSettingsGUI extends ilObjectGUI
 {
-    protected Factory $refinery;
     protected \ILIAS\HTTP\GlobalHttpState $httpState;
     protected \ILIAS\FileUpload\FileUpload $upload;
-    protected ilAccessHandler $hierarchical_access;
-    protected ilRbacSystem $rbac_system;
-    protected ilErrorHandling $error;
 
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($data, int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
         global $DIC;
 
-        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+        parent::__construct($data, $id, $call_by_reference, $prepare_output);
 
         $this->httpState = $DIC->http();
-        $this->refinery = $DIC->refinery();
         $this->upload = $DIC->upload();
         $this->type = 'cert';
         $this->lng->loadLanguageModule('certificate');
         $this->lng->loadLanguageModule('trac');
-        $this->rbac_system = $DIC['rbacsystem'];
-        $this->error = $DIC['ilErr'];
-        $this->hierarchical_access = $DIC['ilAccess'];
     }
 
     public function executeCommand() : void
@@ -65,7 +57,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->hierarchical_access->checkAccess('read', '', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -138,9 +130,11 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             if (is_array($this->upload->getResults()) && $this->upload->getResults() !== []) {
                 $results = $this->upload->getResults();
                 $file = array_pop($results);
-                $result = $this->object->uploadBackgroundImage($file->getPath());
-                if ($result === false) {
-                    $bgimage->setAlert($this->lng->txt('certificate_error_upload_bgimage'));
+                if ($file->isOK()) {
+                    $result = $this->object->uploadBackgroundImage($file->getPath());
+                    if ($result === false) {
+                        $bgimage->setAlert($this->lng->txt('certificate_error_upload_bgimage'));
+                    }
                 }
             }
         }
@@ -165,7 +159,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $format->setInfo($this->lng->txt("certificate_page_format_info"));
         $form->addItem($format);
 
-        if ($this->hierarchical_access->checkAccess('write', '', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('write', $this->object->getRefId())) {
             $form->addCommandButton('save', $this->lng->txt('save'));
         }
 

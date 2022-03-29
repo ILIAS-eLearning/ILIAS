@@ -13,8 +13,6 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use ILIAS\Accordion\StandardGUIRequest;
-
 /**
  * Accordion user interface class
  * @author Alexander Killing <killing@leifos.de>

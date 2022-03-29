@@ -585,7 +585,7 @@ class ilForumPostDraft
         );
         $draft_data = [];
         while ($row = $ilDB->fetchAssoc($res)) {
-            $tmp_obj = new self;
+            $tmp_obj = new self();
             self::populateWithDatabaseRecord($tmp_obj, $row);
             $draft_data[] = ['subject' => $tmp_obj->getPostSubject(),
                              'post_update' => $tmp_obj->getPostUpdate(),
@@ -606,7 +606,7 @@ class ilForumPostDraft
             [$draft_id]
         );
 
-        $tmp_obj = new self;
+        $tmp_obj = new self();
         while ($row = $ilDB->fetchAssoc($res)) {
             self::populateWithDatabaseRecord($tmp_obj, $row);
         }

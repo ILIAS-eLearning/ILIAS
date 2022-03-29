@@ -72,7 +72,7 @@ class ilStyleDefinition
     {
         global $DIC;
 
-        if (!$DIC) {
+        if (!$DIC || is_array($DIC)) {
             return null;
         }
         if ($DIC->isDependencyAvailable('systemStyle') && is_object($DIC->systemStyle()->getSkin())) {
@@ -86,7 +86,7 @@ class ilStyleDefinition
             )) {
                 $skin_id = $DIC->user()->skin;
                 if ($skin_id && !self::skinExists($skin_id)) {
-                    $messages = new ilSystemStyleMessageStack();
+                    $messages = new ilSystemStyleMessageStack($DIC->ui()->mainTemplate());
                     $message_text = $DIC->language()->txt('set_skin_does_not_exist') . ' ' . $skin_id;
                     $messages->addMessage(new ilSystemStyleMessage($message_text, ilSystemStyleMessage::TYPE_ERROR));
                     $messages->sendMessages();
@@ -225,7 +225,7 @@ class ilStyleDefinition
             return self::$current_style;
         }
 
-        if (!$DIC || !$DIC->isDependencyAvailable('user')) {
+        if (!$DIC || is_array($DIC) || !$DIC->isDependencyAvailable('user')) {
             return null;
         }
 
@@ -282,7 +282,7 @@ class ilStyleDefinition
         }
 
         if ($DIC->isDependencyAvailable('systemStyle') && !self::styleExistsForCurrentSkin(self::$current_style)) {
-            $messages = new ilSystemStyleMessageStack();
+            $messages = new ilSystemStyleMessageStack($DIC->ui()->mainTemplate());
             $message_text = $DIC->language()->txt('set_style_does_not_exist') . ' ' . self::$current_style;
             $messages->addMessage(new ilSystemStyleMessage($message_text, ilSystemStyleMessage::TYPE_ERROR));
             $messages->sendMessages();
@@ -318,7 +318,7 @@ class ilStyleDefinition
                     }
 
                     $version = $skin->getVersion();
-                    if($version == '$Id$') {
+                    if ($version == '$Id$') {
                         $version = '-';
                     }
                     // default selection list
@@ -383,7 +383,7 @@ class ilStyleDefinition
             return false;
         }
         $factory = new ilSkinFactory($DIC->language());
-        $skin = $factory->skinStyleContainerFromId($skin_id)->getSkin();
+        $skin = $factory->skinStyleContainerFromId($skin_id, new ilSystemStyleMessageStack($DIC->ui()->mainTemplate()))->getSkin();
         return $skin->hasStyle($style_id);
     }
 

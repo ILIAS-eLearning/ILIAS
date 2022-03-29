@@ -42,7 +42,7 @@ class ilLocatorGUI
         $this->setTextOnly(false);
     }
 
-    protected function init()
+    protected function init() : void
     {
         global $DIC;
 
@@ -199,7 +199,7 @@ class ilLocatorGUI
         int $a_ref_id,
         bool $a_omit_node = false,
         int $a_stop = 0
-    ) {
+    ) : void {
         $this->init();
         $tree = $this->tree;
         

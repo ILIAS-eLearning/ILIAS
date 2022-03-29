@@ -57,9 +57,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
      */
     public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
-        $form = $this->settingsFromFactory->createForm($certificateGUI);
-
-        return $form;
+        return $this->settingsFromFactory->createForm($certificateGUI);
     }
 
     public function save(array $formFields) : void
@@ -68,8 +66,6 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 
     public function fetchFormFieldData(string $content) : array
     {
-        $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
-
-        return $formFields;
+        return $this->settingsFromFactory->fetchFormFieldData($content);
     }
 }

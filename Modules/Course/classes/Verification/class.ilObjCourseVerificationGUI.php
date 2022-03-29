@@ -148,12 +148,18 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
     public static function _goto(string $a_target) : void
     {
+        global $DIC;
+
+        $ctrl = $DIC->ctrl();
+
         $id = explode("_", $a_target);
 
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        include("ilias.php");
-        exit;
+        $ctrl->setParameterByClass(
+            ilSharedResourceGUI::class,
+            'wsp_id',
+            $id[0]
+        );
+        $ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
     /**

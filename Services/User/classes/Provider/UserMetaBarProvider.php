@@ -25,7 +25,10 @@ use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
  */
 class UserMetaBarProvider extends AbstractStaticMetaBarProvider
 {
-    public function getMetaBarItems() : array // Missing array type.
+    /**
+     * @inheritcoc
+     */
+    public function getMetaBarItems() : array
     {
         $access_checks = BasicAccessCheckClosures::getInstance();
         $f = $this->dic->ui()->factory();

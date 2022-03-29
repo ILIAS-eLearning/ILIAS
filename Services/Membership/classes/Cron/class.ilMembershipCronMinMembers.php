@@ -63,13 +63,13 @@ class ilMembershipCronMinMembers extends ilCronJob
         $this->getCourses($recipients_map);
         $this->getGroups($recipients_map);
 
-        if (sizeof($recipients_map)) {
+        if (count($recipients_map)) {
             foreach ($recipients_map as $reci_id => $items) {
                 $this->sendMessage($reci_id, $items);
             }
 
             $status = ilCronJobResult::STATUS_OK;
-            $message = sizeof($recipients_map) . " notifications sent";
+            $message = count($recipients_map) . " notifications sent";
         }
 
         $result = new ilCronJobResult();
@@ -95,9 +95,6 @@ class ilMembershipCronMinMembers extends ilCronJob
                 foreach ($item[1] as $reci_id) {
                     $a_recipients_map[$reci_id][] = array("crs", $obj_id, $item[0]);
                 }
-            } else {
-                // enough members: notify members?
-                // :TODO: ?
             }
         }
     }
@@ -118,15 +115,11 @@ class ilMembershipCronMinMembers extends ilCronJob
                 foreach ($item[1] as $reci_id) {
                     $a_recipients_map[$reci_id][] = array("grp", $obj_id, $item[0]);
                 }
-            } else {
-                // enough members: notify members?
-
-                // :TODO: ?
             }
         }
     }
 
-    protected function sendMessage(int $a_reci_id, array $a_items)
+    protected function sendMessage(int $a_reci_id, array $a_items) : void
     {
         $ntf = new ilSystemNotification();
         $ntf->setLangModules(array("crs"));
@@ -139,9 +132,8 @@ class ilMembershipCronMinMembers extends ilCronJob
 
         $list = array();
         foreach ($a_items as $item) {
-            $obj_type = $item[0];
-            $obj_id = $item[1];
-            $refs = ilObject::_getAllReferences($obj_id);
+            $obj_type = (string) $item[0];
+            $obj_id = (int) $item[1];
             $ref_id = array_pop($ref_id);
             $title = ilObject::_lookupTitle($obj_id);
             $url = ilLink::_getLink($ref_id, $obj_type);

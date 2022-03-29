@@ -41,7 +41,7 @@ class ilTestTaxonomyTree extends ilTaxonomyTree
         $this->maxOrderValueLength = $this->getMaxOrderValueLength($this->allNodes);
     }
     
-    public function getNodeOrderingPathString($nodeId)
+    public function getNodeOrderingPathString($nodeId) : string
     {
         $pathNodes = $this->getPathNodes($nodeId);
         
@@ -74,7 +74,7 @@ class ilTestTaxonomyTree extends ilTaxonomyTree
         return $this->pathNodesByNodeCache[$nodeId];
     }
     
-    protected function getMaxOrderValueLength($nodes)
+    protected function getMaxOrderValueLength($nodes) : int
     {
         $length = 0;
         

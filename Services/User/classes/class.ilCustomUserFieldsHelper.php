@@ -42,8 +42,11 @@ class ilCustomUserFieldsHelper
         }
         return self::$instance = new self();
     }
-    
-    public function getUDFTypes() : array // Missing array type.
+
+    /**
+     * @return array<int,string>
+     */
+    public function getUDFTypes() : array
     {
         $types = array(
             UDF_TYPE_TEXT => $this->lng->txt('udf_type_text'),

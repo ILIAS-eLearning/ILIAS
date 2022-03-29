@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesSearchSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new ilServicesSearchSuite();
 

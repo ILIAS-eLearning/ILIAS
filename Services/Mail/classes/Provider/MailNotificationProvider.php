@@ -15,7 +15,7 @@ use ilDatePresentation;
  * Class MailNotificationProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class MailNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
+class MailNotificationProvider extends AbstractNotificationProvider
 {
     public const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
 
@@ -101,7 +101,7 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
                         function () : void {
-                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, time());
+                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
                         }
                     )
                     ->withNewAmount(1)

@@ -32,7 +32,7 @@ interface Revision
 
     public function getInformation() : Information;
 
-    public function setInformation(Information $information);
+    public function setInformation(Information $information) : void;
 
     public function setUnavailable() : void;
 

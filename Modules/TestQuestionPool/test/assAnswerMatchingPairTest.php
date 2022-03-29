@@ -14,13 +14,8 @@ class assAnswerMatchingPairTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
     public function test_instantiateObjectSimple()
@@ -29,7 +24,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
 
         // Act
-        $instance = new assAnswerMatchingPair();
+        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
 
         // Assert
         $this->assertInstanceOf('assAnswerMatchingPair', $instance);
@@ -39,7 +34,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-        $instance = new assAnswerMatchingPair();
+        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
         $expected = 'Term';
 
         // Act
@@ -54,7 +49,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-        $instance = new assAnswerMatchingPair();
+        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
         $expected = 'Definition';
 
         // Act
@@ -69,27 +64,12 @@ class assAnswerMatchingPairTest extends assBaseTestCase
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-        $instance = new assAnswerMatchingPair();
-        $expected = 'Definition';
+        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
+        $expected = 3.0;
 
         // Act
         $instance->points = $expected;
         $actual = $instance->points;
-
-        // Assert
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function test_setGetHokum()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-        $instance = new assAnswerMatchingPair();
-        $expected = null;
-
-        // Act
-        $instance->hokum = 'Hokum Value';
-        $actual = $instance->hokum;
 
         // Assert
         $this->assertEquals($expected, $actual);

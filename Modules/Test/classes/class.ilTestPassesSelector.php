@@ -49,7 +49,7 @@ class ilTestPassesSelector
         $this->lastFinishedPass = $lastFinishedPass;
     }
     
-    private function passesLoaded()
+    private function passesLoaded() : bool
     {
         return is_array($this->passes);
     }
@@ -107,27 +107,27 @@ class ilTestPassesSelector
         }
     }
 
-    public function getExistingPasses()
+    public function getExistingPasses() : array
     {
         return array_keys($this->getLazyLoadedPasses());
     }
     
-    public function hasExistingPasses()
+    public function hasExistingPasses() : bool
     {
         return (bool) count($this->getExistingPasses());
     }
 
-    public function getNumExistingPasses()
+    public function getNumExistingPasses() : int
     {
         return count($this->getExistingPasses());
     }
     
-    public function openPassExists()
+    public function openPassExists() : bool
     {
         return count($this->getExistingPasses()) > count($this->getClosedPasses());
     }
 
-    public function getClosedPasses()
+    public function getClosedPasses() : array
     {
         $existingPasses = $this->getExistingPasses();
         $closedPasses = $this->fetchClosedPasses($existingPasses);
@@ -135,7 +135,7 @@ class ilTestPassesSelector
         return $closedPasses;
     }
 
-    public function getReportablePasses()
+    public function getReportablePasses() : array
     {
         $existingPasses = $this->getExistingPasses();
             
@@ -144,12 +144,12 @@ class ilTestPassesSelector
         return $reportablePasses;
     }
     
-    public function hasReportablePasses()
+    public function hasReportablePasses() : bool
     {
         return (bool) count($this->getReportablePasses());
     }
     
-    private function fetchReportablePasses($existingPasses)
+    private function fetchReportablePasses($existingPasses) : array
     {
         $lastPass = $this->fetchLastPass($existingPasses);
         
@@ -164,7 +164,7 @@ class ilTestPassesSelector
         return $reportablePasses;
     }
     
-    private function fetchClosedPasses($existingPasses)
+    private function fetchClosedPasses($existingPasses) : array
     {
         $closedPasses = array();
         
@@ -190,7 +190,7 @@ class ilTestPassesSelector
         return $lastPass;
     }
     
-    private function isReportablePass($lastPass, $pass)
+    private function isReportablePass($lastPass, $pass) : bool
     {
         switch ($this->testOBJ->getScoreReporting()) {
             case ilObjTest::SCORE_REPORTING_IMMIDIATLY:
@@ -228,7 +228,7 @@ class ilTestPassesSelector
         }
     }
     
-    private function isClosedPass($pass)
+    private function isClosedPass($pass) : bool
     {
         $this->checkLastFinishedPassInitialised();
         
@@ -243,7 +243,7 @@ class ilTestPassesSelector
         return false;
     }
 
-    private function isReportingDateReached()
+    private function isReportingDateReached() : bool
     {
         $reg = '/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/';
         $date = $this->testOBJ->getReportingDate();
@@ -258,7 +258,7 @@ class ilTestPassesSelector
         return time() >= $repTS;
     }
     
-    private function isProcessingTimeReached($pass)
+    private function isProcessingTimeReached($pass) : bool
     {
         if (!$this->testOBJ->getEnableProcessingTime()) {
             return false;
@@ -276,7 +276,7 @@ class ilTestPassesSelector
     /**
      * @return int timestamp
      */
-    public function getLastFinishedPassTimestamp()
+    public function getLastFinishedPassTimestamp() : ?int
     {
         if ($this->getLastFinishedPass() === null) {
             return null;
@@ -286,7 +286,7 @@ class ilTestPassesSelector
         return $passes[$this->getLastFinishedPass()]['tstamp'];
     }
     
-    public function hasTestPassedOnce($activeId)
+    public function hasTestPassedOnce($activeId) : bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

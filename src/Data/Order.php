@@ -9,11 +9,11 @@ namespace ILIAS\Data;
  */
 class Order
 {
-    const ASC = 'ASC';
-    const DESC = 'DESC';
+    public const ASC = 'ASC';
+    public const DESC = 'DESC';
 
     /**
-     * @var array <subject, direction>
+     * @var array<string, string>
      */
     protected array $order = [];
 
@@ -23,14 +23,14 @@ class Order
         $this->order[$subject] = $direction;
     }
 
-    protected function checkSubject(string $subject)
+    protected function checkSubject(string $subject) : void
     {
         if (array_key_exists($subject, $this->order)) {
             throw new \InvalidArgumentException("already sorted by subject '$subject'", 1);
         }
     }
 
-    protected function checkDirection(string $direction)
+    protected function checkDirection(string $direction) : void
     {
         if ($direction !== self::ASC && $direction !== self::DESC) {
             throw new \InvalidArgumentException("Direction bust be Order::ASC or Order::DESC.", 1);
@@ -46,6 +46,9 @@ class Order
         return $clone;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function get() : array
     {
         return $this->order;

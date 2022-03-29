@@ -38,11 +38,16 @@ class ilLTIViewGUI
     private ?ilLogger $log = null;
     private string $link_dir = "";
 
+    private ?int $effectiveRefId = null;
+
     /**
      * public variables
      */
     public $lng = null;
 
+    /**
+     *
+     */
     public function __construct()
     {
         global $DIC;
@@ -67,6 +72,7 @@ class ilLTIViewGUI
 
     /**
      * for compatiblity with ilLTIRouterGUI
+     * @return mixed
      */
     public static function getInstance()
     {
@@ -75,8 +81,9 @@ class ilLTIViewGUI
     }
 
     /**
-                 * get LTI Mode from Users->getAuthMode
-                 */
+     * get LTI Mode from Users->getAuthMode
+     * @return bool
+     */
     private function isLTIUser() : bool
     {
         if (!$this->dic->user() instanceof ilObjUser) {
@@ -85,6 +92,9 @@ class ilLTIViewGUI
         return (strpos($this->dic->user()->getAuthMode(), 'lti_') === 0);
     }
 
+    /**
+     * @return void
+     */
     public function executeCommand() : void
     {
         global $ilCtrl;
@@ -96,16 +106,22 @@ class ilLTIViewGUI
         }
     }
 
+    /**
+     * @return bool
+     */
     public function isActive() : bool
     {
         return $this->isLTIUser();
     }
 
+    /**
+     * @return void
+     */
     public function initGUI() : void
     {
         $this->log->debug("initGUI");
-        $baseclass = strtolower($_GET['baseClass']);
-        $cmdclass = strtolower($_GET['cmdClass']);
+        $baseclass = strtolower((string) $_GET['baseClass']);
+        $cmdclass = strtolower((string) $_GET['cmdClass']);
         switch ($baseclass) {
             case 'illtiroutergui':
                 return;
@@ -113,24 +129,28 @@ class ilLTIViewGUI
         }
     }
 
-    public function getContextId() : ?int
+    /**
+    * @return int|null
+    */
+    protected function getContextId() : ?int
     {
         global $ilLocator;
 
         // forced lti_context_id for example request command in exitLTI
         if (isset($_GET['lti_context_id']) && $_GET['lti_context_id'] !== '') {
             $this->log->debug("find context_id by GET param: " . $_GET['lti_context_id']);
-            return $_GET['lti_context_id'];
+            return (int) $_GET['lti_context_id'];
         }
         
-        $ref_id = $this->findEffectiveRefId();
+        $this->findEffectiveRefId();
+        $ref_id = $this->effectiveRefId;
+
         $this->log->debug("Effective ref_id: " . $ref_id);
         // context_id = ref_id in request
         if (isset($_SESSION['lti_' . $ref_id . '_post_data'])) {
             $this->log->debug("lti context session exists for " . $ref_id);
-            return $ref_id;
+//            return $ref_id;
         }
-
         // sub item request
         $this->log->debug("ref_id not exists as context_id, walking tree backwards to find a valid context_id");
         $locator_items = $ilLocator->getItems();
@@ -145,21 +165,23 @@ class ilLTIViewGUI
         $this->log->warning("no valid context_id found for ref_id request: " . $ref_id);
 
         if (ilLTIViewGUI::CHECK_HTTP_REFERER) {
-            $ref_id = '';
-            $obj_type = '';
+            $ref_id = $this->effectiveRefId;
+            $obj_type = ilObject::_lookupType($ref_id, true);
             $context_id = '';
-            $referer = '';
+            $referer = 0;
 
             // first try to get real http referer
             if (isset($_SERVER['HTTP_REFERER'])) {
-                $referer = $this->findEffectiveRefId($_SERVER['HTTP_REFERER']);
+                $this->findEffectiveRefId($_SERVER['HTTP_REFERER']);
             } else { // only fallback and not reliable on multiple browser LTi contexts
                 if (isset($_SESSION['referer_ref_id'])) {
-                    $referer = $_SESSION['referer_ref_id'];
+                    $this->effectiveRefId = $_SESSION['referer_ref_id'];
                 }
             }
 
-            if ($referer != '') {
+            $referrer = $this->effectiveRefId;
+
+            if ($referer > 0) {
                 if (isset($_SESSION['lti_' . $referer . '_post_data'])) {
                     $ref_id = $referer;
                     $context_id = $referer;
@@ -181,12 +203,12 @@ class ilLTIViewGUI
                     }
                 }
             }
-            if ($ref_id != '' && $obj_type != '') {
+            if ($ref_id > 0 && $obj_type != '') {
                 if ((isset($_GET['baseClass']) && $_GET['baseClass'] === 'ilDashboardGUI')
                     && (isset($_GET['cmdClass']) && $_GET['cmdClass'] === 'ilpersonalprofilegui')) {
                     return $context_id;
                 }
-                $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+//                $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                 $redirect = $this->link_dir . "goto.php?target=" . $obj_type . "_" . $ref_id . "&lti_context_id=" . $context_id;
                 $this->log->debug("redirect: " . $redirect);
                 ilUtil::redirect($redirect);
@@ -204,22 +226,28 @@ class ilLTIViewGUI
         return null;
     }
 
+    /**
+     * @return array|null
+     */
     public function getPostData() : ?array
     {
         $context_id = $this->getContextId();
-        if ($context_id == '') {
+        if ($context_id == 0) {
             $this->log->warning("could not find any valid context_id!");
             return null;
         }
-        $post_data = $_SESSION['lti_' . $this->getContextId() . '_post_data'];
+        $post_data = $_SESSION['lti_' . $context_id . '_post_data'];
         if (!is_array($post_data)) {
-            $this->log->warning("no session post_data: " . "lti_" . $this->getContextId() . "_post_data");
+            $this->log->warning("no session post_data: " . "lti_" . $context_id . "_post_data");
             return null;
         }
         return $post_data;
     }
 
-    public function getExternalCss()
+    /**
+     * @return string
+     */
+    public function getExternalCss() : string
     {
         $post_data = $this->getPostData();
         if ($post_data !== null) {
@@ -228,6 +256,9 @@ class ilLTIViewGUI
         return '';
     }
 
+    /**
+     * @return string
+     */
     public function getTitle() : string
     {
         $post_data = $this->getPostData();
@@ -237,11 +268,17 @@ class ilLTIViewGUI
         return "LTI";
     }
 
+    /**
+     * @return string
+     */
     public function getTitleForExitPage() : string
     {
         return $this->lng->txt('lti_exited');
     }
 
+    /**
+     * @return string
+     */
     public function getShortTitle() : string
     {
         return $this->lng->txt('lti_mode');
@@ -256,7 +293,7 @@ class ilLTIViewGUI
         $this->dic->logger()->lti()->info("exitLTI");
         $force_ilias_logout = false;
         $context_id = $this->getContextId();
-        if ($context_id == '') {
+        if ($context_id == 0) {
             $this->log->warning("could not find any valid context_id!");
             $force_ilias_logout = true;
         }
@@ -291,6 +328,7 @@ class ilLTIViewGUI
      */
     public function logout(bool $force_ilias_logout = false) : void
     {
+        global $DIC;
         if ($force_ilias_logout) {
             $this->log->warning("forcing logout ilias session, maybe a broken LTI context");
         } else {
@@ -300,26 +338,29 @@ class ilLTIViewGUI
             }
         }
         $this->dic->logger()->lti()->info("logout");
-        $GLOBALS['DIC']->user()->setAuthMode(ilAuthUtils::AUTH_LOCAL);
+        $DIC->user()->setAuthMode((string) ilAuthUtils::AUTH_LOCAL);
         //ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER); // needed?
         $auth = $GLOBALS['DIC']['ilAuthSession'];
         //$auth->logout(); // needed?
-        $auth->setExpired($auth::SESSION_AUTH_EXPIRED, ilAuthStatus::STATUS_UNDEFINED);
+//        $auth->setExpired($auth::SESSION_AUTH_EXPIRED, ilAuthStatus::STATUS_UNDEFINED);
+        $auth->setExpired(true);
         session_destroy();
         $client_id = $_COOKIE["ilClientId"];
         ilUtil::setCookie("ilClientId", "");
         ilUtil::setCookie("PHPSESSID", "");
     }
 
+    /**
+     * @param String $cmd
+     * @return String
+     * @throws ilCtrlException
+     */
     public function getCmdLink(String $cmd) : String
     {
         global $ilCtrl;
         $lti_context_id = $this->getContextId();
         $lti_context_id_param = ($lti_context_id != '') ? "&lti_context_id=" . $lti_context_id : '';
-//        $targetScript = ($ilCtrl->getTargetScript() !== 'ilias.php') ? "ilias.php" : "";
         $targetScript = "";
-//        die($this->link_dir . $targetScript . $this->dic->ctrl()->getLinkTargetByClass(array('illtiroutergui',strtolower(get_class($this))), $cmd) . "&baseClass=illtiroutergui" . $lti_context_id_param);
-//        return $this->link_dir.$targetScript.$ilCtrl->getLinkTargetByClass(array('illtiroutergui',strtolower(get_class($this))),$cmd)."&baseClass=illtiroutergui".$lti_context_id_param;
         return $this->link_dir . $targetScript . $this->dic->ctrl()->getLinkTargetByClass(array('illtiroutergui',strtolower(get_class($this))), $cmd) . "&baseClass=illtiroutergui" . $lti_context_id_param;
     }
 
@@ -349,24 +390,31 @@ class ilLTIViewGUI
             $_SESSION['lti_context_ids'] = $lti_context_ids;
         }
     }
-    
+
     /**
      * Find effective ref_id for request
+     * @param string|null $url
      */
-    private function findEffectiveRefId(?string $url = null) : ?int
+    private function findEffectiveRefId(?string $url = null) : void
     {
         if ($url === null) {
             $query = $_GET;
         } else {
-            parse_str(parse_url($url, PHP_URL_QUERY), $query);
+            parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
         }
         if ((int) $query['ref_id']) {
-            return (int) $query['ref_id'];
+            $this->effectiveRefId = (int) $query['ref_id'];
+            return;
         }
-        $target_arr = explode('_', (string) $query['target']);
+        if ($_SESSION['lti_init_target'] != "") {
+            $target_arr = explode('_', $_SESSION['lti_init_target']);
+            $_SESSION['lti_init_target'] = "";
+        } else {
+            $target_arr = explode('_', (string) $query['target']);
+        }
         if (isset($target_arr[1]) and (int) $target_arr[1]) {
-            return (int) $target_arr[1];
+            $this->effectiveRefId = (int) $target_arr[1];
+            return;
         }
-        return null;
     }
 }

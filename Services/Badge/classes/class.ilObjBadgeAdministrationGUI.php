@@ -22,6 +22,7 @@
  */
 class ilObjBadgeAdministrationGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected ilBadgeGUIRequest $badge_request;
     protected ilTabsGUI $tabs;
 

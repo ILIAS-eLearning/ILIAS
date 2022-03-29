@@ -72,7 +72,7 @@ class ilSystemStyleHTMLExport
                 $to = $im['exp_file_name'];
             }
             copy(
-                ilUtil::getImagePath($from, false, 'filesystem'),
+                ilUtil::getImagePath($from, '', 'filesystem'),
                 $this->img_dir . '/' . $to
             );
         }

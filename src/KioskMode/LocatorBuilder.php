@@ -17,7 +17,7 @@ interface LocatorBuilder
     /**
      * Finish building the locator.
      */
-    public function end(): ControlBuilder;
+    public function end() : ControlBuilder;
 
     /**
      * Build an entry in the locator.

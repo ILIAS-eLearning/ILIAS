@@ -99,10 +99,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             if (isset($column['optional']) && !$column['optional']) {
                 return true;
             }
-            if (
-                is_array($this->visibleOptionalColumns) &&
-                array_key_exists($column['field'], $this->visibleOptionalColumns)
-            ) {
+            if (array_key_exists($column['field'], $this->visibleOptionalColumns)) {
                 return true;
             }
         }
@@ -119,14 +116,12 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
     protected function removeInvisibleFields(array $row) : array
     {
-        if (is_array($this->visibleOptionalColumns)) {
-            if (!array_key_exists('attachments', $this->visibleOptionalColumns)) {
-                unset($row['attachment_indicator']);
-            }
+        if (!array_key_exists('attachments', $this->visibleOptionalColumns)) {
+            unset($row['attachment_indicator']);
+        }
 
-            if (!array_key_exists('personal_picture', $this->visibleOptionalColumns)) {
-                unset($row['img_sender'], $row['alt_sender']);
-            }
+        if (!array_key_exists('personal_picture', $this->visibleOptionalColumns)) {
+            unset($row['img_sender'], $row['alt_sender']);
         }
 
         return $row;
@@ -248,7 +243,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     $column['txt'],
                     isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
                     $column['width'] ?? '',
-                    isset($column['is_checkbox']) ? (bool) $column['is_checkbox'] : false
+                    isset($column['is_checkbox']) && (bool) $column['is_checkbox']
                 );
             }
         }

@@ -21,7 +21,7 @@ require_once 'Modules/Test/classes/class.ilTestOutputGUI.php';
  */
 class ilTestPlayerFixedQuestionSetGUI extends ilTestOutputGUI
 {
-    protected function buildTestPassQuestionList()
+    protected function buildTestPassQuestionList() : ilAssQuestionList
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];

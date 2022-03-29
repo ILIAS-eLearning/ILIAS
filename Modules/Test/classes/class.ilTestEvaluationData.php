@@ -103,7 +103,7 @@ class ilTestEvaluationData
         $this->accessFilteredParticipantList = $accessFilteredParticipantList;
     }
 
-    protected function checkParticipantAccess($activeId)
+    protected function checkParticipantAccess($activeId) : bool
     {
         if ($this->getAccessFilteredParticipantList() === null) {
             return true;
@@ -112,7 +112,7 @@ class ilTestEvaluationData
         return $this->getAccessFilteredParticipantList()->isActiveIdInList($activeId);
     }
 
-    protected function loadRows()
+    protected function loadRows() : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
@@ -212,7 +212,7 @@ class ilTestEvaluationData
         }
     }
 
-    public function getTest()
+    public function getTest() : ilObjTest
     {
         return $this->test;
     }
@@ -227,7 +227,7 @@ class ilTestEvaluationData
         $this->datasets = $datasets;
     }
 
-    public function getDatasets()
+    public function getDatasets() : int
     {
         return $this->datasets;
     }
@@ -237,7 +237,7 @@ class ilTestEvaluationData
         $this->questionTitles[$question_id] = $question_title;
     }
 
-    public function getQuestionTitles()
+    public function getQuestionTitles() : array
     {
         return $this->questionTitles;
     }
@@ -257,7 +257,7 @@ class ilTestEvaluationData
         $this->statistics = new ilTestStatistics($this);
     }
 
-    public function getTotalFinishedParticipants()
+    public function getTotalFinishedParticipants() : int
     {
         $finishedParticipants = 0;
 
@@ -272,7 +272,7 @@ class ilTestEvaluationData
         return $finishedParticipants;
     }
 
-    public function getParticipants()
+    public function getParticipants() : array
     {
         if (is_array($this->arrFilter) && count($this->arrFilter) > 0) {
             $filteredParticipants = array();
@@ -373,12 +373,12 @@ class ilTestEvaluationData
      * @param integer $active_id
      * @return ilTestEvaluationUserData
      */
-    public function getParticipant($active_id)
+    public function getParticipant($active_id) : ilTestEvaluationUserData
     {
         return $this->participants[$active_id];
     }
 
-    public function participantExists($active_id)
+    public function participantExists($active_id) : bool
     {
         return array_key_exists($active_id, $this->participants);
     }
@@ -388,12 +388,12 @@ class ilTestEvaluationData
         unset($this->participants[$active_id]);
     }
 
-    public function getStatistics()
+    public function getStatistics() : object
     {
         return $this->statistics;
     }
 
-    public function getParticipantIds()
+    public function getParticipantIds() : array
     {
         return array_keys($this->participants);
     }

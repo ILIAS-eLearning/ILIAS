@@ -36,7 +36,6 @@ use League\Flysystem\FilesystemInterface;
  */
 final class FlySystemFileStreamAccess implements FileStreamAccess
 {
-
     private FilesystemInterface $flySystemFS;
 
     /**
@@ -97,7 +96,7 @@ final class FlySystemFileStreamAccess implements FileStreamAccess
      * @version 1.0
      * @see     FileStream::detach()
      */
-    public function writeStream(string $path, FileStream $stream): void
+    public function writeStream(string $path, FileStream $stream) : void
     {
         $resource = $stream->detach();
         try {
@@ -135,7 +134,7 @@ final class FlySystemFileStreamAccess implements FileStreamAccess
      * @version 1.0
      * @see     FileStream::detach()
      */
-    public function putStream(string $path, FileStream $stream): void
+    public function putStream(string $path, FileStream $stream) : void
     {
         $resource = $stream->detach();
         try {
@@ -171,7 +170,7 @@ final class FlySystemFileStreamAccess implements FileStreamAccess
      * @since   5.3
      * @version 1.0
      */
-    public function updateStream(string $path, FileStream $stream): void
+    public function updateStream(string $path, FileStream $stream) : void
     {
         $resource = $stream->detach();
         try {

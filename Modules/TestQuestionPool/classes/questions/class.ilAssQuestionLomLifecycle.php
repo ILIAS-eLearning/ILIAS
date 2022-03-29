@@ -39,7 +39,7 @@ class ilAssQuestionLomLifecycle
     /**
      * @return string
      */
-    public function getIdentifier()
+    public function getIdentifier() : string
     {
         return $this->identifier;
     }
@@ -57,7 +57,7 @@ class ilAssQuestionLomLifecycle
     /**
      * @return string[]
      */
-    public function getValidIdentifiers()
+    public function getValidIdentifiers() : array
     {
         return [self::DRAFT, self::FINAL, self::REVISED, self::UNAVAILABLE];
     }
@@ -78,7 +78,7 @@ class ilAssQuestionLomLifecycle
     /**
      * @return string
      */
-    public function getMappedIliasLifecycleIdentifer()
+    public function getMappedIliasLifecycleIdentifer() : string
     {
         switch ($this->getIdentifier()) {
             case self::UNAVAILABLE:

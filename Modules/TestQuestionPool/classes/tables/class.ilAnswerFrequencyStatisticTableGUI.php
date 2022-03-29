@@ -156,7 +156,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         }
     }
     
-    protected function buildAddAnswerAction($data)
+    protected function buildAddAnswerAction($data) : string
     {
         $uid = md5($this->getQuestionIndex() . $data['answer']);
         
@@ -182,7 +182,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         return $uiRenderer->render($showModalButton);
     }
     
-    protected function buildAddAnswerModalGui($uid, $data)
+    protected function buildAddAnswerModalGui($uid, $data) : ilModalGUI
     {
         $formAction = $this->DIC->ctrl()->getFormAction(
             $this->getParentObject(),

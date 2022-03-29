@@ -15,8 +15,6 @@
 class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 {
     public static string $block_type = "objectsearch";
-    public static $st_data;
-
 
     public function __construct(string $a_title)
     {
@@ -26,6 +24,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
         
         $this->setTitle($a_title);
         $this->allow_moving = false;
+        $this->new_rendering = true;
     }
 
     /**
@@ -75,13 +74,6 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
         $this->setDataSection($this->getLegacyContent());
     }
 
-    //
-    // New rendering
-    //
-
-    protected $new_rendering = true;
-
-
     /**
      * @inheritdoc
      */
@@ -95,7 +87,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
         $tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass('ilrepositoryobjectsearchgui', 'performSearch'));
         $tpl->setVariable(
             "SEARCH_TERM",
-            ilLegacyFormElementsUtil::prepareFormOutput(ilUtil::stripSlashes($_POST["search_term"] ?? ""))
+            ilLegacyFormElementsUtil::prepareFormOutput(ilUtil::stripSlashes($_POST["search_term"] ?? ""))// @TODO: PHP8 Review: Direct access to $_POST.
         );
 
         return $tpl->get();

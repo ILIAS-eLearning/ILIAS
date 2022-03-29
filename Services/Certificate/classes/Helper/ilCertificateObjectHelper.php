@@ -9,11 +9,11 @@ class ilCertificateObjectHelper
     /**
      * @param int  $objectId
      * @param bool $stop_on_error
-     * @return ilObject
+     * @return null|ilObject
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    public function getInstanceByObjId(int $objectId, bool $stop_on_error = true) : ilObject
+    public function getInstanceByObjId(int $objectId, bool $stop_on_error = true) : ?ilObject
     {
         return ilObjectFactory::getInstanceByObjId($objectId, $stop_on_error);
     }

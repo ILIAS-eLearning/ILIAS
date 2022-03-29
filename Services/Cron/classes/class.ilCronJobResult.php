@@ -85,7 +85,7 @@ class ilCronJobResult
         return $this->code;
     }
     
-    public function setCode($a_value) : void
+    public function setCode(string $a_value) : void
     {
         $this->code = $a_value;
     }

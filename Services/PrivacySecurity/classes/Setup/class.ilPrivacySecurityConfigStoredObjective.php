@@ -12,11 +12,11 @@ use ILIAS\Setup;
 class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
 {
     /**
-     * @var    \ilPrivacySecuritySetupConfig
+     * @var    ilPrivacySecuritySetupConfig
      */
-    protected $config;
+    protected ilPrivacySecuritySetupConfig $config;
 
-    public function __construct(\ilPrivacySecuritySetupConfig $config)
+    public function __construct(ilPrivacySecuritySetupConfig $config)
     {
         $this->config = $config;
     }
@@ -39,8 +39,8 @@ class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new \ilIniFilesPopulatedObjective(),
-            new \ilSettingsFactoryExistsObjective()
+            new ilIniFilesPopulatedObjective(),
+            new ilSettingsFactoryExistsObjective()
         ];
     }
 

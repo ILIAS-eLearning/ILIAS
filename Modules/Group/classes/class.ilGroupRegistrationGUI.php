@@ -21,9 +21,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory;
-
 /**
 * GUI class for group registrations
 *
@@ -35,9 +32,6 @@ use ILIAS\Refinery\Factory;
 */
 class ilGroupRegistrationGUI extends ilRegistrationGUI
 {
-    protected GlobalHttpState $http;
-    protected Factory $refinery;
-
     /**
      * Constructor
      *
@@ -49,8 +43,6 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         global $DIC;
 
         parent::__construct($a_container);
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
     }
     
     protected function executeCommand() : void
@@ -459,13 +451,14 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                 );
 
                 ilForumNotification::checkForumsExistsInsert($this->container->getRefId(), $this->user->getId());
-                    
-                if (!$_SESSION["pending_goto"]) {
+
+                $pending_goto = ilSession::get('pending_goto');
+                if (!$pending_goto) {
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("grp_registration_completed"), true);
                     $this->ctrl->returnToParent($this);
                 } else {
-                    $tgt = $_SESSION["pending_goto"];
-                    unset($_SESSION["pending_goto"]);
+                    $tgt = $pending_goto;
+                    ilSession::clear('pending_goto');
                     ilUtil::redirect($tgt);
                 }
                 break;

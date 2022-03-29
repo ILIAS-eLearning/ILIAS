@@ -129,10 +129,14 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
             foreach ($this->notifications as $notification) {
                 if ($notification instanceof StandardNotificationGroup) {
                     foreach ($notification->getNotifications() as $s_notification) {
-                        $count += $s_notification->getOldAmount();
+                        if ($s_notification->getOldAmount() > 0) {
+                            $count++;
+                        }
                     }
                 } else {
-                    $count += $notification->getOldAmount();
+                    if ($s_notification->getOldAmount() > 0) {
+                        $count++;
+                    }
                 }
             }
             
@@ -154,10 +158,14 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
             foreach ($this->notifications as $notification) {
                 if ($notification instanceof StandardNotificationGroup) {
                     foreach ($notification->getNotifications() as $s_notification) {
-                        $count += $s_notification->getNewAmount();
+                        if ($s_notification->getNewAmount() > 0) {
+                            $count++;
+                        }
                     }
                 } else {
-                    $count += $notification->getNewAmount();
+                    if ($s_notification->getNewAmount() > 0) {
+                        $count++;
+                    }
                 }
             }
             

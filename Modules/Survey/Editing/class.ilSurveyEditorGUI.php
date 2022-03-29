@@ -59,7 +59,7 @@ class ilSurveyEditorGUI
         
         $this->parent_gui = $a_parent_gui;
         /** @var ilObjSurvey $survey */
-        $survey = $this->parent_gui->object;
+        $survey = $this->parent_gui->getObject();
         $this->object = $survey;
 
         $this->ctrl = $ilCtrl;
@@ -98,11 +98,11 @@ class ilSurveyEditorGUI
         
         $cmd = $this->ctrl->getCmd("questions");
                                     
-        if ($this->requested_pgov != "") {
-            if ($cmd == "questions") {
+        if ($this->requested_pgov !== "") {
+            if ($cmd === "questions") {
                 $this->ctrl->setCmdClass("ilSurveyPageEditGUI");
                 $this->ctrl->setCmd("renderpage");
-            } elseif ($cmd == "confirmRemoveQuestions") {
+            } elseif ($cmd === "confirmRemoveQuestions") {
                 // #14324
                 $this->ctrl->setCmdClass("ilSurveyPageEditGUI");
                 $this->ctrl->setCmd("confirmRemoveQuestions");
@@ -119,7 +119,7 @@ class ilSurveyEditorGUI
             
             default:
                 // question gui
-                if (stristr($next_class, "questiongui")) {
+                if (stripos($next_class, "questiongui") !== false) {
                     $ilTabs->clearTargets();
                     $this->ctrl->saveParameter($this, array("new_for_survey"));
                     $q_gui = SurveyQuestionGUI::_getQuestionGUI(
@@ -152,7 +152,7 @@ class ilSurveyEditorGUI
     ) : void {
         $ilTabs = $this->tabs;
         
-        if ($a_cmd == "questions" && $this->requested_pgov != "") {
+        if ($a_cmd === "questions" && $this->requested_pgov !== "") {
             $a_cmd = "page";
         }
 
@@ -171,7 +171,7 @@ class ilSurveyEditorGUI
         $this->ctrl->setParameter($this, "pgov", $this->requested_pgov);
 
         if ($this->object->getSurveyPages()) {
-            if ($a_cmd == "page") {
+            if ($a_cmd === "page") {
                 $this->ctrl->setParameterByClass("ilsurveyexecutiongui", "pgov", max(1, $this->request->getPage()));
             }
             $this->ctrl->setParameterByClass("ilsurveyexecutiongui", "prvw", 1);
@@ -232,8 +232,8 @@ class ilSurveyEditorGUI
             if ($this->object->getPoolUsage()) {
                 $ilToolbar->addSeparator();
 
-                $cmd = ($ilUser->getPref('svy_insert_type') == 1 ||
-                    strlen($ilUser->getPref('svy_insert_type')) == 0)
+                $cmd = ((int) $ilUser->getPref('svy_insert_type') === 1 ||
+                    ($ilUser->getPref('svy_insert_type') ?? '') === '')
                     ? 'browseForQuestions'
                     : 'browseForQuestionblocks';
                                 
@@ -318,7 +318,7 @@ class ilSurveyEditorGUI
             asort($req_order);
             foreach (array_keys($req_order) as $id) {
                 // block items
-                if (substr($id, 0, 3) == "qb_") {
+                if (strpos($id, "qb_") === 0) {
                     $block_id = substr($id, 3);
                     $block = $req_block_order[$block_id];
                     asort($block);
@@ -363,7 +363,7 @@ class ilSurveyEditorGUI
                 $move_questions[] = $qid;
             }
         }
-        if (count($move_questions) == 0) {
+        if (count($move_questions) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_question_selected_for_move"), true);
             $this->ctrl->redirect($this, "questions");
         } else {
@@ -403,9 +403,9 @@ class ilSurveyEditorGUI
                 if (!$insert_id && preg_match("/^cb_qb_(\d+)$/", $target, $matches)) {
                     $ids = $this->object->getQuestionblockQuestionIds($matches[1]);
                     if (count($ids)) {
-                        if ($insert_mode == 0) {
+                        if ($insert_mode === 0) {
                             $insert_id = $ids[0];
-                        } elseif ($insert_mode == 1) {
+                        } elseif ($insert_mode === 1) {
                             $insert_id = $ids[count($ids) - 1];
                         }
                     }
@@ -417,7 +417,7 @@ class ilSurveyEditorGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_target_selected_for_move"), true);
         } else {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-            if ($this->edit_manager->getMoveSurveyId() != $this->object->getId()) {
+            if ($this->edit_manager->getMoveSurveyId() !== $this->object->getId()) {
                 $this->object->moveQuestions(
                     $this->edit_manager->getMoveSurveyQuestions(),
                     $insert_id,
@@ -491,7 +491,7 @@ class ilSurveyEditorGUI
         $checked_questionblocks = $this->request->getBlockIds();
         $checked_headings = $this->request->getHeadings();
 
-        if (sizeof($checked_questions) || sizeof($checked_questionblocks)) {
+        if (count($checked_questions) || count($checked_questionblocks)) {
             $this->object->removeQuestions($checked_questions, $checked_questionblocks);
         }
         if ($checked_headings) {
@@ -526,7 +526,7 @@ class ilSurveyEditorGUI
                 }
             }
         }
-        if (count($copy_questions) == 0) {
+        if (count($copy_questions) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_question_selected_for_copy_to_pool"), true);
             $this->ctrl->redirect($this, "questions");
         } else {
@@ -639,8 +639,11 @@ class ilSurveyEditorGUI
         return null;
     }
 
-    public function executeCreateQuestionObject($q_type = null, $pool_usage = null, $pgov_pos = null) : void
-    {
+    public function executeCreateQuestionObject(
+        ?string $q_type = null,
+        ?int $pool_usage = null,
+        ?string $pgov_pos = null
+    ) : void {
         $this->edit_manager->setPoolChoice($this->request->getPoolUsage());
 
         if (is_null($q_type)) {
@@ -663,11 +666,11 @@ class ilSurveyEditorGUI
             $obj_id = $this->object->getId();
         }
         // existing pool
-        elseif ($pool_usage == 3 && strlen($this->request->getSelectedPool())) {
+        elseif ($pool_usage == 3 && $this->request->getSelectedPool() > 0) {
             $obj_id = ilObject::_lookupObjId($this->request->getSelectedPool());
         }
         // new pool
-        elseif ($pool_usage == 2 && strlen($this->request->getPoolName())) {
+        elseif ($pool_usage == 2 && $this->request->getPoolName() !== "") {
             $obj_id = $this->createQuestionPool($this->request->getPoolName());
         } else {
             if (!$pool_usage) {
@@ -687,7 +690,7 @@ class ilSurveyEditorGUI
         $q_gui->object->createNewQuestion();
         $q_gui_class = get_class($q_gui);
         
-        if ($pgov != "") {
+        if ($pgov !== "") {
             $this->ctrl->setParameterByClass($q_gui_class, "pgov", $pgov);
             $this->ctrl->setParameterByClass($q_gui_class, "pgov_pos", $pgov_pos);
         }
@@ -730,7 +733,7 @@ class ilSurveyEditorGUI
         $ilToolbar = $this->toolbar;
         $ilUser = $this->user;
                 
-        if ($this->requested_pgov == "") {
+        if ($this->requested_pgov === "") {
             $link = $this->ctrl->getLinkTarget($this, "questions");
         } else {
             $link = $this->ctrl->getLinkTargetByClass("ilSurveyPageEditGUI", "renderpage");
@@ -796,7 +799,7 @@ class ilSurveyEditorGUI
         $page_gui = null;
         $qids = $this->request->getQuestionIds();
         if (count($qids) > 0) {
-            if ($this->requested_pgov != "") {
+            if ($this->requested_pgov !== "") {
                 $page_gui = new ilSurveyPageEditGUI($this->object, $this);
                 $page_gui->determineCurrentPage();
                 
@@ -804,7 +807,7 @@ class ilSurveyEditorGUI
                 $qids = array_reverse($qids);
             }
             foreach ($qids as $question_id) {
-                if ($this->requested_pgov == "") {
+                if ($this->requested_pgov === "") {
                     $this->object->insertQuestion($question_id);
                 } else {
                     // target position (pgov pos) is processed there
@@ -816,11 +819,11 @@ class ilSurveyEditorGUI
         if ($inserted_objects) {
             $this->object->saveCompletionStatus();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("questions_inserted"), true);
-            if ($this->requested_pgov == "") {
+            if ($this->requested_pgov === "") {
                 $this->ctrl->redirect($this, "questions");
             } else {
                 $target_page = $this->requested_pgov;
-                if (substr($this->request->getTargetQuestionPosition(), -1) == "c") {
+                if (substr($this->request->getTargetQuestionPosition(), -1) === "c") {
                     // see ilSurveyPageEditGUI::insertNewQuestion()
                     if ((int) $this->request->getTargetQuestionPosition()) {
                         $target_page++;
@@ -866,7 +869,7 @@ class ilSurveyEditorGUI
         $page_gui = null;
         $block_ids = $this->request->getBlockIds();
         if (count($block_ids) > 0) {
-            if ($this->requested_pgov != "") {
+            if ($this->requested_pgov !== "") {
                 $page_gui = new ilSurveyPageEditGUI($this->object, $this);
                 $page_gui->determineCurrentPage();
                 
@@ -874,7 +877,7 @@ class ilSurveyEditorGUI
                 $block_ids = array_reverse($block_ids);
             }
             foreach ($block_ids as $questionblock_id) {
-                if ($this->requested_pgov == "") {
+                if ($this->requested_pgov === "") {
                     $this->object->insertQuestionblock($questionblock_id);
                 } else {
                     $page_gui->insertQuestionBlock($questionblock_id);
@@ -884,12 +887,12 @@ class ilSurveyEditorGUI
         }
         if ($inserted_objects) {
             $this->object->saveCompletionStatus();
-            $this->tpl->setOnScreenMessage('success', ($inserted_objects == 1) ? $this->lng->txt("questionblock_inserted") : $this->lng->txt("questionblocks_inserted"), true);
-            if ($this->requested_pgov == "") {
+            $this->tpl->setOnScreenMessage('success', ($inserted_objects === 1) ? $this->lng->txt("questionblock_inserted") : $this->lng->txt("questionblocks_inserted"), true);
+            if ($this->requested_pgov === "") {
                 $this->ctrl->redirect($this, "questions");
             } else {
                 $target_page = $this->requested_pgov;
-                if (substr($this->request->getTargetQuestionPosition(), -1) == "c") {
+                if (substr($this->request->getTargetQuestionPosition(), -1) === "c") {
                     $target_page++;
                 }
                 $this->ctrl->setParameterByClass("ilSurveyPageEditGUI", "pgov", $target_page);
@@ -1006,7 +1009,7 @@ class ilSurveyEditorGUI
 
         $this->ctrl->setParameter($this, "bl_id", $block_id);
                     
-        if (!$block_id && count($q_ids) == 0) {
+        if (!$block_id && count($q_ids) === 0) {
             $this->ctrl->redirect($this, "questions");
         }
         
@@ -1176,7 +1179,7 @@ class ilSurveyEditorGUI
         $this->ctrl->redirect($this, "questions");
     }
 
-    public function printViewObject()
+    public function printViewObject() : void
     {
         $print_view = $this->print->page($this->object->getRefId());
         $print_view->sendPrintView();

@@ -178,6 +178,17 @@ class StandardPageTest extends ILIAS_UI_TestBase
             ->getTextDirection()
         );
     }
+    
+    public function testWithMetaDatum() : void
+    {
+        $meta_datum_key = 'meta_datum_key';
+        $meta_datum_value = 'meta_datum_value';
+        $meta_data = [$meta_datum_key => $meta_datum_value];
+        $this->assertEquals(
+            $meta_data,
+            $this->stdpage->withAdditionalMetaDatum($meta_datum_key, $meta_datum_value)->getMetaData()
+        );
+    }
 
     public function testRenderingWithTitle() : void
     {
@@ -288,6 +299,46 @@ class StandardPageTest extends ILIAS_UI_TestBase
 </html>
 ');
         $this->assertEquals($exptected, $html);
+    }
+    
+    public function testRenderingWithMetaData() : void
+    {
+        $this->stdpage = $this->stdpage->withAdditionalMetaDatum('meta_datum_key_1', 'meta_datum_value_1');
+        $this->stdpage = $this->stdpage->withAdditionalMetaDatum('meta_datum_key_2', 'meta_datum_value_2');
+    
+        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]);
+        $html = $this->brutallyTrimHTML($r->render($this->stdpage));
+        $expected = $this->brutallyTrimHTML('
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      <title>: </title>
+      <style></style>
+      <meta name="meta_datum_key_1" content="meta_datum_value_1" />
+      <meta name="meta_datum_key_2" content="meta_datum_value_2" />
+   </head>
+   <body>
+      <div class="il-page-overlay">Overlay Stub</div>
+      <div class="il-layout-page">
+         <header>
+            <div class="header-inner">
+               <div class="il-logo">Logo Stub<div class="il-pagetitle">pagetitle</div></div>MetaBar Stub</div>
+         </header>
+         
+         <div class="il-system-infos"></div>
+         <div class="nav il-maincontrols">MainBar Stub</div>
+         <!-- html5 main-tag is not supported in IE / div is needed -->
+         <main class="il-layout-page-content">
+            <div>some content</div>
+         </main>
+      </div>
+      <script>il.Util.addOnLoad(function() {});</script>
+   </body>
+</html>');
+        $this->assertEquals($expected, $html);
     }
 
 

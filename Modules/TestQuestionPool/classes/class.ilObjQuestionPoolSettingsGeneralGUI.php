@@ -58,14 +58,14 @@ class ilObjQuestionPoolSettingsGeneralGUI
     /**
      * gui instance for current question pool
      *
-     * @var ilObjTestQuestionPoolGUI
+     * @var ilObjQuestionPoolGUI
      */
     protected $poolGUI = null;
     
     /**
      * object instance for current question pool
      *
-     * @var ilObjTestQuestionPool
+     * @var ilObjQuestionPool
      */
     protected $poolOBJ = null;
     
@@ -91,7 +91,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
     {
         // allow only write access
         
-        if (!$this->access->checkAccess('write', '', $this->poolGUI->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->poolGUI->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_question_pool'), true);
             $this->ctrl->redirectByClass('ilObjQuestionPoolGUI', 'infoScreen');
         }
@@ -133,7 +133,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         
         if ($errors) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-            return $this->showFormCmd($form);
+            $this->showFormCmd($form);
         }
         
         // perform saving the form data
@@ -193,7 +193,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $this->poolOBJ->saveToDb();
     }
     
-    private function buildForm()
+    private function buildForm() : ilPropertyFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -271,7 +271,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         return $form;
     }
     
-    private function getTaxonomySelectInputOptions()
+    private function getTaxonomySelectInputOptions() : array
     {
         $taxSelectOptions = array(
             '0' => $this->lng->txt('qpl_settings_general_form_property_opt_notax_selected')
@@ -284,7 +284,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         return $taxSelectOptions;
     }
 
-    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId)
+    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId) : bool
     {
         return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
     }

@@ -17,11 +17,13 @@ require_once 'Services/Export/classes/class.ilExportGUI.php';
  */
 class ilTestExportGUI extends ilExportGUI
 {
+    private \ILIAS\Test\InternalRequestService $testrequest;
+
     public function __construct($a_parent_gui, $a_main_obj = null)
     {
         global $DIC;
         $component_factory = $DIC["component.factory"];
-
+        $this->testrequest = $DIC->test()->internal()->request();
         parent::__construct($a_parent_gui, $a_main_obj);
 
         #$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'), $this, 'createTestExport');
@@ -101,7 +103,7 @@ class ilTestExportGUI extends ilExportGUI
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
 
-        if ($ilAccess->checkAccess("write", "", $this->obj->ref_id)) {
+        if ($ilAccess->checkAccess("write", "", $this->obj->getRefId())) {
             // prepare generation before contents are processed (for mathjax)
             ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 

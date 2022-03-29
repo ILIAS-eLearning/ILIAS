@@ -11,8 +11,6 @@ class ilCertificateXlsFileLoader
      */
     public function getXlsCertificateContent()
     {
-        $xsl = file_get_contents("./Services/Certificate/xml/xhtml2fo.xsl");
-
-        return $xsl;
+        return file_get_contents("./Services/Certificate/xml/xhtml2fo.xsl");
     }
 }

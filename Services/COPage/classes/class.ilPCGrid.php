@@ -82,7 +82,7 @@ class ilPCGrid extends ilPageContent
         int $m,
         int $l,
         int $xl
-    ) {
+    ) : void {
         switch ($post_layout_template) {
             case ilPCGridGUI::TEMPLATE_TWO_COLUMN:
                 $this->addGridCell(12, 6, 6, 6);
@@ -149,7 +149,7 @@ class ilPCGrid extends ilPageContent
         array $a_width_m,
         array $a_width_l,
         array $a_width_xl
-    ) {
+    ) : void {
         $cell_nodes = $this->grid_node->child_nodes();
         for ($i = 0; $i < count($cell_nodes); $i++) {
             if ($cell_nodes[$i]->node_name() == "GridCell") {

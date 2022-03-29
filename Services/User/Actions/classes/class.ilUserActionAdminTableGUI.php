@@ -46,8 +46,11 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
             $this->addCommandButton("save", $this->lng->txt("save"));
         }
     }
-    
-    protected function fillRow(array $a_set) : void // Missing array type.
+
+    /**
+     * @param array<string,string> $a_set
+     */
+    protected function fillRow(array $a_set) : void
     {
         if ($a_set["active"]) {
             $this->tpl->touchBlock("checked");

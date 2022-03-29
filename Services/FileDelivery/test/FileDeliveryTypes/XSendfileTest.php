@@ -79,8 +79,6 @@ class XSendfileTest extends TestCase
                               ->method('sendResponse');
 
         $fileDeliveryType = new XSendfile($this->httpServiceMock);
-        $fileDeliveryOk = $fileDeliveryType->deliver($filePath, false);
-
-        $this->assertTrue($fileDeliveryOk);
+        $fileDeliveryType->deliver($filePath, false);
     }
 }
