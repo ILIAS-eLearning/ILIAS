@@ -9706,7 +9706,6 @@ forum#:#thread#:#Thema
 forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren
-// from the first line to the HTML-comment. After editing paste the lines in place again.
 glo#:#glo_add_from_other#:#Begriffe sammeln
 glo#:#glo_copy#:#Glossar kopieren
 glo#:#glo_copy_terms#:#Begriffe kopieren
@@ -10095,8 +10094,6 @@ jscalendar#:#time#:#Zeit
 jscalendar#:#today#:#Heute
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#KW
-// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
-<!-- language file start -->
 ldap#:#add_ldap_server#:#Server hinzufügen
 ldap#:#ldap_add_missing#:#Fehlende Rollen zuweisen
 ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
@@ -11967,7 +11964,6 @@ notes#:#notes_sort_desc#:#Absteigend sortieren
 notes#:#note_update_comment#:#Kommentar aktualisieren
 notes#:#note_update_note#:#Notiz aktualisieren
 notes#:#note_without_object#:#Ohne Objektbezug
-// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 notification_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Benachrichtigungen informiert.
 notification_adm#:#enable_osd#:#Popup-Screen Benachrichtigungen aktivieren
 notification_adm#:#notification_settings#:#Benachrichtigungseinstellungen
@@ -16000,8 +15996,6 @@ tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
 tbl#:#tbl_templates#:#Ansicht
-// The language file starts beyond the HTML-comment below. DO NOT modify this line!
-// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 tos#:#tos_acceptance_history#:#Zustimmungshistorie
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 tos#:#tos_add_document_btn_label#:#Dokument hinzufügen
@@ -16077,7 +16071,6 @@ tos#:#tos_tbl_hist_head_login#:#Benutzername
 tos#:#tos_tos_settings#:#Einstellungen
 tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos.
 tos#:#tos_withdrawal_usr_deletion#:#Löschung des Benutzerkontos beim Widerruf
-// to the corresponding mode!
 trac#:#cmix_lp_mode_deactivated_info#:#Der Lernfortschrittsstatus wird nicht angezeigt und hat keinen Einfluss auf übergeordnete Objekte.
 trac#:#cmix_lp_mode_deactivated#:#Lernfortschritt wird deaktiviert
 trac#:#cmix_lp_mode_when_completed#:#Abgeschlossen, wenn "completed".

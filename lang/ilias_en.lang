@@ -9679,7 +9679,6 @@ forum#:#thread#:#Thread
 forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
-// from the first line to the HTML-comment. After editing paste the lines in place again.
 glo#:#glo_add_from_other#:#Collect Terms
 glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
@@ -10068,8 +10067,6 @@ jscalendar#:#time#:#Time
 jscalendar#:#today#:#Today
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
-// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
-<!-- language file start -->
 ldap#:#add_ldap_server#:#Add Server
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
@@ -11941,7 +11938,6 @@ notes#:#notes_sort_desc#:#Sort Descending
 notes#:#note_update_comment#:#Update Comment
 notes#:#note_update_note#:#Update Note
 notes#:#note_without_object#:#Without reference
-// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 notification_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
 notification_adm#:#enable_osd#:#Enable On-Screen Notifications
 notification_adm#:#notification_settings#:#Notifciation Settings
@@ -15971,8 +15967,6 @@ tbl#:#tbl_template_create#:#Save Current View
 tbl#:#tbl_template_delete#:#Delete Saved View
 tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 tbl#:#tbl_templates#:#View
-// The language file starts beyond the HTML-comment below. DO NOT modify this line!
-// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 tos#:#tos_acceptance_history#:#Acceptance History
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_add_document_btn_label#:#Add Document
@@ -16048,7 +16042,6 @@ tos#:#tos_tbl_hist_head_login#:#Login
 tos#:#tos_tos_settings#:#Settings
 tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal
 tos#:#tos_withdrawal_usr_deletion_info#:#If enabled, the withdrawal of the 'Terms of Service' provokes a deletion of the user account.
-// to the corresponding mode!
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'
