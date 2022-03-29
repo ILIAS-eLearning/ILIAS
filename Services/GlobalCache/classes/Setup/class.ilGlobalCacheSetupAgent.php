@@ -86,8 +86,8 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
         $m = new ilMemcacheServer();
         $m->setStatus($node["active"] === "1" ? ilMemcacheServer::STATUS_ACTIVE : ilMemcacheServer::STATUS_INACTIVE);
         $m->setHost($node["host"]);
-        $m->setPort($node["port"]);
-        $m->setWeight($node["weight"]);
+        $m->setPort((int) $node["port"]);
+        $m->setWeight((int) $node["weight"]);
 
         return $m;
     }
