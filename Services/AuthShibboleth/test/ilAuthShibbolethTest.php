@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilAuthShibbolethTest extends TestCase
 {
-    private $dic_backup;
+    private ?\ILIAS\DI\Container $dic_backup;
     
     protected function setUp() : void
     {

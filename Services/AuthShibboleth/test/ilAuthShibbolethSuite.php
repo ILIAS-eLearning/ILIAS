@@ -20,7 +20,7 @@ require_once 'libs/composer/vendor/autoload.php';
 
 class ilAuthShibbolethSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new self();
         
