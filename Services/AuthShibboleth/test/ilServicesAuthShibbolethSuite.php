@@ -18,14 +18,14 @@ use PHPUnit\Framework\TestSuite;
 
 require_once 'libs/composer/vendor/autoload.php';
 
-class ilAuthShibbolethSuite extends TestSuite
+class ilServicesAuthShibbolethSuite extends TestSuite
 {
     public static function suite() : self
     {
         $suite = new self();
         
-        require_once("./Services/AuthShibboleth/test/ilAuthShibbolethTest.php");
-        $suite->addTestSuite("ilAuthShibbolethTest");
+        require_once("./Services/AuthShibboleth/test/ilServicesAuthShibbolethTest.php");
+        $suite->addTestSuite("ilServicesAuthShibbolethTest");
         
         return $suite;
     }
