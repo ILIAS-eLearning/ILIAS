@@ -87,11 +87,7 @@ class ilShibbolethSettings
 
         return (string) ($this->data[$a_keyword] ?? $a_default_value);
     }
-
-    public function delete(string $a_keyword) : void
-    {
-        // TODO: Implement delete() method.
-    }
+    
 
     /**
      * @return mixed[]
