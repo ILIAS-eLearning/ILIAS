@@ -101,18 +101,12 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
      */
     protected function getConstraintForRequirement() : ?Constraint
     {
-        return $this->refinery->custom()->constraint(
-            function ($value) {
-                $valueIsAString = $this->refinery
-                    ->to()
-                    ->string()
-                    ->applyTo(new Ok($value))
-                    ->isOK();
-
-                return ($valueIsAString);
-            },
-            "No string"
-        );
+        return $this->refinery->logical()->sequential([
+            $this->refinery->logical()->not($this->refinery->null()),
+            $this->refinery->string()->hasMinLength(1)
+        ])->withProblemBuilder(function ($txt) {
+            return $txt('ui_tag_required');
+        });
     }
 
     /**

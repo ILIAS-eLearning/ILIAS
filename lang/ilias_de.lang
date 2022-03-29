@@ -16329,6 +16329,7 @@ ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
+ui#:#ui_tag_required#:#Bitte geben sie mindestens ein Tag ein.
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
 user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen
