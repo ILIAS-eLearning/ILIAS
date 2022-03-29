@@ -22,7 +22,6 @@ namespace ILIAS\ResourceStorage\Preloader;
  */
 interface PreloadableRepository
 {
-
     public function preload(array $identification_strings) : void;
 
     public function populateFromArray(array $data) : void;

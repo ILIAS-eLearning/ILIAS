@@ -35,5 +35,4 @@ class LockHandlerResultilDB implements LockHandlerResult
     {
         $this->atom->run();
     }
-
 }

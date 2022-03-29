@@ -26,7 +26,6 @@ use ILIAS\ResourceStorage\Information\FileInformation;
  */
 class UploadedFileRevision extends FileRevision implements Revision
 {
-
     private \ILIAS\FileUpload\DTO\UploadResult $upload;
 
 

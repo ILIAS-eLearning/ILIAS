@@ -128,8 +128,12 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     {
         global $DIC;
 
-        $DIC->upload()->moveOneFileTo($revision->getUpload(), $this->getRevisionPath($revision), $this->location,
-            self::DATA);
+        $DIC->upload()->moveOneFileTo(
+            $revision->getUpload(),
+            $this->getRevisionPath($revision),
+            $this->location,
+            self::DATA
+        );
 
         return true;
     }
@@ -151,8 +155,10 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
                     link($target, $this->getAbsoluteRevisionPath($revision) . '/' . self::DATA);
                     unlink($target);
                 } else {
-                    $this->fs->rename(LegacyPathHelper::createRelativePath($target),
-                        $this->getRevisionPath($revision) . '/' . self::DATA);
+                    $this->fs->rename(
+                        LegacyPathHelper::createRelativePath($target),
+                        $this->getRevisionPath($revision) . '/' . self::DATA
+                    );
                 }
                 $revision->getStream()->close();
             }
@@ -184,9 +190,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         try {
             $this->fs->deleteDir($this->getRevisionPath($revision));
         } catch (\Throwable $t) {
-
         }
-
     }
 
     /**
@@ -202,7 +206,6 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
             $this->cleanUpContainer($resource);
         } catch (\Throwable $t) {
         }
-
     }
 
     public function cleanUpContainer(StorableResource $resource) : void
@@ -248,5 +251,4 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     {
         return $this->links_possible ? 'link' : 'rename';
     }
-
 }

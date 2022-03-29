@@ -47,8 +47,10 @@ class RevisionCollection
         }
         foreach ($this->revisions as $r) {
             if ($r->getVersionNumber() === $revision->getVersionNumber()) {
-                throw new RevisionExistsException(sprintf("Can't add already existing version number: %s",
-                    $revision->getVersionNumber()));
+                throw new RevisionExistsException(sprintf(
+                    "Can't add already existing version number: %s",
+                    $revision->getVersionNumber()
+                ));
             }
         }
         $this->revisions[$revision->getVersionNumber()] = $revision;

@@ -29,7 +29,6 @@ use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
  */
 interface ResourceRepository extends LockingRepository, PreloadableRepository
 {
-
     public function blank(ResourceIdentification $identification) : StorableResource;
 
 
