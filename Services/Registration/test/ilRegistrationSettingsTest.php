@@ -20,8 +20,6 @@ use ILIAS\DI\Container;
  */
 class ilRegistrationSettingsTest extends TestCase
 {
-    protected $backupGlobals = false;
-
     protected Container $dic;
 
     protected function setUp() : void
@@ -33,7 +31,7 @@ class ilRegistrationSettingsTest extends TestCase
     public function testConstruct() : void
     {
         $settings = new ilRegistrationSettings();
-        $this->assertTrue($settings instanceof ilRegistrationSettings);
+        $this->assertInstanceOf(ilRegistrationSettings::class, $settings);
     }
 
     protected function setGlobalVariable(string $name, $value) : void
@@ -42,7 +40,7 @@ class ilRegistrationSettingsTest extends TestCase
 
         $GLOBALS[$name] = $value;
         unset($DIC[$name]);
-        $DIC[$name] = static function (\ILIAS\DI\Container $c) use ($value) {
+        $DIC[$name] = static function (Container $c) use ($value) {
             return $value;
         };
     }
