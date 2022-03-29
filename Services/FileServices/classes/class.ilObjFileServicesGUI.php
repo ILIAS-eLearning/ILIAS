@@ -26,11 +26,6 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 class ilObjFileServicesGUI extends ilObject2GUI
 {
     const CMD_EDIT_SETTINGS = 'editSettings';
-
-    /**
-     * @var ilRbacSystem (not yet declared in parent)
-     */
-    protected $rbacsystem;
     protected ilTabsGUI $tabs;
     public ilLanguage $lng;
     public ilErrorHandling $error_handling;
@@ -61,7 +56,6 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->tpl = $DIC['tpl'];
         $this->tree = $DIC['tree'];
         $this->settings = $DIC['ilSetting'];
-        $this->rbacsystem = $DIC['rbacsystem'];
         $this->error_handling = $DIC["ilErr"];
         $this->http = $DIC->http()->wrapper();
         $this->ref_id = $this->http->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
@@ -123,14 +117,22 @@ class ilObjFileServicesGUI extends ilObject2GUI
      */
     public function getAdminTabs() : void
     {
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess(
+            "visible,read",
+            $this->object->getRefId()
+        )
+        ) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
                 [self::CMD_EDIT_SETTINGS, "view"]
             );
         }
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess(
+            'edit_permission',
+            $this->object->getRefId()
+        )
+        ) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, "perm"),

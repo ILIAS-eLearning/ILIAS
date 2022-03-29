@@ -25,7 +25,6 @@ class ilFileServicesSettings
     private array $white_list_negative = [];
     private array $white_list_positive = [];
     private array $white_list_overall = [];
-    
     private array $black_list_prohibited = [];
     private array $black_list_overall = [];
     
@@ -39,13 +38,13 @@ class ilFileServicesSettings
         $this->read();
     }
     
-    private function read(): void
+    private function read() : void
     {
         $this->readBlackList();
         $this->readWhiteList();
     }
     
-    private function readWhiteList(): void
+    private function readWhiteList() : void
     {
         $cleaner = $this->getCleaner();
         
@@ -66,10 +65,7 @@ class ilFileServicesSettings
         $this->white_list_overall = array_unique($this->white_list_overall);
     }
     
-    /**
-     * @return void
-     */
-    private function readBlackList(): void
+    private function readBlackList() : void
     {
         $cleaner = $this->getCleaner();
         
@@ -78,23 +74,23 @@ class ilFileServicesSettings
             explode(",", $this->settings->get("suffix_custom_expl_black") ?? '')
         );
         
-        $this->black_list_prohibited = array_filter($this->black_list_prohibited, fn($item): bool => $item !== '');
+        $this->black_list_prohibited = array_filter($this->black_list_prohibited, fn ($item) : bool => $item !== '');
         $this->black_list_overall = $this->black_list_prohibited;
     }
     
-    private function getCleaner(): Closure
+    private function getCleaner() : Closure
     {
-        return function(string $suffix): string {
+        return function (string $suffix) : string {
             return trim(strtolower($suffix));
         };
     }
     
-    public function getWhiteListedSuffixes(): array
+    public function getWhiteListedSuffixes() : array
     {
         return $this->white_list_overall;
     }
     
-    public function getBlackListedSuffixes(): array
+    public function getBlackListedSuffixes() : array
     {
         return $this->black_list_overall;
     }
@@ -110,7 +106,7 @@ class ilFileServicesSettings
     /**
      * @internal
      */
-    public function getWhiteListNegative(): array
+    public function getWhiteListNegative() : array
     {
         return $this->white_list_negative;
     }
@@ -118,7 +114,7 @@ class ilFileServicesSettings
     /**
      * @internal
      */
-    public function getWhiteListPositive(): array
+    public function getWhiteListPositive() : array
     {
         return $this->white_list_positive;
     }
@@ -126,9 +122,8 @@ class ilFileServicesSettings
     /**
      * @internal
      */
-    public function getProhibited(): array
+    public function getProhibited() : array
     {
         return $this->black_list_prohibited;
     }
-    
 }
