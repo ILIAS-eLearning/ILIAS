@@ -57,20 +57,9 @@ interface ilFileDeliveryType
     public function handleFileDeletion(string $path_to_file) : bool;
 
 
-    /**
-     * @return bool
-     */
-    public function supportsInlineDelivery();
+    public function supportsInlineDelivery() : bool;
 
+    public function supportsAttachmentDelivery() : bool;
 
-    /**
-     * @return bool
-     */
-    public function supportsAttachmentDelivery();
-
-
-    /**
-     * @return bool
-     */
-    public function supportsStreaming();
+    public function supportsStreaming() : bool;
 }
