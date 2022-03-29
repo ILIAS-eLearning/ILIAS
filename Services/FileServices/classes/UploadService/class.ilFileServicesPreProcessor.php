@@ -22,11 +22,12 @@ class ilFileServicesPreProcessor extends BlacklistExtensionPreProcessor
     public function __construct(
         ilRbacSystem $rbac,
         ilFileServicesSettings $settings,
-        string $reason = 'Extension is blacklisted.'
+        string $reason = 'Extension is blacklisted.',
+        ?int $fileadmin_ref_id = null
     ) {
         parent::__construct($settings->getBlackListedSuffixes(), $reason);
         $this->rbac = $rbac;
-        $this->fileadmin_ref_id = $this->determineFileAdminRefId();
+        $this->fileadmin_ref_id = $fileadmin_ref_id ?? $this->determineFileAdminRefId();
     }
     
     public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus

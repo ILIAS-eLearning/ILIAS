@@ -26,7 +26,7 @@ class ilObjFileServices extends ilObject
      * @param int  $id
      * @param bool $call_by_reference
      */
-    public function __construct($id = 0, bool $call_by_reference = true)
+    public function __construct(int $id = 0, bool $call_by_reference = true)
     {
         $this->type = self::TYPE_FILE_SERVICES;
         parent::__construct($id, $call_by_reference);

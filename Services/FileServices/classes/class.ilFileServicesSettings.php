@@ -25,7 +25,6 @@ class ilFileServicesSettings
     private array $white_list_negative = [];
     private array $white_list_positive = [];
     private array $white_list_overall = [];
-    
     private array $black_list_prohibited = [];
     private array $black_list_overall = [];
     
